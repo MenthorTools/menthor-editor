@@ -1,15 +1,15 @@
 package br.ufes.inf.nemo.ontouml2alloy.rules;
 
+import net.menthor.alloy.AlloyFactory;
+import net.menthor.alloy.BinaryOperation;
+import net.menthor.alloy.BinaryOperator;
+import net.menthor.alloy.CompareOperation;
+import net.menthor.alloy.CompareOperator;
+import net.menthor.alloy.DisjointExpression;
+import net.menthor.alloy.VariableReference;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.alloy.AlloyFactory;
-import br.ufes.inf.nemo.alloy.BinaryOperation;
-import br.ufes.inf.nemo.alloy.BinaryOperator;
-import br.ufes.inf.nemo.alloy.CompareOperation;
-import br.ufes.inf.nemo.alloy.CompareOperator;
-import br.ufes.inf.nemo.alloy.DisjointExpression;
-import br.ufes.inf.nemo.alloy.VariableReference;
 
 public class GeneralizationSetRule {
 

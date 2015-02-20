@@ -2,6 +2,11 @@ package br.ufes.inf.nemo.ontouml2alloy.rules;
 
 import java.util.ArrayList;
 
+import net.menthor.alloy.AlloyFactory;
+import net.menthor.alloy.BinaryOperation;
+import net.menthor.alloy.BinaryOperator;
+import net.menthor.alloy.CompareOperator;
+import net.menthor.alloy.QuantificationExpression;
 import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.MaterialAssociation;
@@ -10,11 +15,6 @@ import RefOntoUML.Mode;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.alloy.AlloyFactory;
-import br.ufes.inf.nemo.alloy.BinaryOperation;
-import br.ufes.inf.nemo.alloy.BinaryOperator;
-import br.ufes.inf.nemo.alloy.CompareOperator;
-import br.ufes.inf.nemo.alloy.QuantificationExpression;
 import br.ufes.inf.nemo.ontouml2alloy.util.AlloyAPI;
 
 public class CardinalityRule {

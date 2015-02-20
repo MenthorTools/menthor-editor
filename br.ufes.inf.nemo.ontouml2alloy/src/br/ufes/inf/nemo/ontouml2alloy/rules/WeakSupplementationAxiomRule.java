@@ -2,14 +2,15 @@ package br.ufes.inf.nemo.ontouml2alloy.rules;
 
 import java.util.ArrayList;
 
+import net.menthor.alloy.AlloyFactory;
+import net.menthor.alloy.FactDeclaration;
+import net.menthor.alloy.QuantificationExpression;
+
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.alloy.AlloyFactory;
-import br.ufes.inf.nemo.alloy.FactDeclaration;
-import br.ufes.inf.nemo.alloy.QuantificationExpression;
 import br.ufes.inf.nemo.ontouml2alloy.util.AlloyAPI;
 
 public class WeakSupplementationAxiomRule {

@@ -8,8 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
-import br.ufes.inf.nemo.antipattern.Antipattern;
-import br.ufes.inf.nemo.antipattern.AntipatternInfo;
+import net.menthor.antipattern.Antipattern;
+import net.menthor.antipattern.AntipatternInfo;
 import br.ufes.inf.nemo.oled.Main;
 
 public class AntipatternTask extends SwingWorker<Void, Void>{

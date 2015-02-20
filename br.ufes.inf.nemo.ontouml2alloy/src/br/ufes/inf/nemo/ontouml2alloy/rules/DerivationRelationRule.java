@@ -2,6 +2,9 @@ package br.ufes.inf.nemo.ontouml2alloy.rules;
 
 import java.util.ArrayList;
 
+import net.menthor.alloy.AlloyFactory;
+import net.menthor.alloy.PredicateInvocation;
+import net.menthor.alloy.VariableReference;
 import RefOntoUML.Class;
 import RefOntoUML.Derivation;
 import RefOntoUML.MaterialAssociation;
@@ -10,9 +13,6 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.alloy.AlloyFactory;
-import br.ufes.inf.nemo.alloy.PredicateInvocation;
-import br.ufes.inf.nemo.alloy.VariableReference;
 
 public class DerivationRelationRule {
 

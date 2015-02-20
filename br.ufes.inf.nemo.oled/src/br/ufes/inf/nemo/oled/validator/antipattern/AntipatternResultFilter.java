@@ -21,10 +21,10 @@
  */
 package br.ufes.inf.nemo.oled.validator.antipattern;
 
+import net.menthor.antipattern.AntipatternOccurrence;
+
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-
-import br.ufes.inf.nemo.antipattern.AntipatternOccurrence;
 
 /**
  * @author Tiago Sales

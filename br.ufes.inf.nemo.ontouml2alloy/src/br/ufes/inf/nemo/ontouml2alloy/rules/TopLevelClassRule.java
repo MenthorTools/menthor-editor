@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.menthor.alloy.AlloyFactory;
+import net.menthor.alloy.BinaryOperation;
+import net.menthor.alloy.DisjointExpression;
 import RefOntoUML.Classifier;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.alloy.AlloyFactory;
-import br.ufes.inf.nemo.alloy.BinaryOperation;
-import br.ufes.inf.nemo.alloy.DisjointExpression;
 import br.ufes.inf.nemo.ontouml2alloy.util.AlloyAPI;
 
 public class TopLevelClassRule {

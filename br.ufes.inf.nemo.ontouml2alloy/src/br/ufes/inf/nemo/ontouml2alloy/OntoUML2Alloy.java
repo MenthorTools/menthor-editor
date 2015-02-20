@@ -4,16 +4,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+import net.menthor.alloy.AlloyFactory;
+import net.menthor.alloy.AlloyPackage;
+import net.menthor.alloy.impl.AlloyPackageImpl;
+import net.menthor.alloy.util.AlloyResourceFactoryImpl;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.alloy.AlloyFactory;
-import br.ufes.inf.nemo.alloy.AlloyPackage;
-import br.ufes.inf.nemo.alloy.impl.AlloyPackageImpl;
-import br.ufes.inf.nemo.alloy.util.AlloyResourceFactoryImpl;
 import br.ufes.inf.nemo.ontouml2alloy.transformer.Transformer;
 import br.ufes.inf.nemo.ontouml2alloy.util.AlloyLibraryFiles;
 import br.ufes.inf.nemo.ontouml2alloy.util.AlloyThemeFile;
