@@ -6,9 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: br.ufes.inf.nemo.alloy,
- br.ufes.inf.nemo.alloy.impl,
- br.ufes.inf.nemo.alloy.util
+Export-Package: net.menthor.alloy,
+ net.menthor.alloy.impl,
+ net.menthor.alloy.util
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
