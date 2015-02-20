@@ -16,10 +16,10 @@ import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.derivation.DerivedMeronymic;
 
 public class DirectActionPanel extends JPanel {

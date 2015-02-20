@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.menthor.assistant.util.GeneralizationClass;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
@@ -14,8 +16,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
-import br.ufes.inf.nemo.assistant.util.GeneralizationClass;
 
 public class NewGeneralizationSet extends WizardPageAssistant implements Serializable {
 

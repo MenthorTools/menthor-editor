@@ -1,6 +1,6 @@
 package br.ufes.inf.nemo.oled.statistician;
 
-import br.ufes.inf.nemo.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 
 
 /**

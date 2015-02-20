@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,7 +27,6 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import RefOntoUML.Classifier;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 public class AddSelectTypeComposite extends Composite {
 	private Table table;

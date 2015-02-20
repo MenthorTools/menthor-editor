@@ -3,6 +3,9 @@ package br.ufes.inf.nemo.assistant.manager;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
+import net.menthor.assistant.util.GeneralizationClass;
+import net.menthor.assistant.util.StereotypeOntoUMLEnum;
+import net.menthor.assistant.util.UtilAssistant;
 import RefOntoUML.Category;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
@@ -18,9 +21,6 @@ import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.SubKind;
-import br.ufes.inf.nemo.assistant.util.GeneralizationClass;
-import br.ufes.inf.nemo.assistant.util.StereotypeOntoUMLEnum;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
 
 public class PatternOperator{
 	//elements

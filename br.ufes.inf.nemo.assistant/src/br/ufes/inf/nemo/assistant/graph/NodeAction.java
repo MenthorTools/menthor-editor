@@ -1,6 +1,6 @@
 package br.ufes.inf.nemo.assistant.graph;
 
-import br.ufes.inf.nemo.assistant.util.ActionEnum;
+import net.menthor.assistant.util.ActionEnum;
 
 public class NodeAction extends NodeAssistant {
 	/**

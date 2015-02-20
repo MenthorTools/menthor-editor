@@ -5,6 +5,10 @@ import java.util.HashMap;
 
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
+import net.menthor.common.ontouml2directedgraph.EdgePath;
+import net.menthor.common.ontouml2directedgraph.Graph;
+import net.menthor.common.ontouml2graph.GraphAlgo;
+import net.menthor.common.ontouml2graph.OntoUML2Graph;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Derivation;
@@ -16,10 +20,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Relator;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontouml2directedgraph.EdgePath;
-import br.ufes.inf.nemo.common.ontouml2directedgraph.Graph;
-import br.ufes.inf.nemo.common.ontouml2graph.GraphAlgo;
-import br.ufes.inf.nemo.common.ontouml2graph.OntoUML2Graph;
 
 public class AssCycAntipattern extends Antipattern<AssCycOccurrence> {
 

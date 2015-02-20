@@ -5,6 +5,10 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import net.menthor.assistant.util.StereotypeOntoUMLEnum;
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -17,10 +21,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Package;
 import br.ufes.inf.nemo.assistant.graph.GraphAssistant;
 import br.ufes.inf.nemo.assistant.manager.ManagerPattern;
-import br.ufes.inf.nemo.assistant.util.StereotypeOntoUMLEnum;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
 import br.ufes.inf.nemo.assistant.wizard.WizardAssitant;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 
 public class ModellingAssistant {
 

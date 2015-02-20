@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.menthor.common.file.FileUtil;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -52,7 +54,6 @@ import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
-import br.ufes.inf.nemo.common.file.FileUtil;
 
 public class ProfileAplicator {
 

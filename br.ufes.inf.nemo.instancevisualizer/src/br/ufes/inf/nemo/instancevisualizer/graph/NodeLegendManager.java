@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.menthor.common.resource.TypeName;
 import RefOntoUML.Classifier;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.resource.TypeName;
 import br.ufes.inf.nemo.instancevisualizer.xml.Atom;
 import br.ufes.inf.nemo.instancevisualizer.xml.XMLFile;
 

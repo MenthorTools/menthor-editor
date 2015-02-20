@@ -3,6 +3,8 @@ package net.menthor.antipattern.wizard.undefphase;
 import java.text.Normalizer;
 import java.util.HashMap;
 
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -13,7 +15,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import RefOntoUML.Property;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 public class AttrTable  {
 

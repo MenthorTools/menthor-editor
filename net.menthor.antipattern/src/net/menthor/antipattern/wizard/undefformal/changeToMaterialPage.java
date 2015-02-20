@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import net.menthor.antipattern.undefformal.UndefFormalOccurrence;
+import net.menthor.common.list.OntoUMLComparator;
+import net.menthor.common.ontoumlverificator.MultiplicityValidator;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
@@ -31,8 +33,6 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.list.OntoUMLComparator;
-import br.ufes.inf.nemo.common.ontoumlverificator.MultiplicityValidator;
 
 public class changeToMaterialPage extends UndefFormalPage{
 	

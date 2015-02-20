@@ -34,14 +34,14 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import RefOntoUML.Classifier;
 import RefOntoUML.Phase;
 import RefOntoUML.Role;
 import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 import br.ufes.inf.nemo.validator.meronymic.checkers.IdentityError;
 
 public class IdentityDialog extends JDialog {

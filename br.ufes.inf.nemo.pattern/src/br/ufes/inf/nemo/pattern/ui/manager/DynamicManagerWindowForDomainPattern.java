@@ -3,6 +3,8 @@ package br.ufes.inf.nemo.pattern.ui.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.menthor.common.ontoumlfixer.Fix;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
@@ -13,7 +15,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.pattern.dynamic.ui.DynamicWindowForDomainPattern;
 import br.ufes.inf.nemo.pattern.dynamic.ui.ReuseCheckListener;
 

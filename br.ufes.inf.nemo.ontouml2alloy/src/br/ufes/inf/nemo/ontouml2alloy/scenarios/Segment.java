@@ -2,11 +2,11 @@ package br.ufes.inf.nemo.ontouml2alloy.scenarios;
 
 import java.util.Iterator;
 
-import org.eclipse.emf.ecore.EObject;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
+import net.menthor.common.ontoumlfixer.Stereotype;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Stereotype;
+import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
 import RefOntoUML.parser.OntoUMLNameHelper;

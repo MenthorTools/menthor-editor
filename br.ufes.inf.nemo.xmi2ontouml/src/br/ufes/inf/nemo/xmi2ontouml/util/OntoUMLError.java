@@ -2,11 +2,12 @@ package br.ufes.inf.nemo.xmi2ontouml.util;
 
 import java.util.List;
 
+import net.menthor.common.resource.TypeName;
+
 import org.eclipse.emf.ecore.EObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import br.ufes.inf.nemo.common.resource.TypeName;
 import RefOntoUML.MultiplicityElement;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;

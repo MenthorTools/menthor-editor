@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.menthor.antipattern.mixiden.SortalToAdd;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -35,7 +36,6 @@ import RefOntoUML.impl.CollectiveImpl;
 import RefOntoUML.impl.KindImpl;
 import RefOntoUML.impl.QuantityImpl;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 public class AddSelectSortalComposite extends Composite {
 	private Table table;

@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.query.statements.UPDATE;
 import org.eclipse.swt.internal.ole.win32.COMObject;
@@ -26,8 +29,6 @@ import RefOntoUML.Generalization;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.SortalClass;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 import br.ufes.inf.nemo.oled.DiagramManager;
 import br.ufes.inf.nemo.oled.draw.DiagramElement;

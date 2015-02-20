@@ -1,8 +1,8 @@
 package br.ufes.inf.nemo.ontouml2alloy.scenarios;
 
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 
 public class SegmentSizeScenario extends QuantifiedScenario {
 	

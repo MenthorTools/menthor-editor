@@ -3,7 +3,7 @@ package br.ufes.inf.nemo.instancevisualizer.graph;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import br.ufes.inf.nemo.common.resource.TypeName;
+import net.menthor.common.resource.TypeName;
 import br.ufes.inf.nemo.instancevisualizer.xml.Atom;
 import br.ufes.inf.nemo.instancevisualizer.xml.Field;
 import br.ufes.inf.nemo.instancevisualizer.xml.Sig;

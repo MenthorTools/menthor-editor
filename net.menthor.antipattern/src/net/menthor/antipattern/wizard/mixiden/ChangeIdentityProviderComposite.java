@@ -7,6 +7,7 @@ import java.util.Set;
 
 import net.menthor.antipattern.mixiden.MixIdenOccurrence;
 import net.menthor.antipattern.mixiden.SortalToAdd;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -27,7 +28,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.NamedElement;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 

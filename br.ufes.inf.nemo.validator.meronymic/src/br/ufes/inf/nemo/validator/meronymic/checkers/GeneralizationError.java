@@ -2,12 +2,12 @@ package br.ufes.inf.nemo.validator.meronymic.checkers;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 import br.ufes.inf.nemo.validator.meronymic.checkers.ui.GeneralizationDialog;
 
 public class GeneralizationError extends MeronymicError<Generalization>{

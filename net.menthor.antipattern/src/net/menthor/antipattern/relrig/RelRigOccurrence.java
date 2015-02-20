@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -18,8 +20,6 @@ import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 public class RelRigOccurrence extends AntipatternOccurrence {
 	

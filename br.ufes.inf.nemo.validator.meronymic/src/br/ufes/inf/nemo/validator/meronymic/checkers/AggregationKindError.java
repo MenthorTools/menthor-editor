@@ -2,13 +2,13 @@ package br.ufes.inf.nemo.validator.meronymic.checkers;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.Fix;
 import RefOntoUML.AggregationKind;
 import RefOntoUML.Association;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.validator.meronymic.checkers.ui.AggregationDialog;
 
 public class AggregationKindError extends MeronymicError<Meronymic> {

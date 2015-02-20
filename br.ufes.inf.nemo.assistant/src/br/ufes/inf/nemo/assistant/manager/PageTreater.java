@@ -3,11 +3,11 @@ package br.ufes.inf.nemo.assistant.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.menthor.assistant.util.GeneralizationClass;
+import net.menthor.assistant.util.StereotypeOntoUMLEnum;
+import net.menthor.assistant.util.UtilAssistant;
 import RefOntoUML.Classifier;
 import br.ufes.inf.nemo.assistant.graph.NodeAssistant;
-import br.ufes.inf.nemo.assistant.util.GeneralizationClass;
-import br.ufes.inf.nemo.assistant.util.StereotypeOntoUMLEnum;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGeneralizationSet;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGenericRelation;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.Question;

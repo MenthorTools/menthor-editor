@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.menthor.antipattern.undefphase.UndefPhaseOccurrence;
+import net.menthor.common.ontoumlverificator.MultiplicityValidator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -16,7 +17,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
 import RefOntoUML.Classifier;
-import br.ufes.inf.nemo.common.ontoumlverificator.MultiplicityValidator;
 
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;

@@ -11,6 +11,8 @@ import net.menthor.antipattern.overlapping.GeneralizationLine;
 import net.menthor.antipattern.overlapping.OverlappingGroup;
 import net.menthor.antipattern.overlapping.SameType;
 import net.menthor.antipattern.util.AlloyConstructor;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -19,8 +21,6 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 public class BinOverOccurrence extends AntipatternOccurrence {
 

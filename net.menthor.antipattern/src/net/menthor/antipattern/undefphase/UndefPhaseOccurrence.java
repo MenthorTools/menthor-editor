@@ -3,6 +3,10 @@ package net.menthor.antipattern.undefphase;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -15,10 +19,6 @@ import RefOntoUML.Phase;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 public class UndefPhaseOccurrence extends AntipatternOccurrence {
 

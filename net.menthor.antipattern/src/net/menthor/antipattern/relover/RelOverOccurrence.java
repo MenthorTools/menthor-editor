@@ -6,6 +6,7 @@ import java.util.HashSet;
 import net.menthor.antipattern.overlapping.OverlappingGroup;
 import net.menthor.antipattern.overlapping.OverlappingOccurrence;
 import net.menthor.antipattern.util.AlloyConstructor;
+import net.menthor.common.list.Combination;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -16,7 +17,6 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.list.Combination;
 
 public class RelOverOccurrence extends OverlappingOccurrence{
 	

@@ -29,8 +29,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import br.ufes.inf.nemo.validator.meronymic.checkers.GeneralizationError;
 import br.ufes.inf.nemo.validator.meronymic.ui.ClassStereotypeCombo;
 

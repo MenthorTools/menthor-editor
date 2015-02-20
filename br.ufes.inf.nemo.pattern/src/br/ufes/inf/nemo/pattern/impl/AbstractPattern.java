@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.Package;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 import br.ufes.inf.nemo.pattern.dynamic.ui.DynamicWindow;
 import br.ufes.inf.nemo.pattern.ui.manager.DynamicManagerWindow;
 

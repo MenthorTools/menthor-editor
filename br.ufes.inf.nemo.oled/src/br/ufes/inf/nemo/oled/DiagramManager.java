@@ -54,6 +54,11 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -81,10 +86,6 @@ import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlparser.OntoUMLModelStatistic;
-import br.ufes.inf.nemo.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import br.ufes.inf.nemo.oled.derivation.DerivedTypesOperations;
 import br.ufes.inf.nemo.oled.derivation.ExclusionDerivationOperations;
 import br.ufes.inf.nemo.oled.derivation.ExclusionPattern;

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.list.Combination;
 
 import org.eclipse.swt.widgets.Composite;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.list.Combination;
 
 public abstract class OverlappingGroup {
 

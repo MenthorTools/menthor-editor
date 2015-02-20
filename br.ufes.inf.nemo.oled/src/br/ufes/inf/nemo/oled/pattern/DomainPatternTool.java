@@ -5,13 +5,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.oled.AppCommandListener;
 import br.ufes.inf.nemo.oled.AppFrame;
 import br.ufes.inf.nemo.oled.draw.DiagramElement;

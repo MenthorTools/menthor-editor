@@ -2,9 +2,9 @@ package br.ufes.inf.nemo.ontouml2alloy.scenarios;
 
 import java.util.ArrayList;
 
+import net.menthor.common.file.TimeHelper;
 import RefOntoUML.Association;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.file.TimeHelper;
 import br.ufes.inf.nemo.ontouml2alloy.scenarios.StoryScenario.Limit;
 
 public class Tester {

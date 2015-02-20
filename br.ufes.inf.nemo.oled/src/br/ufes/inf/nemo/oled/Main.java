@@ -49,7 +49,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
-import br.ufes.inf.nemo.common.file.TimeHelper;
+import net.menthor.common.file.TimeHelper;
 import br.ufes.inf.nemo.oled.util.BinaryLoader;
 import br.ufes.inf.nemo.oled.util.ExtractorUtil;
 import br.ufes.inf.nemo.oled.util.LoadingException;

@@ -2,6 +2,8 @@ package br.ufes.inf.nemo.ootos;
 
 import java.io.File;
 
+import net.menthor.common.resource.RefOntoUMLResourceFactoryImpl;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -10,7 +12,6 @@ import org.eclipse.ocl.ParserException;
 
 import RefOntoUML.Model;
 import RefOntoUML.Package;
-import br.ufes.inf.nemo.common.resource.RefOntoUMLResourceFactoryImpl;
 import br.ufes.inf.nemo.ootos.ontouml2owl_swrl.Transformer;
 
 public class OntoUML2OWL {

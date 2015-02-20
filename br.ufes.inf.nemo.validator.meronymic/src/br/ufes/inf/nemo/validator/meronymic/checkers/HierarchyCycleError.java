@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.Fix;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.validator.meronymic.checkers.ui.HierarchyCycleDialog;
 
 public class HierarchyCycleError extends MeronymicError<ArrayList<Classifier>>{

@@ -1,6 +1,6 @@
 package br.ufes.inf.nemo.assistant.manager;
 
-import br.ufes.inf.nemo.assistant.util.ActionEnum;
+import net.menthor.assistant.util.ActionEnum;
 
 public class ActionProcessor{
 	private PatternOperator patternOperator;

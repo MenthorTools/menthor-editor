@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.menthor.assistant.util.ActionEnum;
+import net.menthor.assistant.util.StereotypeOntoUMLEnum;
 import br.ufes.inf.nemo.assistant.graph.GraphAssistant;
 import br.ufes.inf.nemo.assistant.graph.NodeAction;
 import br.ufes.inf.nemo.assistant.graph.NodeAssistant;
 import br.ufes.inf.nemo.assistant.manager.ManagerPattern;
-import br.ufes.inf.nemo.assistant.util.ActionEnum;
-import br.ufes.inf.nemo.assistant.util.StereotypeOntoUMLEnum;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewClass;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGeneralizationSet;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGenericRelation;

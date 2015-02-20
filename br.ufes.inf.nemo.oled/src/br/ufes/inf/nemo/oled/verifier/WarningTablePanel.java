@@ -39,7 +39,7 @@ import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import br.ufes.inf.nemo.common.file.FileUtil;
+import net.menthor.common.file.FileUtil;
 import br.ufes.inf.nemo.oled.model.UmlProject;
 import br.ufes.inf.nemo.oled.palette.ColorPalette;
 import br.ufes.inf.nemo.oled.palette.ColorPalette.ThemeColor;

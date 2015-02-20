@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,9 +19,6 @@ import RefOntoUML.Mediation;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 public class UndefFormalOccurrence extends AntipatternOccurrence {
 

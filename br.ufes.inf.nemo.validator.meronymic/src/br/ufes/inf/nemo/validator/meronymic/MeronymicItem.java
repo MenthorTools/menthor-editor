@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
@@ -12,10 +16,6 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.ui.FixDialog;
 
 public abstract class MeronymicItem {

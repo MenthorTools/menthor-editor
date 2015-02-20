@@ -1,5 +1,8 @@
 package br.ufes.inf.nemo.pattern.dynamic.ui;
 
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -18,8 +21,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.pattern.impl.PrincipleOfIdentity;
 import br.ufes.inf.nemo.pattern.ui.manager.ModelCompleterManager;
 import br.ufes.inf.nemo.pattern.util.UtilPattern;

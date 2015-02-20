@@ -1,6 +1,7 @@
 package net.menthor.antipattern.wizard.relspec;
 
 import net.menthor.antipattern.relspec.RelSpecOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
@@ -13,7 +14,6 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 
 /**
  * @author Tiago Sales

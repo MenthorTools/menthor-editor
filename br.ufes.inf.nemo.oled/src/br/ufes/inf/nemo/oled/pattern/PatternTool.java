@@ -2,7 +2,7 @@ package br.ufes.inf.nemo.oled.pattern;
 
 import java.util.List;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.oled.draw.DiagramElement;
 import br.ufes.inf.nemo.oled.explorer.ProjectBrowser;
 import br.ufes.inf.nemo.oled.model.ElementType;

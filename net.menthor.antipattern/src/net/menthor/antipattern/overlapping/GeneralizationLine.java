@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternOccurrence;
 import net.menthor.antipattern.wizard.overlapping.GeneralizationLineComposite;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.swt.widgets.Composite;
 
@@ -12,8 +14,6 @@ import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 
 public class GeneralizationLine extends OverlappingGroup {

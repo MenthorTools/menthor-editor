@@ -3,9 +3,8 @@ package br.ufes.inf.nemo.instancevisualizer.graph;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.menthor.common.resource.TypeName;
 import br.ufes.inf.nemo.instancevisualizer.xml.XMLFile;
-
-import br.ufes.inf.nemo.common.resource.TypeName;
 
 public class NodeSettings {
 	private String worldId;

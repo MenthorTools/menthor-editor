@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,9 +27,6 @@ import RefOntoUML.impl.QuantityImpl;
 import RefOntoUML.impl.RoleImpl;
 import RefOntoUML.impl.SubKindImpl;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 public class MixIdenOccurrence extends AntipatternOccurrence {
 	

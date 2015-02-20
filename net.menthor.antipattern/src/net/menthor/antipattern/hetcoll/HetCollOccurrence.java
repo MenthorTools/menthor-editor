@@ -3,6 +3,8 @@ package net.menthor.antipattern.hetcoll;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,8 +18,6 @@ import RefOntoUML.SubKind;
 import RefOntoUML.memberOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 public class HetCollOccurrence extends AntipatternOccurrence {
 

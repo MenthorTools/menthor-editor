@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry excluding="src/" kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/br.ufes.inf.nemo.common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.common"/>
 	<classpathentry kind="lib" path="/br.ufes.inf.nemo.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/br.ufes.inf.nemo.ocl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/br.ufes.inf.nemo.ontouml"/>

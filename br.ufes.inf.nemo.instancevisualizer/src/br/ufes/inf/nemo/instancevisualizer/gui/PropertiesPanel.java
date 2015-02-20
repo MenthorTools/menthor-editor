@@ -18,11 +18,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import net.menthor.common.resource.TypeName;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.resource.TypeName;
 import br.ufes.inf.nemo.instancevisualizer.graph.DataType;
 import br.ufes.inf.nemo.instancevisualizer.graph.EdgeManager;
 import br.ufes.inf.nemo.instancevisualizer.graph.NodeManager;

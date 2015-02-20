@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternOccurrence;
 import net.menthor.antipattern.wizard.overlapping.SameTypeComposite;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 import org.eclipse.swt.widgets.Composite;
 
@@ -16,7 +17,6 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.SortalClass;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 
 //partEnds with the same type
 public class SameType extends OverlappingGroup {

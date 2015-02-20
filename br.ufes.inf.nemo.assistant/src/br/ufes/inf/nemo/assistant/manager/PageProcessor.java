@@ -2,6 +2,13 @@ package br.ufes.inf.nemo.assistant.manager;
 
 import java.util.ArrayList;
 
+import net.menthor.assistant.util.StereotypeOntoUMLEnum;
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
+
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
@@ -11,17 +18,11 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
-import br.ufes.inf.nemo.assistant.util.StereotypeOntoUMLEnum;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewClass;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGeneralizationSet;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGenericRelation;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewPhase;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewRelator;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 public class PageProcessor{
 

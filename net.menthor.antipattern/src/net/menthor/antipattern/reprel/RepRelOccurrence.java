@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -14,7 +15,6 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 
 public class RepRelOccurrence extends AntipatternOccurrence {
 	

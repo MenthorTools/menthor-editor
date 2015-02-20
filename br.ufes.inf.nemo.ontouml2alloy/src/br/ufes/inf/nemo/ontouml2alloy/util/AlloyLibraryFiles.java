@@ -3,7 +3,7 @@ package br.ufes.inf.nemo.ontouml2alloy.util;
 import java.io.File;
 import java.io.IOException;
 
-import br.ufes.inf.nemo.common.file.FileUtil;
+import net.menthor.common.file.FileUtil;
 
 /**
  *	Generates our Alloy library Files into destination directory path.

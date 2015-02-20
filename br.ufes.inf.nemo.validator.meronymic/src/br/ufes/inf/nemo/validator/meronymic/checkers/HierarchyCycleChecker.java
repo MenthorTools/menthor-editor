@@ -2,11 +2,11 @@ package br.ufes.inf.nemo.validator.meronymic.checkers;
 
 import java.util.ArrayList;
 
+import net.menthor.common.ontouml2directedgraph.EdgePath;
+import net.menthor.common.ontouml2directedgraph.Graph;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontouml2directedgraph.EdgePath;
-import br.ufes.inf.nemo.common.ontouml2directedgraph.Graph;
 
 public class HierarchyCycleChecker extends Checker<HierarchyCycleError> {
 	

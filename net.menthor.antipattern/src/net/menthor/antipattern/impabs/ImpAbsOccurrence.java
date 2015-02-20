@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import net.menthor.antipattern.AntipatternOccurrence;
 import net.menthor.antipattern.util.AlloyConstructor;
 import net.menthor.antipattern.util.SourceTargetAssociation;
+import net.menthor.common.list.Combination;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer.SpecializationType;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -15,9 +18,6 @@ import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.list.Combination;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer.SpecializationType;
 
 public class ImpAbsOccurrence extends AntipatternOccurrence{
 	private Association association;

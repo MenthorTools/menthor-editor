@@ -7,6 +7,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.menthor.common.resource.TypeName;
+
 import org.eclipse.emf.common.util.EList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,7 +20,6 @@ import RefOntoUML.Phase;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.resource.TypeName;
 
 public class XMLFile {
     private ArrayList<Atom> atomList;

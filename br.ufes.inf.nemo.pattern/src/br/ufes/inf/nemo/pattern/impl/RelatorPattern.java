@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
@@ -15,10 +19,6 @@ import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 public class RelatorPattern extends AbstractPattern {
 

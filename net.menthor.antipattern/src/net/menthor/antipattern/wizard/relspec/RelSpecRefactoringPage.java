@@ -5,6 +5,7 @@ import java.text.Normalizer;
 import net.menthor.antipattern.relspec.RelSpecAntipattern;
 import net.menthor.antipattern.relspec.RelSpecOccurrence;
 import net.menthor.antipattern.wizard.RefactoringPage;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -17,8 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
-
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 
 /**
  * @author Tiago Sales

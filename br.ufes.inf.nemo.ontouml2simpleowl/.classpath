@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="/br.ufes.inf.nemo.common/lib/owl/owlapi-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/br.ufes.inf.nemo.ontouml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/br.ufes.inf.nemo.ontouml2temporalowl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/br.ufes.inf.nemo.common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.common"/>
 	<classpathentry kind="lib" path="/br.ufes.inf.nemo.common/lib/eclipse-kepler-sr1/org.eclipse.emf.common_2.9.1.v20130827-0309.jar"/>
 	<classpathentry kind="lib" path="/br.ufes.inf.nemo.common/lib/eclipse-kepler-sr1/org.eclipse.emf.ecore_2.9.1.v20130827-0309.jar"/>
 	<classpathentry kind="lib" path="/br.ufes.inf.nemo.common/lib/eclipse-kepler-sr1/org.eclipse.emf.ecore.xmi_2.9.1.v20130827-0309.jar"/>

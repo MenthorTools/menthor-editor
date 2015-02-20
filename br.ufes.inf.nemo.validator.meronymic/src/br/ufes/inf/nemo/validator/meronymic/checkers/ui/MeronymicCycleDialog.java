@@ -32,6 +32,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Meronymic;
 import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
@@ -39,7 +40,6 @@ import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.checkers.MeronymicCycleError;
 
 public class MeronymicCycleDialog extends JDialog {

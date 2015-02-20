@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.menthor.common.ocl.OCLQueryExecuter;
+
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -14,7 +16,6 @@ import org.eclipse.ocl.util.Tuple;
 
 import RefOntoUML.Package;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ocl.OCLQueryExecuter;
 
 public class AntiPatternIdentifier {
 	

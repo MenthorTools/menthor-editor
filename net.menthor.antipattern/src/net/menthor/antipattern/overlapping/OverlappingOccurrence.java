@@ -5,13 +5,13 @@ import java.util.HashSet;
 
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.list.Combination;
 
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.list.Combination;
 
 public abstract class OverlappingOccurrence extends AntipatternOccurrence{
 

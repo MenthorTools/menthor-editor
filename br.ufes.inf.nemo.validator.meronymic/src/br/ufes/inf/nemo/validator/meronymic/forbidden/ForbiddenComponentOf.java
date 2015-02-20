@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.Fix;
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
@@ -11,7 +12,6 @@ import RefOntoUML.Type;
 import RefOntoUML.componentOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.validator.meronymic.forbidden.ui.ForbiddenComponentOfDialog;
 import br.ufes.inf.nemo.validator.meronymic.ui.FixDialog;
 

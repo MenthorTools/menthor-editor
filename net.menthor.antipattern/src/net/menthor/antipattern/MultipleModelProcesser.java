@@ -27,6 +27,10 @@ import net.menthor.antipattern.reprel.RepRelAntipattern;
 import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
+import net.menthor.common.file.TimeHelper;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.InfoType;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.LineType;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -36,10 +40,6 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.RefOntoUMLFactory;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import br.ufes.inf.nemo.common.file.TimeHelper;
-import br.ufes.inf.nemo.common.ontoumlparser.OntoUMLModelStatistic;
-import br.ufes.inf.nemo.common.ontoumlparser.OntoUMLModelStatistic.InfoType;
-import br.ufes.inf.nemo.common.ontoumlparser.OntoUMLModelStatistic.LineType;
 
 
 public class MultipleModelProcesser {

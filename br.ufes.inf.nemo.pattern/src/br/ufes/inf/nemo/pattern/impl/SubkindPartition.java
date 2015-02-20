@@ -3,14 +3,14 @@ package br.ufes.inf.nemo.pattern.impl;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Kind;
 import RefOntoUML.Quantity;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.assistant.util.UtilAssistant;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 
 public class SubkindPartition extends AbstractPattern{
 

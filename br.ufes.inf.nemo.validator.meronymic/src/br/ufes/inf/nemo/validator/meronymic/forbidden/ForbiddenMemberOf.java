@@ -2,13 +2,13 @@ package br.ufes.inf.nemo.validator.meronymic.forbidden;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.memberOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.forbidden.ui.ForbiddenMemberOfDialog;
 import br.ufes.inf.nemo.validator.meronymic.ui.FixDialog;
 

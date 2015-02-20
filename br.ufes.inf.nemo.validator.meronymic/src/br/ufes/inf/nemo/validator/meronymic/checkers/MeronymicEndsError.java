@@ -7,6 +7,10 @@ import java.util.Iterator;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.DataType;
@@ -27,10 +31,6 @@ import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.checkers.ui.MeronymicEndsDialog;
 
 public class MeronymicEndsError extends MeronymicError<Meronymic> {

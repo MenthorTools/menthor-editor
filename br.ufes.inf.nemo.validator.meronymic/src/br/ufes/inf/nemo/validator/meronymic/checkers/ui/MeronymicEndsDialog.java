@@ -32,9 +32,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.checkers.MeronymicEndsError;
 
 public class MeronymicEndsDialog extends JDialog {

@@ -5,15 +5,15 @@ import java.util.Iterator;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.list.ArrayListOperations;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.list.ArrayListOperations;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
 import br.ufes.inf.nemo.validator.meronymic.checkers.ui.IdentityDialog;
 
 public class IdentityError extends MeronymicError<Classifier> {

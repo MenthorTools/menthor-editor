@@ -1,6 +1,6 @@
 package br.ufes.inf.nemo.ontouml2alloy.scenarios;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
 

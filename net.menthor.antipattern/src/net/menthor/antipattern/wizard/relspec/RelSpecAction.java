@@ -2,7 +2,7 @@ package net.menthor.antipattern.wizard.relspec;
 
 import net.menthor.antipattern.relspec.RelSpecOccurrence;
 import net.menthor.antipattern.wizard.AntiPatternAction;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 

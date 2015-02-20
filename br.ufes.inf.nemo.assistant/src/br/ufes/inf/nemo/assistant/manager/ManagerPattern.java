@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.assistant.manager;
 
+import net.menthor.common.ontoumlfixer.Fix;
+
 import org.eclipse.jface.wizard.IWizardPage;
 
 import RefOntoUML.Classifier;
@@ -8,7 +10,6 @@ import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGeneralizationSet;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewGenericRelation;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewPhase;
 import br.ufes.inf.nemo.assistant.wizard.pageassistant.NewRelator;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 
 public class ManagerPattern {
 	private RefOntoUML.Package root;

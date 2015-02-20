@@ -4,6 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JDialog;
 
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.AggregationKind;
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
@@ -13,8 +15,6 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 import br.ufes.inf.nemo.validator.meronymic.MeronymicItem;
 import br.ufes.inf.nemo.validator.meronymic.derivation.ui.DirectPatternActionDialog;
 import br.ufes.inf.nemo.validator.meronymic.derivation.ui.DirectPatternPropertyDialog;

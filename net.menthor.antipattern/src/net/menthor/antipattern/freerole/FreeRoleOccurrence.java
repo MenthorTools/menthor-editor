@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -18,8 +20,6 @@ import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
 
 //Undefined Role Specialization
 public class FreeRoleOccurrence extends AntipatternOccurrence{

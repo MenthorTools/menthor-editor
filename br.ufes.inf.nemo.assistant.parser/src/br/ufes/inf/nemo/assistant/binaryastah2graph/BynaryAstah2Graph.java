@@ -6,10 +6,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
+import net.menthor.assistant.util.StereotypeOntoUMLEnum;
 import br.ufes.inf.nemo.assistant.ModellingAssistant;
 import br.ufes.inf.nemo.assistant.astah2graph.AstahParser;
 import br.ufes.inf.nemo.assistant.graph.GraphAssistant;
-import br.ufes.inf.nemo.assistant.util.StereotypeOntoUMLEnum;
 
 public class BynaryAstah2Graph {
 	/**

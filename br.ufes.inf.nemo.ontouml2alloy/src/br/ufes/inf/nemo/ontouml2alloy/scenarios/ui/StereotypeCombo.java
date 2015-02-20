@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-import org.eclipse.emf.ecore.EObject;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
+import net.menthor.common.ontoumlfixer.Stereotype;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.RelationStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Stereotype;
+import org.eclipse.emf.ecore.EObject;
 
 public class StereotypeCombo extends JComboBox<Stereotype>{
 	

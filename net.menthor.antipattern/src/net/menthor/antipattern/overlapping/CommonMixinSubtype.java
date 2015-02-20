@@ -8,6 +8,8 @@ import net.menthor.antipattern.partover.PartOverOccurrence;
 import net.menthor.antipattern.relover.RelOverOccurrence;
 import net.menthor.antipattern.wholeover.WholeOverOccurrence;
 import net.menthor.antipattern.wizard.overlapping.CommonMixinSubtypeComposite;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
 
 import org.eclipse.swt.widgets.Composite;
 
@@ -20,8 +22,6 @@ import RefOntoUML.MixinClass;
 import RefOntoUML.Property;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 
 
 public class CommonMixinSubtype extends OverlappingGroup {

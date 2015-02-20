@@ -3,9 +3,9 @@ package br.ufes.inf.nemo.validator.meronymic.ui;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import RefOntoUML.Classifier;
-import br.ufes.inf.nemo.common.ontoumlfixer.ClassStereotype;
-import br.ufes.inf.nemo.common.ontoumlfixer.OutcomeFixer;
 
 public class ClassStereotypeCombo extends JComboBox<ClassStereotype> {
 	

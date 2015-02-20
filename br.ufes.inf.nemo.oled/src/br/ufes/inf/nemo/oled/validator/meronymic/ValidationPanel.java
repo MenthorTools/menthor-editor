@@ -27,7 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.Fix;
 
 /**
  * @author Tiago Sales

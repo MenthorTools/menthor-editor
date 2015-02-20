@@ -21,6 +21,8 @@
  */
 package br.ufes.inf.nemo.oled.validator.antipattern;
 
+import net.menthor.common.ontoumlfixer.Fix;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -38,7 +40,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 
 import RefOntoUML.parser.OntoUMLNameHelper;
-import br.ufes.inf.nemo.common.ontoumlfixer.Fix;
 import br.ufes.inf.nemo.oled.AppFrame;
 
 /**
