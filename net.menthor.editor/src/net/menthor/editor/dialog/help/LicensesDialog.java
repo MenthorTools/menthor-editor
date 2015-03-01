@@ -134,7 +134,7 @@ public class LicensesDialog extends JDialog {
 		getContentPane().add(choicesPanel, BorderLayout.NORTH);
 		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);		
 		
-		setTitle("Licenses for OLED");
+		setTitle("Licenses for Menthor Editor");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(600, 400));
 		//Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);

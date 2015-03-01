@@ -256,7 +256,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 			}
 		}
 		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
-		diagramManager.updateOLEDFromInclusion(element);
+		diagramManager.updateMenthorFromInclusion(element);
 		
 		deleteLiterals(enumLiterals);
 		transferAddedLiterals(enumLiterals);
@@ -274,7 +274,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 			for(EnumerationLiteral p: literals){
 				if(!enumLiterals.contains(p)) {					
 					((Enumeration)element).getOwnedLiteral().remove(p);
-					diagramManager.updateOLEDFromDeletion(p);
+					diagramManager.updateMenthorFromDeletion(p);
 				}
 			}
 		}		
@@ -289,7 +289,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 				if(element instanceof Enumeration){
 					((Enumeration)element).getOwnedLiteral().add(literal);
 					
-					diagramManager.updateOLEDFromInclusion(literal);
+					diagramManager.updateMenthorFromInclusion(literal);
 				}				
 			}
 		}

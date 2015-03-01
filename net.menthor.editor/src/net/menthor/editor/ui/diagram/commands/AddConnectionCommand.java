@@ -90,7 +90,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		if (relationship!=null){
 //			System.out.println("Undoing ="+relationship);
 			project.getEditingDomain().getCommandStack().undo();
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromDeletion(relationship);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(relationship);
 		}
 		
 		if(addToDiagram && diagramElement!=null){				
@@ -116,7 +116,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 		addToModel();		
-		ProjectBrowser.frame.getDiagramManager().updateOLEDFromInclusion(relationship);
+		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(relationship);
 		
 		if(addToDiagram && diagramElement != null)
 		{			

@@ -480,7 +480,7 @@ public class PropertyEditionPanel extends JPanel {
 			diagramManager.getFrame().showErrorMessageDialog("Transfering data to property", e.getLocalizedMessage());
 		}
 					
-		diagramManager.updateOLEDFromModification(ownerElement, redesign);
-		diagramManager.updateOLEDFromModification(property, redesign);
+		diagramManager.updateMenthorFromModification(ownerElement, redesign);
+		diagramManager.updateMenthorFromModification(property, redesign);
 	}
 }

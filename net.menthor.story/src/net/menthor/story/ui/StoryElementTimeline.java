@@ -199,7 +199,7 @@ public class StoryElementTimeline {
 	public void loadStory(Composite parent) throws IOException{
 		FileDialog dialog = new FileDialog((Shell) parent, SWT.OPEN);
 		dialog.setFilterExtensions(new String [] {"*.xmi"});
-		dialog.setFilterPath("C:\\Users\\Bernardo\\Documents\\OLED-src\\br.ufes.inf.nemo.story\\test_data\\output");//TODO: botar algo mais geral 
+		dialog.setFilterPath("C:\\Users\\Bernardo\\Documents\\Menthor-src\\br.ufes.inf.nemo.story\\test_data\\output");//TODO: botar algo mais geral 
 		String result = dialog.open();
 		if(result == null) return;
 		Resource story = OntoUMLStoryCrafter.loadStory(	result.substring(result.lastIndexOf("\\")+1,result.length()),
@@ -241,7 +241,7 @@ public class StoryElementTimeline {
 	private void saveStory(Composite parent) {
 		FileDialog dialog = new FileDialog((Shell) parent, SWT.SAVE);
 		dialog.setFilterExtensions(new String [] {"*.xmi"});
-		dialog.setFilterPath("C:\\Users\\Bernardo\\Documents\\OLED-src\\br.ufes.inf.nemo.story\\test_data\\output");
+		dialog.setFilterPath("C:\\Users\\Bernardo\\Documents\\Menthor-src\\br.ufes.inf.nemo.story\\test_data\\output");
 		String result = dialog.open();
 		if (result==null)return;
 		Story s = StoriesFactory.eINSTANCE.createStory();

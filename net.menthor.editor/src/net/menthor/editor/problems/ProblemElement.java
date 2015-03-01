@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.EObject;
 public class ProblemElement extends FoundElement {
 
 	private String description = new String();
-	public enum TypeProblem { SYNTACTIC, OLED }
-	public TypeProblem typeProblem = TypeProblem.OLED;
+	public enum TypeProblem { SYNTACTIC, APP }
+	public TypeProblem typeProblem = TypeProblem.APP;
 	public int identifier = 0;
 	
 	public ProblemElement(EObject eobject, int identifier, String description, TypeProblem typeProblem) 
@@ -36,7 +36,7 @@ public class ProblemElement extends FoundElement {
 	}
 	
 	public String getTypeProblemString() { 
-		if(typeProblem == TypeProblem.OLED) return "Application";
+		if(typeProblem == TypeProblem.APP) return "Application";
 		else if (typeProblem == TypeProblem.SYNTACTIC) return "Syntactical";
 		return "Unkown";
 	}

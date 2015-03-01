@@ -121,7 +121,7 @@ public class Transformer {
 	//
 	MappingProperties mappingProperties;
 	
-	//OLED
+	//Editor Application
 	private String errors = "\n";
 
 	public String getErrors(){

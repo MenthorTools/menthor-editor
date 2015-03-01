@@ -45,7 +45,7 @@ import edu.mit.csail.sdg.alloy4.Util;
  */
 public final class ConfigurationHelper {
 	
-	private static String OLED_HOME = null;
+	private static String MENTHOR_HOME = null;
 	private static Properties propertiesStore;
 	
 	private ConfigurationHelper() { }
@@ -54,10 +54,10 @@ public final class ConfigurationHelper {
 	{
 		if(propertiesStore != null)
 		{
-			File file = new File(getCanonPath(getOLEDHome(), OLEDSettings.OLED_SETTINGS_FILE.getValue()));
+			File file = new File(getCanonPath(getMenthorHome(), OLEDSettings.OLED_SETTINGS_FILE.getValue()));
 			try {
 				FileOutputStream out = new FileOutputStream(file);
-				propertiesStore.storeToXML(out, "OLED Configuration File", "UTF-8");
+				propertiesStore.storeToXML(out, "Menthor Configuration File", "UTF-8");
 				close(out);
 				return true;
 			} catch (Exception ex) {
@@ -74,7 +74,7 @@ public final class ConfigurationHelper {
 		
 		propertiesStore = new Properties();
 		
-		File file = new File(getCanonPath(getOLEDHome(), OLEDSettings.OLED_SETTINGS_FILE.getValue()));
+		File file = new File(getCanonPath(getMenthorHome(), OLEDSettings.OLED_SETTINGS_FILE.getValue()));
 		if(file.exists())
 		{
 			try {
@@ -149,7 +149,7 @@ public final class ConfigurationHelper {
         Random r=new Random(new Date().getTime());
         while(true) {
             int i=r.nextInt(1000000);
-            String dest = getOLEDHome() + File.separatorChar+i;
+            String dest = getMenthorHome() + File.separatorChar+i;
             File f=new File(dest);
             if (f.mkdirs()) {
                 f.deleteOnExit();
@@ -163,10 +163,10 @@ public final class ConfigurationHelper {
 		return canon(dir + File.separatorChar + fileName);
 	}
 	
-	public static String getOLEDHome() {
+	public static String getMenthorHome() {
 
-		if (OLED_HOME != null)
-			return OLED_HOME;
+		if (MENTHOR_HOME != null)
+			return MENTHOR_HOME;
 		
 		String temp = System.getProperty("java.io.tmpdir");
 		
@@ -174,7 +174,7 @@ public final class ConfigurationHelper {
 			Main.printErrLine("Error. JVM need to specify a temporary directory using java.io.tmpdir property.");
 		
 		//String username = System.getProperty("user.name");
-		File tempfile = new File(temp + File.separatorChar + "oled_tmp");
+		File tempfile = new File(temp + File.separatorChar + "menthor_tmp");
 		
 		tempfile.mkdirs();
 		String ans = canon(tempfile.getPath());
@@ -190,7 +190,7 @@ public final class ConfigurationHelper {
 			} // We only intend to make a best effort.
 		}
 		
-		return OLED_HOME = ans;
+		return MENTHOR_HOME = ans;
 	}
 	
 	public static String getUserHome()

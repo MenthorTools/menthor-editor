@@ -84,7 +84,7 @@ public class UmlProject implements Serializable {
 		super();
 		properties = new Properties();
 		resource = ModelHelper.createResource();
-		version = Main.OLED_VERSION;
+		version = Main.MENTHOR_VERSION;
 		RefOntoUML.Package model = ModelHelper.getFactory().createModel();
 		if(model.getName()==null || model.getName()=="") model.setName("Model");
 		resource.getContents().add(model);		
@@ -160,7 +160,7 @@ public class UmlProject implements Serializable {
 	@Override
 	public String toString()
 	{
-		return "OLED Project";
+		return "Menthor Project";
 	}
 	
 	public void setName (String name)

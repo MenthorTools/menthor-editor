@@ -77,8 +77,8 @@ public class AboutDialog extends JDialog {
 		
 //		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
 //		setIconImage(icon);
-		setTitle("About OLED");
-		setBounds(100, 100, 491, 288);
+		setTitle("About Menthor Editor");
+		setBounds(100, 100, 491, 178);
 		
 		getContentPane().setLayout(new BorderLayout());
 		
@@ -87,11 +87,11 @@ public class AboutDialog extends JDialog {
 		CenterPanel.setPreferredSize(new Dimension(150, 190));
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		
-		lblVersion = new JLabel("Version: "+Main.OLED_VERSION);
+		lblVersion = new JLabel("Version: "+Main.MENTHOR_VERSION);
 		lblVersion.setForeground(Color.BLACK);		
 		lblVersion.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		JLabel lblDate = new JLabel("Compilation Date: "+Main.OLED_COMPILATION_DATE);				
+		JLabel lblDate = new JLabel("Compilation Date: "+Main.MENTHOR_COMPILATION_DATE);				
 		lblDate.setForeground(Color.BLACK);		
 		lblDate.setHorizontalAlignment(SwingConstants.LEFT);
 		
@@ -100,62 +100,34 @@ public class AboutDialog extends JDialog {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setIcon(new ImageIcon(AboutDialog.class.getResource("/resources/icons/nemo100.png")));
 		
-		JLabel lblOntoumlLightweightEditor = new JLabel("OntoUML Lightweight Editor (OLED)");
+		JLabel lblOntoumlLightweightEditor = new JLabel("Menthor Editor");
 		lblOntoumlLightweightEditor.setForeground(Color.BLACK);
 		lblOntoumlLightweightEditor.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		JLabel lblJohnGuerson = new JLabel("Giancarlo Guizzardi (Project Director)");
-		lblJohnGuerson.setForeground(Color.BLACK);
-		lblJohnGuerson.setHorizontalAlignment(SwingConstants.LEFT);
-		lblJohnGuerson.setPreferredSize(new Dimension(280, 16));
-		
-		JLabel lblActiveCollaborators = new JLabel("Developers: Cássio Reginato, Victor Amorim, Freddy Brasileiro and Bernardo Braga");
-		lblActiveCollaborators.setForeground(Color.BLACK);
-		lblActiveCollaborators.setPreferredSize(new Dimension(280, 16));
-		lblActiveCollaborators.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		JSeparator separator = new JSeparator();
 		
 		JSeparator separator_1 = new JSeparator();
 		
 		JHyperLinkLabel lblNewLabel = new JHyperLinkLabel("");
-		lblNewLabel.setText("https://code.google.com/p/ontouml-lightweight-editor/");
+		lblNewLabel.setText("menthor.net");
 		lblNewLabel.addMouseListener(new MouseAdapter() {			
 			 @Override
 			    public void mouseClicked(MouseEvent e) {				 
-					frame.getDiagramManager().openLinkWithBrowser("https://code.google.com/p/ontouml-lightweight-editor/");				 
+					frame.getDiagramManager().openLinkWithBrowser("https://menthor.net");				 
 			 }
 		});
-		
-		JLabel lblNewLabel_1 = new JLabel("Tiago Prince Sales (Author and Lead Developer)");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		JLabel lblNewLabel_2 = new JLabel("John Guerson (Author and Lead Developer)\r\n");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		GroupLayout gl_CenterPanel = new GroupLayout(CenterPanel);
 		gl_CenterPanel.setHorizontalGroup(
 			gl_CenterPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_CenterPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_CenterPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_CenterPanel.createSequentialGroup()
-							.addComponent(label)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_CenterPanel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblOntoumlLightweightEditor, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-								.addComponent(lblDate, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-								.addComponent(lblVersion, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-								.addComponent(lblNewLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-						.addGroup(gl_CenterPanel.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblJohnGuerson, GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
-							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_CenterPanel.createSequentialGroup()
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 423, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 10, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblActiveCollaborators, GroupLayout.PREFERRED_SIZE, 433, GroupLayout.PREFERRED_SIZE))
+					.addComponent(label)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_CenterPanel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblOntoumlLightweightEditor, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+						.addComponent(lblDate, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+						.addComponent(lblVersion, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+						.addComponent(lblNewLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap(32, Short.MAX_VALUE))
 		);
 		gl_CenterPanel.setVerticalGroup(
@@ -174,17 +146,7 @@ public class AboutDialog extends JDialog {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(label))
-					.addGap(18)
-					.addComponent(lblJohnGuerson, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel_1)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel_2)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblActiveCollaborators, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(23, Short.MAX_VALUE))
+					.addContainerGap(136, Short.MAX_VALUE))
 		);
 		CenterPanel.setLayout(gl_CenterPanel);
 	}

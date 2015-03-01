@@ -86,6 +86,6 @@ public final class ModelReader extends FileHandler {
 	 * {@inheritDoc}
 	 */
 	public String getSuffix() {
-		return ".oled";
+		return ".menthor";
 	}
 }

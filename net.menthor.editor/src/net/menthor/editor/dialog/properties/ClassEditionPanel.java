@@ -172,6 +172,6 @@ public class ClassEditionPanel extends JPanel {
 		if (element instanceof Collective) ((Collective) element).setIsExtensional(btnExtensional.isSelected());
 		element.setIsAbstract(btnAbstract.isSelected());
 		
-		diagramManager.updateOLEDFromModification(element,false);	
+		diagramManager.updateMenthorFromModification(element,false);	
 	}
 }

@@ -56,8 +56,8 @@ public class LoadingPane extends JComponent {
         this("");
 //    	URL url;
 //		try {
-////			url = new URL("resources\\br\\ufes\\inf\\nemo\\oled\\ui\\nemoloading.gif");
-//			Icon icon = new ImageIcon("resources/br/ufes/inf/nemo/oled/ui/window.png");
+////			url = new URL("resources\\net\\menthor\\editor\\ui\\nemoloading.gif");
+//			Icon icon = new ImageIcon("resources/net/menthor/editor/ui/window.png");
 //	        JLabel label = new JLabel(icon);
 //	        add(label);
 ////	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  

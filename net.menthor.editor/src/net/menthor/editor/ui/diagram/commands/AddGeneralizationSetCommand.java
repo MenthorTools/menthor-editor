@@ -85,13 +85,13 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		
 		if(genSet!=null){
 			undoFromModel(genSet,generalizations);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromDeletion(genSet);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(genSet);
 		}
 		
 		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen,false);
+				ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -115,13 +115,13 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		
 		if(genSet!=null){
 			addToModel(genSet, generalizations);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromInclusion(genSet);			
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(genSet);			
 		}
 		
 		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen,false);
+				ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen,false);
 				list.add(genElem);
 			}
 		}		

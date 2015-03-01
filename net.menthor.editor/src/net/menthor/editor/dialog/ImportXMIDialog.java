@@ -272,7 +272,7 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 		horizontalBox.setBackground(Color.WHITE);
 		horizontalBox.setPreferredSize(new Dimension(50, 40));
 		treePanel.add(horizontalBox, BorderLayout.NORTH);		
-		btnFilter = new JButton("Import to OLED");
+		btnFilter = new JButton("Import to Menthor");
 		
 		panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);

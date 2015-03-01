@@ -151,7 +151,7 @@ public class StartPanel extends JPanel implements Editor {
 		btnNewProject = new JHyperLinkLabel("New Project");
 		leftPanel.add(btnNewProject);
 		btnNewProject.setIconTextGap(10);
-		btnNewProject.setToolTipText("Create a new OLED project");
+		btnNewProject.setToolTipText("Create a new Menthor project");
 		btnNewProject.setFocusable(false);
 		btnNewProject.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/page_2.png")));
 		
@@ -161,14 +161,14 @@ public class StartPanel extends JPanel implements Editor {
 		btnOpenProject.setSize(new Dimension(105, 23));
 		leftPanel.add(btnOpenProject);
 		btnOpenProject.setIconTextGap(10);
-		btnOpenProject.setToolTipText("Open an existing OLED project");
+		btnOpenProject.setToolTipText("Open an existing Menthor project");
 		btnOpenProject.setFocusable(false);
 		btnOpenProject.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/folder.png")));
 		
 		rigidArea_4 = Box.createRigidArea(new Dimension(20, 20));
 		leftPanel.add(rigidArea_4);
 		btnImportFromEa = new JHyperLinkLabel("Import from EA");
-		btnImportFromEa.setToolTipText("<html>Bring your models from Enterprise Architect (version 10) into OLED <br>and benefit of all the editor capabilities.</html>");
+		btnImportFromEa.setToolTipText("<html>Bring your models from Enterprise Architect (version 10) into Menthor <br>and benefit of all the editor capabilities.</html>");
 		leftPanel.add(btnImportFromEa);		
 		btnImportFromEa.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/ea.jpg")));
 		btnImportFromEa.addMouseListener(new MouseAdapter() {			
@@ -209,10 +209,10 @@ public class StartPanel extends JPanel implements Editor {
 		rigidArea.setPreferredSize(new Dimension(100, 20));
 		middlePanel.add(rigidArea);
 		
-		lblOledHostSite = new JHyperLinkLabel("OLED Host Site");
+		lblOledHostSite = new JHyperLinkLabel("Menthor Host Site");
 		middlePanel.add(lblOledHostSite);
-		lblOledHostSite.setText("Project Host Site - Google Code");
-		lblOledHostSite.setToolTipText("See the host site (SVN) of our project on google code");
+		lblOledHostSite.setText("Project Host Site - BitBucket");
+		lblOledHostSite.setToolTipText("See the host site (Git) of our project on bitbucket");
 		lblOledHostSite.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/googlecode.png")));
 		
 		rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));

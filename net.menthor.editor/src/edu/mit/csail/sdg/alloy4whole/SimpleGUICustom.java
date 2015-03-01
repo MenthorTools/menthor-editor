@@ -2031,7 +2031,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
         text.get().requestFocusInWindow();
 
         // Launch the welcome screen if needed
-        // We do not need this when using it with OLED...
+        // We do not need this when using it with our Application...
         /*if (!"yes".equals(System.getProperty("debug")) && Welcome.get() < welcomeLevel) {
            JCheckBox again = new JCheckBox("Show this message every time you start the Alloy Analyzer");
            again.setSelected(true);

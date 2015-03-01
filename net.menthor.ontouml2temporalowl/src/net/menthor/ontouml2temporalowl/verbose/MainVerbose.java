@@ -17,7 +17,7 @@ public class MainVerbose
 	public static void setModelId (String name)
 	{
 		//code fixed by Freddy Brasileiro (freddybrasileiro@gmail.com)
-		//since OLED call this the temporal transformation with full IRI in the name variable,
+		//since the Editor Application call this the temporal transformation with full IRI in the name variable,
 		//this transformation was resulting some mistakes
 		//the modelName variable was resulting in something like "http://www.semanticweb.org/ontologies/2014/6/ontology"
 		//and the modelId was resulting in something like "http://www.semanticweb.org/ontologies/2014/6/ontology/http://www.semanticweb.org/ontologies/2014/6/ontology.owl"

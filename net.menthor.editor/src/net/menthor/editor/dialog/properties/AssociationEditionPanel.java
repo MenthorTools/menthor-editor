@@ -438,7 +438,7 @@ public class AssociationEditionPanel extends JPanel {
 			else assocElement.setReadingDesign(ReadingDesign.UNDEFINED);
 		}
 		
-		diagramManager.updateOLEDFromModification(element,false);
+		diagramManager.updateMenthorFromModification(element,false);
 	}
 }
 

@@ -168,7 +168,7 @@ public class ExclusionDerivationOperations {
 		exclusionDerivationList.add(c);
 		exclusionDerivationList.add(exclusion);
 	
-		dman.updateOLED(mainfix);
+		dman.updateMenthor(mainfix);
 		
 	}
 	
@@ -222,7 +222,7 @@ public class ExclusionDerivationOperations {
 			StereotypeAndNameSelection.wrongSelection("The derivation by exclusion of n types is actually the exclusion of the union of the types selected, you need to create the derivation by union");
 			Fix fix=DerivedTypesOperations.createUnionDerivation(activeEditor, project, dm);
 			common_father=DerivedTypesOperations.getUnionDerived();
-			dm.updateOLED(fix);
+			dm.updateMenthor(fix);
 			father= getClassElementFromClassifier(common_father, activeEditor);
 			deriveBySingleSelection(common_father, new Point2D.Double(((ClassElement) father).getAbsoluteX1(), ((ClassElement) father).getAbsoluteY1()));
 			

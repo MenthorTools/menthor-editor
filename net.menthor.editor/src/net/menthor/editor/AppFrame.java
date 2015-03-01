@@ -80,7 +80,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	public AppFrame() {
 		super();
 		super.setIconImage(IconLoader.getInstance().getImage("WINDOW"));
-		setTitle(getResourceString("application.title")+" v"+Main.OLED_VERSION);
+		setTitle(getResourceString("application.title")+" v"+Main.MENTHOR_VERSION);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		setPreferredSize();
@@ -92,7 +92,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				quitApplication();
-				Main.printOutLine("OLED application closed");
+				Main.printOutLine("Menthor application closed");
 			}
 		});
 
@@ -391,7 +391,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	 * Quits the application with confirmation.
 	 * */
 	public void quitApplication() {
-		Main.printOutLine("OLED application closed");
+		Main.printOutLine("Menthor application closed");
 		
 		if (canQuit()) {		
 			

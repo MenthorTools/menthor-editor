@@ -306,6 +306,6 @@ public class CommentsEditionPanel extends JPanel {
 				toBeDeleted.add(c);
 			}
 		}
-		for(Comment cmt: toBeDeleted) { diagramManager.deleteFromOLED(cmt,false); }	
+		for(Comment cmt: toBeDeleted) { diagramManager.deleteFromMenthor(cmt,false); }	
 	}
 }

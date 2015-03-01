@@ -78,5 +78,5 @@ public final class ModelWriter extends FileWriter {
   /**
    * {@inheritDoc}
    */
-  public String getSuffix() { return ".oled"; }
+  public String getSuffix() { return ".menthor"; }
 }

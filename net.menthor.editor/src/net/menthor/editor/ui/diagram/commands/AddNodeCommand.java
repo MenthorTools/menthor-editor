@@ -88,7 +88,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
 			project.getEditingDomain().getCommandStack().undo();
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromDeletion(element);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(element);
 		}
 		
 		if(addToDiagram && diagramElement != null){
@@ -118,7 +118,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 			addToModel(element);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromInclusion(element);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(element);
 		}
 		
 		if(addToDiagram && diagramElement !=null){			

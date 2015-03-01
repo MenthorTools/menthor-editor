@@ -40,7 +40,7 @@ public class WarningVerificator {
 				if (ne.getName()==null || ne.getName().trim().isEmpty()) 
 				{ 				
 					String message = "Unnamed element";
-					warnings.add(new WarningElement(c,0,message,TypeProblem.OLED));
+					warnings.add(new WarningElement(c,0,message,TypeProblem.APP));
 									
 				}
 			}

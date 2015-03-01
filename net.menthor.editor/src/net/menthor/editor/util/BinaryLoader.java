@@ -44,7 +44,7 @@ public class BinaryLoader {
 	public File jarFile = null;
 	public String osx = "undef";
 	public String arch = "undef";
-	public String binTemp="oled_bin";
+	public String binTemp="menthor_bin";
 	
 	public File getJarFile() {
 		return jarFile;
@@ -75,7 +75,24 @@ public class BinaryLoader {
 		}
 	}
 	
-	public File getOLEDBin() throws LoadingException 
+	public BinaryLoader(String jarName, String osx, String arch)
+	{
+		this.osx = osx;		
+		this.arch = arch;
+		if (jarName!=null  && !jarName.isEmpty()) 
+		{		
+			String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();		
+			String fileName = path+jarName;		
+			try{
+				String decodedPath = URLDecoder.decode(fileName, "UTF-8");			
+			    jarFile = new File(decodedPath);
+			    if(!jarFile.exists()) return;
+			}
+			catch(UnsupportedEncodingException cantHappen){ /*Never gets here*/ }
+			Main.printOutLine("Jar file: "+jarFile.getAbsolutePath());
+		}
+	}
+	public File getMenthorBin() throws LoadingException 
 	{
 		if (BinDir == null) {			
 			String temp = System.getProperty("java.io.tmpdir");			
@@ -100,10 +117,10 @@ public class BinaryLoader {
 	public void addBinariesToJavaPathBySystem()
 	{
         try {
-            System.setProperty("java.library.path", getOLEDBin().getAbsolutePath());
+            System.setProperty("java.library.path", getMenthorBin().getAbsolutePath());
             // The above line is actually useless on Sun JDK/JRE (see Sun's bug ID 4280189)
             // The following 4 lines should work for Sun's JDK/JRE (though they probably won't work for others)
-            String[] newarray = new String[]{getOLEDBin().getAbsolutePath()};
+            String[] newarray = new String[]{getMenthorBin().getAbsolutePath()};
             java.lang.reflect.Field old = ClassLoader.class.getDeclaredField("usr_paths");
             old.setAccessible(true);
             old.set(null,newarray);
@@ -184,7 +201,7 @@ public class BinaryLoader {
 		//String binPackage = "swt"+File.separator+osx+File.separator+arch+File.separator;
 		String binPackage = "";
 		
-		String outFolder = getOLEDBin().getAbsolutePath()+File.separator+binName;		
+		String outFolder = getMenthorBin().getAbsolutePath()+File.separator+binName;		
 		String outPath = URLDecoder.decode(outFolder, "UTF-8");		
 		File outFile = new File(outPath);
 		if (outFile.exists()) return outFile.getAbsolutePath();
@@ -221,7 +238,7 @@ public class BinaryLoader {
 			if (isInstalled() == false) 
 			{				
 				if (!jarFile.exists()) return ;
-				String[] command = {"java", "-Djava.library.path=" + getOLEDBin(), "-jar", getJarFile().getName()};
+				String[] command = {"java", "-Djava.library.path=" + getMenthorBin(), "-jar", getJarFile().getName()};
 				String[] environment = null;
 				String workPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 				String decodedPath = URLDecoder.decode(workPath, "UTF-8");
@@ -252,7 +269,7 @@ public class BinaryLoader {
 	public File extractBinaryFiles() throws LoadingException {		
 		if (jarFile==null) return null;
 		if (!jarFile.exists()) return null;		
-		File outputDir = getOLEDBin();
+		File outputDir = getMenthorBin();
 		try {
 			File currentArchive = getJarFile();			
 
@@ -311,8 +328,8 @@ public class BinaryLoader {
 	public String getBinWorkingDir()
 	{
 		String dir = System.getProperty("user.dir");
-		if (dir.contains("br.ufes.inf.nemo.oled")) 
-			dir = dir.replace("br.ufes.inf.nemo.oled","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);
+		if (dir.contains("net.menthor.editor")) 
+			dir = dir.replace("net.menthor.editor","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);
 		else
 			dir = "";
 		return dir;

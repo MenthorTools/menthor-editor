@@ -23,7 +23,7 @@ public class Example {
 	    final Shell shell = new Shell(display);
 	    shell.setLayout(new GridLayout(1,false));
 	    
-	    //adaptar para se integrar melhor ao OLED
+	    //adaptar para se integrar melhor ao Editor
 	    Resource res = RefOntoUMLResourceUtil.loadModel("test_data/input/artefato.refontouml");
 	    RefOntoUML.Package root= (Package) res.getContents().get(0);
 	    OntoUMLParser parser = new OntoUMLParser(root);

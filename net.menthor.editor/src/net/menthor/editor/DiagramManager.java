@@ -81,7 +81,6 @@ import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.finder.FoundPane;
 import net.menthor.editor.model.AlloySpecification;
-import net.menthor.editor.model.AntiPatternList;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.RelationType;
@@ -93,10 +92,10 @@ import net.menthor.editor.problems.ErrorElement;
 import net.menthor.editor.problems.ErrorPane;
 import net.menthor.editor.problems.ErrorVerificator;
 import net.menthor.editor.problems.ProblemElement;
+import net.menthor.editor.problems.ProblemElement.TypeProblem;
 import net.menthor.editor.problems.ProblemPane;
 import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.problems.WarningVerificator;
-import net.menthor.editor.problems.ProblemElement.TypeProblem;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.ui.ClosableTabPanel;
@@ -111,27 +110,27 @@ import net.menthor.editor.ui.diagram.DiagramEditor;
 import net.menthor.editor.ui.diagram.DiagramEditorCommandDispatcher;
 import net.menthor.editor.ui.diagram.DiagramEditorWrapper;
 import net.menthor.editor.ui.diagram.Editor;
+import net.menthor.editor.ui.diagram.Editor.EditorNature;
 import net.menthor.editor.ui.diagram.EditorMouseEvent;
 import net.menthor.editor.ui.diagram.EditorStateListener;
 import net.menthor.editor.ui.diagram.SelectionListener;
 import net.menthor.editor.ui.diagram.TextEditor;
-import net.menthor.editor.ui.diagram.Editor.EditorNature;
 import net.menthor.editor.ui.diagram.commands.AddConnectionCommand;
 import net.menthor.editor.ui.diagram.commands.AddGeneralizationSetCommand;
 import net.menthor.editor.ui.diagram.commands.AddNodeCommand;
 import net.menthor.editor.ui.diagram.commands.DeleteElementCommand;
 import net.menthor.editor.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import net.menthor.editor.ui.diagram.commands.DiagramNotification;
-import net.menthor.editor.ui.diagram.commands.SetLabelTextCommand;
 import net.menthor.editor.ui.diagram.commands.DiagramNotification.ChangeType;
 import net.menthor.editor.ui.diagram.commands.DiagramNotification.NotificationType;
+import net.menthor.editor.ui.diagram.commands.SetLabelTextCommand;
 import net.menthor.editor.umldraw.shared.UmlConnection;
 import net.menthor.editor.umldraw.structure.AssociationElement;
+import net.menthor.editor.umldraw.structure.AssociationElement.ReadingDesign;
 import net.menthor.editor.umldraw.structure.ClassElement;
 import net.menthor.editor.umldraw.structure.DiagramElementFactoryImpl;
 import net.menthor.editor.umldraw.structure.GeneralizationElement;
 import net.menthor.editor.umldraw.structure.StructureDiagram;
-import net.menthor.editor.umldraw.structure.AssociationElement.ReadingDesign;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.ModelHelper;
@@ -139,9 +138,8 @@ import net.menthor.editor.util.OLEDResourceFactory;
 import net.menthor.editor.util.OLEDSettings;
 import net.menthor.editor.util.OWLHelper;
 import net.menthor.editor.util.OperationResult;
-import net.menthor.editor.util.ProjectSettings;
 import net.menthor.editor.util.OperationResult.ResultType;
-import net.menthor.editor.validator.antipattern.AntiPatternResultDialog;
+import net.menthor.editor.util.ProjectSettings;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2sbvr.core.OntoUML2SBVR;
@@ -647,7 +645,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public boolean isProjectLoaded()
 	{
 		if (getCurrentProject()==null) {
-			frame.showInformationMessageDialog("OLED Project", "There is no OLED Project opened");
+			frame.showInformationMessageDialog("Menthor Project", "There is no Menthor Project opened");
 			return false;
 		}else{
 			return true;
@@ -931,15 +929,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return false;
 	}
 	
-	/** New OLED Project. */
+	/** New Menthor Project. */
 	public void newProject() 
 	{				
 		JFileChooser fileChooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("OLED Project (*.oled)", "oled");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("New Project");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);
-		fileChooser.setSelectedFile(new File("*.oled"));
+		fileChooser.setSelectedFile(new File("*.menthor"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
 			try {			
@@ -948,8 +946,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				closeCurrentProject();
 				File file = fileChooser.getSelectedFile();				
 				if (!file.exists()){
-					if(!file.getName().endsWith(".oled")) {
-						file = new File(file.getCanonicalFile() + ".oled");
+					if(!file.getName().endsWith(".menthor")) {
+						file = new File(file.getCanonicalFile() + ".menthor");
 					}else{
 						file = new File(file.getCanonicalFile()+"");
 					}
@@ -957,7 +955,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				setProjectFile(file);
 				createEmptyCurrentProject();				
 				saveCurrentProjectToFile(file);
-				frame.setTitle("OLED - "+file.getName()+"");				
+				frame.setTitle("Menthor Editor - "+file.getName()+"");				
 				Main.printOutLine("New project succesffully created");
 				
 			} catch (Exception ex) {
@@ -988,7 +986,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void openProject() 
 	{		
 		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("OLED Project (*.oled)", "oled");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("Open Project");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);		
@@ -997,7 +995,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			try {
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				closeCurrentProject();				
-				Main.printOutLine("Opening OLED project...");				
+				Main.printOutLine("Opening Menthor project...");				
 				File file = fileChooser.getSelectedFile();
 				setProjectFile(file);
 				lastOpenPath = file.getAbsolutePath();
@@ -1005,11 +1003,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				currentProject = (UmlProject) listFiles.get(0);
 				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
 				{
-					String msg = "This project was originally edited with an older version of OLED (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of OLED prior to 1.X.";
+					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";
 					String oldversion = new String();					
 					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
 					else oldversion = currentProject.getVersion();
-					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.OLED_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");					if(response == JOptionPane.OK_OPTION){														
+					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");					if(response == JOptionPane.OK_OPTION){														
 						openListFiles(listFiles);						
 						remakeAllAssociationElements();						
 					}else{						
@@ -1020,12 +1018,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					openListFiles(listFiles);				
 				}
 			} catch (Exception ex) {
-				Main.printOutLine("Failed to open OLED project!");	
+				Main.printOutLine("Failed to open Menthor project!");	
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			Main.printOutLine("OLED project successfully opened!");	
+			Main.printOutLine("Menthor project successfully opened!");	
 		}		
 	}
 	
@@ -1045,11 +1043,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				currentProject = (UmlProject) listFiles.get(0);				
 				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
 				{
-					String msg = "This project was originally edited with an older version of OLED (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of OLED prior to 1.X.";					
+					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";					
 					String oldversion = new String();
 					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
 					else oldversion = currentProject.getVersion();
-					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.OLED_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");		
+					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");		
 					if(response == JOptionPane.OK_OPTION) {						
 						openListFiles(listFiles);						
 						remakeAllAssociationElements();						
@@ -1062,14 +1060,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				}
 			}
 		} catch (Exception ex) {
-			Main.printOutLine("Failed to open OLED project!");	
+			Main.printOutLine("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		Main.printOutLine("OLED project successfully opened!");	
+		Main.printOutLine("Menthor project successfully opened!");	
 	}
 
-	/** Open OLED project from the list of object read from stream as a result of the oled file serialization */
+	/** Open Menthor project from the list of object read from stream as a result of the menthor file serialization */
 	private void openListFiles(ArrayList<Object> listFiles) throws IOException
 	{
 		currentProject = (UmlProject) listFiles.get(0);
@@ -1084,20 +1082,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		openDiagrams();
 		saveProjectNeeded(false);				
 		ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
-		frame.setTitle("OLED - "+projectFile.getName()+"");		
+		frame.setTitle("Menthor Editor - "+projectFile.getName()+"");		
 	}
 	
-	/** Save current Project to a file *.oled */
+	/** Save current Project to a file *.menthor */
 	private File saveCurrentProjectToFile(File file) 
 	{
-		Main.printOutLine("Saving OLED project...");
-		currentProject.setVersion(Main.OLED_VERSION);
+		Main.printOutLine("Saving Menthor project...");
+		currentProject.setVersion(Main.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
 		File result = null;
 		try {
-			if(!file.getName().endsWith(".oled")) {
-				file = new File(file.getCanonicalFile() + ".oled");
+			if(!file.getName().endsWith(".menthor")) {
+				file = new File(file.getCanonicalFile() + ".menthor");
 			}						
 			for(ConstraintEditor ce: getConstraintEditors()){				
 				if(ce!=null) ce.getOCLDocument().setContent(ce.getText());
@@ -1108,18 +1106,18 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}			
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, frame.getBrowserManager().getProjectBrowser().getOCLDocuments());		
 			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
-			getCurrentProject().setName(file.getName().replace(".oled",""));
+			getCurrentProject().setName(file.getName().replace(".menthor",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
-			frame.setTitle("OLED - "+file.getName()+"");
+			frame.setTitle("Menthor Editor - "+file.getName()+"");
 			invalidate();
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} catch (Exception ex) {
-			Main.printOutLine("Failed to save OLED project!");
+			Main.printOutLine("Failed to save Menthor project!");
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.savefile.title"), JOptionPane.ERROR_MESSAGE);
 		}
-		Main.printOutLine("OLED project successfully saved!");
+		Main.printOutLine("Menthor project successfully saved!");
 		return result;
 	}
 
@@ -1146,7 +1144,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		JFileChooser fileChooser = new JFileChooser(lastSavePath);
 		fileChooser.setDialogTitle("Save Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("OLED Project (*.oled)", "oled");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -1154,18 +1152,18 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (option == JFileChooser.APPROVE_OPTION) {
 			setProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
 			File file = fileChooser.getSelectedFile();
-			frame.setTitle("OLED - "+file.getName()+"");
+			frame.setTitle("Menthor Editor - "+file.getName()+"");
 			lastSavePath = file.getAbsolutePath();			
 		}
 		return option;
 	}
 	
-	/** Export Model as a OLED Pattern **/
-	public int exportAsOLEDPattern() 
+	/** Export Model as a Menthor Pattern **/
+	public int exportAsMenthorPattern() 
 	{
 		JFileChooser fileChooser = new JFileChooser(lastSavePath);
-		fileChooser.setDialogTitle("Export as OLED Pattern");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("OLED Project (*.oledpattern)", "oledpattern");
+		fileChooser.setDialogTitle("Export as Menthor Pattern");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthorpattern)", "menthorpattern");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -1173,7 +1171,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (option == JFileChooser.APPROVE_OPTION) {
 			setProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
 			File file = fileChooser.getSelectedFile();
-			frame.setTitle("OLED Pattern - "+file.getName()+"");
+			frame.setTitle("Menthor Pattern - "+file.getName()+"");
 			lastSavePath = file.getAbsolutePath();			
 		}
 		return option;
@@ -1228,7 +1226,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
 					Resource resource = resourceSet.createResource(fileURI);		
 					resource.load(Collections.emptyMap());
-					File projectFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".oled"));
+					File projectFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".menthor"));
 					setProjectFile(projectFile);
 					lastOpenPath = projectFile.getAbsolutePath();
 					createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
@@ -1236,7 +1234,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
 					ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
 					newDiagram();
-					frame.setTitle("OLED - "+projectFile.getName()+"");
+					frame.setTitle("Menthor Editor - "+projectFile.getName()+"");
 					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.importecore.title"),JOptionPane.ERROR_MESSAGE);
@@ -1580,17 +1578,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						cmd.run();
 					}
 				}
-				frame.getDiagramManager().updateOLEDFromModification(element, false);
+				frame.getDiagramManager().updateMenthorFromModification(element, false);
 			}
 		}   
 	}	
 	
 	/** Delete element from the model and every diagram in each it appears. */
-	public void deleteFromOLED(RefOntoUML.Element element, boolean showwarning)
+	public void deleteFromMenthor(RefOntoUML.Element element, boolean showwarning)
 	{	
 		int response = -1;
 		if (showwarning){
-			response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the selected items from the model \nand all the diagrams they might appear? This action can still be undone.\n", "Delete from OLED", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+			response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the selected items from the model \nand all the diagrams they might appear? This action can still be undone.\n", "Delete from Menthor Editor", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 		}else{
 			response = Window.OK;
 		}
@@ -1623,12 +1621,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Delete elements from the model and every diagram in each they appear. It shows a message before deletion. */
-	public void deleteFromOLED(Collection<DiagramElement> diagramElementList, boolean showmessage)
+	public void deleteFromMenthor(Collection<DiagramElement> diagramElementList, boolean showmessage)
 	{
 		int response =-1;	
 		ArrayList<RefOntoUML.Element> deletionList = (ArrayList<RefOntoUML.Element>)ModelHelper.getElements(diagramElementList);			
 		if(deletionList.size()>0){		
-			if(showmessage) response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the selected items from the model \nand all the diagrams they might appear? This action can still be undone.\n", "Delete from OLED", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+			if(showmessage) response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the selected items from the model \nand all the diagrams they might appear? This action can still be undone.\n", "Delete from Menthor Editor", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 			if(response==Window.OK)
 			{							
 				if(deletionList.size()>0){
@@ -1703,7 +1701,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(genSets.size()==0) return;
 		if(genSets.size()==1){			
-			frame.getDiagramManager().deleteFromOLED((RefOntoUML.Element)genSets.get(0).getElement(),true);
+			frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)genSets.get(0).getElement(),true);
 		}else{
 			CustomOntoUMLElement chosen = (CustomOntoUMLElement) JOptionPane.showInputDialog(getFrame(), 
 					"Which generalization set do you want to delete?",
@@ -1713,7 +1711,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					genSets.toArray(), 
 					genSets.toArray()[0]);
 			if(chosen!=null){
-				frame.getDiagramManager().deleteFromOLED((RefOntoUML.Element)chosen.getElement(),true);
+				frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)chosen.getElement(),true);
 			}		
 		}			
 	}
@@ -1886,7 +1884,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	   	   		fix.setAddedPosition(fix.getAdded().get(0),x,y);
 	   		}
    		}
-   		updateOLED(fix);
+   		updateMenthor(fix);
 	}
 	
 	/** Change relation stereotype */ 
@@ -1894,7 +1892,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{	
    		OutcomeFixer fixer = new OutcomeFixer(frame.getBrowserManager().getProjectBrowser().getParser().getModel());
    		Fix fix = fixer.changeRelationStereotypeTo(type, fixer.getRelationshipStereotype(stereo));   		
-   		updateOLED(fix);   		   		
+   		updateMenthor(fix);   		   		
    	}
 
 	/** Re-make element in the diagram . 
@@ -2235,7 +2233,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		tree.checkModelElement(association);
    		tree.addObject(source);  
    		tree.updateUI();
-   		frame.getDiagramManager().updateOLEDFromModification(association, true);
+   		frame.getDiagramManager().updateMenthorFromModification(association, true);
 	}
 	
 	/** Invert names of end points of an association. This method switch the current end names of an association. 
@@ -2248,7 +2246,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		String targetName = target.getName();
    		source.setName(targetName);
    		target.setName(sourceName);
-   		frame.getDiagramManager().updateOLEDFromModification(association, false);
+   		frame.getDiagramManager().updateMenthorFromModification(association, false);
 	}
 	
 	/** Invert multiplicities of end points of an association. This method switch the current multiplicities of an association. 
@@ -2269,7 +2267,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		source.setLowerValue(sourceLower);
    		target.setUpperValue(targetUpper);
    		target.setLowerValue(targetLower);
-   		frame.getDiagramManager().updateOLEDFromModification(association, false);
+   		frame.getDiagramManager().updateMenthorFromModification(association, false);
 	}
 	
 	/** Invert types of end points of an association. This method switch the current types of an association. 
@@ -2282,7 +2280,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		Type targetType = target.getType();
    		source.setType(targetType);
    		target.setType(sourceType);
-   		frame.getDiagramManager().updateOLEDFromModification(association, true);
+   		frame.getDiagramManager().updateMenthorFromModification(association, true);
 	}
 		
 	/** 
@@ -2290,7 +2288,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 *  
 	 * @param element: added element on refontouml root instance.
 	 */
-	public void updateOLEDFromInclusion(final RefOntoUML.Element addedElement)
+	public void updateMenthorFromInclusion(final RefOntoUML.Element addedElement)
 	{		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -2324,7 +2322,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 *  
 	 * @param fix
 	 */
-	public void updateOLEDFromInclusion(Fix fix)
+	public void updateMenthorFromInclusion(Fix fix)
 	{
 		//classes and datatypes
 		for(Object obj: fix.getAdded()){			
@@ -2344,17 +2342,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		//relationships and attributes
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.Relationship && !(obj instanceof RefOntoUML.Derivation)) {
-				updateOLEDFromInclusion((RefOntoUML.Element)obj);
+				updateMenthorFromInclusion((RefOntoUML.Element)obj);
 				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor());
 			}
 			if(obj instanceof RefOntoUML.Property){		
-				updateOLEDFromInclusion((RefOntoUML.Element)obj);
+				updateMenthorFromInclusion((RefOntoUML.Element)obj);
 			}
 		}	
 		//derivations
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.Derivation) {
-				updateOLEDFromInclusion((RefOntoUML.Element)obj);
+				updateMenthorFromInclusion((RefOntoUML.Element)obj);
 				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor());
 			}
 		}	
@@ -2374,9 +2372,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 * 
 	 * @param element: modified element on the refontouml root instance
 	 */
-	public void updateOLEDFromModification(final RefOntoUML.Element element, final boolean redesign)
+	public void updateMenthorFromModification(final RefOntoUML.Element element, final boolean redesign)
 	{
-		updateOLEDFromInclusion(element);
+		updateMenthorFromInclusion(element);
 		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -2408,7 +2406,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				}
 				if(element instanceof RefOntoUML.GeneralizationSet)
 				{
-					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) updateOLEDFromModification(gen,false);
+					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) updateMenthorFromModification(gen,false);
 				}
 			}
 		});
@@ -2419,7 +2417,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 * 
 	 * @param fix
 	 */
-	public void updateOLEDFromModification(Fix fix)
+	public void updateMenthorFromModification(Fix fix)
 	{
 		for(Object obj: fix.getModified())
 		{
@@ -2437,7 +2435,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			else {
 				redesign=false;
 			}
-			updateOLEDFromModification((RefOntoUML.Element)obj,redesign);
+			updateMenthorFromModification((RefOntoUML.Element)obj,redesign);
 		}
 	}
 	
@@ -2447,7 +2445,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 * @param element: deleted element on the refontouml root instance
 	 */
 	@SuppressWarnings("unused")
-	public void updateOLEDFromDeletion(final RefOntoUML.Element deletedElement)
+	public void updateMenthorFromDeletion(final RefOntoUML.Element deletedElement)
 	{		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -2462,17 +2460,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		});
 	}
 	
-	/** Update OLED according to a Fix.  */
-	public void updateOLED (final Fix fix)
+	/** Update Menthor according to a Fix.  */
+	public void updateMenthor (final Fix fix)
 	{
 		if (fix==null) return;	
 		
-		updateOLEDFromInclusion(fix);
+		updateMenthorFromInclusion(fix);
 				
-		updateOLEDFromModification(fix);
+		updateMenthorFromModification(fix);
 		
 		for(Object obj: fix.getDeleted()) {
-			deleteFromOLED((RefOntoUML.Element)obj,false);				
+			deleteFromMenthor((RefOntoUML.Element)obj,false);				
 		}
 		for(String str: fix.getAddedRules()){
 			frame.getBrowserManager().getProjectBrowser().getOCLDocuments().get(0).addContent(str);		
@@ -2527,7 +2525,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));		
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();		
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create an OLED project first."); return; }		
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create an Menthor project first."); return; }		
 		try { 
 			String name = ((RefOntoUML.Package)getCurrentProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
@@ -2570,7 +2568,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
 		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an OLED project."); return; }
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an Menthor project."); return; }
 		try {			
 			// transforming...
 			frame.getProjectBrowser().getAlloySpec().setAlloyModel(refparser,refOptions);
@@ -2586,7 +2584,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();		
 		TOCL2AlloyOption oclOptions = frame.getProjectBrowser().getOCLOption();
 		AlloySpecification alloySpec = frame.getProjectBrowser().getAlloySpec();
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an OLED project."); return; }
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an Menthor project."); return; }
 		if (oclOptions.getParser()==null) { /*frame.showErrorMessageDialog("Error","Inexistent constraints. You need to first create constraints.");*/  return; }
 		try {						
 			// transforming...
@@ -3012,7 +3010,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
 		UmlProject project = getCurrentEditor().getProject();
 		Fix fix = DerivedTypesOperations.createUnionDerivation(activeEditor, project,this);
-		if(fix!=null) updateOLED(fix);		
+		if(fix!=null) updateMenthor(fix);		
 	}
 	
 	public void openDerivedTypePatternUnion(Double x, Double y) {
@@ -3053,7 +3051,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						_fix = PatternTool.tryToRun(elementType, selectedElements);
 					}
 					if(_fix != null)
-						updateOLED(_fix);
+						updateMenthor(_fix);
 				}
 			});
 		}else{
@@ -3063,7 +3061,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				_fix = PatternTool.tryToRun(elementType, selectedElements);
 			}
 			if(_fix != null)
-				updateOLED(_fix);
+				updateMenthor(_fix);
 		}
 	}
 
@@ -3079,7 +3077,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		UmlProject project = getCurrentEditor().getProject();
 		Fix fix = DerivedTypesOperations.createIntersectionDerivation(activeEditor, project,this);
 		if(fix!=null)
-			updateOLED(fix);
+			updateMenthor(fix);
 		
 	}
 	
@@ -3099,7 +3097,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
 		UmlProject project = getCurrentEditor().getProject();
 		Fix fix = DerivedTypesOperations.createSpecializationDerivation(activeEditor, project,this);
-		if(fix!=null) updateOLED(fix);
+		if(fix!=null) updateMenthor(fix);
 	}
 	public void openDerivedTypePatternPastSpecialization(double x, double y) {
 		JDialog dialog = new PastSpecializationPattern(this);
@@ -3130,21 +3128,21 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		participation_derivation.createDerivedType(activeEditor, project,this);
 	}
 	
-	/** Save current Pattern Project to a file *.oledpattern */
+	/** Save current Pattern Project to a file *.menthorpattern */
 	@SuppressWarnings("unused")
 	private File exportCurrentProjectToFile(File file) 
 	{
-		Main.printOutLine("Saving OLED Pattern project...");
-		currentProject.setVersion(Main.OLED_VERSION);
+		Main.printOutLine("Saving Menthor Pattern project...");
+		currentProject.setVersion(Main.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
 		File result = null;
 		try {
-			if(!file.getName().endsWith(".oledpattern")) {
-				if(file.getName().contains(".oled"))
-					file = new File(file.getCanonicalFile().toString().replaceAll(".oled", ".oledpattern"));
+			if(!file.getName().endsWith(".menthorpattern")) {
+				if(file.getName().contains(".menthor"))
+					file = new File(file.getCanonicalFile().toString().replaceAll(".menthor", ".menthorpattern"));
 				else
-					file = new File(file.getCanonicalFile() + ".oledpattern");
+					file = new File(file.getCanonicalFile() + ".menthorpattern");
 			}						
 			for(ConstraintEditor ce: getConstraintEditors()){				
 				if(ce!=null) ce.getOCLDocument().setContent(ce.getText());
@@ -3155,58 +3153,58 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}			
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, frame.getBrowserManager().getProjectBrowser().getOCLDocuments());		
 			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
-			getCurrentProject().setName(file.getName().replace(".oledpattern",""));
+			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
-			frame.setTitle("OLED Pattern - "+file.getName()+"");
+			frame.setTitle("Menthor Pattern - "+file.getName()+"");
 			invalidate();
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} catch (Exception ex) {
-			Main.printOutLine("Failed to save OLED Pattern project!");
+			Main.printOutLine("Failed to save Menthor Pattern project!");
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.savefile.title"), JOptionPane.ERROR_MESSAGE);
 		}
-		Main.printOutLine("OLED Pattern project successfully saved!");
+		Main.printOutLine("Menthor Pattern project successfully saved!");
 		return result;
 	}
 
-	//Export as .oledpattern	
+	//Export as .menthorpattern	
 	public void exportPattern(){
 		DomainPatternTool.exportModelAsPattern(currentProject);
 		//call exportCurrentProject
-		//call exportAsOLEDPattern
+		//call exportAsMenthorPattern
 	}
 	
 	private UmlProject importPatternProjectFile(){
 		UmlProject patternProject = null;
 		
 		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("OLED Project (*.oled)", "oled");
-		fileChooser.setDialogTitle("Open OLED Pattern Project");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
+		fileChooser.setDialogTitle("Open Menthor Pattern Project");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);		
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				Main.printOutLine("Opening OLED project...");				
+				Main.printOutLine("Opening Menthor project...");				
 				File file = fileChooser.getSelectedFile();
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				patternProject = (UmlProject) listFiles.get(0);
 			} catch (Exception ex) {
-				Main.printOutLine("Failed to open OLED project!");	
+				Main.printOutLine("Failed to open Menthor project!");	
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			Main.printOutLine("OLED project successfully opened!");	
+			Main.printOutLine("Menthor project successfully opened!");	
 		}
 		
 		return patternProject;
 	}
 	
 	public void importPattern(){
-		//opening .oledpattern
+		//opening .menthorpattern
 		UmlProject patternProject = importPatternProjectFile();
 		if(patternProject != null){		
 			DomainPatternTool.initializeDomainPatternPalette(frame.getToolManager().getPalleteAccordion(), patternProject, editorDispatcher, frame);
@@ -3220,13 +3218,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				public void run() {
 					_fix = DomainPatternTool.run(x, y);
 					if(_fix != null)
-						updateOLED(_fix);
+						updateMenthor(_fix);
 				}
 			});
 		}else{
 			_fix = DomainPatternTool.run(x, y);
 			if(_fix != null)
-				updateOLED(_fix);
+				updateMenthor(_fix);
 		}
 	}
 	

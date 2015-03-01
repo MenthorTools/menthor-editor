@@ -82,7 +82,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		if(diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen,false);
+				ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -111,7 +111,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		if(diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen,false);
+				ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -140,7 +140,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		((GeneralizationSet)elem).getGeneralization().removeAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().remove(elem);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen, false);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen, false);
 		}
 		
 		delete(elem);		
@@ -151,7 +151,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 //		System.out.println("Deleting = "+elem);
 		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(project.getEditingDomain(), elem);
 		project.getEditingDomain().getCommandStack().execute(cmd);
-		ProjectBrowser.frame.getDiagramManager().updateOLEDFromDeletion(elem);
+		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
 	}
 	
 	private void undoGeneralizationSet(GeneralizationSet elem)
@@ -162,7 +162,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		((GeneralizationSet)elem).getGeneralization().addAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().add(elem);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen, false);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen, false);
 		}
 	}
 	
@@ -170,6 +170,6 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 	{		
 //		System.out.println("Undoing = "+elem);
 		project.getEditingDomain().getCommandStack().undo();
-		ProjectBrowser.frame.getDiagramManager().updateOLEDFromInclusion(elem);
+		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
 	}
 }

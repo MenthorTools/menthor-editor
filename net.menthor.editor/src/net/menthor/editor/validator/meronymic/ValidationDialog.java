@@ -158,7 +158,7 @@ public class ValidationDialog extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Fix fix = fixAllPanels();
-			appFrame.getDiagramManager().updateOLED(fix);
+			appFrame.getDiagramManager().updateMenthor(fix);
 			clearAllTables();
 			saveButton.setEnabled(false);
 			applyButton.setEnabled(false);
@@ -170,7 +170,7 @@ public class ValidationDialog extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Fix fix = fixAllPanels();
-			appFrame.getDiagramManager().updateOLED(fix);
+			appFrame.getDiagramManager().updateMenthor(fix);
 			dispose();
 		}
 	};

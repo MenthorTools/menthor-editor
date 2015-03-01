@@ -287,7 +287,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		genSet.setIsDisjoint(cbxDisjoint.isSelected());
 		genSet.setName(textField.getText());	
 		
-		diagramManager.updateOLEDFromModification(genSet, redesign);
+		diagramManager.updateMenthorFromModification(genSet, redesign);
 	}
 	
 }

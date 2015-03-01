@@ -396,7 +396,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		((GeneralizationSet)elem).getGeneralization().removeAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().remove(elem);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen, false);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen, false);
 		}
 		
 		delete(elem);		
@@ -410,7 +410,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		((GeneralizationSet)elem).getGeneralization().addAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().add(elem);
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(gen, false);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen, false);
 		}
 	}
 	
@@ -418,7 +418,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 	{		
 //		System.out.println("Undoing from model = "+elem);
 		project.getEditingDomain().getCommandStack().undo();
-		ProjectBrowser.frame.getDiagramManager().updateOLEDFromInclusion(elem);
+		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
 	}
 	
 	private void delete (RefOntoUML.Element elem)
@@ -426,7 +426,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		//System.out.println("Deleting = "+elem);
 		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(project.getEditingDomain(), elem);
 		project.getEditingDomain().getCommandStack().execute(cmd);
-		ProjectBrowser.frame.getDiagramManager().updateOLEDFromDeletion(elem);
+		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
 	}
 	
 	public Collection<DiagramElement> getDiagramElements() 

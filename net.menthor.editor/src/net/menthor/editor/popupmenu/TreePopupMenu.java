@@ -275,7 +275,7 @@ public class TreePopupMenu extends JPopupMenu {
 				{
 					OntoUMLElement ontoElem = (OntoUMLElement) ((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent()).getUserObject();
 					RefOntoUML.Element elemForDeletion = (RefOntoUML.Element)ontoElem.getElement();
-					frame.getDiagramManager().deleteFromOLED(elemForDeletion,true);    					    					
+					frame.getDiagramManager().deleteFromMenthor(elemForDeletion,true);    					    					
     				tree.setSelectionPath(new TreePath(tree.getModelRootNode().getPath()));    					    					
 				}
 				else if (TreePopupMenu.this.element instanceof StructureDiagram)
@@ -313,7 +313,7 @@ public class TreePopupMenu extends JPopupMenu {
     	DefaultMutableTreeNode node = ((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent());
     	this.selectedNode = node;
     	
-    	// Root Node: OLED Project
+    	// Root Node: Application Project
     	if (tree.getRootNode().equals(selectedNode)) {
     		createRefreshItem();  
     		return;

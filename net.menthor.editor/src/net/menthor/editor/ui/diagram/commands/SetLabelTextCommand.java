@@ -92,7 +92,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			}
 			
 			// update application accordingly
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(element, false);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(element, false);
 						
 		}else if (parent instanceof BaseConnection){
 			
@@ -142,7 +142,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			}
 			
 			// update application accordingly
-			ProjectBrowser.frame.getDiagramManager().updateOLEDFromModification(element, false);
+			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(element, false);
 						
 		}else if (parent instanceof BaseConnection){
 			

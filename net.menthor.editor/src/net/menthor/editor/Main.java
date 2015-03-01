@@ -64,8 +64,8 @@ public final class Main {
 	
 	public static AppFrame frame; 
 
-	public static String OLED_VERSION = "1.0.06"; 
-	public static String OLED_COMPILATION_DATE = "Fev 02 2015";	
+	public static String MENTHOR_VERSION = "1.0.06"; 
+	public static String MENTHOR_COMPILATION_DATE = "Fev 02 2015";	
 	
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;
@@ -154,7 +154,7 @@ public final class Main {
 		System.setProperty("sun.awt.xembedserver", "true");		
 		// Enable better look-and-feel
         if (onMac() || onWindows()) {
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "OLED");
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Menthor");
             System.setProperty("com.apple.mrj.application.growbox.intrudes","true");
             System.setProperty("com.apple.mrj.application.live-resize","true");
             System.setProperty("com.apple.macos.useScreenMenuBar","true");
@@ -214,7 +214,7 @@ public final class Main {
 	public static String getSwtWorkingDir()
 	{
 		String dir = System.getProperty("user.dir");
-		if (dir.contains("br.ufes.inf.nemo.oled")) dir = dir.replace("br.ufes.inf.nemo.oled","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);			
+		if (dir.contains("net.menthor.editor")) dir = dir.replace("net.menthor.editor","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);			
 		else dir = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();		
 		return dir;
 	}
@@ -224,7 +224,7 @@ public final class Main {
 	public static String getSwtWorkingDir2()
 	{
 		String dir = System.getProperty("user.dir");
-		if (dir.contains("br.ufes.inf.nemo.oled")) dir = dir.replace("br.ufes.inf.nemo.oled","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);			
+		if (dir.contains("net.menthor.editor")) dir = dir.replace("net.menthor.editor","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);			
 		else dir = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();		
 		return dir;
 	}
@@ -294,9 +294,9 @@ public final class Main {
 	}
 	
 	/** Load the SWT binaries (*.dlls, *.jnilib, *.so) according to the appropriate Operating System.  */
-	public static BinaryLoader copyBinaryFilesTo(String binTemp) throws LoadingException, URISyntaxException
+	public static BinaryLoader copyBinaryFilesTo() throws LoadingException, URISyntaxException
 	{
-		BinaryLoader loader = new BinaryLoader(null, getOSx(), getArch(), binTemp);
+		BinaryLoader loader = new BinaryLoader(null, getOSx(), getArch());
 		loader.extractSWTBinaryFiles();
 		loader.addBinariesToJavaPathBySystem();
 		return loader;
@@ -327,11 +327,11 @@ public final class Main {
         LogManager logManager = LogManager.getLogManager();
         logManager.reset();
 
-        File file = new File("oled.log");
+        File file = new File("menthor.log");
         if(file.exists()) file.delete();
         
         // log file max size 10M, 1 rolling files, append-on-open
-        Handler fileHandler = new FileHandler("oled.log", 10000000, 1, true);
+        Handler fileHandler = new FileHandler("menthor.log", 10000000, 1, true);
         SimpleFormatter formatter = new SimpleFormatter();        
         fileHandler.setFormatter(formatter);
         Logger.getLogger("").addHandler(fileHandler);        
@@ -416,7 +416,7 @@ public final class Main {
 					chooseFont();
 					frame = new AppFrame();					
 					loadAppropriateSwtJar();
-					copyBinaryFilesTo("oled_bin");
+					copyBinaryFilesTo();
 					ExtractorUtil.extractAlloyJar();
 					frame.setLocationByPlatform(true);
 					frame.setVisible(true);

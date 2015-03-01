@@ -31,7 +31,7 @@ public class TreeProcessor
 		assocNodes = new LinkedList<NodeBinAssociation>();
 
 		/*
-		 	To maintain conformance with the OLED structure changes,
+		 	To maintain conformance with the Editor Application structure changes,
 		 	the 2 following code line were added and the for iteration
 		 	was adjusted for correctly access the packaged elements
 		 */
@@ -97,7 +97,7 @@ public class TreeProcessor
 		assocNodes.add(na);
 		
 		/*
-		 	To maintain conformance with the OLED structure changes,
+		 	To maintain conformance with the Editor Application structure changes,
 		 	the following code couldn't find the classes envolvend
 		 	in an association. 
 		*/

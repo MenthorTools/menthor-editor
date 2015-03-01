@@ -78,7 +78,7 @@ public class OLEDStore {
 	
 	public static String getStoreExtension()
 	{
-		return ".oled";
+		return ".menthor";
 	}
 
 	

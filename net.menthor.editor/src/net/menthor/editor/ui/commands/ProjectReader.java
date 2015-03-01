@@ -93,7 +93,7 @@ public final class ProjectReader extends FileHandler {
 			entry = entries.nextElement();			
 			if(entry.getName().equals(OLEDSettings.MODEL_DEFAULT_FILE.getValue()) && !modelLoaded)
 			{
-				Main.printOutLine("Loading model XMI information from OLED file...");
+				Main.printOutLine("Loading model XMI information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
 				
 				/**Load options that significantly improved the performance of loading EMF Model instances (by Tiago)*/
@@ -109,7 +109,7 @@ public final class ProjectReader extends FileHandler {
 			}
 			else if (entry.getName().equals(OLEDSettings.PROJECT_DEFAULT_FILE.getValue()) && !projectLoaded)
 			{
-				Main.printOutLine("Loading project DAT information from OLED file...");
+				Main.printOutLine("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
 				ObjectInputStream oin = new ObjectInputStream(in);
 				project = (UmlProject) oin.readObject(); 
@@ -118,7 +118,7 @@ public final class ProjectReader extends FileHandler {
 			}
 			else if (entry.getName().contains("ocl"))
 			{
-				Main.printOutLine("Loading constraints information from OLED file...");
+				Main.printOutLine("Loading constraints information from Menthor file...");
 				InputStream is = inFile.getInputStream(entry);
 								
 				byte[] b = new byte[is.available()];
@@ -136,7 +136,7 @@ public final class ProjectReader extends FileHandler {
 		inFile.close();
 		
 		if(!projectLoaded || !modelLoaded)
-			throw new IOException("Failed to load OLED Project!");
+			throw new IOException("Failed to load Menthor Project!");
 		
 		project.setResource(resource);
 		
@@ -150,6 +150,6 @@ public final class ProjectReader extends FileHandler {
 	 * {@inheritDoc}
 	 */
 	public String getSuffix() {
-		return ".oled";
+		return ".menthor";
 	}
 }

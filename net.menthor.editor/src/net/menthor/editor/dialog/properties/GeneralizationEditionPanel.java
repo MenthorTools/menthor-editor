@@ -387,6 +387,6 @@ public class GeneralizationEditionPanel extends JPanel {
 		if (specific!=null && !specific.equals(element.getSpecific())) redesign = true;
 		element.setSpecific((Classifier)specific);
 		
-		diagramManager.updateOLEDFromModification(element, redesign);
+		diagramManager.updateMenthorFromModification(element, redesign);
 	}
 }

@@ -409,7 +409,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void deleteSelection() {
 				
 		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		frame.getDiagramManager().deleteFromOLED(diagramElementsList,true);		
+		frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);		
 	}
 	
 	/** Create a generalizations from selected elements in the diagram */

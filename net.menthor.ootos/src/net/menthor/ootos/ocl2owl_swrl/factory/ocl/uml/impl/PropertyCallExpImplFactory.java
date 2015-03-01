@@ -185,8 +185,8 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 			nameVarY = Util.generateVarName(source, referredArgument);
 		}
 		*/
-		//for an unknown reason, the source and target order (of associations inside of OntoUMLParser) changes when the application is running alone and when is running from OLED
-		//the correct order to be used into OLED is the one above
+		//for an unknown reason, the source and target order (of associations inside of OntoUMLParser) changes when the application is running alone and when is running from the Editor Application
+		//the correct order to be used into Editor Application is the one above
 		
 		//verifing the correct order of the OWL Object Properties arguments
 		if(assocEndName.equals(assocEnd0Name)){

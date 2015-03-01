@@ -76,7 +76,7 @@ public final class ProjectWriter extends FileWriter {
 		FileOutputStream dest = new FileOutputStream(outFile);
 		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
 		
-		Main.printOutLine("Saving model XMI information in OLED file...");
+		Main.printOutLine("Saving model XMI information in Menthor file...");
 		//Save the model as a resource inside the file
 		ZipEntry modelEntry = new ZipEntry(OLEDSettings.MODEL_DEFAULT_FILE.getValue());			
 		out.putNextEntry(modelEntry);
@@ -84,7 +84,7 @@ public final class ProjectWriter extends FileWriter {
 		resource.save(out, Collections.EMPTY_MAP);
 		out.closeEntry();
 		
-		Main.printOutLine("Saving project DAT information in OLED file...");
+		Main.printOutLine("Saving project DAT information in Menthor file...");
 		//Save the project a.k.a the diagrams inside the file
 		ZipEntry projectEntry = new ZipEntry(OLEDSettings.PROJECT_DEFAULT_FILE.getValue());
 		out.putNextEntry(projectEntry);
@@ -93,7 +93,7 @@ public final class ProjectWriter extends FileWriter {
 		oos.flush();
 		out.closeEntry();
 		
-		Main.printOutLine("Saving OCL constraints in OLED file...");
+		Main.printOutLine("Saving OCL constraints in Menthor file...");
 		//Save the OCL content in the editor inside the file
 		for(OCLDocument oclDoc: oclDocList){
 			String filename = new String();			
@@ -104,7 +104,7 @@ public final class ProjectWriter extends FileWriter {
 			out.closeEntry();
 		}
 		
-		Main.printOutLine("Finalizing OLED file...");
+		Main.printOutLine("Finalizing Menthor file...");
 		//Flushes and closes the zip file
 		out.flush();
 		out.finish();
@@ -119,7 +119,7 @@ public final class ProjectWriter extends FileWriter {
 	 * {@inheritDoc}
 	 */
 	public String getSuffix() {
-		return ".oled";
+		return ".menthor";
 	}
 
 

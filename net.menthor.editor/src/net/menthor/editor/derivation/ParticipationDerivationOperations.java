@@ -87,7 +87,7 @@ public class ParticipationDerivationOperations {
 		}
 	
 		
-		diagramManager.updateOLED(mainFix);
+		diagramManager.updateMenthor(mainFix);
 	}
 
 	private Double findPointtoRelator(List<DiagramElement> selectedElements) {

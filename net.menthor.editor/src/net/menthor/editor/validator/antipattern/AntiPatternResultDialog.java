@@ -575,7 +575,7 @@ public class AntiPatternResultDialog extends Dialog {
 		if(wizardDialog!=null && wizardDialog.open()==Window.OK){			
 			if(!apOccur.getFix().isEmpty()){
 				if(AntiPatternModifDialog.openDialog(apOccur.getFix(), frame)==Window.OK){					
-					frame.getDiagramManager().updateOLED(apOccur.getFix());					
+					frame.getDiagramManager().updateMenthor(apOccur.getFix());					
 				}
 			}
 			refresh();

@@ -45,7 +45,7 @@ public class ErrorVerificator {
 				if (!refparser.isValidStereotype(c)) 
 				{
 					String message = "Invalid stereotype";
-					errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+					errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 				}			
 			}
 			// # Error : Name contains an OCL keyword
@@ -54,21 +54,21 @@ public class ErrorVerificator {
 				if(refparser.isOCLkeyword(((NamedElement)c).getName())) 
 				{
 					String message = "Name contains an OCL keyword";
-					errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+					errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 				}
 			}
 			// # Error : Mixin not abstract
 			if((c instanceof MixinClass) && (((MixinClass)c).isIsAbstract()== false)) 
 			{ 
 				String message = "Mixin not abstract";
-				errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+				errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 			}		
 			// #Error : Association has more than two association ends
 			if(c instanceof Association){
 				if(((Association)c).getMemberEnd().size()!=2)			
 				{ 
 					String message = "Association has not two association ends";				
-					errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+					errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 				}
 			}
 			// # Error : Whole must have aggregation kind equal to Composite or Shared.
@@ -80,12 +80,12 @@ public class ErrorVerificator {
 					if(m.wholeEnd().getAggregation().equals(AggregationKind.NONE)) 
 					{
 						String message = "Whole must have aggregation kind equal to composite or shared";
-						errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+						errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 					}
 					if(!m.partEnd().getAggregation().equals(AggregationKind.NONE)) 
 					{
 						String message = "Part must have aggregation kind equal to none";
-						errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+						errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 					}
 				}
 			}
@@ -95,7 +95,7 @@ public class ErrorVerificator {
 					String message = new String();
 					if(((Property)c).getAssociation()==null) message = "Attribute type is null";
 					else message = "Association end type is null";
-					errors.add(new ErrorElement(c,0,message,TypeProblem.OLED));
+					errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 				}
 			}
 
