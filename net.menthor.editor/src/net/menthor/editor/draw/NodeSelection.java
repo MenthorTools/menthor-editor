@@ -42,7 +42,7 @@ import net.menthor.editor.palette.ColorPalette.ThemeColor;
  */
 public class NodeSelection implements Selection, NodeChangeListener {
 
-	private static final Color ACCEPT_COLOR = ColorPalette.getInstance().getColor(ThemeColor.GREEN_MEDIUM);
+	private static final Color ACCEPT_COLOR = ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM);
 	private static final Color HANDLE_FILL_COLOR = ColorPalette.getInstance().getColor(ThemeColor.GREY_LIGHT);
 	private static final Color HANDLE_BORDER_COLOR = ColorPalette.getInstance().getColor(ThemeColor.GREY_DARK); 
 	

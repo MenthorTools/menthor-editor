@@ -112,7 +112,8 @@ public final class IconLoader {
 		ANTIPATTERN,
 		PART_WHOLE_VALIDATION,
 		DERIVERELATIONS,
-		NEMO,		
+		MENTHOR,	
+		NEMO,
 		DIRECT,
 		PATTERN,
 		FIND,
@@ -159,7 +160,8 @@ public final class IconLoader {
 		urlMap.put(IconType.VERIFY, "resources/icons/x16/spellcheck.png");
 		urlMap.put(IconType.PARSE, "resources/icons/x16/accept.png");
 
-		urlMap.put(IconType.WINDOW, "resources/icons/window.png");
+		urlMap.put(IconType.WINDOW, "resources/icons/menthor-32x32.png");
+		urlMap.put(IconType.MENTHOR, "resources/icons/menthor-16x16.png");
 		urlMap.put(IconType.NEMO, "resources/icons/window16.png");
 		
 		urlMap.put(IconType.PALETTE_OPEN, "resources/icons/x16/palette_open.png");
@@ -207,8 +209,8 @@ public final class IconLoader {
 		urlMap.put(IconType.RED_LIGHT, "resources/icons/x16/redlight.png");
 		urlMap.put(IconType.GREY_LIGHT, "resources/icons/x16/greylight.png");
 		
-		urlMap.put(IconType.BACKGROUND_WELCOME, "resources/icons/bgwelcome.png");
-		urlMap.put(IconType.HEAD_WELCOME, "resources/icons/headwelcome.png");
+		urlMap.put(IconType.BACKGROUND_WELCOME, "resources/icons/menthor-background.jpg");
+		urlMap.put(IconType.HEAD_WELCOME, "resources/icons/menthor-header.jpg");
 				
 		urlMap.put(IconType.ISSUE_REPORT, "resources/icons/x16/link.png");		
 		urlMap.put(IconType.NEXT, "resources/icons/x16/next.png");		

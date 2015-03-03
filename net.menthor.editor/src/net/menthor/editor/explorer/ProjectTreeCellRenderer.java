@@ -41,7 +41,6 @@ import javax.swing.tree.TreePath;
 
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.PaletteAccordion;
 import net.menthor.editor.umldraw.structure.StructureDiagram;
 
 import org.eclipse.emf.ecore.EObject;
@@ -166,10 +165,11 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 		uniqueName.setForeground(Color.gray);
 
 		if (selected){    			
-			label.setBackground(PaletteAccordion.getSelectedPaletteBackground());			
+			//label.setBackground(PaletteAccordion.getSelectedPaletteBackground());			
 			//label.setBorder(PaletteAccordion.getSelectedPaletteBorder());
-			//label.setBackground(UIManager.getColor("Tree.selectionBackground"));			
-			//label.setBackground(UIManager.getColor("Tree.textBackground"));    			
+			label.setBackground(UIManager.getColor("List.selectionBackground"));			    			
+			label.setForeground(UIManager.getColor("List.selectionForeground"));
+			
 		}else{
 			label.setBackground(UIManager.getColor("Tree.textBackground"));    			
 		}

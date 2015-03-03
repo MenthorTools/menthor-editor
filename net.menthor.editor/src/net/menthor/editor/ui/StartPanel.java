@@ -43,16 +43,16 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
 
 import net.menthor.editor.AppCommandListener;
-import net.menthor.editor.AppFrame;
 import net.menthor.editor.draw.Diagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.ui.diagram.Editor;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.IconLoader;
 import net.menthor.editor.util.IconLoader.IconType;
+import javax.swing.SwingConstants;
 
 /**
  * @author John Guerson
@@ -69,16 +69,8 @@ public class StartPanel extends JPanel implements Editor {
 	private AppCommandListener commandListener;
 	private JLabel lblTitle;
 	private JHyperLinkLabel btnImportFromEa;
-	private JLabel lblResources;
-	private JHyperLinkLabel lblOledHostSite;
-	private JHyperLinkLabel lblEA;
-	private JHyperLinkLabel lblResearchGroupSite;
-	private JLabel lblBugReport;
 	private JHyperLinkLabel btnNewProject;
 	private JHyperLinkLabel btnOpenProject;
-	private Component rigidArea;
-	private Component rigidArea_1;
-	private Component rigidArea_2;
 	private Component rigidArea_3;
 	private Component rigidArea_4;
 	
@@ -98,7 +90,7 @@ public class StartPanel extends JPanel implements Editor {
 		mainPanel.setBackground(Color.WHITE);
 		add(mainPanel,BorderLayout.CENTER);
 		recentPanel = new JPanel();
-		recentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		recentPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		BorderLayout recentPanelLayout = new BorderLayout();
 		recentPanel.setLayout(recentPanelLayout);
 		recentPanel.setBackground(new java.awt.Color(255,255,255));
@@ -110,14 +102,15 @@ public class StartPanel extends JPanel implements Editor {
 		recentScroll.setViewportView(recentList);		
 		lblOpenRecent = new JLabel(" Open Recent Projects:");		
 		lblTitle = new JLabel("");
-		lblTitle.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/headwelcome.png")));		
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-header.jpg")));		
 		
 		JPanel middlePanel = new JPanel();
 		FlowLayout fl_middlePanel = (FlowLayout) middlePanel.getLayout();
 		fl_middlePanel.setAlignment(FlowLayout.LEFT);
 		middlePanel.setBackground(Color.WHITE);
 		
-		JPanel leftPanel = new JPanel();		
+		JPanel leftPanel = new JPanel();
 		leftPanel.setBackground(Color.WHITE);
 		
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
@@ -125,13 +118,14 @@ public class StartPanel extends JPanel implements Editor {
 			gl_mainPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addGap(182)
-					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(recentPanel, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-						.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(middlePanel, 0, 0, Short.MAX_VALUE)
-						.addComponent(lblOpenRecent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(331))
+					.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(leftPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+						.addComponent(middlePanel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_mainPanel.createParallelGroup(Alignment.LEADING)
+							.addComponent(recentPanel, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+							.addComponent(lblOpenRecent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(134))
 		);
 		gl_mainPanel.setVerticalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -145,8 +139,8 @@ public class StartPanel extends JPanel implements Editor {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(middlePanel, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(110, Short.MAX_VALUE))
+					.addComponent(middlePanel, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(72, Short.MAX_VALUE))
 		);
 		btnNewProject = new JHyperLinkLabel("New Project");
 		leftPanel.add(btnNewProject);
@@ -188,81 +182,6 @@ public class StartPanel extends JPanel implements Editor {
 			    public void mouseClicked(MouseEvent e) {	
 				commandListener.handleCommand("NEW_PROJECT");				
 			}
-		});
-		
-		lblResources = new JLabel("Resources:");
-		lblResources.setPreferredSize(new Dimension(250, 16));
-		middlePanel.add(lblResources);
-		
-		lblEA = new JHyperLinkLabel("How to install and use OntoUML in Enterprise Architect (EA) version 10");
-		middlePanel.add(lblEA);
-		lblEA.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/ea.jpg")));	
-		lblEA.setToolTipText("See how you can install and use OntoUML in EA");
-		
-		lblBugReport = new JHyperLinkLabel("Bug Report");
-		middlePanel.add(lblBugReport);
-		lblBugReport.setText("Bug Report - Issues List");
-		lblBugReport.setToolTipText("Please report any bug here");
-		lblBugReport.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/bug.png")));
-		
-		rigidArea = Box.createRigidArea(new Dimension(20, 20));
-		rigidArea.setPreferredSize(new Dimension(100, 20));
-		middlePanel.add(rigidArea);
-		
-		lblOledHostSite = new JHyperLinkLabel("Menthor Host Site");
-		middlePanel.add(lblOledHostSite);
-		lblOledHostSite.setText("Project Host Site - BitBucket");
-		lblOledHostSite.setToolTipText("See the host site (Git) of our project on bitbucket");
-		lblOledHostSite.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/googlecode.png")));
-		
-		rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
-		rigidArea_1.setPreferredSize(new Dimension(100, 20));
-		middlePanel.add(rigidArea_1);
-		
-		lblResearchGroupSite = new JHyperLinkLabel("Research Group Site (nemo)");
-		middlePanel.add(lblResearchGroupSite);
-		lblResearchGroupSite.setToolTipText("See the site of our research group (nemo)");
-		lblResearchGroupSite.setText("Research Group Site - NEMO");
-		lblResearchGroupSite.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/window16.png")));
-		
-		rigidArea_2 = Box.createRigidArea(new Dimension(20, 20));
-		rigidArea_2.setPreferredSize(new Dimension(100, 20));
-		middlePanel.add(rigidArea_2);
-		lblResearchGroupSite.addMouseListener(new MouseAdapter() {			
-			 @Override
-			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("http://nemo.inf.ufes.br/");
-				 }
-			 }
-		});
-		lblOledHostSite.addMouseListener(new MouseAdapter() {			
-			 @Override
-			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("https://code.google.com/p/ontouml-lightweight-editor/");
-				 }
-			 }
-		});
-		lblEA.addMouseListener(new MouseAdapter() {			
-			 @Override
-			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("https://code.google.com/p/ontouml-lightweight-editor/wiki/EnterpriseArchitect");
-				 }
-			 }
-		});
-		lblBugReport.addMouseListener(new MouseAdapter() {			
-			 @Override
-			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("https://code.google.com/p/ontouml-lightweight-editor/issues/list");
-				 }
-			 }
 		});
 		mainPanel.setLayout(gl_mainPanel);		
 		backgroundPanel = new BackgroundPanel();

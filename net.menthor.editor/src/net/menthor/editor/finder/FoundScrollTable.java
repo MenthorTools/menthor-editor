@@ -67,7 +67,7 @@ public class FoundScrollTable extends JScrollPane{
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-	    table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.GREEN_MEDIUM));
+	    table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
 	    table.setSelectionForeground(Color.BLACK);
 	    table.setFocusable(false);	
 	    

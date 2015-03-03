@@ -68,14 +68,14 @@ public class PaletteAccordion extends JPanel{
 	private static Border resetBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static Color resetBackground = null;
 
-	private static Border selectedItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREEN_DARK), 1, true);
-	private static Color selectedItemBackground = ColorPalette.getInstance().getColor(ThemeColor.GREEN_LIGHT);
+	private static Border selectedItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1, true);
+	private static Color selectedItemBackground = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHT);
 
 	private static Border hoverItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREY_DARK), 1, true);
 	private static Color hoverItemBackground = ColorPalette.getInstance().getColor(ThemeColor.GREY_LIGHT);
 
-	private static Border selectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREEN_DARK), 1, true);
-	private static Color selectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.GREEN_MEDIUM);
+	private static Border selectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1, true);
+	private static Color selectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM);
 
 	private static Border unselectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREY_DARK), 1, true);
 	private static Color unselectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.GREY_LIGHT);

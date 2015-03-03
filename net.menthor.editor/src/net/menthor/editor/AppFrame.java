@@ -80,7 +80,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	public AppFrame() {
 		super();
 		super.setIconImage(IconLoader.getInstance().getImage("WINDOW"));
-		setTitle(getResourceString("application.title")+" v"+Main.MENTHOR_VERSION);
+		setTitle(getResourceString("application.title"));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		setPreferredSize();

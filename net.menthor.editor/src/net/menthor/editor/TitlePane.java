@@ -26,8 +26,7 @@ public class TitlePane extends JPanel {
 		//panel.setBorder(new LineBorder(UIManager.getColor("TabbedPane.darkShadow")));
 		//setBackground(new Color(0x999999));
 		setBackground(new Color(0xDDDDDD));
-		title = new JLabel();
-		title.setBackground(Color.WHITE);		
+		title = new JLabel();		
 		title.setAlignmentY(Component.TOP_ALIGNMENT);
 		add(title);				
 		title.setText("Toolbox");

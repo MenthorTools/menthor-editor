@@ -955,7 +955,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				setProjectFile(file);
 				createEmptyCurrentProject();				
 				saveCurrentProjectToFile(file);
-				frame.setTitle("Menthor Editor - "+file.getName()+"");				
+				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");				
 				Main.printOutLine("New project succesffully created");
 				
 			} catch (Exception ex) {
@@ -1001,22 +1001,23 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				lastOpenPath = file.getAbsolutePath();
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				currentProject = (UmlProject) listFiles.get(0);
-				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
-				{
-					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";
-					String oldversion = new String();					
-					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
-					else oldversion = currentProject.getVersion();
-					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");					if(response == JOptionPane.OK_OPTION){														
-						openListFiles(listFiles);						
-						remakeAllAssociationElements();						
-					}else{						
-						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						return;
-					}				
-				}else{
+//				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
+//				{
+//					//@deprecated					
+//					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";
+//					String oldversion = new String();					
+//					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
+//					else oldversion = currentProject.getVersion();
+//					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");					if(response == JOptionPane.OK_OPTION){														
+//						openListFiles(listFiles);						
+//						remakeAllAssociationElements();						
+//					}else{						
+//						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//						return;
+//					}				
+//				}else{
 					openListFiles(listFiles);				
-				}
+//				}
 			} catch (Exception ex) {
 				Main.printOutLine("Failed to open Menthor project!");	
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
@@ -1041,23 +1042,24 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				setProjectFile(file);
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				currentProject = (UmlProject) listFiles.get(0);				
-				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
-				{
-					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";					
-					String oldversion = new String();
-					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
-					else oldversion = currentProject.getVersion();
-					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");		
-					if(response == JOptionPane.OK_OPTION) {						
-						openListFiles(listFiles);						
-						remakeAllAssociationElements();						
-					}else{
-						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						return;
-					}
-				}else{
+//				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
+//				{
+//					//@deprecated
+//					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";					
+//					String oldversion = new String();
+//					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
+//					else oldversion = currentProject.getVersion();
+//					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");		
+//					if(response == JOptionPane.OK_OPTION) {						
+//						openListFiles(listFiles);						
+//						remakeAllAssociationElements();						
+//					}else{
+//						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//						return;
+//					}
+//				}else{
 					openListFiles(listFiles);					
-				}
+//				}
 			}
 		} catch (Exception ex) {
 			Main.printOutLine("Failed to open Menthor project!");	
@@ -1082,7 +1084,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		openDiagrams();
 		saveProjectNeeded(false);				
 		ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
-		frame.setTitle("Menthor Editor - "+projectFile.getName()+"");		
+		frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
 	}
 	
 	/** Save current Project to a file *.menthor */
@@ -1109,7 +1111,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			getCurrentProject().setName(file.getName().replace(".menthor",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
-			frame.setTitle("Menthor Editor - "+file.getName()+"");
+			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 			invalidate();
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} catch (Exception ex) {
@@ -1152,7 +1154,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (option == JFileChooser.APPROVE_OPTION) {
 			setProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
 			File file = fileChooser.getSelectedFile();
-			frame.setTitle("Menthor Editor - "+file.getName()+"");
+			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 			lastSavePath = file.getAbsolutePath();			
 		}
 		return option;
@@ -1171,7 +1173,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (option == JFileChooser.APPROVE_OPTION) {
 			setProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
 			File file = fileChooser.getSelectedFile();
-			frame.setTitle("Menthor Pattern - "+file.getName()+"");
+			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 			lastSavePath = file.getAbsolutePath();			
 		}
 		return option;
@@ -1234,7 +1236,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
 					ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
 					newDiagram();
-					frame.setTitle("Menthor Editor - "+projectFile.getName()+"");
+					frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.importecore.title"),JOptionPane.ERROR_MESSAGE);
@@ -3156,7 +3158,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
-			frame.setTitle("Menthor Pattern - "+file.getName()+"");
+			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 			invalidate();
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} catch (Exception ex) {

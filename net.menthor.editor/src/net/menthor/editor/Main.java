@@ -64,8 +64,8 @@ public final class Main {
 	
 	public static AppFrame frame; 
 
-	public static String MENTHOR_VERSION = "1.0.06"; 
-	public static String MENTHOR_COMPILATION_DATE = "Fev 02 2015";	
+	public static String MENTHOR_VERSION = "0.9"; 
+	public static String MENTHOR_COMPILATION_DATE = "Mar 02 2015";	
 	
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;

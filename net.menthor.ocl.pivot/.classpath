@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/kepler/com.google.guava_11.0.2.v201303041551.jar"/>
 	<classpathentry kind="lib" path="libs/kepler/com.google.inject_3.0.0.v201203062045.jar"/>
 	<classpathentry kind="lib" path="libs/kepler/javax.inject_1.0.0.v20091030.jar"/>

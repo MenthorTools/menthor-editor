@@ -57,8 +57,8 @@ implements DocumentListener, BaseTextEditor {
 	public CaptionEditor(DiagramEditor editor) {
 		super();
 		this.editor=editor;
-		setBackground(ColorPalette.getInstance().getColor(ThemeColor.GREEN_LIGHTEST));
-		Border border = new CompoundBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREEN_DARK), 1), new EmptyBorder(1, 3, 1, 1));	
+		setBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST));
+		Border border = new CompoundBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1), new EmptyBorder(1, 3, 1, 1));	
 		setBorder(border);
 		hideEditor();
 		getDocument().addDocumentListener(this);		

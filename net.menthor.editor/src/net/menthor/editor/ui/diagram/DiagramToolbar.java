@@ -22,6 +22,7 @@
 package net.menthor.editor.ui.diagram;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,9 +36,9 @@ import javax.swing.JToolBar;
 
 import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
+import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
 import net.menthor.editor.ui.diagram.commands.DiagramNotification;
 import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
 import net.menthor.editor.umldraw.structure.StructureDiagram;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 
@@ -77,10 +78,11 @@ public class DiagramToolbar extends JToolBar {
 	
 	public DiagramToolbar (final DiagramEditor editor)
 	{
-		this.editor = editor;
 		setFloatable(false);
+		this.editor = editor;
 		setMargin(new Insets(5,5,5,5));
-				
+		setPreferredSize(new Dimension(100,38));
+		
 		btnNewDiagram = new JButton("");
 		btnNewDiagram.setToolTipText("New diagram");
 		btnNewDiagram.addActionListener(new ActionListener() {				

@@ -208,7 +208,7 @@ public class RelatedElementsPanel extends JPanel {
 		
 		topTable.setBorder(new EmptyBorder(0, 0, 0, 0));		
 		topTable.setGridColor(Color.LIGHT_GRAY);		
-		topTable.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.GREEN_MEDIUM));
+		topTable.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
 		topTable.setSelectionForeground(Color.BLACK);
 		topTable.setFocusable(false);	    
 		topTable.setRowHeight(23);

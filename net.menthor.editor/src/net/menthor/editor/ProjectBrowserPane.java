@@ -52,10 +52,10 @@ public class ProjectBrowserPane extends JPanel {
 		browser = new ProjectBrowser(frame,null,null);
 		browser.setBorder(new EmptyBorder(0, 0, 0, 0));
 			
-		TitlePane panel = new TitlePane("Project Browser","/resources/icons/x16/door_in.png");
+		//TitlePane panel = new TitlePane("Project Browser","/resources/icons/x16/door_in.png");
 				
 		add(browser,BorderLayout.CENTER);
-		add(panel,BorderLayout.NORTH);
+		//add(panel,BorderLayout.NORTH);
 		//addTab("Project Browser", browser); 
 		//setIconAt(indexOfComponent(browser),new ImageIcon(BrowserManager.class.getResource("/resources/icons/x16/drawer.png")));
 	}

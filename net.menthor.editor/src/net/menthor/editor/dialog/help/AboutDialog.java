@@ -23,6 +23,7 @@ package net.menthor.editor.dialog.help;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -33,12 +34,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
+import net.menthor.editor.palette.ColorPalette;
+import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import net.menthor.editor.ui.JHyperLinkLabel;
 
 /**
@@ -75,36 +77,30 @@ public class AboutDialog extends JDialog {
 	{
 		super(frame);
 		
-//		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
-//		setIconImage(icon);
-		setTitle("About Menthor Editor");
-		setBounds(100, 100, 491, 178);
-		
-		getContentPane().setLayout(new BorderLayout());
+		setTitle("About Menthor");
+		setBounds(100, 100, 365, 182);
 		
 		CenterPanel = new JPanel();
 		CenterPanel.setBackground(Color.WHITE);
 		CenterPanel.setPreferredSize(new Dimension(150, 190));
-		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		
-		lblVersion = new JLabel("Version: "+Main.MENTHOR_VERSION);
-		lblVersion.setForeground(Color.BLACK);		
-		lblVersion.setHorizontalAlignment(SwingConstants.LEFT);
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(100, 100));
 		
-		JLabel lblDate = new JLabel("Compilation Date: "+Main.MENTHOR_COMPILATION_DATE);				
-		lblDate.setForeground(Color.BLACK);		
-		lblDate.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		label = new JLabel("");
-		label.setBackground(Color.WHITE);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setIcon(new ImageIcon(AboutDialog.class.getResource("/resources/icons/nemo100.png")));
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 		
 		JLabel lblOntoumlLightweightEditor = new JLabel("Menthor Editor");
 		lblOntoumlLightweightEditor.setForeground(Color.BLACK);
 		lblOntoumlLightweightEditor.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		JSeparator separator_1 = new JSeparator();
+		lblVersion = new JLabel("Version: "+Main.MENTHOR_VERSION);
+		lblVersion.setForeground(Color.BLACK);		
+		lblVersion.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel lblDate = new JLabel("Build Date: Mar 02 2015");
+		lblDate.setForeground(Color.BLACK);		
+		lblDate.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JHyperLinkLabel lblNewLabel = new JHyperLinkLabel("");
 		lblNewLabel.setText("menthor.net");
@@ -114,40 +110,55 @@ public class AboutDialog extends JDialog {
 					frame.getDiagramManager().openLinkWithBrowser("https://menthor.net");				 
 			 }
 		});
+		panel.setLayout(new BorderLayout(0, 0));
 		
-		GroupLayout gl_CenterPanel = new GroupLayout(CenterPanel);
-		gl_CenterPanel.setHorizontalGroup(
-			gl_CenterPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_CenterPanel.createSequentialGroup()
+		label = new JLabel("");
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(label, BorderLayout.CENTER);
+		panel.setBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST));
+		label.setBackground(Color.WHITE);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setIcon(new ImageIcon(AboutDialog.class.getResource("/resources/icons/menthor-64x64.png")));
+		
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(CenterPanel, BorderLayout.CENTER);
+		CenterPanel.setLayout(new BorderLayout(0, 0));
+		CenterPanel.add(panel_1, BorderLayout.CENTER);
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblVersion, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblDate, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+					.addContainerGap())
+				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(label)
+					.addComponent(lblOntoumlLightweightEditor, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+					.addGap(11))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblOntoumlLightweightEditor)
+					.addGap(12)
+					.addComponent(lblVersion)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_CenterPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblOntoumlLightweightEditor, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-						.addComponent(lblDate, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-						.addComponent(lblVersion, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-						.addComponent(lblNewLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(32, Short.MAX_VALUE))
+					.addComponent(lblDate)
+					.addGap(18)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(149, Short.MAX_VALUE))
 		);
-		gl_CenterPanel.setVerticalGroup(
-			gl_CenterPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_CenterPanel.createSequentialGroup()
-					.addGap(23)
-					.addGroup(gl_CenterPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_CenterPanel.createSequentialGroup()
-							.addComponent(lblOntoumlLightweightEditor)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(lblVersion)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDate)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(label))
-					.addContainerGap(136, Short.MAX_VALUE))
-		);
-		CenterPanel.setLayout(gl_CenterPanel);
+		panel_1.setLayout(gl_panel_1);
+		CenterPanel.add(panel, BorderLayout.WEST);
 	}
 }

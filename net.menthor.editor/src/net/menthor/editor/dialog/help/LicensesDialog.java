@@ -41,6 +41,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import net.menthor.editor.AppFrame;
+import java.awt.Color;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.SwingConstants;
+import net.menthor.editor.ui.JHyperLinkLabel;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  * This Dialog is used to displays the Copyright Licenses.
@@ -57,6 +63,11 @@ public class LicensesDialog extends JDialog {
 	private JTextArea textArea;
 	private JButton btnClose;
 	private JScrollPane scrollPane;
+	private JPanel panel;
+	private JLabel label;
+	private JLabel label_1;
+	private JLabel label_2;
+	private JHyperLinkLabel hyperLinkLabel;
 	
 	/**
 	 * Launch the Dialog.
@@ -79,13 +90,20 @@ public class LicensesDialog extends JDialog {
 	 * Creates a License Dialog from the main frame application.
 	 * 
 	 * @param frame
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	 */	
 	public LicensesDialog (AppFrame frame)
 	{	
 		super(frame);
 		
-		this.frame = frame;
+		this.frame = frame;		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public LicensesDialog()
+	{
+		textArea = new JTextArea();		
+		textArea.setEditable(false);
+		textArea.setCaretPosition(0);
 		
 		choices = new JComboBox();
 		choices.setModel(new DefaultComboBoxModel(new String[] {"TinyUML","Alloy", "Kodkod", "JavaCup", "SAT4J", "ZChaff", "MiniSat","AutoComplete","RSyntaxTextArea","LEDIcons"}));
@@ -101,10 +119,6 @@ public class LicensesDialog extends JDialog {
 		});		
 		
 		JLabel labelSee = new JLabel("See copyrights: ");
-		
-		textArea = new JTextArea();		
-		textArea.setEditable(false);
-		textArea.setCaretPosition(0);
 		
 		scrollPane = new JScrollPane();		
 		scrollPane.setPreferredSize(new Dimension(400, 200));
@@ -134,13 +148,66 @@ public class LicensesDialog extends JDialog {
 		getContentPane().add(choicesPanel, BorderLayout.NORTH);
 		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);		
 		
-		setTitle("Licenses for Menthor Editor");
+		setTitle("Licenses");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(600, 400));
 		//Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
 		//setIconImage(icon);
 		
 		choices.setSelectedIndex(0);		
+		
+		panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		getContentPane().add(panel, BorderLayout.WEST);
+		
+		label = new JLabel("Version: 0.9");
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		label.setForeground(Color.BLACK);
+		
+		label_1 = new JLabel("Build Date: Mar 02 2015");
+		label_1.setHorizontalAlignment(SwingConstants.LEFT);
+		label_1.setForeground(Color.BLACK);
+		
+		label_2 = new JLabel("Menthor Editor");
+		label_2.setHorizontalAlignment(SwingConstants.LEFT);
+		label_2.setForeground(Color.BLACK);
+		
+		hyperLinkLabel = new JHyperLinkLabel("");
+		hyperLinkLabel.setText("menthor.net");
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 249, Short.MAX_VALUE)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(label, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+								.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+							.addContainerGap())
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(label_2, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+							.addGap(11))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(hyperLinkLabel, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+							.addContainerGap())))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 144, Short.MAX_VALUE)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(label_2)
+					.addGap(12)
+					.addComponent(label)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(label_1)
+					.addGap(18)
+					.addComponent(hyperLinkLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(41, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 		setLicense((String)choices.getSelectedItem());
 		
 		repaint();

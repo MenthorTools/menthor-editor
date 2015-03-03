@@ -312,7 +312,7 @@ public class ClosableTabPanel extends JPanel {
 			g2.setStroke(new BasicStroke(1,BasicStroke.JOIN_ROUND,BasicStroke.CAP_ROUND));
 			g2.setColor(Color.BLACK);
 			if (getModel().isRollover()) {
-				g2.setColor(ColorPalette.getInstance().getColor(ThemeColor.GREEN_DARK));
+				g2.setColor(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK));
 			}
 			int delta = 5;
 

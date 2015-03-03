@@ -5,7 +5,6 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
 
 public class TopViewPane extends JPanel {
 
@@ -42,13 +41,13 @@ public class TopViewPane extends JPanel {
 		this.frame = frame;	
 		
 		diagramManager = new DiagramManager(frame);
-		diagramManager.setTabPlacement(JTabbedPane.BOTTOM);		
+		diagramManager.setTabPlacement(JTabbedPane.TOP);		
 		diagramManager.addStartPanel(diagramManager,true);
 		
 		add(diagramManager,BorderLayout.CENTER);
 		
-		TitlePane panel = new TitlePane("Editor",null);
-		panel.title.setIcon(new ImageIcon(TopViewPane.class.getResource("/resources/icons/x16/ui_tab_content.png")));
-		add(panel, BorderLayout.NORTH);
+		//TitlePane panel = new TitlePane("Editor",null);
+		//panel.title.setIcon(new ImageIcon(TopViewPane.class.getResource("/resources/icons/x16/ui_tab_content.png")));
+		//add(panel, BorderLayout.NORTH);
 	}
 }

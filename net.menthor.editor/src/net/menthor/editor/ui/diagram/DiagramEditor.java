@@ -512,7 +512,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		}
 		boolean gridVisible = diagram.isGridVisible();
-		Color background = ColorPalette.getInstance().getColor(ThemeColor.GREEN_LIGHTEST);
+		Color background = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST);
 		if (toScreen) {
 			scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
 		} else {

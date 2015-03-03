@@ -58,10 +58,10 @@ public class ToolboxPane extends JPanel {
 		palettes.setBackground(Color.WHITE);
 		palettes.createStaticStructurePalettes(editorDispatcher);
 		
-		TitlePane panel = new TitlePane("Toolbox","/resources/icons/x16/hammer_screwdriver.png");	
+		//TitlePane panel = new TitlePane("Toolbox","/resources/icons/x16/hammer_screwdriver.png");	
 				
 		add(palettes,BorderLayout.CENTER);
-		add(panel,BorderLayout.NORTH);
+		//add(panel,BorderLayout.NORTH);
 		
 		//addTab("Toolbox", palettes); //TODO Localize these
 		//setIconAt(indexOfComponent(palettes),new ImageIcon(DiagramEditorWrapper.class.getResource("/resources/icons/x16/hammer_screwdriver.png")));

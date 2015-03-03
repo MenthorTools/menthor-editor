@@ -168,26 +168,26 @@ public class AppMenu implements ActionListener {
 		createMenuItem(fileMenu, "saveas");
 		
 		JMenu importMenu = createMenu("Import");
-		importMenu.setText("Import from...");
+		importMenu.setText("Import From");
 		fileMenu.add(importMenu);
 		
 		JMenuItem eaImportItem = createMenuItem(importMenu, "importxmi");
-		eaImportItem.setToolTipText("Import from the Sparx Systems EA version 10");
+		eaImportItem.setToolTipText("Import from XMI of the Sparx Systems EA version 10");
 		
 		JMenuItem emfImportItem = createMenuItem(importMenu, "importecore");
-		emfImportItem.setToolTipText("Import from the OntoUML infrastructure");
+		emfImportItem.setToolTipText("Import from XMI of the OntoUML's Ecore Infrastructure");
 		
-		createMenuItem(importMenu, "importpatterns");
+		//createMenuItem(importMenu, "importpatterns");
 		
 		JMenu exportMenu = createMenu("Export");
-		exportMenu.setText("Export as...");
+		exportMenu.setText("Export As");
 		fileMenu.add(exportMenu);
 		
 		JMenuItem emfExportItem = createMenuItem(exportMenu, "exportecore");
-		emfExportItem.setToolTipText("Export to the OntoUML infrastructure");
+		emfExportItem.setToolTipText("Export as XMI of the OntoUML's Ecore Infrastructure");
 		
 		JMenuItem umlItem = createMenuItem(exportMenu, "exportuml");
-		umlItem.setToolTipText("Export to Eclipse MDT UML2 version 4");
+		umlItem.setToolTipText("Export as UML of the Eclipse MDT UML2 version 4");
 
 		//createMenuItem(exportMenu, "exportpatterns");
 		
