@@ -34,6 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
@@ -42,6 +43,7 @@ import net.menthor.editor.Main;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import net.menthor.editor.ui.JHyperLinkLabel;
+import javax.swing.UIManager;
 
 /**
  * @author John Guerson
@@ -78,7 +80,7 @@ public class AboutDialog extends JDialog {
 		super(frame);
 		
 		setTitle("About Menthor");
-		setBounds(100, 100, 365, 182);
+		setBounds(100, 100, 369, 263);
 		
 		CenterPanel = new JPanel();
 		CenterPanel.setBackground(Color.WHITE);
@@ -90,7 +92,7 @@ public class AboutDialog extends JDialog {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
 		
-		JLabel lblOntoumlLightweightEditor = new JLabel("Menthor Editor");
+		JLabel lblOntoumlLightweightEditor = new JLabel("Menthor Editor |");
 		lblOntoumlLightweightEditor.setForeground(Color.BLACK);
 		lblOntoumlLightweightEditor.setHorizontalAlignment(SwingConstants.LEFT);
 		
@@ -124,40 +126,100 @@ public class AboutDialog extends JDialog {
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		CenterPanel.setLayout(new BorderLayout(0, 0));
 		CenterPanel.add(panel_1, BorderLayout.CENTER);
+		
+		JPanel panel_2 = new JPanel();
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(10))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblVersion, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblDate, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
-					.addContainerGap())
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblOntoumlLightweightEditor, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-					.addGap(11))
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-					.addContainerGap())
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblVersion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+								.addComponent(lblDate, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+									.addComponent(lblOntoumlLightweightEditor, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)))))
+					.addGap(10))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblOntoumlLightweightEditor)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblOntoumlLightweightEditor)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(12)
 					.addComponent(lblVersion)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblDate)
 					.addGap(18)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(149, Short.MAX_VALUE))
+					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
 		);
+		
+		JTextPane txtpnThisProductIncludes = new JTextPane();
+		txtpnThisProductIncludes.setBackground(UIManager.getColor("Panel.background"));
+		txtpnThisProductIncludes.setText("This product includes software developed by other open source projects including TinyUML, Alloy and Eclipse Foundation.");
+		
+		JHyperLinkLabel tinyUMLLink = new JHyperLinkLabel("");
+		tinyUMLLink.setText("sourceforge.net/projects/tinyuml/");
+		tinyUMLLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {				 
+					frame.getDiagramManager().openLinkWithBrowser("http://sourceforge.net/projects/tinyuml/");				 
+			 }
+		});
+		JHyperLinkLabel alloyLink = new JHyperLinkLabel("");
+		alloyLink.setText("alloy.mit.edu/alloy/");
+		alloyLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {				 
+					frame.getDiagramManager().openLinkWithBrowser("http://alloy.mit.edu/alloy/");				 
+			 }
+		});
+		
+		JHyperLinkLabel eclipseLink = new JHyperLinkLabel("");
+		eclipseLink.setText("https://eclipse.org/");
+		eclipseLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {				 
+					frame.getDiagramManager().openLinkWithBrowser("https://eclipse.org/");				 
+			 }
+		});
+		
+		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtpnThisProductIncludes, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(alloyLink, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(tinyUMLLink, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+						.addComponent(eclipseLink, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(txtpnThisProductIncludes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tinyUMLLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(alloyLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(eclipseLink, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(17, Short.MAX_VALUE))
+		);
+		panel_2.setLayout(gl_panel_2);
 		panel_1.setLayout(gl_panel_1);
 		CenterPanel.add(panel, BorderLayout.WEST);
 	}

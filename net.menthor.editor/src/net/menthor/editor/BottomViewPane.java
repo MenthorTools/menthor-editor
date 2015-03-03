@@ -5,7 +5,6 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
 
 import net.menthor.editor.model.UmlProject;
 
@@ -46,12 +45,12 @@ public class BottomViewPane  extends JPanel {
 		this.project = project;
 		
 		infoManager = new InfoManager(frame,project);
-		infoManager.setTabPlacement(JTabbedPane.BOTTOM);		
+		infoManager.setTabPlacement(JTabbedPane.TOP);		
 				
 		add(infoManager,BorderLayout.CENTER);
 		
-		TitlePane panel = new TitlePane("Information Footer",null);		
-		panel.title.setIcon(new ImageIcon(BottomViewPane.class.getResource("/resources/icons/x16/layout_select_footer.png")));
-		add(panel, BorderLayout.NORTH);
+		//TitlePane panel = new TitlePane("Information Footer",null);		
+		//panel.title.setIcon(new ImageIcon(BottomViewPane.class.getResource("/resources/icons/x16/layout_select_footer.png")));
+		//add(panel, BorderLayout.NORTH);
 	}
 }

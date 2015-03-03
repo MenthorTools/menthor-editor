@@ -24,7 +24,6 @@ package net.menthor.editor.dialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -118,8 +117,8 @@ public class AlloySettingsDialog extends JDialog {
 		super(frame);
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AlloySettingsDialog.class.getResource("/resources/icons/x16/alloy/alloy.png")));
-		setTitle("Simulation & Checking: Alloy");
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(AlloySettingsDialog.class.getResource("/resources/icons/x16/alloy/alloy.png")));
+		setTitle("Alloy Settings");
 		setSize(new Dimension(536, 258));
 		
 		btnOk = new JButton("OK");	

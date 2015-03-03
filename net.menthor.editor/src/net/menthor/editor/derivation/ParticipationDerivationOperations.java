@@ -1,23 +1,15 @@
 package net.menthor.editor.derivation;
 
 import java.awt.BorderLayout;
-import java.awt.Checkbox;
 import java.awt.GridLayout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
@@ -27,16 +19,9 @@ import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.ui.diagram.DiagramEditor;
 import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
-import net.menthor.ontouml2text.descriptionSpace.descriptionCategories.Category;
-import net.menthor.ontouml2text.descriptionSpace.descriptionCategories.RoleMixin;
 import RefOntoUML.Classifier;
-import RefOntoUML.Mixin;
-import RefOntoUML.MixinClass;
 import RefOntoUML.ObjectClass;
 import RefOntoUML.SortalClass;
-import RefOntoUML.SubstanceSortal;
-import apple.awt.CList;
 
 public class ParticipationDerivationOperations {
 

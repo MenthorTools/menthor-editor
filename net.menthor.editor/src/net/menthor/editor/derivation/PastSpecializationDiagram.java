@@ -2,28 +2,23 @@ package net.menthor.editor.derivation;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-
-import java.awt.Toolkit;
-
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.umldraw.structure.ClassElement;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class PastSpecializationDiagram extends JDialog {
 

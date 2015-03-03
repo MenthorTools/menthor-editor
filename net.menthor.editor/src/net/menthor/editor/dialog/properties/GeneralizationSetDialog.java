@@ -23,7 +23,6 @@ package net.menthor.editor.dialog.properties;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -77,7 +76,7 @@ public class GeneralizationSetDialog extends JDialog{
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
 		setTitle(""+""+getStereotype(genSet)+" "+ ((GeneralizationSet)genSet).getName());
 				
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
 		
 		if (parent instanceof JFrame)
 			genSetEdition = new GeneralizationSetEditionPanel((JFrame)parent, diagramManager, genSet);

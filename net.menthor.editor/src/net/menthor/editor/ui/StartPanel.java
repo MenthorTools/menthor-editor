@@ -25,7 +25,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -43,16 +42,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import net.menthor.editor.AppCommandListener;
+import net.menthor.editor.AppFrame;
 import net.menthor.editor.draw.Diagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.ui.diagram.Editor;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.IconLoader;
 import net.menthor.editor.util.IconLoader.IconType;
-import javax.swing.SwingConstants;
 
 /**
  * @author John Guerson
@@ -73,6 +73,8 @@ public class StartPanel extends JPanel implements Editor {
 	private JHyperLinkLabel btnOpenProject;
 	private Component rigidArea_3;
 	private Component rigidArea_4;
+	private JLabel eaInstallLink;
+	private JHyperLinkLabel faqLink;
 	
 	public StartPanel(AppCommandListener commandDispatcher) {
 		super();
@@ -91,11 +93,8 @@ public class StartPanel extends JPanel implements Editor {
 		add(mainPanel,BorderLayout.CENTER);
 		recentPanel = new JPanel();
 		recentPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		BorderLayout recentPanelLayout = new BorderLayout();
-		recentPanel.setLayout(recentPanelLayout);
 		recentPanel.setBackground(new java.awt.Color(255,255,255));
 		recentScroll = new JScrollPane();
-		recentPanel.add(recentScroll, BorderLayout.CENTER);
 		recentScroll.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		recentList = new JList();
 		//recentList.setBackground(new Color(0xF2FCAC));
@@ -106,8 +105,6 @@ public class StartPanel extends JPanel implements Editor {
 		lblTitle.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-header.jpg")));		
 		
 		JPanel middlePanel = new JPanel();
-		FlowLayout fl_middlePanel = (FlowLayout) middlePanel.getLayout();
-		fl_middlePanel.setAlignment(FlowLayout.LEFT);
 		middlePanel.setBackground(Color.WHITE);
 		
 		JPanel leftPanel = new JPanel();
@@ -119,12 +116,11 @@ public class StartPanel extends JPanel implements Editor {
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addGap(182)
 					.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(leftPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
 						.addComponent(middlePanel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_mainPanel.createParallelGroup(Alignment.LEADING)
-							.addComponent(recentPanel, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-							.addComponent(lblOpenRecent, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addComponent(leftPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+						.addComponent(lblOpenRecent, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+						.addComponent(lblTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+						.addComponent(recentPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
 					.addGap(134))
 		);
 		gl_mainPanel.setVerticalGroup(
@@ -142,6 +138,98 @@ public class StartPanel extends JPanel implements Editor {
 					.addComponent(middlePanel, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(72, Short.MAX_VALUE))
 		);
+		GroupLayout gl_recentPanel = new GroupLayout(recentPanel);
+		gl_recentPanel.setHorizontalGroup(
+			gl_recentPanel.createParallelGroup(Alignment.LEADING)
+				.addComponent(recentScroll, GroupLayout.PREFERRED_SIZE, 382, GroupLayout.PREFERRED_SIZE)
+		);
+		gl_recentPanel.setVerticalGroup(
+			gl_recentPanel.createParallelGroup(Alignment.LEADING)
+				.addComponent(recentScroll, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+		);
+		recentPanel.setLayout(gl_recentPanel);
+						
+		eaInstallLink = new JHyperLinkLabel("");
+		eaInstallLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));	
+		eaInstallLink.setText("[Tutorial] Learn how to install and use OntoUML within the EA Tool");
+		
+		faqLink = new JHyperLinkLabel("");		
+		faqLink.setText("[FAQ] Frequently Asked Questions");
+		faqLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
+		
+		JHyperLinkLabel userLink = new JHyperLinkLabel("");
+		userLink.setText("[Forum] User Community");
+		userLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
+		
+		JHyperLinkLabel guideLink = new JHyperLinkLabel("");
+		guideLink.setText("[Study] OntoUML Study Guide");
+		guideLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
+		GroupLayout gl_middlePanel = new GroupLayout(middlePanel);
+		gl_middlePanel.setHorizontalGroup(
+			gl_middlePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_middlePanel.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_middlePanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(eaInstallLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(faqLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(userLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(guideLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		);
+		gl_middlePanel.setVerticalGroup(
+			gl_middlePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_middlePanel.createSequentialGroup()
+					.addGap(5)
+					.addComponent(eaInstallLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addComponent(faqLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(9)
+					.addComponent(userLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(9)
+					.addComponent(guideLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(2))
+		);
+		middlePanel.setLayout(gl_middlePanel);
+		
+		eaInstallLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {			     
+				 if(commandListener instanceof AppFrame){
+					 AppFrame frame = (AppFrame)commandListener;
+					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/tutorial-how-to-use-ontouml-in-enterprise-architect.html");
+				 }
+			 }
+		});
+		
+		faqLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {			     
+				 if(commandListener instanceof AppFrame){
+					 AppFrame frame = (AppFrame)commandListener;
+					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/faq.html");
+				 }
+			 }
+		});
+		
+		userLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {			     
+				 if(commandListener instanceof AppFrame){
+					 AppFrame frame = (AppFrame)commandListener;
+					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/user-community.html");
+				 }
+			 }
+		});
+		
+		guideLink.addMouseListener(new MouseAdapter() {			
+			 @Override
+			    public void mouseClicked(MouseEvent e) {			     
+				 if(commandListener instanceof AppFrame){
+					 AppFrame frame = (AppFrame)commandListener;
+					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/ontouml-study-guide.html");
+				 }
+			 }
+		});
+		
 		btnNewProject = new JHyperLinkLabel("New Project");
 		leftPanel.add(btnNewProject);
 		btnNewProject.setIconTextGap(10);

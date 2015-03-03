@@ -465,7 +465,7 @@ public class DiagramEditorCommandDispatcher implements AppCommandListener {
 	public void collectStatistics()
 	{
 		if (manager.isProjectLoaded()==false) return;
-		manager.getFrame().getDiagramManager().addStatisticsPanel(frame.getInfoManager(),true);
+		manager.getFrame().getDiagramManager().openStatisticPanel();
 	}
 	
 	public void showGrid() {

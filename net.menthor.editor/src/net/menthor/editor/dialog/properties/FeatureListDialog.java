@@ -23,7 +23,6 @@ package net.menthor.editor.dialog.properties;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -201,7 +200,7 @@ public class FeatureListDialog extends JDialog {
 //		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
 //		setIconImage(icon);
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(FeatureListDialog.class.getResource("/resources/icons/x16/pencil.png")));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(FeatureListDialog.class.getResource("/resources/icons/x16/pencil.png")));
 		
 		//Title
 		if (element instanceof Property)

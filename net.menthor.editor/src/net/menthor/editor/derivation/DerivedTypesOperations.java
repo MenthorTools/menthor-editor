@@ -72,7 +72,6 @@ import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.SemiRigidMixinClass;
 import RefOntoUML.SubKind;
-import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLParser;
 import br.ufes.inf.nemo.derivedtypes.DerivedByUnion;
 

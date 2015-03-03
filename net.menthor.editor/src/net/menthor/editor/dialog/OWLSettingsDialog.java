@@ -22,11 +22,9 @@
 package net.menthor.editor.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -89,7 +87,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 
 	public OWLSettingsDialog(AppFrame frame, DiagramManager diagramManager, boolean modal) {
 		super(frame, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(OWLSettingsDialog.class.getResource("/resources/icons/x16/sw-cube.png")));
+//		setIconImage(Toolkit.getDefaultToolkit().getImage(OWLSettingsDialog.class.getResource("/resources/icons/x16/sw-cube.png")));
 		this.setManager(diagramManager);
 		initGUI();
 		myPostInit();
@@ -156,7 +154,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 				//ApplicationResources.getInstance().getString("dialog.owlsettings.reification")
 				setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 				this.setResizable(false);
-				setTitle("Semantic Web: OWL/SWRL");
+				setTitle("OWL Settings");
 				
 				generateOWLPanel = new JPanel();
 				GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)generateOWLPanel);

@@ -46,9 +46,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.DiagramManager;
-
-import org.eclipse.swt.widgets.Item;
-
 import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 
 /**

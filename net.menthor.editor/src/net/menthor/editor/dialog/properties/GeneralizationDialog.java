@@ -23,7 +23,6 @@ package net.menthor.editor.dialog.properties;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -85,7 +84,7 @@ public class GeneralizationDialog extends JDialog{
 		else
 			setTitle(""+""+getStereotype(relationship)+" "+ ((Generalization)relationship).getSpecific().getName()+" -> null");
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
 		
 		if (parent instanceof JFrame)
 			genEdition = new GeneralizationEditionPanel((JFrame)parent, diagramManager, genElement, (Generalization)relationship);

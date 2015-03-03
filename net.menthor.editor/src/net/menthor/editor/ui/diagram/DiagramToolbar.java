@@ -308,7 +308,7 @@ public class DiagramToolbar extends JToolBar {
 		addSeparator();
 		
 		btnAlloy = new JButton("");
-		btnAlloy.setToolTipText("Simulation & Checking: Validate your ontology using Alloy and its Analyzer.");
+		btnAlloy.setToolTipText("Simulation & Checking: Validate the OPENED DIAGRAMS using Alloy and its Analyzer.");
 		btnAlloy.addActionListener(new ActionListener() {				
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {       
@@ -324,7 +324,7 @@ public class DiagramToolbar extends JToolBar {
 		add(btnAlloy);
 		
 		btnOWL = new JButton("");
-		btnOWL.setToolTipText("Semantic Web: Publish and Reason over your ontology using OWL/SWRL.");
+		btnOWL.setToolTipText("Semantic Web: Publish and Reason over teh OPENED DIAGRAMS using OWL/SWRL.");
 		btnOWL.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {        		
@@ -340,7 +340,7 @@ public class DiagramToolbar extends JToolBar {
 		add(btnOWL);
 		
 		btnAntiPattern = new JButton("");
-		btnAntiPattern.setToolTipText("Anti-Patterns: Check and Fix your ontology detecting Anti-Patterns occurrences, if any.");
+		btnAntiPattern.setToolTipText("Anti-Patterns: Check and Fix the OPENED DIAGRAMS detecting Anti-Patterns occurrences, if any.");
 		btnAntiPattern.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {        		
@@ -356,7 +356,7 @@ public class DiagramToolbar extends JToolBar {
 		add(btnAntiPattern);
 		
 		btnMeronymic = new JButton("");
-		btnMeronymic.setToolTipText("Part-Whole Relations: Evaluate your ontology regarding the transitivity of part-whole relations.");
+		btnMeronymic.setToolTipText("Part-Whole Relations: Evaluate the OPENED DIAGRAMS regarding the transitivity of part-whole relations.");
 		btnMeronymic.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {        		

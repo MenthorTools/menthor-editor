@@ -23,7 +23,6 @@ package net.menthor.editor.dialog.properties;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -83,7 +82,7 @@ public class AssociationDialog extends JDialog{
 	public AssociationDialog(final AppFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal) 
 	{
 		super(parent, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
 		
 //		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
 //		setIconImage(icon);

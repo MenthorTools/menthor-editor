@@ -22,7 +22,6 @@
 package net.menthor.editor.dialog.properties;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -78,7 +77,7 @@ public class ClassDialog extends JDialog{
 	public ClassDialog(final AppFrame parent, final ClassElement classElement, Classifier element, boolean modal) 
 	{
 		super(parent, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
 		
 		this.diagramManager = parent.getDiagramManager();
 		this.classElement = classElement;		

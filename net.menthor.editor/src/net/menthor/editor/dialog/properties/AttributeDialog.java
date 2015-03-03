@@ -24,7 +24,6 @@ package net.menthor.editor.dialog.properties;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -90,7 +89,7 @@ public class AttributeDialog extends JDialog {
 
 	public void initGUI()
 	{
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
 		
 		setTitle(getStereotype(attribute)+" "+attribute.getName()+": "+attribute.getType().getName());
 		
