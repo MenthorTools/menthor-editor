@@ -1029,19 +1029,22 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Open an existing project. */
-	public void openRecentProject() 
+	public void openRecentProject(){
+		StartPanel startPanel = (StartPanel) getCurrentEditor();
+		if(startPanel != null){
+			openProject(startPanel.getSelectedRecentFile());
+		}
+	}
+	public void openProject(String filePath) 
 	{
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		try {
-			StartPanel startPanel = (StartPanel) getCurrentEditor();
-			if(startPanel != null)
-			{
-				closeCurrentProject();
-				Main.printOutLine("Opening recent project");				
-				File file = new File(startPanel.getSelectedRecentFile());
-				setProjectFile(file);
-				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-				currentProject = (UmlProject) listFiles.get(0);				
+			closeCurrentProject();
+			Main.printOutLine("Opening recent project");				
+			File file = new File(filePath);
+			setProjectFile(file);
+			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
+			currentProject = (UmlProject) listFiles.get(0);				
 //				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
 //				{
 //					//@deprecated
@@ -1058,9 +1061,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 //						return;
 //					}
 //				}else{
-					openListFiles(listFiles);					
+				openListFiles(listFiles);					
 //				}
-			}
+		
 		} catch (Exception ex) {
 			Main.printOutLine("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);

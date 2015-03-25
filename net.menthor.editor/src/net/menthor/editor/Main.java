@@ -65,11 +65,12 @@ public final class Main {
 	public static AppFrame frame; 
 
 	public static String MENTHOR_VERSION = "1.0"; 
-	public static String MENTHOR_COMPILATION_DATE = "March 02 2015";	
+	public static String MENTHOR_COMPILATION_DATE = "March 25 2015";	
 	
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;
 	public static PrintStream psErr;
+	
 	
 	/** This caches the result of the call to get all fonts. */
 	private static String[] allFonts = null;
@@ -408,6 +409,7 @@ public final class Main {
 	 */
 	public static void main(final String[] args) 
 	{		
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -419,6 +421,20 @@ public final class Main {
 					copyBinaryFilesTo();
 					ExtractorUtil.extractAlloyJar();
 					frame.setLocationByPlatform(true);
+					
+					//String menthorFileName = "C:\\Users\\fredd_000\\Documents\\Projetos\\menthor-editor-instalador\\teste.menthor";
+					String menthorFileName = "";
+					for (String arg : args) {
+						if(arg.endsWith(".menthor")){
+							menthorFileName  = arg;
+							System.out.println("filename: "+menthorFileName);
+							break;
+						}
+					}
+					if(!menthorFileName.equals("")){
+						frame.getDiagramManager().openProject(menthorFileName);
+					}
+					
 					frame.setVisible(true);
 					frame.toFront();										
 				} catch (Exception ex) {

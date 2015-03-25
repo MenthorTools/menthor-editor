@@ -40,15 +40,26 @@ public class ExtractorUtil {
 	{
 		//Tony's Edit: Made these changes to correct an error while copying the alloy file to folders with space " " in the path.
 		String destFolderPath = ExtractorUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
+		if(destFolderPath.endsWith(".jar") || destFolderPath.endsWith(".exe")){
+			int lastBar = destFolderPath.lastIndexOf("/");
+			destFolderPath = destFolderPath.substring(0, lastBar+1);
+		}
 		destFolderPath += "alloy4.2.jar";
+		//JOptionPane.showMessageDialog(null, destFolderPath);
 		String alloyPath = URLDecoder.decode(destFolderPath, "UTF-8");
 		
 		File alloyJarFile = new File(alloyPath);
-		if (alloyJarFile.exists()) return alloyJarFile.getAbsolutePath();
+		if (alloyJarFile.exists()) {
+			//JOptionPane.showMessageDialog(null, "alloyJarFile.exists()");
+			return alloyJarFile.getAbsolutePath();
+		}
 				
 		// Copy "alloy4.2.jar" 
 		InputStream is = ExtractorUtil.class.getClassLoader().getResourceAsStream("alloy4.2.jar");		
-		if(is == null) is = new FileInputStream("lib/"+"alloy4.2.jar");		
+		if(is == null){
+			is = new FileInputStream("lib/"+"alloy4.2.jar");
+			//JOptionPane.showMessageDialog(null, "is == null");
+		}
 		OutputStream out = new FileOutputStream(alloyJarFile);
 				
 		// copy data flow -> MB x MB
