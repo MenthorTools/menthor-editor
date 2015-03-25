@@ -1,0 +1,155 @@
+@Ecore(
+	nsPrefix="ontouml-menthor", //Used for XMI serialization
+	nsURI="http://menthor.net/" 
+)
+
+@GenModel( 
+	testsDirectory="/net.menthor.metamodel.ontouml.tests/src-gen",
+	editDirectory="/net.menthor.metamodel.ontouml.edit/src-gen",
+	editorDirectory="/net.menthor.metamodel.ontouml.editor/src-gen",
+	fileExtensions="mouml"
+)
+ 
+package net.menthor.metamodel.ontouml
+
+//annotation "http://www.eclipse.org/emf/2002/Ecore/OCL" as OCLEvaluator
+//annotation "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot" as OCLPivotEvaluator
+
+@Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
+
+abstract class Element { }
+
+abstract class NamedElement extends Element { String name }
+
+abstract class Container extends NamedElement { contains unordered unique PackageableElement[*] elements opposite container_}
+
+abstract class PackageableElement extends Element { container Container[1] container_ opposite elements }
+
+class Model extends Container { }
+
+class Package extends Container, PackageableElement { }
+
+class HighOrderClass extends NamedElement, PackageableElement {}
+
+class Class extends NamedElement, PackageableElement
+{
+	Universal[0..1] stereotype
+	boolean isDerived
+	boolean isExtensional	
+	
+	refers unordered unique HighOrderClass[*] instanceOf	
+	refers unordered unique DataType[*] datatypes
+				
+	refers transient unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClass
+	refers transient unordered unique GeneralizationSet[*] specializesVia opposite specializingClasses
+	
+	refers transient unordered unique ClassBinaryRelationship[*] isSourceOf opposite source
+	refers transient unordered unique ClassBinaryRelationship[*] isTargetOf opposite target
+	
+	refers MaterialRelationship[0..1] isTruthMakerOf opposite isDerivedFrom
+}
+ 
+class ClassBinaryRelationship extends NamedElement, PackageableElement
+{	
+	Relation[0..1] stereotype
+	
+	String sourceEndName
+	int[1] sourceLowerBound
+	int[1] sourceUpperBound		
+	String targetEndName
+	int[1] targetLowerBound
+	int[1] targetUpperBound
+	
+	boolean partIsEssential	
+	boolean partIsInseparable 
+	boolean partIsShareable  
+	boolean partIsImmutable
+	
+	derived boolean partIsMandatory get { targetLowerBound>=1 }
+	
+	refers local Class[1] source opposite isSourceOf
+	refers local Class[1] target opposite isTargetOf 
+}	
+
+class MaterialRelationship extends ClassBinaryRelationship 
+{
+	refers Class[0..1] isDerivedFrom opposite isTruthMakerOf		
+}
+
+class GeneralizationSet extends NamedElement, PackageableElement
+{
+	boolean isCovering
+	boolean isDisjoint
+	
+	refers local Class[1] specializedClass opposite isSpecializedVia
+	refers local unordered unique Class[1..*] specializingClasses opposite specializesVia
+		
+	refers HighOrderClass[0..1] powertype 
+}
+
+abstract class DataType extends NamedElement, PackageableElement {}
+
+class PrimitiveDataType extends DataType
+{
+	Primitive[1] stereotype
+}
+
+abstract class UserDefinedDataType extends DataType {}
+
+class Enumeration extends UserDefinedDataType
+{
+	String[2..*] enumerationLiterals	
+}
+
+class ComplexDataType extends UserDefinedDataType
+{
+	contains unordered unique DataTypeAttribute[2..*] attributes opposite complexDataType
+}
+
+class DataTypeAttribute extends NamedElement
+{
+	refers DataType[1] isOfType	
+	
+	container ComplexDataType[1] complexDataType opposite attributes
+}
+
+enum Relation 
+{
+	ComponentOf as "componentOf",
+	Membership as "memberOf",
+	SubCollection as "subCollectionOf",
+	SubQuantity as "subQuantityOf",
+	Characterization as "characterization",
+	Mediation as "mediation",
+	Material as "material",
+	Formal as "formal"
+}
+
+enum Universal 
+{	
+	Kind as "kind", 
+	Collective as "collective", 
+	Quantity as "quantity",
+	Relator as "relator", 
+	Mode as "mode", 
+	PerceivableQuality as "perceivaleQuality", 
+	NonPerceivableQuality as "nonPerceivableQuality", 
+	NominalQuality as "nominalQuality", 
+	Role as "role", 
+	Phase as "phase", 
+	SubKind as "subKind", 
+	Category as "category", 
+	Mixin as "mixin", 
+	RoleMixin as "roleMixin",
+	Event as "event",	
+	HighOrderUniversal as "hou"
+}
+
+enum Primitive
+{
+	Boolean as "boolean", 
+	String as "string", 
+	Real as "real", 
+	Integer as "integer",
+	UnlimitedNatural as "unlimitedNatural"
+}
