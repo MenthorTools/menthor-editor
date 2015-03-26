@@ -2,22 +2,18 @@
  */
 package net.menthor.metamodel.ontouml.util;
 
+import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
-import net.menthor.metamodel.ontouml.ComplexDataType;
 import net.menthor.metamodel.ontouml.Container;
-import net.menthor.metamodel.ontouml.DataType;
-import net.menthor.metamodel.ontouml.DataTypeAttribute;
+import net.menthor.metamodel.ontouml.ContainingElement;
 import net.menthor.metamodel.ontouml.Element;
-import net.menthor.metamodel.ontouml.Enumeration;
+import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
-import net.menthor.metamodel.ontouml.HighOrderClass;
-import net.menthor.metamodel.ontouml.MaterialRelationship;
 import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.NamedElement;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PackageableElement;
-import net.menthor.metamodel.ontouml.PrimitiveDataType;
-import net.menthor.metamodel.ontouml.UserDefinedDataType;
+import net.menthor.metamodel.ontouml.PrimitiveType;
+import net.menthor.metamodel.ontouml.Property;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -102,10 +98,10 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.PACKAGEABLE_ELEMENT: {
-				PackageableElement packageableElement = (PackageableElement)theEObject;
-				T result = casePackageableElement(packageableElement);
-				if (result == null) result = caseElement(packageableElement);
+			case OntoumlPackage.CONTAINING_ELEMENT: {
+				ContainingElement containingElement = (ContainingElement)theEObject;
+				T result = caseContainingElement(containingElement);
+				if (result == null) result = caseElement(containingElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,18 +118,9 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				net.menthor.metamodel.ontouml.Package package_ = (net.menthor.metamodel.ontouml.Package)theEObject;
 				T result = casePackage(package_);
 				if (result == null) result = caseContainer(package_);
-				if (result == null) result = casePackageableElement(package_);
+				if (result == null) result = caseContainingElement(package_);
 				if (result == null) result = caseNamedElement(package_);
 				if (result == null) result = caseElement(package_);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.HIGH_ORDER_CLASS: {
-				HighOrderClass highOrderClass = (HighOrderClass)theEObject;
-				T result = caseHighOrderClass(highOrderClass);
-				if (result == null) result = caseNamedElement(highOrderClass);
-				if (result == null) result = casePackageableElement(highOrderClass);
-				if (result == null) result = caseElement(highOrderClass);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -141,27 +128,16 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				net.menthor.metamodel.ontouml.Class class_ = (net.menthor.metamodel.ontouml.Class)theEObject;
 				T result = caseClass(class_);
 				if (result == null) result = caseNamedElement(class_);
-				if (result == null) result = casePackageableElement(class_);
+				if (result == null) result = caseContainingElement(class_);
 				if (result == null) result = caseElement(class_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP: {
-				ClassBinaryRelationship classBinaryRelationship = (ClassBinaryRelationship)theEObject;
-				T result = caseClassBinaryRelationship(classBinaryRelationship);
-				if (result == null) result = caseNamedElement(classBinaryRelationship);
-				if (result == null) result = casePackageableElement(classBinaryRelationship);
-				if (result == null) result = caseElement(classBinaryRelationship);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.MATERIAL_RELATIONSHIP: {
-				MaterialRelationship materialRelationship = (MaterialRelationship)theEObject;
-				T result = caseMaterialRelationship(materialRelationship);
-				if (result == null) result = caseClassBinaryRelationship(materialRelationship);
-				if (result == null) result = caseNamedElement(materialRelationship);
-				if (result == null) result = casePackageableElement(materialRelationship);
-				if (result == null) result = caseElement(materialRelationship);
+			case OntoumlPackage.PRIMITIVE_TYPE: {
+				PrimitiveType primitiveType = (PrimitiveType)theEObject;
+				T result = casePrimitiveType(primitiveType);
+				if (result == null) result = caseContainingElement(primitiveType);
+				if (result == null) result = caseElement(primitiveType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -169,67 +145,43 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				GeneralizationSet generalizationSet = (GeneralizationSet)theEObject;
 				T result = caseGeneralizationSet(generalizationSet);
 				if (result == null) result = caseNamedElement(generalizationSet);
-				if (result == null) result = casePackageableElement(generalizationSet);
+				if (result == null) result = caseContainingElement(generalizationSet);
 				if (result == null) result = caseElement(generalizationSet);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.DATA_TYPE: {
-				DataType dataType = (DataType)theEObject;
-				T result = caseDataType(dataType);
-				if (result == null) result = caseNamedElement(dataType);
-				if (result == null) result = casePackageableElement(dataType);
-				if (result == null) result = caseElement(dataType);
+			case OntoumlPackage.PROPERTY: {
+				Property property = (Property)theEObject;
+				T result = caseProperty(property);
+				if (result == null) result = caseNamedElement(property);
+				if (result == null) result = caseElement(property);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.PRIMITIVE_DATA_TYPE: {
-				PrimitiveDataType primitiveDataType = (PrimitiveDataType)theEObject;
-				T result = casePrimitiveDataType(primitiveDataType);
-				if (result == null) result = caseDataType(primitiveDataType);
-				if (result == null) result = caseNamedElement(primitiveDataType);
-				if (result == null) result = casePackageableElement(primitiveDataType);
-				if (result == null) result = caseElement(primitiveDataType);
+			case OntoumlPackage.ATTRIBUTE: {
+				Attribute attribute = (Attribute)theEObject;
+				T result = caseAttribute(attribute);
+				if (result == null) result = caseProperty(attribute);
+				if (result == null) result = caseNamedElement(attribute);
+				if (result == null) result = caseElement(attribute);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.USER_DEFINED_DATA_TYPE: {
-				UserDefinedDataType userDefinedDataType = (UserDefinedDataType)theEObject;
-				T result = caseUserDefinedDataType(userDefinedDataType);
-				if (result == null) result = caseDataType(userDefinedDataType);
-				if (result == null) result = caseNamedElement(userDefinedDataType);
-				if (result == null) result = casePackageableElement(userDefinedDataType);
-				if (result == null) result = caseElement(userDefinedDataType);
+			case OntoumlPackage.END_POINT: {
+				EndPoint endPoint = (EndPoint)theEObject;
+				T result = caseEndPoint(endPoint);
+				if (result == null) result = caseProperty(endPoint);
+				if (result == null) result = caseNamedElement(endPoint);
+				if (result == null) result = caseElement(endPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.ENUMERATION: {
-				Enumeration enumeration = (Enumeration)theEObject;
-				T result = caseEnumeration(enumeration);
-				if (result == null) result = caseUserDefinedDataType(enumeration);
-				if (result == null) result = caseDataType(enumeration);
-				if (result == null) result = caseNamedElement(enumeration);
-				if (result == null) result = casePackageableElement(enumeration);
-				if (result == null) result = caseElement(enumeration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.COMPLEX_DATA_TYPE: {
-				ComplexDataType complexDataType = (ComplexDataType)theEObject;
-				T result = caseComplexDataType(complexDataType);
-				if (result == null) result = caseUserDefinedDataType(complexDataType);
-				if (result == null) result = caseDataType(complexDataType);
-				if (result == null) result = caseNamedElement(complexDataType);
-				if (result == null) result = casePackageableElement(complexDataType);
-				if (result == null) result = caseElement(complexDataType);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.DATA_TYPE_ATTRIBUTE: {
-				DataTypeAttribute dataTypeAttribute = (DataTypeAttribute)theEObject;
-				T result = caseDataTypeAttribute(dataTypeAttribute);
-				if (result == null) result = caseNamedElement(dataTypeAttribute);
-				if (result == null) result = caseElement(dataTypeAttribute);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP: {
+				ClassBinaryRelationship classBinaryRelationship = (ClassBinaryRelationship)theEObject;
+				T result = caseClassBinaryRelationship(classBinaryRelationship);
+				if (result == null) result = caseNamedElement(classBinaryRelationship);
+				if (result == null) result = caseContainingElement(classBinaryRelationship);
+				if (result == null) result = caseElement(classBinaryRelationship);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -283,17 +235,17 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Packageable Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Containing Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Packageable Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Containing Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePackageableElement(PackageableElement object) {
+	public T caseContainingElement(ContainingElement object) {
 		return null;
 	}
 
@@ -328,21 +280,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>High Order Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>High Order Class</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseHighOrderClass(HighOrderClass object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -358,32 +295,17 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Class Binary Relationship</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Primitive Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Class Binary Relationship</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Primitive Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseClassBinaryRelationship(ClassBinaryRelationship object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Material Relationship</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Material Relationship</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMaterialRelationship(MaterialRelationship object) {
+	public T casePrimitiveType(PrimitiveType object) {
 		return null;
 	}
 
@@ -403,92 +325,62 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Data Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Data Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Property</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDataType(DataType object) {
+	public T caseProperty(Property object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Primitive Data Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Primitive Data Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePrimitiveDataType(PrimitiveDataType object) {
+	public T caseAttribute(Attribute object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>User Defined Data Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>End Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>User Defined Data Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>End Point</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUserDefinedDataType(UserDefinedDataType object) {
+	public T caseEndPoint(EndPoint object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Enumeration</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Class Binary Relationship</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Enumeration</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Class Binary Relationship</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEnumeration(Enumeration object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Complex Data Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Complex Data Type</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseComplexDataType(ComplexDataType object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Data Type Attribute</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Data Type Attribute</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseDataTypeAttribute(DataTypeAttribute object) {
+	public T caseClassBinaryRelationship(ClassBinaryRelationship object) {
 		return null;
 	}
 

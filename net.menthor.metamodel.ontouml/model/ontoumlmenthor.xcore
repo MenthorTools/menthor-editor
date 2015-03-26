@@ -12,144 +12,191 @@
  
 package net.menthor.metamodel.ontouml
 
-//annotation "http://www.eclipse.org/emf/2002/Ecore/OCL" as OCLEvaluator
-//annotation "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot" as OCLPivotEvaluator
-
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
 abstract class Element { }
 
 abstract class NamedElement extends Element { String name }
 
-abstract class Container extends NamedElement { contains unordered unique PackageableElement[*] elements opposite container_}
+abstract class Container extends NamedElement { contains unordered unique ContainingElement[*] elements opposite holder}
 
-abstract class PackageableElement extends Element { container Container[1] container_ opposite elements }
+abstract class ContainingElement extends Element { container Container[1] holder opposite elements }
+
+//=========================================
 
 class Model extends Container { }
 
-class Package extends Container, PackageableElement { }
+class Package extends Container, ContainingElement { }
 
-class HighOrderClass extends NamedElement, PackageableElement {}
-
-class Class extends NamedElement, PackageableElement
-{
-	Universal[0..1] stereotype
-	boolean isDerived
-	boolean isExtensional	
-	
-	refers unordered unique HighOrderClass[*] instanceOf	
-	refers unordered unique DataType[*] datatypes
-				
-	refers transient unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClass
-	refers transient unordered unique GeneralizationSet[*] specializesVia opposite specializingClasses
-	
-	refers transient unordered unique ClassBinaryRelationship[*] isSourceOf opposite source
-	refers transient unordered unique ClassBinaryRelationship[*] isTargetOf opposite target
-	
-	refers MaterialRelationship[0..1] isTruthMakerOf opposite isDerivedFrom
-}
- 
-class ClassBinaryRelationship extends NamedElement, PackageableElement
-{	
-	Relation[0..1] stereotype
-	
-	String sourceEndName
-	int[1] sourceLowerBound
-	int[1] sourceUpperBound		
-	String targetEndName
-	int[1] targetLowerBound
-	int[1] targetUpperBound
-	
-	boolean partIsEssential	
-	boolean partIsInseparable 
-	boolean partIsShareable  
-	boolean partIsImmutable
-	
-	derived boolean partIsMandatory get { targetLowerBound>=1 }
-	
-	refers local Class[1] source opposite isSourceOf
-	refers local Class[1] target opposite isTargetOf 
-}	
-
-class MaterialRelationship extends ClassBinaryRelationship 
-{
-	refers Class[0..1] isDerivedFrom opposite isTruthMakerOf		
-}
-
-class GeneralizationSet extends NamedElement, PackageableElement
-{
-	boolean isCovering
-	boolean isDisjoint
-	
-	refers local Class[1] specializedClass opposite isSpecializedVia
-	refers local unordered unique Class[1..*] specializingClasses opposite specializesVia
-		
-	refers HighOrderClass[0..1] powertype 
-}
-
-abstract class DataType extends NamedElement, PackageableElement {}
-
-class PrimitiveDataType extends DataType
-{
-	Primitive[1] stereotype
-}
-
-abstract class UserDefinedDataType extends DataType {}
-
-class Enumeration extends UserDefinedDataType
-{
-	String[2..*] enumerationLiterals	
-}
-
-class ComplexDataType extends UserDefinedDataType
-{
-	contains unordered unique DataTypeAttribute[2..*] attributes opposite complexDataType
-}
-
-class DataTypeAttribute extends NamedElement
-{
-	refers DataType[1] isOfType	
-	
-	container ComplexDataType[1] complexDataType opposite attributes
-}
-
-enum Relation 
-{
-	ComponentOf as "componentOf",
-	Membership as "memberOf",
-	SubCollection as "subCollectionOf",
-	SubQuantity as "subQuantityOf",
-	Characterization as "characterization",
-	Mediation as "mediation",
-	Material as "material",
-	Formal as "formal"
-}
+//=========================================
 
 enum Universal 
 {	
-	Kind as "kind", 
-	Collective as "collective", 
-	Quantity as "quantity",
-	Relator as "relator", 
-	Mode as "mode", 
-	PerceivableQuality as "perceivaleQuality", 
-	NonPerceivableQuality as "nonPerceivableQuality", 
-	NominalQuality as "nominalQuality", 
-	Role as "role", 
-	Phase as "phase", 
-	SubKind as "subKind", 
-	Category as "category", 
-	Mixin as "mixin", 
-	RoleMixin as "roleMixin",
-	Event as "event",	
-	HighOrderUniversal as "hou"
+	Kind, Collective, Quantity, Relator, Mode, Quality, PerceivableQuality, NonPerceivableQuality, NominalQuality 
+	Role, Phase, SubKind, Category, Mixin, RoleMixin, Event, Hou, DataType, Enumeration
+}
+
+class Class extends NamedElement, ContainingElement
+{	
+	Universal[0..1] stereotype
+
+	/* JP: Default should be false but isAbstract is unnecessary, as the type of Universal 
+	 * already defines whether a corresponding UML class would be abstract */	
+	// boolean isAbstract
+	
+	boolean isDerived
+	boolean isExtensional	
+	
+	String[*] enumerationLiterals
+	
+	refers unordered unique Class[*] instanceOf
+	
+	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker
+	
+	refers unordered unique Attribute[*] attributes opposite owner
+	
+	refers unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClass
+	refers unordered unique GeneralizationSet[*] specializesVia opposite specializingClasses	
+		
+	//==============================================
+	//Operations
+	//==============================================
+	
+	op boolean isRigid()
+	{
+		stereotype==Universal.KIND || stereotype==Universal.COLLECTIVE || stereotype==Universal.QUANTITY || 
+		stereotype==Universal.RELATOR || stereotype==Universal.MODE || 
+		stereotype==Universal.NOMINAL_QUALITY || stereotype==Universal.PERCEIVABLE_QUALITY || stereotype==Universal.NON_PERCEIVABLE_QUALITY || 
+		stereotype==Universal.SUB_KIND ||
+		stereotype==Universal.CATEGORY
+	} 
+	op boolean isNonRigid()
+	{
+		stereotype==Universal.ROLE || stereotype==Universal.PHASE || stereotype==Universal.ROLE_MIXIN || stereotype==Universal.MIXIN
+	} 
+	op boolean isAntiRigid()
+	{
+		stereotype==Universal.ROLE || stereotype==Universal.PHASE || stereotype==Universal.ROLE_MIXIN
+	} 
+}
+
+//=========================================
+
+class PrimitiveType extends ContainingElement
+{
+	Primitive[1] stereotype 
 }
 
 enum Primitive
 {
-	Boolean as "boolean", 
-	String as "string", 
-	Real as "real", 
-	Integer as "integer",
-	UnlimitedNatural as "unlimitedNatural"
+	Boolean, String, Real, Integer, UnlimitedNatural, Date
 }
+
+//=========================================
+
+class GeneralizationSet extends NamedElement, ContainingElement
+{
+	boolean isCovering
+	
+	/* JP: Default should be true, but isDijoint has been removed. Use different GeneralizationSets if necessary to represent disjointness. */
+	// boolean isDisjoint 
+		
+	/* JP: We diverge from UML, which refers to Generalizations from a GeneralizationSet */
+	refers Class[1] specializedClass opposite isSpecializedVia
+	refers unordered unique Class[1..*] specializingClasses opposite specializesVia
+		
+	//TODO: Add constraints for universals of the same meta-class.
+	refers Class[0..1] hou 
+}
+
+//=========================================
+
+abstract class Property extends NamedElement 
+{		
+	boolean isDerived	
+	int[1] lowerBound
+	int[1] upperBound	
+	boolean isSpecificDependent	
+}
+  
+class Attribute extends Property
+{
+	refers Class[1] owner opposite attributes
+	
+	refers PrimitiveType[1] isOfType  	
+}
+
+//=========================================
+
+class EndPoint extends Property
+{	
+	refers ClassBinaryRelationship[1] owner opposite endPoints
+	
+	refers Class[1] isOfType
+	
+	refers unordered unique EndPoint[*] subsets opposite isSubsettedBy
+	refers unordered unique EndPoint[*] redefines opposite isRedefeinedBy
+	
+	refers unordered unique EndPoint[*] isSubsettedBy opposite subsets
+	refers unordered unique EndPoint[*] isRedefeinedBy opposite redefines
+}
+
+//=========================================
+
+class ClassBinaryRelationship extends NamedElement, ContainingElement
+{	
+	/* JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered. */
+	/* JP: I assume all are unique as well (mapping to sets and not bags). */
+	
+	Relation[0..1] stereotype
+	
+	refers EndPoint[2] endPoints opposite owner
+				
+	boolean partIsShareable
+	
+	/* JP: If there are two relators relating the same entities, there should not be two material relations 
+	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at" 
+	 * relations between "Student" and "University" even if there are two "Enrollments".  */
+	refers Class[0..1] truthMaker opposite istruthMakerOf
+	
+	derived boolean isDerived get { sourceEnd().isDerived || targetEnd().isDerived }
+		 
+	derived boolean partIsEssential	get { targetEnd().isSpecificDependent && sourceEnd().isOfType.isRigid() && isMeronymic() }  
+	derived boolean partIsInseparable get { sourceEnd().isSpecificDependent && targetEnd().isOfType.isRigid() && isMeronymic() }
+	derived boolean partIsImmutable get { sourceEnd().isSpecificDependent && targetEnd().isOfType.isAntiRigid() && isMeronymic()} 
+	derived boolean wholeIsImmutable get { targetEnd().isSpecificDependent && sourceEnd().isOfType.isAntiRigid() && isMeronymic()}		
+	derived boolean partIsMandatory get { targetEnd().lowerBound>=1 && isMeronymic()}
+	derived boolean wholeIsMandatory get { sourceEnd().lowerBound>=1 && isMeronymic()}
+
+	//==============================================
+	//Operations
+	//==============================================
+	
+	op EndPoint sourceEnd()
+	{
+		return endPoints.get(0)
+	}	
+	op EndPoint targetEnd()
+	{
+		return endPoints.get(1)
+	}
+	op boolean isMeronymic()
+	{
+		stereotype==Relation.COMPONENT_OF || stereotype==Relation.MEMBER_OF || stereotype==Relation.SUB_QUANTITY_OF || stereotype==Relation.SUB_COLLECTION_OF
+	} 
+}	
+
+enum Relation 
+{
+	ComponentOf
+	MemberOf
+	SubCollectionOf
+	SubQuantityOf
+	Characterization
+	Mediation
+	Material
+	Formal
+	Structuration
+}
+
+//=========================================

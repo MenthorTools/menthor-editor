@@ -5,6 +5,7 @@ package net.menthor.metamodel.ontouml;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -170,41 +171,41 @@ public interface OntoumlPackage extends EPackage {
 	int CONTAINER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.PackageableElementImpl <em>Packageable Element</em>}' class.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ContainingElementImpl <em>Containing Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.PackageableElementImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackageableElement()
+	 * @see net.menthor.metamodel.ontouml.impl.ContainingElementImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getContainingElement()
 	 * @generated
 	 */
-	int PACKAGEABLE_ELEMENT = 3;
+	int CONTAINING_ELEMENT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGEABLE_ELEMENT__CONTAINER_ = ELEMENT_FEATURE_COUNT + 0;
+	int CONTAINING_ELEMENT__HOLDER = ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Packageable Element</em>' class.
+	 * The number of structural features of the '<em>Containing Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGEABLE_ELEMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 1;
+	int CONTAINING_ELEMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Packageable Element</em>' class.
+	 * The number of operations of the '<em>Containing Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGEABLE_ELEMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
+	int CONTAINING_ELEMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
@@ -281,13 +282,13 @@ public interface OntoumlPackage extends EPackage {
 	int PACKAGE__ELEMENTS = CONTAINER__ELEMENTS;
 
 	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGE__CONTAINER_ = CONTAINER_FEATURE_COUNT + 0;
+	int PACKAGE__HOLDER = CONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Package</em>' class.
@@ -308,52 +309,6 @@ public interface OntoumlPackage extends EPackage {
 	int PACKAGE_OPERATION_COUNT = CONTAINER_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.HighOrderClassImpl <em>High Order Class</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.HighOrderClassImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getHighOrderClass()
-	 * @generated
-	 */
-	int HIGH_ORDER_CLASS = 6;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIGH_ORDER_CLASS__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIGH_ORDER_CLASS__CONTAINER_ = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>High Order Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIGH_ORDER_CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>High Order Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIGH_ORDER_CLASS_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassImpl <em>Class</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -361,7 +316,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClass_()
 	 * @generated
 	 */
-	int CLASS = 7;
+	int CLASS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -373,13 +328,13 @@ public interface OntoumlPackage extends EPackage {
 	int CLASS__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__CONTAINER_ = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int CLASS__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
@@ -409,22 +364,40 @@ public interface OntoumlPackage extends EPackage {
 	int CLASS__IS_EXTENSIONAL = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Enumeration Literals</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__ENUMERATION_LITERALS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Instance Of</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__INSTANCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int CLASS__INSTANCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Datatypes</b></em>' reference list.
+	 * The feature id for the '<em><b>Istruth Maker Of</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__DATATYPES = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int CLASS__ISTRUTH_MAKER_OF = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
@@ -433,7 +406,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int CLASS__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
@@ -442,34 +415,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 7;
-
-	/**
-	 * The feature id for the '<em><b>Is Source Of</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__IS_SOURCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 8;
-
-	/**
-	 * The feature id for the '<em><b>Is Target Of</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__IS_TARGET_OF = NAMED_ELEMENT_FEATURE_COUNT + 9;
-
-	/**
-	 * The feature id for the '<em><b>Is Truth Maker Of</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__IS_TRUTH_MAKER_OF = NAMED_ELEMENT_FEATURE_COUNT + 10;
+	int CLASS__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Class</em>' class.
@@ -478,7 +424,34 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 11;
+	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
+
+	/**
+	 * The operation id for the '<em>Is Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Is Non Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_NON_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Is Anti Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_ANTI_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Class</em>' class.
@@ -487,35 +460,26 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int CLASS_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl <em>Class Binary Relationship</em>}' class.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl <em>Primitive Type</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassBinaryRelationship()
+	 * @see net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitiveType()
 	 * @generated
 	 */
-	int CLASS_BINARY_RELATIONSHIP = 8;
+	int PRIMITIVE_TYPE = 7;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_BINARY_RELATIONSHIP__CONTAINER_ = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int PRIMITIVE_TYPE__HOLDER = CONTAINING_ELEMENT__HOLDER;
 
 	/**
 	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
@@ -524,323 +488,25 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_BINARY_RELATIONSHIP__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int PRIMITIVE_TYPE__STEREOTYPE = CONTAINING_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Source End Name</b></em>' attribute.
+	 * The number of structural features of the '<em>Primitive Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int PRIMITIVE_TYPE_FEATURE_COUNT = CONTAINING_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Source Lower Bound</b></em>' attribute.
+	 * The number of operations of the '<em>Primitive Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Source Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Target End Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME = NAMED_ELEMENT_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Target Lower Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Target Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 7;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Essential</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL = NAMED_ELEMENT_FEATURE_COUNT + 8;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Inseparable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE = NAMED_ELEMENT_FEATURE_COUNT + 9;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Shareable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE = NAMED_ELEMENT_FEATURE_COUNT + 10;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Immutable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE = NAMED_ELEMENT_FEATURE_COUNT + 11;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Mandatory</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY = NAMED_ELEMENT_FEATURE_COUNT + 12;
-
-	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__SOURCE = NAMED_ELEMENT_FEATURE_COUNT + 13;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP__TARGET = NAMED_ELEMENT_FEATURE_COUNT + 14;
-
-	/**
-	 * The number of structural features of the '<em>Class Binary Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 15;
-
-	/**
-	 * The number of operations of the '<em>Class Binary Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_BINARY_RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.MaterialRelationshipImpl <em>Material Relationship</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.MaterialRelationshipImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMaterialRelationship()
-	 * @generated
-	 */
-	int MATERIAL_RELATIONSHIP = 9;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__NAME = CLASS_BINARY_RELATIONSHIP__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__CONTAINER_ = CLASS_BINARY_RELATIONSHIP__CONTAINER_;
-
-	/**
-	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__STEREOTYPE = CLASS_BINARY_RELATIONSHIP__STEREOTYPE;
-
-	/**
-	 * The feature id for the '<em><b>Source End Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__SOURCE_END_NAME = CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Source Lower Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__SOURCE_LOWER_BOUND = CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND;
-
-	/**
-	 * The feature id for the '<em><b>Source Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__SOURCE_UPPER_BOUND = CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND;
-
-	/**
-	 * The feature id for the '<em><b>Target End Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__TARGET_END_NAME = CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Target Lower Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__TARGET_LOWER_BOUND = CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND;
-
-	/**
-	 * The feature id for the '<em><b>Target Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__TARGET_UPPER_BOUND = CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Essential</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__PART_IS_ESSENTIAL = CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Inseparable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__PART_IS_INSEPARABLE = CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Shareable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__PART_IS_SHAREABLE = CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Immutable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__PART_IS_IMMUTABLE = CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE;
-
-	/**
-	 * The feature id for the '<em><b>Part Is Mandatory</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__PART_IS_MANDATORY = CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY;
-
-	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__SOURCE = CLASS_BINARY_RELATIONSHIP__SOURCE;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__TARGET = CLASS_BINARY_RELATIONSHIP__TARGET;
-
-	/**
-	 * The feature id for the '<em><b>Is Derived From</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP__IS_DERIVED_FROM = CLASS_BINARY_RELATIONSHIP_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Material Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP_FEATURE_COUNT = CLASS_BINARY_RELATIONSHIP_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Material Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATERIAL_RELATIONSHIP_OPERATION_COUNT = CLASS_BINARY_RELATIONSHIP_OPERATION_COUNT + 0;
+	int PRIMITIVE_TYPE_OPERATION_COUNT = CONTAINING_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl <em>Generalization Set</em>}' class.
@@ -850,7 +516,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getGeneralizationSet()
 	 * @generated
 	 */
-	int GENERALIZATION_SET = 10;
+	int GENERALIZATION_SET = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -862,13 +528,13 @@ public interface OntoumlPackage extends EPackage {
 	int GENERALIZATION_SET__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET__CONTAINER_ = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int GENERALIZATION_SET__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Is Covering</b></em>' attribute.
@@ -880,22 +546,13 @@ public interface OntoumlPackage extends EPackage {
 	int GENERALIZATION_SET__IS_COVERING = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Is Disjoint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GENERALIZATION_SET__IS_DISJOINT = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Specialized Class</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET__SPECIALIZED_CLASS = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int GENERALIZATION_SET__SPECIALIZED_CLASS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Specializing Classes</b></em>' reference list.
@@ -904,16 +561,16 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET__SPECIALIZING_CLASSES = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int GENERALIZATION_SET__SPECIALIZING_CLASSES = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Powertype</b></em>' reference.
+	 * The feature id for the '<em><b>Hou</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET__POWERTYPE = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int GENERALIZATION_SET__HOU = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Generalization Set</em>' class.
@@ -922,7 +579,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int GENERALIZATION_SET_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Generalization Set</em>' class.
@@ -934,14 +591,14 @@ public interface OntoumlPackage extends EPackage {
 	int GENERALIZATION_SET_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.DataTypeImpl <em>Data Type</em>}' class.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.PropertyImpl <em>Property</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.DataTypeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDataType()
+	 * @see net.menthor.metamodel.ontouml.impl.PropertyImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getProperty()
 	 * @generated
 	 */
-	int DATA_TYPE = 11;
+	int PROPERTY = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -950,44 +607,71 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE__NAME = NAMED_ELEMENT__NAME;
+	int PROPERTY__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE__CONTAINER_ = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int PROPERTY__IS_DERIVED = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Data Type</em>' class.
+	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int PROPERTY__LOWER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Data Type</em>' class.
+	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int PROPERTY__UPPER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.PrimitiveDataTypeImpl <em>Primitive Data Type</em>}' class.
+	 * The feature id for the '<em><b>Is Specific Dependent</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.PrimitiveDataTypeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitiveDataType()
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY__IS_SPECIFIC_DEPENDENT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.AttributeImpl <em>Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.AttributeImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAttribute()
 	 * @generated
 	 */
-	int PRIMITIVE_DATA_TYPE = 12;
+	int ATTRIBUTE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -996,218 +680,52 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PRIMITIVE_DATA_TYPE__NAME = DATA_TYPE__NAME;
+	int ATTRIBUTE__NAME = PROPERTY__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
+	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIMITIVE_DATA_TYPE__CONTAINER_ = DATA_TYPE__CONTAINER_;
+	int ATTRIBUTE__IS_DERIVED = PROPERTY__IS_DERIVED;
 
 	/**
-	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
+	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIMITIVE_DATA_TYPE__STEREOTYPE = DATA_TYPE_FEATURE_COUNT + 0;
+	int ATTRIBUTE__LOWER_BOUND = PROPERTY__LOWER_BOUND;
 
 	/**
-	 * The number of structural features of the '<em>Primitive Data Type</em>' class.
+	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIMITIVE_DATA_TYPE_FEATURE_COUNT = DATA_TYPE_FEATURE_COUNT + 1;
+	int ATTRIBUTE__UPPER_BOUND = PROPERTY__UPPER_BOUND;
 
 	/**
-	 * The number of operations of the '<em>Primitive Data Type</em>' class.
+	 * The feature id for the '<em><b>Is Specific Dependent</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIMITIVE_DATA_TYPE_OPERATION_COUNT = DATA_TYPE_OPERATION_COUNT + 0;
+	int ATTRIBUTE__IS_SPECIFIC_DEPENDENT = PROPERTY__IS_SPECIFIC_DEPENDENT;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.UserDefinedDataTypeImpl <em>User Defined Data Type</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.UserDefinedDataTypeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getUserDefinedDataType()
-	 * @generated
-	 */
-	int USER_DEFINED_DATA_TYPE = 13;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_DEFINED_DATA_TYPE__NAME = DATA_TYPE__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USER_DEFINED_DATA_TYPE__CONTAINER_ = DATA_TYPE__CONTAINER_;
-
-	/**
-	 * The number of structural features of the '<em>User Defined Data Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USER_DEFINED_DATA_TYPE_FEATURE_COUNT = DATA_TYPE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>User Defined Data Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USER_DEFINED_DATA_TYPE_OPERATION_COUNT = DATA_TYPE_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.EnumerationImpl <em>Enumeration</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.EnumerationImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getEnumeration()
-	 * @generated
-	 */
-	int ENUMERATION = 14;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION__NAME = USER_DEFINED_DATA_TYPE__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION__CONTAINER_ = USER_DEFINED_DATA_TYPE__CONTAINER_;
-
-	/**
-	 * The feature id for the '<em><b>Enumeration Literals</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION__ENUMERATION_LITERALS = USER_DEFINED_DATA_TYPE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Enumeration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION_FEATURE_COUNT = USER_DEFINED_DATA_TYPE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Enumeration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION_OPERATION_COUNT = USER_DEFINED_DATA_TYPE_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ComplexDataTypeImpl <em>Complex Data Type</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.ComplexDataTypeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getComplexDataType()
-	 * @generated
-	 */
-	int COMPLEX_DATA_TYPE = 15;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLEX_DATA_TYPE__NAME = USER_DEFINED_DATA_TYPE__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Container </b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLEX_DATA_TYPE__CONTAINER_ = USER_DEFINED_DATA_TYPE__CONTAINER_;
-
-	/**
-	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLEX_DATA_TYPE__ATTRIBUTES = USER_DEFINED_DATA_TYPE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Complex Data Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLEX_DATA_TYPE_FEATURE_COUNT = USER_DEFINED_DATA_TYPE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Complex Data Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLEX_DATA_TYPE_OPERATION_COUNT = USER_DEFINED_DATA_TYPE_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.DataTypeAttributeImpl <em>Data Type Attribute</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.DataTypeAttributeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDataTypeAttribute()
-	 * @generated
-	 */
-	int DATA_TYPE_ATTRIBUTE = 16;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DATA_TYPE_ATTRIBUTE__NAME = NAMED_ELEMENT__NAME;
+	int ATTRIBUTE__OWNER = PROPERTY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Is Of Type</b></em>' reference.
@@ -1216,44 +734,324 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE_ATTRIBUTE__IS_OF_TYPE = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int ATTRIBUTE__IS_OF_TYPE = PROPERTY_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Complex Data Type</b></em>' container reference.
+	 * The number of structural features of the '<em>Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE_ATTRIBUTE__COMPLEX_DATA_TYPE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int ATTRIBUTE_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Data Type Attribute</em>' class.
+	 * The number of operations of the '<em>Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE_ATTRIBUTE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int ATTRIBUTE_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Data Type Attribute</em>' class.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.EndPointImpl <em>End Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.EndPointImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getEndPoint()
+	 * @generated
+	 */
+	int END_POINT = 11;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_TYPE_ATTRIBUTE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int END_POINT__NAME = PROPERTY__NAME;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}' enum.
+	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.Relation
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRelation()
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__IS_DERIVED = PROPERTY__IS_DERIVED;
+
+	/**
+	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__LOWER_BOUND = PROPERTY__LOWER_BOUND;
+
+	/**
+	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__UPPER_BOUND = PROPERTY__UPPER_BOUND;
+
+	/**
+	 * The feature id for the '<em><b>Is Specific Dependent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__IS_SPECIFIC_DEPENDENT = PROPERTY__IS_SPECIFIC_DEPENDENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__OWNER = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Is Of Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__IS_OF_TYPE = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Subsets</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__SUBSETS = PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Redefines</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__REDEFINES = PROPERTY_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Is Subsetted By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__IS_SUBSETTED_BY = PROPERTY_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Is Redefeined By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__IS_REDEFEINED_BY = PROPERTY_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>End Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of operations of the '<em>End Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl <em>Class Binary Relationship</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassBinaryRelationship()
 	 * @generated
 	 */
-	int RELATION = 17;
+	int CLASS_BINARY_RELATIONSHIP = 12;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>End Points</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__END_POINTS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Part Is Shareable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Truth Maker</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__IS_DERIVED = NAMED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Part Is Essential</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Part Is Inseparable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE = NAMED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Part Is Immutable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE = NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Whole Is Immutable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__WHOLE_IS_IMMUTABLE = NAMED_ELEMENT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Part Is Mandatory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY = NAMED_ELEMENT_FEATURE_COUNT + 10;
+
+	/**
+	 * The feature id for the '<em><b>Whole Is Mandatory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP__WHOLE_IS_MANDATORY = NAMED_ELEMENT_FEATURE_COUNT + 11;
+
+	/**
+	 * The number of structural features of the '<em>Class Binary Relationship</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 12;
+
+	/**
+	 * The operation id for the '<em>Source End</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP___SOURCE_END = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Target End</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP___TARGET_END = NAMED_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Is Meronymic</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP___IS_MERONYMIC = NAMED_ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Class Binary Relationship</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_BINARY_RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
@@ -1263,7 +1061,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getUniversal()
 	 * @generated
 	 */
-	int UNIVERSAL = 18;
+	int UNIVERSAL = 13;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Primitive <em>Primitive</em>}' enum.
@@ -1273,7 +1071,17 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitive()
 	 * @generated
 	 */
-	int PRIMITIVE = 19;
+	int PRIMITIVE = 14;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.Relation
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRelation()
+	 * @generated
+	 */
+	int RELATION = 15;
 
 
 	/**
@@ -1329,25 +1137,25 @@ public interface OntoumlPackage extends EPackage {
 	EReference getContainer_Elements();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.PackageableElement <em>Packageable Element</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ContainingElement <em>Containing Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Packageable Element</em>'.
-	 * @see net.menthor.metamodel.ontouml.PackageableElement
+	 * @return the meta object for class '<em>Containing Element</em>'.
+	 * @see net.menthor.metamodel.ontouml.ContainingElement
 	 * @generated
 	 */
-	EClass getPackageableElement();
+	EClass getContainingElement();
 
 	/**
-	 * Returns the meta object for the container reference '{@link net.menthor.metamodel.ontouml.PackageableElement#getContainer_ <em>Container </em>}'.
+	 * Returns the meta object for the container reference '{@link net.menthor.metamodel.ontouml.ContainingElement#getHolder <em>Holder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Container </em>'.
-	 * @see net.menthor.metamodel.ontouml.PackageableElement#getContainer_()
-	 * @see #getPackageableElement()
+	 * @return the meta object for the container reference '<em>Holder</em>'.
+	 * @see net.menthor.metamodel.ontouml.ContainingElement#getHolder()
+	 * @see #getContainingElement()
 	 * @generated
 	 */
-	EReference getPackageableElement_Container_();
+	EReference getContainingElement_Holder();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
@@ -1368,16 +1176,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getPackage();
-
-	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.HighOrderClass <em>High Order Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>High Order Class</em>'.
-	 * @see net.menthor.metamodel.ontouml.HighOrderClass
-	 * @generated
-	 */
-	EClass getHighOrderClass();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Class <em>Class</em>}'.
@@ -1423,6 +1221,17 @@ public interface OntoumlPackage extends EPackage {
 	EAttribute getClass_IsExtensional();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link net.menthor.metamodel.ontouml.Class#getEnumerationLiterals <em>Enumeration Literals</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Enumeration Literals</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getEnumerationLiterals()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EAttribute getClass_EnumerationLiterals();
+
+	/**
 	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getInstanceOf <em>Instance Of</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1434,15 +1243,26 @@ public interface OntoumlPackage extends EPackage {
 	EReference getClass_InstanceOf();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getDatatypes <em>Datatypes</em>}'.
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIstruthMakerOf <em>Istruth Maker Of</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Datatypes</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getDatatypes()
+	 * @return the meta object for the reference list '<em>Istruth Maker Of</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getIstruthMakerOf()
 	 * @see #getClass_()
 	 * @generated
 	 */
-	EReference getClass_Datatypes();
+	EReference getClass_IstruthMakerOf();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Attributes</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getAttributes()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EReference getClass_Attributes();
 
 	/**
 	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIsSpecializedVia <em>Is Specialized Via</em>}'.
@@ -1467,222 +1287,55 @@ public interface OntoumlPackage extends EPackage {
 	EReference getClass_SpecializesVia();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIsSourceOf <em>Is Source Of</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isRigid() <em>Is Rigid</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Is Source Of</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getIsSourceOf()
-	 * @see #getClass_()
+	 * @return the meta object for the '<em>Is Rigid</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isRigid()
 	 * @generated
 	 */
-	EReference getClass_IsSourceOf();
+	EOperation getClass__IsRigid();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIsTargetOf <em>Is Target Of</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isNonRigid() <em>Is Non Rigid</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Is Target Of</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getIsTargetOf()
-	 * @see #getClass_()
+	 * @return the meta object for the '<em>Is Non Rigid</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isNonRigid()
 	 * @generated
 	 */
-	EReference getClass_IsTargetOf();
+	EOperation getClass__IsNonRigid();
 
 	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Class#getIsTruthMakerOf <em>Is Truth Maker Of</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isAntiRigid() <em>Is Anti Rigid</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Is Truth Maker Of</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getIsTruthMakerOf()
-	 * @see #getClass_()
+	 * @return the meta object for the '<em>Is Anti Rigid</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isAntiRigid()
 	 * @generated
 	 */
-	EReference getClass_IsTruthMakerOf();
+	EOperation getClass__IsAntiRigid();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship <em>Class Binary Relationship</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.PrimitiveType <em>Primitive Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Class Binary Relationship</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship
+	 * @return the meta object for class '<em>Primitive Type</em>'.
+	 * @see net.menthor.metamodel.ontouml.PrimitiveType
 	 * @generated
 	 */
-	EClass getClassBinaryRelationship();
+	EClass getPrimitiveType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getStereotype <em>Stereotype</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.PrimitiveType#getStereotype <em>Stereotype</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Stereotype</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getStereotype()
-	 * @see #getClassBinaryRelationship()
+	 * @see net.menthor.metamodel.ontouml.PrimitiveType#getStereotype()
+	 * @see #getPrimitiveType()
 	 * @generated
 	 */
-	EAttribute getClassBinaryRelationship_Stereotype();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceEndName <em>Source End Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Source End Name</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceEndName()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_SourceEndName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceLowerBound <em>Source Lower Bound</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Source Lower Bound</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceLowerBound()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_SourceLowerBound();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceUpperBound <em>Source Upper Bound</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Source Upper Bound</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceUpperBound()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_SourceUpperBound();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetEndName <em>Target End Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Target End Name</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetEndName()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_TargetEndName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetLowerBound <em>Target Lower Bound</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Target Lower Bound</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetLowerBound()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_TargetLowerBound();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetUpperBound <em>Target Upper Bound</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Target Upper Bound</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetUpperBound()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_TargetUpperBound();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential <em>Part Is Essential</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Part Is Essential</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_PartIsEssential();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsInseparable <em>Part Is Inseparable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Part Is Inseparable</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsInseparable()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_PartIsInseparable();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable <em>Part Is Shareable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Part Is Shareable</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_PartIsShareable();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsImmutable <em>Part Is Immutable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Part Is Immutable</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsImmutable()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_PartIsImmutable();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsMandatory <em>Part Is Mandatory</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Part Is Mandatory</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsMandatory()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EAttribute getClassBinaryRelationship_PartIsMandatory();
-
-	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSource()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EReference getClassBinaryRelationship_Source();
-
-	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTarget()
-	 * @see #getClassBinaryRelationship()
-	 * @generated
-	 */
-	EReference getClassBinaryRelationship_Target();
-
-	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.MaterialRelationship <em>Material Relationship</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Material Relationship</em>'.
-	 * @see net.menthor.metamodel.ontouml.MaterialRelationship
-	 * @generated
-	 */
-	EClass getMaterialRelationship();
-
-	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.MaterialRelationship#getIsDerivedFrom <em>Is Derived From</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Is Derived From</em>'.
-	 * @see net.menthor.metamodel.ontouml.MaterialRelationship#getIsDerivedFrom()
-	 * @see #getMaterialRelationship()
-	 * @generated
-	 */
-	EReference getMaterialRelationship_IsDerivedFrom();
+	EAttribute getPrimitiveType_Stereotype();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.GeneralizationSet <em>Generalization Set</em>}'.
@@ -1704,17 +1357,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getGeneralizationSet_IsCovering();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.GeneralizationSet#isIsDisjoint <em>Is Disjoint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Disjoint</em>'.
-	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#isIsDisjoint()
-	 * @see #getGeneralizationSet()
-	 * @generated
-	 */
-	EAttribute getGeneralizationSet_IsDisjoint();
 
 	/**
 	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClass <em>Specialized Class</em>}'.
@@ -1739,140 +1381,338 @@ public interface OntoumlPackage extends EPackage {
 	EReference getGeneralizationSet_SpecializingClasses();
 
 	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getPowertype <em>Powertype</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHou <em>Hou</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Powertype</em>'.
-	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#getPowertype()
+	 * @return the meta object for the reference '<em>Hou</em>'.
+	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#getHou()
 	 * @see #getGeneralizationSet()
 	 * @generated
 	 */
-	EReference getGeneralizationSet_Powertype();
+	EReference getGeneralizationSet_Hou();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.DataType <em>Data Type</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Property <em>Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Data Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.DataType
+	 * @return the meta object for class '<em>Property</em>'.
+	 * @see net.menthor.metamodel.ontouml.Property
 	 * @generated
 	 */
-	EClass getDataType();
+	EClass getProperty();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.PrimitiveDataType <em>Primitive Data Type</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Property#isIsDerived <em>Is Derived</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Primitive Data Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.PrimitiveDataType
+	 * @return the meta object for the attribute '<em>Is Derived</em>'.
+	 * @see net.menthor.metamodel.ontouml.Property#isIsDerived()
+	 * @see #getProperty()
 	 * @generated
 	 */
-	EClass getPrimitiveDataType();
+	EAttribute getProperty_IsDerived();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.PrimitiveDataType#getStereotype <em>Stereotype</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Property#getLowerBound <em>Lower Bound</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Stereotype</em>'.
-	 * @see net.menthor.metamodel.ontouml.PrimitiveDataType#getStereotype()
-	 * @see #getPrimitiveDataType()
+	 * @return the meta object for the attribute '<em>Lower Bound</em>'.
+	 * @see net.menthor.metamodel.ontouml.Property#getLowerBound()
+	 * @see #getProperty()
 	 * @generated
 	 */
-	EAttribute getPrimitiveDataType_Stereotype();
+	EAttribute getProperty_LowerBound();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.UserDefinedDataType <em>User Defined Data Type</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Property#getUpperBound <em>Upper Bound</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>User Defined Data Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.UserDefinedDataType
+	 * @return the meta object for the attribute '<em>Upper Bound</em>'.
+	 * @see net.menthor.metamodel.ontouml.Property#getUpperBound()
+	 * @see #getProperty()
 	 * @generated
 	 */
-	EClass getUserDefinedDataType();
+	EAttribute getProperty_UpperBound();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Enumeration <em>Enumeration</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Property#isIsSpecificDependent <em>Is Specific Dependent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Enumeration</em>'.
-	 * @see net.menthor.metamodel.ontouml.Enumeration
+	 * @return the meta object for the attribute '<em>Is Specific Dependent</em>'.
+	 * @see net.menthor.metamodel.ontouml.Property#isIsSpecificDependent()
+	 * @see #getProperty()
 	 * @generated
 	 */
-	EClass getEnumeration();
+	EAttribute getProperty_IsSpecificDependent();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link net.menthor.metamodel.ontouml.Enumeration#getEnumerationLiterals <em>Enumeration Literals</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Enumeration Literals</em>'.
-	 * @see net.menthor.metamodel.ontouml.Enumeration#getEnumerationLiterals()
-	 * @see #getEnumeration()
+	 * @return the meta object for class '<em>Attribute</em>'.
+	 * @see net.menthor.metamodel.ontouml.Attribute
 	 * @generated
 	 */
-	EAttribute getEnumeration_EnumerationLiterals();
+	EClass getAttribute();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ComplexDataType <em>Complex Data Type</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Complex Data Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.ComplexDataType
+	 * @return the meta object for the reference '<em>Owner</em>'.
+	 * @see net.menthor.metamodel.ontouml.Attribute#getOwner()
+	 * @see #getAttribute()
 	 * @generated
 	 */
-	EClass getComplexDataType();
+	EReference getAttribute_Owner();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link net.menthor.metamodel.ontouml.ComplexDataType#getAttributes <em>Attributes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
-	 * @see net.menthor.metamodel.ontouml.ComplexDataType#getAttributes()
-	 * @see #getComplexDataType()
-	 * @generated
-	 */
-	EReference getComplexDataType_Attributes();
-
-	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.DataTypeAttribute <em>Data Type Attribute</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Data Type Attribute</em>'.
-	 * @see net.menthor.metamodel.ontouml.DataTypeAttribute
-	 * @generated
-	 */
-	EClass getDataTypeAttribute();
-
-	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.DataTypeAttribute#getIsOfType <em>Is Of Type</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Attribute#getIsOfType <em>Is Of Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Is Of Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.DataTypeAttribute#getIsOfType()
-	 * @see #getDataTypeAttribute()
+	 * @see net.menthor.metamodel.ontouml.Attribute#getIsOfType()
+	 * @see #getAttribute()
 	 * @generated
 	 */
-	EReference getDataTypeAttribute_IsOfType();
+	EReference getAttribute_IsOfType();
 
 	/**
-	 * Returns the meta object for the container reference '{@link net.menthor.metamodel.ontouml.DataTypeAttribute#getComplexDataType <em>Complex Data Type</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.EndPoint <em>End Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Complex Data Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.DataTypeAttribute#getComplexDataType()
-	 * @see #getDataTypeAttribute()
+	 * @return the meta object for class '<em>End Point</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint
 	 * @generated
 	 */
-	EReference getDataTypeAttribute_ComplexDataType();
+	EClass getEndPoint();
 
 	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.EndPoint#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Relation</em>'.
-	 * @see net.menthor.metamodel.ontouml.Relation
+	 * @return the meta object for the reference '<em>Owner</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getOwner()
+	 * @see #getEndPoint()
 	 * @generated
 	 */
-	EEnum getRelation();
+	EReference getEndPoint_Owner();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.EndPoint#getIsOfType <em>Is Of Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Is Of Type</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getIsOfType()
+	 * @see #getEndPoint()
+	 * @generated
+	 */
+	EReference getEndPoint_IsOfType();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.EndPoint#getSubsets <em>Subsets</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Subsets</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getSubsets()
+	 * @see #getEndPoint()
+	 * @generated
+	 */
+	EReference getEndPoint_Subsets();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.EndPoint#getRedefines <em>Redefines</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Redefines</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getRedefines()
+	 * @see #getEndPoint()
+	 * @generated
+	 */
+	EReference getEndPoint_Redefines();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.EndPoint#getIsSubsettedBy <em>Is Subsetted By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Is Subsetted By</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getIsSubsettedBy()
+	 * @see #getEndPoint()
+	 * @generated
+	 */
+	EReference getEndPoint_IsSubsettedBy();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.EndPoint#getIsRedefeinedBy <em>Is Redefeined By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Is Redefeined By</em>'.
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getIsRedefeinedBy()
+	 * @see #getEndPoint()
+	 * @generated
+	 */
+	EReference getEndPoint_IsRedefeinedBy();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship <em>Class Binary Relationship</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Class Binary Relationship</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship
+	 * @generated
+	 */
+	EClass getClassBinaryRelationship();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getStereotype <em>Stereotype</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Stereotype</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getStereotype()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_Stereotype();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getEndPoints <em>End Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>End Points</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getEndPoints()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EReference getClassBinaryRelationship_EndPoints();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable <em>Part Is Shareable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part Is Shareable</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_PartIsShareable();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTruthMaker <em>Truth Maker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Truth Maker</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTruthMaker()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EReference getClassBinaryRelationship_TruthMaker();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isIsDerived <em>Is Derived</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Derived</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isIsDerived()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_IsDerived();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential <em>Part Is Essential</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part Is Essential</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_PartIsEssential();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsInseparable <em>Part Is Inseparable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part Is Inseparable</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsInseparable()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_PartIsInseparable();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsImmutable <em>Part Is Immutable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part Is Immutable</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsImmutable()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_PartIsImmutable();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isWholeIsImmutable <em>Whole Is Immutable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Whole Is Immutable</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isWholeIsImmutable()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_WholeIsImmutable();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsMandatory <em>Part Is Mandatory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Part Is Mandatory</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsMandatory()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_PartIsMandatory();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isWholeIsMandatory <em>Whole Is Mandatory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Whole Is Mandatory</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isWholeIsMandatory()
+	 * @see #getClassBinaryRelationship()
+	 * @generated
+	 */
+	EAttribute getClassBinaryRelationship_WholeIsMandatory();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#sourceEnd() <em>Source End</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Source End</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#sourceEnd()
+	 * @generated
+	 */
+	EOperation getClassBinaryRelationship__SourceEnd();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#targetEnd() <em>Target End</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Target End</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#targetEnd()
+	 * @generated
+	 */
+	EOperation getClassBinaryRelationship__TargetEnd();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isMeronymic() <em>Is Meronymic</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Meronymic</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship#isMeronymic()
+	 * @generated
+	 */
+	EOperation getClassBinaryRelationship__IsMeronymic();
 
 	/**
 	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}'.
@@ -1893,6 +1733,16 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getPrimitive();
+
+	/**
+	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Relation</em>'.
+	 * @see net.menthor.metamodel.ontouml.Relation
+	 * @generated
+	 */
+	EEnum getRelation();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1964,22 +1814,22 @@ public interface OntoumlPackage extends EPackage {
 		EReference CONTAINER__ELEMENTS = eINSTANCE.getContainer_Elements();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PackageableElementImpl <em>Packageable Element</em>}' class.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ContainingElementImpl <em>Containing Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.PackageableElementImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackageableElement()
+		 * @see net.menthor.metamodel.ontouml.impl.ContainingElementImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getContainingElement()
 		 * @generated
 		 */
-		EClass PACKAGEABLE_ELEMENT = eINSTANCE.getPackageableElement();
+		EClass CONTAINING_ELEMENT = eINSTANCE.getContainingElement();
 
 		/**
-		 * The meta object literal for the '<em><b>Container </b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Holder</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PACKAGEABLE_ELEMENT__CONTAINER_ = eINSTANCE.getPackageableElement_Container_();
+		EReference CONTAINING_ELEMENT__HOLDER = eINSTANCE.getContainingElement_Holder();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
@@ -2000,16 +1850,6 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PACKAGE = eINSTANCE.getPackage();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.HighOrderClassImpl <em>High Order Class</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.HighOrderClassImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getHighOrderClass()
-		 * @generated
-		 */
-		EClass HIGH_ORDER_CLASS = eINSTANCE.getHighOrderClass();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassImpl <em>Class</em>}' class.
@@ -2046,6 +1886,14 @@ public interface OntoumlPackage extends EPackage {
 		EAttribute CLASS__IS_EXTENSIONAL = eINSTANCE.getClass_IsExtensional();
 
 		/**
+		 * The meta object literal for the '<em><b>Enumeration Literals</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS__ENUMERATION_LITERALS = eINSTANCE.getClass_EnumerationLiterals();
+
+		/**
 		 * The meta object literal for the '<em><b>Instance Of</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2054,12 +1902,20 @@ public interface OntoumlPackage extends EPackage {
 		EReference CLASS__INSTANCE_OF = eINSTANCE.getClass_InstanceOf();
 
 		/**
-		 * The meta object literal for the '<em><b>Datatypes</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Istruth Maker Of</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__DATATYPES = eINSTANCE.getClass_Datatypes();
+		EReference CLASS__ISTRUTH_MAKER_OF = eINSTANCE.getClass_IstruthMakerOf();
+
+		/**
+		 * The meta object literal for the '<em><b>Attributes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASS__ATTRIBUTES = eINSTANCE.getClass_Attributes();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Specialized Via</b></em>' reference list feature.
@@ -2078,38 +1934,38 @@ public interface OntoumlPackage extends EPackage {
 		EReference CLASS__SPECIALIZES_VIA = eINSTANCE.getClass_SpecializesVia();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Source Of</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Is Rigid</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__IS_SOURCE_OF = eINSTANCE.getClass_IsSourceOf();
+		EOperation CLASS___IS_RIGID = eINSTANCE.getClass__IsRigid();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Target Of</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Is Non Rigid</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__IS_TARGET_OF = eINSTANCE.getClass_IsTargetOf();
+		EOperation CLASS___IS_NON_RIGID = eINSTANCE.getClass__IsNonRigid();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Truth Maker Of</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Is Anti Rigid</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__IS_TRUTH_MAKER_OF = eINSTANCE.getClass_IsTruthMakerOf();
+		EOperation CLASS___IS_ANTI_RIGID = eINSTANCE.getClass__IsAntiRigid();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl <em>Class Binary Relationship</em>}' class.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl <em>Primitive Type</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassBinaryRelationship()
+		 * @see net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitiveType()
 		 * @generated
 		 */
-		EClass CLASS_BINARY_RELATIONSHIP = eINSTANCE.getClassBinaryRelationship();
+		EClass PRIMITIVE_TYPE = eINSTANCE.getPrimitiveType();
 
 		/**
 		 * The meta object literal for the '<em><b>Stereotype</b></em>' attribute feature.
@@ -2117,129 +1973,7 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__STEREOTYPE = eINSTANCE.getClassBinaryRelationship_Stereotype();
-
-		/**
-		 * The meta object literal for the '<em><b>Source End Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME = eINSTANCE.getClassBinaryRelationship_SourceEndName();
-
-		/**
-		 * The meta object literal for the '<em><b>Source Lower Bound</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND = eINSTANCE.getClassBinaryRelationship_SourceLowerBound();
-
-		/**
-		 * The meta object literal for the '<em><b>Source Upper Bound</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND = eINSTANCE.getClassBinaryRelationship_SourceUpperBound();
-
-		/**
-		 * The meta object literal for the '<em><b>Target End Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME = eINSTANCE.getClassBinaryRelationship_TargetEndName();
-
-		/**
-		 * The meta object literal for the '<em><b>Target Lower Bound</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND = eINSTANCE.getClassBinaryRelationship_TargetLowerBound();
-
-		/**
-		 * The meta object literal for the '<em><b>Target Upper Bound</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND = eINSTANCE.getClassBinaryRelationship_TargetUpperBound();
-
-		/**
-		 * The meta object literal for the '<em><b>Part Is Essential</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL = eINSTANCE.getClassBinaryRelationship_PartIsEssential();
-
-		/**
-		 * The meta object literal for the '<em><b>Part Is Inseparable</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE = eINSTANCE.getClassBinaryRelationship_PartIsInseparable();
-
-		/**
-		 * The meta object literal for the '<em><b>Part Is Shareable</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE = eINSTANCE.getClassBinaryRelationship_PartIsShareable();
-
-		/**
-		 * The meta object literal for the '<em><b>Part Is Immutable</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE = eINSTANCE.getClassBinaryRelationship_PartIsImmutable();
-
-		/**
-		 * The meta object literal for the '<em><b>Part Is Mandatory</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY = eINSTANCE.getClassBinaryRelationship_PartIsMandatory();
-
-		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CLASS_BINARY_RELATIONSHIP__SOURCE = eINSTANCE.getClassBinaryRelationship_Source();
-
-		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CLASS_BINARY_RELATIONSHIP__TARGET = eINSTANCE.getClassBinaryRelationship_Target();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.MaterialRelationshipImpl <em>Material Relationship</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.MaterialRelationshipImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMaterialRelationship()
-		 * @generated
-		 */
-		EClass MATERIAL_RELATIONSHIP = eINSTANCE.getMaterialRelationship();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Derived From</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MATERIAL_RELATIONSHIP__IS_DERIVED_FROM = eINSTANCE.getMaterialRelationship_IsDerivedFrom();
+		EAttribute PRIMITIVE_TYPE__STEREOTYPE = eINSTANCE.getPrimitiveType_Stereotype();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl <em>Generalization Set</em>}' class.
@@ -2260,14 +1994,6 @@ public interface OntoumlPackage extends EPackage {
 		EAttribute GENERALIZATION_SET__IS_COVERING = eINSTANCE.getGeneralizationSet_IsCovering();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Disjoint</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute GENERALIZATION_SET__IS_DISJOINT = eINSTANCE.getGeneralizationSet_IsDisjoint();
-
-		/**
 		 * The meta object literal for the '<em><b>Specialized Class</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2284,96 +2010,72 @@ public interface OntoumlPackage extends EPackage {
 		EReference GENERALIZATION_SET__SPECIALIZING_CLASSES = eINSTANCE.getGeneralizationSet_SpecializingClasses();
 
 		/**
-		 * The meta object literal for the '<em><b>Powertype</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Hou</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GENERALIZATION_SET__POWERTYPE = eINSTANCE.getGeneralizationSet_Powertype();
+		EReference GENERALIZATION_SET__HOU = eINSTANCE.getGeneralizationSet_Hou();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.DataTypeImpl <em>Data Type</em>}' class.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PropertyImpl <em>Property</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.DataTypeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDataType()
+		 * @see net.menthor.metamodel.ontouml.impl.PropertyImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getProperty()
 		 * @generated
 		 */
-		EClass DATA_TYPE = eINSTANCE.getDataType();
+		EClass PROPERTY = eINSTANCE.getProperty();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PrimitiveDataTypeImpl <em>Primitive Data Type</em>}' class.
+		 * The meta object literal for the '<em><b>Is Derived</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.PrimitiveDataTypeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitiveDataType()
 		 * @generated
 		 */
-		EClass PRIMITIVE_DATA_TYPE = eINSTANCE.getPrimitiveDataType();
+		EAttribute PROPERTY__IS_DERIVED = eINSTANCE.getProperty_IsDerived();
 
 		/**
-		 * The meta object literal for the '<em><b>Stereotype</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Lower Bound</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PRIMITIVE_DATA_TYPE__STEREOTYPE = eINSTANCE.getPrimitiveDataType_Stereotype();
+		EAttribute PROPERTY__LOWER_BOUND = eINSTANCE.getProperty_LowerBound();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.UserDefinedDataTypeImpl <em>User Defined Data Type</em>}' class.
+		 * The meta object literal for the '<em><b>Upper Bound</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.UserDefinedDataTypeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getUserDefinedDataType()
 		 * @generated
 		 */
-		EClass USER_DEFINED_DATA_TYPE = eINSTANCE.getUserDefinedDataType();
+		EAttribute PROPERTY__UPPER_BOUND = eINSTANCE.getProperty_UpperBound();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.EnumerationImpl <em>Enumeration</em>}' class.
+		 * The meta object literal for the '<em><b>Is Specific Dependent</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.EnumerationImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getEnumeration()
 		 * @generated
 		 */
-		EClass ENUMERATION = eINSTANCE.getEnumeration();
+		EAttribute PROPERTY__IS_SPECIFIC_DEPENDENT = eINSTANCE.getProperty_IsSpecificDependent();
 
 		/**
-		 * The meta object literal for the '<em><b>Enumeration Literals</b></em>' attribute list feature.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.AttributeImpl <em>Attribute</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.AttributeImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAttribute()
 		 * @generated
 		 */
-		EAttribute ENUMERATION__ENUMERATION_LITERALS = eINSTANCE.getEnumeration_EnumerationLiterals();
+		EClass ATTRIBUTE = eINSTANCE.getAttribute();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ComplexDataTypeImpl <em>Complex Data Type</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.ComplexDataTypeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getComplexDataType()
-		 * @generated
-		 */
-		EClass COMPLEX_DATA_TYPE = eINSTANCE.getComplexDataType();
-
-		/**
-		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Owner</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COMPLEX_DATA_TYPE__ATTRIBUTES = eINSTANCE.getComplexDataType_Attributes();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.DataTypeAttributeImpl <em>Data Type Attribute</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.DataTypeAttributeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDataTypeAttribute()
-		 * @generated
-		 */
-		EClass DATA_TYPE_ATTRIBUTE = eINSTANCE.getDataTypeAttribute();
+		EReference ATTRIBUTE__OWNER = eINSTANCE.getAttribute_Owner();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Of Type</b></em>' reference feature.
@@ -2381,25 +2083,187 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference DATA_TYPE_ATTRIBUTE__IS_OF_TYPE = eINSTANCE.getDataTypeAttribute_IsOfType();
+		EReference ATTRIBUTE__IS_OF_TYPE = eINSTANCE.getAttribute_IsOfType();
 
 		/**
-		 * The meta object literal for the '<em><b>Complex Data Type</b></em>' container reference feature.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.EndPointImpl <em>End Point</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.EndPointImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getEndPoint()
+		 * @generated
+		 */
+		EClass END_POINT = eINSTANCE.getEndPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference DATA_TYPE_ATTRIBUTE__COMPLEX_DATA_TYPE = eINSTANCE.getDataTypeAttribute_ComplexDataType();
+		EReference END_POINT__OWNER = eINSTANCE.getEndPoint_Owner();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}' enum.
+		 * The meta object literal for the '<em><b>Is Of Type</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.Relation
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRelation()
 		 * @generated
 		 */
-		EEnum RELATION = eINSTANCE.getRelation();
+		EReference END_POINT__IS_OF_TYPE = eINSTANCE.getEndPoint_IsOfType();
+
+		/**
+		 * The meta object literal for the '<em><b>Subsets</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference END_POINT__SUBSETS = eINSTANCE.getEndPoint_Subsets();
+
+		/**
+		 * The meta object literal for the '<em><b>Redefines</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference END_POINT__REDEFINES = eINSTANCE.getEndPoint_Redefines();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Subsetted By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference END_POINT__IS_SUBSETTED_BY = eINSTANCE.getEndPoint_IsSubsettedBy();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Redefeined By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference END_POINT__IS_REDEFEINED_BY = eINSTANCE.getEndPoint_IsRedefeinedBy();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl <em>Class Binary Relationship</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassBinaryRelationship()
+		 * @generated
+		 */
+		EClass CLASS_BINARY_RELATIONSHIP = eINSTANCE.getClassBinaryRelationship();
+
+		/**
+		 * The meta object literal for the '<em><b>Stereotype</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__STEREOTYPE = eINSTANCE.getClassBinaryRelationship_Stereotype();
+
+		/**
+		 * The meta object literal for the '<em><b>End Points</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASS_BINARY_RELATIONSHIP__END_POINTS = eINSTANCE.getClassBinaryRelationship_EndPoints();
+
+		/**
+		 * The meta object literal for the '<em><b>Part Is Shareable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE = eINSTANCE.getClassBinaryRelationship_PartIsShareable();
+
+		/**
+		 * The meta object literal for the '<em><b>Truth Maker</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER = eINSTANCE.getClassBinaryRelationship_TruthMaker();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Derived</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__IS_DERIVED = eINSTANCE.getClassBinaryRelationship_IsDerived();
+
+		/**
+		 * The meta object literal for the '<em><b>Part Is Essential</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL = eINSTANCE.getClassBinaryRelationship_PartIsEssential();
+
+		/**
+		 * The meta object literal for the '<em><b>Part Is Inseparable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE = eINSTANCE.getClassBinaryRelationship_PartIsInseparable();
+
+		/**
+		 * The meta object literal for the '<em><b>Part Is Immutable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE = eINSTANCE.getClassBinaryRelationship_PartIsImmutable();
+
+		/**
+		 * The meta object literal for the '<em><b>Whole Is Immutable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__WHOLE_IS_IMMUTABLE = eINSTANCE.getClassBinaryRelationship_WholeIsImmutable();
+
+		/**
+		 * The meta object literal for the '<em><b>Part Is Mandatory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY = eINSTANCE.getClassBinaryRelationship_PartIsMandatory();
+
+		/**
+		 * The meta object literal for the '<em><b>Whole Is Mandatory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_BINARY_RELATIONSHIP__WHOLE_IS_MANDATORY = eINSTANCE.getClassBinaryRelationship_WholeIsMandatory();
+
+		/**
+		 * The meta object literal for the '<em><b>Source End</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS_BINARY_RELATIONSHIP___SOURCE_END = eINSTANCE.getClassBinaryRelationship__SourceEnd();
+
+		/**
+		 * The meta object literal for the '<em><b>Target End</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS_BINARY_RELATIONSHIP___TARGET_END = eINSTANCE.getClassBinaryRelationship__TargetEnd();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Meronymic</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS_BINARY_RELATIONSHIP___IS_MERONYMIC = eINSTANCE.getClassBinaryRelationship__IsMeronymic();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
@@ -2420,6 +2284,16 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum PRIMITIVE = eINSTANCE.getPrimitive();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.Relation
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRelation()
+		 * @generated
+		 */
+		EEnum RELATION = eINSTANCE.getRelation();
 
 	}
 

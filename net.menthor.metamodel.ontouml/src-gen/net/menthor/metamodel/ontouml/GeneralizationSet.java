@@ -13,10 +13,9 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#isIsCovering <em>Is Covering</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#isIsDisjoint <em>Is Disjoint</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClass <em>Specialized Class</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializingClasses <em>Specializing Classes</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getPowertype <em>Powertype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHou <em>Hou</em>}</li>
  * </ul>
  * </p>
  *
@@ -24,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface GeneralizationSet extends NamedElement, PackageableElement {
+public interface GeneralizationSet extends NamedElement, ContainingElement {
 	/**
 	 * Returns the value of the '<em><b>Is Covering</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -52,45 +51,18 @@ public interface GeneralizationSet extends NamedElement, PackageableElement {
 	void setIsCovering(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Is Disjoint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Is Disjoint</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Disjoint</em>' attribute.
-	 * @see #setIsDisjoint(boolean)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_IsDisjoint()
-	 * @model unique="false"
-	 * @generated
-	 */
-	boolean isIsDisjoint();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.GeneralizationSet#isIsDisjoint <em>Is Disjoint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Disjoint</em>' attribute.
-	 * @see #isIsDisjoint()
-	 * @generated
-	 */
-	void setIsDisjoint(boolean value);
-
-	/**
 	 * Returns the value of the '<em><b>Specialized Class</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getIsSpecializedVia <em>Is Specialized Via</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Specialized Class</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 *  JP: Default should be true, but isDijoint has been removed. Use different GeneralizationSets if necessary to represent disjointness.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Specialized Class</em>' reference.
 	 * @see #setSpecializedClass(net.menthor.metamodel.ontouml.Class)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_SpecializedClass()
 	 * @see net.menthor.metamodel.ontouml.Class#getIsSpecializedVia
-	 * @model opposite="isSpecializedVia" resolveProxies="false" required="true"
+	 * @model opposite="isSpecializedVia" required="true"
 	 * @generated
 	 */
 	net.menthor.metamodel.ontouml.Class getSpecializedClass();
@@ -118,35 +90,35 @@ public interface GeneralizationSet extends NamedElement, PackageableElement {
 	 * @return the value of the '<em>Specializing Classes</em>' reference list.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_SpecializingClasses()
 	 * @see net.menthor.metamodel.ontouml.Class#getSpecializesVia
-	 * @model opposite="specializesVia" resolveProxies="false" required="true" ordered="false"
+	 * @model opposite="specializesVia" required="true" ordered="false"
 	 * @generated
 	 */
 	EList<net.menthor.metamodel.ontouml.Class> getSpecializingClasses();
 
 	/**
-	 * Returns the value of the '<em><b>Powertype</b></em>' reference.
+	 * Returns the value of the '<em><b>Hou</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Powertype</em>' reference isn't clear,
+	 * If the meaning of the '<em>Hou</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Powertype</em>' reference.
-	 * @see #setPowertype(HighOrderClass)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_Powertype()
+	 * @return the value of the '<em>Hou</em>' reference.
+	 * @see #setHou(net.menthor.metamodel.ontouml.Class)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_Hou()
 	 * @model
 	 * @generated
 	 */
-	HighOrderClass getPowertype();
+	net.menthor.metamodel.ontouml.Class getHou();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getPowertype <em>Powertype</em>}' reference.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHou <em>Hou</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Powertype</em>' reference.
-	 * @see #getPowertype()
+	 * @param value the new value of the '<em>Hou</em>' reference.
+	 * @see #getHou()
 	 * @generated
 	 */
-	void setPowertype(HighOrderClass value);
+	void setHou(net.menthor.metamodel.ontouml.Class value);
 
 } // GeneralizationSet

@@ -26,7 +26,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	KIND(0, "Kind", "kind"),
+	KIND(0, "Kind", "Kind"),
 
 	/**
 	 * The '<em><b>Collective</b></em>' literal object.
@@ -36,7 +36,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	COLLECTIVE(0, "Collective", "collective"),
+	COLLECTIVE(0, "Collective", "Collective"),
 
 	/**
 	 * The '<em><b>Quantity</b></em>' literal object.
@@ -46,7 +46,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	QUANTITY(0, "Quantity", "quantity"),
+	QUANTITY(0, "Quantity", "Quantity"),
 
 	/**
 	 * The '<em><b>Relator</b></em>' literal object.
@@ -56,7 +56,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	RELATOR(0, "Relator", "relator"),
+	RELATOR(0, "Relator", "Relator"),
 
 	/**
 	 * The '<em><b>Mode</b></em>' literal object.
@@ -66,7 +66,17 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MODE(0, "Mode", "mode"),
+	MODE(0, "Mode", "Mode"),
+
+	/**
+	 * The '<em><b>Quality</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #QUALITY_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	QUALITY(0, "Quality", "Quality"),
 
 	/**
 	 * The '<em><b>Perceivable Quality</b></em>' literal object.
@@ -76,7 +86,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PERCEIVABLE_QUALITY(0, "PerceivableQuality", "perceivaleQuality"),
+	PERCEIVABLE_QUALITY(0, "PerceivableQuality", "PerceivableQuality"),
 
 	/**
 	 * The '<em><b>Non Perceivable Quality</b></em>' literal object.
@@ -86,7 +96,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NON_PERCEIVABLE_QUALITY(0, "NonPerceivableQuality", "nonPerceivableQuality"),
+	NON_PERCEIVABLE_QUALITY(0, "NonPerceivableQuality", "NonPerceivableQuality"),
 
 	/**
 	 * The '<em><b>Nominal Quality</b></em>' literal object.
@@ -96,7 +106,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NOMINAL_QUALITY(0, "NominalQuality", "nominalQuality"),
+	NOMINAL_QUALITY(0, "NominalQuality", "NominalQuality"),
 
 	/**
 	 * The '<em><b>Role</b></em>' literal object.
@@ -106,7 +116,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ROLE(0, "Role", "role"),
+	ROLE(0, "Role", "Role"),
 
 	/**
 	 * The '<em><b>Phase</b></em>' literal object.
@@ -116,7 +126,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PHASE(0, "Phase", "phase"),
+	PHASE(0, "Phase", "Phase"),
 
 	/**
 	 * The '<em><b>Sub Kind</b></em>' literal object.
@@ -126,7 +136,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SUB_KIND(0, "SubKind", "subKind"),
+	SUB_KIND(0, "SubKind", "SubKind"),
 
 	/**
 	 * The '<em><b>Category</b></em>' literal object.
@@ -136,7 +146,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CATEGORY(0, "Category", "category"),
+	CATEGORY(0, "Category", "Category"),
 
 	/**
 	 * The '<em><b>Mixin</b></em>' literal object.
@@ -146,7 +156,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MIXIN(0, "Mixin", "mixin"),
+	MIXIN(0, "Mixin", "Mixin"),
 
 	/**
 	 * The '<em><b>Role Mixin</b></em>' literal object.
@@ -156,7 +166,7 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ROLE_MIXIN(0, "RoleMixin", "roleMixin"),
+	ROLE_MIXIN(0, "RoleMixin", "RoleMixin"),
 
 	/**
 	 * The '<em><b>Event</b></em>' literal object.
@@ -166,17 +176,37 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	EVENT(0, "Event", "event"),
+	EVENT(0, "Event", "Event"),
 
 	/**
-	 * The '<em><b>High Order Universal</b></em>' literal object.
+	 * The '<em><b>Hou</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #HIGH_ORDER_UNIVERSAL_VALUE
+	 * @see #HOU_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	HIGH_ORDER_UNIVERSAL(0, "HighOrderUniversal", "hou");
+	HOU(0, "Hou", "Hou"),
+
+	/**
+	 * The '<em><b>Data Type</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DATA_TYPE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DATA_TYPE(0, "DataType", "DataType"),
+
+	/**
+	 * The '<em><b>Enumeration</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ENUMERATION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	ENUMERATION(0, "Enumeration", "Enumeration");
 
 	/**
 	 * The '<em><b>Kind</b></em>' literal value.
@@ -187,7 +217,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #KIND
-	 * @model name="Kind" literal="kind"
+	 * @model name="Kind"
 	 * @generated
 	 * @ordered
 	 */
@@ -202,7 +232,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COLLECTIVE
-	 * @model name="Collective" literal="collective"
+	 * @model name="Collective"
 	 * @generated
 	 * @ordered
 	 */
@@ -217,7 +247,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #QUANTITY
-	 * @model name="Quantity" literal="quantity"
+	 * @model name="Quantity"
 	 * @generated
 	 * @ordered
 	 */
@@ -232,7 +262,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RELATOR
-	 * @model name="Relator" literal="relator"
+	 * @model name="Relator"
 	 * @generated
 	 * @ordered
 	 */
@@ -247,11 +277,26 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MODE
-	 * @model name="Mode" literal="mode"
+	 * @model name="Mode"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int MODE_VALUE = 0;
+
+	/**
+	 * The '<em><b>Quality</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Quality</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #QUALITY
+	 * @model name="Quality"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int QUALITY_VALUE = 0;
 
 	/**
 	 * The '<em><b>Perceivable Quality</b></em>' literal value.
@@ -262,7 +307,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PERCEIVABLE_QUALITY
-	 * @model name="PerceivableQuality" literal="perceivaleQuality"
+	 * @model name="PerceivableQuality"
 	 * @generated
 	 * @ordered
 	 */
@@ -277,7 +322,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NON_PERCEIVABLE_QUALITY
-	 * @model name="NonPerceivableQuality" literal="nonPerceivableQuality"
+	 * @model name="NonPerceivableQuality"
 	 * @generated
 	 * @ordered
 	 */
@@ -292,7 +337,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NOMINAL_QUALITY
-	 * @model name="NominalQuality" literal="nominalQuality"
+	 * @model name="NominalQuality"
 	 * @generated
 	 * @ordered
 	 */
@@ -307,7 +352,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ROLE
-	 * @model name="Role" literal="role"
+	 * @model name="Role"
 	 * @generated
 	 * @ordered
 	 */
@@ -322,7 +367,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PHASE
-	 * @model name="Phase" literal="phase"
+	 * @model name="Phase"
 	 * @generated
 	 * @ordered
 	 */
@@ -337,7 +382,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SUB_KIND
-	 * @model name="SubKind" literal="subKind"
+	 * @model name="SubKind"
 	 * @generated
 	 * @ordered
 	 */
@@ -352,7 +397,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CATEGORY
-	 * @model name="Category" literal="category"
+	 * @model name="Category"
 	 * @generated
 	 * @ordered
 	 */
@@ -367,7 +412,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MIXIN
-	 * @model name="Mixin" literal="mixin"
+	 * @model name="Mixin"
 	 * @generated
 	 * @ordered
 	 */
@@ -382,7 +427,7 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ROLE_MIXIN
-	 * @model name="RoleMixin" literal="roleMixin"
+	 * @model name="RoleMixin"
 	 * @generated
 	 * @ordered
 	 */
@@ -397,26 +442,56 @@ public enum Universal implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EVENT
-	 * @model name="Event" literal="event"
+	 * @model name="Event"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int EVENT_VALUE = 0;
 
 	/**
-	 * The '<em><b>High Order Universal</b></em>' literal value.
+	 * The '<em><b>Hou</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>High Order Universal</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Hou</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #HIGH_ORDER_UNIVERSAL
-	 * @model name="HighOrderUniversal" literal="hou"
+	 * @see #HOU
+	 * @model name="Hou"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int HIGH_ORDER_UNIVERSAL_VALUE = 0;
+	public static final int HOU_VALUE = 0;
+
+	/**
+	 * The '<em><b>Data Type</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Data Type</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATA_TYPE
+	 * @model name="DataType"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DATA_TYPE_VALUE = 0;
+
+	/**
+	 * The '<em><b>Enumeration</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Enumeration</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ENUMERATION
+	 * @model name="Enumeration"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ENUMERATION_VALUE = 0;
 
 	/**
 	 * An array of all the '<em><b>Universal</b></em>' enumerators.
@@ -431,6 +506,7 @@ public enum Universal implements Enumerator {
 			QUANTITY,
 			RELATOR,
 			MODE,
+			QUALITY,
 			PERCEIVABLE_QUALITY,
 			NON_PERCEIVABLE_QUALITY,
 			NOMINAL_QUALITY,
@@ -441,7 +517,9 @@ public enum Universal implements Enumerator {
 			MIXIN,
 			ROLE_MIXIN,
 			EVENT,
-			HIGH_ORDER_UNIVERSAL,
+			HOU,
+			DATA_TYPE,
+			ENUMERATION,
 		};
 
 	/**

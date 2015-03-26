@@ -4,10 +4,9 @@ package net.menthor.metamodel.ontouml.impl;
 
 import java.util.Collection;
 
+import net.menthor.metamodel.ontouml.ContainingElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
-import net.menthor.metamodel.ontouml.HighOrderClass;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PackageableElement;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -19,7 +18,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -30,12 +29,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getContainer_ <em>Container </em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHolder <em>Holder</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#isIsCovering <em>Is Covering</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#isIsDisjoint <em>Is Disjoint</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializedClass <em>Specialized Class</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializingClasses <em>Specializing Classes</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getPowertype <em>Powertype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHou <em>Hou</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,26 +61,6 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	protected boolean isCovering = IS_COVERING_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIsDisjoint() <em>Is Disjoint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isIsDisjoint()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean IS_DISJOINT_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isIsDisjoint() <em>Is Disjoint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isIsDisjoint()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean isDisjoint = IS_DISJOINT_EDEFAULT;
-
-	/**
 	 * The cached value of the '{@link #getSpecializedClass() <em>Specialized Class</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -103,14 +81,14 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	protected EList<net.menthor.metamodel.ontouml.Class> specializingClasses;
 
 	/**
-	 * The cached value of the '{@link #getPowertype() <em>Powertype</em>}' reference.
+	 * The cached value of the '{@link #getHou() <em>Hou</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPowertype()
+	 * @see #getHou()
 	 * @generated
 	 * @ordered
 	 */
-	protected HighOrderClass powertype;
+	protected net.menthor.metamodel.ontouml.Class hou;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -136,8 +114,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container getContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.GENERALIZATION_SET__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container getHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.GENERALIZATION_SET__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eContainer();
 	}
 
@@ -146,8 +124,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container basicGetContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.GENERALIZATION_SET__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.GENERALIZATION_SET__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
 	}
 
@@ -156,8 +134,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetContainer_(net.menthor.metamodel.ontouml.Container newContainer_, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newContainer_, OntoumlPackage.GENERALIZATION_SET__CONTAINER_, msgs);
+	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.GENERALIZATION_SET__HOLDER, msgs);
 		return msgs;
 	}
 
@@ -166,20 +144,20 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setContainer_(net.menthor.metamodel.ontouml.Container newContainer_) {
-		if (newContainer_ != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.GENERALIZATION_SET__CONTAINER_ && newContainer_ != null)) {
-			if (EcoreUtil.isAncestor(this, newContainer_))
+	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
+		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.GENERALIZATION_SET__HOLDER && newHolder != null)) {
+			if (EcoreUtil.isAncestor(this, newHolder))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
-			if (newContainer_ != null)
-				msgs = ((InternalEObject)newContainer_).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-			msgs = basicSetContainer_(newContainer_, msgs);
+			if (newHolder != null)
+				msgs = ((InternalEObject)newHolder).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
+			msgs = basicSetHolder(newHolder, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__CONTAINER_, newContainer_, newContainer_));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__HOLDER, newHolder, newHolder));
 	}
 
 	/**
@@ -208,28 +186,24 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isIsDisjoint() {
-		return isDisjoint;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIsDisjoint(boolean newIsDisjoint) {
-		boolean oldIsDisjoint = isDisjoint;
-		isDisjoint = newIsDisjoint;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__IS_DISJOINT, oldIsDisjoint, isDisjoint));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public net.menthor.metamodel.ontouml.Class getSpecializedClass() {
+		if (specializedClass != null && specializedClass.eIsProxy()) {
+			InternalEObject oldSpecializedClass = (InternalEObject)specializedClass;
+			specializedClass = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldSpecializedClass);
+			if (specializedClass != oldSpecializedClass) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS, oldSpecializedClass, specializedClass));
+			}
+		}
+		return specializedClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public net.menthor.metamodel.ontouml.Class basicGetSpecializedClass() {
 		return specializedClass;
 	}
 
@@ -274,7 +248,7 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 */
 	public EList<net.menthor.metamodel.ontouml.Class> getSpecializingClasses() {
 		if (specializingClasses == null) {
-			specializingClasses = new EObjectWithInverseEList.ManyInverse<net.menthor.metamodel.ontouml.Class>(net.menthor.metamodel.ontouml.Class.class, this, OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES, OntoumlPackage.CLASS__SPECIALIZES_VIA);
+			specializingClasses = new EObjectWithInverseResolvingEList.ManyInverse<net.menthor.metamodel.ontouml.Class>(net.menthor.metamodel.ontouml.Class.class, this, OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES, OntoumlPackage.CLASS__SPECIALIZES_VIA);
 		}
 		return specializingClasses;
 	}
@@ -284,16 +258,16 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public HighOrderClass getPowertype() {
-		if (powertype != null && powertype.eIsProxy()) {
-			InternalEObject oldPowertype = (InternalEObject)powertype;
-			powertype = (HighOrderClass)eResolveProxy(oldPowertype);
-			if (powertype != oldPowertype) {
+	public net.menthor.metamodel.ontouml.Class getHou() {
+		if (hou != null && hou.eIsProxy()) {
+			InternalEObject oldHou = (InternalEObject)hou;
+			hou = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldHou);
+			if (hou != oldHou) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__POWERTYPE, oldPowertype, powertype));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__HOU, oldHou, hou));
 			}
 		}
-		return powertype;
+		return hou;
 	}
 
 	/**
@@ -301,8 +275,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public HighOrderClass basicGetPowertype() {
-		return powertype;
+	public net.menthor.metamodel.ontouml.Class basicGetHou() {
+		return hou;
 	}
 
 	/**
@@ -310,11 +284,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPowertype(HighOrderClass newPowertype) {
-		HighOrderClass oldPowertype = powertype;
-		powertype = newPowertype;
+	public void setHou(net.menthor.metamodel.ontouml.Class newHou) {
+		net.menthor.metamodel.ontouml.Class oldHou = hou;
+		hou = newHou;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__POWERTYPE, oldPowertype, powertype));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__HOU, oldHou, hou));
 	}
 
 	/**
@@ -326,10 +300,10 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetContainer_((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				if (specializedClass != null)
 					msgs = ((InternalEObject)specializedClass).eInverseRemove(this, OntoumlPackage.CLASS__IS_SPECIALIZED_VIA, net.menthor.metamodel.ontouml.Class.class, msgs);
@@ -348,8 +322,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
-				return basicSetContainer_(null, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
+				return basicSetHolder(null, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				return basicSetSpecializedClass(null, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
@@ -366,7 +340,7 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -380,20 +354,19 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
-				if (resolve) return getContainer_();
-				return basicGetContainer_();
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
+				if (resolve) return getHolder();
+				return basicGetHolder();
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				return isIsCovering();
-			case OntoumlPackage.GENERALIZATION_SET__IS_DISJOINT:
-				return isIsDisjoint();
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				return getSpecializedClass();
+				if (resolve) return getSpecializedClass();
+				return basicGetSpecializedClass();
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
 				return getSpecializingClasses();
-			case OntoumlPackage.GENERALIZATION_SET__POWERTYPE:
-				if (resolve) return getPowertype();
-				return basicGetPowertype();
+			case OntoumlPackage.GENERALIZATION_SET__HOU:
+				if (resolve) return getHou();
+				return basicGetHou();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -407,14 +380,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)newValue);
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				setIsCovering((Boolean)newValue);
-				return;
-			case OntoumlPackage.GENERALIZATION_SET__IS_DISJOINT:
-				setIsDisjoint((Boolean)newValue);
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				setSpecializedClass((net.menthor.metamodel.ontouml.Class)newValue);
@@ -423,8 +393,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				getSpecializingClasses().clear();
 				getSpecializingClasses().addAll((Collection<? extends net.menthor.metamodel.ontouml.Class>)newValue);
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__POWERTYPE:
-				setPowertype((HighOrderClass)newValue);
+			case OntoumlPackage.GENERALIZATION_SET__HOU:
+				setHou((net.menthor.metamodel.ontouml.Class)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -438,14 +408,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)null);
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				setIsCovering(IS_COVERING_EDEFAULT);
-				return;
-			case OntoumlPackage.GENERALIZATION_SET__IS_DISJOINT:
-				setIsDisjoint(IS_DISJOINT_EDEFAULT);
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				setSpecializedClass((net.menthor.metamodel.ontouml.Class)null);
@@ -453,8 +420,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
 				getSpecializingClasses().clear();
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__POWERTYPE:
-				setPowertype((HighOrderClass)null);
+			case OntoumlPackage.GENERALIZATION_SET__HOU:
+				setHou((net.menthor.metamodel.ontouml.Class)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -468,18 +435,16 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.GENERALIZATION_SET__CONTAINER_:
-				return basicGetContainer_() != null;
+			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
+				return basicGetHolder() != null;
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				return isCovering != IS_COVERING_EDEFAULT;
-			case OntoumlPackage.GENERALIZATION_SET__IS_DISJOINT:
-				return isDisjoint != IS_DISJOINT_EDEFAULT;
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				return specializedClass != null;
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
 				return specializingClasses != null && !specializingClasses.isEmpty();
-			case OntoumlPackage.GENERALIZATION_SET__POWERTYPE:
-				return powertype != null;
+			case OntoumlPackage.GENERALIZATION_SET__HOU:
+				return hou != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -491,9 +456,9 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == PackageableElement.class) {
+		if (baseClass == ContainingElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.GENERALIZATION_SET__CONTAINER_: return OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_;
+				case OntoumlPackage.GENERALIZATION_SET__HOLDER: return OntoumlPackage.CONTAINING_ELEMENT__HOLDER;
 				default: return -1;
 			}
 		}
@@ -507,9 +472,9 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == PackageableElement.class) {
+		if (baseClass == ContainingElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_: return OntoumlPackage.GENERALIZATION_SET__CONTAINER_;
+				case OntoumlPackage.CONTAINING_ELEMENT__HOLDER: return OntoumlPackage.GENERALIZATION_SET__HOLDER;
 				default: return -1;
 			}
 		}
@@ -528,8 +493,6 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (isCovering: ");
 		result.append(isCovering);
-		result.append(", isDisjoint: ");
-		result.append(isDisjoint);
 		result.append(')');
 		return result.toString();
 	}

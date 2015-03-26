@@ -5,21 +5,21 @@ package net.menthor.metamodel.ontouml;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Primitive Data Type</b></em>'.
+ * A representation of the model object '<em><b>Primitive Type</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.PrimitiveDataType#getStereotype <em>Stereotype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.PrimitiveType#getStereotype <em>Stereotype</em>}</li>
  * </ul>
  * </p>
  *
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitiveDataType()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitiveType()
  * @model
  * @generated
  */
-public interface PrimitiveDataType extends DataType {
+public interface PrimitiveType extends ContainingElement {
 	/**
 	 * Returns the value of the '<em><b>Stereotype</b></em>' attribute.
 	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Primitive}.
@@ -32,14 +32,14 @@ public interface PrimitiveDataType extends DataType {
 	 * @return the value of the '<em>Stereotype</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.Primitive
 	 * @see #setStereotype(Primitive)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitiveDataType_Stereotype()
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitiveType_Stereotype()
 	 * @model unique="false" required="true"
 	 * @generated
 	 */
 	Primitive getStereotype();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.PrimitiveDataType#getStereotype <em>Stereotype</em>}' attribute.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.PrimitiveType#getStereotype <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Stereotype</em>' attribute.
@@ -49,4 +49,4 @@ public interface PrimitiveDataType extends DataType {
 	 */
 	void setStereotype(Primitive value);
 
-} // PrimitiveDataType
+} // PrimitiveType

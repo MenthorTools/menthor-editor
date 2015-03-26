@@ -26,7 +26,7 @@ public enum Primitive implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	BOOLEAN(0, "Boolean", "boolean"),
+	BOOLEAN(0, "Boolean", "Boolean"),
 
 	/**
 	 * The '<em><b>String</b></em>' literal object.
@@ -36,7 +36,7 @@ public enum Primitive implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	STRING(0, "String", "string"),
+	STRING(0, "String", "String"),
 
 	/**
 	 * The '<em><b>Real</b></em>' literal object.
@@ -46,7 +46,7 @@ public enum Primitive implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REAL(0, "Real", "real"),
+	REAL(0, "Real", "Real"),
 
 	/**
 	 * The '<em><b>Integer</b></em>' literal object.
@@ -56,7 +56,7 @@ public enum Primitive implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	INTEGER(0, "Integer", "integer"),
+	INTEGER(0, "Integer", "Integer"),
 
 	/**
 	 * The '<em><b>Unlimited Natural</b></em>' literal object.
@@ -66,7 +66,17 @@ public enum Primitive implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	UNLIMITED_NATURAL(0, "UnlimitedNatural", "unlimitedNatural");
+	UNLIMITED_NATURAL(0, "UnlimitedNatural", "UnlimitedNatural"),
+
+	/**
+	 * The '<em><b>Date</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DATE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DATE(0, "Date", "Date");
 
 	/**
 	 * The '<em><b>Boolean</b></em>' literal value.
@@ -77,7 +87,7 @@ public enum Primitive implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BOOLEAN
-	 * @model name="Boolean" literal="boolean"
+	 * @model name="Boolean"
 	 * @generated
 	 * @ordered
 	 */
@@ -92,7 +102,7 @@ public enum Primitive implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #STRING
-	 * @model name="String" literal="string"
+	 * @model name="String"
 	 * @generated
 	 * @ordered
 	 */
@@ -107,7 +117,7 @@ public enum Primitive implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REAL
-	 * @model name="Real" literal="real"
+	 * @model name="Real"
 	 * @generated
 	 * @ordered
 	 */
@@ -122,7 +132,7 @@ public enum Primitive implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INTEGER
-	 * @model name="Integer" literal="integer"
+	 * @model name="Integer"
 	 * @generated
 	 * @ordered
 	 */
@@ -137,11 +147,26 @@ public enum Primitive implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UNLIMITED_NATURAL
-	 * @model name="UnlimitedNatural" literal="unlimitedNatural"
+	 * @model name="UnlimitedNatural"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int UNLIMITED_NATURAL_VALUE = 0;
+
+	/**
+	 * The '<em><b>Date</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Date</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATE
+	 * @model name="Date"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DATE_VALUE = 0;
 
 	/**
 	 * An array of all the '<em><b>Primitive</b></em>' enumerators.
@@ -156,6 +181,7 @@ public enum Primitive implements Enumerator {
 			REAL,
 			INTEGER,
 			UNLIMITED_NATURAL,
+			DATE,
 		};
 
 	/**

@@ -2,8 +2,8 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import net.menthor.metamodel.ontouml.ContainingElement;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PackageableElement;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PackageImpl#getContainer_ <em>Container </em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.PackageImpl#getHolder <em>Holder</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,8 +53,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container getContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.PACKAGE__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container getHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.PACKAGE__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eContainer();
 	}
 
@@ -63,8 +63,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container basicGetContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.PACKAGE__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.PACKAGE__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
 	}
 
@@ -73,8 +73,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetContainer_(net.menthor.metamodel.ontouml.Container newContainer_, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newContainer_, OntoumlPackage.PACKAGE__CONTAINER_, msgs);
+	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.PACKAGE__HOLDER, msgs);
 		return msgs;
 	}
 
@@ -83,20 +83,20 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setContainer_(net.menthor.metamodel.ontouml.Container newContainer_) {
-		if (newContainer_ != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.PACKAGE__CONTAINER_ && newContainer_ != null)) {
-			if (EcoreUtil.isAncestor(this, newContainer_))
+	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
+		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.PACKAGE__HOLDER && newHolder != null)) {
+			if (EcoreUtil.isAncestor(this, newHolder))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
-			if (newContainer_ != null)
-				msgs = ((InternalEObject)newContainer_).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-			msgs = basicSetContainer_(newContainer_, msgs);
+			if (newHolder != null)
+				msgs = ((InternalEObject)newHolder).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
+			msgs = basicSetHolder(newHolder, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PACKAGE__CONTAINER_, newContainer_, newContainer_));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PACKAGE__HOLDER, newHolder, newHolder));
 	}
 
 	/**
@@ -107,10 +107,10 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
+			case OntoumlPackage.PACKAGE__HOLDER:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetContainer_((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -123,8 +123,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
-				return basicSetContainer_(null, msgs);
+			case OntoumlPackage.PACKAGE__HOLDER:
+				return basicSetHolder(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -137,7 +137,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
+			case OntoumlPackage.PACKAGE__HOLDER:
 				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -151,9 +151,9 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
-				if (resolve) return getContainer_();
-				return basicGetContainer_();
+			case OntoumlPackage.PACKAGE__HOLDER:
+				if (resolve) return getHolder();
+				return basicGetHolder();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,8 +166,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)newValue);
+			case OntoumlPackage.PACKAGE__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -181,8 +181,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)null);
+			case OntoumlPackage.PACKAGE__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -196,8 +196,8 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__CONTAINER_:
-				return basicGetContainer_() != null;
+			case OntoumlPackage.PACKAGE__HOLDER:
+				return basicGetHolder() != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -209,9 +209,9 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == PackageableElement.class) {
+		if (baseClass == ContainingElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.PACKAGE__CONTAINER_: return OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_;
+				case OntoumlPackage.PACKAGE__HOLDER: return OntoumlPackage.CONTAINING_ELEMENT__HOLDER;
 				default: return -1;
 			}
 		}
@@ -225,9 +225,9 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == PackageableElement.class) {
+		if (baseClass == ContainingElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_: return OntoumlPackage.PACKAGE__CONTAINER_;
+				case OntoumlPackage.CONTAINING_ELEMENT__HOLDER: return OntoumlPackage.PACKAGE__HOLDER;
 				default: return -1;
 			}
 		}

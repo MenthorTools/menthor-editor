@@ -2,8 +2,8 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import net.menthor.metamodel.ontouml.ContainingElement;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PackageableElement;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -17,24 +17,24 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Packageable Element</b></em>'.
+ * An implementation of the model object '<em><b>Containing Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PackageableElementImpl#getContainer_ <em>Container </em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ContainingElementImpl#getHolder <em>Holder</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class PackageableElementImpl extends ElementImpl implements PackageableElement {
+public abstract class ContainingElementImpl extends ElementImpl implements ContainingElement {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PackageableElementImpl() {
+	protected ContainingElementImpl() {
 		super();
 	}
 
@@ -45,7 +45,7 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return OntoumlPackage.Literals.PACKAGEABLE_ELEMENT;
+		return OntoumlPackage.Literals.CONTAINING_ELEMENT;
 	}
 
 	/**
@@ -53,8 +53,8 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container getContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container getHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.CONTAINING_ELEMENT__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eContainer();
 	}
 
@@ -63,8 +63,8 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container basicGetContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.CONTAINING_ELEMENT__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
 	}
 
@@ -73,8 +73,8 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetContainer_(net.menthor.metamodel.ontouml.Container newContainer_, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newContainer_, OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_, msgs);
+	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.CONTAINING_ELEMENT__HOLDER, msgs);
 		return msgs;
 	}
 
@@ -83,20 +83,20 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setContainer_(net.menthor.metamodel.ontouml.Container newContainer_) {
-		if (newContainer_ != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_ && newContainer_ != null)) {
-			if (EcoreUtil.isAncestor(this, newContainer_))
+	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
+		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.CONTAINING_ELEMENT__HOLDER && newHolder != null)) {
+			if (EcoreUtil.isAncestor(this, newHolder))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
-			if (newContainer_ != null)
-				msgs = ((InternalEObject)newContainer_).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-			msgs = basicSetContainer_(newContainer_, msgs);
+			if (newHolder != null)
+				msgs = ((InternalEObject)newHolder).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
+			msgs = basicSetHolder(newHolder, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_, newContainer_, newContainer_));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CONTAINING_ELEMENT__HOLDER, newHolder, newHolder));
 	}
 
 	/**
@@ -107,10 +107,10 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetContainer_((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -123,8 +123,8 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
-				return basicSetContainer_(null, msgs);
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
+				return basicSetHolder(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -137,7 +137,7 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
 				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -151,9 +151,9 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
-				if (resolve) return getContainer_();
-				return basicGetContainer_();
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
+				if (resolve) return getHolder();
+				return basicGetHolder();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,8 +166,8 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)newValue);
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -181,8 +181,8 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)null);
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -196,10 +196,10 @@ public abstract class PackageableElementImpl extends ElementImpl implements Pack
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_:
-				return basicGetContainer_() != null;
+			case OntoumlPackage.CONTAINING_ELEMENT__HOLDER:
+				return basicGetHolder() != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //PackageableElementImpl
+} //ContainingElementImpl

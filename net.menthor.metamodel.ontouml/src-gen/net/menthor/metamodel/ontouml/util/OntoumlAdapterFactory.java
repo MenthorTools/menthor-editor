@@ -2,22 +2,18 @@
  */
 package net.menthor.metamodel.ontouml.util;
 
+import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
-import net.menthor.metamodel.ontouml.ComplexDataType;
 import net.menthor.metamodel.ontouml.Container;
-import net.menthor.metamodel.ontouml.DataType;
-import net.menthor.metamodel.ontouml.DataTypeAttribute;
+import net.menthor.metamodel.ontouml.ContainingElement;
 import net.menthor.metamodel.ontouml.Element;
-import net.menthor.metamodel.ontouml.Enumeration;
+import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
-import net.menthor.metamodel.ontouml.HighOrderClass;
-import net.menthor.metamodel.ontouml.MaterialRelationship;
 import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.NamedElement;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PackageableElement;
-import net.menthor.metamodel.ontouml.PrimitiveDataType;
-import net.menthor.metamodel.ontouml.UserDefinedDataType;
+import net.menthor.metamodel.ontouml.PrimitiveType;
+import net.menthor.metamodel.ontouml.Property;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -95,8 +91,8 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 				return createContainerAdapter();
 			}
 			@Override
-			public Adapter casePackageableElement(PackageableElement object) {
-				return createPackageableElementAdapter();
+			public Adapter caseContainingElement(ContainingElement object) {
+				return createContainingElementAdapter();
 			}
 			@Override
 			public Adapter caseModel(Model object) {
@@ -107,48 +103,32 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 				return createPackageAdapter();
 			}
 			@Override
-			public Adapter caseHighOrderClass(HighOrderClass object) {
-				return createHighOrderClassAdapter();
-			}
-			@Override
 			public Adapter caseClass(net.menthor.metamodel.ontouml.Class object) {
 				return createClassAdapter();
 			}
 			@Override
-			public Adapter caseClassBinaryRelationship(ClassBinaryRelationship object) {
-				return createClassBinaryRelationshipAdapter();
-			}
-			@Override
-			public Adapter caseMaterialRelationship(MaterialRelationship object) {
-				return createMaterialRelationshipAdapter();
+			public Adapter casePrimitiveType(PrimitiveType object) {
+				return createPrimitiveTypeAdapter();
 			}
 			@Override
 			public Adapter caseGeneralizationSet(GeneralizationSet object) {
 				return createGeneralizationSetAdapter();
 			}
 			@Override
-			public Adapter caseDataType(DataType object) {
-				return createDataTypeAdapter();
+			public Adapter caseProperty(Property object) {
+				return createPropertyAdapter();
 			}
 			@Override
-			public Adapter casePrimitiveDataType(PrimitiveDataType object) {
-				return createPrimitiveDataTypeAdapter();
+			public Adapter caseAttribute(Attribute object) {
+				return createAttributeAdapter();
 			}
 			@Override
-			public Adapter caseUserDefinedDataType(UserDefinedDataType object) {
-				return createUserDefinedDataTypeAdapter();
+			public Adapter caseEndPoint(EndPoint object) {
+				return createEndPointAdapter();
 			}
 			@Override
-			public Adapter caseEnumeration(Enumeration object) {
-				return createEnumerationAdapter();
-			}
-			@Override
-			public Adapter caseComplexDataType(ComplexDataType object) {
-				return createComplexDataTypeAdapter();
-			}
-			@Override
-			public Adapter caseDataTypeAttribute(DataTypeAttribute object) {
-				return createDataTypeAttributeAdapter();
+			public Adapter caseClassBinaryRelationship(ClassBinaryRelationship object) {
+				return createClassBinaryRelationshipAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -213,16 +193,16 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.PackageableElement <em>Packageable Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.ContainingElement <em>Containing Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.PackageableElement
+	 * @see net.menthor.metamodel.ontouml.ContainingElement
 	 * @generated
 	 */
-	public Adapter createPackageableElementAdapter() {
+	public Adapter createContainingElementAdapter() {
 		return null;
 	}
 
@@ -255,20 +235,6 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.HighOrderClass <em>High Order Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.HighOrderClass
-	 * @generated
-	 */
-	public Adapter createHighOrderClassAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Class <em>Class</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -283,30 +249,16 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship <em>Class Binary Relationship</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.PrimitiveType <em>Primitive Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship
+	 * @see net.menthor.metamodel.ontouml.PrimitiveType
 	 * @generated
 	 */
-	public Adapter createClassBinaryRelationshipAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.MaterialRelationship <em>Material Relationship</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.MaterialRelationship
-	 * @generated
-	 */
-	public Adapter createMaterialRelationshipAdapter() {
+	public Adapter createPrimitiveTypeAdapter() {
 		return null;
 	}
 
@@ -325,86 +277,58 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.DataType <em>Data Type</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Property <em>Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.DataType
+	 * @see net.menthor.metamodel.ontouml.Property
 	 * @generated
 	 */
-	public Adapter createDataTypeAdapter() {
+	public Adapter createPropertyAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.PrimitiveDataType <em>Primitive Data Type</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.PrimitiveDataType
+	 * @see net.menthor.metamodel.ontouml.Attribute
 	 * @generated
 	 */
-	public Adapter createPrimitiveDataTypeAdapter() {
+	public Adapter createAttributeAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.UserDefinedDataType <em>User Defined Data Type</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.EndPoint <em>End Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.UserDefinedDataType
+	 * @see net.menthor.metamodel.ontouml.EndPoint
 	 * @generated
 	 */
-	public Adapter createUserDefinedDataTypeAdapter() {
+	public Adapter createEndPointAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Enumeration <em>Enumeration</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship <em>Class Binary Relationship</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.Enumeration
+	 * @see net.menthor.metamodel.ontouml.ClassBinaryRelationship
 	 * @generated
 	 */
-	public Adapter createEnumerationAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.ComplexDataType <em>Complex Data Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.ComplexDataType
-	 * @generated
-	 */
-	public Adapter createComplexDataTypeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.DataTypeAttribute <em>Data Type Attribute</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.DataTypeAttribute
-	 * @generated
-	 */
-	public Adapter createDataTypeAttributeAdapter() {
+	public Adapter createClassBinaryRelationshipAdapter() {
 		return null;
 	}
 

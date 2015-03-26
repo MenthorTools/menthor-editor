@@ -26,37 +26,37 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	COMPONENT_OF(0, "ComponentOf", "componentOf"),
+	COMPONENT_OF(0, "ComponentOf", "ComponentOf"),
 
 	/**
-	 * The '<em><b>Membership</b></em>' literal object.
+	 * The '<em><b>Member Of</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #MEMBERSHIP_VALUE
+	 * @see #MEMBER_OF_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MEMBERSHIP(0, "Membership", "memberOf"),
+	MEMBER_OF(0, "MemberOf", "MemberOf"),
 
 	/**
-	 * The '<em><b>Sub Collection</b></em>' literal object.
+	 * The '<em><b>Sub Collection Of</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SUB_COLLECTION_VALUE
+	 * @see #SUB_COLLECTION_OF_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SUB_COLLECTION(0, "SubCollection", "subCollectionOf"),
+	SUB_COLLECTION_OF(0, "SubCollectionOf", "SubCollectionOf"),
 
 	/**
-	 * The '<em><b>Sub Quantity</b></em>' literal object.
+	 * The '<em><b>Sub Quantity Of</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SUB_QUANTITY_VALUE
+	 * @see #SUB_QUANTITY_OF_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SUB_QUANTITY(0, "SubQuantity", "subQuantityOf"),
+	SUB_QUANTITY_OF(0, "SubQuantityOf", "SubQuantityOf"),
 
 	/**
 	 * The '<em><b>Characterization</b></em>' literal object.
@@ -66,7 +66,7 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CHARACTERIZATION(0, "Characterization", "characterization"),
+	CHARACTERIZATION(0, "Characterization", "Characterization"),
 
 	/**
 	 * The '<em><b>Mediation</b></em>' literal object.
@@ -76,7 +76,7 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MEDIATION(0, "Mediation", "mediation"),
+	MEDIATION(0, "Mediation", "Mediation"),
 
 	/**
 	 * The '<em><b>Material</b></em>' literal object.
@@ -86,7 +86,7 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MATERIAL(0, "Material", "material"),
+	MATERIAL(0, "Material", "Material"),
 
 	/**
 	 * The '<em><b>Formal</b></em>' literal object.
@@ -96,7 +96,17 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	FORMAL(0, "Formal", "formal");
+	FORMAL(0, "Formal", "Formal"),
+
+	/**
+	 * The '<em><b>Structuration</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STRUCTURATION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	STRUCTURATION(0, "Structuration", "Structuration");
 
 	/**
 	 * The '<em><b>Component Of</b></em>' literal value.
@@ -107,56 +117,56 @@ public enum Relation implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COMPONENT_OF
-	 * @model name="ComponentOf" literal="componentOf"
+	 * @model name="ComponentOf"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int COMPONENT_OF_VALUE = 0;
 
 	/**
-	 * The '<em><b>Membership</b></em>' literal value.
+	 * The '<em><b>Member Of</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Membership</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Member Of</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #MEMBERSHIP
-	 * @model name="Membership" literal="memberOf"
+	 * @see #MEMBER_OF
+	 * @model name="MemberOf"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MEMBERSHIP_VALUE = 0;
+	public static final int MEMBER_OF_VALUE = 0;
 
 	/**
-	 * The '<em><b>Sub Collection</b></em>' literal value.
+	 * The '<em><b>Sub Collection Of</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Sub Collection</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Sub Collection Of</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #SUB_COLLECTION
-	 * @model name="SubCollection" literal="subCollectionOf"
+	 * @see #SUB_COLLECTION_OF
+	 * @model name="SubCollectionOf"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SUB_COLLECTION_VALUE = 0;
+	public static final int SUB_COLLECTION_OF_VALUE = 0;
 
 	/**
-	 * The '<em><b>Sub Quantity</b></em>' literal value.
+	 * The '<em><b>Sub Quantity Of</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Sub Quantity</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Sub Quantity Of</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #SUB_QUANTITY
-	 * @model name="SubQuantity" literal="subQuantityOf"
+	 * @see #SUB_QUANTITY_OF
+	 * @model name="SubQuantityOf"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SUB_QUANTITY_VALUE = 0;
+	public static final int SUB_QUANTITY_OF_VALUE = 0;
 
 	/**
 	 * The '<em><b>Characterization</b></em>' literal value.
@@ -167,7 +177,7 @@ public enum Relation implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CHARACTERIZATION
-	 * @model name="Characterization" literal="characterization"
+	 * @model name="Characterization"
 	 * @generated
 	 * @ordered
 	 */
@@ -182,7 +192,7 @@ public enum Relation implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MEDIATION
-	 * @model name="Mediation" literal="mediation"
+	 * @model name="Mediation"
 	 * @generated
 	 * @ordered
 	 */
@@ -197,7 +207,7 @@ public enum Relation implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MATERIAL
-	 * @model name="Material" literal="material"
+	 * @model name="Material"
 	 * @generated
 	 * @ordered
 	 */
@@ -212,11 +222,26 @@ public enum Relation implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FORMAL
-	 * @model name="Formal" literal="formal"
+	 * @model name="Formal"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int FORMAL_VALUE = 0;
+
+	/**
+	 * The '<em><b>Structuration</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Structuration</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #STRUCTURATION
+	 * @model name="Structuration"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STRUCTURATION_VALUE = 0;
 
 	/**
 	 * An array of all the '<em><b>Relation</b></em>' enumerators.
@@ -227,13 +252,14 @@ public enum Relation implements Enumerator {
 	private static final Relation[] VALUES_ARRAY =
 		new Relation[] {
 			COMPONENT_OF,
-			MEMBERSHIP,
-			SUB_COLLECTION,
-			SUB_QUANTITY,
+			MEMBER_OF,
+			SUB_COLLECTION_OF,
+			SUB_QUANTITY_OF,
 			CHARACTERIZATION,
 			MEDIATION,
 			MATERIAL,
 			FORMAL,
+			STRUCTURATION,
 		};
 
 	/**

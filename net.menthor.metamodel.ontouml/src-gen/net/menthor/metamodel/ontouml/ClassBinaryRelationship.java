@@ -2,6 +2,7 @@
  */
 package net.menthor.metamodel.ontouml;
 
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -12,19 +13,16 @@ package net.menthor.metamodel.ontouml;
  * The following features are supported:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getStereotype <em>Stereotype</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceEndName <em>Source End Name</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceLowerBound <em>Source Lower Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceUpperBound <em>Source Upper Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetEndName <em>Target End Name</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetLowerBound <em>Target Lower Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetUpperBound <em>Target Upper Bound</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getEndPoints <em>End Points</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable <em>Part Is Shareable</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTruthMaker <em>Truth Maker</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential <em>Part Is Essential</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsInseparable <em>Part Is Inseparable</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable <em>Part Is Shareable</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsImmutable <em>Part Is Immutable</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isWholeIsImmutable <em>Whole Is Immutable</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsMandatory <em>Part Is Mandatory</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSource <em>Source</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTarget <em>Target</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isWholeIsMandatory <em>Whole Is Mandatory</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,16 +30,15 @@ package net.menthor.metamodel.ontouml;
  * @model
  * @generated
  */
-public interface ClassBinaryRelationship extends NamedElement, PackageableElement {
+public interface ClassBinaryRelationship extends NamedElement, ContainingElement {
 	/**
 	 * Returns the value of the '<em><b>Stereotype</b></em>' attribute.
 	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Relation}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Stereotype</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 *  JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Stereotype</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.Relation
 	 * @see #setStereotype(Relation)
@@ -63,212 +60,22 @@ public interface ClassBinaryRelationship extends NamedElement, PackageableElemen
 	void setStereotype(Relation value);
 
 	/**
-	 * Returns the value of the '<em><b>Source End Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>End Points</b></em>' reference list.
+	 * The list contents are of type {@link net.menthor.metamodel.ontouml.EndPoint}.
+	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.EndPoint#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Source End Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>End Points</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Source End Name</em>' attribute.
-	 * @see #setSourceEndName(String)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_SourceEndName()
-	 * @model unique="false"
+	 * @return the value of the '<em>End Points</em>' reference list.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_EndPoints()
+	 * @see net.menthor.metamodel.ontouml.EndPoint#getOwner
+	 * @model opposite="owner" lower="2" upper="2"
 	 * @generated
 	 */
-	String getSourceEndName();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceEndName <em>Source End Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Source End Name</em>' attribute.
-	 * @see #getSourceEndName()
-	 * @generated
-	 */
-	void setSourceEndName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Source Lower Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source Lower Bound</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Source Lower Bound</em>' attribute.
-	 * @see #setSourceLowerBound(int)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_SourceLowerBound()
-	 * @model unique="false" required="true"
-	 * @generated
-	 */
-	int getSourceLowerBound();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceLowerBound <em>Source Lower Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Source Lower Bound</em>' attribute.
-	 * @see #getSourceLowerBound()
-	 * @generated
-	 */
-	void setSourceLowerBound(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Source Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source Upper Bound</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Source Upper Bound</em>' attribute.
-	 * @see #setSourceUpperBound(int)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_SourceUpperBound()
-	 * @model unique="false" required="true"
-	 * @generated
-	 */
-	int getSourceUpperBound();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSourceUpperBound <em>Source Upper Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Source Upper Bound</em>' attribute.
-	 * @see #getSourceUpperBound()
-	 * @generated
-	 */
-	void setSourceUpperBound(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Target End Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target End Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target End Name</em>' attribute.
-	 * @see #setTargetEndName(String)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_TargetEndName()
-	 * @model unique="false"
-	 * @generated
-	 */
-	String getTargetEndName();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetEndName <em>Target End Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target End Name</em>' attribute.
-	 * @see #getTargetEndName()
-	 * @generated
-	 */
-	void setTargetEndName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Target Lower Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target Lower Bound</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target Lower Bound</em>' attribute.
-	 * @see #setTargetLowerBound(int)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_TargetLowerBound()
-	 * @model unique="false" required="true"
-	 * @generated
-	 */
-	int getTargetLowerBound();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetLowerBound <em>Target Lower Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target Lower Bound</em>' attribute.
-	 * @see #getTargetLowerBound()
-	 * @generated
-	 */
-	void setTargetLowerBound(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Target Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target Upper Bound</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target Upper Bound</em>' attribute.
-	 * @see #setTargetUpperBound(int)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_TargetUpperBound()
-	 * @model unique="false" required="true"
-	 * @generated
-	 */
-	int getTargetUpperBound();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTargetUpperBound <em>Target Upper Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target Upper Bound</em>' attribute.
-	 * @see #getTargetUpperBound()
-	 * @generated
-	 */
-	void setTargetUpperBound(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Part Is Essential</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Part Is Essential</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Part Is Essential</em>' attribute.
-	 * @see #setPartIsEssential(boolean)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsEssential()
-	 * @model unique="false"
-	 * @generated
-	 */
-	boolean isPartIsEssential();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential <em>Part Is Essential</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Part Is Essential</em>' attribute.
-	 * @see #isPartIsEssential()
-	 * @generated
-	 */
-	void setPartIsEssential(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Part Is Inseparable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Part Is Inseparable</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Part Is Inseparable</em>' attribute.
-	 * @see #setPartIsInseparable(boolean)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsInseparable()
-	 * @model unique="false"
-	 * @generated
-	 */
-	boolean isPartIsInseparable();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsInseparable <em>Part Is Inseparable</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Part Is Inseparable</em>' attribute.
-	 * @see #isPartIsInseparable()
-	 * @generated
-	 */
-	void setPartIsInseparable(boolean value);
+	EList<EndPoint> getEndPoints();
 
 	/**
 	 * Returns the value of the '<em><b>Part Is Shareable</b></em>' attribute.
@@ -297,6 +104,83 @@ public interface ClassBinaryRelationship extends NamedElement, PackageableElemen
 	void setPartIsShareable(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Truth Maker</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getIstruthMakerOf <em>Istruth Maker Of</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 *  JP: If there are two relators relating the same entities, there should not be two material relations
+	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at"
+	 * relations between "Student" and "University" even if there are two "Enrollments".
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Truth Maker</em>' reference.
+	 * @see #setTruthMaker(net.menthor.metamodel.ontouml.Class)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_TruthMaker()
+	 * @see net.menthor.metamodel.ontouml.Class#getIstruthMakerOf
+	 * @model opposite="istruthMakerOf"
+	 * @generated
+	 */
+	net.menthor.metamodel.ontouml.Class getTruthMaker();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTruthMaker <em>Truth Maker</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Truth Maker</em>' reference.
+	 * @see #getTruthMaker()
+	 * @generated
+	 */
+	void setTruthMaker(net.menthor.metamodel.ontouml.Class value);
+
+	/**
+	 * Returns the value of the '<em><b>Is Derived</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Derived</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Derived</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_IsDerived()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _or = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsDerived = _sourceEnd.isIsDerived();\nif (_isIsDerived)\n{\n\t_or = true;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\tboolean _isIsDerived_1 = _targetEnd.isIsDerived();\n\t_or = _isIsDerived_1;\n}\nreturn _or;'"
+	 * @generated
+	 */
+	boolean isIsDerived();
+
+	/**
+	 * Returns the value of the '<em><b>Part Is Essential</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Part Is Essential</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Part Is Essential</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsEssential()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _sourceEnd.getIsOfType();\n\tboolean _isRigid = _isOfType.isRigid();\n\t_and_1 = _isRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
+	 * @generated
+	 */
+	boolean isPartIsEssential();
+
+	/**
+	 * Returns the value of the '<em><b>Part Is Inseparable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Part Is Inseparable</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Part Is Inseparable</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsInseparable()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _targetEnd.getIsOfType();\n\tboolean _isRigid = _isOfType.isRigid();\n\t_and_1 = _isRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
+	 * @generated
+	 */
+	boolean isPartIsInseparable();
+
+	/**
 	 * Returns the value of the '<em><b>Part Is Immutable</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -305,22 +189,28 @@ public interface ClassBinaryRelationship extends NamedElement, PackageableElemen
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Part Is Immutable</em>' attribute.
-	 * @see #setPartIsImmutable(boolean)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsImmutable()
-	 * @model unique="false"
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _targetEnd.getIsOfType();\n\tboolean _isAntiRigid = _isOfType.isAntiRigid();\n\t_and_1 = _isAntiRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
 	boolean isPartIsImmutable();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsImmutable <em>Part Is Immutable</em>}' attribute.
+	 * Returns the value of the '<em><b>Whole Is Immutable</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Whole Is Immutable</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Part Is Immutable</em>' attribute.
-	 * @see #isPartIsImmutable()
+	 * @return the value of the '<em>Whole Is Immutable</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_WholeIsImmutable()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _sourceEnd.getIsOfType();\n\tboolean _isAntiRigid = _isOfType.isAntiRigid();\n\t_and_1 = _isAntiRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
-	void setPartIsImmutable(boolean value);
+	boolean isWholeIsImmutable();
 
 	/**
 	 * Returns the value of the '<em><b>Part Is Mandatory</b></em>' attribute.
@@ -333,65 +223,52 @@ public interface ClassBinaryRelationship extends NamedElement, PackageableElemen
 	 * @return the value of the '<em>Part Is Mandatory</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsMandatory()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='int _targetLowerBound = this.getTargetLowerBound();\nreturn (_targetLowerBound >= 1);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nint _lowerBound = _targetEnd.getLowerBound();\nboolean _greaterEqualsThan = (_lowerBound >= 1);\nif (!_greaterEqualsThan)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
 	boolean isPartIsMandatory();
 
 	/**
-	 * Returns the value of the '<em><b>Source</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getIsSourceOf <em>Is Source Of</em>}'.
+	 * Returns the value of the '<em><b>Whole Is Mandatory</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Source</em>' reference isn't clear,
+	 * If the meaning of the '<em>Whole Is Mandatory</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Source</em>' reference.
-	 * @see #setSource(net.menthor.metamodel.ontouml.Class)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_Source()
-	 * @see net.menthor.metamodel.ontouml.Class#getIsSourceOf
-	 * @model opposite="isSourceOf" resolveProxies="false" required="true"
+	 * @return the value of the '<em>Whole Is Mandatory</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_WholeIsMandatory()
+	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nint _lowerBound = _sourceEnd.getLowerBound();\nboolean _greaterEqualsThan = (_lowerBound >= 1);\nif (!_greaterEqualsThan)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
-	net.menthor.metamodel.ontouml.Class getSource();
+	boolean isWholeIsMandatory();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getSource <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Source</em>' reference.
-	 * @see #getSource()
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = this.getEndPoints();\nreturn _endPoints.get(0);'"
 	 * @generated
 	 */
-	void setSource(net.menthor.metamodel.ontouml.Class value);
+	EndPoint sourceEnd();
 
 	/**
-	 * Returns the value of the '<em><b>Target</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getIsTargetOf <em>Is Target Of</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(net.menthor.metamodel.ontouml.Class)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_Target()
-	 * @see net.menthor.metamodel.ontouml.Class#getIsTargetOf
-	 * @model opposite="isTargetOf" resolveProxies="false" required="true"
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = this.getEndPoints();\nreturn _endPoints.get(1);'"
 	 * @generated
 	 */
-	net.menthor.metamodel.ontouml.Class getTarget();
+	EndPoint targetEnd();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTarget <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target</em>' reference.
-	 * @see #getTarget()
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _or = false;\nboolean _or_1 = false;\nboolean _or_2 = false;\n<%net.menthor.metamodel.ontouml.Relation%> _stereotype = this.getStereotype();\nboolean _equals = <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Relation%>.COMPONENT_OF);\nif (_equals)\n{\n\t_or_2 = true;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.Relation%> _stereotype_1 = this.getStereotype();\n\tboolean _equals_1 = <%com.google.common.base.Objects%>.equal(_stereotype_1, <%net.menthor.metamodel.ontouml.Relation%>.MEMBER_OF);\n\t_or_2 = _equals_1;\n}\nif (_or_2)\n{\n\t_or_1 = true;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.Relation%> _stereotype_2 = this.getStereotype();\n\tboolean _equals_2 = <%com.google.common.base.Objects%>.equal(_stereotype_2, <%net.menthor.metamodel.ontouml.Relation%>.SUB_QUANTITY_OF);\n\t_or_1 = _equals_2;\n}\nif (_or_1)\n{\n\t_or = true;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.Relation%> _stereotype_3 = this.getStereotype();\n\tboolean _equals_3 = <%com.google.common.base.Objects%>.equal(_stereotype_3, <%net.menthor.metamodel.ontouml.Relation%>.SUB_COLLECTION_OF);\n\t_or = _equals_3;\n}\nreturn _or;'"
 	 * @generated
 	 */
-	void setTarget(net.menthor.metamodel.ontouml.Class value);
+	boolean isMeronymic();
 
 } // ClassBinaryRelationship

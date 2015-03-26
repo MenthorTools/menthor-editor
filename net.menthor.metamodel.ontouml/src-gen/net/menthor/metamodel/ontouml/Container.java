@@ -23,8 +23,8 @@ import org.eclipse.emf.common.util.EList;
 public interface Container extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Elements</b></em>' containment reference list.
-	 * The list contents are of type {@link net.menthor.metamodel.ontouml.PackageableElement}.
-	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.PackageableElement#getContainer_ <em>Container </em>}'.
+	 * The list contents are of type {@link net.menthor.metamodel.ontouml.ContainingElement}.
+	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.ContainingElement#getHolder <em>Holder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Elements</em>' containment reference list isn't clear,
@@ -33,10 +33,10 @@ public interface Container extends NamedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Elements</em>' containment reference list.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getContainer_Elements()
-	 * @see net.menthor.metamodel.ontouml.PackageableElement#getContainer_
-	 * @model opposite="container_" containment="true" ordered="false"
+	 * @see net.menthor.metamodel.ontouml.ContainingElement#getHolder
+	 * @model opposite="holder" containment="true" ordered="false"
 	 * @generated
 	 */
-	EList<PackageableElement> getElements();
+	EList<ContainingElement> getElements();
 
 } // Container

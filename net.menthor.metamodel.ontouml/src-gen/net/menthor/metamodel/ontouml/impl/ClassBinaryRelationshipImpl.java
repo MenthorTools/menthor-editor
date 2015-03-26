@@ -2,20 +2,31 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import com.google.common.base.Objects;
+
+import java.lang.reflect.InvocationTargetException;
+
+import java.util.Collection;
+
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
+import net.menthor.metamodel.ontouml.ContainingElement;
+import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PackageableElement;
 import net.menthor.metamodel.ontouml.Relation;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,21 +35,18 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getContainer_ <em>Container </em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getHolder <em>Holder</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getStereotype <em>Stereotype</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getSourceEndName <em>Source End Name</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getSourceLowerBound <em>Source Lower Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getSourceUpperBound <em>Source Upper Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getTargetEndName <em>Target End Name</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getTargetLowerBound <em>Target Lower Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getTargetUpperBound <em>Target Upper Bound</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getEndPoints <em>End Points</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsShareable <em>Part Is Shareable</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getTruthMaker <em>Truth Maker</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsEssential <em>Part Is Essential</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsInseparable <em>Part Is Inseparable</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsShareable <em>Part Is Shareable</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsImmutable <em>Part Is Immutable</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isWholeIsImmutable <em>Whole Is Immutable</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsMandatory <em>Part Is Mandatory</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getSource <em>Source</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isWholeIsMandatory <em>Whole Is Mandatory</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,164 +74,14 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	protected Relation stereotype = STEREOTYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSourceEndName() <em>Source End Name</em>}' attribute.
+	 * The cached value of the '{@link #getEndPoints() <em>End Points</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSourceEndName()
+	 * @see #getEndPoints()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String SOURCE_END_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getSourceEndName() <em>Source End Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSourceEndName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String sourceEndName = SOURCE_END_NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSourceLowerBound() <em>Source Lower Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSourceLowerBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int SOURCE_LOWER_BOUND_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getSourceLowerBound() <em>Source Lower Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSourceLowerBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected int sourceLowerBound = SOURCE_LOWER_BOUND_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSourceUpperBound() <em>Source Upper Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSourceUpperBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int SOURCE_UPPER_BOUND_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getSourceUpperBound() <em>Source Upper Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSourceUpperBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected int sourceUpperBound = SOURCE_UPPER_BOUND_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTargetEndName() <em>Target End Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTargetEndName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TARGET_END_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTargetEndName() <em>Target End Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTargetEndName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String targetEndName = TARGET_END_NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTargetLowerBound() <em>Target Lower Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTargetLowerBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int TARGET_LOWER_BOUND_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getTargetLowerBound() <em>Target Lower Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTargetLowerBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected int targetLowerBound = TARGET_LOWER_BOUND_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTargetUpperBound() <em>Target Upper Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTargetUpperBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int TARGET_UPPER_BOUND_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getTargetUpperBound() <em>Target Upper Bound</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTargetUpperBound()
-	 * @generated
-	 * @ordered
-	 */
-	protected int targetUpperBound = TARGET_UPPER_BOUND_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isPartIsEssential() <em>Part Is Essential</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isPartIsEssential()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean PART_IS_ESSENTIAL_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isPartIsEssential() <em>Part Is Essential</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isPartIsEssential()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean partIsEssential = PART_IS_ESSENTIAL_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isPartIsInseparable() <em>Part Is Inseparable</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isPartIsInseparable()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean PART_IS_INSEPARABLE_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isPartIsInseparable() <em>Part Is Inseparable</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isPartIsInseparable()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean partIsInseparable = PART_IS_INSEPARABLE_EDEFAULT;
+	protected EList<EndPoint> endPoints;
 
 	/**
 	 * The default value of the '{@link #isPartIsShareable() <em>Part Is Shareable</em>}' attribute.
@@ -246,6 +104,46 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	protected boolean partIsShareable = PART_IS_SHAREABLE_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getTruthMaker() <em>Truth Maker</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTruthMaker()
+	 * @generated
+	 * @ordered
+	 */
+	protected net.menthor.metamodel.ontouml.Class truthMaker;
+
+	/**
+	 * The default value of the '{@link #isIsDerived() <em>Is Derived</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsDerived()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_DERIVED_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #isPartIsEssential() <em>Part Is Essential</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPartIsEssential()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean PART_IS_ESSENTIAL_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #isPartIsInseparable() <em>Part Is Inseparable</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPartIsInseparable()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean PART_IS_INSEPARABLE_EDEFAULT = false;
+
+	/**
 	 * The default value of the '{@link #isPartIsImmutable() <em>Part Is Immutable</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -256,14 +154,14 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	protected static final boolean PART_IS_IMMUTABLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPartIsImmutable() <em>Part Is Immutable</em>}' attribute.
+	 * The default value of the '{@link #isWholeIsImmutable() <em>Whole Is Immutable</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isPartIsImmutable()
+	 * @see #isWholeIsImmutable()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean partIsImmutable = PART_IS_IMMUTABLE_EDEFAULT;
+	protected static final boolean WHOLE_IS_IMMUTABLE_EDEFAULT = false;
 
 	/**
 	 * The default value of the '{@link #isPartIsMandatory() <em>Part Is Mandatory</em>}' attribute.
@@ -276,24 +174,14 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	protected static final boolean PART_IS_MANDATORY_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
+	 * The default value of the '{@link #isWholeIsMandatory() <em>Whole Is Mandatory</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSource()
+	 * @see #isWholeIsMandatory()
 	 * @generated
 	 * @ordered
 	 */
-	protected net.menthor.metamodel.ontouml.Class source;
-
-	/**
-	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTarget()
-	 * @generated
-	 * @ordered
-	 */
-	protected net.menthor.metamodel.ontouml.Class target;
+	protected static final boolean WHOLE_IS_MANDATORY_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -319,8 +207,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container getContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container getHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eContainer();
 	}
 
@@ -329,8 +217,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container basicGetContainer_() {
-		if (eContainerFeatureID() != OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_) return null;
+	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
+		if (eContainerFeatureID() != OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
 	}
 
@@ -339,8 +227,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetContainer_(net.menthor.metamodel.ontouml.Container newContainer_, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newContainer_, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_, msgs);
+	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER, msgs);
 		return msgs;
 	}
 
@@ -349,20 +237,20 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setContainer_(net.menthor.metamodel.ontouml.Container newContainer_) {
-		if (newContainer_ != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_ && newContainer_ != null)) {
-			if (EcoreUtil.isAncestor(this, newContainer_))
+	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
+		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER && newHolder != null)) {
+			if (EcoreUtil.isAncestor(this, newHolder))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
-			if (newContainer_ != null)
-				msgs = ((InternalEObject)newContainer_).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-			msgs = basicSetContainer_(newContainer_, msgs);
+			if (newHolder != null)
+				msgs = ((InternalEObject)newHolder).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
+			msgs = basicSetHolder(newHolder, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_, newContainer_, newContainer_));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER, newHolder, newHolder));
 	}
 
 	/**
@@ -391,167 +279,11 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSourceEndName() {
-		return sourceEndName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSourceEndName(String newSourceEndName) {
-		String oldSourceEndName = sourceEndName;
-		sourceEndName = newSourceEndName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME, oldSourceEndName, sourceEndName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getSourceLowerBound() {
-		return sourceLowerBound;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSourceLowerBound(int newSourceLowerBound) {
-		int oldSourceLowerBound = sourceLowerBound;
-		sourceLowerBound = newSourceLowerBound;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND, oldSourceLowerBound, sourceLowerBound));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getSourceUpperBound() {
-		return sourceUpperBound;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSourceUpperBound(int newSourceUpperBound) {
-		int oldSourceUpperBound = sourceUpperBound;
-		sourceUpperBound = newSourceUpperBound;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND, oldSourceUpperBound, sourceUpperBound));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getTargetEndName() {
-		return targetEndName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTargetEndName(String newTargetEndName) {
-		String oldTargetEndName = targetEndName;
-		targetEndName = newTargetEndName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME, oldTargetEndName, targetEndName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getTargetLowerBound() {
-		return targetLowerBound;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTargetLowerBound(int newTargetLowerBound) {
-		int oldTargetLowerBound = targetLowerBound;
-		targetLowerBound = newTargetLowerBound;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND, oldTargetLowerBound, targetLowerBound));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getTargetUpperBound() {
-		return targetUpperBound;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTargetUpperBound(int newTargetUpperBound) {
-		int oldTargetUpperBound = targetUpperBound;
-		targetUpperBound = newTargetUpperBound;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND, oldTargetUpperBound, targetUpperBound));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isPartIsEssential() {
-		return partIsEssential;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPartIsEssential(boolean newPartIsEssential) {
-		boolean oldPartIsEssential = partIsEssential;
-		partIsEssential = newPartIsEssential;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL, oldPartIsEssential, partIsEssential));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isPartIsInseparable() {
-		return partIsInseparable;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPartIsInseparable(boolean newPartIsInseparable) {
-		boolean oldPartIsInseparable = partIsInseparable;
-		partIsInseparable = newPartIsInseparable;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE, oldPartIsInseparable, partIsInseparable));
+	public EList<EndPoint> getEndPoints() {
+		if (endPoints == null) {
+			endPoints = new EObjectWithInverseResolvingEList<EndPoint>(EndPoint.class, this, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS, OntoumlPackage.END_POINT__OWNER);
+		}
+		return endPoints;
 	}
 
 	/**
@@ -580,8 +312,16 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isPartIsImmutable() {
-		return partIsImmutable;
+	public net.menthor.metamodel.ontouml.Class getTruthMaker() {
+		if (truthMaker != null && truthMaker.eIsProxy()) {
+			InternalEObject oldTruthMaker = (InternalEObject)truthMaker;
+			truthMaker = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldTruthMaker);
+			if (truthMaker != oldTruthMaker) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER, oldTruthMaker, truthMaker));
+			}
+		}
+		return truthMaker;
 	}
 
 	/**
@@ -589,11 +329,169 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPartIsImmutable(boolean newPartIsImmutable) {
-		boolean oldPartIsImmutable = partIsImmutable;
-		partIsImmutable = newPartIsImmutable;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE, oldPartIsImmutable, partIsImmutable));
+	public net.menthor.metamodel.ontouml.Class basicGetTruthMaker() {
+		return truthMaker;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTruthMaker(net.menthor.metamodel.ontouml.Class newTruthMaker, NotificationChain msgs) {
+		net.menthor.metamodel.ontouml.Class oldTruthMaker = truthMaker;
+		truthMaker = newTruthMaker;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER, oldTruthMaker, newTruthMaker);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTruthMaker(net.menthor.metamodel.ontouml.Class newTruthMaker) {
+		if (newTruthMaker != truthMaker) {
+			NotificationChain msgs = null;
+			if (truthMaker != null)
+				msgs = ((InternalEObject)truthMaker).eInverseRemove(this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
+			if (newTruthMaker != null)
+				msgs = ((InternalEObject)newTruthMaker).eInverseAdd(this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
+			msgs = basicSetTruthMaker(newTruthMaker, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER, newTruthMaker, newTruthMaker));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isIsDerived() {
+		boolean _or = false;
+		EndPoint _sourceEnd = this.sourceEnd();
+		boolean _isIsDerived = _sourceEnd.isIsDerived();
+		if (_isIsDerived) {
+			_or = true;
+		} else {
+			EndPoint _targetEnd = this.targetEnd();
+			boolean _isIsDerived_1 = _targetEnd.isIsDerived();
+			_or = _isIsDerived_1;
+		}
+		return _or;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isPartIsEssential() {
+		boolean _and = false;
+		boolean _and_1 = false;
+		EndPoint _targetEnd = this.targetEnd();
+		boolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();
+		if (!_isIsSpecificDependent) {
+			_and_1 = false;
+		} else {
+			EndPoint _sourceEnd = this.sourceEnd();
+			net.menthor.metamodel.ontouml.Class _isOfType = _sourceEnd.getIsOfType();
+			boolean _isRigid = _isOfType.isRigid();
+			_and_1 = _isRigid;
+		}
+		if (!_and_1) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isPartIsInseparable() {
+		boolean _and = false;
+		boolean _and_1 = false;
+		EndPoint _sourceEnd = this.sourceEnd();
+		boolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();
+		if (!_isIsSpecificDependent) {
+			_and_1 = false;
+		} else {
+			EndPoint _targetEnd = this.targetEnd();
+			net.menthor.metamodel.ontouml.Class _isOfType = _targetEnd.getIsOfType();
+			boolean _isRigid = _isOfType.isRigid();
+			_and_1 = _isRigid;
+		}
+		if (!_and_1) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isPartIsImmutable() {
+		boolean _and = false;
+		boolean _and_1 = false;
+		EndPoint _sourceEnd = this.sourceEnd();
+		boolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();
+		if (!_isIsSpecificDependent) {
+			_and_1 = false;
+		} else {
+			EndPoint _targetEnd = this.targetEnd();
+			net.menthor.metamodel.ontouml.Class _isOfType = _targetEnd.getIsOfType();
+			boolean _isAntiRigid = _isOfType.isAntiRigid();
+			_and_1 = _isAntiRigid;
+		}
+		if (!_and_1) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isWholeIsImmutable() {
+		boolean _and = false;
+		boolean _and_1 = false;
+		EndPoint _targetEnd = this.targetEnd();
+		boolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();
+		if (!_isIsSpecificDependent) {
+			_and_1 = false;
+		} else {
+			EndPoint _sourceEnd = this.sourceEnd();
+			net.menthor.metamodel.ontouml.Class _isOfType = _sourceEnd.getIsOfType();
+			boolean _isAntiRigid = _isOfType.isAntiRigid();
+			_and_1 = _isAntiRigid;
+		}
+		if (!_and_1) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
+		}
+		return _and;
 	}
 
 	/**
@@ -602,32 +500,17 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * @generated
 	 */
 	public boolean isPartIsMandatory() {
-		int _targetLowerBound = this.getTargetLowerBound();
-		return (_targetLowerBound >= 1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public net.menthor.metamodel.ontouml.Class getSource() {
-		return source;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSource(net.menthor.metamodel.ontouml.Class newSource, NotificationChain msgs) {
-		net.menthor.metamodel.ontouml.Class oldSource = source;
-		source = newSource;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE, oldSource, newSource);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		boolean _and = false;
+		EndPoint _targetEnd = this.targetEnd();
+		int _lowerBound = _targetEnd.getLowerBound();
+		boolean _greaterEqualsThan = (_lowerBound >= 1);
+		if (!_greaterEqualsThan) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
 		}
-		return msgs;
+		return _and;
 	}
 
 	/**
@@ -635,18 +518,18 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSource(net.menthor.metamodel.ontouml.Class newSource) {
-		if (newSource != source) {
-			NotificationChain msgs = null;
-			if (source != null)
-				msgs = ((InternalEObject)source).eInverseRemove(this, OntoumlPackage.CLASS__IS_SOURCE_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-			if (newSource != null)
-				msgs = ((InternalEObject)newSource).eInverseAdd(this, OntoumlPackage.CLASS__IS_SOURCE_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-			msgs = basicSetSource(newSource, msgs);
-			if (msgs != null) msgs.dispatch();
+	public boolean isWholeIsMandatory() {
+		boolean _and = false;
+		EndPoint _sourceEnd = this.sourceEnd();
+		int _lowerBound = _sourceEnd.getLowerBound();
+		boolean _greaterEqualsThan = (_lowerBound >= 1);
+		if (!_greaterEqualsThan) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
 		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE, newSource, newSource));
+		return _and;
 	}
 
 	/**
@@ -654,8 +537,9 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class getTarget() {
-		return target;
+	public EndPoint sourceEnd() {
+		EList<EndPoint> _endPoints = this.getEndPoints();
+		return _endPoints.get(0);
 	}
 
 	/**
@@ -663,33 +547,44 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetTarget(net.menthor.metamodel.ontouml.Class newTarget, NotificationChain msgs) {
-		net.menthor.metamodel.ontouml.Class oldTarget = target;
-		target = newTarget;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET, oldTarget, newTarget);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+	public EndPoint targetEnd() {
+		EList<EndPoint> _endPoints = this.getEndPoints();
+		return _endPoints.get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isMeronymic() {
+		boolean _or = false;
+		boolean _or_1 = false;
+		boolean _or_2 = false;
+		Relation _stereotype = this.getStereotype();
+		boolean _equals = Objects.equal(_stereotype, Relation.COMPONENT_OF);
+		if (_equals) {
+			_or_2 = true;
+		} else {
+			Relation _stereotype_1 = this.getStereotype();
+			boolean _equals_1 = Objects.equal(_stereotype_1, Relation.MEMBER_OF);
+			_or_2 = _equals_1;
 		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTarget(net.menthor.metamodel.ontouml.Class newTarget) {
-		if (newTarget != target) {
-			NotificationChain msgs = null;
-			if (target != null)
-				msgs = ((InternalEObject)target).eInverseRemove(this, OntoumlPackage.CLASS__IS_TARGET_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-			if (newTarget != null)
-				msgs = ((InternalEObject)newTarget).eInverseAdd(this, OntoumlPackage.CLASS__IS_TARGET_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-			msgs = basicSetTarget(newTarget, msgs);
-			if (msgs != null) msgs.dispatch();
+		if (_or_2) {
+			_or_1 = true;
+		} else {
+			Relation _stereotype_2 = this.getStereotype();
+			boolean _equals_2 = Objects.equal(_stereotype_2, Relation.SUB_QUANTITY_OF);
+			_or_1 = _equals_2;
 		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET, newTarget, newTarget));
+		if (_or_1) {
+			_or = true;
+		} else {
+			Relation _stereotype_3 = this.getStereotype();
+			boolean _equals_3 = Objects.equal(_stereotype_3, Relation.SUB_COLLECTION_OF);
+			_or = _equals_3;
+		}
+		return _or;
 	}
 
 	/**
@@ -697,21 +592,20 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetContainer_((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE:
-				if (source != null)
-					msgs = ((InternalEObject)source).eInverseRemove(this, OntoumlPackage.CLASS__IS_SOURCE_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-				return basicSetSource((net.menthor.metamodel.ontouml.Class)otherEnd, msgs);
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET:
-				if (target != null)
-					msgs = ((InternalEObject)target).eInverseRemove(this, OntoumlPackage.CLASS__IS_TARGET_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-				return basicSetTarget((net.menthor.metamodel.ontouml.Class)otherEnd, msgs);
+				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEndPoints()).basicAdd(otherEnd, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
+				if (truthMaker != null)
+					msgs = ((InternalEObject)truthMaker).eInverseRemove(this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
+				return basicSetTruthMaker((net.menthor.metamodel.ontouml.Class)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -724,12 +618,12 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
-				return basicSetContainer_(null, msgs);
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE:
-				return basicSetSource(null, msgs);
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET:
-				return basicSetTarget(null, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
+				return basicSetHolder(null, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
+				return ((InternalEList<?>)getEndPoints()).basicRemove(otherEnd, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
+				return basicSetTruthMaker(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -742,7 +636,7 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -756,37 +650,32 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
-				if (resolve) return getContainer_();
-				return basicGetContainer_();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
+				if (resolve) return getHolder();
+				return basicGetHolder();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				return getStereotype();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME:
-				return getSourceEndName();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND:
-				return getSourceLowerBound();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND:
-				return getSourceUpperBound();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME:
-				return getTargetEndName();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND:
-				return getTargetLowerBound();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND:
-				return getTargetUpperBound();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
+				return getEndPoints();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
+				return isPartIsShareable();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
+				if (resolve) return getTruthMaker();
+				return basicGetTruthMaker();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__IS_DERIVED:
+				return isIsDerived();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL:
 				return isPartIsEssential();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE:
 				return isPartIsInseparable();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
-				return isPartIsShareable();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE:
 				return isPartIsImmutable();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__WHOLE_IS_IMMUTABLE:
+				return isWholeIsImmutable();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY:
 				return isPartIsMandatory();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE:
-				return getSource();
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET:
-				return getTarget();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__WHOLE_IS_MANDATORY:
+				return isWholeIsMandatory();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -796,50 +685,25 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)newValue);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				setStereotype((Relation)newValue);
 				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME:
-				setSourceEndName((String)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND:
-				setSourceLowerBound((Integer)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND:
-				setSourceUpperBound((Integer)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME:
-				setTargetEndName((String)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND:
-				setTargetLowerBound((Integer)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND:
-				setTargetUpperBound((Integer)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL:
-				setPartIsEssential((Boolean)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE:
-				setPartIsInseparable((Boolean)newValue);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
+				getEndPoints().clear();
+				getEndPoints().addAll((Collection<? extends EndPoint>)newValue);
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				setPartIsShareable((Boolean)newValue);
 				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE:
-				setPartIsImmutable((Boolean)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE:
-				setSource((net.menthor.metamodel.ontouml.Class)newValue);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET:
-				setTarget((net.menthor.metamodel.ontouml.Class)newValue);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
+				setTruthMaker((net.menthor.metamodel.ontouml.Class)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -853,47 +717,20 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
-				setContainer_((net.menthor.metamodel.ontouml.Container)null);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
+				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME:
-				setSourceEndName(SOURCE_END_NAME_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND:
-				setSourceLowerBound(SOURCE_LOWER_BOUND_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND:
-				setSourceUpperBound(SOURCE_UPPER_BOUND_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME:
-				setTargetEndName(TARGET_END_NAME_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND:
-				setTargetLowerBound(TARGET_LOWER_BOUND_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND:
-				setTargetUpperBound(TARGET_UPPER_BOUND_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL:
-				setPartIsEssential(PART_IS_ESSENTIAL_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE:
-				setPartIsInseparable(PART_IS_INSEPARABLE_EDEFAULT);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
+				getEndPoints().clear();
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				setPartIsShareable(PART_IS_SHAREABLE_EDEFAULT);
 				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE:
-				setPartIsImmutable(PART_IS_IMMUTABLE_EDEFAULT);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE:
-				setSource((net.menthor.metamodel.ontouml.Class)null);
-				return;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET:
-				setTarget((net.menthor.metamodel.ontouml.Class)null);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
+				setTruthMaker((net.menthor.metamodel.ontouml.Class)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -907,36 +744,30 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_:
-				return basicGetContainer_() != null;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
+				return basicGetHolder() != null;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_END_NAME:
-				return SOURCE_END_NAME_EDEFAULT == null ? sourceEndName != null : !SOURCE_END_NAME_EDEFAULT.equals(sourceEndName);
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_LOWER_BOUND:
-				return sourceLowerBound != SOURCE_LOWER_BOUND_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE_UPPER_BOUND:
-				return sourceUpperBound != SOURCE_UPPER_BOUND_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_END_NAME:
-				return TARGET_END_NAME_EDEFAULT == null ? targetEndName != null : !TARGET_END_NAME_EDEFAULT.equals(targetEndName);
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_LOWER_BOUND:
-				return targetLowerBound != TARGET_LOWER_BOUND_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET_UPPER_BOUND:
-				return targetUpperBound != TARGET_UPPER_BOUND_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL:
-				return partIsEssential != PART_IS_ESSENTIAL_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE:
-				return partIsInseparable != PART_IS_INSEPARABLE_EDEFAULT;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
+				return endPoints != null && !endPoints.isEmpty();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				return partIsShareable != PART_IS_SHAREABLE_EDEFAULT;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
+				return truthMaker != null;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__IS_DERIVED:
+				return isIsDerived() != IS_DERIVED_EDEFAULT;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL:
+				return isPartIsEssential() != PART_IS_ESSENTIAL_EDEFAULT;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_INSEPARABLE:
+				return isPartIsInseparable() != PART_IS_INSEPARABLE_EDEFAULT;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_IMMUTABLE:
-				return partIsImmutable != PART_IS_IMMUTABLE_EDEFAULT;
+				return isPartIsImmutable() != PART_IS_IMMUTABLE_EDEFAULT;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__WHOLE_IS_IMMUTABLE:
+				return isWholeIsImmutable() != WHOLE_IS_IMMUTABLE_EDEFAULT;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_MANDATORY:
 				return isPartIsMandatory() != PART_IS_MANDATORY_EDEFAULT;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__SOURCE:
-				return source != null;
-			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TARGET:
-				return target != null;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__WHOLE_IS_MANDATORY:
+				return isWholeIsMandatory() != WHOLE_IS_MANDATORY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -948,9 +779,9 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == PackageableElement.class) {
+		if (baseClass == ContainingElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_: return OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_;
+				case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER: return OntoumlPackage.CONTAINING_ELEMENT__HOLDER;
 				default: return -1;
 			}
 		}
@@ -964,13 +795,31 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == PackageableElement.class) {
+		if (baseClass == ContainingElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.PACKAGEABLE_ELEMENT__CONTAINER_: return OntoumlPackage.CLASS_BINARY_RELATIONSHIP__CONTAINER_;
+				case OntoumlPackage.CONTAINING_ELEMENT__HOLDER: return OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER;
 				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP___SOURCE_END:
+				return sourceEnd();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP___TARGET_END:
+				return targetEnd();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP___IS_MERONYMIC:
+				return isMeronymic();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**
@@ -985,26 +834,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (stereotype: ");
 		result.append(stereotype);
-		result.append(", sourceEndName: ");
-		result.append(sourceEndName);
-		result.append(", sourceLowerBound: ");
-		result.append(sourceLowerBound);
-		result.append(", sourceUpperBound: ");
-		result.append(sourceUpperBound);
-		result.append(", targetEndName: ");
-		result.append(targetEndName);
-		result.append(", targetLowerBound: ");
-		result.append(targetLowerBound);
-		result.append(", targetUpperBound: ");
-		result.append(targetUpperBound);
-		result.append(", partIsEssential: ");
-		result.append(partIsEssential);
-		result.append(", partIsInseparable: ");
-		result.append(partIsInseparable);
 		result.append(", partIsShareable: ");
 		result.append(partIsShareable);
-		result.append(", partIsImmutable: ");
-		result.append(partIsImmutable);
 		result.append(')');
 		return result.toString();
 	}

@@ -4,7 +4,7 @@ package net.menthor.metamodel.ontouml.impl;
 
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Primitive;
-import net.menthor.metamodel.ontouml.PrimitiveDataType;
+import net.menthor.metamodel.ontouml.PrimitiveType;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -14,18 +14,18 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Primitive Data Type</b></em>'.
+ * An implementation of the model object '<em><b>Primitive Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PrimitiveDataTypeImpl#getStereotype <em>Stereotype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl#getStereotype <em>Stereotype</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveDataType {
+public class PrimitiveTypeImpl extends ContainingElementImpl implements PrimitiveType {
 	/**
 	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,7 +51,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PrimitiveDataTypeImpl() {
+	protected PrimitiveTypeImpl() {
 		super();
 	}
 
@@ -62,7 +62,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return OntoumlPackage.Literals.PRIMITIVE_DATA_TYPE;
+		return OntoumlPackage.Literals.PRIMITIVE_TYPE;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 		Primitive oldStereotype = stereotype;
 		stereotype = newStereotype == null ? STEREOTYPE_EDEFAULT : newStereotype;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PRIMITIVE_DATA_TYPE__STEREOTYPE, oldStereotype, stereotype));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE, oldStereotype, stereotype));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_DATA_TYPE__STEREOTYPE:
+			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
 				return getStereotype();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -108,7 +108,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_DATA_TYPE__STEREOTYPE:
+			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
 				setStereotype((Primitive)newValue);
 				return;
 		}
@@ -123,7 +123,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_DATA_TYPE__STEREOTYPE:
+			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
 		}
@@ -138,7 +138,7 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_DATA_TYPE__STEREOTYPE:
+			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -160,4 +160,4 @@ public class PrimitiveDataTypeImpl extends DataTypeImpl implements PrimitiveData
 		return result.toString();
 	}
 
-} //PrimitiveDataTypeImpl
+} //PrimitiveTypeImpl

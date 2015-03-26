@@ -40,15 +40,6 @@ public interface OntoumlFactory extends EFactory {
 	Package createPackage();
 
 	/**
-	 * Returns a new object of class '<em>High Order Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>High Order Class</em>'.
-	 * @generated
-	 */
-	HighOrderClass createHighOrderClass();
-
-	/**
 	 * Returns a new object of class '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,22 +49,13 @@ public interface OntoumlFactory extends EFactory {
 	Class createClass();
 
 	/**
-	 * Returns a new object of class '<em>Class Binary Relationship</em>'.
+	 * Returns a new object of class '<em>Primitive Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Class Binary Relationship</em>'.
+	 * @return a new object of class '<em>Primitive Type</em>'.
 	 * @generated
 	 */
-	ClassBinaryRelationship createClassBinaryRelationship();
-
-	/**
-	 * Returns a new object of class '<em>Material Relationship</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Material Relationship</em>'.
-	 * @generated
-	 */
-	MaterialRelationship createMaterialRelationship();
+	PrimitiveType createPrimitiveType();
 
 	/**
 	 * Returns a new object of class '<em>Generalization Set</em>'.
@@ -85,40 +67,31 @@ public interface OntoumlFactory extends EFactory {
 	GeneralizationSet createGeneralizationSet();
 
 	/**
-	 * Returns a new object of class '<em>Primitive Data Type</em>'.
+	 * Returns a new object of class '<em>Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Primitive Data Type</em>'.
+	 * @return a new object of class '<em>Attribute</em>'.
 	 * @generated
 	 */
-	PrimitiveDataType createPrimitiveDataType();
+	Attribute createAttribute();
 
 	/**
-	 * Returns a new object of class '<em>Enumeration</em>'.
+	 * Returns a new object of class '<em>End Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Enumeration</em>'.
+	 * @return a new object of class '<em>End Point</em>'.
 	 * @generated
 	 */
-	Enumeration createEnumeration();
+	EndPoint createEndPoint();
 
 	/**
-	 * Returns a new object of class '<em>Complex Data Type</em>'.
+	 * Returns a new object of class '<em>Class Binary Relationship</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Complex Data Type</em>'.
+	 * @return a new object of class '<em>Class Binary Relationship</em>'.
 	 * @generated
 	 */
-	ComplexDataType createComplexDataType();
-
-	/**
-	 * Returns a new object of class '<em>Data Type Attribute</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Data Type Attribute</em>'.
-	 * @generated
-	 */
-	DataTypeAttribute createDataTypeAttribute();
+	ClassBinaryRelationship createClassBinaryRelationship();
 
 	/**
 	 * Returns the package supported by this factory.
