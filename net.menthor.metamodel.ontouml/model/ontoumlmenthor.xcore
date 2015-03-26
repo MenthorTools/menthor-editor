@@ -12,6 +12,13 @@
  
 package net.menthor.metamodel.ontouml
 
+// TODO: JP: Name Spaces like in UML (with package imports)
+// TODO: JP: Support for Comments
+
+/* TODO: JP: Create a separate meta-model for "occurrences" of the elements in views
+ * (similar to occurrences and definitions in ARIS) keep this meta-model for definitions
+ * and create a meta-model for occurrences. This will enable a strict separation between model and views */
+ 
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
 abstract class Element { }
@@ -39,11 +46,8 @@ enum Universal
 class Class extends NamedElement, ContainingElement
 {	
 	Universal[0..1] stereotype
-
-	/* JP: Default should be false but isAbstract is unnecessary, as the type of Universal 
-	 * already defines whether a corresponding UML class would be abstract */	
-	// boolean isAbstract
 	
+	boolean isAbstract	
 	boolean isDerived
 	boolean isExtensional	
 	
@@ -89,6 +93,8 @@ class PrimitiveType extends ContainingElement
 
 enum Primitive
 {
+	/** JP: This is a direct way to implement built-in types, differently from UML in which 
+	 *  this should be a library of built-ins at model level */
 	Boolean, String, Real, Integer, UnlimitedNatural, Date
 }
 
@@ -105,7 +111,6 @@ class GeneralizationSet extends NamedElement, ContainingElement
 	refers Class[1] specializedClass opposite isSpecializedVia
 	refers unordered unique Class[1..*] specializingClasses opposite specializesVia
 		
-	//TODO: Add constraints for universals of the same meta-class.
 	refers Class[0..1] hou 
 }
 
@@ -197,6 +202,7 @@ enum Relation
 	Material
 	Formal
 	Structuration
+	Participation
 }
 
 //=========================================

@@ -346,13 +346,22 @@ public interface OntoumlPackage extends EPackage {
 	int CLASS__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Is Abstract</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__IS_ABSTRACT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__IS_DERIVED = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int CLASS__IS_DERIVED = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Is Extensional</b></em>' attribute.
@@ -361,7 +370,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__IS_EXTENSIONAL = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int CLASS__IS_EXTENSIONAL = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Enumeration Literals</b></em>' attribute list.
@@ -370,7 +379,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__ENUMERATION_LITERALS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int CLASS__ENUMERATION_LITERALS = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Instance Of</b></em>' reference list.
@@ -379,7 +388,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__INSTANCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int CLASS__INSTANCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Istruth Maker Of</b></em>' reference list.
@@ -388,7 +397,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__ISTRUTH_MAKER_OF = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int CLASS__ISTRUTH_MAKER_OF = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' reference list.
@@ -397,7 +406,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int CLASS__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
@@ -406,7 +415,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int CLASS__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
@@ -415,7 +424,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 9;
+	int CLASS__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Class</em>' class.
@@ -424,7 +433,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
+	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The operation id for the '<em>Is Rigid</em>' operation.
@@ -1199,6 +1208,17 @@ public interface OntoumlPackage extends EPackage {
 	EAttribute getClass_Stereotype();
 
 	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsAbstract <em>Is Abstract</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Abstract</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#isIsAbstract()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EAttribute getClass_IsAbstract();
+
+	/**
 	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsDerived <em>Is Derived</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1868,6 +1888,14 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CLASS__STEREOTYPE = eINSTANCE.getClass_Stereotype();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Abstract</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS__IS_ABSTRACT = eINSTANCE.getClass_IsAbstract();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Derived</b></em>' attribute feature.

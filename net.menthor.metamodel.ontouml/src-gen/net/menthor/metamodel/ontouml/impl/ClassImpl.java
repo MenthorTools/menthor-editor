@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getHolder <em>Holder</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getStereotype <em>Stereotype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsExtensional <em>Is Extensional</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getEnumerationLiterals <em>Enumeration Literals</em>}</li>
@@ -73,6 +74,26 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * @ordered
 	 */
 	protected Universal stereotype = STEREOTYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isIsAbstract() <em>Is Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsAbstract()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_ABSTRACT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsAbstract() <em>Is Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsAbstract()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isAbstract = IS_ABSTRACT_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isIsDerived() <em>Is Derived</em>}' attribute.
@@ -263,6 +284,27 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		stereotype = newStereotype == null ? STEREOTYPE_EDEFAULT : newStereotype;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__STEREOTYPE, oldStereotype, stereotype));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isIsAbstract() {
+		return isAbstract;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsAbstract(boolean newIsAbstract) {
+		boolean oldIsAbstract = isAbstract;
+		isAbstract = newIsAbstract;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__IS_ABSTRACT, oldIsAbstract, isAbstract));
 	}
 
 	/**
@@ -598,6 +640,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return basicGetHolder();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return getStereotype();
+			case OntoumlPackage.CLASS__IS_ABSTRACT:
+				return isIsAbstract();
 			case OntoumlPackage.CLASS__IS_DERIVED:
 				return isIsDerived();
 			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
@@ -632,6 +676,9 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return;
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype((Universal)newValue);
+				return;
+			case OntoumlPackage.CLASS__IS_ABSTRACT:
+				setIsAbstract((Boolean)newValue);
 				return;
 			case OntoumlPackage.CLASS__IS_DERIVED:
 				setIsDerived((Boolean)newValue);
@@ -681,6 +728,9 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
+			case OntoumlPackage.CLASS__IS_ABSTRACT:
+				setIsAbstract(IS_ABSTRACT_EDEFAULT);
+				return;
 			case OntoumlPackage.CLASS__IS_DERIVED:
 				setIsDerived(IS_DERIVED_EDEFAULT);
 				return;
@@ -721,6 +771,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return basicGetHolder() != null;
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
+			case OntoumlPackage.CLASS__IS_ABSTRACT:
+				return isAbstract != IS_ABSTRACT_EDEFAULT;
 			case OntoumlPackage.CLASS__IS_DERIVED:
 				return isDerived != IS_DERIVED_EDEFAULT;
 			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
@@ -803,6 +855,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (stereotype: ");
 		result.append(stereotype);
+		result.append(", isAbstract: ");
+		result.append(isAbstract);
 		result.append(", isDerived: ");
 		result.append(isDerived);
 		result.append(", isExtensional: ");

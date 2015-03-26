@@ -106,7 +106,17 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	STRUCTURATION(0, "Structuration", "Structuration");
+	STRUCTURATION(0, "Structuration", "Structuration"),
+
+	/**
+	 * The '<em><b>Participation</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PARTICIPATION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	PARTICIPATION(0, "Participation", "Participation");
 
 	/**
 	 * The '<em><b>Component Of</b></em>' literal value.
@@ -244,6 +254,21 @@ public enum Relation implements Enumerator {
 	public static final int STRUCTURATION_VALUE = 0;
 
 	/**
+	 * The '<em><b>Participation</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Participation</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PARTICIPATION
+	 * @model name="Participation"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARTICIPATION_VALUE = 0;
+
+	/**
 	 * An array of all the '<em><b>Relation</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -260,6 +285,7 @@ public enum Relation implements Enumerator {
 			MATERIAL,
 			FORMAL,
 			STRUCTURATION,
+			PARTICIPATION,
 		};
 
 	/**

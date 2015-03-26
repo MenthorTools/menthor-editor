@@ -81,11 +81,11 @@ public enum Primitive implements Enumerator {
 	/**
 	 * The '<em><b>Boolean</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Boolean</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * JP: This is a direct way to implement built-in types, differently from UML in which
+	 *  this should be a library of built-ins at model level
+	 * <!-- end-model-doc -->
 	 * @see #BOOLEAN
 	 * @model name="Boolean"
 	 * @generated

@@ -315,7 +315,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClass_IsDerived() {
+	public EAttribute getClass_IsAbstract() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -324,7 +324,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClass_IsExtensional() {
+	public EAttribute getClass_IsDerived() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -333,7 +333,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClass_EnumerationLiterals() {
+	public EAttribute getClass_IsExtensional() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -342,8 +342,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_InstanceOf() {
-		return (EReference)classEClass.getEStructuralFeatures().get(4);
+	public EAttribute getClass_EnumerationLiterals() {
+		return (EAttribute)classEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -351,7 +351,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_IstruthMakerOf() {
+	public EReference getClass_InstanceOf() {
 		return (EReference)classEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -360,7 +360,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_Attributes() {
+	public EReference getClass_IstruthMakerOf() {
 		return (EReference)classEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -369,7 +369,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_IsSpecializedVia() {
+	public EReference getClass_Attributes() {
 		return (EReference)classEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -378,8 +378,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_SpecializesVia() {
+	public EReference getClass_IsSpecializedVia() {
 		return (EReference)classEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClass_SpecializesVia() {
+		return (EReference)classEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -814,6 +823,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 
 		classEClass = createEClass(CLASS);
 		createEAttribute(classEClass, CLASS__STEREOTYPE);
+		createEAttribute(classEClass, CLASS__IS_ABSTRACT);
 		createEAttribute(classEClass, CLASS__IS_DERIVED);
 		createEAttribute(classEClass, CLASS__IS_EXTENSIONAL);
 		createEAttribute(classEClass, CLASS__ENUMERATION_LITERALS);
@@ -941,6 +951,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 
 		initEClass(classEClass, net.menthor.metamodel.ontouml.Class.class, "Class", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getClass_Stereotype(), this.getUniversal(), "stereotype", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClass_IsAbstract(), theEcorePackage.getEBoolean(), "isAbstract", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_IsDerived(), theEcorePackage.getEBoolean(), "isDerived", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_IsExtensional(), theEcorePackage.getEBoolean(), "isExtensional", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_EnumerationLiterals(), theEcorePackage.getEString(), "enumerationLiterals", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1042,6 +1053,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		addEEnumLiteral(relationEEnum, Relation.MATERIAL);
 		addEEnumLiteral(relationEEnum, Relation.FORMAL);
 		addEEnumLiteral(relationEEnum, Relation.STRUCTURATION);
+		addEEnumLiteral(relationEEnum, Relation.PARTICIPATION);
 
 		// Create resource
 		createResource(eNS_URI);
