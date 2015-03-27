@@ -13,7 +13,6 @@
 package net.menthor.metamodel.ontouml
 
 // TODO: JP: Name Spaces like in UML (with package imports)
-// TODO: JP: Support for Comments
 
 /* TODO: JP: Create a separate meta-model for "occurrences" of the elements in views
  * (similar to occurrences and definitions in ARIS) keep this meta-model for definitions
@@ -33,14 +32,6 @@ abstract class ContainedElement extends Element
 	contains Comment[*] comments opposite owner
 }
 
-//=========================================
-
-class Model extends Container { }
-
-class Package extends Container, ContainedElement { }
-
-//=========================================
-
 class Comment extends Element 
 { 
 	String content
@@ -49,10 +40,17 @@ class Comment extends Element
 
 //=========================================
 
+class Model extends Container { }
+
+class Package extends Container, ContainedElement { }
+
+//=========================================
+
 enum Universal 
 {	
 	Kind, Collective, Quantity, Relator, Mode, Quality,  
-	Role, Phase, SubKind, Category, Mixin, RoleMixin, PhaseMixin, Event, Hou, DataType, Enumeration
+	Role, Phase, SubKind, Category, Mixin, RoleMixin, 
+	PhaseMixin, Event, Hou, DataType, Enumeration
 }
 
 class Class extends NamedElement, ContainedElement
@@ -60,15 +58,14 @@ class Class extends NamedElement, ContainedElement
 	Universal[0..1] stereotype
 	
 	boolean isAbstract	
-	boolean isDerived
+	boolean isDerived	
+	derived boolean isExtensional
 	
-	derived boolean isExtensional // ends read only do lado da target
+	String[*] enumerationLiterals 
 	
-	String[*] enumerationLiterals //<<Enumeration>>
+	refers unordered unique Class[*] instanceOf 
 	
-	refers unordered unique Class[*] instanceOf //<<hou>>
-	
-	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker ////<<relator>>
+	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker
 	
 	refers unordered unique Attribute[*] attributes opposite owner
 	
@@ -79,41 +76,65 @@ class Class extends NamedElement, ContainedElement
 	//Operations
 	//==============================================
 	
-	op boolean isRigid()
-	{
-		stereotype==Universal.KIND || stereotype==Universal.COLLECTIVE || stereotype==Universal.QUANTITY || 
-		stereotype==Universal.RELATOR || stereotype==Universal.MODE || 
-		stereotype==Universal.QUALITY || 
-		stereotype==Universal.SUB_KIND ||
-		stereotype==Universal.CATEGORY
-	} 
-	op boolean isNonRigid()
-	{
-		stereotype==Universal.ROLE || stereotype==Universal.PHASE || stereotype==Universal.ROLE_MIXIN || stereotype==Universal.MIXIN
-	} 
-	op boolean isAntiRigid()
-	{
-		stereotype==Universal.ROLE || stereotype==Universal.PHASE || stereotype==Universal.ROLE_MIXIN
-	} 
-//	op void identidyProvider(){}
-	
-//	op void isFunctionalComplex(){}	
-//	op void isCollection(){}
-//	op void isAmountOfMatter(){}
-//	op void isIntrinsic(){}
-//	op void isTruthMaker(){}	
-	
-//	op void isKind(){}
-//	op void isSubKind(){}
-//	op void isCollective(){}
-//	op void isQuantity(){}
-//	op void isRelator(){}
-//	op void isMode(){}
-//	...
+	op boolean isKind(){stereotype==Universal.KIND}
+	op boolean isSubKind(){stereotype==Universal.SUB_KIND}
+	op boolean isCollective(){stereotype==Universal.COLLECTIVE}
+	op boolean isQuantity(){stereotype==Universal.QUANTITY}
+	op boolean isRelator(){stereotype==Universal.RELATOR}
+	op boolean isMode(){stereotype==Universal.MODE}
+	op boolean isQuality(){stereotype==Universal.QUALITY}
+	op boolean isRole(){stereotype==Universal.ROLE}
+	op boolean isRoleMixin(){stereotype==Universal.ROLE_MIXIN}
+	op boolean isPhaseMixin(){stereotype==Universal.PHASE_MIXIN}
+	op boolean isPhase(){stereotype==Universal.PHASE}
+	op boolean isCategory(){stereotype==Universal.CATEGORY}
+	op boolean isMixin(){stereotype==Universal.MIXIN}
+	op boolean isEvent(){stereotype==Universal.EVENT}
+	op boolean isHighOrder(){stereotype==Universal.HOU}
+	op boolean isDataType(){stereotype==Universal.DATA_TYPE}
+	op boolean isEnumeration(){stereotype==Universal.ENUMERATION}
+	op boolean isRigid() { isKind() || isCollective() || isQuantity() ||isRelator() || isMode() || isQuality() ||isSubKind() || isCategory() } 
+	op boolean isNonRigid() { isRole()|| isPhase() || isRoleMixin() || isMixin() } 
+	op boolean isAntiRigid() { isRole() || isPhase() || isRoleMixin() }
+	 
+	/* Direct children */
+	op Class[] children() 
+	{		
+		var Class[] list
+		for(GeneralizationSet gs: isSpecializedVia) { 
+			list.addAll(gs.specializingClasses);		
+		}
+		return list.toEList;
+	}
 
-	//op parent() {}
+	/** Direct parents */
+	op Class[] parents() 
+	{
+		var Class[] list
+		for(GeneralizationSet gs: specializesVia) { 
+			list.add(gs.specializedClass);		
+		}
+		return list.toEList;
+	}
+		
+	/** First direct parent */
+	op Class parent() 
+	{
+		if(isSpecializedVia.get(0)!=null){
+			return isSpecializedVia.get(0).specializedClass;		
+		}else{
+			return null;
+		}		
+	}
 	
-//	op void setIsExtensional(){}
+	//not done yet...
+	op void identidyProvider(){}	
+	op void isFunctionalComplex(){}	
+	op void isCollection(){}
+	op void isAmountOfMatter(){}
+	op void isIntrinsic(){}
+	op boolean isTruthMakerOf(){ isRelator() && istruthMakerOf.size()>0}	
+	op void setIsExtensional(){}
 }
 
 //=========================================
@@ -198,35 +219,51 @@ class ClassBinaryRelationship extends NamedElement, ContainedElement
 				
 	boolean partIsShareable
 	
-	AllenRelation[0..1] allensRelation //<<Temporal>>
+	AllenRelation[0..1] allenRelation //<<temporal>>
 	
-	refers Class[0..1] truthMaker opposite istruthMakerOf
+	refers Class[0..1] truthMaker opposite istruthMakerOf //<<relator>>
 	
-	//transformar em operaçoes....
-	derived boolean isDerived get { sourceEnd().isDerived || targetEnd().isDerived }		 
-	derived boolean partIsEssential	get { targetEnd().isDependee && sourceEnd().endType.isRigid() && isMeronymic() }  
-	derived boolean partIsInseparable get { sourceEnd().isDependee && targetEnd().endType.isRigid() && isMeronymic() }
-	derived boolean partIsImmutable get { sourceEnd().isDependee && targetEnd().endType.isAntiRigid() && isMeronymic()} 
-	derived boolean wholeIsImmutable get { targetEnd().isDependee && sourceEnd().endType.isAntiRigid() && isMeronymic()}		
-	derived boolean partIsMandatory get { targetEnd().lowerBound>=1 && isMeronymic()}
-	derived boolean wholeIsMandatory get { sourceEnd().lowerBound>=1 && isMeronymic()}
-
 	//==============================================
 	//Operations
 	//==============================================
 	
-	op EndPoint sourceEnd()
-	{
-		return endPoints.get(0)
-	}	
-	op EndPoint targetEnd()
-	{
-		return endPoints.get(1)
-	}
-	op boolean isMeronymic()
-	{
-		stereotype==Relation.COMPONENT_OF || stereotype==Relation.MEMBER_OF || stereotype==Relation.SUB_QUANTITY_OF || stereotype==Relation.SUB_COLLECTION_OF
-	} 
+	op boolean isComponentOf(){stereotype==Relation.COMPONENT_OF}
+	op boolean isMemberOf(){stereotype==Relation.MEMBER_OF}
+	op boolean isSubCollectionOf(){stereotype==Relation.SUB_COLLECTION_OF}
+	op boolean isSubQuantityOf(){stereotype==Relation.SUB_QUANTITY_OF}
+	op boolean isConstitution(){stereotype==Relation.CONSTITUTION}	
+	op boolean isCharacterization(){stereotype==Relation.CHARACTERIZATION}
+	op boolean isMediation(){stereotype==Relation.MEDIATION}
+	op boolean isMaterial(){stereotype==Relation.MATERIAL}
+	op boolean isFormal(){stereotype==Relation.FORMAL}
+	op boolean isStructuration(){stereotype==Relation.STRUCTURATION}
+	op boolean isParticipation(){stereotype==Relation.PARTICIPATION}
+	op boolean isSubEventOf(){stereotype==Relation.SUB_EVENT_OF}
+	op boolean isCausation(){stereotype==Relation.CAUSATION}
+	op boolean isTemporal(){stereotype==Relation.TEMPORAL}
+	
+	op boolean isStarts(){allenRelation==AllenRelation.STARTS && isTemporal()}
+	op boolean isPrecedes(){allenRelation==AllenRelation.PRECEDES && isTemporal()}
+	op boolean isEquals(){allenRelation==AllenRelation.EQUALS && isTemporal()}
+	op boolean isMeets(){allenRelation==AllenRelation.MEETS && isTemporal()}
+	op boolean isFinishes(){allenRelation==AllenRelation.FINISHES && isTemporal()}
+	op boolean isOverlaps(){allenRelation==AllenRelation.OVERLAPS && isTemporal()}
+	op boolean isDuring(){allenRelation==AllenRelation.DURING && isTemporal()}
+		
+	op boolean isMeronymic() { isComponentOf() || isMemberOf() || isSubQuantityOf() || isSubCollectionOf() }
+		
+	op EndPoint sourceEnd() { return endPoints.get(0) }	
+	op EndPoint targetEnd() { return endPoints.get(1) }
+
+	op boolean isDerived() { sourceEnd().isDerived || targetEnd().isDerived }		 
+	op boolean isPartEssential() { targetEnd().isDependee && sourceEnd().endType.isRigid() && isMeronymic() }  
+	op boolean isPartInseparable() { sourceEnd().isDependee && targetEnd().endType.isRigid() && isMeronymic() }
+	op boolean isPartImmutable() { sourceEnd().isDependee && targetEnd().endType.isAntiRigid() && isMeronymic()} 
+	op boolean isWholeImmutable() { targetEnd().isDependee && sourceEnd().endType.isAntiRigid() && isMeronymic()}		
+	op boolean isPartMandatory() { targetEnd().lowerBound>=1 && isMeronymic()}
+	op boolean isWholeMandatory() { sourceEnd().lowerBound>=1 && isMeronymic()}
+	
+	op boolean isTruthMaker() { isMaterial() && getTruthMaker()!=null && getTruthMaker().isTruthMakerOf()} 
 }	
 
 enum Relation 
