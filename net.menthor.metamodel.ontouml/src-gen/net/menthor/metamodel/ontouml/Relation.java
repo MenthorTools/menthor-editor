@@ -59,6 +59,16 @@ public enum Relation implements Enumerator {
 	SUB_QUANTITY_OF(0, "SubQuantityOf", "SubQuantityOf"),
 
 	/**
+	 * The '<em><b>Constitution</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CONSTITUTION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CONSTITUTION(0, "Constitution", "Constitution"),
+
+	/**
 	 * The '<em><b>Characterization</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -116,7 +126,37 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PARTICIPATION(0, "Participation", "Participation");
+	PARTICIPATION(0, "Participation", "Participation"),
+
+	/**
+	 * The '<em><b>Sub Event Of</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #SUB_EVENT_OF_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	SUB_EVENT_OF(0, "SubEventOf", "SubEventOf"),
+
+	/**
+	 * The '<em><b>Causation</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CAUSATION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CAUSATION(0, "Causation", "Causation"),
+
+	/**
+	 * The '<em><b>Temporal</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #TEMPORAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	TEMPORAL(0, "Temporal", "Temporal");
 
 	/**
 	 * The '<em><b>Component Of</b></em>' literal value.
@@ -177,6 +217,21 @@ public enum Relation implements Enumerator {
 	 * @ordered
 	 */
 	public static final int SUB_QUANTITY_OF_VALUE = 0;
+
+	/**
+	 * The '<em><b>Constitution</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Constitution</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CONSTITUTION
+	 * @model name="Constitution"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CONSTITUTION_VALUE = 0;
 
 	/**
 	 * The '<em><b>Characterization</b></em>' literal value.
@@ -269,6 +324,51 @@ public enum Relation implements Enumerator {
 	public static final int PARTICIPATION_VALUE = 0;
 
 	/**
+	 * The '<em><b>Sub Event Of</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Sub Event Of</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SUB_EVENT_OF
+	 * @model name="SubEventOf"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SUB_EVENT_OF_VALUE = 0;
+
+	/**
+	 * The '<em><b>Causation</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Causation</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CAUSATION
+	 * @model name="Causation"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CAUSATION_VALUE = 0;
+
+	/**
+	 * The '<em><b>Temporal</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Temporal</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TEMPORAL
+	 * @model name="Temporal"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int TEMPORAL_VALUE = 0;
+
+	/**
 	 * An array of all the '<em><b>Relation</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -280,12 +380,16 @@ public enum Relation implements Enumerator {
 			MEMBER_OF,
 			SUB_COLLECTION_OF,
 			SUB_QUANTITY_OF,
+			CONSTITUTION,
 			CHARACTERIZATION,
 			MEDIATION,
 			MATERIAL,
 			FORMAL,
 			STRUCTURATION,
 			PARTICIPATION,
+			SUB_EVENT_OF,
+			CAUSATION,
+			TEMPORAL,
 		};
 
 	/**

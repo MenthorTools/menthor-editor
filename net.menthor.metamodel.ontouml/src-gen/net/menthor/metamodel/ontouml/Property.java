@@ -11,10 +11,11 @@ package net.menthor.metamodel.ontouml;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsOrdered <em>Is Ordered</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Property#getLowerBound <em>Lower Bound</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Property#getUpperBound <em>Upper Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsSpecificDependent <em>Is Specific Dependent</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsDependee <em>Is Dependee</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,6 +24,32 @@ package net.menthor.metamodel.ontouml;
  * @generated
  */
 public interface Property extends NamedElement {
+	/**
+	 * Returns the value of the '<em><b>Is Ordered</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Ordered</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Ordered</em>' attribute.
+	 * @see #setIsOrdered(boolean)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getProperty_IsOrdered()
+	 * @model unique="false"
+	 * @generated
+	 */
+	boolean isIsOrdered();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Property#isIsOrdered <em>Is Ordered</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Ordered</em>' attribute.
+	 * @see #isIsOrdered()
+	 * @generated
+	 */
+	void setIsOrdered(boolean value);
+
 	/**
 	 * Returns the value of the '<em><b>Is Derived</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -102,29 +129,29 @@ public interface Property extends NamedElement {
 	void setUpperBound(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Is Specific Dependent</b></em>' attribute.
+	 * Returns the value of the '<em><b>Is Dependee</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Is Specific Dependent</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Is Dependee</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Specific Dependent</em>' attribute.
-	 * @see #setIsSpecificDependent(boolean)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getProperty_IsSpecificDependent()
+	 * @return the value of the '<em>Is Dependee</em>' attribute.
+	 * @see #setIsDependee(boolean)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getProperty_IsDependee()
 	 * @model unique="false"
 	 * @generated
 	 */
-	boolean isIsSpecificDependent();
+	boolean isIsDependee();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Property#isIsSpecificDependent <em>Is Specific Dependent</em>}' attribute.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Property#isIsDependee <em>Is Dependee</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Specific Dependent</em>' attribute.
-	 * @see #isIsSpecificDependent()
+	 * @param value the new value of the '<em>Is Dependee</em>' attribute.
+	 * @see #isIsDependee()
 	 * @generated
 	 */
-	void setIsSpecificDependent(boolean value);
+	void setIsDependee(boolean value);
 
 } // Property

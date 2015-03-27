@@ -19,7 +19,7 @@ package net.menthor.metamodel.ontouml;
  * @model
  * @generated
  */
-public interface PrimitiveType extends ContainingElement {
+public interface PrimitiveType extends ContainedElement {
 	/**
 	 * Returns the value of the '<em><b>Stereotype</b></em>' attribute.
 	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Primitive}.

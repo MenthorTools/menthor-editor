@@ -12,7 +12,7 @@ package net.menthor.metamodel.ontouml;
  * The following features are supported:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.Attribute#getIsOfType <em>Is Of Type</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Attribute#getPrimitiveType <em>Primitive Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,29 +50,29 @@ public interface Attribute extends Property {
 	void setOwner(net.menthor.metamodel.ontouml.Class value);
 
 	/**
-	 * Returns the value of the '<em><b>Is Of Type</b></em>' reference.
+	 * Returns the value of the '<em><b>Primitive Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Is Of Type</em>' reference isn't clear,
+	 * If the meaning of the '<em>Primitive Type</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Of Type</em>' reference.
-	 * @see #setIsOfType(PrimitiveType)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getAttribute_IsOfType()
+	 * @return the value of the '<em>Primitive Type</em>' reference.
+	 * @see #setPrimitiveType(PrimitiveType)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getAttribute_PrimitiveType()
 	 * @model required="true"
 	 * @generated
 	 */
-	PrimitiveType getIsOfType();
+	PrimitiveType getPrimitiveType();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Attribute#getIsOfType <em>Is Of Type</em>}' reference.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Attribute#getPrimitiveType <em>Primitive Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Of Type</em>' reference.
-	 * @see #getIsOfType()
+	 * @param value the new value of the '<em>Primitive Type</em>' reference.
+	 * @see #getPrimitiveType()
 	 * @generated
 	 */
-	void setIsOfType(PrimitiveType value);
+	void setPrimitiveType(PrimitiveType value);
 
 } // Attribute

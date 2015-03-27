@@ -10,7 +10,8 @@ import java.util.Collection;
 
 import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
-import net.menthor.metamodel.ontouml.ContainingElement;
+import net.menthor.metamodel.ontouml.Comment;
+import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Universal;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -39,6 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getHolder <em>Holder</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getStereotype <em>Stereotype</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsDerived <em>Is Derived</em>}</li>
@@ -55,6 +58,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel.ontouml.Class {
+	/**
+	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComments()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Comment> comments;
+
 	/**
 	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -270,6 +283,18 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Comment> getComments() {
+		if (comments == null) {
+			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.CLASS__COMMENTS, OntoumlPackage.COMMENT__OWNER);
+		}
+		return comments;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Universal getStereotype() {
 		return stereotype;
 	}
@@ -434,72 +459,56 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		boolean _or_4 = false;
 		boolean _or_5 = false;
 		boolean _or_6 = false;
-		boolean _or_7 = false;
-		boolean _or_8 = false;
 		Universal _stereotype = this.getStereotype();
 		boolean _equals = Objects.equal(_stereotype, Universal.KIND);
 		if (_equals) {
-			_or_8 = true;
+			_or_6 = true;
 		} else {
 			Universal _stereotype_1 = this.getStereotype();
 			boolean _equals_1 = Objects.equal(_stereotype_1, Universal.COLLECTIVE);
-			_or_8 = _equals_1;
-		}
-		if (_or_8) {
-			_or_7 = true;
-		} else {
-			Universal _stereotype_2 = this.getStereotype();
-			boolean _equals_2 = Objects.equal(_stereotype_2, Universal.QUANTITY);
-			_or_7 = _equals_2;
-		}
-		if (_or_7) {
-			_or_6 = true;
-		} else {
-			Universal _stereotype_3 = this.getStereotype();
-			boolean _equals_3 = Objects.equal(_stereotype_3, Universal.RELATOR);
-			_or_6 = _equals_3;
+			_or_6 = _equals_1;
 		}
 		if (_or_6) {
 			_or_5 = true;
 		} else {
-			Universal _stereotype_4 = this.getStereotype();
-			boolean _equals_4 = Objects.equal(_stereotype_4, Universal.MODE);
-			_or_5 = _equals_4;
+			Universal _stereotype_2 = this.getStereotype();
+			boolean _equals_2 = Objects.equal(_stereotype_2, Universal.QUANTITY);
+			_or_5 = _equals_2;
 		}
 		if (_or_5) {
 			_or_4 = true;
 		} else {
-			Universal _stereotype_5 = this.getStereotype();
-			boolean _equals_5 = Objects.equal(_stereotype_5, Universal.NOMINAL_QUALITY);
-			_or_4 = _equals_5;
+			Universal _stereotype_3 = this.getStereotype();
+			boolean _equals_3 = Objects.equal(_stereotype_3, Universal.RELATOR);
+			_or_4 = _equals_3;
 		}
 		if (_or_4) {
 			_or_3 = true;
 		} else {
-			Universal _stereotype_6 = this.getStereotype();
-			boolean _equals_6 = Objects.equal(_stereotype_6, Universal.PERCEIVABLE_QUALITY);
-			_or_3 = _equals_6;
+			Universal _stereotype_4 = this.getStereotype();
+			boolean _equals_4 = Objects.equal(_stereotype_4, Universal.MODE);
+			_or_3 = _equals_4;
 		}
 		if (_or_3) {
 			_or_2 = true;
 		} else {
-			Universal _stereotype_7 = this.getStereotype();
-			boolean _equals_7 = Objects.equal(_stereotype_7, Universal.NON_PERCEIVABLE_QUALITY);
-			_or_2 = _equals_7;
+			Universal _stereotype_5 = this.getStereotype();
+			boolean _equals_5 = Objects.equal(_stereotype_5, Universal.QUALITY);
+			_or_2 = _equals_5;
 		}
 		if (_or_2) {
 			_or_1 = true;
 		} else {
-			Universal _stereotype_8 = this.getStereotype();
-			boolean _equals_8 = Objects.equal(_stereotype_8, Universal.SUB_KIND);
-			_or_1 = _equals_8;
+			Universal _stereotype_6 = this.getStereotype();
+			boolean _equals_6 = Objects.equal(_stereotype_6, Universal.SUB_KIND);
+			_or_1 = _equals_6;
 		}
 		if (_or_1) {
 			_or = true;
 		} else {
-			Universal _stereotype_9 = this.getStereotype();
-			boolean _equals_9 = Objects.equal(_stereotype_9, Universal.CATEGORY);
-			_or = _equals_9;
+			Universal _stereotype_7 = this.getStereotype();
+			boolean _equals_7 = Objects.equal(_stereotype_7, Universal.CATEGORY);
+			_or = _equals_7;
 		}
 		return _or;
 	}
@@ -579,6 +588,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+			case OntoumlPackage.CLASS__COMMENTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIstruthMakerOf()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ATTRIBUTES:
@@ -601,6 +612,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		switch (featureID) {
 			case OntoumlPackage.CLASS__HOLDER:
 				return basicSetHolder(null, msgs);
+			case OntoumlPackage.CLASS__COMMENTS:
+				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				return ((InternalEList<?>)getIstruthMakerOf()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ATTRIBUTES:
@@ -638,6 +651,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__HOLDER:
 				if (resolve) return getHolder();
 				return basicGetHolder();
+			case OntoumlPackage.CLASS__COMMENTS:
+				return getComments();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return getStereotype();
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
@@ -673,6 +688,10 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		switch (featureID) {
 			case OntoumlPackage.CLASS__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
+				return;
+			case OntoumlPackage.CLASS__COMMENTS:
+				getComments().clear();
+				getComments().addAll((Collection<? extends Comment>)newValue);
 				return;
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype((Universal)newValue);
@@ -725,6 +744,9 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
+			case OntoumlPackage.CLASS__COMMENTS:
+				getComments().clear();
+				return;
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
@@ -769,6 +791,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		switch (featureID) {
 			case OntoumlPackage.CLASS__HOLDER:
 				return basicGetHolder() != null;
+			case OntoumlPackage.CLASS__COMMENTS:
+				return comments != null && !comments.isEmpty();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
@@ -800,9 +824,10 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainingElement.class) {
+		if (baseClass == ContainedElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.CLASS__HOLDER: return OntoumlPackage.CONTAINING_ELEMENT__HOLDER;
+				case OntoumlPackage.CLASS__HOLDER: return OntoumlPackage.CONTAINED_ELEMENT__HOLDER;
+				case OntoumlPackage.CLASS__COMMENTS: return OntoumlPackage.CONTAINED_ELEMENT__COMMENTS;
 				default: return -1;
 			}
 		}
@@ -816,9 +841,10 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainingElement.class) {
+		if (baseClass == ContainedElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.CONTAINING_ELEMENT__HOLDER: return OntoumlPackage.CLASS__HOLDER;
+				case OntoumlPackage.CONTAINED_ELEMENT__HOLDER: return OntoumlPackage.CLASS__HOLDER;
+				case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS: return OntoumlPackage.CLASS__COMMENTS;
 				default: return -1;
 			}
 		}

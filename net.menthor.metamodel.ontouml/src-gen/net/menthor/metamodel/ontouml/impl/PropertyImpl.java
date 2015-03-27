@@ -18,16 +18,37 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsOrdered <em>Is Ordered</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#getLowerBound <em>Lower Bound</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#getUpperBound <em>Upper Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsSpecificDependent <em>Is Specific Dependent</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsDependee <em>Is Dependee</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public abstract class PropertyImpl extends NamedElementImpl implements Property {
+	/**
+	 * The default value of the '{@link #isIsOrdered() <em>Is Ordered</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsOrdered()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_ORDERED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsOrdered() <em>Is Ordered</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsOrdered()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isOrdered = IS_ORDERED_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #isIsDerived() <em>Is Derived</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -89,24 +110,24 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	protected int upperBound = UPPER_BOUND_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIsSpecificDependent() <em>Is Specific Dependent</em>}' attribute.
+	 * The default value of the '{@link #isIsDependee() <em>Is Dependee</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isIsSpecificDependent()
+	 * @see #isIsDependee()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean IS_SPECIFIC_DEPENDENT_EDEFAULT = false;
+	protected static final boolean IS_DEPENDEE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isIsSpecificDependent() <em>Is Specific Dependent</em>}' attribute.
+	 * The cached value of the '{@link #isIsDependee() <em>Is Dependee</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isIsSpecificDependent()
+	 * @see #isIsDependee()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean isSpecificDependent = IS_SPECIFIC_DEPENDENT_EDEFAULT;
+	protected boolean isDependee = IS_DEPENDEE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -125,6 +146,27 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	@Override
 	protected EClass eStaticClass() {
 		return OntoumlPackage.Literals.PROPERTY;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isIsOrdered() {
+		return isOrdered;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsOrdered(boolean newIsOrdered) {
+		boolean oldIsOrdered = isOrdered;
+		isOrdered = newIsOrdered;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PROPERTY__IS_ORDERED, oldIsOrdered, isOrdered));
 	}
 
 	/**
@@ -195,8 +237,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isIsSpecificDependent() {
-		return isSpecificDependent;
+	public boolean isIsDependee() {
+		return isDependee;
 	}
 
 	/**
@@ -204,11 +246,11 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsSpecificDependent(boolean newIsSpecificDependent) {
-		boolean oldIsSpecificDependent = isSpecificDependent;
-		isSpecificDependent = newIsSpecificDependent;
+	public void setIsDependee(boolean newIsDependee) {
+		boolean oldIsDependee = isDependee;
+		isDependee = newIsDependee;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PROPERTY__IS_SPECIFIC_DEPENDENT, oldIsSpecificDependent, isSpecificDependent));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PROPERTY__IS_DEPENDEE, oldIsDependee, isDependee));
 	}
 
 	/**
@@ -219,14 +261,16 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case OntoumlPackage.PROPERTY__IS_ORDERED:
+				return isIsOrdered();
 			case OntoumlPackage.PROPERTY__IS_DERIVED:
 				return isIsDerived();
 			case OntoumlPackage.PROPERTY__LOWER_BOUND:
 				return getLowerBound();
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				return getUpperBound();
-			case OntoumlPackage.PROPERTY__IS_SPECIFIC_DEPENDENT:
-				return isIsSpecificDependent();
+			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
+				return isIsDependee();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,6 +283,9 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case OntoumlPackage.PROPERTY__IS_ORDERED:
+				setIsOrdered((Boolean)newValue);
+				return;
 			case OntoumlPackage.PROPERTY__IS_DERIVED:
 				setIsDerived((Boolean)newValue);
 				return;
@@ -248,8 +295,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				setUpperBound((Integer)newValue);
 				return;
-			case OntoumlPackage.PROPERTY__IS_SPECIFIC_DEPENDENT:
-				setIsSpecificDependent((Boolean)newValue);
+			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
+				setIsDependee((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -263,6 +310,9 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case OntoumlPackage.PROPERTY__IS_ORDERED:
+				setIsOrdered(IS_ORDERED_EDEFAULT);
+				return;
 			case OntoumlPackage.PROPERTY__IS_DERIVED:
 				setIsDerived(IS_DERIVED_EDEFAULT);
 				return;
@@ -272,8 +322,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				setUpperBound(UPPER_BOUND_EDEFAULT);
 				return;
-			case OntoumlPackage.PROPERTY__IS_SPECIFIC_DEPENDENT:
-				setIsSpecificDependent(IS_SPECIFIC_DEPENDENT_EDEFAULT);
+			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
+				setIsDependee(IS_DEPENDEE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -287,14 +337,16 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case OntoumlPackage.PROPERTY__IS_ORDERED:
+				return isOrdered != IS_ORDERED_EDEFAULT;
 			case OntoumlPackage.PROPERTY__IS_DERIVED:
 				return isDerived != IS_DERIVED_EDEFAULT;
 			case OntoumlPackage.PROPERTY__LOWER_BOUND:
 				return lowerBound != LOWER_BOUND_EDEFAULT;
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				return upperBound != UPPER_BOUND_EDEFAULT;
-			case OntoumlPackage.PROPERTY__IS_SPECIFIC_DEPENDENT:
-				return isSpecificDependent != IS_SPECIFIC_DEPENDENT_EDEFAULT;
+			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
+				return isDependee != IS_DEPENDEE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -309,14 +361,16 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isDerived: ");
+		result.append(" (isOrdered: ");
+		result.append(isOrdered);
+		result.append(", isDerived: ");
 		result.append(isDerived);
 		result.append(", lowerBound: ");
 		result.append(lowerBound);
 		result.append(", upperBound: ");
 		result.append(upperBound);
-		result.append(", isSpecificDependent: ");
-		result.append(isSpecificDependent);
+		result.append(", isDependee: ");
+		result.append(isDependee);
 		result.append(')');
 		return result.toString();
 	}

@@ -24,19 +24,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Package</b></em>'.
+ * An implementation of the model object '<em><b>Contained Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PackageImpl#getHolder <em>Holder</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PackageImpl#getComments <em>Comments</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl#getHolder <em>Holder</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl#getComments <em>Comments</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.ontouml.Package {
+public abstract class ContainedElementImpl extends ElementImpl implements ContainedElement {
 	/**
 	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -52,7 +52,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PackageImpl() {
+	protected ContainedElementImpl() {
 		super();
 	}
 
@@ -63,7 +63,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return OntoumlPackage.Literals.PACKAGE;
+		return OntoumlPackage.Literals.CONTAINED_ELEMENT;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * @generated
 	 */
 	public net.menthor.metamodel.ontouml.Container getHolder() {
-		if (eContainerFeatureID() != OntoumlPackage.PACKAGE__HOLDER) return null;
+		if (eContainerFeatureID() != OntoumlPackage.CONTAINED_ELEMENT__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eContainer();
 	}
 
@@ -82,7 +82,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * @generated
 	 */
 	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
-		if (eContainerFeatureID() != OntoumlPackage.PACKAGE__HOLDER) return null;
+		if (eContainerFeatureID() != OntoumlPackage.CONTAINED_ELEMENT__HOLDER) return null;
 		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
 	}
 
@@ -92,7 +92,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * @generated
 	 */
 	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.PACKAGE__HOLDER, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.CONTAINED_ELEMENT__HOLDER, msgs);
 		return msgs;
 	}
 
@@ -102,7 +102,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 * @generated
 	 */
 	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
-		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.PACKAGE__HOLDER && newHolder != null)) {
+		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.CONTAINED_ELEMENT__HOLDER && newHolder != null)) {
 			if (EcoreUtil.isAncestor(this, newHolder))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -114,7 +114,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PACKAGE__HOLDER, newHolder, newHolder));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CONTAINED_ELEMENT__HOLDER, newHolder, newHolder));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	 */
 	public EList<Comment> getComments() {
 		if (comments == null) {
-			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.PACKAGE__COMMENTS, OntoumlPackage.COMMENT__OWNER);
+			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.CONTAINED_ELEMENT__COMMENTS, OntoumlPackage.COMMENT__OWNER);
 		}
 		return comments;
 	}
@@ -138,11 +138,11 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
-			case OntoumlPackage.PACKAGE__COMMENTS:
+			case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -156,9 +156,9 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				return basicSetHolder(null, msgs);
-			case OntoumlPackage.PACKAGE__COMMENTS:
+			case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS:
 				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -172,7 +172,7 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -186,10 +186,10 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				if (resolve) return getHolder();
 				return basicGetHolder();
-			case OntoumlPackage.PACKAGE__COMMENTS:
+			case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS:
 				return getComments();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -204,10 +204,10 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
 				return;
-			case OntoumlPackage.PACKAGE__COMMENTS:
+			case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS:
 				getComments().clear();
 				getComments().addAll((Collection<? extends Comment>)newValue);
 				return;
@@ -223,10 +223,10 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
-			case OntoumlPackage.PACKAGE__COMMENTS:
+			case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS:
 				getComments().clear();
 				return;
 		}
@@ -241,46 +241,12 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PACKAGE__HOLDER:
+			case OntoumlPackage.CONTAINED_ELEMENT__HOLDER:
 				return basicGetHolder() != null;
-			case OntoumlPackage.PACKAGE__COMMENTS:
+			case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS:
 				return comments != null && !comments.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
-			switch (derivedFeatureID) {
-				case OntoumlPackage.PACKAGE__HOLDER: return OntoumlPackage.CONTAINED_ELEMENT__HOLDER;
-				case OntoumlPackage.PACKAGE__COMMENTS: return OntoumlPackage.CONTAINED_ELEMENT__COMMENTS;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
-			switch (baseFeatureID) {
-				case OntoumlPackage.CONTAINED_ELEMENT__HOLDER: return OntoumlPackage.PACKAGE__HOLDER;
-				case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS: return OntoumlPackage.PACKAGE__COMMENTS;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-} //PackageImpl
+} //ContainedElementImpl

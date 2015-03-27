@@ -4,7 +4,8 @@ package net.menthor.metamodel.ontouml.impl;
 
 import java.util.Collection;
 
-import net.menthor.metamodel.ontouml.ContainingElement;
+import net.menthor.metamodel.ontouml.Comment;
+import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -30,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHolder <em>Holder</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#isIsCovering <em>Is Covering</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializedClass <em>Specialized Class</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializingClasses <em>Specializing Classes</em>}</li>
@@ -40,6 +43,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class GeneralizationSetImpl extends NamedElementImpl implements GeneralizationSet {
+	/**
+	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComments()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Comment> comments;
+
 	/**
 	 * The default value of the '{@link #isIsCovering() <em>Is Covering</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -158,6 +171,18 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__HOLDER, newHolder, newHolder));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Comment> getComments() {
+		if (comments == null) {
+			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.GENERALIZATION_SET__COMMENTS, OntoumlPackage.COMMENT__OWNER);
+		}
+		return comments;
 	}
 
 	/**
@@ -304,6 +329,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				if (specializedClass != null)
 					msgs = ((InternalEObject)specializedClass).eInverseRemove(this, OntoumlPackage.CLASS__IS_SPECIALIZED_VIA, net.menthor.metamodel.ontouml.Class.class, msgs);
@@ -324,6 +351,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 		switch (featureID) {
 			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				return basicSetHolder(null, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
+				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
 				return basicSetSpecializedClass(null, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
@@ -357,6 +386,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				if (resolve) return getHolder();
 				return basicGetHolder();
+			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
+				return getComments();
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				return isIsCovering();
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
@@ -382,6 +413,10 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 		switch (featureID) {
 			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
+				return;
+			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
+				getComments().clear();
+				getComments().addAll((Collection<? extends Comment>)newValue);
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				setIsCovering((Boolean)newValue);
@@ -411,6 +446,9 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
+			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
+				getComments().clear();
+				return;
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				setIsCovering(IS_COVERING_EDEFAULT);
 				return;
@@ -437,6 +475,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 		switch (featureID) {
 			case OntoumlPackage.GENERALIZATION_SET__HOLDER:
 				return basicGetHolder() != null;
+			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
+				return comments != null && !comments.isEmpty();
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				return isCovering != IS_COVERING_EDEFAULT;
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
@@ -456,9 +496,10 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainingElement.class) {
+		if (baseClass == ContainedElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.GENERALIZATION_SET__HOLDER: return OntoumlPackage.CONTAINING_ELEMENT__HOLDER;
+				case OntoumlPackage.GENERALIZATION_SET__HOLDER: return OntoumlPackage.CONTAINED_ELEMENT__HOLDER;
+				case OntoumlPackage.GENERALIZATION_SET__COMMENTS: return OntoumlPackage.CONTAINED_ELEMENT__COMMENTS;
 				default: return -1;
 			}
 		}
@@ -472,9 +513,10 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainingElement.class) {
+		if (baseClass == ContainedElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.CONTAINING_ELEMENT__HOLDER: return OntoumlPackage.GENERALIZATION_SET__HOLDER;
+				case OntoumlPackage.CONTAINED_ELEMENT__HOLDER: return OntoumlPackage.GENERALIZATION_SET__HOLDER;
+				case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS: return OntoumlPackage.GENERALIZATION_SET__COMMENTS;
 				default: return -1;
 			}
 		}

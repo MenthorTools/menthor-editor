@@ -25,37 +25,50 @@ abstract class Element { }
 
 abstract class NamedElement extends Element { String name }
 
-abstract class Container extends NamedElement { contains unordered unique ContainingElement[*] elements opposite holder}
+abstract class Container extends NamedElement { contains unordered unique ContainedElement[*] elements opposite holder}
 
-abstract class ContainingElement extends Element { container Container[1] holder opposite elements }
+abstract class ContainedElement extends Element 
+{ 
+	container Container[1] holder opposite elements
+	contains Comment[*] comments opposite owner
+}
 
 //=========================================
 
 class Model extends Container { }
 
-class Package extends Container, ContainingElement { }
+class Package extends Container, ContainedElement { }
+
+//=========================================
+
+class Comment extends Element 
+{ 
+	String content
+	container ContainedElement[1] owner opposite comments
+}
 
 //=========================================
 
 enum Universal 
 {	
-	Kind, Collective, Quantity, Relator, Mode, Quality, PerceivableQuality, NonPerceivableQuality, NominalQuality 
-	Role, Phase, SubKind, Category, Mixin, RoleMixin, Event, Hou, DataType, Enumeration
+	Kind, Collective, Quantity, Relator, Mode, Quality,  
+	Role, Phase, SubKind, Category, Mixin, RoleMixin, PhaseMixin, Event, Hou, DataType, Enumeration
 }
 
-class Class extends NamedElement, ContainingElement
+class Class extends NamedElement, ContainedElement
 {	
 	Universal[0..1] stereotype
 	
 	boolean isAbstract	
 	boolean isDerived
-	boolean isExtensional	
 	
-	String[*] enumerationLiterals
+	derived boolean isExtensional // ends read only do lado da target
 	
-	refers unordered unique Class[*] instanceOf
+	String[*] enumerationLiterals //<<Enumeration>>
 	
-	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker
+	refers unordered unique Class[*] instanceOf //<<hou>>
+	
+	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker ////<<relator>>
 	
 	refers unordered unique Attribute[*] attributes opposite owner
 	
@@ -70,7 +83,7 @@ class Class extends NamedElement, ContainingElement
 	{
 		stereotype==Universal.KIND || stereotype==Universal.COLLECTIVE || stereotype==Universal.QUANTITY || 
 		stereotype==Universal.RELATOR || stereotype==Universal.MODE || 
-		stereotype==Universal.NOMINAL_QUALITY || stereotype==Universal.PERCEIVABLE_QUALITY || stereotype==Universal.NON_PERCEIVABLE_QUALITY || 
+		stereotype==Universal.QUALITY || 
 		stereotype==Universal.SUB_KIND ||
 		stereotype==Universal.CATEGORY
 	} 
@@ -82,11 +95,30 @@ class Class extends NamedElement, ContainingElement
 	{
 		stereotype==Universal.ROLE || stereotype==Universal.PHASE || stereotype==Universal.ROLE_MIXIN
 	} 
+//	op void identidyProvider(){}
+	
+//	op void isFunctionalComplex(){}	
+//	op void isCollection(){}
+//	op void isAmountOfMatter(){}
+//	op void isIntrinsic(){}
+//	op void isTruthMaker(){}	
+	
+//	op void isKind(){}
+//	op void isSubKind(){}
+//	op void isCollective(){}
+//	op void isQuantity(){}
+//	op void isRelator(){}
+//	op void isMode(){}
+//	...
+
+	//op parent() {}
+	
+//	op void setIsExtensional(){}
 }
 
 //=========================================
 
-class PrimitiveType extends ContainingElement
+class PrimitiveType extends ContainedElement
 {
 	Primitive[1] stereotype 
 }
@@ -95,12 +127,12 @@ enum Primitive
 {
 	/** JP: This is a direct way to implement built-in types, differently from UML in which 
 	 *  this should be a library of built-ins at model level */
-	Boolean, String, Real, Integer, UnlimitedNatural, Date
+	Boolean, String, Real, Integer, UnlimitedNatural
 }
 
 //=========================================
 
-class GeneralizationSet extends NamedElement, ContainingElement
+class GeneralizationSet extends NamedElement, ContainedElement
 {
 	boolean isCovering
 	
@@ -118,17 +150,18 @@ class GeneralizationSet extends NamedElement, ContainingElement
 
 abstract class Property extends NamedElement 
 {		
+	boolean isOrdered
 	boolean isDerived	
 	int[1] lowerBound
 	int[1] upperBound	
-	boolean isSpecificDependent	
+	boolean isDependee	
 }
   
 class Attribute extends Property
 {
 	refers Class[1] owner opposite attributes
 	
-	refers PrimitiveType[1] isOfType  	
+	refers PrimitiveType[1] primitiveType  	
 }
 
 //=========================================
@@ -137,21 +170,27 @@ class EndPoint extends Property
 {	
 	refers ClassBinaryRelationship[1] owner opposite endPoints
 	
-	refers Class[1] isOfType
+	refers Class[1] endType
 	
 	refers unordered unique EndPoint[*] subsets opposite isSubsettedBy
-	refers unordered unique EndPoint[*] redefines opposite isRedefeinedBy
+	refers unordered unique EndPoint[*] redefines opposite isRedefinedBy
 	
 	refers unordered unique EndPoint[*] isSubsettedBy opposite subsets
-	refers unordered unique EndPoint[*] isRedefeinedBy opposite redefines
+	refers unordered unique EndPoint[*] isRedefinedBy opposite redefines
 }
 
 //=========================================
 
-class ClassBinaryRelationship extends NamedElement, ContainingElement
+class ClassBinaryRelationship extends NamedElement, ContainedElement
 {	
-	/* JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered. */
+	/* JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered. 
+	 * We assume ordered end points... 
+	 * http://link.springer.com/chapter/10.1007%2F978-3-642-41924-9_40 */
+	 
 	/* JP: I assume all are unique as well (mapping to sets and not bags). */
+	/* JP: If there are two relators relating the same entities, there should not be two material relations 
+	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at" 
+	 * relations between "Student" and "University" even if there are two "Enrollments".  */
 	
 	Relation[0..1] stereotype
 	
@@ -159,17 +198,16 @@ class ClassBinaryRelationship extends NamedElement, ContainingElement
 				
 	boolean partIsShareable
 	
-	/* JP: If there are two relators relating the same entities, there should not be two material relations 
-	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at" 
-	 * relations between "Student" and "University" even if there are two "Enrollments".  */
+	AllenRelation[0..1] allensRelation //<<Temporal>>
+	
 	refers Class[0..1] truthMaker opposite istruthMakerOf
 	
-	derived boolean isDerived get { sourceEnd().isDerived || targetEnd().isDerived }
-		 
-	derived boolean partIsEssential	get { targetEnd().isSpecificDependent && sourceEnd().isOfType.isRigid() && isMeronymic() }  
-	derived boolean partIsInseparable get { sourceEnd().isSpecificDependent && targetEnd().isOfType.isRigid() && isMeronymic() }
-	derived boolean partIsImmutable get { sourceEnd().isSpecificDependent && targetEnd().isOfType.isAntiRigid() && isMeronymic()} 
-	derived boolean wholeIsImmutable get { targetEnd().isSpecificDependent && sourceEnd().isOfType.isAntiRigid() && isMeronymic()}		
+	//transformar em operaçoes....
+	derived boolean isDerived get { sourceEnd().isDerived || targetEnd().isDerived }		 
+	derived boolean partIsEssential	get { targetEnd().isDependee && sourceEnd().endType.isRigid() && isMeronymic() }  
+	derived boolean partIsInseparable get { sourceEnd().isDependee && targetEnd().endType.isRigid() && isMeronymic() }
+	derived boolean partIsImmutable get { sourceEnd().isDependee && targetEnd().endType.isAntiRigid() && isMeronymic()} 
+	derived boolean wholeIsImmutable get { targetEnd().isDependee && sourceEnd().endType.isAntiRigid() && isMeronymic()}		
 	derived boolean partIsMandatory get { targetEnd().lowerBound>=1 && isMeronymic()}
 	derived boolean wholeIsMandatory get { sourceEnd().lowerBound>=1 && isMeronymic()}
 
@@ -193,16 +231,48 @@ class ClassBinaryRelationship extends NamedElement, ContainingElement
 
 enum Relation 
 {
+	//UFO-A
 	ComponentOf
 	MemberOf
 	SubCollectionOf
 	SubQuantityOf
+	Constitution
 	Characterization
 	Mediation
 	Material
 	Formal
 	Structuration
+		
+	//UFO-B
 	Participation
+	SubEventOf
+	Causation //Causality, CausedBy
+	Temporal	
+}
+
+enum AllenRelation
+{
+	Starts
+	Precedes
+	Equals
+	Meets
+	Finishes
+	Overlaps
+	During
 }
 
 //=========================================
+
+class Dimension extends NamedElement, ContainedElement 
+{
+	int[1] lowerBound
+	int[1] upperBound
+	//missing
+	//operations
+}
+
+class Domain extends NamedElement, ContainedElement 
+{
+	//missing
+	//operations
+}

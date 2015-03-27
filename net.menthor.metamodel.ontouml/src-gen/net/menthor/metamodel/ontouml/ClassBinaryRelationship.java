@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getStereotype <em>Stereotype</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getEndPoints <em>End Points</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsShareable <em>Part Is Shareable</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getAllensRelation <em>Allens Relation</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getTruthMaker <em>Truth Maker</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#isPartIsEssential <em>Part Is Essential</em>}</li>
@@ -30,7 +31,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface ClassBinaryRelationship extends NamedElement, ContainingElement {
+public interface ClassBinaryRelationship extends NamedElement, ContainedElement {
 	/**
 	 * Returns the value of the '<em><b>Stereotype</b></em>' attribute.
 	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Relation}.
@@ -38,6 +39,8 @@ public interface ClassBinaryRelationship extends NamedElement, ContainingElement
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 *  JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered.
+	 * We assume ordered end points...
+	 * http://link.springer.com/chapter/10.1007%2F978-3-642-41924-9_40
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Stereotype</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.Relation
@@ -104,15 +107,43 @@ public interface ClassBinaryRelationship extends NamedElement, ContainingElement
 	void setPartIsShareable(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Allens Relation</b></em>' attribute.
+	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.AllenRelation}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Allens Relation</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Allens Relation</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.AllenRelation
+	 * @see #setAllensRelation(AllenRelation)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_AllensRelation()
+	 * @model unique="false"
+	 * @generated
+	 */
+	AllenRelation getAllensRelation();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.ClassBinaryRelationship#getAllensRelation <em>Allens Relation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Allens Relation</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.AllenRelation
+	 * @see #getAllensRelation()
+	 * @generated
+	 */
+	void setAllensRelation(AllenRelation value);
+
+	/**
 	 * Returns the value of the '<em><b>Truth Maker</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getIstruthMakerOf <em>Istruth Maker Of</em>}'.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Truth Maker</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 *  JP: If there are two relators relating the same entities, there should not be two material relations
-	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at"
-	 * relations between "Student" and "University" even if there are two "Enrollments".
-	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Truth Maker</em>' reference.
 	 * @see #setTruthMaker(net.menthor.metamodel.ontouml.Class)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_TruthMaker()
@@ -159,7 +190,7 @@ public interface ClassBinaryRelationship extends NamedElement, ContainingElement
 	 * @return the value of the '<em>Part Is Essential</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsEssential()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _sourceEnd.getIsOfType();\n\tboolean _isRigid = _isOfType.isRigid();\n\t_and_1 = _isRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _isIsDependee = _targetEnd.isIsDependee();\nif (!_isIsDependee)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _endType = _sourceEnd.getEndType();\n\tboolean _isRigid = _endType.isRigid();\n\t_and_1 = _isRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
 	boolean isPartIsEssential();
@@ -175,7 +206,7 @@ public interface ClassBinaryRelationship extends NamedElement, ContainingElement
 	 * @return the value of the '<em>Part Is Inseparable</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsInseparable()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _targetEnd.getIsOfType();\n\tboolean _isRigid = _isOfType.isRigid();\n\t_and_1 = _isRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsDependee = _sourceEnd.isIsDependee();\nif (!_isIsDependee)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _endType = _targetEnd.getEndType();\n\tboolean _isRigid = _endType.isRigid();\n\t_and_1 = _isRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
 	boolean isPartIsInseparable();
@@ -191,7 +222,7 @@ public interface ClassBinaryRelationship extends NamedElement, ContainingElement
 	 * @return the value of the '<em>Part Is Immutable</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_PartIsImmutable()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _targetEnd.getIsOfType();\n\tboolean _isAntiRigid = _isOfType.isAntiRigid();\n\t_and_1 = _isAntiRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _isIsDependee = _sourceEnd.isIsDependee();\nif (!_isIsDependee)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _endType = _targetEnd.getEndType();\n\tboolean _isAntiRigid = _endType.isAntiRigid();\n\t_and_1 = _isAntiRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
 	boolean isPartIsImmutable();
@@ -207,7 +238,7 @@ public interface ClassBinaryRelationship extends NamedElement, ContainingElement
 	 * @return the value of the '<em>Whole Is Immutable</em>' attribute.
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassBinaryRelationship_WholeIsImmutable()
 	 * @model unique="false" transient="true" changeable="false" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();\nif (!_isIsSpecificDependent)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _isOfType = _sourceEnd.getIsOfType();\n\tboolean _isAntiRigid = _isOfType.isAntiRigid();\n\t_and_1 = _isAntiRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _isIsDependee = _targetEnd.isIsDependee();\nif (!_isIsDependee)\n{\n\t_and_1 = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\n\t<%net.menthor.metamodel.ontouml.Class%> _endType = _sourceEnd.getEndType();\n\tboolean _isAntiRigid = _endType.isAntiRigid();\n\t_and_1 = _isAntiRigid;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _isMeronymic = this.isMeronymic();\n\t_and = _isMeronymic;\n}\nreturn _and;'"
 	 * @generated
 	 */
 	boolean isWholeIsImmutable();

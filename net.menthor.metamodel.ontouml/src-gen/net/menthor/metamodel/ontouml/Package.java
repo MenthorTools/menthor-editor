@@ -13,5 +13,5 @@ package net.menthor.metamodel.ontouml;
  * @model
  * @generated
  */
-public interface Package extends Container, ContainingElement {
+public interface Package extends Container, ContainedElement {
 } // Package

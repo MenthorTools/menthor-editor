@@ -2,8 +2,12 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import net.menthor.metamodel.ontouml.AllenRelation;
 import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
+import net.menthor.metamodel.ontouml.Comment;
+import net.menthor.metamodel.ontouml.Dimension;
+import net.menthor.metamodel.ontouml.Domain;
 import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.Model;
@@ -69,12 +73,15 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 		switch (eClass.getClassifierID()) {
 			case OntoumlPackage.MODEL: return createModel();
 			case OntoumlPackage.PACKAGE: return createPackage();
+			case OntoumlPackage.COMMENT: return createComment();
 			case OntoumlPackage.CLASS: return createClass();
 			case OntoumlPackage.PRIMITIVE_TYPE: return createPrimitiveType();
 			case OntoumlPackage.GENERALIZATION_SET: return createGeneralizationSet();
 			case OntoumlPackage.ATTRIBUTE: return createAttribute();
 			case OntoumlPackage.END_POINT: return createEndPoint();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP: return createClassBinaryRelationship();
+			case OntoumlPackage.DIMENSION: return createDimension();
+			case OntoumlPackage.DOMAIN: return createDomain();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -94,6 +101,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 				return createPrimitiveFromString(eDataType, initialValue);
 			case OntoumlPackage.RELATION:
 				return createRelationFromString(eDataType, initialValue);
+			case OntoumlPackage.ALLEN_RELATION:
+				return createAllenRelationFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -113,6 +122,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 				return convertPrimitiveToString(eDataType, instanceValue);
 			case OntoumlPackage.RELATION:
 				return convertRelationToString(eDataType, instanceValue);
+			case OntoumlPackage.ALLEN_RELATION:
+				return convertAllenRelationToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -136,6 +147,16 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	public net.menthor.metamodel.ontouml.Package createPackage() {
 		PackageImpl package_ = new PackageImpl();
 		return package_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Comment createComment() {
+		CommentImpl comment = new CommentImpl();
+		return comment;
 	}
 
 	/**
@@ -203,6 +224,26 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Dimension createDimension() {
+		DimensionImpl dimension = new DimensionImpl();
+		return dimension;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Domain createDomain() {
+		DomainImpl domain = new DomainImpl();
+		return domain;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Universal createUniversalFromString(EDataType eDataType, String initialValue) {
 		Universal result = Universal.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -255,6 +296,26 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * @generated
 	 */
 	public String convertRelationToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AllenRelation createAllenRelationFromString(EDataType eDataType, String initialValue) {
+		AllenRelation result = AllenRelation.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAllenRelationToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

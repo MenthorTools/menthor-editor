@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getOwner <em>Owner</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getIsOfType <em>Is Of Type</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getEndType <em>End Type</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getSubsets <em>Subsets</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getRedefines <em>Redefines</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getIsSubsettedBy <em>Is Subsetted By</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getIsRedefeinedBy <em>Is Redefeined By</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.EndPointImpl#getIsRedefinedBy <em>Is Redefined By</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,14 +51,14 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	protected ClassBinaryRelationship owner;
 
 	/**
-	 * The cached value of the '{@link #getIsOfType() <em>Is Of Type</em>}' reference.
+	 * The cached value of the '{@link #getEndType() <em>End Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getIsOfType()
+	 * @see #getEndType()
 	 * @generated
 	 * @ordered
 	 */
-	protected net.menthor.metamodel.ontouml.Class isOfType;
+	protected net.menthor.metamodel.ontouml.Class endType;
 
 	/**
 	 * The cached value of the '{@link #getSubsets() <em>Subsets</em>}' reference list.
@@ -91,14 +91,14 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	protected EList<EndPoint> isSubsettedBy;
 
 	/**
-	 * The cached value of the '{@link #getIsRedefeinedBy() <em>Is Redefeined By</em>}' reference list.
+	 * The cached value of the '{@link #getIsRedefinedBy() <em>Is Redefined By</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getIsRedefeinedBy()
+	 * @see #getIsRedefinedBy()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EndPoint> isRedefeinedBy;
+	protected EList<EndPoint> isRedefinedBy;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -184,16 +184,16 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class getIsOfType() {
-		if (isOfType != null && isOfType.eIsProxy()) {
-			InternalEObject oldIsOfType = (InternalEObject)isOfType;
-			isOfType = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldIsOfType);
-			if (isOfType != oldIsOfType) {
+	public net.menthor.metamodel.ontouml.Class getEndType() {
+		if (endType != null && endType.eIsProxy()) {
+			InternalEObject oldEndType = (InternalEObject)endType;
+			endType = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldEndType);
+			if (endType != oldEndType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.END_POINT__IS_OF_TYPE, oldIsOfType, isOfType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.END_POINT__END_TYPE, oldEndType, endType));
 			}
 		}
-		return isOfType;
+		return endType;
 	}
 
 	/**
@@ -201,8 +201,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class basicGetIsOfType() {
-		return isOfType;
+	public net.menthor.metamodel.ontouml.Class basicGetEndType() {
+		return endType;
 	}
 
 	/**
@@ -210,11 +210,11 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsOfType(net.menthor.metamodel.ontouml.Class newIsOfType) {
-		net.menthor.metamodel.ontouml.Class oldIsOfType = isOfType;
-		isOfType = newIsOfType;
+	public void setEndType(net.menthor.metamodel.ontouml.Class newEndType) {
+		net.menthor.metamodel.ontouml.Class oldEndType = endType;
+		endType = newEndType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.END_POINT__IS_OF_TYPE, oldIsOfType, isOfType));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.END_POINT__END_TYPE, oldEndType, endType));
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 */
 	public EList<EndPoint> getRedefines() {
 		if (redefines == null) {
-			redefines = new EObjectWithInverseResolvingEList.ManyInverse<EndPoint>(EndPoint.class, this, OntoumlPackage.END_POINT__REDEFINES, OntoumlPackage.END_POINT__IS_REDEFEINED_BY);
+			redefines = new EObjectWithInverseResolvingEList.ManyInverse<EndPoint>(EndPoint.class, this, OntoumlPackage.END_POINT__REDEFINES, OntoumlPackage.END_POINT__IS_REDEFINED_BY);
 		}
 		return redefines;
 	}
@@ -258,11 +258,11 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EndPoint> getIsRedefeinedBy() {
-		if (isRedefeinedBy == null) {
-			isRedefeinedBy = new EObjectWithInverseResolvingEList.ManyInverse<EndPoint>(EndPoint.class, this, OntoumlPackage.END_POINT__IS_REDEFEINED_BY, OntoumlPackage.END_POINT__REDEFINES);
+	public EList<EndPoint> getIsRedefinedBy() {
+		if (isRedefinedBy == null) {
+			isRedefinedBy = new EObjectWithInverseResolvingEList.ManyInverse<EndPoint>(EndPoint.class, this, OntoumlPackage.END_POINT__IS_REDEFINED_BY, OntoumlPackage.END_POINT__REDEFINES);
 		}
-		return isRedefeinedBy;
+		return isRedefinedBy;
 	}
 
 	/**
@@ -284,8 +284,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getRedefines()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.END_POINT__IS_SUBSETTED_BY:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsSubsettedBy()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.END_POINT__IS_REDEFEINED_BY:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsRedefeinedBy()).basicAdd(otherEnd, msgs);
+			case OntoumlPackage.END_POINT__IS_REDEFINED_BY:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsRedefinedBy()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -306,8 +306,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 				return ((InternalEList<?>)getRedefines()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.END_POINT__IS_SUBSETTED_BY:
 				return ((InternalEList<?>)getIsSubsettedBy()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.END_POINT__IS_REDEFEINED_BY:
-				return ((InternalEList<?>)getIsRedefeinedBy()).basicRemove(otherEnd, msgs);
+			case OntoumlPackage.END_POINT__IS_REDEFINED_BY:
+				return ((InternalEList<?>)getIsRedefinedBy()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -323,17 +323,17 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 			case OntoumlPackage.END_POINT__OWNER:
 				if (resolve) return getOwner();
 				return basicGetOwner();
-			case OntoumlPackage.END_POINT__IS_OF_TYPE:
-				if (resolve) return getIsOfType();
-				return basicGetIsOfType();
+			case OntoumlPackage.END_POINT__END_TYPE:
+				if (resolve) return getEndType();
+				return basicGetEndType();
 			case OntoumlPackage.END_POINT__SUBSETS:
 				return getSubsets();
 			case OntoumlPackage.END_POINT__REDEFINES:
 				return getRedefines();
 			case OntoumlPackage.END_POINT__IS_SUBSETTED_BY:
 				return getIsSubsettedBy();
-			case OntoumlPackage.END_POINT__IS_REDEFEINED_BY:
-				return getIsRedefeinedBy();
+			case OntoumlPackage.END_POINT__IS_REDEFINED_BY:
+				return getIsRedefinedBy();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -350,8 +350,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 			case OntoumlPackage.END_POINT__OWNER:
 				setOwner((ClassBinaryRelationship)newValue);
 				return;
-			case OntoumlPackage.END_POINT__IS_OF_TYPE:
-				setIsOfType((net.menthor.metamodel.ontouml.Class)newValue);
+			case OntoumlPackage.END_POINT__END_TYPE:
+				setEndType((net.menthor.metamodel.ontouml.Class)newValue);
 				return;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				getSubsets().clear();
@@ -365,9 +365,9 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 				getIsSubsettedBy().clear();
 				getIsSubsettedBy().addAll((Collection<? extends EndPoint>)newValue);
 				return;
-			case OntoumlPackage.END_POINT__IS_REDEFEINED_BY:
-				getIsRedefeinedBy().clear();
-				getIsRedefeinedBy().addAll((Collection<? extends EndPoint>)newValue);
+			case OntoumlPackage.END_POINT__IS_REDEFINED_BY:
+				getIsRedefinedBy().clear();
+				getIsRedefinedBy().addAll((Collection<? extends EndPoint>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -384,8 +384,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 			case OntoumlPackage.END_POINT__OWNER:
 				setOwner((ClassBinaryRelationship)null);
 				return;
-			case OntoumlPackage.END_POINT__IS_OF_TYPE:
-				setIsOfType((net.menthor.metamodel.ontouml.Class)null);
+			case OntoumlPackage.END_POINT__END_TYPE:
+				setEndType((net.menthor.metamodel.ontouml.Class)null);
 				return;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				getSubsets().clear();
@@ -396,8 +396,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 			case OntoumlPackage.END_POINT__IS_SUBSETTED_BY:
 				getIsSubsettedBy().clear();
 				return;
-			case OntoumlPackage.END_POINT__IS_REDEFEINED_BY:
-				getIsRedefeinedBy().clear();
+			case OntoumlPackage.END_POINT__IS_REDEFINED_BY:
+				getIsRedefinedBy().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -413,16 +413,16 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 		switch (featureID) {
 			case OntoumlPackage.END_POINT__OWNER:
 				return owner != null;
-			case OntoumlPackage.END_POINT__IS_OF_TYPE:
-				return isOfType != null;
+			case OntoumlPackage.END_POINT__END_TYPE:
+				return endType != null;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				return subsets != null && !subsets.isEmpty();
 			case OntoumlPackage.END_POINT__REDEFINES:
 				return redefines != null && !redefines.isEmpty();
 			case OntoumlPackage.END_POINT__IS_SUBSETTED_BY:
 				return isSubsettedBy != null && !isSubsettedBy.isEmpty();
-			case OntoumlPackage.END_POINT__IS_REDEFEINED_BY:
-				return isRedefeinedBy != null && !isRedefeinedBy.isEmpty();
+			case OntoumlPackage.END_POINT__IS_REDEFINED_BY:
+				return isRedefinedBy != null && !isRedefinedBy.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -8,8 +8,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
 
+import net.menthor.metamodel.ontouml.AllenRelation;
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
-import net.menthor.metamodel.ontouml.ContainingElement;
+import net.menthor.metamodel.ontouml.Comment;
+import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Relation;
@@ -24,6 +26,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -36,9 +39,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getHolder <em>Holder</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getStereotype <em>Stereotype</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getEndPoints <em>End Points</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsShareable <em>Part Is Shareable</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getAllensRelation <em>Allens Relation</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#getTruthMaker <em>Truth Maker</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassBinaryRelationshipImpl#isPartIsEssential <em>Part Is Essential</em>}</li>
@@ -53,6 +58,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class ClassBinaryRelationshipImpl extends NamedElementImpl implements ClassBinaryRelationship {
+	/**
+	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComments()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Comment> comments;
+
 	/**
 	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -102,6 +117,26 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * @ordered
 	 */
 	protected boolean partIsShareable = PART_IS_SHAREABLE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getAllensRelation() <em>Allens Relation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAllensRelation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final AllenRelation ALLENS_RELATION_EDEFAULT = AllenRelation.STARTS;
+
+	/**
+	 * The cached value of the '{@link #getAllensRelation() <em>Allens Relation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAllensRelation()
+	 * @generated
+	 * @ordered
+	 */
+	protected AllenRelation allensRelation = ALLENS_RELATION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getTruthMaker() <em>Truth Maker</em>}' reference.
@@ -258,6 +293,18 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Comment> getComments() {
+		if (comments == null) {
+			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS, OntoumlPackage.COMMENT__OWNER);
+		}
+		return comments;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Relation getStereotype() {
 		return stereotype;
 	}
@@ -305,6 +352,27 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		partIsShareable = newPartIsShareable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE, oldPartIsShareable, partIsShareable));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AllenRelation getAllensRelation() {
+		return allensRelation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAllensRelation(AllenRelation newAllensRelation) {
+		AllenRelation oldAllensRelation = allensRelation;
+		allensRelation = newAllensRelation == null ? ALLENS_RELATION_EDEFAULT : newAllensRelation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__ALLENS_RELATION, oldAllensRelation, allensRelation));
 	}
 
 	/**
@@ -395,13 +463,13 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		boolean _and = false;
 		boolean _and_1 = false;
 		EndPoint _targetEnd = this.targetEnd();
-		boolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();
-		if (!_isIsSpecificDependent) {
+		boolean _isIsDependee = _targetEnd.isIsDependee();
+		if (!_isIsDependee) {
 			_and_1 = false;
 		} else {
 			EndPoint _sourceEnd = this.sourceEnd();
-			net.menthor.metamodel.ontouml.Class _isOfType = _sourceEnd.getIsOfType();
-			boolean _isRigid = _isOfType.isRigid();
+			net.menthor.metamodel.ontouml.Class _endType = _sourceEnd.getEndType();
+			boolean _isRigid = _endType.isRigid();
 			_and_1 = _isRigid;
 		}
 		if (!_and_1) {
@@ -422,13 +490,13 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		boolean _and = false;
 		boolean _and_1 = false;
 		EndPoint _sourceEnd = this.sourceEnd();
-		boolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();
-		if (!_isIsSpecificDependent) {
+		boolean _isIsDependee = _sourceEnd.isIsDependee();
+		if (!_isIsDependee) {
 			_and_1 = false;
 		} else {
 			EndPoint _targetEnd = this.targetEnd();
-			net.menthor.metamodel.ontouml.Class _isOfType = _targetEnd.getIsOfType();
-			boolean _isRigid = _isOfType.isRigid();
+			net.menthor.metamodel.ontouml.Class _endType = _targetEnd.getEndType();
+			boolean _isRigid = _endType.isRigid();
 			_and_1 = _isRigid;
 		}
 		if (!_and_1) {
@@ -449,13 +517,13 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		boolean _and = false;
 		boolean _and_1 = false;
 		EndPoint _sourceEnd = this.sourceEnd();
-		boolean _isIsSpecificDependent = _sourceEnd.isIsSpecificDependent();
-		if (!_isIsSpecificDependent) {
+		boolean _isIsDependee = _sourceEnd.isIsDependee();
+		if (!_isIsDependee) {
 			_and_1 = false;
 		} else {
 			EndPoint _targetEnd = this.targetEnd();
-			net.menthor.metamodel.ontouml.Class _isOfType = _targetEnd.getIsOfType();
-			boolean _isAntiRigid = _isOfType.isAntiRigid();
+			net.menthor.metamodel.ontouml.Class _endType = _targetEnd.getEndType();
+			boolean _isAntiRigid = _endType.isAntiRigid();
 			_and_1 = _isAntiRigid;
 		}
 		if (!_and_1) {
@@ -476,13 +544,13 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		boolean _and = false;
 		boolean _and_1 = false;
 		EndPoint _targetEnd = this.targetEnd();
-		boolean _isIsSpecificDependent = _targetEnd.isIsSpecificDependent();
-		if (!_isIsSpecificDependent) {
+		boolean _isIsDependee = _targetEnd.isIsDependee();
+		if (!_isIsDependee) {
 			_and_1 = false;
 		} else {
 			EndPoint _sourceEnd = this.sourceEnd();
-			net.menthor.metamodel.ontouml.Class _isOfType = _sourceEnd.getIsOfType();
-			boolean _isAntiRigid = _isOfType.isAntiRigid();
+			net.menthor.metamodel.ontouml.Class _endType = _sourceEnd.getEndType();
+			boolean _isAntiRigid = _endType.isAntiRigid();
 			_and_1 = _isAntiRigid;
 		}
 		if (!_and_1) {
@@ -600,6 +668,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEndPoints()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
@@ -620,6 +690,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		switch (featureID) {
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				return basicSetHolder(null, msgs);
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS:
+				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
 				return ((InternalEList<?>)getEndPoints()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
@@ -653,12 +725,16 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				if (resolve) return getHolder();
 				return basicGetHolder();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS:
+				return getComments();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				return getStereotype();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
 				return getEndPoints();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				return isPartIsShareable();
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__ALLENS_RELATION:
+				return getAllensRelation();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
 				if (resolve) return getTruthMaker();
 				return basicGetTruthMaker();
@@ -692,6 +768,10 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
 				return;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS:
+				getComments().clear();
+				getComments().addAll((Collection<? extends Comment>)newValue);
+				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				setStereotype((Relation)newValue);
 				return;
@@ -701,6 +781,9 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				setPartIsShareable((Boolean)newValue);
+				return;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__ALLENS_RELATION:
+				setAllensRelation((AllenRelation)newValue);
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
 				setTruthMaker((net.menthor.metamodel.ontouml.Class)newValue);
@@ -720,6 +803,9 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				setHolder((net.menthor.metamodel.ontouml.Container)null);
 				return;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS:
+				getComments().clear();
+				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
@@ -728,6 +814,9 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				setPartIsShareable(PART_IS_SHAREABLE_EDEFAULT);
+				return;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__ALLENS_RELATION:
+				setAllensRelation(ALLENS_RELATION_EDEFAULT);
 				return;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
 				setTruthMaker((net.menthor.metamodel.ontouml.Class)null);
@@ -746,12 +835,16 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		switch (featureID) {
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER:
 				return basicGetHolder() != null;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS:
+				return comments != null && !comments.isEmpty();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS:
 				return endPoints != null && !endPoints.isEmpty();
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE:
 				return partIsShareable != PART_IS_SHAREABLE_EDEFAULT;
+			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__ALLENS_RELATION:
+				return allensRelation != ALLENS_RELATION_EDEFAULT;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER:
 				return truthMaker != null;
 			case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__IS_DERIVED:
@@ -779,9 +872,10 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainingElement.class) {
+		if (baseClass == ContainedElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER: return OntoumlPackage.CONTAINING_ELEMENT__HOLDER;
+				case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER: return OntoumlPackage.CONTAINED_ELEMENT__HOLDER;
+				case OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS: return OntoumlPackage.CONTAINED_ELEMENT__COMMENTS;
 				default: return -1;
 			}
 		}
@@ -795,9 +889,10 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainingElement.class) {
+		if (baseClass == ContainedElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.CONTAINING_ELEMENT__HOLDER: return OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER;
+				case OntoumlPackage.CONTAINED_ELEMENT__HOLDER: return OntoumlPackage.CLASS_BINARY_RELATIONSHIP__HOLDER;
+				case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS: return OntoumlPackage.CLASS_BINARY_RELATIONSHIP__COMMENTS;
 				default: return -1;
 			}
 		}
@@ -836,6 +931,8 @@ public class ClassBinaryRelationshipImpl extends NamedElementImpl implements Cla
 		result.append(stereotype);
 		result.append(", partIsShareable: ");
 		result.append(partIsShareable);
+		result.append(", allensRelation: ");
+		result.append(allensRelation);
 		result.append(')');
 		return result.toString();
 	}

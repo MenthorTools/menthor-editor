@@ -23,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface GeneralizationSet extends NamedElement, ContainingElement {
+public interface GeneralizationSet extends NamedElement, ContainedElement {
 	/**
 	 * Returns the value of the '<em><b>Is Covering</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -4,7 +4,7 @@ package net.menthor.metamodel.ontouml.impl;
 
 import java.util.Collection;
 
-import net.menthor.metamodel.ontouml.ContainingElement;
+import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -39,7 +39,7 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ContainingElement> elements;
+	protected EList<ContainedElement> elements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -65,9 +65,9 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ContainingElement> getElements() {
+	public EList<ContainedElement> getElements() {
 		if (elements == null) {
-			elements = new EObjectContainmentWithInverseEList<ContainingElement>(ContainingElement.class, this, OntoumlPackage.CONTAINER__ELEMENTS, OntoumlPackage.CONTAINING_ELEMENT__HOLDER);
+			elements = new EObjectContainmentWithInverseEList<ContainedElement>(ContainedElement.class, this, OntoumlPackage.CONTAINER__ELEMENTS, OntoumlPackage.CONTAINED_ELEMENT__HOLDER);
 		}
 		return elements;
 	}
@@ -126,7 +126,7 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 		switch (featureID) {
 			case OntoumlPackage.CONTAINER__ELEMENTS:
 				getElements().clear();
-				getElements().addAll((Collection<? extends ContainingElement>)newValue);
+				getElements().addAll((Collection<? extends ContainedElement>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

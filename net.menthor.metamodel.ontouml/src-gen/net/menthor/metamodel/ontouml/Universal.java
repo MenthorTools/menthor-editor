@@ -79,36 +79,6 @@ public enum Universal implements Enumerator {
 	QUALITY(0, "Quality", "Quality"),
 
 	/**
-	 * The '<em><b>Perceivable Quality</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #PERCEIVABLE_QUALITY_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	PERCEIVABLE_QUALITY(0, "PerceivableQuality", "PerceivableQuality"),
-
-	/**
-	 * The '<em><b>Non Perceivable Quality</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #NON_PERCEIVABLE_QUALITY_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	NON_PERCEIVABLE_QUALITY(0, "NonPerceivableQuality", "NonPerceivableQuality"),
-
-	/**
-	 * The '<em><b>Nominal Quality</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #NOMINAL_QUALITY_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	NOMINAL_QUALITY(0, "NominalQuality", "NominalQuality"),
-
-	/**
 	 * The '<em><b>Role</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -167,6 +137,16 @@ public enum Universal implements Enumerator {
 	 * @ordered
 	 */
 	ROLE_MIXIN(0, "RoleMixin", "RoleMixin"),
+
+	/**
+	 * The '<em><b>Phase Mixin</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PHASE_MIXIN_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	PHASE_MIXIN(0, "PhaseMixin", "PhaseMixin"),
 
 	/**
 	 * The '<em><b>Event</b></em>' literal object.
@@ -299,51 +279,6 @@ public enum Universal implements Enumerator {
 	public static final int QUALITY_VALUE = 0;
 
 	/**
-	 * The '<em><b>Perceivable Quality</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Perceivable Quality</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #PERCEIVABLE_QUALITY
-	 * @model name="PerceivableQuality"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int PERCEIVABLE_QUALITY_VALUE = 0;
-
-	/**
-	 * The '<em><b>Non Perceivable Quality</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Non Perceivable Quality</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #NON_PERCEIVABLE_QUALITY
-	 * @model name="NonPerceivableQuality"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int NON_PERCEIVABLE_QUALITY_VALUE = 0;
-
-	/**
-	 * The '<em><b>Nominal Quality</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Nominal Quality</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #NOMINAL_QUALITY
-	 * @model name="NominalQuality"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int NOMINAL_QUALITY_VALUE = 0;
-
-	/**
 	 * The '<em><b>Role</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -434,6 +369,21 @@ public enum Universal implements Enumerator {
 	public static final int ROLE_MIXIN_VALUE = 0;
 
 	/**
+	 * The '<em><b>Phase Mixin</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Phase Mixin</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PHASE_MIXIN
+	 * @model name="PhaseMixin"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PHASE_MIXIN_VALUE = 0;
+
+	/**
 	 * The '<em><b>Event</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -507,15 +457,13 @@ public enum Universal implements Enumerator {
 			RELATOR,
 			MODE,
 			QUALITY,
-			PERCEIVABLE_QUALITY,
-			NON_PERCEIVABLE_QUALITY,
-			NOMINAL_QUALITY,
 			ROLE,
 			PHASE,
 			SUB_KIND,
 			CATEGORY,
 			MIXIN,
 			ROLE_MIXIN,
+			PHASE_MIXIN,
 			EVENT,
 			HOU,
 			DATA_TYPE,

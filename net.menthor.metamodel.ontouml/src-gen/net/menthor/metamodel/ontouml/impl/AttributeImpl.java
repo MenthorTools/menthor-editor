@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.AttributeImpl#getOwner <em>Owner</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.AttributeImpl#getIsOfType <em>Is Of Type</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.AttributeImpl#getPrimitiveType <em>Primitive Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -40,14 +40,14 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	protected net.menthor.metamodel.ontouml.Class owner;
 
 	/**
-	 * The cached value of the '{@link #getIsOfType() <em>Is Of Type</em>}' reference.
+	 * The cached value of the '{@link #getPrimitiveType() <em>Primitive Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getIsOfType()
+	 * @see #getPrimitiveType()
 	 * @generated
 	 * @ordered
 	 */
-	protected PrimitiveType isOfType;
+	protected PrimitiveType primitiveType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,16 +133,16 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PrimitiveType getIsOfType() {
-		if (isOfType != null && isOfType.eIsProxy()) {
-			InternalEObject oldIsOfType = (InternalEObject)isOfType;
-			isOfType = (PrimitiveType)eResolveProxy(oldIsOfType);
-			if (isOfType != oldIsOfType) {
+	public PrimitiveType getPrimitiveType() {
+		if (primitiveType != null && primitiveType.eIsProxy()) {
+			InternalEObject oldPrimitiveType = (InternalEObject)primitiveType;
+			primitiveType = (PrimitiveType)eResolveProxy(oldPrimitiveType);
+			if (primitiveType != oldPrimitiveType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.ATTRIBUTE__IS_OF_TYPE, oldIsOfType, isOfType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE, oldPrimitiveType, primitiveType));
 			}
 		}
-		return isOfType;
+		return primitiveType;
 	}
 
 	/**
@@ -150,8 +150,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PrimitiveType basicGetIsOfType() {
-		return isOfType;
+	public PrimitiveType basicGetPrimitiveType() {
+		return primitiveType;
 	}
 
 	/**
@@ -159,11 +159,11 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsOfType(PrimitiveType newIsOfType) {
-		PrimitiveType oldIsOfType = isOfType;
-		isOfType = newIsOfType;
+	public void setPrimitiveType(PrimitiveType newPrimitiveType) {
+		PrimitiveType oldPrimitiveType = primitiveType;
+		primitiveType = newPrimitiveType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.ATTRIBUTE__IS_OF_TYPE, oldIsOfType, isOfType));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE, oldPrimitiveType, primitiveType));
 	}
 
 	/**
@@ -207,9 +207,9 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				if (resolve) return getOwner();
 				return basicGetOwner();
-			case OntoumlPackage.ATTRIBUTE__IS_OF_TYPE:
-				if (resolve) return getIsOfType();
-				return basicGetIsOfType();
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				if (resolve) return getPrimitiveType();
+				return basicGetPrimitiveType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -225,8 +225,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				setOwner((net.menthor.metamodel.ontouml.Class)newValue);
 				return;
-			case OntoumlPackage.ATTRIBUTE__IS_OF_TYPE:
-				setIsOfType((PrimitiveType)newValue);
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				setPrimitiveType((PrimitiveType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -243,8 +243,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				setOwner((net.menthor.metamodel.ontouml.Class)null);
 				return;
-			case OntoumlPackage.ATTRIBUTE__IS_OF_TYPE:
-				setIsOfType((PrimitiveType)null);
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				setPrimitiveType((PrimitiveType)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -260,8 +260,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 		switch (featureID) {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				return owner != null;
-			case OntoumlPackage.ATTRIBUTE__IS_OF_TYPE:
-				return isOfType != null;
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				return primitiveType != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class PrimitiveTypeImpl extends ContainingElementImpl implements PrimitiveType {
+public class PrimitiveTypeImpl extends ContainedElementImpl implements PrimitiveType {
 	/**
 	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->

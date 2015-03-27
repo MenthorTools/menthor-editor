@@ -2,9 +2,13 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import net.menthor.metamodel.ontouml.AllenRelation;
 import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
-import net.menthor.metamodel.ontouml.ContainingElement;
+import net.menthor.metamodel.ontouml.Comment;
+import net.menthor.metamodel.ontouml.ContainedElement;
+import net.menthor.metamodel.ontouml.Dimension;
+import net.menthor.metamodel.ontouml.Domain;
 import net.menthor.metamodel.ontouml.Element;
 import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
@@ -61,7 +65,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass containingElementEClass = null;
+	private EClass containedElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,6 +80,13 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * @generated
 	 */
 	private EClass packageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass commentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -131,6 +142,20 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass dimensionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass domainEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum universalEEnum = null;
 
 	/**
@@ -146,6 +171,13 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * @generated
 	 */
 	private EEnum relationEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum allenRelationEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -261,8 +293,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getContainingElement() {
-		return containingElementEClass;
+	public EClass getContainedElement() {
+		return containedElementEClass;
 	}
 
 	/**
@@ -270,8 +302,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getContainingElement_Holder() {
-		return (EReference)containingElementEClass.getEStructuralFeatures().get(0);
+	public EReference getContainedElement_Holder() {
+		return (EReference)containedElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getContainedElement_Comments() {
+		return (EReference)containedElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -290,6 +331,33 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 */
 	public EClass getPackage() {
 		return packageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComment() {
+		return commentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_Content() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComment_Owner() {
+		return (EReference)commentEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -495,7 +563,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProperty_IsDerived() {
+	public EAttribute getProperty_IsOrdered() {
 		return (EAttribute)propertyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -504,7 +572,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProperty_LowerBound() {
+	public EAttribute getProperty_IsDerived() {
 		return (EAttribute)propertyEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -513,7 +581,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProperty_UpperBound() {
+	public EAttribute getProperty_LowerBound() {
 		return (EAttribute)propertyEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -522,8 +590,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProperty_IsSpecificDependent() {
+	public EAttribute getProperty_UpperBound() {
 		return (EAttribute)propertyEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProperty_IsDependee() {
+		return (EAttribute)propertyEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -549,7 +626,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttribute_IsOfType() {
+	public EReference getAttribute_PrimitiveType() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -576,7 +653,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEndPoint_IsOfType() {
+	public EReference getEndPoint_EndType() {
 		return (EReference)endPointEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -612,7 +689,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEndPoint_IsRedefeinedBy() {
+	public EReference getEndPoint_IsRedefinedBy() {
 		return (EReference)endPointEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -657,8 +734,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getClassBinaryRelationship_AllensRelation() {
+		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getClassBinaryRelationship_TruthMaker() {
-		return (EReference)classBinaryRelationshipEClass.getEStructuralFeatures().get(3);
+		return (EReference)classBinaryRelationshipEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -667,15 +753,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * @generated
 	 */
 	public EAttribute getClassBinaryRelationship_IsDerived() {
-		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getClassBinaryRelationship_PartIsEssential() {
 		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -684,7 +761,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClassBinaryRelationship_PartIsInseparable() {
+	public EAttribute getClassBinaryRelationship_PartIsEssential() {
 		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -693,7 +770,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClassBinaryRelationship_PartIsImmutable() {
+	public EAttribute getClassBinaryRelationship_PartIsInseparable() {
 		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -702,7 +779,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClassBinaryRelationship_WholeIsImmutable() {
+	public EAttribute getClassBinaryRelationship_PartIsImmutable() {
 		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -711,7 +788,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClassBinaryRelationship_PartIsMandatory() {
+	public EAttribute getClassBinaryRelationship_WholeIsImmutable() {
 		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -720,8 +797,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClassBinaryRelationship_WholeIsMandatory() {
+	public EAttribute getClassBinaryRelationship_PartIsMandatory() {
 		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClassBinaryRelationship_WholeIsMandatory() {
+		return (EAttribute)classBinaryRelationshipEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -756,6 +842,42 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDimension() {
+		return dimensionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDimension_LowerBound() {
+		return (EAttribute)dimensionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDimension_UpperBound() {
+		return (EAttribute)dimensionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDomain() {
+		return domainEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getUniversal() {
 		return universalEEnum;
 	}
@@ -776,6 +898,15 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 */
 	public EEnum getRelation() {
 		return relationEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getAllenRelation() {
+		return allenRelationEEnum;
 	}
 
 	/**
@@ -814,12 +945,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		containerEClass = createEClass(CONTAINER);
 		createEReference(containerEClass, CONTAINER__ELEMENTS);
 
-		containingElementEClass = createEClass(CONTAINING_ELEMENT);
-		createEReference(containingElementEClass, CONTAINING_ELEMENT__HOLDER);
+		containedElementEClass = createEClass(CONTAINED_ELEMENT);
+		createEReference(containedElementEClass, CONTAINED_ELEMENT__HOLDER);
+		createEReference(containedElementEClass, CONTAINED_ELEMENT__COMMENTS);
 
 		modelEClass = createEClass(MODEL);
 
 		packageEClass = createEClass(PACKAGE);
+
+		commentEClass = createEClass(COMMENT);
+		createEAttribute(commentEClass, COMMENT__CONTENT);
+		createEReference(commentEClass, COMMENT__OWNER);
 
 		classEClass = createEClass(CLASS);
 		createEAttribute(classEClass, CLASS__STEREOTYPE);
@@ -846,27 +982,29 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEReference(generalizationSetEClass, GENERALIZATION_SET__HOU);
 
 		propertyEClass = createEClass(PROPERTY);
+		createEAttribute(propertyEClass, PROPERTY__IS_ORDERED);
 		createEAttribute(propertyEClass, PROPERTY__IS_DERIVED);
 		createEAttribute(propertyEClass, PROPERTY__LOWER_BOUND);
 		createEAttribute(propertyEClass, PROPERTY__UPPER_BOUND);
-		createEAttribute(propertyEClass, PROPERTY__IS_SPECIFIC_DEPENDENT);
+		createEAttribute(propertyEClass, PROPERTY__IS_DEPENDEE);
 
 		attributeEClass = createEClass(ATTRIBUTE);
 		createEReference(attributeEClass, ATTRIBUTE__OWNER);
-		createEReference(attributeEClass, ATTRIBUTE__IS_OF_TYPE);
+		createEReference(attributeEClass, ATTRIBUTE__PRIMITIVE_TYPE);
 
 		endPointEClass = createEClass(END_POINT);
 		createEReference(endPointEClass, END_POINT__OWNER);
-		createEReference(endPointEClass, END_POINT__IS_OF_TYPE);
+		createEReference(endPointEClass, END_POINT__END_TYPE);
 		createEReference(endPointEClass, END_POINT__SUBSETS);
 		createEReference(endPointEClass, END_POINT__REDEFINES);
 		createEReference(endPointEClass, END_POINT__IS_SUBSETTED_BY);
-		createEReference(endPointEClass, END_POINT__IS_REDEFEINED_BY);
+		createEReference(endPointEClass, END_POINT__IS_REDEFINED_BY);
 
 		classBinaryRelationshipEClass = createEClass(CLASS_BINARY_RELATIONSHIP);
 		createEAttribute(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__STEREOTYPE);
 		createEReference(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__END_POINTS);
 		createEAttribute(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__PART_IS_SHAREABLE);
+		createEAttribute(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__ALLENS_RELATION);
 		createEReference(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER);
 		createEAttribute(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__IS_DERIVED);
 		createEAttribute(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP__PART_IS_ESSENTIAL);
@@ -879,10 +1017,17 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEOperation(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP___TARGET_END);
 		createEOperation(classBinaryRelationshipEClass, CLASS_BINARY_RELATIONSHIP___IS_MERONYMIC);
 
+		dimensionEClass = createEClass(DIMENSION);
+		createEAttribute(dimensionEClass, DIMENSION__LOWER_BOUND);
+		createEAttribute(dimensionEClass, DIMENSION__UPPER_BOUND);
+
+		domainEClass = createEClass(DOMAIN);
+
 		// Create enums
 		universalEEnum = createEEnum(UNIVERSAL);
 		primitiveEEnum = createEEnum(PRIMITIVE);
 		relationEEnum = createEEnum(RELATION);
+		allenRelationEEnum = createEEnum(ALLEN_RELATION);
 	}
 
 	/**
@@ -918,20 +1063,25 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		// Add supertypes to classes
 		namedElementEClass.getESuperTypes().add(this.getElement());
 		containerEClass.getESuperTypes().add(this.getNamedElement());
-		containingElementEClass.getESuperTypes().add(this.getElement());
+		containedElementEClass.getESuperTypes().add(this.getElement());
 		modelEClass.getESuperTypes().add(this.getContainer());
 		packageEClass.getESuperTypes().add(this.getContainer());
-		packageEClass.getESuperTypes().add(this.getContainingElement());
+		packageEClass.getESuperTypes().add(this.getContainedElement());
+		commentEClass.getESuperTypes().add(this.getElement());
 		classEClass.getESuperTypes().add(this.getNamedElement());
-		classEClass.getESuperTypes().add(this.getContainingElement());
-		primitiveTypeEClass.getESuperTypes().add(this.getContainingElement());
+		classEClass.getESuperTypes().add(this.getContainedElement());
+		primitiveTypeEClass.getESuperTypes().add(this.getContainedElement());
 		generalizationSetEClass.getESuperTypes().add(this.getNamedElement());
-		generalizationSetEClass.getESuperTypes().add(this.getContainingElement());
+		generalizationSetEClass.getESuperTypes().add(this.getContainedElement());
 		propertyEClass.getESuperTypes().add(this.getNamedElement());
 		attributeEClass.getESuperTypes().add(this.getProperty());
 		endPointEClass.getESuperTypes().add(this.getProperty());
 		classBinaryRelationshipEClass.getESuperTypes().add(this.getNamedElement());
-		classBinaryRelationshipEClass.getESuperTypes().add(this.getContainingElement());
+		classBinaryRelationshipEClass.getESuperTypes().add(this.getContainedElement());
+		dimensionEClass.getESuperTypes().add(this.getNamedElement());
+		dimensionEClass.getESuperTypes().add(this.getContainedElement());
+		domainEClass.getESuperTypes().add(this.getNamedElement());
+		domainEClass.getESuperTypes().add(this.getContainedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(elementEClass, Element.class, "Element", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -940,20 +1090,25 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		initEAttribute(getNamedElement_Name(), theEcorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(containerEClass, net.menthor.metamodel.ontouml.Container.class, "Container", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getContainer_Elements(), this.getContainingElement(), this.getContainingElement_Holder(), "elements", null, 0, -1, net.menthor.metamodel.ontouml.Container.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getContainer_Elements(), this.getContainedElement(), this.getContainedElement_Holder(), "elements", null, 0, -1, net.menthor.metamodel.ontouml.Container.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
-		initEClass(containingElementEClass, ContainingElement.class, "ContainingElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getContainingElement_Holder(), this.getContainer(), this.getContainer_Elements(), "holder", null, 1, 1, ContainingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(containedElementEClass, ContainedElement.class, "ContainedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getContainedElement_Holder(), this.getContainer(), this.getContainer_Elements(), "holder", null, 1, 1, ContainedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContainedElement_Comments(), this.getComment(), this.getComment_Owner(), "comments", null, 0, -1, ContainedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(packageEClass, net.menthor.metamodel.ontouml.Package.class, "Package", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(commentEClass, Comment.class, "Comment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getComment_Content(), theEcorePackage.getEString(), "content", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComment_Owner(), this.getContainedElement(), this.getContainedElement_Comments(), "owner", null, 1, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(classEClass, net.menthor.metamodel.ontouml.Class.class, "Class", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getClass_Stereotype(), this.getUniversal(), "stereotype", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_IsAbstract(), theEcorePackage.getEBoolean(), "isAbstract", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_IsDerived(), theEcorePackage.getEBoolean(), "isDerived", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getClass_IsExtensional(), theEcorePackage.getEBoolean(), "isExtensional", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClass_IsExtensional(), theEcorePackage.getEBoolean(), "isExtensional", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_EnumerationLiterals(), theEcorePackage.getEString(), "enumerationLiterals", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClass_InstanceOf(), this.getClass_(), null, "instanceOf", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getClass_IstruthMakerOf(), this.getClassBinaryRelationship(), this.getClassBinaryRelationship_TruthMaker(), "istruthMakerOf", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -977,27 +1132,29 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		initEReference(getGeneralizationSet_Hou(), this.getClass_(), null, "hou", null, 0, 1, GeneralizationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(propertyEClass, Property.class, "Property", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProperty_IsOrdered(), theEcorePackage.getEBoolean(), "isOrdered", null, 0, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProperty_IsDerived(), theEcorePackage.getEBoolean(), "isDerived", null, 0, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProperty_LowerBound(), theEcorePackage.getEInt(), "lowerBound", null, 1, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProperty_UpperBound(), theEcorePackage.getEInt(), "upperBound", null, 1, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProperty_IsSpecificDependent(), theEcorePackage.getEBoolean(), "isSpecificDependent", null, 0, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProperty_IsDependee(), theEcorePackage.getEBoolean(), "isDependee", null, 0, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttribute_Owner(), this.getClass_(), this.getClass_Attributes(), "owner", null, 1, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAttribute_IsOfType(), this.getPrimitiveType(), null, "isOfType", null, 1, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAttribute_PrimitiveType(), this.getPrimitiveType(), null, "primitiveType", null, 1, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEndPoint_Owner(), this.getClassBinaryRelationship(), this.getClassBinaryRelationship_EndPoints(), "owner", null, 1, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEndPoint_IsOfType(), this.getClass_(), null, "isOfType", null, 1, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEndPoint_EndType(), this.getClass_(), null, "endType", null, 1, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEndPoint_Subsets(), this.getEndPoint(), this.getEndPoint_IsSubsettedBy(), "subsets", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getEndPoint_Redefines(), this.getEndPoint(), this.getEndPoint_IsRedefeinedBy(), "redefines", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getEndPoint_Redefines(), this.getEndPoint(), this.getEndPoint_IsRedefinedBy(), "redefines", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getEndPoint_IsSubsettedBy(), this.getEndPoint(), this.getEndPoint_Subsets(), "isSubsettedBy", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getEndPoint_IsRedefeinedBy(), this.getEndPoint(), this.getEndPoint_Redefines(), "isRedefeinedBy", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getEndPoint_IsRedefinedBy(), this.getEndPoint(), this.getEndPoint_Redefines(), "isRedefinedBy", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(classBinaryRelationshipEClass, ClassBinaryRelationship.class, "ClassBinaryRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getClassBinaryRelationship_Stereotype(), this.getRelation(), "stereotype", null, 0, 1, ClassBinaryRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassBinaryRelationship_EndPoints(), this.getEndPoint(), this.getEndPoint_Owner(), "endPoints", null, 2, 2, ClassBinaryRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClassBinaryRelationship_PartIsShareable(), theEcorePackage.getEBoolean(), "partIsShareable", null, 0, 1, ClassBinaryRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClassBinaryRelationship_AllensRelation(), this.getAllenRelation(), "allensRelation", null, 0, 1, ClassBinaryRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassBinaryRelationship_TruthMaker(), this.getClass_(), this.getClass_IstruthMakerOf(), "truthMaker", null, 0, 1, ClassBinaryRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClassBinaryRelationship_IsDerived(), theEcorePackage.getEBoolean(), "isDerived", null, 0, 1, ClassBinaryRelationship.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClassBinaryRelationship_PartIsEssential(), theEcorePackage.getEBoolean(), "partIsEssential", null, 0, 1, ClassBinaryRelationship.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1013,6 +1170,12 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 
 		initEOperation(getClassBinaryRelationship__IsMeronymic(), theEcorePackage.getEBoolean(), "isMeronymic", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
+		initEClass(dimensionEClass, Dimension.class, "Dimension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDimension_LowerBound(), theEcorePackage.getEInt(), "lowerBound", null, 1, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDimension_UpperBound(), theEcorePackage.getEInt(), "upperBound", null, 1, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(domainEClass, Domain.class, "Domain", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Initialize enums and add enum literals
 		initEEnum(universalEEnum, Universal.class, "Universal");
 		addEEnumLiteral(universalEEnum, Universal.KIND);
@@ -1021,15 +1184,13 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		addEEnumLiteral(universalEEnum, Universal.RELATOR);
 		addEEnumLiteral(universalEEnum, Universal.MODE);
 		addEEnumLiteral(universalEEnum, Universal.QUALITY);
-		addEEnumLiteral(universalEEnum, Universal.PERCEIVABLE_QUALITY);
-		addEEnumLiteral(universalEEnum, Universal.NON_PERCEIVABLE_QUALITY);
-		addEEnumLiteral(universalEEnum, Universal.NOMINAL_QUALITY);
 		addEEnumLiteral(universalEEnum, Universal.ROLE);
 		addEEnumLiteral(universalEEnum, Universal.PHASE);
 		addEEnumLiteral(universalEEnum, Universal.SUB_KIND);
 		addEEnumLiteral(universalEEnum, Universal.CATEGORY);
 		addEEnumLiteral(universalEEnum, Universal.MIXIN);
 		addEEnumLiteral(universalEEnum, Universal.ROLE_MIXIN);
+		addEEnumLiteral(universalEEnum, Universal.PHASE_MIXIN);
 		addEEnumLiteral(universalEEnum, Universal.EVENT);
 		addEEnumLiteral(universalEEnum, Universal.HOU);
 		addEEnumLiteral(universalEEnum, Universal.DATA_TYPE);
@@ -1041,19 +1202,31 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		addEEnumLiteral(primitiveEEnum, Primitive.REAL);
 		addEEnumLiteral(primitiveEEnum, Primitive.INTEGER);
 		addEEnumLiteral(primitiveEEnum, Primitive.UNLIMITED_NATURAL);
-		addEEnumLiteral(primitiveEEnum, Primitive.DATE);
 
 		initEEnum(relationEEnum, Relation.class, "Relation");
 		addEEnumLiteral(relationEEnum, Relation.COMPONENT_OF);
 		addEEnumLiteral(relationEEnum, Relation.MEMBER_OF);
 		addEEnumLiteral(relationEEnum, Relation.SUB_COLLECTION_OF);
 		addEEnumLiteral(relationEEnum, Relation.SUB_QUANTITY_OF);
+		addEEnumLiteral(relationEEnum, Relation.CONSTITUTION);
 		addEEnumLiteral(relationEEnum, Relation.CHARACTERIZATION);
 		addEEnumLiteral(relationEEnum, Relation.MEDIATION);
 		addEEnumLiteral(relationEEnum, Relation.MATERIAL);
 		addEEnumLiteral(relationEEnum, Relation.FORMAL);
 		addEEnumLiteral(relationEEnum, Relation.STRUCTURATION);
 		addEEnumLiteral(relationEEnum, Relation.PARTICIPATION);
+		addEEnumLiteral(relationEEnum, Relation.SUB_EVENT_OF);
+		addEEnumLiteral(relationEEnum, Relation.CAUSATION);
+		addEEnumLiteral(relationEEnum, Relation.TEMPORAL);
+
+		initEEnum(allenRelationEEnum, AllenRelation.class, "AllenRelation");
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.STARTS);
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.PRECEDES);
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.EQUALS);
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.MEETS);
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.FINISHES);
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.OVERLAPS);
+		addEEnumLiteral(allenRelationEEnum, AllenRelation.DURING);
 
 		// Create resource
 		createResource(eNS_URI);

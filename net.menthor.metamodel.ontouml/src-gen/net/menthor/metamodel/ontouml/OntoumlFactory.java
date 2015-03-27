@@ -40,6 +40,15 @@ public interface OntoumlFactory extends EFactory {
 	Package createPackage();
 
 	/**
+	 * Returns a new object of class '<em>Comment</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Comment</em>'.
+	 * @generated
+	 */
+	Comment createComment();
+
+	/**
 	 * Returns a new object of class '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -92,6 +101,24 @@ public interface OntoumlFactory extends EFactory {
 	 * @generated
 	 */
 	ClassBinaryRelationship createClassBinaryRelationship();
+
+	/**
+	 * Returns a new object of class '<em>Dimension</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dimension</em>'.
+	 * @generated
+	 */
+	Dimension createDimension();
+
+	/**
+	 * Returns a new object of class '<em>Domain</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Domain</em>'.
+	 * @generated
+	 */
+	Domain createDomain();
 
 	/**
 	 * Returns the package supported by this factory.
