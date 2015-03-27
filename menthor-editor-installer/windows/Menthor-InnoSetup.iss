@@ -8,7 +8,7 @@
 #define MyIcon "menthor.ico"
 #define MyIconFile "menthorFile.ico"
 #define MyKey "menthorFile"
-#define javaVersion "7"
+#define javaVersion "9"
 
 [Setup]
 AppName={#MyAppName}
@@ -30,8 +30,8 @@ AllowNoIcons=yes
 UninstallIconFile={#MyIcon}
 UninstallDisplayName={#MyAppName}     
 LicenseFile=..\license.txt
-InfoBeforeFile=..\before.txt
-InfoAfterFile=..\after.txt
+;InfoBeforeFile=..\before.txt
+;InfoAfterFile=..\after.txt
               
 [Files]
 Source: "{#MyAppExeName}"; DestDir: "{app}"
@@ -56,6 +56,16 @@ Root: HKCR; Subkey: ".menthor"; ValueType: string; ValueName: ""; ValueData: "{#
 Root: HKCR; Subkey: "{#MyKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppName} Project"; Flags: uninsdeletekey
 Root: HKCR; Subkey: "{#MyKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyIconFile}"
 Root: HKCR; Subkey: "{#MyKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+Root: HKCU; Subkey: "Software\{#MyAppPublisher}"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Software\{#MyAppPublisher}\{#MyAppName}"; Flags: uninsdeletekey
+Root: HKLM64; Subkey: "SOFTWARE\{#MyAppPublisher}"; Flags: uninsdeletekeyifempty
+Root: HKLM64; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; Flags: uninsdeletekey
+Root: HKLM64; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
+Root: HKLM64; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; ValueType: string; ValueName: "Version"; ValueData: "{#MyAppVersion}"
+Root: HKLM32; Subkey: "SOFTWARE\{#MyAppPublisher}"; Flags: uninsdeletekeyifempty
+Root: HKLM32; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; Flags: uninsdeletekey
+Root: HKLM32; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
+Root: HKLM32; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; ValueType: string; ValueName: "Version"; ValueData: "{#MyAppVersion}"
 ;Root: HKCR; Subkey: ".jar"; ValueType: string; ValueName: ""; ValueData: "jarfile"; Flags: uninsdeletevalue
 ;Root: HKCR; Subkey: "jarfile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """C:\Program Files (x86)\Java\jre1.8.0_31\bin\javaw.exe"" -jar ""%1"" %*"""
 
@@ -107,3 +117,4 @@ function InitializeSetup(): Boolean;
      end;
   end;
 end.
+
