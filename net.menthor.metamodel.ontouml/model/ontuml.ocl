@@ -22,3 +22,45 @@ inv: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.
 inv: if isTruthMaker() then not truthMaker.oclIsUndefined() else truthMaker.oclIsUndefined() endif 
 
 endpackage
+
+--PerceivableQuality Constraints (Table 10 - Tony's thesis)
+--(1) Should always be associated to a measurable reference structure by structuration relation. 
+--(2) Should always be associated to a universal by a characterization relation.
+
+--NonPerceivable Constraints (Table 10 - Tony's thesis)
+--(1) Should always be associated to a measurable reference structure by structuration relation. 
+--(2) Should always be associated to a universal by a characterization relation.
+
+--Nominal Constraints (Table 10 - Tony's thesis)
+--(1) Should always be associated to a nominal reference structure by structuration relation. 
+--(2) Should always be associated to a universal by a characterization relation.
+
+--Structuration Constraints (Table 11 - Tony's thesis)
+--(1) Should always be associated to a quality universal (structured end) and a reference structure (structuring end). 
+--(2) The structured end should be always read only 
+--(3) The only possible cardinalities in both end is 1..1.
+
+--Ordinal Dimension Constraints (Table 12 - Tony's thesis
+--(1) Should always be associated to an instance of measurable quality universal by a structuration relation.
+
+--Interval Dimension Constraints (Table 12 - Tony's thesis
+--(1) Should always be associated to an instance of measurable quality universal by a structuration relation
+
+--Rational Dimension Constraints (Table 12 - Tony's thesis
+--(1) Should always be associated to an instance of measurable quality universal by a structuration relation
+
+--Measurement Domain Constraints (Table 12 - Tony's thesis)
+--(1) Should always be associated to an instance of measurable quality universal by a structuration relation 
+--(2) Must have two or more owned dimensions. 
+--(3) All owned dimensions must be instances of measurement dimensions
+
+--Nominal Structure Constraints (Table 12 - Tony's thesis 
+--(1) Should always be associated to an instance of nominal quality universal by a structuration relation
+
+--Measurement Enumeration Constraints (Table 12 - Tony's thesis
+--(1) Should always be associated to an instance of measurable quality universal by a structuration relation. 
+--(2) Must have two or more measurement literals. 
+--(3) The structure and its measurement literals should be grounded by an existing groundingStructure and groundingRegion respectively.
+
+--Composed Measurement Region Constraints (Table 13 - Tony's thesis)
+--(1) Must have two or more basic measurement regions

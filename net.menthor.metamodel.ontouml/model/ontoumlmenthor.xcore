@@ -20,6 +20,10 @@ package net.menthor.metamodel.ontouml
  
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
+/** =========================================
+ *  general super-classes
+ *  ======================================== */
+ 
 abstract class Element { }
 
 abstract class NamedElement extends Element { String name }
@@ -32,19 +36,27 @@ abstract class ContainedElement extends Element
 	contains Comment[*] comments opposite owner
 }
 
+/** =========================================
+ *  comment
+ *  ======================================== */
+
 class Comment extends Element 
 { 
 	String content
 	container ContainedElement[1] owner opposite comments
 }
 
-//=========================================
+/** =========================================
+ *  model & package
+ *  ======================================== */
 
 class Model extends Container { }
 
 class Package extends Container, ContainedElement { }
 
-//=========================================
+/** =========================================
+ *  class stereotypes
+ *  ======================================== */
 
 enum Universal 
 {	
@@ -53,19 +65,29 @@ enum Universal
 	PhaseMixin, Event, Hou, DataType, Enumeration
 }
 
+enum Quality 
+{
+	Nominal, Perceivable, NonPerceivable	
+}
+
+/** =========================================
+ *  class
+ *  ======================================== */
+ 
 class Class extends NamedElement, ContainedElement
 {	
 	Universal[0..1] stereotype
+	
+	Quality[0..1] qualityType // only if isQuality()
+	String[*] enumerationLiterals //only if isEnumeration()
 	
 	boolean isAbstract	
 	boolean isDerived	
 	derived boolean isExtensional
 	
-	String[*] enumerationLiterals 
+	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker //only if isTruthMaker()
 	
-	refers unordered unique Class[*] instanceOf 
-	
-	refers unordered unique ClassBinaryRelationship[*] istruthMakerOf opposite truthMaker
+	refers unordered unique Class[*] instanceOf //only if isHighOrder()
 	
 	refers unordered unique Attribute[*] attributes opposite owner
 	
@@ -127,23 +149,19 @@ class Class extends NamedElement, ContainedElement
 		}		
 	}
 	
-	//not done yet...
 	op void identidyProvider(){}	
 	op void isFunctionalComplex(){}	
 	op void isCollection(){}
 	op void isAmountOfMatter(){}
 	op void isIntrinsic(){}
-	op boolean isTruthMakerOf(){ isRelator() && istruthMakerOf.size()>0}	
+	op boolean isTruthMaker(){ isRelator() && istruthMakerOf.size()>0}	
 	op void setIsExtensional(){}
 }
 
-//=========================================
-
-class PrimitiveType extends ContainedElement
-{
-	Primitive[1] stereotype 
-}
-
+/** =========================================
+ *  primitive stereotypes
+ *  ======================================== */
+ 
 enum Primitive
 {
 	/** JP: This is a direct way to implement built-in types, differently from UML in which 
@@ -151,7 +169,18 @@ enum Primitive
 	Boolean, String, Real, Integer, UnlimitedNatural
 }
 
-//=========================================
+/** =========================================
+ *  primitive class
+ *  ======================================== */
+
+class PrimitiveClass extends ContainedElement
+{
+	Primitive[1] stereotype 
+}
+
+/** =========================================
+ *  generalization set
+ *  ======================================== */
 
 class GeneralizationSet extends NamedElement, ContainedElement
 {
@@ -167,7 +196,9 @@ class GeneralizationSet extends NamedElement, ContainedElement
 	refers Class[0..1] hou 
 }
 
-//=========================================
+/** =========================================
+ *  attribute & end-point
+ *  ======================================== */
 
 abstract class Property extends NamedElement 
 {		
@@ -182,10 +213,8 @@ class Attribute extends Property
 {
 	refers Class[1] owner opposite attributes
 	
-	refers PrimitiveType[1] primitiveType  	
+	refers PrimitiveClass[1] primitiveType  	
 }
-
-//=========================================
 
 class EndPoint extends Property
 {	
@@ -200,7 +229,45 @@ class EndPoint extends Property
 	refers unordered unique EndPoint[*] isRedefinedBy opposite redefines
 }
 
-//=========================================
+/** =========================================
+ *  relationship stereotypes
+ *  ======================================== */
+ 
+enum Relation 
+{
+	//UFO-A
+	ComponentOf
+	MemberOf
+	SubCollectionOf
+	SubQuantityOf
+	Constitution
+	Characterization
+	Mediation
+	Material
+	Formal
+	Structuration
+		
+	//UFO-B
+	Participation
+	SubEventOf
+	Causation //Causality, CausedBy
+	Temporal	
+}
+
+enum AllenRelation
+{
+	Starts
+	Precedes
+	Equals
+	Meets
+	Finishes
+	Overlaps
+	During
+}
+
+/** =========================================
+ *  relationship
+ *  ======================================== */
 
 class ClassBinaryRelationship extends NamedElement, ContainedElement
 {	
@@ -215,13 +282,13 @@ class ClassBinaryRelationship extends NamedElement, ContainedElement
 	
 	Relation[0..1] stereotype
 	
-	refers EndPoint[2] endPoints opposite owner
+	AllenRelation[0..1] allenRelation //only if isTemporal()
 				
 	boolean partIsShareable
 	
-	AllenRelation[0..1] allenRelation //<<temporal>>
+	refers EndPoint[2] endPoints opposite owner	
 	
-	refers Class[0..1] truthMaker opposite istruthMakerOf //<<relator>>
+	refers Class[0..1] truthMaker opposite istruthMakerOf //only if isMaterial()
 	
 	//==============================================
 	//Operations
@@ -263,53 +330,70 @@ class ClassBinaryRelationship extends NamedElement, ContainedElement
 	op boolean isPartMandatory() { targetEnd().lowerBound>=1 && isMeronymic()}
 	op boolean isWholeMandatory() { sourceEnd().lowerBound>=1 && isMeronymic()}
 	
-	op boolean isTruthMaker() { isMaterial() && getTruthMaker()!=null && getTruthMaker().isTruthMakerOf()} 
+	//op boolean isTruthMaker() { isMaterial() && getTruthMaker()!=null && getTruthMaker().isTruthMaker()} 
 }	
 
-enum Relation 
-{
-	//UFO-A
-	ComponentOf
-	MemberOf
-	SubCollectionOf
-	SubQuantityOf
-	Constitution
-	Characterization
-	Mediation
-	Material
-	Formal
-	Structuration
-		
-	//UFO-B
-	Participation
-	SubEventOf
-	Causation //Causality, CausedBy
-	Temporal	
-}
+/** =========================================
+ *  quality dimension
+ *  ======================================== */
 
-enum AllenRelation
-{
-	Starts
-	Precedes
-	Equals
-	Meets
-	Finishes
-	Overlaps
-	During
-}
+class NominalDimension extends NamedElement, ContainedElement { }
 
-//=========================================
-
-class Dimension extends NamedElement, ContainedElement 
+class MeasurementDimension extends NamedElement, ContainedElement 
 {
 	int[1] lowerBound
 	int[1] upperBound
-	//missing
-	//operations
+	String unitOfMeasure
+	
+	refers MeasurementDomain[0..1] domain opposite ownedDimensions
+		
+	DimensionType[1] dimension
+	MeasurementType[1] measurement	
 }
 
-class Domain extends NamedElement, ContainedElement 
+enum DimensionType
 {
-	//missing
-	//operations
+	Interval, Rational, Ordinal
+}
+
+enum MeasurementType
+{
+	Integer, Decimal
+}
+
+/** =========================================
+ *  quality region
+ *  ======================================== */
+ 
+class StringRegion extends Element {}
+
+class MeasurementRegion extends NamedElement, ContainedElement
+{
+	Region[1] region
+}
+
+enum Region
+{
+	Integer, Decimal, Composed
+}
+
+/** =========================================
+ *  quality domain
+ *  ======================================== */
+ 
+class MeasurementDomain extends NamedElement, ContainedElement 
+{
+	refers MeasurementDimension[2..*] ownedDimensions opposite domain 
+	//isScientific()
+	//compositionRule
+}
+
+/** =========================================
+ *  quality enumeration
+ *  ======================================== */
+ 
+class MeasurementEnumeration extends NamedElement, ContainedElement
+{
+	//groundingStructure
+	//ownedLiteral
 }
