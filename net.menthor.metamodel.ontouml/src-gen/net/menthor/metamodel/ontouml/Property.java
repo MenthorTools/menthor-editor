@@ -8,6 +8,12 @@ package net.menthor.metamodel.ontouml;
  * A representation of the model object '<em><b>Property</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  attribute & end-point
+ *  ========================================
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>

@@ -22,28 +22,28 @@ package net.menthor.metamodel.ontouml;
  */
 public interface Attribute extends Property {
 	/**
-	 * Returns the value of the '<em><b>Owner</b></em>' reference.
+	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getAttributes <em>Attributes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Owner</em>' reference isn't clear,
+	 * If the meaning of the '<em>Owner</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Owner</em>' reference.
+	 * @return the value of the '<em>Owner</em>' container reference.
 	 * @see #setOwner(net.menthor.metamodel.ontouml.Class)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getAttribute_Owner()
 	 * @see net.menthor.metamodel.ontouml.Class#getAttributes
-	 * @model opposite="attributes" required="true"
+	 * @model opposite="attributes" required="true" transient="false"
 	 * @generated
 	 */
 	net.menthor.metamodel.ontouml.Class getOwner();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}' reference.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Owner</em>' reference.
+	 * @param value the new value of the '<em>Owner</em>' container reference.
 	 * @see #getOwner()
 	 * @generated
 	 */

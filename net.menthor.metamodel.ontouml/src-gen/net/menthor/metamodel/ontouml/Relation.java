@@ -13,6 +13,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Relation</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  relationship stereotypes
+ *  ========================================
+ * <!-- end-model-doc -->
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRelation()
  * @model
  * @generated
@@ -117,6 +122,16 @@ public enum Relation implements Enumerator {
 	 * @ordered
 	 */
 	STRUCTURATION(0, "Structuration", "Structuration"),
+
+	/**
+	 * The '<em><b>Derivation</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DERIVATION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DERIVATION(0, "Derivation", "Derivation"),
 
 	/**
 	 * The '<em><b>Participation</b></em>' literal object.
@@ -309,6 +324,21 @@ public enum Relation implements Enumerator {
 	public static final int STRUCTURATION_VALUE = 0;
 
 	/**
+	 * The '<em><b>Derivation</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Derivation</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DERIVATION
+	 * @model name="Derivation"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DERIVATION_VALUE = 0;
+
+	/**
 	 * The '<em><b>Participation</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -386,6 +416,7 @@ public enum Relation implements Enumerator {
 			MATERIAL,
 			FORMAL,
 			STRUCTURATION,
+			DERIVATION,
 			PARTICIPATION,
 			SUB_EVENT_OF,
 			CAUSATION,

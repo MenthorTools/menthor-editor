@@ -13,6 +13,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Primitive</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  primitive stereotypes
+ *  ========================================
+ * <!-- end-model-doc -->
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitive()
  * @model
  * @generated

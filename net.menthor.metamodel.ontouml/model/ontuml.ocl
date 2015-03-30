@@ -3,23 +3,32 @@ import 'ontouml.ecore'
 package ontouml
 
 --=====================================================
---Enforcing correct stereotypes for optional attributes
+--Correct stereotypes for optional attributes
 --=====================================================
 
+-- A class should not define enumeration literals if it is not an enumeration.
 context Class
-inv: if isEnumeration() then enumerationLiterals->size() >=2 else enumerationLiterals->size()=0 endif 
+inv C1: if isEnumeration() then enumerationLiterals->size() >=2 else enumerationLiterals->size()=0 endif 
 
+-- A high order class cannot be an instance of any other class
 context Class
-inv: if isHighOrder() then instanceOf->forAll(stereotype=Universal::Hou) else instanceOf->size()=0 endif 
+inv C2: if isHighOrder() then instanceOf->size()=0 else instanceOf->forAll(stereotype=Universal::Hou) endif 
 
+-- A class should not define quality types if it is not a quality
 context Class
-inv: if isTruthMakerOf() then istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
+inv C3: if isQuality() then not qualityType.oclIsUndefined() else qualityType.oclIsUndefined() endif
 
-context ClassBinaryRelationship
-inv: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
+-- A high order class cannot be an instance of any other class
+--context Class
+--inv C3: if isTruthMakerOf() then istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
+--
+--context ClassBinaryRelationship
+--inv: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
+--
+-- context ClassBinaryRelationship
+--inv: if isTruthMaker() then not truthMaker.oclIsUndefined() else truthMaker.oclIsUndefined() endif 
 
- context ClassBinaryRelationship
-inv: if isTruthMaker() then not truthMaker.oclIsUndefined() else truthMaker.oclIsUndefined() endif 
+-- endPoints and relationship binary and ternary...
 
 endpackage
 

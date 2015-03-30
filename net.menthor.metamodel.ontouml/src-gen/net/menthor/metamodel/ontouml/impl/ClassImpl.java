@@ -4,21 +4,27 @@ package net.menthor.metamodel.ontouml.impl;
 
 import com.google.common.base.Objects;
 
+import java.lang.Iterable;
+
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
+import java.util.List;
 
 import net.menthor.metamodel.ontouml.Attribute;
-import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
+import net.menthor.metamodel.ontouml.ClassifierElement;
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
+import net.menthor.metamodel.ontouml.Quality;
+import net.menthor.metamodel.ontouml.Relationship;
 import net.menthor.metamodel.ontouml.Universal;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -43,13 +49,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getHolder <em>Holder</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getStereotype <em>Stereotype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getQualityType <em>Quality Type</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getEnumerationLiterals <em>Enumeration Literals</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsExtensional <em>Is Extensional</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getEnumerationLiterals <em>Enumeration Literals</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getInstanceOf <em>Instance Of</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getIstruthMakerOf <em>Istruth Maker Of</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getIstruthMakerOf <em>Istruth Maker Of</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getInstanceOf <em>Instance Of</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getIsSpecializedVia <em>Is Specialized Via</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getSpecializesVia <em>Specializes Via</em>}</li>
  * </ul>
@@ -87,6 +94,36 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * @ordered
 	 */
 	protected Universal stereotype = STEREOTYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getQualityType() <em>Quality Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQualityType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Quality QUALITY_TYPE_EDEFAULT = Quality.NOMINAL;
+
+	/**
+	 * The cached value of the '{@link #getQualityType() <em>Quality Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQualityType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Quality qualityType = QUALITY_TYPE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getEnumerationLiterals() <em>Enumeration Literals</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnumerationLiterals()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> enumerationLiterals;
 
 	/**
 	 * The default value of the '{@link #isIsAbstract() <em>Is Abstract</em>}' attribute.
@@ -149,14 +186,24 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	protected boolean isExtensional = IS_EXTENSIONAL_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getEnumerationLiterals() <em>Enumeration Literals</em>}' attribute list.
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEnumerationLiterals()
+	 * @see #getAttributes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> enumerationLiterals;
+	protected EList<Attribute> attributes;
+
+	/**
+	 * The cached value of the '{@link #getIstruthMakerOf() <em>Istruth Maker Of</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIstruthMakerOf()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Relationship> istruthMakerOf;
 
 	/**
 	 * The cached value of the '{@link #getInstanceOf() <em>Instance Of</em>}' reference list.
@@ -167,26 +214,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * @ordered
 	 */
 	protected EList<net.menthor.metamodel.ontouml.Class> instanceOf;
-
-	/**
-	 * The cached value of the '{@link #getIstruthMakerOf() <em>Istruth Maker Of</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIstruthMakerOf()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ClassBinaryRelationship> istruthMakerOf;
-
-	/**
-	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAttributes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Attribute> attributes;
 
 	/**
 	 * The cached value of the '{@link #getIsSpecializedVia() <em>Is Specialized Via</em>}' reference list.
@@ -316,6 +343,39 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Quality getQualityType() {
+		return qualityType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setQualityType(Quality newQualityType) {
+		Quality oldQualityType = qualityType;
+		qualityType = newQualityType == null ? QUALITY_TYPE_EDEFAULT : newQualityType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__QUALITY_TYPE, oldQualityType, qualityType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getEnumerationLiterals() {
+		if (enumerationLiterals == null) {
+			enumerationLiterals = new EDataTypeEList<String>(String.class, this, OntoumlPackage.CLASS__ENUMERATION_LITERALS);
+		}
+		return enumerationLiterals;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isIsAbstract() {
 		return isAbstract;
 	}
@@ -379,11 +439,23 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<String> getEnumerationLiterals() {
-		if (enumerationLiterals == null) {
-			enumerationLiterals = new EDataTypeEList<String>(String.class, this, OntoumlPackage.CLASS__ENUMERATION_LITERALS);
+	public EList<Attribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new EObjectContainmentWithInverseEList<Attribute>(Attribute.class, this, OntoumlPackage.CLASS__ATTRIBUTES, OntoumlPackage.ATTRIBUTE__OWNER);
 		}
-		return enumerationLiterals;
+		return attributes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Relationship> getIstruthMakerOf() {
+		if (istruthMakerOf == null) {
+			istruthMakerOf = new EObjectWithInverseResolvingEList<Relationship>(Relationship.class, this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, OntoumlPackage.RELATIONSHIP__TRUTH_MAKER);
+		}
+		return istruthMakerOf;
 	}
 
 	/**
@@ -396,30 +468,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			instanceOf = new EObjectResolvingEList<net.menthor.metamodel.ontouml.Class>(net.menthor.metamodel.ontouml.Class.class, this, OntoumlPackage.CLASS__INSTANCE_OF);
 		}
 		return instanceOf;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<ClassBinaryRelationship> getIstruthMakerOf() {
-		if (istruthMakerOf == null) {
-			istruthMakerOf = new EObjectWithInverseResolvingEList<ClassBinaryRelationship>(ClassBinaryRelationship.class, this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__TRUTH_MAKER);
-		}
-		return istruthMakerOf;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Attribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new EObjectWithInverseResolvingEList<Attribute>(Attribute.class, this, OntoumlPackage.CLASS__ATTRIBUTES, OntoumlPackage.ATTRIBUTE__OWNER);
-		}
-		return attributes;
 	}
 
 	/**
@@ -451,6 +499,176 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isKind() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.KIND);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSubKind() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.SUB_KIND);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isCollective() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.COLLECTIVE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isQuantity() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.QUANTITY);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isRelator() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.RELATOR);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isMode() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.MODE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isQuality() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.QUALITY);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isRole() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.ROLE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isRoleMixin() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.ROLE_MIXIN);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isPhaseMixin() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.PHASE_MIXIN);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isPhase() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.PHASE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isCategory() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.CATEGORY);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isMixin() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.MIXIN);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isEvent() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.EVENT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isHighOrder() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.HOU);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isDataType() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.DATA_TYPE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isEnumeration() {
+		Universal _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, Universal.ENUMERATION);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isRigid() {
 		boolean _or = false;
 		boolean _or_1 = false;
@@ -459,56 +677,48 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		boolean _or_4 = false;
 		boolean _or_5 = false;
 		boolean _or_6 = false;
-		Universal _stereotype = this.getStereotype();
-		boolean _equals = Objects.equal(_stereotype, Universal.KIND);
-		if (_equals) {
+		boolean _isKind = this.isKind();
+		if (_isKind) {
 			_or_6 = true;
 		} else {
-			Universal _stereotype_1 = this.getStereotype();
-			boolean _equals_1 = Objects.equal(_stereotype_1, Universal.COLLECTIVE);
-			_or_6 = _equals_1;
+			boolean _isCollective = this.isCollective();
+			_or_6 = _isCollective;
 		}
 		if (_or_6) {
 			_or_5 = true;
 		} else {
-			Universal _stereotype_2 = this.getStereotype();
-			boolean _equals_2 = Objects.equal(_stereotype_2, Universal.QUANTITY);
-			_or_5 = _equals_2;
+			boolean _isQuantity = this.isQuantity();
+			_or_5 = _isQuantity;
 		}
 		if (_or_5) {
 			_or_4 = true;
 		} else {
-			Universal _stereotype_3 = this.getStereotype();
-			boolean _equals_3 = Objects.equal(_stereotype_3, Universal.RELATOR);
-			_or_4 = _equals_3;
+			boolean _isRelator = this.isRelator();
+			_or_4 = _isRelator;
 		}
 		if (_or_4) {
 			_or_3 = true;
 		} else {
-			Universal _stereotype_4 = this.getStereotype();
-			boolean _equals_4 = Objects.equal(_stereotype_4, Universal.MODE);
-			_or_3 = _equals_4;
+			boolean _isMode = this.isMode();
+			_or_3 = _isMode;
 		}
 		if (_or_3) {
 			_or_2 = true;
 		} else {
-			Universal _stereotype_5 = this.getStereotype();
-			boolean _equals_5 = Objects.equal(_stereotype_5, Universal.QUALITY);
-			_or_2 = _equals_5;
+			boolean _isQuality = this.isQuality();
+			_or_2 = _isQuality;
 		}
 		if (_or_2) {
 			_or_1 = true;
 		} else {
-			Universal _stereotype_6 = this.getStereotype();
-			boolean _equals_6 = Objects.equal(_stereotype_6, Universal.SUB_KIND);
-			_or_1 = _equals_6;
+			boolean _isSubKind = this.isSubKind();
+			_or_1 = _isSubKind;
 		}
 		if (_or_1) {
 			_or = true;
 		} else {
-			Universal _stereotype_7 = this.getStereotype();
-			boolean _equals_7 = Objects.equal(_stereotype_7, Universal.CATEGORY);
-			_or = _equals_7;
+			boolean _isCategory = this.isCategory();
+			_or = _isCategory;
 		}
 		return _or;
 	}
@@ -522,28 +732,24 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		boolean _or = false;
 		boolean _or_1 = false;
 		boolean _or_2 = false;
-		Universal _stereotype = this.getStereotype();
-		boolean _equals = Objects.equal(_stereotype, Universal.ROLE);
-		if (_equals) {
+		boolean _isRole = this.isRole();
+		if (_isRole) {
 			_or_2 = true;
 		} else {
-			Universal _stereotype_1 = this.getStereotype();
-			boolean _equals_1 = Objects.equal(_stereotype_1, Universal.PHASE);
-			_or_2 = _equals_1;
+			boolean _isPhase = this.isPhase();
+			_or_2 = _isPhase;
 		}
 		if (_or_2) {
 			_or_1 = true;
 		} else {
-			Universal _stereotype_2 = this.getStereotype();
-			boolean _equals_2 = Objects.equal(_stereotype_2, Universal.ROLE_MIXIN);
-			_or_1 = _equals_2;
+			boolean _isRoleMixin = this.isRoleMixin();
+			_or_1 = _isRoleMixin;
 		}
 		if (_or_1) {
 			_or = true;
 		} else {
-			Universal _stereotype_3 = this.getStereotype();
-			boolean _equals_3 = Objects.equal(_stereotype_3, Universal.MIXIN);
-			_or = _equals_3;
+			boolean _isMixin = this.isMixin();
+			_or = _isMixin;
 		}
 		return _or;
 	}
@@ -556,23 +762,127 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	public boolean isAntiRigid() {
 		boolean _or = false;
 		boolean _or_1 = false;
-		Universal _stereotype = this.getStereotype();
-		boolean _equals = Objects.equal(_stereotype, Universal.ROLE);
-		if (_equals) {
+		boolean _isRole = this.isRole();
+		if (_isRole) {
 			_or_1 = true;
 		} else {
-			Universal _stereotype_1 = this.getStereotype();
-			boolean _equals_1 = Objects.equal(_stereotype_1, Universal.PHASE);
-			_or_1 = _equals_1;
+			boolean _isPhase = this.isPhase();
+			_or_1 = _isPhase;
 		}
 		if (_or_1) {
 			_or = true;
 		} else {
-			Universal _stereotype_2 = this.getStereotype();
-			boolean _equals_2 = Objects.equal(_stereotype_2, Universal.ROLE_MIXIN);
-			_or = _equals_2;
+			boolean _isRoleMixin = this.isRoleMixin();
+			_or = _isRoleMixin;
 		}
 		return _or;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<net.menthor.metamodel.ontouml.Class> children() {
+		net.menthor.metamodel.ontouml.Class[] list = null;
+		EList<GeneralizationSet> _isSpecializedVia = this.getIsSpecializedVia();
+		for (final GeneralizationSet gs : _isSpecializedVia) {
+			final net.menthor.metamodel.ontouml.Class[] _converted_list = (net.menthor.metamodel.ontouml.Class[])list;
+			EList<net.menthor.metamodel.ontouml.Class> _specializingClasses = gs.getSpecializingClasses();
+			((List<net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)).addAll(_specializingClasses);
+		}
+		final net.menthor.metamodel.ontouml.Class[] _converted_list_1 = (net.menthor.metamodel.ontouml.Class[])list;
+		return ECollections.<net.menthor.metamodel.ontouml.Class>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<net.menthor.metamodel.ontouml.Class> parents() {
+		net.menthor.metamodel.ontouml.Class[] list = null;
+		EList<GeneralizationSet> _specializesVia = this.getSpecializesVia();
+		for (final GeneralizationSet gs : _specializesVia) {
+			final net.menthor.metamodel.ontouml.Class[] _converted_list = (net.menthor.metamodel.ontouml.Class[])list;
+			net.menthor.metamodel.ontouml.Class _specializedClass = gs.getSpecializedClass();
+			((List<net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)).add(_specializedClass);
+		}
+		final net.menthor.metamodel.ontouml.Class[] _converted_list_1 = (net.menthor.metamodel.ontouml.Class[])list;
+		return ECollections.<net.menthor.metamodel.ontouml.Class>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void identidyProvider() {
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void isFunctionalComplex() {
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void isCollection() {
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void isAmountOfMatter() {
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void isIntrinsic() {
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isTruthMaker() {
+		boolean _and = false;
+		boolean _isRelator = this.isRelator();
+		if (!_isRelator) {
+			_and = false;
+		} else {
+			EList<Relationship> _istruthMakerOf = this.getIstruthMakerOf();
+			int _size = _istruthMakerOf.size();
+			boolean _greaterThan = (_size > 0);
+			_and = _greaterThan;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsExtensional() {
+		
 	}
 
 	/**
@@ -590,10 +900,10 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
 			case OntoumlPackage.CLASS__COMMENTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIstruthMakerOf()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributes()).basicAdd(otherEnd, msgs);
+			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIstruthMakerOf()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsSpecializedVia()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
@@ -614,10 +924,10 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return basicSetHolder(null, msgs);
 			case OntoumlPackage.CLASS__COMMENTS:
 				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
-				return ((InternalEList<?>)getIstruthMakerOf()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
+			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
+				return ((InternalEList<?>)getIstruthMakerOf()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
 				return ((InternalEList<?>)getIsSpecializedVia()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
@@ -655,20 +965,22 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return getComments();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return getStereotype();
+			case OntoumlPackage.CLASS__QUALITY_TYPE:
+				return getQualityType();
+			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
+				return getEnumerationLiterals();
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
 				return isIsAbstract();
 			case OntoumlPackage.CLASS__IS_DERIVED:
 				return isIsDerived();
 			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
 				return isIsExtensional();
-			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
-				return getEnumerationLiterals();
-			case OntoumlPackage.CLASS__INSTANCE_OF:
-				return getInstanceOf();
-			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
-				return getIstruthMakerOf();
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return getAttributes();
+			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
+				return getIstruthMakerOf();
+			case OntoumlPackage.CLASS__INSTANCE_OF:
+				return getInstanceOf();
 			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
 				return getIsSpecializedVia();
 			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
@@ -696,6 +1008,13 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype((Universal)newValue);
 				return;
+			case OntoumlPackage.CLASS__QUALITY_TYPE:
+				setQualityType((Quality)newValue);
+				return;
+			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
+				getEnumerationLiterals().clear();
+				getEnumerationLiterals().addAll((Collection<? extends String>)newValue);
+				return;
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
 				setIsAbstract((Boolean)newValue);
 				return;
@@ -705,21 +1024,17 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
 				setIsExtensional((Boolean)newValue);
 				return;
-			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
-				getEnumerationLiterals().clear();
-				getEnumerationLiterals().addAll((Collection<? extends String>)newValue);
+			case OntoumlPackage.CLASS__ATTRIBUTES:
+				getAttributes().clear();
+				getAttributes().addAll((Collection<? extends Attribute>)newValue);
+				return;
+			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
+				getIstruthMakerOf().clear();
+				getIstruthMakerOf().addAll((Collection<? extends Relationship>)newValue);
 				return;
 			case OntoumlPackage.CLASS__INSTANCE_OF:
 				getInstanceOf().clear();
 				getInstanceOf().addAll((Collection<? extends net.menthor.metamodel.ontouml.Class>)newValue);
-				return;
-			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
-				getIstruthMakerOf().clear();
-				getIstruthMakerOf().addAll((Collection<? extends ClassBinaryRelationship>)newValue);
-				return;
-			case OntoumlPackage.CLASS__ATTRIBUTES:
-				getAttributes().clear();
-				getAttributes().addAll((Collection<? extends Attribute>)newValue);
 				return;
 			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
 				getIsSpecializedVia().clear();
@@ -750,6 +1065,12 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
+			case OntoumlPackage.CLASS__QUALITY_TYPE:
+				setQualityType(QUALITY_TYPE_EDEFAULT);
+				return;
+			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
+				getEnumerationLiterals().clear();
+				return;
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
 				setIsAbstract(IS_ABSTRACT_EDEFAULT);
 				return;
@@ -759,17 +1080,14 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
 				setIsExtensional(IS_EXTENSIONAL_EDEFAULT);
 				return;
-			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
-				getEnumerationLiterals().clear();
-				return;
-			case OntoumlPackage.CLASS__INSTANCE_OF:
-				getInstanceOf().clear();
+			case OntoumlPackage.CLASS__ATTRIBUTES:
+				getAttributes().clear();
 				return;
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				getIstruthMakerOf().clear();
 				return;
-			case OntoumlPackage.CLASS__ATTRIBUTES:
-				getAttributes().clear();
+			case OntoumlPackage.CLASS__INSTANCE_OF:
+				getInstanceOf().clear();
 				return;
 			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
 				getIsSpecializedVia().clear();
@@ -795,20 +1113,22 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return comments != null && !comments.isEmpty();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
+			case OntoumlPackage.CLASS__QUALITY_TYPE:
+				return qualityType != QUALITY_TYPE_EDEFAULT;
+			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
+				return enumerationLiterals != null && !enumerationLiterals.isEmpty();
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
 				return isAbstract != IS_ABSTRACT_EDEFAULT;
 			case OntoumlPackage.CLASS__IS_DERIVED:
 				return isDerived != IS_DERIVED_EDEFAULT;
 			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
 				return isExtensional != IS_EXTENSIONAL_EDEFAULT;
-			case OntoumlPackage.CLASS__ENUMERATION_LITERALS:
-				return enumerationLiterals != null && !enumerationLiterals.isEmpty();
-			case OntoumlPackage.CLASS__INSTANCE_OF:
-				return instanceOf != null && !instanceOf.isEmpty();
-			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
-				return istruthMakerOf != null && !istruthMakerOf.isEmpty();
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return attributes != null && !attributes.isEmpty();
+			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
+				return istruthMakerOf != null && !istruthMakerOf.isEmpty();
+			case OntoumlPackage.CLASS__INSTANCE_OF:
+				return instanceOf != null && !instanceOf.isEmpty();
 			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
 				return isSpecializedVia != null && !isSpecializedVia.isEmpty();
 			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
@@ -831,6 +1151,11 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				default: return -1;
 			}
 		}
+		if (baseClass == ClassifierElement.class) {
+			switch (derivedFeatureID) {
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -848,6 +1173,11 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				default: return -1;
 			}
 		}
+		if (baseClass == ClassifierElement.class) {
+			switch (baseFeatureID) {
+				default: return -1;
+			}
+		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
@@ -859,12 +1189,70 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
+			case OntoumlPackage.CLASS___IS_KIND:
+				return isKind();
+			case OntoumlPackage.CLASS___IS_SUB_KIND:
+				return isSubKind();
+			case OntoumlPackage.CLASS___IS_COLLECTIVE:
+				return isCollective();
+			case OntoumlPackage.CLASS___IS_QUANTITY:
+				return isQuantity();
+			case OntoumlPackage.CLASS___IS_RELATOR:
+				return isRelator();
+			case OntoumlPackage.CLASS___IS_MODE:
+				return isMode();
+			case OntoumlPackage.CLASS___IS_QUALITY:
+				return isQuality();
+			case OntoumlPackage.CLASS___IS_ROLE:
+				return isRole();
+			case OntoumlPackage.CLASS___IS_ROLE_MIXIN:
+				return isRoleMixin();
+			case OntoumlPackage.CLASS___IS_PHASE_MIXIN:
+				return isPhaseMixin();
+			case OntoumlPackage.CLASS___IS_PHASE:
+				return isPhase();
+			case OntoumlPackage.CLASS___IS_CATEGORY:
+				return isCategory();
+			case OntoumlPackage.CLASS___IS_MIXIN:
+				return isMixin();
+			case OntoumlPackage.CLASS___IS_EVENT:
+				return isEvent();
+			case OntoumlPackage.CLASS___IS_HIGH_ORDER:
+				return isHighOrder();
+			case OntoumlPackage.CLASS___IS_DATA_TYPE:
+				return isDataType();
+			case OntoumlPackage.CLASS___IS_ENUMERATION:
+				return isEnumeration();
 			case OntoumlPackage.CLASS___IS_RIGID:
 				return isRigid();
 			case OntoumlPackage.CLASS___IS_NON_RIGID:
 				return isNonRigid();
 			case OntoumlPackage.CLASS___IS_ANTI_RIGID:
 				return isAntiRigid();
+			case OntoumlPackage.CLASS___CHILDREN:
+				return children();
+			case OntoumlPackage.CLASS___PARENTS:
+				return parents();
+			case OntoumlPackage.CLASS___IDENTIDY_PROVIDER:
+				identidyProvider();
+				return null;
+			case OntoumlPackage.CLASS___IS_FUNCTIONAL_COMPLEX:
+				isFunctionalComplex();
+				return null;
+			case OntoumlPackage.CLASS___IS_COLLECTION:
+				isCollection();
+				return null;
+			case OntoumlPackage.CLASS___IS_AMOUNT_OF_MATTER:
+				isAmountOfMatter();
+				return null;
+			case OntoumlPackage.CLASS___IS_INTRINSIC:
+				isIntrinsic();
+				return null;
+			case OntoumlPackage.CLASS___IS_TRUTH_MAKER:
+				return isTruthMaker();
+			case OntoumlPackage.CLASS___SET_IS_EXTENSIONAL:
+				setIsExtensional();
+				return null;
 		}
 		return super.eInvoke(operationID, arguments);
 	}
@@ -881,14 +1269,16 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (stereotype: ");
 		result.append(stereotype);
+		result.append(", qualityType: ");
+		result.append(qualityType);
+		result.append(", enumerationLiterals: ");
+		result.append(enumerationLiterals);
 		result.append(", isAbstract: ");
 		result.append(isAbstract);
 		result.append(", isDerived: ");
 		result.append(isDerived);
 		result.append(", isExtensional: ");
 		result.append(isExtensional);
-		result.append(", enumerationLiterals: ");
-		result.append(enumerationLiterals);
 		result.append(')');
 		return result.toString();
 	}

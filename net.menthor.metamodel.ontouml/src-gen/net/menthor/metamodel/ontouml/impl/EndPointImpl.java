@@ -4,9 +4,10 @@ package net.menthor.metamodel.ontouml.impl;
 
 import java.util.Collection;
 
-import net.menthor.metamodel.ontouml.ClassBinaryRelationship;
+import net.menthor.metamodel.ontouml.ClassifierElement;
 import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
+import net.menthor.metamodel.ontouml.Relationship;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -41,16 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class EndPointImpl extends PropertyImpl implements EndPoint {
 	/**
-	 * The cached value of the '{@link #getOwner() <em>Owner</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOwner()
-	 * @generated
-	 * @ordered
-	 */
-	protected ClassBinaryRelationship owner;
-
-	/**
 	 * The cached value of the '{@link #getEndType() <em>End Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,7 +50,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * @generated
 	 * @ordered
 	 */
-	protected net.menthor.metamodel.ontouml.Class endType;
+	protected ClassifierElement endType;
 
 	/**
 	 * The cached value of the '{@link #getSubsets() <em>Subsets</em>}' reference list.
@@ -124,16 +116,9 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassBinaryRelationship getOwner() {
-		if (owner != null && owner.eIsProxy()) {
-			InternalEObject oldOwner = (InternalEObject)owner;
-			owner = (ClassBinaryRelationship)eResolveProxy(oldOwner);
-			if (owner != oldOwner) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.END_POINT__OWNER, oldOwner, owner));
-			}
-		}
-		return owner;
+	public Relationship getOwner() {
+		if (eContainerFeatureID() != OntoumlPackage.END_POINT__OWNER) return null;
+		return (Relationship)eContainer();
 	}
 
 	/**
@@ -141,8 +126,9 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassBinaryRelationship basicGetOwner() {
-		return owner;
+	public Relationship basicGetOwner() {
+		if (eContainerFeatureID() != OntoumlPackage.END_POINT__OWNER) return null;
+		return (Relationship)eInternalContainer();
 	}
 
 	/**
@@ -150,13 +136,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetOwner(ClassBinaryRelationship newOwner, NotificationChain msgs) {
-		ClassBinaryRelationship oldOwner = owner;
-		owner = newOwner;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.END_POINT__OWNER, oldOwner, newOwner);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
+	public NotificationChain basicSetOwner(Relationship newOwner, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newOwner, OntoumlPackage.END_POINT__OWNER, msgs);
 		return msgs;
 	}
 
@@ -165,13 +146,15 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOwner(ClassBinaryRelationship newOwner) {
-		if (newOwner != owner) {
+	public void setOwner(Relationship newOwner) {
+		if (newOwner != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.END_POINT__OWNER && newOwner != null)) {
+			if (EcoreUtil.isAncestor(this, newOwner))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
-			if (owner != null)
-				msgs = ((InternalEObject)owner).eInverseRemove(this, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS, ClassBinaryRelationship.class, msgs);
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
 			if (newOwner != null)
-				msgs = ((InternalEObject)newOwner).eInverseAdd(this, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS, ClassBinaryRelationship.class, msgs);
+				msgs = ((InternalEObject)newOwner).eInverseAdd(this, OntoumlPackage.RELATIONSHIP__END_POINTS, Relationship.class, msgs);
 			msgs = basicSetOwner(newOwner, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -184,10 +167,10 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class getEndType() {
+	public ClassifierElement getEndType() {
 		if (endType != null && endType.eIsProxy()) {
 			InternalEObject oldEndType = (InternalEObject)endType;
-			endType = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldEndType);
+			endType = (ClassifierElement)eResolveProxy(oldEndType);
 			if (endType != oldEndType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.END_POINT__END_TYPE, oldEndType, endType));
@@ -201,7 +184,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class basicGetEndType() {
+	public ClassifierElement basicGetEndType() {
 		return endType;
 	}
 
@@ -210,8 +193,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEndType(net.menthor.metamodel.ontouml.Class newEndType) {
-		net.menthor.metamodel.ontouml.Class oldEndType = endType;
+	public void setEndType(ClassifierElement newEndType) {
+		ClassifierElement oldEndType = endType;
 		endType = newEndType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.END_POINT__END_TYPE, oldEndType, endType));
@@ -275,9 +258,9 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case OntoumlPackage.END_POINT__OWNER:
-				if (owner != null)
-					msgs = ((InternalEObject)owner).eInverseRemove(this, OntoumlPackage.CLASS_BINARY_RELATIONSHIP__END_POINTS, ClassBinaryRelationship.class, msgs);
-				return basicSetOwner((ClassBinaryRelationship)otherEnd, msgs);
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetOwner((Relationship)otherEnd, msgs);
 			case OntoumlPackage.END_POINT__SUBSETS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubsets()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.END_POINT__REDEFINES:
@@ -318,6 +301,20 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case OntoumlPackage.END_POINT__OWNER:
+				return eInternalContainer().eInverseRemove(this, OntoumlPackage.RELATIONSHIP__END_POINTS, Relationship.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case OntoumlPackage.END_POINT__OWNER:
@@ -348,10 +345,10 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case OntoumlPackage.END_POINT__OWNER:
-				setOwner((ClassBinaryRelationship)newValue);
+				setOwner((Relationship)newValue);
 				return;
 			case OntoumlPackage.END_POINT__END_TYPE:
-				setEndType((net.menthor.metamodel.ontouml.Class)newValue);
+				setEndType((ClassifierElement)newValue);
 				return;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				getSubsets().clear();
@@ -382,10 +379,10 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case OntoumlPackage.END_POINT__OWNER:
-				setOwner((ClassBinaryRelationship)null);
+				setOwner((Relationship)null);
 				return;
 			case OntoumlPackage.END_POINT__END_TYPE:
-				setEndType((net.menthor.metamodel.ontouml.Class)null);
+				setEndType((ClassifierElement)null);
 				return;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				getSubsets().clear();
@@ -412,7 +409,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case OntoumlPackage.END_POINT__OWNER:
-				return owner != null;
+				return basicGetOwner() != null;
 			case OntoumlPackage.END_POINT__END_TYPE:
 				return endType != null;
 			case OntoumlPackage.END_POINT__SUBSETS:

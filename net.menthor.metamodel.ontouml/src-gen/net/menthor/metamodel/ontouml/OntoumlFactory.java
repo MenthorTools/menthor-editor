@@ -22,6 +22,15 @@ public interface OntoumlFactory extends EFactory {
 	OntoumlFactory eINSTANCE = net.menthor.metamodel.ontouml.impl.OntoumlFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Comment</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Comment</em>'.
+	 * @generated
+	 */
+	Comment createComment();
+
+	/**
 	 * Returns a new object of class '<em>Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -40,15 +49,6 @@ public interface OntoumlFactory extends EFactory {
 	Package createPackage();
 
 	/**
-	 * Returns a new object of class '<em>Comment</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Comment</em>'.
-	 * @generated
-	 */
-	Comment createComment();
-
-	/**
 	 * Returns a new object of class '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,15 +56,6 @@ public interface OntoumlFactory extends EFactory {
 	 * @generated
 	 */
 	Class createClass();
-
-	/**
-	 * Returns a new object of class '<em>Primitive Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Primitive Type</em>'.
-	 * @generated
-	 */
-	PrimitiveType createPrimitiveType();
 
 	/**
 	 * Returns a new object of class '<em>Generalization Set</em>'.
@@ -76,15 +67,6 @@ public interface OntoumlFactory extends EFactory {
 	GeneralizationSet createGeneralizationSet();
 
 	/**
-	 * Returns a new object of class '<em>Attribute</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute</em>'.
-	 * @generated
-	 */
-	Attribute createAttribute();
-
-	/**
 	 * Returns a new object of class '<em>End Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,31 +76,103 @@ public interface OntoumlFactory extends EFactory {
 	EndPoint createEndPoint();
 
 	/**
-	 * Returns a new object of class '<em>Class Binary Relationship</em>'.
+	 * Returns a new object of class '<em>Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Class Binary Relationship</em>'.
+	 * @return a new object of class '<em>Attribute</em>'.
 	 * @generated
 	 */
-	ClassBinaryRelationship createClassBinaryRelationship();
+	Attribute createAttribute();
 
 	/**
-	 * Returns a new object of class '<em>Dimension</em>'.
+	 * Returns a new object of class '<em>Primitive Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Dimension</em>'.
+	 * @return a new object of class '<em>Primitive Type</em>'.
 	 * @generated
 	 */
-	Dimension createDimension();
+	PrimitiveType createPrimitiveType();
 
 	/**
-	 * Returns a new object of class '<em>Domain</em>'.
+	 * Returns a new object of class '<em>Binary Class Relationship</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Domain</em>'.
+	 * @return a new object of class '<em>Binary Class Relationship</em>'.
 	 * @generated
 	 */
-	Domain createDomain();
+	BinaryClassRelationship createBinaryClassRelationship();
+
+	/**
+	 * Returns a new object of class '<em>Derivation Relationship</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Derivation Relationship</em>'.
+	 * @generated
+	 */
+	DerivationRelationship createDerivationRelationship();
+
+	/**
+	 * Returns a new object of class '<em>NAry Class Relationship</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>NAry Class Relationship</em>'.
+	 * @generated
+	 */
+	NAryClassRelationship createNAryClassRelationship();
+
+	/**
+	 * Returns a new object of class '<em>Measurement Domain</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Measurement Domain</em>'.
+	 * @generated
+	 */
+	MeasurementDomain createMeasurementDomain();
+
+	/**
+	 * Returns a new object of class '<em>Measurement Dimension</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Measurement Dimension</em>'.
+	 * @generated
+	 */
+	MeasurementDimension createMeasurementDimension();
+
+	/**
+	 * Returns a new object of class '<em>Nominal Dimension</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Nominal Dimension</em>'.
+	 * @generated
+	 */
+	NominalDimension createNominalDimension();
+
+	/**
+	 * Returns a new object of class '<em>Measurement Region</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Measurement Region</em>'.
+	 * @generated
+	 */
+	MeasurementRegion createMeasurementRegion();
+
+	/**
+	 * Returns a new object of class '<em>String Nominal Region</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>String Nominal Region</em>'.
+	 * @generated
+	 */
+	StringNominalRegion createStringNominalRegion();
+
+	/**
+	 * Returns a new object of class '<em>Measurement Enumeration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Measurement Enumeration</em>'.
+	 * @generated
+	 */
+	MeasurementEnumeration createMeasurementEnumeration();
 
 	/**
 	 * Returns the package supported by this factory.

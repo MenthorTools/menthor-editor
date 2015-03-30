@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl#getStereotype <em>Stereotype</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl#getPrimitive <em>Primitive</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,24 +27,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class PrimitiveTypeImpl extends ContainedElementImpl implements PrimitiveType {
 	/**
-	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
+	 * The default value of the '{@link #getPrimitive() <em>Primitive</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStereotype()
+	 * @see #getPrimitive()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Primitive STEREOTYPE_EDEFAULT = Primitive.BOOLEAN;
+	protected static final Primitive PRIMITIVE_EDEFAULT = Primitive.BOOLEAN;
 
 	/**
-	 * The cached value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
+	 * The cached value of the '{@link #getPrimitive() <em>Primitive</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStereotype()
+	 * @see #getPrimitive()
 	 * @generated
 	 * @ordered
 	 */
-	protected Primitive stereotype = STEREOTYPE_EDEFAULT;
+	protected Primitive primitive = PRIMITIVE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -70,8 +70,8 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Primitive getStereotype() {
-		return stereotype;
+	public Primitive getPrimitive() {
+		return primitive;
 	}
 
 	/**
@@ -79,11 +79,11 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStereotype(Primitive newStereotype) {
-		Primitive oldStereotype = stereotype;
-		stereotype = newStereotype == null ? STEREOTYPE_EDEFAULT : newStereotype;
+	public void setPrimitive(Primitive newPrimitive) {
+		Primitive oldPrimitive = primitive;
+		primitive = newPrimitive == null ? PRIMITIVE_EDEFAULT : newPrimitive;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE, oldStereotype, stereotype));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PRIMITIVE_TYPE__PRIMITIVE, oldPrimitive, primitive));
 	}
 
 	/**
@@ -94,8 +94,8 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
-				return getStereotype();
+			case OntoumlPackage.PRIMITIVE_TYPE__PRIMITIVE:
+				return getPrimitive();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -108,8 +108,8 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
-				setStereotype((Primitive)newValue);
+			case OntoumlPackage.PRIMITIVE_TYPE__PRIMITIVE:
+				setPrimitive((Primitive)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,8 +123,8 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
-				setStereotype(STEREOTYPE_EDEFAULT);
+			case OntoumlPackage.PRIMITIVE_TYPE__PRIMITIVE:
+				setPrimitive(PRIMITIVE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -138,8 +138,8 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.PRIMITIVE_TYPE__STEREOTYPE:
-				return stereotype != STEREOTYPE_EDEFAULT;
+			case OntoumlPackage.PRIMITIVE_TYPE__PRIMITIVE:
+				return primitive != PRIMITIVE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -154,8 +154,8 @@ public class PrimitiveTypeImpl extends ContainedElementImpl implements Primitive
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (stereotype: ");
-		result.append(stereotype);
+		result.append(" (primitive: ");
+		result.append(primitive);
 		result.append(')');
 		return result.toString();
 	}

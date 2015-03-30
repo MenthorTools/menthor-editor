@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Attribute</b></em>'.
@@ -29,16 +31,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class AttributeImpl extends PropertyImpl implements Attribute {
-	/**
-	 * The cached value of the '{@link #getOwner() <em>Owner</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOwner()
-	 * @generated
-	 * @ordered
-	 */
-	protected net.menthor.metamodel.ontouml.Class owner;
-
 	/**
 	 * The cached value of the '{@link #getPrimitiveType() <em>Primitive Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -74,15 +66,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * @generated
 	 */
 	public net.menthor.metamodel.ontouml.Class getOwner() {
-		if (owner != null && owner.eIsProxy()) {
-			InternalEObject oldOwner = (InternalEObject)owner;
-			owner = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldOwner);
-			if (owner != oldOwner) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.ATTRIBUTE__OWNER, oldOwner, owner));
-			}
-		}
-		return owner;
+		if (eContainerFeatureID() != OntoumlPackage.ATTRIBUTE__OWNER) return null;
+		return (net.menthor.metamodel.ontouml.Class)eContainer();
 	}
 
 	/**
@@ -91,7 +76,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * @generated
 	 */
 	public net.menthor.metamodel.ontouml.Class basicGetOwner() {
-		return owner;
+		if (eContainerFeatureID() != OntoumlPackage.ATTRIBUTE__OWNER) return null;
+		return (net.menthor.metamodel.ontouml.Class)eInternalContainer();
 	}
 
 	/**
@@ -100,12 +86,7 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * @generated
 	 */
 	public NotificationChain basicSetOwner(net.menthor.metamodel.ontouml.Class newOwner, NotificationChain msgs) {
-		net.menthor.metamodel.ontouml.Class oldOwner = owner;
-		owner = newOwner;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.ATTRIBUTE__OWNER, oldOwner, newOwner);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
+		msgs = eBasicSetContainer((InternalEObject)newOwner, OntoumlPackage.ATTRIBUTE__OWNER, msgs);
 		return msgs;
 	}
 
@@ -115,10 +96,12 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * @generated
 	 */
 	public void setOwner(net.menthor.metamodel.ontouml.Class newOwner) {
-		if (newOwner != owner) {
+		if (newOwner != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.ATTRIBUTE__OWNER && newOwner != null)) {
+			if (EcoreUtil.isAncestor(this, newOwner))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
-			if (owner != null)
-				msgs = ((InternalEObject)owner).eInverseRemove(this, OntoumlPackage.CLASS__ATTRIBUTES, net.menthor.metamodel.ontouml.Class.class, msgs);
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
 			if (newOwner != null)
 				msgs = ((InternalEObject)newOwner).eInverseAdd(this, OntoumlPackage.CLASS__ATTRIBUTES, net.menthor.metamodel.ontouml.Class.class, msgs);
 			msgs = basicSetOwner(newOwner, msgs);
@@ -175,8 +158,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
-				if (owner != null)
-					msgs = ((InternalEObject)owner).eInverseRemove(this, OntoumlPackage.CLASS__ATTRIBUTES, net.menthor.metamodel.ontouml.Class.class, msgs);
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetOwner((net.menthor.metamodel.ontouml.Class)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -194,6 +177,20 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 				return basicSetOwner(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case OntoumlPackage.ATTRIBUTE__OWNER:
+				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CLASS__ATTRIBUTES, net.menthor.metamodel.ontouml.Class.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -259,7 +256,7 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
-				return owner != null;
+				return basicGetOwner() != null;
 			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
 				return primitiveType != null;
 		}
