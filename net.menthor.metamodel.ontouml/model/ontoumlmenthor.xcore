@@ -21,16 +21,84 @@ package net.menthor.metamodel.ontouml
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
 /** =========================================
- *  general super-classes
+ *  - elements & named elements
  *  ======================================== */
  
 abstract class Element { }
 
 abstract class NamedElement extends Element { String name }
 
+/** =========================================
+ *  - container & contained elements
+ * 
+ *  A container is a named element that contains a set of elements (i.e. model, packages).
+ * 
+ *  A contained element is an element that has a holder (a container) and possibly a set of comments.
+ *  A contained element can be: a package, a classifier [class & relationship], a generalization set, or a primitive type.  *    
+ *  ======================================== */
+ 
 abstract class Container extends NamedElement 
 { 
 	contains unordered unique ContainedElement[*] elements opposite holder
+	
+	/* Returns the packages at this container. It only returns direct sub-packages. */  
+	op Package[] subPackages()
+	{
+		var Package[] result
+		for(ContainedElement e: elements){
+			if(e instanceof Package) { result.add(e); }			
+		}
+		return result.toEList;
+	}
+	
+	/** Returns all packages at this container recursively. It returns both direct and indirect sub-packages. */
+	op void allSubPackages(Container c, Package[] result)
+	{		
+		for(ContainedElement e: elements){
+			if(e instanceof Package) { 
+				result.add(e);
+				for(ContainedElement ce: e.elements){
+					if (ce instanceof Package) { allSubPackages(ce,result);}
+				}				
+			}	
+		}		
+	}	
+	op Package[] allSubPackages()
+	{
+		var Package[] result
+		allSubPackages(this, result.toEList)
+		return result.toEList;
+	}
+	
+	/* Returns the relationships at this container */
+	op Relationship[] relationships() 
+	{	
+		var Relationship[] result
+		for(ContainedElement e: elements){
+			if(e instanceof Relationship) { result.add(e) }
+		}
+		return result.toEList;
+	}
+	
+	/* Returns the generalization sets at this container */
+	op GeneralizationSet[] generalizationSets()
+	{
+		var GeneralizationSet[] result
+		for(ContainedElement e: elements){
+			if(e instanceof GeneralizationSet) { result.add(e) }
+		}
+		return result.toEList;		
+	}
+	
+	/* Returns the classes at this container */
+	op Class[] classes()
+	{
+		var Class[] result
+		for(ContainedElement e: elements){
+			if(e instanceof Class) { result.add(e) }
+		}
+		return result.toEList;		
+	}
 }
 
 abstract class ContainedElement extends Element 
@@ -41,7 +109,17 @@ abstract class ContainedElement extends Element
 }
 
 /** =========================================
- *  comment
+ *  - model & package
+ *  ======================================== */
+
+class Model extends Container { }
+
+class Package extends Container, ContainedElement { }
+
+/** =========================================
+ *  - comment
+ * 
+ *  A comment has a string content and an owner.
  *  ======================================== */
 
 class Comment extends Element 
@@ -51,54 +129,74 @@ class Comment extends Element
 }
 
 /** =========================================
- *  model & package
+ *  - classifier (i.e. Class or Relationship)
+ * 
+ *  A classifier is a contained element defined to be a Class or a Relationship.
  *  ======================================== */
-
-class Model extends Container { }
-
-class Package extends Container, ContainedElement { }
+ 
+abstract class Classifier extends ContainedElement {}
 
 /** =========================================
- *  class stereotypes
+ *  - class stereotypes
+ * 
+ *  UFO's universals are defined here as simple enumerations instead of types hierarchies.
+ *  Applications need to allow us change an element type (e.g. let's say, a kind into a role)
+ *  We should not need to delete the class, create a new one, and then change all former references in the model 
+ *  that previously pointed to that class, to point to the new class created. 
  *  ======================================== */
 
 enum Universal 
 {	
-	Kind, Collective, Quantity, Relator, Mode, Quality,  
-	Role, Phase, SubKind, Category, Mixin, RoleMixin, 
-	PhaseMixin, Event, Hou, DataType, Enumeration
+	//UFO-A
+	Kind, Collective, Quantity, 
+	Relator, Mode, Quality,  
+	Role, Phase, SubKind, 
+	Category, Mixin, RoleMixin, PhaseMixin,
+	DataType, Enumeration,
+	
+	//UFO-B 
+	Event, 
+	
+	//High Order Universal
+	Hou 
 }
 
 enum Quality 
 {
+	//UFO-A
 	Nominal, Perceivable, NonPerceivable	
 }
 
 /** =========================================
- *  class
+ *  - class
+ * 
+ *  A class is named classifier that may have a stereotype. 
+ *  In the case where the stereotype is an enumeration, the class must have 2 or more enumeration literals (constraint C1).
+ *  In the case where the stereotype is a quality, the class must define a quality type (constraint C3).
+ *  A class may also be abstract or derived, and contain a set of attributes.
+ *  In the case where the stereotype is not a hou, the class may be an instance of one or more high order classes (constraint C2).
+ *  In the case where the class is a truth maker (relator's descendant or relator), that class may be a truth maker for one or more material relationships (constraint C4).
+ *  Further, a class may be in a set of generalization sets as a super-class or as sub-class.
  *  ======================================== */
- 
-abstract class Classifier extends ContainedElement {}
  
 class Class extends NamedElement, Classifier
 {	
 	Universal[0..1] stereotype
 	
-	Quality[0..1] qualityType // Constraint C3
-	String[*] enumerationLiterals // Constraint C1
+	Quality[0..1] qualityType // [inv C3]
+	String[*] enumerationLiterals // [inv C1]
 	
 	boolean isAbstract	
-	boolean isDerived	
-	derived boolean isExtensional /* TODO */
-	
+	boolean isDerived
 	contains unordered unique Attribute[*] attributes opposite owner
 	
-	refers unordered unique Relationship[*] istruthMakerOf opposite truthMaker //only iff isTruthMaker()
-	
-	refers unordered unique Class[*] instanceOf // Constraint C2
+	refers unordered unique Class[*] instanceOf // [inv C2]
+	refers unordered unique Relationship[*] istruthMakerOf opposite derivedFromTruthMaker //[inv C4]
 	
 	refers unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClass
 	refers unordered unique GeneralizationSet[*] specializesVia opposite specializingClasses	
+	
+	boolean isExtensional
 		
 	//==============================================
 	//Operations
@@ -124,7 +222,7 @@ class Class extends NamedElement, Classifier
 	op boolean isRigid() { isKind() || isCollective() || isQuantity() ||isRelator() || isMode() || isQuality() ||isSubKind() || isCategory() } 
 	op boolean isNonRigid() { isRole()|| isPhase() || isRoleMixin() || isMixin() } 
 	op boolean isAntiRigid() { isRole() || isPhase() || isRoleMixin() }
-	 
+		
 	/* Direct children */
 	op Class[] children() 
 	{		
@@ -143,19 +241,102 @@ class Class extends NamedElement, Classifier
 			list.add(gs.specializedClass);		
 		}
 		return list.toEList;
-	}		
+	}
 	
-	op void identidyProvider(){}	
+	/** All parents */
+	op void allParents(Class c, Class[] result) 
+	{		
+		for(GeneralizationSet gs: specializesVia) { 
+			result.add(gs.specializedClass);
+			allParents(gs.specializedClass,result);					
+		}		
+	}	
+	op Class[] allParents()
+	{
+		var Class[] list
+		allParents(this, list.toEList)
+		return list.toEList;
+	}
+	
+	/* All children */
+	op void allChildren(Class c, Class[] result) 
+	{		
+		for(GeneralizationSet gs: isSpecializedVia) { 
+			result.addAll(gs.specializingClasses);
+			for(Class children: gs.specializingClasses) {				
+				allChildren(children, result);			
+			}					
+		}		
+	}
+	op Class[] allChildren()
+	{
+		var Class[] list
+		allChildren(this, list.toEList)
+		return list.toEList;
+	}
+	
+	/** Checks if this class is a direct identity provider 
+	 *  i.e. it does not inherit his identity from other classes. */
+	op boolean isIdentityProvider() 
+	{ 
+		return isKind() || isQuantity() || isCollective() || isRelator() || isMode()
+	}
+	
+	/** Checks if this class is a relator (or descendant of a relator) 
+	 *  and is related to one or more material relationships */
+	op boolean isTruthMaker()
+	{
+		if (isRelator() && istruthMakerOf.size()>0) { return true; }
+		for(Class c: allParents()) {
+			if (c.isRelator() && istruthMakerOf.size()>0) { return true; }
+		}
+		return false;		
+	}	
+	
+	/** Checks if this class is a Mixin, Category, RoleMixin or PhaseMixin */
+	op boolean isMixinClass()
+	{
+		if(isMixin() || isRoleMixin() || isPhaseMixin() || isCategory()) { return true; }		
+		else { return false; }		
+	}
+	
+	/** Return the identity providers of a class (even if more than one is found) */	
+	op Class[] identidyProviders()
+	{
+		var Class[] result
+		if (isIdentityProvider()) result.add(this);		
+		if (isAntiRigid() || isSubKind()) {
+			for(Class p: allParents()) {
+				if(p.isIdentityProvider()) result.add(p);
+			}
+		}		
+		if (isMixinClass()) {
+			for(Class c: allChildren()) {
+				if(c.isIdentityProvider()) result.add(c);
+				if(c.isAntiRigid() || c.isSubKind()) {
+					for(Class p: allParents()) {
+						if(p.isIdentityProvider()) result.add(p);
+					}
+				}
+			}
+		}			
+		return result.toEList;			
+	}	
+	
 	op void isFunctionalComplex(){}	
-	op void isCollection(){}
 	op void isAmountOfMatter(){}
 	op void isIntrinsic(){}
-	op boolean isTruthMaker(){ isRelator() && istruthMakerOf.size()>0}	
+	op boolean isCollection(){ isCollective()}	
 	op void setIsExtensional(){}
 }
 
 /** =========================================
- *  generalization set
+ *  - generalization set
+ * 
+ *  We do not support generalizations anymore. 
+ *  A UML generalization is a generalization set with only one specializing class.
+ *  A generalization set can be complete. Generalization sets are by default disjoint.
+ *  Further, a generalization set may refer to a high order class.
  *  ======================================== */
 
 class GeneralizationSet extends NamedElement, ContainedElement
@@ -169,11 +350,14 @@ class GeneralizationSet extends NamedElement, ContainedElement
 	refers Class[1] specializedClass opposite isSpecializedVia
 	refers unordered unique Class[1..*] specializingClasses opposite specializesVia
 		
-	refers Class[0..1] hou 
+	refers Class[0..1] hou //[inv C5]
 }
 
 /** =========================================
- *  attribute & end-point
+ *  - property
+ * 
+ *  A property is a named element which can be ordered, derived and be a dependee for a type (UML readOnly or frozen feature).
+ *  A property defines a lower and upper bound defining how many elements are allowable at this property.
  *  ======================================== */
 
 abstract class Property extends NamedElement 
@@ -185,6 +369,41 @@ abstract class Property extends NamedElement
 	boolean isDependee	
 }
 
+/** =========================================
+ *  - attribute & primitive types
+ * 
+ *  An attribute is a property that has an owner class and a primitive type.
+ * 
+ *  A primitive type is a contained element which does not have a name.
+ *  A primitive type have a primitive stereotype such as Integer, String, Real, Boolean, UnlimitedNatural and Date
+ *  ======================================== */
+
+class Attribute extends Property
+{
+	container Class[1] owner opposite attributes
+	
+	refers PrimitiveType[1] primitiveType  	
+}
+  
+class PrimitiveType extends ContainedElement
+{
+	Primitive[1] primitive 
+}
+
+enum Primitive
+{
+	/** JP: This is a direct way to implement built-in types, differently from UML in which 
+	 *  this should be a library of built-ins at model level */
+	Boolean, String, Real, Integer, UnlimitedNatural, Date
+}
+
+/** =========================================
+ *  - end-point
+ * 
+ *  An end-point is a property that has relationship owner and a end classifier (class or relationship, because of derivation relationships).
+ *  An end-point may also have subsets or redefines a set of other end-points, and also be subsetted and redefined by others.
+ *  ======================================== */
+ 
 class EndPoint extends Property
 {	
 	container Relationship[1] owner opposite endPoints
@@ -198,35 +417,13 @@ class EndPoint extends Property
 	refers unordered unique EndPoint[*] isRedefinedBy opposite redefines
 }
 
-class Attribute extends Property
-{
-	container Class[1] owner opposite attributes
-	
-	refers PrimitiveType[1] primitiveType  	
-}
-
 /** =========================================
- *  primitive stereotypes
- *  ======================================== */
- 
-enum Primitive
-{
-	/** JP: This is a direct way to implement built-in types, differently from UML in which 
-	 *  this should be a library of built-ins at model level */
-	Boolean, String, Real, Integer, UnlimitedNatural
-}
-
-/** =========================================
- *  primitive class
- *  ======================================== */
-
-class PrimitiveType extends ContainedElement
-{
-	Primitive[1] primitive 
-}
-
-/** =========================================
- *  relationship stereotypes
+ *  - relationship stereotypes
+ *  
+ *  UFO's universals are defined here as simple enumerations instead of a hierarchy of types.
+ *  Applications need to allow us change a relationship type (e.g. let's say, a mediation into a characterization)
+ *  We should not need to delete the relationship, create a new one, and then change all former references in the model 
+ *  that previously pointed to that relationship, to point to the new element created. 
  *  ======================================== */
  
 enum Relation 
@@ -243,6 +440,7 @@ enum Relation
 	Formal
 	Structuration
 	Derivation
+	
 	//UFO-B
 	Participation
 	SubEventOf
@@ -250,7 +448,7 @@ enum Relation
 	Temporal	
 }
 
-enum AllenRelation
+enum Temporal
 {
 	Starts
 	Precedes
@@ -262,13 +460,19 @@ enum AllenRelation
 }
 
 /** =========================================
- *  relationship
+ *  - relationship
+ * 
+ *  A relationship is a classifier (not named) which may have a stereotype.
+ *  In the case where the stereotype is temporal (allen's relation), the relationship must define a temporal type (constraint C6).
+ *  A relationship has also a set of end-points. 
+ *  A relationship can be derived from a truth maker only iff it is a material relationship (constraint C7).
  *  ======================================== */
  
 abstract class Relationship extends Classifier
 {	
-	/* JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered. 
-	 * We assume ordered end points... 
+	/* JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered.*/
+	 
+	 /* John & Tiago: We for now assume ordered end-points. 
 	 * http://link.springer.com/chapter/10.1007%2F978-3-642-41924-9_40 */
 	 
 	/* JP: I assume all are unique as well (mapping to sets and not bags). */
@@ -278,12 +482,12 @@ abstract class Relationship extends Classifier
 	
 	Relation[0..1] stereotype
 	
-	AllenRelation[0..1] allenRelation //only iff isTemporal()
+	Temporal[0..1] allenRelation //[inv C6]
 	  
 	contains EndPoint[*] endPoints opposite owner	
 	
-	refers Class[0..1] truthMaker opposite istruthMakerOf //only iff isMaterial()
-		  
+	refers Class[0..1] derivedFromTruthMaker opposite istruthMakerOf //[inv C7]
+		   
 	//==============================================
 	//Operations
 	//==============================================
@@ -304,38 +508,49 @@ abstract class Relationship extends Classifier
 	op boolean isSubEventOf(){stereotype==Relation.SUB_EVENT_OF}
 	op boolean isCausation(){stereotype==Relation.CAUSATION}
 	op boolean isTemporal(){stereotype==Relation.TEMPORAL}	
+	op boolean isDerivation(){stereotype==Relation.DERIVATION}
 	
-	op boolean isStarts(){allenRelation==AllenRelation.STARTS && isTemporal()}
-	op boolean isPrecedes(){allenRelation==AllenRelation.PRECEDES && isTemporal()}
-	op boolean isEquals(){allenRelation==AllenRelation.EQUALS && isTemporal()}
-	op boolean isMeets(){allenRelation==AllenRelation.MEETS && isTemporal()}
-	op boolean isFinishes(){allenRelation==AllenRelation.FINISHES && isTemporal()}
-	op boolean isOverlaps(){allenRelation==AllenRelation.OVERLAPS && isTemporal()}
-	op boolean isDuring(){allenRelation==AllenRelation.DURING && isTemporal()}		
+	op boolean isStarts(){allenRelation==Temporal.STARTS && isTemporal()}
+	op boolean isPrecedes(){allenRelation==Temporal.PRECEDES && isTemporal()}
+	op boolean isEquals(){allenRelation==Temporal.EQUALS && isTemporal()}
+	op boolean isMeets(){allenRelation==Temporal.MEETS && isTemporal()}
+	op boolean isFinishes(){allenRelation==Temporal.FINISHES && isTemporal()}
+	op boolean isOverlaps(){allenRelation==Temporal.OVERLAPS && isTemporal()}
+	op boolean isDuring(){allenRelation==Temporal.DURING && isTemporal()}		
 	op boolean isMeronymic() { isComponentOf() || isMemberOf() || isSubQuantityOf() || isSubCollectionOf() }	
 } 
 	
 /** =========================================
- *  binary relationship
+ *  - binary relationship
+ * 
+ *  A binary relationship is a relationship with only two end-points (Constraint C8)
+ *  A binary relationship can also be derived.
  *  ======================================== */	
 	
 abstract class BinaryRelationship extends Relationship
 {
-	op EndPoint sourceEndPoint() { return endPoints.get(0) }	
-	op EndPoint targetEndPoint() { return endPoints.get(1) }
+	op EndPoint sourceEndPoint() { return endPoints.get(0) } //[inv C8]
+	op EndPoint targetEndPoint() { return endPoints.get(1) } //[inv C8]
 	
 	op boolean isDerived() { sourceEndPoint().isDerived || targetEndPoint().isDerived }	
 }
 
-class BinaryClassRelationship extends NamedElement, BinaryRelationship
+/** =========================================
+ *  - class binary relationship
+ * 
+ *  A class binary relationship is a relationship between classes (Constraint C9) which is not
+ *  stereotyped as derivation (Constraint C10)
+ *  ======================================== */	
+ 
+class ClassBinaryRelationship extends NamedElement, BinaryRelationship
 {
-	op Class sourceClass() 
+	op Class sourceClass() //[inv C9]
 	{ 
 		if(endPoints.get(0).endType instanceof Class) { return endPoints.get(0).endType as Class }
 		else { return null; }
 	}
 		
-	op Class targetClass() 
+	op Class targetClass() //[inv C9] 
 	{ 
 		if(endPoints.get(1).endType instanceof Class) { return endPoints.get(1).endType as Class }
 		else { return null; }
@@ -349,11 +564,19 @@ class BinaryClassRelationship extends NamedElement, BinaryRelationship
 	op boolean isWholeMandatory() { sourceEndPoint().lowerBound>=1 && isMeronymic()}		 
 }	
 
-class DerivationRelationship extends BinaryRelationship
+/** =========================================
+ *  - derivation binary relationship
+ * 
+ *  A derivation binary relationship must be stereotyped as derivation (Constraint C11)
+ *  A derivation binary relationship is a relationship between a material relationship (Constraint C12)
+ *  and a truth maker (e.g. a relator) (Constraint C13). 
+ *  ======================================== */	
+ 
+class DerivationBinaryRelationship extends BinaryRelationship
 {
-	op BinaryClassRelationship sourceRelationship() 
+	op ClassBinaryRelationship sourceRelationship() 
 	{ 
-		if(endPoints.get(0).endType instanceof BinaryClassRelationship) { return endPoints.get(0).endType as BinaryClassRelationship }
+		if(endPoints.get(0).endType instanceof ClassBinaryRelationship) { return endPoints.get(0).endType as ClassBinaryRelationship }
 		else { return null; }
 	}
 	
@@ -363,76 +586,12 @@ class DerivationRelationship extends BinaryRelationship
 		else { return null; }
 	}
 }
-
-/** =========================================
- *  n-ary relationship
- *  ======================================== */
  
-class NAryClassRelationship extends NamedElement, Relationship 
-{	
-		
-}
-
 /** =========================================
- *  quality domain
+ *  - class n-ary relationship
+ * 
+ *  A class n-ary relationship must be stereotypes as material or formal (Constraint C14).
+ *  A class n-ary relationship must also relate only classes (Constraint C15).
  *  ======================================== */
- 
-class MeasurementDomain extends NamedElement, ContainedElement 
-{
-	refers MeasurementDimension[2..*] dimensions opposite owner 
-}
-
-/** =========================================
- *  quality dimension
- *  ======================================== */
-
-class MeasurementDimension extends NamedElement, ContainedElement 
-{
-	int[1] lowerBound
-	int[1] upperBound
-	String unitOfMeasure
-	
-	DimensionType[1] dimension
-	MeasurementType[1] measurement
-	
-	refers MeasurementDomain[0..1] owner opposite dimensions
-}
-
-enum DimensionType
-{
-	Interval, Rational, Ordinal
-}
-
-enum MeasurementType
-{
-	Integer, Decimal
-}
-
-class NominalDimension extends NamedElement, ContainedElement { }
-
-/** =========================================
- *  quality region
- *  ======================================== */
- 
-class MeasurementRegion extends NamedElement, ContainedElement
-{
-	Region[1] region
-}
-
-enum Region
-{
-	Integer, Decimal, Composed
-}
-
-class StringNominalRegion extends NamedElement, ContainedElement {}
-
-/** =========================================
- *  quality enumeration
- *  ======================================== */
- 
-class MeasurementEnumeration extends NamedElement, ContainedElement
-{
-	//groundingStructure
-	//ownedLiteral
-}
-
+  
+class ClassNAryRelationship extends NamedElement, Relationship { }

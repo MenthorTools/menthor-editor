@@ -2,74 +2,77 @@ import 'ontouml.ecore'
 
 package ontouml
 
---=====================================================
---Correct stereotypes for optional attributes
---=====================================================
+--========================================
 
--- A class should not define enumeration literals if it is not an enumeration.
 context Class
+
+-- A class should only define enumeration literals if it is an enumeration.
 inv C1: if isEnumeration() then enumerationLiterals->size() >=2 else enumerationLiterals->size()=0 endif 
 
--- A high order class cannot be an instance of any other class
-context Class
+-- A high order class cannot be an instance of any class
 inv C2: if isHighOrder() then instanceOf->size()=0 else instanceOf->forAll(stereotype=Universal::Hou) endif 
 
--- A class should not define quality types if it is not a quality
-context Class
+-- A class should only define quality types if it is a quality
 inv C3: if isQuality() then not qualityType.oclIsUndefined() else qualityType.oclIsUndefined() endif
 
--- A high order class cannot be an instance of any other class
---context Class
---inv C3: if isTruthMakerOf() then istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
---
---context ClassBinaryRelationship
---inv: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
---
--- context ClassBinaryRelationship
---inv: if isTruthMaker() then not truthMaker.oclIsUndefined() else truthMaker.oclIsUndefined() endif 
+-- A class should only be a truth maker of material relationships if that class is indeed a relator or a relator's descendant
+inv C4: if isTruthMaker() then istruthMakerOf->size()>0 and istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
 
--- endPoints and relationship binary and ternary...
+--========================================
+
+context GeneralizationSet
+
+-- A generalization set must define a high order class instead of a class
+inv C5: not hou.oclIsUndefined() implies hou.isHighOrder() 
+
+--========================================
+
+context Relationship
+
+-- A relationship should only define a temporal type if it is a temporal (allen's) relationship
+inv C6: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
+
+-- A relationship should only be derived from a truth maker if if it is a material relationship
+inv C7: not isMaterial() implies derivedFromTruthMaker.oclIsUndefined() 
+
+--========================================
+
+context BinaryRelationship
+
+-- A binary relationship must have exactly two end-points.
+inv C8: endPoints->size()=2
+
+--========================================
+
+context ClassBinaryRelationship
+
+-- A class binary relationship must only relate classes.
+inv C9: endPoints->forAll(p | p.endType.oclIsKindOf(Class))
+
+-- A binary relationship between classes must not be stereotyped as derivation
+inv C10: not isDerivation()
+
+--========================================
+
+context DerivationBinaryRelationship
+
+-- A derivation relationship must be stereotyped as derivation
+inv C11: isDerivation()
+
+-- A derivation relationship must have as its source a relationship stereotyped as material
+inv C12: not sourceRelationship().oclIsUndefined() and sourceRelationship().isMaterial() 
+
+-- A derivation relationship must have as its target the  truth maker class e.g. a relator.
+inv C13: not targetClass().oclIsUndefined() and targetClass().isTruthMaker()
+
+--========================================
+
+context ClassNAryRelationship
+
+-- A n-ary relationship between classe must be steroetypes as material or formal
+inv C14: isMaterial() or isFormal()
+
+-- A n-ary relationship should only relate classes
+inv C15: endPoints->forAll(p | p.endType.oclIsKindOf(Class))
 
 endpackage
-
---PerceivableQuality Constraints (Table 10 - Tony's thesis)
---(1) Should always be associated to a measurable reference structure by structuration relation. 
---(2) Should always be associated to a universal by a characterization relation.
-
---NonPerceivable Constraints (Table 10 - Tony's thesis)
---(1) Should always be associated to a measurable reference structure by structuration relation. 
---(2) Should always be associated to a universal by a characterization relation.
-
---Nominal Constraints (Table 10 - Tony's thesis)
---(1) Should always be associated to a nominal reference structure by structuration relation. 
---(2) Should always be associated to a universal by a characterization relation.
-
---Structuration Constraints (Table 11 - Tony's thesis)
---(1) Should always be associated to a quality universal (structured end) and a reference structure (structuring end). 
---(2) The structured end should be always read only 
---(3) The only possible cardinalities in both end is 1..1.
-
---Ordinal Dimension Constraints (Table 12 - Tony's thesis
---(1) Should always be associated to an instance of measurable quality universal by a structuration relation.
-
---Interval Dimension Constraints (Table 12 - Tony's thesis
---(1) Should always be associated to an instance of measurable quality universal by a structuration relation
-
---Rational Dimension Constraints (Table 12 - Tony's thesis
---(1) Should always be associated to an instance of measurable quality universal by a structuration relation
-
---Measurement Domain Constraints (Table 12 - Tony's thesis)
---(1) Should always be associated to an instance of measurable quality universal by a structuration relation 
---(2) Must have two or more owned dimensions. 
---(3) All owned dimensions must be instances of measurement dimensions
-
---Nominal Structure Constraints (Table 12 - Tony's thesis 
---(1) Should always be associated to an instance of nominal quality universal by a structuration relation
-
---Measurement Enumeration Constraints (Table 12 - Tony's thesis
---(1) Should always be associated to an instance of measurable quality universal by a structuration relation. 
---(2) Must have two or more measurement literals. 
---(3) The structure and its measurement literals should be grounded by an existing groundingStructure and groundingRegion respectively.
-
---Composed Measurement Region Constraints (Table 13 - Tony's thesis)
---(1) Must have two or more basic measurement regions
