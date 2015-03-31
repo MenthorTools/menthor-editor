@@ -27,6 +27,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -255,7 +256,12 @@ public final class Main {
 	        try{
 	        	swtFileUrl = new URL("rsrc:"+swtFileName);
 	        }catch(MalformedURLException e){
-	        	String workingDir = getSwtWorkingDir2();		        
+	        	String workingDir = getSwtWorkingDir2();
+	        	if(workingDir.lastIndexOf("\\") < workingDir.lastIndexOf(".")){
+        			int lastBar = workingDir.lastIndexOf("/");
+        			workingDir = workingDir.substring(0, lastBar+1);
+        		}
+        		
 	        	File file = new File(workingDir.concat(swtFileName));
 	        	swtFileUrl = file.toURI().toURL();
 	        	if (!file.exists ()) Main.printErrLine("Can't locate SWT Jar File" + file.getAbsolutePath());
@@ -272,10 +278,16 @@ public final class Main {
 	    return null;
 	}
 
-	/** Load the correct SWT Jar to the classpath according to the OS*/
+	/** Load the correct SWT Jar to the classpath according to the OS 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException */
 	@SuppressWarnings({ "unchecked", "unused", "rawtypes", "resource" })
-	public static void loadSwtJar(URL[] swtJarURLs){		
-		try {			
+	public static void loadSwtJar(URL[] swtJarURLs) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{		
+		//try {			
 			ClassLoader parent = Main.class.getClassLoader();			
 			ClassLoader cl = new URLClassLoader(swtJarURLs,parent);
 			Class classToLoad=null;
@@ -289,9 +301,10 @@ public final class Main {
 			Method method = classToLoad.getDeclaredMethod ("getDefault");
 			Object instance = classToLoad.newInstance();
 			Object result = method.invoke (instance);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//} catch (Exception e) {
+			//JOptionPane.showMessageDialog(null, "Something went wrong.\n" + e.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
+			//e.printStackTrace();
+		//}
 	}
 	
 	/** Load the SWT binaries (*.dlls, *.jnilib, *.so) according to the appropriate Operating System.  */
@@ -303,8 +316,15 @@ public final class Main {
 		return loader;
 	}
 	
-	/** Add and load the appropriate SWT jar to the classpath according to the operating system. */
-	public static void loadAppropriateSwtJar() throws LoadingException, URISyntaxException
+	/** Add and load the appropriate SWT jar to the classpath according to the operating system. 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws Exception */
+	public static void loadAppropriateSwtJar() throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		//add and load the appropriate SWT jar to the classpath according to the OS
 		final URL[] urls = new URL[1];
@@ -314,7 +334,11 @@ public final class Main {
 	        com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {
-					loadSwtJar(urls);
+					try {
+						loadSwtJar(urls);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});        
         }else{
@@ -413,6 +437,7 @@ public final class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					System.out.println(getOSx()+"-"+getArch());
 					if(USE_LOG_FILE) redirectSystemToALog();
 					setSystemProperties();				
 					chooseFont();
@@ -422,7 +447,6 @@ public final class Main {
 					ExtractorUtil.extractAlloyJar();
 					frame.setLocationByPlatform(true);
 					
-					//String menthorFileName = "C:\\Users\\fredd_000\\Documents\\Projetos\\menthor-editor-instalador\\teste.menthor";
 					String menthorFileName = "";
 					for (String arg : args) {
 						if(arg.endsWith(".menthor")){
@@ -438,6 +462,7 @@ public final class Main {
 					frame.setVisible(true);
 					frame.toFront();										
 				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Something went wrong.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
 					ex.printStackTrace();
 				}				
 			}
