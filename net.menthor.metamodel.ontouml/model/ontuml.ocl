@@ -9,70 +9,61 @@ context Class
 -- A class should only define enumeration literals if it is an enumeration.
 inv C1: if isEnumeration() then enumerationLiterals->size() >=2 else enumerationLiterals->size()=0 endif 
 
--- A high order class cannot be an instance of any class
-inv C2: if isHighOrder() then instanceOf->size()=0 else instanceOf->forAll(stereotype=Universal::Hou) endif 
+-- A high order class, data-type or enumeration cannot be instances of any other class
+inv C2: if isHighOrder() or isDataType() or isEnumeration() then instanceOf->size()=0 
+
+-- A class can only be an instance of classes stereotyped as high order classes
+inv C3: instanceOf->size()>0 implies instanceOf->forAll(stereotype=Universal::Hou)
 
 -- A class should only define quality types if it is a quality
-inv C3: if isQuality() then not qualityType.oclIsUndefined() else qualityType.oclIsUndefined() endif
+inv C4: if isQuality() then not qualityType.oclIsUndefined() else qualityType.oclIsUndefined() endif
 
 -- A class should only be a truth maker of material relationships if that class is indeed a relator or a relator's descendant
-inv C4: if isTruthMaker() then istruthMakerOf->size()>0 and istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
+inv C5: if isTruthMaker() then istruthMakerOf->size()>0 and istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
+
+-- A class stereotyped as Data-type or Enumeration cannot be derived.
+inv C6: isDataType() or isEnumeration() implies not isIsDerived()
 
 --========================================
 
 context GeneralizationSet
 
 -- A generalization set must define a high order class instead of a class
-inv C5: not hou.oclIsUndefined() implies hou.isHighOrder() 
+inv C7: not hou.oclIsUndefined() implies hou.isHighOrder() 
+
+-- A super-type must not be specialized by itself.
+inv C8: specializedClass.allChildren()->excludes(specializedClass)
+
+-- A super-type must not specializes itself. 
+inv C9: specializedClass.allParents()->excludes(specializedClass)
+
+-- A sub-type must not be specialized by itself
+inv C10: specializingClasses->forAll(c | c.allChildren()->excludes(self))
+
+-- A sub-type must not specializes itself
+inv C11: specializingClasses->forAll(c | c.allParents()->excludes(self))
 
 --========================================
 
 context Relationship
 
 -- A relationship should only define a temporal type if it is a temporal (allen's) relationship
-inv C6: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
+inv C12: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
 
 -- A relationship should only be derived from a truth maker if if it is a material relationship
-inv C7: not isMaterial() implies derivedFromTruthMaker.oclIsUndefined() 
+inv C13: not isMaterial() implies derivedFromTruthMaker.oclIsUndefined() 
 
 --========================================
 
-context BinaryRelationship
+context Relationship
 
--- A binary relationship must have exactly two end-points.
-inv C8: endPoints->size()=2
+-- A derivation relationship must be binary 
+inv C14: isDerivation() implies isBinary()
 
---========================================
+-- A derivation relationship must have as its source a material relationship 
+inv C15: isDerivation() implies not sourceRelationship().oclIsUndefined() and sourceRelationship().isMaterial()
 
-context ClassBinaryRelationship
-
--- A class binary relationship must only relate classes.
-inv C9: endPoints->forAll(p | p.endType.oclIsKindOf(Class))
-
--- A binary relationship between classes must not be stereotyped as derivation
-inv C10: not isDerivation()
-
---========================================
-
-context DerivationBinaryRelationship
-
--- A derivation relationship must be stereotyped as derivation
-inv C11: isDerivation()
-
--- A derivation relationship must have as its source a relationship stereotyped as material
-inv C12: not sourceRelationship().oclIsUndefined() and sourceRelationship().isMaterial() 
-
--- A derivation relationship must have as its target the  truth maker class e.g. a relator.
-inv C13: not targetClass().oclIsUndefined() and targetClass().isTruthMaker()
-
---========================================
-
-context ClassNAryRelationship
-
--- A n-ary relationship between classe must be steroetypes as material or formal
-inv C14: isMaterial() or isFormal()
-
--- A n-ary relationship should only relate classes
-inv C15: endPoints->forAll(p | p.endType.oclIsKindOf(Class))
+-- A derivation relationship must have as its target a truth maker class e.g. a relator
+inv C16: isDerivation() implies not targetClass().oclIsUndefined() and targetClass().isTruthMaker()
 
 endpackage
