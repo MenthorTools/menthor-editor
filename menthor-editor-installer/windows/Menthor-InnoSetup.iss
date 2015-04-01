@@ -4,11 +4,12 @@
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Menthor"
 #define MyAppURL "www.menthor.net"
-#define MyAppExeName "menthor-editor.exe"
+#define MyAppExeName "menthor-editor-"
 #define MyIcon "menthor.ico"
 #define MyIconFile "menthorFile.ico"
 #define MyKey "menthorFile"
 #define javaVersion "1.7"
+#define intallerBaseName "menthor-editor-"
 
 [Setup]
 AppName={#MyAppName}
@@ -18,7 +19,7 @@ DefaultGroupName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyIcon}
 Compression=lzma2
 SolidCompression=yes
-OutputBaseFilename="menthor-editor-{#MyAppVersion}-setup"
+OutputBaseFilename="{#intallerBaseName}{#MyAppVersion}-setup"
 OutputDir="Output"
 AppPublisherURL={#MyAppURL}
 AppPublisher={#MyAppPublisher}
@@ -34,16 +35,16 @@ LicenseFile=..\license.txt
 ;InfoAfterFile=..\after.txt
               
 [Files]
-Source: "{#MyAppExeName}"; DestDir: "{app}"
+Source: "{#MyAppExeName}{#MyAppVersion}.exe"; DestDir: "{app}"; 
 Source: "..\alloy4.2.jar"; DestDir: "{app}"
 ;Source: "..\alloy4.2.jar"; DestDir: "{app}\lib"
 Source: "..\{#MyIcon}"; DestDir: "{app}"
 Source: "..\{#MyIconFile}"; DestDir: "{app}"
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename:"{app}\{#MyIcon}"; Tasks: startmenuicon 
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}{#MyAppVersion}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: startmenuicon 
 ;Name: "{app}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename:"{app}\{#MyIcon}"; 
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon 
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}{#MyAppVersion}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon 
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
 
 [Tasks]
@@ -55,7 +56,7 @@ Name: desktopicon; Description: "Create a &Desktop icon"; GroupDescription: "Add
 Root: HKCR; Subkey: ".menthor"; ValueType: string; ValueName: ""; ValueData: "{#MyKey}"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "{#MyKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppName} Project"; Flags: uninsdeletekey
 Root: HKCR; Subkey: "{#MyKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyIconFile}"
-Root: HKCR; Subkey: "{#MyKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+Root: HKCR; Subkey: "{#MyKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}{#MyAppVersion}.exe"" ""%1"""
 Root: HKCU; Subkey: "Software\{#MyAppPublisher}"; Flags: uninsdeletekeyifempty
 Root: HKCU; Subkey: "Software\{#MyAppPublisher}\{#MyAppName}"; Flags: uninsdeletekey
 ;Root: HKLM64; Subkey: "SOFTWARE\{#MyAppPublisher}"; Flags: uninsdeletekeyifempty

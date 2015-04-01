@@ -33,6 +33,10 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.jar.Manifest;
@@ -66,7 +70,11 @@ public final class Main {
 	public static AppFrame frame; 
 
 	public static String MENTHOR_VERSION = "1.0"; 
-	public static String MENTHOR_COMPILATION_DATE = "March 25 2015";	
+	
+	static DateFormat dateFormat = new SimpleDateFormat("dd yyyy");
+	static Date date = new Date();
+	static Calendar c = Calendar.getInstance();
+	public static String MENTHOR_COMPILATION_DATE = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);//"March 25 2015";	
 	
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;
@@ -433,7 +441,6 @@ public final class Main {
 	 */
 	public static void main(final String[] args) 
 	{		
-		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
