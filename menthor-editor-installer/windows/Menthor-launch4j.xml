@@ -2,8 +2,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>..\menthor-editor.jar</jar>
-  <outfile>menthor-editor.exe</outfile>
+  <jar>..\menthor-editor-1.0.jar</jar>
+  <outfile>menthor-editor-1.0.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -27,6 +27,6 @@
     <file>..\menthor-splash.bmp</file>
     <waitForWindow>true</waitForWindow>
     <timeout>60</timeout>
-    <timeoutErr>false</timeoutErr>
+    <timeoutErr>true</timeoutErr>
   </splash>
 </launch4jConfig>
