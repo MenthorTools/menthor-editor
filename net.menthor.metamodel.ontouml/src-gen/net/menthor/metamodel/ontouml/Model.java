@@ -10,7 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  model & package
+ *  - model & package
  *  ========================================
  * <!-- end-model-doc -->
  *

@@ -4,7 +4,7 @@ package net.menthor.metamodel.ontouml.impl;
 
 import java.util.Collection;
 
-import net.menthor.metamodel.ontouml.ClassifierElement;
+import net.menthor.metamodel.ontouml.Classifier;
 import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Relationship;
@@ -50,7 +50,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * @generated
 	 * @ordered
 	 */
-	protected ClassifierElement endType;
+	protected Classifier endType;
 
 	/**
 	 * The cached value of the '{@link #getSubsets() <em>Subsets</em>}' reference list.
@@ -167,10 +167,10 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassifierElement getEndType() {
+	public Classifier getEndType() {
 		if (endType != null && endType.eIsProxy()) {
 			InternalEObject oldEndType = (InternalEObject)endType;
-			endType = (ClassifierElement)eResolveProxy(oldEndType);
+			endType = (Classifier)eResolveProxy(oldEndType);
 			if (endType != oldEndType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.END_POINT__END_TYPE, oldEndType, endType));
@@ -184,7 +184,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassifierElement basicGetEndType() {
+	public Classifier basicGetEndType() {
 		return endType;
 	}
 
@@ -193,8 +193,8 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEndType(ClassifierElement newEndType) {
-		ClassifierElement oldEndType = endType;
+	public void setEndType(Classifier newEndType) {
+		Classifier oldEndType = endType;
 		endType = newEndType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.END_POINT__END_TYPE, oldEndType, endType));
@@ -348,7 +348,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 				setOwner((Relationship)newValue);
 				return;
 			case OntoumlPackage.END_POINT__END_TYPE:
-				setEndType((ClassifierElement)newValue);
+				setEndType((Classifier)newValue);
 				return;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				getSubsets().clear();
@@ -382,7 +382,7 @@ public class EndPointImpl extends PropertyImpl implements EndPoint {
 				setOwner((Relationship)null);
 				return;
 			case OntoumlPackage.END_POINT__END_TYPE:
-				setEndType((ClassifierElement)null);
+				setEndType((Classifier)null);
 				return;
 			case OntoumlPackage.END_POINT__SUBSETS:
 				getSubsets().clear();

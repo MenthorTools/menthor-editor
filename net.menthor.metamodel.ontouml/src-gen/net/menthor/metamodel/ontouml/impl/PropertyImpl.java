@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#getLowerBound <em>Lower Bound</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#getUpperBound <em>Upper Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsDependee <em>Is Dependee</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.PropertyImpl#isIsDependency <em>Is Dependency</em>}</li>
  * </ul>
  * </p>
  *
@@ -110,24 +110,24 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	protected int upperBound = UPPER_BOUND_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIsDependee() <em>Is Dependee</em>}' attribute.
+	 * The default value of the '{@link #isIsDependency() <em>Is Dependency</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isIsDependee()
+	 * @see #isIsDependency()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean IS_DEPENDEE_EDEFAULT = false;
+	protected static final boolean IS_DEPENDENCY_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isIsDependee() <em>Is Dependee</em>}' attribute.
+	 * The cached value of the '{@link #isIsDependency() <em>Is Dependency</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isIsDependee()
+	 * @see #isIsDependency()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean isDependee = IS_DEPENDEE_EDEFAULT;
+	protected boolean isDependency = IS_DEPENDENCY_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -237,8 +237,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isIsDependee() {
-		return isDependee;
+	public boolean isIsDependency() {
+		return isDependency;
 	}
 
 	/**
@@ -246,11 +246,11 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsDependee(boolean newIsDependee) {
-		boolean oldIsDependee = isDependee;
-		isDependee = newIsDependee;
+	public void setIsDependency(boolean newIsDependency) {
+		boolean oldIsDependency = isDependency;
+		isDependency = newIsDependency;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PROPERTY__IS_DEPENDEE, oldIsDependee, isDependee));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.PROPERTY__IS_DEPENDENCY, oldIsDependency, isDependency));
 	}
 
 	/**
@@ -269,8 +269,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 				return getLowerBound();
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				return getUpperBound();
-			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
-				return isIsDependee();
+			case OntoumlPackage.PROPERTY__IS_DEPENDENCY:
+				return isIsDependency();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -295,8 +295,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				setUpperBound((Integer)newValue);
 				return;
-			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
-				setIsDependee((Boolean)newValue);
+			case OntoumlPackage.PROPERTY__IS_DEPENDENCY:
+				setIsDependency((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -322,8 +322,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				setUpperBound(UPPER_BOUND_EDEFAULT);
 				return;
-			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
-				setIsDependee(IS_DEPENDEE_EDEFAULT);
+			case OntoumlPackage.PROPERTY__IS_DEPENDENCY:
+				setIsDependency(IS_DEPENDENCY_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -345,8 +345,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 				return lowerBound != LOWER_BOUND_EDEFAULT;
 			case OntoumlPackage.PROPERTY__UPPER_BOUND:
 				return upperBound != UPPER_BOUND_EDEFAULT;
-			case OntoumlPackage.PROPERTY__IS_DEPENDEE:
-				return isDependee != IS_DEPENDEE_EDEFAULT;
+			case OntoumlPackage.PROPERTY__IS_DEPENDENCY:
+				return isDependency != IS_DEPENDENCY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -369,8 +369,8 @@ public abstract class PropertyImpl extends NamedElementImpl implements Property 
 		result.append(lowerBound);
 		result.append(", upperBound: ");
 		result.append(upperBound);
-		result.append(", isDependee: ");
-		result.append(isDependee);
+		result.append(", isDependency: ");
+		result.append(isDependency);
 		result.append(')');
 		return result.toString();
 	}

@@ -2,13 +2,21 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import java.lang.Iterable;
+
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
+import java.util.List;
 
 import net.menthor.metamodel.ontouml.ContainedElement;
+import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
+import net.menthor.metamodel.ontouml.Relationship;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -70,6 +78,206 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 			elements = new EObjectContainmentWithInverseEList<ContainedElement>(ContainedElement.class, this, OntoumlPackage.CONTAINER__ELEMENTS, OntoumlPackage.CONTAINED_ELEMENT__HOLDER);
 		}
 		return elements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<net.menthor.metamodel.ontouml.Package> packages() {
+		net.menthor.metamodel.ontouml.Package[] result = null;
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+				final net.menthor.metamodel.ontouml.Package[] _converted_result = (net.menthor.metamodel.ontouml.Package[])result;
+				((List<net.menthor.metamodel.ontouml.Package>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((net.menthor.metamodel.ontouml.Package)e));
+			}
+		}
+		final net.menthor.metamodel.ontouml.Package[] _converted_result_1 = (net.menthor.metamodel.ontouml.Package[])result;
+		return ECollections.<net.menthor.metamodel.ontouml.Package>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Package>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void allPackages(final net.menthor.metamodel.ontouml.Container c, final EList<net.menthor.metamodel.ontouml.Package> result) {
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+				result.add(((net.menthor.metamodel.ontouml.Package)e));
+				this.allPackages(((net.menthor.metamodel.ontouml.Container)e), result);
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<net.menthor.metamodel.ontouml.Package> allPackages() {
+		net.menthor.metamodel.ontouml.Package[] result = null;
+		final net.menthor.metamodel.ontouml.Package[] _converted_result = (net.menthor.metamodel.ontouml.Package[])result;
+		EList<net.menthor.metamodel.ontouml.Package> _eList = ECollections.<net.menthor.metamodel.ontouml.Package>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Package>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
+		this.allPackages(this, _eList);
+		final net.menthor.metamodel.ontouml.Package[] _converted_result_1 = (net.menthor.metamodel.ontouml.Package[])result;
+		return ECollections.<net.menthor.metamodel.ontouml.Package>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Package>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Relationship> relationships() {
+		Relationship[] result = null;
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof Relationship)) {
+				final Relationship[] _converted_result = (Relationship[])result;
+				((List<Relationship>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((Relationship)e));
+			}
+		}
+		final Relationship[] _converted_result_1 = (Relationship[])result;
+		return ECollections.<Relationship>toEList(((Iterable<? extends Relationship>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void allRelationships(final net.menthor.metamodel.ontouml.Container c, final EList<Relationship> result) {
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			{
+				if ((e instanceof Relationship)) {
+					result.add(((Relationship)e));
+				}
+				if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+					this.allRelationships(((net.menthor.metamodel.ontouml.Container)e), result);
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Relationship> allRelationships() {
+		Relationship[] result = null;
+		final Relationship[] _converted_result = (Relationship[])result;
+		EList<Relationship> _eList = ECollections.<Relationship>toEList(((Iterable<? extends Relationship>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
+		this.allRelationships(this, _eList);
+		final Relationship[] _converted_result_1 = (Relationship[])result;
+		return ECollections.<Relationship>toEList(((Iterable<? extends Relationship>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<GeneralizationSet> generalizationSets() {
+		GeneralizationSet[] result = null;
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof GeneralizationSet)) {
+				final GeneralizationSet[] _converted_result = (GeneralizationSet[])result;
+				((List<GeneralizationSet>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((GeneralizationSet)e));
+			}
+		}
+		final GeneralizationSet[] _converted_result_1 = (GeneralizationSet[])result;
+		return ECollections.<GeneralizationSet>toEList(((Iterable<? extends GeneralizationSet>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void allGeneralizationSets(final net.menthor.metamodel.ontouml.Container c, final EList<GeneralizationSet> result) {
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			{
+				if ((e instanceof GeneralizationSet)) {
+					result.add(((GeneralizationSet)e));
+				}
+				if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+					this.allGeneralizationSets(((net.menthor.metamodel.ontouml.Container)e), result);
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<GeneralizationSet> allGeneralizationSets() {
+		GeneralizationSet[] result = null;
+		final GeneralizationSet[] _converted_result = (GeneralizationSet[])result;
+		EList<GeneralizationSet> _eList = ECollections.<GeneralizationSet>toEList(((Iterable<? extends GeneralizationSet>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
+		this.allGeneralizationSets(this, _eList);
+		final GeneralizationSet[] _converted_result_1 = (GeneralizationSet[])result;
+		return ECollections.<GeneralizationSet>toEList(((Iterable<? extends GeneralizationSet>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<net.menthor.metamodel.ontouml.Class> classes() {
+		net.menthor.metamodel.ontouml.Class[] result = null;
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof net.menthor.metamodel.ontouml.Class)) {
+				final net.menthor.metamodel.ontouml.Class[] _converted_result = (net.menthor.metamodel.ontouml.Class[])result;
+				((List<net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((net.menthor.metamodel.ontouml.Class)e));
+			}
+		}
+		final net.menthor.metamodel.ontouml.Class[] _converted_result_1 = (net.menthor.metamodel.ontouml.Class[])result;
+		return ECollections.<net.menthor.metamodel.ontouml.Class>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void allClasses(final net.menthor.metamodel.ontouml.Container c, final EList<net.menthor.metamodel.ontouml.Class> result) {
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			{
+				if ((e instanceof net.menthor.metamodel.ontouml.Class)) {
+					result.add(((net.menthor.metamodel.ontouml.Class)e));
+				}
+				if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+					this.allClasses(((net.menthor.metamodel.ontouml.Container)e), result);
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<net.menthor.metamodel.ontouml.Class> allClasses() {
+		net.menthor.metamodel.ontouml.Class[] result = null;
+		final net.menthor.metamodel.ontouml.Class[] _converted_result = (net.menthor.metamodel.ontouml.Class[])result;
+		EList<net.menthor.metamodel.ontouml.Class> _eList = ECollections.<net.menthor.metamodel.ontouml.Class>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
+		this.allClasses(this, _eList);
+		final net.menthor.metamodel.ontouml.Class[] _converted_result_1 = (net.menthor.metamodel.ontouml.Class[])result;
+		return ECollections.<net.menthor.metamodel.ontouml.Class>toEList(((Iterable<? extends net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
 	}
 
 	/**
@@ -159,6 +367,47 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 				return elements != null && !elements.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case OntoumlPackage.CONTAINER___PACKAGES:
+				return packages();
+			case OntoumlPackage.CONTAINER___ALL_PACKAGES__CONTAINER_ELIST:
+				allPackages((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<net.menthor.metamodel.ontouml.Package>)arguments.get(1));
+				return null;
+			case OntoumlPackage.CONTAINER___ALL_PACKAGES:
+				return allPackages();
+			case OntoumlPackage.CONTAINER___RELATIONSHIPS:
+				return relationships();
+			case OntoumlPackage.CONTAINER___ALL_RELATIONSHIPS__CONTAINER_ELIST:
+				allRelationships((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<Relationship>)arguments.get(1));
+				return null;
+			case OntoumlPackage.CONTAINER___ALL_RELATIONSHIPS:
+				return allRelationships();
+			case OntoumlPackage.CONTAINER___GENERALIZATION_SETS:
+				return generalizationSets();
+			case OntoumlPackage.CONTAINER___ALL_GENERALIZATION_SETS__CONTAINER_ELIST:
+				allGeneralizationSets((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<GeneralizationSet>)arguments.get(1));
+				return null;
+			case OntoumlPackage.CONTAINER___ALL_GENERALIZATION_SETS:
+				return allGeneralizationSets();
+			case OntoumlPackage.CONTAINER___CLASSES:
+				return classes();
+			case OntoumlPackage.CONTAINER___ALL_CLASSES__CONTAINER_ELIST:
+				allClasses((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<net.menthor.metamodel.ontouml.Class>)arguments.get(1));
+				return null;
+			case OntoumlPackage.CONTAINER___ALL_CLASSES:
+				return allClasses();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //ContainerImpl

@@ -10,7 +10,10 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  attribute & end-point
+ *  - property
+ * 
+ *  A property is a named element which can be ordered, derived and have a dependency to a type (UML readOnly or frozen feature).
+ *  A property defines a lower and upper bound defining how many elements are allowable at this property.
  *  ========================================
  * <!-- end-model-doc -->
  *
@@ -21,7 +24,7 @@ package net.menthor.metamodel.ontouml;
  *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Property#getLowerBound <em>Lower Bound</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Property#getUpperBound <em>Upper Bound</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsDependee <em>Is Dependee</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Property#isIsDependency <em>Is Dependency</em>}</li>
  * </ul>
  * </p>
  *
@@ -135,29 +138,29 @@ public interface Property extends NamedElement {
 	void setUpperBound(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Is Dependee</b></em>' attribute.
+	 * Returns the value of the '<em><b>Is Dependency</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Is Dependee</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Is Dependency</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Dependee</em>' attribute.
-	 * @see #setIsDependee(boolean)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getProperty_IsDependee()
+	 * @return the value of the '<em>Is Dependency</em>' attribute.
+	 * @see #setIsDependency(boolean)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getProperty_IsDependency()
 	 * @model unique="false"
 	 * @generated
 	 */
-	boolean isIsDependee();
+	boolean isIsDependency();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Property#isIsDependee <em>Is Dependee</em>}' attribute.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Property#isIsDependency <em>Is Dependency</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Dependee</em>' attribute.
-	 * @see #isIsDependee()
+	 * @param value the new value of the '<em>Is Dependency</em>' attribute.
+	 * @see #isIsDependency()
 	 * @generated
 	 */
-	void setIsDependee(boolean value);
+	void setIsDependency(boolean value);
 
 } // Property

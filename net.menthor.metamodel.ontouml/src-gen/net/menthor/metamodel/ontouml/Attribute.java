@@ -8,11 +8,22 @@ package net.menthor.metamodel.ontouml;
  * A representation of the model object '<em><b>Attribute</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  - attribute & primitive types
+ * 
+ *  An attribute is a property that has an owner class and a primitive type.
+ * 
+ *  A primitive type is a contained element which does not have a name.
+ *  A primitive type have a primitive stereotype such as Integer, String, Real, Boolean, UnlimitedNatural and Date
+ *  ========================================
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.Attribute#getPrimitiveType <em>Primitive Type</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Attribute#getPrimitive <em>Primitive</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,29 +61,32 @@ public interface Attribute extends Property {
 	void setOwner(net.menthor.metamodel.ontouml.Class value);
 
 	/**
-	 * Returns the value of the '<em><b>Primitive Type</b></em>' reference.
+	 * Returns the value of the '<em><b>Primitive</b></em>' attribute.
+	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Primitive}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Primitive Type</em>' reference isn't clear,
+	 * If the meaning of the '<em>Primitive</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Primitive Type</em>' reference.
-	 * @see #setPrimitiveType(PrimitiveType)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getAttribute_PrimitiveType()
-	 * @model required="true"
+	 * @return the value of the '<em>Primitive</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.Primitive
+	 * @see #setPrimitive(Primitive)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getAttribute_Primitive()
+	 * @model unique="false" required="true"
 	 * @generated
 	 */
-	PrimitiveType getPrimitiveType();
+	Primitive getPrimitive();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Attribute#getPrimitiveType <em>Primitive Type</em>}' reference.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Attribute#getPrimitive <em>Primitive</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Primitive Type</em>' reference.
-	 * @see #getPrimitiveType()
+	 * @param value the new value of the '<em>Primitive</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.Primitive
+	 * @see #getPrimitive()
 	 * @generated
 	 */
-	void setPrimitiveType(PrimitiveType value);
+	void setPrimitive(Primitive value);
 
 } // Attribute

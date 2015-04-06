@@ -4,7 +4,7 @@ package net.menthor.metamodel.ontouml.impl;
 
 import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.PrimitiveType;
+import net.menthor.metamodel.ontouml.Primitive;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * The following features are implemented:
  * <ul>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.AttributeImpl#getOwner <em>Owner</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.AttributeImpl#getPrimitiveType <em>Primitive Type</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.AttributeImpl#getPrimitive <em>Primitive</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,14 +32,24 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public class AttributeImpl extends PropertyImpl implements Attribute {
 	/**
-	 * The cached value of the '{@link #getPrimitiveType() <em>Primitive Type</em>}' reference.
+	 * The default value of the '{@link #getPrimitive() <em>Primitive</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPrimitiveType()
+	 * @see #getPrimitive()
 	 * @generated
 	 * @ordered
 	 */
-	protected PrimitiveType primitiveType;
+	protected static final Primitive PRIMITIVE_EDEFAULT = Primitive.BOOLEAN;
+
+	/**
+	 * The cached value of the '{@link #getPrimitive() <em>Primitive</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrimitive()
+	 * @generated
+	 * @ordered
+	 */
+	protected Primitive primitive = PRIMITIVE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -116,16 +126,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PrimitiveType getPrimitiveType() {
-		if (primitiveType != null && primitiveType.eIsProxy()) {
-			InternalEObject oldPrimitiveType = (InternalEObject)primitiveType;
-			primitiveType = (PrimitiveType)eResolveProxy(oldPrimitiveType);
-			if (primitiveType != oldPrimitiveType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE, oldPrimitiveType, primitiveType));
-			}
-		}
-		return primitiveType;
+	public Primitive getPrimitive() {
+		return primitive;
 	}
 
 	/**
@@ -133,20 +135,11 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PrimitiveType basicGetPrimitiveType() {
-		return primitiveType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPrimitiveType(PrimitiveType newPrimitiveType) {
-		PrimitiveType oldPrimitiveType = primitiveType;
-		primitiveType = newPrimitiveType;
+	public void setPrimitive(Primitive newPrimitive) {
+		Primitive oldPrimitive = primitive;
+		primitive = newPrimitive == null ? PRIMITIVE_EDEFAULT : newPrimitive;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE, oldPrimitiveType, primitiveType));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.ATTRIBUTE__PRIMITIVE, oldPrimitive, primitive));
 	}
 
 	/**
@@ -204,9 +197,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				if (resolve) return getOwner();
 				return basicGetOwner();
-			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
-				if (resolve) return getPrimitiveType();
-				return basicGetPrimitiveType();
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE:
+				return getPrimitive();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -222,8 +214,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				setOwner((net.menthor.metamodel.ontouml.Class)newValue);
 				return;
-			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
-				setPrimitiveType((PrimitiveType)newValue);
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE:
+				setPrimitive((Primitive)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -240,8 +232,8 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				setOwner((net.menthor.metamodel.ontouml.Class)null);
 				return;
-			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
-				setPrimitiveType((PrimitiveType)null);
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE:
+				setPrimitive(PRIMITIVE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -257,10 +249,26 @@ public class AttributeImpl extends PropertyImpl implements Attribute {
 		switch (featureID) {
 			case OntoumlPackage.ATTRIBUTE__OWNER:
 				return basicGetOwner() != null;
-			case OntoumlPackage.ATTRIBUTE__PRIMITIVE_TYPE:
-				return primitiveType != null;
+			case OntoumlPackage.ATTRIBUTE__PRIMITIVE:
+				return primitive != PRIMITIVE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (primitive: ");
+		result.append(primitive);
+		result.append(')');
+		return result.toString();
 	}
 
 } //AttributeImpl

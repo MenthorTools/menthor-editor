@@ -2,232 +2,165 @@
  */
 package net.menthor.metamodel.ontouml;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Region</b></em>',
- * and utility methods for working with them.
+ * A representation of the model object '<em><b>Region</b></em>'.
  * <!-- end-user-doc -->
+ *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  - region
+ * 
+ *  A Region can be owned by a Structure and be grounded in an Enumeration Literal
+ *  A "Composed" Region must have more than one Region.
+ *  A "Basic" Region is defined by a Integer or a Decimal measure type.
+ *  A "Nominal" Region is defined by a String measure type.
+ *  ========================================
+ * <!-- end-model-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link net.menthor.metamodel.ontouml.Region#getOwnerStructure <em>Owner Structure</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Region#getGroundedLiteral <em>Grounded Literal</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Region#getComposedBy <em>Composed By</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Region#getBasicType <em>Basic Type</em>}</li>
+ * </ul>
+ * </p>
+ *
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRegion()
  * @model
  * @generated
  */
-public enum Region implements Enumerator {
+public interface Region extends NamedElement, Classifier {
 	/**
-	 * The '<em><b>Integer</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #INTEGER_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	INTEGER(0, "Integer", "Integer"),
-
-	/**
-	 * The '<em><b>Decimal</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DECIMAL_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DECIMAL(0, "Decimal", "Decimal"),
-
-	/**
-	 * The '<em><b>Composed</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #COMPOSED_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	COMPOSED(0, "Composed", "Composed");
-
-	/**
-	 * The '<em><b>Integer</b></em>' literal value.
+	 * Returns the value of the '<em><b>Owner Structure</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Structure#getRegions <em>Regions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Integer</b></em>' literal object isn't clear,
+	 * If the meaning of the '<em>Owner Structure</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #INTEGER
-	 * @model name="Integer"
+	 * @return the value of the '<em>Owner Structure</em>' reference.
+	 * @see #setOwnerStructure(Structure)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRegion_OwnerStructure()
+	 * @see net.menthor.metamodel.ontouml.Structure#getRegions
+	 * @model opposite="regions"
 	 * @generated
-	 * @ordered
 	 */
-	public static final int INTEGER_VALUE = 0;
+	Structure getOwnerStructure();
 
 	/**
-	 * The '<em><b>Decimal</b></em>' literal value.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Region#getOwnerStructure <em>Owner Structure</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Owner Structure</em>' reference.
+	 * @see #getOwnerStructure()
+	 * @generated
+	 */
+	void setOwnerStructure(Structure value);
+
+	/**
+	 * Returns the value of the '<em><b>Grounded Literal</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Literal#getGroundingRegion <em>Grounding Region</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Decimal</b></em>' literal object isn't clear,
+	 * If the meaning of the '<em>Grounded Literal</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #DECIMAL
-	 * @model name="Decimal"
+	 * @return the value of the '<em>Grounded Literal</em>' reference.
+	 * @see #setGroundedLiteral(Literal)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRegion_GroundedLiteral()
+	 * @see net.menthor.metamodel.ontouml.Literal#getGroundingRegion
+	 * @model opposite="groundingRegion"
 	 * @generated
-	 * @ordered
 	 */
-	public static final int DECIMAL_VALUE = 0;
+	Literal getGroundedLiteral();
 
 	/**
-	 * The '<em><b>Composed</b></em>' literal value.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Region#getGroundedLiteral <em>Grounded Literal</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Grounded Literal</em>' reference.
+	 * @see #getGroundedLiteral()
+	 * @generated
+	 */
+	void setGroundedLiteral(Literal value);
+
+	/**
+	 * Returns the value of the '<em><b>Composed By</b></em>' reference list.
+	 * The list contents are of type {@link net.menthor.metamodel.ontouml.Region}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Composed</b></em>' literal object isn't clear,
+	 * If the meaning of the '<em>Composed By</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #COMPOSED
-	 * @model name="Composed"
+	 * @return the value of the '<em>Composed By</em>' reference list.
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRegion_ComposedBy()
+	 * @model
 	 * @generated
-	 * @ordered
 	 */
-	public static final int COMPOSED_VALUE = 0;
+	EList<Region> getComposedBy();
 
 	/**
-	 * An array of all the '<em><b>Region</b></em>' enumerators.
+	 * Returns the value of the '<em><b>Basic Type</b></em>' attribute.
+	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Primitive}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Basic Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Basic Type</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.Primitive
+	 * @see #setBasicType(Primitive)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRegion_BasicType()
+	 * @model unique="false"
 	 * @generated
 	 */
-	private static final Region[] VALUES_ARRAY =
-		new Region[] {
-			INTEGER,
-			DECIMAL,
-			COMPOSED,
-		};
+	Primitive getBasicType();
 
 	/**
-	 * A public read-only list of all the '<em><b>Region</b></em>' enumerators.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Region#getBasicType <em>Basic Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Basic Type</em>' attribute.
+	 * @see net.menthor.metamodel.ontouml.Primitive
+	 * @see #getBasicType()
 	 * @generated
 	 */
-	public static final List<Region> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
-
-	/**
-	 * Returns the '<em><b>Region</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static Region get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Region result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Returns the '<em><b>Region</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static Region getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Region result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Returns the '<em><b>Region</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static Region get(int value) {
-		switch (value) {
-			case INTEGER_VALUE: return INTEGER;
-		}
-		return null;
-	}
+	void setBasicType(Primitive value);
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _and = false;\nboolean _and_1 = false;\n<%net.menthor.metamodel.ontouml.Primitive%> _basicType = this.getBasicType();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_basicType, null));\nif (!_notEquals)\n{\n\t_and_1 = false;\n} else\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Region%>> _composedBy = this.getComposedBy();\n\tint _size = _composedBy.size();\n\tboolean _equals = (_size == 0);\n\t_and_1 = _equals;\n}\nif (!_and_1)\n{\n\t_and = false;\n} else\n{\n\tboolean _or = false;\n\t<%net.menthor.metamodel.ontouml.Primitive%> _basicType_1 = this.getBasicType();\n\tboolean _equals_1 = <%com.google.common.base.Objects%>.equal(_basicType_1, <%net.menthor.metamodel.ontouml.Primitive%>.INTEGER);\n\tif (_equals_1)\n\t{\n\t\t_or = true;\n\t} else\n\t{\n\t\t<%net.menthor.metamodel.ontouml.Primitive%> _basicType_2 = this.getBasicType();\n\t\tboolean _equals_2 = <%com.google.common.base.Objects%>.equal(_basicType_2, <%net.menthor.metamodel.ontouml.Primitive%>.DECIMAL);\n\t\t_or = _equals_2;\n\t}\n\t_and = _or;\n}\nreturn _and;'"
 	 * @generated
 	 */
-	private final int value;
+	boolean isBasic();
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _and = false;\n<%net.menthor.metamodel.ontouml.Primitive%> _basicType = this.getBasicType();\nboolean _equals = <%com.google.common.base.Objects%>.equal(_basicType, null);\nif (!_equals)\n{\n\t_and = false;\n} else\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Region%>> _composedBy = this.getComposedBy();\n\tint _size = _composedBy.size();\n\tboolean _greaterThan = (_size > 0);\n\t_and = _greaterThan;\n}\nreturn _and;'"
 	 * @generated
 	 */
-	private final String name;
+	boolean isComposed();
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _and = false;\n<%net.menthor.metamodel.ontouml.Primitive%> _basicType = this.getBasicType();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_basicType, null));\nif (!_notEquals)\n{\n\t_and = false;\n} else\n{\n\t<%net.menthor.metamodel.ontouml.Primitive%> _basicType_1 = this.getBasicType();\n\tboolean _equals = <%com.google.common.base.Objects%>.equal(_basicType_1, <%net.menthor.metamodel.ontouml.Primitive%>.STRING);\n\t_and = _equals;\n}\nreturn _and;'"
 	 * @generated
 	 */
-	private final String literal;
+	boolean isNominal();
 
-	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private Region(int value, String name, String literal) {
-		this.value = value;
-		this.name = name;
-		this.literal = literal;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getValue() {
-	  return value;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-	  return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getLiteral() {
-	  return literal;
-	}
-
-	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		return literal;
-	}
-	
-} //Region
+} // Region

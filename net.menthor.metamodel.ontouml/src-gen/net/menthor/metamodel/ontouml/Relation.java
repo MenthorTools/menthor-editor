@@ -15,7 +15,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  relationship stereotypes
+ *  - relationship stereotypes
+ * 
+ *  UFO's universals are defined here as simple enumerations instead of a hierarchy of types.
+ *  Applications need to allow us change a relationship type (e.g. let's say, a mediation into a characterization)
+ *  We should not need to delete the relationship, create a new one, and then change all former references in the model
+ *  that previously pointed to that relationship, to point to the new element created.
  *  ========================================
  * <!-- end-model-doc -->
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRelation()

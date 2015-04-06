@@ -7,10 +7,10 @@ package ontouml
 context Class
 
 -- A class should only define enumeration literals if it is an enumeration.
-inv C1: if isEnumeration() then enumerationLiterals->size() >=2 else enumerationLiterals->size()=0 endif 
+inv C1: if isEnumeration() then literals->size() >=2 else literals->size()=0 endif 
 
 -- A high order class, data-type or enumeration cannot be instances of any other class
-inv C2: if isHighOrder() or isDataType() or isEnumeration() then instanceOf->size()=0 
+inv C2: if isHighOrder() or isDataType() or isEnumeration() then instanceOf->size()=0 else instanceOf->size()>0 endif
 
 -- A class can only be an instance of classes stereotyped as high order classes
 inv C3: instanceOf->size()>0 implies instanceOf->forAll(stereotype=Universal::Hou)
@@ -22,7 +22,10 @@ inv C4: if isQuality() then not qualityType.oclIsUndefined() else qualityType.oc
 inv C5: if isTruthMaker() then istruthMakerOf->size()>0 and istruthMakerOf->forAll(stereotype=Relation::Material) else istruthMakerOf->size()=0 endif
 
 -- A class stereotyped as Data-type or Enumeration cannot be derived.
-inv C6: isDataType() or isEnumeration() implies not isIsDerived()
+inv C6: isDataType() or isEnumeration() implies not isDerived
+
+-- Only enumerations can be a ground for reference structures
+inv C17: not isEnumeration() implies groundingStructure.oclIsUndefined() 
 
 --========================================
 
@@ -32,16 +35,16 @@ context GeneralizationSet
 inv C7: not hou.oclIsUndefined() implies hou.isHighOrder() 
 
 -- A super-type must not be specialized by itself.
-inv C8: specializedClass.allChildren()->excludes(specializedClass)
+inv C8: specializedClassifier.allChildren()->excludes(specializedClassifier)
 
 -- A super-type must not specializes itself. 
-inv C9: specializedClass.allParents()->excludes(specializedClass)
+inv C9: specializedClassifier.allParents()->excludes(specializedClassifier)
 
 -- A sub-type must not be specialized by itself
-inv C10: specializingClasses->forAll(c | c.allChildren()->excludes(self))
+inv C10: specializingClassifier->forAll(c | c.allChildren()->excludes(self))
 
--- A sub-type must not specializes itself
-inv C11: specializingClasses->forAll(c | c.allParents()->excludes(self))
+-- A sub-type must not specialize itself
+inv C11: specializingClassifier->forAll(c | c.allParents()->excludes(self))
 
 --========================================
 
@@ -51,11 +54,11 @@ context Relationship
 inv C12: if isTemporal() then not allenRelation.oclIsUndefined() else allenRelation.oclIsUndefined() endif
 
 -- A relationship should only be derived from a truth maker if if it is a material relationship
-inv C13: not isMaterial() implies derivedFromTruthMaker.oclIsUndefined() 
+inv C13: (not isMaterial()) implies derivedFromTruthMaker.oclIsUndefined() 
 
 --========================================
 
-context Relationship
+context Relationship --(Derivation)
 
 -- A derivation relationship must be binary 
 inv C14: isDerivation() implies isBinary()
@@ -66,4 +69,21 @@ inv C15: isDerivation() implies not sourceRelationship().oclIsUndefined() and so
 -- A derivation relationship must have as its target a truth maker class e.g. a relator
 inv C16: isDerivation() implies not targetClass().oclIsUndefined() and targetClass().isTruthMaker()
 
+--========================================
+
+context Structure
+
+-- A reference structure, if grounded, must be grounded in a Enumeration
+inv C18: not groundedEnumeration.oclIsUndefined() implies groundedEnumeration.isEnumeration()
+
+--========================================
+
+context Dimension
+
+-- A Dimension might define only a basic (primitive) Region as lower bound
+inv C19: upperBound.oclIsUndefined() implies upperBound.isBasic()
+
+-- A Dimension might define only a basic (primitive) Region as upper bound 
+inv C20: lowerBound.oclIsUndefined() implies lowerBound.isBasic()
+ 
 endpackage

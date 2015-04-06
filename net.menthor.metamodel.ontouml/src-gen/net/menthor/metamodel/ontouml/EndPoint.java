@@ -9,6 +9,15 @@ import org.eclipse.emf.common.util.EList;
  * A representation of the model object '<em><b>End Point</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  - end-point
+ * 
+ *  An end-point is a property that has relationship owner and a end classifier (class or relationship, because of derivation relationships).
+ *  An end-point may also have subsets or redefines a set of other end-points, and also be subsetted and redefined by others.
+ *  ========================================
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -63,12 +72,12 @@ public interface EndPoint extends Property {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>End Type</em>' reference.
-	 * @see #setEndType(ClassifierElement)
+	 * @see #setEndType(Classifier)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getEndPoint_EndType()
 	 * @model required="true"
 	 * @generated
 	 */
-	ClassifierElement getEndType();
+	Classifier getEndType();
 
 	/**
 	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.EndPoint#getEndType <em>End Type</em>}' reference.
@@ -78,7 +87,7 @@ public interface EndPoint extends Property {
 	 * @see #getEndType()
 	 * @generated
 	 */
-	void setEndType(ClassifierElement value);
+	void setEndType(Classifier value);
 
 	/**
 	 * Returns the value of the '<em><b>Subsets</b></em>' reference list.

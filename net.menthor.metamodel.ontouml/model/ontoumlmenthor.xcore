@@ -19,8 +19,7 @@ package net.menthor.metamodel.ontouml
  * and create a meta-model for occurrences. This will enable a strict separation between model and views */
 
 //TODO: Tiago: Regra para verificar especializacao multipla (nao pode especializar dois tipos disjuntos)
-//TODO: Tiago: adicionar regra de restricaoo para dizer quais outros propriedades podem ser adicionadas
-//TODO: Tiago: generalizacao vale tanto entre classes quanto entre relacoes. No nosso metamodelo, so rola pra classe por enquanto.
+//TODO: Tiago: Sub-setting and Redefinition Constraints.
  
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
@@ -38,12 +37,16 @@ abstract class NamedElement extends Element { String name }
  *  A container is a named element that contains a set of elements (i.e. model, packages).
  * 
  *  A contained element is an element that has a holder (a container) and possibly a set of comments.
- *  A contained element can be: a package, a classifier [class & relationship], or a generalization set.  *    
+ *  A contained element can be: a package, a classifier [class, relationship, structure, region, domain and dimension], or a generalization set.  *    
  *  ======================================== */
  
 abstract class Container extends NamedElement 
 { 
 	contains unordered unique ContainedElement[*] elements opposite holder
+	
+	//==============================================
+	//operations
+	//==============================================
 	
 	/* Returns the packages at this container. It only returns direct packages. */  
 	op Package[] packages()
@@ -107,8 +110,8 @@ abstract class Container extends NamedElement
 			if(e instanceof GeneralizationSet) { result.add(e) }
 		}
 		return result.toEList;		
-	}
-	
+	} 
+	 
 	/** Returns all generalization sets at this container recursively. It returns both direct and indirect generalization sets. */
 	op void allGeneralizationSets(Container c, GeneralizationSet[] result)
 	{		
@@ -187,7 +190,69 @@ class Comment extends Element
  *  A classifier is a contained element defined to be a Class or a Relationship.
  *  ======================================== */
  
-abstract class Classifier extends ContainedElement {}
+abstract class Classifier extends ContainedElement 
+{
+	refers unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClassifier
+	refers unordered unique GeneralizationSet[*] specializesVia opposite specializingClassifier
+	
+	//==============================================
+	//operations
+	//==============================================
+	
+	/* Direct children */
+	op Classifier[] children() 
+	{		
+		var Class[] list
+		for(GeneralizationSet gs: isSpecializedVia) { 
+			list.addAll(gs.specializingClassifier);		
+		}
+		return list.toEList;
+	}
+
+	/** Direct parents */
+	op Classifier[] parents() 
+	{
+		var Classifier[] list
+		for(GeneralizationSet gs: specializesVia) { 
+			list.add(gs.specializedClassifier);		
+		}
+		return list.toEList;
+	}
+	
+	/** All (direct and indirect) parents */
+	op void allParents(Classifier c, Classifier[] result) 
+	{		
+		for(GeneralizationSet gs: specializesVia) { 
+			result.add(gs.specializedClassifier);
+			allParents(gs.specializedClassifier,result);					
+		}		
+	}	
+	/** All (direct and indirect) parents */
+	op Classifier[] allParents()
+	{
+		var Classifier[] list
+		allParents(this, list.toEList)
+		return list.toEList;
+	}
+	
+	/* All (direct and indirect) children */
+	op void allChildren(Classifier c, Classifier[] result) 
+	{		
+		for(GeneralizationSet gs: isSpecializedVia) { 
+			result.addAll(gs.specializingClassifier);
+			for(Classifier children: gs.specializingClassifier) {				
+				allChildren(children, result);			
+			}					
+		}		
+	} 
+	/* All (direct and indirect) children */
+	op Classifier[] allChildren()
+	{
+		var Classifier[] list
+		allChildren(this, list.toEList)
+		return list.toEList;
+	}
+}
 
 /** =========================================
  *  - class stereotypes
@@ -228,32 +293,38 @@ enum Quality
  *  In the case where the stereotype is a quality, the class must define a quality type (constraint C4).
  *  A class may also be abstract or derived, and contain a set of attributes.
  *  Data-Types and Enumeration cannot be derived (Constraint C6).
+ *  Enumerations may be a ground for a quality reference structure (Constraint C17).
  *  In the case where the stereotype is not a hou, data-type or enumeration, the class may be an instance of one or more high order classes (constraint C2, C3).
  *  In the case where the class is a truth maker (relator's descendant or relator), that class may be a truth maker for one or more material relationships (constraint C5).
- *  Further, a class may be in a set of generalization sets as a super-class or as sub-class.
+ *  A class may be in a set of generalization sets as super-class or sub-class.
  *  ======================================== */
  
 class Class extends NamedElement, Classifier
 {	
-	Universal[0..1] stereotype 
-	
-	Quality[0..1] qualityType 
-	String[*] enumerationLiterals 
+	Universal[?] stereotype	
 	
 	boolean isAbstract	
-	boolean isDerived 
+	boolean isDerived	 
+	
 	contains unordered unique Attribute[*] attributes opposite owner
 	
-	refers unordered unique Class[*] instanceOf 
-	refers unordered unique Relationship[*] istruthMakerOf opposite derivedFromTruthMaker 
+	//quality
+	Quality[?] qualityType 
 	
-	refers unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClass
-	refers unordered unique GeneralizationSet[*] specializesVia opposite specializingClasses	
+	//enumeration
+	contains Literal[*] literals opposite owner		
+	refers Structure[?] groundingStructure opposite groundedEnumeration
+	
+	//high order
+	refers unordered unique Class[*] instanceOf
+	
+	//truth makers (e.g. relators) 
+	refers unordered unique Relationship[*] istruthMakerOf opposite derivedFromTruthMaker 
 	
 	boolean isExtensional
 		
 	//==============================================
-	//Operations
+	//operations
 	//==============================================
 	
 	op boolean isKind(){stereotype==Universal.KIND}
@@ -278,58 +349,6 @@ class Class extends NamedElement, Classifier
 	op boolean isAntiRigid() { isRole() || isPhase() || isRoleMixin() }
 	op boolean isSemiRigid() { isRoleMixin() || isPhaseMixin() || isMixin() }
 	
-	/* Direct children */
-	op Class[] children() 
-	{		
-		var Class[] list
-		for(GeneralizationSet gs: isSpecializedVia) { 
-			list.addAll(gs.specializingClasses);		
-		}
-		return list.toEList;
-	}
-
-	/** Direct parents */
-	op Class[] parents() 
-	{
-		var Class[] list
-		for(GeneralizationSet gs: specializesVia) { 
-			list.add(gs.specializedClass);		
-		}
-		return list.toEList;
-	}
-	
-	/** All (direct and indirect) parents */
-	op void allParents(Class c, Class[] result) 
-	{		
-		for(GeneralizationSet gs: specializesVia) { 
-			result.add(gs.specializedClass);
-			allParents(gs.specializedClass,result);					
-		}		
-	}	
-	op Class[] allParents()
-	{
-		var Class[] list
-		allParents(this, list.toEList)
-		return list.toEList;
-	}
-	
-	/* All (direct and indirect) children */
-	op void allChildren(Class c, Class[] result) 
-	{		
-		for(GeneralizationSet gs: isSpecializedVia) { 
-			result.addAll(gs.specializingClasses);
-			for(Class children: gs.specializingClasses) {				
-				allChildren(children, result);			
-			}					
-		}		
-	}
-	op Class[] allChildren()
-	{
-		var Class[] list
-		allChildren(this, list.toEList)
-		return list.toEList;
-	}
-	
 	/** Checks if this class is a direct identity provider 
 	 *  i.e. it does not inherit his identity from other classes. */
 	op boolean isIdentityProvider() 
@@ -342,8 +361,10 @@ class Class extends NamedElement, Classifier
 	op boolean isTruthMaker()
 	{
 		if (isRelator() && istruthMakerOf.size()>0) { return true; }
-		for(Class c: allParents()) {
-			if (c.isRelator() && istruthMakerOf.size()>0) { return true; }
+		for(Classifier c: allParents()) {
+			if(c instanceof Class){								
+				if (c.isRelator() && istruthMakerOf.size()>0) { return true; }
+			}
 		}
 		return false;		
 	}	
@@ -355,33 +376,136 @@ class Class extends NamedElement, Classifier
 		else { return false; }		
 	}
 	
-	/** Return the identity providers of a class (more than one may be found) */	
-	op Class[] identidyProviders()
+	/** Returns the identity providers amongst all parents of a class (more than one may be found) */
+	op Class[] identityProvidersAtAllParents()
 	{
 		var Class[] result
-		if (isIdentityProvider()) result.add(this);		
-		if (isAntiRigid() || isSubKind()) {
-			//check super-types
-			for(Class p: allParents()) {
+		for(Classifier p: allParents()) {
+			if(p instanceof Class){		
 				if(p.isIdentityProvider()) result.add(p);
-			}
-		}		
-		if (isMixinClass()) {
-			//check sub-types
-			for(Class c: allChildren()) {
-				if(c.isIdentityProvider()) result.add(c);
-				if(c.isAntiRigid() || c.isSubKind()) {
-					for(Class p: allParents()) {
-						if(p.isIdentityProvider()) result.add(p);
-					}
+			}			
+		}
+		return result.toEList;
+	}
+
+	/** Returns the identity providers amongst all children of a class (more than one may be found) */
+	op Class[] identityProvidersAtAllChildren()
+	{
+		var Class[] result
+		for(Classifier p: allChildren()) {
+			if(p instanceof Class){		
+				if(p.isIdentityProvider()) result.add(p);
+				if(p.isAntiRigid() || p.isSubKind()) result.addAll(p.identityProvidersAtAllParents());
+			}			
+		}
+		return result.toEList;
+	}	
+	
+	/** Returns the identity providers of a class (more than one may be found) */
+	op Class[] identityProviders()
+	{
+		var Class[] result
+		if (isIdentityProvider()) {
+			result.add(this);
+		}				
+		if (isAntiRigid() || isSubKind()) { 
+			result.addAll(identityProvidersAtAllParents());
+		}	
+		if (isMixinClass())
+		{
+			result.addAll(identityProvidersAtAllChildren());	
+			for(Classifier p: allParents()) {
+				if(p instanceof Class){		
+					result.addAll(p.identityProvidersAtAllChildren());
 				}
-			}
-		}			
+			}	
+		}
 		return result.toEList;			
 	}	
 	
+	/** 
+	 * Checks if this class is an amount of matter i.e.
+	 * 1) if it is a quantity element, or, 
+	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider of the type Quantity, or,
+	 * 3) if it is a mixin class in which all their children are quantities.
+	 */
+	op boolean isAmountOfMatter()
+	{
+		if(isQuantity()) return true;		
+		if(isAntiRigid() || isSubKind()) 
+		{ 
+			var Class[] providers
+			providers.addAll(identityProviders());			
+			for(Class c: providers) if (c.isQuantity()) return true;
+		}		
+		if(isMixinClass())
+		{
+			if(children().size()==0) return false;			
+			for (Classifier child : children()) 
+			{
+				if(child instanceof Class) if(!child.isQuantity()) return false;
+			}
+			return true;
+		}		
+		return false;
+	}
+	
+	/** 
+	 * Checks if this element is a functional complex i.e.
+	 * 1) If it is a kind, or 
+	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider of the type kind, or,
+	 * 3) if it is a mixin class in which all their children are functional complexes.  
+	 */
+	op boolean isFunctionalComplex()
+	{
+		if(isKind()) return true;		
+		if(isAntiRigid() || isSubKind()) 
+		{ 
+			var Class[] providers
+			providers.addAll(identityProviders());			
+			for(Class c: providers) if (c.isKind()) return true;
+		}		
+		if(isMixinClass())
+		{			
+			if(children().size()==0) return false;			
+			for (Classifier child : children()) 
+			{
+				if(child instanceof Class) if(!child.isKind()) return false;
+			}
+			return true;
+		}		
+		return false;
+	}	
+	
+	/** 
+	 * Checks if a particular element is a collective i.e.
+	 * 1) if it is a collective element, or, 
+	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider of the type Collective, or,
+	 * 3) if it is a mixin class in which all their children are collectives.
+	 */
+	op boolean isCollection()
+	{ 
+		if(isCollective()) return true;		
+		if(isAntiRigid() || isSubKind()) 
+		{ 
+			var Class[] providers
+			providers.addAll(identityProviders());			
+			for(Class c: providers) if (c.isCollective()) return true;
+		}			
+		if(isMixinClass())
+		{			
+			if(children().size()==0) return false;			
+			for (Classifier child : children()) 
+			{
+				if(child instanceof Class) if(!child.isCollective()) return false;
+			}
+			return true;
+		}		
+		return false;
+	}	 
+	
 	/** Returns direct siblings i.e. classes which specialize the same super-type as this class */
-	op void siblings(){}
+	op void siblings() {}
 
 	op void overlapSiblings(){}
 	
@@ -393,7 +517,7 @@ class Class extends NamedElement, Classifier
 	/** Returns all (direct) end-points "connected" to this class. 
 	 *  In other words, it returns all opposite ends of the relationships connected to this class. */		
 	op void ends(){}
-	 
+	  
 	/** Returns all classes directly connected to this class through a relationship. */
 	op void relatedClasses(){}
 	
@@ -404,11 +528,7 @@ class Class extends NamedElement, Classifier
 	 *  In other words, it returns all opposite ends of the relationships connected to this class. */
 	op void allEnds(){}
 	
-	op void isFunctionalComplex(){}	
-	op void isAmountOfMatter(){}
 	op void isIntrinsic(){}
-	op boolean isCollection(){ isCollective()}	
-	op void setIsExtensional(){}
 }
 
 /** =========================================
@@ -428,10 +548,10 @@ class GeneralizationSet extends NamedElement, ContainedElement
 	// boolean isDisjoint 
 		
 	/* JP: We diverge from UML, which refers to Generalizations from a GeneralizationSet */
-	refers Class[1] specializedClass opposite isSpecializedVia //[inv 18, 19]
-	refers unordered unique Class[1..*] specializingClasses opposite specializesVia //[inv 20, 21]
+	refers Classifier[1] specializedClassifier opposite isSpecializedVia 
+	refers unordered unique Classifier[1..*] specializingClassifier opposite specializesVia 
 		
-	refers Class[0..1] hou //[inv C5]
+	refers Class[?] hou 
 }
 
 /** =========================================
@@ -470,8 +590,21 @@ enum Primitive
 {
 	/** JP: This is a direct way to implement built-in types, differently from UML in which 
 	 *  this should be a library of built-ins at model level */
-	Boolean, String, Real, Integer, UnlimitedNatural, Date
+	Boolean, String, Real, Integer, Decimal, UnlimitedNatural, Date
 }
+
+/** =========================================
+ *  - enumeration literals
+ *  ======================================== */
+
+class Literal extends Property
+{
+	container Class[1] owner opposite literals
+	
+	refers Region[?] groundingRegion opposite groundedLiteral
+	
+	String value
+} 
 
 /** =========================================
  *  - end-point
@@ -544,7 +677,7 @@ enum Temporal
  *  A relationship can be derived from a truth maker only iff it is a material relationship (constraint C13).
  * 
  *  A derivation relationship:
- *  (i) must be binary (Cosntraint 14)
+ *  (i) must be binary (Constraint 14)
  *  (ii) must have as its source a material relationship (Constraint 15)
  *  (iii) must have as its target a truth maker class e.g. a relator (Constraint 16)
  * 
@@ -562,16 +695,16 @@ class Relationship extends NamedElement, Classifier
 	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at" 
 	 * relations between "Student" and "University" even if there are two "Enrollments".  */
 	
-	Relation[0..1] stereotype
+	Relation[?] stereotype
 	
-	Temporal[0..1] allenRelation 
+	Temporal[?] allenRelation 
 	  
 	contains EndPoint[*] endPoints opposite owner	
 	
-	refers Class[0..1] derivedFromTruthMaker opposite istruthMakerOf
+	refers Class[?] derivedFromTruthMaker opposite istruthMakerOf
 		   
 	//==============================================
-	//Operations
+	//operations
 	//==============================================
 	
 	op void isShareable() { /*TODO*/ }
@@ -670,3 +803,107 @@ class Relationship extends NamedElement, Classifier
 	op Class relator() { }
 }
  
+/** =========================================
+ *  - scale
+ *  ======================================== */
+ 
+enum Scale
+{
+	Interval, Rational, Ordinal, Nominal
+}
+  
+/** =========================================
+ *  - structure
+ * 
+ *  A Structure may have several Regions.
+ *  A Structure if grounded, must be grounded in a Enumeration (Constraint C18).
+ *  ======================================== */
+ 
+class Structure extends NamedElement, Classifier 
+{	 
+	refers Region[*] regions opposite ownerStructure
+	
+	refers Class[?] groundedEnumeration opposite groundingStructure
+}
+  
+/** =========================================
+ *  - region
+ * 
+ *  A Region can be owned by a Structure and be grounded in an Enumeration Literal
+ *  A "Composed" Region must have more than one Region.
+ *  A "Basic" Region is defined by a Integer or a Decimal measure type.
+ *  A "Nominal" Region is defined by a String measure type.
+ *  ======================================== */
+ 
+class Region extends NamedElement, Classifier 
+{
+	refers Structure[?] ownerStructure opposite regions	
+	
+	refers Literal[?] groundedLiteral opposite groundingRegion
+	
+	refers Region[*] composedBy //not sure if we should have a "Composed Region" class
+	
+	Primitive[?] basicType //not sure if we should have a "Basic Region" class 
+	
+	//==============================================
+	//operations
+	//============================================== 
+	  
+	op boolean isBasic() { basicType!=null && composedBy.size()==0 && (basicType==Primitive.INTEGER || basicType==Primitive.DECIMAL) }
+	op boolean isComposed() { basicType==null && composedBy.size()>0 }
+	op boolean isNominal() { basicType!=null && (basicType==Primitive.STRING) }
+}
+
+/** =========================================
+ * - domain
+ * 
+ *  A Domain should always be associated to an instance of measurable quality universal by a structuration relation.
+ *  A Domain must have two or more owned dimensions. 
+ *  All owned dimensions must be instances of measurement dimensions (not nominal dimensions).
+ *  ======================================== */
+ 
+class Domain extends Structure
+{
+	refers Dimension[*] dimensions opposite ownerDomain
+}
+
+/** =========================================
+ *  - dimension
+ * 
+ *  A Dimension might be part of a Domain or connected to a Structuration.
+ *  A Dimension might define basic Regions as lower and upper bound (Constraint C19 and C20)
+ *  ======================================== */
+
+class Dimension extends Structure 
+{ 
+	refers Domain[?] ownerDomain opposite dimensions
+
+	refers Region[?] lowerBound 
+	refers Region[?] upperBound 
+	
+	String unitOfMeasure
+	
+	Scale[?] scale 
+	Primitive[?] measure
+	
+	//==============================================
+	//operations
+	//============================================== 
+	op boolean isNominal() { scale!=null && scale==Scale.NOMINAL }
+	op boolean isInterval() { scale!=null && scale==Scale.INTERVAL }
+	op boolean isOrdinal() { scale!=null && scale==Scale.ORDINAL }
+	op boolean isRational() { scale!=null && scale==Scale.RATIONAL }
+	
+	op boolean isString() { measure!=null && measure==Primitive.STRING }
+	op boolean isInteger() { measure!=null && measure==Primitive.INTEGER }
+	op boolean isDecimal() { measure!=null && measure==Primitive.DECIMAL }
+	
+	op boolean isNominalString() { isNominal() && isString() }
+	
+	op boolean isIntervalInteger() { isInterval() && isInteger() }
+	op boolean isIntervalDecimal() { isInterval() && isDecimal() }
+	op boolean isOrdinalInteger() { isOrdinal() && isInteger() }
+	op boolean isOrdinalDecimal() { isOrdinal() && isDecimal() }
+	op boolean isRationalInteger() { isRational() && isInteger() }
+	op boolean isRationalDecimal() { isRational() && isDecimal() }
+}

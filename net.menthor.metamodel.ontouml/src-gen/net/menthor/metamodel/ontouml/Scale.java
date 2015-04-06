@@ -10,14 +10,19 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Dimension Type</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Scale</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getDimensionType()
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  - scale
+ *  ========================================
+ * <!-- end-model-doc -->
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getScale()
  * @model
  * @generated
  */
-public enum DimensionType implements Enumerator {
+public enum Scale implements Enumerator {
 	/**
 	 * The '<em><b>Interval</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -46,7 +51,17 @@ public enum DimensionType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ORDINAL(0, "Ordinal", "Ordinal");
+	ORDINAL(0, "Ordinal", "Ordinal"),
+
+	/**
+	 * The '<em><b>Nominal</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NOMINAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NOMINAL(0, "Nominal", "Nominal");
 
 	/**
 	 * The '<em><b>Interval</b></em>' literal value.
@@ -94,35 +109,51 @@ public enum DimensionType implements Enumerator {
 	public static final int ORDINAL_VALUE = 0;
 
 	/**
-	 * An array of all the '<em><b>Dimension Type</b></em>' enumerators.
+	 * The '<em><b>Nominal</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Nominal</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NOMINAL
+	 * @model name="Nominal"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NOMINAL_VALUE = 0;
+
+	/**
+	 * An array of all the '<em><b>Scale</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final DimensionType[] VALUES_ARRAY =
-		new DimensionType[] {
+	private static final Scale[] VALUES_ARRAY =
+		new Scale[] {
 			INTERVAL,
 			RATIONAL,
 			ORDINAL,
+			NOMINAL,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Dimension Type</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Scale</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<DimensionType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<Scale> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Dimension Type</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Scale</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static DimensionType get(String literal) {
+	public static Scale get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			DimensionType result = VALUES_ARRAY[i];
+			Scale result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -131,14 +162,14 @@ public enum DimensionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Dimension Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Scale</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static DimensionType getByName(String name) {
+	public static Scale getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			DimensionType result = VALUES_ARRAY[i];
+			Scale result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -147,12 +178,12 @@ public enum DimensionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Dimension Type</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Scale</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static DimensionType get(int value) {
+	public static Scale get(int value) {
 		switch (value) {
 			case INTERVAL_VALUE: return INTERVAL;
 		}
@@ -186,7 +217,7 @@ public enum DimensionType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private DimensionType(int value, String name, String literal) {
+	private Scale(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -230,4 +261,4 @@ public enum DimensionType implements Enumerator {
 		return literal;
 	}
 	
-} //DimensionType
+} //Scale

@@ -4,6 +4,7 @@ package net.menthor.metamodel.ontouml.impl;
 
 import java.util.Collection;
 
+import net.menthor.metamodel.ontouml.Classifier;
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
@@ -34,8 +35,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHolder <em>Holder</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#isIsCovering <em>Is Covering</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializedClass <em>Specialized Class</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializingClasses <em>Specializing Classes</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializedClassifier <em>Specialized Classifier</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializingClassifier <em>Specializing Classifier</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHou <em>Hou</em>}</li>
  * </ul>
  * </p>
@@ -74,24 +75,24 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	protected boolean isCovering = IS_COVERING_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getSpecializedClass() <em>Specialized Class</em>}' reference.
+	 * The cached value of the '{@link #getSpecializedClassifier() <em>Specialized Classifier</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSpecializedClass()
+	 * @see #getSpecializedClassifier()
 	 * @generated
 	 * @ordered
 	 */
-	protected net.menthor.metamodel.ontouml.Class specializedClass;
+	protected Classifier specializedClassifier;
 
 	/**
-	 * The cached value of the '{@link #getSpecializingClasses() <em>Specializing Classes</em>}' reference list.
+	 * The cached value of the '{@link #getSpecializingClassifier() <em>Specializing Classifier</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSpecializingClasses()
+	 * @see #getSpecializingClassifier()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<net.menthor.metamodel.ontouml.Class> specializingClasses;
+	protected EList<Classifier> specializingClassifier;
 
 	/**
 	 * The cached value of the '{@link #getHou() <em>Hou</em>}' reference.
@@ -211,16 +212,16 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class getSpecializedClass() {
-		if (specializedClass != null && specializedClass.eIsProxy()) {
-			InternalEObject oldSpecializedClass = (InternalEObject)specializedClass;
-			specializedClass = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldSpecializedClass);
-			if (specializedClass != oldSpecializedClass) {
+	public Classifier getSpecializedClassifier() {
+		if (specializedClassifier != null && specializedClassifier.eIsProxy()) {
+			InternalEObject oldSpecializedClassifier = (InternalEObject)specializedClassifier;
+			specializedClassifier = (Classifier)eResolveProxy(oldSpecializedClassifier);
+			if (specializedClassifier != oldSpecializedClassifier) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS, oldSpecializedClass, specializedClass));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER, oldSpecializedClassifier, specializedClassifier));
 			}
 		}
-		return specializedClass;
+		return specializedClassifier;
 	}
 
 	/**
@@ -228,8 +229,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class basicGetSpecializedClass() {
-		return specializedClass;
+	public Classifier basicGetSpecializedClassifier() {
+		return specializedClassifier;
 	}
 
 	/**
@@ -237,11 +238,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSpecializedClass(net.menthor.metamodel.ontouml.Class newSpecializedClass, NotificationChain msgs) {
-		net.menthor.metamodel.ontouml.Class oldSpecializedClass = specializedClass;
-		specializedClass = newSpecializedClass;
+	public NotificationChain basicSetSpecializedClassifier(Classifier newSpecializedClassifier, NotificationChain msgs) {
+		Classifier oldSpecializedClassifier = specializedClassifier;
+		specializedClassifier = newSpecializedClassifier;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS, oldSpecializedClass, newSpecializedClass);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER, oldSpecializedClassifier, newSpecializedClassifier);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -252,18 +253,18 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSpecializedClass(net.menthor.metamodel.ontouml.Class newSpecializedClass) {
-		if (newSpecializedClass != specializedClass) {
+	public void setSpecializedClassifier(Classifier newSpecializedClassifier) {
+		if (newSpecializedClassifier != specializedClassifier) {
 			NotificationChain msgs = null;
-			if (specializedClass != null)
-				msgs = ((InternalEObject)specializedClass).eInverseRemove(this, OntoumlPackage.CLASS__IS_SPECIALIZED_VIA, net.menthor.metamodel.ontouml.Class.class, msgs);
-			if (newSpecializedClass != null)
-				msgs = ((InternalEObject)newSpecializedClass).eInverseAdd(this, OntoumlPackage.CLASS__IS_SPECIALIZED_VIA, net.menthor.metamodel.ontouml.Class.class, msgs);
-			msgs = basicSetSpecializedClass(newSpecializedClass, msgs);
+			if (specializedClassifier != null)
+				msgs = ((InternalEObject)specializedClassifier).eInverseRemove(this, OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA, Classifier.class, msgs);
+			if (newSpecializedClassifier != null)
+				msgs = ((InternalEObject)newSpecializedClassifier).eInverseAdd(this, OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA, Classifier.class, msgs);
+			msgs = basicSetSpecializedClassifier(newSpecializedClassifier, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS, newSpecializedClass, newSpecializedClass));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER, newSpecializedClassifier, newSpecializedClassifier));
 	}
 
 	/**
@@ -271,11 +272,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<net.menthor.metamodel.ontouml.Class> getSpecializingClasses() {
-		if (specializingClasses == null) {
-			specializingClasses = new EObjectWithInverseResolvingEList.ManyInverse<net.menthor.metamodel.ontouml.Class>(net.menthor.metamodel.ontouml.Class.class, this, OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES, OntoumlPackage.CLASS__SPECIALIZES_VIA);
+	public EList<Classifier> getSpecializingClassifier() {
+		if (specializingClassifier == null) {
+			specializingClassifier = new EObjectWithInverseResolvingEList.ManyInverse<Classifier>(Classifier.class, this, OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER, OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA);
 		}
-		return specializingClasses;
+		return specializingClassifier;
 	}
 
 	/**
@@ -331,12 +332,12 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				if (specializedClass != null)
-					msgs = ((InternalEObject)specializedClass).eInverseRemove(this, OntoumlPackage.CLASS__IS_SPECIALIZED_VIA, net.menthor.metamodel.ontouml.Class.class, msgs);
-				return basicSetSpecializedClass((net.menthor.metamodel.ontouml.Class)otherEnd, msgs);
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSpecializingClasses()).basicAdd(otherEnd, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER:
+				if (specializedClassifier != null)
+					msgs = ((InternalEObject)specializedClassifier).eInverseRemove(this, OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA, Classifier.class, msgs);
+				return basicSetSpecializedClassifier((Classifier)otherEnd, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSpecializingClassifier()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -353,10 +354,10 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				return basicSetHolder(null, msgs);
 			case OntoumlPackage.GENERALIZATION_SET__COMMENTS:
 				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				return basicSetSpecializedClass(null, msgs);
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
-				return ((InternalEList<?>)getSpecializingClasses()).basicRemove(otherEnd, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER:
+				return basicSetSpecializedClassifier(null, msgs);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
+				return ((InternalEList<?>)getSpecializingClassifier()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -390,11 +391,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				return getComments();
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				return isIsCovering();
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				if (resolve) return getSpecializedClass();
-				return basicGetSpecializedClass();
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
-				return getSpecializingClasses();
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER:
+				if (resolve) return getSpecializedClassifier();
+				return basicGetSpecializedClassifier();
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
+				return getSpecializingClassifier();
 			case OntoumlPackage.GENERALIZATION_SET__HOU:
 				if (resolve) return getHou();
 				return basicGetHou();
@@ -421,12 +422,12 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				setIsCovering((Boolean)newValue);
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				setSpecializedClass((net.menthor.metamodel.ontouml.Class)newValue);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER:
+				setSpecializedClassifier((Classifier)newValue);
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
-				getSpecializingClasses().clear();
-				getSpecializingClasses().addAll((Collection<? extends net.menthor.metamodel.ontouml.Class>)newValue);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
+				getSpecializingClassifier().clear();
+				getSpecializingClassifier().addAll((Collection<? extends Classifier>)newValue);
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__HOU:
 				setHou((net.menthor.metamodel.ontouml.Class)newValue);
@@ -452,11 +453,11 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				setIsCovering(IS_COVERING_EDEFAULT);
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				setSpecializedClass((net.menthor.metamodel.ontouml.Class)null);
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER:
+				setSpecializedClassifier((Classifier)null);
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
-				getSpecializingClasses().clear();
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
+				getSpecializingClassifier().clear();
 				return;
 			case OntoumlPackage.GENERALIZATION_SET__HOU:
 				setHou((net.menthor.metamodel.ontouml.Class)null);
@@ -479,10 +480,10 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				return comments != null && !comments.isEmpty();
 			case OntoumlPackage.GENERALIZATION_SET__IS_COVERING:
 				return isCovering != IS_COVERING_EDEFAULT;
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASS:
-				return specializedClass != null;
-			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSES:
-				return specializingClasses != null && !specializingClasses.isEmpty();
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER:
+				return specializedClassifier != null;
+			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
+				return specializingClassifier != null && !specializingClassifier.isEmpty();
 			case OntoumlPackage.GENERALIZATION_SET__HOU:
 				return hou != null;
 		}

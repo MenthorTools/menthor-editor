@@ -162,13 +162,121 @@ public interface OntoumlPackage extends EPackage {
 	int CONTAINER_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The operation id for the '<em>Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___PACKAGES = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>All Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_PACKAGES__CONTAINER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>All Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_PACKAGES = NAMED_ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___RELATIONSHIPS = NAMED_ELEMENT_OPERATION_COUNT + 3;
+
+	/**
+	 * The operation id for the '<em>All Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_RELATIONSHIPS__CONTAINER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 4;
+
+	/**
+	 * The operation id for the '<em>All Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_RELATIONSHIPS = NAMED_ELEMENT_OPERATION_COUNT + 5;
+
+	/**
+	 * The operation id for the '<em>Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___GENERALIZATION_SETS = NAMED_ELEMENT_OPERATION_COUNT + 6;
+
+	/**
+	 * The operation id for the '<em>All Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_GENERALIZATION_SETS__CONTAINER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 7;
+
+	/**
+	 * The operation id for the '<em>All Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_GENERALIZATION_SETS = NAMED_ELEMENT_OPERATION_COUNT + 8;
+
+	/**
+	 * The operation id for the '<em>Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___CLASSES = NAMED_ELEMENT_OPERATION_COUNT + 9;
+
+	/**
+	 * The operation id for the '<em>All Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_CLASSES__CONTAINER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 10;
+
+	/**
+	 * The operation id for the '<em>All Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER___ALL_CLASSES = NAMED_ELEMENT_OPERATION_COUNT + 11;
+
+	/**
 	 * The number of operations of the '<em>Container</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int CONTAINER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 12;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl <em>Contained Element</em>}' class.
@@ -217,52 +325,6 @@ public interface OntoumlPackage extends EPackage {
 	int CONTAINED_ELEMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.CommentImpl <em>Comment</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.CommentImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getComment()
-	 * @generated
-	 */
-	int COMMENT = 4;
-
-	/**
-	 * The feature id for the '<em><b>Content</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT__CONTENT = ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Owner</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT__OWNER = ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Comment</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Comment</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -270,7 +332,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getModel()
 	 * @generated
 	 */
-	int MODEL = 5;
+	int MODEL = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -300,6 +362,114 @@ public interface OntoumlPackage extends EPackage {
 	int MODEL_FEATURE_COUNT = CONTAINER_FEATURE_COUNT + 0;
 
 	/**
+	 * The operation id for the '<em>Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___PACKAGES = CONTAINER___PACKAGES;
+
+	/**
+	 * The operation id for the '<em>All Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_PACKAGES__CONTAINER_ELIST = CONTAINER___ALL_PACKAGES__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_PACKAGES = CONTAINER___ALL_PACKAGES;
+
+	/**
+	 * The operation id for the '<em>Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___RELATIONSHIPS = CONTAINER___RELATIONSHIPS;
+
+	/**
+	 * The operation id for the '<em>All Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_RELATIONSHIPS__CONTAINER_ELIST = CONTAINER___ALL_RELATIONSHIPS__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_RELATIONSHIPS = CONTAINER___ALL_RELATIONSHIPS;
+
+	/**
+	 * The operation id for the '<em>Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___GENERALIZATION_SETS = CONTAINER___GENERALIZATION_SETS;
+
+	/**
+	 * The operation id for the '<em>All Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_GENERALIZATION_SETS__CONTAINER_ELIST = CONTAINER___ALL_GENERALIZATION_SETS__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_GENERALIZATION_SETS = CONTAINER___ALL_GENERALIZATION_SETS;
+
+	/**
+	 * The operation id for the '<em>Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___CLASSES = CONTAINER___CLASSES;
+
+	/**
+	 * The operation id for the '<em>All Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_CLASSES__CONTAINER_ELIST = CONTAINER___ALL_CLASSES__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL___ALL_CLASSES = CONTAINER___ALL_CLASSES;
+
+	/**
 	 * The number of operations of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -316,7 +486,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackage()
 	 * @generated
 	 */
-	int PACKAGE = 6;
+	int PACKAGE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -364,6 +534,114 @@ public interface OntoumlPackage extends EPackage {
 	int PACKAGE_FEATURE_COUNT = CONTAINER_FEATURE_COUNT + 2;
 
 	/**
+	 * The operation id for the '<em>Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___PACKAGES = CONTAINER___PACKAGES;
+
+	/**
+	 * The operation id for the '<em>All Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_PACKAGES__CONTAINER_ELIST = CONTAINER___ALL_PACKAGES__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Packages</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_PACKAGES = CONTAINER___ALL_PACKAGES;
+
+	/**
+	 * The operation id for the '<em>Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___RELATIONSHIPS = CONTAINER___RELATIONSHIPS;
+
+	/**
+	 * The operation id for the '<em>All Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_RELATIONSHIPS__CONTAINER_ELIST = CONTAINER___ALL_RELATIONSHIPS__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Relationships</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_RELATIONSHIPS = CONTAINER___ALL_RELATIONSHIPS;
+
+	/**
+	 * The operation id for the '<em>Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___GENERALIZATION_SETS = CONTAINER___GENERALIZATION_SETS;
+
+	/**
+	 * The operation id for the '<em>All Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_GENERALIZATION_SETS__CONTAINER_ELIST = CONTAINER___ALL_GENERALIZATION_SETS__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Generalization Sets</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_GENERALIZATION_SETS = CONTAINER___ALL_GENERALIZATION_SETS;
+
+	/**
+	 * The operation id for the '<em>Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___CLASSES = CONTAINER___CLASSES;
+
+	/**
+	 * The operation id for the '<em>All Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_CLASSES__CONTAINER_ELIST = CONTAINER___ALL_CLASSES__CONTAINER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE___ALL_CLASSES = CONTAINER___ALL_CLASSES;
+
+	/**
 	 * The number of operations of the '<em>Package</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -373,14 +651,60 @@ public interface OntoumlPackage extends EPackage {
 	int PACKAGE_OPERATION_COUNT = CONTAINER_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassifierElementImpl <em>Classifier Element</em>}' class.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.CommentImpl <em>Comment</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.ClassifierElementImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassifierElement()
+	 * @see net.menthor.metamodel.ontouml.impl.CommentImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getComment()
 	 * @generated
 	 */
-	int CLASSIFIER_ELEMENT = 7;
+	int COMMENT = 6;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__CONTENT = ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__OWNER = ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Comment</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Comment</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl <em>Classifier</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.ClassifierImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassifier()
+	 * @generated
+	 */
+	int CLASSIFIER = 7;
 
 	/**
 	 * The feature id for the '<em><b>Holder</b></em>' container reference.
@@ -389,7 +713,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_ELEMENT__HOLDER = CONTAINED_ELEMENT__HOLDER;
+	int CLASSIFIER__HOLDER = CONTAINED_ELEMENT__HOLDER;
 
 	/**
 	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
@@ -398,25 +722,97 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_ELEMENT__COMMENTS = CONTAINED_ELEMENT__COMMENTS;
+	int CLASSIFIER__COMMENTS = CONTAINED_ELEMENT__COMMENTS;
 
 	/**
-	 * The number of structural features of the '<em>Classifier Element</em>' class.
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_ELEMENT_FEATURE_COUNT = CONTAINED_ELEMENT_FEATURE_COUNT + 0;
+	int CLASSIFIER__IS_SPECIALIZED_VIA = CONTAINED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Classifier Element</em>' class.
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_ELEMENT_OPERATION_COUNT = CONTAINED_ELEMENT_OPERATION_COUNT + 0;
+	int CLASSIFIER__SPECIALIZES_VIA = CONTAINED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Classifier</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_FEATURE_COUNT = CONTAINED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___CHILDREN = CONTAINED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___PARENTS = CONTAINED_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___ALL_PARENTS__CLASSIFIER_ELIST = CONTAINED_ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___ALL_PARENTS = CONTAINED_ELEMENT_OPERATION_COUNT + 3;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___ALL_CHILDREN__CLASSIFIER_ELIST = CONTAINED_ELEMENT_OPERATION_COUNT + 4;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___ALL_CHILDREN = CONTAINED_ELEMENT_OPERATION_COUNT + 5;
+
+	/**
+	 * The number of operations of the '<em>Classifier</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_OPERATION_COUNT = CONTAINED_ELEMENT_OPERATION_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassImpl <em>Class</em>}' class.
@@ -456,31 +852,31 @@ public interface OntoumlPackage extends EPackage {
 	int CLASS__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Quality Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__QUALITY_TYPE = NAMED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Enumeration Literals</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__ENUMERATION_LITERALS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int CLASS__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Is Abstract</b></em>' attribute.
@@ -501,31 +897,40 @@ public interface OntoumlPackage extends EPackage {
 	int CLASS__IS_DERIVED = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Is Extensional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__IS_EXTENSIONAL = NAMED_ELEMENT_FEATURE_COUNT + 7;
-
-	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int CLASS__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
-	 * The feature id for the '<em><b>Istruth Maker Of</b></em>' reference list.
+	 * The feature id for the '<em><b>Quality Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__ISTRUTH_MAKER_OF = NAMED_ELEMENT_FEATURE_COUNT + 9;
+	int CLASS__QUALITY_TYPE = NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Literals</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__LITERALS = NAMED_ELEMENT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Grounding Structure</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__GROUNDING_STRUCTURE = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Instance Of</b></em>' reference list.
@@ -534,25 +939,25 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__INSTANCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 10;
+	int CLASS__INSTANCE_OF = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
-	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
+	 * The feature id for the '<em><b>Istruth Maker Of</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 11;
+	int CLASS__ISTRUTH_MAKER_OF = NAMED_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
-	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
+	 * The feature id for the '<em><b>Is Extensional</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 12;
+	int CLASS__IS_EXTENSIONAL = NAMED_ELEMENT_FEATURE_COUNT + 13;
 
 	/**
 	 * The number of structural features of the '<em>Class</em>' class.
@@ -561,187 +966,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 13;
-
-	/**
-	 * The operation id for the '<em>Is Kind</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_KIND = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Is Sub Kind</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_SUB_KIND = NAMED_ELEMENT_OPERATION_COUNT + 1;
-
-	/**
-	 * The operation id for the '<em>Is Collective</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_COLLECTIVE = NAMED_ELEMENT_OPERATION_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Is Quantity</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_QUANTITY = NAMED_ELEMENT_OPERATION_COUNT + 3;
-
-	/**
-	 * The operation id for the '<em>Is Relator</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_RELATOR = NAMED_ELEMENT_OPERATION_COUNT + 4;
-
-	/**
-	 * The operation id for the '<em>Is Mode</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_MODE = NAMED_ELEMENT_OPERATION_COUNT + 5;
-
-	/**
-	 * The operation id for the '<em>Is Quality</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_QUALITY = NAMED_ELEMENT_OPERATION_COUNT + 6;
-
-	/**
-	 * The operation id for the '<em>Is Role</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_ROLE = NAMED_ELEMENT_OPERATION_COUNT + 7;
-
-	/**
-	 * The operation id for the '<em>Is Role Mixin</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_ROLE_MIXIN = NAMED_ELEMENT_OPERATION_COUNT + 8;
-
-	/**
-	 * The operation id for the '<em>Is Phase Mixin</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_PHASE_MIXIN = NAMED_ELEMENT_OPERATION_COUNT + 9;
-
-	/**
-	 * The operation id for the '<em>Is Phase</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_PHASE = NAMED_ELEMENT_OPERATION_COUNT + 10;
-
-	/**
-	 * The operation id for the '<em>Is Category</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_CATEGORY = NAMED_ELEMENT_OPERATION_COUNT + 11;
-
-	/**
-	 * The operation id for the '<em>Is Mixin</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_MIXIN = NAMED_ELEMENT_OPERATION_COUNT + 12;
-
-	/**
-	 * The operation id for the '<em>Is Event</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_EVENT = NAMED_ELEMENT_OPERATION_COUNT + 13;
-
-	/**
-	 * The operation id for the '<em>Is High Order</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_HIGH_ORDER = NAMED_ELEMENT_OPERATION_COUNT + 14;
-
-	/**
-	 * The operation id for the '<em>Is Data Type</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_DATA_TYPE = NAMED_ELEMENT_OPERATION_COUNT + 15;
-
-	/**
-	 * The operation id for the '<em>Is Enumeration</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_ENUMERATION = NAMED_ELEMENT_OPERATION_COUNT + 16;
-
-	/**
-	 * The operation id for the '<em>Is Rigid</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 17;
-
-	/**
-	 * The operation id for the '<em>Is Non Rigid</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_NON_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 18;
-
-	/**
-	 * The operation id for the '<em>Is Anti Rigid</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS___IS_ANTI_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 19;
+	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
 	 * The operation id for the '<em>Children</em>' operation.
@@ -750,7 +975,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 20;
+	int CLASS___CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The operation id for the '<em>Parents</em>' operation.
@@ -759,52 +984,241 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 21;
+	int CLASS___PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Identidy Provider</em>' operation.
+	 * The operation id for the '<em>All Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___IDENTIDY_PROVIDER = NAMED_ELEMENT_OPERATION_COUNT + 22;
+	int CLASS___ALL_PARENTS__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 2;
 
 	/**
-	 * The operation id for the '<em>Is Functional Complex</em>' operation.
+	 * The operation id for the '<em>All Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___IS_FUNCTIONAL_COMPLEX = NAMED_ELEMENT_OPERATION_COUNT + 23;
+	int CLASS___ALL_PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 3;
 
 	/**
-	 * The operation id for the '<em>Is Collection</em>' operation.
+	 * The operation id for the '<em>All Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___IS_COLLECTION = NAMED_ELEMENT_OPERATION_COUNT + 24;
+	int CLASS___ALL_CHILDREN__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 4;
 
 	/**
-	 * The operation id for the '<em>Is Amount Of Matter</em>' operation.
+	 * The operation id for the '<em>All Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___IS_AMOUNT_OF_MATTER = NAMED_ELEMENT_OPERATION_COUNT + 25;
+	int CLASS___ALL_CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 5;
 
 	/**
-	 * The operation id for the '<em>Is Intrinsic</em>' operation.
+	 * The operation id for the '<em>Is Kind</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___IS_INTRINSIC = NAMED_ELEMENT_OPERATION_COUNT + 26;
+	int CLASS___IS_KIND = NAMED_ELEMENT_OPERATION_COUNT + 6;
+
+	/**
+	 * The operation id for the '<em>Is Sub Kind</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_SUB_KIND = NAMED_ELEMENT_OPERATION_COUNT + 7;
+
+	/**
+	 * The operation id for the '<em>Is Collective</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_COLLECTIVE = NAMED_ELEMENT_OPERATION_COUNT + 8;
+
+	/**
+	 * The operation id for the '<em>Is Quantity</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_QUANTITY = NAMED_ELEMENT_OPERATION_COUNT + 9;
+
+	/**
+	 * The operation id for the '<em>Is Relator</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_RELATOR = NAMED_ELEMENT_OPERATION_COUNT + 10;
+
+	/**
+	 * The operation id for the '<em>Is Mode</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_MODE = NAMED_ELEMENT_OPERATION_COUNT + 11;
+
+	/**
+	 * The operation id for the '<em>Is Quality</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_QUALITY = NAMED_ELEMENT_OPERATION_COUNT + 12;
+
+	/**
+	 * The operation id for the '<em>Is Role</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_ROLE = NAMED_ELEMENT_OPERATION_COUNT + 13;
+
+	/**
+	 * The operation id for the '<em>Is Role Mixin</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_ROLE_MIXIN = NAMED_ELEMENT_OPERATION_COUNT + 14;
+
+	/**
+	 * The operation id for the '<em>Is Phase Mixin</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_PHASE_MIXIN = NAMED_ELEMENT_OPERATION_COUNT + 15;
+
+	/**
+	 * The operation id for the '<em>Is Phase</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_PHASE = NAMED_ELEMENT_OPERATION_COUNT + 16;
+
+	/**
+	 * The operation id for the '<em>Is Category</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_CATEGORY = NAMED_ELEMENT_OPERATION_COUNT + 17;
+
+	/**
+	 * The operation id for the '<em>Is Mixin</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_MIXIN = NAMED_ELEMENT_OPERATION_COUNT + 18;
+
+	/**
+	 * The operation id for the '<em>Is Event</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_EVENT = NAMED_ELEMENT_OPERATION_COUNT + 19;
+
+	/**
+	 * The operation id for the '<em>Is High Order</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_HIGH_ORDER = NAMED_ELEMENT_OPERATION_COUNT + 20;
+
+	/**
+	 * The operation id for the '<em>Is Data Type</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_DATA_TYPE = NAMED_ELEMENT_OPERATION_COUNT + 21;
+
+	/**
+	 * The operation id for the '<em>Is Enumeration</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_ENUMERATION = NAMED_ELEMENT_OPERATION_COUNT + 22;
+
+	/**
+	 * The operation id for the '<em>Is Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 23;
+
+	/**
+	 * The operation id for the '<em>Is Non Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_NON_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 24;
+
+	/**
+	 * The operation id for the '<em>Is Anti Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_ANTI_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 25;
+
+	/**
+	 * The operation id for the '<em>Is Semi Rigid</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_SEMI_RIGID = NAMED_ELEMENT_OPERATION_COUNT + 26;
+
+	/**
+	 * The operation id for the '<em>Is Identity Provider</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_IDENTITY_PROVIDER = NAMED_ELEMENT_OPERATION_COUNT + 27;
 
 	/**
 	 * The operation id for the '<em>Is Truth Maker</em>' operation.
@@ -813,16 +1227,151 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___IS_TRUTH_MAKER = NAMED_ELEMENT_OPERATION_COUNT + 27;
+	int CLASS___IS_TRUTH_MAKER = NAMED_ELEMENT_OPERATION_COUNT + 28;
 
 	/**
-	 * The operation id for the '<em>Set Is Extensional</em>' operation.
+	 * The operation id for the '<em>Is Mixin Class</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS___SET_IS_EXTENSIONAL = NAMED_ELEMENT_OPERATION_COUNT + 28;
+	int CLASS___IS_MIXIN_CLASS = NAMED_ELEMENT_OPERATION_COUNT + 29;
+
+	/**
+	 * The operation id for the '<em>Identity Providers At All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IDENTITY_PROVIDERS_AT_ALL_PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 30;
+
+	/**
+	 * The operation id for the '<em>Identity Providers At All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IDENTITY_PROVIDERS_AT_ALL_CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 31;
+
+	/**
+	 * The operation id for the '<em>Identity Providers</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IDENTITY_PROVIDERS = NAMED_ELEMENT_OPERATION_COUNT + 32;
+
+	/**
+	 * The operation id for the '<em>Is Amount Of Matter</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_AMOUNT_OF_MATTER = NAMED_ELEMENT_OPERATION_COUNT + 33;
+
+	/**
+	 * The operation id for the '<em>Is Functional Complex</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_FUNCTIONAL_COMPLEX = NAMED_ELEMENT_OPERATION_COUNT + 34;
+
+	/**
+	 * The operation id for the '<em>Is Collection</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_COLLECTION = NAMED_ELEMENT_OPERATION_COUNT + 35;
+
+	/**
+	 * The operation id for the '<em>Siblings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___SIBLINGS = NAMED_ELEMENT_OPERATION_COUNT + 36;
+
+	/**
+	 * The operation id for the '<em>Overlap Siblings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___OVERLAP_SIBLINGS = NAMED_ELEMENT_OPERATION_COUNT + 37;
+
+	/**
+	 * The operation id for the '<em>Disjoint Siblings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___DISJOINT_SIBLINGS = NAMED_ELEMENT_OPERATION_COUNT + 38;
+
+	/**
+	 * The operation id for the '<em>Is Disjoint Of</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_DISJOINT_OF__CLASS = NAMED_ELEMENT_OPERATION_COUNT + 39;
+
+	/**
+	 * The operation id for the '<em>Ends</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___ENDS = NAMED_ELEMENT_OPERATION_COUNT + 40;
+
+	/**
+	 * The operation id for the '<em>Related Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___RELATED_CLASSES = NAMED_ELEMENT_OPERATION_COUNT + 41;
+
+	/**
+	 * The operation id for the '<em>All Related Classes</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___ALL_RELATED_CLASSES = NAMED_ELEMENT_OPERATION_COUNT + 42;
+
+	/**
+	 * The operation id for the '<em>All Ends</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___ALL_ENDS = NAMED_ELEMENT_OPERATION_COUNT + 43;
+
+	/**
+	 * The operation id for the '<em>Is Intrinsic</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS___IS_INTRINSIC = NAMED_ELEMENT_OPERATION_COUNT + 44;
 
 	/**
 	 * The number of operations of the '<em>Class</em>' class.
@@ -831,7 +1380,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 29;
+	int CLASS_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 45;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl <em>Generalization Set</em>}' class.
@@ -880,22 +1429,22 @@ public interface OntoumlPackage extends EPackage {
 	int GENERALIZATION_SET__IS_COVERING = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Specialized Class</b></em>' reference.
+	 * The feature id for the '<em><b>Specialized Classifier</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET__SPECIALIZED_CLASS = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int GENERALIZATION_SET__SPECIALIZED_CLASSIFIER = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Specializing Classes</b></em>' reference list.
+	 * The feature id for the '<em><b>Specializing Classifier</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERALIZATION_SET__SPECIALIZING_CLASSES = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int GENERALIZATION_SET__SPECIALIZING_CLASSIFIER = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Hou</b></em>' reference.
@@ -980,13 +1529,13 @@ public interface OntoumlPackage extends EPackage {
 	int PROPERTY__UPPER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Is Dependee</b></em>' attribute.
+	 * The feature id for the '<em><b>Is Dependency</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY__IS_DEPENDEE = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int PROPERTY__IS_DEPENDENCY = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Property</em>' class.
@@ -1007,6 +1556,215 @@ public interface OntoumlPackage extends EPackage {
 	int PROPERTY_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.AttributeImpl <em>Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.AttributeImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAttribute()
+	 * @generated
+	 */
+	int ATTRIBUTE = 11;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__NAME = PROPERTY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Is Ordered</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__IS_ORDERED = PROPERTY__IS_ORDERED;
+
+	/**
+	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__IS_DERIVED = PROPERTY__IS_DERIVED;
+
+	/**
+	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__LOWER_BOUND = PROPERTY__LOWER_BOUND;
+
+	/**
+	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__UPPER_BOUND = PROPERTY__UPPER_BOUND;
+
+	/**
+	 * The feature id for the '<em><b>Is Dependency</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__IS_DEPENDENCY = PROPERTY__IS_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__OWNER = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Primitive</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__PRIMITIVE = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.LiteralImpl <em>Literal</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.LiteralImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getLiteral()
+	 * @generated
+	 */
+	int LITERAL = 12;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__NAME = PROPERTY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Is Ordered</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__IS_ORDERED = PROPERTY__IS_ORDERED;
+
+	/**
+	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__IS_DERIVED = PROPERTY__IS_DERIVED;
+
+	/**
+	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__LOWER_BOUND = PROPERTY__LOWER_BOUND;
+
+	/**
+	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__UPPER_BOUND = PROPERTY__UPPER_BOUND;
+
+	/**
+	 * The feature id for the '<em><b>Is Dependency</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__IS_DEPENDENCY = PROPERTY__IS_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__OWNER = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Grounding Region</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__GROUNDING_REGION = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL__VALUE = PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Literal</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Literal</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.EndPointImpl <em>End Point</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1014,7 +1772,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getEndPoint()
 	 * @generated
 	 */
-	int END_POINT = 11;
+	int END_POINT = 13;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1062,13 +1820,13 @@ public interface OntoumlPackage extends EPackage {
 	int END_POINT__UPPER_BOUND = PROPERTY__UPPER_BOUND;
 
 	/**
-	 * The feature id for the '<em><b>Is Dependee</b></em>' attribute.
+	 * The feature id for the '<em><b>Is Dependency</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int END_POINT__IS_DEPENDEE = PROPERTY__IS_DEPENDEE;
+	int END_POINT__IS_DEPENDENCY = PROPERTY__IS_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' container reference.
@@ -1143,161 +1901,6 @@ public interface OntoumlPackage extends EPackage {
 	int END_POINT_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.AttributeImpl <em>Attribute</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.AttributeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAttribute()
-	 * @generated
-	 */
-	int ATTRIBUTE = 12;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__NAME = PROPERTY__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Is Ordered</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__IS_ORDERED = PROPERTY__IS_ORDERED;
-
-	/**
-	 * The feature id for the '<em><b>Is Derived</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__IS_DERIVED = PROPERTY__IS_DERIVED;
-
-	/**
-	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__LOWER_BOUND = PROPERTY__LOWER_BOUND;
-
-	/**
-	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__UPPER_BOUND = PROPERTY__UPPER_BOUND;
-
-	/**
-	 * The feature id for the '<em><b>Is Dependee</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__IS_DEPENDEE = PROPERTY__IS_DEPENDEE;
-
-	/**
-	 * The feature id for the '<em><b>Owner</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__OWNER = PROPERTY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Primitive Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__PRIMITIVE_TYPE = PROPERTY_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Attribute</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Attribute</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl <em>Primitive Type</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitiveType()
-	 * @generated
-	 */
-	int PRIMITIVE_TYPE = 13;
-
-	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRIMITIVE_TYPE__HOLDER = CONTAINED_ELEMENT__HOLDER;
-
-	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRIMITIVE_TYPE__COMMENTS = CONTAINED_ELEMENT__COMMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Primitive</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRIMITIVE_TYPE__PRIMITIVE = CONTAINED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Primitive Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRIMITIVE_TYPE_FEATURE_COUNT = CONTAINED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Primitive Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRIMITIVE_TYPE_OPERATION_COUNT = CONTAINED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl <em>Relationship</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1308,13 +1911,22 @@ public interface OntoumlPackage extends EPackage {
 	int RELATIONSHIP = 14;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP__NAME = NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Holder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__HOLDER = CLASSIFIER_ELEMENT__HOLDER;
+	int RELATIONSHIP__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
@@ -1323,7 +1935,25 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__COMMENTS = CLASSIFIER_ELEMENT__COMMENTS;
+	int RELATIONSHIP__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
@@ -1332,7 +1962,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__STEREOTYPE = CLASSIFIER_ELEMENT_FEATURE_COUNT + 0;
+	int RELATIONSHIP__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Allen Relation</b></em>' attribute.
@@ -1341,7 +1971,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__ALLEN_RELATION = CLASSIFIER_ELEMENT_FEATURE_COUNT + 1;
+	int RELATIONSHIP__ALLEN_RELATION = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>End Points</b></em>' containment reference list.
@@ -1350,16 +1980,16 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__END_POINTS = CLASSIFIER_ELEMENT_FEATURE_COUNT + 2;
+	int RELATIONSHIP__END_POINTS = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Truth Maker</b></em>' reference.
+	 * The feature id for the '<em><b>Derived From Truth Maker</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__TRUTH_MAKER = CLASSIFIER_ELEMENT_FEATURE_COUNT + 3;
+	int RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Relationship</em>' class.
@@ -1368,7 +1998,61 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_FEATURE_COUNT = CLASSIFIER_ELEMENT_FEATURE_COUNT + 4;
+	int RELATIONSHIP_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
+	 * The operation id for the '<em>Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___ALL_PARENTS__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___ALL_PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 3;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___ALL_CHILDREN__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 4;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___ALL_CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 5;
 
 	/**
 	 * The operation id for the '<em>Is Shareable</em>' operation.
@@ -1377,7 +2061,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_SHAREABLE = CLASSIFIER_ELEMENT_OPERATION_COUNT + 0;
+	int RELATIONSHIP___IS_SHAREABLE = NAMED_ELEMENT_OPERATION_COUNT + 6;
 
 	/**
 	 * The operation id for the '<em>Is Component Of</em>' operation.
@@ -1386,7 +2070,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_COMPONENT_OF = CLASSIFIER_ELEMENT_OPERATION_COUNT + 1;
+	int RELATIONSHIP___IS_COMPONENT_OF = NAMED_ELEMENT_OPERATION_COUNT + 7;
 
 	/**
 	 * The operation id for the '<em>Is Member Of</em>' operation.
@@ -1395,7 +2079,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_MEMBER_OF = CLASSIFIER_ELEMENT_OPERATION_COUNT + 2;
+	int RELATIONSHIP___IS_MEMBER_OF = NAMED_ELEMENT_OPERATION_COUNT + 8;
 
 	/**
 	 * The operation id for the '<em>Is Sub Collection Of</em>' operation.
@@ -1404,7 +2088,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_SUB_COLLECTION_OF = CLASSIFIER_ELEMENT_OPERATION_COUNT + 3;
+	int RELATIONSHIP___IS_SUB_COLLECTION_OF = NAMED_ELEMENT_OPERATION_COUNT + 9;
 
 	/**
 	 * The operation id for the '<em>Is Sub Quantity Of</em>' operation.
@@ -1413,7 +2097,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_SUB_QUANTITY_OF = CLASSIFIER_ELEMENT_OPERATION_COUNT + 4;
+	int RELATIONSHIP___IS_SUB_QUANTITY_OF = NAMED_ELEMENT_OPERATION_COUNT + 10;
 
 	/**
 	 * The operation id for the '<em>Is Constitution</em>' operation.
@@ -1422,7 +2106,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_CONSTITUTION = CLASSIFIER_ELEMENT_OPERATION_COUNT + 5;
+	int RELATIONSHIP___IS_CONSTITUTION = NAMED_ELEMENT_OPERATION_COUNT + 11;
 
 	/**
 	 * The operation id for the '<em>Is Characterization</em>' operation.
@@ -1431,7 +2115,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_CHARACTERIZATION = CLASSIFIER_ELEMENT_OPERATION_COUNT + 6;
+	int RELATIONSHIP___IS_CHARACTERIZATION = NAMED_ELEMENT_OPERATION_COUNT + 12;
 
 	/**
 	 * The operation id for the '<em>Is Mediation</em>' operation.
@@ -1440,7 +2124,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_MEDIATION = CLASSIFIER_ELEMENT_OPERATION_COUNT + 7;
+	int RELATIONSHIP___IS_MEDIATION = NAMED_ELEMENT_OPERATION_COUNT + 13;
 
 	/**
 	 * The operation id for the '<em>Is Material</em>' operation.
@@ -1449,7 +2133,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_MATERIAL = CLASSIFIER_ELEMENT_OPERATION_COUNT + 8;
+	int RELATIONSHIP___IS_MATERIAL = NAMED_ELEMENT_OPERATION_COUNT + 14;
 
 	/**
 	 * The operation id for the '<em>Is Formal</em>' operation.
@@ -1458,7 +2142,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_FORMAL = CLASSIFIER_ELEMENT_OPERATION_COUNT + 9;
+	int RELATIONSHIP___IS_FORMAL = NAMED_ELEMENT_OPERATION_COUNT + 15;
 
 	/**
 	 * The operation id for the '<em>Is Structuration</em>' operation.
@@ -1467,7 +2151,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_STRUCTURATION = CLASSIFIER_ELEMENT_OPERATION_COUNT + 10;
+	int RELATIONSHIP___IS_STRUCTURATION = NAMED_ELEMENT_OPERATION_COUNT + 16;
 
 	/**
 	 * The operation id for the '<em>Is Participation</em>' operation.
@@ -1476,7 +2160,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_PARTICIPATION = CLASSIFIER_ELEMENT_OPERATION_COUNT + 11;
+	int RELATIONSHIP___IS_PARTICIPATION = NAMED_ELEMENT_OPERATION_COUNT + 17;
 
 	/**
 	 * The operation id for the '<em>Is Sub Event Of</em>' operation.
@@ -1485,7 +2169,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_SUB_EVENT_OF = CLASSIFIER_ELEMENT_OPERATION_COUNT + 12;
+	int RELATIONSHIP___IS_SUB_EVENT_OF = NAMED_ELEMENT_OPERATION_COUNT + 18;
 
 	/**
 	 * The operation id for the '<em>Is Causation</em>' operation.
@@ -1494,7 +2178,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_CAUSATION = CLASSIFIER_ELEMENT_OPERATION_COUNT + 13;
+	int RELATIONSHIP___IS_CAUSATION = NAMED_ELEMENT_OPERATION_COUNT + 19;
 
 	/**
 	 * The operation id for the '<em>Is Temporal</em>' operation.
@@ -1503,7 +2187,16 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_TEMPORAL = CLASSIFIER_ELEMENT_OPERATION_COUNT + 14;
+	int RELATIONSHIP___IS_TEMPORAL = NAMED_ELEMENT_OPERATION_COUNT + 20;
+
+	/**
+	 * The operation id for the '<em>Is Derivation</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_DERIVATION = NAMED_ELEMENT_OPERATION_COUNT + 21;
 
 	/**
 	 * The operation id for the '<em>Is Starts</em>' operation.
@@ -1512,7 +2205,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_STARTS = CLASSIFIER_ELEMENT_OPERATION_COUNT + 15;
+	int RELATIONSHIP___IS_STARTS = NAMED_ELEMENT_OPERATION_COUNT + 22;
 
 	/**
 	 * The operation id for the '<em>Is Precedes</em>' operation.
@@ -1521,7 +2214,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_PRECEDES = CLASSIFIER_ELEMENT_OPERATION_COUNT + 16;
+	int RELATIONSHIP___IS_PRECEDES = NAMED_ELEMENT_OPERATION_COUNT + 23;
 
 	/**
 	 * The operation id for the '<em>Is Equals</em>' operation.
@@ -1530,7 +2223,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_EQUALS = CLASSIFIER_ELEMENT_OPERATION_COUNT + 17;
+	int RELATIONSHIP___IS_EQUALS = NAMED_ELEMENT_OPERATION_COUNT + 24;
 
 	/**
 	 * The operation id for the '<em>Is Meets</em>' operation.
@@ -1539,7 +2232,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_MEETS = CLASSIFIER_ELEMENT_OPERATION_COUNT + 18;
+	int RELATIONSHIP___IS_MEETS = NAMED_ELEMENT_OPERATION_COUNT + 25;
 
 	/**
 	 * The operation id for the '<em>Is Finishes</em>' operation.
@@ -1548,7 +2241,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_FINISHES = CLASSIFIER_ELEMENT_OPERATION_COUNT + 19;
+	int RELATIONSHIP___IS_FINISHES = NAMED_ELEMENT_OPERATION_COUNT + 26;
 
 	/**
 	 * The operation id for the '<em>Is Overlaps</em>' operation.
@@ -1557,7 +2250,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_OVERLAPS = CLASSIFIER_ELEMENT_OPERATION_COUNT + 20;
+	int RELATIONSHIP___IS_OVERLAPS = NAMED_ELEMENT_OPERATION_COUNT + 27;
 
 	/**
 	 * The operation id for the '<em>Is During</em>' operation.
@@ -1566,7 +2259,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_DURING = CLASSIFIER_ELEMENT_OPERATION_COUNT + 21;
+	int RELATIONSHIP___IS_DURING = NAMED_ELEMENT_OPERATION_COUNT + 28;
 
 	/**
 	 * The operation id for the '<em>Is Meronymic</em>' operation.
@@ -1575,648 +2268,61 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___IS_MERONYMIC = CLASSIFIER_ELEMENT_OPERATION_COUNT + 22;
+	int RELATIONSHIP___IS_MERONYMIC = NAMED_ELEMENT_OPERATION_COUNT + 29;
 
 	/**
-	 * The number of operations of the '<em>Relationship</em>' class.
+	 * The operation id for the '<em>Is Binary</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_OPERATION_COUNT = CLASSIFIER_ELEMENT_OPERATION_COUNT + 23;
+	int RELATIONSHIP___IS_BINARY = NAMED_ELEMENT_OPERATION_COUNT + 30;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.BinaryRelationshipImpl <em>Binary Relationship</em>}' class.
+	 * The operation id for the '<em>Is Ternary</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.BinaryRelationshipImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getBinaryRelationship()
 	 * @generated
-	 */
-	int BINARY_RELATIONSHIP = 15;
-
-	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP__HOLDER = RELATIONSHIP__HOLDER;
-
-	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP__COMMENTS = RELATIONSHIP__COMMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP__STEREOTYPE = RELATIONSHIP__STEREOTYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allen Relation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP__ALLEN_RELATION = RELATIONSHIP__ALLEN_RELATION;
-
-	/**
-	 * The feature id for the '<em><b>End Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP__END_POINTS = RELATIONSHIP__END_POINTS;
-
-	/**
-	 * The feature id for the '<em><b>Truth Maker</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP__TRUTH_MAKER = RELATIONSHIP__TRUTH_MAKER;
-
-	/**
-	 * The number of structural features of the '<em>Binary Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Is Shareable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_SHAREABLE = RELATIONSHIP___IS_SHAREABLE;
-
-	/**
-	 * The operation id for the '<em>Is Component Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_COMPONENT_OF = RELATIONSHIP___IS_COMPONENT_OF;
-
-	/**
-	 * The operation id for the '<em>Is Member Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_MEMBER_OF = RELATIONSHIP___IS_MEMBER_OF;
-
-	/**
-	 * The operation id for the '<em>Is Sub Collection Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_SUB_COLLECTION_OF = RELATIONSHIP___IS_SUB_COLLECTION_OF;
-
-	/**
-	 * The operation id for the '<em>Is Sub Quantity Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_SUB_QUANTITY_OF = RELATIONSHIP___IS_SUB_QUANTITY_OF;
-
-	/**
-	 * The operation id for the '<em>Is Constitution</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_CONSTITUTION = RELATIONSHIP___IS_CONSTITUTION;
-
-	/**
-	 * The operation id for the '<em>Is Characterization</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_CHARACTERIZATION = RELATIONSHIP___IS_CHARACTERIZATION;
-
-	/**
-	 * The operation id for the '<em>Is Mediation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_MEDIATION = RELATIONSHIP___IS_MEDIATION;
-
-	/**
-	 * The operation id for the '<em>Is Material</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_MATERIAL = RELATIONSHIP___IS_MATERIAL;
-
-	/**
-	 * The operation id for the '<em>Is Formal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_FORMAL = RELATIONSHIP___IS_FORMAL;
-
-	/**
-	 * The operation id for the '<em>Is Structuration</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_STRUCTURATION = RELATIONSHIP___IS_STRUCTURATION;
-
-	/**
-	 * The operation id for the '<em>Is Participation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_PARTICIPATION = RELATIONSHIP___IS_PARTICIPATION;
-
-	/**
-	 * The operation id for the '<em>Is Sub Event Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_SUB_EVENT_OF = RELATIONSHIP___IS_SUB_EVENT_OF;
-
-	/**
-	 * The operation id for the '<em>Is Causation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_CAUSATION = RELATIONSHIP___IS_CAUSATION;
-
-	/**
-	 * The operation id for the '<em>Is Temporal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_TEMPORAL = RELATIONSHIP___IS_TEMPORAL;
-
-	/**
-	 * The operation id for the '<em>Is Starts</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_STARTS = RELATIONSHIP___IS_STARTS;
-
-	/**
-	 * The operation id for the '<em>Is Precedes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_PRECEDES = RELATIONSHIP___IS_PRECEDES;
-
-	/**
-	 * The operation id for the '<em>Is Equals</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_EQUALS = RELATIONSHIP___IS_EQUALS;
-
-	/**
-	 * The operation id for the '<em>Is Meets</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_MEETS = RELATIONSHIP___IS_MEETS;
-
-	/**
-	 * The operation id for the '<em>Is Finishes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_FINISHES = RELATIONSHIP___IS_FINISHES;
-
-	/**
-	 * The operation id for the '<em>Is Overlaps</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_OVERLAPS = RELATIONSHIP___IS_OVERLAPS;
-
-	/**
-	 * The operation id for the '<em>Is During</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_DURING = RELATIONSHIP___IS_DURING;
-
-	/**
-	 * The operation id for the '<em>Is Meronymic</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_MERONYMIC = RELATIONSHIP___IS_MERONYMIC;
-
-	/**
-	 * The operation id for the '<em>Source End Point</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___SOURCE_END_POINT = RELATIONSHIP_OPERATION_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Target End Point</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___TARGET_END_POINT = RELATIONSHIP_OPERATION_COUNT + 1;
-
-	/**
-	 * The operation id for the '<em>Is Derived</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP___IS_DERIVED = RELATIONSHIP_OPERATION_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Binary Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_RELATIONSHIP_OPERATION_COUNT = RELATIONSHIP_OPERATION_COUNT + 3;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.BinaryClassRelationshipImpl <em>Binary Class Relationship</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.BinaryClassRelationshipImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getBinaryClassRelationship()
-	 * @generated
-	 */
-	int BINARY_CLASS_RELATIONSHIP = 16;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Allen Relation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__ALLEN_RELATION = NAMED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>End Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__END_POINTS = NAMED_ELEMENT_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Truth Maker</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP__TRUTH_MAKER = NAMED_ELEMENT_FEATURE_COUNT + 5;
-
-	/**
-	 * The number of structural features of the '<em>Binary Class Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
-
-	/**
-	 * The operation id for the '<em>Is Shareable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_SHAREABLE = NAMED_ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Is Component Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_COMPONENT_OF = NAMED_ELEMENT_OPERATION_COUNT + 1;
-
-	/**
-	 * The operation id for the '<em>Is Member Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_MEMBER_OF = NAMED_ELEMENT_OPERATION_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Is Sub Collection Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_SUB_COLLECTION_OF = NAMED_ELEMENT_OPERATION_COUNT + 3;
-
-	/**
-	 * The operation id for the '<em>Is Sub Quantity Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_SUB_QUANTITY_OF = NAMED_ELEMENT_OPERATION_COUNT + 4;
-
-	/**
-	 * The operation id for the '<em>Is Constitution</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_CONSTITUTION = NAMED_ELEMENT_OPERATION_COUNT + 5;
-
-	/**
-	 * The operation id for the '<em>Is Characterization</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_CHARACTERIZATION = NAMED_ELEMENT_OPERATION_COUNT + 6;
-
-	/**
-	 * The operation id for the '<em>Is Mediation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_MEDIATION = NAMED_ELEMENT_OPERATION_COUNT + 7;
-
-	/**
-	 * The operation id for the '<em>Is Material</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_MATERIAL = NAMED_ELEMENT_OPERATION_COUNT + 8;
-
-	/**
-	 * The operation id for the '<em>Is Formal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_FORMAL = NAMED_ELEMENT_OPERATION_COUNT + 9;
-
-	/**
-	 * The operation id for the '<em>Is Structuration</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_STRUCTURATION = NAMED_ELEMENT_OPERATION_COUNT + 10;
-
-	/**
-	 * The operation id for the '<em>Is Participation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_PARTICIPATION = NAMED_ELEMENT_OPERATION_COUNT + 11;
-
-	/**
-	 * The operation id for the '<em>Is Sub Event Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_SUB_EVENT_OF = NAMED_ELEMENT_OPERATION_COUNT + 12;
-
-	/**
-	 * The operation id for the '<em>Is Causation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_CAUSATION = NAMED_ELEMENT_OPERATION_COUNT + 13;
-
-	/**
-	 * The operation id for the '<em>Is Temporal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_TEMPORAL = NAMED_ELEMENT_OPERATION_COUNT + 14;
-
-	/**
-	 * The operation id for the '<em>Is Starts</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_STARTS = NAMED_ELEMENT_OPERATION_COUNT + 15;
-
-	/**
-	 * The operation id for the '<em>Is Precedes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_PRECEDES = NAMED_ELEMENT_OPERATION_COUNT + 16;
-
-	/**
-	 * The operation id for the '<em>Is Equals</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_EQUALS = NAMED_ELEMENT_OPERATION_COUNT + 17;
-
-	/**
-	 * The operation id for the '<em>Is Meets</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_MEETS = NAMED_ELEMENT_OPERATION_COUNT + 18;
-
-	/**
-	 * The operation id for the '<em>Is Finishes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_FINISHES = NAMED_ELEMENT_OPERATION_COUNT + 19;
-
-	/**
-	 * The operation id for the '<em>Is Overlaps</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_OVERLAPS = NAMED_ELEMENT_OPERATION_COUNT + 20;
-
-	/**
-	 * The operation id for the '<em>Is During</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_DURING = NAMED_ELEMENT_OPERATION_COUNT + 21;
+	int RELATIONSHIP___IS_TERNARY = NAMED_ELEMENT_OPERATION_COUNT + 31;
 
 	/**
-	 * The operation id for the '<em>Is Meronymic</em>' operation.
+	 * The operation id for the '<em>Source End</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_MERONYMIC = NAMED_ELEMENT_OPERATION_COUNT + 22;
+	int RELATIONSHIP___SOURCE_END = NAMED_ELEMENT_OPERATION_COUNT + 32;
 
 	/**
-	 * The operation id for the '<em>Source End Point</em>' operation.
+	 * The operation id for the '<em>Target End</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___SOURCE_END_POINT = NAMED_ELEMENT_OPERATION_COUNT + 23;
+	int RELATIONSHIP___TARGET_END = NAMED_ELEMENT_OPERATION_COUNT + 33;
 
 	/**
-	 * The operation id for the '<em>Target End Point</em>' operation.
+	 * The operation id for the '<em>Source</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___TARGET_END_POINT = NAMED_ELEMENT_OPERATION_COUNT + 24;
+	int RELATIONSHIP___SOURCE = NAMED_ELEMENT_OPERATION_COUNT + 34;
 
 	/**
-	 * The operation id for the '<em>Is Derived</em>' operation.
+	 * The operation id for the '<em>Target</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_DERIVED = NAMED_ELEMENT_OPERATION_COUNT + 25;
+	int RELATIONSHIP___TARGET = NAMED_ELEMENT_OPERATION_COUNT + 35;
 
 	/**
 	 * The operation id for the '<em>Source Class</em>' operation.
@@ -2225,7 +2331,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___SOURCE_CLASS = NAMED_ELEMENT_OPERATION_COUNT + 26;
+	int RELATIONSHIP___SOURCE_CLASS = NAMED_ELEMENT_OPERATION_COUNT + 36;
 
 	/**
 	 * The operation id for the '<em>Target Class</em>' operation.
@@ -2234,377 +2340,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINARY_CLASS_RELATIONSHIP___TARGET_CLASS = NAMED_ELEMENT_OPERATION_COUNT + 27;
-
-	/**
-	 * The operation id for the '<em>Is Part Essential</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_PART_ESSENTIAL = NAMED_ELEMENT_OPERATION_COUNT + 28;
-
-	/**
-	 * The operation id for the '<em>Is Part Inseparable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_PART_INSEPARABLE = NAMED_ELEMENT_OPERATION_COUNT + 29;
-
-	/**
-	 * The operation id for the '<em>Is Part Immutable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_PART_IMMUTABLE = NAMED_ELEMENT_OPERATION_COUNT + 30;
-
-	/**
-	 * The operation id for the '<em>Is Whole Immutable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_WHOLE_IMMUTABLE = NAMED_ELEMENT_OPERATION_COUNT + 31;
-
-	/**
-	 * The operation id for the '<em>Is Part Mandatory</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_PART_MANDATORY = NAMED_ELEMENT_OPERATION_COUNT + 32;
-
-	/**
-	 * The operation id for the '<em>Is Whole Mandatory</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP___IS_WHOLE_MANDATORY = NAMED_ELEMENT_OPERATION_COUNT + 33;
-
-	/**
-	 * The number of operations of the '<em>Binary Class Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINARY_CLASS_RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 34;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.DerivationRelationshipImpl <em>Derivation Relationship</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.DerivationRelationshipImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDerivationRelationship()
-	 * @generated
-	 */
-	int DERIVATION_RELATIONSHIP = 17;
-
-	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP__HOLDER = BINARY_RELATIONSHIP__HOLDER;
-
-	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP__COMMENTS = BINARY_RELATIONSHIP__COMMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP__STEREOTYPE = BINARY_RELATIONSHIP__STEREOTYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allen Relation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP__ALLEN_RELATION = BINARY_RELATIONSHIP__ALLEN_RELATION;
-
-	/**
-	 * The feature id for the '<em><b>End Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP__END_POINTS = BINARY_RELATIONSHIP__END_POINTS;
-
-	/**
-	 * The feature id for the '<em><b>Truth Maker</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP__TRUTH_MAKER = BINARY_RELATIONSHIP__TRUTH_MAKER;
-
-	/**
-	 * The number of structural features of the '<em>Derivation Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP_FEATURE_COUNT = BINARY_RELATIONSHIP_FEATURE_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Is Shareable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_SHAREABLE = BINARY_RELATIONSHIP___IS_SHAREABLE;
-
-	/**
-	 * The operation id for the '<em>Is Component Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_COMPONENT_OF = BINARY_RELATIONSHIP___IS_COMPONENT_OF;
-
-	/**
-	 * The operation id for the '<em>Is Member Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_MEMBER_OF = BINARY_RELATIONSHIP___IS_MEMBER_OF;
-
-	/**
-	 * The operation id for the '<em>Is Sub Collection Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_SUB_COLLECTION_OF = BINARY_RELATIONSHIP___IS_SUB_COLLECTION_OF;
-
-	/**
-	 * The operation id for the '<em>Is Sub Quantity Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_SUB_QUANTITY_OF = BINARY_RELATIONSHIP___IS_SUB_QUANTITY_OF;
-
-	/**
-	 * The operation id for the '<em>Is Constitution</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_CONSTITUTION = BINARY_RELATIONSHIP___IS_CONSTITUTION;
-
-	/**
-	 * The operation id for the '<em>Is Characterization</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_CHARACTERIZATION = BINARY_RELATIONSHIP___IS_CHARACTERIZATION;
-
-	/**
-	 * The operation id for the '<em>Is Mediation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_MEDIATION = BINARY_RELATIONSHIP___IS_MEDIATION;
-
-	/**
-	 * The operation id for the '<em>Is Material</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_MATERIAL = BINARY_RELATIONSHIP___IS_MATERIAL;
-
-	/**
-	 * The operation id for the '<em>Is Formal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_FORMAL = BINARY_RELATIONSHIP___IS_FORMAL;
-
-	/**
-	 * The operation id for the '<em>Is Structuration</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_STRUCTURATION = BINARY_RELATIONSHIP___IS_STRUCTURATION;
-
-	/**
-	 * The operation id for the '<em>Is Participation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_PARTICIPATION = BINARY_RELATIONSHIP___IS_PARTICIPATION;
-
-	/**
-	 * The operation id for the '<em>Is Sub Event Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_SUB_EVENT_OF = BINARY_RELATIONSHIP___IS_SUB_EVENT_OF;
-
-	/**
-	 * The operation id for the '<em>Is Causation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_CAUSATION = BINARY_RELATIONSHIP___IS_CAUSATION;
-
-	/**
-	 * The operation id for the '<em>Is Temporal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_TEMPORAL = BINARY_RELATIONSHIP___IS_TEMPORAL;
-
-	/**
-	 * The operation id for the '<em>Is Starts</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_STARTS = BINARY_RELATIONSHIP___IS_STARTS;
-
-	/**
-	 * The operation id for the '<em>Is Precedes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_PRECEDES = BINARY_RELATIONSHIP___IS_PRECEDES;
-
-	/**
-	 * The operation id for the '<em>Is Equals</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_EQUALS = BINARY_RELATIONSHIP___IS_EQUALS;
-
-	/**
-	 * The operation id for the '<em>Is Meets</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_MEETS = BINARY_RELATIONSHIP___IS_MEETS;
-
-	/**
-	 * The operation id for the '<em>Is Finishes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_FINISHES = BINARY_RELATIONSHIP___IS_FINISHES;
-
-	/**
-	 * The operation id for the '<em>Is Overlaps</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_OVERLAPS = BINARY_RELATIONSHIP___IS_OVERLAPS;
-
-	/**
-	 * The operation id for the '<em>Is During</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_DURING = BINARY_RELATIONSHIP___IS_DURING;
-
-	/**
-	 * The operation id for the '<em>Is Meronymic</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_MERONYMIC = BINARY_RELATIONSHIP___IS_MERONYMIC;
-
-	/**
-	 * The operation id for the '<em>Source End Point</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___SOURCE_END_POINT = BINARY_RELATIONSHIP___SOURCE_END_POINT;
-
-	/**
-	 * The operation id for the '<em>Target End Point</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___TARGET_END_POINT = BINARY_RELATIONSHIP___TARGET_END_POINT;
-
-	/**
-	 * The operation id for the '<em>Is Derived</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DERIVATION_RELATIONSHIP___IS_DERIVED = BINARY_RELATIONSHIP___IS_DERIVED;
+	int RELATIONSHIP___TARGET_CLASS = NAMED_ELEMENT_OPERATION_COUNT + 37;
 
 	/**
 	 * The operation id for the '<em>Source Relationship</em>' operation.
@@ -2613,35 +2349,116 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DERIVATION_RELATIONSHIP___SOURCE_RELATIONSHIP = BINARY_RELATIONSHIP_OPERATION_COUNT + 0;
+	int RELATIONSHIP___SOURCE_RELATIONSHIP = NAMED_ELEMENT_OPERATION_COUNT + 38;
 
 	/**
-	 * The operation id for the '<em>Target Class</em>' operation.
+	 * The operation id for the '<em>Target Relationship</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DERIVATION_RELATIONSHIP___TARGET_CLASS = BINARY_RELATIONSHIP_OPERATION_COUNT + 1;
+	int RELATIONSHIP___TARGET_RELATIONSHIP = NAMED_ELEMENT_OPERATION_COUNT + 39;
 
 	/**
-	 * The number of operations of the '<em>Derivation Relationship</em>' class.
+	 * The operation id for the '<em>Is Derived</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DERIVATION_RELATIONSHIP_OPERATION_COUNT = BINARY_RELATIONSHIP_OPERATION_COUNT + 2;
+	int RELATIONSHIP___IS_DERIVED = NAMED_ELEMENT_OPERATION_COUNT + 40;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.NAryClassRelationshipImpl <em>NAry Class Relationship</em>}' class.
+	 * The operation id for the '<em>Is Part Essential</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.NAryClassRelationshipImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getNAryClassRelationship()
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_PART_ESSENTIAL = NAMED_ELEMENT_OPERATION_COUNT + 41;
+
+	/**
+	 * The operation id for the '<em>Is Part Inseparable</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_PART_INSEPARABLE = NAMED_ELEMENT_OPERATION_COUNT + 42;
+
+	/**
+	 * The operation id for the '<em>Is Part Immutable</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_PART_IMMUTABLE = NAMED_ELEMENT_OPERATION_COUNT + 43;
+
+	/**
+	 * The operation id for the '<em>Is Whole Immutable</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_WHOLE_IMMUTABLE = NAMED_ELEMENT_OPERATION_COUNT + 44;
+
+	/**
+	 * The operation id for the '<em>Is Part Mandatory</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_PART_MANDATORY = NAMED_ELEMENT_OPERATION_COUNT + 45;
+
+	/**
+	 * The operation id for the '<em>Is Whole Mandatory</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_WHOLE_MANDATORY = NAMED_ELEMENT_OPERATION_COUNT + 46;
+
+	/**
+	 * The operation id for the '<em>Material</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___MATERIAL = NAMED_ELEMENT_OPERATION_COUNT + 47;
+
+	/**
+	 * The operation id for the '<em>Relator</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___RELATOR = NAMED_ELEMENT_OPERATION_COUNT + 48;
+
+	/**
+	 * The number of operations of the '<em>Relationship</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 49;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.StructureImpl <em>Structure</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.StructureImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getStructure()
 	 * @generated
 	 */
-	int NARY_CLASS_RELATIONSHIP = 18;
+	int STRUCTURE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2650,7 +2467,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__NAME = NAMED_ELEMENT__NAME;
+	int STRUCTURE__NAME = NAMED_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Holder</b></em>' container reference.
@@ -2659,7 +2476,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int STRUCTURE__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
@@ -2668,278 +2485,125 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int STRUCTURE__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Stereotype</b></em>' attribute.
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__STEREOTYPE = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int STRUCTURE__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Allen Relation</b></em>' attribute.
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__ALLEN_RELATION = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int STRUCTURE__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>End Points</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Regions</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__END_POINTS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int STRUCTURE__REGIONS = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Truth Maker</b></em>' reference.
+	 * The feature id for the '<em><b>Grounded Enumeration</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP__TRUTH_MAKER = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int STRUCTURE__GROUNDED_ENUMERATION = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
-	 * The number of structural features of the '<em>NAry Class Relationship</em>' class.
+	 * The number of structural features of the '<em>Structure</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int STRUCTURE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The operation id for the '<em>Is Shareable</em>' operation.
+	 * The operation id for the '<em>Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_SHAREABLE = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int STRUCTURE___CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Is Component Of</em>' operation.
+	 * The operation id for the '<em>Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_COMPONENT_OF = NAMED_ELEMENT_OPERATION_COUNT + 1;
+	int STRUCTURE___PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Is Member Of</em>' operation.
+	 * The operation id for the '<em>All Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_MEMBER_OF = NAMED_ELEMENT_OPERATION_COUNT + 2;
+	int STRUCTURE___ALL_PARENTS__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 2;
 
 	/**
-	 * The operation id for the '<em>Is Sub Collection Of</em>' operation.
+	 * The operation id for the '<em>All Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_SUB_COLLECTION_OF = NAMED_ELEMENT_OPERATION_COUNT + 3;
+	int STRUCTURE___ALL_PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 3;
 
 	/**
-	 * The operation id for the '<em>Is Sub Quantity Of</em>' operation.
+	 * The operation id for the '<em>All Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_SUB_QUANTITY_OF = NAMED_ELEMENT_OPERATION_COUNT + 4;
+	int STRUCTURE___ALL_CHILDREN__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 4;
 
 	/**
-	 * The operation id for the '<em>Is Constitution</em>' operation.
+	 * The operation id for the '<em>All Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_CONSTITUTION = NAMED_ELEMENT_OPERATION_COUNT + 5;
+	int STRUCTURE___ALL_CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 5;
 
 	/**
-	 * The operation id for the '<em>Is Characterization</em>' operation.
+	 * The number of operations of the '<em>Structure</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NARY_CLASS_RELATIONSHIP___IS_CHARACTERIZATION = NAMED_ELEMENT_OPERATION_COUNT + 6;
+	int STRUCTURE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 6;
 
 	/**
-	 * The operation id for the '<em>Is Mediation</em>' operation.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.RegionImpl <em>Region</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_MEDIATION = NAMED_ELEMENT_OPERATION_COUNT + 7;
-
-	/**
-	 * The operation id for the '<em>Is Material</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_MATERIAL = NAMED_ELEMENT_OPERATION_COUNT + 8;
-
-	/**
-	 * The operation id for the '<em>Is Formal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_FORMAL = NAMED_ELEMENT_OPERATION_COUNT + 9;
-
-	/**
-	 * The operation id for the '<em>Is Structuration</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_STRUCTURATION = NAMED_ELEMENT_OPERATION_COUNT + 10;
-
-	/**
-	 * The operation id for the '<em>Is Participation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_PARTICIPATION = NAMED_ELEMENT_OPERATION_COUNT + 11;
-
-	/**
-	 * The operation id for the '<em>Is Sub Event Of</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_SUB_EVENT_OF = NAMED_ELEMENT_OPERATION_COUNT + 12;
-
-	/**
-	 * The operation id for the '<em>Is Causation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_CAUSATION = NAMED_ELEMENT_OPERATION_COUNT + 13;
-
-	/**
-	 * The operation id for the '<em>Is Temporal</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_TEMPORAL = NAMED_ELEMENT_OPERATION_COUNT + 14;
-
-	/**
-	 * The operation id for the '<em>Is Starts</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_STARTS = NAMED_ELEMENT_OPERATION_COUNT + 15;
-
-	/**
-	 * The operation id for the '<em>Is Precedes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_PRECEDES = NAMED_ELEMENT_OPERATION_COUNT + 16;
-
-	/**
-	 * The operation id for the '<em>Is Equals</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_EQUALS = NAMED_ELEMENT_OPERATION_COUNT + 17;
-
-	/**
-	 * The operation id for the '<em>Is Meets</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_MEETS = NAMED_ELEMENT_OPERATION_COUNT + 18;
-
-	/**
-	 * The operation id for the '<em>Is Finishes</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_FINISHES = NAMED_ELEMENT_OPERATION_COUNT + 19;
-
-	/**
-	 * The operation id for the '<em>Is Overlaps</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_OVERLAPS = NAMED_ELEMENT_OPERATION_COUNT + 20;
-
-	/**
-	 * The operation id for the '<em>Is During</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_DURING = NAMED_ELEMENT_OPERATION_COUNT + 21;
-
-	/**
-	 * The operation id for the '<em>Is Meronymic</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP___IS_MERONYMIC = NAMED_ELEMENT_OPERATION_COUNT + 22;
-
-	/**
-	 * The number of operations of the '<em>NAry Class Relationship</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NARY_CLASS_RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 23;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementDomainImpl <em>Measurement Domain</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.MeasurementDomainImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementDomain()
+	 * @see net.menthor.metamodel.ontouml.impl.RegionImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRegion()
 	 * @generated
 	 */
-	int MEASUREMENT_DOMAIN = 19;
+	int REGION = 16;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2948,7 +2612,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DOMAIN__NAME = NAMED_ELEMENT__NAME;
+	int REGION__NAME = NAMED_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Holder</b></em>' container reference.
@@ -2957,7 +2621,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DOMAIN__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int REGION__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
@@ -2966,7 +2630,233 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DOMAIN__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int REGION__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__IS_SPECIALIZED_VIA = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__SPECIALIZES_VIA = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Owner Structure</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__OWNER_STRUCTURE = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Grounded Literal</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__GROUNDED_LITERAL = NAMED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Composed By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__COMPOSED_BY = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Basic Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION__BASIC_TYPE = NAMED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The number of structural features of the '<em>Region</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
+	 * The operation id for the '<em>Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___ALL_PARENTS__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___ALL_PARENTS = NAMED_ELEMENT_OPERATION_COUNT + 3;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___ALL_CHILDREN__CLASSIFIER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 4;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___ALL_CHILDREN = NAMED_ELEMENT_OPERATION_COUNT + 5;
+
+	/**
+	 * The operation id for the '<em>Is Basic</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___IS_BASIC = NAMED_ELEMENT_OPERATION_COUNT + 6;
+
+	/**
+	 * The operation id for the '<em>Is Composed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___IS_COMPOSED = NAMED_ELEMENT_OPERATION_COUNT + 7;
+
+	/**
+	 * The operation id for the '<em>Is Nominal</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION___IS_NOMINAL = NAMED_ELEMENT_OPERATION_COUNT + 8;
+
+	/**
+	 * The number of operations of the '<em>Region</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 9;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.DomainImpl <em>Domain</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.DomainImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDomain()
+	 * @generated
+	 */
+	int DOMAIN = 17;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__NAME = STRUCTURE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__HOLDER = STRUCTURE__HOLDER;
+
+	/**
+	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__COMMENTS = STRUCTURE__COMMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__IS_SPECIALIZED_VIA = STRUCTURE__IS_SPECIALIZED_VIA;
+
+	/**
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__SPECIALIZES_VIA = STRUCTURE__SPECIALIZES_VIA;
+
+	/**
+	 * The feature id for the '<em><b>Regions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__REGIONS = STRUCTURE__REGIONS;
+
+	/**
+	 * The feature id for the '<em><b>Grounded Enumeration</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN__GROUNDED_ENUMERATION = STRUCTURE__GROUNDED_ENUMERATION;
 
 	/**
 	 * The feature id for the '<em><b>Dimensions</b></em>' reference list.
@@ -2975,35 +2865,89 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DOMAIN__DIMENSIONS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int DOMAIN__DIMENSIONS = STRUCTURE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Measurement Domain</em>' class.
+	 * The number of structural features of the '<em>Domain</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DOMAIN_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int DOMAIN_FEATURE_COUNT = STRUCTURE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Measurement Domain</em>' class.
+	 * The operation id for the '<em>Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DOMAIN_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int DOMAIN___CHILDREN = STRUCTURE___CHILDREN;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementDimensionImpl <em>Measurement Dimension</em>}' class.
+	 * The operation id for the '<em>Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.MeasurementDimensionImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementDimension()
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN___PARENTS = STRUCTURE___PARENTS;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN___ALL_PARENTS__CLASSIFIER_ELIST = STRUCTURE___ALL_PARENTS__CLASSIFIER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Parents</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN___ALL_PARENTS = STRUCTURE___ALL_PARENTS;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN___ALL_CHILDREN__CLASSIFIER_ELIST = STRUCTURE___ALL_CHILDREN__CLASSIFIER_ELIST;
+
+	/**
+	 * The operation id for the '<em>All Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN___ALL_CHILDREN = STRUCTURE___ALL_CHILDREN;
+
+	/**
+	 * The number of operations of the '<em>Domain</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN_OPERATION_COUNT = STRUCTURE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.DimensionImpl <em>Dimension</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.DimensionImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDimension()
 	 * @generated
 	 */
-	int MEASUREMENT_DIMENSION = 20;
+	int DIMENSION = 18;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3012,7 +2956,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__NAME = NAMED_ELEMENT__NAME;
+	int DIMENSION__NAME = STRUCTURE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Holder</b></em>' container reference.
@@ -3021,7 +2965,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int DIMENSION__HOLDER = STRUCTURE__HOLDER;
 
 	/**
 	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
@@ -3030,25 +2974,70 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int DIMENSION__COMMENTS = STRUCTURE__COMMENTS;
 
 	/**
-	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
+	 * The feature id for the '<em><b>Is Specialized Via</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__LOWER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int DIMENSION__IS_SPECIALIZED_VIA = STRUCTURE__IS_SPECIALIZED_VIA;
 
 	/**
-	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
+	 * The feature id for the '<em><b>Specializes Via</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__UPPER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int DIMENSION__SPECIALIZES_VIA = STRUCTURE__SPECIALIZES_VIA;
+
+	/**
+	 * The feature id for the '<em><b>Regions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__REGIONS = STRUCTURE__REGIONS;
+
+	/**
+	 * The feature id for the '<em><b>Grounded Enumeration</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__GROUNDED_ENUMERATION = STRUCTURE__GROUNDED_ENUMERATION;
+
+	/**
+	 * The feature id for the '<em><b>Owner Domain</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__OWNER_DOMAIN = STRUCTURE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Lower Bound</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__LOWER_BOUND = STRUCTURE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Upper Bound</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__UPPER_BOUND = STRUCTURE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Unit Of Measure</b></em>' attribute.
@@ -3057,281 +3046,223 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__UNIT_OF_MEASURE = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int DIMENSION__UNIT_OF_MEASURE = STRUCTURE_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * The feature id for the '<em><b>Scale</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__DIMENSION = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int DIMENSION__SCALE = STRUCTURE_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Measurement</b></em>' attribute.
+	 * The feature id for the '<em><b>Measure</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__MEASUREMENT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int DIMENSION__MEASURE = STRUCTURE_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * The number of structural features of the '<em>Dimension</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION__OWNER = NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int DIMENSION_FEATURE_COUNT = STRUCTURE_FEATURE_COUNT + 6;
 
 	/**
-	 * The number of structural features of the '<em>Measurement Dimension</em>' class.
+	 * The operation id for the '<em>Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int DIMENSION___CHILDREN = STRUCTURE___CHILDREN;
 
 	/**
-	 * The number of operations of the '<em>Measurement Dimension</em>' class.
+	 * The operation id for the '<em>Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_DIMENSION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int DIMENSION___PARENTS = STRUCTURE___PARENTS;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.NominalDimensionImpl <em>Nominal Dimension</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.NominalDimensionImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getNominalDimension()
-	 * @generated
-	 */
-	int NOMINAL_DIMENSION = 21;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The operation id for the '<em>All Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NOMINAL_DIMENSION__NAME = NAMED_ELEMENT__NAME;
+	int DIMENSION___ALL_PARENTS__CLASSIFIER_ELIST = STRUCTURE___ALL_PARENTS__CLASSIFIER_ELIST;
 
 	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * The operation id for the '<em>All Parents</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NOMINAL_DIMENSION__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int DIMENSION___ALL_PARENTS = STRUCTURE___ALL_PARENTS;
 
 	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * The operation id for the '<em>All Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NOMINAL_DIMENSION__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int DIMENSION___ALL_CHILDREN__CLASSIFIER_ELIST = STRUCTURE___ALL_CHILDREN__CLASSIFIER_ELIST;
 
 	/**
-	 * The number of structural features of the '<em>Nominal Dimension</em>' class.
+	 * The operation id for the '<em>All Children</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NOMINAL_DIMENSION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int DIMENSION___ALL_CHILDREN = STRUCTURE___ALL_CHILDREN;
 
 	/**
-	 * The number of operations of the '<em>Nominal Dimension</em>' class.
+	 * The operation id for the '<em>Is Nominal</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NOMINAL_DIMENSION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int DIMENSION___IS_NOMINAL = STRUCTURE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementRegionImpl <em>Measurement Region</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.MeasurementRegionImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementRegion()
-	 * @generated
-	 */
-	int MEASUREMENT_REGION = 22;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The operation id for the '<em>Is Interval</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_REGION__NAME = NAMED_ELEMENT__NAME;
+	int DIMENSION___IS_INTERVAL = STRUCTURE_OPERATION_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * The operation id for the '<em>Is Ordinal</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_REGION__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int DIMENSION___IS_ORDINAL = STRUCTURE_OPERATION_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * The operation id for the '<em>Is Rational</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_REGION__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int DIMENSION___IS_RATIONAL = STRUCTURE_OPERATION_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Region</b></em>' attribute.
+	 * The operation id for the '<em>Is String</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_REGION__REGION = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int DIMENSION___IS_STRING = STRUCTURE_OPERATION_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>Measurement Region</em>' class.
+	 * The operation id for the '<em>Is Integer</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_REGION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int DIMENSION___IS_INTEGER = STRUCTURE_OPERATION_COUNT + 5;
 
 	/**
-	 * The number of operations of the '<em>Measurement Region</em>' class.
+	 * The operation id for the '<em>Is Decimal</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_REGION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int DIMENSION___IS_DECIMAL = STRUCTURE_OPERATION_COUNT + 6;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.StringNominalRegionImpl <em>String Nominal Region</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.StringNominalRegionImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getStringNominalRegion()
-	 * @generated
-	 */
-	int STRING_NOMINAL_REGION = 23;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The operation id for the '<em>Is Nominal String</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_NOMINAL_REGION__NAME = NAMED_ELEMENT__NAME;
+	int DIMENSION___IS_NOMINAL_STRING = STRUCTURE_OPERATION_COUNT + 7;
 
 	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * The operation id for the '<em>Is Interval Integer</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_NOMINAL_REGION__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int DIMENSION___IS_INTERVAL_INTEGER = STRUCTURE_OPERATION_COUNT + 8;
 
 	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * The operation id for the '<em>Is Interval Decimal</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_NOMINAL_REGION__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int DIMENSION___IS_INTERVAL_DECIMAL = STRUCTURE_OPERATION_COUNT + 9;
 
 	/**
-	 * The number of structural features of the '<em>String Nominal Region</em>' class.
+	 * The operation id for the '<em>Is Ordinal Integer</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_NOMINAL_REGION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int DIMENSION___IS_ORDINAL_INTEGER = STRUCTURE_OPERATION_COUNT + 10;
 
 	/**
-	 * The number of operations of the '<em>String Nominal Region</em>' class.
+	 * The operation id for the '<em>Is Ordinal Decimal</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_NOMINAL_REGION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int DIMENSION___IS_ORDINAL_DECIMAL = STRUCTURE_OPERATION_COUNT + 11;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementEnumerationImpl <em>Measurement Enumeration</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.MeasurementEnumerationImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementEnumeration()
-	 * @generated
-	 */
-	int MEASUREMENT_ENUMERATION = 24;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The operation id for the '<em>Is Rational Integer</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_ENUMERATION__NAME = NAMED_ELEMENT__NAME;
+	int DIMENSION___IS_RATIONAL_INTEGER = STRUCTURE_OPERATION_COUNT + 12;
 
 	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * The operation id for the '<em>Is Rational Decimal</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_ENUMERATION__HOLDER = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int DIMENSION___IS_RATIONAL_DECIMAL = STRUCTURE_OPERATION_COUNT + 13;
 
 	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * The number of operations of the '<em>Dimension</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEASUREMENT_ENUMERATION__COMMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Measurement Enumeration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEASUREMENT_ENUMERATION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Measurement Enumeration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEASUREMENT_ENUMERATION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int DIMENSION_OPERATION_COUNT = STRUCTURE_OPERATION_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
@@ -3341,7 +3272,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getUniversal()
 	 * @generated
 	 */
-	int UNIVERSAL = 25;
+	int UNIVERSAL = 19;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Quality <em>Quality</em>}' enum.
@@ -3351,7 +3282,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getQuality()
 	 * @generated
 	 */
-	int QUALITY = 26;
+	int QUALITY = 20;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Primitive <em>Primitive</em>}' enum.
@@ -3361,7 +3292,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitive()
 	 * @generated
 	 */
-	int PRIMITIVE = 27;
+	int PRIMITIVE = 21;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Relation <em>Relation</em>}' enum.
@@ -3371,47 +3302,27 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRelation()
 	 * @generated
 	 */
-	int RELATION = 28;
+	int RELATION = 22;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.AllenRelation <em>Allen Relation</em>}' enum.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Temporal <em>Temporal</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.AllenRelation
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAllenRelation()
+	 * @see net.menthor.metamodel.ontouml.Temporal
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getTemporal()
 	 * @generated
 	 */
-	int ALLEN_RELATION = 29;
+	int TEMPORAL = 23;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.DimensionType <em>Dimension Type</em>}' enum.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Scale <em>Scale</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.DimensionType
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDimensionType()
+	 * @see net.menthor.metamodel.ontouml.Scale
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getScale()
 	 * @generated
 	 */
-	int DIMENSION_TYPE = 30;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.MeasurementType <em>Measurement Type</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.MeasurementType
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementType()
-	 * @generated
-	 */
-	int MEASUREMENT_TYPE = 31;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Region <em>Region</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.Region
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRegion()
-	 * @generated
-	 */
-	int REGION = 32;
+	int SCALE = 24;
 
 
 	/**
@@ -3467,6 +3378,126 @@ public interface OntoumlPackage extends EPackage {
 	EReference getContainer_Elements();
 
 	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#packages() <em>Packages</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Packages</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#packages()
+	 * @generated
+	 */
+	EOperation getContainer__Packages();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allPackages(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList) <em>All Packages</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Packages</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allPackages(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getContainer__AllPackages__Container_EList();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allPackages() <em>All Packages</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Packages</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allPackages()
+	 * @generated
+	 */
+	EOperation getContainer__AllPackages();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#relationships() <em>Relationships</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Relationships</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#relationships()
+	 * @generated
+	 */
+	EOperation getContainer__Relationships();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allRelationships(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList) <em>All Relationships</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Relationships</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allRelationships(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getContainer__AllRelationships__Container_EList();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allRelationships() <em>All Relationships</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Relationships</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allRelationships()
+	 * @generated
+	 */
+	EOperation getContainer__AllRelationships();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#generalizationSets() <em>Generalization Sets</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Generalization Sets</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#generalizationSets()
+	 * @generated
+	 */
+	EOperation getContainer__GeneralizationSets();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allGeneralizationSets(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList) <em>All Generalization Sets</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Generalization Sets</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allGeneralizationSets(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getContainer__AllGeneralizationSets__Container_EList();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allGeneralizationSets() <em>All Generalization Sets</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Generalization Sets</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allGeneralizationSets()
+	 * @generated
+	 */
+	EOperation getContainer__AllGeneralizationSets();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#classes() <em>Classes</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Classes</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#classes()
+	 * @generated
+	 */
+	EOperation getContainer__Classes();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allClasses(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList) <em>All Classes</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Classes</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allClasses(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getContainer__AllClasses__Container_EList();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allClasses() <em>All Classes</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Classes</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Container#allClasses()
+	 * @generated
+	 */
+	EOperation getContainer__AllClasses();
+
+	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ContainedElement <em>Contained Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3497,6 +3528,26 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getContainedElement_Comments();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model</em>'.
+	 * @see net.menthor.metamodel.ontouml.Model
+	 * @generated
+	 */
+	EClass getModel();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Package <em>Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Package</em>'.
+	 * @see net.menthor.metamodel.ontouml.Package
+	 * @generated
+	 */
+	EClass getPackage();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Comment <em>Comment</em>}'.
@@ -3531,34 +3582,96 @@ public interface OntoumlPackage extends EPackage {
 	EReference getComment_Owner();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Classifier <em>Classifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Model</em>'.
-	 * @see net.menthor.metamodel.ontouml.Model
+	 * @return the meta object for class '<em>Classifier</em>'.
+	 * @see net.menthor.metamodel.ontouml.Classifier
 	 * @generated
 	 */
-	EClass getModel();
+	EClass getClassifier();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Package <em>Package</em>}'.
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Classifier#getIsSpecializedVia <em>Is Specialized Via</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Package</em>'.
-	 * @see net.menthor.metamodel.ontouml.Package
+	 * @return the meta object for the reference list '<em>Is Specialized Via</em>'.
+	 * @see net.menthor.metamodel.ontouml.Classifier#getIsSpecializedVia()
+	 * @see #getClassifier()
 	 * @generated
 	 */
-	EClass getPackage();
+	EReference getClassifier_IsSpecializedVia();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ClassifierElement <em>Classifier Element</em>}'.
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Classifier#getSpecializesVia <em>Specializes Via</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Classifier Element</em>'.
-	 * @see net.menthor.metamodel.ontouml.ClassifierElement
+	 * @return the meta object for the reference list '<em>Specializes Via</em>'.
+	 * @see net.menthor.metamodel.ontouml.Classifier#getSpecializesVia()
+	 * @see #getClassifier()
 	 * @generated
 	 */
-	EClass getClassifierElement();
+	EReference getClassifier_SpecializesVia();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Classifier#children() <em>Children</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Children</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Classifier#children()
+	 * @generated
+	 */
+	EOperation getClassifier__Children();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Classifier#parents() <em>Parents</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Parents</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Classifier#parents()
+	 * @generated
+	 */
+	EOperation getClassifier__Parents();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Classifier#allParents(net.menthor.metamodel.ontouml.Classifier, org.eclipse.emf.common.util.EList) <em>All Parents</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Parents</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Classifier#allParents(net.menthor.metamodel.ontouml.Classifier, org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getClassifier__AllParents__Classifier_EList();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Classifier#allParents() <em>All Parents</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Parents</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Classifier#allParents()
+	 * @generated
+	 */
+	EOperation getClassifier__AllParents();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Classifier#allChildren(net.menthor.metamodel.ontouml.Classifier, org.eclipse.emf.common.util.EList) <em>All Children</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Children</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Classifier#allChildren(net.menthor.metamodel.ontouml.Classifier, org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getClassifier__AllChildren__Classifier_EList();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Classifier#allChildren() <em>All Children</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Children</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Classifier#allChildren()
+	 * @generated
+	 */
+	EOperation getClassifier__AllChildren();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Class <em>Class</em>}'.
@@ -3580,28 +3693,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getClass_Stereotype();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#getQualityType <em>Quality Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Quality Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getQualityType()
-	 * @see #getClass_()
-	 * @generated
-	 */
-	EAttribute getClass_QualityType();
-
-	/**
-	 * Returns the meta object for the attribute list '{@link net.menthor.metamodel.ontouml.Class#getEnumerationLiterals <em>Enumeration Literals</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Enumeration Literals</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getEnumerationLiterals()
-	 * @see #getClass_()
-	 * @generated
-	 */
-	EAttribute getClass_EnumerationLiterals();
 
 	/**
 	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsAbstract <em>Is Abstract</em>}'.
@@ -3626,17 +3717,6 @@ public interface OntoumlPackage extends EPackage {
 	EAttribute getClass_IsDerived();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Extensional</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#isIsExtensional()
-	 * @see #getClass_()
-	 * @generated
-	 */
-	EAttribute getClass_IsExtensional();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link net.menthor.metamodel.ontouml.Class#getAttributes <em>Attributes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3648,15 +3728,37 @@ public interface OntoumlPackage extends EPackage {
 	EReference getClass_Attributes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIstruthMakerOf <em>Istruth Maker Of</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#getQualityType <em>Quality Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Istruth Maker Of</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getIstruthMakerOf()
+	 * @return the meta object for the attribute '<em>Quality Type</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getQualityType()
 	 * @see #getClass_()
 	 * @generated
 	 */
-	EReference getClass_IstruthMakerOf();
+	EAttribute getClass_QualityType();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link net.menthor.metamodel.ontouml.Class#getLiterals <em>Literals</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Literals</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getLiterals()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EReference getClass_Literals();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Class#getGroundingStructure <em>Grounding Structure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Grounding Structure</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getGroundingStructure()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EReference getClass_GroundingStructure();
 
 	/**
 	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getInstanceOf <em>Instance Of</em>}'.
@@ -3670,26 +3772,26 @@ public interface OntoumlPackage extends EPackage {
 	EReference getClass_InstanceOf();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIsSpecializedVia <em>Is Specialized Via</em>}'.
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getIstruthMakerOf <em>Istruth Maker Of</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Is Specialized Via</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getIsSpecializedVia()
+	 * @return the meta object for the reference list '<em>Istruth Maker Of</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#getIstruthMakerOf()
 	 * @see #getClass_()
 	 * @generated
 	 */
-	EReference getClass_IsSpecializedVia();
+	EReference getClass_IstruthMakerOf();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Class#getSpecializesVia <em>Specializes Via</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Specializes Via</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#getSpecializesVia()
+	 * @return the meta object for the attribute '<em>Is Extensional</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#isIsExtensional()
 	 * @see #getClass_()
 	 * @generated
 	 */
-	EReference getClass_SpecializesVia();
+	EAttribute getClass_IsExtensional();
 
 	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isKind() <em>Is Kind</em>}' operation.
@@ -3892,34 +3994,84 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getClass__IsAntiRigid();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#children() <em>Children</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isSemiRigid() <em>Is Semi Rigid</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Children</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Class#children()
+	 * @return the meta object for the '<em>Is Semi Rigid</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isSemiRigid()
 	 * @generated
 	 */
-	EOperation getClass__Children();
+	EOperation getClass__IsSemiRigid();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#parents() <em>Parents</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isIdentityProvider() <em>Is Identity Provider</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Parents</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Class#parents()
+	 * @return the meta object for the '<em>Is Identity Provider</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isIdentityProvider()
 	 * @generated
 	 */
-	EOperation getClass__Parents();
+	EOperation getClass__IsIdentityProvider();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#identidyProvider() <em>Identidy Provider</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isTruthMaker() <em>Is Truth Maker</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Identidy Provider</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Class#identidyProvider()
+	 * @return the meta object for the '<em>Is Truth Maker</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isTruthMaker()
 	 * @generated
 	 */
-	EOperation getClass__IdentidyProvider();
+	EOperation getClass__IsTruthMaker();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isMixinClass() <em>Is Mixin Class</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Mixin Class</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isMixinClass()
+	 * @generated
+	 */
+	EOperation getClass__IsMixinClass();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#identityProvidersAtAllParents() <em>Identity Providers At All Parents</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Identity Providers At All Parents</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#identityProvidersAtAllParents()
+	 * @generated
+	 */
+	EOperation getClass__IdentityProvidersAtAllParents();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#identityProvidersAtAllChildren() <em>Identity Providers At All Children</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Identity Providers At All Children</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#identityProvidersAtAllChildren()
+	 * @generated
+	 */
+	EOperation getClass__IdentityProvidersAtAllChildren();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#identityProviders() <em>Identity Providers</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Identity Providers</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#identityProviders()
+	 * @generated
+	 */
+	EOperation getClass__IdentityProviders();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isAmountOfMatter() <em>Is Amount Of Matter</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Amount Of Matter</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isAmountOfMatter()
+	 * @generated
+	 */
+	EOperation getClass__IsAmountOfMatter();
 
 	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isFunctionalComplex() <em>Is Functional Complex</em>}' operation.
@@ -3942,14 +4094,84 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getClass__IsCollection();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isAmountOfMatter() <em>Is Amount Of Matter</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#siblings() <em>Siblings</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Amount Of Matter</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Class#isAmountOfMatter()
+	 * @return the meta object for the '<em>Siblings</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#siblings()
 	 * @generated
 	 */
-	EOperation getClass__IsAmountOfMatter();
+	EOperation getClass__Siblings();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#overlapSiblings() <em>Overlap Siblings</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Overlap Siblings</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#overlapSiblings()
+	 * @generated
+	 */
+	EOperation getClass__OverlapSiblings();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#disjointSiblings() <em>Disjoint Siblings</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Disjoint Siblings</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#disjointSiblings()
+	 * @generated
+	 */
+	EOperation getClass__DisjointSiblings();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isDisjointOf(net.menthor.metamodel.ontouml.Class) <em>Is Disjoint Of</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Disjoint Of</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#isDisjointOf(net.menthor.metamodel.ontouml.Class)
+	 * @generated
+	 */
+	EOperation getClass__IsDisjointOf__Class();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#ends() <em>Ends</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Ends</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#ends()
+	 * @generated
+	 */
+	EOperation getClass__Ends();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#relatedClasses() <em>Related Classes</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Related Classes</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#relatedClasses()
+	 * @generated
+	 */
+	EOperation getClass__RelatedClasses();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#allRelatedClasses() <em>All Related Classes</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Related Classes</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#allRelatedClasses()
+	 * @generated
+	 */
+	EOperation getClass__AllRelatedClasses();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#allEnds() <em>All Ends</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>All Ends</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Class#allEnds()
+	 * @generated
+	 */
+	EOperation getClass__AllEnds();
 
 	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isIntrinsic() <em>Is Intrinsic</em>}' operation.
@@ -3960,26 +4182,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getClass__IsIntrinsic();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isTruthMaker() <em>Is Truth Maker</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Truth Maker</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Class#isTruthMaker()
-	 * @generated
-	 */
-	EOperation getClass__IsTruthMaker();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#setIsExtensional() <em>Set Is Extensional</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Set Is Extensional</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Class#setIsExtensional()
-	 * @generated
-	 */
-	EOperation getClass__SetIsExtensional();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.GeneralizationSet <em>Generalization Set</em>}'.
@@ -4003,26 +4205,26 @@ public interface OntoumlPackage extends EPackage {
 	EAttribute getGeneralizationSet_IsCovering();
 
 	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClass <em>Specialized Class</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClassifier <em>Specialized Classifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Specialized Class</em>'.
-	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClass()
+	 * @return the meta object for the reference '<em>Specialized Classifier</em>'.
+	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClassifier()
 	 * @see #getGeneralizationSet()
 	 * @generated
 	 */
-	EReference getGeneralizationSet_SpecializedClass();
+	EReference getGeneralizationSet_SpecializedClassifier();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializingClasses <em>Specializing Classes</em>}'.
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializingClassifier <em>Specializing Classifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Specializing Classes</em>'.
-	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializingClasses()
+	 * @return the meta object for the reference list '<em>Specializing Classifier</em>'.
+	 * @see net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializingClassifier()
 	 * @see #getGeneralizationSet()
 	 * @generated
 	 */
-	EReference getGeneralizationSet_SpecializingClasses();
+	EReference getGeneralizationSet_SpecializingClassifier();
 
 	/**
 	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHou <em>Hou</em>}'.
@@ -4090,15 +4292,90 @@ public interface OntoumlPackage extends EPackage {
 	EAttribute getProperty_UpperBound();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Property#isIsDependee <em>Is Dependee</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Property#isIsDependency <em>Is Dependency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Dependee</em>'.
-	 * @see net.menthor.metamodel.ontouml.Property#isIsDependee()
+	 * @return the meta object for the attribute '<em>Is Dependency</em>'.
+	 * @see net.menthor.metamodel.ontouml.Property#isIsDependency()
 	 * @see #getProperty()
 	 * @generated
 	 */
-	EAttribute getProperty_IsDependee();
+	EAttribute getProperty_IsDependency();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Attribute <em>Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Attribute</em>'.
+	 * @see net.menthor.metamodel.ontouml.Attribute
+	 * @generated
+	 */
+	EClass getAttribute();
+
+	/**
+	 * Returns the meta object for the container reference '{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Owner</em>'.
+	 * @see net.menthor.metamodel.ontouml.Attribute#getOwner()
+	 * @see #getAttribute()
+	 * @generated
+	 */
+	EReference getAttribute_Owner();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Attribute#getPrimitive <em>Primitive</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Primitive</em>'.
+	 * @see net.menthor.metamodel.ontouml.Attribute#getPrimitive()
+	 * @see #getAttribute()
+	 * @generated
+	 */
+	EAttribute getAttribute_Primitive();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Literal <em>Literal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Literal</em>'.
+	 * @see net.menthor.metamodel.ontouml.Literal
+	 * @generated
+	 */
+	EClass getLiteral();
+
+	/**
+	 * Returns the meta object for the container reference '{@link net.menthor.metamodel.ontouml.Literal#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Owner</em>'.
+	 * @see net.menthor.metamodel.ontouml.Literal#getOwner()
+	 * @see #getLiteral()
+	 * @generated
+	 */
+	EReference getLiteral_Owner();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Literal#getGroundingRegion <em>Grounding Region</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Grounding Region</em>'.
+	 * @see net.menthor.metamodel.ontouml.Literal#getGroundingRegion()
+	 * @see #getLiteral()
+	 * @generated
+	 */
+	EReference getLiteral_GroundingRegion();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Literal#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see net.menthor.metamodel.ontouml.Literal#getValue()
+	 * @see #getLiteral()
+	 * @generated
+	 */
+	EAttribute getLiteral_Value();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.EndPoint <em>End Point</em>}'.
@@ -4177,59 +4454,6 @@ public interface OntoumlPackage extends EPackage {
 	EReference getEndPoint_IsRedefinedBy();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Attribute <em>Attribute</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Attribute</em>'.
-	 * @see net.menthor.metamodel.ontouml.Attribute
-	 * @generated
-	 */
-	EClass getAttribute();
-
-	/**
-	 * Returns the meta object for the container reference '{@link net.menthor.metamodel.ontouml.Attribute#getOwner <em>Owner</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Owner</em>'.
-	 * @see net.menthor.metamodel.ontouml.Attribute#getOwner()
-	 * @see #getAttribute()
-	 * @generated
-	 */
-	EReference getAttribute_Owner();
-
-	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Attribute#getPrimitiveType <em>Primitive Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Primitive Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.Attribute#getPrimitiveType()
-	 * @see #getAttribute()
-	 * @generated
-	 */
-	EReference getAttribute_PrimitiveType();
-
-	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.PrimitiveType <em>Primitive Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Primitive Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.PrimitiveType
-	 * @generated
-	 */
-	EClass getPrimitiveType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.PrimitiveType#getPrimitive <em>Primitive</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Primitive</em>'.
-	 * @see net.menthor.metamodel.ontouml.PrimitiveType#getPrimitive()
-	 * @see #getPrimitiveType()
-	 * @generated
-	 */
-	EAttribute getPrimitiveType_Primitive();
-
-	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Relationship <em>Relationship</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4273,15 +4497,15 @@ public interface OntoumlPackage extends EPackage {
 	EReference getRelationship_EndPoints();
 
 	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Relationship#getTruthMaker <em>Truth Maker</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Relationship#getDerivedFromTruthMaker <em>Derived From Truth Maker</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Truth Maker</em>'.
-	 * @see net.menthor.metamodel.ontouml.Relationship#getTruthMaker()
+	 * @return the meta object for the reference '<em>Derived From Truth Maker</em>'.
+	 * @see net.menthor.metamodel.ontouml.Relationship#getDerivedFromTruthMaker()
 	 * @see #getRelationship()
 	 * @generated
 	 */
-	EReference getRelationship_TruthMaker();
+	EReference getRelationship_DerivedFromTruthMaker();
 
 	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isShareable() <em>Is Shareable</em>}' operation.
@@ -4434,6 +4658,16 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getRelationship__IsTemporal();
 
 	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isDerivation() <em>Is Derivation</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Derivation</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isDerivation()
+	 * @generated
+	 */
+	EOperation getRelationship__IsDerivation();
+
+	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isStarts() <em>Is Starts</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4514,322 +4748,547 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getRelationship__IsMeronymic();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.BinaryRelationship <em>Binary Relationship</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isBinary() <em>Is Binary</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Binary Relationship</em>'.
-	 * @see net.menthor.metamodel.ontouml.BinaryRelationship
+	 * @return the meta object for the '<em>Is Binary</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isBinary()
 	 * @generated
 	 */
-	EClass getBinaryRelationship();
+	EOperation getRelationship__IsBinary();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryRelationship#sourceEndPoint() <em>Source End Point</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isTernary() <em>Is Ternary</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Source End Point</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryRelationship#sourceEndPoint()
+	 * @return the meta object for the '<em>Is Ternary</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isTernary()
 	 * @generated
 	 */
-	EOperation getBinaryRelationship__SourceEndPoint();
+	EOperation getRelationship__IsTernary();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryRelationship#targetEndPoint() <em>Target End Point</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#sourceEnd() <em>Source End</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Target End Point</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryRelationship#targetEndPoint()
+	 * @return the meta object for the '<em>Source End</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#sourceEnd()
 	 * @generated
 	 */
-	EOperation getBinaryRelationship__TargetEndPoint();
+	EOperation getRelationship__SourceEnd();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryRelationship#isDerived() <em>Is Derived</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#targetEnd() <em>Target End</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Derived</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryRelationship#isDerived()
+	 * @return the meta object for the '<em>Target End</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#targetEnd()
 	 * @generated
 	 */
-	EOperation getBinaryRelationship__IsDerived();
+	EOperation getRelationship__TargetEnd();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship <em>Binary Class Relationship</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#source() <em>Source</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Binary Class Relationship</em>'.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship
+	 * @return the meta object for the '<em>Source</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#source()
 	 * @generated
 	 */
-	EClass getBinaryClassRelationship();
+	EOperation getRelationship__Source();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#sourceClass() <em>Source Class</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#target() <em>Target</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Target</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#target()
+	 * @generated
+	 */
+	EOperation getRelationship__Target();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#sourceClass() <em>Source Class</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Source Class</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#sourceClass()
+	 * @see net.menthor.metamodel.ontouml.Relationship#sourceClass()
 	 * @generated
 	 */
-	EOperation getBinaryClassRelationship__SourceClass();
+	EOperation getRelationship__SourceClass();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#targetClass() <em>Target Class</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#targetClass() <em>Target Class</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Target Class</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#targetClass()
+	 * @see net.menthor.metamodel.ontouml.Relationship#targetClass()
 	 * @generated
 	 */
-	EOperation getBinaryClassRelationship__TargetClass();
+	EOperation getRelationship__TargetClass();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartEssential() <em>Is Part Essential</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Part Essential</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartEssential()
-	 * @generated
-	 */
-	EOperation getBinaryClassRelationship__IsPartEssential();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartInseparable() <em>Is Part Inseparable</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Part Inseparable</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartInseparable()
-	 * @generated
-	 */
-	EOperation getBinaryClassRelationship__IsPartInseparable();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartImmutable() <em>Is Part Immutable</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Part Immutable</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartImmutable()
-	 * @generated
-	 */
-	EOperation getBinaryClassRelationship__IsPartImmutable();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#isWholeImmutable() <em>Is Whole Immutable</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Whole Immutable</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#isWholeImmutable()
-	 * @generated
-	 */
-	EOperation getBinaryClassRelationship__IsWholeImmutable();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartMandatory() <em>Is Part Mandatory</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Part Mandatory</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#isPartMandatory()
-	 * @generated
-	 */
-	EOperation getBinaryClassRelationship__IsPartMandatory();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.BinaryClassRelationship#isWholeMandatory() <em>Is Whole Mandatory</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Whole Mandatory</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.BinaryClassRelationship#isWholeMandatory()
-	 * @generated
-	 */
-	EOperation getBinaryClassRelationship__IsWholeMandatory();
-
-	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.DerivationRelationship <em>Derivation Relationship</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Derivation Relationship</em>'.
-	 * @see net.menthor.metamodel.ontouml.DerivationRelationship
-	 * @generated
-	 */
-	EClass getDerivationRelationship();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.DerivationRelationship#sourceRelationship() <em>Source Relationship</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#sourceRelationship() <em>Source Relationship</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Source Relationship</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.DerivationRelationship#sourceRelationship()
+	 * @see net.menthor.metamodel.ontouml.Relationship#sourceRelationship()
 	 * @generated
 	 */
-	EOperation getDerivationRelationship__SourceRelationship();
+	EOperation getRelationship__SourceRelationship();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.DerivationRelationship#targetClass() <em>Target Class</em>}' operation.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#targetRelationship() <em>Target Relationship</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Target Class</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.DerivationRelationship#targetClass()
+	 * @return the meta object for the '<em>Target Relationship</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#targetRelationship()
 	 * @generated
 	 */
-	EOperation getDerivationRelationship__TargetClass();
+	EOperation getRelationship__TargetRelationship();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.NAryClassRelationship <em>NAry Class Relationship</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isDerived() <em>Is Derived</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>NAry Class Relationship</em>'.
-	 * @see net.menthor.metamodel.ontouml.NAryClassRelationship
+	 * @return the meta object for the '<em>Is Derived</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isDerived()
 	 * @generated
 	 */
-	EClass getNAryClassRelationship();
+	EOperation getRelationship__IsDerived();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.MeasurementDomain <em>Measurement Domain</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isPartEssential() <em>Is Part Essential</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Measurement Domain</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDomain
+	 * @return the meta object for the '<em>Is Part Essential</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isPartEssential()
 	 * @generated
 	 */
-	EClass getMeasurementDomain();
+	EOperation getRelationship__IsPartEssential();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.MeasurementDomain#getDimensions <em>Dimensions</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isPartInseparable() <em>Is Part Inseparable</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Part Inseparable</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isPartInseparable()
+	 * @generated
+	 */
+	EOperation getRelationship__IsPartInseparable();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isPartImmutable() <em>Is Part Immutable</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Part Immutable</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isPartImmutable()
+	 * @generated
+	 */
+	EOperation getRelationship__IsPartImmutable();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isWholeImmutable() <em>Is Whole Immutable</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Whole Immutable</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isWholeImmutable()
+	 * @generated
+	 */
+	EOperation getRelationship__IsWholeImmutable();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isPartMandatory() <em>Is Part Mandatory</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Part Mandatory</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isPartMandatory()
+	 * @generated
+	 */
+	EOperation getRelationship__IsPartMandatory();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isWholeMandatory() <em>Is Whole Mandatory</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Whole Mandatory</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#isWholeMandatory()
+	 * @generated
+	 */
+	EOperation getRelationship__IsWholeMandatory();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#material() <em>Material</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Material</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#material()
+	 * @generated
+	 */
+	EOperation getRelationship__Material();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#relator() <em>Relator</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Relator</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Relationship#relator()
+	 * @generated
+	 */
+	EOperation getRelationship__Relator();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Structure <em>Structure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Structure</em>'.
+	 * @see net.menthor.metamodel.ontouml.Structure
+	 * @generated
+	 */
+	EClass getStructure();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Structure#getRegions <em>Regions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Regions</em>'.
+	 * @see net.menthor.metamodel.ontouml.Structure#getRegions()
+	 * @see #getStructure()
+	 * @generated
+	 */
+	EReference getStructure_Regions();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Structure#getGroundedEnumeration <em>Grounded Enumeration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Grounded Enumeration</em>'.
+	 * @see net.menthor.metamodel.ontouml.Structure#getGroundedEnumeration()
+	 * @see #getStructure()
+	 * @generated
+	 */
+	EReference getStructure_GroundedEnumeration();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Region <em>Region</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Region</em>'.
+	 * @see net.menthor.metamodel.ontouml.Region
+	 * @generated
+	 */
+	EClass getRegion();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Region#getOwnerStructure <em>Owner Structure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Owner Structure</em>'.
+	 * @see net.menthor.metamodel.ontouml.Region#getOwnerStructure()
+	 * @see #getRegion()
+	 * @generated
+	 */
+	EReference getRegion_OwnerStructure();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Region#getGroundedLiteral <em>Grounded Literal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Grounded Literal</em>'.
+	 * @see net.menthor.metamodel.ontouml.Region#getGroundedLiteral()
+	 * @see #getRegion()
+	 * @generated
+	 */
+	EReference getRegion_GroundedLiteral();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Region#getComposedBy <em>Composed By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Composed By</em>'.
+	 * @see net.menthor.metamodel.ontouml.Region#getComposedBy()
+	 * @see #getRegion()
+	 * @generated
+	 */
+	EReference getRegion_ComposedBy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Region#getBasicType <em>Basic Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Basic Type</em>'.
+	 * @see net.menthor.metamodel.ontouml.Region#getBasicType()
+	 * @see #getRegion()
+	 * @generated
+	 */
+	EAttribute getRegion_BasicType();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Region#isBasic() <em>Is Basic</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Basic</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Region#isBasic()
+	 * @generated
+	 */
+	EOperation getRegion__IsBasic();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Region#isComposed() <em>Is Composed</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Composed</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Region#isComposed()
+	 * @generated
+	 */
+	EOperation getRegion__IsComposed();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Region#isNominal() <em>Is Nominal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Nominal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Region#isNominal()
+	 * @generated
+	 */
+	EOperation getRegion__IsNominal();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Domain <em>Domain</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Domain</em>'.
+	 * @see net.menthor.metamodel.ontouml.Domain
+	 * @generated
+	 */
+	EClass getDomain();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.menthor.metamodel.ontouml.Domain#getDimensions <em>Dimensions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Dimensions</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDomain#getDimensions()
-	 * @see #getMeasurementDomain()
+	 * @see net.menthor.metamodel.ontouml.Domain#getDimensions()
+	 * @see #getDomain()
 	 * @generated
 	 */
-	EReference getMeasurementDomain_Dimensions();
+	EReference getDomain_Dimensions();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.MeasurementDimension <em>Measurement Dimension</em>}'.
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Dimension <em>Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Measurement Dimension</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension
+	 * @return the meta object for class '<em>Dimension</em>'.
+	 * @see net.menthor.metamodel.ontouml.Dimension
 	 * @generated
 	 */
-	EClass getMeasurementDimension();
+	EClass getDimension();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.MeasurementDimension#getLowerBound <em>Lower Bound</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Dimension#getOwnerDomain <em>Owner Domain</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Lower Bound</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension#getLowerBound()
-	 * @see #getMeasurementDimension()
+	 * @return the meta object for the reference '<em>Owner Domain</em>'.
+	 * @see net.menthor.metamodel.ontouml.Dimension#getOwnerDomain()
+	 * @see #getDimension()
 	 * @generated
 	 */
-	EAttribute getMeasurementDimension_LowerBound();
+	EReference getDimension_OwnerDomain();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.MeasurementDimension#getUpperBound <em>Upper Bound</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Dimension#getLowerBound <em>Lower Bound</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Upper Bound</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension#getUpperBound()
-	 * @see #getMeasurementDimension()
+	 * @return the meta object for the reference '<em>Lower Bound</em>'.
+	 * @see net.menthor.metamodel.ontouml.Dimension#getLowerBound()
+	 * @see #getDimension()
 	 * @generated
 	 */
-	EAttribute getMeasurementDimension_UpperBound();
+	EReference getDimension_LowerBound();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.MeasurementDimension#getUnitOfMeasure <em>Unit Of Measure</em>}'.
+	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.Dimension#getUpperBound <em>Upper Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Upper Bound</em>'.
+	 * @see net.menthor.metamodel.ontouml.Dimension#getUpperBound()
+	 * @see #getDimension()
+	 * @generated
+	 */
+	EReference getDimension_UpperBound();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Dimension#getUnitOfMeasure <em>Unit Of Measure</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Unit Of Measure</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension#getUnitOfMeasure()
-	 * @see #getMeasurementDimension()
+	 * @see net.menthor.metamodel.ontouml.Dimension#getUnitOfMeasure()
+	 * @see #getDimension()
 	 * @generated
 	 */
-	EAttribute getMeasurementDimension_UnitOfMeasure();
+	EAttribute getDimension_UnitOfMeasure();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.MeasurementDimension#getDimension <em>Dimension</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Dimension#getScale <em>Scale</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Dimension</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension#getDimension()
-	 * @see #getMeasurementDimension()
+	 * @return the meta object for the attribute '<em>Scale</em>'.
+	 * @see net.menthor.metamodel.ontouml.Dimension#getScale()
+	 * @see #getDimension()
 	 * @generated
 	 */
-	EAttribute getMeasurementDimension_Dimension();
+	EAttribute getDimension_Scale();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.MeasurementDimension#getMeasurement <em>Measurement</em>}'.
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Dimension#getMeasure <em>Measure</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Measurement</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension#getMeasurement()
-	 * @see #getMeasurementDimension()
+	 * @return the meta object for the attribute '<em>Measure</em>'.
+	 * @see net.menthor.metamodel.ontouml.Dimension#getMeasure()
+	 * @see #getDimension()
 	 * @generated
 	 */
-	EAttribute getMeasurementDimension_Measurement();
+	EAttribute getDimension_Measure();
 
 	/**
-	 * Returns the meta object for the reference '{@link net.menthor.metamodel.ontouml.MeasurementDimension#getOwner <em>Owner</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isNominal() <em>Is Nominal</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Owner</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementDimension#getOwner()
-	 * @see #getMeasurementDimension()
+	 * @return the meta object for the '<em>Is Nominal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isNominal()
 	 * @generated
 	 */
-	EReference getMeasurementDimension_Owner();
+	EOperation getDimension__IsNominal();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.NominalDimension <em>Nominal Dimension</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isInterval() <em>Is Interval</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Nominal Dimension</em>'.
-	 * @see net.menthor.metamodel.ontouml.NominalDimension
+	 * @return the meta object for the '<em>Is Interval</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isInterval()
 	 * @generated
 	 */
-	EClass getNominalDimension();
+	EOperation getDimension__IsInterval();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.MeasurementRegion <em>Measurement Region</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isOrdinal() <em>Is Ordinal</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Measurement Region</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementRegion
+	 * @return the meta object for the '<em>Is Ordinal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isOrdinal()
 	 * @generated
 	 */
-	EClass getMeasurementRegion();
+	EOperation getDimension__IsOrdinal();
 
 	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.MeasurementRegion#getRegion <em>Region</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isRational() <em>Is Rational</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Region</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementRegion#getRegion()
-	 * @see #getMeasurementRegion()
+	 * @return the meta object for the '<em>Is Rational</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isRational()
 	 * @generated
 	 */
-	EAttribute getMeasurementRegion_Region();
+	EOperation getDimension__IsRational();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.StringNominalRegion <em>String Nominal Region</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isString() <em>Is String</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>String Nominal Region</em>'.
-	 * @see net.menthor.metamodel.ontouml.StringNominalRegion
+	 * @return the meta object for the '<em>Is String</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isString()
 	 * @generated
 	 */
-	EClass getStringNominalRegion();
+	EOperation getDimension__IsString();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.MeasurementEnumeration <em>Measurement Enumeration</em>}'.
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isInteger() <em>Is Integer</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Measurement Enumeration</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementEnumeration
+	 * @return the meta object for the '<em>Is Integer</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isInteger()
 	 * @generated
 	 */
-	EClass getMeasurementEnumeration();
+	EOperation getDimension__IsInteger();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isDecimal() <em>Is Decimal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Decimal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isDecimal()
+	 * @generated
+	 */
+	EOperation getDimension__IsDecimal();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isNominalString() <em>Is Nominal String</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Nominal String</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isNominalString()
+	 * @generated
+	 */
+	EOperation getDimension__IsNominalString();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isIntervalInteger() <em>Is Interval Integer</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Interval Integer</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isIntervalInteger()
+	 * @generated
+	 */
+	EOperation getDimension__IsIntervalInteger();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isIntervalDecimal() <em>Is Interval Decimal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Interval Decimal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isIntervalDecimal()
+	 * @generated
+	 */
+	EOperation getDimension__IsIntervalDecimal();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isOrdinalInteger() <em>Is Ordinal Integer</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Ordinal Integer</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isOrdinalInteger()
+	 * @generated
+	 */
+	EOperation getDimension__IsOrdinalInteger();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isOrdinalDecimal() <em>Is Ordinal Decimal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Ordinal Decimal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isOrdinalDecimal()
+	 * @generated
+	 */
+	EOperation getDimension__IsOrdinalDecimal();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isRationalInteger() <em>Is Rational Integer</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Rational Integer</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isRationalInteger()
+	 * @generated
+	 */
+	EOperation getDimension__IsRationalInteger();
+
+	/**
+	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Dimension#isRationalDecimal() <em>Is Rational Decimal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Rational Decimal</em>' operation.
+	 * @see net.menthor.metamodel.ontouml.Dimension#isRationalDecimal()
+	 * @generated
+	 */
+	EOperation getDimension__IsRationalDecimal();
 
 	/**
 	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}'.
@@ -4872,44 +5331,24 @@ public interface OntoumlPackage extends EPackage {
 	EEnum getRelation();
 
 	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.AllenRelation <em>Allen Relation</em>}'.
+	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Temporal <em>Temporal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Allen Relation</em>'.
-	 * @see net.menthor.metamodel.ontouml.AllenRelation
+	 * @return the meta object for enum '<em>Temporal</em>'.
+	 * @see net.menthor.metamodel.ontouml.Temporal
 	 * @generated
 	 */
-	EEnum getAllenRelation();
+	EEnum getTemporal();
 
 	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.DimensionType <em>Dimension Type</em>}'.
+	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Scale <em>Scale</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Dimension Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.DimensionType
+	 * @return the meta object for enum '<em>Scale</em>'.
+	 * @see net.menthor.metamodel.ontouml.Scale
 	 * @generated
 	 */
-	EEnum getDimensionType();
-
-	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.MeasurementType <em>Measurement Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Measurement Type</em>'.
-	 * @see net.menthor.metamodel.ontouml.MeasurementType
-	 * @generated
-	 */
-	EEnum getMeasurementType();
-
-	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Region <em>Region</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Region</em>'.
-	 * @see net.menthor.metamodel.ontouml.Region
-	 * @generated
-	 */
-	EEnum getRegion();
+	EEnum getScale();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -4981,6 +5420,102 @@ public interface OntoumlPackage extends EPackage {
 		EReference CONTAINER__ELEMENTS = eINSTANCE.getContainer_Elements();
 
 		/**
+		 * The meta object literal for the '<em><b>Packages</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___PACKAGES = eINSTANCE.getContainer__Packages();
+
+		/**
+		 * The meta object literal for the '<em><b>All Packages</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_PACKAGES__CONTAINER_ELIST = eINSTANCE.getContainer__AllPackages__Container_EList();
+
+		/**
+		 * The meta object literal for the '<em><b>All Packages</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_PACKAGES = eINSTANCE.getContainer__AllPackages();
+
+		/**
+		 * The meta object literal for the '<em><b>Relationships</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___RELATIONSHIPS = eINSTANCE.getContainer__Relationships();
+
+		/**
+		 * The meta object literal for the '<em><b>All Relationships</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_RELATIONSHIPS__CONTAINER_ELIST = eINSTANCE.getContainer__AllRelationships__Container_EList();
+
+		/**
+		 * The meta object literal for the '<em><b>All Relationships</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_RELATIONSHIPS = eINSTANCE.getContainer__AllRelationships();
+
+		/**
+		 * The meta object literal for the '<em><b>Generalization Sets</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___GENERALIZATION_SETS = eINSTANCE.getContainer__GeneralizationSets();
+
+		/**
+		 * The meta object literal for the '<em><b>All Generalization Sets</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_GENERALIZATION_SETS__CONTAINER_ELIST = eINSTANCE.getContainer__AllGeneralizationSets__Container_EList();
+
+		/**
+		 * The meta object literal for the '<em><b>All Generalization Sets</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_GENERALIZATION_SETS = eINSTANCE.getContainer__AllGeneralizationSets();
+
+		/**
+		 * The meta object literal for the '<em><b>Classes</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___CLASSES = eINSTANCE.getContainer__Classes();
+
+		/**
+		 * The meta object literal for the '<em><b>All Classes</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_CLASSES__CONTAINER_ELIST = eINSTANCE.getContainer__AllClasses__Container_EList();
+
+		/**
+		 * The meta object literal for the '<em><b>All Classes</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CONTAINER___ALL_CLASSES = eINSTANCE.getContainer__AllClasses();
+
+		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl <em>Contained Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5005,6 +5540,26 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CONTAINED_ELEMENT__COMMENTS = eINSTANCE.getContainedElement_Comments();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.ModelImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getModel()
+		 * @generated
+		 */
+		EClass MODEL = eINSTANCE.getModel();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PackageImpl <em>Package</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.PackageImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackage()
+		 * @generated
+		 */
+		EClass PACKAGE = eINSTANCE.getPackage();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.CommentImpl <em>Comment</em>}' class.
@@ -5033,34 +5588,78 @@ public interface OntoumlPackage extends EPackage {
 		EReference COMMENT__OWNER = eINSTANCE.getComment_Owner();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl <em>Classifier</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.ModelImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getModel()
+		 * @see net.menthor.metamodel.ontouml.impl.ClassifierImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassifier()
 		 * @generated
 		 */
-		EClass MODEL = eINSTANCE.getModel();
+		EClass CLASSIFIER = eINSTANCE.getClassifier();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PackageImpl <em>Package</em>}' class.
+		 * The meta object literal for the '<em><b>Is Specialized Via</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.PackageImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackage()
 		 * @generated
 		 */
-		EClass PACKAGE = eINSTANCE.getPackage();
+		EReference CLASSIFIER__IS_SPECIALIZED_VIA = eINSTANCE.getClassifier_IsSpecializedVia();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassifierElementImpl <em>Classifier Element</em>}' class.
+		 * The meta object literal for the '<em><b>Specializes Via</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.ClassifierElementImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassifierElement()
 		 * @generated
 		 */
-		EClass CLASSIFIER_ELEMENT = eINSTANCE.getClassifierElement();
+		EReference CLASSIFIER__SPECIALIZES_VIA = eINSTANCE.getClassifier_SpecializesVia();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___CHILDREN = eINSTANCE.getClassifier__Children();
+
+		/**
+		 * The meta object literal for the '<em><b>Parents</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___PARENTS = eINSTANCE.getClassifier__Parents();
+
+		/**
+		 * The meta object literal for the '<em><b>All Parents</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___ALL_PARENTS__CLASSIFIER_ELIST = eINSTANCE.getClassifier__AllParents__Classifier_EList();
+
+		/**
+		 * The meta object literal for the '<em><b>All Parents</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___ALL_PARENTS = eINSTANCE.getClassifier__AllParents();
+
+		/**
+		 * The meta object literal for the '<em><b>All Children</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___ALL_CHILDREN__CLASSIFIER_ELIST = eINSTANCE.getClassifier__AllChildren__Classifier_EList();
+
+		/**
+		 * The meta object literal for the '<em><b>All Children</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___ALL_CHILDREN = eINSTANCE.getClassifier__AllChildren();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassImpl <em>Class</em>}' class.
@@ -5081,22 +5680,6 @@ public interface OntoumlPackage extends EPackage {
 		EAttribute CLASS__STEREOTYPE = eINSTANCE.getClass_Stereotype();
 
 		/**
-		 * The meta object literal for the '<em><b>Quality Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS__QUALITY_TYPE = eINSTANCE.getClass_QualityType();
-
-		/**
-		 * The meta object literal for the '<em><b>Enumeration Literals</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS__ENUMERATION_LITERALS = eINSTANCE.getClass_EnumerationLiterals();
-
-		/**
 		 * The meta object literal for the '<em><b>Is Abstract</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5113,14 +5696,6 @@ public interface OntoumlPackage extends EPackage {
 		EAttribute CLASS__IS_DERIVED = eINSTANCE.getClass_IsDerived();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Extensional</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS__IS_EXTENSIONAL = eINSTANCE.getClass_IsExtensional();
-
-		/**
 		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5129,12 +5704,28 @@ public interface OntoumlPackage extends EPackage {
 		EReference CLASS__ATTRIBUTES = eINSTANCE.getClass_Attributes();
 
 		/**
-		 * The meta object literal for the '<em><b>Istruth Maker Of</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Quality Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__ISTRUTH_MAKER_OF = eINSTANCE.getClass_IstruthMakerOf();
+		EAttribute CLASS__QUALITY_TYPE = eINSTANCE.getClass_QualityType();
+
+		/**
+		 * The meta object literal for the '<em><b>Literals</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASS__LITERALS = eINSTANCE.getClass_Literals();
+
+		/**
+		 * The meta object literal for the '<em><b>Grounding Structure</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASS__GROUNDING_STRUCTURE = eINSTANCE.getClass_GroundingStructure();
 
 		/**
 		 * The meta object literal for the '<em><b>Instance Of</b></em>' reference list feature.
@@ -5145,20 +5736,20 @@ public interface OntoumlPackage extends EPackage {
 		EReference CLASS__INSTANCE_OF = eINSTANCE.getClass_InstanceOf();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Specialized Via</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Istruth Maker Of</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__IS_SPECIALIZED_VIA = eINSTANCE.getClass_IsSpecializedVia();
+		EReference CLASS__ISTRUTH_MAKER_OF = eINSTANCE.getClass_IstruthMakerOf();
 
 		/**
-		 * The meta object literal for the '<em><b>Specializes Via</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Is Extensional</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS__SPECIALIZES_VIA = eINSTANCE.getClass_SpecializesVia();
+		EAttribute CLASS__IS_EXTENSIONAL = eINSTANCE.getClass_IsExtensional();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Kind</b></em>' operation.
@@ -5321,28 +5912,68 @@ public interface OntoumlPackage extends EPackage {
 		EOperation CLASS___IS_ANTI_RIGID = eINSTANCE.getClass__IsAntiRigid();
 
 		/**
-		 * The meta object literal for the '<em><b>Children</b></em>' operation.
+		 * The meta object literal for the '<em><b>Is Semi Rigid</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CLASS___CHILDREN = eINSTANCE.getClass__Children();
+		EOperation CLASS___IS_SEMI_RIGID = eINSTANCE.getClass__IsSemiRigid();
 
 		/**
-		 * The meta object literal for the '<em><b>Parents</b></em>' operation.
+		 * The meta object literal for the '<em><b>Is Identity Provider</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CLASS___PARENTS = eINSTANCE.getClass__Parents();
+		EOperation CLASS___IS_IDENTITY_PROVIDER = eINSTANCE.getClass__IsIdentityProvider();
 
 		/**
-		 * The meta object literal for the '<em><b>Identidy Provider</b></em>' operation.
+		 * The meta object literal for the '<em><b>Is Truth Maker</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CLASS___IDENTIDY_PROVIDER = eINSTANCE.getClass__IdentidyProvider();
+		EOperation CLASS___IS_TRUTH_MAKER = eINSTANCE.getClass__IsTruthMaker();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Mixin Class</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___IS_MIXIN_CLASS = eINSTANCE.getClass__IsMixinClass();
+
+		/**
+		 * The meta object literal for the '<em><b>Identity Providers At All Parents</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___IDENTITY_PROVIDERS_AT_ALL_PARENTS = eINSTANCE.getClass__IdentityProvidersAtAllParents();
+
+		/**
+		 * The meta object literal for the '<em><b>Identity Providers At All Children</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___IDENTITY_PROVIDERS_AT_ALL_CHILDREN = eINSTANCE.getClass__IdentityProvidersAtAllChildren();
+
+		/**
+		 * The meta object literal for the '<em><b>Identity Providers</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___IDENTITY_PROVIDERS = eINSTANCE.getClass__IdentityProviders();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Amount Of Matter</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___IS_AMOUNT_OF_MATTER = eINSTANCE.getClass__IsAmountOfMatter();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Functional Complex</b></em>' operation.
@@ -5361,12 +5992,68 @@ public interface OntoumlPackage extends EPackage {
 		EOperation CLASS___IS_COLLECTION = eINSTANCE.getClass__IsCollection();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Amount Of Matter</b></em>' operation.
+		 * The meta object literal for the '<em><b>Siblings</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation CLASS___IS_AMOUNT_OF_MATTER = eINSTANCE.getClass__IsAmountOfMatter();
+		EOperation CLASS___SIBLINGS = eINSTANCE.getClass__Siblings();
+
+		/**
+		 * The meta object literal for the '<em><b>Overlap Siblings</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___OVERLAP_SIBLINGS = eINSTANCE.getClass__OverlapSiblings();
+
+		/**
+		 * The meta object literal for the '<em><b>Disjoint Siblings</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___DISJOINT_SIBLINGS = eINSTANCE.getClass__DisjointSiblings();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Disjoint Of</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___IS_DISJOINT_OF__CLASS = eINSTANCE.getClass__IsDisjointOf__Class();
+
+		/**
+		 * The meta object literal for the '<em><b>Ends</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___ENDS = eINSTANCE.getClass__Ends();
+
+		/**
+		 * The meta object literal for the '<em><b>Related Classes</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___RELATED_CLASSES = eINSTANCE.getClass__RelatedClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>All Related Classes</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___ALL_RELATED_CLASSES = eINSTANCE.getClass__AllRelatedClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>All Ends</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASS___ALL_ENDS = eINSTANCE.getClass__AllEnds();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Intrinsic</b></em>' operation.
@@ -5375,22 +6062,6 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation CLASS___IS_INTRINSIC = eINSTANCE.getClass__IsIntrinsic();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Truth Maker</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation CLASS___IS_TRUTH_MAKER = eINSTANCE.getClass__IsTruthMaker();
-
-		/**
-		 * The meta object literal for the '<em><b>Set Is Extensional</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation CLASS___SET_IS_EXTENSIONAL = eINSTANCE.getClass__SetIsExtensional();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl <em>Generalization Set</em>}' class.
@@ -5411,20 +6082,20 @@ public interface OntoumlPackage extends EPackage {
 		EAttribute GENERALIZATION_SET__IS_COVERING = eINSTANCE.getGeneralizationSet_IsCovering();
 
 		/**
-		 * The meta object literal for the '<em><b>Specialized Class</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Specialized Classifier</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GENERALIZATION_SET__SPECIALIZED_CLASS = eINSTANCE.getGeneralizationSet_SpecializedClass();
+		EReference GENERALIZATION_SET__SPECIALIZED_CLASSIFIER = eINSTANCE.getGeneralizationSet_SpecializedClassifier();
 
 		/**
-		 * The meta object literal for the '<em><b>Specializing Classes</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Specializing Classifier</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GENERALIZATION_SET__SPECIALIZING_CLASSES = eINSTANCE.getGeneralizationSet_SpecializingClasses();
+		EReference GENERALIZATION_SET__SPECIALIZING_CLASSIFIER = eINSTANCE.getGeneralizationSet_SpecializingClassifier();
 
 		/**
 		 * The meta object literal for the '<em><b>Hou</b></em>' reference feature.
@@ -5477,12 +6148,72 @@ public interface OntoumlPackage extends EPackage {
 		EAttribute PROPERTY__UPPER_BOUND = eINSTANCE.getProperty_UpperBound();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Dependee</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Is Dependency</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROPERTY__IS_DEPENDEE = eINSTANCE.getProperty_IsDependee();
+		EAttribute PROPERTY__IS_DEPENDENCY = eINSTANCE.getProperty_IsDependency();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.AttributeImpl <em>Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.AttributeImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAttribute()
+		 * @generated
+		 */
+		EClass ATTRIBUTE = eINSTANCE.getAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ATTRIBUTE__OWNER = eINSTANCE.getAttribute_Owner();
+
+		/**
+		 * The meta object literal for the '<em><b>Primitive</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ATTRIBUTE__PRIMITIVE = eINSTANCE.getAttribute_Primitive();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.LiteralImpl <em>Literal</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.LiteralImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getLiteral()
+		 * @generated
+		 */
+		EClass LITERAL = eINSTANCE.getLiteral();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LITERAL__OWNER = eINSTANCE.getLiteral_Owner();
+
+		/**
+		 * The meta object literal for the '<em><b>Grounding Region</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LITERAL__GROUNDING_REGION = eINSTANCE.getLiteral_GroundingRegion();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LITERAL__VALUE = eINSTANCE.getLiteral_Value();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.EndPointImpl <em>End Point</em>}' class.
@@ -5543,50 +6274,6 @@ public interface OntoumlPackage extends EPackage {
 		EReference END_POINT__IS_REDEFINED_BY = eINSTANCE.getEndPoint_IsRedefinedBy();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.AttributeImpl <em>Attribute</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.AttributeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAttribute()
-		 * @generated
-		 */
-		EClass ATTRIBUTE = eINSTANCE.getAttribute();
-
-		/**
-		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ATTRIBUTE__OWNER = eINSTANCE.getAttribute_Owner();
-
-		/**
-		 * The meta object literal for the '<em><b>Primitive Type</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ATTRIBUTE__PRIMITIVE_TYPE = eINSTANCE.getAttribute_PrimitiveType();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl <em>Primitive Type</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.PrimitiveTypeImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPrimitiveType()
-		 * @generated
-		 */
-		EClass PRIMITIVE_TYPE = eINSTANCE.getPrimitiveType();
-
-		/**
-		 * The meta object literal for the '<em><b>Primitive</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PRIMITIVE_TYPE__PRIMITIVE = eINSTANCE.getPrimitiveType_Primitive();
-
-		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl <em>Relationship</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5621,12 +6308,12 @@ public interface OntoumlPackage extends EPackage {
 		EReference RELATIONSHIP__END_POINTS = eINSTANCE.getRelationship_EndPoints();
 
 		/**
-		 * The meta object literal for the '<em><b>Truth Maker</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Derived From Truth Maker</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RELATIONSHIP__TRUTH_MAKER = eINSTANCE.getRelationship_TruthMaker();
+		EReference RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER = eINSTANCE.getRelationship_DerivedFromTruthMaker();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Shareable</b></em>' operation.
@@ -5749,6 +6436,14 @@ public interface OntoumlPackage extends EPackage {
 		EOperation RELATIONSHIP___IS_TEMPORAL = eINSTANCE.getRelationship__IsTemporal();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Derivation</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___IS_DERIVATION = eINSTANCE.getRelationship__IsDerivation();
+
+		/**
 		 * The meta object literal for the '<em><b>Is Starts</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5813,48 +6508,52 @@ public interface OntoumlPackage extends EPackage {
 		EOperation RELATIONSHIP___IS_MERONYMIC = eINSTANCE.getRelationship__IsMeronymic();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.BinaryRelationshipImpl <em>Binary Relationship</em>}' class.
+		 * The meta object literal for the '<em><b>Is Binary</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.BinaryRelationshipImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getBinaryRelationship()
 		 * @generated
 		 */
-		EClass BINARY_RELATIONSHIP = eINSTANCE.getBinaryRelationship();
+		EOperation RELATIONSHIP___IS_BINARY = eINSTANCE.getRelationship__IsBinary();
 
 		/**
-		 * The meta object literal for the '<em><b>Source End Point</b></em>' operation.
+		 * The meta object literal for the '<em><b>Is Ternary</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation BINARY_RELATIONSHIP___SOURCE_END_POINT = eINSTANCE.getBinaryRelationship__SourceEndPoint();
+		EOperation RELATIONSHIP___IS_TERNARY = eINSTANCE.getRelationship__IsTernary();
 
 		/**
-		 * The meta object literal for the '<em><b>Target End Point</b></em>' operation.
+		 * The meta object literal for the '<em><b>Source End</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation BINARY_RELATIONSHIP___TARGET_END_POINT = eINSTANCE.getBinaryRelationship__TargetEndPoint();
+		EOperation RELATIONSHIP___SOURCE_END = eINSTANCE.getRelationship__SourceEnd();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Derived</b></em>' operation.
+		 * The meta object literal for the '<em><b>Target End</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation BINARY_RELATIONSHIP___IS_DERIVED = eINSTANCE.getBinaryRelationship__IsDerived();
+		EOperation RELATIONSHIP___TARGET_END = eINSTANCE.getRelationship__TargetEnd();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.BinaryClassRelationshipImpl <em>Binary Class Relationship</em>}' class.
+		 * The meta object literal for the '<em><b>Source</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.BinaryClassRelationshipImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getBinaryClassRelationship()
 		 * @generated
 		 */
-		EClass BINARY_CLASS_RELATIONSHIP = eINSTANCE.getBinaryClassRelationship();
+		EOperation RELATIONSHIP___SOURCE = eINSTANCE.getRelationship__Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___TARGET = eINSTANCE.getRelationship__Target();
 
 		/**
 		 * The meta object literal for the '<em><b>Source Class</b></em>' operation.
@@ -5862,7 +6561,7 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___SOURCE_CLASS = eINSTANCE.getBinaryClassRelationship__SourceClass();
+		EOperation RELATIONSHIP___SOURCE_CLASS = eINSTANCE.getRelationship__SourceClass();
 
 		/**
 		 * The meta object literal for the '<em><b>Target Class</b></em>' operation.
@@ -5870,65 +6569,7 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___TARGET_CLASS = eINSTANCE.getBinaryClassRelationship__TargetClass();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Part Essential</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___IS_PART_ESSENTIAL = eINSTANCE.getBinaryClassRelationship__IsPartEssential();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Part Inseparable</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___IS_PART_INSEPARABLE = eINSTANCE.getBinaryClassRelationship__IsPartInseparable();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Part Immutable</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___IS_PART_IMMUTABLE = eINSTANCE.getBinaryClassRelationship__IsPartImmutable();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Whole Immutable</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___IS_WHOLE_IMMUTABLE = eINSTANCE.getBinaryClassRelationship__IsWholeImmutable();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Part Mandatory</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___IS_PART_MANDATORY = eINSTANCE.getBinaryClassRelationship__IsPartMandatory();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Whole Mandatory</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation BINARY_CLASS_RELATIONSHIP___IS_WHOLE_MANDATORY = eINSTANCE.getBinaryClassRelationship__IsWholeMandatory();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.DerivationRelationshipImpl <em>Derivation Relationship</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.DerivationRelationshipImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDerivationRelationship()
-		 * @generated
-		 */
-		EClass DERIVATION_RELATIONSHIP = eINSTANCE.getDerivationRelationship();
+		EOperation RELATIONSHIP___TARGET_CLASS = eINSTANCE.getRelationship__TargetClass();
 
 		/**
 		 * The meta object literal for the '<em><b>Source Relationship</b></em>' operation.
@@ -5936,35 +6577,189 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation DERIVATION_RELATIONSHIP___SOURCE_RELATIONSHIP = eINSTANCE.getDerivationRelationship__SourceRelationship();
+		EOperation RELATIONSHIP___SOURCE_RELATIONSHIP = eINSTANCE.getRelationship__SourceRelationship();
 
 		/**
-		 * The meta object literal for the '<em><b>Target Class</b></em>' operation.
+		 * The meta object literal for the '<em><b>Target Relationship</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation DERIVATION_RELATIONSHIP___TARGET_CLASS = eINSTANCE.getDerivationRelationship__TargetClass();
+		EOperation RELATIONSHIP___TARGET_RELATIONSHIP = eINSTANCE.getRelationship__TargetRelationship();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.NAryClassRelationshipImpl <em>NAry Class Relationship</em>}' class.
+		 * The meta object literal for the '<em><b>Is Derived</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.NAryClassRelationshipImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getNAryClassRelationship()
 		 * @generated
 		 */
-		EClass NARY_CLASS_RELATIONSHIP = eINSTANCE.getNAryClassRelationship();
+		EOperation RELATIONSHIP___IS_DERIVED = eINSTANCE.getRelationship__IsDerived();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementDomainImpl <em>Measurement Domain</em>}' class.
+		 * The meta object literal for the '<em><b>Is Part Essential</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.MeasurementDomainImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementDomain()
 		 * @generated
 		 */
-		EClass MEASUREMENT_DOMAIN = eINSTANCE.getMeasurementDomain();
+		EOperation RELATIONSHIP___IS_PART_ESSENTIAL = eINSTANCE.getRelationship__IsPartEssential();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Part Inseparable</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___IS_PART_INSEPARABLE = eINSTANCE.getRelationship__IsPartInseparable();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Part Immutable</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___IS_PART_IMMUTABLE = eINSTANCE.getRelationship__IsPartImmutable();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Whole Immutable</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___IS_WHOLE_IMMUTABLE = eINSTANCE.getRelationship__IsWholeImmutable();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Part Mandatory</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___IS_PART_MANDATORY = eINSTANCE.getRelationship__IsPartMandatory();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Whole Mandatory</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___IS_WHOLE_MANDATORY = eINSTANCE.getRelationship__IsWholeMandatory();
+
+		/**
+		 * The meta object literal for the '<em><b>Material</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___MATERIAL = eINSTANCE.getRelationship__Material();
+
+		/**
+		 * The meta object literal for the '<em><b>Relator</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP___RELATOR = eINSTANCE.getRelationship__Relator();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.StructureImpl <em>Structure</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.StructureImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getStructure()
+		 * @generated
+		 */
+		EClass STRUCTURE = eINSTANCE.getStructure();
+
+		/**
+		 * The meta object literal for the '<em><b>Regions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STRUCTURE__REGIONS = eINSTANCE.getStructure_Regions();
+
+		/**
+		 * The meta object literal for the '<em><b>Grounded Enumeration</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STRUCTURE__GROUNDED_ENUMERATION = eINSTANCE.getStructure_GroundedEnumeration();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.RegionImpl <em>Region</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.RegionImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRegion()
+		 * @generated
+		 */
+		EClass REGION = eINSTANCE.getRegion();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner Structure</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REGION__OWNER_STRUCTURE = eINSTANCE.getRegion_OwnerStructure();
+
+		/**
+		 * The meta object literal for the '<em><b>Grounded Literal</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REGION__GROUNDED_LITERAL = eINSTANCE.getRegion_GroundedLiteral();
+
+		/**
+		 * The meta object literal for the '<em><b>Composed By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REGION__COMPOSED_BY = eINSTANCE.getRegion_ComposedBy();
+
+		/**
+		 * The meta object literal for the '<em><b>Basic Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REGION__BASIC_TYPE = eINSTANCE.getRegion_BasicType();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Basic</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation REGION___IS_BASIC = eINSTANCE.getRegion__IsBasic();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Composed</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation REGION___IS_COMPOSED = eINSTANCE.getRegion__IsComposed();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Nominal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation REGION___IS_NOMINAL = eINSTANCE.getRegion__IsNominal();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.DomainImpl <em>Domain</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.DomainImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDomain()
+		 * @generated
+		 */
+		EClass DOMAIN = eINSTANCE.getDomain();
 
 		/**
 		 * The meta object literal for the '<em><b>Dimensions</b></em>' reference list feature.
@@ -5972,33 +6767,41 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MEASUREMENT_DOMAIN__DIMENSIONS = eINSTANCE.getMeasurementDomain_Dimensions();
+		EReference DOMAIN__DIMENSIONS = eINSTANCE.getDomain_Dimensions();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementDimensionImpl <em>Measurement Dimension</em>}' class.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.DimensionImpl <em>Dimension</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.MeasurementDimensionImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementDimension()
+		 * @see net.menthor.metamodel.ontouml.impl.DimensionImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDimension()
 		 * @generated
 		 */
-		EClass MEASUREMENT_DIMENSION = eINSTANCE.getMeasurementDimension();
+		EClass DIMENSION = eINSTANCE.getDimension();
 
 		/**
-		 * The meta object literal for the '<em><b>Lower Bound</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MEASUREMENT_DIMENSION__LOWER_BOUND = eINSTANCE.getMeasurementDimension_LowerBound();
-
-		/**
-		 * The meta object literal for the '<em><b>Upper Bound</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Owner Domain</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MEASUREMENT_DIMENSION__UPPER_BOUND = eINSTANCE.getMeasurementDimension_UpperBound();
+		EReference DIMENSION__OWNER_DOMAIN = eINSTANCE.getDimension_OwnerDomain();
+
+		/**
+		 * The meta object literal for the '<em><b>Lower Bound</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIMENSION__LOWER_BOUND = eINSTANCE.getDimension_LowerBound();
+
+		/**
+		 * The meta object literal for the '<em><b>Upper Bound</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIMENSION__UPPER_BOUND = eINSTANCE.getDimension_UpperBound();
 
 		/**
 		 * The meta object literal for the '<em><b>Unit Of Measure</b></em>' attribute feature.
@@ -6006,79 +6809,135 @@ public interface OntoumlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MEASUREMENT_DIMENSION__UNIT_OF_MEASURE = eINSTANCE.getMeasurementDimension_UnitOfMeasure();
+		EAttribute DIMENSION__UNIT_OF_MEASURE = eINSTANCE.getDimension_UnitOfMeasure();
 
 		/**
-		 * The meta object literal for the '<em><b>Dimension</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Scale</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MEASUREMENT_DIMENSION__DIMENSION = eINSTANCE.getMeasurementDimension_Dimension();
+		EAttribute DIMENSION__SCALE = eINSTANCE.getDimension_Scale();
 
 		/**
-		 * The meta object literal for the '<em><b>Measurement</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Measure</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MEASUREMENT_DIMENSION__MEASUREMENT = eINSTANCE.getMeasurementDimension_Measurement();
+		EAttribute DIMENSION__MEASURE = eINSTANCE.getDimension_Measure();
 
 		/**
-		 * The meta object literal for the '<em><b>Owner</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Is Nominal</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MEASUREMENT_DIMENSION__OWNER = eINSTANCE.getMeasurementDimension_Owner();
+		EOperation DIMENSION___IS_NOMINAL = eINSTANCE.getDimension__IsNominal();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.NominalDimensionImpl <em>Nominal Dimension</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.NominalDimensionImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getNominalDimension()
-		 * @generated
-		 */
-		EClass NOMINAL_DIMENSION = eINSTANCE.getNominalDimension();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementRegionImpl <em>Measurement Region</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.MeasurementRegionImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementRegion()
-		 * @generated
-		 */
-		EClass MEASUREMENT_REGION = eINSTANCE.getMeasurementRegion();
-
-		/**
-		 * The meta object literal for the '<em><b>Region</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Is Interval</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MEASUREMENT_REGION__REGION = eINSTANCE.getMeasurementRegion_Region();
+		EOperation DIMENSION___IS_INTERVAL = eINSTANCE.getDimension__IsInterval();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.StringNominalRegionImpl <em>String Nominal Region</em>}' class.
+		 * The meta object literal for the '<em><b>Is Ordinal</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.StringNominalRegionImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getStringNominalRegion()
 		 * @generated
 		 */
-		EClass STRING_NOMINAL_REGION = eINSTANCE.getStringNominalRegion();
+		EOperation DIMENSION___IS_ORDINAL = eINSTANCE.getDimension__IsOrdinal();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.MeasurementEnumerationImpl <em>Measurement Enumeration</em>}' class.
+		 * The meta object literal for the '<em><b>Is Rational</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.MeasurementEnumerationImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementEnumeration()
 		 * @generated
 		 */
-		EClass MEASUREMENT_ENUMERATION = eINSTANCE.getMeasurementEnumeration();
+		EOperation DIMENSION___IS_RATIONAL = eINSTANCE.getDimension__IsRational();
+
+		/**
+		 * The meta object literal for the '<em><b>Is String</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_STRING = eINSTANCE.getDimension__IsString();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Integer</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_INTEGER = eINSTANCE.getDimension__IsInteger();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Decimal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_DECIMAL = eINSTANCE.getDimension__IsDecimal();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Nominal String</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_NOMINAL_STRING = eINSTANCE.getDimension__IsNominalString();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Interval Integer</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_INTERVAL_INTEGER = eINSTANCE.getDimension__IsIntervalInteger();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Interval Decimal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_INTERVAL_DECIMAL = eINSTANCE.getDimension__IsIntervalDecimal();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Ordinal Integer</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_ORDINAL_INTEGER = eINSTANCE.getDimension__IsOrdinalInteger();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Ordinal Decimal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_ORDINAL_DECIMAL = eINSTANCE.getDimension__IsOrdinalDecimal();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Rational Integer</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_RATIONAL_INTEGER = eINSTANCE.getDimension__IsRationalInteger();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Rational Decimal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DIMENSION___IS_RATIONAL_DECIMAL = eINSTANCE.getDimension__IsRationalDecimal();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
@@ -6121,44 +6980,24 @@ public interface OntoumlPackage extends EPackage {
 		EEnum RELATION = eINSTANCE.getRelation();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.AllenRelation <em>Allen Relation</em>}' enum.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Temporal <em>Temporal</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.AllenRelation
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getAllenRelation()
+		 * @see net.menthor.metamodel.ontouml.Temporal
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getTemporal()
 		 * @generated
 		 */
-		EEnum ALLEN_RELATION = eINSTANCE.getAllenRelation();
+		EEnum TEMPORAL = eINSTANCE.getTemporal();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.DimensionType <em>Dimension Type</em>}' enum.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Scale <em>Scale</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.DimensionType
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getDimensionType()
+		 * @see net.menthor.metamodel.ontouml.Scale
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getScale()
 		 * @generated
 		 */
-		EEnum DIMENSION_TYPE = eINSTANCE.getDimensionType();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.MeasurementType <em>Measurement Type</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.MeasurementType
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getMeasurementType()
-		 * @generated
-		 */
-		EEnum MEASUREMENT_TYPE = eINSTANCE.getMeasurementType();
-
-		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Region <em>Region</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.Region
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getRegion()
-		 * @generated
-		 */
-		EEnum REGION = eINSTANCE.getRegion();
+		EEnum SCALE = eINSTANCE.getScale();
 
 	}
 

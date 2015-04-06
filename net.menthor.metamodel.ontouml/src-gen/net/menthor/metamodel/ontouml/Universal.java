@@ -15,7 +15,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  class stereotypes
+ *  - class stereotypes
+ * 
+ *  UFO's universals are defined here as simple enumerations instead of types hierarchies.
+ *  Applications need to allow us change an element type (e.g. let's say, a kind into a role)
+ *  We should not need to delete the class, create a new one, and then change all former references in the model
+ *  that previously pointed to that class, to point to the new class created.
  *  ========================================
  * <!-- end-model-doc -->
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getUniversal()
@@ -154,26 +159,6 @@ public enum Universal implements Enumerator {
 	PHASE_MIXIN(0, "PhaseMixin", "PhaseMixin"),
 
 	/**
-	 * The '<em><b>Event</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #EVENT_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	EVENT(0, "Event", "Event"),
-
-	/**
-	 * The '<em><b>Hou</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #HOU_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	HOU(0, "Hou", "Hou"),
-
-	/**
 	 * The '<em><b>Data Type</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,7 +176,27 @@ public enum Universal implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ENUMERATION(0, "Enumeration", "Enumeration");
+	ENUMERATION(0, "Enumeration", "Enumeration"),
+
+	/**
+	 * The '<em><b>Event</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #EVENT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	EVENT(0, "Event", "Event"),
+
+	/**
+	 * The '<em><b>Hou</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #HOU_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	HOU(0, "Hou", "Hou");
 
 	/**
 	 * The '<em><b>Kind</b></em>' literal value.
@@ -389,36 +394,6 @@ public enum Universal implements Enumerator {
 	public static final int PHASE_MIXIN_VALUE = 0;
 
 	/**
-	 * The '<em><b>Event</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Event</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #EVENT
-	 * @model name="Event"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int EVENT_VALUE = 0;
-
-	/**
-	 * The '<em><b>Hou</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Hou</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #HOU
-	 * @model name="Hou"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int HOU_VALUE = 0;
-
-	/**
 	 * The '<em><b>Data Type</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -449,6 +424,36 @@ public enum Universal implements Enumerator {
 	public static final int ENUMERATION_VALUE = 0;
 
 	/**
+	 * The '<em><b>Event</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Event</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #EVENT
+	 * @model name="Event"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int EVENT_VALUE = 0;
+
+	/**
+	 * The '<em><b>Hou</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Hou</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #HOU
+	 * @model name="Hou"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int HOU_VALUE = 0;
+
+	/**
 	 * An array of all the '<em><b>Universal</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -469,10 +474,10 @@ public enum Universal implements Enumerator {
 			MIXIN,
 			ROLE_MIXIN,
 			PHASE_MIXIN,
-			EVENT,
-			HOU,
 			DATA_TYPE,
 			ENUMERATION,
+			EVENT,
+			HOU,
 		};
 
 	/**

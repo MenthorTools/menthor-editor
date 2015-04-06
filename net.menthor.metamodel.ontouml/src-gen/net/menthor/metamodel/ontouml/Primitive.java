@@ -13,11 +13,6 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Primitive</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * <!-- begin-model-doc -->
- * * =========================================
- *  primitive stereotypes
- *  ========================================
- * <!-- end-model-doc -->
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitive()
  * @model
  * @generated
@@ -64,6 +59,16 @@ public enum Primitive implements Enumerator {
 	INTEGER(0, "Integer", "Integer"),
 
 	/**
+	 * The '<em><b>Decimal</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DECIMAL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DECIMAL(0, "Decimal", "Decimal"),
+
+	/**
 	 * The '<em><b>Unlimited Natural</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,7 +76,17 @@ public enum Primitive implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	UNLIMITED_NATURAL(0, "UnlimitedNatural", "UnlimitedNatural");
+	UNLIMITED_NATURAL(0, "UnlimitedNatural", "UnlimitedNatural"),
+
+	/**
+	 * The '<em><b>Date</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DATE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DATE(0, "Date", "Date");
 
 	/**
 	 * The '<em><b>Boolean</b></em>' literal value.
@@ -134,6 +149,21 @@ public enum Primitive implements Enumerator {
 	public static final int INTEGER_VALUE = 0;
 
 	/**
+	 * The '<em><b>Decimal</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Decimal</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DECIMAL
+	 * @model name="Decimal"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DECIMAL_VALUE = 0;
+
+	/**
 	 * The '<em><b>Unlimited Natural</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -149,6 +179,21 @@ public enum Primitive implements Enumerator {
 	public static final int UNLIMITED_NATURAL_VALUE = 0;
 
 	/**
+	 * The '<em><b>Date</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Date</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATE
+	 * @model name="Date"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DATE_VALUE = 0;
+
+	/**
 	 * An array of all the '<em><b>Primitive</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -160,7 +205,9 @@ public enum Primitive implements Enumerator {
 			STRING,
 			REAL,
 			INTEGER,
+			DECIMAL,
 			UNLIMITED_NATURAL,
+			DATE,
 		};
 
 	/**
