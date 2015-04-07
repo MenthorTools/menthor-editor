@@ -49,15 +49,6 @@ public interface OntoumlFactory extends EFactory {
 	Comment createComment();
 
 	/**
-	 * Returns a new object of class '<em>Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Class</em>'.
-	 * @generated
-	 */
-	Class createClass();
-
-	/**
 	 * Returns a new object of class '<em>Generalization Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -67,13 +58,13 @@ public interface OntoumlFactory extends EFactory {
 	GeneralizationSet createGeneralizationSet();
 
 	/**
-	 * Returns a new object of class '<em>Attribute</em>'.
+	 * Returns a new object of class '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute</em>'.
+	 * @return a new object of class '<em>Class</em>'.
 	 * @generated
 	 */
-	Attribute createAttribute();
+	Class createClass();
 
 	/**
 	 * Returns a new object of class '<em>Literal</em>'.
@@ -85,22 +76,13 @@ public interface OntoumlFactory extends EFactory {
 	Literal createLiteral();
 
 	/**
-	 * Returns a new object of class '<em>End Point</em>'.
+	 * Returns a new object of class '<em>Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>End Point</em>'.
+	 * @return a new object of class '<em>Attribute</em>'.
 	 * @generated
 	 */
-	EndPoint createEndPoint();
-
-	/**
-	 * Returns a new object of class '<em>Relationship</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Relationship</em>'.
-	 * @generated
-	 */
-	Relationship createRelationship();
+	Attribute createAttribute();
 
 	/**
 	 * Returns a new object of class '<em>Structure</em>'.
@@ -137,6 +119,24 @@ public interface OntoumlFactory extends EFactory {
 	 * @generated
 	 */
 	Dimension createDimension();
+
+	/**
+	 * Returns a new object of class '<em>End Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>End Point</em>'.
+	 * @generated
+	 */
+	EndPoint createEndPoint();
+
+	/**
+	 * Returns a new object of class '<em>Relationship</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Relationship</em>'.
+	 * @generated
+	 */
+	Relationship createRelationship();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -2,12 +2,15 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import net.menthor.metamodel.ontouml.Classifier;
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
+import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -37,7 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#isIsCovering <em>Is Covering</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializedClassifier <em>Specialized Classifier</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getSpecializingClassifier <em>Specializing Classifier</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHou <em>Hou</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.GeneralizationSetImpl#getHighOrder <em>High Order</em>}</li>
  * </ul>
  * </p>
  *
@@ -95,14 +98,14 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	protected EList<Classifier> specializingClassifier;
 
 	/**
-	 * The cached value of the '{@link #getHou() <em>Hou</em>}' reference.
+	 * The cached value of the '{@link #getHighOrder() <em>High Order</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getHou()
+	 * @see #getHighOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected net.menthor.metamodel.ontouml.Class hou;
+	protected net.menthor.metamodel.ontouml.Class highOrder;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -284,16 +287,16 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class getHou() {
-		if (hou != null && hou.eIsProxy()) {
-			InternalEObject oldHou = (InternalEObject)hou;
-			hou = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldHou);
-			if (hou != oldHou) {
+	public net.menthor.metamodel.ontouml.Class getHighOrder() {
+		if (highOrder != null && highOrder.eIsProxy()) {
+			InternalEObject oldHighOrder = (InternalEObject)highOrder;
+			highOrder = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldHighOrder);
+			if (highOrder != oldHighOrder) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__HOU, oldHou, hou));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.GENERALIZATION_SET__HIGH_ORDER, oldHighOrder, highOrder));
 			}
 		}
-		return hou;
+		return highOrder;
 	}
 
 	/**
@@ -301,8 +304,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class basicGetHou() {
-		return hou;
+	public net.menthor.metamodel.ontouml.Class basicGetHighOrder() {
+		return highOrder;
 	}
 
 	/**
@@ -310,11 +313,39 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setHou(net.menthor.metamodel.ontouml.Class newHou) {
-		net.menthor.metamodel.ontouml.Class oldHou = hou;
-		hou = newHou;
+	public void setHighOrder(net.menthor.metamodel.ontouml.Class newHighOrder) {
+		net.menthor.metamodel.ontouml.Class oldHighOrder = highOrder;
+		highOrder = newHighOrder;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__HOU, oldHou, hou));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.GENERALIZATION_SET__HIGH_ORDER, oldHighOrder, highOrder));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel(final net.menthor.metamodel.ontouml.Container c) {
+		if ((c instanceof Model)) {
+			return ((Model)c);
+		}
+		else {
+			if ((c instanceof ContainedElement)) {
+				net.menthor.metamodel.ontouml.Container _holder = ((ContainedElement)c).getHolder();
+				return this.getModel(_holder);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel() {
+		net.menthor.metamodel.ontouml.Container _holder = this.getHolder();
+		return this.getModel(_holder);
 	}
 
 	/**
@@ -396,9 +427,9 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				return basicGetSpecializedClassifier();
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
 				return getSpecializingClassifier();
-			case OntoumlPackage.GENERALIZATION_SET__HOU:
-				if (resolve) return getHou();
-				return basicGetHou();
+			case OntoumlPackage.GENERALIZATION_SET__HIGH_ORDER:
+				if (resolve) return getHighOrder();
+				return basicGetHighOrder();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -429,8 +460,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				getSpecializingClassifier().clear();
 				getSpecializingClassifier().addAll((Collection<? extends Classifier>)newValue);
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__HOU:
-				setHou((net.menthor.metamodel.ontouml.Class)newValue);
+			case OntoumlPackage.GENERALIZATION_SET__HIGH_ORDER:
+				setHighOrder((net.menthor.metamodel.ontouml.Class)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -459,8 +490,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
 				getSpecializingClassifier().clear();
 				return;
-			case OntoumlPackage.GENERALIZATION_SET__HOU:
-				setHou((net.menthor.metamodel.ontouml.Class)null);
+			case OntoumlPackage.GENERALIZATION_SET__HIGH_ORDER:
+				setHighOrder((net.menthor.metamodel.ontouml.Class)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -484,8 +515,8 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 				return specializedClassifier != null;
 			case OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER:
 				return specializingClassifier != null && !specializingClassifier.isEmpty();
-			case OntoumlPackage.GENERALIZATION_SET__HOU:
-				return hou != null;
+			case OntoumlPackage.GENERALIZATION_SET__HIGH_ORDER:
+				return highOrder != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -522,6 +553,39 @@ public class GeneralizationSetImpl extends NamedElementImpl implements Generaliz
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedOperationID(int baseOperationID, Class<?> baseClass) {
+		if (baseClass == ContainedElement.class) {
+			switch (baseOperationID) {
+				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL__CONTAINER: return OntoumlPackage.GENERALIZATION_SET___GET_MODEL__CONTAINER;
+				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL: return OntoumlPackage.GENERALIZATION_SET___GET_MODEL;
+				default: return -1;
+			}
+		}
+		return super.eDerivedOperationID(baseOperationID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case OntoumlPackage.GENERALIZATION_SET___GET_MODEL__CONTAINER:
+				return getModel((net.menthor.metamodel.ontouml.Container)arguments.get(0));
+			case OntoumlPackage.GENERALIZATION_SET___GET_MODEL:
+				return getModel();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

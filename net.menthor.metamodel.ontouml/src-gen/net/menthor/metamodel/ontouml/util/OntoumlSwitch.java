@@ -20,6 +20,7 @@ import net.menthor.metamodel.ontouml.Property;
 import net.menthor.metamodel.ontouml.Region;
 import net.menthor.metamodel.ontouml.Relationship;
 import net.menthor.metamodel.ontouml.Structure;
+import net.menthor.metamodel.ontouml.Type;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -104,19 +105,19 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.CONTAINED_ELEMENT: {
-				ContainedElement containedElement = (ContainedElement)theEObject;
-				T result = caseContainedElement(containedElement);
-				if (result == null) result = caseElement(containedElement);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case OntoumlPackage.MODEL: {
 				Model model = (Model)theEObject;
 				T result = caseModel(model);
 				if (result == null) result = caseContainer(model);
 				if (result == null) result = caseNamedElement(model);
 				if (result == null) result = caseElement(model);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.CONTAINED_ELEMENT: {
+				ContainedElement containedElement = (ContainedElement)theEObject;
+				T result = caseContainedElement(containedElement);
+				if (result == null) result = caseElement(containedElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -145,16 +146,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.CLASS: {
-				net.menthor.metamodel.ontouml.Class class_ = (net.menthor.metamodel.ontouml.Class)theEObject;
-				T result = caseClass(class_);
-				if (result == null) result = caseNamedElement(class_);
-				if (result == null) result = caseClassifier(class_);
-				if (result == null) result = caseContainedElement(class_);
-				if (result == null) result = caseElement(class_);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case OntoumlPackage.GENERALIZATION_SET: {
 				GeneralizationSet generalizationSet = (GeneralizationSet)theEObject;
 				T result = caseGeneralizationSet(generalizationSet);
@@ -164,11 +155,31 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.PROPERTY: {
-				Property property = (Property)theEObject;
-				T result = caseProperty(property);
-				if (result == null) result = caseNamedElement(property);
-				if (result == null) result = caseElement(property);
+			case OntoumlPackage.TYPE: {
+				Type type = (Type)theEObject;
+				T result = caseType(type);
+				if (result == null) result = caseNamedElement(type);
+				if (result == null) result = caseClassifier(type);
+				if (result == null) result = caseContainedElement(type);
+				if (result == null) result = caseElement(type);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.CLASS: {
+				net.menthor.metamodel.ontouml.Class class_ = (net.menthor.metamodel.ontouml.Class)theEObject;
+				T result = caseClass(class_);
+				if (result == null) result = caseType(class_);
+				if (result == null) result = caseNamedElement(class_);
+				if (result == null) result = caseClassifier(class_);
+				if (result == null) result = caseContainedElement(class_);
+				if (result == null) result = caseElement(class_);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.LITERAL: {
+				Literal literal = (Literal)theEObject;
+				T result = caseLiteral(literal);
+				if (result == null) result = caseElement(literal);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -181,12 +192,57 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntoumlPackage.LITERAL: {
-				Literal literal = (Literal)theEObject;
-				T result = caseLiteral(literal);
-				if (result == null) result = caseProperty(literal);
-				if (result == null) result = caseNamedElement(literal);
-				if (result == null) result = caseElement(literal);
+			case OntoumlPackage.STRUCTURE: {
+				Structure structure = (Structure)theEObject;
+				T result = caseStructure(structure);
+				if (result == null) result = caseType(structure);
+				if (result == null) result = caseNamedElement(structure);
+				if (result == null) result = caseClassifier(structure);
+				if (result == null) result = caseContainedElement(structure);
+				if (result == null) result = caseElement(structure);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.REGION: {
+				Region region = (Region)theEObject;
+				T result = caseRegion(region);
+				if (result == null) result = caseType(region);
+				if (result == null) result = caseNamedElement(region);
+				if (result == null) result = caseClassifier(region);
+				if (result == null) result = caseContainedElement(region);
+				if (result == null) result = caseElement(region);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.DOMAIN: {
+				Domain domain = (Domain)theEObject;
+				T result = caseDomain(domain);
+				if (result == null) result = caseStructure(domain);
+				if (result == null) result = caseType(domain);
+				if (result == null) result = caseNamedElement(domain);
+				if (result == null) result = caseClassifier(domain);
+				if (result == null) result = caseContainedElement(domain);
+				if (result == null) result = caseElement(domain);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.DIMENSION: {
+				Dimension dimension = (Dimension)theEObject;
+				T result = caseDimension(dimension);
+				if (result == null) result = caseStructure(dimension);
+				if (result == null) result = caseType(dimension);
+				if (result == null) result = caseNamedElement(dimension);
+				if (result == null) result = caseClassifier(dimension);
+				if (result == null) result = caseContainedElement(dimension);
+				if (result == null) result = caseElement(dimension);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.PROPERTY: {
+				Property property = (Property)theEObject;
+				T result = caseProperty(property);
+				if (result == null) result = caseNamedElement(property);
+				if (result == null) result = caseElement(property);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -206,48 +262,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = caseClassifier(relationship);
 				if (result == null) result = caseContainedElement(relationship);
 				if (result == null) result = caseElement(relationship);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.STRUCTURE: {
-				Structure structure = (Structure)theEObject;
-				T result = caseStructure(structure);
-				if (result == null) result = caseNamedElement(structure);
-				if (result == null) result = caseClassifier(structure);
-				if (result == null) result = caseContainedElement(structure);
-				if (result == null) result = caseElement(structure);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.REGION: {
-				Region region = (Region)theEObject;
-				T result = caseRegion(region);
-				if (result == null) result = caseNamedElement(region);
-				if (result == null) result = caseClassifier(region);
-				if (result == null) result = caseContainedElement(region);
-				if (result == null) result = caseElement(region);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.DOMAIN: {
-				Domain domain = (Domain)theEObject;
-				T result = caseDomain(domain);
-				if (result == null) result = caseStructure(domain);
-				if (result == null) result = caseNamedElement(domain);
-				if (result == null) result = caseClassifier(domain);
-				if (result == null) result = caseContainedElement(domain);
-				if (result == null) result = caseElement(domain);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.DIMENSION: {
-				Dimension dimension = (Dimension)theEObject;
-				T result = caseDimension(dimension);
-				if (result == null) result = caseStructure(dimension);
-				if (result == null) result = caseNamedElement(dimension);
-				if (result == null) result = caseClassifier(dimension);
-				if (result == null) result = caseContainedElement(dimension);
-				if (result == null) result = caseElement(dimension);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -301,21 +315,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Contained Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Contained Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseContainedElement(ContainedElement object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -327,6 +326,21 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseModel(Model object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Contained Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Contained Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseContainedElement(ContainedElement object) {
 		return null;
 	}
 
@@ -376,21 +390,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Class</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseClass(net.menthor.metamodel.ontouml.Class object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Generalization Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -406,32 +405,32 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseProperty(Property object) {
+	public T caseType(Type object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Attribute</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Attribute</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Class</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAttribute(Attribute object) {
+	public T caseClass(net.menthor.metamodel.ontouml.Class object) {
 		return null;
 	}
 
@@ -451,32 +450,17 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>End Point</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>End Point</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEndPoint(EndPoint object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Relationship</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Relationship</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRelationship(Relationship object) {
+	public T caseAttribute(Attribute object) {
 		return null;
 	}
 
@@ -537,6 +521,51 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDimension(Dimension object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProperty(Property object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>End Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>End Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEndPoint(EndPoint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Relationship</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Relationship</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRelationship(Relationship object) {
 		return null;
 	}
 

@@ -10,7 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - property
+ *  - property (i.e. attributes and end points)
  * 
  *  A property is a named element which can be ordered, derived and have a dependency to a type (UML readOnly or frozen feature).
  *  A property defines a lower and upper bound defining how many elements are allowable at this property.

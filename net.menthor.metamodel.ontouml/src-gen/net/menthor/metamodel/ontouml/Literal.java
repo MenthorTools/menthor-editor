@@ -10,7 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - enumeration literals
+ *  - enumeration literal
  *  ========================================
  * <!-- end-model-doc -->
  *
@@ -27,7 +27,7 @@ package net.menthor.metamodel.ontouml;
  * @model
  * @generated
  */
-public interface Literal extends Property {
+public interface Literal extends Element {
 	/**
 	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getLiterals <em>Literals</em>}'.

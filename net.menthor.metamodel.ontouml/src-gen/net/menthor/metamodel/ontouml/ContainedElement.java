@@ -68,4 +68,28 @@ public interface ContainedElement extends Element {
 	 */
 	EList<Comment> getComments();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the root container from this given container
+	 * <!-- end-model-doc -->
+	 * @model unique="false" cUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if ((c instanceof <%net.menthor.metamodel.ontouml.Model%>))\n{\n\treturn ((<%net.menthor.metamodel.ontouml.Model%>)c);\n}\nelse\n{\n\tif ((c instanceof <%net.menthor.metamodel.ontouml.ContainedElement%>))\n\t{\n\t\t<%net.menthor.metamodel.ontouml.Container%> _holder = ((<%net.menthor.metamodel.ontouml.ContainedElement%>)c).getHolder();\n\t\treturn this.getModel(_holder);\n\t}\n}\nreturn null;'"
+	 * @generated
+	 */
+	Model getModel(Container c);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the root container
+	 * <!-- end-model-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Container%> _holder = this.getHolder();\nreturn this.getModel(_holder);'"
+	 * @generated
+	 */
+	Model getModel();
+
 } // ContainedElement

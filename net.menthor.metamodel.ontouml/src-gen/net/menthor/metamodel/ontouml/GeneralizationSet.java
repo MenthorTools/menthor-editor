@@ -11,9 +11,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - generalization set
+ *  - generalization set (between classifiers)
  * 
- *  A former UML generalization is a generalization set with only one specializing class.
+ *  A former UML generalization is now a generalization set with only one specializing classifier.
  *  A generalization set can be complete. Generalization sets are by default disjoint.
  *  Generalization sets cannot define cycles (Constraint C8, C9, C10, C11)
  *  Further, a generalization set may refer to a high order class (Constraint C7).
@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#isIsCovering <em>Is Covering</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializedClassifier <em>Specialized Classifier</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getSpecializingClassifier <em>Specializing Classifier</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHou <em>Hou</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHighOrder <em>High Order</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,29 +107,29 @@ public interface GeneralizationSet extends NamedElement, ContainedElement {
 	EList<Classifier> getSpecializingClassifier();
 
 	/**
-	 * Returns the value of the '<em><b>Hou</b></em>' reference.
+	 * Returns the value of the '<em><b>High Order</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Hou</em>' reference isn't clear,
+	 * If the meaning of the '<em>High Order</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Hou</em>' reference.
-	 * @see #setHou(net.menthor.metamodel.ontouml.Class)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_Hou()
+	 * @return the value of the '<em>High Order</em>' reference.
+	 * @see #setHighOrder(net.menthor.metamodel.ontouml.Class)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_HighOrder()
 	 * @model
 	 * @generated
 	 */
-	net.menthor.metamodel.ontouml.Class getHou();
+	net.menthor.metamodel.ontouml.Class getHighOrder();
 
 	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHou <em>Hou</em>}' reference.
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.GeneralizationSet#getHighOrder <em>High Order</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Hou</em>' reference.
-	 * @see #getHou()
+	 * @param value the new value of the '<em>High Order</em>' reference.
+	 * @see #getHighOrder()
 	 * @generated
 	 */
-	void setHou(net.menthor.metamodel.ontouml.Class value);
+	void setHighOrder(net.menthor.metamodel.ontouml.Class value);
 
 } // GeneralizationSet

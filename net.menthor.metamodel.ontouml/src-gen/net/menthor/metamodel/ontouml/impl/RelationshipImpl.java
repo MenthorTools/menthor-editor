@@ -18,6 +18,7 @@ import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.EndPoint;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
+import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Relation;
 import net.menthor.metamodel.ontouml.Relationship;
@@ -368,15 +369,6 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER, newDerivedFromTruthMaker, newDerivedFromTruthMaker));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void isShareable() {
-		
 	}
 
 	/**
@@ -851,6 +843,23 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isEnd(final Classifier c) {
+		EList<EndPoint> _endPoints = this.getEndPoints();
+		for (final EndPoint ep : _endPoints) {
+			Classifier _endType = ep.getEndType();
+			boolean _equals = _endType.equals(c);
+			if (_equals) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isPartEssential() {
 		boolean _and = false;
 		boolean _and_1 = false;
@@ -993,6 +1002,15 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public void isShareable() {
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Relationship material() {
 		return null;
 	}
@@ -1102,6 +1120,107 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 		this.allChildren(this, _eList);
 		final Classifier[] _converted_list_1 = (Classifier[])list;
 		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Classifier> siblings() {
+		Classifier[] result = null;
+		EList<Classifier> _parents = this.parents();
+		for (final Classifier p : _parents) {
+			EList<Classifier> _children = p.children();
+			for (final Classifier sibling : _children) {
+				boolean _equals = sibling.equals(this);
+				boolean _not = (!_equals);
+				if (_not) {
+					final Classifier[] _converted_result = (Classifier[])result;
+					((List<Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(sibling);
+				}
+			}
+		}
+		final Classifier[] _converted_result_1 = (Classifier[])result;
+		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<EndPoint> ends() {
+		EndPoint[] result = null;
+		Model _model = this.getModel();
+		EList<Relationship> _allRelationships = _model.allRelationships();
+		for (final Relationship rel : _allRelationships) {
+			boolean _isEnd = rel.isEnd(this);
+			if (_isEnd) {
+				EList<EndPoint> _endPoints = rel.getEndPoints();
+				for (final EndPoint ep : _endPoints) {
+					Classifier _endType = ep.getEndType();
+					boolean _equals = _endType.equals(this);
+					boolean _not = (!_equals);
+					if (_not) {
+						final EndPoint[] _converted_result = (EndPoint[])result;
+						((List<EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(ep);
+					}
+				}
+			}
+		}
+		final EndPoint[] _converted_result_1 = (EndPoint[])result;
+		return ECollections.<EndPoint>toEList(((Iterable<? extends EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<EndPoint> allEnds() {
+		EndPoint[] result = null;
+		final EndPoint[] _converted_result = (EndPoint[])result;
+		EList<EndPoint> _ends = this.ends();
+		((List<EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).addAll(_ends);
+		EList<Classifier> _allParents = this.allParents();
+		for (final Classifier p : _allParents) {
+			if ((p instanceof net.menthor.metamodel.ontouml.Class)) {
+				final EndPoint[] _converted_result_1 = (EndPoint[])result;
+				EList<EndPoint> _ends_1 = ((net.menthor.metamodel.ontouml.Class)p).ends();
+				((List<EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)).addAll(_ends_1);
+			}
+		}
+		final EndPoint[] _converted_result_2 = (EndPoint[])result;
+		return ECollections.<EndPoint>toEList(((Iterable<? extends EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_2)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel(final net.menthor.metamodel.ontouml.Container c) {
+		if ((c instanceof Model)) {
+			return ((Model)c);
+		}
+		else {
+			if ((c instanceof ContainedElement)) {
+				net.menthor.metamodel.ontouml.Container _holder = ((ContainedElement)c).getHolder();
+				return this.getModel(_holder);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel() {
+		net.menthor.metamodel.ontouml.Container _holder = this.getHolder();
+		return this.getModel(_holder);
 	}
 
 	/**
@@ -1363,6 +1482,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	public int eDerivedOperationID(int baseOperationID, Class<?> baseClass) {
 		if (baseClass == ContainedElement.class) {
 			switch (baseOperationID) {
+				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL__CONTAINER: return OntoumlPackage.RELATIONSHIP___GET_MODEL__CONTAINER;
+				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL: return OntoumlPackage.RELATIONSHIP___GET_MODEL;
 				default: return -1;
 			}
 		}
@@ -1374,6 +1495,9 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				case OntoumlPackage.CLASSIFIER___ALL_PARENTS: return OntoumlPackage.RELATIONSHIP___ALL_PARENTS;
 				case OntoumlPackage.CLASSIFIER___ALL_CHILDREN__CLASSIFIER_ELIST: return OntoumlPackage.RELATIONSHIP___ALL_CHILDREN__CLASSIFIER_ELIST;
 				case OntoumlPackage.CLASSIFIER___ALL_CHILDREN: return OntoumlPackage.RELATIONSHIP___ALL_CHILDREN;
+				case OntoumlPackage.CLASSIFIER___SIBLINGS: return OntoumlPackage.RELATIONSHIP___SIBLINGS;
+				case OntoumlPackage.CLASSIFIER___ENDS: return OntoumlPackage.RELATIONSHIP___ENDS;
+				case OntoumlPackage.CLASSIFIER___ALL_ENDS: return OntoumlPackage.RELATIONSHIP___ALL_ENDS;
 				default: return -1;
 			}
 		}
@@ -1389,9 +1513,6 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	@SuppressWarnings("unchecked")
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case OntoumlPackage.RELATIONSHIP___IS_SHAREABLE:
-				isShareable();
-				return null;
 			case OntoumlPackage.RELATIONSHIP___IS_COMPONENT_OF:
 				return isComponentOf();
 			case OntoumlPackage.RELATIONSHIP___IS_MEMBER_OF:
@@ -1460,6 +1581,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return targetRelationship();
 			case OntoumlPackage.RELATIONSHIP___IS_DERIVED:
 				return isDerived();
+			case OntoumlPackage.RELATIONSHIP___IS_END__CLASSIFIER:
+				return isEnd((Classifier)arguments.get(0));
 			case OntoumlPackage.RELATIONSHIP___IS_PART_ESSENTIAL:
 				return isPartEssential();
 			case OntoumlPackage.RELATIONSHIP___IS_PART_INSEPARABLE:
@@ -1472,6 +1595,9 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return isPartMandatory();
 			case OntoumlPackage.RELATIONSHIP___IS_WHOLE_MANDATORY:
 				return isWholeMandatory();
+			case OntoumlPackage.RELATIONSHIP___IS_SHAREABLE:
+				isShareable();
+				return null;
 			case OntoumlPackage.RELATIONSHIP___MATERIAL:
 				return material();
 			case OntoumlPackage.RELATIONSHIP___RELATOR:
@@ -1490,6 +1616,16 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return null;
 			case OntoumlPackage.RELATIONSHIP___ALL_CHILDREN:
 				return allChildren();
+			case OntoumlPackage.RELATIONSHIP___SIBLINGS:
+				return siblings();
+			case OntoumlPackage.RELATIONSHIP___ENDS:
+				return ends();
+			case OntoumlPackage.RELATIONSHIP___ALL_ENDS:
+				return allEnds();
+			case OntoumlPackage.RELATIONSHIP___GET_MODEL__CONTAINER:
+				return getModel((net.menthor.metamodel.ontouml.Container)arguments.get(0));
+			case OntoumlPackage.RELATIONSHIP___GET_MODEL:
+				return getModel();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

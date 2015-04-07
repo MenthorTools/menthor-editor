@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - class
+ *  - class (type)
  * 
  *  A class is named classifier that may have a stereotype.
  *  In the case where the stereotype is an enumeration, the class must have 2 or more enumeration literals (constraint C1).
@@ -45,7 +45,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Class extends NamedElement, Classifier {
+public interface Class extends Type {
 	/**
 	 * Returns the value of the '<em><b>Stereotype</b></em>' attribute.
 	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Universal}.
@@ -472,6 +472,15 @@ public interface Class extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _or = false;\nboolean _or_1 = false;\nboolean _isTruthMaker = this.isTruthMaker();\nif (_isTruthMaker)\n{\n\t_or_1 = true;\n} else\n{\n\tboolean _isMode = this.isMode();\n\t_or_1 = _isMode;\n}\nif (_or_1)\n{\n\t_or = true;\n} else\n{\n\tboolean _isQuality = this.isQuality();\n\t_or = _isQuality;\n}\nreturn _or;'"
+	 * @generated
+	 */
+	boolean isMoment();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * * Checks if this class is a direct identity provider
 	 *  i.e. it does not inherit his identity from other classes.
@@ -490,7 +499,7 @@ public interface Class extends NamedElement, Classifier {
 	 *  and is related to one or more material relationships
 	 * <!-- end-model-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _and = false;\nboolean _isRelator = this.isRelator();\nif (!_isRelator)\n{\n\t_and = false;\n} else\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Relationship%>> _istruthMakerOf = this.getIstruthMakerOf();\n\tint _size = _istruthMakerOf.size();\n\tboolean _greaterThan = (_size > 0);\n\t_and = _greaterThan;\n}\nif (_and)\n{\n\treturn true;\n}\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _allParents = this.allParents();\nfor (final <%net.menthor.metamodel.ontouml.Classifier%> c : _allParents)\n{\n\tif ((c instanceof <%net.menthor.metamodel.ontouml.Class%>))\n\t{\n\t\tboolean _and_1 = false;\n\t\tboolean _isRelator_1 = ((<%net.menthor.metamodel.ontouml.Class%>)c).isRelator();\n\t\tif (!_isRelator_1)\n\t\t{\n\t\t\t_and_1 = false;\n\t\t} else\n\t\t{\n\t\t\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Relationship%>> _istruthMakerOf_1 = this.getIstruthMakerOf();\n\t\t\tint _size_1 = _istruthMakerOf_1.size();\n\t\t\tboolean _greaterThan_1 = (_size_1 > 0);\n\t\t\t_and_1 = _greaterThan_1;\n\t\t}\n\t\tif (_and_1)\n\t\t{\n\t\t\treturn true;\n\t\t}\n\t}\n}\nreturn false;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _isRelator = this.isRelator();\nif (_isRelator)\n{\n\treturn true;\n}\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _allParents = this.allParents();\nfor (final <%net.menthor.metamodel.ontouml.Classifier%> c : _allParents)\n{\n\tif ((c instanceof <%net.menthor.metamodel.ontouml.Class%>))\n\t{\n\t\tboolean _isRelator_1 = ((<%net.menthor.metamodel.ontouml.Class%>)c).isRelator();\n\t\tif (_isRelator_1)\n\t\t{\n\t\t\treturn true;\n\t\t}\n\t}\n}\nreturn false;'"
 	 * @generated
 	 */
 	boolean isTruthMaker();
@@ -595,94 +604,16 @@ public interface Class extends NamedElement, Classifier {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * * Returns direct siblings i.e. classes which specialize the same super-type as this class
+	 * *
+	 * Checks if a particular element is a moment  i.e.
+	 * 1) if it is a truth maker, mode or quality element, or,
+	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider being a truth maker, mode or quality, or,
+	 * 3) if it is a mixin class in which all their children are truth makers, qualities or modes.
 	 * <!-- end-model-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _isMoment = this.isMoment();\nif (_isMoment)\n{\n\treturn true;\n}\nboolean _or = false;\nboolean _isAntiRigid = this.isAntiRigid();\nif (_isAntiRigid)\n{\n\t_or = true;\n} else\n{\n\tboolean _isSubKind = this.isSubKind();\n\t_or = _isSubKind;\n}\nif (_or)\n{\n\t<%net.menthor.metamodel.ontouml.Class%>[] providers = null;\n\tfinal <%net.menthor.metamodel.ontouml.Class%>[] _converted_providers = (<%net.menthor.metamodel.ontouml.Class%>[])providers;\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Class%>> _identityProviders = this.identityProviders();\n\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.Class%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_providers)).addAll(_identityProviders);\n\tfor (final <%net.menthor.metamodel.ontouml.Class%> c : providers)\n\t{\n\t\tboolean _isMoment_1 = c.isMoment();\n\t\tif (_isMoment_1)\n\t\t{\n\t\t\treturn true;\n\t\t}\n\t}\n}\nboolean _isMixinClass = this.isMixinClass();\nif (_isMixinClass)\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _children = this.children();\n\tint _size = _children.size();\n\tboolean _equals = (_size == 0);\n\tif (_equals)\n\t{\n\t\treturn false;\n\t}\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _children_1 = this.children();\n\tfor (final <%net.menthor.metamodel.ontouml.Classifier%> child : _children_1)\n\t{\n\t\tif ((child instanceof <%net.menthor.metamodel.ontouml.Class%>))\n\t\t{\n\t\t\tboolean _isMoment_2 = ((<%net.menthor.metamodel.ontouml.Class%>)child).isMoment();\n\t\t\tboolean _not = (!_isMoment_2);\n\t\t\tif (_not)\n\t\t\t{\n\t\t\t\treturn false;\n\t\t\t}\n\t\t}\n\t}\n\treturn true;\n}\nreturn false;'"
 	 * @generated
 	 */
-	void siblings();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void overlapSiblings();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void disjointSiblings();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * * Checks if this class is disjoint from another
-	 * <!-- end-model-doc -->
-	 * @model cUnique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void isDisjointOf(Class c);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * * Returns all (direct) end-points "connected" to this class.
-	 *  In other words, it returns all opposite ends of the relationships connected to this class.
-	 * <!-- end-model-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void ends();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * * Returns all classes directly connected to this class through a relationship.
-	 * <!-- end-model-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void relatedClasses();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * *Returns all classes directly and indirectly connected to this class through a relationship.
-	 * <!-- end-model-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void allRelatedClasses();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * * Returns all (direct and indirect) end-points "connected" to this class.
-	 *  In other words, it returns all opposite ends of the relationships connected to this class.
-	 * <!-- end-model-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void allEnds();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void isIntrinsic();
+	boolean isIntrinsic();
 
 } // Class

@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *
  * @generated
  */
-public class LiteralImpl extends PropertyImpl implements Literal {
+public class LiteralImpl extends ElementImpl implements Literal {
 	/**
 	 * The cached value of the '{@link #getGroundingRegion() <em>Grounding Region</em>}' reference.
 	 * <!-- begin-user-doc -->

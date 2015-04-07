@@ -147,15 +147,6 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
-	 * @generated
-	 */
-	void isShareable();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Relation%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Relation%>.COMPONENT_OF);'"
 	 * @generated
@@ -381,6 +372,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the source (first) end-point of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = this.getEndPoints();\nint _size = _endPoints.size();\nboolean _greaterThan = (_size > 0);\nif (_greaterThan)\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints_1 = this.getEndPoints();\n\treturn _endPoints_1.get(0);\n}\nreturn null;'"
 	 * @generated
@@ -390,6 +384,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the target (second) end-point of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = this.getEndPoints();\nint _size = _endPoints.size();\nboolean _greaterThan = (_size > 1);\nif (_greaterThan)\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints_1 = this.getEndPoints();\n\treturn _endPoints_1.get(1);\n}\nreturn null;'"
 	 * @generated
@@ -399,6 +396,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the source (first) end-type of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd = this.sourceEnd();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_sourceEnd, null));\nif (_notEquals)\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _sourceEnd_1 = this.sourceEnd();\n\treturn _sourceEnd_1.getEndType();\n}\nreturn null;'"
 	 * @generated
@@ -408,6 +408,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the target (second) end-type of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd = this.targetEnd();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_targetEnd, null));\nif (_notEquals)\n{\n\t<%net.menthor.metamodel.ontouml.EndPoint%> _targetEnd_1 = this.targetEnd();\n\treturn _targetEnd_1.getEndType();\n}\nreturn null;'"
 	 * @generated
@@ -417,6 +420,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the source (first) end-class of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Classifier%> _source = this.source();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_source, null));\nif (_notEquals)\n{\n\t<%net.menthor.metamodel.ontouml.Classifier%> _source_1 = this.source();\n\treturn ((<%net.menthor.metamodel.ontouml.Class%>) _source_1);\n}\nreturn null;'"
 	 * @generated
@@ -426,6 +432,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the target (second) end-class of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Classifier%> _target = this.target();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_target, null));\nif (_notEquals)\n{\n\t<%net.menthor.metamodel.ontouml.Classifier%> _target_1 = this.target();\n\treturn ((<%net.menthor.metamodel.ontouml.Class%>) _target_1);\n}\nreturn null;'"
 	 * @generated
@@ -435,6 +444,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the source (first) end-relationship of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Classifier%> _source = this.source();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_source, null));\nif (_notEquals)\n{\n\t<%net.menthor.metamodel.ontouml.Classifier%> _source_1 = this.source();\n\treturn ((<%net.menthor.metamodel.ontouml.Relationship%>) _source_1);\n}\nreturn null;'"
 	 * @generated
@@ -444,6 +456,9 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns the target (second) end-relationship of this relationship
+	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Classifier%> _target = this.target();\nboolean _notEquals = (!<%com.google.common.base.Objects%>.equal(_target, null));\nif (_notEquals)\n{\n\t<%net.menthor.metamodel.ontouml.Classifier%> _target_1 = this.target();\n\treturn ((<%net.menthor.metamodel.ontouml.Relationship%>) _target_1);\n}\nreturn null;'"
 	 * @generated
@@ -453,11 +468,26 @@ public interface Relationship extends NamedElement, Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Checks if this relationship is derived i.e. checking if there is at least one end-point which is derived
+	 * <!-- end-model-doc -->
 	 * @model kind="operation" unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = this.getEndPoints();\nfor (final <%net.menthor.metamodel.ontouml.EndPoint%> ep : _endPoints)\n{\n\tboolean _isIsDerived = ep.isIsDerived();\n\tif (_isIsDerived)\n\t{\n\t\treturn true;\n\t}\n}\nreturn false;'"
 	 * @generated
 	 */
 	boolean isDerived();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Checks if there is at least one end-point in this relationship of classifier c.
+	 * <!-- end-model-doc -->
+	 * @model unique="false" cUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = this.getEndPoints();\nfor (final <%net.menthor.metamodel.ontouml.EndPoint%> ep : _endPoints)\n{\n\t<%net.menthor.metamodel.ontouml.Classifier%> _endType = ep.getEndType();\n\tboolean _equals = _endType.equals(c);\n\tif (_equals)\n\t{\n\t\treturn true;\n\t}\n}\nreturn false;'"
+	 * @generated
+	 */
+	boolean isEnd(Classifier c);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -512,6 +542,15 @@ public interface Relationship extends NamedElement, Classifier {
 	 * @generated
 	 */
 	boolean isWholeMandatory();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body=''"
+	 * @generated
+	 */
+	void isShareable();
 
 	/**
 	 * <!-- begin-user-doc -->

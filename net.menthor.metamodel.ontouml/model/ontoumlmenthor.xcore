@@ -12,15 +12,27 @@
  
 package net.menthor.metamodel.ontouml
 
-// TODO: JP: Name Spaces like in UML (with package imports)
-
-/* TODO: JP: Create a separate meta-model for "occurrences" of the elements in views
- * (similar to occurrences and definitions in ARIS) keep this meta-model for definitions
- * and create a meta-model for occurrences. This will enable a strict separation between model and views */
-
-//TODO: Tiago: Regra para verificar especializacao multipla (nao pode especializar dois tipos disjuntos)
-//TODO: Tiago: Sub-setting and Redefinition Constraints.
+/** ======================================================================================================= 
+ *  Version 1.0 - OntoUML Meta-model 
+ * 
+ * 	@author John Guerson (JG)	
+ * 	@author Tiago Prince Sales (TS) 	  
+ *  @co-author João Paulo Andrade Almeida (JP)
+ *  ======================================================================================================== */
  
+/** ======================================================================================================== 
+ *    TODO:
+ *  
+ *  - (JP) Name Spaces like in UML (with package imports)
+ *  - (JP) Create a separate meta-model for "occurrences" of the elements in views (similar to occurrences and definitions in ARIS)
+ *         Keep this meta-model for definitions and create a meta-model for occurrences. This will enable a strict separation between model and views
+ * 
+ *  - (TS) Rule to verify multiple specializations (we cannot specialize two disjoint types)
+ *  - (TS) Rule to enforce sub-setting and redefinition constraints
+ *  - (TS) Implement the following operations: overlapSiblings(), disjointSiblings(), isDisjointOf(Class c)
+ *  - (TS) Implement the following operations: isShareable()
+ *  ======================================================================================================== */  
+	 
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
 /** =========================================
@@ -37,7 +49,8 @@ abstract class NamedElement extends Element { String name }
  *  A container is a named element that contains a set of elements (i.e. model, packages).
  * 
  *  A contained element is an element that has a holder (a container) and possibly a set of comments.
- *  A contained element can be: a package, a classifier [class, relationship, structure, region, domain and dimension], or a generalization set.  *    
+ *  A contained element can be: a package, a generalization set, a relationship, or a type (classes, quality structures and regions). 
+ *  Further, relationships and types are called Classifiers.*    
  *  ======================================== */
  
 abstract class Container extends NamedElement 
@@ -48,7 +61,7 @@ abstract class Container extends NamedElement
 	//operations
 	//==============================================
 	
-	/* Returns the packages at this container. It only returns direct packages. */  
+	/* Returns the packages only at this container.  */  
 	op Package[] packages()
 	{
 		var Package[] result
@@ -58,7 +71,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	}
 	
-	/** Returns all packages at this container recursively. It returns both direct and indirect packages. */
+	/** Returns all packages at this container recursively. */
 	op void allPackages(Container c, Package[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -75,7 +88,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	} 
 	
-	/* Returns the relationships at this container */
+	/* Returns the relationships only at this container */
 	op Relationship[] relationships() 
 	{	
 		var Relationship[] result
@@ -85,7 +98,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	}
 	
-	/** Returns all relationships at this container recursively. It returns both direct and indirect relationships. */
+	/** Returns all relationships at this container recursively */
 	op void allRelationships(Container c, Relationship[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -102,7 +115,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	} 
 	
-	/* Returns the generalization sets at this container */
+	/* Returns the generalization sets only at this container */
 	op GeneralizationSet[] generalizationSets()
 	{
 		var GeneralizationSet[] result
@@ -112,7 +125,7 @@ abstract class Container extends NamedElement
 		return result.toEList;		
 	} 
 	 
-	/** Returns all generalization sets at this container recursively. It returns both direct and indirect generalization sets. */
+	/** Returns all generalization sets at this container recursively */
 	op void allGeneralizationSets(Container c, GeneralizationSet[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -129,7 +142,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	} 
 	
-	/* Returns the classes at this container */
+	/* Returns the classes only at this container */
 	op Class[] classes()
 	{
 		var Class[] result
@@ -139,7 +152,7 @@ abstract class Container extends NamedElement
 		return result.toEList;		
 	}
 	
-	/** Returns all classes at this container recursively. It returns both direct and indirect classes. */
+	/** Returns all classes at this container recursively */
 	op void allClasses(Container c, Class[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -155,20 +168,67 @@ abstract class Container extends NamedElement
 		allClasses(this, result.toEList)
 		return result.toEList;
 	}	
+	
+	/* Returns the quality structures only at this container */
+	op Structure[] structures()
+	{
+		var Structure[] result
+		for(ContainedElement e: elements){
+			if(e instanceof Structure) { result.add(e) }
+		}
+		return result.toEList;		
+	}
+	
+	/** Returns all quality structures at this container recursively. */
+	op void allStructures(Container c, Structure[] result)
+	{
+		for(ContainedElement e: elements){
+			if(e instanceof Structure) { result.add(e); }
+			if(e instanceof Package){
+				allStructures(e,result);								
+			}
+		}
+	}	
+	op Structure[] allStructures()
+	{
+		var Structure[] result
+		allStructures(this, result.toEList)
+		return result.toEList;
+	}	
 }
+
+/** =========================================
+ *  - model
+ *  ======================================== */
+
+class Model extends Container { }
 
 abstract class ContainedElement extends Element 
 { 
 	container Container[1] holder opposite elements
 	
 	contains Comment[*] comments opposite owner	
+	
+	//==============================================
+	//operations
+	//==============================================
+	
+	/** Returns the root container from this given container */
+	op Model getModel(Container c)
+	{
+		if(c instanceof Model) { return c; }
+		else { if(c instanceof ContainedElement) return getModel(c.holder); }
+	}
+	/** Returns the root container */
+	op Model getModel()
+	{
+		return getModel(holder);
+	}
 }
 
 /** =========================================
- *  - model & package
+ *  package
  *  ======================================== */
-
-class Model extends Container { }
 
 class Package extends Container, ContainedElement { }
 
@@ -185,9 +245,9 @@ class Comment extends Element
 }
 
 /** =========================================
- *  - classifier (i.e. Class or Relationship)
+ *  - classifier (i.e. types and relationships)
  * 
- *  A classifier is a contained element defined to be a Class or a Relationship.
+ *  A classifier is a contained element defined to be a relationship or a type (classes, quality structures and regions).
  *  ======================================== */
  
 abstract class Classifier extends ContainedElement 
@@ -252,6 +312,72 @@ abstract class Classifier extends ContainedElement
 		allChildren(this, list.toEList)
 		return list.toEList;
 	}
+	
+	/** Returns direct siblings i.e. classifiers which specialize the same super-classifier as this classifier */
+	op Classifier[] siblings() 
+	{
+		var Classifier[] result
+		for(Classifier p: parents()){			
+			for(Classifier sibling: p.children()){				
+				if(!sibling.equals(this)) result.add(sibling);				
+			}
+		}
+		return result.toEList;			
+	}	
+	
+	/** Returns all direct end-points of from this classifier (in which we can navigate from it) 
+	 *  In other words, it returns all opposite ends of the relationships connected to this classifier. */		
+	op EndPoint[] ends()
+	{		
+		var EndPoint[] result
+		for(Relationship rel: model.allRelationships){
+			if(rel.isEnd(this)){
+				for(EndPoint ep: rel.endPoints){
+					if(!ep.endType.equals(this)){
+						result.add(ep);
+					}	
+				}
+			}			
+		}	
+		return result.toEList;	
+	}
+		  
+	/** Returns all direct and indirect end-points from this classifier (in which we can navigate from it) 
+	 *  In other words, it returns all opposite ends of the relationships connected to this classifier, or to a parent of this classifier. */
+	op EndPoint[] allEnds() 
+	{		
+		var EndPoint[] result
+		result.addAll(this.ends());
+		for(Classifier p: this.allParents()){
+			if(p instanceof Class){
+				result.addAll(p.ends());
+			}
+		}
+		return result.toEList;		
+	}	
+}
+
+/** =========================================
+ *  - generalization set (between classifiers)
+ *   
+ *  A former UML generalization is now a generalization set with only one specializing classifier.
+ *  A generalization set can be complete. Generalization sets are by default disjoint.
+ *  Generalization sets cannot define cycles (Constraint C8, C9, C10, C11)
+ *  Further, a generalization set may refer to a high order class (Constraint C7).
+ *  ======================================== */
+
+class GeneralizationSet extends NamedElement, ContainedElement
+{
+	boolean isCovering
+	
+	/* JP: Default should be true, but isDijoint has been removed. Use different GeneralizationSets if necessary to represent disjointness. */
+	// boolean isDisjoint 
+		
+	/* JP: We diverge from UML, which refers to Generalizations from a GeneralizationSet */
+	refers Classifier[1] specializedClassifier opposite isSpecializedVia 
+	refers unordered unique Classifier[1..*] specializingClassifier opposite specializesVia 
+		
+	refers Class[?] highOrder 
 }
 
 /** =========================================
@@ -275,7 +401,7 @@ enum Universal
 	//UFO-B 
 	Event, 
 	
-	//High Order Universal
+	//High Order
 	Hou 
 }
 
@@ -284,9 +410,39 @@ enum Quality
 	//UFO-A
 	Nominal, Perceivable, NonPerceivable	
 }
+ 
+/** =========================================
+ *  - type (i.e. classes, quality structures and regions)
+ *  
+ *  =========================================
+ */
+abstract class Type extends NamedElement, Classifier {
+	
+	//==============================================
+	//operations
+	//==============================================
+	
+	/** Returns all types directly connected to this through a relationship. */
+	op Type[] relatedTypes(){
+		var Type[] result
+		for(EndPoint ep: ends()){
+			result.add(ep.endType as Type)			
+		}
+		return result.toEList;
+	}
+	
+	/**Returns all types directly and indirectly connected to this through a relationship. */
+	op Type[] allRelatedTypes(){
+		var Type[] result
+		for(EndPoint ep: allEnds()){
+			result.add(ep.endType as Type)			
+		}
+		return result.toEList;
+	}
+}
 
 /** =========================================
- *  - class
+ *  - class (type)
  * 
  *  A class is named classifier that may have a stereotype. 
  *  In the case where the stereotype is an enumeration, the class must have 2 or more enumeration literals (constraint C1).
@@ -299,7 +455,7 @@ enum Quality
  *  A class may be in a set of generalization sets as super-class or sub-class.
  *  ======================================== */
  
-class Class extends NamedElement, Classifier
+class Class extends Type
 {	
 	Universal[?] stereotype	
 	
@@ -348,6 +504,7 @@ class Class extends NamedElement, Classifier
 	op boolean isNonRigid() { isRole()|| isPhase() || isRoleMixin() || isMixin() } 
 	op boolean isAntiRigid() { isRole() || isPhase() || isRoleMixin() }
 	op boolean isSemiRigid() { isRoleMixin() || isPhaseMixin() || isMixin() }
+	op boolean isMoment() { isTruthMaker() || isMode() || isQuality() }
 	
 	/** Checks if this class is a direct identity provider 
 	 *  i.e. it does not inherit his identity from other classes. */
@@ -360,10 +517,10 @@ class Class extends NamedElement, Classifier
 	 *  and is related to one or more material relationships */
 	op boolean isTruthMaker()
 	{
-		if (isRelator() && istruthMakerOf.size()>0) { return true; }
+		if (isRelator()) { return true; }
 		for(Classifier c: allParents()) {
 			if(c instanceof Class){								
-				if (c.isRelator() && istruthMakerOf.size()>0) { return true; }
+				if (c.isRelator()) { return true; }
 			}
 		}
 		return false;		
@@ -504,74 +661,49 @@ class Class extends NamedElement, Classifier
 		return false;
 	}	 
 	
-	/** Returns direct siblings i.e. classes which specialize the same super-type as this class */
-	op void siblings() {}
-
-	op void overlapSiblings(){}
-	
-	op void disjointSiblings(){}
-
-	/** Checks if this class is disjoint from another */
-	op void isDisjointOf(Class c){}
-	
-	/** Returns all (direct) end-points "connected" to this class. 
-	 *  In other words, it returns all opposite ends of the relationships connected to this class. */		
-	op void ends(){}
-	  
-	/** Returns all classes directly connected to this class through a relationship. */
-	op void relatedClasses(){}
-	
-	/**Returns all classes directly and indirectly connected to this class through a relationship. */
-	op void allRelatedClasses(){}
-	
-	/** Returns all (direct and indirect) end-points "connected" to this class. 
-	 *  In other words, it returns all opposite ends of the relationships connected to this class. */
-	op void allEnds(){}
-	
-	op void isIntrinsic(){}
+	/** 
+	 * Checks if a particular element is a moment  i.e.
+	 * 1) if it is a truth maker, mode or quality element, or, 
+	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider being a truth maker, mode or quality, or,
+	 * 3) if it is a mixin class in which all their children are truth makers, qualities or modes.
+	 */
+	op boolean isIntrinsic()
+	{
+		if(isMoment()) return true;		
+		if(isAntiRigid() || isSubKind()) 
+		{ 
+			var Class[] providers
+			providers.addAll(identityProviders());			
+			for(Class c: providers) if (c.isMoment()) return true;
+		}			
+		if(isMixinClass())
+		{			
+			if(children().size()==0) return false;			
+			for (Classifier child : children()) 
+			{
+				if(child instanceof Class) if(!child.isMoment()) return false;
+			}
+			return true;
+		}		
+		return false;
+	}
 }
 
 /** =========================================
- *  - generalization set
- *   
- *  A former UML generalization is a generalization set with only one specializing class.
- *  A generalization set can be complete. Generalization sets are by default disjoint.
- *  Generalization sets cannot define cycles (Constraint C8, C9, C10, C11)
- *  Further, a generalization set may refer to a high order class (Constraint C7).
+ *  - enumeration literal
  *  ======================================== */
 
-class GeneralizationSet extends NamedElement, ContainedElement
+class Literal extends Element
 {
-	boolean isCovering
+	container Class[1] owner opposite literals
 	
-	/* JP: Default should be true, but isDijoint has been removed. Use different GeneralizationSets if necessary to represent disjointness. */
-	// boolean isDisjoint 
-		
-	/* JP: We diverge from UML, which refers to Generalizations from a GeneralizationSet */
-	refers Classifier[1] specializedClassifier opposite isSpecializedVia 
-	refers unordered unique Classifier[1..*] specializingClassifier opposite specializesVia 
-		
-	refers Class[?] hou 
-}
+	refers Region[?] groundingRegion opposite groundedLiteral
+	
+	String value
+} 
 
 /** =========================================
- *  - property
- * 
- *  A property is a named element which can be ordered, derived and have a dependency to a type (UML readOnly or frozen feature).
- *  A property defines a lower and upper bound defining how many elements are allowable at this property.
- *  ======================================== */
-
-abstract class Property extends NamedElement 
-{		
-	boolean isOrdered
-	boolean isDerived	
-	int[1] lowerBound
-	int[1] upperBound	
-	boolean isDependency	
-}
-
-/** =========================================
- *  - attribute & primitive types
+ *  - attribute 
  * 
  *  An attribute is a property that has an owner class and a primitive type.
  * 
@@ -594,17 +726,125 @@ enum Primitive
 }
 
 /** =========================================
- *  - enumeration literals
+ *  - structure (type)
+ * 
+ *  A Structure may have several Regions.
+ *  A Structure if grounded, must be grounded in a Enumeration (Constraint C18).
+ *  ======================================== */
+ 
+class Structure extends Type
+{	 
+	refers Region[*] regions opposite ownerStructure
+	
+	refers Class[?] groundedEnumeration opposite groundingStructure
+}
+  
+/** =========================================
+ *  - region (type)
+ * 
+ *  A Region can be owned by a Structure and be grounded in an Enumeration Literal
+ *  A "Composed" Region must have more than one Region.
+ *  A "Basic" Region is defined by a Integer or a Decimal measure type.
+ *  A "Nominal" Region is defined by a String measure type.
+ *  ======================================== */
+ 
+class Region extends Type 
+{
+	refers Structure[?] ownerStructure opposite regions	
+	
+	refers Literal[?] groundedLiteral opposite groundingRegion
+	
+	refers Region[*] composedBy 
+	
+	Primitive[?] basicType 
+	
+	//==============================================
+	//operations
+	//============================================== 
+	  
+	op boolean isBasic() { basicType!=null && composedBy.size()==0 && (basicType==Primitive.INTEGER || basicType==Primitive.DECIMAL) }
+	op boolean isComposed() { basicType==null && composedBy.size()>0 }
+	op boolean isNominal() { basicType!=null && (basicType==Primitive.STRING) }
+}
+
+/** =========================================
+ * - structure domain
+ * 
+ *  A Domain should always be associated to an instance of measurable quality universal by a structuration relation.
+ *  A Domain must have two or more owned dimensions. 
+ *  All owned dimensions must be instances of measurement dimensions (not nominal dimensions).
+ *  ======================================== */
+ 
+class Domain extends Structure
+{
+	refers Dimension[*] dimensions opposite ownerDomain
+}
+ 
+/** =========================================
+ *  - dimension scale
+ *  ======================================== */
+ 
+enum Scale
+{
+	Interval, Rational, Ordinal, Nominal
+}
+
+/** =========================================
+ *  - structure dimension
+ * 
+ *  A Dimension might be part of a Domain or connected to a Structuration.
+ *  A Dimension might define basic Regions as lower and upper bound (Constraint C19 and C20)
  *  ======================================== */
 
-class Literal extends Property
-{
-	container Class[1] owner opposite literals
+class Dimension extends Structure 
+{ 
+	refers Domain[?] ownerDomain opposite dimensions
+
+	refers Region[?] lowerBound 
+	refers Region[?] upperBound 
 	
-	refers Region[?] groundingRegion opposite groundedLiteral
+	String unitOfMeasure
 	
-	String value
-} 
+	Scale[?] scale 
+	Primitive[?] measure
+	
+	//==============================================
+	//operations
+	//============================================== 
+	op boolean isNominal() { scale!=null && scale==Scale.NOMINAL }
+	op boolean isInterval() { scale!=null && scale==Scale.INTERVAL }
+	op boolean isOrdinal() { scale!=null && scale==Scale.ORDINAL }
+	op boolean isRational() { scale!=null && scale==Scale.RATIONAL }
+	
+	op boolean isString() { measure!=null && measure==Primitive.STRING }
+	op boolean isInteger() { measure!=null && measure==Primitive.INTEGER }
+	op boolean isDecimal() { measure!=null && measure==Primitive.DECIMAL }
+	
+	op boolean isNominalString() { isNominal() && isString() }
+	
+	op boolean isIntervalInteger() { isInterval() && isInteger() }
+	op boolean isIntervalDecimal() { isInterval() && isDecimal() }
+	op boolean isOrdinalInteger() { isOrdinal() && isInteger() }
+	op boolean isOrdinalDecimal() { isOrdinal() && isDecimal() }
+	op boolean isRationalInteger() { isRational() && isInteger() }
+	op boolean isRationalDecimal() { isRational() && isDecimal() }
+}
+
+/** =========================================
+ *  - property (i.e. attributes and end points)
+ * 
+ *  A property is a named element which can be ordered, derived and have a dependency to a type (UML readOnly or frozen feature).
+ *  A property defines a lower and upper bound defining how many elements are allowable at this property.
+ *  ======================================== */
+
+abstract class Property extends NamedElement 
+{		
+	boolean isOrdered
+	boolean isDerived	
+	int[1] lowerBound
+	int[1] upperBound	
+	boolean isDependency	
+}
 
 /** =========================================
  *  - end-point
@@ -707,8 +947,6 @@ class Relationship extends NamedElement, Classifier
 	//operations
 	//==============================================
 	
-	op void isShareable() { /*TODO*/ }
-	
 	op boolean isComponentOf(){stereotype==Relation.COMPONENT_OF}
 	op boolean isMemberOf(){stereotype==Relation.MEMBER_OF}
 	op boolean isSubCollectionOf(){stereotype==Relation.SUB_COLLECTION_OF}
@@ -737,58 +975,76 @@ class Relationship extends NamedElement, Classifier
 	op boolean isBinary() { return endPoints.size()==2 }
 	op boolean isTernary() { return endPoints.size()==3 }
 	
+	/** Returns the source (first) end-point of this relationship */
 	op EndPoint sourceEnd() 
 	{ 
 		if(endPoints.size()>0){ return endPoints.get(0) } 
 		return null;
 	} 
 	
+	/** Returns the target (second) end-point of this relationship */
 	op EndPoint targetEnd() 
 	{ 
 		if(endPoints.size()>1){ return endPoints.get(1) } 
 		return null;
 	}
 	
+	/** Returns the source (first) end-type of this relationship */
 	op Classifier source() 
 	{ 
 		if(sourceEnd()!=null){ return sourceEnd().endType } 
 		return null;
 	}
 	
+	/** Returns the target (second) end-type of this relationship */
 	op Classifier target()  
 	{ 
 		if(targetEnd()!=null){ return targetEnd().endType }		
 		return null;
 	}
 		
+	/** Returns the source (first) end-class of this relationship */
 	op Class sourceClass() 
 	{ 
 		if(source()!=null) return source() as Class		
 		return null; 
 	}
-		
+	
+	/** Returns the target (second) end-class of this relationship */
 	op Class targetClass()  
 	{ 
 		if(target()!=null) return target() as Class		
 		return null;  
 	}	
 	
+	/** Returns the source (first) end-relationship of this relationship */
 	op Relationship sourceRelationship() 
 	{ 
 		if(source()!=null) return source() as Relationship		
 		return null; 
 	}
 		
+	/** Returns the target (second) end-relationship of this relationship */
 	op Relationship targetRelationship()  
 	{ 
 		if(target()!=null) return target() as Relationship		
 		return null;  
 	}	
 	
+	/** Checks if this relationship is derived i.e. checking if there is at least one end-point which is derived */
 	op boolean isDerived() 
 	{ 
 		for(EndPoint ep: endPoints){ if (ep.isDerived) return true; }
 		return false;
+	}	
+	
+	/** Checks if there is at least one end-point in this relationship of classifier c. */	
+	op boolean isEnd(Classifier c)
+	{
+		for(EndPoint ep: endPoints){
+			if(ep.endType.equals(c)) return true;
+		}
+		return false;		
 	}	
 	
 	op boolean isPartEssential() { targetEnd().isDependency && sourceClass().isRigid() && isMeronymic() }  
@@ -798,112 +1054,11 @@ class Relationship extends NamedElement, Classifier
 	op boolean isPartMandatory() { targetEnd().lowerBound>=1 && isMeronymic()}
 	op boolean isWholeMandatory() { sourceEnd().lowerBound>=1 && isMeronymic()}	 
 	
+	op void isShareable() { }
+	
 	op Relationship material() { }
 	
 	op Class relator() { }
 }
- 
-/** =========================================
- *  - scale
- *  ======================================== */
- 
-enum Scale
-{
-	Interval, Rational, Ordinal, Nominal
-}
   
-/** =========================================
- *  - structure
- * 
- *  A Structure may have several Regions.
- *  A Structure if grounded, must be grounded in a Enumeration (Constraint C18).
- *  ======================================== */
- 
-class Structure extends NamedElement, Classifier 
-{	 
-	refers Region[*] regions opposite ownerStructure
-	
-	refers Class[?] groundedEnumeration opposite groundingStructure
-}
-  
-/** =========================================
- *  - region
- * 
- *  A Region can be owned by a Structure and be grounded in an Enumeration Literal
- *  A "Composed" Region must have more than one Region.
- *  A "Basic" Region is defined by a Integer or a Decimal measure type.
- *  A "Nominal" Region is defined by a String measure type.
- *  ======================================== */
- 
-class Region extends NamedElement, Classifier 
-{
-	refers Structure[?] ownerStructure opposite regions	
-	
-	refers Literal[?] groundedLiteral opposite groundingRegion
-	
-	refers Region[*] composedBy //not sure if we should have a "Composed Region" class
-	
-	Primitive[?] basicType //not sure if we should have a "Basic Region" class 
-	
-	//==============================================
-	//operations
-	//============================================== 
-	  
-	op boolean isBasic() { basicType!=null && composedBy.size()==0 && (basicType==Primitive.INTEGER || basicType==Primitive.DECIMAL) }
-	op boolean isComposed() { basicType==null && composedBy.size()>0 }
-	op boolean isNominal() { basicType!=null && (basicType==Primitive.STRING) }
-}
 
-/** =========================================
- * - domain
- * 
- *  A Domain should always be associated to an instance of measurable quality universal by a structuration relation.
- *  A Domain must have two or more owned dimensions. 
- *  All owned dimensions must be instances of measurement dimensions (not nominal dimensions).
- *  ======================================== */
- 
-class Domain extends Structure
-{
-	refers Dimension[*] dimensions opposite ownerDomain
-}
-
-/** =========================================
- *  - dimension
- * 
- *  A Dimension might be part of a Domain or connected to a Structuration.
- *  A Dimension might define basic Regions as lower and upper bound (Constraint C19 and C20)
- *  ======================================== */
-
-class Dimension extends Structure 
-{ 
-	refers Domain[?] ownerDomain opposite dimensions
-
-	refers Region[?] lowerBound 
-	refers Region[?] upperBound 
-	
-	String unitOfMeasure
-	
-	Scale[?] scale 
-	Primitive[?] measure
-	
-	//==============================================
-	//operations
-	//============================================== 
-	op boolean isNominal() { scale!=null && scale==Scale.NOMINAL }
-	op boolean isInterval() { scale!=null && scale==Scale.INTERVAL }
-	op boolean isOrdinal() { scale!=null && scale==Scale.ORDINAL }
-	op boolean isRational() { scale!=null && scale==Scale.RATIONAL }
-	
-	op boolean isString() { measure!=null && measure==Primitive.STRING }
-	op boolean isInteger() { measure!=null && measure==Primitive.INTEGER }
-	op boolean isDecimal() { measure!=null && measure==Primitive.DECIMAL }
-	
-	op boolean isNominalString() { isNominal() && isString() }
-	
-	op boolean isIntervalInteger() { isInterval() && isInteger() }
-	op boolean isIntervalDecimal() { isInterval() && isDecimal() }
-	op boolean isOrdinalInteger() { isOrdinal() && isInteger() }
-	op boolean isOrdinalDecimal() { isOrdinal() && isDecimal() }
-	op boolean isRationalInteger() { isRational() && isInteger() }
-	op boolean isRationalDecimal() { isRational() && isDecimal() }
-}

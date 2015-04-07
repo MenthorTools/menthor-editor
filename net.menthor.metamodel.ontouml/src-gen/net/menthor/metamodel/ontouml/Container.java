@@ -16,7 +16,8 @@ import org.eclipse.emf.common.util.EList;
  *  A container is a named element that contains a set of elements (i.e. model, packages).
  * 
  *  A contained element is an element that has a holder (a container) and possibly a set of comments.
- *  A contained element can be: a package, a classifier [class, relationship, structure, region, domain and dimension], or a generalization set.  *
+ *  A contained element can be: a package, a generalization set, a relationship, or a type (classes, quality structures and regions).
+ *  Further, relationships and types are called Classifiers.*
  *  ========================================
  * <!-- end-model-doc -->
  *
@@ -54,7 +55,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *  Returns the packages at this container. It only returns direct packages.
+	 *  Returns the packages only at this container.
 	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Package%>[] result = null;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\tif ((e instanceof <%net.menthor.metamodel.ontouml.Package%>))\n\t{\n\t\tfinal <%net.menthor.metamodel.ontouml.Package%>[] _converted_result = (<%net.menthor.metamodel.ontouml.Package%>[])result;\n\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.Package%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((<%net.menthor.metamodel.ontouml.Package%>)e));\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.Package%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.Package%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Package%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Package%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
@@ -66,7 +67,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * * Returns all packages at this container recursively. It returns both direct and indirect packages.
+	 * * Returns all packages at this container recursively.
 	 * <!-- end-model-doc -->
 	 * @model cUnique="false" resultUnique="false" resultMany="true"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\tif ((e instanceof <%net.menthor.metamodel.ontouml.Package%>))\n\t{\n\t\tresult.add(((<%net.menthor.metamodel.ontouml.Package%>)e));\n\t\tthis.allPackages(((<%net.menthor.metamodel.ontouml.Container%>)e), result);\n\t}\n}'"
@@ -87,7 +88,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *  Returns the relationships at this container
+	 *  Returns the relationships only at this container
 	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Relationship%>[] result = null;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\tif ((e instanceof <%net.menthor.metamodel.ontouml.Relationship%>))\n\t{\n\t\tfinal <%net.menthor.metamodel.ontouml.Relationship%>[] _converted_result = (<%net.menthor.metamodel.ontouml.Relationship%>[])result;\n\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.Relationship%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((<%net.menthor.metamodel.ontouml.Relationship%>)e));\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.Relationship%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.Relationship%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Relationship%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Relationship%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
@@ -99,7 +100,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * * Returns all relationships at this container recursively. It returns both direct and indirect relationships.
+	 * * Returns all relationships at this container recursively
 	 * <!-- end-model-doc -->
 	 * @model cUnique="false" resultUnique="false" resultMany="true"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\t{\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Relationship%>))\n\t\t{\n\t\t\tresult.add(((<%net.menthor.metamodel.ontouml.Relationship%>)e));\n\t\t}\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Package%>))\n\t\t{\n\t\t\tthis.allRelationships(((<%net.menthor.metamodel.ontouml.Container%>)e), result);\n\t\t}\n\t}\n}'"
@@ -120,7 +121,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *  Returns the generalization sets at this container
+	 *  Returns the generalization sets only at this container
 	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.GeneralizationSet%>[] result = null;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\tif ((e instanceof <%net.menthor.metamodel.ontouml.GeneralizationSet%>))\n\t{\n\t\tfinal <%net.menthor.metamodel.ontouml.GeneralizationSet%>[] _converted_result = (<%net.menthor.metamodel.ontouml.GeneralizationSet%>[])result;\n\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.GeneralizationSet%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((<%net.menthor.metamodel.ontouml.GeneralizationSet%>)e));\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.GeneralizationSet%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.GeneralizationSet%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.GeneralizationSet%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.GeneralizationSet%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
@@ -132,7 +133,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * * Returns all generalization sets at this container recursively. It returns both direct and indirect generalization sets.
+	 * * Returns all generalization sets at this container recursively
 	 * <!-- end-model-doc -->
 	 * @model cUnique="false" resultUnique="false" resultMany="true"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\t{\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.GeneralizationSet%>))\n\t\t{\n\t\t\tresult.add(((<%net.menthor.metamodel.ontouml.GeneralizationSet%>)e));\n\t\t}\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Package%>))\n\t\t{\n\t\t\tthis.allGeneralizationSets(((<%net.menthor.metamodel.ontouml.Container%>)e), result);\n\t\t}\n\t}\n}'"
@@ -153,7 +154,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *  Returns the classes at this container
+	 *  Returns the classes only at this container
 	 * <!-- end-model-doc -->
 	 * @model unique="false"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Class%>[] result = null;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\tif ((e instanceof <%net.menthor.metamodel.ontouml.Class%>))\n\t{\n\t\tfinal <%net.menthor.metamodel.ontouml.Class%>[] _converted_result = (<%net.menthor.metamodel.ontouml.Class%>[])result;\n\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.Class%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((<%net.menthor.metamodel.ontouml.Class%>)e));\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.Class%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.Class%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Class%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Class%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
@@ -165,7 +166,7 @@ public interface Container extends NamedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * * Returns all classes at this container recursively. It returns both direct and indirect classes.
+	 * * Returns all classes at this container recursively
 	 * <!-- end-model-doc -->
 	 * @model cUnique="false" resultUnique="false" resultMany="true"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\t{\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Class%>))\n\t\t{\n\t\t\tresult.add(((<%net.menthor.metamodel.ontouml.Class%>)e));\n\t\t}\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Package%>))\n\t\t{\n\t\t\tthis.allClasses(((<%net.menthor.metamodel.ontouml.Container%>)e), result);\n\t\t}\n\t}\n}'"
@@ -181,5 +182,38 @@ public interface Container extends NamedElement {
 	 * @generated
 	 */
 	EList<net.menthor.metamodel.ontouml.Class> allClasses();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 *  Returns the quality structures only at this container
+	 * <!-- end-model-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Structure%>[] result = null;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\tif ((e instanceof <%net.menthor.metamodel.ontouml.Structure%>))\n\t{\n\t\tfinal <%net.menthor.metamodel.ontouml.Structure%>[] _converted_result = (<%net.menthor.metamodel.ontouml.Structure%>[])result;\n\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.Structure%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((<%net.menthor.metamodel.ontouml.Structure%>)e));\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.Structure%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.Structure%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Structure%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Structure%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
+	 * @generated
+	 */
+	EList<Structure> structures();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns all quality structures at this container recursively.
+	 * <!-- end-model-doc -->
+	 * @model cUnique="false" resultUnique="false" resultMany="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.ContainedElement%>> _elements = this.getElements();\nfor (final <%net.menthor.metamodel.ontouml.ContainedElement%> e : _elements)\n{\n\t{\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Structure%>))\n\t\t{\n\t\t\tresult.add(((<%net.menthor.metamodel.ontouml.Structure%>)e));\n\t\t}\n\t\tif ((e instanceof <%net.menthor.metamodel.ontouml.Package%>))\n\t\t{\n\t\t\tthis.allStructures(((<%net.menthor.metamodel.ontouml.Container%>)e), result);\n\t\t}\n\t}\n}'"
+	 * @generated
+	 */
+	void allStructures(Container c, EList<Structure> result);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Structure%>[] result = null;\nfinal <%net.menthor.metamodel.ontouml.Structure%>[] _converted_result = (<%net.menthor.metamodel.ontouml.Structure%>[])result;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Structure%>> _eList = <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Structure%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Structure%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));\nthis.allStructures(this, _eList);\nfinal <%net.menthor.metamodel.ontouml.Structure%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.Structure%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Structure%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Structure%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
+	 * @generated
+	 */
+	EList<Structure> allStructures();
 
 } // Container

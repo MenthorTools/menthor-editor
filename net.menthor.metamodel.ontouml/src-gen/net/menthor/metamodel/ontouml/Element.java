@@ -10,9 +10,13 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *  TODO: JP: Create a separate meta-model for "occurrences" of the elements in views
- * (similar to occurrences and definitions in ARIS) keep this meta-model for definitions
- * and create a meta-model for occurrences. This will enable a strict separation between model and views
+ * * =======================================================================================================
+ *  Version 1.0 - OntoUML Meta-model
+ * 
+ * 	@author John Guerson (JG)
+ * 	@author Tiago Prince Sales (TS)
+ *  @co-author João Paulo Andrade Almeida (JP)
+ *  ========================================================================================================
  * <!-- end-model-doc -->
  *
  *

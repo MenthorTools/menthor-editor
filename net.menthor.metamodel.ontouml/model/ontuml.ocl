@@ -32,7 +32,7 @@ inv C17: not isEnumeration() implies groundingStructure.oclIsUndefined()
 context GeneralizationSet
 
 -- A generalization set must define a high order class instead of a class
-inv C7: not hou.oclIsUndefined() implies hou.isHighOrder() 
+inv C7: not highOrder.oclIsUndefined() implies highOrder.isHighOrder() 
 
 -- A super-type must not be specialized by itself.
 inv C8: specializedClassifier.allChildren()->excludes(specializedClassifier)

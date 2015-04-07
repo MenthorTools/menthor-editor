@@ -20,6 +20,7 @@ import net.menthor.metamodel.ontouml.Property;
 import net.menthor.metamodel.ontouml.Region;
 import net.menthor.metamodel.ontouml.Relationship;
 import net.menthor.metamodel.ontouml.Structure;
+import net.menthor.metamodel.ontouml.Type;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -97,12 +98,12 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 				return createContainerAdapter();
 			}
 			@Override
-			public Adapter caseContainedElement(ContainedElement object) {
-				return createContainedElementAdapter();
-			}
-			@Override
 			public Adapter caseModel(Model object) {
 				return createModelAdapter();
+			}
+			@Override
+			public Adapter caseContainedElement(ContainedElement object) {
+				return createContainedElementAdapter();
 			}
 			@Override
 			public Adapter casePackage(net.menthor.metamodel.ontouml.Package object) {
@@ -117,32 +118,24 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 				return createClassifierAdapter();
 			}
 			@Override
-			public Adapter caseClass(net.menthor.metamodel.ontouml.Class object) {
-				return createClassAdapter();
-			}
-			@Override
 			public Adapter caseGeneralizationSet(GeneralizationSet object) {
 				return createGeneralizationSetAdapter();
 			}
 			@Override
-			public Adapter caseProperty(Property object) {
-				return createPropertyAdapter();
+			public Adapter caseType(Type object) {
+				return createTypeAdapter();
 			}
 			@Override
-			public Adapter caseAttribute(Attribute object) {
-				return createAttributeAdapter();
+			public Adapter caseClass(net.menthor.metamodel.ontouml.Class object) {
+				return createClassAdapter();
 			}
 			@Override
 			public Adapter caseLiteral(Literal object) {
 				return createLiteralAdapter();
 			}
 			@Override
-			public Adapter caseEndPoint(EndPoint object) {
-				return createEndPointAdapter();
-			}
-			@Override
-			public Adapter caseRelationship(Relationship object) {
-				return createRelationshipAdapter();
+			public Adapter caseAttribute(Attribute object) {
+				return createAttributeAdapter();
 			}
 			@Override
 			public Adapter caseStructure(Structure object) {
@@ -159,6 +152,18 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseDimension(Dimension object) {
 				return createDimensionAdapter();
+			}
+			@Override
+			public Adapter caseProperty(Property object) {
+				return createPropertyAdapter();
+			}
+			@Override
+			public Adapter caseEndPoint(EndPoint object) {
+				return createEndPointAdapter();
+			}
+			@Override
+			public Adapter caseRelationship(Relationship object) {
+				return createRelationshipAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -223,20 +228,6 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.ContainedElement <em>Contained Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.ContainedElement
-	 * @generated
-	 */
-	public Adapter createContainedElementAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -247,6 +238,20 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.ContainedElement <em>Contained Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.menthor.metamodel.ontouml.ContainedElement
+	 * @generated
+	 */
+	public Adapter createContainedElementAdapter() {
 		return null;
 	}
 
@@ -293,20 +298,6 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Class <em>Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.Class
-	 * @generated
-	 */
-	public Adapter createClassAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.GeneralizationSet <em>Generalization Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -321,30 +312,30 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Property <em>Property</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Type <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.Property
+	 * @see net.menthor.metamodel.ontouml.Type
 	 * @generated
 	 */
-	public Adapter createPropertyAdapter() {
+	public Adapter createTypeAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Attribute <em>Attribute</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Class <em>Class</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.Attribute
+	 * @see net.menthor.metamodel.ontouml.Class
 	 * @generated
 	 */
-	public Adapter createAttributeAdapter() {
+	public Adapter createClassAdapter() {
 		return null;
 	}
 
@@ -363,30 +354,16 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.EndPoint <em>End Point</em>}'.
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.EndPoint
+	 * @see net.menthor.metamodel.ontouml.Attribute
 	 * @generated
 	 */
-	public Adapter createEndPointAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Relationship <em>Relationship</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see net.menthor.metamodel.ontouml.Relationship
-	 * @generated
-	 */
-	public Adapter createRelationshipAdapter() {
+	public Adapter createAttributeAdapter() {
 		return null;
 	}
 
@@ -443,6 +420,48 @@ public class OntoumlAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDimensionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Property <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.menthor.metamodel.ontouml.Property
+	 * @generated
+	 */
+	public Adapter createPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.EndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.menthor.metamodel.ontouml.EndPoint
+	 * @generated
+	 */
+	public Adapter createEndPointAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.menthor.metamodel.ontouml.Relationship <em>Relationship</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.menthor.metamodel.ontouml.Relationship
+	 * @generated
+	 */
+	public Adapter createRelationshipAdapter() {
 		return null;
 	}
 

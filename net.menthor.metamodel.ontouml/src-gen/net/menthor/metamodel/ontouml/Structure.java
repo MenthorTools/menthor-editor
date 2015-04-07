@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - structure
+ *  - structure (type)
  * 
  *  A Structure may have several Regions.
  *  A Structure if grounded, must be grounded in a Enumeration (Constraint C18).
@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Structure extends NamedElement, Classifier {
+public interface Structure extends Type {
 	/**
 	 * Returns the value of the '<em><b>Regions</b></em>' reference list.
 	 * The list contents are of type {@link net.menthor.metamodel.ontouml.Region}.

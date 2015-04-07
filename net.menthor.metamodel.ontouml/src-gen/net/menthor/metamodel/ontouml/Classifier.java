@@ -11,9 +11,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - classifier (i.e. Class or Relationship)
+ *  - classifier (i.e. types and relationships)
  * 
- *  A classifier is a contained element defined to be a Class or a Relationship.
+ *  A classifier is a contained element defined to be a relationship or a type (classes, quality structures and regions).
  *  ========================================
  * <!-- end-model-doc -->
  *
@@ -137,5 +137,43 @@ public interface Classifier extends ContainedElement {
 	 * @generated
 	 */
 	EList<Classifier> allChildren();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns direct siblings i.e. classifiers which specialize the same super-classifier as this classifier
+	 * <!-- end-model-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Classifier%>[] result = null;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _parents = this.parents();\nfor (final <%net.menthor.metamodel.ontouml.Classifier%> p : _parents)\n{\n\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _children = p.children();\n\tfor (final <%net.menthor.metamodel.ontouml.Classifier%> sibling : _children)\n\t{\n\t\tboolean _equals = sibling.equals(this);\n\t\tboolean _not = (!_equals);\n\t\tif (_not)\n\t\t{\n\t\t\tfinal <%net.menthor.metamodel.ontouml.Classifier%>[] _converted_result = (<%net.menthor.metamodel.ontouml.Classifier%>[])result;\n\t\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.Classifier%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(sibling);\n\t\t}\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.Classifier%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.Classifier%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.Classifier%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.Classifier%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
+	 * @generated
+	 */
+	EList<Classifier> siblings();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns all direct end-points of from this classifier (in which we can navigate from it)
+	 *  In other words, it returns all opposite ends of the relationships connected to this classifier.
+	 * <!-- end-model-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.EndPoint%>[] result = null;\n<%net.menthor.metamodel.ontouml.Model%> _model = this.getModel();\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Relationship%>> _allRelationships = _model.allRelationships();\nfor (final <%net.menthor.metamodel.ontouml.Relationship%> rel : _allRelationships)\n{\n\tboolean _isEnd = rel.isEnd(this);\n\tif (_isEnd)\n\t{\n\t\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _endPoints = rel.getEndPoints();\n\t\tfor (final <%net.menthor.metamodel.ontouml.EndPoint%> ep : _endPoints)\n\t\t{\n\t\t\t<%net.menthor.metamodel.ontouml.Classifier%> _endType = ep.getEndType();\n\t\t\tboolean _equals = _endType.equals(this);\n\t\t\tboolean _not = (!_equals);\n\t\t\tif (_not)\n\t\t\t{\n\t\t\t\tfinal <%net.menthor.metamodel.ontouml.EndPoint%>[] _converted_result = (<%net.menthor.metamodel.ontouml.EndPoint%>[])result;\n\t\t\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.EndPoint%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(ep);\n\t\t\t}\n\t\t}\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.EndPoint%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.EndPoint%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.EndPoint%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.EndPoint%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));'"
+	 * @generated
+	 */
+	EList<EndPoint> ends();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * * Returns all direct and indirect end-points from this classifier (in which we can navigate from it)
+	 *  In other words, it returns all opposite ends of the relationships connected to this classifier, or to a parent of this classifier.
+	 * <!-- end-model-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.EndPoint%>[] result = null;\nfinal <%net.menthor.metamodel.ontouml.EndPoint%>[] _converted_result = (<%net.menthor.metamodel.ontouml.EndPoint%>[])result;\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _ends = this.ends();\n((<%java.util.List%><<%net.menthor.metamodel.ontouml.EndPoint%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).addAll(_ends);\n<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.Classifier%>> _allParents = this.allParents();\nfor (final <%net.menthor.metamodel.ontouml.Classifier%> p : _allParents)\n{\n\tif ((p instanceof <%net.menthor.metamodel.ontouml.Class%>))\n\t{\n\t\tfinal <%net.menthor.metamodel.ontouml.EndPoint%>[] _converted_result_1 = (<%net.menthor.metamodel.ontouml.EndPoint%>[])result;\n\t\t<%org.eclipse.emf.common.util.EList%><<%net.menthor.metamodel.ontouml.EndPoint%>> _ends_1 = ((<%net.menthor.metamodel.ontouml.Class%>)p).ends();\n\t\t((<%java.util.List%><<%net.menthor.metamodel.ontouml.EndPoint%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)).addAll(_ends_1);\n\t}\n}\nfinal <%net.menthor.metamodel.ontouml.EndPoint%>[] _converted_result_2 = (<%net.menthor.metamodel.ontouml.EndPoint%>[])result;\nreturn <%org.eclipse.emf.common.util.ECollections%>.<<%net.menthor.metamodel.ontouml.EndPoint%>>toEList(((<%java.lang.Iterable%><? extends <%net.menthor.metamodel.ontouml.EndPoint%>>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_2)));'"
+	 * @generated
+	 */
+	EList<EndPoint> allEnds();
 
 } // Classifier

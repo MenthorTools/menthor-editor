@@ -4,8 +4,6 @@ package net.menthor.metamodel.ontouml.impl;
 
 import com.google.common.base.Objects;
 
-import com.google.common.collect.Iterables;
-
 import java.lang.Iterable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +13,6 @@ import java.util.List;
 
 import net.menthor.metamodel.ontouml.Attribute;
 import net.menthor.metamodel.ontouml.Classifier;
-import net.menthor.metamodel.ontouml.Comment;
-import net.menthor.metamodel.ontouml.ContainedElement;
-import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.Literal;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Quality;
@@ -39,7 +34,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -49,10 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getHolder <em>Holder</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getComments <em>Comments</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getIsSpecializedVia <em>Is Specialized Via</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getSpecializesVia <em>Specializes Via</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getStereotype <em>Stereotype</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsDerived <em>Is Derived</em>}</li>
@@ -68,37 +58,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel.ontouml.Class {
-	/**
-	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComments()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Comment> comments;
-
-	/**
-	 * The cached value of the '{@link #getIsSpecializedVia() <em>Is Specialized Via</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIsSpecializedVia()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<GeneralizationSet> isSpecializedVia;
-
-	/**
-	 * The cached value of the '{@link #getSpecializesVia() <em>Specializes Via</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSpecializesVia()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<GeneralizationSet> specializesVia;
-
+public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml.Class {
 	/**
 	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -266,93 +226,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	protected EClass eStaticClass() {
 		return OntoumlPackage.Literals.CLASS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public net.menthor.metamodel.ontouml.Container getHolder() {
-		if (eContainerFeatureID() != OntoumlPackage.CLASS__HOLDER) return null;
-		return (net.menthor.metamodel.ontouml.Container)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
-		if (eContainerFeatureID() != OntoumlPackage.CLASS__HOLDER) return null;
-		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.CLASS__HOLDER, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
-		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.CLASS__HOLDER && newHolder != null)) {
-			if (EcoreUtil.isAncestor(this, newHolder))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newHolder != null)
-				msgs = ((InternalEObject)newHolder).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-			msgs = basicSetHolder(newHolder, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__HOLDER, newHolder, newHolder));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Comment> getComments() {
-		if (comments == null) {
-			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.CLASS__COMMENTS, OntoumlPackage.COMMENT__OWNER);
-		}
-		return comments;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<GeneralizationSet> getIsSpecializedVia() {
-		if (isSpecializedVia == null) {
-			isSpecializedVia = new EObjectWithInverseResolvingEList<GeneralizationSet>(GeneralizationSet.class, this, OntoumlPackage.CLASS__IS_SPECIALIZED_VIA, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER);
-		}
-		return isSpecializedVia;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<GeneralizationSet> getSpecializesVia() {
-		if (specializesVia == null) {
-			specializesVia = new EObjectWithInverseResolvingEList.ManyInverse<GeneralizationSet>(GeneralizationSet.class, this, OntoumlPackage.CLASS__SPECIALIZES_VIA, OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER);
-		}
-		return specializesVia;
 	}
 
 	/**
@@ -881,6 +754,30 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isMoment() {
+		boolean _or = false;
+		boolean _or_1 = false;
+		boolean _isTruthMaker = this.isTruthMaker();
+		if (_isTruthMaker) {
+			_or_1 = true;
+		} else {
+			boolean _isMode = this.isMode();
+			_or_1 = _isMode;
+		}
+		if (_or_1) {
+			_or = true;
+		} else {
+			boolean _isQuality = this.isQuality();
+			_or = _isQuality;
+		}
+		return _or;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isIdentityProvider() {
 		boolean _or = false;
 		boolean _or_1 = false;
@@ -920,33 +817,15 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * @generated
 	 */
 	public boolean isTruthMaker() {
-		boolean _and = false;
 		boolean _isRelator = this.isRelator();
-		if (!_isRelator) {
-			_and = false;
-		} else {
-			EList<Relationship> _istruthMakerOf = this.getIstruthMakerOf();
-			int _size = _istruthMakerOf.size();
-			boolean _greaterThan = (_size > 0);
-			_and = _greaterThan;
-		}
-		if (_and) {
+		if (_isRelator) {
 			return true;
 		}
 		EList<Classifier> _allParents = this.allParents();
 		for (final Classifier c : _allParents) {
 			if ((c instanceof net.menthor.metamodel.ontouml.Class)) {
-				boolean _and_1 = false;
 				boolean _isRelator_1 = ((net.menthor.metamodel.ontouml.Class)c).isRelator();
-				if (!_isRelator_1) {
-					_and_1 = false;
-				} else {
-					EList<Relationship> _istruthMakerOf_1 = this.getIstruthMakerOf();
-					int _size_1 = _istruthMakerOf_1.size();
-					boolean _greaterThan_1 = (_size_1 > 0);
-					_and_1 = _greaterThan_1;
-				}
-				if (_and_1) {
+				if (_isRelator_1) {
 					return true;
 				}
 			}
@@ -1252,178 +1131,52 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void siblings() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void overlapSiblings() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void disjointSiblings() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void isDisjointOf(final net.menthor.metamodel.ontouml.Class c) {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void ends() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void relatedClasses() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allRelatedClasses() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allEnds() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void isIntrinsic() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> children() {
-		net.menthor.metamodel.ontouml.Class[] list = null;
-		EList<GeneralizationSet> _isSpecializedVia = this.getIsSpecializedVia();
-		for (final GeneralizationSet gs : _isSpecializedVia) {
-			final net.menthor.metamodel.ontouml.Class[] _converted_list = (net.menthor.metamodel.ontouml.Class[])list;
-			EList<Classifier> _specializingClassifier = gs.getSpecializingClassifier();
-			Iterables.<Classifier>addAll(((Collection<Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)), _specializingClassifier);
+	public boolean isIntrinsic() {
+		boolean _isMoment = this.isMoment();
+		if (_isMoment) {
+			return true;
 		}
-		final net.menthor.metamodel.ontouml.Class[] _converted_list_1 = (net.menthor.metamodel.ontouml.Class[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> parents() {
-		Classifier[] list = null;
-		EList<GeneralizationSet> _specializesVia = this.getSpecializesVia();
-		for (final GeneralizationSet gs : _specializesVia) {
-			final Classifier[] _converted_list = (Classifier[])list;
-			Classifier _specializedClassifier = gs.getSpecializedClassifier();
-			((List<Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)).add(_specializedClassifier);
+		boolean _or = false;
+		boolean _isAntiRigid = this.isAntiRigid();
+		if (_isAntiRigid) {
+			_or = true;
+		} else {
+			boolean _isSubKind = this.isSubKind();
+			_or = _isSubKind;
 		}
-		final Classifier[] _converted_list_1 = (Classifier[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allParents(final Classifier c, final EList<Classifier> result) {
-		EList<GeneralizationSet> _specializesVia = this.getSpecializesVia();
-		for (final GeneralizationSet gs : _specializesVia) {
-			{
-				Classifier _specializedClassifier = gs.getSpecializedClassifier();
-				result.add(_specializedClassifier);
-				Classifier _specializedClassifier_1 = gs.getSpecializedClassifier();
-				this.allParents(_specializedClassifier_1, result);
-			}
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> allParents() {
-		Classifier[] list = null;
-		final Classifier[] _converted_list = (Classifier[])list;
-		EList<Classifier> _eList = ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)));
-		this.allParents(this, _eList);
-		final Classifier[] _converted_list_1 = (Classifier[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allChildren(final Classifier c, final EList<Classifier> result) {
-		EList<GeneralizationSet> _isSpecializedVia = this.getIsSpecializedVia();
-		for (final GeneralizationSet gs : _isSpecializedVia) {
-			{
-				EList<Classifier> _specializingClassifier = gs.getSpecializingClassifier();
-				result.addAll(_specializingClassifier);
-				EList<Classifier> _specializingClassifier_1 = gs.getSpecializingClassifier();
-				for (final Classifier children : _specializingClassifier_1) {
-					this.allChildren(children, result);
+		if (_or) {
+			net.menthor.metamodel.ontouml.Class[] providers = null;
+			final net.menthor.metamodel.ontouml.Class[] _converted_providers = (net.menthor.metamodel.ontouml.Class[])providers;
+			EList<net.menthor.metamodel.ontouml.Class> _identityProviders = this.identityProviders();
+			((List<net.menthor.metamodel.ontouml.Class>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_providers)).addAll(_identityProviders);
+			for (final net.menthor.metamodel.ontouml.Class c : providers) {
+				boolean _isMoment_1 = c.isMoment();
+				if (_isMoment_1) {
+					return true;
 				}
 			}
 		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> allChildren() {
-		Classifier[] list = null;
-		final Classifier[] _converted_list = (Classifier[])list;
-		EList<Classifier> _eList = ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)));
-		this.allChildren(this, _eList);
-		final Classifier[] _converted_list_1 = (Classifier[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
+		boolean _isMixinClass = this.isMixinClass();
+		if (_isMixinClass) {
+			EList<Classifier> _children = this.children();
+			int _size = _children.size();
+			boolean _equals = (_size == 0);
+			if (_equals) {
+				return false;
+			}
+			EList<Classifier> _children_1 = this.children();
+			for (final Classifier child : _children_1) {
+				if ((child instanceof net.menthor.metamodel.ontouml.Class)) {
+					boolean _isMoment_2 = ((net.menthor.metamodel.ontouml.Class)child).isMoment();
+					boolean _not = (!_isMoment_2);
+					if (_not) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1435,16 +1188,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS__HOLDER:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
-			case OntoumlPackage.CLASS__COMMENTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsSpecializedVia()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSpecializesVia()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributes()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.CLASS__LITERALS:
@@ -1467,14 +1210,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS__HOLDER:
-				return basicSetHolder(null, msgs);
-			case OntoumlPackage.CLASS__COMMENTS:
-				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
-				return ((InternalEList<?>)getIsSpecializedVia()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
-				return ((InternalEList<?>)getSpecializesVia()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.CLASS__LITERALS:
@@ -1493,31 +1228,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case OntoumlPackage.CLASS__HOLDER:
-				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS__HOLDER:
-				if (resolve) return getHolder();
-				return basicGetHolder();
-			case OntoumlPackage.CLASS__COMMENTS:
-				return getComments();
-			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
-				return getIsSpecializedVia();
-			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
-				return getSpecializesVia();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return getStereotype();
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
@@ -1552,21 +1264,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS__HOLDER:
-				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
-				return;
-			case OntoumlPackage.CLASS__COMMENTS:
-				getComments().clear();
-				getComments().addAll((Collection<? extends Comment>)newValue);
-				return;
-			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
-				getIsSpecializedVia().clear();
-				getIsSpecializedVia().addAll((Collection<? extends GeneralizationSet>)newValue);
-				return;
-			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
-				getSpecializesVia().clear();
-				getSpecializesVia().addAll((Collection<? extends GeneralizationSet>)newValue);
-				return;
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype((Universal)newValue);
 				return;
@@ -1613,18 +1310,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS__HOLDER:
-				setHolder((net.menthor.metamodel.ontouml.Container)null);
-				return;
-			case OntoumlPackage.CLASS__COMMENTS:
-				getComments().clear();
-				return;
-			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
-				getIsSpecializedVia().clear();
-				return;
-			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
-				getSpecializesVia().clear();
-				return;
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
@@ -1667,14 +1352,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.CLASS__HOLDER:
-				return basicGetHolder() != null;
-			case OntoumlPackage.CLASS__COMMENTS:
-				return comments != null && !comments.isEmpty();
-			case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA:
-				return isSpecializedVia != null && !isSpecializedVia.isEmpty();
-			case OntoumlPackage.CLASS__SPECIALIZES_VIA:
-				return specializesVia != null && !specializesVia.isEmpty();
 			case OntoumlPackage.CLASS__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
@@ -1705,81 +1382,6 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
-			switch (derivedFeatureID) {
-				case OntoumlPackage.CLASS__HOLDER: return OntoumlPackage.CONTAINED_ELEMENT__HOLDER;
-				case OntoumlPackage.CLASS__COMMENTS: return OntoumlPackage.CONTAINED_ELEMENT__COMMENTS;
-				default: return -1;
-			}
-		}
-		if (baseClass == Classifier.class) {
-			switch (derivedFeatureID) {
-				case OntoumlPackage.CLASS__IS_SPECIALIZED_VIA: return OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA;
-				case OntoumlPackage.CLASS__SPECIALIZES_VIA: return OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
-			switch (baseFeatureID) {
-				case OntoumlPackage.CONTAINED_ELEMENT__HOLDER: return OntoumlPackage.CLASS__HOLDER;
-				case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS: return OntoumlPackage.CLASS__COMMENTS;
-				default: return -1;
-			}
-		}
-		if (baseClass == Classifier.class) {
-			switch (baseFeatureID) {
-				case OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA: return OntoumlPackage.CLASS__IS_SPECIALIZED_VIA;
-				case OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA: return OntoumlPackage.CLASS__SPECIALIZES_VIA;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedOperationID(int baseOperationID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
-			switch (baseOperationID) {
-				default: return -1;
-			}
-		}
-		if (baseClass == Classifier.class) {
-			switch (baseOperationID) {
-				case OntoumlPackage.CLASSIFIER___CHILDREN: return OntoumlPackage.CLASS___CHILDREN;
-				case OntoumlPackage.CLASSIFIER___PARENTS: return OntoumlPackage.CLASS___PARENTS;
-				case OntoumlPackage.CLASSIFIER___ALL_PARENTS__CLASSIFIER_ELIST: return OntoumlPackage.CLASS___ALL_PARENTS__CLASSIFIER_ELIST;
-				case OntoumlPackage.CLASSIFIER___ALL_PARENTS: return OntoumlPackage.CLASS___ALL_PARENTS;
-				case OntoumlPackage.CLASSIFIER___ALL_CHILDREN__CLASSIFIER_ELIST: return OntoumlPackage.CLASS___ALL_CHILDREN__CLASSIFIER_ELIST;
-				case OntoumlPackage.CLASSIFIER___ALL_CHILDREN: return OntoumlPackage.CLASS___ALL_CHILDREN;
-				default: return -1;
-			}
-		}
-		return super.eDerivedOperationID(baseOperationID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
 			case OntoumlPackage.CLASS___IS_KIND:
@@ -1824,6 +1426,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return isAntiRigid();
 			case OntoumlPackage.CLASS___IS_SEMI_RIGID:
 				return isSemiRigid();
+			case OntoumlPackage.CLASS___IS_MOMENT:
+				return isMoment();
 			case OntoumlPackage.CLASS___IS_IDENTITY_PROVIDER:
 				return isIdentityProvider();
 			case OntoumlPackage.CLASS___IS_TRUTH_MAKER:
@@ -1842,47 +1446,8 @@ public class ClassImpl extends NamedElementImpl implements net.menthor.metamodel
 				return isFunctionalComplex();
 			case OntoumlPackage.CLASS___IS_COLLECTION:
 				return isCollection();
-			case OntoumlPackage.CLASS___SIBLINGS:
-				siblings();
-				return null;
-			case OntoumlPackage.CLASS___OVERLAP_SIBLINGS:
-				overlapSiblings();
-				return null;
-			case OntoumlPackage.CLASS___DISJOINT_SIBLINGS:
-				disjointSiblings();
-				return null;
-			case OntoumlPackage.CLASS___IS_DISJOINT_OF__CLASS:
-				isDisjointOf((net.menthor.metamodel.ontouml.Class)arguments.get(0));
-				return null;
-			case OntoumlPackage.CLASS___ENDS:
-				ends();
-				return null;
-			case OntoumlPackage.CLASS___RELATED_CLASSES:
-				relatedClasses();
-				return null;
-			case OntoumlPackage.CLASS___ALL_RELATED_CLASSES:
-				allRelatedClasses();
-				return null;
-			case OntoumlPackage.CLASS___ALL_ENDS:
-				allEnds();
-				return null;
 			case OntoumlPackage.CLASS___IS_INTRINSIC:
-				isIntrinsic();
-				return null;
-			case OntoumlPackage.CLASS___CHILDREN:
-				return children();
-			case OntoumlPackage.CLASS___PARENTS:
-				return parents();
-			case OntoumlPackage.CLASS___ALL_PARENTS__CLASSIFIER_ELIST:
-				allParents((Classifier)arguments.get(0), (EList<Classifier>)arguments.get(1));
-				return null;
-			case OntoumlPackage.CLASS___ALL_PARENTS:
-				return allParents();
-			case OntoumlPackage.CLASS___ALL_CHILDREN__CLASSIFIER_ELIST:
-				allChildren((Classifier)arguments.get(0), (EList<Classifier>)arguments.get(1));
-				return null;
-			case OntoumlPackage.CLASS___ALL_CHILDREN:
-				return allChildren();
+				return isIntrinsic();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

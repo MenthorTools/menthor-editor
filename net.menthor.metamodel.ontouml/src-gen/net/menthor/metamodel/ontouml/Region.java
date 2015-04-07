@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - region
+ *  - region (type)
  * 
  *  A Region can be owned by a Structure and be grounded in an Enumeration Literal
  *  A "Composed" Region must have more than one Region.
@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Region extends NamedElement, Classifier {
+public interface Region extends Type {
 	/**
 	 * Returns the value of the '<em><b>Owner Structure</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Structure#getRegions <em>Regions</em>}'.

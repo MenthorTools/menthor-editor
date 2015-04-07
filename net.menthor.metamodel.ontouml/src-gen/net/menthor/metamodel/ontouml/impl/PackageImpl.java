@@ -2,10 +2,13 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
+import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -127,6 +130,34 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.PACKAGE__COMMENTS, OntoumlPackage.COMMENT__OWNER);
 		}
 		return comments;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel(final net.menthor.metamodel.ontouml.Container c) {
+		if ((c instanceof Model)) {
+			return ((Model)c);
+		}
+		else {
+			if ((c instanceof ContainedElement)) {
+				net.menthor.metamodel.ontouml.Container _holder = ((ContainedElement)c).getHolder();
+				return this.getModel(_holder);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel() {
+		net.menthor.metamodel.ontouml.Container _holder = this.getHolder();
+		return this.getModel(_holder);
 	}
 
 	/**
@@ -281,6 +312,39 @@ public class PackageImpl extends ContainerImpl implements net.menthor.metamodel.
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedOperationID(int baseOperationID, Class<?> baseClass) {
+		if (baseClass == ContainedElement.class) {
+			switch (baseOperationID) {
+				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL__CONTAINER: return OntoumlPackage.PACKAGE___GET_MODEL__CONTAINER;
+				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL: return OntoumlPackage.PACKAGE___GET_MODEL;
+				default: return -1;
+			}
+		}
+		return super.eDerivedOperationID(baseOperationID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case OntoumlPackage.PACKAGE___GET_MODEL__CONTAINER:
+				return getModel((net.menthor.metamodel.ontouml.Container)arguments.get(0));
+			case OntoumlPackage.PACKAGE___GET_MODEL:
+				return getModel();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //PackageImpl

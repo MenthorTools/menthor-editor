@@ -78,16 +78,16 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 			case OntoumlPackage.MODEL: return createModel();
 			case OntoumlPackage.PACKAGE: return createPackage();
 			case OntoumlPackage.COMMENT: return createComment();
-			case OntoumlPackage.CLASS: return createClass();
 			case OntoumlPackage.GENERALIZATION_SET: return createGeneralizationSet();
-			case OntoumlPackage.ATTRIBUTE: return createAttribute();
+			case OntoumlPackage.CLASS: return createClass();
 			case OntoumlPackage.LITERAL: return createLiteral();
-			case OntoumlPackage.END_POINT: return createEndPoint();
-			case OntoumlPackage.RELATIONSHIP: return createRelationship();
+			case OntoumlPackage.ATTRIBUTE: return createAttribute();
 			case OntoumlPackage.STRUCTURE: return createStructure();
 			case OntoumlPackage.REGION: return createRegion();
 			case OntoumlPackage.DOMAIN: return createDomain();
 			case OntoumlPackage.DIMENSION: return createDimension();
+			case OntoumlPackage.END_POINT: return createEndPoint();
+			case OntoumlPackage.RELATIONSHIP: return createRelationship();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -107,12 +107,12 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 				return createQualityFromString(eDataType, initialValue);
 			case OntoumlPackage.PRIMITIVE:
 				return createPrimitiveFromString(eDataType, initialValue);
+			case OntoumlPackage.SCALE:
+				return createScaleFromString(eDataType, initialValue);
 			case OntoumlPackage.RELATION:
 				return createRelationFromString(eDataType, initialValue);
 			case OntoumlPackage.TEMPORAL:
 				return createTemporalFromString(eDataType, initialValue);
-			case OntoumlPackage.SCALE:
-				return createScaleFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -132,12 +132,12 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 				return convertQualityToString(eDataType, instanceValue);
 			case OntoumlPackage.PRIMITIVE:
 				return convertPrimitiveToString(eDataType, instanceValue);
+			case OntoumlPackage.SCALE:
+				return convertScaleToString(eDataType, instanceValue);
 			case OntoumlPackage.RELATION:
 				return convertRelationToString(eDataType, instanceValue);
 			case OntoumlPackage.TEMPORAL:
 				return convertTemporalToString(eDataType, instanceValue);
-			case OntoumlPackage.SCALE:
-				return convertScaleToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -178,16 +178,6 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class createClass() {
-		ClassImpl class_ = new ClassImpl();
-		return class_;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public GeneralizationSet createGeneralizationSet() {
 		GeneralizationSetImpl generalizationSet = new GeneralizationSetImpl();
 		return generalizationSet;
@@ -198,9 +188,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Attribute createAttribute() {
-		AttributeImpl attribute = new AttributeImpl();
-		return attribute;
+	public net.menthor.metamodel.ontouml.Class createClass() {
+		ClassImpl class_ = new ClassImpl();
+		return class_;
 	}
 
 	/**
@@ -218,19 +208,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EndPoint createEndPoint() {
-		EndPointImpl endPoint = new EndPointImpl();
-		return endPoint;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Relationship createRelationship() {
-		RelationshipImpl relationship = new RelationshipImpl();
-		return relationship;
+	public Attribute createAttribute() {
+		AttributeImpl attribute = new AttributeImpl();
+		return attribute;
 	}
 
 	/**
@@ -271,6 +251,26 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	public Dimension createDimension() {
 		DimensionImpl dimension = new DimensionImpl();
 		return dimension;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EndPoint createEndPoint() {
+		EndPointImpl endPoint = new EndPointImpl();
+		return endPoint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Relationship createRelationship() {
+		RelationshipImpl relationship = new RelationshipImpl();
+		return relationship;
 	}
 
 	/**
@@ -338,6 +338,26 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Scale createScaleFromString(EDataType eDataType, String initialValue) {
+		Scale result = Scale.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertScaleToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Relation createRelationFromString(EDataType eDataType, String initialValue) {
 		Relation result = Relation.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -370,26 +390,6 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * @generated
 	 */
 	public String convertTemporalToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Scale createScaleFromString(EDataType eDataType, String initialValue) {
-		Scale result = Scale.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertScaleToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

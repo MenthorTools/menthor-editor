@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- * - domain
+ * - structure domain
  * 
  *  A Domain should always be associated to an instance of measurable quality universal by a structuration relation.
  *  A Domain must have two or more owned dimensions.

@@ -10,7 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - attribute & primitive types
+ *  - attribute
  * 
  *  An attribute is a property that has an owner class and a primitive type.
  * 

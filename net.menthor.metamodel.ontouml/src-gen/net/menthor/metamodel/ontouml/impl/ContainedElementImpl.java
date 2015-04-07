@@ -2,10 +2,13 @@
  */
 package net.menthor.metamodel.ontouml.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
+import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -134,6 +137,34 @@ public abstract class ContainedElementImpl extends ElementImpl implements Contai
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Model getModel(final net.menthor.metamodel.ontouml.Container c) {
+		if ((c instanceof Model)) {
+			return ((Model)c);
+		}
+		else {
+			if ((c instanceof ContainedElement)) {
+				net.menthor.metamodel.ontouml.Container _holder = ((ContainedElement)c).getHolder();
+				return this.getModel(_holder);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model getModel() {
+		net.menthor.metamodel.ontouml.Container _holder = this.getHolder();
+		return this.getModel(_holder);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -247,6 +278,22 @@ public abstract class ContainedElementImpl extends ElementImpl implements Contai
 				return comments != null && !comments.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL__CONTAINER:
+				return getModel((net.menthor.metamodel.ontouml.Container)arguments.get(0));
+			case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL:
+				return getModel();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //ContainedElementImpl

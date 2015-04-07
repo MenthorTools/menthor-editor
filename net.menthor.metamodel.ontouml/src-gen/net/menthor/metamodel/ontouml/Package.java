@@ -8,6 +8,12 @@ package net.menthor.metamodel.ontouml;
  * A representation of the model object '<em><b>Package</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  package
+ *  ========================================
+ * <!-- end-model-doc -->
+ *
  *
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPackage()
  * @model

@@ -10,7 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - dimension
+ *  - structure dimension
  * 
  *  A Dimension might be part of a Domain or connected to a Structuration.
  *  A Dimension might define basic Regions as lower and upper bound (Constraint C19 and C20)
