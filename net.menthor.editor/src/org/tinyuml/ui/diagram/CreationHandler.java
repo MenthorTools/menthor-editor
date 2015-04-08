@@ -183,11 +183,9 @@ public class CreationHandler implements EditorMode {
 	    
 	    AddNodeCommand addcmd = new AddNodeCommand(editor, parent, ((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor.getDiagram().getProject(),(RefOntoUML.Package)((ClassElement)element).getClassifier().eContainer());
 	    editor.execute(addcmd);
-	        
-	    //move all its generalizations too
+	    
 	    editor.getDiagramManager().moveGeneralizationsToDiagram(elem, elem.eContainer(), editor);
 	    
-	    //FIXME: Inseri esse código para mover as generalizações. by Tiago
 	    editor.getDiagramManager().moveAssociationsToDiagram(elem, elem.eContainer(),editor);
 	    
 	    

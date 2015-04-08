@@ -106,9 +106,9 @@ import net.menthor.editor.ui.diagram.commands.AddGeneralizationSetCommand;
 import net.menthor.editor.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ConfigurationHelper;
-import net.menthor.editor.util.ModelHelper;
 import net.menthor.editor.util.MenthorResourceFactory;
 import net.menthor.editor.util.MenthorSettings;
+import net.menthor.editor.util.ModelHelper;
 import net.menthor.editor.util.OWLHelper;
 import net.menthor.editor.util.OperationResult;
 import net.menthor.editor.util.OperationResult.ResultType;
@@ -139,22 +139,22 @@ import org.tinyuml.ui.commands.AppCommandDispatcher;
 import org.tinyuml.ui.commands.PngWriter;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
+import org.tinyuml.ui.diagram.Editor.EditorNature;
 import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.SelectionListener;
-import org.tinyuml.ui.diagram.Editor.EditorNature;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
-import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
 import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
-import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
@@ -162,11 +162,13 @@ import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
+import RefOntoUML.Derivation;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.LiteralInteger;
 import RefOntoUML.LiteralUnlimitedNatural;
+import RefOntoUML.MaterialAssociation;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
@@ -2061,6 +2063,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			conn.setShowOntoUmlStereotype(showOntoUMLStereotype);
 			conn.setShowRoles(showRoles);
 			conn.setReadingDesign(direction);
+			
+			//bring derivation
+			if(association instanceof MaterialAssociation){				
+				OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
+				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, direction);
+			}
 		}
 	}
 	
@@ -2148,7 +2157,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					if(d.getDiagram().containsChild(source) && d.getDiagram().containsChild(target)) 
 						moveToDiagram(rel, d);
 					
-				}catch(Exception e){}
+				}catch(Exception e){
+					e.printStackTrace();
+					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
+				}
 			}
 			
 			HashSet<Type> typesInDiagram = new HashSet<Type>();
@@ -2227,14 +2239,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
 		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element))
 		{
-			if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific()))
-			{	
-				d.dragRelation(gen,gen.eContainer());
-			}
+			moveGeneralizationToDiagram(gen, d, false);
 		}
 	}
 	
-	/**FIXME: Adicionei esse método. By Tiago
+	/**
 	 *  Move associations of an element to the diagram. 
 	 *  It will only move the association whose other end appears in the diagram
 	 */
@@ -2244,10 +2253,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		
 		for(RefOntoUML.Association a: refparser.getDirectAssociations((RefOntoUML.Classifier)element))
 		{
-			try{
-				if (d.getDiagram().containsChild(a.getMemberEnd().get(0).getType()) && d.getDiagram().containsChild(a.getMemberEnd().get(1).getType()))
-					d.dragRelation(a,a.eContainer());
-			}catch (Exception e){}
+			//bring derivation
+			if(a instanceof MaterialAssociation)
+			{						
+				Derivation deriv = refparser.getDerivation((MaterialAssociation)a);
+				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, ReadingDesign.UNDEFINED);
+			}			
+			moveAssociationToDiagram(a, d, false, true, true, true, false, ReadingDesign.UNDEFINED);		
 		}
 	}
 	
