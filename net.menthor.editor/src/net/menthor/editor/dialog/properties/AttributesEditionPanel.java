@@ -60,11 +60,11 @@ import net.menthor.editor.DiagramManager;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.umldraw.structure.ClassElement;
 import net.menthor.editor.util.ModelHelper;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Class;
 import RefOntoUML.Classifier;

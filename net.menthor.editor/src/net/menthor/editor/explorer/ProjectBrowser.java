@@ -37,6 +37,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.tinyuml.umldraw.StructureDiagram;
+
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
 import net.menthor.editor.model.AlloySpecification;
@@ -44,7 +46,6 @@ import net.menthor.editor.model.AntiPatternList;
 import net.menthor.editor.model.InferenceList;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.umldraw.structure.StructureDiagram;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 import RefOntoUML.parser.OntoUMLParser;

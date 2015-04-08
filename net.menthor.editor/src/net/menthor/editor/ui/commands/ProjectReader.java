@@ -1,24 +1,3 @@
-/**
- * Copyright(C) 2011-2014 by John Guerson, Tiago Prince, Antognoni Albuquerque
- *
- * This file is part of OLED (OntoUML Lightweight BaseEditor).
- * OLED is based on TinyUML and so is distributed under the same
- * license terms.
- *
- * OLED is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * OLED is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OLED; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
 package net.menthor.editor.ui.commands;
 
 import java.io.File;
@@ -35,18 +14,17 @@ import net.menthor.editor.Main;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.util.OLEDSettings;
+import net.menthor.editor.util.MenthorSettings;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.tinyuml.ui.commands.FileHandler;
 
 /**
  * Reads a model from a file. Models are stored and retrieved using
  * Serialization.
- * 
- * @author Antognoni Albuquerque
  */
 public final class ProjectReader extends FileHandler {
 
@@ -54,26 +32,18 @@ public final class ProjectReader extends FileHandler {
 
 	/**
 	 * Returns the singleton instance.
-	 * 
-	 * @return the singleton instance
 	 */
-	public static ProjectReader getInstance() {
+	public static ProjectReader getInstance() 
+	{
 		return instance;
 	}
 
 	/**
 	 * Reads a UmlProject object from a file.
-	 * 
-	 * @param file
-	 *            the file
-	 * @return the UmlProject object
-	 * @throws IOException
-	 *             if I/O error occurred
-	 * @throws ClassNotFoundException 
 	 */
 	@SuppressWarnings("unused")
-	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException {
-		
+	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException 
+	{		
 		// first element is UmlProject, the second the OCL String content.
 		ArrayList<Object> list = new ArrayList<Object>();
 		
@@ -91,7 +61,7 @@ public final class ProjectReader extends FileHandler {
 		ZipEntry entry;
 		while(entries.hasMoreElements()) {
 			entry = entries.nextElement();			
-			if(entry.getName().equals(OLEDSettings.MODEL_DEFAULT_FILE.getValue()) && !modelLoaded)
+			if(entry.getName().equals(MenthorSettings.MODEL_DEFAULT_FILE.getValue()) && !modelLoaded)
 			{
 				Main.printOutLine("Loading model XMI information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
@@ -107,7 +77,7 @@ public final class ProjectReader extends FileHandler {
 				in.close();
 				modelLoaded = true;
 			}
-			else if (entry.getName().equals(OLEDSettings.PROJECT_DEFAULT_FILE.getValue()) && !projectLoaded)
+			else if (entry.getName().equals(MenthorSettings.PROJECT_DEFAULT_FILE.getValue()) && !projectLoaded)
 			{
 				Main.printOutLine("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
@@ -146,10 +116,8 @@ public final class ProjectReader extends FileHandler {
 		return list;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getSuffix() {
+	public String getSuffix() 
+	{
 		return ".menthor";
 	}
 }

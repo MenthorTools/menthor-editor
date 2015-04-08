@@ -5,21 +5,22 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.commands.AppCommandDispatcher;
+import org.tinyuml.ui.commands.PngWriter;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
+
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppCommandListener;
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.palette.Palette;
 import net.menthor.editor.palette.PaletteAccordion;
 import net.menthor.editor.palette.PaletteElement;
-import net.menthor.editor.ui.commands.PngExporter;
-import net.menthor.editor.ui.diagram.DiagramEditorCommandDispatcher;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
-import net.menthor.editor.umldraw.structure.StructureDiagram;
 import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
 import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
 import RefOntoUML.Association;
@@ -35,7 +36,7 @@ public class DomainPatternTool {
 	private static AppFrame frame;
 	private static OntoUMLParser parser;
 	
-	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, DiagramEditorCommandDispatcher editorDispatcher, AppFrame appFrame) {
+	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, AppCommandDispatcher editorDispatcher, AppFrame appFrame) {
 		//Creating Palettes
 		HashMap<PaletteElement, StructureDiagram> hashDomainPalette = new HashMap<>();
 		domainPallete = palleteAccordion.createDomainPalette(patternProject, hashDomainPalette,editorDispatcher);
@@ -106,7 +107,7 @@ public class DomainPatternTool {
 	}
 
 	public static Fix run(double x, double y) {
-		BufferedImage buffImage = PngExporter.getPNGImage(currentDiagram);
+		BufferedImage buffImage = PngWriter.getPNGImage(currentDiagram);
 		DynamicWindowForDomainPattern dynwin = DynamicWindowForDomainPattern.createDialog(buffImage, "Domain Pattern: "+currentDiagram.toString());
 		DynamicManagerWindowForDomainPattern dfdp = new DynamicManagerWindowForDomainPattern(dynwin);
 

@@ -56,13 +56,10 @@ import net.menthor.editor.DiagramManager;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import net.menthor.editor.popupmenu.TabPopupMenu;
-import net.menthor.editor.ui.diagram.ConstraintEditor;
-import net.menthor.editor.ui.diagram.DiagramEditor;
-import net.menthor.editor.ui.diagram.DiagramEditorWrapper;
-import net.menthor.editor.ui.diagram.Editor;
-import net.menthor.editor.ui.diagram.TextEditor;
 
 import org.eclipse.emf.edit.provider.IDisposable;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.Editor;
 
 
 /**

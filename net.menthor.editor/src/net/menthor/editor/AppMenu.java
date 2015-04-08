@@ -36,6 +36,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
+import org.tinyuml.ui.commands.AppCommandListener;
+
 import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
 import net.menthor.editor.util.ApplicationResources;

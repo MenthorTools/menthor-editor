@@ -40,20 +40,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.tinyuml.draw.Connection;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+
 import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.common.positioning.ClassPosition;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.draw.Connection;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.ui.diagram.DiagramEditor;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
 import RefOntoUML.AntiRigidMixinClass;
 import RefOntoUML.AntiRigidSortalClass;
 import RefOntoUML.Association;

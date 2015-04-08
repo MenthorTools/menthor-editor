@@ -35,8 +35,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
 
+import org.tinyuml.draw.DiagramElement;
+
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import RefOntoUML.Association;

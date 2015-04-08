@@ -51,9 +51,9 @@ import javax.swing.SwingConstants;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.model.ElementType;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;

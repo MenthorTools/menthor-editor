@@ -70,11 +70,6 @@ import net.menthor.editor.derivation.UnionPattern;
 import net.menthor.editor.dialog.AlloySettingsDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
 import net.menthor.editor.dialog.OWLSettingsDialog;
-import net.menthor.editor.draw.DiagramElement;
-import net.menthor.editor.draw.DrawingContext;
-import net.menthor.editor.draw.DrawingContextImpl;
-import net.menthor.editor.draw.LineStyle;
-import net.menthor.editor.draw.Node;
 import net.menthor.editor.explorer.CustomOntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
@@ -99,43 +94,21 @@ import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.ui.ClosableTabPanel;
+import net.menthor.editor.ui.ConstraintEditor;
+import net.menthor.editor.ui.DiagramEditorWrapper;
 import net.menthor.editor.ui.StartPanel;
-import net.menthor.editor.ui.commands.EcoreExporter;
-import net.menthor.editor.ui.commands.PngExporter;
+import net.menthor.editor.ui.TextEditor;
+import net.menthor.editor.ui.commands.OntoUMLExporter;
 import net.menthor.editor.ui.commands.ProjectReader;
 import net.menthor.editor.ui.commands.ProjectWriter;
 import net.menthor.editor.ui.commands.UMLExporter;
-import net.menthor.editor.ui.diagram.ConstraintEditor;
-import net.menthor.editor.ui.diagram.DiagramEditor;
-import net.menthor.editor.ui.diagram.DiagramEditorCommandDispatcher;
-import net.menthor.editor.ui.diagram.DiagramEditorWrapper;
-import net.menthor.editor.ui.diagram.Editor;
-import net.menthor.editor.ui.diagram.Editor.EditorNature;
-import net.menthor.editor.ui.diagram.EditorMouseEvent;
-import net.menthor.editor.ui.diagram.EditorStateListener;
-import net.menthor.editor.ui.diagram.SelectionListener;
-import net.menthor.editor.ui.diagram.TextEditor;
-import net.menthor.editor.ui.diagram.commands.AddConnectionCommand;
 import net.menthor.editor.ui.diagram.commands.AddGeneralizationSetCommand;
-import net.menthor.editor.ui.diagram.commands.AddNodeCommand;
-import net.menthor.editor.ui.diagram.commands.DeleteElementCommand;
 import net.menthor.editor.ui.diagram.commands.DeleteGeneralizationSetCommand;
-import net.menthor.editor.ui.diagram.commands.DiagramNotification;
-import net.menthor.editor.ui.diagram.commands.DiagramNotification.ChangeType;
-import net.menthor.editor.ui.diagram.commands.DiagramNotification.NotificationType;
-import net.menthor.editor.ui.diagram.commands.SetLabelTextCommand;
-import net.menthor.editor.umldraw.shared.UmlConnection;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.AssociationElement.ReadingDesign;
-import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.DiagramElementFactoryImpl;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
-import net.menthor.editor.umldraw.structure.StructureDiagram;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.util.OLEDResourceFactory;
-import net.menthor.editor.util.OLEDSettings;
+import net.menthor.editor.util.MenthorResourceFactory;
+import net.menthor.editor.util.MenthorSettings;
 import net.menthor.editor.util.OWLHelper;
 import net.menthor.editor.util.OperationResult;
 import net.menthor.editor.util.OperationResult.ResultType;
@@ -157,6 +130,33 @@ import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.SemanticException;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContextImpl;
+import org.tinyuml.draw.LineStyle;
+import org.tinyuml.draw.Node;
+import org.tinyuml.ui.commands.AppCommandDispatcher;
+import org.tinyuml.ui.commands.PngWriter;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.Editor;
+import org.tinyuml.ui.diagram.EditorMouseEvent;
+import org.tinyuml.ui.diagram.EditorStateListener;
+import org.tinyuml.ui.diagram.SelectionListener;
+import org.tinyuml.ui.diagram.Editor.EditorNature;
+import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
+import org.tinyuml.ui.diagram.commands.AddNodeCommand;
+import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
+import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
+import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
+import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -187,7 +187,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private static final long serialVersionUID = 5019191384767258996L;
 	public final AppFrame frame;
 	
-	private DiagramEditorCommandDispatcher editorDispatcher;
+	private AppCommandDispatcher editorDispatcher;
 	private DiagramElementFactoryImpl elementFactory;
 	private DrawingContext drawingContext;
 	
@@ -215,7 +215,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		super();
 		this.frame = frame;		
-		editorDispatcher = new DiagramEditorCommandDispatcher(this,frame);
+		editorDispatcher = new AppCommandDispatcher(this,frame);
 		elementFactory = new DiagramElementFactoryImpl(); //doesn't have yet any diagram
 		drawingContext =  new DrawingContextImpl();
 		ModelHelper.initializeHelper();		
@@ -282,13 +282,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Sets the dispatcher responsible for routing events of the editor */
-	public void setEditorDispatcher(DiagramEditorCommandDispatcher editorDispatcher) 
+	public void setEditorDispatcher(AppCommandDispatcher editorDispatcher) 
 	{
 		this.editorDispatcher = editorDispatcher;
 	}
 
 	/** Gets the dispatcher responsible for routing events of the editor */
-	public DiagramEditorCommandDispatcher getEditorDispatcher() 
+	public AppCommandDispatcher getEditorDispatcher() 
 	{
 		return editorDispatcher;
 	}
@@ -1225,7 +1225,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					closeCurrentProject();
 					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 					ResourceSet resourceSet = new ResourceSetImpl();
-					resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new OLEDResourceFactory());
+					resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
 					resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
 					File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
 					org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
@@ -1283,8 +1283,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				if (fileChooser.getFileFilter() == filter) {
 					try {
-						EcoreExporter exporter = new EcoreExporter();
-						exporter.writeEcore(this, fileChooser.getSelectedFile(), getCurrentEditor().getProject());
+						OntoUMLExporter exporter = new OntoUMLExporter();
+						exporter.writeOntoUML(this, fileChooser.getSelectedFile(), getCurrentEditor().getProject());
 						lastExportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.exportecore.title"), JOptionPane.ERROR_MESSAGE);
@@ -1332,7 +1332,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {			
 			if (fileChooser.getFileFilter() == filter) {
 				try {
-					PngExporter exporter = new PngExporter();
+					PngWriter exporter = new PngWriter();
 					exporter.writePNG(getCurrentDiagramEditor(), fileChooser.getSelectedFile());
 				} catch (IOException ex) {
 					JOptionPane.showMessageDialog(this, ex.getMessage(),
@@ -2709,7 +2709,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		UmlProject project = getCurrentProject();
 		OperationResult result;
-		String modelFileName = ConfigurationHelper.getCanonPath(project.getTempDir(), OLEDSettings.MODEL_DEFAULT_FILE.getValue());
+		String modelFileName = ConfigurationHelper.getCanonPath(project.getTempDir(), MenthorSettings.MODEL_DEFAULT_FILE.getValue());
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {			

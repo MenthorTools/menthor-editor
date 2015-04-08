@@ -30,14 +30,14 @@ import java.util.Properties;
 import java.util.Set;
 
 import net.menthor.editor.Main;
-import net.menthor.editor.draw.DiagramElement;
-import net.menthor.editor.umldraw.structure.ClassElement;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.ModelHelper;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Association;
 import RefOntoUML.Class;

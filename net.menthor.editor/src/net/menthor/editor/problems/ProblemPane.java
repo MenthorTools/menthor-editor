@@ -35,10 +35,11 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.draw.Diagram;
+import org.tinyuml.draw.Diagram;
+import org.tinyuml.ui.diagram.Editor;
+
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.ui.diagram.Editor;
 
 /**
  * @author John Guerson

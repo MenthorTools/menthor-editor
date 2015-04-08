@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.umldraw.structure.ClassElement;
+import org.tinyuml.umldraw.ClassElement;
 
 public class PastSpecializationDiagram extends JDialog {
 

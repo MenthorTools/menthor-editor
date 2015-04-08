@@ -34,7 +34,9 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import net.menthor.editor.ui.diagram.DiagramToolbar;
+import org.tinyuml.ui.commands.AppCommandListener;
+
+import net.menthor.editor.ui.DiagramToolbar;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.IconLoader;
 

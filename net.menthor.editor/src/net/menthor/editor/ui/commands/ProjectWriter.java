@@ -1,24 +1,3 @@
-/**
- * Copyright(C) 2011-2014 by John Guerson, Tiago Prince, Antognoni Albuquerque
- *
- * This file is part of OLED (OntoUML Lightweight BaseEditor).
- * OLED is based on TinyUML and so is distributed under the same
- * license terms.
- *
- * OLED is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * OLED is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OLED; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
 package net.menthor.editor.ui.commands;
 
 import java.awt.Component;
@@ -35,14 +14,13 @@ import java.util.zip.ZipOutputStream;
 import net.menthor.editor.Main;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.OLEDSettings;
+import net.menthor.editor.util.MenthorSettings;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.tinyuml.ui.commands.FileWriter;
 
 /**
  * This class writes the current model and diagram data to an XML file.
- * 
- * @author Antognoni Albuquerque
  */
 public final class ProjectWriter extends FileWriter {
 
@@ -50,8 +28,6 @@ public final class ProjectWriter extends FileWriter {
 
 	/**
 	 * Returns the singleton instance.
-	 * 
-	 * @return the singleton instance
 	 */
 	public static ProjectWriter getInstance() {
 		return instance;
@@ -59,16 +35,6 @@ public final class ProjectWriter extends FileWriter {
 
 	/**
 	 * Writes the specified UmlProject to a file.
-	 * 
-	 * @param comp
-	 *            the parent component for the confirmation dialog
-	 * @param file
-	 *            the file
-	 * @param project
-	 *            the model
-	 * @return the file that was actually written
-	 * @throws IOException
-	 *             if error occurred
 	 */
 	public File writeProject(Component comp, File file, UmlProject project, ArrayList<OCLDocument> oclDocList) throws IOException {
 
@@ -78,7 +44,7 @@ public final class ProjectWriter extends FileWriter {
 		
 		Main.printOutLine("Saving model XMI information in Menthor file...");
 		//Save the model as a resource inside the file
-		ZipEntry modelEntry = new ZipEntry(OLEDSettings.MODEL_DEFAULT_FILE.getValue());			
+		ZipEntry modelEntry = new ZipEntry(MenthorSettings.MODEL_DEFAULT_FILE.getValue());			
 		out.putNextEntry(modelEntry);
 		Resource resource = project.getResource();
 		resource.save(out, Collections.EMPTY_MAP);
@@ -86,7 +52,7 @@ public final class ProjectWriter extends FileWriter {
 		
 		Main.printOutLine("Saving project DAT information in Menthor file...");
 		//Save the project a.k.a the diagrams inside the file
-		ZipEntry projectEntry = new ZipEntry(OLEDSettings.PROJECT_DEFAULT_FILE.getValue());
+		ZipEntry projectEntry = new ZipEntry(MenthorSettings.PROJECT_DEFAULT_FILE.getValue());
 		out.putNextEntry(projectEntry);
 		ObjectOutputStream oos = new ObjectOutputStream(out);
 		oos.writeObject(project); 
@@ -112,15 +78,9 @@ public final class ProjectWriter extends FileWriter {
 
 		return outFile;
 	}
-
-
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getSuffix() {
+	public String getSuffix() 
+	{
 		return ".menthor";
 	}
-
-
 }

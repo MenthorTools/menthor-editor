@@ -27,9 +27,9 @@ import javax.swing.border.EtchedBorder;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.umldraw.structure.ClassElement;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;

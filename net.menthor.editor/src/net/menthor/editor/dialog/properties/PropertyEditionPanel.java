@@ -44,8 +44,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.tinyuml.draw.DiagramElement;
+
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.AggregationKind;

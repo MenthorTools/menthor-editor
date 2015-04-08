@@ -37,9 +37,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.Relationship;

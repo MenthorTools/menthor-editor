@@ -40,9 +40,9 @@ import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.draw.DiagramElement;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.draw.DiagramElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;

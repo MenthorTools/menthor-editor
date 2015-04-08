@@ -38,12 +38,13 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.tinyuml.ui.commands.AppCommandDispatcher;
+import org.tinyuml.umldraw.StructureDiagram;
+
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.ui.diagram.DiagramEditorCommandDispatcher;
-import net.menthor.editor.umldraw.structure.StructureDiagram;
 import net.menthor.editor.util.IconLoader;
 
 /**
@@ -118,7 +119,7 @@ public class PaletteAccordion extends JPanel{
 
 	}
 
-	public void createStaticStructurePalettes(DiagramEditorCommandDispatcher editorDispatcher)
+	public void createStaticStructurePalettes(AppCommandDispatcher editorDispatcher)
 	{
 		createStaticClassesPalette(editorDispatcher);		
 		createOntoUMLPatternsPalette(editorDispatcher);
@@ -192,7 +193,7 @@ public class PaletteAccordion extends JPanel{
 		return paletteMap;
 	}
 	
-	private void createOntoUMLPatternsPalette(DiagramEditorCommandDispatcher editorDispatcher) 
+	private void createOntoUMLPatternsPalette(AppCommandDispatcher editorDispatcher) 
 	{
 		String pelleteName = "Patterns";
 		ontopatternPalette = new Palette(this, pelleteName);
@@ -218,7 +219,7 @@ public class PaletteAccordion extends JPanel{
 		ontopatternPalette.sort();
 	}
 	
-	private void createPatternsPalette(DiagramEditorCommandDispatcher editorDispatcher)
+	private void createPatternsPalette(AppCommandDispatcher editorDispatcher)
 	{
 		derivedPalette = new Palette(this, "Derived Patterns");
 		
@@ -240,7 +241,7 @@ public class PaletteAccordion extends JPanel{
 		derivedPalette.sort();
 	}
 	
-	private void createStaticClassesPalette(DiagramEditorCommandDispatcher editorDispatcher)
+	private void createStaticClassesPalette(AppCommandDispatcher editorDispatcher)
 	{
 		elementsPalette = new Palette(this, "Elements");
 		
@@ -300,7 +301,7 @@ public class PaletteAccordion extends JPanel{
 		elementsPalette.sort();
 	}
 
-	public Palette createDomainPalette(UmlProject patternProject,HashMap<PaletteElement, StructureDiagram> dynamicHash, DiagramEditorCommandDispatcher dispatcher){
+	public Palette createDomainPalette(UmlProject patternProject,HashMap<PaletteElement, StructureDiagram> dynamicHash, AppCommandDispatcher dispatcher){
 		Icon icon = IconLoader.getInstance().getIcon("PATTERN");
 		
 		String pelleteName = "Domain Patterns";
@@ -324,7 +325,7 @@ public class PaletteAccordion extends JPanel{
 	}
 	
 	@SuppressWarnings("unused")
-	private void createStaticRelationshipsPalette(DiagramEditorCommandDispatcher editorDispatcher)
+	private void createStaticRelationshipsPalette(AppCommandDispatcher editorDispatcher)
 	{
 		Palette palette =  new Palette(this, "Relationships");
 		palette.createElement("staticpalette.relations", "select");
@@ -354,7 +355,7 @@ public class PaletteAccordion extends JPanel{
 	}
 
 	@SuppressWarnings("unused")
-	private void createMiscellaneousPalette(DiagramEditorCommandDispatcher editorDispatcher)
+	private void createMiscellaneousPalette(AppCommandDispatcher editorDispatcher)
 	{
 		Palette palette =  new Palette(this, "Miscellaneous");
 		palette.createElement("staticpalette.misc", "select");
@@ -371,7 +372,7 @@ public class PaletteAccordion extends JPanel{
 	}
 	
 	@SuppressWarnings("unused")
-	private void createStaticRulesPalette(DiagramEditorCommandDispatcher editorDispatcher)
+	private void createStaticRulesPalette(AppCommandDispatcher editorDispatcher)
 	{
 		Palette palette =  new Palette(this, "Rules");
 		palette.createElement("staticpalette.rules", "select");

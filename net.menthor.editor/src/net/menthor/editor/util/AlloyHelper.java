@@ -78,7 +78,7 @@ public class AlloyHelper {
 	   
 	public static OperationResult verifyModelFromAlloyFile(String tempDir)
 	{    	    	
-		String alloyFileName = ConfigurationHelper.getCanonPath(tempDir, OLEDSettings.SIMULATION_DEFAULT_FILE.getValue());
+		String alloyFileName = ConfigurationHelper.getCanonPath(tempDir, MenthorSettings.SIMULATION_DEFAULT_FILE.getValue());
 		File alloyFile = new File(alloyFileName);  	
     	alloyFile.deleteOnExit();        	
     	return new OperationResult(ResultType.ERROR, "Not Implemented yet.", null);		

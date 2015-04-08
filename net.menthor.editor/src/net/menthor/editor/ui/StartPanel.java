@@ -45,11 +45,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-import net.menthor.editor.AppCommandListener;
+import org.tinyuml.draw.Diagram;
+import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.diagram.Editor;
+
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.draw.Diagram;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.ui.diagram.Editor;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.IconLoader;
 import net.menthor.editor.util.IconLoader.IconType;

@@ -54,7 +54,7 @@ public final class ConfigurationHelper {
 	{
 		if(propertiesStore != null)
 		{
-			File file = new File(getCanonPath(getMenthorHome(), OLEDSettings.OLED_SETTINGS_FILE.getValue()));
+			File file = new File(getCanonPath(getMenthorHome(), MenthorSettings.OLED_SETTINGS_FILE.getValue()));
 			try {
 				FileOutputStream out = new FileOutputStream(file);
 				propertiesStore.storeToXML(out, "Menthor Configuration File", "UTF-8");
@@ -74,7 +74,7 @@ public final class ConfigurationHelper {
 		
 		propertiesStore = new Properties();
 		
-		File file = new File(getCanonPath(getMenthorHome(), OLEDSettings.OLED_SETTINGS_FILE.getValue()));
+		File file = new File(getCanonPath(getMenthorHome(), MenthorSettings.OLED_SETTINGS_FILE.getValue()));
 		if(file.exists())
 		{
 			try {
@@ -90,17 +90,17 @@ public final class ConfigurationHelper {
 
 	public static void addRecentProject(String path)
 	{
-		if(!OLEDSettings.RECENT_PROJECT_1.getValue().equals(path))
+		if(!MenthorSettings.RECENT_PROJECT_1.getValue().equals(path))
 		{
 			int histSize = 5;
 		
 			for (int i = histSize-1; i > 0; i--) {
-				OLEDSettings setting = OLEDSettings.valueOf("RECENT_PROJECT_" + i); 
-				OLEDSettings nextSetting = OLEDSettings.valueOf("RECENT_PROJECT_" + (i + 1));
+				MenthorSettings setting = MenthorSettings.valueOf("RECENT_PROJECT_" + i); 
+				MenthorSettings nextSetting = MenthorSettings.valueOf("RECENT_PROJECT_" + (i + 1));
 				nextSetting.setValue(setting.getValue());
 			}
 			
-			OLEDSettings.RECENT_PROJECT_1.setValue(path);
+			MenthorSettings.RECENT_PROJECT_1.setValue(path);
 			saveProperties();
 		}
 	}
@@ -111,7 +111,7 @@ public final class ConfigurationHelper {
 		String[] ans = new String[histSize];
 		
 		for (int i = 1; i < histSize; i++) {
-			ans[i] = OLEDSettings.valueOf("RECENT_PROJECT_" + i).getValue();
+			ans[i] = MenthorSettings.valueOf("RECENT_PROJECT_" + i).getValue();
 		}
 		
 		return ans;

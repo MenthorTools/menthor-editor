@@ -36,9 +36,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.umldraw.structure.ClassElement;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;

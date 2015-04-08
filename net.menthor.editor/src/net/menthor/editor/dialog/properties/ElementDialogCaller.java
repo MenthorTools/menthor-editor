@@ -23,11 +23,12 @@ package net.menthor.editor.dialog.properties;
 
 import javax.swing.JDialog;
 
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.draw.DiagramElement;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
 import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;

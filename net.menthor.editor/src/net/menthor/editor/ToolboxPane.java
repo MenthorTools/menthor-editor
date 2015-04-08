@@ -27,9 +27,10 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import org.tinyuml.ui.commands.AppCommandDispatcher;
+
 import net.menthor.editor.palette.Palette;
 import net.menthor.editor.palette.PaletteAccordion;
-import net.menthor.editor.ui.diagram.DiagramEditorCommandDispatcher;
 
 /**
  * @author John Guerson
@@ -39,10 +40,10 @@ public class ToolboxPane extends JPanel {
 	private static final long serialVersionUID = 1752050268631906319L;
 	@SuppressWarnings("unused")
 	private AppFrame frame;
-	private DiagramEditorCommandDispatcher editorDispatcher;
+	private AppCommandDispatcher editorDispatcher;
 	private PaletteAccordion palettes;	
 
-	public ToolboxPane(AppFrame frame, DiagramEditorCommandDispatcher editorDispatcher)
+	public ToolboxPane(AppFrame frame, AppCommandDispatcher editorDispatcher)
 	{
 		super();
 		setBackground(Color.WHITE);
@@ -72,7 +73,7 @@ public class ToolboxPane extends JPanel {
 		//this.addTab("Patterns", patternsPanel);
 	}
 	
-	public DiagramEditorCommandDispatcher getEditorDispatcher() {
+	public AppCommandDispatcher getEditorDispatcher() {
 		return editorDispatcher;
 	}
 	

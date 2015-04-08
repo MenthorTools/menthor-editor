@@ -3,6 +3,8 @@ package net.menthor.editor.ui.commands;
 import java.io.File;
 import java.io.IOException;
 
+import org.tinyuml.ui.commands.FileWriter;
+
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
 import net.menthor.ontouml2uml.OntoUML2UML;

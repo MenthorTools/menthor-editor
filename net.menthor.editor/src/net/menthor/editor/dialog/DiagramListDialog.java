@@ -41,8 +41,9 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import org.tinyuml.ui.diagram.DiagramEditor;
+
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.ui.diagram.DiagramEditor;
 import RefOntoUML.Element;
 
 /**

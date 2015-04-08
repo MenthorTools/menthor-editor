@@ -40,10 +40,10 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.AssociationElement.ReadingDesign;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 
 import RefOntoUML.AntiRigidMixinClass;
 import RefOntoUML.AntiRigidSortalClass;

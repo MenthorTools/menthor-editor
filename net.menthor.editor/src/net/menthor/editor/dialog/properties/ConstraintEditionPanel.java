@@ -41,8 +41,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
+import org.tinyuml.draw.DiagramElement;
+
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.draw.DiagramElement;
 import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;
 import RefOntoUML.StringExpression;

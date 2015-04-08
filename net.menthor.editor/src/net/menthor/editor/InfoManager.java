@@ -33,8 +33,8 @@ import net.menthor.editor.problems.ErrorPane;
 import net.menthor.editor.problems.ProblemPane;
 import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.statistician.StatisticsPane;
+import net.menthor.editor.ui.DiagramEditorWrapper;
 import net.menthor.editor.ui.OutputPane;
-import net.menthor.editor.ui.diagram.DiagramEditorWrapper;
 import net.menthor.editor.util.ApplicationResources;
 
 /**

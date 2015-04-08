@@ -34,15 +34,9 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import net.menthor.editor.Main;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.ui.diagram.DiagramEditor;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
-import net.menthor.editor.umldraw.structure.StructureDiagram;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
@@ -56,6 +50,12 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -112,7 +112,7 @@ public class ModelHelper {
 	public static void initializeHelper() {
 		try{
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new OLEDResourceFactory());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
 
 		resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
 		

@@ -31,8 +31,9 @@ import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.menthor.editor.AppCommandListener;
-import net.menthor.editor.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.diagram.DiagramEditor;
+
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.IconLoader;
 

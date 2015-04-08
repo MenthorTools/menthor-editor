@@ -44,6 +44,7 @@ import net.menthor.editor.util.MethodCall;
 
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.jdesktop.swingx.MultiSplitPane;
+import org.tinyuml.ui.commands.AppCommandListener;
 
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 

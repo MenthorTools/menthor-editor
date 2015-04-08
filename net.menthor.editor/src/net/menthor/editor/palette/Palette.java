@@ -39,7 +39,8 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.menthor.editor.AppCommandListener;
+import org.tinyuml.ui.commands.AppCommandListener;
+
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.IconLoader;
 import net.menthor.editor.util.IconLoader.IconType;

@@ -2,8 +2,9 @@ package net.menthor.editor.pattern;
 
 import java.util.List;
 
+import org.tinyuml.draw.DiagramElement;
+
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.draw.DiagramElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.model.ElementType;
 import net.menthor.pattern.dynamic.ui.ModelCompleterIdentity;

@@ -36,7 +36,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.ui.diagram.DiagramEditorWrapper;
+import net.menthor.editor.ui.DiagramEditorWrapper;
 
 /**
  * @author John Guerson

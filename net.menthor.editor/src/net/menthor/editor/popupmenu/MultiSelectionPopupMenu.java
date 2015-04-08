@@ -35,18 +35,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.menthor.editor.AppCommandListener;
-import net.menthor.editor.draw.DiagramElement;
-import net.menthor.editor.ui.diagram.DiagramEditor;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+
 import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
-import net.menthor.editor.ui.diagram.commands.DiagramNotification;
 import net.menthor.editor.ui.diagram.commands.SetColorCommand;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
 import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
-import net.menthor.editor.umldraw.structure.AssociationElement;
-import net.menthor.editor.umldraw.structure.ClassElement;
-import net.menthor.editor.umldraw.structure.GeneralizationElement;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.IconLoader;
 import RefOntoUML.Generalization;

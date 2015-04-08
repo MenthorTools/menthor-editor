@@ -44,10 +44,10 @@ import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.popupmenu.TreePopupMenu;
-import net.menthor.editor.umldraw.structure.StructureDiagram;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
 import RefOntoUML.Comment;
