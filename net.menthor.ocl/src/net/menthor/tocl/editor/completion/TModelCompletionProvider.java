@@ -61,12 +61,12 @@ public class TModelCompletionProvider {
 			else if (p.getUpper()==-1) multiplicity = p.getLower()+".."+"*";
 			else multiplicity = p.getLower()+".."+p.getUpper();
 		   
-		   description = "<b>Property "+p.getName()+"[w]: "+p.getType().getName()+" ("+multiplicity+") </b><br><br>" +
+		   description = "<b>Property "+p.getName()+"(w): "+p.getType().getName()+" ("+multiplicity+") </b><br><br>" +
 		   	"Owner: "+owner+"<br>Returns a set of "+p.getType().getName()+" existent in the Wolrd w";
 		   
 		   ModelTemplateCompletion c = new ModelTemplateCompletion(provider, 
-				p.getName()+"[w]",p.toString().substring(0,p.toString().indexOf(" "))+"[w]",
-				"_'"+p.getName()+"'"+"[w]",
+				p.getName()+"(w)",p.toString().substring(0,p.toString().indexOf(" "))+"(w)",
+				"_'"+p.getName()+"'"+"(w)",
 				p.getType().getName()+" ("+multiplicity+")"
 				,description);		
 		   
@@ -122,7 +122,7 @@ public class TModelCompletionProvider {
 	   while(it.hasNext())
 	   {
 		   ModelTemplateCompletion tc = (ModelTemplateCompletion)it.next();
-		   if (tc.getDefinitionString().equals(elem.toString().substring(0,elem.toString().indexOf(" "))+"[w]"))
+		   if (tc.getDefinitionString().equals(elem.toString().substring(0,elem.toString().indexOf(" "))+"(w)"))
 		   {
 			   it.remove();
 			   provider.removeCompletion(tc);			   
@@ -137,7 +137,7 @@ public class TModelCompletionProvider {
 	   while(it.hasNext())
 	   {
 		   ModelTemplateCompletion tc = (ModelTemplateCompletion)it.next();
-		   if (tc.getDefinitionString().equals(elem.toString().substring(0,elem.toString().indexOf(" "))+"[w]"))
+		   if (tc.getDefinitionString().equals(elem.toString().substring(0,elem.toString().indexOf(" "))+"(w)"))
 		   {
 			   it.remove();
 			   provider.removeCompletion(tc);			  

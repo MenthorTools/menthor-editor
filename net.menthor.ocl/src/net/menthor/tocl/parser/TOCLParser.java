@@ -2,14 +2,17 @@ package net.menthor.tocl.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.menthor.common.file.FileUtil;
 import net.menthor.ocl.parser.OCLParser;
 import net.menthor.ontouml2uml.OntoUML2UML;
+import net.menthor.ontouml2uml.OntoUML2UMLUtil;
 
 import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ParserException;
@@ -26,14 +29,17 @@ import RefOntoUML.parser.OntoUMLParser;
 public class TOCLParser extends OCLParser{
 	
     // Temporal UML
-    public HashMap<RefOntoUML.Element, ArrayList<org.eclipse.uml2.uml.Element>> tmap = new HashMap<RefOntoUML.Element, ArrayList<org.eclipse.uml2.uml.Element> >();
+    public HashMap<RefOntoUML.Element, List<org.eclipse.uml2.uml.Element>> tmap = new HashMap<RefOntoUML.Element, List<org.eclipse.uml2.uml.Element> >();
 	            
     //TOCL
     public ArrayList<String> oclIsKindOfList = new ArrayList<String>();
-    public ArrayList<String> oclIsTypeOfList = new ArrayList<String>();
-    public ArrayList<String> oclIsNewList = new ArrayList<String>();
+    public ArrayList<String> oclIsTypeOfList = new ArrayList<String>();    
+    public ArrayList<String> oclAsTypeList = new ArrayList<String>();
+    public ArrayList<String> oclCeasesToBeList = new ArrayList<String>();
+    public ArrayList<String> oclBecomesList = new ArrayList<String>();
     public ArrayList<String> constraintStereotypeList = new ArrayList<String>();
-
+    public ArrayList<org.eclipse.uml2.uml.Association> historicalRelationshipsList = new ArrayList<org.eclipse.uml2.uml.Association>();
+    
     /**
      * Constructor. 
      * It uses a OntoUML2UML transformation behind the scenes to orchestrate the constraints parsing.
@@ -46,17 +52,20 @@ public class TOCLParser extends OCLParser{
     {	
     	super(refparser,tempDirPath,backgroundModelName);
     	
-    	umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath);
+    	umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath,true);
     	tmap = OntoUML2UML.getTemporalMap();
-        
-        //re-configuration
+    }
+	
+	public void autoConfigure()
+	{
+		//re-configuration
         org.eclipse.ocl.uml.OCL.initialize(umlResource.getResourceSet());		
 		org.eclipse.ocl.uml.UMLEnvironmentFactory envFactory = new org.eclipse.ocl.uml.UMLEnvironmentFactory(umlResource.getResourceSet());
 		umlenv = envFactory.createEnvironment();		
 		myOCL = org.eclipse.ocl.uml.OCL.newInstance(umlenv);
 		myOCL.setParseTracingEnabled(true);			                
 		umlreflection = umlenv.getUMLReflection();
-    }
+	}
 	
 	 /**
      * Constructor. 
@@ -70,16 +79,8 @@ public class TOCLParser extends OCLParser{
     {	
 		super(rootPackage,tempDirPath,backgroundModelName);
 
-		umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath);
-   		tmap = OntoUML2UML.getTemporalMap();
-      	
-        //re-configuration
-      	org.eclipse.ocl.uml.OCL.initialize(umlResource.getResourceSet());		
-		org.eclipse.ocl.uml.UMLEnvironmentFactory envFactory = new org.eclipse.ocl.uml.UMLEnvironmentFactory(umlResource.getResourceSet());
-		umlenv = envFactory.createEnvironment();		
-		myOCL = org.eclipse.ocl.uml.OCL.newInstance(umlenv);
-		myOCL.setParseTracingEnabled(true);			                
-		umlreflection = umlenv.getUMLReflection();
+		umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath,true);
+   		tmap = OntoUML2UML.getTemporalMap();      	
     }
 	
     /**
@@ -93,106 +94,50 @@ public class TOCLParser extends OCLParser{
     	
     	this.refparser = new OntoUMLParser(refAbsolutePath);
 
-    	umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath);
+    	umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath,true);
    		tmap = OntoUML2UML.getTemporalMap();
-      	
-        //re-configuration
-      	org.eclipse.ocl.uml.OCL.initialize(umlResource.getResourceSet());		
-		org.eclipse.ocl.uml.UMLEnvironmentFactory envFactory = new org.eclipse.ocl.uml.UMLEnvironmentFactory(umlResource.getResourceSet());
-		umlenv = envFactory.createEnvironment();		
-		myOCL = org.eclipse.ocl.uml.OCL.newInstance(umlenv);
-		myOCL.setParseTracingEnabled(true);			                
-		umlreflection = umlenv.getUMLReflection();
 	}
+      
+    /**
+     * Constructor.
+     * It uses a OntoUML2UML transformation behind the scenes to orchestrate the constraints parsing.
+     * 
+      */
+    public TOCLParser (String refAbsolutePath, String tempDirPath, String backgroundModelName) throws IOException,ParserException,Exception
+	{ 	
+    	super(refAbsolutePath,tempDirPath,backgroundModelName);
+    	
+    	umlResource = OntoUML2UML.includeTemporalStructure(umlRoot,umlPath,true);
+   		tmap = OntoUML2UML.getTemporalMap();
+   	}
     
-    public String processOclIsNewOperation(String result, Pattern p)
-    {
-    	Matcher m = p.matcher(result);
-		int jump = 0;
-    	while (m.find()) 
-    	{ 
-    		int indexBegin = m.start();
-    		int indexEnd = m.end();
-    		
-    		if(indexBegin+(jump) < 0) indexBegin = 0;
-    		if(indexEnd+(jump) > result.length()) indexEnd = result.length();
-    		
-    		String parameters = result.substring(indexBegin+9+(jump), indexEnd-1+(jump));
-    		String typeVar = new String();
-    		String worldVar = new String();
-    		if(parameters.contains(",")){
-    			String[] paramArray = parameters.split(",");
-    			typeVar = paramArray[0];
-    			worldVar = paramArray[1];
-    		}else{
-    			worldVar = parameters;
-    			typeVar = "";
-    		}
-    		    		
-    		String left = result.substring(0,indexBegin+9+typeVar.length()+(jump))+")";
-    		String right = result.substring(indexEnd+(jump), result.length());
-    		result = left+right;
-    		
-    		if(parameters.contains(",")) {
-    			jump  = jump -1-worldVar.length();
-    			if(result.substring(indexBegin+jump, indexEnd+jump).contains("oclIsNew")){
-        			oclIsNewList.add(worldVar.trim());
-    			}
-    		} else {
-    			if(result.substring(indexBegin+jump, indexEnd+jump).contains("oclIsNew")){
-    				oclIsNewList.add(worldVar.trim());
-    			}
-    		}    		
-    	}
-    	return result;
+    /** Get the OntoUML element related to the UML one. */
+    @Override
+    public RefOntoUML.Element getOntoUMLElement(org.eclipse.uml2.uml.Element value) 
+    {   
+        for (RefOntoUML.Element key : tmap.keySet()) 
+        {
+        	for(org.eclipse.uml2.uml.Element elem: tmap.get(key)){
+        		if (elem.equals(value)) return key;
+        	}
+        }
+        return super.getOntoUMLElement(value);
     }
     
-    public String processObjectOperation (String result, Pattern p)
+    /** Return the indexes of the constraints recorded as temporal */
+    public ArrayList<Integer> getTemporalConstraintsIndexes()
     {
-		Matcher m = p.matcher(result);
-		int jump = 0;
-    	while (m.find()) 
-    	{ 
-    		int indexBegin = m.start();
-    		int indexEnd = m.end();
-    		
-    		if(indexBegin+(jump) < 0) indexBegin = 0;
-    		if(indexEnd+(jump) > result.length()) indexEnd = result.length();
-    		
-    		String parameters = result.substring(indexBegin+12+(jump), indexEnd-1+(jump));
-    		String typeVar = new String();
-    		String worldVar = new String();
-    		if(parameters.contains(",")){
-    			String[] paramArray = parameters.split(",");
-    			typeVar = paramArray[0];
-    			worldVar = paramArray[1];
-    		}else{
-    			typeVar = parameters;
-    			worldVar = "";
-    		}
-    		    		
-    		String left = result.substring(0,indexBegin+12+typeVar.length()+(jump))+")";
-    		String right = result.substring(indexEnd+(jump), result.length());
-    		result = left+right;
-    		
-    		if(parameters.contains(",")) {
-    			jump  = jump -1-worldVar.length();
-    			if(result.substring(indexBegin+jump, indexEnd+jump).contains("oclIsKindOf")){
-        			oclIsKindOfList.add(typeVar.trim()+","+worldVar.trim());    			
-        		}else if(result.substring(indexBegin+jump, indexEnd+jump).contains("oclIsTypeOf")){
-        			oclIsTypeOfList.add(typeVar.trim()+","+worldVar.trim());
-        		}
-    		} else {
-    			if(result.substring(indexBegin+jump, indexEnd+jump).contains("oclIsKindOf")){
-    				oclIsKindOfList.add(typeVar.trim());
-    			}else if(result.substring(indexBegin+jump, indexEnd+jump).contains("oclIsTypeOf")){
-    				oclIsTypeOfList.add(typeVar.trim());
-    			}
-    		}    		
+    	ArrayList<Integer> indexes = new ArrayList<Integer>();
+    	int i=0;
+    	for(String stereo: constraintStereotypeList)
+    	{
+    		if(stereo=="temp") indexes.add(i);
+    		i++;
     	}
-    	return result;
+    	return indexes;
     }
     
+    /** Return the world variable from the oclIsKindOf operation at the "index" */
     public String getOclIsKindOfWorldParam(int index)
     {
     	int i = 0;
@@ -210,25 +155,27 @@ public class TOCLParser extends OCLParser{
     	}
     	return "<Unknown>";
     }
-    
-    public String getOclIsNewWorldParam(int index)
+
+    /** Return the world variable from the oclAsType operation at the "index" */
+    public String getOclAsTypeWorldParam(int index)
     {
     	int i = 0;
-    	for(String str: oclIsNewList)
+    	for(String str: oclAsTypeList)
     	{
     		if(i == index) {
     			if(str.contains(",")){
 	    			String array[] = str.split(",");
 	    			return array[1];	    				
     			}else{
-    				return str;
+    				return "World";
     			}
     		}
     		i++;
     	}
     	return "<Unknown>";
     }
-    
+
+    /** Return the world variable from the oclIsTyopeOf operation at the "index" */
     public String getOclIsTypeOfWorldParam(int index)
     {
     	int i = 0;
@@ -247,61 +194,293 @@ public class TOCLParser extends OCLParser{
     	return "<Unknown>";
     }
     
-    public String processInLineComments(String result)
-    { 
-    	return result.replaceAll("--.*\n","");    	    	    	    
+    /** Return the world variable from the oclBecomes operation at the "index" */
+    public String getOclBecomesWorldParam(int index)
+    {
+    	int i = 0;
+    	for(String str: oclBecomesList)
+    	{
+    		if(i == index) {
+    			if(str.contains(",")){
+	    			String array[] = str.split(",");
+	    			return array[1];	    				
+    			}else{
+    				return "World";
+    			}
+    		}
+    		i++;
+    	}
+    	return "<Unknown>";
     }
     
+    /** Return the type from the oclBecomes operation at the "index" */
+    public String getOclBecomesTypeParam(int index)
+    {
+    	int i = 0;
+    	for(String str: oclBecomesList)
+    	{
+    		if(i == index) {
+    			if(str.contains(",")){
+	    			String array[] = str.split(",");
+	    			return array[0];	    				
+    			}else{
+    				return "<Unknown>";
+    			}
+    		}
+    		i++;
+    	}
+    	return "<Unknown>";
+    }
+    
+    /** Return the world variable from the oclCeasesToBe operation at the "index" */
+    public String getCeasesToBeWorldParam(int index)
+    {
+    	int i = 0;
+    	for(String str: oclCeasesToBeList)
+    	{
+    		if(i == index) {
+    			if(str.contains(",")){
+	    			String array[] = str.split(",");
+	    			return array[1];	    				
+    			}else{
+    				return "World";
+    			}
+    		}
+    		i++;
+    	}
+    	return "<Unknown>";
+    }
+    
+    /** Return the type from the oclCeasesToBe operation at the "index" */
+    public String getCeasesToBeTypeParam(int index)
+    {
+    	int i = 0;
+    	for(String str: oclCeasesToBeList)
+    	{
+    		if(i == index) {
+    			if(str.contains(",")){
+	    			String array[] = str.split(",");
+	    			return array[0];	    				
+    			}else{
+    				return "<Unknown>";
+    			}
+    		}
+    		i++;
+    	}
+    	return "<Unknown>";
+    }
+    
+    /** Process In-Line Comments */
+    public String processInLineComments(String result)
+    { 
+    	return result.replaceAll("--.*\n","\n");    	    	    	    
+    }
+    
+    /** Process Multi-line Comments */
     public String processMultiLineComments(String result)
     { 
     	return result.replaceAll("(?s)/\\*.*?\\*/","");    	
     }
     
-    public void checkInvalidOperationsAndNavigations(String result) throws ParserException
+    /** Process oclIsKindOf, oclIsTypeOf */
+    public String processTypeConformanceOperations (String textDoc, Pattern p)
     {
-    	if (result.contains("oclIsNew()")){
-    		throw new ParserException("Cannot find operation (oclIsNew()). Missing world parameter. ");
-    	}
-    	
-    	int match = countMatches("oclIsKindOf\\((_')*\\s*\\w+\\s*'*\\)", result);
-    	if(match>0) {
-    		throw new ParserException("Cannot find operation (oclIsKindOf(T)). Missing world parameter. ");
-    	}    	match = countMatches("oclIsTypeOf\\((_')*\\s*\\w+\\s*'*\\)", result);
-    	if(match>0) {
-    		throw new ParserException("Cannot find operation (oclIsTypeOf(T)). Missing world parameter. ");    	
-    	}
-    }
-    
-    public HashMap<String,Integer> processTemporalProperty(String result)
-    {
-    	int char_added=0;
-    	Pattern p = Pattern.compile("\\.\\w+");
-    	Matcher m = p.matcher(result);
-    	StringBuffer sb = new StringBuffer();
+		Matcher m = p.matcher(textDoc);		
+		int qtdeLetters = (new String("oclIsKindOf")).length();	
+		int charRemoved = 0;
     	while (m.find()) 
-    	{ 
-    		int indexBegin = m.start();
-    		int indexEnd = m.end()+1;
+    	{    		
+    		int indexBegin = m.start()-charRemoved;
+    		int indexEnd = m.end()-charRemoved;   
     		
     		if(indexBegin < 0) indexBegin = 0;
-    		if(indexEnd > result.length()) indexEnd = result.length();
+    		if(indexEnd > textDoc.length()) indexEnd = textDoc.length();    		
     		
-    		String regex = "\\.\\w+[^\\(]";
-    		if(Pattern.matches(regex,result.subSequence(indexBegin, indexEnd)))  
-    		{  
-    		   m.appendReplacement(sb, result.subSequence(indexBegin, indexEnd-1)+"()"); 
-    		   char_added+=2;
+    		String operation = textDoc.substring(indexBegin, indexBegin+qtdeLetters);
+    		//System.out.println("Operation: "+operation);
+    		
+    		String parameters = textDoc.substring(indexBegin+qtdeLetters+1, indexEnd-1);    		
+    		String typeVar = new String();
+    		String worldVar = new String();
+    		if(parameters.contains(",")){
+    			String[] paramArray = parameters.split(",");
+    			typeVar = paramArray[0];
+    			worldVar = paramArray[1];
+    		}else{
+    			typeVar = parameters;
+    			worldVar = "";
+    		}    		
+    		//System.out.println("Parameters: "+parameters +", Type: "+typeVar+", World: "+worldVar);
+    		
+    		if(parameters.contains(",")) {    			    			
+    			if(operation.contains("oclIsKindOf")) oclIsKindOfList.add(typeVar.trim()+","+worldVar.trim());    			
+        		else if(operation.contains("oclIsTypeOf")) oclIsTypeOfList.add(typeVar.trim()+","+worldVar.trim());        		
+    		}else{    			    			
+    			if(operation.contains("oclIsKindOf")) oclIsKindOfList.add(typeVar.trim());
+    			else if(operation.contains("oclIsTypeOf")) oclIsTypeOfList.add(typeVar.trim());    			    			
     		}
+    		    		 
+    		String left = textDoc.substring(0,indexBegin+qtdeLetters+1+typeVar.length())+")";    		
+    		String right = textDoc.substring(indexEnd, textDoc.length());
+    		//System.out.println("Left :"+left);
+    		//System.out.println("Right :"+right);
+    		textDoc = left+right;    		
+    		
+    		charRemoved = charRemoved + 1 + worldVar.length();
     	}    	
-    	m.appendTail(sb);
-    	String str = sb.toString();
-    	m.reset();
-    	HashMap<String,Integer> map = new HashMap<String,Integer>();
-    	map.put(str,char_added);
-    	return map;
+    	return textDoc;
     }
     
-    public int countMatches(String regex, String text)
+    /** Process oclAsType */
+    public String processOclAsTypeOperation (String textDoc, Pattern p)
+    {
+		Matcher m = p.matcher(textDoc);		
+		int qtdeLetters = (new String("oclAsType")).length();	
+		int charRemoved = 0;
+    	while (m.find()) 
+    	{    		
+    		int indexBegin = m.start()-charRemoved;
+    		int indexEnd = m.end()-charRemoved;   
+    		
+    		if(indexBegin < 0) indexBegin = 0;
+    		if(indexEnd > textDoc.length()) indexEnd = textDoc.length();    		
+    		
+    		String operation = textDoc.substring(indexBegin, indexBegin+qtdeLetters);
+    		//System.out.println("Operation: "+operation);
+    		
+    		String parameters = textDoc.substring(indexBegin+qtdeLetters+1, indexEnd-1);    		
+    		String typeVar = new String();
+    		String worldVar = new String();
+    		if(parameters.contains(",")){
+    			String[] paramArray = parameters.split(",");
+    			typeVar = paramArray[0];
+    			worldVar = paramArray[1];
+    		}else{
+    			typeVar = parameters;
+    			worldVar = "";
+    		}    		
+    		//System.out.println("Parameters: "+parameters +", Type: "+typeVar+", World: "+worldVar);
+    		
+    		if(parameters.contains(",")) {    			    			
+    			if(operation.contains("oclAsType")) oclAsTypeList.add(typeVar.trim()+","+worldVar.trim());        		        		
+    		}else{    			    			
+    			if(operation.contains("oclAsType")) oclAsTypeList.add(typeVar.trim());    			    			    			
+    		}
+    		    		 
+    		String left = textDoc.substring(0,indexBegin+qtdeLetters+1+typeVar.length())+")";    		
+    		String right = textDoc.substring(indexEnd, textDoc.length());
+    		//System.out.println("Left :"+left);
+    		//System.out.println("Right :"+right);
+    		textDoc = left+right;    		
+    		
+    		charRemoved = charRemoved + 1 + worldVar.length();
+    	}    	
+    	return textDoc;
+    }
+    
+    /** Process oclBecomes 
+     * 
+     * @throws ParserException */
+    public String processOclBecomesOperation (String textDoc, Pattern p) throws ParserException
+    {
+    	Matcher m = p.matcher(textDoc);		
+		int qtdeLetters = (new String("oclBecomes")).length();	
+		int charRemoved = 0;
+    	while (m.find()) 
+    	{    		
+    		int indexBegin = m.start()-charRemoved;
+    		int indexEnd = m.end()-charRemoved;   
+    		
+    		if(indexBegin < 0) indexBegin = 0;
+    		if(indexEnd > textDoc.length()) indexEnd = textDoc.length();    		
+    		
+    		String operation = textDoc.substring(indexBegin, indexBegin+qtdeLetters);
+    		//System.out.println("Operation: "+operation);
+    		
+    		String parameters = textDoc.substring(indexBegin+qtdeLetters+1, indexEnd-1);    		
+    		String typeVar = new String();
+    		String worldVar = new String();
+    		if(parameters.contains(",")){
+    			String[] paramArray = parameters.split(",");
+    			typeVar = paramArray[0];
+    			worldVar = paramArray[1];
+    		}else{
+    			typeVar = parameters;
+    			worldVar = "";
+    		}    		
+    		
+    		
+    		//System.out.println("Parameters: "+parameters +", Type: "+typeVar+", World: "+worldVar);
+    		
+    		if(parameters.contains(",")) {    			    			
+    			if(operation.contains("oclBecomes")) oclBecomesList.add(typeVar.trim()+","+worldVar.trim());        		        		
+    		}else{    			    			
+    			if(operation.contains("oclBecomes")) oclBecomesList.add(typeVar.trim());    			    			    			
+    		}
+    		 
+    		String left = textDoc.substring(0,indexBegin+qtdeLetters+1);    		
+    		String right = textDoc.substring(indexEnd-worldVar.length()-1, textDoc.length());
+    		//System.out.println("Left :"+left);
+    		//System.out.println("Right :"+right);
+    		textDoc = left+right;    		
+    		
+    		charRemoved = charRemoved + 1 + typeVar.length();
+    	}    	
+    	return textDoc;
+    }
+    
+    /** Process oclCeasesToBe 
+     * 
+     * @throws ParserException */
+    public String processOclCeasesToBeOperation (String textDoc, Pattern p) throws ParserException
+    {
+    	Matcher m = p.matcher(textDoc);		
+		int qtdeLetters = (new String("oclCeasesToBe")).length();	
+		int charRemoved = 0;
+    	while (m.find()) 
+    	{    		
+    		int indexBegin = m.start()-charRemoved;
+    		int indexEnd = m.end()-charRemoved;   
+    		
+    		if(indexBegin < 0) indexBegin = 0;
+    		if(indexEnd > textDoc.length()) indexEnd = textDoc.length();    		
+    		
+    		String operation = textDoc.substring(indexBegin, indexBegin+qtdeLetters);
+    		//System.out.println("Operation: "+operation);
+    		
+    		String parameters = textDoc.substring(indexBegin+qtdeLetters+1, indexEnd-1);    		
+    		String typeVar = new String();
+    		String worldVar = new String();
+    		if(parameters.contains(",")){
+    			String[] paramArray = parameters.split(",");
+    			typeVar = paramArray[0];
+    			worldVar = paramArray[1];
+    		}else{
+    			typeVar = parameters;
+    			worldVar = "";
+    		}
+    		checkInvalidType(typeVar);
+    		
+    		//System.out.println("Parameters: "+parameters +", Type: "+typeVar+", World: "+worldVar);
+    		
+    		if(parameters.contains(",")) {    			    			
+    			if(operation.contains("oclCeasesToBe")) oclCeasesToBeList.add(typeVar.trim()+","+worldVar.trim());        		        		
+    		}else{    			    			
+    			if(operation.contains("oclCeasesToBe")) oclCeasesToBeList.add(typeVar.trim());    			    			    			
+    		}
+    		    		 
+    		String left = textDoc.substring(0,indexBegin+qtdeLetters+1);    		
+    		String right = textDoc.substring(indexEnd-worldVar.length()-1, textDoc.length());
+    		//System.out.println("Left :"+left);
+    		//System.out.println("Right :"+right);
+    		textDoc = left+right;    		
+    		
+    		charRemoved = charRemoved + 1 + typeVar.length();
+    	}    	
+    	return textDoc;
+    }
+    
+    private int countMatches(String regex, String text)
     {
     	Pattern pattern = Pattern.compile(regex);
         Matcher  matcher = pattern.matcher(text);
@@ -310,197 +489,319 @@ public class TOCLParser extends OCLParser{
         return count;
     }
     
-    public String processTempKeyword(String result) throws ParserException
+    public void checkInvalidType(String typeName) throws ParserException
+    {    	
+    	for(RefOntoUML.Element elem: umap.keySet()){
+    		if(elem instanceof RefOntoUML.NamedElement){
+    			RefOntoUML.NamedElement namedElem = (RefOntoUML.NamedElement)elem;
+    			if(namedElem.getName().equals(typeName)) return;
+    		}
+    	}
+    	throw new ParserException ("Unrecognized Variable: ("+typeName+")");    	
+    }
+    
+    /** Check if a world parameter is missing */
+    public void checkInvalidOperations(String result) throws ParserException
     {
-    	Pattern p = Pattern.compile("\\W(temp|inv|derive)\\W*(\\s*\\w*\\s*):");
+    	int match = countMatches("oclIsKindOf\\((_')*\\s*\\w+\\s*'*\\)", result);
+    	if(match>0) throw new ParserException("Cannot find operation (oclIsKindOf(T)). Missing world parameter. ");
+    	
+    	match = countMatches("oclIsTypeOf\\((_')*\\s*\\w+\\s*'*\\)", result);
+    	if(match>0) throw new ParserException("Cannot find operation (oclIsTypeOf(T)). Missing world parameter. ");    	
+    	
+    	match = countMatches("oclAsType\\((_')*\\s*\\w+\\s*'*\\)", result);
+    	if(match>0) throw new ParserException("Cannot find operation (oclAsType(T)). Missing world parameter. ");
+    	
+    	match = countMatches("oclBecomes\\((_')*\\s*\\w+\\s*'*\\)", result);
+    	if(match>0) throw new ParserException("Cannot find operation (oclBecomes(T)). Missing world parameter. ");
+    	
+    	match = countMatches("oclCeasesToBe\\((_')*\\s*\\w+\\s*'*\\)", result);
+    	if(match>0) throw new ParserException("Cannot find operation (oclCeasesToBe(T)). Missing world parameter. ");
+    }
+    
+    /** Process Temporal Navigations with the syntax "[]" */
+    public HashMap<String,Integer> processTemporalNavigations(String result)
+    {
+    	// navigations such as endName[w]/attrName[w] will become endName(w)/attrName(w)
+	    result = result.replaceAll("\\[","(");
+	    result = result.replaceAll("\\]",")");
+	    
+	    //navigations such as endName/attrName will become endName()/attrName()
+    	int char_added=0;
+    	Pattern p = Pattern.compile("\\.\\w+");
+    	Matcher m = p.matcher(result);
+    	StringBuffer sb = new StringBuffer();
+    	while (m.find()) 
+    	{ 
+    		int indexBegin = m.start();
+    		int indexEnd = m.end()+1;    		
+    		if(indexBegin < 0) indexBegin = 0;
+    		if(indexEnd > result.length()) indexEnd = result.length();    		
+    		String regex = "\\.\\w+[^\\(]";
+    		if(Pattern.matches(regex,result.subSequence(indexBegin, indexEnd)))  
+    		{  
+    		   m.appendReplacement(sb, result.subSequence(indexBegin, indexEnd-1)+"()"); 
+    		   char_added+=2;
+    		}
+    	}
+    	m.appendTail(sb);
+    	String str = sb.toString();
+    	m.reset();
+    	HashMap<String,Integer> map = new HashMap<String,Integer>();
+    	map.put(str,char_added);
+    	return map;
+    }
+    
+    public void checkInvalidHistoricalContext(String context)
+    {
+    	Pattern p = Pattern.compile("(\\w*)(\\s*)::(\\s*)(\\w*)(\\s*):(\\s*)(\\w*)");
+		Matcher m = p.matcher(context);		
+		if(!m.matches()) {
+			new ParserException("Wrong historical relationship context: \""+context+"\"\n"+
+			"The declaration should be in the form: \"Src-Class-Name :: Relationship-Name :: Tgt-Class-Name\"");
+		}    	
+    }
+    
+    public void checkInvalidHistoricalDeclaration(String declaration)
+    {
+    	Pattern p = Pattern.compile("(\\s*\\w*\\s*):(\\s*\\w*\\s*)[(\\w*)](\\s*),(\\s*\\w*\\s*):(\\s*\\w*\\s*)[(\\w*)](\\s*)");
+		Matcher m = p.matcher(declaration);		
+		if(!m.matches()) {
+			new ParserException("Wrong historical relationship declaration: \""+declaration+"\"\n"+
+			"The declaration should be in the form: \"Src-End-Name: Src-Class-Name[Src-End-Mult], Tgt-End-Name: Tgt-Class-Name[Tgt-End-Mult]\"");
+		}    	
+    }
+    
+    public void processHistoricalRelationship(String context, String declaration) throws ParserException, ParseException
+    {
+    	context = context.replace("context", "");
+    	declaration = declaration.replace("{", "");
+    	declaration = declaration.replace("}", "");
+    	
+    	checkInvalidHistoricalContext(context);
+    	checkInvalidHistoricalDeclaration(declaration);
+    	
+    	String[] array = context.trim().split("::");
+    	String[] array2 = array[1].trim().split(":");
+    	    	
+    	String sorceName = array[0].trim();
+    	checkInvalidType(sorceName);
+    	String relName = array2[0].trim();
+    	String targetName = array2[1].trim();
+    	checkInvalidType(targetName);
+    	
+    	String[] declArray = declaration.trim().split(",");
+    	String[] leftDecl = declArray[0].trim().split(":");
+    	String[] rightDecl = declArray[1].trim().split(":");
+    	
+    	String srcEndName = leftDecl[0].trim();
+    	String tgtEndName = rightDecl[0].trim();
+    	
+    	String[] array3 = leftDecl[1].trim().split("\\[");
+    	String[] array4 = rightDecl[1].trim().split("\\[");
+    	
+    	String srcType = array3[0].trim();
+    	String srcMult = array3[1].trim().split("]")[0].trim();
+    	
+    	String tgtType = array4[0].trim();
+    	String tgtMult = array4[1].trim().split("]")[0].trim();
+		
+    	org.eclipse.uml2.uml.Association rel = OntoUML2UML.includeHistoricalRelationship(
+    		umlRoot, srcType, relName, tgtType, srcEndName, srcMult, tgtEndName, tgtMult
+    	);
+    	
+    	historicalRelationshipsList.add(rel);
+    	
+		//System.out.println("<"+sorceName+">");
+		//System.out.println("<"+relName+">");
+		//System.out.println("<"+targetName+">");
+		//System.out.println("<"+srcEndName+">");
+		//System.out.println("<"+srcType+">");
+		//System.out.println("<"+srcMult+">");
+		//System.out.println("<"+tgtEndName+">");
+		//System.out.println("<"+tgtType+">");
+		//System.out.println("<"+tgtMult+">");
+    }    
+    
+    public boolean isHistoricalRelationship(org.eclipse.uml2.uml.Property p)
+    {
+    	if(p.getAssociation()!=null){
+    		return historicalRelationshipsList.contains(p.getAssociation());
+    	}
+    	return false;
+    }
+    
+    /** Process keyword "temp" */
+    public String processTempKeyword(String result) throws ParserException, ParseException
+    {
+    	Pattern p = Pattern.compile("(temp|inv|derive)(\\s*\\w*\\s*):");
 		Matcher m = p.matcher(result);
 		int jump = 0;
     	while (m.find()) 
     	{ 
     		int indexBegin = m.start();
-    		int indexEnd = m.end();
-    		
+    		int indexEnd = m.end();    		
     		if(indexBegin+(jump) < 0) indexBegin = 0;
     		if(indexEnd+(jump) > result.length()) indexEnd = result.length();
     		
-    		if (result.substring(indexBegin+(jump),indexEnd+(jump)).contains("temp")){
+    		String left = result.substring(0,indexBegin+(jump));
+			String keywordDeclaration = result.substring(indexBegin+(jump),indexEnd+(jump));
+    		String right = result.substring(indexEnd+(jump), result.length());
+    		
+    		if (keywordDeclaration.contains("temp")){
     			
-    			// "temp" takes place to "inv"...
-    			// ==============================
-    			String left = result.substring(0,indexBegin+(jump));
-    			String middle = result.substring(indexBegin+(jump),indexEnd+(jump)).replaceFirst("temp","inv");
-        		String right = result.substring(indexEnd+(jump), result.length());
-        		jump  = jump -1;
-        		constraintStereotypeList.add("temp");
-        		
-        		// endName/attrName takes place to endName()/attrName()...
-    			// =======================================================
-        		String expression = new String();
-        		String therest = new String();
-        		if(right.indexOf(":")!=-1){
-        			expression = right.substring(0,right.indexOf(":"));
-        			therest = right.substring(right.indexOf(":"),right.length());
-        		}else{
-        			expression = right.substring(0,right.length());
+    			/** get the ocl expression as string */
+    			String oclExpr = new String();
+        		String remainingExpr = new String();
+        		if(right.indexOf(":")!=-1) // has next constraint
+    			{    				
+    				if(right.indexOf("context")!=-1) {
+    					oclExpr = right.substring(0,right.indexOf("context"));
+    					remainingExpr = right.substring(right.indexOf("context"),right.length());
+    				}else{
+    					oclExpr = right.substring(0,right.indexOf(":"));
+    					remainingExpr = right.substring(right.indexOf(":"),right.length());
+    				}    				
+    			}else { //this is the last constraint...        				
+    				oclExpr = right.substring(0, right.length());
+    			}            		
+
+    			/** historical relationship */
+        		if(oclExpr.contains("{") || oclExpr.contains("}")) 
+        		{        			
+        			String context = left.substring(left.lastIndexOf("context"), left.length());
+        			
+        			processHistoricalRelationship(context, oclExpr);
+        			
+        			result = left.replace(context,"")+remainingExpr;
+        			
+        			jump = jump - context.length() - keywordDeclaration.length() - oclExpr.length();        			
         		}
-        		        		
-        		checkInvalidOperationsAndNavigations(expression);        		
-        		
-        		HashMap<String,Integer>map = processTemporalProperty(expression);
-	        	for(String key: map.keySet()){	        		
-	        		expression = key;
-		            jump = jump + map.get(key);		            	        
-	        	}
-	        	
-        		result = left+middle+(expression+therest);        		        		
-        		
-    		}else if (result.substring(indexBegin+(jump),indexEnd+(jump)).contains("inv")){
+    			/** temporal OCL invariant */
+        		else{
+
+        			constraintStereotypeList.add("temp");
+        			
+        			/** process keyword declaration */
+            		keywordDeclaration = keywordDeclaration.replaceFirst("temp","inv");        		
+            		jump  = jump -1;
+
+					/** process temporal navigations */
+            		HashMap<String,Integer>map = processTemporalNavigations(oclExpr);
+    	        	for(String key: map.keySet())
+    	        	{	        		
+    	        		oclExpr = key;
+    		            jump = jump + map.get(key);		            	        
+    	        	}
+    	        	
+            		result = left+keywordDeclaration+(oclExpr+remainingExpr);
+        		}        		
+    		}else if (keywordDeclaration.contains("inv") || keywordDeclaration.contains("derive")){
     			
-    			constraintStereotypeList.add("inv");
-    			String rightExpression = result.substring(indexEnd+(jump), result.length());
-    			String expression = new String();
-    			if(rightExpression.indexOf(":")!=-1) {
-    				if(rightExpression.indexOf("context")!=-1){    					
-    					expression = rightExpression.substring(0,rightExpression.indexOf("context"));	
+    			if(keywordDeclaration.contains("inv")) constraintStereotypeList.add("inv");
+    			if(keywordDeclaration.contains("derive")) constraintStereotypeList.add("derive");
+    			
+    			if(right.indexOf(":")!=-1) // has next constraint
+    			{    				
+    				if(right.indexOf("context")!=-1) {
+    					/** Check Invalid OclExpression */
+    					checkInvalidOclExpression(right.substring(0,right.indexOf("context")));    						
     				}else{
-    					expression = rightExpression.substring(0,rightExpression.indexOf(":"));
-    				}
-    			} else expression = rightExpression.substring(0,rightExpression.length());
-    			
-    			if(expression.contains("World") || expression.contains("next()") || expression.contains("previous()") || expression.contains("hasNext()")|| expression.contains("allNext()") ||
-				expression.contains("allPrevious()") || expression.contains("isOrigin()") || expression.contains("isTerminal()") || expression.contains("existsIn")){
-    				throw new ParserException("Unrecognizable keyword \"inv\": A temporal constraint is defined by the keyword \"temp\"");
-    			}
-    			
-    		}else if (result.substring(indexBegin+(jump),indexEnd+(jump)).contains("derive")){
-    			
-    			constraintStereotypeList.add("derive");
-    			String rightExpression = result.substring(indexEnd+(jump), result.length());
-    			String expression = new String();
-    			if(rightExpression.indexOf(":")!=-1) {
-    				if(rightExpression.indexOf("context")!=-1){    					
-    					expression = rightExpression.substring(0,rightExpression.indexOf("context"));	
-    				}else{
-    					expression = rightExpression.substring(0,rightExpression.indexOf(":"));
-    				}
-    			} else expression = rightExpression.substring(0,rightExpression.length());
-    			
-    			if(expression.contains("World") || expression.contains("next()") || expression.contains("previous()") || expression.contains("hasNext()")|| expression.contains("allNext()") ||
-				expression.contains("allPrevious()") || expression.contains("isOrigin()") || expression.contains("isTerminal()") || expression.contains("existsIn")){
-    				throw new ParserException("Unrecognizable keyword \"derive\": A temporal constraint is defined by the keyword \"temp\"");
-    			}
+    					/** Check Invalid OclExpression */
+    					checkInvalidOclExpression(right.substring(0,right.indexOf(":")));
+    				}    				
+    			}else { //this is the last constraint...
+    				
+    				/** Check Invalid OclExpression */
+    				checkInvalidOclExpression(right);
+    			}    			
     		}    	
     	}
     	
     	return result;    	
     }
-
-    public ArrayList<Integer> getTemporalConstraintsIndexes()
+    
+    /** Check if the static OCL expression should be declared as dynamic  */
+    private void checkInvalidOclExpression(String oclExpression) throws ParserException
     {
-    	ArrayList<Integer> indexes = new ArrayList<Integer>();
-    	int i=0;
-    	for(String stereo: constraintStereotypeList)
-    	{
-    		if(stereo=="temp") indexes.add(i);
-    		i++;
-    	}
-    	return indexes;
+    	if(oclExpression.contains("World") || oclExpression.contains("Path") || oclExpression.contains("next(") || oclExpression.contains("previous(") || oclExpression.contains("hasNext(")|| oclExpression.contains("hasPrevious(") || oclExpression.contains("allNext(") ||
+		oclExpression.contains("allPrevious(") || oclExpression.contains("isOrigin(") || oclExpression.contains("isTerminal(") || oclExpression.contains("existsIn(") || oclExpression.contains("paths(") || oclExpression.contains("worlds(") || 
+		oclExpression.contains("oclIsCreated(") || oclExpression.contains("oclCeasesToBe(") || oclExpression.contains("oclIsDeleted(") || oclExpression.contains("oclBecomes("))
+		{
+			throw new ParserException("A temporal constraint should be defined by the keyword \"temp\"");
+		}
     }
     
-	private String processTemporalOCL(String oclTemporalContent) throws ParserException
+    /** Process OCL Textual Document */
+	private String processDocument(String oclTextualDocument) throws ParserException, ParseException
     {
 		String result = new String();
-		result = oclTemporalContent;
+		result = oclTextualDocument;
 		
 		// remove comments...
 		result = processInLineComments(result);
 		result = processMultiLineComments(result);
-
-    	// navigations such as endName[w]/attrName[w] will become endName(w)/attrName(w)
-	    result = result.replaceAll("\\[","(");
-	    result = result.replaceAll("\\]",")");
 	    
 	    // record which constraints are temporal
-	    // process temporal properties
+	    // and process temporal navigations
 	    result = processTempKeyword(result);
 	    
 		// remove world parameter and record it
 		Pattern p = Pattern.compile("oclIsKindOf\\((_')*\\s*\\w+\\s*'*(,\\s*\\w+\\s*)*\\)");		
-		result = processObjectOperation(result, p);
+		result = processTypeConformanceOperations(result, p);
 		
 		// remove world parameter and record it
 		p = Pattern.compile("oclIsTypeOf\\((_')*\\s*\\w+\\s*'*(,\\s*\\w+\\s*)*\\)");		
-		result = processObjectOperation(result, p);
+		result = processTypeConformanceOperations(result, p);
 		
-		//remove world parameter and record it
-		p = Pattern.compile("oclIsNew\\(\\s*\\w+\\s*\\)");		
-		result = processOclIsNewOperation(result, p);
+		// remove world parameter and record it
+		p = Pattern.compile("oclAsType\\((_')*\\s*\\w+\\s*'*(,\\s*\\w+\\s*)*\\)");		
+		result = processOclAsTypeOperation(result, p);
+				
+		// remove world parameter and record it
+		p = Pattern.compile("oclBecomes\\((_')*\\s*\\w+\\s*'*(,\\s*\\w+\\s*)*\\)");		
+		result = processOclBecomesOperation(result, p);
 		
+		// remove world parameter and record it
+		p = Pattern.compile("oclCeasesToBe\\((_')*\\s*\\w+\\s*'*(,\\s*\\w+\\s*)*\\)");		
+		result = processOclCeasesToBeOperation(result, p);
+		
+		umlResource = OntoUML2UMLUtil.saveUML(umlPath,umlRoot);
+		
+		//System.out.println(result);
 	    return result;
     }
 
 	/** Parse temporal OCL constraints from text. */
-	public void parseTemporalOCL(String oclTemporalConstraints) throws ParserException
+	private OCLInput textualProcessing(String oclTextualDocument) throws ParserException, ParseException
 	{		
-		oclTemporalConstraints = preProcessOCL(oclTemporalConstraints);
-
-		String processedTempOCL = processTemporalOCL(oclTemporalConstraints);
-		
-		OCLInput document = new OCLInput(processedTempOCL);
+		oclTextualDocument = preProcessOCL(oclTextualDocument);
+		String processedOCLDoc = processDocument(oclTextualDocument);		
+		OCLInput document = new OCLInput(processedOCLDoc);
+		return document;
+	}
+	
+	public void parseTemporalOCL(String oclTextualDocument) throws ParserException, ParseException
+	{
+		OCLInput doc = textualProcessing(oclTextualDocument);
+		autoConfigure();
+		parseOCL(doc);
+	}
+	
+	private void parseOCL(OCLInput document) throws ParserException 
+	{	
 		try{
 			umlconstraintsList = myOCL.parse(document);
-		}catch(ParserException pe){
-			if (pe.getLocalizedMessage().contains("World")){
-				if(!pe.getLocalizedMessage().contains("oclIsKindOf") && !pe.getLocalizedMessage().contains("oclIsTypeOf") &&				   
-				   !pe.getLocalizedMessage().contains("allIntances") && !pe.getLocalizedMessage().contains("existsIn") &&
-				   !pe.getLocalizedMessage().contains("next") && !pe.getLocalizedMessage().contains("previous") &&
-				   !pe.getLocalizedMessage().contains("allNext") && !pe.getLocalizedMessage().contains("allPrevious") &&
-				   !pe.getLocalizedMessage().contains("isTerminal") && !pe.getLocalizedMessage().contains("isOrigin") &&
-				   !pe.getLocalizedMessage().contains("hasNext") && !pe.getLocalizedMessage().contains("hasPrevious") &&
-				   !pe.getLocalizedMessage().contains("worlds") && !pe.getLocalizedMessage().contains("paths") &&
-				   !pe.getLocalizedMessage().contains("oclIsNew") && !pe.getLocalizedMessage().contains("allIndividuals"))
-				{
-					String message = pe.getLocalizedMessage().replace("(World)","[World]");
-					message = message.replace("operation", "association end-point ");
-					throw new ParserException(message);
-				}
-			}
-			if (pe.getLocalizedMessage().contains("operation") && pe.getLocalizedMessage().contains("oclIsNew")){
-				//****** 
-				//we do not want this parsing error to be displayed since we do support oclIsNew() in invariants
-				//******
-			}
-			if (pe.getLocalizedMessage().contains("operation") && !pe.getLocalizedMessage().contains("World")){
-				String message = pe.getLocalizedMessage().replace("()","");
-				message = message.replace("operation", "association end-point ");
-				message+=".\nMissing world argument using the syntax \"[ ]\"";
-				throw new ParserException(message);				
-			
-			} else{				
-				throw new ParserException(pe.getLocalizedMessage());
-			}
-		}	
-		
+		}catch(ParserException pe){				
+			throw new ParserException(pe.getLocalizedMessage());
+		}		
 		umlreflection = umlenv.getUMLReflection();
 	}
 
     /** Parse temporal OCL Constraints from a File. */
-    public void parseTemporalOCL(File temporalOCLFile) throws IOException, ParserException
+    public void parseTemporalOCL(File temporalOCLFile) throws IOException, ParserException, ParseException
     {    	
    		String oclContent = FileUtil.readFile(temporalOCLFile.getAbsolutePath());   		
    		parseTemporalOCL(oclContent);
-    }    
-    
-    /** Get the OntoUML element related to the UML one. */
-    @Override
-    public RefOntoUML.Element getOntoUMLElement(org.eclipse.uml2.uml.Element value) 
-    {   
-        for (RefOntoUML.Element key : tmap.keySet()) 
-        {
-        	for(org.eclipse.uml2.uml.Element elem: tmap.get(key)){
-        		if (elem.equals(value)) return key;
-        	}
-        }
-        return super.getOntoUMLElement(value);
     }
 }

@@ -3,7 +3,7 @@ package net.menthor.ontouml2alloy.rules;
 import net.menthor.alloy.AlloyFactory;
 import net.menthor.alloy.CompareOperation;
 import net.menthor.alloy.CompareOperator;
-import net.menthor.ontouml2alloy.util.AlloyAPI;
+import net.menthor.alloy.api.AlloyAPI;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
 

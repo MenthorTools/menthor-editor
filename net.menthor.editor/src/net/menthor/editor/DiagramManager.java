@@ -2324,12 +2324,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 */
 	public void updateMenthorFromInclusion(final RefOntoUML.Element addedElement)
 	{		
+		// add to the parser
+		frame.getBrowserManager().getProjectBrowser().getParser().addElement(addedElement);	
+		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {
 				UmlProject project = ProjectBrowser.frame.getDiagramManager().getCurrentProject();
-				// add to the parser
-				frame.getBrowserManager().getProjectBrowser().getParser().addElement(addedElement);		
 				// add to the tree
 				ProjectTree tree = frame.getProjectBrowser().getTree();
 				boolean found = tree.checkModelElement(addedElement);
@@ -2481,12 +2482,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	@SuppressWarnings("unused")
 	public void updateMenthorFromDeletion(final RefOntoUML.Element deletedElement)
 	{		
+		// delete from the parser
+		frame.getBrowserManager().getProjectBrowser().getParser().removeElement(deletedElement);
+		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {
 				UmlProject project = frame.getDiagramManager().getCurrentProject();
-				// delete from the parser
-				frame.getBrowserManager().getProjectBrowser().getParser().removeElement(deletedElement);							
+											
 				// delete from the tree
 				ProjectBrowser browser = frame.getProjectBrowser();		
 				browser.getTree().remove(deletedElement);
@@ -2602,10 +2605,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
 		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an Menthor project."); return; }
-		try {			
-			// transforming...
-			frame.getProjectBrowser().getAlloySpec().setAlloyModel(refparser,refOptions);
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an OLED project."); return; }
+		try {
+			frame.getProjectBrowser().getAlloySpec().setDomainModel(refparser,refOptions);
+			frame.getProjectBrowser().getAlloySpec().transformDomainModel();
 		} catch (Exception e) {
 			frame.showErrorMessageDialog("Transforming OntoUML into Alloy",e.getLocalizedMessage());					
 			e.printStackTrace();
@@ -2618,11 +2621,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();		
 		TOCL2AlloyOption oclOptions = frame.getProjectBrowser().getOCLOption();
 		AlloySpecification alloySpec = frame.getProjectBrowser().getAlloySpec();
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an Menthor project."); return; }
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first an OLED project."); return; }
 		if (oclOptions.getParser()==null) { /*frame.showErrorMessageDialog("Error","Inexistent constraints. You need to first create constraints.");*/  return; }
 		try {						
-			// transforming...
-			String logMessage = alloySpec.addConstraints(refparser, oclOptions.getParser(),oclOptions);
+			// transforming...			
+			String logMessage = alloySpec.transformConstraints(refparser, oclOptions.getParser(),oclOptions);
 			// log details 
 			if (!logMessage.isEmpty() && logMessage!=null)
 			{				
@@ -2633,6 +2636,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			e.printStackTrace();
 		}		
 	}
+		
 		
 	/** Open the alloy specification with the alloy analyzer */
 	public void openAnalyzer (final AlloySpecification alloymodel, final boolean showAnalyzer, final int cmdIndexToExecute) 

@@ -1,4 +1,4 @@
-package net.menthor.ontouml2alloy.util;
+package net.menthor.alloy.api;
 
 import java.util.ArrayList;
 
@@ -320,6 +320,21 @@ public class AlloyAPI {
 		return decl;
 	}
 	
+	/**
+	 * Create a Declaration. e.g. name: set TypeName.
+	 */
+	public static Declaration createSimpleDeclaration (AlloyFactory factory, String name, String TypeName)
+	{	
+		Declaration decl = factory.createDeclaration();
+		Variable var = factory.createVariable();
+		var.setName(name);
+		var.setDeclaration(decl);		
+		VariableReference vr = factory.createVariableReference();		
+		vr.setVariable("set "+TypeName);		
+		decl.setExpression(vr);
+		return decl;
+	}
+
 	/**
 	 * Creates a specific Declaration in Alloy. e.g. x: World.name
 	 */

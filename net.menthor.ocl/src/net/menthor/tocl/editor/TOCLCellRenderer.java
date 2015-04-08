@@ -27,7 +27,11 @@ public class TOCLCellRenderer extends OCLCellRenderer {
 		
 		if (tc.getDefinitionString().equals("oclIsTypeOf(w)")||
 			tc.getDefinitionString().equals("oclIsKindOf(w)")||
-			tc.getDefinitionString().equals("oclIsNew(w)")||
+			tc.getDefinitionString().equals("oclAsType(w)")||
+			tc.getDefinitionString().equals("oclIsCreated")||
+			tc.getDefinitionString().equals("oclIsDeleted")||
+			tc.getDefinitionString().equals("oclBecomes")||
+			tc.getDefinitionString().equals("oclCeasesToBe")||
 			tc.getDefinitionString().equals("allInstances(w)")||
 			tc.getDefinitionString().equals("existsIn")||
 			tc.getDefinitionString().equals("next")||
@@ -39,19 +43,17 @@ public class TOCLCellRenderer extends OCLCellRenderer {
 			tc.getDefinitionString().equals("allNext(p)")||
 			tc.getDefinitionString().equals("hasPrevious")||
 			tc.getDefinitionString().equals("hasNext")||
-			tc.getDefinitionString().equals("isTerminal")||
-			tc.getDefinitionString().equals("isOrigin")||
 			tc.getDefinitionString().equals("allIndividuals")||
 			tc.getDefinitionString().equals("paths")||
 			tc.getDefinitionString().equals("worlds")			
 		   ){
-			setIcon(new ImageIcon(TOCLCellRenderer.class.getResource("/br/ufes/inf/nemo/tocl/editor/icons/operation.gif")));
+			setIcon(new ImageIcon(TOCLCellRenderer.class.getResource("/net/menthor/tocl/editor/icons/operation.gif")));
 			
-		}else if (tc.getDefinitionString().contains("Property") && tc.getDefinitionString().contains("[w]"))
+		}else if (tc.getDefinitionString().contains("Property"))
 		{
-			setIcon(new ImageIcon(OCLCellRenderer.class.getResource("/br/ufes/inf/nemo/tocl/editor/icons/property.gif")));
-		}else if(tc.getDefinitionString().equals("temporal")){
-			setIcon(new ImageIcon(OCLCellRenderer.class.getResource("/br/ufes/inf/nemo/ocl/editor/icons/constraint.gif")));
+			setIcon(new ImageIcon(OCLCellRenderer.class.getResource("/net/menthor/tocl/editor/icons/property.gif")));
+		}else if(tc.getDefinitionString().equals("temp") || tc.getDefinitionString().equals("hist")){
+			setIcon(new ImageIcon(OCLCellRenderer.class.getResource("/net/menthor/ocl/editor/icons/constraint.gif")));
 		}
 	}
 

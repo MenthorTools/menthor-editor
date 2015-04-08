@@ -7,7 +7,7 @@ import java.util.Set;
 import net.menthor.alloy.AlloyFactory;
 import net.menthor.alloy.BinaryOperation;
 import net.menthor.alloy.DisjointExpression;
-import net.menthor.ontouml2alloy.util.AlloyAPI;
+import net.menthor.alloy.api.AlloyAPI;
 import RefOntoUML.Classifier;
 import RefOntoUML.parser.OntoUMLParser;
 

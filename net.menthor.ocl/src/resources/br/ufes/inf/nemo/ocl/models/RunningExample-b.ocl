@@ -1,6 +1,6 @@
-import 'project.uml'
+import 'RunningExample-b.uml'
 
- package _'project'
+ package _'Model'
 
 --=====================================
 --World Structure

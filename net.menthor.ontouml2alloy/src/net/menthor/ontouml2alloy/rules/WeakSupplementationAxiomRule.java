@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.menthor.alloy.AlloyFactory;
 import net.menthor.alloy.FactDeclaration;
 import net.menthor.alloy.QuantificationExpression;
-import net.menthor.ontouml2alloy.util.AlloyAPI;
+import net.menthor.alloy.api.AlloyAPI;
 
 import org.eclipse.emf.ecore.EObject;
 

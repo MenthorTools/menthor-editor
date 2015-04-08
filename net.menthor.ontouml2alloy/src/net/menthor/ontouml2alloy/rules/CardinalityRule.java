@@ -7,7 +7,7 @@ import net.menthor.alloy.BinaryOperation;
 import net.menthor.alloy.BinaryOperator;
 import net.menthor.alloy.CompareOperator;
 import net.menthor.alloy.QuantificationExpression;
-import net.menthor.ontouml2alloy.util.AlloyAPI;
+import net.menthor.alloy.api.AlloyAPI;
 import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.MaterialAssociation;

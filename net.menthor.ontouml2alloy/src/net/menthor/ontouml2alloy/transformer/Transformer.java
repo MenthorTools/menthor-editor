@@ -27,6 +27,7 @@ import net.menthor.alloy.Quantificator;
 import net.menthor.alloy.SignatureDeclaration;
 import net.menthor.alloy.Variable;
 import net.menthor.alloy.VariableReference;
+import net.menthor.alloy.api.AlloyAPI;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2alloy.rules.AbstractnessClassRule;
 import net.menthor.ontouml2alloy.rules.CardinalityRule;
@@ -37,7 +38,6 @@ import net.menthor.ontouml2alloy.rules.RelatorAxiomRule;
 import net.menthor.ontouml2alloy.rules.SubsetsRule;
 import net.menthor.ontouml2alloy.rules.TopLevelClassRule;
 import net.menthor.ontouml2alloy.rules.WeakSupplementationAxiomRule;
-import net.menthor.ontouml2alloy.util.AlloyAPI;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;

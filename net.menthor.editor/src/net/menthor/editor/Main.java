@@ -444,7 +444,7 @@ public final class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					System.out.println(getOSx()+"-"+getArch());
+					//System.out.println(getOSx()+"-"+getArch());
 					if(USE_LOG_FILE) redirectSystemToALog();
 					setSystemProperties();				
 					chooseFont();
@@ -458,7 +458,7 @@ public final class Main {
 					for (String arg : args) {
 						if(arg.endsWith(".menthor")){
 							menthorFileName  = arg;
-							System.out.println("filename: "+menthorFileName);
+							//System.out.println("filename: "+menthorFileName);
 							break;
 						}
 					}
@@ -469,7 +469,7 @@ public final class Main {
 					frame.setVisible(true);
 					frame.toFront();										
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Something went wrong.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
 					ex.printStackTrace();
 				}				
 			}

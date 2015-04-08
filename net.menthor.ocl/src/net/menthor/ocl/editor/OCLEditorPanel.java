@@ -107,7 +107,7 @@ public class OCLEditorPanel extends JPanel {
 	    textArea.setCodeFoldingEnabled(false);
 		textArea.setForeground(Color.BLACK);
 		textArea.setBackground(new Color(255, 255, 255));				
-		setTheme(textArea,"/br/ufes/inf/nemo/ocl/editor/themes/eclipse.xml");
+		setTheme(textArea,"/net/menthor/ocl/editor/themes/vs.xml");
 						
 		oclSyntaxHighlight = new OCLSyntaxHighlight();	    
 	    ((RSyntaxDocument)textArea.getDocument()).setSyntaxStyle(oclSyntaxHighlight);
@@ -161,7 +161,7 @@ public class OCLEditorPanel extends JPanel {
       	vsItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setTheme(textArea,"/br/ufes/inf/nemo/ocl/editor/themes/vs.xml");
+				setTheme(textArea,"/net/menthor/ocl/editor/themes/vs.xml");
 			}
 		});
       	JRadioButtonMenuItem eclipseItem = new JRadioButtonMenuItem("Eclipse Style");
@@ -171,7 +171,7 @@ public class OCLEditorPanel extends JPanel {
       	eclipseItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setTheme(textArea,"/br/ufes/inf/nemo/ocl/editor/themes/eclipse.xml");
+				setTheme(textArea,"/net/menthor/ocl/editor/themes/eclipse.xml");
 			}
 		});
       	JRadioButtonMenuItem darkItem = new JRadioButtonMenuItem("Dark Style");
@@ -180,7 +180,7 @@ public class OCLEditorPanel extends JPanel {
       	darkItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setTheme(textArea,"/br/ufes/inf/nemo/ocl/editor/themes/dark.xml");
+				setTheme(textArea,"/net/menthor/ocl/editor/themes/dark.xml");
 			}
 		});
       	JRadioButtonMenuItem ideaItem = new JRadioButtonMenuItem("Idea Style");
@@ -189,7 +189,7 @@ public class OCLEditorPanel extends JPanel {
      	ideaItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setTheme(textArea,"/br/ufes/inf/nemo/ocl/editor/themes/idea.xml");
+				setTheme(textArea,"/net/menthor/ocl/editor/themes/idea.xml");
 			}
 		});
       	JRadioButtonMenuItem rstaItem = new JRadioButtonMenuItem("RSTA Style");
@@ -198,7 +198,7 @@ public class OCLEditorPanel extends JPanel {
       	rstaItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setTheme(textArea,"/br/ufes/inf/nemo/ocl/editor/themes/rsyntaxarea.xml");
+				setTheme(textArea,"/net/menthor/ocl/editor/themes/rsyntaxarea.xml");
 			}
 		});
       	return themeMenu;

@@ -2,12 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2uml"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.alloy"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/autocomplete_2.5.0/autocomplete.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/rstaui_2.5.0/rstaui.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/rsyntaxtextarea_2.5.0/rsyntaxtextarea.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2uml"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/lpg.runtime.java_2.0.17.v201004271640.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.emf.common_2.9.1.v20130827-0309.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.emf.ecore_2.9.1.v20130827-0309.jar"/>
@@ -26,5 +24,8 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.uml2.uml.profile.l2_1.1.0.v20130902-0826.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.uml2.uml.profile.l3_1.1.0.v20130902-0826.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.uml2.uml.resources_4.1.0.v20130902-0826.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/autocomplete_2.5.0/autocomplete.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/rstaui_2.5.0/rstaui.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/rsyntaxtextarea_2.5.0/rsyntaxtextarea.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
