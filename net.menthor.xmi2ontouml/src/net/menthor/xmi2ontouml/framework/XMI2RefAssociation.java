@@ -169,8 +169,7 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 	    		assoc.getMemberEnd().add((Property)elemMap.getElement(memberEnd));
 			}
 	    	
-	    	if (autoGenerateNames && (assoc.getName() == null || assoc.getName().equals("")) &&
-	    			assoc.getMemberEnd().get(0) != null && assoc.getMemberEnd().get(1) != null)
+	    	if (autoGenerateNames && (assoc.getName() == null || assoc.getName().equals("")))
 	    	{
 	    		generateAutoName();
 	    	}
@@ -218,7 +217,7 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 		{
 			for (XMI2RefElement xmi2refelement : elemMap.values())
 			{
-				if (xmi2refelement.RefOntoUMLElement.equals(assoc.getMemberEnd().get(0)))
+				if (xmi2refelement.RefOntoUMLElement!=null && xmi2refelement.RefOntoUMLElement.equals(assoc.getMemberEnd().get(0)))
 					xmi2refelement.dealReferences();
 			}
 		}
@@ -226,7 +225,7 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 		{
 			for (XMI2RefElement xmi2refelement : elemMap.values())
 			{
-				if (xmi2refelement.RefOntoUMLElement.equals(assoc.getMemberEnd().get(1)))
+				if (xmi2refelement.RefOntoUMLElement!=null && xmi2refelement.RefOntoUMLElement.equals(assoc.getMemberEnd().get(1)))
 					xmi2refelement.dealReferences();
 			}
 		}

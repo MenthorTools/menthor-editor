@@ -596,6 +596,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		frame.getMainToolBar().enableSaveButton(value);
 	}
 	
+	public boolean isSaveProjectNeeded()
+	{
+		return currentProject.isSaveModelNeeded();		
+	}
+	
 	/** Tell the application that we need to save the diagram i.e. the diagram was modified */
 	public void saveDiagramNeeded(StructureDiagram diagram, boolean value)
 	{
@@ -656,32 +661,32 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void closeCurrentProject()
 	{
 		if (currentProject!=null){
-						
-			int response = JOptionPane.showOptionDialog(
-					this,
-					"Do you really want to close the current project?",
-					"Close project?", 
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					null,
-					new String[]{"Save and Close", "Close", "Cancel"},
-					"default");
 			
-			if(response==JOptionPane.YES_OPTION){
-				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				saveProject();
-				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
-			}
-			if(response==JOptionPane.YES_OPTION || response==JOptionPane.NO_OPTION){
-				Main.printOutLine("Closing current project");
-				removeAll();
-				frame.getBrowserManager().getProjectBrowser().clear();
-				frame.getInfoManager().eraseProject();										
-				currentProject=null;				
-				addStartPanel(this,false);
-				Main.printOutLine("Current project closed");
-			}
-			
+			if(isSaveProjectNeeded()){
+				int response = JOptionPane.showOptionDialog(
+						this,
+						"Do you really want to close the current project?",
+						"Close project?", 
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						new String[]{"Save and Close", "Close", "Cancel"},
+						"default");
+				
+				if(response==JOptionPane.YES_OPTION){
+					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					saveProject();
+					setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
+				}
+			}			
+			Main.printOutLine("Closing current project");
+			removeAll();
+			frame.setTitle("Menthor Editor");	
+			frame.getBrowserManager().getProjectBrowser().clear();
+			frame.getInfoManager().eraseProject();										
+			currentProject=null;				
+			addStartPanel(this,false);
+			Main.printOutLine("Current project closed");
 		}
 		repaint();
 		revalidate();

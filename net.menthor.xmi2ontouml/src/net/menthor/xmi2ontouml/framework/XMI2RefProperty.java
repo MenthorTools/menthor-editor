@@ -123,7 +123,9 @@ public class XMI2RefProperty extends XMI2RefNamedElement
 			}
 			
 			if (autoGenerateNames && (((Property)RefOntoUMLElement).getName() == null || ((Property)RefOntoUMLElement).getName().equals("")))
+			{
 				((Property)RefOntoUMLElement).setName(((Property)RefOntoUMLElement).getType().getName().toLowerCase());
+			}				
 		}
 		catch (NullPointerException | IllegalArgumentException e)
 		{

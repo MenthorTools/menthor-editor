@@ -81,7 +81,6 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 	private JButton browseBtn, btnUseDefaultOptions;
 	private JCheckBox chckbxImportConstraints, chckbxImportComments,
 	chckbxIgnoreUnknownStereotypes, chckbxCreateDefaultClassassociation, 
-	chckbxGenerateAEndsNames, chckbxGenerateAssocNames, 
 	chckbxShowWarningLog, chckbxIgnoreElementsWith,	chckbxGenerateCard;
 	private JTabbedPane mainTabbedPane;
 	private JScrollPane treeScrollPane;
@@ -131,7 +130,7 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 		setTitle("Import from EA");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(537,532));
-		setSize(new Dimension(524, 528));		
+		setSize(new Dimension(524, 464));		
 		mainTabbedPane = new JTabbedPane();
 		JPanel treePanel = new JPanel();
 		JPanel optionsPanel = new JPanel();
@@ -167,13 +166,17 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 			gl_optionsPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_optionsPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_optionsPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panel_4, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_optionsPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_optionsPanel.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(panel_4, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)))
 					.addGap(26))
+				.addGroup(Alignment.LEADING, gl_optionsPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 478, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		gl_optionsPanel.setVerticalGroup(
 			gl_optionsPanel.createParallelGroup(Alignment.LEADING)
@@ -185,10 +188,10 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(27))
+					.addGap(88))
 		);
 		filePathField = new JTextField();
 		filePathField.setBackground(Color.WHITE);
@@ -234,12 +237,6 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 		chckbxShowWarningLog.setBackground(Color.WHITE);
 		panel_3.add(chckbxShowWarningLog);
 		chckbxShowWarningLog.setSelected(true);
-		chckbxGenerateAEndsNames = new JCheckBox("Auto generate names for unnamed Association Ends");
-		chckbxGenerateAEndsNames.setBackground(Color.WHITE);
-		panel_2.add(chckbxGenerateAEndsNames);
-		chckbxGenerateAssocNames = new JCheckBox("Auto generate names for unnamed Associations");
-		chckbxGenerateAssocNames.setBackground(Color.WHITE);
-		panel_2.add(chckbxGenerateAssocNames);
 		chckbxGenerateCard = new JCheckBox("Set 1 for null cardinalities");
 		chckbxGenerateCard.setBackground(Color.WHITE);
 		chckbxGenerateCard.setPreferredSize(new Dimension(270, 23));
@@ -350,9 +347,7 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 			chckbxImportConstraints.setSelected(true);
 			chckbxIgnoreUnknownStereotypes.setSelected(false);
 			chckbxCreateDefaultClassassociation.setSelected(true);
-			chckbxIgnoreElementsWith.setSelected(true);
-			chckbxGenerateAssocNames.setSelected(false);
-			chckbxGenerateAEndsNames.setSelected(false);
+			chckbxIgnoreElementsWith.setSelected(true);			
 			chckbxGenerateCard.setSelected(true);
 			chckbxShowWarningLog.setSelected(true);
 		}
@@ -374,8 +369,8 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 							chckbxIgnoreUnknownStereotypes.isSelected(), 
 							chckbxCreateDefaultClassassociation.isSelected(), 
 							chckbxIgnoreElementsWith.isSelected(), 
-							chckbxGenerateAssocNames.isSelected(), 
-							chckbxGenerateAEndsNames.isSelected(), 
+							true, 
+							true, 
 							chckbxGenerateCard.isSelected());
 					
 //					TreeIterator<EObject> ti = model.eAllContents();
