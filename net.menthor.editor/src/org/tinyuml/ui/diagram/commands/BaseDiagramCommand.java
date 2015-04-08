@@ -23,7 +23,6 @@ package org.tinyuml.ui.diagram.commands;
 import javax.swing.undo.AbstractUndoableEdit;
 
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.Command;
 
 /**
  * Base class for all diagram commands

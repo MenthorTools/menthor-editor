@@ -1,25 +1,25 @@
-/**
-  * Copyright(C) 2011-2014 by John Guerson, Tiago Prince, Antognoni Albuquerque
- *
- * This file is part of OLED (OntoUML Lightweight BaseEditor).
- * OLED is based on TinyUML and so is distributed under the same
- * license terms.
- *
- * OLED is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * OLED is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OLED; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
 package net.menthor.editor;
+
+/**
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ */
 
 import java.awt.Color;
 import java.awt.Component;
@@ -2605,7 +2605,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
 		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to first create an OLED project."); return; }
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
 		try {
 			frame.getProjectBrowser().getAlloySpec().setDomainModel(refparser,refOptions);
 			frame.getProjectBrowser().getAlloySpec().transformDomainModel();
@@ -2621,7 +2621,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();		
 		TOCL2AlloyOption oclOptions = frame.getProjectBrowser().getOCLOption();
 		AlloySpecification alloySpec = frame.getProjectBrowser().getAlloySpec();
-		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first an OLED project."); return; }
+		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
 		if (oclOptions.getParser()==null) { /*frame.showErrorMessageDialog("Error","Inexistent constraints. You need to first create constraints.");*/  return; }
 		try {						
 			// transforming...			
@@ -2676,33 +2676,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 	}	
-	
-	/** Open modeling assistant wizard */
-//	public void openModellingAssistant(final Classifier elem)
-//	{
-//		boolean runAssistant = getFrame().getMainMenu().isAssistantChecked();
-//		if(runAssistant) {
-//			if(Main.onMac()) {
-//				com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute(new Runnable(){        	
-//					@Override
-//					public void run() {
-//						Fix fix = frame.getProjectBrowser().getAssistant().runPattern(elem);						
-//						if(fix != null) updateOLED(fix);
-//					}
-//				});
-//			}else{
-//				final Fix fix = frame.getProjectBrowser().getAssistant().runPattern(elem);
-//				if(fix != null){
-//					SwingUtilities.invokeLater(new Runnable() {						
-//						@Override
-//						public void run() {
-//							updateOLED(fix);
-//						}
-//					});
-//				}					
-//			}    		
-//		}	
-//	}
 	
 	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */
 	public void generateSbvr(RefOntoUML.Model refpackage) 
