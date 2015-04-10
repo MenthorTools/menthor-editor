@@ -118,16 +118,15 @@ public class Transformer {
 		this.ontoparser = ontoparser;		
 		this.factory = factory;	
 		this.options = options;
+		module = factory.createAlloyModule();
+		module.setName(ontoparser.getModelName());
 	}
 	
 	/**
 	 * Performs the Transformation!
 	 */
 	public void run ()
-	{
-		module = factory.createAlloyModule();
-		module.setName(ontoparser.getModelName());				
-	
+	{	
 		world = AlloyAPI.createSigWorld(factory);
 				
 		ModuleImportation mi1 = AlloyAPI.createModuleImport(factory,"world_structure","", world);		

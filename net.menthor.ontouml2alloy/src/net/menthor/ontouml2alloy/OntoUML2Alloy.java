@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class OntoUML2Alloy {
-		
+	
 	public OntoUMLParser ontoparser;
 	public AlloyFactory factory;
 	public Transformer transformer;
@@ -40,6 +40,7 @@ public class OntoUML2Alloy {
 		ontoparser = refparser;	
 		factory = AlloyFactory.eINSTANCE;
 		options = opt;
+		transformer = new Transformer(ontoparser, factory, options);
 	}
 	
 	/**
@@ -62,15 +63,17 @@ public class OntoUML2Alloy {
 		AlloyThemeFile.generateAlloyThemeFile(dirPath);		
 
 		AlloyLibraryFiles.generateLibraryFiles(dirPath);				
-				
-		transformer = new Transformer(ontoparser, factory, options);
+			
 		transformer.run();
 		
+		return transformer.module.toString();
+	}
+	
+	public void saveToFile()
+	{
 		createAlsResource();		
 		alsresource.getContents().add(transformer.module);		
 		saveAlsResourceToFile(alsPath);
-		
-		return transformer.module.toString();
 	}
 	
 	private void createAlsResource() 
