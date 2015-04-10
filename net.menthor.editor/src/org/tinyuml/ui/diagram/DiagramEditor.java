@@ -1013,7 +1013,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Immediate redraw of the view. */
 	public void redraw() 
 	{
-		paintImmediately(0, 0, getWidth(), getHeight());
+		//paintImmediately(0, 0, getWidth(), getHeight());
+		repaint(0, 0, getWidth(), getHeight());
 	}
 
 	/**
@@ -1759,6 +1760,84 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	@Override
 	public void dispose() { }
+
+	//===================================================================
+	// Drop
+	//===================================================================
+	
+//	/*
+//	   * Drop Event Handlers
+//	   */
+//	private TreeNode getNodeForEvent(DropTargetDragEvent dtde) 
+//	{
+//	    Point p = dtde.getLocation();
+//	    DropTargetContext dtc = dtde.getDropTargetContext();
+//	    JTree tree = (JTree) dtc.getComponent();
+//	    TreePath path = tree.getClosestPathForLocation(p.x, p.y);
+//	    return (TreeNode) path.getLastPathComponent();
+//	}
+//	  
+//	@Override
+//	public void dragEnter(DropTargetDragEvent dtde) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void dragExit(DropTargetEvent dte) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void dragOver(DropTargetDragEvent dtde) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void drop(DropTargetDropEvent dtde) {
+//		
+//	      1 void drop(DropTargetDropEvent dtde) {
+//	      2        Transferable transferable = dtde.getTransferable();
+//	      3
+//	      4        //flavor not supported, reject drop
+//	      5        if (!transferable.isDataFlavorSupported( <DATA FLAVOR> )) {
+//	      6           e.rejectDrop();
+//	      7           return;
+//	      8        }
+//	      9
+//	     10        DefaultMutableTreeNode oldParent =
+//	getSelectedNode().getParent();
+//	     11
+//	     12        Point loc = dtde.getLocation();
+//	     13        TreePath destinationPath = getPathForLocation(loc.x, loc.y);
+//	     14        DefaultMutableTreeNode newParent =
+//	     15          (DefaultMutableTreeNode)
+//	destinationPath.getLastPathComponent();
+//	     16
+//	     17        DefaultMutableTreeNode newChild = null;
+//	     18        if (dtde.getDropAction() == DnDConstants.ACTION_COPY) {
+//	//make a new child
+//	     19          Object data = tranferable.getTransferData( <DATA FLAVOR> );
+//	     20          DefaultMutableTreeNode newChild = new
+//	DefaultMutableTreeNode(data.clone());
+//	     21        }
+//	     22        else { //move
+//	     23          newChild = getSelectedNode();
+//	     24          oldParent.remove(newChild);
+//	     25        }
+//	     26
+//	     27        newParent.add(child);
+//	     28      }
+//		
+//	}
+//
+//	@Override
+//	public void dropActionChanged(DropTargetDragEvent dtde) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }
 

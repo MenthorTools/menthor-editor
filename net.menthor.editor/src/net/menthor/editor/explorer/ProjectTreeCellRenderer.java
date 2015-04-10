@@ -181,10 +181,12 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 	   	boolean checked = checkingModel.isPathChecked(path);
 	   	boolean grayed = checkingModel.isPathGreyed(path);
 	   	
+	   	checkbox.setVisible(false);
 	   	checkbox.setEnabled(enabled);
 	   	    	   	
 	   	if (grayed) {
 	   		label.setForeground(Color.lightGray);
+	   		label.setForeground(Color.black);
 	   	} else {
 	   		label.setForeground(Color.black);
 	   	}

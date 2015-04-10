@@ -32,9 +32,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.umldraw.StructureDiagram;
-
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.explorer.OntoUMLElement;
@@ -44,6 +41,10 @@ import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.RelationType;
 import net.menthor.editor.ui.DiagramEditorWrapper;
+
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.umldraw.StructureDiagram;
+
 import RefOntoUML.Association;
 import RefOntoUML.Element;
 import RefOntoUML.EnumerationLiteral;

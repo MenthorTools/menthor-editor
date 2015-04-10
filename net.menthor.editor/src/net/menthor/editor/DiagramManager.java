@@ -26,6 +26,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,6 +54,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
@@ -71,6 +73,7 @@ import net.menthor.editor.dialog.AlloySettingsDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
 import net.menthor.editor.dialog.OWLSettingsDialog;
 import net.menthor.editor.explorer.CustomOntoUMLElement;
+import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.finder.FoundElement;
@@ -201,7 +204,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public String lastImportEcorePath = new String();
 	public String lastExportEcorePath = new String();
 	public String lastExportUMLPath = new String();
-
+	
 	/** Get Frame */
 	public AppFrame getFrame() { return frame; }
 	/** Get Factory */
@@ -223,7 +226,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ModelHelper.initializeHelper();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
-		setMinimumSize(new Dimension(0,0));
+		setMinimumSize(new Dimension(0,0));			    
 	}
 
 	/** Adds a start panel to the manager */
@@ -1399,7 +1402,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		elements.addAll(added);
 		//check in the tree the selected elements of the parser
 		ProjectBrowser pb = frame.getProjectBrowser();
-		pb.getTree().check(elements, true);					
+		//pb.getTree().check(elements, true);					
 		pb.getTree().updateUI();		
 		pb.setParser(refparser);
 	}
@@ -1447,7 +1450,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		elements.addAll(added);
 		//check in the tree the selected elements of the parser
 		ProjectBrowser modeltree = frame.getProjectBrowser();
-		modeltree.getTree().check(elements, true);					
+		//modeltree.getTree().check(elements, true);					
 		modeltree.getTree().updateUI();		
 		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
 		pb.setParser(refparser);
@@ -1475,7 +1478,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		selected.addAll(added);	
 		
 //		modeltree.getTree().checkModelElements(selected, true);			
-//		modeltree.getTree().updateUI();
+		modeltree.getTree().updateUI();
 		
 		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
 		pb.setParser(refparser);
@@ -1493,7 +1496,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
 		ProjectBrowser pb = frame.getProjectBrowser();			
-		pb.getTree().checkModelElement(currentProject.getModel());
+		//pb.getTree().checkModelElement(currentProject.getModel());
 		refparser.selectAll();		
 		pb.getTree().updateUI();		
 		pb.setParser(refparser);
@@ -2048,53 +2051,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 	}
 	
-	/** Move association to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */
-	public void moveAssociationToDiagram(Association association, DiagramEditor d, boolean isRectilinear, boolean showName, boolean showOntoUMLStereotype, boolean showMultiplicities, boolean showRoles, ReadingDesign direction)
-	{		
-		Type src = ((Association)association).getMemberEnd().get(0).getType();
-		Type tgt = ((Association)association).getMemberEnd().get(1).getType();				
-		if (d.getDiagram().containsChild(src) && d.getDiagram().containsChild(tgt))	
-		{			
-			AssociationElement conn = (AssociationElement) d.dragRelation(association,association.eContainer());
-			if(isRectilinear) d.setLineStyle(conn, LineStyle.RECTILINEAR);
-			else d.setLineStyle(conn, LineStyle.DIRECT);
-			conn.setShowMultiplicities(showMultiplicities);
-			conn.setShowName(showName);
-			conn.setShowOntoUmlStereotype(showOntoUMLStereotype);
-			conn.setShowRoles(showRoles);
-			conn.setReadingDesign(direction);
-			
-			//bring derivation
-			if(association instanceof MaterialAssociation){				
-				OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
-				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
-				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, direction);
-			}
-		}
-	}
-	
-	/** Move generalization to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */
-	public void moveGeneralizationToDiagram(Generalization gen, DiagramEditor d, boolean isRectilinear)
-	{		
-		if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific()))
-		{	
-			UmlConnection conn = d.dragRelation(gen,gen.eContainer());			
-			if (gen.getGeneralizationSet().size()>0) 
-			{
-				Classifier general = gen.getGeneral();
-				Classifier specific = gen.getSpecific();
-				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByEditor(general, d);
-				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByEditor(specific, d);
-				if (generalElem.getAbsoluteY1() < specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
-				else if (generalElem.getAbsoluteY1() > specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
-				else d.setLineStyle(conn, LineStyle.TREESTYLE_HORIZONTAL);
-			}
-			else if (isRectilinear) d.setLineStyle(conn,  LineStyle.RECTILINEAR);
-			else d.setLineStyle(conn,  LineStyle.DIRECT);
-			((GeneralizationElement)conn).setShowName(false);
-		}
-	}
-	
 	/** Bring related elements to diagram */
 	public void addAllRelatedElements(DiagramElement diagramElement, DiagramEditor d)
 	{
@@ -2187,52 +2143,31 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			
 		}
 	}
-	
-	/** Move element to a Diagram */
-	public void moveToDiagram(RefOntoUML.Element classifier, double x, double y, DiagramEditor d)
-	{
-		if((classifier instanceof RefOntoUML.Class) || (classifier instanceof RefOntoUML.DataType)){			
-			AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),classifier,x,y,getCurrentProject(),(RefOntoUML.Element)classifier.eContainer());		
-			cmd.run();			
+		
+	/** Move generalization to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */
+	public void moveGeneralizationToDiagram(Generalization gen, DiagramEditor d, boolean isRectilinear)
+	{		
+		if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific()))
+		{	
+			UmlConnection conn = d.dragRelation(gen,gen.eContainer());			
+			if (gen.getGeneralizationSet().size()>0) 
+			{
+				Classifier general = gen.getGeneral();
+				Classifier specific = gen.getSpecific();
+				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByEditor(general, d);
+				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByEditor(specific, d);
+				if (generalElem.getAbsoluteY1() < specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
+				else if (generalElem.getAbsoluteY1() > specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
+				else d.setLineStyle(conn, LineStyle.TREESTYLE_HORIZONTAL);
+			}
+			else if (isRectilinear) d.setLineStyle(conn,  LineStyle.RECTILINEAR);
+			else d.setLineStyle(conn,  LineStyle.DIRECT);
+			((GeneralizationElement)conn).setShowName(false);
 		}
 	}
 	
-	/** Move element to a Diagram */
-	public void moveToDiagram(RefOntoUML.Element element, DiagramEditor d)
-	{
-		if (d!=null && d.getDiagram().containsChild(element))
-		{
-			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in the diagram \""+d.getDiagram().getName()+"\"");			
-			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in the diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
-			if(de!=null) d.select(de);
-			return;			
-		}
-		if (d!=null) 
-		{			
-			if (element instanceof RefOntoUML.Class) 
-			{
-				RefOntoUML.Class oClass = (RefOntoUML.Class)element;
-				d.setDragElementMode(oClass,oClass.eContainer());
-			}			
-			if (element instanceof RefOntoUML.DataType)
-			{
-				RefOntoUML.DataType oClass = (RefOntoUML.DataType)element;
-				d.setDragElementMode(oClass,oClass.eContainer());				
-			}			
-			if(element instanceof Association)
-			{
-				moveAssociationToDiagram((Association) element, d, false, true, true, true, false, ReadingDesign.UNDEFINED);
-			}
-			if(element instanceof Generalization)
-			{
-				moveGeneralizationToDiagram((Generalization) element, d, false);
-			}
-		}	
-	}
-
 	/** Move generalizations of an element to the diagram. 
-	 *  It will only move the generalizations in which the general and specific clasifiers are contained in the diagram.
+	 *  It will only move the generalizations in which the general and specific classifiers are contained in the diagram.
 	 */
 	public void moveGeneralizationsToDiagram(RefOntoUML.Element element, EObject eContainer, DiagramEditor d)
 	{
@@ -2261,6 +2196,102 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}			
 			moveAssociationToDiagram(a, d, false, true, true, true, false, ReadingDesign.UNDEFINED);		
 		}
+	}
+	
+	/** Move association to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */
+	public void moveAssociationToDiagram(Association association, DiagramEditor d, boolean isRectilinear, boolean showName, boolean showOntoUMLStereotype, boolean showMultiplicities, boolean showRoles, ReadingDesign direction)
+	{		
+		Type src = ((Association)association).getMemberEnd().get(0).getType();
+		Type tgt = ((Association)association).getMemberEnd().get(1).getType();				
+		if (d.getDiagram().containsChild(src) && d.getDiagram().containsChild(tgt))	
+		{			
+			AssociationElement conn = (AssociationElement) d.dragRelation(association,association.eContainer());
+			if(isRectilinear) d.setLineStyle(conn, LineStyle.RECTILINEAR);
+			else d.setLineStyle(conn, LineStyle.DIRECT);
+			conn.setShowMultiplicities(showMultiplicities);
+			conn.setShowName(showName);
+			conn.setShowOntoUmlStereotype(showOntoUMLStereotype);
+			conn.setShowRoles(showRoles);
+			conn.setReadingDesign(direction);
+			
+			//bring derivation
+			if(association instanceof MaterialAssociation){				
+				OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
+				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, direction);
+			}
+		}
+	}
+	
+	/** Move class to a diagram. It creates a diagram element for that refonto instance adding it to the application map. 
+	 *  It also add related generalizations and associations */
+	public void moveClassToDiagram(RefOntoUML.Element element, double x, double y, DiagramEditor d)
+	{
+		AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),element,x,y,getCurrentProject(),(RefOntoUML.Element)element.eContainer());		
+		cmd.run();	
+		 
+		moveGeneralizationsToDiagram(element, element.eContainer(), d);
+		   
+		moveAssociationsToDiagram(element, element.eContainer(),d);
+	}
+		
+	/** Move element to a Diagram */
+	public void moveToDiagram(RefOntoUML.Element element, double x, double y, DiagramEditor d)
+	{
+		if (d!=null && d.getDiagram().containsChild(element))
+		{
+			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram...", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
+			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
+			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
+			if(de!=null) d.select(de);
+			return;			
+		}
+		if((element instanceof RefOntoUML.Class) || (element instanceof RefOntoUML.DataType)){			
+			moveClassToDiagram(element, x, y, d);	
+			//d.setDragElementMode(oClass,oClass.eContainer());
+		}
+		if((element instanceof RefOntoUML.Generalization)){			
+			moveGeneralizationToDiagram((RefOntoUML.Generalization)element, d, false);
+		}
+		if((element instanceof RefOntoUML.Association)){			
+			moveAssociationToDiagram((RefOntoUML.Association)element, d, false , true, true, true, false, ReadingDesign.UNDEFINED);
+		}
+	}
+	
+	/** Move element to a Diagram */
+	public void moveToDiagram(RefOntoUML.Element element, DiagramEditor d)
+	{
+		if (d!=null && d.getDiagram().containsChild(element))
+		{
+			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram...", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
+			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
+			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
+			if(de!=null) d.select(de);
+			return;			
+		}
+		if((element instanceof RefOntoUML.Class) || (element instanceof RefOntoUML.DataType)){				
+			d.setDragElementMode((RefOntoUML.Type)element,element.eContainer());
+			//moveClassToDiagram(element, x, y, d);	
+		}
+		if((element instanceof RefOntoUML.Generalization)){			
+			moveGeneralizationToDiagram((RefOntoUML.Generalization)element, d, false);
+		}
+		if((element instanceof RefOntoUML.Association)){			
+			moveAssociationToDiagram((RefOntoUML.Association)element, d, false , true, true, true, false, ReadingDesign.UNDEFINED);
+		}
+	}
+	
+	
+	/** Mode tree selected element to a Diagram */
+	public void moveSelectedToDiagram(DiagramEditor editor, Point location) 
+	{
+			DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
+			Object obj = node.getUserObject();
+			if(obj instanceof OntoUMLElement)
+			{
+				EObject elem = ((OntoUMLElement)obj).getElement();
+				moveToDiagram((RefOntoUML.Element)elem, location.x, location.y, editor);
+			}
 	}
 	
 	/** Invert end points of an association. This method switch the current properties of an association. 
@@ -2726,6 +2757,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/**
 	 * Auto complete selection in the model
 	 */
+	@Deprecated
 	public String autoCompleteSelection(int option, UmlProject project)
 	{		
 		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
@@ -3253,6 +3285,5 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			if(_fix != null)
 				updateMenthor(_fix);
 		}
-	}
-	
+	}		
 }

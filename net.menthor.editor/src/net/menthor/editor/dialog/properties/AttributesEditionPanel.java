@@ -366,11 +366,6 @@ public class AttributesEditionPanel extends JPanel {
 	{
 		List<Property> classAttributes = attributesTableModel.getEntries();
 		
-		if(cbxVisible.isSelected()==false){
-			if (classAttributes.size()>0) {
-				cbxVisible.setSelected(true);
-			}
-		}
 		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
 		diagramManager.updateMenthorFromInclusion(element);
 		

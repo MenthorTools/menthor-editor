@@ -32,10 +32,7 @@ import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.Node;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.ClassElement;
-
-import RefOntoUML.Classifier;
 
 
 /**
@@ -179,16 +176,9 @@ public class CreationHandler implements EditorMode {
     }
     
     if(element!=null){
-	    Classifier elem = ((ClassElement)element).getClassifier();
 	    
-	    AddNodeCommand addcmd = new AddNodeCommand(editor, parent, ((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor.getDiagram().getProject(),(RefOntoUML.Package)((ClassElement)element).getClassifier().eContainer());
-	    editor.execute(addcmd);
-	    
-	    editor.getDiagramManager().moveGeneralizationsToDiagram(elem, elem.eContainer(), editor);
-	    
-	    editor.getDiagramManager().moveAssociationsToDiagram(elem, elem.eContainer(),editor);
-	    
-	    
+	    editor.getDiagramManager().moveToDiagram(((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor);
+	    	    	    
 //	    if (!isDragging) {
 //	    	editor.getDiagramManager().openModellingAssistant(elem);
 //	    }

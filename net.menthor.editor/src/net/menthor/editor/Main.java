@@ -74,7 +74,7 @@ public final class Main {
 	static DateFormat dateFormat = new SimpleDateFormat("dd yyyy");
 	static Date date = new Date();
 	static Calendar c = Calendar.getInstance();
-	public static String MENTHOR_COMPILATION_DATE = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);//"March 25 2015";	
+	public static String MENTHOR_COMPILATION_DATE = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);
 	
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;

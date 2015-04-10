@@ -25,17 +25,30 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
 import java.io.File;
+import java.util.TooManyListenersException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
+import javax.swing.tree.TreePath;
 
+import net.menthor.editor.explorer.dnd.DiagramDropTargetListener;
+import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.util.ModelHelper;
 
@@ -57,6 +70,9 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 	private DiagramToolbar diagramToolbar;
 	private DiagramStatusBar diagramStatus;
 	
+	public DragSource ds;
+	public DropTarget dt;
+        
 	//TODO Remove me
 	private File projectFile;
 	
@@ -85,6 +101,11 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		add(scrollpane,BorderLayout.CENTER);
 		add(diagramStatus,BorderLayout.SOUTH);
 		
+		JTree tree = editor.getDiagramManager().getFrame().getProjectBrowser().getTree();
+		ds = DragSource.getDefaultDragSource();
+	    ds.createDefaultDragGestureRecognizer(tree, DnDConstants.ACTION_MOVE, new TreeDragGestureListener());
+	    dt = new DropTarget(editor, new DiagramDropTargetListener(editor));
+	    
 		setBorder(new EmptyBorder(0,0,0,0));
 	}	
 	

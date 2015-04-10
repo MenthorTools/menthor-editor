@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.DropMode;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -104,9 +105,7 @@ public class ProjectTree extends CheckboxTree {
 		rootNode.add(diagramRootNode);
 		rootNode.add(oclRootNode);
 		rootNode.add(modelRootNode);
-		
-		setDragEnabled(true);
-		
+			    
 		getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);
 		
 		ProjectTreeCellRenderer ontoCellRenderer = new ProjectTreeCellRenderer();
@@ -185,6 +184,18 @@ public class ProjectTree extends CheckboxTree {
         toolkit.beep();
     }
     
+    public DefaultMutableTreeNode getSelectedNode()
+    {
+    	DefaultMutableTreeNode selectedNode;
+		TreePath parentPath = getSelectionPath(); 
+	    if (parentPath == null){
+	        selectedNode = rootNode;
+	    }else{
+	      selectedNode = (DefaultMutableTreeNode)(parentPath.getLastPathComponent());
+	    }
+	    return selectedNode;
+    }
+          
     /** Add child to the currently selected node. */
     public DefaultMutableTreeNode addObject(Object child) 
     {    		
