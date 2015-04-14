@@ -47,7 +47,7 @@ import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
 
-import net.menthor.editor.explorer.dnd.DiagramDropTargetListener;
+import net.menthor.editor.explorer.dnd.DiagramDropListener;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.util.ModelHelper;
@@ -104,7 +104,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		JTree tree = editor.getDiagramManager().getFrame().getProjectBrowser().getTree();
 		ds = DragSource.getDefaultDragSource();
 	    ds.createDefaultDragGestureRecognizer(tree, DnDConstants.ACTION_MOVE, new TreeDragGestureListener());
-	    dt = new DropTarget(editor, new DiagramDropTargetListener(editor));
+	    dt = new DropTarget(editor, new DiagramDropListener(editor));
 	    
 		setBorder(new EmptyBorder(0,0,0,0));
 	}	
