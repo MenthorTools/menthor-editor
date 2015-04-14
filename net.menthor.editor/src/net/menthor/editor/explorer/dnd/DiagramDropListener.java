@@ -41,7 +41,7 @@ public class DiagramDropListener implements DropTargetListener{
 	  {
 		  location = dtde.getLocation();
 		  dragInProgress = false; 
-		  dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+		  dtde.acceptDrop(DnDConstants.ACTION_MOVE);
 		  
 		  DropTargetContext dtc = dtde.getDropTargetContext();	    
 		  DiagramEditor editor = (DiagramEditor) dtc.getComponent();	    

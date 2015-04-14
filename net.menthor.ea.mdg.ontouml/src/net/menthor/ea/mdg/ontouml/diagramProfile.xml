@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="5C6D13EF-2" name="OntoUML" version="1.0" notes="OntoUML"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="OntoUML" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Logical">
+						<Property name="alias" value="OntoUML"/>
+						<Property name="diagramID" value="OntoUML"/>
+						<Property name="isActive" value=""/>
+						<Property name="toolbox" value="OntoUML"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

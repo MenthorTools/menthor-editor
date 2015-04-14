@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UMLProfile>
+	<Documentation id="D989DA3A-1" name="Patterns" version="1.0" notes="Patterns"/>
+	<!-- The profile content -->
+	<Content>
+		<!-- List of stereotypes used in this profile-->
+		<Stereotypes>
+			<Stereotype name="Kind7" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="SubKind2" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="SubKind1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind6" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Phase3" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Phase2" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Phase1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind5" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="RoleMixin1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Category1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Category" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="AtomicType" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Role5" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind8" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Mixin1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Type" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Type" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="TwoMoreParts" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="SinglePart" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="RoleMixin" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Relator" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind-2" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind-1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="ComplexType" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Role4" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Role3" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind4" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind3" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind2" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Kind1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Role2" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Role1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+			<Stereotype name="Relator1" notes="" cx="" cy="" metafile="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo/>
+				<TaggedValues/>
+				<Constraints/>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

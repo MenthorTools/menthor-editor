@@ -37,7 +37,7 @@ public class TreeDragGestureListener implements DragGestureListener
     
     public Cursor selectCursor (int action) 
 	{
-	   return (action == DnDConstants.ACTION_COPY_OR_MOVE) ?
+	   return (action == DnDConstants.ACTION_MOVE) ?
 	   DragSource.DefaultMoveDrop : DragSource.DefaultCopyDrop;
 	}
 }
