@@ -1,8 +1,10 @@
 package net.menthor.xmi2ontouml.xmiparser.impl;
 
 import java.io.File;
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +41,7 @@ public class EAXMIParser implements XMIParser {
 	
 	Map<String, Element> stereotypes = new HashMap<String, Element>();
 	
-	Map<String, Element> model2diagram = new HashMap<String, Element>();
+	private Map<String, Element> model2diagram = new HashMap<String, Element>();
 	
 	List<String> ignoredElements = new ArrayList<String>();
 	
@@ -302,6 +304,24 @@ public class EAXMIParser implements XMIParser {
 		return stereotype;
 	}
 
+	public List<Object> getAllElements(Object root, ElementType type){
+		List<Object> result = new ArrayList<Object>();
+		for (ElementType elemType : ElementType.values()) {
+			if(!elemType.equals(ElementType.DIAGRAM)){
+				List<Object> resultAux = this.getElements(root, elemType);
+				if(elemType.equals(type) && resultAux.size() > 0){
+					result.addAll(resultAux);
+				}
+				for (Object object : resultAux) {
+					resultAux = getAllElements(object, type);
+					result.addAll(resultAux);
+				}
+			}
+			
+		}
+		return result;
+	}	
+	
 	@Override
 	public List<Object> getElements(Object element, ElementType type) {
 		List<Element> elemList = new ArrayList<Element>();
@@ -468,6 +488,22 @@ public class EAXMIParser implements XMIParser {
 		}
 	}
 
+	public Object getOwner(Object element){
+		Element elem = (Element) element;
+		
+		return elem.getParentNode();
+	}
+	
+	public Object getProperty(Object element, String propertyName) {
+		Map<String, Object> properties = getProperties(element);
+		
+//		for (java.util.Map.Entry<String, Object> iterable_element : properties.entrySet()) {
+//			System.out.println(iterable_element);
+//		}
+//		System.out.println();
+		return properties.get(propertyName);
+	}
+	
 	@Override
 	public Map<String, Object> getProperties(Object element) {
 		Element elem = (Element) element;
@@ -610,6 +646,10 @@ public class EAXMIParser implements XMIParser {
 			return name1.compareToIgnoreCase(name2);
 		}
 	}
+
+	public Map<String, Element> getModel2diagram() {
+		return model2diagram;
+	}	
 	
 //	private void reverseComposition(HashMap<String, Object> hashProp, Element elem) {
 //	String aggregation = elem.getAttribute("aggregation");
