@@ -1,10 +1,10 @@
-<MDG.Selections model="C:\Users\Guerson\Documents\MDG\Main.eap">
-	<Technology id="OntoUML" name="OntoUML" version="2.0" notes="Ontologically Well-Founded Conceptual Modeling Language." filename="C:\Users\Guerson\Documents\MDG\ontouml2.0.xml"/>
-	<Profiles directory="C:\Users\Guerson\Documents\MDG" files="elementsProfile.xml"/>
-	<Patterns directory="C:\Users\Guerson\Documents\MDG\OntoUML Patterns" files="category.xml,mixin.xml,parts.xml,phasepartition.xml,relator.xml,rolemixin.xml,rolepartition.xml,subkindpartition.xml,types.xml"/>
-	<DiagramProfile directory="C:\Users\Guerson\Documents\MDG" files="diagramProfile.xml"/>
-	<UIToolboxes directory="C:\Users\Guerson\Documents\MDG" files="toolboxProfile.xml"/>
+<MDG.Selections model="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\src\net\menthor\ea\mdg\ontouml\Main.eap">
+	<Technology id="OntoUML" name="OntoUML 2.0" version="1.0.1" notes="Ontology-driven conceptual modeling using OntoUML2.0 notation." filename="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\src\net\menthor\ea\mdg\ontouml\OntoUML 2.0 Technology.xml"/>
+	<Profiles directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\src\net\menthor\ea\mdg\ontouml" files="elementsProfile.xml"/>
+	<Patterns directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\src\net\menthor\ea\mdg\ontouml\patterns" files="category.xml,mixin.xml,parts.xml,phasepartition.xml,relator.xml,rolemixin.xml,rolepartition.xml,subkindpartition.xml,types.xml"/>
+	<DiagramProfile directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\src\net\menthor\ea\mdg\ontouml" files="diagramProfile.xml"/>
+	<UIToolboxes directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\src\net\menthor\ea\mdg\ontouml" files="toolboxProfile.xml"/>
 	<ModelTemplates>
-		<Model name="OntoUML" description="OntoUML Model Template." location="ontoumlTemplate.xml" default="yes" icon="34" filter=""/>
+		<Model name="Structural Modeling" description="Create a simple OntoUML2.0 class diagram." location="p_OntoUML2.0.xml" default="yes" icon="34" filter=""/>
 	</ModelTemplates>
 </MDG.Selections>

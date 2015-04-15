@@ -1,4 +1,5 @@
-<MDG.Technology version="1.0"><Documentation id="OntoUML" name="OntoUML" version="2.0" notes="Ontologically Well-Founded Conceptual Modeling Language."/><UMLProfiles><UMLProfile profiletype="uml2">
+<?xml version="1.0" encoding="windows-1252"?>
+<MDG.Technology version="1.0"><Documentation id="OntoUML" name="OntoUML 2.0" version="1.0.1" notes="Ontology-driven conceptual modeling using OntoUML2.0 notation."/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="672070D9-B" name="OntoUML" version="1.0" notes="OntoUML"/>
 			<Content>
 				<Stereotypes>
@@ -622,7 +623,7 @@
 									<UML:TaggedValue tag="stereotype" value="Mediation"/>
 									<UML:TaggedValue tag="headStyle" value="0"/>
 									<UML:TaggedValue tag="lineStyle" value="0"/>
-									<UML:TaggedValue tag="conditional" value=" &#xA;Â«MediationÂ»"/>
+									<UML:TaggedValue tag="conditional" value=" &#xA;«Mediation»"/>
 									<UML:TaggedValue tag="ea_localid" value="27"/>
 									<UML:TaggedValue tag="ea_sourceName" value="Relator"/>
 									<UML:TaggedValue tag="ea_targetName" value="RoleMixin"/>
@@ -633,7 +634,7 @@
 									<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={F7B6C708-38E1-40bb-97D8-DA5BBE1EFD64}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Mediation;FQName=OntoUML::Mediation;@ENDSTEREO;$DES;$CLT={2B762952-E1E5-467f-A2BD-145A0BB31EA6}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 									<UML:TaggedValue tag="virtualInheritance" value="0"/>
 									<UML:TaggedValue tag="lb" value="1..*"/>
-									<UML:TaggedValue tag="mb" value=" &#xA;Â«MediationÂ»"/>
+									<UML:TaggedValue tag="mb" value=" &#xA;«Mediation»"/>
 									<UML:TaggedValue tag="rb" value="1..*"/>
 								</UML:ModelElement.taggedValue>
 								<UML:Association.connection>
@@ -2563,7 +2564,7 @@ AAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="stereotype" value="ComponentOf"/>
 									<UML:TaggedValue tag="headStyle" value="0"/>
 									<UML:TaggedValue tag="lineStyle" value="0"/>
-									<UML:TaggedValue tag="conditional" value=" &#xA;Â«ComponentOfÂ»"/>
+									<UML:TaggedValue tag="conditional" value=" &#xA;«ComponentOf»"/>
 									<UML:TaggedValue tag="ea_localid" value="28"/>
 									<UML:TaggedValue tag="ea_sourceName" value="TwoMoreParts"/>
 									<UML:TaggedValue tag="ea_targetName" value="Kind1"/>
@@ -2574,7 +2575,7 @@ AAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={94DD785F-E424-4666-96F3-4DF261CF1DCC}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=ComponentOf;FQName=OntoUML::ComponentOf;@ENDSTEREO;$DES;$CLT={2EAC7983-E52C-4a71-9F32-E04BD2C23354}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 									<UML:TaggedValue tag="virtualInheritance" value="0"/>
 									<UML:TaggedValue tag="lb" value="1..*"/>
-									<UML:TaggedValue tag="mb" value=" &#xA;Â«ComponentOfÂ»"/>
+									<UML:TaggedValue tag="mb" value=" &#xA;«ComponentOf»"/>
 									<UML:TaggedValue tag="rb" value="2..*"/>
 									<UML:TaggedValue tag="isShareable" xmi.id="EAID_0E827003_E06C_cbe0_96FA_191032499B48">
 										<XMI.extension xmi.extender="Enterprise Architect 2.5">
@@ -4710,7 +4711,7 @@ AABFTUYrAkAAAAwAAAAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="stereotype" value="Mediation"/>
 									<UML:TaggedValue tag="headStyle" value="0"/>
 									<UML:TaggedValue tag="lineStyle" value="0"/>
-									<UML:TaggedValue tag="conditional" value=" &#xA;Â«MediationÂ»"/>
+									<UML:TaggedValue tag="conditional" value=" &#xA;«Mediation»"/>
 									<UML:TaggedValue tag="ea_localid" value="1"/>
 									<UML:TaggedValue tag="ea_sourceName" value="Relator1"/>
 									<UML:TaggedValue tag="ea_targetName" value="Role1"/>
@@ -4721,7 +4722,7 @@ AABFTUYrAkAAAAwAAAAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={85C6E513-E0B1-4718-AABB-A14558FEB3B6}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Mediation;GUID={E5792F22-6323-4c6d-9446-EF75A09A875D};@ENDSTEREO;$DES;$CLT={6C592DE2-C516-4f15-8230-2491F62DC549}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 									<UML:TaggedValue tag="virtualInheritance" value="0"/>
 									<UML:TaggedValue tag="lb" value="1..*"/>
-									<UML:TaggedValue tag="mb" value=" &#xA;Â«MediationÂ»"/>
+									<UML:TaggedValue tag="mb" value=" &#xA;«Mediation»"/>
 									<UML:TaggedValue tag="rb" value="1"/>
 								</UML:ModelElement.taggedValue>
 								<UML:Association.connection>
@@ -4756,7 +4757,7 @@ AABFTUYrAkAAAAwAAAAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="stereotype" value="Mediation"/>
 									<UML:TaggedValue tag="headStyle" value="0"/>
 									<UML:TaggedValue tag="lineStyle" value="0"/>
-									<UML:TaggedValue tag="conditional" value=" &#xA;Â«MediationÂ»"/>
+									<UML:TaggedValue tag="conditional" value=" &#xA;«Mediation»"/>
 									<UML:TaggedValue tag="ea_localid" value="2"/>
 									<UML:TaggedValue tag="ea_sourceName" value="Relator1"/>
 									<UML:TaggedValue tag="ea_targetName" value="Role2"/>
@@ -4767,7 +4768,7 @@ AABFTUYrAkAAAAwAAAAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={C547F050-7AFF-4913-94D2-6EB9168F657F}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Mediation;GUID={E5792F22-6323-4c6d-9446-EF75A09A875D};@ENDSTEREO;$DES;$CLT={D0854139-A5A7-42f6-8408-DBD6A104CF5C}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 									<UML:TaggedValue tag="virtualInheritance" value="0"/>
 									<UML:TaggedValue tag="lb" value="1..*"/>
-									<UML:TaggedValue tag="mb" value=" &#xA;Â«MediationÂ»"/>
+									<UML:TaggedValue tag="mb" value=" &#xA;«Mediation»"/>
 									<UML:TaggedValue tag="rb" value="1"/>
 								</UML:ModelElement.taggedValue>
 								<UML:Association.connection>
@@ -4830,7 +4831,7 @@ AABFTUYrAkAAAAwAAAAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="stereotype" value="Material"/>
 									<UML:TaggedValue tag="headStyle" value="0"/>
 									<UML:TaggedValue tag="lineStyle" value="0"/>
-									<UML:TaggedValue tag="conditional" value=" &#xA;Â«MaterialÂ»"/>
+									<UML:TaggedValue tag="conditional" value=" &#xA;«Material»"/>
 									<UML:TaggedValue tag="privatedata1" value="2"/>
 									<UML:TaggedValue tag="ea_localid" value="3"/>
 									<UML:TaggedValue tag="ea_sourceName" value="Role1"/>
@@ -4843,7 +4844,7 @@ AABFTUYrAkAAAAwAAAAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="virtualInheritance" value="0"/>
 									<UML:TaggedValue tag="associationclass" value="EAID_AF8ED67A_E754_4aa2_9080_9E7B73D16527"/>
 									<UML:TaggedValue tag="lb" value="1..*"/>
-									<UML:TaggedValue tag="mb" value=" &#xA;Â«MaterialÂ»"/>
+									<UML:TaggedValue tag="mb" value=" &#xA;«Material»"/>
 									<UML:TaggedValue tag="rb" value="1..*"/>
 								</UML:ModelElement.taggedValue>
 								<UML:Association.connection>
@@ -8495,7 +8496,7 @@ EAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="stereotype" value="ComponentOf"/>
 									<UML:TaggedValue tag="headStyle" value="0"/>
 									<UML:TaggedValue tag="lineStyle" value="0"/>
-									<UML:TaggedValue tag="conditional" value=" &#xA;Â«ComponentOfÂ»"/>
+									<UML:TaggedValue tag="conditional" value=" &#xA;«ComponentOf»"/>
 									<UML:TaggedValue tag="ea_localid" value="32"/>
 									<UML:TaggedValue tag="ea_sourceName" value="ComplexType"/>
 									<UML:TaggedValue tag="ea_targetName" value="Type"/>
@@ -8507,7 +8508,7 @@ EAAAABQAAAA=</UMLPattern.PreviewImage>
 									<UML:TaggedValue tag="virtualInheritance" value="0"/>
 									<UML:TaggedValue tag="lb" value="0..1"/>
 									<UML:TaggedValue tag="lt" value="+whole"/>
-									<UML:TaggedValue tag="mb" value=" &#xA;Â«ComponentOfÂ»"/>
+									<UML:TaggedValue tag="mb" value=" &#xA;«ComponentOf»"/>
 									<UML:TaggedValue tag="rb" value="2..*"/>
 									<UML:TaggedValue tag="rt" value="+part"/>
 									<UML:TaggedValue tag="isShareable" xmi.id="EAID_0E827003_E06C_cbe0_9D34_3DBCB86B8FC3">
@@ -9285,16 +9286,16 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 				</XMI.extensions>
 			</XMI>
 		</UMLPattern></UMLPatterns><DiagramProfile><UMLProfile profiletype="uml2">
-			<Documentation id="5C6D13EF-2" name="OntoUML" version="1.0" notes="OntoUML"/>
+			<Documentation id="5C6D13EF-2" name="OntoUML 2.0" version="1.0" notes="OntoUML 2.0"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="OntoUML" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="OntoUML" alias="Class Diagram" notes="A Class Diagram using OntoUML2.0 notation." cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Diagram_Logical">
 								<Property name="alias" value="OntoUML"/>
 								<Property name="diagramID" value="OntoUML"/>
 								<Property name="isActive" value=""/>
-								<Property name="toolbox" value="OntoUML"/>
+								<Property name="toolbox" value="OntoUML 2.0"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
@@ -9303,63 +9304,88 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 	</DiagramProfile><UIToolboxes><UMLProfile profiletype="uml2">
-			<Documentation id="CDE50973-F" name="OntoUML" version="1.0" notes="OntoUML"/>
+			<Documentation id="CDE50973-F" name="OntoUML 2.0" version="1.0" notes="OntoUML 2.0"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="OntoUML Classes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Events" alias="OntoUML2.0 - Events" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage">
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="OntoUML::Kind(UML::Class)" type="" description="" unit="" values="" default="Kind"/>
-							<Tag name="OntoUML::Collective(UML::Class)" type="" description="" unit="" values="" default="Collective"/>
-							<Tag name="OntoUML::Quantity(UML::Class)" type="" description="" unit="" values="" default="Quantity"/>
-							<Tag name="OntoUML::SubKind(UML::Class)" type="" description="" unit="" values="" default="SubKind"/>
-							<Tag name="OntoUML::Role(UML::Class)" type="" description="" unit="" values="" default="Role"/>
-							<Tag name="OntoUML::Phase(UML::Class)" type="" description="" unit="" values="" default="Phase"/>
-							<Tag name="OntoUML::Relator(UML::Class)" type="" description="" unit="" values="" default="Relator"/>
-							<Tag name="OntoUML::Mode(UML::Class)" type="" description="" unit="" values="" default="Mode"/>
-							<Tag name="OntoUML::Category(UML::Class)" type="" description="" unit="" values="" default="Category"/>
-							<Tag name="OntoUML::Mixin(UML::Class)" type="" description="" unit="" values="" default="Mixin"/>
-							<Tag name="OntoUML::RoleMixin(UML::Class)" type="" description="" unit="" values="" default="RoleMixin"/>
-							<Tag name="UML::DataType" type="" description="" unit="" values="" default="DataType"/>
-							<Tag name="UML::PrimitiveType" type="" description="" unit="" values="" default="PrimitiveType"/>
-							<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
-							<Tag name="OntoUML::PhaseMixin(UML::Class)" type="" description="" unit="" values="" default="PhaseMixin"/>
 							<Tag name="OntoUML::Event(UML::Class)" type="" description="" unit="" values="" default="Event"/>
-							<Tag name="OntoUML::HighOrder(UML::Class)" type="" description="" unit="" values="" default="HighOrder"/>
-							<Tag name="OntoUML::Quality(UML::Class)" type="" description="" unit="" values="" default="Quality"/>
-							<Tag name="UML::Class" type="" description="" unit="" values="" default="Class"/>
+							<Tag name="OntoUML::Causation(UML::Association)" type="" description="" unit="" values="" default="Causation"/>
+							<Tag name="OntoUML::Participation(UML::Association)" type="" description="" unit="" values="" default="Participation"/>
+							<Tag name="OntoUML::SubEventOf(UML::Association)" type="" description="" unit="" values="" default="SubEventOf"/>
+							<Tag name="OntoUML::Temporal(UML::Association)" type="" description="" unit="" values="" default="Temporal"/>
+							<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="OntoUML Relationships" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Qualities" alias="OntoUML2.0 - Qualities" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage">
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
+							<Tag name="OntoUML::Domain(UML::Class)" type="" description="" unit="" values="" default="Domain"/>
+							<Tag name="OntoUML::Dimension(UML::Class)" type="" description="" unit="" values="" default="Dimension"/>
+							<Tag name="OntoUML::Quality(UML::Class)" type="" description="" unit="" values="" default="Quality"/>
+							<Tag name="OntoUML::Region(UML::Class)" type="" description="" unit="" values="" default="Region"/>
+							<Tag name="OntoUML::Structure(UML::Class)" type="" description="" unit="" values="" default="Structure"/>
+							<Tag name="OntoUML::Structuration(UML::Association)" type="" description="" unit="" values="" default="Structuration"/>
+							<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="Classes" alias="OntoUML2.0 - Classes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage">
+								<Property name="isActive" value=""/>
+							</Apply>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="OntoUML::Category(UML::Class)" type="" description="" unit="" values="" default="Category"/>
+							<Tag name="OntoUML::Collective(UML::Class)" type="" description="" unit="" values="" default="Collective"/>
+							<Tag name="UML::Class" type="" description="" unit="" values="" default="Class"/>
+							<Tag name="UML::DataType" type="" description="" unit="" values="" default="DataType"/>
+							<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
+							<Tag name="OntoUML::HighOrder(UML::Class)" type="" description="" unit="" values="" default="HighOrder"/>
+							<Tag name="OntoUML::Kind(UML::Class)" type="" description="" unit="" values="" default="Kind"/>
+							<Tag name="OntoUML::Mixin(UML::Class)" type="" description="" unit="" values="" default="Mixin"/>
+							<Tag name="OntoUML::Mode(UML::Class)" type="" description="" unit="" values="" default="Mode"/>
+							<Tag name="OntoUML::Phase(UML::Class)" type="" description="" unit="" values="" default="Phase"/>
+							<Tag name="UML::PrimitiveType" type="" description="" unit="" values="" default="PrimitiveType"/>
+							<Tag name="OntoUML::Quantity(UML::Class)" type="" description="" unit="" values="" default="Quantity"/>
+							<Tag name="OntoUML::Relator(UML::Class)" type="" description="" unit="" values="" default="Relator"/>
+							<Tag name="OntoUML::Role(UML::Class)" type="" description="" unit="" values="" default="Role"/>
+							<Tag name="OntoUML::RoleMixin(UML::Class)" type="" description="" unit="" values="" default="RoleMixin"/>
+							<Tag name="OntoUML::SubKind(UML::Class)" type="" description="" unit="" values="" default="SubKind"/>
+							<Tag name="OntoUML::PhaseMixin(UML::Class)" type="" description="" unit="" values="" default="PhaseMixin"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="Relationships" alias="OntoUML2.0 - Relationships" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage">
+								<Property name="isActive" value=""/>
+							</Apply>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
 							<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
-							<Tag name="OntoUML::Mediation(UML::Association)" type="" description="" unit="" values="" default="Mediation"/>
-							<Tag name="OntoUML::Material(UML::Association)" type="" description="" unit="" values="" default="Material"/>
-							<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
 							<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
 							<Tag name="OntoUML::ComponentOf(UML::Association)" type="" description="" unit="" values="" default="ComponentOf"/>
+							<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
+							<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
+							<Tag name="OntoUML::InstanceOf(UML::Association)" type="" description="" unit="" values="" default="InstanceOf"/>
+							<Tag name="OntoUML::Material(UML::Association)" type="" description="" unit="" values="" default="Material"/>
+							<Tag name="OntoUML::Mediation(UML::Association)" type="" description="" unit="" values="" default="Mediation"/>
 							<Tag name="OntoUML::MemberOf(UML::Association)" type="" description="" unit="" values="" default="MemberOf"/>
 							<Tag name="OntoUML::SubCollectionOf(UML::Association)" type="" description="" unit="" values="" default="SubCollectionOf"/>
 							<Tag name="OntoUML::SubQuantityOf(UML::Association)" type="" description="" unit="" values="" default="SubQuantityOf"/>
-							<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
-							<Tag name="OntoUML::Structuration(UML::Association)" type="" description="" unit="" values="" default="Structuration"/>
-							<Tag name="OntoUML::Participation(UML::Association)" type="" description="" unit="" values="" default="Participation"/>
-							<Tag name="OntoUML::Causation(UML::Association)" type="" description="" unit="" values="" default="Causation"/>
-							<Tag name="OntoUML::SubEventOf(UML::Association)" type="" description="" unit="" values="" default="SubEventOf"/>
-							<Tag name="OntoUML::Temporal(UML::Association)" type="" description="" unit="" values="" default="Temporal"/>
-							<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="OntoUML Patterns" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Patterns" alias="OntoUML2.0 - Patterns" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage">
 								<Property name="isActive" value=""/>
@@ -9376,7 +9402,7 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							<Tag name="OntoUML::Types(UMLPattern)" type="" description="" unit="" values="" default="Atomic/Complex Types"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="OntoUML Common" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Common" alias="OntoUML2.0 - Common" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage">
 								<Property name="isActive" value=""/>
@@ -9392,4 +9418,4 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 				<TaggedValueTypes/>
 			</Content>
 		</UMLProfile>
-	</UIToolboxes><ModelTemplates><Model name="OntoUML" description="OntoUML Model Template." location="ontoumlTemplate.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>
+	</UIToolboxes><ModelTemplates><Model name="Structural Modeling" description="Create a simple OntoUML2.0 class diagram." location="p_OntoUML2.0.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5"/>
+	<uml:Model xmi:type="uml:Model" name="EA_Model" visibility="public">
+		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_3E36BF7B_15D1_4d75_B63B_596AF9681ACC" name="OntoUML2.0 Strucutral Modeling View" visibility="public">
+			<packagedElement xmi:type="uml:Package" xmi:id="EAPK_07DF162E_87A7_4570_A66E_ACBDE647E4BD" name="Examples" visibility="public"/>
+		</packagedElement>
+	</uml:Model>
+	<xmi:Extension extender="Enterprise Architect" extenderID="6.5">
+		<elements>
+			<element xmi:idref="EAPK_3E36BF7B_15D1_4d75_B63B_596AF9681ACC" xmi:type="uml:Package" name="OntoUML2.0 Strucutral Modeling View" scope="public">
+				<model package2="EAID_3E36BF7B_15D1_4d75_B63B_596AF9681ACC" package="EAPK_91211836_2C7D_491c_83BC_64199A17BED2" tpos="0" ea_localid="2" ea_eleType="package"/>
+				<properties isSpecification="false" sType="Package" nType="0" scope="public"/>
+				<project author="Guerson" version="1.0" phase="1.0" created="2015-04-15 16:13:24" modified="2015-04-15 16:13:24" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="Model"/>
+				<packageproperties version="1.0"/>
+				<paths/>
+				<times created="2015-04-15 00:00:00" modified="2015-04-15 00:00:00"/>
+				<flags iscontrolled="FALSE" isprotected="FALSE" usedtd="FALSE" logxml="FALSE" packageFlags="isModel=1;VICON=3;"/>
+			</element>
+			<element xmi:idref="EAPK_07DF162E_87A7_4570_A66E_ACBDE647E4BD" xmi:type="uml:Package" name="Examples" scope="public">
+				<model package2="EAID_07DF162E_87A7_4570_A66E_ACBDE647E4BD" package="EAPK_3E36BF7B_15D1_4d75_B63B_596AF9681ACC" tpos="0" ea_localid="3" ea_eleType="package"/>
+				<properties isSpecification="false" sType="Package" nType="0" scope="public"/>
+				<project author="Guerson" version="1.0" phase="1.0" created="2015-04-15 16:13:34" modified="2015-04-15 16:13:34" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="OntoUML2.0 Strucutral Modeling View"/>
+				<packageproperties version="1.0"/>
+				<paths/>
+				<times created="2015-04-15 16:13:34" modified="2015-04-15 16:13:34"/>
+				<flags iscontrolled="FALSE" isprotected="FALSE" usedtd="FALSE" logxml="FALSE"/>
+			</element>
+		</elements>
+		<connectors/>
+		<primitivetypes>
+			<packagedElement xmi:type="uml:Package" xmi:id="EAPrimitiveTypesPackage" name="EA_PrimitiveTypes_Package" visibility="public"/>
+		</primitivetypes>
+		<profiles/>
+		<diagrams>
+			<diagram xmi:id="EAID_B150F369_3534_4762_9281_F17E7640E2BC">
+				<model package="EAPK_3E36BF7B_15D1_4d75_B63B_596AF9681ACC" localID="1" owner="EAPK_3E36BF7B_15D1_4d75_B63B_596AF9681ACC"/>
+				<properties name="Your Diagram" type="Logical"/>
+				<project author="Guerson" version="1.0" created="2015-04-15 16:13:57" modified="2015-04-15 16:13:57"/>
+				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=827;DocSize.cy=1169;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<style2 value="MDGDgm=OntoUML 2.0::OntoUML;"/>
+				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
+				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;"/>
+				<extendedProperties/>
+			</diagram>
+		</diagrams>
+	</xmi:Extension>
+</xmi:XMI>
