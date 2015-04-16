@@ -1,6 +1,7 @@
 ; -- Menthor.iss --
 
 #define MyAppName "Menthor Editor"
+;#define MyAppVersion "1.0"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Menthor"
 #define MyAppURL "www.menthor.net"
