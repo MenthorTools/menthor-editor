@@ -3,22 +3,12 @@
 			<Documentation id="672070D9-B" name="OntoUML" version="1.0" notes="OntoUML"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="Category" metatype="Category" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
+					<Stereotype name="Category" metatype="Category" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
 					<Stereotype name="Causation" metatype="Causation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Source -&gt; Destination"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
@@ -31,15 +21,15 @@
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Collective" metatype="Collective" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
+					<Stereotype name="Collective" metatype="Collective" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAOiAkUZP/LKEhgAAAOIAAAAHABEAc3RyLmRhdFVUDQAH2C8xVdgvMVXYLzFV
+fY49CoNAFIS/NkLuIFsZSJF0AWshnUVyAQPGLIiKm4Ag3t3ZZ2qLmX1/M7OBDxUDNSmtqpeq
+liMJs/GBoMmXkhFPI3RkOB7CmYtw5caJ/H+9seetq7v8Ak9xYxqvrmCSWy2XoL7XWykvejnN
+R37aOfmlhsFSO22ift5xWEyVK3v7Q8RivAJQSwECFwsUAAAACADogJFGT/yyhIYAAADiAAAA
+BwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH2C8xVVBLBQYAAAAAAQABAD4AAAC8AAAA
+AAA=</Image>
 						<TaggedValues>
-							<Tag name="isExtensional" type="boolean" description="" unit="" values="true,false" default="false"/>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="isExtensional" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="ComponentOf" metatype="ComponentOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -74,38 +64,35 @@
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Dimension" metatype="Dimension" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
+					<Stereotype name="Dimension" metatype="Dimension" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Reference Structure" baseStereotypes="Reference%20Structure">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIADSBkUZMYSuvAQEAAOoFAAAHABEAc3RyLmRhdFVUDQAHNjAxVTYwMVU2MDFV
+xZRJCsJAEEX/VsE7BN0ouNCd6EoR1I2CwwEcYmxooxgRRLy7v8o44YAaSAgVKjW9T3eRAAuM
+sYYLB5behJ5FBmkc9J1CwMgWPWxg4NF85JHFgFZEiVZGBQXUwuq11vnskKoDTXKpMGswZ7xN
+ToAh355WTfTbYMrYXrXIbGFsw2meznHUHgk59tTRQvXFlNyV/h+/SW/K+JJ5m4iCPr2k2B2l
+uKxyyUxCQZNxURCV/Tt5RIaF3LxRBbMENDSw4mN1A/zI/PP5f7qFgJ2ya7fdk9M31OBr/J2C
+4p2G24xn9nfUy9ZtsIuRKn+3mU6Pj9nlycp+RWVeqI99x7DC0eyRdgJQSwECFwsUAAAACAA0
+gZFGTGErrwEBAADqBQAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAHNjAxVVBLBQYA
+AAAAAQABAD4AAAA3AQAAAAA=</Image>
 						<TaggedValues>
 							<Tag name="scale" type="enumeration" description="" unit="" values="Interval,Rational,Ordinal,Nominal" default=""/>
-							<Tag name="measure" type="enumeration" description="" unit="" values="Boolean,String,Real,Integer,Decimal,UnlimitedNatural,Date" default=""/>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="basicType" type="enumeration" description="" unit="" values="Boolean,String,Real,Integer,Decimal,UnlimitedNatural,Date" default=""/>
+							<Tag name="lowerBound" type="Classifier:lowerBound" description="" unit="Region" values="" default=""/>
+							<Tag name="upperBound" type="Classifier:upperBound" description="" unit="Region" values="" default=""/>
+							<Tag name="unitOfMeasure" type="string" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Domain" metatype="Domain" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Domain" metatype="Domain" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Reference Structure" baseStereotypes="Reference%20Structure"/>
+					<Stereotype name="Endurant" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true" strictness="profile">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Event" metatype="Event" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
+					<Stereotype name="Event" metatype="Event" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Perdurant" baseStereotypes="Perdurant"/>
 					<Stereotype name="Formal" metatype="Formal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -121,26 +108,19 @@
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="strictness" type="StereotypeStricknessKind" description="" unit="" values="" default="profile"/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="InstanceOf" metatype="InstanceOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Kind" metatype="Kind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
+					<Stereotype name="Kind" metatype="Kind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
 					<Stereotype name="Material" metatype="Material" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -175,26 +155,8 @@
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Mixin" metatype="Mixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="Mode" metatype="Mode" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
+					<Stereotype name="Mixin" metatype="Mixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Mode" metatype="Mode" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
 					<Stereotype name="Participation" metatype="Participation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -204,87 +166,58 @@
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Phase" metatype="Phase" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Perdurant" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="strictness" type="StereotypeStricknessKind" description="" unit="" values="" default="profile"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="PhaseMixin" metatype="PhaseMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="Quality" metatype="Quality" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
+					<Stereotype name="Phase" metatype="Phase" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="PhaseMixin" metatype="PhaseMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Quality" metatype="Quality" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIALyAkUYEA6MUrwAAAD4CAAAHABEAc3RyLmRhdFVUDQAHSi8xVUovMVVKLzFV
+tY/NCoJQEIW/bUHvILZJaFG7yFWrWlVQL2BhJpiJWhvx3TuOQgQtgpDLDIe5c36m4EpARohD
+InQSShgxpLI+oNCkZEdOTKRKmeByUE2ZqeYs8PBt2+lezEVbG+kVHNUj46RCJQ8phcZ22Qvl
+nNVjnuae2J+n17pXUsvMOxU36dwrxtJdsWb5oTqmNrYvZt0pNPc0N/yeastd0/6yOX9mu5lj
+IG5fab7pvPeb7ZbzAlBLAQIXCxQAAAAIALyAkUYEA6MUrwAAAD4CAAAHAAkAAAAAAAAAAAAA
+gAAAAABzdHIuZGF0VVQFAAdKLzFVUEsFBgAAAAABAAEAPgAAAOUAAAAAAA==</Image>
 						<TaggedValues>
 							<Tag name="nature" type="enumeration" description="" unit="" values="Perceivable,NonPerceivable,Nominal" default=""/>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Quantity" metatype="Quantity" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="Quantity" metatype="Quantity" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Reference Structure" metatype="Structure" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
+							<Apply type="DataType"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="groundedEnumeration" type="Enumeration" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Region" metatype="Region" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAAaBkUanluFwwwAAAAIEAAAHABEAc3RyLmRhdFVUDQAHEzAxVRMwMVUTMDFV
+xZO9CsJAEIS/NoLvIEmjYKGdmEoR1Erw5wFMjBo4o5g0Ir67kyWFhZUIx7F7e3O7M1PclZzZ
+cyOjg1OVqHK0afG0HFAKqVhxJ+ekKOgSslH0GSiGjOgRN91Bs+cc1bcQY8lW+WRTiZ1zUmEP
+U61ZarbK+Av1hWLrWNwarLLZJ5GmJswZf+GJeNlk/LOHmapU+EX3zpuLtSqf+ktTytSVSdeX
+i5nw2oUv/Z2UHPVbyM3HwZuTKVctZ6+i+IOLz1/6svwGUEsBAhcLFAAAAAgABoGRRqeW4XDD
+AAAAAgQAAAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUABxMwMVVQSwUGAAAAAAEAAQA+
+AAAA+QAAAAAA</Image>
 						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
+							<Apply type="DataType"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="basicType" type="enumeration" description="" unit="" values="Boolean,String,Real,Integer,Decimal,UnlimitedNatural,Date" default=""/>
+							<Tag name="groundedLiteral" type="string" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Relator" metatype="Relator" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="Role" metatype="Role" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="RoleMixin" metatype="RoleMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
+					<Stereotype name="Relator" metatype="Relator" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Role" metatype="Role" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="RoleMixin" metatype="RoleMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
 					<Stereotype name="Structuration" metatype="Structuration" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -293,16 +226,6 @@
 								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="Structure" metatype="Structure" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SubCollectionOf" metatype="SubCollectionOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
@@ -325,27 +248,10 @@
 							<Apply type="Association">
 								<Property name="_SourceAggregation" value="2"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
-								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="isPartInseparable" value=""/>
-								<Property name="isPartEssential" value=""/>
-								<Property name="isPartImmutable" value=""/>
-								<Property name="isWholeImmutable" value=""/>
-								<Property name="isPartMandatory" value=""/>
-								<Property name="isWholeMandatory" value=""/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="SubKind" metatype="SubKind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default="false"/>
-						</TaggedValues>
-					</Stereotype>
+					<Stereotype name="SubKind" metatype="SubKind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
 					<Stereotype name="SubQuantityOf" metatype="SubQuantityOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -363,11 +269,17 @@
 						</AppliesTo>
 					</Stereotype>
 					<Stereotype name="Temporal" metatype="Temporal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAFSJkUZR6xJ/vQAAAPQCAAAHABEAc3RyLmRhdFVUDQAHgj4xVYI+MVWCPjFV
+lVJLCsIwFJxtBe9QslLwBt2quJEKeoFo2lpIP6bVjXh3JxEXhkYIj1dm+ubNkKYaEmcU0EjR
+oIZiafIRHXqi73SOGZ5IWBYlVJZYYMf5gBOfFZlASzTiDsMdgRX7SC7JR+oElqyUvob7Ld/Z
+ncFTZJEJB4cvbMUOpVjmq2KTNriRS36NUErhKWITts6rpur65yzlhCqLytkT2TsOJTQ/8zjv
+tWPWqwq4K08R55/jQWzcv9kHT9BNqD638cIbUEsBAhcLFAAAAAgAVImRRlHrEn+9AAAA9AIA
+AAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB4I+MVVQSwUGAAAAAAEAAQA+AAAA8wAA
+AAAA</Image>
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Source -&gt; Destination"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
@@ -9307,6 +9219,23 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 			<Documentation id="CDE50973-F" name="OntoUML 2.0" version="1.0" notes="OntoUML 2.0"/>
 			<Content>
 				<Stereotypes>
+					<Stereotype name="DataTypes" alias="OntoUML2.0 - DataTypes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage">
+								<Property name="isActive" value=""/>
+							</Apply>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UML::DataType" type="" description="" unit="" values="" default="DataType"/>
+							<Tag name="OntoUML::Domain(UML::DataType)" type="" description="" unit="" values="" default="Domain"/>
+							<Tag name="OntoUML::Dimension(UML::DataType)" type="" description="" unit="" values="" default="Dimension"/>
+							<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
+							<Tag name="UML::PrimitiveType" type="" description="" unit="" values="" default="PrimitiveType"/>
+							<Tag name="OntoUML::Region(UML::DataType)" type="" description="" unit="" values="" default="Region"/>
+							<Tag name="OntoUML::Structuration(UML::Association)" type="" description="" unit="" values="" default="Structuration"/>
+							<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
+						</TaggedValues>
+					</Stereotype>
 					<Stereotype name="Events" alias="OntoUML2.0 - Events" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage">
@@ -9322,20 +9251,16 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Qualities" alias="OntoUML2.0 - Qualities" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="High Order Classes" alias="OntoUML2.0 - High Order" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage">
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="OntoUML::Domain(UML::Class)" type="" description="" unit="" values="" default="Domain"/>
-							<Tag name="OntoUML::Dimension(UML::Class)" type="" description="" unit="" values="" default="Dimension"/>
-							<Tag name="OntoUML::Quality(UML::Class)" type="" description="" unit="" values="" default="Quality"/>
-							<Tag name="OntoUML::Region(UML::Class)" type="" description="" unit="" values="" default="Region"/>
-							<Tag name="OntoUML::Structure(UML::Class)" type="" description="" unit="" values="" default="Structure"/>
-							<Tag name="OntoUML::Structuration(UML::Association)" type="" description="" unit="" values="" default="Structuration"/>
-							<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
+							<Tag name="OntoUML::HighOrder(UML::Class)" type="" description="" unit="" values="" default="HighOrder"/>
+							<Tag name="OntoUML::InstanceOf(UML::Association)" type="" description="" unit="" values="" default="InstanceOf"/>
+							<Tag name="isCollapsed" type="boolean" description="" unit="" values="true,false" default="true"/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Classes" alias="OntoUML2.0 - Classes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -9348,14 +9273,11 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							<Tag name="OntoUML::Category(UML::Class)" type="" description="" unit="" values="" default="Category"/>
 							<Tag name="OntoUML::Collective(UML::Class)" type="" description="" unit="" values="" default="Collective"/>
 							<Tag name="UML::Class" type="" description="" unit="" values="" default="Class"/>
-							<Tag name="UML::DataType" type="" description="" unit="" values="" default="DataType"/>
-							<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
-							<Tag name="OntoUML::HighOrder(UML::Class)" type="" description="" unit="" values="" default="HighOrder"/>
 							<Tag name="OntoUML::Kind(UML::Class)" type="" description="" unit="" values="" default="Kind"/>
 							<Tag name="OntoUML::Mixin(UML::Class)" type="" description="" unit="" values="" default="Mixin"/>
 							<Tag name="OntoUML::Mode(UML::Class)" type="" description="" unit="" values="" default="Mode"/>
+							<Tag name="OntoUML::Quality(UML::Class)" type="" description="" unit="" values="" default="Quality"/>
 							<Tag name="OntoUML::Phase(UML::Class)" type="" description="" unit="" values="" default="Phase"/>
-							<Tag name="UML::PrimitiveType" type="" description="" unit="" values="" default="PrimitiveType"/>
 							<Tag name="OntoUML::Quantity(UML::Class)" type="" description="" unit="" values="" default="Quantity"/>
 							<Tag name="OntoUML::Relator(UML::Class)" type="" description="" unit="" values="" default="Relator"/>
 							<Tag name="OntoUML::Role(UML::Class)" type="" description="" unit="" values="" default="Role"/>
@@ -9377,7 +9299,6 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							<Tag name="OntoUML::ComponentOf(UML::Association)" type="" description="" unit="" values="" default="ComponentOf"/>
 							<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
 							<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
-							<Tag name="OntoUML::InstanceOf(UML::Association)" type="" description="" unit="" values="" default="InstanceOf"/>
 							<Tag name="OntoUML::Material(UML::Association)" type="" description="" unit="" values="" default="Material"/>
 							<Tag name="OntoUML::Mediation(UML::Association)" type="" description="" unit="" values="" default="Mediation"/>
 							<Tag name="OntoUML::MemberOf(UML::Association)" type="" description="" unit="" values="" default="MemberOf"/>
