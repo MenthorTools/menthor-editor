@@ -497,6 +497,7 @@ public final class Main {
 					@Override
 					protected void process(List<String> chunks) {
 						splashScreen.setStatusLabel(chunks.get(chunks.size()-1));
+						Main.printOutLine(chunks.get(chunks.size()-1));
 					}
 					
 					@Override
