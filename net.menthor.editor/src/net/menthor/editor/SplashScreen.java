@@ -106,8 +106,8 @@ public class SplashScreen extends JDialog {
 		this.statusLabel.setText(status);
 	}
 	
-	public static void main(String[] args) {
-		SplashScreen splashScreen = new SplashScreen(Main.MENTHOR_VERSION, Main.MENTHOR_COMPILATION_DATE);
-		
-	}
+//	public static void main(String[] args) {
+//		SplashScreen splashScreen = new SplashScreen(Main.MENTHOR_VERSION, Main.MENTHOR_COMPILATION_DATE);
+//		
+//	}
 }

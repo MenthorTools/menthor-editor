@@ -98,9 +98,9 @@ var
   regExist: Boolean;		  		
 begin
   regExist := RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', javaVersion);
-  if regExist == false then
-    regExist := RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', javaVersion);
+  if regExist = false then    
   begin
+    regExist := RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', javaVersion);
   end;
 
   //verificacao da versao do java

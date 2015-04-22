@@ -105,11 +105,11 @@ public class StartPanel extends JPanel implements Editor {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-header.jpg")));		
 		
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setBackground(Color.WHITE);
+		
 		JPanel middlePanel = new JPanel();
 		middlePanel.setBackground(Color.WHITE);
-		
-		JPanel leftPanel = new JPanel();
-		leftPanel.setBackground(Color.WHITE);
 		
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
@@ -117,8 +117,8 @@ public class StartPanel extends JPanel implements Editor {
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addGap(182)
 					.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(middlePanel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addComponent(leftPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+						.addComponent(bottomPanel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addComponent(middlePanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
 						.addComponent(lblOpenRecent, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
 						.addComponent(lblTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
 						.addComponent(recentPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
@@ -134,9 +134,9 @@ public class StartPanel extends JPanel implements Editor {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(recentPanel, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+					.addComponent(middlePanel, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(middlePanel, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+					.addComponent(bottomPanel, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(72, Short.MAX_VALUE))
 		);
 		GroupLayout gl_recentPanel = new GroupLayout(recentPanel);
@@ -151,34 +151,34 @@ public class StartPanel extends JPanel implements Editor {
 		recentPanel.setLayout(gl_recentPanel);
 						
 		eaInstallLink = new JHyperLinkLabel("");
-		eaInstallLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));	
+		eaInstallLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_tutorials.png")));	
 		eaInstallLink.setText("[Tutorial] Learn how to install and use OntoUML within the EA Tool");
 		
 		faqLink = new JHyperLinkLabel("");		
 		faqLink.setText("[FAQ] Frequently Asked Questions");
-		faqLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
+		faqLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_faq.png")));
 		
 		JHyperLinkLabel userLink = new JHyperLinkLabel("");
 		userLink.setText("[Forum] User Community");
-		userLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
+		userLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_forum.png")));
 		
 		JHyperLinkLabel guideLink = new JHyperLinkLabel("");
 		guideLink.setText("[Study] OntoUML Study Guide");
-		guideLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
-		GroupLayout gl_middlePanel = new GroupLayout(middlePanel);
-		gl_middlePanel.setHorizontalGroup(
-			gl_middlePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_middlePanel.createSequentialGroup()
+		guideLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_study_guide.png")));
+		GroupLayout gl_bottomPanel = new GroupLayout(bottomPanel);
+		gl_bottomPanel.setHorizontalGroup(
+			gl_bottomPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_bottomPanel.createSequentialGroup()
 					.addGap(5)
-					.addGroup(gl_middlePanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_bottomPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(eaInstallLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(faqLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(userLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(guideLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
-		gl_middlePanel.setVerticalGroup(
-			gl_middlePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_middlePanel.createSequentialGroup()
+		gl_bottomPanel.setVerticalGroup(
+			gl_bottomPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_bottomPanel.createSequentialGroup()
 					.addGap(5)
 					.addComponent(eaInstallLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(7)
@@ -189,7 +189,7 @@ public class StartPanel extends JPanel implements Editor {
 					.addComponent(guideLink, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(2))
 		);
-		middlePanel.setLayout(gl_middlePanel);
+		bottomPanel.setLayout(gl_bottomPanel);
 		
 		eaInstallLink.addMouseListener(new MouseAdapter() {			
 			 @Override
@@ -232,27 +232,27 @@ public class StartPanel extends JPanel implements Editor {
 		});
 		
 		btnNewProject = new JHyperLinkLabel("New Project");
-		leftPanel.add(btnNewProject);
+		middlePanel.add(btnNewProject);
 		btnNewProject.setIconTextGap(10);
 		btnNewProject.setToolTipText("Create a new Menthor project");
 		btnNewProject.setFocusable(false);
 		btnNewProject.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/page_2.png")));
 		
 		rigidArea_3 = Box.createRigidArea(new Dimension(20, 20));
-		leftPanel.add(rigidArea_3);
+		middlePanel.add(rigidArea_3);
 		btnOpenProject = new JHyperLinkLabel("Open Project");
 		btnOpenProject.setSize(new Dimension(105, 23));
-		leftPanel.add(btnOpenProject);
+		middlePanel.add(btnOpenProject);
 		btnOpenProject.setIconTextGap(10);
 		btnOpenProject.setToolTipText("Open an existing Menthor project");
 		btnOpenProject.setFocusable(false);
 		btnOpenProject.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/folder.png")));
 		
 		rigidArea_4 = Box.createRigidArea(new Dimension(20, 20));
-		leftPanel.add(rigidArea_4);
+		middlePanel.add(rigidArea_4);
 		btnImportFromEa = new JHyperLinkLabel("Import from EA");
 		btnImportFromEa.setToolTipText("<html>Bring your models from Enterprise Architect (version 10) into Menthor <br>and benefit of all the editor capabilities.</html>");
-		leftPanel.add(btnImportFromEa);		
+		middlePanel.add(btnImportFromEa);		
 		btnImportFromEa.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/x16/ea.jpg")));
 		btnImportFromEa.addMouseListener(new MouseAdapter() {			
 			 @Override
