@@ -1,7 +1,7 @@
 ; -- Menthor.iss --
 
 #define MyAppName "Menthor Editor"
-#define MENTHOR_VERSION "1.0.1"
+#define MENTHOR_VERSION "1.0.2"
 #define MyAppPublisher "Menthor"
 #define MyAppURL "www.menthor.net"
 #define MyAppExeName "menthor"
@@ -14,7 +14,7 @@
 [Setup]
 AppName={#MyAppName}
 AppVersion={#MENTHOR_VERSION}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName="{pf}\Menthor\{#MyAppName}"
 DefaultGroupName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyIcon}
 Compression=lzma2
@@ -94,11 +94,17 @@ var
   JavaInstalled : Boolean;
 	callJavaPage : Boolean;
 	javaVersion: String;
-  ErrorCode: Integer;
-		  		
+  ErrorCode: Integer;  
+  regExist: Boolean;		  		
 begin
+  regExist := RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', javaVersion);
+  if regExist == false then
+    regExist := RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', javaVersion);
+  begin
+  end;
+
   //verificacao da versao do java
-  if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', javaVersion) then
+  if regExist then
   begin
     if StrToFloat(javaVersion) < {#javaVersion} then
     begin
@@ -129,7 +135,7 @@ function uninstallDifVersion: Boolean;
 var
   menthorVersion: String;  
   iResultCode: Integer;
-  sInstallPath: string;
+  sInstallPath: string; 
 begin
   Result := true;
   if RegQueryStringValue(HKLM, 'SOFTWARE\{#MyAppPublisher}\{#MyAppName}', 'CurrentVersion', menthorVersion) then  //Your App GUID/ID

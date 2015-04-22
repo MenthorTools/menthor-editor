@@ -1,17 +1,17 @@
 package net.menthor.editor;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.LayoutManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.OverlayLayout;
+import javax.swing.JLayeredPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import org.eclipse.swt.custom.StackLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 
 public class SplashScreen extends JDialog {
 
@@ -21,33 +21,65 @@ public class SplashScreen extends JDialog {
 	private JLabel splash_img;
 
 	public SplashScreen(String MENTHOR_VERSION, String MENTHOR_COMPILATION_DATE) {
+		setAlwaysOnTop(true);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		setUndecorated(true);
+		setResizable(false);
+		
+		getContentPane().setLayout(new CardLayout(0, 0));
+		
+		JLayeredPane layeredPane = new JLayeredPane();
+		getContentPane().add(layeredPane, "name_431739735183481");
+		
 		splash_img = new JLabel("");
 		splash_img.setIcon(new ImageIcon(SplashScreen.class.getResource("/resources/icons/menthor-splash-screen.png")));
-		add(splash_img);
 		
-		setSize(splash_img.getIcon().getIconWidth(), splash_img.getIcon().getIconHeight());
-		splash_img.setHorizontalAlignment(SwingConstants.CENTER);
-		splash_img.setVerticalAlignment(SwingConstants.CENTER);
+		int imgWidth = splash_img.getIcon().getIconWidth(); 
+		int imgHeigth = splash_img.getIcon().getIconHeight();
+		setSize(imgWidth, imgHeigth);
+		splash_img.setBounds(SwingConstants.CENTER, SwingConstants.CENTER, imgWidth, imgHeigth);
+		layeredPane.add(splash_img);
+		int left = 10;
+		int bottom = imgHeigth - 14 - 8;
 		
-		statusLabel = new JLabel("Loading");
-		statusLabel.setFont(new Font(Font.SERIF, Font.BOLD, 11));
-		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		statusLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-		statusLabel.setBackground(new Color(0, 0, 0, 0));
-//		add(statusLabel);
 		
 		versionLabel = new JLabel("Version "+MENTHOR_VERSION+" ("+MENTHOR_COMPILATION_DATE+")");
-		versionLabel.setFont(new Font(Font.SERIF, Font.BOLD, 11));
-		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		versionLabel.setVerticalAlignment(SwingConstants.TOP);
+		layeredPane.setLayer(versionLabel, 1);
+		versionLabel.setForeground(Color.WHITE);
+		versionLabel.setBackground(Color.WHITE);
+		versionLabel.setFont(new Font(versionLabel.getFont().getFontName(), Font.BOLD, 11));
+		versionLabel.setBounds(left, bottom, 430, 14);
+		layeredPane.add(versionLabel);
+		
+		statusLabel = new JLabel("Loading");
+		statusLabel.setForeground(Color.WHITE);
+		layeredPane.setLayer(statusLabel, 1);
+		statusLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		statusLabel.setBounds(left, bottom - 14 - 8, 430, 14);
+		layeredPane.add(statusLabel);
+//		splash_img = new JLabel("");
+//		splash_img.setIcon(new ImageIcon(SplashScreen.class.getResource("/resources/icons/menthor-splash-screen.png")));
+//		add(splash_img);
+//		
+		
+//		splash_img.setHorizontalAlignment(SwingConstants.CENTER);
+//		splash_img.setVerticalAlignment(SwingConstants.CENTER);
+//		
+//		statusLabel = new JLabel("Loading");
+//		statusLabel.setFont(new Font(Font.SERIF, Font.BOLD, 11));
+//		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
+//		statusLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+//		add(statusLabel);
+//		
+//		versionLabel = new JLabel("Version "+MENTHOR_VERSION+" ("+MENTHOR_COMPILATION_DATE+")");
+//		versionLabel.setFont(new Font(Font.SERIF, Font.BOLD, 11));
+//		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+//		versionLabel.setVerticalAlignment(SwingConstants.TOP);
 //		add(versionLabel);
-		
-		setResizable(false);
-		setUndecorated(true);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
+//		
 		setLocationRelativeTo(null);
 		setVisible(true);
+				
 	}
 
 	public boolean isOptimizedDrawingEnabled() {

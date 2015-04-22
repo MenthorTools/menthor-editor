@@ -71,7 +71,13 @@ public final class Main {
 	
 	public static AppFrame frame; 
 
-	public static String MENTHOR_VERSION = "1.0"; 
+	/**
+	 * This variable MUST be composed as "a.b.c". Increment when is built a:
+	 * 		a: new version of this application
+	 * 		b: compilation with new features
+	 * 		c: compilation with bug fixes
+	 */	
+	public static String MENTHOR_VERSION = "1.0.2"; 
 	
 	static DateFormat dateFormat = new SimpleDateFormat("dd yyyy");
 	static Date date = new Date();
@@ -443,7 +449,6 @@ public final class Main {
 	 */
 	public static void main(final String[] args) 
 	{	
-		System.out.println();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				final SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
@@ -452,21 +457,21 @@ public final class Main {
 					@Override
 					protected Boolean doInBackground() throws Exception {
 						try {
-							publish("Redirecting system to a log.");
+							publish("Redirecting system to a log...");
 							if(USE_LOG_FILE) redirectSystemToALog();
-							publish("Setting system properties.");
+							publish("Setting system properties...");
 							setSystemProperties();				
-							publish("Setting system font.");
+							publish("Setting system font...");
 							chooseFont();
-							publish("Loading application.");
+							publish("Loading application...");
 							frame = new AppFrame();					
-							publish("Loading interface components.");
+							publish("Loading interface components...");
 							loadAppropriateSwtJar();
-							publish("Loading binary files.");
+							publish("Loading binary files...");
 							copyBinaryFilesTo();
-							publish("Extracting Alloy files.");
+							publish("Extracting Alloy files...");
 							ExtractorUtil.extractAlloyJar();
-							publish("Setting window location.");
+							publish("Setting window location...");
 							frame.setLocationByPlatform(true);
 							
 							String menthorFileName = "";
@@ -477,12 +482,12 @@ public final class Main {
 								}
 							}
 							if(!menthorFileName.equals("")){
-								publish("Opening project: " + menthorFileName + ".");
+								publish("Opening project: " + menthorFileName + "...");
 								frame.getDiagramManager().openProject(menthorFileName);
 							}
 							
 							publish("Enjoy Menthor Editor!");
-							Thread.sleep(1000);
+							//Thread.sleep(1000);
 							
 							frame.setVisible(true);
 							frame.toFront();	

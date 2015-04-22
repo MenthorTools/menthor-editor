@@ -18,7 +18,7 @@ public class WindowsInstaller implements Installer{
 	}
 	
 	public void configureInnoFile() throws IOException{
-		File file = new File("resources/windows/menthor-editor-innoSetup.iss");
+		File file = new File("resources/windows/menthor.iss");
 		
 		FileReader reader = new FileReader(file);
         Scanner scanner = new Scanner(new BufferedReader(reader));
@@ -40,9 +40,9 @@ public class WindowsInstaller implements Installer{
     	
     	System.out.println(txt.subSequence(firstQuote, secondQuote));
     	
-    	//String version = net.menthor.editor.Main.MENTHOR_VERSION;
-    	String version = "2.3.4.5";
-    	
+    	String version = net.menthor.editor.Main.MENTHOR_VERSION;
+    	//String version = "2.3.4.5";
+    	System.out.println(version);
     	txt = txt.substring(0, firstQuote) + version + txt.substring(secondQuote, txt.length());
     	
     	scanner.close();
