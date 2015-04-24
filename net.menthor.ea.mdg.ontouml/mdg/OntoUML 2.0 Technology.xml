@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<MDG.Technology version="1.0"><Documentation id="OntoUML" name="OntoUML 2.0" version="1.0.1" notes="Ontology-driven conceptual modeling using OntoUML2.0 notation."/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="OntoUML" name="OntoUML 2.0" version="1.0.2" notes="Ontology-driven conceptual modeling using OntoUML2.0 notation."/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="672070D9-B" name="OntoUML" version="1.0" notes="OntoUML"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="Category" metatype="Category" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Category" metatype="Category" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAACJlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAHgNU3VYDVN1WA1TdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAAAiZZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAHgNU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+					</Stereotype>
 					<Stereotype name="Causation" metatype="Causation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="direction" value="Source -&gt; Destination"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
+								<Property name="_TargetMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
@@ -20,68 +27,91 @@
 								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Collective" metatype="Collective" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAOiAkUZP/LKEhgAAAOIAAAAHABEAc3RyLmRhdFVUDQAH2C8xVdgvMVXYLzFV
-fY49CoNAFIS/NkLuIFsZSJF0AWshnUVyAQPGLIiKm4Ag3t3ZZ2qLmX1/M7OBDxUDNSmtqpeq
-liMJs/GBoMmXkhFPI3RkOB7CmYtw5caJ/H+9seetq7v8Ak9xYxqvrmCSWy2XoL7XWykvejnN
-R37aOfmlhsFSO22ift5xWEyVK3v7Q8RivAJQSwECFwsUAAAACADogJFGT/yyhIYAAADiAAAA
-BwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH2C8xVVBLBQYAAAAAAQABAD4AAAC8AAAA
-AAA=</Image>
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAJCCmEaZ1KzqDQEAAMAFAAAHABEAc3RyLmRhdFVUDQAHWG06VVhtOlVYbTpV
+xVNNC4JAEH3Xgv6D6KXAQx+XqFMQ1K1D/YE+TQiLtAjE/96bLVNrDY0ilp2ZdWfevje7+thi
+jgPWMLBjtGC0Qw1VhKgoX4GLDeoYc9fHjNbhymTeBQGtx68u9vRzVpqwOQMcceKeiQaHcccJ
+7z4P0eVqyKojozP96i2a4ImVEX/JQxaugn7ju3xgpSsTdjJ85gSYKC4Op6dwpopRk7ODNuv7
+mZqDyvZYJ7lhTods6kprjKgohEW2A4zQ03C1mCN8+4+TklMjyH0J23L8W+h+jX8+tzgWjTqe
+5VmWu1+jsKZP+x+rKnrSM1IWL+6Y7lb1ysv/M//sfvbl/KLrxd6mrr//6Ecx/a+vQ/zNXgFQ
+SwECFwsUAAAACACQgphGmdSs6g0BAADABQAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVU
+BQAHWG06VVBLBQYAAAAAAQABAD4AAABDAQAAAAA=</Image>
 						<TaggedValues>
-							<Tag name="isExtensional" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="extensional" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="ComponentOf" metatype="ComponentOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAN5sl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH1/U4Vdf1OFXX9ThV
+1VLBasJAEH3XCP5D0EsL+YOeA/Wk1IL0WGnaBlYTjOIh5Iv6Cf25volJjMnG7FpBZNhkZnfm
+zbyZUXjHEgEUXKwQ4oOiaC8RYUuJeKsqnyEGSOFQRHPo/4kHPPM9wSu/X7RGiKltGDth7Ao7
+ahIvqCN4PFu+7nLrkeIWWGnx70Ld45vVCIopbkw7xJr3Ev+DMebE8/HCM6X2hhm1MX7pm9Kz
+ibqoMnqa11nBMsvzPVXVS58Sft0OHsfurHO/g31dJjrksl4TLscJ1/nYVmGeJas00+75vBU/
+qSbknero3D3sVtDi0uxUexZ6HrffrUu42FXQn6G+V7qtcjWds9+A5mbZsTi3Eaed0nNoM7hk
+9v/loMtkMw3zfCWWIBxQ9F1I2EXJH/QwP80sbNqR9Tlk+ANQSwECFwsUAAAACADebJdGmByt
+AjEBAAAqBwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH1/U4VVBLBQYAAAAAAQAB
+AD4AAABnAQAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_SourceAggregation" value="2"/>
+								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
 								<Property name="_TargetMultiplicity" value="2..*"/>
 								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="isPartInseparable" value=""/>
-								<Property name="isPartEssential" value=""/>
-								<Property name="isPartImmutable" value=""/>
-								<Property name="isWholeImmutable" value=""/>
-								<Property name="isPartMandatory" value=""/>
-								<Property name="isWholeMandatory" value=""/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="partInseparable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Constitution" metatype="Constitution" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_SourceAggregation" value="2"/>
+								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
 								<Property name="_TargetMultiplicity" value="2..*"/>
 								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="isPartInseparable" value=""/>
-								<Property name="isPartEssential" value=""/>
-								<Property name="isPartImmutable" value=""/>
-								<Property name="isWholeImmutable" value=""/>
-								<Property name="isPartMandatory" value=""/>
-								<Property name="isWholeMandatory" value=""/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Dimension" metatype="Dimension" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Reference Structure" baseStereotypes="Reference%20Structure">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIADSBkUZMYSuvAQEAAOoFAAAHABEAc3RyLmRhdFVUDQAHNjAxVTYwMVU2MDFV
-xZRJCsJAEEX/VsE7BN0ouNCd6EoR1I2CwwEcYmxooxgRRLy7v8o44YAaSAgVKjW9T3eRAAuM
-sYYLB5behJ5FBmkc9J1CwMgWPWxg4NF85JHFgFZEiVZGBQXUwuq11vnskKoDTXKpMGswZ7xN
-ToAh355WTfTbYMrYXrXIbGFsw2meznHUHgk59tTRQvXFlNyV/h+/SW/K+JJ5m4iCPr2k2B2l
-uKxyyUxCQZNxURCV/Tt5RIaF3LxRBbMENDSw4mN1A/zI/PP5f7qFgJ2ya7fdk9M31OBr/J2C
-4p2G24xn9nfUy9ZtsIuRKn+3mU6Pj9nlycp+RWVeqI99x7DC0eyRdgJQSwECFwsUAAAACAA0
-gZFGTGErrwEBAADqBQAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAHNjAxVVBLBQYA
-AAAAAQABAD4AAAA3AQAAAAA=</Image>
+					<Stereotype name="Dimension" metatype="Dimension" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAAaImEYejUVUBwEAALIEAAAHABEAc3RyLmRhdFVUDQAHw3Y6VcN2OlXDdjpV
+tVPLCsIwEJyrgv9Q7KWCBx8X0ZMnvYgH/YEqPgqliNWDlP67s7FtWk0OESUk2XR3dmc2aYoz
+QlxwgIeY1o5WjA7ayNBSewsRjgiwpDfFluuJpy4j5Rxhz28PlaGLHodXoLJit+FTIkPWescJ
+Utayuj3DHQk9N6zpXTGPeO+4VhnrGTQbGSljBHcl/sSZqHwbzj4GnGOMiJ81MBcVnRAnsRl8
+MpljgamhEz5zaL9W6iOnzqDms2vwyUB0zCoGzZ7k6qZEiZu2ISZ/0/biW+dY2qK75Os1GLvz
+dWP7yerb19Ss636Puhcvy3SDrt0wa/n8t+w9M91g+S70ezPXsav+bc/ygknO+QRQSwECFwsU
+AAAACAAGiJhGHo1FVAcBAACyBAAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAHw3Y6
+VVBLBQYAAAAAAQABAD4AAAA9AQAAAAA=</Image>
+						<AppliesTo>
+							<Apply type="DataType"/>
+						</AppliesTo>
 						<TaggedValues>
-							<Tag name="scale" type="enumeration" description="" unit="" values="Interval,Rational,Ordinal,Nominal" default=""/>
-							<Tag name="basicType" type="enumeration" description="" unit="" values="Boolean,String,Real,Integer,Decimal,UnlimitedNatural,Date" default=""/>
-							<Tag name="lowerBound" type="Classifier:lowerBound" description="" unit="Region" values="" default=""/>
-							<Tag name="upperBound" type="Classifier:upperBound" description="" unit="Region" values="" default=""/>
+							<Tag name="scale" type="enumeration" description="" unit="" values="interval,rational,ordinal,nominal" default=""/>
+							<Tag name="basicType" type="enumeration" description="" unit="" values="string,integer,decimal" default=""/>
 							<Tag name="unitOfMeasure" type="string" description="" unit="" values="" default=""/>
+							<Tag name="lowerBound" type="long" description="" unit="" values="" default=""/>
+							<Tag name="upperBound" type="long" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Domain" metatype="Domain" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Reference Structure" baseStereotypes="Reference%20Structure"/>
+					<Stereotype name="Domain" metatype="Domain" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="DataType"/>
+						</AppliesTo>
+					</Stereotype>
 					<Stereotype name="Endurant" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true" strictness="profile">
 						<AppliesTo>
 							<Apply type="Class">
@@ -92,7 +122,13 @@ AAAAAQABAD4AAAA3AQAAAAA=</Image>
 							<Tag name="isDerived" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Event" metatype="Event" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Perdurant" baseStereotypes="Perdurant"/>
+					<Stereotype name="Event" metatype="Event" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Perdurant" baseStereotypes="Perdurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAEyJlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAH7tU3Ve7VN1Xu1TdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACABMiZZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAH7tU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+					</Stereotype>
 					<Stereotype name="Formal" metatype="Formal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -101,8 +137,19 @@ AAAAAQABAD4AAAA3AQAAAAA=</Image>
 								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="HighOrder" metatype="HighOrder" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACKJlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAHzdU3Vc3VN1XN1TdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAAiiZZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAHzdU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
@@ -116,11 +163,24 @@ AAAAAQABAD4AAAA3AQAAAAA=</Image>
 					<Stereotype name="InstanceOf" metatype="InstanceOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="direction" value="Source -&gt; Destination"/>
+								<Property name="_lineStyle" value="orthogonalS"/>
+								<Property name="_TargetMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="Kind" metatype="Kind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Kind" metatype="Kind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAASBmEZKk2fkugAAAKoCAAAHABEAc3RyLmRhdFVUDQAHgmo6VYJqOlWCajpV
+zZDNCsIwEITnGsF3KO1FwYPeRE+CoDcP+gJqaxVKKKaKEPLuTrZVq1bwJFL2p8l+w2QN9lgj
+R4IAGbsNuwxttGChpCocsEMHc94arJhT/oWcu/DGoGCnsWUO0eUXVJSt6ifes1NSR3Zn1phn
+PUbBk9ObWl1PkUw4txA2ZWhRXIpCnzHAkOy4RuQyq0n5SYuITiaYYdTwjogK8ZMzJ24eeu7e
++W15N790d3PjyVdHrsHRP+7/u/2WtcxXUEsBAhcLFAAAAAgABIGYRkqTZ+S6AAAAqgIAAAcA
+CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB4JqOlVQSwUGAAAAAAEAAQA+AAAA8AAAAAAA
+</Image>
+						<TaggedValues>
+							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
+						</TaggedValues>
+					</Stereotype>
 					<Stereotype name="Material" metatype="Material" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -129,6 +189,34 @@ AAAAAQABAD4AAAA3AQAAAAA=</Image>
 								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default=""/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="Measurement" metatype="MeasurementEnumeration" notes="" cx="150" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAKZ8mEb63nj9fAAAALwAAAAHABEAc3RyLmRhdFVUDQAHH2M6VR9jOlUfYzpV
+bY0xCsJAFERfq+AdgmkMWGgnWlmZzkIvoBJjIATJmirk7nlZLWWZ/4fZmfmBFzfeFCTUsrus
+ZsGcPs4ZQeXDmZaKUjSsWHIRazZiy46Mw89d8fQ/tylwdZbRHWxo6Xi4O1mhlvkSL0+9jfrk
+60lNHTmx/5NJGWLue2tgBFBLAQIXCxQAAAAIAKZ8mEb63nj9fAAAALwAAAAHAAkAAAAAAAAA
+AAAAgAAAAABzdHIuZGF0VVQFAAcfYzpVUEsFBgAAAAABAAEAPgAAALIAAAAAAA==</Image>
+						<AppliesTo>
+							<Apply type="Enumeration"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="structure" type="DataType" description="" unit="" values="" default=""/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="MeasurementLiteral" metatype="MeasurementLiteral" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" defaultAttributeType="int">
+						<AppliesTo>
+							<Apply type="Attribute"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="lowerBound" type="long" description="" unit="" values="" default=""/>
+							<Tag name="upperBound" type="long" description="" unit="" values="" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Mediation" metatype="Mediation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
@@ -140,23 +228,54 @@ AAAAAQABAD4AAAA3AQAAAAA=</Image>
 						</AppliesTo>
 					</Stereotype>
 					<Stereotype name="MemberOf" metatype="MemberOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAMJsl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH6fU4Ven1OFXp9ThV
+1VLBasJAEH3XCP5D0EsL+YOeA/Wk1IL0WGnaBlYTjOIh5Iv6Cf25volJjMnG7FpBZNhkZnfm
+zbyZUXjHEgEUXKwQ4oOiaC8RYUuJeKsqnyEGSOFQRHPo/4kHPPM9wSu/X7RGiKltGDth7Ao7
+ahIvqCN4PFu+7nLrkeIWWGnx70Ld45vVCIopbkw7xJr3Ev+DMebE8/HCM6X2hhm1MX7pm9Kz
+ibqoMnqa11nBMsvzPVXVS58Sft0OHsfurHO/g31dJjrksl4TLscJ1/nYVmGeJas00+75vBU/
+qSbknero3D3sVtDi0uxUexZ6HrffrUu42FXQn6G+V7qtcjWds9+A5mbZsTi3Eaed0nNoM7hk
+9v/loMtkMw3zfCWWIBxQ9F1I2EXJH/QwP80sbNqR9Tlk+ANQSwECFwsUAAAACADCbJdGmByt
+AjEBAAAqBwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH6fU4VVBLBQYAAAAAAQAB
+AD4AAABnAQAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_SourceAggregation" value="2"/>
+								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
 								<Property name="_TargetMultiplicity" value="2..*"/>
 								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="isPartInseparable" value=""/>
-								<Property name="isPartEssential" value=""/>
-								<Property name="isPartImmutable" value=""/>
-								<Property name="isWholeImmutable" value=""/>
-								<Property name="isPartMandatory" value=""/>
-								<Property name="isWholeMandatory" value=""/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="partInseparable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="intransitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Mixin" metatype="Mixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
-					<Stereotype name="Mode" metatype="Mode" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Mixin" metatype="Mixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAPqIlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAHYdU3VWHVN1Vh1TdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAD6iJZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAHYdU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+					</Stereotype>
+					<Stereotype name="Mode" metatype="Mode" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAFSBmEZKk2fkugAAAKoCAAAHABEAc3RyLmRhdFVUDQAH8mo6VfJqOlXyajpV
+zZDNCsIwEITnGsF3KO1FwYPeRE+CoDcP+gJqaxVKKKaKEPLuTrZVq1bwJFL2p8l+w2QN9lgj
+R4IAGbsNuwxttGChpCocsEMHc94arJhT/oWcu/DGoGCnsWUO0eUXVJSt6ifes1NSR3Zn1phn
+PUbBk9ObWl1PkUw4txA2ZWhRXIpCnzHAkOy4RuQyq0n5SYuITiaYYdTwjogK8ZMzJ24eeu7e
++W15N790d3PjyVdHrsHRP+7/u/2WtcxXUEsBAhcLFAAAAAgAVIGYRkqTZ+S6AAAAqgIAAAcA
+CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB/JqOlVQSwUGAAAAAAEAAQA+AAAA8AAAAAAA
+</Image>
+						<TaggedValues>
+							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
+						</TaggedValues>
+					</Stereotype>
 					<Stereotype name="Participation" metatype="Participation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -177,47 +296,82 @@ AAAAAQABAD4AAAA3AQAAAAA=</Image>
 							<Tag name="strictness" type="StereotypeStricknessKind" description="" unit="" values="" default="profile"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Phase" metatype="Phase" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
-					<Stereotype name="PhaseMixin" metatype="PhaseMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Phase" metatype="Phase" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAMCAmEYSbsRLvAAAALACAAAHABEAc3RyLmRhdFVUDQAHGGo6VRhqOlUYajpV
+zVGxCsIwFLw1gv9Q2kXBQTfRSRB0c9AfUFproMTSqkvIv3t5rdpKBSeR8PLuJe8ul6TECXvk
+SBAgIzoQZeijBwslWUHjiAHW3C2x45yyCnFBQWy4pok1zsQhhhxBzbN1/qSgWS15XkF0Y465
+NqqVr6zbak09RWbCvo1wU4YRxa0ojBkTTMmdNxi59BqyfKdFRCcLrDDrvElEjbjlzYmfl6J7
+Iv9i3s9v/T38eO67J9fh6R//4LsXrnI13wFQSwECFwsUAAAACADAgJhGEm7ES7wAAACwAgAA
+BwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAHGGo6VVBLBQYAAAAAAQABAD4AAADyAAAA
+AAA=</Image>
+						<TaggedValues>
+							<Tag name="transition" type="enumeration" description="" unit="" values="initial,final" default=""/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="PhaseMixin" metatype="PhaseMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAMSIlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAHKtU3VSrVN1Uq1TdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACADEiJZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAHKtU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+					</Stereotype>
 					<Stereotype name="Quality" metatype="Quality" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIALyAkUYEA6MUrwAAAD4CAAAHABEAc3RyLmRhdFVUDQAHSi8xVUovMVVKLzFV
-tY/NCoJQEIW/bUHvILZJaFG7yFWrWlVQL2BhJpiJWhvx3TuOQgQtgpDLDIe5c36m4EpARohD
-InQSShgxpLI+oNCkZEdOTKRKmeByUE2ZqeYs8PBt2+lezEVbG+kVHNUj46RCJQ8phcZ22Qvl
-nNVjnuae2J+n17pXUsvMOxU36dwrxtJdsWb5oTqmNrYvZt0pNPc0N/yeastd0/6yOX9mu5lj
-IG5fab7pvPeb7ZbzAlBLAQIXCxQAAAAIALyAkUYEA6MUrwAAAD4CAAAHAAkAAAAAAAAAAAAA
-gAAAAABzdHIuZGF0VVQFAAdKLzFVUEsFBgAAAAABAAEAPgAAAOUAAAAAAA==</Image>
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAHKCmEYa76ZSCQEAALAFAAAHABEAc3RyLmRhdFVUDQAH/Ww6Vf1sOlX9bDpV
+xVPLCsIwEJyrgv9Q2ouCBx8X0ZMg6M2D/oDa+gApYlsRSv/d2WjV2BYaUUpIdpPubGZ20wB7
+rHCCBwtHemt6RzRQR4yasjUcsEUTM34NsOS6486GTy9EhDMRNloc1iM+ftgi5IG7CVFnehda
+l2dtzpAnUSab5JNVRnpSlNnDVWUP6fnYPHO9I1/sZASMCTFXXHacvsqzUIw6nH30iB9pmJOK
+9omT2BgOGYwxxVCriUO0q6lMqOk9OsvWYYwwHj3vet2bqM4IXzMFXQx+qKCYXeqLyjym5jzN
+emwZqPq2B6mu8nd95tIzplXL622+evN/p8oO6K/nH3Uv9z7z6ltFPcrpz74Osff1BlBLAQIX
+CxQAAAAIAHKCmEYa76ZSCQEAALAFAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAf9
+bDpVUEsFBgAAAAABAAEAPgAAAD8BAAAAAA==</Image>
 						<TaggedValues>
-							<Tag name="nature" type="enumeration" description="" unit="" values="Perceivable,NonPerceivable,Nominal" default=""/>
+							<Tag name="nature" type="enumeration" description="" unit="" values="perceivable,nonperceivable,nominal" default=""/>
+							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Quantity" metatype="Quantity" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
-					<Stereotype name="Reference Structure" metatype="Structure" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
-						<AppliesTo>
-							<Apply type="DataType"/>
-						</AppliesTo>
+					<Stereotype name="Quantity" metatype="Quantity" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIABaBmEZKk2fkugAAAKoCAAAHABEAc3RyLmRhdFVUDQAHi2o6VYtqOlWLajpV
+zZDNCsIwEITnGsF3KO1FwYPeRE+CoDcP+gJqaxVKKKaKEPLuTrZVq1bwJFL2p8l+w2QN9lgj
+R4IAGbsNuwxttGChpCocsEMHc94arJhT/oWcu/DGoGCnsWUO0eUXVJSt6ifes1NSR3Zn1phn
+PUbBk9ObWl1PkUw4txA2ZWhRXIpCnzHAkOy4RuQyq0n5SYuITiaYYdTwjogK8ZMzJ24eeu7e
++W15N790d3PjyVdHrsHRP+7/u/2WtcxXUEsBAhcLFAAAAAgAFoGYRkqTZ+S6AAAAqgIAAAcA
+CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB4tqOlVQSwUGAAAAAAEAAQA+AAAA8AAAAAAA
+</Image>
 						<TaggedValues>
-							<Tag name="groundedEnumeration" type="Enumeration" description="" unit="" values="" default=""/>
+							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Region" metatype="Region" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAAaBkUanluFwwwAAAAIEAAAHABEAc3RyLmRhdFVUDQAHEzAxVRMwMVUTMDFV
-xZO9CsJAEIS/NoLvIEmjYKGdmEoR1Erw5wFMjBo4o5g0Ir67kyWFhZUIx7F7e3O7M1PclZzZ
-cyOjg1OVqHK0afG0HFAKqVhxJ+ekKOgSslH0GSiGjOgRN91Bs+cc1bcQY8lW+WRTiZ1zUmEP
-U61ZarbK+Av1hWLrWNwarLLZJ5GmJswZf+GJeNlk/LOHmapU+EX3zpuLtSqf+ktTytSVSdeX
-i5nw2oUv/Z2UHPVbyM3HwZuTKVctZ6+i+IOLz1/6svwGUEsBAhcLFAAAAAgABoGRRqeW4XDD
-AAAAAgQAAAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUABxMwMVVQSwUGAAAAAAEAAQA+
-AAAA+QAAAAAA</Image>
-						<AppliesTo>
-							<Apply type="DataType"/>
-						</AppliesTo>
+					<Stereotype name="Relator" metatype="Relator" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACiBmEZKk2fkugAAAKoCAAAHABEAc3RyLmRhdFVUDQAH0Go6VdBqOlXQajpV
+zZDNCsIwEITnGsF3KO1FwYPeRE+CoDcP+gJqaxVKKKaKEPLuTrZVq1bwJFL2p8l+w2QN9lgj
+R4IAGbsNuwxttGChpCocsEMHc94arJhT/oWcu/DGoGCnsWUO0eUXVJSt6ifes1NSR3Zn1phn
+PUbBk9ObWl1PkUw4txA2ZWhRXIpCnzHAkOy4RuQyq0n5SYuITiaYYdTwjogK8ZMzJ24eeu7e
++W15N790d3PjyVdHrsHRP+7/u/2WtcxXUEsBAhcLFAAAAAgAKIGYRkqTZ+S6AAAAqgIAAAcA
+CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB9BqOlVQSwUGAAAAAAEAAQA+AAAA8AAAAAAA
+</Image>
 						<TaggedValues>
-							<Tag name="basicType" type="enumeration" description="" unit="" values="Boolean,String,Real,Integer,Decimal,UnlimitedNatural,Date" default=""/>
-							<Tag name="groundedLiteral" type="string" description="" unit="" values="" default=""/>
+							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="Relator" metatype="Relator" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
-					<Stereotype name="Role" metatype="Role" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
-					<Stereotype name="RoleMixin" metatype="RoleMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="Role" metatype="Role" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAP5umEZzyB/muwAAAKwCAAAHABEAc3RyLmRhdFVUDQAHY0s6VWNLOlVjSzpV
+zVGxCsIwFLy1gv9Q2kXBQTfRSRB0c9AfUFproKSlVZeQf/fyjNpKBSeR8PLuJe8ul6TGCXuU
+SBEiJzoQ5eijB4NAcgCFIwZYc7fGjnPGKsIZFbHmmiJWKIgjDDlCzzM+f1JQrJY8ryK6Midc
+G3nlC+u2WlMvIDNl30a4GUOL4lYUxowJpuTOG4xSejVZrtMgppMFVph13iSmRtLyZsXPS9E+
+kXsx5+e3/h5+HPfdk+3w9I9/8N0L37PFDVBLAQIXCxQAAAAIAP5umEZzyB/muwAAAKwCAAAH
+AAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAdjSzpVUEsFBgAAAAABAAEAPgAAAPEAAAAA
+AA==</Image>
+						<TaggedValues>
+							<Tag name="transition" type="enumeration" description="" unit="" values="initial,final" default=""/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="RoleMixin" metatype="RoleMixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAPSIlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAHbtU3VW7VN1Vu1TdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAD0iJZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAHbtU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+					</Stereotype>
 					<Stereotype name="Structuration" metatype="Structuration" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
@@ -228,67 +382,102 @@ AAAA+QAAAAAA</Image>
 						</AppliesTo>
 					</Stereotype>
 					<Stereotype name="SubCollectionOf" metatype="SubCollectionOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIANJsl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH8fU4VfH1OFXx9ThV
+1VLBasJAEH3XCP5D0EsL+YOeA/Wk1IL0WGnaBlYTjOIh5Iv6Cf25volJjMnG7FpBZNhkZnfm
+zbyZUXjHEgEUXKwQ4oOiaC8RYUuJeKsqnyEGSOFQRHPo/4kHPPM9wSu/X7RGiKltGDth7Ao7
+ahIvqCN4PFu+7nLrkeIWWGnx70Ld45vVCIopbkw7xJr3Ev+DMebE8/HCM6X2hhm1MX7pm9Kz
+ibqoMnqa11nBMsvzPVXVS58Sft0OHsfurHO/g31dJjrksl4TLscJ1/nYVmGeJas00+75vBU/
+qSbknero3D3sVtDi0uxUexZ6HrffrUu42FXQn6G+V7qtcjWds9+A5mbZsTi3Eaed0nNoM7hk
+9v/loMtkMw3zfCWWIBxQ9F1I2EXJH/QwP80sbNqR9Tlk+ANQSwECFwsUAAAACADSbJdGmByt
+AjEBAAAqBwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH8fU4VVBLBQYAAAAAAQAB
+AD4AAABnAQAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_SourceAggregation" value="2"/>
+								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
 								<Property name="_TargetMultiplicity" value="2..*"/>
 								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="isPartInseparable" value=""/>
-								<Property name="isPartEssential" value=""/>
-								<Property name="isPartImmutable" value=""/>
-								<Property name="isWholeImmutable" value=""/>
-								<Property name="isPartMandatory" value=""/>
-								<Property name="isWholeMandatory" value=""/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="partInseparable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SubEventOf" metatype="SubEventOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_SourceAggregation" value="2"/>
+								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
+								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_TargetMultiplicity" value="2..*"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="SubKind" metatype="SubKind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant"/>
+					<Stereotype name="SubKind" metatype="SubKind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIALqIlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAH6dQ3VenUN1Xp1DdV
+TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
+ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
+D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAC6iJZGt07jvn0AAAC6AAAABwAJAAAAAAAA
+AAAAAIAAAAAAc3RyLmRhdFVUBQAH6dQ3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+					</Stereotype>
 					<Stereotype name="SubQuantityOf" metatype="SubQuantityOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIANBsl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH4PU4VeD1OFXg9ThV
+1VLBasJAEH3XCP5D0EsL+YOeA/Wk1IL0WGnaBlYTjOIh5Iv6Cf25volJjMnG7FpBZNhkZnfm
+zbyZUXjHEgEUXKwQ4oOiaC8RYUuJeKsqnyEGSOFQRHPo/4kHPPM9wSu/X7RGiKltGDth7Ao7
+ahIvqCN4PFu+7nLrkeIWWGnx70Ld45vVCIopbkw7xJr3Ev+DMebE8/HCM6X2hhm1MX7pm9Kz
+ibqoMnqa11nBMsvzPVXVS58Sft0OHsfurHO/g31dJjrksl4TLscJ1/nYVmGeJas00+75vBU/
+qSbknero3D3sVtDi0uxUexZ6HrffrUu42FXQn6G+V7qtcjWds9+A5mbZsTi3Eaed0nNoM7hk
+9v/loMtkMw3zfCWWIBxQ9F1I2EXJH/QwP80sbNqR9Tlk+ANQSwECFwsUAAAACADQbJdGmByt
+AjEBAAAqBwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH4PU4VVBLBQYAAAAAAQAB
+AD4AAABnAQAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="_SourceAggregation" value="2"/>
+								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
 								<Property name="_TargetMultiplicity" value="2..*"/>
 								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="isPartInseparable" value=""/>
-								<Property name="isPartEssential" value=""/>
-								<Property name="isPartImmutable" value=""/>
-								<Property name="isWholeImmutable" value=""/>
-								<Property name="isPartMandatory" value=""/>
-								<Property name="isWholeMandatory" value=""/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="Temporal" metatype="Temporal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAFSJkUZR6xJ/vQAAAPQCAAAHABEAc3RyLmRhdFVUDQAHgj4xVYI+MVWCPjFV
-lVJLCsIwFJxtBe9QslLwBt2quJEKeoFo2lpIP6bVjXh3JxEXhkYIj1dm+ubNkKYaEmcU0EjR
-oIZiafIRHXqi73SOGZ5IWBYlVJZYYMf5gBOfFZlASzTiDsMdgRX7SC7JR+oElqyUvob7Ld/Z
-ncFTZJEJB4cvbMUOpVjmq2KTNriRS36NUErhKWITts6rpur65yzlhCqLytkT2TsOJTQ/8zjv
-tWPWqwq4K08R55/jQWzcv9kHT9BNqD638cIbUEsBAhcLFAAAAAgAVImRRlHrEn+9AAAA9AIA
-AAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB4I+MVVQSwUGAAAAAAEAAQA+AAAA8wAA
-AAAA</Image>
-						<AppliesTo>
-							<Apply type="Association">
-								<Property name="direction" value="Source -&gt; Destination"/>
-								<Property name="_lineStyle" value="orthogonalS"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="nature" type="enumeration" description="" unit="" values="Starts,Precedes,Equals,Meets,Finishes,Overlaps,During" default=""/>
+							<Tag name="partInseparable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="Temporal" metatype="Temporal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIABKImEZ0UvU0hAAAAOoAAAAHABEAc3RyLmRhdFVUDQAHmXY6VZl2OlWZdjpV
+jY7BCcJAEEXfNYI9hOSiLejJkxZgAwajBFYTkvUUUpEl2JzPRRRv8mF2/8ybvxs4UFETyLnQ
+cFRBX9ESVWs3fJg5M0aydGbSJxbsnA7srWddwdVb5EbvRsFS5XS6xklMxF26NrczvZcOPGRG
+Svsbtqx+MkqmlLN+v/r6x2D9J/W7N/EEUEsBAhcLFAAAAAgAEoiYRnRS9TSEAAAA6gAAAAcA
+CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB5l2OlVQSwUGAAAAAAEAAQA+AAAAugAAAAAA
+</Image>
+						<AppliesTo>
+							<Apply type="Association">
+								<Property name="_lineStyle" value="orthogonalS"/>
+								<Property name="_TargetMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="1"/>
+							</Apply>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="nature" type="enumeration" description="" unit="" values="starts,precedes,equals,meets,finishes,overlaps,during" default=""/>
 						</TaggedValues>
 					</Stereotype>
 				</Stereotypes>
 				<TaggedValueTypes/>
-				<QuickLink data="Class,Kind,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Kind,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Kind,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Kind,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Kind,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Kind,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Kind,,,,Class,SubKind,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Kind,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Kind,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Kind,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Kind,,,,Class,Role,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Kind,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Kind,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Kind,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Kind,,,,Class,Phase,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Kind,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Kind,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Kind,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Kind,,,,Class,Category,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Kind,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Kind,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Kind,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Kind,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Kind,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Kind,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Kind,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Kind,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Kind,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Kind,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Kind,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Kind,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,SubKind,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Role,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Phase,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Category,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Kind,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Collective,,,,Class,Kind,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Collective,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Collective,,,,Class,Collective,Association,SubCollectionOf,to,,SubCollectionOf to,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Collective,,,,Class,Collective,Association,SubCollectionOf,from,,SubCollectionOf from,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Collective,,,,Class,Collective,Association,MemberOf,to,,MemberOf to,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Collective,,,,Class,Collective,Association,MemberOf,from,,MemberOf from,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Collective,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Collective,,,,Class,SubKind,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Collective,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Collective,,,,Class,SubKind,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Collective,,,,Class,Role,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Collective,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Collective,,,,Class,Role,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Collective,,,,Class,Phase,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Collective,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Collective,,,,Class,Phase,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Collective,,,,Class,Category,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Collective,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Collective,,,,Class,Category,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Collective,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Collective,,,,Class,RoleMixin,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Collective,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Collective,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Collective,,,,Class,Mixin,Association,MemberOf,to,,MemberOf,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Collective,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Collective,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Kind,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Collective,,,,Association,SubCollectionOf,to,SubCollectionOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Collective,,,,Association,SubCollectionOf,from,SubCollectionOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Collective,,,,Association,MemberOf,to,MemberOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Collective,,,,Association,MemberOf,from,MemberOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,SubKind,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,SubKind,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Role,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Role,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Phase,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Phase,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Category,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Category,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,RoleMixin,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Mixin,,,,Association,MemberOf,to,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Collective,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Quantity,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Quantity,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Quantity,,,,Class,Quantity,Association,SubQuantityOf,to,,SubQuantityOf to,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Quantity,,,,Class,Quantity,Association,SubQuantityOf,from,,SubQuantityOf from,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Quantity,,,,Class,SubKind,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Quantity,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Quantity,,,,Class,Role,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Quantity,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Quantity,,,,Class,Phase,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Quantity,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Quantity,,,,Class,Category,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Quantity,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Quantity,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Quantity,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Quantity,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Quantity,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Quantity,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Quantity,,,,Association,SubQuantityOf,to,SubQuantityOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Quantity,,,,Association,SubQuantityOf,from,SubQuantityOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,SubKind,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Role,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Phase,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Category,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Quantity,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,,,,Class,Kind,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,SubKind,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,SubKind,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,SubKind,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,SubKind,,,,Class,Collective,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,SubKind,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,SubKind,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,SubKind,,,,Class,Quantity,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,SubKind,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,SubKind,,,,Class,SubKind,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,SubKind,,,,Class,SubKind,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,SubKind,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,SubKind,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,SubKind,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,SubKind,,,,Class,Role,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,SubKind,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,SubKind,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,SubKind,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,SubKind,,,,Class,Phase,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,SubKind,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,SubKind,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,SubKind,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,SubKind,,,,Class,Category,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,SubKind,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,SubKind,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,SubKind,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,SubKind,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,SubKind,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,SubKind,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,SubKind,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,SubKind,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,SubKind,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,SubKind,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,SubKind,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,SubKind,Class,Kind,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Collective,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Quantity,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,SubKind,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,SubKind,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Role,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Phase,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Category,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,SubKind,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,,,,Class,Kind,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Role,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Role,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Role,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Role,,,,Class,Collective,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Role,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Role,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Role,,,,Class,Quantity,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Role,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Role,,,,Class,SubKind,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Role,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Role,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Role,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Role,,,,Class,Role,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Role,,,,Class,Role,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Role,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Role,,,,Class,Role,Association,Material,to,,Material,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Role,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Role,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Role,,,,Class,Phase,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Role,,,,Class,Phase,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Role,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Role,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Role,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Role,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Role,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Role,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Role,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Role,,,,Class,RoleMixin,Association,Material,to,,Material,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Role,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Role,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Role,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Role,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Role,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Role,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Role,,,,Class,Relator,Association,Mediation,from,,Mediation,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,Role,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Role,Class,Kind,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Collective,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Quantity,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,SubKind,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Role,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Role,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Role,,,,Association,Material,to,Material,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Phase,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Phase,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,RoleMixin,,,,Association,Material,to,Material,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Relator,,,,Association,Mediation,from,Mediation,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Role,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,,,,Class,Kind,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Phase,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Phase,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Phase,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Phase,,,,Class,Collective,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Phase,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Phase,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Phase,,,,Class,Quantity,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Phase,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Phase,,,,Class,SubKind,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Phase,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Phase,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Phase,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Phase,,,,Class,Role,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Phase,,,,Class,Role,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Phase,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Phase,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Phase,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Phase,,,,Class,Phase,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Phase,,,,Class,Phase,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Phase,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Phase,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Phase,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Phase,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Phase,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Phase,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Phase,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Phase,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Phase,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Phase,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Phase,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Phase,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Phase,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Phase,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Phase,Class,Kind,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Collective,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Quantity,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,SubKind,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Role,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Role,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Phase,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Phase,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Phase,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,,,,Class,Kind,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Category,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Category,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Category,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Category,,,,Class,Collective,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Category,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Category,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Category,,,,Class,Quantity,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Category,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Category,,,,Class,SubKind,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Category,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Category,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Category,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Category,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Category,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Category,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Category,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Category,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Category,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Category,,,,Class,Category,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Category,,,,Class,Category,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Category,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Category,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Category,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Category,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Category,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Category,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Category,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Category,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Category,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Category,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Category,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Category,Class,Kind,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Collective,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Quantity,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,SubKind,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Category,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Category,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Category,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,RoleMixin,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,RoleMixin,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,RoleMixin,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,RoleMixin,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,RoleMixin,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,RoleMixin,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,RoleMixin,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,RoleMixin,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,RoleMixin,,,,Class,Role,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,RoleMixin,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,RoleMixin,,,,Class,Role,Association,Material,to,,Material,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,RoleMixin,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,RoleMixin,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,RoleMixin,,,,Class,Phase,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,RoleMixin,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,RoleMixin,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,RoleMixin,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,RoleMixin,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,RoleMixin,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,RoleMixin,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,RoleMixin,,,,Class,RoleMixin,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,RoleMixin,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,RoleMixin,Association,Material,to,,Material,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,Mixin,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,RoleMixin,,,,Class,Relator,Association,Mediation,from,,Mediation,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,RoleMixin,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,RoleMixin,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Role,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Role,,,,Association,Material,to,Material,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Phase,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,RoleMixin,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,RoleMixin,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,RoleMixin,,,,Association,Material,to,Material,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Mixin,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Relator,,,,Association,Mediation,from,Mediation,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,RoleMixin,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,,,,Class,Kind,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Mixin,,,,Class,Kind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Mixin,,,,Class,Kind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Mixin,,,,Class,Kind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Mixin,,,,Class,Collective,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Mixin,,,,Class,Collective,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Mixin,,,,Class,Collective,Association,MemberOf,from,,MemberOf,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Mixin,,,,Class,Quantity,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Mixin,,,,Class,Quantity,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Mixin,,,,Class,SubKind,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Mixin,,,,Class,SubKind,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Mixin,,,,Class,SubKind,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Mixin,,,,Class,SubKind,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,SubKind,0,,,,,&#xA;Class,Mixin,,,,Class,Role,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Mixin,,,,Class,Role,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Mixin,,,,Class,Role,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Mixin,,,,Class,Role,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Mixin,,,,Class,Phase,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Mixin,,,,Class,Phase,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Mixin,,,,Class,Phase,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Mixin,,,,Class,Phase,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Mixin,,,,Class,Category,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Mixin,,,,Class,Category,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Mixin,,,,Class,Category,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Mixin,,,,Class,Category,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Mixin,,,,Class,RoleMixin,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Mixin,,,,Class,RoleMixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Mixin,,,,Class,RoleMixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Mixin,,,,Class,RoleMixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Mixin,,,,Class,Mixin,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Mixin,,,,Class,Mixin,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Mixin,,,,Class,Mixin,Association,Formal,to,,Formal,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Mixin,,,,Class,Mixin,Association,ComponentOf,to,,ComponentOf to,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Mixin,,,,Class,Mixin,Association,ComponentOf,from,,ComponentOf from,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Mixin,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Mixin,Class,Kind,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Kind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Kind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Kind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Collective,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Collective,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Collective,,,,Association,MemberOf,from,MemberOf,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Quantity,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Quantity,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,SubKind,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,SubKind,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,SubKind,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,SubKind,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Role,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Role,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Role,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Role,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Phase,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Phase,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Phase,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Phase,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Category,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Category,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Category,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Category,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,RoleMixin,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,RoleMixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,RoleMixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,RoleMixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Mixin,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Mixin,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Mixin,,,,Association,Formal,to,Formal,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Mixin,,,,Association,ComponentOf,to,ComponentOf to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Mixin,,,,Association,ComponentOf,from,ComponentOf from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mixin,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,,,,Class,Role,Association,Mediation,to,,Mediation,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Relator,,,,Class,RoleMixin,Association,Mediation,to,,Mediation,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Relator,,,,Class,Relator,Generalization,,to,,Generalization,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,Relator,,,,Class,Relator,Generalization,,from,,Generalization,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,Relator,,,,Class,Relator,Association,Mediation,to,,Mediation to,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,Relator,,,,Class,Relator,Association,Mediation,from,,Mediation from,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,Relator,,,,Class,Mode,Association,Characterization,from,,Characterization,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Relator,Class,Role,,,,Association,Mediation,to,Mediation,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,RoleMixin,,,,Association,Mediation,to,Mediation,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,Relator,,,,Generalization,,to,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,Relator,,,,Generalization,,from,Generalization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,Relator,,,,Association,Mediation,to,Mediation to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,Relator,,,,Association,Mediation,from,Mediation from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,Mode,,,,Association,Characterization,from,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,,,,Class,Kind,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Kind,0,,,,,&#xA;Class,Mode,,,,Class,Collective,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Collective,0,,,,,&#xA;Class,Mode,,,,Class,Quantity,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Quantity,0,,,,,&#xA;Class,Mode,,,,Class,Role,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Role,0,,,,,&#xA;Class,Mode,,,,Class,Phase,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Phase,0,,,,,&#xA;Class,Mode,,,,Class,Category,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Category,0,,,,,&#xA;Class,Mode,,,,Class,RoleMixin,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,RoleMixin,0,,,,,&#xA;Class,Mode,,,,Class,Mixin,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Mixin,0,,,,,&#xA;Class,Mode,,,,Class,Relator,Association,Characterization,to,,Characterization,TRUE,TRUE,TRUE,TRUE,Relator,0,,,,,&#xA;Class,Mode,,,,Class,Mode,Association,Characterization,to,,Characterization to,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Mode,,,,Class,Mode,Association,Characterization,from,,Characterization from,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Mode,,,,Class,Mode,Generalization,,to,,Generalization to,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Mode,,,,Class,Mode,Generalization,,from,,Generalization from,TRUE,TRUE,TRUE,TRUE,Mode,0,,,,,&#xA;Class,Mode,Class,Kind,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Collective,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Quantity,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Role,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Phase,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Category,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,RoleMixin,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Mixin,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Relator,,,,Association,Characterization,to,Characterization,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Mode,,,,Association,Characterization,to,Characterization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Mode,,,,Association,Characterization,from,Characterization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Mode,,,,Generalization,,to,Generalization to,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Mode,Class,Mode,,,,Generalization,,from,Generalization from,,TRUE,,TRUE,TRUE,,0,,,,,&#xA;Class,Relator,Class,Kind,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;Class,Relator,Class,Collective,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;Class,Relator,Class,Quantity,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;Class,Relator,Class,SubKind,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;Class,Relator,Class,Phase,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;Class,Relator,Class,Category,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;Class,Relator,Class,Mixin,,,,&lt;none&gt;,,,,,,,,TRUE,,0,,,,,&#xA;"/>
 			</Content>
 		</UMLProfile>
 	</UMLProfiles><UMLPatterns><UMLPattern><XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2013-11-07 19:32:02">
@@ -9226,12 +9415,13 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
+							<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
+							<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
 							<Tag name="UML::DataType" type="" description="" unit="" values="" default="DataType"/>
 							<Tag name="OntoUML::Domain(UML::DataType)" type="" description="" unit="" values="" default="Domain"/>
 							<Tag name="OntoUML::Dimension(UML::DataType)" type="" description="" unit="" values="" default="Dimension"/>
-							<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
-							<Tag name="UML::PrimitiveType" type="" description="" unit="" values="" default="PrimitiveType"/>
-							<Tag name="OntoUML::Region(UML::DataType)" type="" description="" unit="" values="" default="Region"/>
+							<Tag name="OntoUML::Quality(UML::Class)" type="" description="" unit="" values="" default="Quality"/>
+							<Tag name="OntoUML::Measurement(UML::Enumeration)" type="" description="" unit="" values="" default="MeasurementEnumeration"/>
 							<Tag name="OntoUML::Structuration(UML::Association)" type="" description="" unit="" values="" default="Structuration"/>
 							<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
 						</TaggedValues>

@@ -10,12 +10,13 @@
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
+					<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
+					<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
 					<Tag name="UML::DataType" type="" description="" unit="" values="" default="DataType"/>
 					<Tag name="OntoUML::Domain(UML::DataType)" type="" description="" unit="" values="" default="Domain"/>
 					<Tag name="OntoUML::Dimension(UML::DataType)" type="" description="" unit="" values="" default="Dimension"/>
-					<Tag name="UML::Enumeration" type="" description="" unit="" values="" default="Enumeration"/>
-					<Tag name="UML::PrimitiveType" type="" description="" unit="" values="" default="PrimitiveType"/>
-					<Tag name="OntoUML::Region(UML::DataType)" type="" description="" unit="" values="" default="Region"/>
+					<Tag name="OntoUML::Quality(UML::Class)" type="" description="" unit="" values="" default="Quality"/>
+					<Tag name="OntoUML::Measurement(UML::Enumeration)" type="" description="" unit="" values="" default="MeasurementEnumeration"/>
 					<Tag name="OntoUML::Structuration(UML::Association)" type="" description="" unit="" values="" default="Structuration"/>
 					<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
 				</TaggedValues>
