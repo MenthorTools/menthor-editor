@@ -151,20 +151,20 @@ public class StartPanel extends JPanel implements Editor {
 		recentPanel.setLayout(gl_recentPanel);
 						
 		eaInstallLink = new JHyperLinkLabel("");
-		eaInstallLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_tutorials.png")));	
+		eaInstallLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));	
 		eaInstallLink.setText("[Tutorial] Learn how to install and use OntoUML within the EA Tool");
 		
 		faqLink = new JHyperLinkLabel("");		
 		faqLink.setText("[FAQ] Frequently Asked Questions");
-		faqLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_faq.png")));
+		faqLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
 		
 		JHyperLinkLabel userLink = new JHyperLinkLabel("");
 		userLink.setText("[Forum] User Community");
-		userLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_forum.png")));
+		userLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
 		
 		JHyperLinkLabel guideLink = new JHyperLinkLabel("");
 		guideLink.setText("[Study] OntoUML Study Guide");
-		guideLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/icones_site_64x64px_study_guide.png")));
+		guideLink.setIcon(new ImageIcon(StartPanel.class.getResource("/resources/icons/menthor-16x16.png")));
 		GroupLayout gl_bottomPanel = new GroupLayout(bottomPanel);
 		gl_bottomPanel.setHorizontalGroup(
 			gl_bottomPanel.createParallelGroup(Alignment.LEADING)
