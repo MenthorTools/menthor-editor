@@ -3,7 +3,7 @@
 	<Profiles directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\profile" files="profile.xml"/>
 	<Patterns directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\pattern" files="category.xml,mixin.xml,parts.xml,phasepartition.xml,relator.xml,rolemixin.xml,rolepartition.xml,subkindpartition.xml,types.xml"/>
 	<DiagramProfile directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\diagram" files="diagram.xml"/>
-	<UIToolboxes directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\toolbox" files="toolbox.xml"/>
+	<UIToolboxes directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\toolbox" files="toolbox-core.xml,toolbox-event.xml,toolbox-full.xml,toolbox-quality.xml"/>
 	<ModelTemplates>
 		<Model name="Structural Modeling" description="Create a simple OntoUML2.0 class diagram." location="p_OntoUML2.0.xml" default="yes" icon="34" filter=""/>
 	</ModelTemplates>

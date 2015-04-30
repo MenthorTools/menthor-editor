@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="CDE50973-F" name="OntoUML 2.0" version="1.0" notes="OntoUML 2.0"/>
+	<Documentation id="CDE50973-F" name="OntoUML 2.0 Full" version="1.0" notes="OntoUML 2.0 Full"/>
 	<Content>
 		<Stereotypes>
 			<Stereotype name="DataTypes" alias="OntoUML2.0 Full - DataTypes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -100,12 +100,10 @@
 				<TaggedValues>
 					<Tag name="OntoUML::Category(UMLPattern)" type="" description="" unit="" values="" default="Category"/>
 					<Tag name="OntoUML::Mixin(UMLPattern)" type="" description="" unit="" values="" default="Mixin"/>
-					<Tag name="OntoUML::Parts(UMLPattern)" type="" description="" unit="" values="" default="Parts"/>
-					<Tag name="OntoUML::PhasePartition(UMLPattern)" type="" description="" unit="" values="" default="Phase Partition"/>
+					<Tag name="OntoUML::PhasePartition(UMLPattern)" type="" description="" unit="" values="" default="Phase"/>
 					<Tag name="OntoUML::Relator(UMLPattern)" type="" description="" unit="" values="" default="Relator"/>
 					<Tag name="OntoUML::RoleMixin(UMLPattern)" type="" description="" unit="" values="" default="RoleMixin"/>
-					<Tag name="OntoUML::SubKindPartition(UMLPattern)" type="" description="" unit="" values="" default="SubKind Partition"/>
-					<Tag name="OntoUML::Types(UMLPattern)" type="" description="" unit="" values="" default="Atomic/Complex Types"/>
+					<Tag name="OntoUML::SubKindPartition(UMLPattern)" type="" description="" unit="" values="" default="SubKind"/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="Common" alias="OntoUML2.0 Full - Common" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
