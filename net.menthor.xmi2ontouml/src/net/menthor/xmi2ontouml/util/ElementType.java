@@ -31,7 +31,8 @@ public enum ElementType
     PACKAGE,
 	PRIMITIVE,
     PROPERTY,
-    CONSTRAINT;
+    CONSTRAINT,
+    ISDEFINEDBY;
     
     public static ElementType get(String type) 
     {
@@ -102,6 +103,10 @@ public enum ElementType
 		else if (type.equalsIgnoreCase("property")) 
 		{
 			return ElementType.PROPERTY;
+		}
+		else if (type.equalsIgnoreCase("isdefinedby")) 
+		{
+			return ElementType.ISDEFINEDBY;
 		} 
 		else
 			return null;
@@ -177,6 +182,10 @@ public enum ElementType
 		else if (this.equals(ElementType.PROPERTY)) 
 		{
 			return "Property";
+		} 
+		else if (this.equals(ElementType.ISDEFINEDBY)) 
+		{
+			return "isDefinedBy";
 		} 
 		else
 			return null;
