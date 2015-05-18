@@ -22,4 +22,8 @@
             genModel="model/ontoumlmenthor.xcore"/>
    </extension>
 
+
+<extension  point="org.eclipse.emf.ecp.view.model.provider.xmi.file">
+<file filePath="model/Generalization.view"/>
+</extension>
 </plugin>

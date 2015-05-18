@@ -13,7 +13,7 @@
 package net.menthor.metamodel.ontouml
 
 /** ======================================================================================================= 
- *  Version 1.0 - OntoUML Meta-model 
+ *  OntoUML 2.0 
  * 
  * 	@author John Guerson (JG)	
  * 	@author Tiago Prince Sales (TS) 	  
@@ -47,10 +47,10 @@ abstract class NamedElement extends Element { String name }
  *  - container & contained elements
  * 
  *  A container is a named element that contains a set of elements (i.e. model, packages).
- * 
+ *   
+ *  A contained element can be: a package, a generalization set, a relationship, or a class. *  
  *  A contained element is an element that has a holder (a container) and possibly a set of comments.
- *  A contained element can be: a package, a generalization set, a relationship, or a type (classes, quality structures and regions). 
- *  Further, relationships and types are called Classifiers.*    
+ *  Further, relationships and classes are called classifiers.    
  *  ======================================== */
  
 abstract class Container extends NamedElement 
@@ -61,7 +61,7 @@ abstract class Container extends NamedElement
 	//operations
 	//==============================================
 	
-	/* Returns the packages only at this container.  */  
+	/* Returns the packages at this container.  */  
 	op Package[] packages()
 	{
 		var Package[] result
@@ -71,7 +71,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	}
 	
-	/** Returns all packages at this container recursively. */
+	/** Returns recursively all packages at this container. */
 	op void allPackages(Container c, Package[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -88,7 +88,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	} 
 	
-	/* Returns the relationships only at this container */
+	/* Returns the relationships at this container */
 	op Relationship[] relationships() 
 	{	
 		var Relationship[] result
@@ -98,7 +98,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	}
 	
-	/** Returns all relationships at this container recursively */
+	/** Returns recursively all relationships at this container */
 	op void allRelationships(Container c, Relationship[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -115,7 +115,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	} 
 	
-	/* Returns the generalization sets only at this container */
+	/* Returns the generalization sets at this container */
 	op GeneralizationSet[] generalizationSets()
 	{
 		var GeneralizationSet[] result
@@ -125,7 +125,7 @@ abstract class Container extends NamedElement
 		return result.toEList;		
 	} 
 	 
-	/** Returns all generalization sets at this container recursively */
+	/** Returns recursively all generalization sets at this container */
 	op void allGeneralizationSets(Container c, GeneralizationSet[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -142,7 +142,7 @@ abstract class Container extends NamedElement
 		return result.toEList;
 	} 
 	
-	/* Returns the classes only at this container */
+	/* Returns the classes at this container */
 	op Class[] classes()
 	{
 		var Class[] result
@@ -152,7 +152,7 @@ abstract class Container extends NamedElement
 		return result.toEList;		
 	}
 	
-	/** Returns all classes at this container recursively */
+	/** Returns recursively all classes at this container */
 	op void allClasses(Container c, Class[] result)
 	{		
 		for(ContainedElement e: elements){
@@ -166,33 +166,6 @@ abstract class Container extends NamedElement
 	{
 		var Class[] result
 		allClasses(this, result.toEList)
-		return result.toEList;
-	}	
-	
-	/* Returns the quality structures only at this container */
-	op Structure[] structures()
-	{
-		var Structure[] result
-		for(ContainedElement e: elements){
-			if(e instanceof Structure) { result.add(e) }
-		}
-		return result.toEList;		
-	}
-	
-	/** Returns all quality structures at this container recursively. */
-	op void allStructures(Container c, Structure[] result)
-	{
-		for(ContainedElement e: elements){
-			if(e instanceof Structure) { result.add(e); }
-			if(e instanceof Package){
-				allStructures(e,result);								
-			}
-		}
-	}	
-	op Structure[] allStructures()
-	{
-		var Structure[] result
-		allStructures(this, result.toEList)
 		return result.toEList;
 	}	
 }
@@ -213,7 +186,7 @@ abstract class ContainedElement extends Element
 	//operations
 	//==============================================
 	
-	/** Returns the root container from this given container */
+	/** Returns the root from a given container */
 	op Model getModel(Container c)
 	{
 		if(c instanceof Model) { return c; }
@@ -245,9 +218,9 @@ class Comment extends Element
 }
 
 /** =========================================
- *  - classifier (i.e. types and relationships)
+ *  - classifier (i.e. classes and relationships)
  * 
- *  A classifier is a contained element defined to be a relationship or a type (classes, quality structures and regions).
+ *  A classifier is a contained element defined to be a relationship or a class.
  *  ======================================== */
  
 abstract class Classifier extends ContainedElement 
@@ -325,7 +298,7 @@ abstract class Classifier extends ContainedElement
 		return result.toEList;			
 	}	
 	
-	/** Returns all direct end-points of from this classifier (in which we can navigate from it) 
+	/** Returns all direct end-points from this classifier (in which we can navigate from it) 
 	 *  In other words, it returns all opposite ends of the relationships connected to this classifier. */		
 	op EndPoint[] ends()
 	{		
@@ -396,11 +369,9 @@ enum Universal
 	Relator, Mode, Quality,  
 	Role, Phase, SubKind, 
 	Category, Mixin, RoleMixin, PhaseMixin,
-	DataType, Enumeration,
-	
+	Domain, Dimension, DataType, Enumeration	
 	//UFO-B 
-	Event, 
-	
+	Event, 	
 	//High Order
 	Hou 
 }
@@ -412,7 +383,7 @@ enum Quality
 }
  
 /** =========================================
- *  - type (i.e. classes, quality structures and regions)
+ *  - type (i.e. classes)
  *  
  *  =========================================
  */
@@ -1047,15 +1018,24 @@ class Relationship extends NamedElement, Classifier
 		return false;		
 	}	
 	
+	/** A part is essential if the target end of a meronymic relationship is dependent on the rigid source type */
 	op boolean isPartEssential() { targetEnd().isDependency && sourceClass().isRigid() && isMeronymic() }  
+	
+	/** A part is inseparable if the source end of a meronymic relationship is dependent on the rigid target type */
 	op boolean isPartInseparable() { sourceEnd().isDependency && targetClass().isRigid() && isMeronymic() }
+	
+	/** A part is immutable if the source end of a meronymic relationship is dependent on the anti-rigid target type */
 	op boolean isPartImmutable() { sourceEnd().isDependency && targetClass().isAntiRigid() && isMeronymic()} 
+	
+	/** A whole is immutable if the target end of a meronymic relationship is dependent on the anti-rigid source type */
 	op boolean isWholeImmutable() { targetEnd().isDependency && sourceClass().isAntiRigid() && isMeronymic()}
+	
+	/** A part is mandatory if the target end of a meronymic relationship has a lower bound of at least 1 */	
 	op boolean isPartMandatory() { targetEnd().lowerBound>=1 && isMeronymic()}
+	
+	/** A whole is mandatory if the source end of a meronymic relationship has a lower bound of at least 1 */
 	op boolean isWholeMandatory() { sourceEnd().lowerBound>=1 && isMeronymic()}	 
-	
-	op void isShareable() { }
-	
+		
 	op Relationship material() { }
 	
 	op Class relator() { }

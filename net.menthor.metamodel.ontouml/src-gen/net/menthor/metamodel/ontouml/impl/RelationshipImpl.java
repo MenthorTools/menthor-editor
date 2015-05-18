@@ -1002,15 +1002,6 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void isShareable() {
-		
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Relationship material() {
 		return null;
 	}
@@ -1595,9 +1586,6 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return isPartMandatory();
 			case OntoumlPackage.RELATIONSHIP___IS_WHOLE_MANDATORY:
 				return isWholeMandatory();
-			case OntoumlPackage.RELATIONSHIP___IS_SHAREABLE:
-				isShareable();
-				return null;
 			case OntoumlPackage.RELATIONSHIP___MATERIAL:
 				return material();
 			case OntoumlPackage.RELATIONSHIP___RELATOR:

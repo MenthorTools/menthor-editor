@@ -270,40 +270,13 @@ public interface OntoumlPackage extends EPackage {
 	int CONTAINER___ALL_CLASSES = NAMED_ELEMENT_OPERATION_COUNT + 11;
 
 	/**
-	 * The operation id for the '<em>Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINER___STRUCTURES = NAMED_ELEMENT_OPERATION_COUNT + 12;
-
-	/**
-	 * The operation id for the '<em>All Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINER___ALL_STRUCTURES__CONTAINER_ELIST = NAMED_ELEMENT_OPERATION_COUNT + 13;
-
-	/**
-	 * The operation id for the '<em>All Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINER___ALL_STRUCTURES = NAMED_ELEMENT_OPERATION_COUNT + 14;
-
-	/**
 	 * The number of operations of the '<em>Container</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 15;
+	int CONTAINER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 12;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
@@ -449,33 +422,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODEL___ALL_CLASSES = CONTAINER___ALL_CLASSES;
-
-	/**
-	 * The operation id for the '<em>Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL___STRUCTURES = CONTAINER___STRUCTURES;
-
-	/**
-	 * The operation id for the '<em>All Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL___ALL_STRUCTURES__CONTAINER_ELIST = CONTAINER___ALL_STRUCTURES__CONTAINER_ELIST;
-
-	/**
-	 * The operation id for the '<em>All Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL___ALL_STRUCTURES = CONTAINER___ALL_STRUCTURES;
 
 	/**
 	 * The number of operations of the '<em>Model</em>' class.
@@ -712,33 +658,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @ordered
 	 */
 	int PACKAGE___ALL_CLASSES = CONTAINER___ALL_CLASSES;
-
-	/**
-	 * The operation id for the '<em>Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PACKAGE___STRUCTURES = CONTAINER___STRUCTURES;
-
-	/**
-	 * The operation id for the '<em>All Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PACKAGE___ALL_STRUCTURES__CONTAINER_ELIST = CONTAINER___ALL_STRUCTURES__CONTAINER_ELIST;
-
-	/**
-	 * The operation id for the '<em>All Structures</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PACKAGE___ALL_STRUCTURES = CONTAINER___ALL_STRUCTURES;
 
 	/**
 	 * The operation id for the '<em>Get Model</em>' operation.
@@ -3851,22 +3770,13 @@ public interface OntoumlPackage extends EPackage {
 	int RELATIONSHIP___IS_WHOLE_MANDATORY = NAMED_ELEMENT_OPERATION_COUNT + 51;
 
 	/**
-	 * The operation id for the '<em>Is Shareable</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RELATIONSHIP___IS_SHAREABLE = NAMED_ELEMENT_OPERATION_COUNT + 52;
-
-	/**
 	 * The operation id for the '<em>Material</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___MATERIAL = NAMED_ELEMENT_OPERATION_COUNT + 53;
+	int RELATIONSHIP___MATERIAL = NAMED_ELEMENT_OPERATION_COUNT + 52;
 
 	/**
 	 * The operation id for the '<em>Relator</em>' operation.
@@ -3875,7 +3785,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP___RELATOR = NAMED_ELEMENT_OPERATION_COUNT + 54;
+	int RELATIONSHIP___RELATOR = NAMED_ELEMENT_OPERATION_COUNT + 53;
 
 	/**
 	 * The number of operations of the '<em>Relationship</em>' class.
@@ -3884,7 +3794,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 55;
+	int RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 54;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
@@ -4118,36 +4028,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getContainer__AllClasses();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#structures() <em>Structures</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Structures</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Container#structures()
-	 * @generated
-	 */
-	EOperation getContainer__Structures();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allStructures(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList) <em>All Structures</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>All Structures</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Container#allStructures(net.menthor.metamodel.ontouml.Container, org.eclipse.emf.common.util.EList)
-	 * @generated
-	 */
-	EOperation getContainer__AllStructures__Container_EList();
-
-	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Container#allStructures() <em>All Structures</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>All Structures</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Container#allStructures()
-	 * @generated
-	 */
-	EOperation getContainer__AllStructures();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
@@ -5933,16 +5813,6 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getRelationship__IsWholeMandatory();
 
 	/**
-	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#isShareable() <em>Is Shareable</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Shareable</em>' operation.
-	 * @see net.menthor.metamodel.ontouml.Relationship#isShareable()
-	 * @generated
-	 */
-	EOperation getRelationship__IsShareable();
-
-	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Relationship#material() <em>Material</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6186,30 +6056,6 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation CONTAINER___ALL_CLASSES = eINSTANCE.getContainer__AllClasses();
-
-		/**
-		 * The meta object literal for the '<em><b>Structures</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation CONTAINER___STRUCTURES = eINSTANCE.getContainer__Structures();
-
-		/**
-		 * The meta object literal for the '<em><b>All Structures</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation CONTAINER___ALL_STRUCTURES__CONTAINER_ELIST = eINSTANCE.getContainer__AllStructures__Container_EList();
-
-		/**
-		 * The meta object literal for the '<em><b>All Structures</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation CONTAINER___ALL_STRUCTURES = eINSTANCE.getContainer__AllStructures();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
@@ -7628,14 +7474,6 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation RELATIONSHIP___IS_WHOLE_MANDATORY = eINSTANCE.getRelationship__IsWholeMandatory();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Shareable</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation RELATIONSHIP___IS_SHAREABLE = eINSTANCE.getRelationship__IsShareable();
 
 		/**
 		 * The meta object literal for the '<em><b>Material</b></em>' operation.

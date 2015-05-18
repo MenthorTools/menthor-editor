@@ -449,33 +449,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getContainer__Structures() {
-		return containerEClass.getEOperations().get(12);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getContainer__AllStructures__Container_EList() {
-		return containerEClass.getEOperations().get(13);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getContainer__AllStructures() {
-		return containerEClass.getEOperations().get(14);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getModel() {
 		return modelEClass;
 	}
@@ -2033,7 +2006,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getRelationship__IsShareable() {
+	public EOperation getRelationship__Material() {
 		return relationshipEClass.getEOperations().get(41);
 	}
 
@@ -2042,17 +2015,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getRelationship__Material() {
-		return relationshipEClass.getEOperations().get(42);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EOperation getRelationship__Relator() {
-		return relationshipEClass.getEOperations().get(43);
+		return relationshipEClass.getEOperations().get(42);
 	}
 
 	/**
@@ -2156,9 +2120,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEOperation(containerEClass, CONTAINER___CLASSES);
 		createEOperation(containerEClass, CONTAINER___ALL_CLASSES__CONTAINER_ELIST);
 		createEOperation(containerEClass, CONTAINER___ALL_CLASSES);
-		createEOperation(containerEClass, CONTAINER___STRUCTURES);
-		createEOperation(containerEClass, CONTAINER___ALL_STRUCTURES__CONTAINER_ELIST);
-		createEOperation(containerEClass, CONTAINER___ALL_STRUCTURES);
 
 		modelEClass = createEClass(MODEL);
 
@@ -2349,7 +2310,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEOperation(relationshipEClass, RELATIONSHIP___IS_WHOLE_IMMUTABLE);
 		createEOperation(relationshipEClass, RELATIONSHIP___IS_PART_MANDATORY);
 		createEOperation(relationshipEClass, RELATIONSHIP___IS_WHOLE_MANDATORY);
-		createEOperation(relationshipEClass, RELATIONSHIP___IS_SHAREABLE);
 		createEOperation(relationshipEClass, RELATIONSHIP___MATERIAL);
 		createEOperation(relationshipEClass, RELATIONSHIP___RELATOR);
 
@@ -2457,14 +2417,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		addEParameter(op, this.getClass_(), "result", 0, -1, !IS_UNIQUE, IS_ORDERED);
 
 		initEOperation(getContainer__AllClasses(), this.getClass_(), "allClasses", 0, -1, !IS_UNIQUE, IS_ORDERED);
-
-		initEOperation(getContainer__Structures(), this.getStructure(), "structures", 0, -1, !IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getContainer__AllStructures__Container_EList(), null, "allStructures", 0, 1, !IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getContainer(), "c", 0, 1, !IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getStructure(), "result", 0, -1, !IS_UNIQUE, IS_ORDERED);
-
-		initEOperation(getContainer__AllStructures(), this.getStructure(), "allStructures", 0, -1, !IS_UNIQUE, IS_ORDERED);
 
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2765,8 +2717,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 
 		initEOperation(getRelationship__IsWholeMandatory(), theEcorePackage.getEBoolean(), "isWholeMandatory", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
-		initEOperation(getRelationship__IsShareable(), null, "isShareable", 0, 1, !IS_UNIQUE, IS_ORDERED);
-
 		initEOperation(getRelationship__Material(), this.getRelationship(), "material", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
 		initEOperation(getRelationship__Relator(), this.getClass_(), "relator", 0, 1, !IS_UNIQUE, IS_ORDERED);
@@ -2786,6 +2736,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		addEEnumLiteral(universalEEnum, Universal.MIXIN);
 		addEEnumLiteral(universalEEnum, Universal.ROLE_MIXIN);
 		addEEnumLiteral(universalEEnum, Universal.PHASE_MIXIN);
+		addEEnumLiteral(universalEEnum, Universal.DOMAIN);
+		addEEnumLiteral(universalEEnum, Universal.DIMENSION);
 		addEEnumLiteral(universalEEnum, Universal.DATA_TYPE);
 		addEEnumLiteral(universalEEnum, Universal.ENUMERATION);
 		addEEnumLiteral(universalEEnum, Universal.EVENT);

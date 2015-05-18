@@ -13,7 +13,6 @@ import net.menthor.metamodel.ontouml.ContainedElement;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Relationship;
-import net.menthor.metamodel.ontouml.Structure;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -286,57 +285,6 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Structure> structures() {
-		Structure[] result = null;
-		EList<ContainedElement> _elements = this.getElements();
-		for (final ContainedElement e : _elements) {
-			if ((e instanceof Structure)) {
-				final Structure[] _converted_result = (Structure[])result;
-				((List<Structure>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((Structure)e));
-			}
-		}
-		final Structure[] _converted_result_1 = (Structure[])result;
-		return ECollections.<Structure>toEList(((Iterable<? extends Structure>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allStructures(final net.menthor.metamodel.ontouml.Container c, final EList<Structure> result) {
-		EList<ContainedElement> _elements = this.getElements();
-		for (final ContainedElement e : _elements) {
-			{
-				if ((e instanceof Structure)) {
-					result.add(((Structure)e));
-				}
-				if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
-					this.allStructures(((net.menthor.metamodel.ontouml.Container)e), result);
-				}
-			}
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Structure> allStructures() {
-		Structure[] result = null;
-		final Structure[] _converted_result = (Structure[])result;
-		EList<Structure> _eList = ECollections.<Structure>toEList(((Iterable<? extends Structure>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
-		this.allStructures(this, _eList);
-		final Structure[] _converted_result_1 = (Structure[])result;
-		return ECollections.<Structure>toEList(((Iterable<? extends Structure>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -458,13 +406,6 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 				return null;
 			case OntoumlPackage.CONTAINER___ALL_CLASSES:
 				return allClasses();
-			case OntoumlPackage.CONTAINER___STRUCTURES:
-				return structures();
-			case OntoumlPackage.CONTAINER___ALL_STRUCTURES__CONTAINER_ELIST:
-				allStructures((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<Structure>)arguments.get(1));
-				return null;
-			case OntoumlPackage.CONTAINER___ALL_STRUCTURES:
-				return allStructures();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

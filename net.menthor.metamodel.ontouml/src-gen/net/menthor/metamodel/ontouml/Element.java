@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <!-- begin-model-doc -->
  * * =======================================================================================================
- *  Version 1.0 - OntoUML Meta-model
+ *  OntoUML 2.0
  * 
  * 	@author John Guerson (JG)
  * 	@author Tiago Prince Sales (TS)

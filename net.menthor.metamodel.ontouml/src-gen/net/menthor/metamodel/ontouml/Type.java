@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - type (i.e. classes, quality structures and regions)
+ *  - type (i.e. classes)
  * 
  *  =========================================
  * <!-- end-model-doc -->

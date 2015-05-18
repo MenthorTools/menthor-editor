@@ -11,9 +11,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - classifier (i.e. types and relationships)
+ *  - classifier (i.e. classes and relationships)
  * 
- *  A classifier is a contained element defined to be a relationship or a type (classes, quality structures and regions).
+ *  A classifier is a contained element defined to be a relationship or a class.
  *  ========================================
  * <!-- end-model-doc -->
  *
@@ -154,7 +154,7 @@ public interface Classifier extends ContainedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * * Returns all direct end-points of from this classifier (in which we can navigate from it)
+	 * * Returns all direct end-points from this classifier (in which we can navigate from it)
 	 *  In other words, it returns all opposite ends of the relationships connected to this classifier.
 	 * <!-- end-model-doc -->
 	 * @model unique="false"
