@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<MDG.Technology version="1.0"><Documentation id="OntoUML" name="OntoUML 2.0" version="1.0.2" notes="Ontology-driven conceptual modeling using OntoUML2.0 notation."/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="OntoUML" name="OntoUML 2.0" version="1.0.5" notes="Ontology-driven conceptual modeling using OntoUML2.0 notation."/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="672070D9-B" name="OntoUML" version="1.0" notes="OntoUML"/>
 			<Content>
 				<Stereotypes>
@@ -13,24 +13,33 @@ AAAAAIAAAAAAc3RyLmRhdFVUBQAHgNU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
 					<Stereotype name="Causation" metatype="Causation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="antisymmetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Characterization" metatype="Characterization" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
+								<Property name="_TargetMultiplicity" value="1..*"/>
 								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="direction" value="Unspecified"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="assymetric"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="transitive"/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Collective" metatype="Collective" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
@@ -47,22 +56,39 @@ BQAHWG06VVBLBQYAAAAAAQABAD4AAABDAQAAAAA=</Image>
 							<Tag name="existence" type="enumeration" description="" unit="" values="eternal,permanent,transient" default=""/>
 						</TaggedValues>
 					</Stereotype>
+					<Stereotype name="Comparative" metatype="Comparative" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
+								<Property name="_lineStyle" value="orthogonalS"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
+							</Apply>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
+						</TaggedValues>
+					</Stereotype>
 					<Stereotype name="ComponentOf" metatype="ComponentOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAN5sl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH1/U4Vdf1OFXX9ThV
-1VLBasJAEH3XCP5D0EsL+YOeA/Wk1IL0WGnaBlYTjOIh5Iv6Cf25volJjMnG7FpBZNhkZnfm
-zbyZUXjHEgEUXKwQ4oOiaC8RYUuJeKsqnyEGSOFQRHPo/4kHPPM9wSu/X7RGiKltGDth7Ao7
-ahIvqCN4PFu+7nLrkeIWWGnx70Ld45vVCIopbkw7xJr3Ev+DMebE8/HCM6X2hhm1MX7pm9Kz
-ibqoMnqa11nBMsvzPVXVS58Sft0OHsfurHO/g31dJjrksl4TLscJ1/nYVmGeJas00+75vBU/
-qSbknero3D3sVtDi0uxUexZ6HrffrUu42FXQn6G+V7qtcjWds9+A5mbZsTi3Eaed0nNoM7hk
-9v/loMtkMw3zfCWWIBxQ9F1I2EXJH/QwP80sbNqR9Tlk+ANQSwECFwsUAAAACADebJdGmByt
-AjEBAAAqBwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH1/U4VVBLBQYAAAAAAQAB
-AD4AAABnAQAAAAA=</Image>
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACpwpUac366xMAEAAC4HAAAHABEAc3RyLmRhdFVUDQAHIc1IVSHNSFUhzUhV
+1VLBisJADH1XBf+h6EWhf7BnQU+KCrLHle1qYdRiFQ+lX7SfsD+3L22ttZ3qjAoiYdpkJnnJ
+S6LwhQU8KDhYw8c3RdFeYIs9Zctblfu00ESEBkW0Bv1/0MWA7yFm/C5ptRFQ2zF2yNg1DtQk
+XlDbcHn2fD0kVo/iZFhR9q9DPWLFagTFFDeg7WPDe4n/RQdT4vUx4RlR+8SYWgd/9I3oWUad
+5xldzes4Yxkn+T7y6qVPIb9ODY9zdzaJX2o/l4kO+VSvCZfzhIt8bKswzxLnmmn3+rwVP6nG
+552q6dw77JZX4VLuVHUWeh6v3617uNhVcDtDca90W+VoOme/AeXNsmNxbSMuO6XnUGVwz+wf
+5aDLZDMN83wnLEFIUfRdCNlFye/dYH6ZWdhUI4tzSGv/B1BLAQIXCxQAAAAIACpwpUac366x
+MAEAAC4HAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAchzUhVUEsFBgAAAAABAAEA
+PgAAAGYBAAAAAA==</Image>
 						<AppliesTo>
 							<Apply type="Association">
 								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="direction" value="Unspecified"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
@@ -71,10 +97,10 @@ AD4AAABnAQAAAAA=</Image>
 							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
-							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="transitive"/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="nonreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="antisymmetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="nontransitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Constitution" metatype="Constitution" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -82,10 +108,17 @@ AD4AAABnAQAAAAA=</Image>
 							<Apply type="Association">
 								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="direction" value="Unspecified"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Dimension" metatype="Dimension" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAAaImEYejUVUBwEAALIEAAAHABEAc3RyLmRhdFVUDQAHw3Y6VcN2OlXDdjpV
@@ -101,7 +134,7 @@ VVBLBQYAAAAAAQABAD4AAAA9AQAAAAA=</Image>
 						</AppliesTo>
 						<TaggedValues>
 							<Tag name="scale" type="enumeration" description="" unit="" values="interval,rational,ordinal,nominal" default=""/>
-							<Tag name="basicType" type="enumeration" description="" unit="" values="string,integer,decimal" default=""/>
+							<Tag name="basicType" type="enumeration" description="" unit="" values="string,integer,real,decimal" default=""/>
 							<Tag name="unitOfMeasure" type="string" description="" unit="" values="" default=""/>
 							<Tag name="lowerBound" type="long" description="" unit="" values="" default=""/>
 							<Tag name="upperBound" type="long" description="" unit="" values="" default=""/>
@@ -123,33 +156,36 @@ VVBLBQYAAAAAAQABAD4AAAA9AQAAAAA=</Image>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Event" metatype="Event" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Perdurant" baseStereotypes="Perdurant">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAEyJlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAH7tU3Ve7VN1Xu1TdV
-TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
-ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
-D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACABMiZZGt07jvn0AAAC6AAAABwAJAAAAAAAA
-AAAAAIAAAAAAc3RyLmRhdFVUBQAH7tU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAJpVpkYR/tUWtAAAAEgBAAAHABEAc3RyLmRhdFVUDQAHjfBJVY3wSVWN8ElV
+TY9BC4JAEIW/q0H/ITwpeChBCDom0akO9geMygRTUauD+N97u0rIMm9mZ9+8fdPyJKXmzopC
+1VVVwZIFvUWHVp2OMw05maLEwyVRBKwVG7b47CZ2zkPvRym1XISZZee6xdIxGh/lm512pdvw
+1t2Vgi8HtWWU6pupXrz5zGB540+DRRPtbIOXKjM/959Y/wf1C509lbCSqkdIpBMoh9phzNFs
+l1islC8nYTe5SP6/eZbpTG5+UEsBAhcLFAAAAAgAmlWmRhH+1Ra0AAAASAEAAAcACQAAAAAA
+AAAAAACAAAAAAHN0ci5kYXRVVAUAB43wSVVQSwUGAAAAAAEAAQA+AAAA6gAAAAAA</Image>
 					</Stereotype>
 					<Stereotype name="Formal" metatype="Formal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default=""/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default=""/>
-							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default=""/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="HighOrder" metatype="HighOrder" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" strictness="profile">
-						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACKJlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAHzdU3Vc3VN1XN1TdV
-TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
-ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
-D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAAiiZZGt07jvn0AAAC6AAAABwAJAAAAAAAA
-AAAAAIAAAAAAc3RyLmRhdFVUBQAHzdU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAPBVpkZnLls6tQAAAEYBAAAHABEAc3RyLmRhdFVUDQAHTPFJVUzxSVVM8UlV
+TY+9CsJAEISnVfAdJFUCFv4FBEuDWGkRXyDiXyAmIYlahLy7351Bj2Nn9/Zm52Zr3ZWo1EVj
+ZVQnqkwjDdVaHKim0+igSqluRC5fnmJioikx00qB1j071ZX3HUq1juDNslNuETpG40U+22kP
+3UpP7h4KAQ5Ky8jpm6kWnjvTWd73p86iidrZ4EFl5l3/sfW/pZ9xNirAAlUf56EW+Jizx9Lm
+kPPfJYKV6K092PQu4t9vvuPlA1BLAQIXCxQAAAAIAPBVpkZnLls6tQAAAEYBAAAHAAkAAAAA
+AAAAAAAAgAAAAABzdHIuZGF0VVQFAAdM8UlVUEsFBgAAAAABAAEAPgAAAOsAAAAAAA==</Image>
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
@@ -162,11 +198,18 @@ AAAAAIAAAAAAc3RyLmRhdFVUBQAHzdU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
 					<Stereotype name="InstanceOf" metatype="InstanceOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="1..*"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Kind" metatype="Kind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
 						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAASBmEZKk2fkugAAAKoCAAAHABEAc3RyLmRhdFVUDQAHgmo6VYJqOlWCajpV
@@ -183,16 +226,17 @@ CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB4JqOlVQSwUGAAAAAAEAAQA+AAAA8AAAAAAA
 					<Stereotype name="Material" metatype="Material" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default=""/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default=""/>
-							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default=""/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Measurement" metatype="MeasurementEnumeration" notes="" cx="150" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -220,11 +264,18 @@ AAAAgAAAAABzdHIuZGF0VVQFAAcfYzpVUEsFBgAAAAABAAEAPgAAALIAAAAAAA==</Image>
 					<Stereotype name="Mediation" metatype="Mediation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="1..*"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="MemberOf" metatype="MemberOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAMJsl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH6fU4Ven1OFXp9ThV
@@ -240,8 +291,9 @@ AD4AAABnAQAAAAA=</Image>
 							<Apply type="Association">
 								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="direction" value="Unspecified"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
@@ -250,10 +302,10 @@ AD4AAABnAQAAAAA=</Image>
 							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
-							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="intransitive"/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="nonreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="antisymmetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="intransitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Mixin" metatype="Mixin" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
@@ -278,11 +330,19 @@ CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB/JqOlVQSwUGAAAAAAEAAQA+AAAA8AAAAAAA
 					<Stereotype name="Participation" metatype="Participation" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
+							<Tag name="nature" type="enumeration" description="" unit="" values="destruction,creation,change" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Perdurant" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true" strictness="profile">
 						<AppliesTo>
@@ -312,6 +372,9 @@ TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
 ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
 D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACADEiJZGt07jvn0AAAC6AAAABwAJAAAAAAAA
 AAAAAIAAAAAAc3RyLmRhdFVUBQAHKtU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+						<TaggedValues>
+							<Tag name="transition" type="enumeration" description="" unit="" values="initial,final" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Quality" metatype="Quality" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
 						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAHKCmEYa76ZSCQEAALAFAAAHABEAc3RyLmRhdFVUDQAH/Ww6Vf1sOlX9bDpV
@@ -369,15 +432,25 @@ TY6xCsIwFEXPquA/SCYLDroJrg5uDvoDFbUGSilNdSn9d0+jg8N9ee/l3JsknpS03FlS213t
 ahbMGXKdkdz0nOiIVKphReCs1mzUlh0F+x8deXh/NClxsVaZjk4Hc6aMt+ctu4O5HS/nYELh
 D9pMNO4n1yD37xkz931p5ANQSwECFwsUAAAACAD0iJZGt07jvn0AAAC6AAAABwAJAAAAAAAA
 AAAAAIAAAAAAc3RyLmRhdFVUBQAHbtU3VVBLBQYAAAAAAQABAD4AAACzAAAAAAA=</Image>
+						<TaggedValues>
+							<Tag name="transition" type="enumeration" description="" unit="" values="initial,final" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Structuration" metatype="Structuration" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
 								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SubCollectionOf" metatype="SubCollectionOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIANJsl0aYHK0CMQEAACoHAAAHABEAc3RyLmRhdFVUDQAH8fU4VfH1OFXx9ThV
@@ -392,9 +465,10 @@ AD4AAABnAQAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Association">
 								<Property name="compositionKind" value="Composite at Source"/>
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..1"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
@@ -403,10 +477,10 @@ AD4AAABnAQAAAAA=</Image>
 							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
-							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="transitive"/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="nonreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="antisymmetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SubEventOf" metatype="SubEventOf" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -414,10 +488,22 @@ AD4AAABnAQAAAAA=</Image>
 							<Apply type="Association">
 								<Property name="compositionKind" value="Composite at Source"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_SourceMultiplicity" value="1"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
+								<Property name="direction" value="Unspecified"/>
 							</Apply>
 						</AppliesTo>
+						<TaggedValues>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="irreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="antisymmetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
+							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default="true"/>
+							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default="true"/>
+							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default="true"/>
+							<Tag name="partInseparable" type="boolean" description="" unit="" values="true,false" default="true"/>
+							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
+						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SubKind" metatype="SubKind" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="Endurant" baseStereotypes="Endurant">
 						<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIALqIlka3TuO+fQAAALoAAAAHABEAc3RyLmRhdFVUDQAH6dQ3VenUN1Xp1DdV
@@ -439,21 +525,22 @@ AD4AAABnAQAAAAA=</Image>
 						<AppliesTo>
 							<Apply type="Association">
 								<Property name="compositionKind" value="Composite at Source"/>
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="2..*"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..1"/>
+								<Property name="_TargetMultiplicity" value="0..1"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
 							<Tag name="partInseparable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="partEssential" type="boolean" description="" unit="" values="true,false" default="true"/>
 							<Tag name="wholeImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default=""/>
-							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive" default="irreflexive"/>
-							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric" default="assymetric"/>
-							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive" default="transitive"/>
-							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic" default="acyclic"/>
+							<Tag name="partImmutable" type="boolean" description="" unit="" values="true,false" default="true"/>
+							<Tag name="shareable" type="boolean" description="" unit="" values="true,false" default="false"/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default="nonreflexive"/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default="antisymmetric"/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default="transitive"/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default="acyclic"/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="Temporal" metatype="Temporal" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -465,13 +552,18 @@ CQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB5l2OlVQSwUGAAAAAAEAAQA+AAAAugAAAAAA
 </Image>
 						<AppliesTo>
 							<Apply type="Association">
+								<Property name="direction" value="Unspecified"/>
 								<Property name="_lineStyle" value="orthogonalS"/>
-								<Property name="_TargetMultiplicity" value="1"/>
-								<Property name="_SourceMultiplicity" value="1"/>
+								<Property name="_SourceMultiplicity" value="0..*"/>
+								<Property name="_TargetMultiplicity" value="0..*"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
 							<Tag name="nature" type="enumeration" description="" unit="" values="starts,precedes,equals,meets,finishes,overlaps,during" default=""/>
+							<Tag name="reflexivity" type="enumeration" description="" unit="" values="reflexive,irreflexive,nonreflexive" default=""/>
+							<Tag name="symmetry" type="enumeration" description="" unit="" values="symmetric,assymetric,antisymmetric,nonsymmetric" default=""/>
+							<Tag name="transitivity" type="enumeration" description="" unit="" values="transitive,intransitive,nontransitive" default=""/>
+							<Tag name="cyclicity" type="enumeration" description="" unit="" values="cyclic,acyclic,noncyclic" default=""/>
 						</TaggedValues>
 					</Stereotype>
 				</Stereotypes>
@@ -9478,6 +9570,7 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
 							<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
 							<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
+							<Tag name="OntoUML::Comparative(UML::Association)" type="" description="" unit="" values="" default="Comparative"/>
 							<Tag name="OntoUML::ComponentOf(UML::Association)" type="" description="" unit="" values="" default="ComponentOf"/>
 							<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
 							<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
@@ -9632,6 +9725,7 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 							<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
 							<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
 							<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
+							<Tag name="OntoUML::Comparative(UML::Association)" type="" description="" unit="" values="" default="Comparative"/>
 							<Tag name="OntoUML::ComponentOf(UML::Association)" type="" description="" unit="" values="" default="ComponentOf"/>
 							<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
 							<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
@@ -9731,4 +9825,4 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 				<TaggedValueTypes/>
 			</Content>
 		</UMLProfile>
-	</UIToolboxes><ModelTemplates><Model name="Structural Modeling" description="Create a simple OntoUML2.0 class diagram." location="p_OntoUML2.0.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>
+	</UIToolboxes><ModelTemplates><Model name="Ontology-Based Modeling" description="Create a simple OntoUML2.0 class diagram." location="t_OntoUML2.0.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>

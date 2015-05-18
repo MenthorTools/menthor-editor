@@ -81,6 +81,7 @@
 					<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
 					<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
 					<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
+					<Tag name="OntoUML::Comparative(UML::Association)" type="" description="" unit="" values="" default="Comparative"/>
 					<Tag name="OntoUML::ComponentOf(UML::Association)" type="" description="" unit="" values="" default="ComponentOf"/>
 					<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
 					<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
