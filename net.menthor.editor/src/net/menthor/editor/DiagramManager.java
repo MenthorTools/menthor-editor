@@ -44,6 +44,7 @@ import java.util.Set;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -99,7 +100,6 @@ import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.ui.ClosableTabPanel;
 import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.ui.StartPanel;
 import net.menthor.editor.ui.TextEditor;
 import net.menthor.editor.ui.commands.OntoUMLExporter;
 import net.menthor.editor.ui.commands.ProjectReader;
@@ -204,6 +204,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public String lastImportEcorePath = new String();
 	public String lastExportEcorePath = new String();
 	public String lastExportUMLPath = new String();
+	public StartPage start;
 	
 	/** Get Frame */
 	public AppFrame getFrame() { return frame; }
@@ -229,10 +230,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		setMinimumSize(new Dimension(0,0));			    
 	}
 
-	/** Adds a start panel to the manager */
-	public StartPanel addStartPanel(JTabbedPane pane, boolean closable)
+	public StartPage getStartPage()
 	{
-		StartPanel start = new StartPanel(frame);
+		return start;
+	}
+	
+	/** Adds a start panel to the manager */
+	public JComponent addStartPanel(JTabbedPane pane, boolean closable)
+	{
+		start = new StartPage(frame);
 		if(closable)addClosable(pane,"Welcome", start);
 		else addNonClosable(pane,"Welcome", start);
 		return start;
@@ -482,7 +488,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void setProjectFile(File modelFile)
 	{
 		projectFile = modelFile;
-		if((this.getSelectedIndex() != -1)&& !(this.getSelectedComponent() instanceof StartPanel))
+		if((this.getSelectedIndex() != -1)&& !(this.getSelectedComponent() instanceof StartPage))
 		{
 			((DiagramEditorWrapper) this.getSelectedComponent()).setModelFile(modelFile);
 		}
@@ -1040,7 +1046,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	/** Open an existing project. */
 	public void openRecentProject(){
-		StartPanel startPanel = (StartPanel) getCurrentEditor();
+		StartPage startPanel = (StartPage) getCurrentEditor();
 		if(startPanel != null){
 			openProject(startPanel.getSelectedRecentFile());
 		}
@@ -1260,8 +1266,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 
-	/** Import a model from a XMI file (from Entreprise Architect). */
-	public void importXMI()
+	/** Import a model from a XMI file (from Entreprise Architect). 
+	 * @throws IOException */
+	public void importXMI() throws IOException
 	{		
 		JFileChooser fileChooser = new JFileChooser(lastImportEAPath);
 		fileChooser.setDialogTitle("Import from EA");
@@ -1276,8 +1283,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				File file = fileChooser.getSelectedFile();
 				lastImportEAPath = file.getAbsolutePath();
 				new ImportXMIDialog(frame, true, this, lastImportEAPath);
+				ConfigurationHelper.addRecentProject(file.getCanonicalPath());
 			}
 		}		
+	}
+	
+	public void importXMI(String xmiPath) throws IOException
+	{		
+		lastImportEAPath = xmiPath;
+		new ImportXMIDialog(frame, true, this, lastImportEAPath);
+		ConfigurationHelper.addRecentProject(xmiPath);				
 	}
 	
 	/** Export the current model as an Ecore instance file (Reference model)*/

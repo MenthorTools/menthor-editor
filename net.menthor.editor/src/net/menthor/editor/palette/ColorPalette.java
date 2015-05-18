@@ -25,15 +25,13 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Antognoni Albuquerque
- */
 public final class ColorPalette {
 
 	public enum ThemeColor {
 		GREEN_LIGHTEST, GREEN_LIGHT, GREEN_MEDIUM, GREEN_DARK,
 		GREY_LIGHT, GREY_MEDIUM, GREY_DARK,
-		BLUE_LIGHTEST, BLUE_LIGHT, BLUE_MEDIUM, BLUE_DARK
+		BLUE_LIGHTEST, BLUE_LIGHT, BLUE_MEDIUM, BLUE_DARK,
+		MENTHOR_GREY, MENTHOR_GREY_DARK, MENTHOR_ORANGE, MENTHOR_ORANGE_HOVER, MENTHOR_ORANGE_CLICK
 	}
 	
 	private static ColorPalette instance = new ColorPalette();
@@ -57,7 +55,14 @@ public final class ColorPalette {
 		colorMap.put(ThemeColor.BLUE_LIGHTEST, new Color(0xc6dbef));
 		colorMap.put(ThemeColor.BLUE_LIGHT, new Color(0x9ecae1));		
 		colorMap.put(ThemeColor.BLUE_MEDIUM, new Color(0x6baed6));
-		colorMap.put(ThemeColor.BLUE_DARK, new Color(0x2171b5));				
+		colorMap.put(ThemeColor.BLUE_DARK, new Color(0x2171b5));
+		
+		//MENTHOR
+		colorMap.put(ThemeColor.MENTHOR_GREY, new Color(0X303B46));//0X2E3640
+	    colorMap.put(ThemeColor.MENTHOR_GREY_DARK, new Color(0X262D36));
+	    colorMap.put(ThemeColor.MENTHOR_ORANGE, new Color(0XF55B56));
+	    colorMap.put(ThemeColor.MENTHOR_ORANGE_HOVER, new Color(0X85504f));
+	    colorMap.put(ThemeColor.MENTHOR_ORANGE_CLICK, new Color(0X351817));	    
 	}
 	
 	public Color getColor(ThemeColor color) {

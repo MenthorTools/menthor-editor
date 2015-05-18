@@ -92,7 +92,7 @@ public final class ConfigurationHelper {
 	{
 		if(!MenthorSettings.RECENT_PROJECT_1.getValue().equals(path))
 		{
-			int histSize = 5;
+			int histSize = 10;
 		
 			for (int i = histSize-1; i > 0; i--) {
 				MenthorSettings setting = MenthorSettings.valueOf("RECENT_PROJECT_" + i); 
@@ -107,7 +107,7 @@ public final class ConfigurationHelper {
 	
 	public static String[] getRecentProjects()
 	{
-		int histSize = 5;
+		int histSize = 10;
 		String[] ans = new String[histSize];
 		
 		for (int i = 1; i < histSize; i++) {
@@ -116,7 +116,7 @@ public final class ConfigurationHelper {
 		
 		return ans;
 	}
-	
+			
 	public static String getSimpleFileName(String filePath)
 	{
 		return new File(filePath).getName();

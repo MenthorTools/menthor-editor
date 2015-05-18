@@ -43,17 +43,21 @@ Source: "..\icons\{#MyIconFile}"; DestDir: "{app}"
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: startmenuicon 
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon 
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon\common 
+Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon\user 
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Menthor Editor"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: quicklaunchicon 
 
 [Tasks]
 Name: startmenuicon; Description: "Create a &Start Menu icon"; GroupDescription: "Additional icons:"; 
 Name: desktopicon; Description: "Create a &Desktop icon"; GroupDescription: "Additional icons:"; 
-;Name: quicklaunchicon; Description: "Create a &Quick Launch icon"; GroupDescription: "Additional icons:"; Flags: unchecked
+Name: desktopicon\user; Description: "For the current user only"; GroupDescription: "Additional icons:";Flags: exclusive
+Name: desktopicon\common; Description: "For all users"; GroupDescription: "Additional icons:"; Flags: exclusive unchecked
+;Name: quicklaunchicon; Description: "Create a &Quick Launch icon"; GroupDescription: "Additional icons:"
 
 [Registry]
 Root: HKCR; Subkey: ".menthor"; ValueType: string; ValueName: ""; ValueData: "{#MyKey}"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "{#MyKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppName} Project"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyIconFile}"
+Root: HKCR; Subkey: "{#MyKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyIconFile}"; AfterInstall: myAfterInstall
 Root: HKCR; Subkey: "{#MyKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}.exe"" ""%1"""
 Root: HKCU; Subkey: "Software\{#MyAppPublisher}"; Flags: uninsdeletekeyifempty
 Root: HKCU; Subkey: "Software\{#MyAppPublisher}\{#MyAppName}"; Flags: uninsdeletekey
@@ -71,6 +75,16 @@ Root: HKLM; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; ValueType: string
 ;Root: HKCR; Subkey: "jarfile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """C:\Program Files (x86)\Java\jre1.8.0_31\bin\javaw.exe"" -jar ""%1"" %*"""
 
 [Code]
+procedure myAfterInstall();
+var
+  ErrorCode: Integer;
+begin
+  if not ShellExec('', ExpandConstant('ie4uinit.exe -ClearIconCache'), '', '', SW_SHOW, ewNoWait, ErrorCode) then
+  begin
+    // handle failure if necessary
+  end;
+end;
+
 function GetUninstallPath: string;
 var
   sUnInstPath: string;

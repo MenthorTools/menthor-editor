@@ -1,5 +1,7 @@
 package net.menthor.editor;
 
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -9,77 +11,52 @@ import javax.swing.JLayeredPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import org.eclipse.swt.custom.StackLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-
 public class SplashScreen extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel statusLabel;
 	private JLabel versionLabel;
 	private JLabel splash_img;
-
-	public SplashScreen(String MENTHOR_VERSION, String MENTHOR_COMPILATION_DATE) {
+	private JLabel rightsLabel;
+	
+	public SplashScreen(String MENTHOR_VERSION, String MENTHOR_COMPILATION_DATE) {		
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setUndecorated(true);
-		setResizable(false);
-		
-		getContentPane().setLayout(new CardLayout(0, 0));
-		
+		setResizable(false);		
+		getContentPane().setLayout(new CardLayout(0, 0));		
 		JLayeredPane layeredPane = new JLayeredPane();
-		getContentPane().add(layeredPane, "name_431739735183481");
-		
+		getContentPane().add(layeredPane, "name_431739735183481");		
 		splash_img = new JLabel("");
-		splash_img.setIcon(new ImageIcon(SplashScreen.class.getResource("/resources/icons/menthor-splash-screen.png")));
-		
+		splash_img.setIcon(new ImageIcon(SplashScreen.class.getResource("/resources/icons/menthor-splash-screen.png")));		
 		int imgWidth = splash_img.getIcon().getIconWidth(); 
 		int imgHeigth = splash_img.getIcon().getIconHeight();
 		setSize(imgWidth, imgHeigth);
 		splash_img.setBounds(SwingConstants.CENTER, SwingConstants.CENTER, imgWidth, imgHeigth);
 		layeredPane.add(splash_img);
-		int left = 10;
-		int bottom = imgHeigth - 14 - 8;
-		
-		
 		versionLabel = new JLabel("Version "+MENTHOR_VERSION+" ("+MENTHOR_COMPILATION_DATE+")");
+		versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.setLayer(versionLabel, 1);
 		versionLabel.setForeground(Color.WHITE);
 		versionLabel.setBackground(Color.WHITE);
 		versionLabel.setFont(new Font(versionLabel.getFont().getFontName(), Font.BOLD, 11));
-		versionLabel.setBounds(left, bottom, 430, 14);
-		layeredPane.add(versionLabel);
-		
+		versionLabel.setBounds(10, 263, 580, 14);
+		layeredPane.add(versionLabel);		
 		statusLabel = new JLabel("Loading");
+		statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		statusLabel.setForeground(Color.WHITE);
 		layeredPane.setLayer(statusLabel, 1);
-		statusLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		statusLabel.setBounds(left, bottom - 14 - 8, 430, 14);
-		layeredPane.add(statusLabel);
-//		splash_img = new JLabel("");
-//		splash_img.setIcon(new ImageIcon(SplashScreen.class.getResource("/resources/icons/menthor-splash-screen.png")));
-//		add(splash_img);
-//		
-		
-//		splash_img.setHorizontalAlignment(SwingConstants.CENTER);
-//		splash_img.setVerticalAlignment(SwingConstants.CENTER);
-//		
-//		statusLabel = new JLabel("Loading");
-//		statusLabel.setFont(new Font(Font.SERIF, Font.BOLD, 11));
-//		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-//		statusLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-//		add(statusLabel);
-//		
-//		versionLabel = new JLabel("Version "+MENTHOR_VERSION+" ("+MENTHOR_COMPILATION_DATE+")");
-//		versionLabel.setFont(new Font(Font.SERIF, Font.BOLD, 11));
-//		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-//		versionLabel.setVerticalAlignment(SwingConstants.TOP);
-//		add(versionLabel);
-//		
+		statusLabel.setFont(new Font(statusLabel.getFont().getFontName(), Font.ITALIC, 11));
+		statusLabel.setBounds(10, 241, 580, 14);
+		layeredPane.add(statusLabel);		
+		rightsLabel = new JLabel("2015 Menthor. All rights reserved.");
+		rightsLabel.setForeground(Color.WHITE);
+		rightsLabel.setFont(new Font(statusLabel.getFont().getFontName(), Font.BOLD, 11));
+		rightsLabel.setBounds(10, 288, 446, 14);		
+		layeredPane.setLayer(rightsLabel, 1);
+		layeredPane.add(rightsLabel);
 		setLocationRelativeTo(null);
-		setVisible(true);
-				
+		setVisible(true);				
 	}
 
 	public boolean isOptimizedDrawingEnabled() {
@@ -105,9 +82,4 @@ public class SplashScreen extends JDialog {
 	public void setStatusLabel(String status) {
 		this.statusLabel.setText(status);
 	}
-	
-//	public static void main(String[] args) {
-//		SplashScreen splashScreen = new SplashScreen(Main.MENTHOR_VERSION, Main.MENTHOR_COMPILATION_DATE);
-//		
-//	}
 }
