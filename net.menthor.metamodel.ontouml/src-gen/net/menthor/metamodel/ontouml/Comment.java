@@ -10,9 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - comment
- * 
- *  A comment has a string content and an owner.
+ *  Comment: is a text which has an owner
  *  ========================================
  * <!-- end-model-doc -->
  *

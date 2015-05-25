@@ -10,14 +10,14 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Quality</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Quality Nature</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getQuality()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getQualityNature()
  * @model
  * @generated
  */
-public enum Quality implements Enumerator {
+public enum QualityNature implements Enumerator {
 	/**
 	 * The '<em><b>Nominal</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -94,35 +94,35 @@ public enum Quality implements Enumerator {
 	public static final int NON_PERCEIVABLE_VALUE = 0;
 
 	/**
-	 * An array of all the '<em><b>Quality</b></em>' enumerators.
+	 * An array of all the '<em><b>Quality Nature</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Quality[] VALUES_ARRAY =
-		new Quality[] {
+	private static final QualityNature[] VALUES_ARRAY =
+		new QualityNature[] {
 			NOMINAL,
 			PERCEIVABLE,
 			NON_PERCEIVABLE,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Quality</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Quality Nature</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Quality> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<QualityNature> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Quality</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Quality get(String literal) {
+	public static QualityNature get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Quality result = VALUES_ARRAY[i];
+			QualityNature result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -131,14 +131,14 @@ public enum Quality implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Quality</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Quality getByName(String name) {
+	public static QualityNature getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Quality result = VALUES_ARRAY[i];
+			QualityNature result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -147,12 +147,12 @@ public enum Quality implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Quality</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Quality get(int value) {
+	public static QualityNature get(int value) {
 		switch (value) {
 			case NOMINAL_VALUE: return NOMINAL;
 		}
@@ -186,7 +186,7 @@ public enum Quality implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Quality(int value, String name, String literal) {
+	private QualityNature(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -230,4 +230,4 @@ public enum Quality implements Enumerator {
 		return literal;
 	}
 	
-} //Quality
+} //QualityNature

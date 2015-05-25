@@ -10,7 +10,7 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  package
+ *  Package: is both a Container and a ContainedElement
  *  ========================================
  * <!-- end-model-doc -->
  *

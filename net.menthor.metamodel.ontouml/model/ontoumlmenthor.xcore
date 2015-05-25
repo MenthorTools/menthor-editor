@@ -13,11 +13,11 @@
 package net.menthor.metamodel.ontouml
 
 /** ======================================================================================================= 
- *  OntoUML 2.0 
+ *  OntoUML - Version 2.0 
  * 
- * 	@author John Guerson (JG)	
- * 	@author Tiago Prince Sales (TS) 	  
- *  @co-author João Paulo Andrade Almeida (JP)
+ * 	author: John Guerson [JG]	
+ * 	author: Tiago Prince Sales [TS] 	  
+ *  co-author: João Paulo Andrade Almeida [JP]
  *  ======================================================================================================== */
  
 /** ======================================================================================================== 
@@ -26,42 +26,30 @@ package net.menthor.metamodel.ontouml
  *  - (JP) Name Spaces like in UML (with package imports)
  *  - (JP) Create a separate meta-model for "occurrences" of the elements in views (similar to occurrences and definitions in ARIS)
  *         Keep this meta-model for definitions and create a meta-model for occurrences. This will enable a strict separation between model and views
- * 
- *  - (TS) Rule to verify multiple specializations (we cannot specialize two disjoint types)
  *  - (TS) Rule to enforce sub-setting and redefinition constraints
  *  - (TS) Implement the following operations: overlapSiblings(), disjointSiblings(), isDisjointOf(Class c)
- *  - (TS) Implement the following operations: isShareable()
  *  ======================================================================================================== */  
 	 
 @Ecore(validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
 
-/** =========================================
- *  - elements & named elements
- *  ======================================== */
- 
 abstract class Element { }
 
+/** =========================================
+ *  Named Element
+ *  ======================================== */
+ 
 abstract class NamedElement extends Element { String name }
 
 /** =========================================
- *  - container & contained elements
- * 
- *  A container is a named element that contains a set of elements (i.e. model, packages).
- *   
- *  A contained element can be: a package, a generalization set, a relationship, or a class. *  
- *  A contained element is an element that has a holder (a container) and possibly a set of comments.
- *  Further, relationships and classes are called classifiers.    
+ *  Container: is a Named Element that can contain a set of: 
+ *             Packages, Generalization Sets, Relationships, Classes and DataTypes  
  *  ======================================== */
  
 abstract class Container extends NamedElement 
 { 
 	contains unordered unique ContainedElement[*] elements opposite holder
 	
-	//==============================================
-	//operations
-	//==============================================
-	
-	/* Returns the packages at this container.  */  
+	/* Returns the packages at this container. */  
 	op Package[] packages()
 	{
 		var Package[] result
@@ -167,24 +155,44 @@ abstract class Container extends NamedElement
 		var Class[] result
 		allClasses(this, result.toEList)
 		return result.toEList;
-	}	
+	}
+	
+	/* Returns the dataTypes at this container */
+	op DataType[] dataTypes()
+	{
+		var DataType[] result
+		for(ContainedElement e: elements){
+			if(e instanceof DataType) { result.add(e) }
+		}
+		return result.toEList;		
+	}
+	
+	/** Returns recursively all dataTypes at this container */
+	op void allDataTypes(Container c, DataType[] result)
+	{		
+		for(ContainedElement e: elements){
+			if(e instanceof DataType) { result.add(e); }
+			if(e instanceof Package){
+				allDataTypes(e, result);								
+			}
+		}
+	}	 
+	op DataType[] allDataTypes()
+	{
+		var DataType[] result
+		allDataTypes(this, result.toEList)
+		return result.toEList;
+	}		
 }
 
 /** =========================================
- *  - model
- *  ======================================== */
-
-class Model extends Container { }
-
+ *  Contained Element: is an Element that has a a container and possibly a set of comments.                    
+ *  ========================================= */    
+ 
 abstract class ContainedElement extends Element 
 { 
-	container Container[1] holder opposite elements
-	
+	container Container[1] holder opposite elements	
 	contains Comment[*] comments opposite owner	
-	
-	//==============================================
-	//operations
-	//==============================================
 	
 	/** Returns the root from a given container */
 	op Model getModel(Container c)
@@ -200,15 +208,7 @@ abstract class ContainedElement extends Element
 }
 
 /** =========================================
- *  package
- *  ======================================== */
-
-class Package extends Container, ContainedElement { }
-
-/** =========================================
- *  - comment
- * 
- *  A comment has a string content and an owner.
+ *  Comment: is a text which has an owner
  *  ======================================== */
 
 class Comment extends Element 
@@ -218,19 +218,29 @@ class Comment extends Element
 }
 
 /** =========================================
- *  - classifier (i.e. classes and relationships)
- * 
- *  A classifier is a contained element defined to be a relationship or a class.
+ *  Model: is just a Container
+ *  ======================================== */
+
+class Model extends Container { }
+
+/** =========================================
+ *  Package: is both a Container and a ContainedElement
+ *  ======================================== */
+
+class Package extends Container, ContainedElement { }
+
+/** =========================================
+ *  Classifier: is a type (class or dataType) or a relationship. 
  *  ======================================== */
  
 abstract class Classifier extends ContainedElement 
 {
+	String[*] definitions
+	String[*] synonyms
+	String text
+	
 	refers unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClassifier
 	refers unordered unique GeneralizationSet[*] specializesVia opposite specializingClassifier
-	
-	//==============================================
-	//operations
-	//==============================================
 	
 	/* Direct children */
 	op Classifier[] children() 
@@ -331,69 +341,14 @@ abstract class Classifier extends ContainedElement
 }
 
 /** =========================================
- *  - generalization set (between classifiers)
- *   
- *  A former UML generalization is now a generalization set with only one specializing classifier.
- *  A generalization set can be complete. Generalization sets are by default disjoint.
- *  Generalization sets cannot define cycles (Constraint C8, C9, C10, C11)
- *  Further, a generalization set may refer to a high order class (Constraint C7).
- *  ======================================== */
-
-class GeneralizationSet extends NamedElement, ContainedElement
-{
-	boolean isCovering
-	
-	/* JP: Default should be true, but isDijoint has been removed. Use different GeneralizationSets if necessary to represent disjointness. */
-	// boolean isDisjoint 
-		
-	/* JP: We diverge from UML, which refers to Generalizations from a GeneralizationSet */
-	refers Classifier[1] specializedClassifier opposite isSpecializedVia 
-	refers unordered unique Classifier[1..*] specializingClassifier opposite specializesVia 
-		
-	refers Class[?] highOrder 
-}
-
-/** =========================================
- *  - class stereotypes
- * 
- *  UFO's universals are defined here as simple enumerations instead of types hierarchies.
- *  Applications need to allow us change an element type (e.g. let's say, a kind into a role)
- *  We should not need to delete the class, create a new one, and then change all former references in the model 
- *  that previously pointed to that class, to point to the new class created. 
- *  ======================================== */
-
-enum Universal 
-{	
-	//UFO-A
-	Kind, Collective, Quantity, 
-	Relator, Mode, Quality,  
-	Role, Phase, SubKind, 
-	Category, Mixin, RoleMixin, PhaseMixin,
-	Domain, Dimension, DataType, Enumeration	
-	//UFO-B 
-	Event, 	
-	//High Order
-	Hou 
-}
-
-enum Quality 
-{
-	//UFO-A
-	Nominal, Perceivable, NonPerceivable	
-}
+ *  Type: is a class or a dataType  
+ *  ========================================= */
  
-/** =========================================
- *  - type (i.e. classes)
- *  
- *  =========================================
- */
-abstract class Type extends NamedElement, Classifier {
+abstract class Type extends Classifier {
+		
+	contains unordered unique Attribute[*] attributes opposite owner
 	
-	//==============================================
-	//operations
-	//==============================================
-	
-	/** Returns all types directly connected to this through a relationship. */
+	/** Returns all types directly connected to this type through a relationship. */
 	op Type[] relatedTypes(){
 		var Type[] result
 		for(EndPoint ep: ends()){
@@ -402,7 +357,7 @@ abstract class Type extends NamedElement, Classifier {
 		return result.toEList;
 	}
 	
-	/**Returns all types directly and indirectly connected to this through a relationship. */
+	/**Returns all types directly and indirectly connected to this type through a relationship. */
 	op Type[] allRelatedTypes(){
 		var Type[] result
 		for(EndPoint ep: allEnds()){
@@ -413,154 +368,234 @@ abstract class Type extends NamedElement, Classifier {
 }
 
 /** =========================================
- *  - class (type)
- * 
- *  A class is named classifier that may have a stereotype. 
- *  In the case where the stereotype is an enumeration, the class must have 2 or more enumeration literals (constraint C1).
- *  In the case where the stereotype is a quality, the class must define a quality type (constraint C4).
- *  A class may also be abstract or derived, and contain a set of attributes.
- *  Data-Types and Enumeration cannot be derived (Constraint C6).
- *  Enumerations may be a ground for a quality reference structure (Constraint C17).
- *  In the case where the stereotype is not a hou, data-type or enumeration, the class may be an instance of one or more high order classes (constraint C2, C3).
- *  In the case where the class is a truth maker (relator's descendant or relator), that class may be a truth maker for one or more material relationships (constraint C5).
- *  A class may be in a set of generalization sets as super-class or sub-class.
+ *  Property: is an attribute or an end-point
+ *  ======================================== */
+
+abstract class Property extends NamedElement 
+{		
+	boolean isOrdered
+	boolean isDerived	
+	int[1] lowerBound
+	int[1] upperBound	
+	boolean isDependency	
+}
+
+/** =========================================
+ *  PrimitiveType Stereotype
  *  ======================================== */
  
-class Class extends Type
-{	
-	Universal[?] stereotype	
-	
-	boolean isAbstract	
-	boolean isDerived	 
-	
-	contains unordered unique Attribute[*] attributes opposite owner
-	
-	//quality
-	Quality[?] qualityType 
-	
-	//enumeration
-	contains Literal[*] literals opposite owner		
-	refers Structure[?] groundingStructure opposite groundedEnumeration
-	
-	//high order
-	refers unordered unique Class[*] instanceOf
-	
-	//truth makers (e.g. relators) 
-	refers unordered unique Relationship[*] istruthMakerOf opposite derivedFromTruthMaker 
-	
-	boolean isExtensional
-		
-	//==============================================
-	//operations
-	//==============================================
-	
-	op boolean isKind(){stereotype==Universal.KIND}
-	op boolean isSubKind(){stereotype==Universal.SUB_KIND}
-	op boolean isCollective(){stereotype==Universal.COLLECTIVE}
-	op boolean isQuantity(){stereotype==Universal.QUANTITY}
-	op boolean isRelator(){stereotype==Universal.RELATOR}
-	op boolean isMode(){stereotype==Universal.MODE}
-	op boolean isQuality(){stereotype==Universal.QUALITY}
-	op boolean isRole(){stereotype==Universal.ROLE}
-	op boolean isRoleMixin(){stereotype==Universal.ROLE_MIXIN}
-	op boolean isPhaseMixin(){stereotype==Universal.PHASE_MIXIN}
-	op boolean isPhase(){stereotype==Universal.PHASE}
-	op boolean isCategory(){stereotype==Universal.CATEGORY}
-	op boolean isMixin(){stereotype==Universal.MIXIN}
-	op boolean isEvent(){stereotype==Universal.EVENT}
-	op boolean isHighOrder(){stereotype==Universal.HOU}
-	op boolean isDataType(){stereotype==Universal.DATA_TYPE}
-	op boolean isEnumeration(){stereotype==Universal.ENUMERATION}
-	op boolean isRigid() { isKind() || isCollective() || isQuantity() ||isRelator() || isMode() || isQuality() ||isSubKind() || isCategory() } 
-	op boolean isNonRigid() { isRole()|| isPhase() || isRoleMixin() || isMixin() } 
-	op boolean isAntiRigid() { isRole() || isPhase() || isRoleMixin() }
-	op boolean isSemiRigid() { isRoleMixin() || isPhaseMixin() || isMixin() }
-	op boolean isMoment() { isTruthMaker() || isMode() || isQuality() }
-	
-	/** Checks if this class is a direct identity provider 
-	 *  i.e. it does not inherit his identity from other classes. */
-	op boolean isIdentityProvider() 
-	{ 
-		return isKind() || isQuantity() || isCollective() || isRelator() || isMode()
-	}
-	
-	/** Checks if this class is a relator (or descendant of a relator) 
-	 *  and is related to one or more material relationships */
-	op boolean isTruthMaker()
-	{
-		if (isRelator()) { return true; }
-		for(Classifier c: allParents()) {
-			if(c instanceof Class){								
-				if (c.isRelator()) { return true; }
-			}
-		}
-		return false;		
-	}	
-	
-	/** Checks if this class is a Mixin, Category, RoleMixin or PhaseMixin */
-	op boolean isMixinClass()
-	{
-		if(isMixin() || isRoleMixin() || isPhaseMixin() || isCategory()) { return true; }		
-		else { return false; }		
-	}
-	
-	/** Returns the identity providers amongst all parents of a class (more than one may be found) */
-	op Class[] identityProvidersAtAllParents()
-	{
-		var Class[] result
-		for(Classifier p: allParents()) {
-			if(p instanceof Class){		
-				if(p.isIdentityProvider()) result.add(p);
-			}			
-		}
-		return result.toEList;
-	}
+enum PrimitiveStereotype
+{
+	Boolean, String, Real, Integer, Date, DateTime
+}
 
-	/** Returns the identity providers amongst all children of a class (more than one may be found) */
-	op Class[] identityProvidersAtAllChildren()
-	{
-		var Class[] result
-		for(Classifier p: allChildren()) {
-			if(p instanceof Class){		
-				if(p.isIdentityProvider()) result.add(p);
-				if(p.isAntiRigid() || p.isSubKind()) result.addAll(p.identityProvidersAtAllParents());
-			}			
-		}
-		return result.toEList;
-	}	
+/** =========================================
+ *  Attribute: has a primitive type and an owner (a class or a dataType)
+ *  ======================================== */
+class Attribute extends Property
+{
+	String[*] definitions	
+	String[*] synonyms
+	String text
 	
-	/** Returns the identity providers of a class (more than one may be found) */
-	op Class[] identityProviders()
-	{
-		var Class[] result
-		if (isIdentityProvider()) {
-			result.add(this);
-		}				
-		if (isAntiRigid() || isSubKind()) { 
-			result.addAll(identityProvidersAtAllParents());
-		}	
-		if (isMixinClass())
-		{
-			result.addAll(identityProvidersAtAllChildren());	
-			for(Classifier p: allParents()) {
-				if(p instanceof Class){		
-					result.addAll(p.identityProvidersAtAllChildren());
-				}
-			}	
-		}
-		return result.toEList;			
-	}	
+	PrimitiveStereotype[1] stereotype
 	
+	container Type[1] owner opposite attributes
+}
+
+
+/** =========================================
+ *  Generalization Set: is a specialization/generalization between two Classifiers.   
+ *                      A former UML generalization is now a Generalization Set with 
+ *                      only one specializing classifier.
+ *  ======================================== */
+
+class GeneralizationSet extends NamedElement, ContainedElement
+{
+	boolean isCovering		
+	refers Classifier[1] specializedClassifier opposite isSpecializedVia 
+	refers unordered unique Classifier[1..*] specializingClassifier opposite specializesVia		
+	refers Class[?] highOrder
+}
+
+/** =========================================
+ *  Class Stereotype
+ *  ======================================== */
+
+enum ClassStereotype 
+{	
+	Kind, Collective, Quantity, 
+	Relator, Mode, Quality,  
+	Role, Phase, SubKind, 
+	Category, Mixin, RoleMixin, PhaseMixin,		
+	Event, 	
+	HighOrder 
+}
+
+/** =========================================
+ *  DataType Stereotype
+ *  ======================================== */
+ 
+enum DataTypeStereotype
+{
+	Domain, Dimension, Enumeration, DataType
+}
+
+/** =========================================
+ *  Enumeration Literal
+ *  ======================================== */
+
+class Literal extends Element
+{
+	String value
+	container DataType[1] owner opposite literals		
+	float upperBoundRegion
+	float lowerBoundRegion
+}
+
+/** =========================================
+ *  Structure Scale and Basic Type
+ *  ======================================== */
+ 
+enum StructureScale
+{
+	Interval, Rational, Ordinal, Nominal
+}
+
+enum StructureBasicType
+{
+	Integer, Real, Decimal, String
+}
+
+/** =========================================
+ *  DataType: is a Domain, Dimension, Enumeration or DataType
+ *  ======================================== */
+ 
+class DataType extends Type, NamedElement
+{
+	DataTypeStereotype stereotype	
+	
+	//Domain
+	refers DataType[*] dimensions opposite ownerDomain
+	
+	//Dimension
+	StructureScale[?] scale 
+	StructureBasicType[?] basicType
+	String unitOfMeasure
+	float lowerBoundRegion 
+	float upperBoundRegion
+	refers DataType[?] ownerDomain opposite dimensions	
+	
+	//Enumeration
+	contains Literal[*] literals opposite owner			
+	refers DataType[?] structure
+	
+	op boolean isEnumeration(){stereotype==DataTypeStereotype.ENUMERATION}
+	op boolean isDomain(){stereotype==DataTypeStereotype.DOMAIN}
+	op boolean isDimension(){stereotype==DataTypeStereotype.DIMENSION}
+	op boolean isDataType(){stereotype==DataTypeStereotype.DATA_TYPE}	
+	op boolean isNominal() { scale!=null && scale==StructureScale.NOMINAL }
+	op boolean isInterval() { scale!=null && scale==StructureScale.INTERVAL }
+	op boolean isOrdinal() { scale!=null && scale==StructureScale.ORDINAL }
+	op boolean isRational() { scale!=null && scale==StructureScale.RATIONAL }	
+	op boolean isString() { basicType!=null && basicType==StructureBasicType.STRING }
+	op boolean isInteger() { basicType!=null && basicType==StructureBasicType.INTEGER }
+	op boolean isDecimal() { basicType!=null && basicType==StructureBasicType.DECIMAL }	
+	op boolean isNominalString() { isNominal() && isString() }	
+	op boolean isIntervalInteger() { isInterval() && isInteger() }
+	op boolean isIntervalDecimal() { isInterval() && isDecimal() }
+	op boolean isOrdinalInteger() { isOrdinal() && isInteger() }
+	op boolean isOrdinalDecimal() { isOrdinal() && isDecimal() }
+	op boolean isRationalInteger() { isRational() && isInteger() }
+	op boolean isRationalDecimal() { isRational() && isDecimal() }
+}
+
+/** =========================================
+ *  Quality Nature
+ *  ======================================== */
+ 
+enum QualityNature 
+{
+	Nominal, Perceivable, NonPerceivable	
+}
+
+/** =========================================
+ *  Classification Dynamics
+ *  ======================================== */
+ 
+enum ClassificationDynamics
+{
+	Initial, Final	
+}
+
+/** =========================================
+ *  Existence Dynamics
+ *  ======================================== */
+ 
+enum ExistenceDynamics
+{
+	Permanent, Transient, Eternal	
+}
+
+/** =========================================
+ *  Class: is an Endurant, Perdurant or a HighOrder class.
+ *  ======================================== */
+
+class Class extends Type, NamedElement
+{
+	ClassStereotype[?] stereotype	
+	boolean isAbstract	
+	boolean isDerived
+	
+	//Collective
+	boolean isExtensional
+	
+	//Quality			
+	QualityNature[?] qualityNature
+	
+	//Substance Sortal and Moment	
+	ExistenceDynamics[?] existenceDynamics
+	
+	//Anti-Rigid
+	ClassificationDynamics[?] classificationDynamics
+		
+	op boolean isKind(){stereotype==ClassStereotype.KIND}
+	op boolean isSubKind(){stereotype==ClassStereotype.SUB_KIND}
+	op boolean isCollective(){stereotype==ClassStereotype.COLLECTIVE}
+	op boolean isQuantity(){stereotype==ClassStereotype.QUANTITY}
+	op boolean isRelator(){stereotype==ClassStereotype.RELATOR}
+	op boolean isMode(){stereotype==ClassStereotype.MODE}
+	op boolean isQuality(){stereotype==ClassStereotype.QUALITY}
+	op boolean isRole(){stereotype==ClassStereotype.ROLE}
+	op boolean isRoleMixin(){stereotype==ClassStereotype.ROLE_MIXIN}
+	op boolean isPhaseMixin(){stereotype==ClassStereotype.PHASE_MIXIN}
+	op boolean isPhase(){stereotype==ClassStereotype.PHASE}
+	op boolean isCategory(){stereotype==ClassStereotype.CATEGORY}
+	op boolean isMixin(){stereotype==ClassStereotype.MIXIN}
+	op boolean isEvent(){stereotype==ClassStereotype.EVENT}
+	op boolean isHighOrder(){stereotype==ClassStereotype.HIGH_ORDER}
+	
+	op boolean isRigid() { isKind() || isCollective() || isQuantity() ||isRelator() || isMode() || isQuality() ||isSubKind() || isCategory() } 
+	op boolean isNonRigid() { isRole()|| isPhase() || isRoleMixin() || isPhaseMixin() || isMixin() } 
+	op boolean isAntiRigid() { isRole() || isPhase() || isRoleMixin() || isPhaseMixin() }
+	op boolean isSemiRigid() { isMixin() }
+			
+	op boolean isSubstanceSortalClass() { isKind() || isCollective() || isQuantity() }
+	op boolean isMomentClass() { isRelator() || isMode() || isQuality() }	
+	op boolean isIdentityProviderClass() { isKind() || isQuantity() || isCollective() || isRelator() || isMode() || isQuality() }
+	op boolean isMixinClass() { isMixin() || isRoleMixin() || isPhaseMixin() || isCategory() }
+	op boolean isAntiRigidMixinClass() { isRoleMixin() || isPhaseMixin() }
+			
 	/** 
-	 * Checks if this class is an amount of matter i.e.
+	 * Checks if this element is an amount of matter i.e.
 	 * 1) if it is a quantity element, or, 
-	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider of the type Quantity, or,
+	 * 2) if it is a subKind or role/phase with exactly one identity provider of the type Quantity, or,
 	 * 3) if it is a mixin class in which all their children are quantities.
 	 */
 	op boolean isAmountOfMatter()
 	{
 		if(isQuantity()) return true;		
-		if(isAntiRigid() || isSubKind()) 
+		if(isRole() || isPhase() || isSubKind()) 
 		{ 
 			var Class[] providers
 			providers.addAll(identityProviders());			
@@ -581,13 +616,13 @@ class Class extends Type
 	/** 
 	 * Checks if this element is a functional complex i.e.
 	 * 1) If it is a kind, or 
-	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider of the type kind, or,
+	 * 2) if it is a subKind or role/phase with exactly one identity provider of the type kind, or,
 	 * 3) if it is a mixin class in which all their children are functional complexes.  
 	 */
 	op boolean isFunctionalComplex()
 	{
 		if(isKind()) return true;		
-		if(isAntiRigid() || isSubKind()) 
+		if(isRole() || isPhase() || isSubKind()) 
 		{ 
 			var Class[] providers
 			providers.addAll(identityProviders());			
@@ -606,15 +641,15 @@ class Class extends Type
 	}	
 	
 	/** 
-	 * Checks if a particular element is a collective i.e.
+	 * Checks if this element is a collective i.e.
 	 * 1) if it is a collective element, or, 
-	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider of the type Collective, or,
+	 * 2) if it is a subKind or role/phase with exactly one identity provider of the type Collective, or,
 	 * 3) if it is a mixin class in which all their children are collectives.
 	 */
 	op boolean isCollection()
 	{ 
 		if(isCollective()) return true;		
-		if(isAntiRigid() || isSubKind()) 
+		if(isRole() || isPhase() || isSubKind()) 
 		{ 
 			var Class[] providers
 			providers.addAll(identityProviders());			
@@ -633,15 +668,15 @@ class Class extends Type
 	}	 
 	
 	/** 
-	 * Checks if a particular element is a moment  i.e.
-	 * 1) if it is a truth maker, mode or quality element, or, 
-	 * 2) if it is a sub-kind or anti-rigid with exactly one identity provider being a truth maker, mode or quality, or,
-	 * 3) if it is a mixin class in which all their children are truth makers, qualities or modes.
+	 * Checks if this element is a moment  i.e.
+	 * 1) if it is a moment, mode or quality element, or, 
+	 * 2) if it is a subKind or role/phase with exactly one identity provider being a relator, mode or quality, or,
+	 * 3) if it is a mixin class in which all their children are relators, qualities or modes.
 	 */
-	op boolean isIntrinsic()
+	op boolean isMoment()
 	{
 		if(isMoment()) return true;		
-		if(isAntiRigid() || isSubKind()) 
+		if(isRole() || isPhase() || isSubKind()) 
 		{ 
 			var Class[] providers
 			providers.addAll(identityProviders());			
@@ -658,197 +693,104 @@ class Class extends Type
 		}		
 		return false;
 	}
+	
+	/** 
+	 * Checks if this element is a truth maker (relator) i.e.
+	 * 1) if it is a truth maker element, or, 
+	 * 2) if it is a subKind or role/phase with exactly one identity provider being a truth maker, or,
+	 * 3) if it is a mixin class in which all their children are truth makers.
+	 */
+	op boolean isTruthMaker()
+	{
+		if(isRelator()) return true;		
+		if(isRole() || isPhase() || isSubKind()) 
+		{ 
+			var Class[] providers
+			providers.addAll(identityProviders());			
+			for(Class c: providers) if (c.isRelator()) return true;
+		}			
+		if(isMixinClass())
+		{			
+			if(children().size()==0) return false;			
+			for (Classifier child : children()) 
+			{
+				if(child instanceof Class) if(!child.isRelator()) return false;
+			}
+			return true;
+		}		
+		return false;		
+	}	
+	
+	/** Returns the identity providers amongst all parents of a class (more than one may be found) */
+	op Class[] identityProvidersAtAllParents()
+	{
+		var Class[] result
+		for(Classifier p: allParents()) {
+			if(p instanceof Class){		
+				if(p.isIdentityProviderClass()) result.add(p);
+			}			
+		}
+		return result.toEList;
+	}
+
+	/** Returns the identity providers amongst all children of a class (more than one may be found) */
+	op Class[] identityProvidersAtAllChildren()
+	{
+		var Class[] result
+		for(Classifier p: allChildren()) {
+			if(p instanceof Class){		
+				if(p.isIdentityProviderClass()) result.add(p);
+				if(p.isRole() || isPhase() || p.isSubKind()) result.addAll(p.identityProvidersAtAllParents());
+			}			
+		}
+		return result.toEList;
+	}	
+	
+	/** Returns the identity providers of a class (more than one may be found) */
+	op Class[] identityProviders()
+	{
+		var Class[] result
+		if (isIdentityProviderClass()) {
+			result.add(this);
+		}				
+		if (isRole() || isPhase() || isSubKind()) { 
+			result.addAll(identityProvidersAtAllParents());
+		}	
+		if (isMixinClass())
+		{
+			result.addAll(identityProvidersAtAllChildren());	
+			for(Classifier p: allParents()) {
+				if(p instanceof Class){		
+					result.addAll(p.identityProvidersAtAllChildren());
+				}
+			}	
+		}
+		return result.toEList;			
+	}	
+	
+	
 }
 
 /** =========================================
- *  - enumeration literal
- *  ======================================== */
-
-class Literal extends Element
-{
-	container Class[1] owner opposite literals
-	
-	refers Region[?] groundingRegion opposite groundedLiteral
-	
-	String value
-} 
-
-/** =========================================
- *  - attribute 
- * 
- *  An attribute is a property that has an owner class and a primitive type.
- * 
- *  A primitive type is a contained element which does not have a name.
- *  A primitive type have a primitive stereotype such as Integer, String, Real, Boolean, UnlimitedNatural and Date
- *  ======================================== */
-
-class Attribute extends Property
-{
-	container Class[1] owner opposite attributes
-	
-	Primitive[1] primitive 	
-}
-  
-enum Primitive
-{
-	/** JP: This is a direct way to implement built-in types, differently from UML in which 
-	 *  this should be a library of built-ins at model level */
-	Boolean, String, Real, Integer, Decimal, UnlimitedNatural, Date
-}
-
-/** =========================================
- *  - structure (type)
- * 
- *  A Structure may have several Regions.
- *  A Structure if grounded, must be grounded in a Enumeration (Constraint C18).
- *  ======================================== */
- 
-class Structure extends Type
-{	 
-	refers Region[*] regions opposite ownerStructure
-	
-	refers Class[?] groundedEnumeration opposite groundingStructure
-}
-  
-/** =========================================
- *  - region (type)
- * 
- *  A Region can be owned by a Structure and be grounded in an Enumeration Literal
- *  A "Composed" Region must have more than one Region.
- *  A "Basic" Region is defined by a Integer or a Decimal measure type.
- *  A "Nominal" Region is defined by a String measure type.
- *  ======================================== */
- 
-class Region extends Type 
-{
-	refers Structure[?] ownerStructure opposite regions	
-	
-	refers Literal[?] groundedLiteral opposite groundingRegion
-	
-	refers Region[*] composedBy 
-	
-	Primitive[?] basicType 
-	
-	//==============================================
-	//operations
-	//============================================== 
-	  
-	op boolean isBasic() { basicType!=null && composedBy.size()==0 && (basicType==Primitive.INTEGER || basicType==Primitive.DECIMAL) }
-	op boolean isComposed() { basicType==null && composedBy.size()>0 }
-	op boolean isNominal() { basicType!=null && (basicType==Primitive.STRING) }
-}
-
-/** =========================================
- * - structure domain
- * 
- *  A Domain should always be associated to an instance of measurable quality universal by a structuration relation.
- *  A Domain must have two or more owned dimensions. 
- *  All owned dimensions must be instances of measurement dimensions (not nominal dimensions).
- *  ======================================== */
- 
-class Domain extends Structure
-{
-	refers Dimension[*] dimensions opposite ownerDomain
-}
- 
-/** =========================================
- *  - dimension scale
- *  ======================================== */
- 
-enum Scale
-{
-	Interval, Rational, Ordinal, Nominal
-}
-
-/** =========================================
- *  - structure dimension
- * 
- *  A Dimension might be part of a Domain or connected to a Structuration.
- *  A Dimension might define basic Regions as lower and upper bound (Constraint C19 and C20)
- *  ======================================== */
-
-class Dimension extends Structure 
-{ 
-	refers Domain[?] ownerDomain opposite dimensions
-
-	refers Region[?] lowerBound 
-	refers Region[?] upperBound 
-	
-	String unitOfMeasure
-	
-	Scale[?] scale 
-	Primitive[?] measure
-	
-	//==============================================
-	//operations
-	//============================================== 
-	op boolean isNominal() { scale!=null && scale==Scale.NOMINAL }
-	op boolean isInterval() { scale!=null && scale==Scale.INTERVAL }
-	op boolean isOrdinal() { scale!=null && scale==Scale.ORDINAL }
-	op boolean isRational() { scale!=null && scale==Scale.RATIONAL }
-	
-	op boolean isString() { measure!=null && measure==Primitive.STRING }
-	op boolean isInteger() { measure!=null && measure==Primitive.INTEGER }
-	op boolean isDecimal() { measure!=null && measure==Primitive.DECIMAL }
-	
-	op boolean isNominalString() { isNominal() && isString() }
-	
-	op boolean isIntervalInteger() { isInterval() && isInteger() }
-	op boolean isIntervalDecimal() { isInterval() && isDecimal() }
-	op boolean isOrdinalInteger() { isOrdinal() && isInteger() }
-	op boolean isOrdinalDecimal() { isOrdinal() && isDecimal() }
-	op boolean isRationalInteger() { isRational() && isInteger() }
-	op boolean isRationalDecimal() { isRational() && isDecimal() }
-}
-
-/** =========================================
- *  - property (i.e. attributes and end points)
- * 
- *  A property is a named element which can be ordered, derived and have a dependency to a type (UML readOnly or frozen feature).
- *  A property defines a lower and upper bound defining how many elements are allowable at this property.
- *  ======================================== */
-
-abstract class Property extends NamedElement 
-{		
-	boolean isOrdered
-	boolean isDerived	
-	int[1] lowerBound
-	int[1] upperBound	
-	boolean isDependency	
-}
-
-/** =========================================
- *  - end-point
- * 
- *  An end-point is a property that has relationship owner and a end classifier (class or relationship, because of derivation relationships).
- *  An end-point may also have subsets or redefines a set of other end-points, and also be subsetted and redefined by others.
+ *  End-Point
  *  ======================================== */
  
 class EndPoint extends Property
 {	
-	container Relationship[1] owner opposite endPoints
-	
+	container Relationship[1] owner opposite endPoints	
 	refers Classifier[1] endType
-	
 	refers unordered unique EndPoint[*] subsets opposite isSubsettedBy
-	refers unordered unique EndPoint[*] redefines opposite isRedefinedBy
-	
+	refers unordered unique EndPoint[*] redefines opposite isRedefinedBy	
 	refers unordered unique EndPoint[*] isSubsettedBy opposite subsets
 	refers unordered unique EndPoint[*] isRedefinedBy opposite redefines
 }
 
 /** =========================================
- *  - relationship stereotypes
- *  
- *  UFO's universals are defined here as simple enumerations instead of a hierarchy of types.
- *  Applications need to allow us change a relationship type (e.g. let's say, a mediation into a characterization)
- *  We should not need to delete the relationship, create a new one, and then change all former references in the model 
- *  that previously pointed to that relationship, to point to the new element created. 
+ *  Relationship Stereotype
  *  ======================================== */
  
-enum Relation 
+enum RelationshipStereotype 
 {
-	//UFO-A
 	ComponentOf
 	MemberOf
 	SubCollectionOf
@@ -858,17 +800,20 @@ enum Relation
 	Mediation
 	Material
 	Formal
-	Structuration
 	Derivation
-	
-	//UFO-B
+	Structuration		
 	Participation
 	SubEventOf
-	Causation //Causality, CausedBy
-	Temporal	
+	Causation
+	Temporal
+	InstanceOf	
 }
 
-enum Temporal
+/** =========================================
+ *  Temporal Nature
+ *  ======================================== */
+ 
+enum TemporalNature
 {
 	Starts
 	Precedes
@@ -880,122 +825,120 @@ enum Temporal
 }
 
 /** =========================================
- *  - relationship
- * 
- *  A relationship is a classifier (not named) which may have a stereotype.
- *  In the case where the stereotype is temporal (allen's relation), the relationship must define a temporal type (constraint C12).
- *  A relationship has also a set of end-points. 
- *  A relationship can be derived from a truth maker only iff it is a material relationship (constraint C13).
- * 
- *  A derivation relationship:
- *  (i) must be binary (Constraint 14)
- *  (ii) must have as its source a material relationship (Constraint 15)
- *  (iii) must have as its target a truth maker class e.g. a relator (Constraint 16)
- * 
+ *  Participation Nature
  *  ======================================== */
  
-class Relationship extends NamedElement, Classifier
+enum ParticipationNature
+{
+	Creation
+	Change
+	Destruction		
+}
+
+/** =========================================
+ *  Relationship 
+ *  ======================================== */
+ 
+class Relationship extends Classifier, NamedElement
 {	
-	/* JP: I assume there is no reason to distinguish ordered and non-ordered, as all should be non-ordered.*/
-	 
-	 /* John & Tiago: We for now assume ordered end-points. 
-	 * http://link.springer.com/chapter/10.1007%2F978-3-642-41924-9_40 */
-	 
-	/* JP: I assume all are unique as well (mapping to sets and not bags). */
-	/* JP: If there are two relators relating the same entities, there should not be two material relations 
-	 * between the same entities... the tuples are identical e.g., you should not say that there are two "student at" 
-	 * relations between "Student" and "University" even if there are two "Enrollments".  */
-	
-	Relation[?] stereotype
-	
-	Temporal[?] allenRelation 
-	  
+	RelationshipStereotype[?] stereotype	
+	TemporalNature[?] temporalNature	  
+	ParticipationNature[?] participationNature
 	contains EndPoint[*] endPoints opposite owner	
-	
-	refers Class[?] derivedFromTruthMaker opposite istruthMakerOf
-		   
-	//==============================================
-	//operations
-	//==============================================
-	
-	op boolean isComponentOf(){stereotype==Relation.COMPONENT_OF}
-	op boolean isMemberOf(){stereotype==Relation.MEMBER_OF}
-	op boolean isSubCollectionOf(){stereotype==Relation.SUB_COLLECTION_OF}
-	op boolean isSubQuantityOf(){stereotype==Relation.SUB_QUANTITY_OF}
-	op boolean isConstitution(){stereotype==Relation.CONSTITUTION}	
-	op boolean isCharacterization(){stereotype==Relation.CHARACTERIZATION}
-	op boolean isMediation(){stereotype==Relation.MEDIATION}
-	op boolean isMaterial(){stereotype==Relation.MATERIAL}
-	op boolean isFormal(){stereotype==Relation.FORMAL}
-	op boolean isStructuration(){stereotype==Relation.STRUCTURATION}
-	op boolean isParticipation(){stereotype==Relation.PARTICIPATION}
-	op boolean isSubEventOf(){stereotype==Relation.SUB_EVENT_OF}
-	op boolean isCausation(){stereotype==Relation.CAUSATION}
-	op boolean isTemporal(){stereotype==Relation.TEMPORAL}
-	op boolean isDerivation(){stereotype==Relation.DERIVATION}
-	
-	op boolean isStarts(){allenRelation==Temporal.STARTS && isTemporal()}
-	op boolean isPrecedes(){allenRelation==Temporal.PRECEDES && isTemporal()}
-	op boolean isEquals(){allenRelation==Temporal.EQUALS && isTemporal()}
-	op boolean isMeets(){allenRelation==Temporal.MEETS && isTemporal()}
-	op boolean isFinishes(){allenRelation==Temporal.FINISHES && isTemporal()}
-	op boolean isOverlaps(){allenRelation==Temporal.OVERLAPS && isTemporal()}
-	op boolean isDuring(){allenRelation==Temporal.DURING && isTemporal()}		
-	op boolean isMeronymic() { isComponentOf() || isMemberOf() || isSubQuantityOf() || isSubCollectionOf() }	
-	
+		
+	op boolean isComponentOf(){stereotype==RelationshipStereotype.COMPONENT_OF}
+	op boolean isMemberOf(){stereotype==RelationshipStereotype.MEMBER_OF}
+	op boolean isSubCollectionOf(){stereotype==RelationshipStereotype.SUB_COLLECTION_OF}
+	op boolean isSubQuantityOf(){stereotype==RelationshipStereotype.SUB_QUANTITY_OF}
+	op boolean isConstitution(){stereotype==RelationshipStereotype.CONSTITUTION}	
+	op boolean isCharacterization(){stereotype==RelationshipStereotype.CHARACTERIZATION}
+	op boolean isMediation(){stereotype==RelationshipStereotype.MEDIATION}
+	op boolean isMaterial(){stereotype==RelationshipStereotype.MATERIAL}
+	op boolean isFormal(){stereotype==RelationshipStereotype.FORMAL}
+	op boolean isStructuration(){stereotype==RelationshipStereotype.STRUCTURATION}
+	op boolean isParticipation(){stereotype==RelationshipStereotype.PARTICIPATION}
+	op boolean isSubEventOf(){stereotype==RelationshipStereotype.SUB_EVENT_OF}
+	op boolean isCausation(){stereotype==RelationshipStereotype.CAUSATION}
+	op boolean isTemporal(){stereotype==RelationshipStereotype.TEMPORAL}
+	op boolean isInstanceOf(){stereotype==RelationshipStereotype.INSTANCE_OF}		
+	op boolean isStarts(){isTemporal() && temporalNature==Temporal.STARTS }
+	op boolean isPrecedes(){isTemporal() && temporalNature==Temporal.PRECEDES}
+	op boolean isEquals(){isTemporal() && temporalNature==Temporal.EQUALS}
+	op boolean isMeets(){isTemporal() && temporalNature==Temporal.MEETS}
+	op boolean isFinishes(){isTemporal() && temporalNature==Temporal.FINISHES}
+	op boolean isOverlaps(){isTemporal() && temporalNature==Temporal.OVERLAPS}
+	op boolean isDuring(){isTemporal() && temporalNature==Temporal.DURING}		
+	op boolean isMeronymic() { isComponentOf() || isMemberOf() || isSubQuantityOf() || isSubCollectionOf() || isConstitution() || isSubEventOf() }	
 	op boolean isBinary() { return endPoints.size()==2 }
 	op boolean isTernary() { return endPoints.size()==3 }
-	
-	/** Returns the source (first) end-point of this relationship */
+	op boolean isCreation() { return isParticipation() && participationNature == ParticipationNature.CREATION }
+	op boolean isDestruction() { return isParticipation() && participationNature == ParticipationNature.DESTRUCTION }
+	op boolean isChange() { return isParticipation() && participationNature == ParticipationNature.CHANGE }
+		
+	/** Returns the source (first end-point) of this relationship */
 	op EndPoint sourceEnd() 
 	{ 
 		if(endPoints.size()>0){ return endPoints.get(0) } 
 		return null;
 	} 
 	
-	/** Returns the target (second) end-point of this relationship */
+	/** Returns the target (second end-point) of this relationship */
 	op EndPoint targetEnd() 
 	{ 
 		if(endPoints.size()>1){ return endPoints.get(1) } 
 		return null;
 	}
 	
-	/** Returns the source (first) end-type of this relationship */
+	/** Returns the source (first end-classifier) of this relationship */
 	op Classifier source() 
 	{ 
 		if(sourceEnd()!=null){ return sourceEnd().endType } 
 		return null;
 	}
 	
-	/** Returns the target (second) end-type of this relationship */
+	/** Returns the target (second end-classifier) of this relationship */
 	op Classifier target()  
 	{ 
 		if(targetEnd()!=null){ return targetEnd().endType }		
 		return null;
 	}
 		
-	/** Returns the source (first) end-class of this relationship */
+	/** Returns the source (first end-class) of this relationship */
 	op Class sourceClass() 
 	{ 
 		if(source()!=null) return source() as Class		
 		return null; 
 	}
 	
-	/** Returns the target (second) end-class of this relationship */
+	/** Returns the target (second end-class) of this relationship */
 	op Class targetClass()  
 	{ 
 		if(target()!=null) return target() as Class		
 		return null;  
 	}	
 	
-	/** Returns the source (first) end-relationship of this relationship */
+	/** Returns the source (first end-dataType) of this relationship */
+	op DataType sourceDataType() 
+	{ 
+		if(source()!=null) return source() as DataType		
+		return null; 
+	}
+	
+	/** Returns the target (second end-dataType) of this relationship */
+	op DataType targetDataType()  
+	{ 
+		if(target()!=null) return target() as DataType		
+		return null;  
+	}
+	
+	/** Returns the source (first end-relationship) of this relationship */
 	op Relationship sourceRelationship() 
 	{ 
 		if(source()!=null) return source() as Relationship		
 		return null; 
 	}
 		
-	/** Returns the target (second) end-relationship of this relationship */
+	/** Returns the target (second end-relationship) of this relationship */
 	op Relationship targetRelationship()  
 	{ 
 		if(target()!=null) return target() as Relationship		
@@ -1034,11 +977,9 @@ class Relationship extends NamedElement, Classifier
 	op boolean isPartMandatory() { targetEnd().lowerBound>=1 && isMeronymic()}
 	
 	/** A whole is mandatory if the source end of a meronymic relationship has a lower bound of at least 1 */
-	op boolean isWholeMandatory() { sourceEnd().lowerBound>=1 && isMeronymic()}	 
-		
-	op Relationship material() { }
+	op boolean isWholeMandatory() { sourceEnd().lowerBound>=1 && isMeronymic()}
 	
-	op Class relator() { }
+	/** A part is shareable if the source end of a meronymic relationship has a upper bound greater than 1 */
+	op boolean isPartShareable() { sourceEnd().upperBound > 1 && isMeronymic() }	
 }
   
-

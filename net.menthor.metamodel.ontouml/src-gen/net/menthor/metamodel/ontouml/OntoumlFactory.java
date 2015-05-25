@@ -22,6 +22,15 @@ public interface OntoumlFactory extends EFactory {
 	OntoumlFactory eINSTANCE = net.menthor.metamodel.ontouml.impl.OntoumlFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Comment</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Comment</em>'.
+	 * @generated
+	 */
+	Comment createComment();
+
+	/**
 	 * Returns a new object of class '<em>Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -38,15 +47,6 @@ public interface OntoumlFactory extends EFactory {
 	 * @generated
 	 */
 	Package createPackage();
-
-	/**
-	 * Returns a new object of class '<em>Comment</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Comment</em>'.
-	 * @generated
-	 */
-	Comment createComment();
 
 	/**
 	 * Returns a new object of class '<em>Generalization Set</em>'.

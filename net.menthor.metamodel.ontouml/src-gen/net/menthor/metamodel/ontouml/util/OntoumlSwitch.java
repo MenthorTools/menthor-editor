@@ -105,19 +105,26 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case OntoumlPackage.CONTAINED_ELEMENT: {
+				ContainedElement containedElement = (ContainedElement)theEObject;
+				T result = caseContainedElement(containedElement);
+				if (result == null) result = caseElement(containedElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OntoumlPackage.COMMENT: {
+				Comment comment = (Comment)theEObject;
+				T result = caseComment(comment);
+				if (result == null) result = caseElement(comment);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case OntoumlPackage.MODEL: {
 				Model model = (Model)theEObject;
 				T result = caseModel(model);
 				if (result == null) result = caseContainer(model);
 				if (result == null) result = caseNamedElement(model);
 				if (result == null) result = caseElement(model);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.CONTAINED_ELEMENT: {
-				ContainedElement containedElement = (ContainedElement)theEObject;
-				T result = caseContainedElement(containedElement);
-				if (result == null) result = caseElement(containedElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -128,13 +135,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 				if (result == null) result = caseContainedElement(package_);
 				if (result == null) result = caseNamedElement(package_);
 				if (result == null) result = caseElement(package_);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntoumlPackage.COMMENT: {
-				Comment comment = (Comment)theEObject;
-				T result = caseComment(comment);
-				if (result == null) result = caseElement(comment);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -315,21 +315,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseModel(Model object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Contained Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -345,21 +330,6 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Package</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Package</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePackage(net.menthor.metamodel.ontouml.Package object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Comment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -371,6 +341,36 @@ public class OntoumlSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseComment(Comment object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModel(Model object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Package</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Package</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePackage(net.menthor.metamodel.ontouml.Package object) {
 		return null;
 	}
 

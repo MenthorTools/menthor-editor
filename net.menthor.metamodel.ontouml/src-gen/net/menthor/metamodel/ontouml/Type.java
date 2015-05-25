@@ -11,8 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - type (i.e. classes)
- * 
+ *  Type: is a Class or a DataType
  *  =========================================
  * <!-- end-model-doc -->
  *

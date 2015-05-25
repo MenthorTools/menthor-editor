@@ -11,13 +11,8 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - container & contained elements
- * 
- *  A container is a named element that contains a set of elements (i.e. model, packages).
- * 
- *  A contained element can be: a package, a generalization set, a relationship, or a class. *
- *  A contained element is an element that has a holder (a container) and possibly a set of comments.
- *  Further, relationships and classes are called classifiers.
+ *  Container: is a Named Element that can contain a set of:
+ *             Packages, Generalization Sets, Relationships, Classes and DataTypes
  *  ========================================
  * <!-- end-model-doc -->
  *

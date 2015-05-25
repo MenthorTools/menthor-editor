@@ -279,6 +279,116 @@ public interface OntoumlPackage extends EPackage {
 	int CONTAINER_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 12;
 
 	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl <em>Contained Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.ContainedElementImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getContainedElement()
+	 * @generated
+	 */
+	int CONTAINED_ELEMENT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Holder</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_ELEMENT__HOLDER = ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_ELEMENT__COMMENTS = ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Contained Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_ELEMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Model</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_ELEMENT___GET_MODEL__CONTAINER = ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Model</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_ELEMENT___GET_MODEL = ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Contained Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_ELEMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.CommentImpl <em>Comment</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.menthor.metamodel.ontouml.impl.CommentImpl
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getComment()
+	 * @generated
+	 */
+	int COMMENT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__CONTENT = ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__OWNER = ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Comment</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Comment</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -286,7 +396,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getModel()
 	 * @generated
 	 */
-	int MODEL = 3;
+	int MODEL = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -433,70 +543,6 @@ public interface OntoumlPackage extends EPackage {
 	int MODEL_OPERATION_COUNT = CONTAINER_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl <em>Contained Element</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.ContainedElementImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getContainedElement()
-	 * @generated
-	 */
-	int CONTAINED_ELEMENT = 4;
-
-	/**
-	 * The feature id for the '<em><b>Holder</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_ELEMENT__HOLDER = ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_ELEMENT__COMMENTS = ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Contained Element</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_ELEMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Get Model</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_ELEMENT___GET_MODEL__CONTAINER = ELEMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Get Model</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_ELEMENT___GET_MODEL = ELEMENT_OPERATION_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Contained Element</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_ELEMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 2;
-
-	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.PackageImpl <em>Package</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -504,7 +550,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackage()
 	 * @generated
 	 */
-	int PACKAGE = 5;
+	int PACKAGE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -685,52 +731,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @ordered
 	 */
 	int PACKAGE_OPERATION_COUNT = CONTAINER_OPERATION_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.CommentImpl <em>Comment</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.impl.CommentImpl
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getComment()
-	 * @generated
-	 */
-	int COMMENT = 6;
-
-	/**
-	 * The feature id for the '<em><b>Content</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT__CONTENT = ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Owner</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT__OWNER = ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Comment</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Comment</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMENT_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl <em>Classifier</em>}' class.
@@ -1286,13 +1286,22 @@ public interface OntoumlPackage extends EPackage {
 	int CLASS__ATTRIBUTES = TYPE_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Is Extensional</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__IS_EXTENSIONAL = TYPE_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Quality Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__QUALITY_TYPE = TYPE_FEATURE_COUNT + 4;
+	int CLASS__QUALITY_TYPE = TYPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Literals</b></em>' containment reference list.
@@ -1301,7 +1310,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__LITERALS = TYPE_FEATURE_COUNT + 5;
+	int CLASS__LITERALS = TYPE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Grounding Structure</b></em>' reference.
@@ -1310,7 +1319,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__GROUNDING_STRUCTURE = TYPE_FEATURE_COUNT + 6;
+	int CLASS__GROUNDING_STRUCTURE = TYPE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Instance Of</b></em>' reference list.
@@ -1319,7 +1328,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__INSTANCE_OF = TYPE_FEATURE_COUNT + 7;
+	int CLASS__INSTANCE_OF = TYPE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Istruth Maker Of</b></em>' reference list.
@@ -1328,16 +1337,7 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS__ISTRUTH_MAKER_OF = TYPE_FEATURE_COUNT + 8;
-
-	/**
-	 * The feature id for the '<em><b>Is Extensional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS__IS_EXTENSIONAL = TYPE_FEATURE_COUNT + 9;
+	int CLASS__ISTRUTH_MAKER_OF = TYPE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Class</em>' class.
@@ -3797,24 +3797,24 @@ public interface OntoumlPackage extends EPackage {
 	int RELATIONSHIP_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 54;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.ClassStereotype <em>Class Stereotype</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.Universal
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getUniversal()
+	 * @see net.menthor.metamodel.ontouml.ClassStereotype
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassStereotype()
 	 * @generated
 	 */
-	int UNIVERSAL = 20;
+	int CLASS_STEREOTYPE = 20;
 
 	/**
-	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Quality <em>Quality</em>}' enum.
+	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.QualityNature <em>Quality Nature</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see net.menthor.metamodel.ontouml.Quality
-	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getQuality()
+	 * @see net.menthor.metamodel.ontouml.QualityNature
+	 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getQualityNature()
 	 * @generated
 	 */
-	int QUALITY = 21;
+	int QUALITY_NATURE = 21;
 
 	/**
 	 * The meta object id for the '{@link net.menthor.metamodel.ontouml.Primitive <em>Primitive</em>}' enum.
@@ -4030,16 +4030,6 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getContainer__AllClasses();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Model</em>'.
-	 * @see net.menthor.metamodel.ontouml.Model
-	 * @generated
-	 */
-	EClass getModel();
-
-	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.ContainedElement <em>Contained Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4092,16 +4082,6 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getContainedElement__GetModel();
 
 	/**
-	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Package <em>Package</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Package</em>'.
-	 * @see net.menthor.metamodel.ontouml.Package
-	 * @generated
-	 */
-	EClass getPackage();
-
-	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Comment <em>Comment</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4132,6 +4112,26 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getComment_Owner();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Model <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model</em>'.
+	 * @see net.menthor.metamodel.ontouml.Model
+	 * @generated
+	 */
+	EClass getModel();
+
+	/**
+	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Package <em>Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Package</em>'.
+	 * @see net.menthor.metamodel.ontouml.Package
+	 * @generated
+	 */
+	EClass getPackage();
 
 	/**
 	 * Returns the meta object for class '{@link net.menthor.metamodel.ontouml.Classifier <em>Classifier</em>}'.
@@ -4394,6 +4394,17 @@ public interface OntoumlPackage extends EPackage {
 	EReference getClass_Attributes();
 
 	/**
+	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Extensional</em>'.
+	 * @see net.menthor.metamodel.ontouml.Class#isIsExtensional()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EAttribute getClass_IsExtensional();
+
+	/**
 	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#getQualityType <em>Quality Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4447,17 +4458,6 @@ public interface OntoumlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getClass_IstruthMakerOf();
-
-	/**
-	 * Returns the meta object for the attribute '{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Extensional</em>'.
-	 * @see net.menthor.metamodel.ontouml.Class#isIsExtensional()
-	 * @see #getClass_()
-	 * @generated
-	 */
-	EAttribute getClass_IsExtensional();
 
 	/**
 	 * Returns the meta object for the '{@link net.menthor.metamodel.ontouml.Class#isKind() <em>Is Kind</em>}' operation.
@@ -5833,24 +5833,24 @@ public interface OntoumlPackage extends EPackage {
 	EOperation getRelationship__Relator();
 
 	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}'.
+	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.ClassStereotype <em>Class Stereotype</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Universal</em>'.
-	 * @see net.menthor.metamodel.ontouml.Universal
+	 * @return the meta object for enum '<em>Class Stereotype</em>'.
+	 * @see net.menthor.metamodel.ontouml.ClassStereotype
 	 * @generated
 	 */
-	EEnum getUniversal();
+	EEnum getClassStereotype();
 
 	/**
-	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Quality <em>Quality</em>}'.
+	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.QualityNature <em>Quality Nature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Quality</em>'.
-	 * @see net.menthor.metamodel.ontouml.Quality
+	 * @return the meta object for enum '<em>Quality Nature</em>'.
+	 * @see net.menthor.metamodel.ontouml.QualityNature
 	 * @generated
 	 */
-	EEnum getQuality();
+	EEnum getQualityNature();
 
 	/**
 	 * Returns the meta object for enum '{@link net.menthor.metamodel.ontouml.Primitive <em>Primitive</em>}'.
@@ -6058,16 +6058,6 @@ public interface OntoumlPackage extends EPackage {
 		EOperation CONTAINER___ALL_CLASSES = eINSTANCE.getContainer__AllClasses();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.ModelImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getModel()
-		 * @generated
-		 */
-		EClass MODEL = eINSTANCE.getModel();
-
-		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ContainedElementImpl <em>Contained Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6110,16 +6100,6 @@ public interface OntoumlPackage extends EPackage {
 		EOperation CONTAINED_ELEMENT___GET_MODEL = eINSTANCE.getContainedElement__GetModel();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PackageImpl <em>Package</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.impl.PackageImpl
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackage()
-		 * @generated
-		 */
-		EClass PACKAGE = eINSTANCE.getPackage();
-
-		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.CommentImpl <em>Comment</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6144,6 +6124,26 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMMENT__OWNER = eINSTANCE.getComment_Owner();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ModelImpl <em>Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.ModelImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getModel()
+		 * @generated
+		 */
+		EClass MODEL = eINSTANCE.getModel();
+
+		/**
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.PackageImpl <em>Package</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.menthor.metamodel.ontouml.impl.PackageImpl
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getPackage()
+		 * @generated
+		 */
+		EClass PACKAGE = eINSTANCE.getPackage();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl <em>Classifier</em>}' class.
@@ -6354,6 +6354,14 @@ public interface OntoumlPackage extends EPackage {
 		EReference CLASS__ATTRIBUTES = eINSTANCE.getClass_Attributes();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Extensional</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS__IS_EXTENSIONAL = eINSTANCE.getClass_IsExtensional();
+
+		/**
 		 * The meta object literal for the '<em><b>Quality Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6392,14 +6400,6 @@ public interface OntoumlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CLASS__ISTRUTH_MAKER_OF = eINSTANCE.getClass_IstruthMakerOf();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Extensional</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASS__IS_EXTENSIONAL = eINSTANCE.getClass_IsExtensional();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Kind</b></em>' operation.
@@ -7492,24 +7492,24 @@ public interface OntoumlPackage extends EPackage {
 		EOperation RELATIONSHIP___RELATOR = eINSTANCE.getRelationship__Relator();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Universal <em>Universal</em>}' enum.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.ClassStereotype <em>Class Stereotype</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.Universal
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getUniversal()
+		 * @see net.menthor.metamodel.ontouml.ClassStereotype
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getClassStereotype()
 		 * @generated
 		 */
-		EEnum UNIVERSAL = eINSTANCE.getUniversal();
+		EEnum CLASS_STEREOTYPE = eINSTANCE.getClassStereotype();
 
 		/**
-		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Quality <em>Quality</em>}' enum.
+		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.QualityNature <em>Quality Nature</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see net.menthor.metamodel.ontouml.Quality
-		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getQuality()
+		 * @see net.menthor.metamodel.ontouml.QualityNature
+		 * @see net.menthor.metamodel.ontouml.impl.OntoumlPackageImpl#getQualityNature()
 		 * @generated
 		 */
-		EEnum QUALITY = eINSTANCE.getQuality();
+		EEnum QUALITY_NATURE = eINSTANCE.getQualityNature();
 
 		/**
 		 * The meta object literal for the '{@link net.menthor.metamodel.ontouml.Primitive <em>Primitive</em>}' enum.

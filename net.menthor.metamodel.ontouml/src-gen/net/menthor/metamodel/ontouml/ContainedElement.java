@@ -9,6 +9,12 @@ import org.eclipse.emf.common.util.EList;
  * A representation of the model object '<em><b>Contained Element</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  Contained Element: is an Element that has a a container and possibly a set of comments.
+ *  =========================================
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>

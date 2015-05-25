@@ -3,6 +3,7 @@
 package net.menthor.metamodel.ontouml.impl;
 
 import net.menthor.metamodel.ontouml.Attribute;
+import net.menthor.metamodel.ontouml.ClassStereotype;
 import net.menthor.metamodel.ontouml.Classifier;
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.ContainedElement;
@@ -18,7 +19,7 @@ import net.menthor.metamodel.ontouml.OntoumlFactory;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Primitive;
 import net.menthor.metamodel.ontouml.Property;
-import net.menthor.metamodel.ontouml.Quality;
+import net.menthor.metamodel.ontouml.QualityNature;
 import net.menthor.metamodel.ontouml.Region;
 import net.menthor.metamodel.ontouml.Relation;
 import net.menthor.metamodel.ontouml.Relationship;
@@ -26,7 +27,6 @@ import net.menthor.metamodel.ontouml.Scale;
 import net.menthor.metamodel.ontouml.Structure;
 import net.menthor.metamodel.ontouml.Temporal;
 import net.menthor.metamodel.ontouml.Type;
-import net.menthor.metamodel.ontouml.Universal;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -71,13 +71,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass modelEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass containedElementEClass = null;
 
 	/**
@@ -85,14 +78,21 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass packageEClass = null;
+	private EClass commentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass commentEClass = null;
+	private EClass modelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass packageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -190,14 +190,14 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum universalEEnum = null;
+	private EEnum classStereotypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum qualityEEnum = null;
+	private EEnum qualityNatureEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -449,15 +449,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModel() {
-		return modelEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getContainedElement() {
 		return containedElementEClass;
 	}
@@ -503,15 +494,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPackage() {
-		return packageEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getComment() {
 		return commentEClass;
 	}
@@ -532,6 +514,24 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 */
 	public EReference getComment_Owner() {
 		return (EReference)commentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getModel() {
+		return modelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPackage() {
+		return packageEClass;
 	}
 
 	/**
@@ -764,7 +764,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClass_QualityType() {
+	public EAttribute getClass_IsExtensional() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -773,8 +773,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_Literals() {
-		return (EReference)classEClass.getEStructuralFeatures().get(5);
+	public EAttribute getClass_QualityType() {
+		return (EAttribute)classEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -782,7 +782,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_GroundingStructure() {
+	public EReference getClass_Literals() {
 		return (EReference)classEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -791,7 +791,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_InstanceOf() {
+	public EReference getClass_GroundingStructure() {
 		return (EReference)classEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -800,7 +800,7 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClass_IstruthMakerOf() {
+	public EReference getClass_InstanceOf() {
 		return (EReference)classEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -809,8 +809,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClass_IsExtensional() {
-		return (EAttribute)classEClass.getEStructuralFeatures().get(9);
+	public EReference getClass_IstruthMakerOf() {
+		return (EReference)classEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -2024,8 +2024,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getUniversal() {
-		return universalEEnum;
+	public EEnum getClassStereotype() {
+		return classStereotypeEEnum;
 	}
 
 	/**
@@ -2033,8 +2033,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getQuality() {
-		return qualityEEnum;
+	public EEnum getQualityNature() {
+		return qualityNatureEEnum;
 	}
 
 	/**
@@ -2121,19 +2121,19 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEOperation(containerEClass, CONTAINER___ALL_CLASSES__CONTAINER_ELIST);
 		createEOperation(containerEClass, CONTAINER___ALL_CLASSES);
 
-		modelEClass = createEClass(MODEL);
-
 		containedElementEClass = createEClass(CONTAINED_ELEMENT);
 		createEReference(containedElementEClass, CONTAINED_ELEMENT__HOLDER);
 		createEReference(containedElementEClass, CONTAINED_ELEMENT__COMMENTS);
 		createEOperation(containedElementEClass, CONTAINED_ELEMENT___GET_MODEL__CONTAINER);
 		createEOperation(containedElementEClass, CONTAINED_ELEMENT___GET_MODEL);
 
-		packageEClass = createEClass(PACKAGE);
-
 		commentEClass = createEClass(COMMENT);
 		createEAttribute(commentEClass, COMMENT__CONTENT);
 		createEReference(commentEClass, COMMENT__OWNER);
+
+		modelEClass = createEClass(MODEL);
+
+		packageEClass = createEClass(PACKAGE);
 
 		classifierEClass = createEClass(CLASSIFIER);
 		createEReference(classifierEClass, CLASSIFIER__IS_SPECIALIZED_VIA);
@@ -2163,12 +2163,12 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEAttribute(classEClass, CLASS__IS_ABSTRACT);
 		createEAttribute(classEClass, CLASS__IS_DERIVED);
 		createEReference(classEClass, CLASS__ATTRIBUTES);
+		createEAttribute(classEClass, CLASS__IS_EXTENSIONAL);
 		createEAttribute(classEClass, CLASS__QUALITY_TYPE);
 		createEReference(classEClass, CLASS__LITERALS);
 		createEReference(classEClass, CLASS__GROUNDING_STRUCTURE);
 		createEReference(classEClass, CLASS__INSTANCE_OF);
 		createEReference(classEClass, CLASS__ISTRUTH_MAKER_OF);
-		createEAttribute(classEClass, CLASS__IS_EXTENSIONAL);
 		createEOperation(classEClass, CLASS___IS_KIND);
 		createEOperation(classEClass, CLASS___IS_SUB_KIND);
 		createEOperation(classEClass, CLASS___IS_COLLECTIVE);
@@ -2314,8 +2314,8 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		createEOperation(relationshipEClass, RELATIONSHIP___RELATOR);
 
 		// Create enums
-		universalEEnum = createEEnum(UNIVERSAL);
-		qualityEEnum = createEEnum(QUALITY);
+		classStereotypeEEnum = createEEnum(CLASS_STEREOTYPE);
+		qualityNatureEEnum = createEEnum(QUALITY_NATURE);
 		primitiveEEnum = createEEnum(PRIMITIVE);
 		scaleEEnum = createEEnum(SCALE);
 		relationEEnum = createEEnum(RELATION);
@@ -2355,11 +2355,11 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		// Add supertypes to classes
 		namedElementEClass.getESuperTypes().add(this.getElement());
 		containerEClass.getESuperTypes().add(this.getNamedElement());
-		modelEClass.getESuperTypes().add(this.getContainer());
 		containedElementEClass.getESuperTypes().add(this.getElement());
+		commentEClass.getESuperTypes().add(this.getElement());
+		modelEClass.getESuperTypes().add(this.getContainer());
 		packageEClass.getESuperTypes().add(this.getContainer());
 		packageEClass.getESuperTypes().add(this.getContainedElement());
-		commentEClass.getESuperTypes().add(this.getElement());
 		classifierEClass.getESuperTypes().add(this.getContainedElement());
 		generalizationSetEClass.getESuperTypes().add(this.getNamedElement());
 		generalizationSetEClass.getESuperTypes().add(this.getContainedElement());
@@ -2418,8 +2418,6 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 
 		initEOperation(getContainer__AllClasses(), this.getClass_(), "allClasses", 0, -1, !IS_UNIQUE, IS_ORDERED);
 
-		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(containedElementEClass, ContainedElement.class, "ContainedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getContainedElement_Holder(), this.getContainer(), this.getContainer_Elements(), "holder", null, 1, 1, ContainedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getContainedElement_Comments(), this.getComment(), this.getComment_Owner(), "comments", null, 0, -1, ContainedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2429,11 +2427,13 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 
 		initEOperation(getContainedElement__GetModel(), this.getModel(), "getModel", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
-		initEClass(packageEClass, net.menthor.metamodel.ontouml.Package.class, "Package", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(commentEClass, Comment.class, "Comment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComment_Content(), theEcorePackage.getEString(), "content", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComment_Owner(), this.getContainedElement(), this.getContainedElement_Comments(), "owner", null, 1, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(packageEClass, net.menthor.metamodel.ontouml.Package.class, "Package", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(classifierEClass, Classifier.class, "Classifier", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassifier_IsSpecializedVia(), this.getGeneralizationSet(), this.getGeneralizationSet_SpecializedClassifier(), "isSpecializedVia", null, 0, -1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -2474,16 +2474,16 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		initEOperation(getType__AllRelatedTypes(), this.getType(), "allRelatedTypes", 0, -1, !IS_UNIQUE, IS_ORDERED);
 
 		initEClass(classEClass, net.menthor.metamodel.ontouml.Class.class, "Class", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getClass_Stereotype(), this.getUniversal(), "stereotype", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClass_Stereotype(), this.getClassStereotype(), "stereotype", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_IsAbstract(), theEcorePackage.getEBoolean(), "isAbstract", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClass_IsDerived(), theEcorePackage.getEBoolean(), "isDerived", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClass_Attributes(), this.getAttribute(), this.getAttribute_Owner(), "attributes", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getClass_QualityType(), this.getQuality(), "qualityType", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClass_IsExtensional(), theEcorePackage.getEBoolean(), "isExtensional", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClass_QualityType(), this.getQualityNature(), "qualityType", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClass_Literals(), this.getLiteral(), this.getLiteral_Owner(), "literals", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClass_GroundingStructure(), this.getStructure(), this.getStructure_GroundedEnumeration(), "groundingStructure", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClass_InstanceOf(), this.getClass_(), null, "instanceOf", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getClass_IstruthMakerOf(), this.getRelationship(), this.getRelationship_DerivedFromTruthMaker(), "istruthMakerOf", null, 0, -1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getClass_IsExtensional(), theEcorePackage.getEBoolean(), "isExtensional", null, 0, 1, net.menthor.metamodel.ontouml.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getClass__IsKind(), theEcorePackage.getEBoolean(), "isKind", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
@@ -2722,31 +2722,31 @@ public class OntoumlPackageImpl extends EPackageImpl implements OntoumlPackage {
 		initEOperation(getRelationship__Relator(), this.getClass_(), "relator", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(universalEEnum, Universal.class, "Universal");
-		addEEnumLiteral(universalEEnum, Universal.KIND);
-		addEEnumLiteral(universalEEnum, Universal.COLLECTIVE);
-		addEEnumLiteral(universalEEnum, Universal.QUANTITY);
-		addEEnumLiteral(universalEEnum, Universal.RELATOR);
-		addEEnumLiteral(universalEEnum, Universal.MODE);
-		addEEnumLiteral(universalEEnum, Universal.QUALITY);
-		addEEnumLiteral(universalEEnum, Universal.ROLE);
-		addEEnumLiteral(universalEEnum, Universal.PHASE);
-		addEEnumLiteral(universalEEnum, Universal.SUB_KIND);
-		addEEnumLiteral(universalEEnum, Universal.CATEGORY);
-		addEEnumLiteral(universalEEnum, Universal.MIXIN);
-		addEEnumLiteral(universalEEnum, Universal.ROLE_MIXIN);
-		addEEnumLiteral(universalEEnum, Universal.PHASE_MIXIN);
-		addEEnumLiteral(universalEEnum, Universal.DOMAIN);
-		addEEnumLiteral(universalEEnum, Universal.DIMENSION);
-		addEEnumLiteral(universalEEnum, Universal.DATA_TYPE);
-		addEEnumLiteral(universalEEnum, Universal.ENUMERATION);
-		addEEnumLiteral(universalEEnum, Universal.EVENT);
-		addEEnumLiteral(universalEEnum, Universal.HOU);
+		initEEnum(classStereotypeEEnum, ClassStereotype.class, "ClassStereotype");
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.KIND);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.COLLECTIVE);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.QUANTITY);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.RELATOR);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.MODE);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.QUALITY);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.ROLE);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.PHASE);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.SUB_KIND);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.CATEGORY);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.MIXIN);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.ROLE_MIXIN);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.PHASE_MIXIN);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.DOMAIN);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.DIMENSION);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.DATA_TYPE);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.ENUMERATION);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.EVENT);
+		addEEnumLiteral(classStereotypeEEnum, ClassStereotype.HIGH_ORDER);
 
-		initEEnum(qualityEEnum, Quality.class, "Quality");
-		addEEnumLiteral(qualityEEnum, Quality.NOMINAL);
-		addEEnumLiteral(qualityEEnum, Quality.PERCEIVABLE);
-		addEEnumLiteral(qualityEEnum, Quality.NON_PERCEIVABLE);
+		initEEnum(qualityNatureEEnum, QualityNature.class, "QualityNature");
+		addEEnumLiteral(qualityNatureEEnum, QualityNature.NOMINAL);
+		addEEnumLiteral(qualityNatureEEnum, QualityNature.PERCEIVABLE);
+		addEEnumLiteral(qualityNatureEEnum, QualityNature.NON_PERCEIVABLE);
 
 		initEEnum(primitiveEEnum, Primitive.class, "Primitive");
 		addEEnumLiteral(primitiveEEnum, Primitive.BOOLEAN);

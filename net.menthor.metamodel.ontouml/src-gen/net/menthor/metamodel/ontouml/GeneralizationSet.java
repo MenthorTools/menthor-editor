@@ -11,12 +11,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - generalization set (between classifiers)
- * 
- *  A former UML generalization is now a generalization set with only one specializing classifier.
- *  A generalization set can be complete. Generalization sets are by default disjoint.
- *  Generalization sets cannot define cycles (Constraint C8, C9, C10, C11)
- *  Further, a generalization set may refer to a high order class (Constraint C7).
+ *  Generalization Set: is a specialization/generalization between two Classifiers.
+ *                      A former UML generalization is now a Generalization Set with
+ *                      only one specializing classifier.
  *  ========================================
  * <!-- end-model-doc -->
  *
@@ -65,10 +62,11 @@ public interface GeneralizationSet extends NamedElement, ContainedElement {
 	 * Returns the value of the '<em><b>Specialized Classifier</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Classifier#getIsSpecializedVia <em>Is Specialized Via</em>}'.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Specialized Classifier</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 *  JP: Default should be true, but isDijoint has been removed. Use different GeneralizationSets if necessary to represent disjointness.
-	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Specialized Classifier</em>' reference.
 	 * @see #setSpecializedClassifier(Classifier)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getGeneralizationSet_SpecializedClassifier()

@@ -3,6 +3,7 @@
 package net.menthor.metamodel.ontouml.impl;
 
 import net.menthor.metamodel.ontouml.Attribute;
+import net.menthor.metamodel.ontouml.ClassStereotype;
 import net.menthor.metamodel.ontouml.Comment;
 import net.menthor.metamodel.ontouml.Dimension;
 import net.menthor.metamodel.ontouml.Domain;
@@ -13,14 +14,13 @@ import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlFactory;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Primitive;
-import net.menthor.metamodel.ontouml.Quality;
+import net.menthor.metamodel.ontouml.QualityNature;
 import net.menthor.metamodel.ontouml.Region;
 import net.menthor.metamodel.ontouml.Relation;
 import net.menthor.metamodel.ontouml.Relationship;
 import net.menthor.metamodel.ontouml.Scale;
 import net.menthor.metamodel.ontouml.Structure;
 import net.menthor.metamodel.ontouml.Temporal;
-import net.menthor.metamodel.ontouml.Universal;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -75,9 +75,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case OntoumlPackage.COMMENT: return createComment();
 			case OntoumlPackage.MODEL: return createModel();
 			case OntoumlPackage.PACKAGE: return createPackage();
-			case OntoumlPackage.COMMENT: return createComment();
 			case OntoumlPackage.GENERALIZATION_SET: return createGeneralizationSet();
 			case OntoumlPackage.CLASS: return createClass();
 			case OntoumlPackage.LITERAL: return createLiteral();
@@ -101,10 +101,10 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case OntoumlPackage.UNIVERSAL:
-				return createUniversalFromString(eDataType, initialValue);
-			case OntoumlPackage.QUALITY:
-				return createQualityFromString(eDataType, initialValue);
+			case OntoumlPackage.CLASS_STEREOTYPE:
+				return createClassStereotypeFromString(eDataType, initialValue);
+			case OntoumlPackage.QUALITY_NATURE:
+				return createQualityNatureFromString(eDataType, initialValue);
 			case OntoumlPackage.PRIMITIVE:
 				return createPrimitiveFromString(eDataType, initialValue);
 			case OntoumlPackage.SCALE:
@@ -126,10 +126,10 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case OntoumlPackage.UNIVERSAL:
-				return convertUniversalToString(eDataType, instanceValue);
-			case OntoumlPackage.QUALITY:
-				return convertQualityToString(eDataType, instanceValue);
+			case OntoumlPackage.CLASS_STEREOTYPE:
+				return convertClassStereotypeToString(eDataType, instanceValue);
+			case OntoumlPackage.QUALITY_NATURE:
+				return convertQualityNatureToString(eDataType, instanceValue);
 			case OntoumlPackage.PRIMITIVE:
 				return convertPrimitiveToString(eDataType, instanceValue);
 			case OntoumlPackage.SCALE:
@@ -141,6 +141,16 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Comment createComment() {
+		CommentImpl comment = new CommentImpl();
+		return comment;
 	}
 
 	/**
@@ -161,16 +171,6 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	public net.menthor.metamodel.ontouml.Package createPackage() {
 		PackageImpl package_ = new PackageImpl();
 		return package_;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Comment createComment() {
-		CommentImpl comment = new CommentImpl();
-		return comment;
 	}
 
 	/**
@@ -278,8 +278,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Universal createUniversalFromString(EDataType eDataType, String initialValue) {
-		Universal result = Universal.get(initialValue);
+	public ClassStereotype createClassStereotypeFromString(EDataType eDataType, String initialValue) {
+		ClassStereotype result = ClassStereotype.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -289,7 +289,7 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertUniversalToString(EDataType eDataType, Object instanceValue) {
+	public String convertClassStereotypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -298,8 +298,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Quality createQualityFromString(EDataType eDataType, String initialValue) {
-		Quality result = Quality.get(initialValue);
+	public QualityNature createQualityNatureFromString(EDataType eDataType, String initialValue) {
+		QualityNature result = QualityNature.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -309,7 +309,7 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertQualityToString(EDataType eDataType, Object instanceValue) {
+	public String convertQualityNatureToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

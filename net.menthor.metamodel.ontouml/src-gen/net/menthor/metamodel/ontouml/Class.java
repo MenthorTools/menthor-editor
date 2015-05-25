@@ -32,12 +32,12 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link net.menthor.metamodel.ontouml.Class#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#getQualityType <em>Quality Type</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#getLiterals <em>Literals</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#getGroundingStructure <em>Grounding Structure</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#getInstanceOf <em>Instance Of</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Class#getIstruthMakerOf <em>Istruth Maker Of</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,7 +48,7 @@ import org.eclipse.emf.common.util.EList;
 public interface Class extends Type {
 	/**
 	 * Returns the value of the '<em><b>Stereotype</b></em>' attribute.
-	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Universal}.
+	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.ClassStereotype}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Stereotype</em>' attribute isn't clear,
@@ -56,24 +56,24 @@ public interface Class extends Type {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Stereotype</em>' attribute.
-	 * @see net.menthor.metamodel.ontouml.Universal
-	 * @see #setStereotype(Universal)
+	 * @see net.menthor.metamodel.ontouml.ClassStereotype
+	 * @see #setStereotype(ClassStereotype)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClass_Stereotype()
 	 * @model unique="false"
 	 * @generated
 	 */
-	Universal getStereotype();
+	ClassStereotype getStereotype();
 
 	/**
 	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Class#getStereotype <em>Stereotype</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Stereotype</em>' attribute.
-	 * @see net.menthor.metamodel.ontouml.Universal
+	 * @see net.menthor.metamodel.ontouml.ClassStereotype
 	 * @see #getStereotype()
 	 * @generated
 	 */
-	void setStereotype(Universal value);
+	void setStereotype(ClassStereotype value);
 
 	/**
 	 * Returns the value of the '<em><b>Is Abstract</b></em>' attribute.
@@ -146,8 +146,34 @@ public interface Class extends Type {
 	EList<Attribute> getAttributes();
 
 	/**
+	 * Returns the value of the '<em><b>Is Extensional</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Extensional</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Extensional</em>' attribute.
+	 * @see #setIsExtensional(boolean)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClass_IsExtensional()
+	 * @model unique="false"
+	 * @generated
+	 */
+	boolean isIsExtensional();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Extensional</em>' attribute.
+	 * @see #isIsExtensional()
+	 * @generated
+	 */
+	void setIsExtensional(boolean value);
+
+	/**
 	 * Returns the value of the '<em><b>Quality Type</b></em>' attribute.
-	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.Quality}.
+	 * The literals are from the enumeration {@link net.menthor.metamodel.ontouml.QualityNature}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Quality Type</em>' attribute isn't clear,
@@ -155,24 +181,24 @@ public interface Class extends Type {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Quality Type</em>' attribute.
-	 * @see net.menthor.metamodel.ontouml.Quality
-	 * @see #setQualityType(Quality)
+	 * @see net.menthor.metamodel.ontouml.QualityNature
+	 * @see #setQualityType(QualityNature)
 	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClass_QualityType()
 	 * @model unique="false"
 	 * @generated
 	 */
-	Quality getQualityType();
+	QualityNature getQualityType();
 
 	/**
 	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Class#getQualityType <em>Quality Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Quality Type</em>' attribute.
-	 * @see net.menthor.metamodel.ontouml.Quality
+	 * @see net.menthor.metamodel.ontouml.QualityNature
 	 * @see #getQualityType()
 	 * @generated
 	 */
-	void setQualityType(Quality value);
+	void setQualityType(QualityNature value);
 
 	/**
 	 * Returns the value of the '<em><b>Literals</b></em>' containment reference list.
@@ -255,36 +281,10 @@ public interface Class extends Type {
 	EList<Relationship> getIstruthMakerOf();
 
 	/**
-	 * Returns the value of the '<em><b>Is Extensional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Is Extensional</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Extensional</em>' attribute.
-	 * @see #setIsExtensional(boolean)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClass_IsExtensional()
-	 * @model unique="false"
-	 * @generated
-	 */
-	boolean isIsExtensional();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Class#isIsExtensional <em>Is Extensional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Extensional</em>' attribute.
-	 * @see #isIsExtensional()
-	 * @generated
-	 */
-	void setIsExtensional(boolean value);
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.KIND);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.KIND);'"
 	 * @generated
 	 */
 	boolean isKind();
@@ -293,7 +293,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.SUB_KIND);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.SUB_KIND);'"
 	 * @generated
 	 */
 	boolean isSubKind();
@@ -302,7 +302,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.COLLECTIVE);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.COLLECTIVE);'"
 	 * @generated
 	 */
 	boolean isCollective();
@@ -311,7 +311,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.QUANTITY);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.QUANTITY);'"
 	 * @generated
 	 */
 	boolean isQuantity();
@@ -320,7 +320,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.RELATOR);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.RELATOR);'"
 	 * @generated
 	 */
 	boolean isRelator();
@@ -329,7 +329,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.MODE);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.MODE);'"
 	 * @generated
 	 */
 	boolean isMode();
@@ -338,7 +338,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.QUALITY);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.QUALITY);'"
 	 * @generated
 	 */
 	boolean isQuality();
@@ -347,7 +347,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.ROLE);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.ROLE);'"
 	 * @generated
 	 */
 	boolean isRole();
@@ -356,7 +356,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.ROLE_MIXIN);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.ROLE_MIXIN);'"
 	 * @generated
 	 */
 	boolean isRoleMixin();
@@ -365,7 +365,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.PHASE_MIXIN);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.PHASE_MIXIN);'"
 	 * @generated
 	 */
 	boolean isPhaseMixin();
@@ -374,7 +374,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.PHASE);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.PHASE);'"
 	 * @generated
 	 */
 	boolean isPhase();
@@ -383,7 +383,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.CATEGORY);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.CATEGORY);'"
 	 * @generated
 	 */
 	boolean isCategory();
@@ -392,7 +392,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.MIXIN);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.MIXIN);'"
 	 * @generated
 	 */
 	boolean isMixin();
@@ -401,7 +401,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.EVENT);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.EVENT);'"
 	 * @generated
 	 */
 	boolean isEvent();
@@ -410,7 +410,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.HOU);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.HIGH_ORDER);'"
 	 * @generated
 	 */
 	boolean isHighOrder();
@@ -419,7 +419,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.DATA_TYPE);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.DATA_TYPE);'"
 	 * @generated
 	 */
 	boolean isDataType();
@@ -428,7 +428,7 @@ public interface Class extends Type {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.Universal%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.Universal%>.ENUMERATION);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%net.menthor.metamodel.ontouml.ClassStereotype%> _stereotype = this.getStereotype();\nreturn <%com.google.common.base.Objects%>.equal(_stereotype, <%net.menthor.metamodel.ontouml.ClassStereotype%>.ENUMERATION);'"
 	 * @generated
 	 */
 	boolean isEnumeration();

@@ -8,6 +8,12 @@ package net.menthor.metamodel.ontouml;
  * A representation of the model object '<em><b>Named Element</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  Named Element
+ *  ========================================
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>

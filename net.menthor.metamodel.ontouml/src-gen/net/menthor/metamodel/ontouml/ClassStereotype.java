@@ -10,24 +10,19 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Universal</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Class Stereotype</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  - class stereotypes
- * 
- *  UFO's universals are defined here as simple enumerations instead of types hierarchies.
- *  Applications need to allow us change an element type (e.g. let's say, a kind into a role)
- *  We should not need to delete the class, create a new one, and then change all former references in the model
- *  that previously pointed to that class, to point to the new class created.
+ *  Class Stereotype
  *  ========================================
  * <!-- end-model-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getUniversal()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getClassStereotype()
  * @model
  * @generated
  */
-public enum Universal implements Enumerator {
+public enum ClassStereotype implements Enumerator {
 	/**
 	 * The '<em><b>Kind</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -209,14 +204,14 @@ public enum Universal implements Enumerator {
 	EVENT(0, "Event", "Event"),
 
 	/**
-	 * The '<em><b>Hou</b></em>' literal object.
+	 * The '<em><b>High Order</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #HOU_VALUE
+	 * @see #HIGH_ORDER_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	HOU(0, "Hou", "Hou");
+	HIGH_ORDER(0, "HighOrder", "HighOrder");
 
 	/**
 	 * The '<em><b>Kind</b></em>' literal value.
@@ -489,28 +484,28 @@ public enum Universal implements Enumerator {
 	public static final int EVENT_VALUE = 0;
 
 	/**
-	 * The '<em><b>Hou</b></em>' literal value.
+	 * The '<em><b>High Order</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Hou</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>High Order</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #HOU
-	 * @model name="Hou"
+	 * @see #HIGH_ORDER
+	 * @model name="HighOrder"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int HOU_VALUE = 0;
+	public static final int HIGH_ORDER_VALUE = 0;
 
 	/**
-	 * An array of all the '<em><b>Universal</b></em>' enumerators.
+	 * An array of all the '<em><b>Class Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Universal[] VALUES_ARRAY =
-		new Universal[] {
+	private static final ClassStereotype[] VALUES_ARRAY =
+		new ClassStereotype[] {
 			KIND,
 			COLLECTIVE,
 			QUANTITY,
@@ -529,26 +524,26 @@ public enum Universal implements Enumerator {
 			DATA_TYPE,
 			ENUMERATION,
 			EVENT,
-			HOU,
+			HIGH_ORDER,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Universal</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Class Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Universal> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ClassStereotype> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Universal</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Class Stereotype</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Universal get(String literal) {
+	public static ClassStereotype get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Universal result = VALUES_ARRAY[i];
+			ClassStereotype result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -557,14 +552,14 @@ public enum Universal implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Universal</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Class Stereotype</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Universal getByName(String name) {
+	public static ClassStereotype getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Universal result = VALUES_ARRAY[i];
+			ClassStereotype result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -573,12 +568,12 @@ public enum Universal implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Universal</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Class Stereotype</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Universal get(int value) {
+	public static ClassStereotype get(int value) {
 		switch (value) {
 			case KIND_VALUE: return KIND;
 		}
@@ -612,7 +607,7 @@ public enum Universal implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Universal(int value, String name, String literal) {
+	private ClassStereotype(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -656,4 +651,4 @@ public enum Universal implements Enumerator {
 		return literal;
 	}
 	
-} //Universal
+} //ClassStereotype

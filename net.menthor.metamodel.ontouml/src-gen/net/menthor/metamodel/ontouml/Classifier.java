@@ -11,9 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - classifier (i.e. classes and relationships)
- * 
- *  A classifier is a contained element defined to be a relationship or a class.
+ *  Classifier: is a class, dataType or a relationship.
  *  ========================================
  * <!-- end-model-doc -->
  *

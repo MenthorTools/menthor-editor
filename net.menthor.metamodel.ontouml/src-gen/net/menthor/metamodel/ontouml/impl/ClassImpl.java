@@ -12,13 +12,13 @@ import java.util.Collection;
 import java.util.List;
 
 import net.menthor.metamodel.ontouml.Attribute;
+import net.menthor.metamodel.ontouml.ClassStereotype;
 import net.menthor.metamodel.ontouml.Classifier;
 import net.menthor.metamodel.ontouml.Literal;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.Quality;
+import net.menthor.metamodel.ontouml.QualityNature;
 import net.menthor.metamodel.ontouml.Relationship;
 import net.menthor.metamodel.ontouml.Structure;
-import net.menthor.metamodel.ontouml.Universal;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -47,12 +47,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsDerived <em>Is Derived</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsExtensional <em>Is Extensional</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getQualityType <em>Quality Type</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getLiterals <em>Literals</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getGroundingStructure <em>Grounding Structure</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getInstanceOf <em>Instance Of</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#getIstruthMakerOf <em>Istruth Maker Of</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassImpl#isIsExtensional <em>Is Extensional</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,7 +67,7 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Universal STEREOTYPE_EDEFAULT = Universal.KIND;
+	protected static final ClassStereotype STEREOTYPE_EDEFAULT = ClassStereotype.KIND;
 
 	/**
 	 * The cached value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
@@ -77,7 +77,7 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 * @ordered
 	 */
-	protected Universal stereotype = STEREOTYPE_EDEFAULT;
+	protected ClassStereotype stereotype = STEREOTYPE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isIsAbstract() <em>Is Abstract</em>}' attribute.
@@ -130,6 +130,26 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	protected EList<Attribute> attributes;
 
 	/**
+	 * The default value of the '{@link #isIsExtensional() <em>Is Extensional</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsExtensional()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_EXTENSIONAL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsExtensional() <em>Is Extensional</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsExtensional()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isExtensional = IS_EXTENSIONAL_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getQualityType() <em>Quality Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -137,7 +157,7 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Quality QUALITY_TYPE_EDEFAULT = Quality.NOMINAL;
+	protected static final QualityNature QUALITY_TYPE_EDEFAULT = QualityNature.NOMINAL;
 
 	/**
 	 * The cached value of the '{@link #getQualityType() <em>Quality Type</em>}' attribute.
@@ -147,7 +167,7 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 * @ordered
 	 */
-	protected Quality qualityType = QUALITY_TYPE_EDEFAULT;
+	protected QualityNature qualityType = QUALITY_TYPE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getLiterals() <em>Literals</em>}' containment reference list.
@@ -190,26 +210,6 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	protected EList<Relationship> istruthMakerOf;
 
 	/**
-	 * The default value of the '{@link #isIsExtensional() <em>Is Extensional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isIsExtensional()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean IS_EXTENSIONAL_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isIsExtensional() <em>Is Extensional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isIsExtensional()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean isExtensional = IS_EXTENSIONAL_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -233,7 +233,7 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Universal getStereotype() {
+	public ClassStereotype getStereotype() {
 		return stereotype;
 	}
 
@@ -242,8 +242,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStereotype(Universal newStereotype) {
-		Universal oldStereotype = stereotype;
+	public void setStereotype(ClassStereotype newStereotype) {
+		ClassStereotype oldStereotype = stereotype;
 		stereotype = newStereotype == null ? STEREOTYPE_EDEFAULT : newStereotype;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__STEREOTYPE, oldStereotype, stereotype));
@@ -308,7 +308,28 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Quality getQualityType() {
+	public boolean isIsExtensional() {
+		return isExtensional;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsExtensional(boolean newIsExtensional) {
+		boolean oldIsExtensional = isExtensional;
+		isExtensional = newIsExtensional;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__IS_EXTENSIONAL, oldIsExtensional, isExtensional));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public QualityNature getQualityType() {
 		return qualityType;
 	}
 
@@ -317,8 +338,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setQualityType(Quality newQualityType) {
-		Quality oldQualityType = qualityType;
+	public void setQualityType(QualityNature newQualityType) {
+		QualityNature oldQualityType = qualityType;
 		qualityType = newQualityType == null ? QUALITY_TYPE_EDEFAULT : newQualityType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__QUALITY_TYPE, oldQualityType, qualityType));
@@ -425,30 +446,9 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isIsExtensional() {
-		return isExtensional;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIsExtensional(boolean newIsExtensional) {
-		boolean oldIsExtensional = isExtensional;
-		isExtensional = newIsExtensional;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASS__IS_EXTENSIONAL, oldIsExtensional, isExtensional));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public boolean isKind() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.KIND);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.KIND);
 	}
 
 	/**
@@ -457,8 +457,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isSubKind() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.SUB_KIND);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.SUB_KIND);
 	}
 
 	/**
@@ -467,8 +467,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isCollective() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.COLLECTIVE);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.COLLECTIVE);
 	}
 
 	/**
@@ -477,8 +477,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isQuantity() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.QUANTITY);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.QUANTITY);
 	}
 
 	/**
@@ -487,8 +487,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isRelator() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.RELATOR);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.RELATOR);
 	}
 
 	/**
@@ -497,8 +497,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isMode() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.MODE);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.MODE);
 	}
 
 	/**
@@ -507,8 +507,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isQuality() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.QUALITY);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.QUALITY);
 	}
 
 	/**
@@ -517,8 +517,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isRole() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.ROLE);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.ROLE);
 	}
 
 	/**
@@ -527,8 +527,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isRoleMixin() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.ROLE_MIXIN);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.ROLE_MIXIN);
 	}
 
 	/**
@@ -537,8 +537,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isPhaseMixin() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.PHASE_MIXIN);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.PHASE_MIXIN);
 	}
 
 	/**
@@ -547,8 +547,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isPhase() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.PHASE);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.PHASE);
 	}
 
 	/**
@@ -557,8 +557,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isCategory() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.CATEGORY);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.CATEGORY);
 	}
 
 	/**
@@ -567,8 +567,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isMixin() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.MIXIN);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.MIXIN);
 	}
 
 	/**
@@ -577,8 +577,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isEvent() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.EVENT);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.EVENT);
 	}
 
 	/**
@@ -587,8 +587,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isHighOrder() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.HOU);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.HIGH_ORDER);
 	}
 
 	/**
@@ -597,8 +597,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isDataType() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.DATA_TYPE);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.DATA_TYPE);
 	}
 
 	/**
@@ -607,8 +607,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	 * @generated
 	 */
 	public boolean isEnumeration() {
-		Universal _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Universal.ENUMERATION);
+		ClassStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, ClassStereotype.ENUMERATION);
 	}
 
 	/**
@@ -1238,6 +1238,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 				return isIsDerived();
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return getAttributes();
+			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
+				return isIsExtensional();
 			case OntoumlPackage.CLASS__QUALITY_TYPE:
 				return getQualityType();
 			case OntoumlPackage.CLASS__LITERALS:
@@ -1249,8 +1251,6 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 				return getInstanceOf();
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				return getIstruthMakerOf();
-			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
-				return isIsExtensional();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1265,7 +1265,7 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case OntoumlPackage.CLASS__STEREOTYPE:
-				setStereotype((Universal)newValue);
+				setStereotype((ClassStereotype)newValue);
 				return;
 			case OntoumlPackage.CLASS__IS_ABSTRACT:
 				setIsAbstract((Boolean)newValue);
@@ -1277,8 +1277,11 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 				getAttributes().clear();
 				getAttributes().addAll((Collection<? extends Attribute>)newValue);
 				return;
+			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
+				setIsExtensional((Boolean)newValue);
+				return;
 			case OntoumlPackage.CLASS__QUALITY_TYPE:
-				setQualityType((Quality)newValue);
+				setQualityType((QualityNature)newValue);
 				return;
 			case OntoumlPackage.CLASS__LITERALS:
 				getLiterals().clear();
@@ -1294,9 +1297,6 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				getIstruthMakerOf().clear();
 				getIstruthMakerOf().addAll((Collection<? extends Relationship>)newValue);
-				return;
-			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
-				setIsExtensional((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -1322,6 +1322,9 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				getAttributes().clear();
 				return;
+			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
+				setIsExtensional(IS_EXTENSIONAL_EDEFAULT);
+				return;
 			case OntoumlPackage.CLASS__QUALITY_TYPE:
 				setQualityType(QUALITY_TYPE_EDEFAULT);
 				return;
@@ -1336,9 +1339,6 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 				return;
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				getIstruthMakerOf().clear();
-				return;
-			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
-				setIsExtensional(IS_EXTENSIONAL_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -1360,6 +1360,8 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 				return isDerived != IS_DERIVED_EDEFAULT;
 			case OntoumlPackage.CLASS__ATTRIBUTES:
 				return attributes != null && !attributes.isEmpty();
+			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
+				return isExtensional != IS_EXTENSIONAL_EDEFAULT;
 			case OntoumlPackage.CLASS__QUALITY_TYPE:
 				return qualityType != QUALITY_TYPE_EDEFAULT;
 			case OntoumlPackage.CLASS__LITERALS:
@@ -1370,8 +1372,6 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 				return instanceOf != null && !instanceOf.isEmpty();
 			case OntoumlPackage.CLASS__ISTRUTH_MAKER_OF:
 				return istruthMakerOf != null && !istruthMakerOf.isEmpty();
-			case OntoumlPackage.CLASS__IS_EXTENSIONAL:
-				return isExtensional != IS_EXTENSIONAL_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1468,10 +1468,10 @@ public class ClassImpl extends TypeImpl implements net.menthor.metamodel.ontouml
 		result.append(isAbstract);
 		result.append(", isDerived: ");
 		result.append(isDerived);
-		result.append(", qualityType: ");
-		result.append(qualityType);
 		result.append(", isExtensional: ");
 		result.append(isExtensional);
+		result.append(", qualityType: ");
+		result.append(qualityType);
 		result.append(')');
 		return result.toString();
 	}
