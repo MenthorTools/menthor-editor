@@ -9825,4 +9825,4 @@ RU1GKwJAAAAMAAAAAAAAAA4AAAAUAAAAAAAAABAAAAAUAAAA</UMLPattern.PreviewImage>
 				<TaggedValueTypes/>
 			</Content>
 		</UMLProfile>
-	</UIToolboxes><ModelTemplates><Model name="Ontology-Based Modeling" description="Create a simple OntoUML2.0 class diagram." location="t_OntoUML2.0.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>
+	</UIToolboxes><ModelTemplates><Model name="Ontology-Based Modeling" description="Create a simple OntoUML2.0 class diagram." location="OntoUML 2.0 Template.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>

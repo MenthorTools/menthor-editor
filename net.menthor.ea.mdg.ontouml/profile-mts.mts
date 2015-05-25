@@ -5,6 +5,6 @@
 	<DiagramProfile directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\diagram" files="diagram.xml"/>
 	<UIToolboxes directory="C:\Users\Guerson\SVN\MENTHOR-EDITOR\net.menthor.ea.mdg.ontouml\output\toolbox" files="toolbox-core.xml,toolbox-event.xml,toolbox-full.xml,toolbox-quality.xml"/>
 	<ModelTemplates>
-		<Model name="Ontology-Based Modeling" description="Create a simple OntoUML2.0 class diagram." location="t_OntoUML2.0.xml" default="yes" icon="34" filter=""/>
+		<Model name="Ontology-Based Modeling" description="Create a simple OntoUML2.0 class diagram." location="OntoUML 2.0 Template.xml" default="yes" icon="34" filter=""/>
 	</ModelTemplates>
 </MDG.Selections>
