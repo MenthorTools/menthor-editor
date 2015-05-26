@@ -9,7 +9,7 @@
 						<Property name="alias" value="OntoUML"/>
 						<Property name="diagramID" value="OntoUML"/>
 						<Property name="isActive" value=""/>
-						<Property name="toolbox" value="OntoUML 2.0 Core"/>
+						<Property name="toolbox" value="OntoUML 2.0"/>
 					</Apply>
 				</AppliesTo>
 			</Stereotype>

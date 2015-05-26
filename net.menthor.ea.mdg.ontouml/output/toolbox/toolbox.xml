@@ -3,7 +3,7 @@
 	<Documentation id="CDE50973-F" name="OntoUML 2.0" version="1.0" notes="OntoUML 2.0"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="DataTypes" alias="OntoUML2.0 Full - DataTypes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="DataTypes" alias="OntoUML2.0 - DataTypes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
@@ -21,7 +21,7 @@
 					<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="Events" alias="OntoUML2.0 Full - Events" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Events" alias="OntoUML2.0 - Events" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
@@ -36,7 +36,7 @@
 					<Tag name="isCollapsed" type="Boolean" description="" unit="" values="True,False" default="true"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="High Order Classes" alias="OntoUML2.0 Full - High Order" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="High Order Classes" alias="OntoUML2.0 - High Order" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
@@ -48,7 +48,7 @@
 					<Tag name="isCollapsed" type="boolean" description="" unit="" values="true,false" default="true"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="Classes" alias="OntoUML2.0 Full - Classes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Classes" alias="OntoUML2.0 - Classes" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
@@ -71,7 +71,7 @@
 					<Tag name="OntoUML::PhaseMixin(UML::Class)" type="" description="" unit="" values="" default="PhaseMixin"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="Relationships" alias="OntoUML2.0 Full - Relationships" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Relationships" alias="OntoUML2.0 - Relationships" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
@@ -81,6 +81,7 @@
 					<Tag name="UML::Association" type="" description="" unit="" values="" default="Association"/>
 					<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
 					<Tag name="OntoUML::Characterization(UML::Association)" type="" description="" unit="" values="" default="Characterization"/>
+					<Tag name="OntoUML::Comparative(UML::Association)" type="" description="" unit="" values="" default="Comparative"/>
 					<Tag name="OntoUML::ComponentOf(UML::Association)" type="" description="" unit="" values="" default="ComponentOf"/>
 					<Tag name="OntoUML::Constitution(UML::Association)" type="" description="" unit="" values="" default="Constitution"/>
 					<Tag name="OntoUML::Formal(UML::Association)" type="" description="" unit="" values="" default="Formal"/>
@@ -91,7 +92,7 @@
 					<Tag name="OntoUML::SubQuantityOf(UML::Association)" type="" description="" unit="" values="" default="SubQuantityOf"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="Patterns" alias="OntoUML2.0 Full - Patterns" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Patterns" alias="OntoUML2.0 - Patterns" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
@@ -100,15 +101,13 @@
 				<TaggedValues>
 					<Tag name="OntoUML::Category(UMLPattern)" type="" description="" unit="" values="" default="Category"/>
 					<Tag name="OntoUML::Mixin(UMLPattern)" type="" description="" unit="" values="" default="Mixin"/>
-					<Tag name="OntoUML::Parts(UMLPattern)" type="" description="" unit="" values="" default="Parts"/>
-					<Tag name="OntoUML::PhasePartition(UMLPattern)" type="" description="" unit="" values="" default="Phase Partition"/>
+					<Tag name="OntoUML::PhasePartition(UMLPattern)" type="" description="" unit="" values="" default="Phase"/>
 					<Tag name="OntoUML::Relator(UMLPattern)" type="" description="" unit="" values="" default="Relator"/>
 					<Tag name="OntoUML::RoleMixin(UMLPattern)" type="" description="" unit="" values="" default="RoleMixin"/>
-					<Tag name="OntoUML::SubKindPartition(UMLPattern)" type="" description="" unit="" values="" default="SubKind Partition"/>
-					<Tag name="OntoUML::Types(UMLPattern)" type="" description="" unit="" values="" default="Atomic/Complex Types"/>
+					<Tag name="OntoUML::SubKindPartition(UMLPattern)" type="" description="" unit="" values="" default="SubKind"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="Common" alias="OntoUML2.0 Full - Common" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Common" alias="OntoUML2.0 - Common" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage">
 						<Property name="isActive" value=""/>
