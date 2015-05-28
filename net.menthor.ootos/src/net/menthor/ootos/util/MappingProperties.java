@@ -48,12 +48,13 @@ public class MappingProperties {
 		String initialName = propertyName;
 
 		String propertyAlias = ontoParser.getAlias(property);
-		propertyAlias = propertyAlias.replace(" ", "_");
+		propertyAlias = propertyAlias.replace(" ", "_").replace("\n", "_");
 		
-		if(propertyName == null)
+		if(propertyName == null){
 			propertyName = propertyAlias;
-		else
-			propertyName = propertyName.replace(" ", "_");
+		}else{
+			propertyName = propertyName.replace(" ", "_").replace("\n", "_");
+		}
 		
 		String source = null;
 		String target = null;
@@ -72,9 +73,9 @@ public class MappingProperties {
 			System.out.println();
 		}
 		
-		source = source.replace(" ", "_");
-		target = target.replace(" ", "_");
-		stereotype = stereotype.replace(" ", "_");
+		source = source.replace(" ", "_").replace("\n", "_");
+		target = target.replace(" ", "_").replace("\n", "_");
+		stereotype = stereotype.replace(" ", "_").replace("\n", "_");
 		
 		if(stereotype.length() > 0){
 			String aux = stereotype.substring(0, 1);
@@ -170,7 +171,7 @@ public class MappingProperties {
 	}
 	
 	public boolean isMappedAsSubRelationOf(NamedElement property){
-		String alias = ontoParser.getAlias(property);
+		String alias = ontoParser.getAlias(property).replace("\n", "_");
 		MappedProperty mappedProperty = propertyByAlias.get(alias);
 		
 		if(mappedProperty.isMappedAsSubPropertyOf()){
@@ -181,7 +182,7 @@ public class MappingProperties {
 	}
 	
 	public String getSuperPropertyName(NamedElement property){
-		String alias = ontoParser.getAlias(property);
+		String alias = ontoParser.getAlias(property).replace("\n", "_");
 		MappedProperty mappedProperty = propertyByAlias.get(alias);
 		
 		MappedProperty superMappedProperty = mappedProperty.getMappedAsSubPropertyOf();

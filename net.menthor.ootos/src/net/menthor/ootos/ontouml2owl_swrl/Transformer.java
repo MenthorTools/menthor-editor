@@ -58,6 +58,7 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.Class;
+import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Derivation;
 import RefOntoUML.FormalAssociation;
@@ -103,6 +104,7 @@ public class Transformer {
 	private Set<subQuantityOf> lstSubQuantityOf;
 	private Set<memberOf> lstMemberOf;
 	private Set<DataType> lstDataType;
+	private Set<Association> lstAssociation;
 	private HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>> hashDataProperty;
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<>();
@@ -159,6 +161,17 @@ public class Transformer {
 		hashAssociations = new HashMap<>();
 		lstDataType = ontoParser.getAllInstances(RefOntoUML.DataType.class);
 		hashDataProperty = new HashMap<>(); 
+		
+		lstAssociation = ontoParser.getAllInstances(RefOntoUML.Association.class);
+		lstAssociation.removeAll(lstMaterials);
+		lstAssociation.removeAll(lstMediations);
+		lstAssociation.removeAll(lstCharacterization);
+		lstAssociation.removeAll(lstFormal);
+		lstAssociation.removeAll(lstDerivation);
+		lstAssociation.removeAll(lstComponentOf);
+		lstAssociation.removeAll(lstSubCollectionOf);
+		lstAssociation.removeAll(lstSubQuantityOf);
+		lstAssociation.removeAll(lstMemberOf);
 		
 		oclRules = _oclRules;
 		
@@ -264,6 +277,13 @@ public class Transformer {
 		}catch (Exception e){
 			errors = "";
 			throw new Exception("Error: An unexpected exception happened when processing MemberOf Association;\n");
+		}
+
+		try{
+			processGenericAssociation();
+		}catch (Exception e){
+			errors = "";
+			throw new Exception("Error: An unexpected exception happened when processing Generic Associations;\n");
 		}
 
 		try{
@@ -713,6 +733,16 @@ public class Transformer {
 	}
 
 	/**
+	 * Create all generic relation 
+	 * */	
+	private void processGenericAssociation() {
+		Set<Association> lst = new HashSet<Association>();
+
+		lst.addAll(lstAssociation);
+		processAssociation(lst, "asssociation");
+	}
+
+	/**
 	 * Create all mediation relation 
 	 * */	
 	private void processMediation() {
@@ -749,11 +779,11 @@ public class Transformer {
 		if(ontType == null){
 			return "unnamed_class";
 		}
-		return ontType.getName().replaceAll(" ", "_");
+		return ontType.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
 	private String getAbsoluteName(RefOntoUML.Type type){
-		return type.getName().replaceAll(" ", "_");
+		return type.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
 	/**
@@ -761,24 +791,31 @@ public class Transformer {
 	 * */
 	private String getDataPropertyName(RefOntoUML.Classifier ontCls, RefOntoUML.Property prop){
 		if(ontCls == null){
-			return nameSpace + prop.getName().replaceAll(" ", "_");	
+			return nameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
 		}
-		return  nameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_");
+		return  nameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
+	}
+
+	private String getDataPropertyName(RefOntoUML.Classifier ontCls, RefOntoUML.Classifier prop){
+		if(ontCls == null){
+			return nameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
+		}
+		return  nameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
 	private String getPropertyName(RefOntoUML.Property prop){
-		return prop.getName().replaceAll(" ", "_");
+		return prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
 	/**
 	 * Return a OWL Classs for the ontCls
 	 * */
 	private OWLClass getOwlClass(RefOntoUML.Classifier ontCls){
-		return factory.getOWLClass(IRI.create(nameSpace+ontCls.getName().replaceAll(" ", "_")));
+		return factory.getOWLClass(IRI.create(nameSpace+ontCls.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 	}
 
 	private OWLClass getOwlClass(RefOntoUML.Type ontType){
-		return factory.getOWLClass(IRI.create(nameSpace+ontType.getName().replaceAll(" ", "_")));
+		return factory.getOWLClass(IRI.create(nameSpace+ontType.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 	}
 
 	/**
@@ -791,7 +828,7 @@ public class Transformer {
 		}else{
 			String assName = mappingProperties.getPropertyName(ass);
 			return factory.getOWLObjectProperty(IRI.create(nameSpace+assName));
-			//return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_")));
+			//return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 		}
 	}
 
@@ -807,7 +844,7 @@ public class Transformer {
 //			//String propName = stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
 //			return factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
 //		}else{
-//			return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_")));
+//			return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 //		}
 	}
 
@@ -820,7 +857,7 @@ public class Transformer {
 //		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
 //			return stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
 //		}else{
-//			return ass.getName().replaceAll(" ", "_");
+//			return ass.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 //		}
 	}
 
@@ -835,7 +872,7 @@ public class Transformer {
 //			//String propName = "INV."+stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
 //			return factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
 //		}else{
-//			return factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+ass.getName().replaceAll(" ", "_")));
+//			return factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 //		}
 	}
 
@@ -985,7 +1022,7 @@ public class Transformer {
 		OWLObjectProperty invTopProperty = null;
 
 		OWLSubObjectPropertyOfAxiom sopa = null;
-
+		
 		for (Association ass : lstAssociation) {
 			//Verify the name of the property
 			String assName = mappingProperties.getPropertyName(ass);
@@ -1228,7 +1265,29 @@ public class Transformer {
 
 		_RefOntoOwnerClass = null;
 		for(RefOntoUML.DataType dtcls: lstDataType){
-			if(!dtcls.getAttribute().isEmpty()){
+			if(dtcls.getAttribute().isEmpty()){
+				//pegar todos os Structuration, setar todos como Owner
+				//lstStructuration = ontoParser.getAllInstances(Characterization.class);
+				ArrayList<Association> assocs = ontoParser.getDirectAssociations(dtcls);
+				for (Association ass : assocs) {
+					EList<Property> mEnds = ass.getMemberEnd();
+					Type m0 = mEnds.get(0).getType();
+					Type m1 = mEnds.get(1).getType();
+					_OWLownerClass = null;
+					if(mEnds.get(0).getType().equals(dtcls)){
+						_RefOntoOwnerClass = (Classifier) mEnds.get(1).getType();
+					}else{
+						_RefOntoOwnerClass = (Classifier) mEnds.get(0).getType();
+					}
+					createAttributeClassifier(dtcls);
+				}
+//				for (Association ass : dtcls.getAssociations()) {
+//					ass.
+//				}
+//				_RefOntoOwnerClass = dtcls;
+//				createAttribute(dtcls);
+			}else{
+				
 				for(Property prop:dtcls.getAttribute()){
 					if(dataTypesProcesseds.contains(prop)){
 						continue;
@@ -1258,6 +1317,22 @@ public class Transformer {
 	private ArrayList<Integer> _upperCard = new ArrayList<Integer>();
 	private ArrayList<Integer> _lowerCard = new ArrayList<Integer>();
 
+	private void createAttributeClassifier(RefOntoUML.Classifier prop) {
+		OWLDataProperty atributo = null;
+		
+		_attributeName = getDataPropertyName(_RefOntoOwnerClass, prop);
+		atributo = factory.getOWLDataProperty(IRI.create(_attributeName));
+		_OWLownerClass = getOwlClass(_RefOntoOwnerClass);
+		if(_RefOntoOwnerClass != null){
+			if(!hashDataProperty.containsKey(_RefOntoOwnerClass)){
+				hashDataProperty.put(_RefOntoOwnerClass, new HashSet<OWLDataProperty>());
+			}
+			hashDataProperty.get(_RefOntoOwnerClass).add(atributo);
+		}
+		OWLDataPropertyDomainAxiom axDomain = factory.getOWLDataPropertyDomainAxiom(atributo, _OWLownerClass);
+		manager.applyChange(new AddAxiom(ontology, axDomain));
+
+	}
 	/**
 	 * Used to create the Class attributes
 	 * */
@@ -1336,9 +1411,13 @@ public class Transformer {
 		OWLDataPropertyRangeAxiom axRange = factory.getOWLDataPropertyRangeAxiom(atributo, tipoAtributo);
 		manager.applyChange(new AddAxiom(ontology, axRange));
 
-		if(_OWLownerClass == null){
+		if(_OWLownerClass == null && _RefOntoOwnerClass == null){
 			//get here if are processing alone datatypes
 			return;
+		}else if(_RefOntoOwnerClass == null){
+			return;
+		}else{
+			_OWLownerClass = getOwlClass(_RefOntoOwnerClass);
 		}
 
 		//set the owner of this datatype (Domain)
@@ -1415,6 +1494,10 @@ public class Transformer {
 		for(DataType dt:lstDataType){	
 			//search in all datatypes from the model
 			if(dt.getName().equals(prop.getType().getName())){
+				if(dt.getName().contains("Completos")){
+					System.out.println();
+				}
+				
 				for (Property dtProp : dt.getAttribute()) {
 					createAttribute(dtProp);
 					f = true;
@@ -1491,7 +1574,7 @@ public class Transformer {
 						String comment = c.getBody().replaceAll("\\<[^>]*>","").replaceAll("\"", "");
 						comment = Normalizer.normalize(comment, Normalizer.Form.NFD);  
 						comment = comment.replaceAll("[^\\p{ASCII}]", "");  
-						OWLClass cls = factory.getOWLClass(IRI.create(nameSpace+p.getName().replaceAll(" ", "_")));
+						OWLClass cls = factory.getOWLClass(IRI.create(nameSpace+p.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 						OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSComment(),  factory.getOWLLiteral(comment, "pt"));
 						OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( cls.getIRI(), commentAnno);
 						manager.applyChange(new AddAxiom(ontology, ax));
@@ -1579,10 +1662,10 @@ public class Transformer {
 
 		//All the substancesortal are differents from each other
 		for(SubstanceSortal ss1 : setSortal){
-			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+ss1.getName().replaceAll(" ", "_")));
+			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+ss1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 			for(SubstanceSortal ss2 : setSortal){
 				if(!ss1.equals(ss2)){
-					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss2.getName().replaceAll(" ", "_")));
+					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 					manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
 				}
 			}
@@ -1591,10 +1674,10 @@ public class Transformer {
 
 		//Every substancesortal are differents from every top level moment
 		for(MomentClass sm : setMoment){
-			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm.getName().replaceAll(" ", "_")));
+			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 			if(sm.getGeneral().isEmpty()){
 				for(SubstanceSortal ss : setSortal){
-					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss.getName().replaceAll(" ", "_")));
+					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 					manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
 				}
 			}			
@@ -1602,12 +1685,12 @@ public class Transformer {
 
 		//Every Top level moment are differents from each other		
 		for(MomentClass sm1 : setMoment){
-			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm1.getName().replaceAll(" ", "_")));
+			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 			if(sm1.getGeneral().isEmpty()){				
 				for(MomentClass sm2 : setMoment){
 					if(!sm1.equals(sm2)){
 						if(sm2.getGeneral().isEmpty()){
-							OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_")));
+							OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 							manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
 						}
 					}
@@ -1618,10 +1701,10 @@ public class Transformer {
 		//every top level mixinclass is disjoint from every top level moment
 		for(MixinClass smixin : mixinClass){
 			if(smixin.getGeneral().isEmpty()){	
-				OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+smixin.getName().replaceAll(" ", "_")));
+				OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+smixin.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 				for(MomentClass sm2 : setMoment){
 					if(sm2.getGeneral().isEmpty()){
-						OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_")));
+						OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 						manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
 					}
 				}
