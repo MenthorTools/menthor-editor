@@ -13,11 +13,11 @@
 package net.menthor.metamodel.ontouml
 
 /** ======================================================================================================= 
- *  OntoUML - Version 2.0 
+ *  OntoUML 2.0 
  * 
  * 	author: John Guerson [JG]	
  * 	author: Tiago Prince Sales [TS] 	  
- *  co-author: João Paulo Andrade Almeida [JP]
+ *  co-author: Joao Paulo Andrade Almeida [JP]
  *  ======================================================================================================== */
  
 /** ======================================================================================================== 
@@ -182,7 +182,34 @@ abstract class Container extends NamedElement
 		var DataType[] result
 		allDataTypes(this, result.toEList)
 		return result.toEList;
-	}		
+	}	
+
+	/* Returns the types (classes and dataTypes) at this container */
+	op Type[] types()
+	{
+		var Type[] result
+		for(ContainedElement e: elements){
+			if(e instanceof Type) { result.add(e) }
+		}
+		return result.toEList;		
+	}
+	
+	/** Returns recursively all types (classes and dataTypes) at this container */
+	op void allTypes(Container c, Type[] result)
+	{		
+		for(ContainedElement e: elements){
+			if(e instanceof Type) { result.add(e); }
+			if(e instanceof Package){
+				allTypes(e, result);								
+			}
+		}
+	}	 
+	op Type[] allTypes()
+	{
+		var Type[] result
+		allTypes(this, result.toEList)
+		return result.toEList;
+	}	
 }
 
 /** =========================================
@@ -237,7 +264,7 @@ abstract class Classifier extends ContainedElement
 {
 	String[*] definitions
 	String[*] synonyms
-	String text
+	String[?] text
 	
 	refers unordered unique GeneralizationSet[*] isSpecializedVia opposite specializedClassifier
 	refers unordered unique GeneralizationSet[*] specializesVia opposite specializingClassifier
@@ -396,13 +423,12 @@ class Attribute extends Property
 {
 	String[*] definitions	
 	String[*] synonyms
-	String text
+	String[?] text
 	
-	PrimitiveStereotype[1] stereotype
+	PrimitiveStereotype[?] stereotype
 	
 	container Type[1] owner opposite attributes
 }
-
 
 /** =========================================
  *  Generalization Set: is a specialization/generalization between two Classifiers.   
@@ -457,12 +483,12 @@ class Literal extends Element
  *  Structure Scale and Basic Type
  *  ======================================== */
  
-enum StructureScale
+enum Scale
 {
 	Interval, Rational, Ordinal, Nominal
 }
 
-enum StructureBasicType
+enum Measurement
 {
 	Integer, Real, Decimal, String
 }
@@ -479,8 +505,8 @@ class DataType extends Type, NamedElement
 	refers DataType[*] dimensions opposite ownerDomain
 	
 	//Dimension
-	StructureScale[?] scale 
-	StructureBasicType[?] basicType
+	Scale[?] scale 
+	Measurement[?] measurement
 	String unitOfMeasure
 	float lowerBoundRegion 
 	float upperBoundRegion
@@ -494,13 +520,17 @@ class DataType extends Type, NamedElement
 	op boolean isDomain(){stereotype==DataTypeStereotype.DOMAIN}
 	op boolean isDimension(){stereotype==DataTypeStereotype.DIMENSION}
 	op boolean isDataType(){stereotype==DataTypeStereotype.DATA_TYPE}	
-	op boolean isNominal() { scale!=null && scale==StructureScale.NOMINAL }
-	op boolean isInterval() { scale!=null && scale==StructureScale.INTERVAL }
-	op boolean isOrdinal() { scale!=null && scale==StructureScale.ORDINAL }
-	op boolean isRational() { scale!=null && scale==StructureScale.RATIONAL }	
-	op boolean isString() { basicType!=null && basicType==StructureBasicType.STRING }
-	op boolean isInteger() { basicType!=null && basicType==StructureBasicType.INTEGER }
-	op boolean isDecimal() { basicType!=null && basicType==StructureBasicType.DECIMAL }	
+	
+	op boolean isNominal() { scale!=null && scale==Scale.NOMINAL }
+	op boolean isInterval() { scale!=null && scale==Scale.INTERVAL }
+	op boolean isOrdinal() { scale!=null && scale==Scale.ORDINAL }
+	op boolean isRational() { scale!=null && scale==Scale.RATIONAL }	
+	
+	op boolean isString() { measurement!=null && measurement==Measurement.STRING }
+	op boolean isInteger() { measurement!=null && measurement==Measurement.INTEGER }
+	op boolean isDecimal() { measurement!=null && measurement==Measurement.DECIMAL }	
+	op boolean isReal() { measurement!=null && measurement==Measurement.REAL }
+	
 	op boolean isNominalString() { isNominal() && isString() }	
 	op boolean isIntervalInteger() { isInterval() && isInteger() }
 	op boolean isIntervalDecimal() { isInterval() && isDecimal() }
@@ -508,6 +538,9 @@ class DataType extends Type, NamedElement
 	op boolean isOrdinalDecimal() { isOrdinal() && isDecimal() }
 	op boolean isRationalInteger() { isRational() && isInteger() }
 	op boolean isRationalDecimal() { isRational() && isDecimal() }
+	op boolean isIntervalReal() { isInterval() && isReal() }
+	op boolean isOrdinalReal() { isOrdinal() && isReal() }
+	op boolean isRationalReal() { isRational() && isReal() }
 }
 
 /** =========================================
@@ -520,19 +553,19 @@ enum QualityNature
 }
 
 /** =========================================
- *  Classification Dynamics
+ *  Classification
  *  ======================================== */
  
-enum ClassificationDynamics
+enum Classification
 {
 	Initial, Final	
 }
 
 /** =========================================
- *  Existence Dynamics
+ *  Existence
  *  ======================================== */
  
-enum ExistenceDynamics
+enum Existence
 {
 	Permanent, Transient, Eternal	
 }
@@ -554,10 +587,10 @@ class Class extends Type, NamedElement
 	QualityNature[?] qualityNature
 	
 	//Substance Sortal and Moment	
-	ExistenceDynamics[?] existenceDynamics
+	Existence[?] existence
 	
 	//Anti-Rigid
-	ClassificationDynamics[?] classificationDynamics
+	Classification[?] classification
 		
 	op boolean isKind(){stereotype==ClassStereotype.KIND}
 	op boolean isSubKind(){stereotype==ClassStereotype.SUB_KIND}
@@ -767,8 +800,6 @@ class Class extends Type, NamedElement
 		}
 		return result.toEList;			
 	}	
-	
-	
 }
 
 /** =========================================
@@ -776,7 +807,7 @@ class Class extends Type, NamedElement
  *  ======================================== */
  
 class EndPoint extends Property
-{	
+{
 	container Relationship[1] owner opposite endPoints	
 	refers Classifier[1] endType
 	refers unordered unique EndPoint[*] subsets opposite isSubsettedBy
@@ -836,15 +867,56 @@ enum ParticipationNature
 }
 
 /** =========================================
+ *  Binary Features
+ *  ======================================== */
+  
+ enum Reflexivity 
+ {
+ 	Reflexive
+ 	Irreflexive
+ 	NonReflexive
+ }
+ 
+ enum Symmetry
+ {
+ 	Symmetric
+ 	Assymetric
+ 	AntiSymmetric
+ 	NonSymmetric
+ }
+ 
+ enum Transitivity
+ {
+ 	Transitive
+ 	Intransitive
+ 	NonTransitive
+ }
+ 
+ enum Ciclicity
+ {
+ 	Cyclic
+ 	Acyclic
+ 	NonCyclic	
+ }
+ 
+/** =========================================
  *  Relationship 
  *  ======================================== */
  
 class Relationship extends Classifier, NamedElement
-{	
+{		
 	RelationshipStereotype[?] stereotype	
-	TemporalNature[?] temporalNature	  
+	Reflexivity[?] reflexivity
+	Symmetry[?] symmetry
+	Transitivity[?] transitivity
+	Ciclicity[?] ciclicity
+	contains EndPoint[*] endPoints opposite owner
+	
+	//Temporal
+	TemporalNature[?] temporalNature
+	
+	//Participation	  
 	ParticipationNature[?] participationNature
-	contains EndPoint[*] endPoints opposite owner	
 		
 	op boolean isComponentOf(){stereotype==RelationshipStereotype.COMPONENT_OF}
 	op boolean isMemberOf(){stereotype==RelationshipStereotype.MEMBER_OF}
@@ -860,17 +932,19 @@ class Relationship extends Classifier, NamedElement
 	op boolean isSubEventOf(){stereotype==RelationshipStereotype.SUB_EVENT_OF}
 	op boolean isCausation(){stereotype==RelationshipStereotype.CAUSATION}
 	op boolean isTemporal(){stereotype==RelationshipStereotype.TEMPORAL}
-	op boolean isInstanceOf(){stereotype==RelationshipStereotype.INSTANCE_OF}		
-	op boolean isStarts(){isTemporal() && temporalNature==Temporal.STARTS }
-	op boolean isPrecedes(){isTemporal() && temporalNature==Temporal.PRECEDES}
-	op boolean isEquals(){isTemporal() && temporalNature==Temporal.EQUALS}
-	op boolean isMeets(){isTemporal() && temporalNature==Temporal.MEETS}
-	op boolean isFinishes(){isTemporal() && temporalNature==Temporal.FINISHES}
-	op boolean isOverlaps(){isTemporal() && temporalNature==Temporal.OVERLAPS}
-	op boolean isDuring(){isTemporal() && temporalNature==Temporal.DURING}		
+	op boolean isInstanceOf(){stereotype==RelationshipStereotype.INSTANCE_OF}	
 	op boolean isMeronymic() { isComponentOf() || isMemberOf() || isSubQuantityOf() || isSubCollectionOf() || isConstitution() || isSubEventOf() }	
 	op boolean isBinary() { return endPoints.size()==2 }
 	op boolean isTernary() { return endPoints.size()==3 }
+		
+	op boolean isStarts(){isTemporal() && temporalNature==TemporalNature.STARTS }
+	op boolean isPrecedes(){isTemporal() && temporalNature==TemporalNature.PRECEDES}
+	op boolean isEquals(){isTemporal() && temporalNature==TemporalNature.EQUALS}
+	op boolean isMeets(){isTemporal() && temporalNature==TemporalNature.MEETS}
+	op boolean isFinishes(){isTemporal() && temporalNature==TemporalNature.FINISHES}
+	op boolean isOverlaps(){isTemporal() && temporalNature==TemporalNature.OVERLAPS}
+	op boolean isDuring(){isTemporal() && temporalNature==TemporalNature.DURING}
+	
 	op boolean isCreation() { return isParticipation() && participationNature == ParticipationNature.CREATION }
 	op boolean isDestruction() { return isParticipation() && participationNature == ParticipationNature.DESTRUCTION }
 	op boolean isChange() { return isParticipation() && participationNature == ParticipationNature.CHANGE }
@@ -960,7 +1034,7 @@ class Relationship extends Classifier, NamedElement
 		}
 		return false;		
 	}	
-	
+
 	/** A part is essential if the target end of a meronymic relationship is dependent on the rigid source type */
 	op boolean isPartEssential() { targetEnd().isDependency && sourceClass().isRigid() && isMeronymic() }  
 	

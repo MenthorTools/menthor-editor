@@ -10,33 +10,23 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Primitive</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Measurement</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitive()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getMeasurement()
  * @model
  * @generated
  */
-public enum Primitive implements Enumerator {
+public enum Measurement implements Enumerator {
 	/**
-	 * The '<em><b>Boolean</b></em>' literal object.
+	 * The '<em><b>Integer</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #BOOLEAN_VALUE
+	 * @see #INTEGER_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	BOOLEAN(0, "Boolean", "Boolean"),
-
-	/**
-	 * The '<em><b>String</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #STRING_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	STRING(0, "String", "String"),
+	INTEGER(0, "Integer", "Integer"),
 
 	/**
 	 * The '<em><b>Real</b></em>' literal object.
@@ -49,16 +39,6 @@ public enum Primitive implements Enumerator {
 	REAL(0, "Real", "Real"),
 
 	/**
-	 * The '<em><b>Integer</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #INTEGER_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	INTEGER(0, "Integer", "Integer"),
-
-	/**
 	 * The '<em><b>Decimal</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,69 +49,14 @@ public enum Primitive implements Enumerator {
 	DECIMAL(0, "Decimal", "Decimal"),
 
 	/**
-	 * The '<em><b>Unlimited Natural</b></em>' literal object.
+	 * The '<em><b>String</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #UNLIMITED_NATURAL_VALUE
+	 * @see #STRING_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	UNLIMITED_NATURAL(0, "UnlimitedNatural", "UnlimitedNatural"),
-
-	/**
-	 * The '<em><b>Date</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DATE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DATE(0, "Date", "Date");
-
-	/**
-	 * The '<em><b>Boolean</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * * JP: This is a direct way to implement built-in types, differently from UML in which
-	 *  this should be a library of built-ins at model level
-	 * <!-- end-model-doc -->
-	 * @see #BOOLEAN
-	 * @model name="Boolean"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int BOOLEAN_VALUE = 0;
-
-	/**
-	 * The '<em><b>String</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #STRING
-	 * @model name="String"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STRING_VALUE = 0;
-
-	/**
-	 * The '<em><b>Real</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Real</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #REAL
-	 * @model name="Real"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int REAL_VALUE = 0;
+	STRING(0, "String", "String");
 
 	/**
 	 * The '<em><b>Integer</b></em>' literal value.
@@ -149,6 +74,21 @@ public enum Primitive implements Enumerator {
 	public static final int INTEGER_VALUE = 0;
 
 	/**
+	 * The '<em><b>Real</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Real</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #REAL
+	 * @model name="Real"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int REAL_VALUE = 0;
+
+	/**
 	 * The '<em><b>Decimal</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -164,69 +104,51 @@ public enum Primitive implements Enumerator {
 	public static final int DECIMAL_VALUE = 0;
 
 	/**
-	 * The '<em><b>Unlimited Natural</b></em>' literal value.
+	 * The '<em><b>String</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Unlimited Natural</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #UNLIMITED_NATURAL
-	 * @model name="UnlimitedNatural"
+	 * @see #STRING
+	 * @model name="String"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int UNLIMITED_NATURAL_VALUE = 0;
+	public static final int STRING_VALUE = 0;
 
 	/**
-	 * The '<em><b>Date</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Date</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DATE
-	 * @model name="Date"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DATE_VALUE = 0;
-
-	/**
-	 * An array of all the '<em><b>Primitive</b></em>' enumerators.
+	 * An array of all the '<em><b>Measurement</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Primitive[] VALUES_ARRAY =
-		new Primitive[] {
-			BOOLEAN,
-			STRING,
-			REAL,
+	private static final Measurement[] VALUES_ARRAY =
+		new Measurement[] {
 			INTEGER,
+			REAL,
 			DECIMAL,
-			UNLIMITED_NATURAL,
-			DATE,
+			STRING,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Primitive</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Measurement</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Primitive> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<Measurement> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Primitive</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Measurement</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Primitive get(String literal) {
+	public static Measurement get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Primitive result = VALUES_ARRAY[i];
+			Measurement result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -235,14 +157,14 @@ public enum Primitive implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Primitive</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Measurement</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Primitive getByName(String name) {
+	public static Measurement getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Primitive result = VALUES_ARRAY[i];
+			Measurement result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -251,14 +173,14 @@ public enum Primitive implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Primitive</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Measurement</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Primitive get(int value) {
+	public static Measurement get(int value) {
 		switch (value) {
-			case BOOLEAN_VALUE: return BOOLEAN;
+			case INTEGER_VALUE: return INTEGER;
 		}
 		return null;
 	}
@@ -290,7 +212,7 @@ public enum Primitive implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Primitive(int value, String name, String literal) {
+	private Measurement(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -334,4 +256,4 @@ public enum Primitive implements Enumerator {
 		return literal;
 	}
 	
-} //Primitive
+} //Measurement

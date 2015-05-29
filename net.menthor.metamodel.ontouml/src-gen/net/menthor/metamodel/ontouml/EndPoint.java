@@ -11,10 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - end-point
- * 
- *  An end-point is a property that has relationship owner and a end classifier (class or relationship, because of derivation relationships).
- *  An end-point may also have subsets or redefines a set of other end-points, and also be subsetted and redefined by others.
+ *  End-Point
  *  ========================================
  * <!-- end-model-doc -->
  *

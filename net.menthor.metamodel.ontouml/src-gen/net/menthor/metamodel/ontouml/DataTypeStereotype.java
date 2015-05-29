@@ -10,124 +10,150 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Quality Nature</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Data Type Stereotype</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  Quality Nature
+ *  DataType Stereotype
  *  ========================================
  * <!-- end-model-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getQualityNature()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getDataTypeStereotype()
  * @model
  * @generated
  */
-public enum QualityNature implements Enumerator {
+public enum DataTypeStereotype implements Enumerator {
 	/**
-	 * The '<em><b>Nominal</b></em>' literal object.
+	 * The '<em><b>Domain</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #NOMINAL_VALUE
+	 * @see #DOMAIN_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NOMINAL(0, "Nominal", "Nominal"),
+	DOMAIN(0, "Domain", "Domain"),
 
 	/**
-	 * The '<em><b>Perceivable</b></em>' literal object.
+	 * The '<em><b>Dimension</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #PERCEIVABLE_VALUE
+	 * @see #DIMENSION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	PERCEIVABLE(0, "Perceivable", "Perceivable"),
+	DIMENSION(0, "Dimension", "Dimension"),
 
 	/**
-	 * The '<em><b>Non Perceivable</b></em>' literal object.
+	 * The '<em><b>Enumeration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #NON_PERCEIVABLE_VALUE
+	 * @see #ENUMERATION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NON_PERCEIVABLE(0, "NonPerceivable", "NonPerceivable");
+	ENUMERATION(0, "Enumeration", "Enumeration"),
 
 	/**
-	 * The '<em><b>Nominal</b></em>' literal value.
+	 * The '<em><b>Data Type</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DATA_TYPE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DATA_TYPE(0, "DataType", "DataType");
+
+	/**
+	 * The '<em><b>Domain</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Nominal</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Domain</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #NOMINAL
-	 * @model name="Nominal"
+	 * @see #DOMAIN
+	 * @model name="Domain"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NOMINAL_VALUE = 0;
+	public static final int DOMAIN_VALUE = 0;
 
 	/**
-	 * The '<em><b>Perceivable</b></em>' literal value.
+	 * The '<em><b>Dimension</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Perceivable</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Dimension</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #PERCEIVABLE
-	 * @model name="Perceivable"
+	 * @see #DIMENSION
+	 * @model name="Dimension"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PERCEIVABLE_VALUE = 0;
+	public static final int DIMENSION_VALUE = 0;
 
 	/**
-	 * The '<em><b>Non Perceivable</b></em>' literal value.
+	 * The '<em><b>Enumeration</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Non Perceivable</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Enumeration</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #NON_PERCEIVABLE
-	 * @model name="NonPerceivable"
+	 * @see #ENUMERATION
+	 * @model name="Enumeration"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NON_PERCEIVABLE_VALUE = 0;
+	public static final int ENUMERATION_VALUE = 0;
 
 	/**
-	 * An array of all the '<em><b>Quality Nature</b></em>' enumerators.
+	 * The '<em><b>Data Type</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Data Type</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATA_TYPE
+	 * @model name="DataType"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DATA_TYPE_VALUE = 0;
+
+	/**
+	 * An array of all the '<em><b>Data Type Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final QualityNature[] VALUES_ARRAY =
-		new QualityNature[] {
-			NOMINAL,
-			PERCEIVABLE,
-			NON_PERCEIVABLE,
+	private static final DataTypeStereotype[] VALUES_ARRAY =
+		new DataTypeStereotype[] {
+			DOMAIN,
+			DIMENSION,
+			ENUMERATION,
+			DATA_TYPE,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Quality Nature</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Data Type Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<QualityNature> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<DataTypeStereotype> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Data Type Stereotype</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static QualityNature get(String literal) {
+	public static DataTypeStereotype get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			QualityNature result = VALUES_ARRAY[i];
+			DataTypeStereotype result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -136,14 +162,14 @@ public enum QualityNature implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Data Type Stereotype</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static QualityNature getByName(String name) {
+	public static DataTypeStereotype getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			QualityNature result = VALUES_ARRAY[i];
+			DataTypeStereotype result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -152,14 +178,14 @@ public enum QualityNature implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Data Type Stereotype</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static QualityNature get(int value) {
+	public static DataTypeStereotype get(int value) {
 		switch (value) {
-			case NOMINAL_VALUE: return NOMINAL;
+			case DOMAIN_VALUE: return DOMAIN;
 		}
 		return null;
 	}
@@ -191,7 +217,7 @@ public enum QualityNature implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private QualityNature(int value, String name, String literal) {
+	private DataTypeStereotype(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -235,4 +261,4 @@ public enum QualityNature implements Enumerator {
 		return literal;
 	}
 	
-} //QualityNature
+} //DataTypeStereotype

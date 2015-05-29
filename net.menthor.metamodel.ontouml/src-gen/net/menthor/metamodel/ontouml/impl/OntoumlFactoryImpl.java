@@ -3,24 +3,30 @@
 package net.menthor.metamodel.ontouml.impl;
 
 import net.menthor.metamodel.ontouml.Attribute;
+import net.menthor.metamodel.ontouml.Ciclicity;
 import net.menthor.metamodel.ontouml.ClassStereotype;
+import net.menthor.metamodel.ontouml.Classification;
 import net.menthor.metamodel.ontouml.Comment;
-import net.menthor.metamodel.ontouml.Dimension;
-import net.menthor.metamodel.ontouml.Domain;
+import net.menthor.metamodel.ontouml.DataType;
+import net.menthor.metamodel.ontouml.DataTypeStereotype;
 import net.menthor.metamodel.ontouml.EndPoint;
+import net.menthor.metamodel.ontouml.Existence;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.Literal;
+import net.menthor.metamodel.ontouml.Measurement;
 import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlFactory;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.Primitive;
+import net.menthor.metamodel.ontouml.ParticipationNature;
+import net.menthor.metamodel.ontouml.PrimitiveStereotype;
 import net.menthor.metamodel.ontouml.QualityNature;
-import net.menthor.metamodel.ontouml.Region;
-import net.menthor.metamodel.ontouml.Relation;
+import net.menthor.metamodel.ontouml.Reflexivity;
 import net.menthor.metamodel.ontouml.Relationship;
+import net.menthor.metamodel.ontouml.RelationshipStereotype;
 import net.menthor.metamodel.ontouml.Scale;
-import net.menthor.metamodel.ontouml.Structure;
-import net.menthor.metamodel.ontouml.Temporal;
+import net.menthor.metamodel.ontouml.Symmetry;
+import net.menthor.metamodel.ontouml.TemporalNature;
+import net.menthor.metamodel.ontouml.Transitivity;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -78,14 +84,11 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 			case OntoumlPackage.COMMENT: return createComment();
 			case OntoumlPackage.MODEL: return createModel();
 			case OntoumlPackage.PACKAGE: return createPackage();
-			case OntoumlPackage.GENERALIZATION_SET: return createGeneralizationSet();
-			case OntoumlPackage.CLASS: return createClass();
-			case OntoumlPackage.LITERAL: return createLiteral();
 			case OntoumlPackage.ATTRIBUTE: return createAttribute();
-			case OntoumlPackage.STRUCTURE: return createStructure();
-			case OntoumlPackage.REGION: return createRegion();
-			case OntoumlPackage.DOMAIN: return createDomain();
-			case OntoumlPackage.DIMENSION: return createDimension();
+			case OntoumlPackage.GENERALIZATION_SET: return createGeneralizationSet();
+			case OntoumlPackage.LITERAL: return createLiteral();
+			case OntoumlPackage.DATA_TYPE: return createDataType();
+			case OntoumlPackage.CLASS: return createClass();
 			case OntoumlPackage.END_POINT: return createEndPoint();
 			case OntoumlPackage.RELATIONSHIP: return createRelationship();
 			default:
@@ -101,18 +104,36 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case OntoumlPackage.PRIMITIVE_STEREOTYPE:
+				return createPrimitiveStereotypeFromString(eDataType, initialValue);
 			case OntoumlPackage.CLASS_STEREOTYPE:
 				return createClassStereotypeFromString(eDataType, initialValue);
-			case OntoumlPackage.QUALITY_NATURE:
-				return createQualityNatureFromString(eDataType, initialValue);
-			case OntoumlPackage.PRIMITIVE:
-				return createPrimitiveFromString(eDataType, initialValue);
+			case OntoumlPackage.DATA_TYPE_STEREOTYPE:
+				return createDataTypeStereotypeFromString(eDataType, initialValue);
 			case OntoumlPackage.SCALE:
 				return createScaleFromString(eDataType, initialValue);
-			case OntoumlPackage.RELATION:
-				return createRelationFromString(eDataType, initialValue);
-			case OntoumlPackage.TEMPORAL:
-				return createTemporalFromString(eDataType, initialValue);
+			case OntoumlPackage.MEASUREMENT:
+				return createMeasurementFromString(eDataType, initialValue);
+			case OntoumlPackage.QUALITY_NATURE:
+				return createQualityNatureFromString(eDataType, initialValue);
+			case OntoumlPackage.CLASSIFICATION:
+				return createClassificationFromString(eDataType, initialValue);
+			case OntoumlPackage.EXISTENCE:
+				return createExistenceFromString(eDataType, initialValue);
+			case OntoumlPackage.RELATIONSHIP_STEREOTYPE:
+				return createRelationshipStereotypeFromString(eDataType, initialValue);
+			case OntoumlPackage.TEMPORAL_NATURE:
+				return createTemporalNatureFromString(eDataType, initialValue);
+			case OntoumlPackage.PARTICIPATION_NATURE:
+				return createParticipationNatureFromString(eDataType, initialValue);
+			case OntoumlPackage.REFLEXIVITY:
+				return createReflexivityFromString(eDataType, initialValue);
+			case OntoumlPackage.SYMMETRY:
+				return createSymmetryFromString(eDataType, initialValue);
+			case OntoumlPackage.TRANSITIVITY:
+				return createTransitivityFromString(eDataType, initialValue);
+			case OntoumlPackage.CICLICITY:
+				return createCiclicityFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -126,18 +147,36 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case OntoumlPackage.PRIMITIVE_STEREOTYPE:
+				return convertPrimitiveStereotypeToString(eDataType, instanceValue);
 			case OntoumlPackage.CLASS_STEREOTYPE:
 				return convertClassStereotypeToString(eDataType, instanceValue);
-			case OntoumlPackage.QUALITY_NATURE:
-				return convertQualityNatureToString(eDataType, instanceValue);
-			case OntoumlPackage.PRIMITIVE:
-				return convertPrimitiveToString(eDataType, instanceValue);
+			case OntoumlPackage.DATA_TYPE_STEREOTYPE:
+				return convertDataTypeStereotypeToString(eDataType, instanceValue);
 			case OntoumlPackage.SCALE:
 				return convertScaleToString(eDataType, instanceValue);
-			case OntoumlPackage.RELATION:
-				return convertRelationToString(eDataType, instanceValue);
-			case OntoumlPackage.TEMPORAL:
-				return convertTemporalToString(eDataType, instanceValue);
+			case OntoumlPackage.MEASUREMENT:
+				return convertMeasurementToString(eDataType, instanceValue);
+			case OntoumlPackage.QUALITY_NATURE:
+				return convertQualityNatureToString(eDataType, instanceValue);
+			case OntoumlPackage.CLASSIFICATION:
+				return convertClassificationToString(eDataType, instanceValue);
+			case OntoumlPackage.EXISTENCE:
+				return convertExistenceToString(eDataType, instanceValue);
+			case OntoumlPackage.RELATIONSHIP_STEREOTYPE:
+				return convertRelationshipStereotypeToString(eDataType, instanceValue);
+			case OntoumlPackage.TEMPORAL_NATURE:
+				return convertTemporalNatureToString(eDataType, instanceValue);
+			case OntoumlPackage.PARTICIPATION_NATURE:
+				return convertParticipationNatureToString(eDataType, instanceValue);
+			case OntoumlPackage.REFLEXIVITY:
+				return convertReflexivityToString(eDataType, instanceValue);
+			case OntoumlPackage.SYMMETRY:
+				return convertSymmetryToString(eDataType, instanceValue);
+			case OntoumlPackage.TRANSITIVITY:
+				return convertTransitivityToString(eDataType, instanceValue);
+			case OntoumlPackage.CICLICITY:
+				return convertCiclicityToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -178,9 +217,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GeneralizationSet createGeneralizationSet() {
-		GeneralizationSetImpl generalizationSet = new GeneralizationSetImpl();
-		return generalizationSet;
+	public Attribute createAttribute() {
+		AttributeImpl attribute = new AttributeImpl();
+		return attribute;
 	}
 
 	/**
@@ -188,9 +227,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class createClass() {
-		ClassImpl class_ = new ClassImpl();
-		return class_;
+	public GeneralizationSet createGeneralizationSet() {
+		GeneralizationSetImpl generalizationSet = new GeneralizationSetImpl();
+		return generalizationSet;
 	}
 
 	/**
@@ -208,9 +247,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Attribute createAttribute() {
-		AttributeImpl attribute = new AttributeImpl();
-		return attribute;
+	public DataType createDataType() {
+		DataTypeImpl dataType = new DataTypeImpl();
+		return dataType;
 	}
 
 	/**
@@ -218,39 +257,9 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Structure createStructure() {
-		StructureImpl structure = new StructureImpl();
-		return structure;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Region createRegion() {
-		RegionImpl region = new RegionImpl();
-		return region;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Domain createDomain() {
-		DomainImpl domain = new DomainImpl();
-		return domain;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Dimension createDimension() {
-		DimensionImpl dimension = new DimensionImpl();
-		return dimension;
+	public net.menthor.metamodel.ontouml.Class createClass() {
+		ClassImpl class_ = new ClassImpl();
+		return class_;
 	}
 
 	/**
@@ -278,6 +287,26 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public PrimitiveStereotype createPrimitiveStereotypeFromString(EDataType eDataType, String initialValue) {
+		PrimitiveStereotype result = PrimitiveStereotype.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPrimitiveStereotypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ClassStereotype createClassStereotypeFromString(EDataType eDataType, String initialValue) {
 		ClassStereotype result = ClassStereotype.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -298,8 +327,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public QualityNature createQualityNatureFromString(EDataType eDataType, String initialValue) {
-		QualityNature result = QualityNature.get(initialValue);
+	public DataTypeStereotype createDataTypeStereotypeFromString(EDataType eDataType, String initialValue) {
+		DataTypeStereotype result = DataTypeStereotype.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -309,27 +338,7 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertQualityNatureToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Primitive createPrimitiveFromString(EDataType eDataType, String initialValue) {
-		Primitive result = Primitive.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertPrimitiveToString(EDataType eDataType, Object instanceValue) {
+	public String convertDataTypeStereotypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -358,8 +367,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Relation createRelationFromString(EDataType eDataType, String initialValue) {
-		Relation result = Relation.get(initialValue);
+	public Measurement createMeasurementFromString(EDataType eDataType, String initialValue) {
+		Measurement result = Measurement.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -369,7 +378,7 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertRelationToString(EDataType eDataType, Object instanceValue) {
+	public String convertMeasurementToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -378,8 +387,8 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Temporal createTemporalFromString(EDataType eDataType, String initialValue) {
-		Temporal result = Temporal.get(initialValue);
+	public QualityNature createQualityNatureFromString(EDataType eDataType, String initialValue) {
+		QualityNature result = QualityNature.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -389,7 +398,187 @@ public class OntoumlFactoryImpl extends EFactoryImpl implements OntoumlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertTemporalToString(EDataType eDataType, Object instanceValue) {
+	public String convertQualityNatureToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Classification createClassificationFromString(EDataType eDataType, String initialValue) {
+		Classification result = Classification.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertClassificationToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Existence createExistenceFromString(EDataType eDataType, String initialValue) {
+		Existence result = Existence.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertExistenceToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RelationshipStereotype createRelationshipStereotypeFromString(EDataType eDataType, String initialValue) {
+		RelationshipStereotype result = RelationshipStereotype.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRelationshipStereotypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TemporalNature createTemporalNatureFromString(EDataType eDataType, String initialValue) {
+		TemporalNature result = TemporalNature.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTemporalNatureToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParticipationNature createParticipationNatureFromString(EDataType eDataType, String initialValue) {
+		ParticipationNature result = ParticipationNature.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertParticipationNatureToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Reflexivity createReflexivityFromString(EDataType eDataType, String initialValue) {
+		Reflexivity result = Reflexivity.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertReflexivityToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Symmetry createSymmetryFromString(EDataType eDataType, String initialValue) {
+		Symmetry result = Symmetry.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSymmetryToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Transitivity createTransitivityFromString(EDataType eDataType, String initialValue) {
+		Transitivity result = Transitivity.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTransitivityToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Ciclicity createCiclicityFromString(EDataType eDataType, String initialValue) {
+		Ciclicity result = Ciclicity.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCiclicityToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

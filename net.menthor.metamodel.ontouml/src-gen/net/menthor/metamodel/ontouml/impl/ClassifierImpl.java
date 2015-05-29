@@ -18,6 +18,7 @@ import net.menthor.metamodel.ontouml.Model;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Relationship;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.ECollections;
@@ -26,6 +27,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -36,6 +40,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl#getDefinitions <em>Definitions</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl#getSynonyms <em>Synonyms</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl#getText <em>Text</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl#getIsSpecializedVia <em>Is Specialized Via</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.ClassifierImpl#getSpecializesVia <em>Specializes Via</em>}</li>
  * </ul>
@@ -44,6 +51,46 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public abstract class ClassifierImpl extends ContainedElementImpl implements Classifier {
+	/**
+	 * The cached value of the '{@link #getDefinitions() <em>Definitions</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDefinitions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> definitions;
+
+	/**
+	 * The cached value of the '{@link #getSynonyms() <em>Synonyms</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSynonyms()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> synonyms;
+
+	/**
+	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getText()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TEXT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getText()
+	 * @generated
+	 * @ordered
+	 */
+	protected String text = TEXT_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getIsSpecializedVia() <em>Is Specialized Via</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -81,6 +128,51 @@ public abstract class ClassifierImpl extends ContainedElementImpl implements Cla
 	@Override
 	protected EClass eStaticClass() {
 		return OntoumlPackage.Literals.CLASSIFIER;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getDefinitions() {
+		if (definitions == null) {
+			definitions = new EDataTypeEList<String>(String.class, this, OntoumlPackage.CLASSIFIER__DEFINITIONS);
+		}
+		return definitions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getSynonyms() {
+		if (synonyms == null) {
+			synonyms = new EDataTypeEList<String>(String.class, this, OntoumlPackage.CLASSIFIER__SYNONYMS);
+		}
+		return synonyms;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setText(String newText) {
+		String oldText = text;
+		text = newText;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.CLASSIFIER__TEXT, oldText, text));
 	}
 
 	/**
@@ -319,6 +411,12 @@ public abstract class ClassifierImpl extends ContainedElementImpl implements Cla
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case OntoumlPackage.CLASSIFIER__DEFINITIONS:
+				return getDefinitions();
+			case OntoumlPackage.CLASSIFIER__SYNONYMS:
+				return getSynonyms();
+			case OntoumlPackage.CLASSIFIER__TEXT:
+				return getText();
 			case OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA:
 				return getIsSpecializedVia();
 			case OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA:
@@ -336,6 +434,17 @@ public abstract class ClassifierImpl extends ContainedElementImpl implements Cla
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case OntoumlPackage.CLASSIFIER__DEFINITIONS:
+				getDefinitions().clear();
+				getDefinitions().addAll((Collection<? extends String>)newValue);
+				return;
+			case OntoumlPackage.CLASSIFIER__SYNONYMS:
+				getSynonyms().clear();
+				getSynonyms().addAll((Collection<? extends String>)newValue);
+				return;
+			case OntoumlPackage.CLASSIFIER__TEXT:
+				setText((String)newValue);
+				return;
 			case OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA:
 				getIsSpecializedVia().clear();
 				getIsSpecializedVia().addAll((Collection<? extends GeneralizationSet>)newValue);
@@ -356,6 +465,15 @@ public abstract class ClassifierImpl extends ContainedElementImpl implements Cla
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case OntoumlPackage.CLASSIFIER__DEFINITIONS:
+				getDefinitions().clear();
+				return;
+			case OntoumlPackage.CLASSIFIER__SYNONYMS:
+				getSynonyms().clear();
+				return;
+			case OntoumlPackage.CLASSIFIER__TEXT:
+				setText(TEXT_EDEFAULT);
+				return;
 			case OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA:
 				getIsSpecializedVia().clear();
 				return;
@@ -374,6 +492,12 @@ public abstract class ClassifierImpl extends ContainedElementImpl implements Cla
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case OntoumlPackage.CLASSIFIER__DEFINITIONS:
+				return definitions != null && !definitions.isEmpty();
+			case OntoumlPackage.CLASSIFIER__SYNONYMS:
+				return synonyms != null && !synonyms.isEmpty();
+			case OntoumlPackage.CLASSIFIER__TEXT:
+				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
 			case OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA:
 				return isSpecializedVia != null && !isSpecializedVia.isEmpty();
 			case OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA:
@@ -413,6 +537,26 @@ public abstract class ClassifierImpl extends ContainedElementImpl implements Cla
 				return allEnds();
 		}
 		return super.eInvoke(operationID, arguments);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (definitions: ");
+		result.append(definitions);
+		result.append(", synonyms: ");
+		result.append(synonyms);
+		result.append(", text: ");
+		result.append(text);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ClassifierImpl

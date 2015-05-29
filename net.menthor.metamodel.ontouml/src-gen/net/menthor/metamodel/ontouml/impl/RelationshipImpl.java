@@ -4,30 +4,27 @@ package net.menthor.metamodel.ontouml.impl;
 
 import com.google.common.base.Objects;
 
-import com.google.common.collect.Iterables;
-
-import java.lang.Iterable;
-
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
-import java.util.List;
 
+import net.menthor.metamodel.ontouml.Ciclicity;
 import net.menthor.metamodel.ontouml.Classifier;
-import net.menthor.metamodel.ontouml.Comment;
-import net.menthor.metamodel.ontouml.ContainedElement;
+import net.menthor.metamodel.ontouml.DataType;
 import net.menthor.metamodel.ontouml.EndPoint;
-import net.menthor.metamodel.ontouml.GeneralizationSet;
-import net.menthor.metamodel.ontouml.Model;
+import net.menthor.metamodel.ontouml.NamedElement;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
-import net.menthor.metamodel.ontouml.Relation;
+import net.menthor.metamodel.ontouml.ParticipationNature;
+import net.menthor.metamodel.ontouml.Reflexivity;
 import net.menthor.metamodel.ontouml.Relationship;
-import net.menthor.metamodel.ontouml.Temporal;
+import net.menthor.metamodel.ontouml.RelationshipStereotype;
+import net.menthor.metamodel.ontouml.Symmetry;
+import net.menthor.metamodel.ontouml.TemporalNature;
+import net.menthor.metamodel.ontouml.Transitivity;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -36,8 +33,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -47,49 +42,40 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getHolder <em>Holder</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getComments <em>Comments</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getIsSpecializedVia <em>Is Specialized Via</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getSpecializesVia <em>Specializes Via</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getName <em>Name</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getStereotype <em>Stereotype</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getAllenRelation <em>Allen Relation</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getReflexivity <em>Reflexivity</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getSymmetry <em>Symmetry</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getTransitivity <em>Transitivity</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getCiclicity <em>Ciclicity</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getEndPoints <em>End Points</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getDerivedFromTruthMaker <em>Derived From Truth Maker</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getTemporalNature <em>Temporal Nature</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.impl.RelationshipImpl#getParticipationNature <em>Participation Nature</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RelationshipImpl extends NamedElementImpl implements Relationship {
+public class RelationshipImpl extends ClassifierImpl implements Relationship {
 	/**
-	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getComments()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Comment> comments;
+	protected static final String NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getIsSpecializedVia() <em>Is Specialized Via</em>}' reference list.
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getIsSpecializedVia()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<GeneralizationSet> isSpecializedVia;
-
-	/**
-	 * The cached value of the '{@link #getSpecializesVia() <em>Specializes Via</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSpecializesVia()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<GeneralizationSet> specializesVia;
+	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
@@ -99,7 +85,7 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Relation STEREOTYPE_EDEFAULT = Relation.COMPONENT_OF;
+	protected static final RelationshipStereotype STEREOTYPE_EDEFAULT = RelationshipStereotype.COMPONENT_OF;
 
 	/**
 	 * The cached value of the '{@link #getStereotype() <em>Stereotype</em>}' attribute.
@@ -109,27 +95,87 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 * @ordered
 	 */
-	protected Relation stereotype = STEREOTYPE_EDEFAULT;
+	protected RelationshipStereotype stereotype = STEREOTYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAllenRelation() <em>Allen Relation</em>}' attribute.
+	 * The default value of the '{@link #getReflexivity() <em>Reflexivity</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAllenRelation()
+	 * @see #getReflexivity()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Temporal ALLEN_RELATION_EDEFAULT = Temporal.STARTS;
+	protected static final Reflexivity REFLEXIVITY_EDEFAULT = Reflexivity.REFLEXIVE;
 
 	/**
-	 * The cached value of the '{@link #getAllenRelation() <em>Allen Relation</em>}' attribute.
+	 * The cached value of the '{@link #getReflexivity() <em>Reflexivity</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAllenRelation()
+	 * @see #getReflexivity()
 	 * @generated
 	 * @ordered
 	 */
-	protected Temporal allenRelation = ALLEN_RELATION_EDEFAULT;
+	protected Reflexivity reflexivity = REFLEXIVITY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSymmetry() <em>Symmetry</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSymmetry()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Symmetry SYMMETRY_EDEFAULT = Symmetry.SYMMETRIC;
+
+	/**
+	 * The cached value of the '{@link #getSymmetry() <em>Symmetry</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSymmetry()
+	 * @generated
+	 * @ordered
+	 */
+	protected Symmetry symmetry = SYMMETRY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTransitivity() <em>Transitivity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTransitivity()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Transitivity TRANSITIVITY_EDEFAULT = Transitivity.TRANSITIVE;
+
+	/**
+	 * The cached value of the '{@link #getTransitivity() <em>Transitivity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTransitivity()
+	 * @generated
+	 * @ordered
+	 */
+	protected Transitivity transitivity = TRANSITIVITY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCiclicity() <em>Ciclicity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCiclicity()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Ciclicity CICLICITY_EDEFAULT = Ciclicity.CYCLIC;
+
+	/**
+	 * The cached value of the '{@link #getCiclicity() <em>Ciclicity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCiclicity()
+	 * @generated
+	 * @ordered
+	 */
+	protected Ciclicity ciclicity = CICLICITY_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getEndPoints() <em>End Points</em>}' containment reference list.
@@ -142,14 +188,44 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	protected EList<EndPoint> endPoints;
 
 	/**
-	 * The cached value of the '{@link #getDerivedFromTruthMaker() <em>Derived From Truth Maker</em>}' reference.
+	 * The default value of the '{@link #getTemporalNature() <em>Temporal Nature</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDerivedFromTruthMaker()
+	 * @see #getTemporalNature()
 	 * @generated
 	 * @ordered
 	 */
-	protected net.menthor.metamodel.ontouml.Class derivedFromTruthMaker;
+	protected static final TemporalNature TEMPORAL_NATURE_EDEFAULT = TemporalNature.STARTS;
+
+	/**
+	 * The cached value of the '{@link #getTemporalNature() <em>Temporal Nature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTemporalNature()
+	 * @generated
+	 * @ordered
+	 */
+	protected TemporalNature temporalNature = TEMPORAL_NATURE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getParticipationNature() <em>Participation Nature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParticipationNature()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ParticipationNature PARTICIPATION_NATURE_EDEFAULT = ParticipationNature.CREATION;
+
+	/**
+	 * The cached value of the '{@link #getParticipationNature() <em>Participation Nature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParticipationNature()
+	 * @generated
+	 * @ordered
+	 */
+	protected ParticipationNature participationNature = PARTICIPATION_NATURE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -175,9 +251,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container getHolder() {
-		if (eContainerFeatureID() != OntoumlPackage.RELATIONSHIP__HOLDER) return null;
-		return (net.menthor.metamodel.ontouml.Container)eContainer();
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -185,9 +260,11 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Container basicGetHolder() {
-		if (eContainerFeatureID() != OntoumlPackage.RELATIONSHIP__HOLDER) return null;
-		return (net.menthor.metamodel.ontouml.Container)eInternalContainer();
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__NAME, oldName, name));
 	}
 
 	/**
@@ -195,74 +272,7 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetHolder(net.menthor.metamodel.ontouml.Container newHolder, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newHolder, OntoumlPackage.RELATIONSHIP__HOLDER, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setHolder(net.menthor.metamodel.ontouml.Container newHolder) {
-		if (newHolder != eInternalContainer() || (eContainerFeatureID() != OntoumlPackage.RELATIONSHIP__HOLDER && newHolder != null)) {
-			if (EcoreUtil.isAncestor(this, newHolder))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newHolder != null)
-				msgs = ((InternalEObject)newHolder).eInverseAdd(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-			msgs = basicSetHolder(newHolder, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__HOLDER, newHolder, newHolder));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Comment> getComments() {
-		if (comments == null) {
-			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, OntoumlPackage.RELATIONSHIP__COMMENTS, OntoumlPackage.COMMENT__OWNER);
-		}
-		return comments;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<GeneralizationSet> getIsSpecializedVia() {
-		if (isSpecializedVia == null) {
-			isSpecializedVia = new EObjectWithInverseResolvingEList<GeneralizationSet>(GeneralizationSet.class, this, OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA, OntoumlPackage.GENERALIZATION_SET__SPECIALIZED_CLASSIFIER);
-		}
-		return isSpecializedVia;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<GeneralizationSet> getSpecializesVia() {
-		if (specializesVia == null) {
-			specializesVia = new EObjectWithInverseResolvingEList.ManyInverse<GeneralizationSet>(GeneralizationSet.class, this, OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA, OntoumlPackage.GENERALIZATION_SET__SPECIALIZING_CLASSIFIER);
-		}
-		return specializesVia;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Relation getStereotype() {
+	public RelationshipStereotype getStereotype() {
 		return stereotype;
 	}
 
@@ -271,8 +281,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStereotype(Relation newStereotype) {
-		Relation oldStereotype = stereotype;
+	public void setStereotype(RelationshipStereotype newStereotype) {
+		RelationshipStereotype oldStereotype = stereotype;
 		stereotype = newStereotype == null ? STEREOTYPE_EDEFAULT : newStereotype;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__STEREOTYPE, oldStereotype, stereotype));
@@ -283,8 +293,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Temporal getAllenRelation() {
-		return allenRelation;
+	public Reflexivity getReflexivity() {
+		return reflexivity;
 	}
 
 	/**
@@ -292,11 +302,74 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAllenRelation(Temporal newAllenRelation) {
-		Temporal oldAllenRelation = allenRelation;
-		allenRelation = newAllenRelation == null ? ALLEN_RELATION_EDEFAULT : newAllenRelation;
+	public void setReflexivity(Reflexivity newReflexivity) {
+		Reflexivity oldReflexivity = reflexivity;
+		reflexivity = newReflexivity == null ? REFLEXIVITY_EDEFAULT : newReflexivity;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__ALLEN_RELATION, oldAllenRelation, allenRelation));
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__REFLEXIVITY, oldReflexivity, reflexivity));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Symmetry getSymmetry() {
+		return symmetry;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSymmetry(Symmetry newSymmetry) {
+		Symmetry oldSymmetry = symmetry;
+		symmetry = newSymmetry == null ? SYMMETRY_EDEFAULT : newSymmetry;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__SYMMETRY, oldSymmetry, symmetry));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Transitivity getTransitivity() {
+		return transitivity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTransitivity(Transitivity newTransitivity) {
+		Transitivity oldTransitivity = transitivity;
+		transitivity = newTransitivity == null ? TRANSITIVITY_EDEFAULT : newTransitivity;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__TRANSITIVITY, oldTransitivity, transitivity));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Ciclicity getCiclicity() {
+		return ciclicity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCiclicity(Ciclicity newCiclicity) {
+		Ciclicity oldCiclicity = ciclicity;
+		ciclicity = newCiclicity == null ? CICLICITY_EDEFAULT : newCiclicity;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__CICLICITY, oldCiclicity, ciclicity));
 	}
 
 	/**
@@ -316,16 +389,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class getDerivedFromTruthMaker() {
-		if (derivedFromTruthMaker != null && derivedFromTruthMaker.eIsProxy()) {
-			InternalEObject oldDerivedFromTruthMaker = (InternalEObject)derivedFromTruthMaker;
-			derivedFromTruthMaker = (net.menthor.metamodel.ontouml.Class)eResolveProxy(oldDerivedFromTruthMaker);
-			if (derivedFromTruthMaker != oldDerivedFromTruthMaker) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER, oldDerivedFromTruthMaker, derivedFromTruthMaker));
-			}
-		}
-		return derivedFromTruthMaker;
+	public TemporalNature getTemporalNature() {
+		return temporalNature;
 	}
 
 	/**
@@ -333,8 +398,11 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public net.menthor.metamodel.ontouml.Class basicGetDerivedFromTruthMaker() {
-		return derivedFromTruthMaker;
+	public void setTemporalNature(TemporalNature newTemporalNature) {
+		TemporalNature oldTemporalNature = temporalNature;
+		temporalNature = newTemporalNature == null ? TEMPORAL_NATURE_EDEFAULT : newTemporalNature;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__TEMPORAL_NATURE, oldTemporalNature, temporalNature));
 	}
 
 	/**
@@ -342,14 +410,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetDerivedFromTruthMaker(net.menthor.metamodel.ontouml.Class newDerivedFromTruthMaker, NotificationChain msgs) {
-		net.menthor.metamodel.ontouml.Class oldDerivedFromTruthMaker = derivedFromTruthMaker;
-		derivedFromTruthMaker = newDerivedFromTruthMaker;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER, oldDerivedFromTruthMaker, newDerivedFromTruthMaker);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public ParticipationNature getParticipationNature() {
+		return participationNature;
 	}
 
 	/**
@@ -357,18 +419,11 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDerivedFromTruthMaker(net.menthor.metamodel.ontouml.Class newDerivedFromTruthMaker) {
-		if (newDerivedFromTruthMaker != derivedFromTruthMaker) {
-			NotificationChain msgs = null;
-			if (derivedFromTruthMaker != null)
-				msgs = ((InternalEObject)derivedFromTruthMaker).eInverseRemove(this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-			if (newDerivedFromTruthMaker != null)
-				msgs = ((InternalEObject)newDerivedFromTruthMaker).eInverseAdd(this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-			msgs = basicSetDerivedFromTruthMaker(newDerivedFromTruthMaker, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER, newDerivedFromTruthMaker, newDerivedFromTruthMaker));
+	public void setParticipationNature(ParticipationNature newParticipationNature) {
+		ParticipationNature oldParticipationNature = participationNature;
+		participationNature = newParticipationNature == null ? PARTICIPATION_NATURE_EDEFAULT : newParticipationNature;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntoumlPackage.RELATIONSHIP__PARTICIPATION_NATURE, oldParticipationNature, participationNature));
 	}
 
 	/**
@@ -377,8 +432,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isComponentOf() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.COMPONENT_OF);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.COMPONENT_OF);
 	}
 
 	/**
@@ -387,8 +442,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isMemberOf() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.MEMBER_OF);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.MEMBER_OF);
 	}
 
 	/**
@@ -397,8 +452,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isSubCollectionOf() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.SUB_COLLECTION_OF);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.SUB_COLLECTION_OF);
 	}
 
 	/**
@@ -407,8 +462,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isSubQuantityOf() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.SUB_QUANTITY_OF);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.SUB_QUANTITY_OF);
 	}
 
 	/**
@@ -417,8 +472,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isConstitution() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.CONSTITUTION);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.CONSTITUTION);
 	}
 
 	/**
@@ -427,8 +482,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isCharacterization() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.CHARACTERIZATION);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.CHARACTERIZATION);
 	}
 
 	/**
@@ -437,8 +492,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isMediation() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.MEDIATION);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.MEDIATION);
 	}
 
 	/**
@@ -447,8 +502,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isMaterial() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.MATERIAL);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.MATERIAL);
 	}
 
 	/**
@@ -457,8 +512,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isFormal() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.FORMAL);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.FORMAL);
 	}
 
 	/**
@@ -467,8 +522,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isStructuration() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.STRUCTURATION);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.STRUCTURATION);
 	}
 
 	/**
@@ -477,8 +532,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isParticipation() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.PARTICIPATION);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.PARTICIPATION);
 	}
 
 	/**
@@ -487,8 +542,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isSubEventOf() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.SUB_EVENT_OF);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.SUB_EVENT_OF);
 	}
 
 	/**
@@ -497,8 +552,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isCausation() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.CAUSATION);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.CAUSATION);
 	}
 
 	/**
@@ -507,8 +562,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	public boolean isTemporal() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.TEMPORAL);
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.TEMPORAL);
 	}
 
 	/**
@@ -516,135 +571,9 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isDerivation() {
-		Relation _stereotype = this.getStereotype();
-		return Objects.equal(_stereotype, Relation.DERIVATION);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isStarts() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.STARTS);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isPrecedes() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.PRECEDES);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isEquals() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.EQUALS);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isMeets() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.MEETS);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isFinishes() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.FINISHES);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isOverlaps() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.OVERLAPS);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isDuring() {
-		boolean _and = false;
-		Temporal _allenRelation = this.getAllenRelation();
-		boolean _equals = Objects.equal(_allenRelation, Temporal.DURING);
-		if (!_equals) {
-			_and = false;
-		} else {
-			boolean _isTemporal = this.isTemporal();
-			_and = _isTemporal;
-		}
-		return _and;
+	public boolean isInstanceOf() {
+		RelationshipStereotype _stereotype = this.getStereotype();
+		return Objects.equal(_stereotype, RelationshipStereotype.INSTANCE_OF);
 	}
 
 	/**
@@ -656,24 +585,38 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 		boolean _or = false;
 		boolean _or_1 = false;
 		boolean _or_2 = false;
+		boolean _or_3 = false;
+		boolean _or_4 = false;
 		boolean _isComponentOf = this.isComponentOf();
 		if (_isComponentOf) {
-			_or_2 = true;
+			_or_4 = true;
 		} else {
 			boolean _isMemberOf = this.isMemberOf();
-			_or_2 = _isMemberOf;
+			_or_4 = _isMemberOf;
+		}
+		if (_or_4) {
+			_or_3 = true;
+		} else {
+			boolean _isSubQuantityOf = this.isSubQuantityOf();
+			_or_3 = _isSubQuantityOf;
+		}
+		if (_or_3) {
+			_or_2 = true;
+		} else {
+			boolean _isSubCollectionOf = this.isSubCollectionOf();
+			_or_2 = _isSubCollectionOf;
 		}
 		if (_or_2) {
 			_or_1 = true;
 		} else {
-			boolean _isSubQuantityOf = this.isSubQuantityOf();
-			_or_1 = _isSubQuantityOf;
+			boolean _isConstitution = this.isConstitution();
+			_or_1 = _isConstitution;
 		}
 		if (_or_1) {
 			_or = true;
 		} else {
-			boolean _isSubCollectionOf = this.isSubCollectionOf();
-			_or = _isSubCollectionOf;
+			boolean _isSubEventOf = this.isSubEventOf();
+			_or = _isSubEventOf;
 		}
 		return _or;
 	}
@@ -698,6 +641,186 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 		EList<EndPoint> _endPoints = this.getEndPoints();
 		int _size = _endPoints.size();
 		return (_size == 3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isStarts() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.STARTS);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isPrecedes() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.PRECEDES);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isEquals() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.EQUALS);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isMeets() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.MEETS);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isFinishes() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.FINISHES);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isOverlaps() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.OVERLAPS);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isDuring() {
+		boolean _and = false;
+		boolean _isTemporal = this.isTemporal();
+		if (!_isTemporal) {
+			_and = false;
+		} else {
+			TemporalNature _temporalNature = this.getTemporalNature();
+			boolean _equals = Objects.equal(_temporalNature, TemporalNature.DURING);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isCreation() {
+		boolean _and = false;
+		boolean _isParticipation = this.isParticipation();
+		if (!_isParticipation) {
+			_and = false;
+		} else {
+			ParticipationNature _participationNature = this.getParticipationNature();
+			boolean _equals = Objects.equal(_participationNature, ParticipationNature.CREATION);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isDestruction() {
+		boolean _and = false;
+		boolean _isParticipation = this.isParticipation();
+		if (!_isParticipation) {
+			_and = false;
+		} else {
+			ParticipationNature _participationNature = this.getParticipationNature();
+			boolean _equals = Objects.equal(_participationNature, ParticipationNature.DESTRUCTION);
+			_and = _equals;
+		}
+		return _and;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isChange() {
+		boolean _and = false;
+		boolean _isParticipation = this.isParticipation();
+		if (!_isParticipation) {
+			_and = false;
+		} else {
+			ParticipationNature _participationNature = this.getParticipationNature();
+			boolean _equals = Objects.equal(_participationNature, ParticipationNature.CHANGE);
+			_and = _equals;
+		}
+		return _and;
 	}
 
 	/**
@@ -788,6 +911,36 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 		if (_notEquals) {
 			Classifier _target_1 = this.target();
 			return ((net.menthor.metamodel.ontouml.Class) _target_1);
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DataType sourceDataType() {
+		Classifier _source = this.source();
+		boolean _notEquals = (!Objects.equal(_source, null));
+		if (_notEquals) {
+			Classifier _source_1 = this.source();
+			return ((DataType) _source_1);
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DataType targetDataType() {
+		Classifier _target = this.target();
+		boolean _notEquals = (!Objects.equal(_target, null));
+		if (_notEquals) {
+			Classifier _target_1 = this.target();
+			return ((DataType) _target_1);
 		}
 		return null;
 	}
@@ -1002,216 +1155,18 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Relationship material() {
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public net.menthor.metamodel.ontouml.Class relator() {
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> children() {
-		net.menthor.metamodel.ontouml.Class[] list = null;
-		EList<GeneralizationSet> _isSpecializedVia = this.getIsSpecializedVia();
-		for (final GeneralizationSet gs : _isSpecializedVia) {
-			final net.menthor.metamodel.ontouml.Class[] _converted_list = (net.menthor.metamodel.ontouml.Class[])list;
-			EList<Classifier> _specializingClassifier = gs.getSpecializingClassifier();
-			Iterables.<Classifier>addAll(((Collection<Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)), _specializingClassifier);
+	public boolean isPartShareable() {
+		boolean _and = false;
+		EndPoint _sourceEnd = this.sourceEnd();
+		int _upperBound = _sourceEnd.getUpperBound();
+		boolean _greaterThan = (_upperBound > 1);
+		if (!_greaterThan) {
+			_and = false;
+		} else {
+			boolean _isMeronymic = this.isMeronymic();
+			_and = _isMeronymic;
 		}
-		final net.menthor.metamodel.ontouml.Class[] _converted_list_1 = (net.menthor.metamodel.ontouml.Class[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> parents() {
-		Classifier[] list = null;
-		EList<GeneralizationSet> _specializesVia = this.getSpecializesVia();
-		for (final GeneralizationSet gs : _specializesVia) {
-			final Classifier[] _converted_list = (Classifier[])list;
-			Classifier _specializedClassifier = gs.getSpecializedClassifier();
-			((List<Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)).add(_specializedClassifier);
-		}
-		final Classifier[] _converted_list_1 = (Classifier[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allParents(final Classifier c, final EList<Classifier> result) {
-		EList<GeneralizationSet> _specializesVia = this.getSpecializesVia();
-		for (final GeneralizationSet gs : _specializesVia) {
-			{
-				Classifier _specializedClassifier = gs.getSpecializedClassifier();
-				result.add(_specializedClassifier);
-				Classifier _specializedClassifier_1 = gs.getSpecializedClassifier();
-				this.allParents(_specializedClassifier_1, result);
-			}
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> allParents() {
-		Classifier[] list = null;
-		final Classifier[] _converted_list = (Classifier[])list;
-		EList<Classifier> _eList = ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)));
-		this.allParents(this, _eList);
-		final Classifier[] _converted_list_1 = (Classifier[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void allChildren(final Classifier c, final EList<Classifier> result) {
-		EList<GeneralizationSet> _isSpecializedVia = this.getIsSpecializedVia();
-		for (final GeneralizationSet gs : _isSpecializedVia) {
-			{
-				EList<Classifier> _specializingClassifier = gs.getSpecializingClassifier();
-				result.addAll(_specializingClassifier);
-				EList<Classifier> _specializingClassifier_1 = gs.getSpecializingClassifier();
-				for (final Classifier children : _specializingClassifier_1) {
-					this.allChildren(children, result);
-				}
-			}
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> allChildren() {
-		Classifier[] list = null;
-		final Classifier[] _converted_list = (Classifier[])list;
-		EList<Classifier> _eList = ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list)));
-		this.allChildren(this, _eList);
-		final Classifier[] _converted_list_1 = (Classifier[])list;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_list_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Classifier> siblings() {
-		Classifier[] result = null;
-		EList<Classifier> _parents = this.parents();
-		for (final Classifier p : _parents) {
-			EList<Classifier> _children = p.children();
-			for (final Classifier sibling : _children) {
-				boolean _equals = sibling.equals(this);
-				boolean _not = (!_equals);
-				if (_not) {
-					final Classifier[] _converted_result = (Classifier[])result;
-					((List<Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(sibling);
-				}
-			}
-		}
-		final Classifier[] _converted_result_1 = (Classifier[])result;
-		return ECollections.<Classifier>toEList(((Iterable<? extends Classifier>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<EndPoint> ends() {
-		EndPoint[] result = null;
-		Model _model = this.getModel();
-		EList<Relationship> _allRelationships = _model.allRelationships();
-		for (final Relationship rel : _allRelationships) {
-			boolean _isEnd = rel.isEnd(this);
-			if (_isEnd) {
-				EList<EndPoint> _endPoints = rel.getEndPoints();
-				for (final EndPoint ep : _endPoints) {
-					Classifier _endType = ep.getEndType();
-					boolean _equals = _endType.equals(this);
-					boolean _not = (!_equals);
-					if (_not) {
-						final EndPoint[] _converted_result = (EndPoint[])result;
-						((List<EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(ep);
-					}
-				}
-			}
-		}
-		final EndPoint[] _converted_result_1 = (EndPoint[])result;
-		return ECollections.<EndPoint>toEList(((Iterable<? extends EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<EndPoint> allEnds() {
-		EndPoint[] result = null;
-		final EndPoint[] _converted_result = (EndPoint[])result;
-		EList<EndPoint> _ends = this.ends();
-		((List<EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).addAll(_ends);
-		EList<Classifier> _allParents = this.allParents();
-		for (final Classifier p : _allParents) {
-			if ((p instanceof net.menthor.metamodel.ontouml.Class)) {
-				final EndPoint[] _converted_result_1 = (EndPoint[])result;
-				EList<EndPoint> _ends_1 = ((net.menthor.metamodel.ontouml.Class)p).ends();
-				((List<EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)).addAll(_ends_1);
-			}
-		}
-		final EndPoint[] _converted_result_2 = (EndPoint[])result;
-		return ECollections.<EndPoint>toEList(((Iterable<? extends EndPoint>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_2)));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Model getModel(final net.menthor.metamodel.ontouml.Container c) {
-		if ((c instanceof Model)) {
-			return ((Model)c);
-		}
-		else {
-			if ((c instanceof ContainedElement)) {
-				net.menthor.metamodel.ontouml.Container _holder = ((ContainedElement)c).getHolder();
-				return this.getModel(_holder);
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Model getModel() {
-		net.menthor.metamodel.ontouml.Container _holder = this.getHolder();
-		return this.getModel(_holder);
+		return _and;
 	}
 
 	/**
@@ -1223,22 +1178,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetHolder((net.menthor.metamodel.ontouml.Container)otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__COMMENTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsSpecializedVia()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSpecializesVia()).basicAdd(otherEnd, msgs);
 			case OntoumlPackage.RELATIONSHIP__END_POINTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEndPoints()).basicAdd(otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER:
-				if (derivedFromTruthMaker != null)
-					msgs = ((InternalEObject)derivedFromTruthMaker).eInverseRemove(this, OntoumlPackage.CLASS__ISTRUTH_MAKER_OF, net.menthor.metamodel.ontouml.Class.class, msgs);
-				return basicSetDerivedFromTruthMaker((net.menthor.metamodel.ontouml.Class)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -1251,18 +1192,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				return basicSetHolder(null, msgs);
-			case OntoumlPackage.RELATIONSHIP__COMMENTS:
-				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA:
-				return ((InternalEList<?>)getIsSpecializedVia()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA:
-				return ((InternalEList<?>)getSpecializesVia()).basicRemove(otherEnd, msgs);
 			case OntoumlPackage.RELATIONSHIP__END_POINTS:
 				return ((InternalEList<?>)getEndPoints()).basicRemove(otherEnd, msgs);
-			case OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER:
-				return basicSetDerivedFromTruthMaker(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -1273,40 +1204,26 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				return eInternalContainer().eInverseRemove(this, OntoumlPackage.CONTAINER__ELEMENTS, net.menthor.metamodel.ontouml.Container.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				if (resolve) return getHolder();
-				return basicGetHolder();
-			case OntoumlPackage.RELATIONSHIP__COMMENTS:
-				return getComments();
-			case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA:
-				return getIsSpecializedVia();
-			case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA:
-				return getSpecializesVia();
+			case OntoumlPackage.RELATIONSHIP__NAME:
+				return getName();
 			case OntoumlPackage.RELATIONSHIP__STEREOTYPE:
 				return getStereotype();
-			case OntoumlPackage.RELATIONSHIP__ALLEN_RELATION:
-				return getAllenRelation();
+			case OntoumlPackage.RELATIONSHIP__REFLEXIVITY:
+				return getReflexivity();
+			case OntoumlPackage.RELATIONSHIP__SYMMETRY:
+				return getSymmetry();
+			case OntoumlPackage.RELATIONSHIP__TRANSITIVITY:
+				return getTransitivity();
+			case OntoumlPackage.RELATIONSHIP__CICLICITY:
+				return getCiclicity();
 			case OntoumlPackage.RELATIONSHIP__END_POINTS:
 				return getEndPoints();
-			case OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER:
-				if (resolve) return getDerivedFromTruthMaker();
-				return basicGetDerivedFromTruthMaker();
+			case OntoumlPackage.RELATIONSHIP__TEMPORAL_NATURE:
+				return getTemporalNature();
+			case OntoumlPackage.RELATIONSHIP__PARTICIPATION_NATURE:
+				return getParticipationNature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1320,33 +1237,33 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				setHolder((net.menthor.metamodel.ontouml.Container)newValue);
-				return;
-			case OntoumlPackage.RELATIONSHIP__COMMENTS:
-				getComments().clear();
-				getComments().addAll((Collection<? extends Comment>)newValue);
-				return;
-			case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA:
-				getIsSpecializedVia().clear();
-				getIsSpecializedVia().addAll((Collection<? extends GeneralizationSet>)newValue);
-				return;
-			case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA:
-				getSpecializesVia().clear();
-				getSpecializesVia().addAll((Collection<? extends GeneralizationSet>)newValue);
+			case OntoumlPackage.RELATIONSHIP__NAME:
+				setName((String)newValue);
 				return;
 			case OntoumlPackage.RELATIONSHIP__STEREOTYPE:
-				setStereotype((Relation)newValue);
+				setStereotype((RelationshipStereotype)newValue);
 				return;
-			case OntoumlPackage.RELATIONSHIP__ALLEN_RELATION:
-				setAllenRelation((Temporal)newValue);
+			case OntoumlPackage.RELATIONSHIP__REFLEXIVITY:
+				setReflexivity((Reflexivity)newValue);
+				return;
+			case OntoumlPackage.RELATIONSHIP__SYMMETRY:
+				setSymmetry((Symmetry)newValue);
+				return;
+			case OntoumlPackage.RELATIONSHIP__TRANSITIVITY:
+				setTransitivity((Transitivity)newValue);
+				return;
+			case OntoumlPackage.RELATIONSHIP__CICLICITY:
+				setCiclicity((Ciclicity)newValue);
 				return;
 			case OntoumlPackage.RELATIONSHIP__END_POINTS:
 				getEndPoints().clear();
 				getEndPoints().addAll((Collection<? extends EndPoint>)newValue);
 				return;
-			case OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER:
-				setDerivedFromTruthMaker((net.menthor.metamodel.ontouml.Class)newValue);
+			case OntoumlPackage.RELATIONSHIP__TEMPORAL_NATURE:
+				setTemporalNature((TemporalNature)newValue);
+				return;
+			case OntoumlPackage.RELATIONSHIP__PARTICIPATION_NATURE:
+				setParticipationNature((ParticipationNature)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -1360,29 +1277,32 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				setHolder((net.menthor.metamodel.ontouml.Container)null);
-				return;
-			case OntoumlPackage.RELATIONSHIP__COMMENTS:
-				getComments().clear();
-				return;
-			case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA:
-				getIsSpecializedVia().clear();
-				return;
-			case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA:
-				getSpecializesVia().clear();
+			case OntoumlPackage.RELATIONSHIP__NAME:
+				setName(NAME_EDEFAULT);
 				return;
 			case OntoumlPackage.RELATIONSHIP__STEREOTYPE:
 				setStereotype(STEREOTYPE_EDEFAULT);
 				return;
-			case OntoumlPackage.RELATIONSHIP__ALLEN_RELATION:
-				setAllenRelation(ALLEN_RELATION_EDEFAULT);
+			case OntoumlPackage.RELATIONSHIP__REFLEXIVITY:
+				setReflexivity(REFLEXIVITY_EDEFAULT);
+				return;
+			case OntoumlPackage.RELATIONSHIP__SYMMETRY:
+				setSymmetry(SYMMETRY_EDEFAULT);
+				return;
+			case OntoumlPackage.RELATIONSHIP__TRANSITIVITY:
+				setTransitivity(TRANSITIVITY_EDEFAULT);
+				return;
+			case OntoumlPackage.RELATIONSHIP__CICLICITY:
+				setCiclicity(CICLICITY_EDEFAULT);
 				return;
 			case OntoumlPackage.RELATIONSHIP__END_POINTS:
 				getEndPoints().clear();
 				return;
-			case OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER:
-				setDerivedFromTruthMaker((net.menthor.metamodel.ontouml.Class)null);
+			case OntoumlPackage.RELATIONSHIP__TEMPORAL_NATURE:
+				setTemporalNature(TEMPORAL_NATURE_EDEFAULT);
+				return;
+			case OntoumlPackage.RELATIONSHIP__PARTICIPATION_NATURE:
+				setParticipationNature(PARTICIPATION_NATURE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -1396,22 +1316,24 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntoumlPackage.RELATIONSHIP__HOLDER:
-				return basicGetHolder() != null;
-			case OntoumlPackage.RELATIONSHIP__COMMENTS:
-				return comments != null && !comments.isEmpty();
-			case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA:
-				return isSpecializedVia != null && !isSpecializedVia.isEmpty();
-			case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA:
-				return specializesVia != null && !specializesVia.isEmpty();
+			case OntoumlPackage.RELATIONSHIP__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case OntoumlPackage.RELATIONSHIP__STEREOTYPE:
 				return stereotype != STEREOTYPE_EDEFAULT;
-			case OntoumlPackage.RELATIONSHIP__ALLEN_RELATION:
-				return allenRelation != ALLEN_RELATION_EDEFAULT;
+			case OntoumlPackage.RELATIONSHIP__REFLEXIVITY:
+				return reflexivity != REFLEXIVITY_EDEFAULT;
+			case OntoumlPackage.RELATIONSHIP__SYMMETRY:
+				return symmetry != SYMMETRY_EDEFAULT;
+			case OntoumlPackage.RELATIONSHIP__TRANSITIVITY:
+				return transitivity != TRANSITIVITY_EDEFAULT;
+			case OntoumlPackage.RELATIONSHIP__CICLICITY:
+				return ciclicity != CICLICITY_EDEFAULT;
 			case OntoumlPackage.RELATIONSHIP__END_POINTS:
 				return endPoints != null && !endPoints.isEmpty();
-			case OntoumlPackage.RELATIONSHIP__DERIVED_FROM_TRUTH_MAKER:
-				return derivedFromTruthMaker != null;
+			case OntoumlPackage.RELATIONSHIP__TEMPORAL_NATURE:
+				return temporalNature != TEMPORAL_NATURE_EDEFAULT;
+			case OntoumlPackage.RELATIONSHIP__PARTICIPATION_NATURE:
+				return participationNature != PARTICIPATION_NATURE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1423,17 +1345,9 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
+		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-				case OntoumlPackage.RELATIONSHIP__HOLDER: return OntoumlPackage.CONTAINED_ELEMENT__HOLDER;
-				case OntoumlPackage.RELATIONSHIP__COMMENTS: return OntoumlPackage.CONTAINED_ELEMENT__COMMENTS;
-				default: return -1;
-			}
-		}
-		if (baseClass == Classifier.class) {
-			switch (derivedFeatureID) {
-				case OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA: return OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA;
-				case OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA: return OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA;
+				case OntoumlPackage.RELATIONSHIP__NAME: return OntoumlPackage.NAMED_ELEMENT__NAME;
 				default: return -1;
 			}
 		}
@@ -1447,17 +1361,9 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
+		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-				case OntoumlPackage.CONTAINED_ELEMENT__HOLDER: return OntoumlPackage.RELATIONSHIP__HOLDER;
-				case OntoumlPackage.CONTAINED_ELEMENT__COMMENTS: return OntoumlPackage.RELATIONSHIP__COMMENTS;
-				default: return -1;
-			}
-		}
-		if (baseClass == Classifier.class) {
-			switch (baseFeatureID) {
-				case OntoumlPackage.CLASSIFIER__IS_SPECIALIZED_VIA: return OntoumlPackage.RELATIONSHIP__IS_SPECIALIZED_VIA;
-				case OntoumlPackage.CLASSIFIER__SPECIALIZES_VIA: return OntoumlPackage.RELATIONSHIP__SPECIALIZES_VIA;
+				case OntoumlPackage.NAMED_ELEMENT__NAME: return OntoumlPackage.RELATIONSHIP__NAME;
 				default: return -1;
 			}
 		}
@@ -1470,38 +1376,6 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 	 * @generated
 	 */
 	@Override
-	public int eDerivedOperationID(int baseOperationID, Class<?> baseClass) {
-		if (baseClass == ContainedElement.class) {
-			switch (baseOperationID) {
-				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL__CONTAINER: return OntoumlPackage.RELATIONSHIP___GET_MODEL__CONTAINER;
-				case OntoumlPackage.CONTAINED_ELEMENT___GET_MODEL: return OntoumlPackage.RELATIONSHIP___GET_MODEL;
-				default: return -1;
-			}
-		}
-		if (baseClass == Classifier.class) {
-			switch (baseOperationID) {
-				case OntoumlPackage.CLASSIFIER___CHILDREN: return OntoumlPackage.RELATIONSHIP___CHILDREN;
-				case OntoumlPackage.CLASSIFIER___PARENTS: return OntoumlPackage.RELATIONSHIP___PARENTS;
-				case OntoumlPackage.CLASSIFIER___ALL_PARENTS__CLASSIFIER_ELIST: return OntoumlPackage.RELATIONSHIP___ALL_PARENTS__CLASSIFIER_ELIST;
-				case OntoumlPackage.CLASSIFIER___ALL_PARENTS: return OntoumlPackage.RELATIONSHIP___ALL_PARENTS;
-				case OntoumlPackage.CLASSIFIER___ALL_CHILDREN__CLASSIFIER_ELIST: return OntoumlPackage.RELATIONSHIP___ALL_CHILDREN__CLASSIFIER_ELIST;
-				case OntoumlPackage.CLASSIFIER___ALL_CHILDREN: return OntoumlPackage.RELATIONSHIP___ALL_CHILDREN;
-				case OntoumlPackage.CLASSIFIER___SIBLINGS: return OntoumlPackage.RELATIONSHIP___SIBLINGS;
-				case OntoumlPackage.CLASSIFIER___ENDS: return OntoumlPackage.RELATIONSHIP___ENDS;
-				case OntoumlPackage.CLASSIFIER___ALL_ENDS: return OntoumlPackage.RELATIONSHIP___ALL_ENDS;
-				default: return -1;
-			}
-		}
-		return super.eDerivedOperationID(baseOperationID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
 			case OntoumlPackage.RELATIONSHIP___IS_COMPONENT_OF:
@@ -1532,8 +1406,14 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return isCausation();
 			case OntoumlPackage.RELATIONSHIP___IS_TEMPORAL:
 				return isTemporal();
-			case OntoumlPackage.RELATIONSHIP___IS_DERIVATION:
-				return isDerivation();
+			case OntoumlPackage.RELATIONSHIP___IS_INSTANCE_OF:
+				return isInstanceOf();
+			case OntoumlPackage.RELATIONSHIP___IS_MERONYMIC:
+				return isMeronymic();
+			case OntoumlPackage.RELATIONSHIP___IS_BINARY:
+				return isBinary();
+			case OntoumlPackage.RELATIONSHIP___IS_TERNARY:
+				return isTernary();
 			case OntoumlPackage.RELATIONSHIP___IS_STARTS:
 				return isStarts();
 			case OntoumlPackage.RELATIONSHIP___IS_PRECEDES:
@@ -1548,12 +1428,12 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return isOverlaps();
 			case OntoumlPackage.RELATIONSHIP___IS_DURING:
 				return isDuring();
-			case OntoumlPackage.RELATIONSHIP___IS_MERONYMIC:
-				return isMeronymic();
-			case OntoumlPackage.RELATIONSHIP___IS_BINARY:
-				return isBinary();
-			case OntoumlPackage.RELATIONSHIP___IS_TERNARY:
-				return isTernary();
+			case OntoumlPackage.RELATIONSHIP___IS_CREATION:
+				return isCreation();
+			case OntoumlPackage.RELATIONSHIP___IS_DESTRUCTION:
+				return isDestruction();
+			case OntoumlPackage.RELATIONSHIP___IS_CHANGE:
+				return isChange();
 			case OntoumlPackage.RELATIONSHIP___SOURCE_END:
 				return sourceEnd();
 			case OntoumlPackage.RELATIONSHIP___TARGET_END:
@@ -1566,6 +1446,10 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return sourceClass();
 			case OntoumlPackage.RELATIONSHIP___TARGET_CLASS:
 				return targetClass();
+			case OntoumlPackage.RELATIONSHIP___SOURCE_DATA_TYPE:
+				return sourceDataType();
+			case OntoumlPackage.RELATIONSHIP___TARGET_DATA_TYPE:
+				return targetDataType();
 			case OntoumlPackage.RELATIONSHIP___SOURCE_RELATIONSHIP:
 				return sourceRelationship();
 			case OntoumlPackage.RELATIONSHIP___TARGET_RELATIONSHIP:
@@ -1586,34 +1470,8 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 				return isPartMandatory();
 			case OntoumlPackage.RELATIONSHIP___IS_WHOLE_MANDATORY:
 				return isWholeMandatory();
-			case OntoumlPackage.RELATIONSHIP___MATERIAL:
-				return material();
-			case OntoumlPackage.RELATIONSHIP___RELATOR:
-				return relator();
-			case OntoumlPackage.RELATIONSHIP___CHILDREN:
-				return children();
-			case OntoumlPackage.RELATIONSHIP___PARENTS:
-				return parents();
-			case OntoumlPackage.RELATIONSHIP___ALL_PARENTS__CLASSIFIER_ELIST:
-				allParents((Classifier)arguments.get(0), (EList<Classifier>)arguments.get(1));
-				return null;
-			case OntoumlPackage.RELATIONSHIP___ALL_PARENTS:
-				return allParents();
-			case OntoumlPackage.RELATIONSHIP___ALL_CHILDREN__CLASSIFIER_ELIST:
-				allChildren((Classifier)arguments.get(0), (EList<Classifier>)arguments.get(1));
-				return null;
-			case OntoumlPackage.RELATIONSHIP___ALL_CHILDREN:
-				return allChildren();
-			case OntoumlPackage.RELATIONSHIP___SIBLINGS:
-				return siblings();
-			case OntoumlPackage.RELATIONSHIP___ENDS:
-				return ends();
-			case OntoumlPackage.RELATIONSHIP___ALL_ENDS:
-				return allEnds();
-			case OntoumlPackage.RELATIONSHIP___GET_MODEL__CONTAINER:
-				return getModel((net.menthor.metamodel.ontouml.Container)arguments.get(0));
-			case OntoumlPackage.RELATIONSHIP___GET_MODEL:
-				return getModel();
+			case OntoumlPackage.RELATIONSHIP___IS_PART_SHAREABLE:
+				return isPartShareable();
 		}
 		return super.eInvoke(operationID, arguments);
 	}
@@ -1628,10 +1486,22 @@ public class RelationshipImpl extends NamedElementImpl implements Relationship {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (stereotype: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", stereotype: ");
 		result.append(stereotype);
-		result.append(", allenRelation: ");
-		result.append(allenRelation);
+		result.append(", reflexivity: ");
+		result.append(reflexivity);
+		result.append(", symmetry: ");
+		result.append(symmetry);
+		result.append(", transitivity: ");
+		result.append(transitivity);
+		result.append(", ciclicity: ");
+		result.append(ciclicity);
+		result.append(", temporalNature: ");
+		result.append(temporalNature);
+		result.append(", participationNature: ");
+		result.append(participationNature);
 		result.append(')');
 		return result.toString();
 	}

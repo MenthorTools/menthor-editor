@@ -49,6 +49,15 @@ public interface OntoumlFactory extends EFactory {
 	Package createPackage();
 
 	/**
+	 * Returns a new object of class '<em>Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Attribute</em>'.
+	 * @generated
+	 */
+	Attribute createAttribute();
+
+	/**
 	 * Returns a new object of class '<em>Generalization Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,15 +65,6 @@ public interface OntoumlFactory extends EFactory {
 	 * @generated
 	 */
 	GeneralizationSet createGeneralizationSet();
-
-	/**
-	 * Returns a new object of class '<em>Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Class</em>'.
-	 * @generated
-	 */
-	Class createClass();
 
 	/**
 	 * Returns a new object of class '<em>Literal</em>'.
@@ -76,49 +76,22 @@ public interface OntoumlFactory extends EFactory {
 	Literal createLiteral();
 
 	/**
-	 * Returns a new object of class '<em>Attribute</em>'.
+	 * Returns a new object of class '<em>Data Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute</em>'.
+	 * @return a new object of class '<em>Data Type</em>'.
 	 * @generated
 	 */
-	Attribute createAttribute();
+	DataType createDataType();
 
 	/**
-	 * Returns a new object of class '<em>Structure</em>'.
+	 * Returns a new object of class '<em>Class</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Structure</em>'.
+	 * @return a new object of class '<em>Class</em>'.
 	 * @generated
 	 */
-	Structure createStructure();
-
-	/**
-	 * Returns a new object of class '<em>Region</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Region</em>'.
-	 * @generated
-	 */
-	Region createRegion();
-
-	/**
-	 * Returns a new object of class '<em>Domain</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Domain</em>'.
-	 * @generated
-	 */
-	Domain createDomain();
-
-	/**
-	 * Returns a new object of class '<em>Dimension</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Dimension</em>'.
-	 * @generated
-	 */
-	Dimension createDimension();
+	Class createClass();
 
 	/**
 	 * Returns a new object of class '<em>End Point</em>'.

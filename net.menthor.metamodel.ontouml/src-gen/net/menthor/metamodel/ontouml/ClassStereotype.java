@@ -154,46 +154,6 @@ public enum ClassStereotype implements Enumerator {
 	PHASE_MIXIN(0, "PhaseMixin", "PhaseMixin"),
 
 	/**
-	 * The '<em><b>Domain</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DOMAIN_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DOMAIN(0, "Domain", "Domain"),
-
-	/**
-	 * The '<em><b>Dimension</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DIMENSION_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DIMENSION(0, "Dimension", "Dimension"),
-
-	/**
-	 * The '<em><b>Data Type</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DATA_TYPE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DATA_TYPE(0, "DataType", "DataType"),
-
-	/**
-	 * The '<em><b>Enumeration</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ENUMERATION_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	ENUMERATION(0, "Enumeration", "Enumeration"),
-
-	/**
 	 * The '<em><b>Event</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -409,66 +369,6 @@ public enum ClassStereotype implements Enumerator {
 	public static final int PHASE_MIXIN_VALUE = 0;
 
 	/**
-	 * The '<em><b>Domain</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Domain</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DOMAIN
-	 * @model name="Domain"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DOMAIN_VALUE = 0;
-
-	/**
-	 * The '<em><b>Dimension</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Dimension</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DIMENSION
-	 * @model name="Dimension"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DIMENSION_VALUE = 0;
-
-	/**
-	 * The '<em><b>Data Type</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Data Type</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DATA_TYPE
-	 * @model name="DataType"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DATA_TYPE_VALUE = 0;
-
-	/**
-	 * The '<em><b>Enumeration</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Enumeration</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #ENUMERATION
-	 * @model name="Enumeration"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ENUMERATION_VALUE = 0;
-
-	/**
 	 * The '<em><b>Event</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -519,10 +419,6 @@ public enum ClassStereotype implements Enumerator {
 			MIXIN,
 			ROLE_MIXIN,
 			PHASE_MIXIN,
-			DOMAIN,
-			DIMENSION,
-			DATA_TYPE,
-			ENUMERATION,
 			EVENT,
 			HIGH_ORDER,
 		};

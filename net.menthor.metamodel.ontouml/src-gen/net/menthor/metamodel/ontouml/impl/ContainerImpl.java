@@ -10,9 +10,11 @@ import java.util.Collection;
 import java.util.List;
 
 import net.menthor.metamodel.ontouml.ContainedElement;
+import net.menthor.metamodel.ontouml.DataType;
 import net.menthor.metamodel.ontouml.GeneralizationSet;
 import net.menthor.metamodel.ontouml.OntoumlPackage;
 import net.menthor.metamodel.ontouml.Relationship;
+import net.menthor.metamodel.ontouml.Type;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -285,6 +287,108 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<DataType> dataTypes() {
+		DataType[] result = null;
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof DataType)) {
+				final DataType[] _converted_result = (DataType[])result;
+				((List<DataType>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((DataType)e));
+			}
+		}
+		final DataType[] _converted_result_1 = (DataType[])result;
+		return ECollections.<DataType>toEList(((Iterable<? extends DataType>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void allDataTypes(final net.menthor.metamodel.ontouml.Container c, final EList<DataType> result) {
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			{
+				if ((e instanceof DataType)) {
+					result.add(((DataType)e));
+				}
+				if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+					this.allDataTypes(((net.menthor.metamodel.ontouml.Container)e), result);
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<DataType> allDataTypes() {
+		DataType[] result = null;
+		final DataType[] _converted_result = (DataType[])result;
+		EList<DataType> _eList = ECollections.<DataType>toEList(((Iterable<? extends DataType>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
+		this.allDataTypes(this, _eList);
+		final DataType[] _converted_result_1 = (DataType[])result;
+		return ECollections.<DataType>toEList(((Iterable<? extends DataType>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Type> types() {
+		Type[] result = null;
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			if ((e instanceof Type)) {
+				final Type[] _converted_result = (Type[])result;
+				((List<Type>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)).add(((Type)e));
+			}
+		}
+		final Type[] _converted_result_1 = (Type[])result;
+		return ECollections.<Type>toEList(((Iterable<? extends Type>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void allTypes(final net.menthor.metamodel.ontouml.Container c, final EList<Type> result) {
+		EList<ContainedElement> _elements = this.getElements();
+		for (final ContainedElement e : _elements) {
+			{
+				if ((e instanceof Type)) {
+					result.add(((Type)e));
+				}
+				if ((e instanceof net.menthor.metamodel.ontouml.Package)) {
+					this.allTypes(((net.menthor.metamodel.ontouml.Container)e), result);
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Type> allTypes() {
+		Type[] result = null;
+		final Type[] _converted_result = (Type[])result;
+		EList<Type> _eList = ECollections.<Type>toEList(((Iterable<? extends Type>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result)));
+		this.allTypes(this, _eList);
+		final Type[] _converted_result_1 = (Type[])result;
+		return ECollections.<Type>toEList(((Iterable<? extends Type>)org.eclipse.xtext.xbase.lib.Conversions.doWrapArray(_converted_result_1)));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -406,6 +510,20 @@ public abstract class ContainerImpl extends NamedElementImpl implements net.ment
 				return null;
 			case OntoumlPackage.CONTAINER___ALL_CLASSES:
 				return allClasses();
+			case OntoumlPackage.CONTAINER___DATA_TYPES:
+				return dataTypes();
+			case OntoumlPackage.CONTAINER___ALL_DATA_TYPES__CONTAINER_ELIST:
+				allDataTypes((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<DataType>)arguments.get(1));
+				return null;
+			case OntoumlPackage.CONTAINER___ALL_DATA_TYPES:
+				return allDataTypes();
+			case OntoumlPackage.CONTAINER___TYPES:
+				return types();
+			case OntoumlPackage.CONTAINER___ALL_TYPES__CONTAINER_ELIST:
+				allTypes((net.menthor.metamodel.ontouml.Container)arguments.get(0), (EList<Type>)arguments.get(1));
+				return null;
+			case OntoumlPackage.CONTAINER___ALL_TYPES:
+				return allTypes();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

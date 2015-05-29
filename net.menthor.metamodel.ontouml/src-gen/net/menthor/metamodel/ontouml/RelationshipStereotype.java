@@ -10,24 +10,19 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Relation</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Relationship Stereotype</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  - relationship stereotypes
- * 
- *  UFO's universals are defined here as simple enumerations instead of a hierarchy of types.
- *  Applications need to allow us change a relationship type (e.g. let's say, a mediation into a characterization)
- *  We should not need to delete the relationship, create a new one, and then change all former references in the model
- *  that previously pointed to that relationship, to point to the new element created.
+ *  Relationship Stereotype
  *  ========================================
  * <!-- end-model-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRelation()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getRelationshipStereotype()
  * @model
  * @generated
  */
-public enum Relation implements Enumerator {
+public enum RelationshipStereotype implements Enumerator {
 	/**
 	 * The '<em><b>Component Of</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -119,16 +114,6 @@ public enum Relation implements Enumerator {
 	FORMAL(0, "Formal", "Formal"),
 
 	/**
-	 * The '<em><b>Structuration</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #STRUCTURATION_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	STRUCTURATION(0, "Structuration", "Structuration"),
-
-	/**
 	 * The '<em><b>Derivation</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -137,6 +122,16 @@ public enum Relation implements Enumerator {
 	 * @ordered
 	 */
 	DERIVATION(0, "Derivation", "Derivation"),
+
+	/**
+	 * The '<em><b>Structuration</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STRUCTURATION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	STRUCTURATION(0, "Structuration", "Structuration"),
 
 	/**
 	 * The '<em><b>Participation</b></em>' literal object.
@@ -176,7 +171,17 @@ public enum Relation implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TEMPORAL(0, "Temporal", "Temporal");
+	TEMPORAL(0, "Temporal", "Temporal"),
+
+	/**
+	 * The '<em><b>Instance Of</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #INSTANCE_OF_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	INSTANCE_OF(0, "InstanceOf", "InstanceOf");
 
 	/**
 	 * The '<em><b>Component Of</b></em>' literal value.
@@ -314,21 +319,6 @@ public enum Relation implements Enumerator {
 	public static final int FORMAL_VALUE = 0;
 
 	/**
-	 * The '<em><b>Structuration</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Structuration</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #STRUCTURATION
-	 * @model name="Structuration"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STRUCTURATION_VALUE = 0;
-
-	/**
 	 * The '<em><b>Derivation</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -342,6 +332,21 @@ public enum Relation implements Enumerator {
 	 * @ordered
 	 */
 	public static final int DERIVATION_VALUE = 0;
+
+	/**
+	 * The '<em><b>Structuration</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Structuration</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #STRUCTURATION
+	 * @model name="Structuration"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STRUCTURATION_VALUE = 0;
 
 	/**
 	 * The '<em><b>Participation</b></em>' literal value.
@@ -404,13 +409,28 @@ public enum Relation implements Enumerator {
 	public static final int TEMPORAL_VALUE = 0;
 
 	/**
-	 * An array of all the '<em><b>Relation</b></em>' enumerators.
+	 * The '<em><b>Instance Of</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Instance Of</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #INSTANCE_OF
+	 * @model name="InstanceOf"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int INSTANCE_OF_VALUE = 0;
+
+	/**
+	 * An array of all the '<em><b>Relationship Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Relation[] VALUES_ARRAY =
-		new Relation[] {
+	private static final RelationshipStereotype[] VALUES_ARRAY =
+		new RelationshipStereotype[] {
 			COMPONENT_OF,
 			MEMBER_OF,
 			SUB_COLLECTION_OF,
@@ -420,31 +440,32 @@ public enum Relation implements Enumerator {
 			MEDIATION,
 			MATERIAL,
 			FORMAL,
-			STRUCTURATION,
 			DERIVATION,
+			STRUCTURATION,
 			PARTICIPATION,
 			SUB_EVENT_OF,
 			CAUSATION,
 			TEMPORAL,
+			INSTANCE_OF,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Relation</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Relationship Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Relation> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<RelationshipStereotype> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Relation</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Relationship Stereotype</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Relation get(String literal) {
+	public static RelationshipStereotype get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Relation result = VALUES_ARRAY[i];
+			RelationshipStereotype result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -453,14 +474,14 @@ public enum Relation implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Relation</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Relationship Stereotype</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Relation getByName(String name) {
+	public static RelationshipStereotype getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Relation result = VALUES_ARRAY[i];
+			RelationshipStereotype result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -469,12 +490,12 @@ public enum Relation implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Relation</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Relationship Stereotype</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Relation get(int value) {
+	public static RelationshipStereotype get(int value) {
 		switch (value) {
 			case COMPONENT_OF_VALUE: return COMPONENT_OF;
 		}
@@ -508,7 +529,7 @@ public enum Relation implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Relation(int value, String name, String literal) {
+	private RelationshipStereotype(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -552,4 +573,4 @@ public enum Relation implements Enumerator {
 		return literal;
 	}
 	
-} //Relation
+} //RelationshipStereotype

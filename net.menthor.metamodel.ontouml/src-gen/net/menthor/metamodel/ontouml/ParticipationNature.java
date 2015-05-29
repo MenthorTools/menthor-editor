@@ -10,124 +10,124 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Quality Nature</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Participation Nature</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  Quality Nature
+ *  Participation Nature
  *  ========================================
  * <!-- end-model-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getQualityNature()
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getParticipationNature()
  * @model
  * @generated
  */
-public enum QualityNature implements Enumerator {
+public enum ParticipationNature implements Enumerator {
 	/**
-	 * The '<em><b>Nominal</b></em>' literal object.
+	 * The '<em><b>Creation</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #NOMINAL_VALUE
+	 * @see #CREATION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NOMINAL(0, "Nominal", "Nominal"),
+	CREATION(0, "Creation", "Creation"),
 
 	/**
-	 * The '<em><b>Perceivable</b></em>' literal object.
+	 * The '<em><b>Change</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #PERCEIVABLE_VALUE
+	 * @see #CHANGE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	PERCEIVABLE(0, "Perceivable", "Perceivable"),
+	CHANGE(0, "Change", "Change"),
 
 	/**
-	 * The '<em><b>Non Perceivable</b></em>' literal object.
+	 * The '<em><b>Destruction</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #NON_PERCEIVABLE_VALUE
+	 * @see #DESTRUCTION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NON_PERCEIVABLE(0, "NonPerceivable", "NonPerceivable");
+	DESTRUCTION(0, "Destruction", "Destruction");
 
 	/**
-	 * The '<em><b>Nominal</b></em>' literal value.
+	 * The '<em><b>Creation</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Nominal</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Creation</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #NOMINAL
-	 * @model name="Nominal"
+	 * @see #CREATION
+	 * @model name="Creation"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NOMINAL_VALUE = 0;
+	public static final int CREATION_VALUE = 0;
 
 	/**
-	 * The '<em><b>Perceivable</b></em>' literal value.
+	 * The '<em><b>Change</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Perceivable</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Change</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #PERCEIVABLE
-	 * @model name="Perceivable"
+	 * @see #CHANGE
+	 * @model name="Change"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PERCEIVABLE_VALUE = 0;
+	public static final int CHANGE_VALUE = 0;
 
 	/**
-	 * The '<em><b>Non Perceivable</b></em>' literal value.
+	 * The '<em><b>Destruction</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Non Perceivable</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Destruction</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #NON_PERCEIVABLE
-	 * @model name="NonPerceivable"
+	 * @see #DESTRUCTION
+	 * @model name="Destruction"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NON_PERCEIVABLE_VALUE = 0;
+	public static final int DESTRUCTION_VALUE = 0;
 
 	/**
-	 * An array of all the '<em><b>Quality Nature</b></em>' enumerators.
+	 * An array of all the '<em><b>Participation Nature</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final QualityNature[] VALUES_ARRAY =
-		new QualityNature[] {
-			NOMINAL,
-			PERCEIVABLE,
-			NON_PERCEIVABLE,
+	private static final ParticipationNature[] VALUES_ARRAY =
+		new ParticipationNature[] {
+			CREATION,
+			CHANGE,
+			DESTRUCTION,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Quality Nature</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Participation Nature</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<QualityNature> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ParticipationNature> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Participation Nature</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static QualityNature get(String literal) {
+	public static ParticipationNature get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			QualityNature result = VALUES_ARRAY[i];
+			ParticipationNature result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -136,14 +136,14 @@ public enum QualityNature implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Participation Nature</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static QualityNature getByName(String name) {
+	public static ParticipationNature getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			QualityNature result = VALUES_ARRAY[i];
+			ParticipationNature result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -152,14 +152,14 @@ public enum QualityNature implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Quality Nature</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Participation Nature</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static QualityNature get(int value) {
+	public static ParticipationNature get(int value) {
 		switch (value) {
-			case NOMINAL_VALUE: return NOMINAL;
+			case CREATION_VALUE: return CREATION;
 		}
 		return null;
 	}
@@ -191,7 +191,7 @@ public enum QualityNature implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private QualityNature(int value, String name, String literal) {
+	private ParticipationNature(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -235,4 +235,4 @@ public enum QualityNature implements Enumerator {
 		return literal;
 	}
 	
-} //QualityNature
+} //ParticipationNature

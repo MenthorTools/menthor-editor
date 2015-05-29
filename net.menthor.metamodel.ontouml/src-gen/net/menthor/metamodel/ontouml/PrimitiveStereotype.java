@@ -10,223 +10,202 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Temporal</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Primitive Stereotype</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see net.menthor.metamodel.ontouml.OntoumlPackage#getTemporal()
+ * <!-- begin-model-doc -->
+ * * =========================================
+ *  PrimitiveType Stereotype
+ *  ========================================
+ * <!-- end-model-doc -->
+ * @see net.menthor.metamodel.ontouml.OntoumlPackage#getPrimitiveStereotype()
  * @model
  * @generated
  */
-public enum Temporal implements Enumerator {
+public enum PrimitiveStereotype implements Enumerator {
 	/**
-	 * The '<em><b>Starts</b></em>' literal object.
+	 * The '<em><b>Boolean</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #STARTS_VALUE
+	 * @see #BOOLEAN_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	STARTS(0, "Starts", "Starts"),
+	BOOLEAN(0, "Boolean", "Boolean"),
 
 	/**
-	 * The '<em><b>Precedes</b></em>' literal object.
+	 * The '<em><b>String</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #PRECEDES_VALUE
+	 * @see #STRING_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	PRECEDES(0, "Precedes", "Precedes"),
+	STRING(0, "String", "String"),
 
 	/**
-	 * The '<em><b>Equals</b></em>' literal object.
+	 * The '<em><b>Real</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #EQUALS_VALUE
+	 * @see #REAL_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	EQUALS(0, "Equals", "Equals"),
+	REAL(0, "Real", "Real"),
 
 	/**
-	 * The '<em><b>Meets</b></em>' literal object.
+	 * The '<em><b>Integer</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #MEETS_VALUE
+	 * @see #INTEGER_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MEETS(0, "Meets", "Meets"),
+	INTEGER(0, "Integer", "Integer"),
 
 	/**
-	 * The '<em><b>Finishes</b></em>' literal object.
+	 * The '<em><b>Date</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #FINISHES_VALUE
+	 * @see #DATE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	FINISHES(0, "Finishes", "Finishes"),
+	DATE(0, "Date", "Date"),
 
 	/**
-	 * The '<em><b>Overlaps</b></em>' literal object.
+	 * The '<em><b>Date Time</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #OVERLAPS_VALUE
+	 * @see #DATE_TIME_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	OVERLAPS(0, "Overlaps", "Overlaps"),
+	DATE_TIME(0, "DateTime", "DateTime");
 
 	/**
-	 * The '<em><b>During</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DURING_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DURING(0, "During", "During");
-
-	/**
-	 * The '<em><b>Starts</b></em>' literal value.
+	 * The '<em><b>Boolean</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Starts</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Boolean</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #STARTS
-	 * @model name="Starts"
+	 * @see #BOOLEAN
+	 * @model name="Boolean"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int STARTS_VALUE = 0;
+	public static final int BOOLEAN_VALUE = 0;
 
 	/**
-	 * The '<em><b>Precedes</b></em>' literal value.
+	 * The '<em><b>String</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Precedes</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #PRECEDES
-	 * @model name="Precedes"
+	 * @see #STRING
+	 * @model name="String"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PRECEDES_VALUE = 0;
+	public static final int STRING_VALUE = 0;
 
 	/**
-	 * The '<em><b>Equals</b></em>' literal value.
+	 * The '<em><b>Real</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Equals</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Real</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #EQUALS
-	 * @model name="Equals"
+	 * @see #REAL
+	 * @model name="Real"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int EQUALS_VALUE = 0;
+	public static final int REAL_VALUE = 0;
 
 	/**
-	 * The '<em><b>Meets</b></em>' literal value.
+	 * The '<em><b>Integer</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Meets</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Integer</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #MEETS
-	 * @model name="Meets"
+	 * @see #INTEGER
+	 * @model name="Integer"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MEETS_VALUE = 0;
+	public static final int INTEGER_VALUE = 0;
 
 	/**
-	 * The '<em><b>Finishes</b></em>' literal value.
+	 * The '<em><b>Date</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Finishes</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Date</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #FINISHES
-	 * @model name="Finishes"
+	 * @see #DATE
+	 * @model name="Date"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FINISHES_VALUE = 0;
+	public static final int DATE_VALUE = 0;
 
 	/**
-	 * The '<em><b>Overlaps</b></em>' literal value.
+	 * The '<em><b>Date Time</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Overlaps</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #OVERLAPS
-	 * @model name="Overlaps"
+	 * @see #DATE_TIME
+	 * @model name="DateTime"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OVERLAPS_VALUE = 0;
+	public static final int DATE_TIME_VALUE = 0;
 
 	/**
-	 * The '<em><b>During</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>During</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DURING
-	 * @model name="During"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DURING_VALUE = 0;
-
-	/**
-	 * An array of all the '<em><b>Temporal</b></em>' enumerators.
+	 * An array of all the '<em><b>Primitive Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Temporal[] VALUES_ARRAY =
-		new Temporal[] {
-			STARTS,
-			PRECEDES,
-			EQUALS,
-			MEETS,
-			FINISHES,
-			OVERLAPS,
-			DURING,
+	private static final PrimitiveStereotype[] VALUES_ARRAY =
+		new PrimitiveStereotype[] {
+			BOOLEAN,
+			STRING,
+			REAL,
+			INTEGER,
+			DATE,
+			DATE_TIME,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Temporal</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Primitive Stereotype</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Temporal> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<PrimitiveStereotype> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Temporal</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Primitive Stereotype</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Temporal get(String literal) {
+	public static PrimitiveStereotype get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Temporal result = VALUES_ARRAY[i];
+			PrimitiveStereotype result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -235,14 +214,14 @@ public enum Temporal implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Temporal</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Primitive Stereotype</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Temporal getByName(String name) {
+	public static PrimitiveStereotype getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Temporal result = VALUES_ARRAY[i];
+			PrimitiveStereotype result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -251,14 +230,14 @@ public enum Temporal implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Temporal</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Primitive Stereotype</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Temporal get(int value) {
+	public static PrimitiveStereotype get(int value) {
 		switch (value) {
-			case STARTS_VALUE: return STARTS;
+			case BOOLEAN_VALUE: return BOOLEAN;
 		}
 		return null;
 	}
@@ -290,7 +269,7 @@ public enum Temporal implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Temporal(int value, String name, String literal) {
+	private PrimitiveStereotype(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -334,4 +313,4 @@ public enum Temporal implements Enumerator {
 		return literal;
 	}
 	
-} //Temporal
+} //PrimitiveStereotype

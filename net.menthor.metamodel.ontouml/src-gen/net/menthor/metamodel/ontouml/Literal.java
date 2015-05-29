@@ -10,16 +10,17 @@ package net.menthor.metamodel.ontouml;
  *
  * <!-- begin-model-doc -->
  * * =========================================
- *  - enumeration literal
+ *  Enumeration Literal
  *  ========================================
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link net.menthor.metamodel.ontouml.Literal#getOwner <em>Owner</em>}</li>
- *   <li>{@link net.menthor.metamodel.ontouml.Literal#getGroundingRegion <em>Grounding Region</em>}</li>
  *   <li>{@link net.menthor.metamodel.ontouml.Literal#getValue <em>Value</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Literal#getOwner <em>Owner</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Literal#getUpperBoundRegion <em>Upper Bound Region</em>}</li>
+ *   <li>{@link net.menthor.metamodel.ontouml.Literal#getLowerBoundRegion <em>Lower Bound Region</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,62 +29,6 @@ package net.menthor.metamodel.ontouml;
  * @generated
  */
 public interface Literal extends Element {
-	/**
-	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Class#getLiterals <em>Literals</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Owner</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Owner</em>' container reference.
-	 * @see #setOwner(net.menthor.metamodel.ontouml.Class)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getLiteral_Owner()
-	 * @see net.menthor.metamodel.ontouml.Class#getLiterals
-	 * @model opposite="literals" required="true" transient="false"
-	 * @generated
-	 */
-	net.menthor.metamodel.ontouml.Class getOwner();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Literal#getOwner <em>Owner</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Owner</em>' container reference.
-	 * @see #getOwner()
-	 * @generated
-	 */
-	void setOwner(net.menthor.metamodel.ontouml.Class value);
-
-	/**
-	 * Returns the value of the '<em><b>Grounding Region</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.Region#getGroundedLiteral <em>Grounded Literal</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Grounding Region</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Grounding Region</em>' reference.
-	 * @see #setGroundingRegion(Region)
-	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getLiteral_GroundingRegion()
-	 * @see net.menthor.metamodel.ontouml.Region#getGroundedLiteral
-	 * @model opposite="groundedLiteral"
-	 * @generated
-	 */
-	Region getGroundingRegion();
-
-	/**
-	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Literal#getGroundingRegion <em>Grounding Region</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Grounding Region</em>' reference.
-	 * @see #getGroundingRegion()
-	 * @generated
-	 */
-	void setGroundingRegion(Region value);
-
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -109,5 +54,85 @@ public interface Literal extends Element {
 	 * @generated
 	 */
 	void setValue(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link net.menthor.metamodel.ontouml.DataType#getLiterals <em>Literals</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Owner</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Owner</em>' container reference.
+	 * @see #setOwner(DataType)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getLiteral_Owner()
+	 * @see net.menthor.metamodel.ontouml.DataType#getLiterals
+	 * @model opposite="literals" required="true" transient="false"
+	 * @generated
+	 */
+	DataType getOwner();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Literal#getOwner <em>Owner</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Owner</em>' container reference.
+	 * @see #getOwner()
+	 * @generated
+	 */
+	void setOwner(DataType value);
+
+	/**
+	 * Returns the value of the '<em><b>Upper Bound Region</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Upper Bound Region</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Upper Bound Region</em>' attribute.
+	 * @see #setUpperBoundRegion(float)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getLiteral_UpperBoundRegion()
+	 * @model unique="false"
+	 * @generated
+	 */
+	float getUpperBoundRegion();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Literal#getUpperBoundRegion <em>Upper Bound Region</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Upper Bound Region</em>' attribute.
+	 * @see #getUpperBoundRegion()
+	 * @generated
+	 */
+	void setUpperBoundRegion(float value);
+
+	/**
+	 * Returns the value of the '<em><b>Lower Bound Region</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Lower Bound Region</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Lower Bound Region</em>' attribute.
+	 * @see #setLowerBoundRegion(float)
+	 * @see net.menthor.metamodel.ontouml.OntoumlPackage#getLiteral_LowerBoundRegion()
+	 * @model unique="false"
+	 * @generated
+	 */
+	float getLowerBoundRegion();
+
+	/**
+	 * Sets the value of the '{@link net.menthor.metamodel.ontouml.Literal#getLowerBoundRegion <em>Lower Bound Region</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Lower Bound Region</em>' attribute.
+	 * @see #getLowerBoundRegion()
+	 * @generated
+	 */
+	void setLowerBoundRegion(float value);
 
 } // Literal

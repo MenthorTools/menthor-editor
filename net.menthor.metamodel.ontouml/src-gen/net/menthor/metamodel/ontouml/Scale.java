@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * * =========================================
- *  - dimension scale
+ *  Structure Scale and Basic Type
  *  ========================================
  * <!-- end-model-doc -->
  * @see net.menthor.metamodel.ontouml.OntoumlPackage#getScale()
