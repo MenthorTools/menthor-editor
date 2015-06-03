@@ -22,6 +22,8 @@ package net.menthor.editor.dialog;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,6 +41,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle;
@@ -50,22 +53,16 @@ import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.ProjectSettings;
+import RefOntoUML.parser.OntoUMLParser;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class OWLSettingsDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = -4770351584655675698L;
+	
+	private JTabbedPane tabbedPane = new JTabbedPane();
+	private ElementFilterPane filterPane = new ElementFilterPane();
+	private PrimitiveFilterPane primitivePane;
+	
 	private ButtonGroup destinationGroup;
 	private JRadioButton fileButton;
 	private JTextField filePathText;
@@ -89,10 +86,30 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		super(frame, modal);
 //		setIconImage(Toolkit.getDefaultToolkit().getImage(OWLSettingsDialog.class.getResource("/resources/icons/x16/sw-cube.png")));
 		this.setManager(diagramManager);
-		initGUI();
+		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
+		
+		generateOWLPanel = createGenerationPane();		
+		filterPane.fillContent(refparser);		
+		primitivePane =  new PrimitiveFilterPane(refparser);
+		
+		addNonClosable(tabbedPane,"Config", generateOWLPanel);
+		addNonClosable(tabbedPane,"Filter", filterPane);
+		addNonClosable(tabbedPane,"Primitive Type", primitivePane);
+		
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
 		myPostInit();
 	}
 
+	/** Add Non Closable Tab */
+	public Component addNonClosable(JTabbedPane pane, String text, Component component)
+	{
+		if (component==null) component = new JPanel();
+		pane.addTab(text, component);		
+		pane.setSelectedComponent(component);
+		return component;
+	}
+	
 	private void  myPostInit()
 	{
 		mappingTypeCombo.setSelectedIndex(0);
@@ -148,17 +165,16 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
  	}
  	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initGUI() {
+	private JPanel createGenerationPane() {
 		try {
-			{
+			{				
 				//ApplicationResources.getInstance().getString("dialog.owlsettings.reification")
 				setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-				this.setResizable(false);
+				
 				setTitle("OWL Settings");
 				
 				generateOWLPanel = new JPanel();
-				GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)generateOWLPanel);
-				getContentPane().add(generateOWLPanel, BorderLayout.CENTER);
+				GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)generateOWLPanel);				
 				generateOWLPanel.setLayout(GenerateOWLPanelLayout);
 				generateOWLPanel.setPreferredSize(new java.awt.Dimension(524, 394));
 				{
@@ -351,6 +367,8 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return generateOWLPanel;
 	}
  	
 	protected boolean validadeSettings() {
