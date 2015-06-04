@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.transformation.owl;
 
 /**
  * ============================================================================================
@@ -23,7 +23,6 @@ package net.menthor.editor.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -49,7 +48,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
+import net.menthor.editor.dialog.MappingTypeComboItem;
 import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.transformation.ElementFilterPane;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.ProjectSettings;
@@ -61,8 +62,9 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 	
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private ElementFilterPane filterPane = new ElementFilterPane();
-	private PrimitiveFilterPane primitivePane;
-	
+	private OWLPrimitiveMappingPane primitivePane;
+	private OWLQualityMappingPane qualityPane;
+
 	private ButtonGroup destinationGroup;
 	private JRadioButton fileButton;
 	private JTextField filePathText;
@@ -90,12 +92,15 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		
 		generateOWLPanel = createGenerationPane();		
 		filterPane.fillContent(refparser);		
-		primitivePane =  new PrimitiveFilterPane(refparser);
+		primitivePane = new OWLPrimitiveMappingPane(refparser);
+		qualityPane = new OWLQualityMappingPane(refparser);
 		
 		addNonClosable(tabbedPane,"Config", generateOWLPanel);
 		addNonClosable(tabbedPane,"Filter", filterPane);
 		addNonClosable(tabbedPane,"Primitive Type", primitivePane);
+		addNonClosable(tabbedPane,"Quality", qualityPane);
 		
+		tabbedPane.setSelectedComponent(generateOWLPanel);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		myPostInit();
@@ -363,7 +368,8 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 					    .addComponent(okButton, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap());
 			}
-			this.setSize(543, 380);
+			this.setSize(543, 419);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

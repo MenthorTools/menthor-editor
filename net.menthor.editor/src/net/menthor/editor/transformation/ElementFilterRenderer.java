@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.transformation;
 
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;

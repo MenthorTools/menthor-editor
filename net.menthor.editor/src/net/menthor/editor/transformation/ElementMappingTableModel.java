@@ -1,44 +1,28 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.transformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import net.menthor.editor.dialog.properties.BaseTableModel;
-import RefOntoUML.Property;
+import net.menthor.editor.explorer.OntoUMLElement;
 
-public class AttributeMappingTableModel extends BaseTableModel {
+public class ElementMappingTableModel extends BaseTableModel {
 	
 	private static final long serialVersionUID = 156864519388945910L;
-	private List<Property> sourceList = new ArrayList<Property>(); 
+	private List<OntoUMLElement> sourceList = new ArrayList<OntoUMLElement>(); 
 	private List<String> targetList = new ArrayList<String>();
 	
-	public AttributeMappingTableModel(String sourceLanguage, String targetLanguage)
+	public ElementMappingTableModel(String elementColumnTitle, String targetColumnTitle)
 	{
-		super(new String[]{"Attribute", targetLanguage});
-	}
-	
-	public String getTargetPrimivive(Property srcPrimitive)
-	{
-		int idx = sourceList.indexOf(srcPrimitive);
-		if(idx>=0) return targetList.get(idx);
-		else return null;
+		super(new String[]{elementColumnTitle, targetColumnTitle});
 	}
 
-	public Property getSourceAttribute(String tgtPrimitive)
+	public HashMap<OntoUMLElement, String> getEntries()
 	{
-		int idx = targetList.indexOf(tgtPrimitive);
-		if(idx>=0) return sourceList.get(idx);
-		else return null;
-	}
-	
-	public HashMap<Property, String> getEntries()
-	{
-		HashMap<Property,String> map = new HashMap<Property,String>();
+		HashMap<OntoUMLElement,String> map = new HashMap<OntoUMLElement,String>();
 		int i =0;
-		for(Property src: sourceList)
+		for(OntoUMLElement src: sourceList)
 		{
 			map.put(src,targetList.get(i));
 			i++;
@@ -46,7 +30,21 @@ public class AttributeMappingTableModel extends BaseTableModel {
 		return map;
 	}
 	
-	public void addEntry(Property sourcePrimitive, String targetPrimitive)
+	public String getTargetPrimivive(OntoUMLElement srcPrimitive)
+	{
+		int idx = sourceList.indexOf(srcPrimitive);
+		if(idx>=0) return targetList.get(idx);
+		else return null;
+	}
+
+	public OntoUMLElement getSourcePrimivive(String tgtPrimitive)
+	{
+		int idx = targetList.indexOf(tgtPrimitive);
+		if(idx>=0) return sourceList.get(idx);
+		else return null;
+	}
+	
+	public void addEntry(OntoUMLElement sourcePrimitive, String targetPrimitive)
 	{
 		int size = sourceList.size();
 		if(!sourceList.contains(sourcePrimitive) && !targetList.contains(targetPrimitive)){
@@ -92,12 +90,12 @@ public class AttributeMappingTableModel extends BaseTableModel {
 	{
 		if(sourceList.size() > 0 && targetList.size()>0)
 		{
-			Property sourceValue = sourceList.get(rowIndex);
+			OntoUMLElement sourceValue = sourceList.get(rowIndex);
 			String targetValue = targetList.get(rowIndex);			
 			switch(columnIndex) {
 				case 0: {
 					if(sourceValue==null) return "<no value>";
-					return sourceValue.getName()+": "+sourceValue.getType().getName();
+					return sourceValue;
 				}
 				case 1: 
 				{
@@ -115,7 +113,7 @@ public class AttributeMappingTableModel extends BaseTableModel {
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
 		if(columnIndex == 0) {
-			sourceList.set(rowIndex, (Property)value);
+			sourceList.set(rowIndex, (OntoUMLElement)value);
 		} 
 		if(columnIndex == 1){			 
 			targetList.set(rowIndex, (String)value);
@@ -129,7 +127,7 @@ public class AttributeMappingTableModel extends BaseTableModel {
         if(sourceList.size() > 0 && targetList.size()>0)
 		{
         	switch(columnIndex) {
-				case 0: return String.class;
+				case 0: return OntoUMLElement.class;
 				case 1: return String.class;			
 			}
 		}
@@ -162,6 +160,4 @@ public class AttributeMappingTableModel extends BaseTableModel {
 	 * {@inheritDoc}
 	 */
 	public int getColumnCount() { return columns.length; }
-
 }
-

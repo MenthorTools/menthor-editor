@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.transformation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
