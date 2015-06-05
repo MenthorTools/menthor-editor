@@ -515,7 +515,7 @@ public class OntoUMLParser {
 	 * Select this elements in the model. If 'unselectOthers' is true, the other elements will be unselected (i.e. selected=false). 
 	 * Otherwise, if 'unselectOther' is false, nothing is made with the others elements, they maybe selected or not. i.e. selected = true or false.
 	 */
-	public void select(ArrayList<EObject> elements, boolean unselectOthers)
+	public void select(List<EObject> elements, boolean unselectOthers)
 	{
 		for (ParsingElement pe : elementsHash.values()) 
 		{
