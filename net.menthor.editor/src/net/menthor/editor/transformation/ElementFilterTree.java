@@ -356,13 +356,13 @@ public class ElementFilterTree extends CheckboxTree {
 			{
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);
-				checkingModel.setPathEnabled(new TreePath(newNode.getPath()),false);	
+				checkingModel.setPathEnabled(new TreePath(newNode.getPath()),true);	
 			
 			}else if (((RefOntoUML.Property)object).getAssociation()==null && !disableAttributes)
 			{
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);
-				checkingModel.setPathEnabled(new TreePath(newNode.getPath()),false);
+				checkingModel.setPathEnabled(new TreePath(newNode.getPath()),true);
 			}
 							
 		}else if (object instanceof RefOntoUML.Constraintx)
@@ -556,7 +556,7 @@ public class ElementFilterTree extends CheckboxTree {
 	    		result =true;
 	    		
 	    		this.setSelectionPath(new TreePath(node.getPath()));
-	    		this.scrollPathToVisible(new TreePath(node.getPath())); //adicionado por Tiago
+	    		this.scrollPathToVisible(new TreePath(node.getPath())); 
 		    		
 	    		return result;
 	    	}
@@ -569,7 +569,7 @@ public class ElementFilterTree extends CheckboxTree {
 	    	result =true;
 	    	
 	    	this.setSelectionPath(new TreePath(node.getPath()));
-	    	this.scrollPathToVisible(new TreePath(node.getPath())); //adicionado por Tiago
+	    	this.scrollPathToVisible(new TreePath(node.getPath())); 
 	    	
 	    	return result;
 	    }	    
@@ -580,7 +580,7 @@ public class ElementFilterTree extends CheckboxTree {
 	public void select (DefaultMutableTreeNode  node)
 	{
 		this.setSelectionPath(new TreePath(node.getPath()));
-		this.scrollPathToVisible(new TreePath(node.getPath()));	//adicionado por Tiago	
+		this.scrollPathToVisible(new TreePath(node.getPath()));		
 	}
 		
 	/** Find Node */
@@ -616,9 +616,9 @@ public class ElementFilterTree extends CheckboxTree {
 	    return list;
 	}
 	
-	/** Check elements. */
+	/** Check these elements. We do not concern with other elements*/
 	@SuppressWarnings("rawtypes")
-	public void checkElements(List<EObject> elements, boolean safe) 
+	public void check(List<EObject> elements) 
 	{			   
 		List<EObject> alreadyChecked = getCheckedElements();		
 	    
@@ -639,9 +639,9 @@ public class ElementFilterTree extends CheckboxTree {
 	    if (alreadyChecked.contains(obj)) { checkNode(node,true); }    	    	
 	}	
 	 
-	/** Check this elements in the tree uncheking all other packageable elements (i.e. ignoring the packages). */
+	/** Check these elements in the tree uncheking all others (packageable elements) and ignoring packages */
 	@SuppressWarnings("rawtypes")
-	public void check(List<EObject> elements, boolean uncheckOthers) 
+	public void checkStrictly(List<EObject> elements) 
 	{			   
 	    Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
@@ -665,7 +665,7 @@ public class ElementFilterTree extends CheckboxTree {
 	
 	/** Uncheck this elements */
 	@SuppressWarnings("rawtypes")
-	public void uncheckElements(List<EObject> elements, boolean safe) 
+	public void uncheck(List<EObject> elements) 
 	{			   
 		List<EObject> alreadyUnchecked = getUncheckedElements();		
 	    

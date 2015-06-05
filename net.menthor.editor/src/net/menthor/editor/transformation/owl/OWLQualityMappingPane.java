@@ -22,9 +22,9 @@ public class OWLQualityMappingPane extends JPanel{
 	
 	public OWLQualityMappingPane(OntoUMLParser refparser)
 	{
-		qualityPane = new QualityMappingPane("Quality",refparser, "OWL/RDF", new String[]{"Hide it","Maintain it"});
+		qualityPane = new QualityMappingPane("Quality and Structures",refparser, "OWL/RDF", new String[]{"Ignore (hide) the quality","Maintain the quality as a class"});
 		
-		qualityPane.setText("Hide the quality mapping its structures as datatype properties owned by the bearer type or maintain the quality as a Class mapingp the structures as datatype properties owned by the quality");
+		qualityPane.setText("Hide the quality and map its structures as datatype properties owned by the bearer type or maintain the quality as a Class and map the structures as datatype properties owned by the quality");
 		
 		setLayout(new BorderLayout(0,0));
 		

@@ -64,7 +64,8 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 	private ElementFilterPane filterPane = new ElementFilterPane();
 	private OWLPrimitiveMappingPane primitivePane;
 	private OWLQualityMappingPane qualityPane;
-
+	private OWLAxiomFilterPane axiomsPane;
+	
 	private ButtonGroup destinationGroup;
 	private JRadioButton fileButton;
 	private JTextField filePathText;
@@ -94,11 +95,13 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		filterPane.fillContent(refparser);		
 		primitivePane = new OWLPrimitiveMappingPane(refparser);
 		qualityPane = new OWLQualityMappingPane(refparser);
+		axiomsPane = new OWLAxiomFilterPane();
 		
 		addNonClosable(tabbedPane,"Config", generateOWLPanel);
 		addNonClosable(tabbedPane,"Filter", filterPane);
-		addNonClosable(tabbedPane,"Primitive Type", primitivePane);
-		addNonClosable(tabbedPane,"Quality", qualityPane);
+		addNonClosable(tabbedPane,"Axioms", axiomsPane);
+		addNonClosable(tabbedPane,"Primitive Types", primitivePane);
+		addNonClosable(tabbedPane,"Qualities", qualityPane);
 		
 		tabbedPane.setSelectedComponent(generateOWLPanel);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
