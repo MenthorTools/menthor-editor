@@ -84,6 +84,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
 		setTitle("OWL Settings");	
+		setSize(new java.awt.Dimension(550, 420));
 		
 		configPane.getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -95,6 +96,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 				}
 			}
 		});
+		getRootPane().setDefaultButton(configPane.getOkButton());
 		
 		configPane.getCancelButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
