@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import net.menthor.common.transformation.OWLTransformationOptions;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
 
@@ -109,8 +110,9 @@ public class Transformer {
 	private Set<Association> lstAssociation;
 	private HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>> hashDataProperty;
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
-	private ArrayList<Property> dataTypesProcesseds = new ArrayList<>();
+	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 
+	private OWLTransformationOptions owlOptions;
 	//OWL
 	private String nameSpace;
 
@@ -136,7 +138,7 @@ public class Transformer {
 	/**
 	 * Initialize the Transformer
 	 * */
-	public Transformer(RefOntoUML.Package model, String nameSpace, String _oclRules) {
+	public Transformer(RefOntoUML.Package model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) {
 		this.nameSpace = nameSpace+"#";
 
 		try {
@@ -160,9 +162,9 @@ public class Transformer {
 		lstSubCollectionOf = ontoParser.getAllInstances(subCollectionOf.class);
 		lstSubQuantityOf = ontoParser.getAllInstances(subQuantityOf.class);
 		lstMemberOf = ontoParser.getAllInstances(memberOf.class);
-		hashAssociations = new HashMap<>();
+		hashAssociations = new HashMap<String,Set<OWLObjectProperty>>();
 		lstDataType = ontoParser.getAllInstances(RefOntoUML.DataType.class);
-		hashDataProperty = new HashMap<>(); 
+		hashDataProperty = new HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>>(); 
 		
 		lstAssociation = ontoParser.getAllInstances(RefOntoUML.Association.class);
 		lstAssociation.removeAll(lstMaterials);
@@ -179,6 +181,8 @@ public class Transformer {
 		
 		mappingProperties = new MappingProperties(ontoParser);
 		mappingProperties.generateAllPropertyNames();
+		
+		this.owlOptions = owlOptions;
 	}
 
 	/**
@@ -189,6 +193,8 @@ public class Transformer {
 	 * @throws Exception 
 	 */
 	public String transform() throws Exception {
+//		createBasicStructure();
+		
 		try{
 			processClass();
 		}catch (Exception e){
@@ -353,10 +359,80 @@ public class Transformer {
 		return "";
 	}
 
+	private void createBasicStructure() {
+		String basicNameSpace = "http://www.menthor.net/ufo#";
+		
+		Set<OWLClass> lstDisjCls = new HashSet<OWLClass>();
+		
+		//endurant
+		OWLClass owlCls = getOwlClass(basicNameSpace, "Endurant");
+		OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		lstDisjCls.add(owlCls);
+		
+		//event
+		owlCls = getOwlClass(basicNameSpace, "Event");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		lstDisjCls.add(owlCls);
+		
+		//endurant and event disjoint
+		OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstDisjCls);		
+		manager.applyChange(new AddAxiom(ontology, axiom));
+		lstDisjCls.clear();
+		
+		//moment
+		owlCls = getOwlClass(basicNameSpace, "Moment");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		lstDisjCls.add(owlCls);
+		
+		//object
+		owlCls = getOwlClass(basicNameSpace, "Object");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		lstDisjCls.add(owlCls);
+		
+		//moment and object disjoint
+		axiom = factory.getOWLDisjointClassesAxiom(lstDisjCls);		
+		manager.applyChange(new AddAxiom(ontology, axiom));
+		lstDisjCls.clear();
+		
+		owlCls = getOwlClass(basicNameSpace, "Mode");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		owlCls = getOwlClass(basicNameSpace, "Quality");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		owlCls = getOwlClass(basicNameSpace, "Relator");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		
+		
+		owlCls = getOwlClass(basicNameSpace, "Collection");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		owlCls = getOwlClass(basicNameSpace, "FunctionalComplex");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		owlCls = getOwlClass(basicNameSpace, "Quantity");
+		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		
+	}
+
 	/**
 	 * Set all stereotype of association disjoint between they
 	 * */
 	private void processDisjointAssociation() {
+		if(!owlOptions.isDisjointAssociationAxioms()) return;
+		
 		Set<OWLObjectProperty> lstOP = new HashSet<OWLObjectProperty>();
 		for (String stereotype : hashAssociations.keySet()) {
 			for (String _stereotype : hashAssociations.keySet()) {
@@ -818,13 +894,16 @@ public class Transformer {
 	/**
 	 * Return a OWL Classs for the ontCls
 	 * */
-	private OWLClass getOwlClass(RefOntoUML.Classifier ontCls){
-		return factory.getOWLClass(IRI.create(nameSpace+ontCls.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+	private OWLClass getOwlClass(String iri, String className){
+		return factory.getOWLClass(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
+	}	
+	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
+		return getOwlClass(nameSpace, ontCls);
+	}	
+	private OWLClass getOwlClass(String iri, RefOntoUML.NamedElement ontCls){
+		return getOwlClass(nameSpace, ontCls.getName());
 	}
-
-	private OWLClass getOwlClass(RefOntoUML.Type ontType){
-		return factory.getOWLClass(IRI.create(nameSpace+ontType.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-	}
+	
 
 	/**
 	 * Return an OWLObjectProperty if the Association ass has some name
@@ -1724,79 +1803,81 @@ public class Transformer {
 	 * @param 
 	 */
 	private void processDisjointClass() {
+		if(!owlOptions.isDisjointClassAxioms()) return;
+		
 		Set<SubstanceSortal> setSortal = ontoParser.getAllInstances(SubstanceSortal.class);
 		Set<MomentClass> setMoment = ontoParser.getAllInstances(MomentClass.class);
 		Set<MixinClass> mixinClass =  ontoParser.getAllInstances(MixinClass.class);		
 
-//		//All the substancesortal are differents from each other
-//		Set<OWLClass> lstSortalCls = new HashSet<OWLClass>();
-//		for(SubstanceSortal ss1 : setSortal){
-//			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+ss1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//			lstSortalCls.add(cl1);
-//		}
-//		if(lstSortalCls.size() > 1){
-//			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstSortalCls);		
-//			manager.applyChange(new AddAxiom(ontology, axiom));
-//		}
+		//All the substancesortal are differents from each other
+		Set<OWLClass> lstSortalCls = new HashSet<OWLClass>();
+		for(SubstanceSortal ss1 : setSortal){
+			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+ss1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+			lstSortalCls.add(cl1);
+		}
+		if(lstSortalCls.size() > 1){
+			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstSortalCls);		
+			manager.applyChange(new AddAxiom(ontology, axiom));
+		}
 		
-//		//Every substancesortal are differents from every top level moment
-//		Set<OWLClass> lstMomentCls = new HashSet<OWLClass>();
-//		for(MomentClass sm : setMoment){
-//			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//			if(sm.getGeneral().isEmpty()){
-//				for(SubstanceSortal ss : setSortal){
-//					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//					if(!lstMomentCls.contains(cl1))	lstMomentCls.add(cl1);
-//					if(!lstMomentCls.contains(cl2))	lstMomentCls.add(cl2);
-////					manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
-//				}
-//			}			
-//		}
-//		if(lstMomentCls.size() > 0){
-//			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstMomentCls);		
-//			manager.applyChange(new AddAxiom(ontology, axiom));
-//		}	
+		//Every substancesortal are differents from every top level moment
+		Set<OWLClass> lstMomentCls = new HashSet<OWLClass>();
+		for(MomentClass sm : setMoment){
+			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+			if(sm.getGeneral().isEmpty()){
+				for(SubstanceSortal ss : setSortal){
+					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+					if(!lstMomentCls.contains(cl1))	lstMomentCls.add(cl1);
+					if(!lstMomentCls.contains(cl2))	lstMomentCls.add(cl2);
+//					manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
+				}
+			}			
+		}
+		if(lstMomentCls.size() > 0){
+			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstMomentCls);		
+			manager.applyChange(new AddAxiom(ontology, axiom));
+		}	
 		
-//		//Every Top level moment are differents from each other		
-//		Set<OWLClass> lstTopMomentCls = new HashSet<OWLClass>();
-//		for(MomentClass sm1 : setMoment){
-//			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//			if(sm1.getGeneral().isEmpty()){				
-//				for(MomentClass sm2 : setMoment){
-//					if(!sm1.equals(sm2)){
-//						if(sm2.getGeneral().isEmpty()){
-//							OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//							if(!lstTopMomentCls.contains(cl1))	lstTopMomentCls.add(cl1);
-//							if(!lstTopMomentCls.contains(cl2))	lstTopMomentCls.add(cl2);
-////							manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
-//						}
-//					}
-//				}
-//			}			
-//		}
-//		if(lstTopMomentCls.size() > 1){
-//			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstTopMomentCls);		
-//			manager.applyChange(new AddAxiom(ontology, axiom));
-//		}
+		//Every Top level moment are differents from each other		
+		Set<OWLClass> lstTopMomentCls = new HashSet<OWLClass>();
+		for(MomentClass sm1 : setMoment){
+			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+			if(sm1.getGeneral().isEmpty()){				
+				for(MomentClass sm2 : setMoment){
+					if(!sm1.equals(sm2)){
+						if(sm2.getGeneral().isEmpty()){
+							OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+							if(!lstTopMomentCls.contains(cl1))	lstTopMomentCls.add(cl1);
+							if(!lstTopMomentCls.contains(cl2))	lstTopMomentCls.add(cl2);
+//							manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
+						}
+					}
+				}
+			}			
+		}
+		if(lstTopMomentCls.size() > 1){
+			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstTopMomentCls);		
+			manager.applyChange(new AddAxiom(ontology, axiom));
+		}
 		
-//		//every top level mixinclass is disjoint from every top level moment
-//		Set<OWLClass> lstMixinCls = new HashSet<OWLClass>();
-//		for(MixinClass smixin : mixinClass){
-//			if(smixin.getGeneral().isEmpty()){	
-//				OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+smixin.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//				for(MomentClass sm2 : setMoment){
-//					if(sm2.getGeneral().isEmpty()){
-//						OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//						if(!lstMixinCls.contains(cl1))	lstMixinCls.add(cl1);
-//						if(!lstMixinCls.contains(cl2))	lstMixinCls.add(cl2);
-////						manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
-//					}
-//				}
-//			}			
-//		}
-//		if(lstMixinCls.size() > 1){
-//			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstMixinCls);		
-//			manager.applyChange(new AddAxiom(ontology, axiom));
-//		}
+		//every top level mixinclass is disjoint from every top level moment
+		Set<OWLClass> lstMixinCls = new HashSet<OWLClass>();
+		for(MixinClass smixin : mixinClass){
+			if(smixin.getGeneral().isEmpty()){	
+				OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+smixin.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+				for(MomentClass sm2 : setMoment){
+					if(sm2.getGeneral().isEmpty()){
+						OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+						if(!lstMixinCls.contains(cl1))	lstMixinCls.add(cl1);
+						if(!lstMixinCls.contains(cl2))	lstMixinCls.add(cl2);
+//						manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
+					}
+				}
+			}			
+		}
+		if(lstMixinCls.size() > 1){
+			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstMixinCls);		
+			manager.applyChange(new AddAxiom(ontology, axiom));
+		}
 	}
 }

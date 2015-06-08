@@ -61,6 +61,8 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
+import net.menthor.common.transformation.MappingType;
+import net.menthor.common.transformation.OWLTransformationOptions;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
 import net.menthor.editor.derivation.ExclusionPattern;
@@ -120,7 +122,6 @@ import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2sbvr.core.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
-import net.menthor.ootos.util.MappingType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -2976,7 +2977,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Generates OWL from the selected model */
-	public void generateOwl() 
+	public void generateOwl(OWLTransformationOptions owlOptions) 
 	{
 		UmlProject project = getCurrentProject();
 		String owlType = ProjectSettings.OWL_MAPPING_TYPE.getValue(project);
@@ -2990,7 +2991,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			mappingType,
 			ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project),
 			ProjectSettings.OWL_FILE_PATH.getValue(project),
-			oclRules);
+			oclRules,
+			owlOptions);
 		if(result.getResultType() != ResultType.ERROR)
 		{
 			if(!ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project))

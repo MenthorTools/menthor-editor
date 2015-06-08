@@ -57,7 +57,7 @@ public class MappingProperties {
 		}
 		
 		String source = null;
-		String target = null;
+		String target = "";
 		String stereotype = "";
 		
 		if(property instanceof Association){
@@ -69,7 +69,8 @@ public class MappingProperties {
 			stereotype = ontoParser.getStereotype(property);
 		}else{
 			source = ((PropertyImpl)property).getClass_().getName();
-			target = ((PropertyImpl)property).getType().getName();
+			if(((PropertyImpl)property).getType() != null)
+				target = ((PropertyImpl)property).getType().getName();
 			System.out.println();
 		}
 		

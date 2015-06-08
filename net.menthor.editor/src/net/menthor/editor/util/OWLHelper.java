@@ -21,17 +21,18 @@ package net.menthor.editor.util;
  * ============================================================================================
  */
 
+import net.menthor.common.transformation.MappingType;
+import net.menthor.common.transformation.OWLTransformationOptions;
 import net.menthor.editor.util.OperationResult.ResultType;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
-import net.menthor.ootos.util.MappingType;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(RefOntoUML.Package model, String ontologyIRI, MappingType mappingType, boolean fileOutput, String filePath, String oclRules)
+	public static OperationResult generateOwl(RefOntoUML.Package model, String ontologyIRI, MappingType mappingType, boolean fileOutput, String filePath, String oclRules, OWLTransformationOptions owlOptions)
 	{
 		//System.out.println(ontologyIRI);
 		net.menthor.ontouml2temporalowl.auxiliary.MappingType mp = null;
@@ -47,7 +48,7 @@ public class OWLHelper {
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, ontologyIRI);
     		}else if(mappingType.equals(MappingType.RULES)){
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(model, ontologyIRI, oclRules);
+    			owlOutput = ontoUML2OWL.Transformation(model, ontologyIRI, oclRules, owlOptions);
     			errors = ontoUML2OWL.errors;
     		}else
     		{

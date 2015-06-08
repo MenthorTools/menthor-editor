@@ -40,7 +40,7 @@ public class OWLAxiomFilterPane extends JPanel {
 		binPane = new JPanel();
 		FlowLayout fl_binPane = (FlowLayout) binPane.getLayout();
 		fl_binPane.setAlignment(FlowLayout.LEFT);
-		binPane.setBorder(new TitledBorder(null, "Binary Properties", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		binPane.setBorder(new TitledBorder(null, "Association Binary Properties", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		relCheckList = new JPanel();
 		FlowLayout fl_relCheckList = (FlowLayout) relCheckList.getLayout();

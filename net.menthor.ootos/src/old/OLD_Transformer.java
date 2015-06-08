@@ -1465,7 +1465,7 @@ public class OLD_Transformer {
 	 * @return A list with the all MaterialAssociation from the Relator
 	 */
 	private List<MaterialAssociation> getRelatorMaterials(Relator r){
-		List<MaterialAssociation> lst = new ArrayList<>();
+		List<MaterialAssociation> lst = new ArrayList<MaterialAssociation>();
 		try {
 			MaterialAssociation m;
 			for(Derivation d:ontoParser.getAllInstances(Derivation.class)){

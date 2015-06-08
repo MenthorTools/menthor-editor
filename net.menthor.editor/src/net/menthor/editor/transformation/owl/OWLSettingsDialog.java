@@ -46,6 +46,8 @@ import javax.swing.JTextPane;
 import javax.swing.LayoutStyle;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import net.menthor.common.transformation.MappingType;
+import net.menthor.common.transformation.OWLTransformationOptions;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.MappingTypeComboItem;
@@ -84,6 +86,8 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 	private JTextPane descriptionPane;
 	private JTextField iriText;
 	private JLabel iriLabel;
+	
+	OWLTransformationOptions owlOptions = new OWLTransformationOptions();
 
 	public OWLSettingsDialog(AppFrame frame, DiagramManager diagramManager, boolean modal) {
 		super(frame, modal);
@@ -170,6 +174,27 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
  			ProjectSettings.OWL_FILE_PATH.setValue(project, filePathText.getText());
  		
  		ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) mappingTypeCombo.getSelectedItem()).value);
+ 		
+ 		owlOptions.setOntologyIri(iriText.getText());
+ 		owlOptions.setGenerateFile(fileButton.isSelected());
+ 		if(fileButton.isSelected())
+ 			owlOptions.setFilePath(filePathText.getText());
+ 		owlOptions.setMappingType(MappingType.valueOf(((MappingTypeComboItem) mappingTypeCombo.getSelectedItem()).value));
+ 		
+ 		owlOptions.setDisjointClassAxioms(axiomsPane.isClassDisjointness());
+ 		owlOptions.setDisjointAssociationAxioms(axiomsPane.isAssociatoinDisjointness());
+ 		
+ 		owlOptions.setDomainAxiom(axiomsPane.isDomain());
+ 		owlOptions.setRangeAxiom(axiomsPane.isRange());
+ 		owlOptions.setInverseAxiom(axiomsPane.isInverse());
+ 		
+ 		owlOptions.setReflexiveAxiom(axiomsPane.isReflexivity());
+ 		//owlOptions.setIrreflexiveAxiom(axiomsPane.is);
+ 		owlOptions.setSymmetricAxiom(axiomsPane.isSymmetry());
+ 		//owlOptions.setAsymmetricreflexiveAxiom(axiomsPane.is);
+ 		owlOptions.setTransitiveAxiom(axiomsPane.isTransitivity());
+ 		//owlOptions.setFunctionalAxiom(axiomsPane.is);
+ 		//owlOptions.setInverseFunctionalAxiom(axiomsPane.is);
  	}
  	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -272,7 +297,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 								if(validadeSettings())
 								{
 									saveSettings();
-									getManager().generateOwl();
+									getManager().generateOwl(owlOptions);
 						 			dispose();
 								}
 							}
