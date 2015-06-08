@@ -140,11 +140,16 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		if(configPane.isFileSelected()) owlOptions.setFilePath(configPane.getPathText());
 		owlOptions.setMappingType(MappingType.valueOf(((MappingTypeComboItem) configPane.getMappingItem()).value));
 		
+		//disjointness
 		owlOptions.setDisjointClassAxioms(axiomsPane.isClassDisjointness());
 		owlOptions.setDisjointAssociationAxioms(axiomsPane.isAssociatoinDisjointness());		
+		
+		//associations
 		owlOptions.setDomainAxiom(axiomsPane.isDomain());
 		owlOptions.setRangeAxiom(axiomsPane.isRange());
 		owlOptions.setInverseAxiom(axiomsPane.isInverse());		
+		
+		//association binary association
 		owlOptions.setReflexiveAxiom(axiomsPane.isReflexivity());
 		owlOptions.setIrreflexiveAxiom(axiomsPane.isIrreflexive());
 		owlOptions.setSymmetricAxiom(axiomsPane.isSymmetry());
@@ -153,6 +158,11 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		owlOptions.setFunctionalAxiom(axiomsPane.isFunctional());
 		owlOptions.setInverseFunctionalAxiom(axiomsPane.isInverseFunctional());		
 		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
-		owlOptions.setRuleAxiom(axiomsPane.isRules());
+		
+		//swrl rules
+		owlOptions.setSwrlRulesAxiom(axiomsPane.isRules());
+		
+		//cardinality
+		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
 	}
 }

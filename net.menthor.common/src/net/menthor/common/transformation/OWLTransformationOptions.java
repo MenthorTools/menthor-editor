@@ -24,7 +24,11 @@ public class OWLTransformationOptions extends TransformationOptions {
 	boolean transitiveAxiom = true;
 	boolean functionalAxiom = true;
 	boolean inverseFunctionalAxiom = true;
-	boolean rulesAxiom = true;
+	
+	//swrl rules
+	boolean swrlRulesAxiom = true;
+	
+	//cardinality
 	boolean cardinalityAxiom = true;
 	
 	public MappingType getMappingType() {
@@ -126,7 +130,14 @@ public class OWLTransformationOptions extends TransformationOptions {
 	public void setCardinalityAxiom(boolean cardinality) {
 		this.cardinalityAxiom = cardinality;		
 	}
-	public void setRuleAxiom(boolean rules) {
-		this.rulesAxiom = rules;		
-	}	
+	public boolean isSwrlRulesAxiom() {
+		return swrlRulesAxiom;
+	}
+	public void setSwrlRulesAxiom(boolean swrlRulesAxiom) {
+		this.swrlRulesAxiom = swrlRulesAxiom;
+	}
+	public boolean isCardinalityAxiom() {
+		return cardinalityAxiom;
+	}
+	
 }

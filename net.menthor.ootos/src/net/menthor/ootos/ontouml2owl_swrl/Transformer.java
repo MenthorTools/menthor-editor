@@ -2,6 +2,7 @@ package net.menthor.ootos.ontouml2owl_swrl;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class Transformer {
 
 		try {
 			this.factory = manager.getOWLDataFactory();
-			this.ontology = manager.createOntology(IRI.create(nameSpace));
+			this.ontology = manager.createOntology(IRI.create(nameSpace));			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}	
@@ -193,7 +194,7 @@ public class Transformer {
 	 * @throws Exception 
 	 */
 	public String transform() throws Exception {
-//		createBasicStructure();
+		createBasicStructure();
 		
 		try{
 			processClass();
@@ -294,12 +295,12 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when processing Generic Associations;\n");
 		}
 
-		try{
-			processDisjointClass();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Classes;\n");
-		}
+//		try{
+//			processDisjointClass();
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Classes;\n");
+//		}
 
 		try{
 			processDisjointAssociation();
@@ -308,12 +309,12 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Associations;\n");
 		}
 
-		//		try{
-		//			processDisjointDataType();
-		//		}catch (Exception e){
-		//			errors = "";
-		//			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Datatypes;\n");
-		//		}
+//		try{
+//			processDisjointDataType();
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Datatypes;\n");
+//		}
 
 		try{
 			processAnnotation();
@@ -329,22 +330,12 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when creating the Axioms;\n");
 		}
 
-		if(oclRules != null){
-			if(!oclRules.equals("")){
-				int dialogButton = JOptionPane.YES_NO_OPTION;
-				int result = JOptionPane.showConfirmDialog (null, "Do you want to perform the OCL transformation to OWL and SWRL?","Warning",dialogButton);
-
-				if(result == JOptionPane.YES_OPTION){
-					OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, nameSpace);
-					//OCL2SWRL ocl2swrl = new OCL2SWRL(oclParser, ontoParser, manager, nameSpace);
-					ocl2owl_swrl.Transformation();
-
-					this.errors += "\n" + ocl2owl_swrl.errors;
-				}
-			}
-
+		if(oclRules != null && !oclRules.equals("") && owlOptions.isSwrlRulesAxiom()){
+			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, nameSpace);
+			ocl2owl_swrl.Transformation();
+			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
-
+		
 		try {	
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			manager.saveOntology(ontology, os);
@@ -359,72 +350,14 @@ public class Transformer {
 		return "";
 	}
 
-	private void createBasicStructure() {
-		String basicNameSpace = "http://www.menthor.net/ufo#";
+	private void createBasicStructure() throws OWLOntologyCreationException {
+		InputStream inputStream = Transformer.class.getResourceAsStream("/resources/owl_basic_structure_ontouml.owl");
+		OWLOntology owlBasics = manager.loadOntologyFromOntologyDocument(inputStream);
 		
-		Set<OWLClass> lstDisjCls = new HashSet<OWLClass>();
-		
-		//endurant
-		OWLClass owlCls = getOwlClass(basicNameSpace, "Endurant");
-		OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		lstDisjCls.add(owlCls);
-		
-		//event
-		owlCls = getOwlClass(basicNameSpace, "Event");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		lstDisjCls.add(owlCls);
-		
-		//endurant and event disjoint
-		OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstDisjCls);		
-		manager.applyChange(new AddAxiom(ontology, axiom));
-		lstDisjCls.clear();
-		
-		//moment
-		owlCls = getOwlClass(basicNameSpace, "Moment");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		lstDisjCls.add(owlCls);
-		
-		//object
-		owlCls = getOwlClass(basicNameSpace, "Object");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		lstDisjCls.add(owlCls);
-		
-		//moment and object disjoint
-		axiom = factory.getOWLDisjointClassesAxiom(lstDisjCls);		
-		manager.applyChange(new AddAxiom(ontology, axiom));
-		lstDisjCls.clear();
-		
-		owlCls = getOwlClass(basicNameSpace, "Mode");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		
-		owlCls = getOwlClass(basicNameSpace, "Quality");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		
-		owlCls = getOwlClass(basicNameSpace, "Relator");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		
-		
-		
-		owlCls = getOwlClass(basicNameSpace, "Collection");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		
-		owlCls = getOwlClass(basicNameSpace, "FunctionalComplex");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		
-		owlCls = getOwlClass(basicNameSpace, "Quantity");
-		declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
-		manager.addAxiom(ontology, declarationAxiom);
-		
-		
+		Set<OWLAxiom> tBoxAxioms = owlBasics.getAxioms();
+		for (OWLAxiom owlAxiom : tBoxAxioms) {
+			manager.addAxiom(ontology, owlAxiom);
+		}		
 	}
 
 	/**
@@ -594,11 +527,14 @@ public class Transformer {
 		putInHash(stereotype, topProp);
 		putInHash(stereotype, topInvProp);
 
-		OWLInverseObjectPropertiesAxiom inv = factory.getOWLInverseObjectPropertiesAxiom(topInvProp, topProp);
-		manager.applyChange(new AddAxiom(ontology, inv));
-
+		if(owlOptions.isInverseAxiom()){
+			OWLInverseObjectPropertiesAxiom inv = factory.getOWLInverseObjectPropertiesAxiom(topInvProp, topProp);
+			manager.applyChange(new AddAxiom(ontology, inv));
+		}
+		
 		//Make the inverse top property disjoint of the top property
-		manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProp, topInvProp)));
+		if(owlOptions.isDisjointAssociationAxioms())
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProp, topInvProp)));
 
 		//Set prop irreflexive
 		OWLIrreflexiveObjectPropertyAxiom iopa = factory.getOWLIrreflexiveObjectPropertyAxiom(topProp);
@@ -626,10 +562,12 @@ public class Transformer {
 			invProp = createInverseAssociation(ass,stereotype);
 
 			//Set invProp inverse of prop
-			manager.applyChange(new AddAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(invProp, prop)));
+			if(owlOptions.isInverseAxiom())
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(invProp, prop)));
 			
 			//Set both property disjoints
-			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop, invProp)));
+			if(owlOptions.isDisjointAssociationAxioms())
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop, invProp)));
 
 			//Set both subPropertyOf its top property
 			sopa = factory.getOWLSubObjectPropertyOfAxiom(prop,topProp);
@@ -976,8 +914,10 @@ public class Transformer {
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 
 		//Set domain and range from the property
-		manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
+		if(owlOptions.isDomainAxiom())
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
+		if(owlOptions.isRangeAxiom())
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
 
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(sideDst).getUpper();
@@ -1054,8 +994,10 @@ public class Transformer {
 		//destination class of the relation
 		OWLClass dst = dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 		//Set domain and range from the property
-		manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
+		if(owlOptions.isDomainAxiom())
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
+		if(owlOptions.isRangeAxiom())
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
 		
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(sideDst).getUpper();
@@ -1067,6 +1009,8 @@ public class Transformer {
 	}
 
 	private void processCardinality(OWLClass src, OWLDataProperty dataProperty, int lowerCard, int upperCard) {
+		if(!owlOptions.isCardinalityAxiom()) return;
+		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
 		if(upperCard == lowerCard){
@@ -1107,6 +1051,8 @@ public class Transformer {
 	}
 
 	private void processCardinality(OWLObjectProperty prop, OWLClass src, OWLClass dst, int lowerCard, int upperCard){
+		if(!owlOptions.isCardinalityAxiom()) return;
+		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
 
@@ -1225,7 +1171,8 @@ public class Transformer {
 					manager.applyChange(new AddAxiom(ontology, sopa));
 	
 					//set that the inverse top property is the inverse of the top property
-					manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(topProperty, invTopProperty)));
+					if(owlOptions.isInverseAxiom())
+						manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(topProperty, invTopProperty)));
 	
 					//Make the inverse top property disjoint of the top property
 					//				manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProperty, invTopProperty)));
@@ -1243,7 +1190,8 @@ public class Transformer {
 				}
 	
 				//set that the inverse property is the inverse of the property
-				manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(prop, invProp)));
+				if(owlOptions.isInverseAxiom())
+					manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(prop, invProp)));
 	
 				//Make the inverse property disjoint of the property
 				//			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop,invProp)));
@@ -1700,10 +1648,48 @@ public class Transformer {
 	 * It create a OWLClass for each RefOntoUML.Class
 	 * */
 	private void processClass() {
+		ArrayList<String> existentClasses = new ArrayList<String>();
+		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
+			if(existentClasses.contains(ontCls.getName())){
+				duplicatedClasses.add(ontCls.getName());
+			}else{
+				existentClasses.add(ontCls.getName());
+			}
 			OWLClass owlCls = getOwlClass(ontCls);
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
 			manager.addAxiom(ontology, declarationAxiom);
+			Set<Classifier> parents = ontoParser.getParents(ontCls);
+			
+			if(parents.size() == 0){
+				OWLClass owlSuperCls = null;
+				if(ontoParser.isCollective(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
+				}else if(ontoParser.isFunctionalComplex(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "FunctionalComplex");
+				}else if(ontoParser.isQuantity(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quantity");
+				}else if(ontoParser.isMode(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Mode");
+				}else if(ontoParser.isQuality(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quality");
+				}else if(ontoParser.isRelator(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
+				}else if(ontoParser.isRelator(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
+				}else if(!ontoParser.isDatatype(ontCls)){
+					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Event");
+				}
+				
+				if(owlSuperCls != null){
+					OWLSubClassOfAxiom sbAx = factory.getOWLSubClassOfAxiom(owlCls, owlSuperCls);
+					manager.applyChange(new AddAxiom(ontology, sbAx));
+				}
+			}
+		}
+		
+		for (String className : duplicatedClasses) {
+			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
 		}
 	}
 
