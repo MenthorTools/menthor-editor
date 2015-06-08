@@ -7,6 +7,7 @@ public class XMI2RefPrimitiveType extends XMI2RefDatatype
 {	
 	public XMI2RefPrimitiveType (Object XMIElement, XMIParser mapper) throws Exception
 	{
+		super(XMIElement, mapper);
 		this.XMIElement = XMIElement;
 		this.Mapper = mapper;
 		
@@ -41,6 +42,7 @@ public class XMI2RefPrimitiveType extends XMI2RefDatatype
 	
 	public XMI2RefPrimitiveType (PrimitiveType primType)
 	{
+		super();
 		this.RefOntoUMLElement = primType;
 	}
 	

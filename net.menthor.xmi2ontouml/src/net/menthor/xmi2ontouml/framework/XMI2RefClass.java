@@ -12,11 +12,11 @@ public class XMI2RefClass extends XMI2RefClassifier
 	{
 		super(XMIElement, mapper);
 		
-		this.RefOntoUMLElement = solveStereotype(mapper.getStereotype(XMIElement));
+		this.RefOntoUMLElement = solveStereotype(mapper.getStereotype(XMIElement), mapper.getNature(XMIElement));
 		deal();
 	}
 	
-	private Class solveStereotype(String stereotype) throws Exception
+	private Class solveStereotype(String stereotype, String nature) throws Exception
 	{		
 		if (stereotype.equalsIgnoreCase("kind"))
     		return factory.createKind();
@@ -28,6 +28,8 @@ public class XMI2RefClass extends XMI2RefClassifier
     		return factory.createRole();
 		
     	else if (stereotype.equalsIgnoreCase("phase"))
+    		return factory.createPhase();
+    	else if (stereotype.equalsIgnoreCase("phasemixin"))
     		return factory.createPhase();
 		
     	else if (stereotype.equalsIgnoreCase("category"))
@@ -50,6 +52,14 @@ public class XMI2RefClass extends XMI2RefClassifier
 		
     	else if (stereotype.equalsIgnoreCase("rolemixin"))
     		return factory.createRoleMixin();
+		
+    	else if (stereotype.equalsIgnoreCase("quality"))
+    	{
+    		if(nature.equalsIgnoreCase("nominal")) return factory.createNominalQuality();
+        	else if(nature.equalsIgnoreCase("nonperceivable")) return factory.createNonPerceivableQuality();
+        	else return factory.createPerceivableQuality();
+        	
+    	}	
 		
     	else if (unknownStereotypeOpt == 0)
     		return factory.createClass();
