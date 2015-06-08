@@ -24,6 +24,8 @@ public class OWLTransformationOptions extends TransformationOptions {
 	boolean transitiveAxiom = true;
 	boolean functionalAxiom = true;
 	boolean inverseFunctionalAxiom = true;
+	boolean rulesAxiom = true;
+	boolean cardinalityAxiom = true;
 	
 	public MappingType getMappingType() {
 		return mappingType;
@@ -120,5 +122,11 @@ public class OWLTransformationOptions extends TransformationOptions {
 	}
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+	public void setCardinalityAxiom(boolean cardinality) {
+		this.cardinalityAxiom = cardinality;		
+	}
+	public void setRuleAxiom(boolean rules) {
+		this.rulesAxiom = rules;		
 	}	
 }

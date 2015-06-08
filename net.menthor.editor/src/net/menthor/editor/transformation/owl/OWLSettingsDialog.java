@@ -103,7 +103,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		
 		addNonClosable(tabbedPane,"Config", generateOWLPanel);
 		addNonClosable(tabbedPane,"Filter", filterPane);
-		addNonClosable(tabbedPane,"Axioms", axiomsPane);
+		addNonClosable(tabbedPane,"OWL Axioms", axiomsPane);
 		addNonClosable(tabbedPane,"Primitive Types", primitivePane);
 		addNonClosable(tabbedPane,"Qualities", qualityPane);
 		
@@ -189,12 +189,15 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
  		owlOptions.setInverseAxiom(axiomsPane.isInverse());
  		
  		owlOptions.setReflexiveAxiom(axiomsPane.isReflexivity());
- 		//owlOptions.setIrreflexiveAxiom(axiomsPane.is);
+ 		owlOptions.setIrreflexiveAxiom(axiomsPane.isIrreflexive());
  		owlOptions.setSymmetricAxiom(axiomsPane.isSymmetry());
- 		//owlOptions.setAsymmetricreflexiveAxiom(axiomsPane.is);
+ 		owlOptions.setAsymmetricreflexiveAxiom(axiomsPane.isAsymmetric());
  		owlOptions.setTransitiveAxiom(axiomsPane.isTransitivity());
- 		//owlOptions.setFunctionalAxiom(axiomsPane.is);
- 		//owlOptions.setInverseFunctionalAxiom(axiomsPane.is);
+ 		owlOptions.setFunctionalAxiom(axiomsPane.isFunctional());
+ 		owlOptions.setInverseFunctionalAxiom(axiomsPane.isInverseFunctional());
+ 		
+ 		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
+ 		owlOptions.setRuleAxiom(axiomsPane.isRules());
  	}
  	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
