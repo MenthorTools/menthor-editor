@@ -44,6 +44,7 @@ import RefOntoUML.MomentClass;
 import RefOntoUML.NamedElement;
 import RefOntoUML.NominalQuality;
 import RefOntoUML.NonPerceivableQuality;
+import RefOntoUML.ObjectClass;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.PerceivableQuality;
@@ -1437,12 +1438,37 @@ public class OntoUMLParser {
 	
 	/** 
 	 * Check if a particular element is a datatype i.e.
-	 * i) if it is a relator element, or, ii) if it is a subkind or anti-rigid sortal with exactly one identity provider of the type relator, or,
-	 * iii) if it is a mixin class in which all their children are relators.
 	 */
 	public boolean isDatatype(Classifier c)
 	{
 		if(c instanceof DataType) return true;		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a kind i.e.
+	 */
+	public boolean isKind(Classifier c)
+	{
+		if(c instanceof Kind) return true;		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a kind i.e.
+	 */
+	public boolean isMoment(Classifier c)
+	{
+		if(c instanceof MomentClass) return true;		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a kind i.e.
+	 */
+	public boolean isObject(Classifier c)
+	{
+		if(c instanceof ObjectClass) return true;		
 		return false;
 	}
 	

@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import net.menthor.common.transformation.OWLTransformationOptions;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
@@ -1334,7 +1332,15 @@ public class Transformer {
 	 * stereotype DataType) and DataType structured (DataType that has other DataTypes).
 	 * */
 	private void processDataType() {
+		ArrayList<String> existentClasses = new ArrayList<String>();
+		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
+			if(existentClasses.contains(ontCls.getName())){
+				duplicatedClasses.add(ontCls.getName());
+			}else{
+				existentClasses.add(ontCls.getName());
+			}
+			
 			//has some attribute
 			if(!ontCls.getAttribute().isEmpty()){
 				for(Property prop:ontCls.getAttribute()){
@@ -1351,17 +1357,28 @@ public class Transformer {
 				}
 			}
 		}
-
+		for (String className : duplicatedClasses) {
+			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
+		}
+		
+		existentClasses = new ArrayList<String>();
+		duplicatedClasses = new ArrayList<String>();
 		_RefOntoOwnerClass = null;
 		for(RefOntoUML.DataType dtcls: lstDataType){
+			if(existentClasses.contains(dtcls.getName())){
+				duplicatedClasses.add(dtcls.getName());
+			}else{
+				existentClasses.add(dtcls.getName());
+			}
+			
 			if(dtcls.getAttribute().isEmpty()){
 				//pegar todos os Structuration, setar todos como Owner
 				//lstStructuration = ontoParser.getAllInstances(Characterization.class);
 				ArrayList<Association> assocs = ontoParser.getDirectAssociations(dtcls);
 				for (Association ass : assocs) {
 					EList<Property> mEnds = ass.getMemberEnd();
-					Type m0 = mEnds.get(0).getType();
-					Type m1 = mEnds.get(1).getType();
+//					Type m0 = mEnds.get(0).getType();
+//					Type m1 = mEnds.get(1).getType();
 					_OWLownerClass = null;
 					if(mEnds.get(0).getType().equals(dtcls)){
 						_RefOntoOwnerClass = (Classifier) mEnds.get(1).getType();
@@ -1394,6 +1411,10 @@ public class Transformer {
 				}
 			}
 		}
+		for (String className : duplicatedClasses) {
+			errors += "Warning: Duplicated names were founded for the Datatype: " + className + "\n";
+		}
+		
 	}
 
 	/**
@@ -1660,13 +1681,13 @@ public class Transformer {
 			OWLClass owlCls = getOwlClass(ontCls);
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
 			manager.addAxiom(ontology, declarationAxiom);
-			Set<Classifier> parents = ontoParser.getParents(ontCls);
 			
-			if(parents.size() == 0){
+			Set<Classifier> parents = ontoParser.getParents(ontCls);
+			if(parents.size() == 0 ){
 				OWLClass owlSuperCls = null;
 				if(ontoParser.isCollective(ontCls)){
 					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
-				}else if(ontoParser.isFunctionalComplex(ontCls)){
+				}else if(ontoParser.isKind(ontCls)){
 					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "FunctionalComplex");
 				}else if(ontoParser.isQuantity(ontCls)){
 					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quantity");
@@ -1676,9 +1697,7 @@ public class Transformer {
 					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quality");
 				}else if(ontoParser.isRelator(ontCls)){
 					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
-				}else if(ontoParser.isRelator(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
-				}else if(!ontoParser.isDatatype(ontCls)){
+				}else if(!ontoParser.isMoment(ontCls) && !ontoParser.isObject(ontCls)){
 					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Event");
 				}
 				
