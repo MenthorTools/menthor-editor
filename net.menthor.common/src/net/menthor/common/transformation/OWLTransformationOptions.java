@@ -20,7 +20,7 @@ public class OWLTransformationOptions extends TransformationOptions {
 	boolean reflexiveAxiom = true;
 	boolean irreflexiveAxiom = true;
 	boolean symmetricAxiom = true;
-	boolean asymmetricreflexiveAxiom = true;
+	boolean asymmetricAxiom = true;
 	boolean transitiveAxiom = true;
 	boolean functionalAxiom = true;
 	boolean inverseFunctionalAxiom = true;
@@ -85,11 +85,11 @@ public class OWLTransformationOptions extends TransformationOptions {
 	public void setSymmetricAxiom(boolean symmetricAxiom) {
 		this.symmetricAxiom = symmetricAxiom;
 	}
-	public boolean isAsymmetricreflexiveAxiom() {
-		return asymmetricreflexiveAxiom;
+	public boolean isAsymmetricAxiom() {
+		return asymmetricAxiom;
 	}
-	public void setAsymmetricreflexiveAxiom(boolean asymmetricreflexiveAxiom) {
-		this.asymmetricreflexiveAxiom = asymmetricreflexiveAxiom;
+	public void setAsymmetricAxiom(boolean asymmetricreflexiveAxiom) {
+		this.asymmetricAxiom = asymmetricreflexiveAxiom;
 	}
 	public boolean isTransitiveAxiom() {
 		return transitiveAxiom;

@@ -36,6 +36,8 @@ import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
@@ -49,8 +51,11 @@ import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLAtom;
 import org.semanticweb.owlapi.model.SWRLObjectPropertyAtom;
 import org.semanticweb.owlapi.model.SWRLRule;
@@ -335,6 +340,8 @@ public class Transformer {
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
 		
+		removeAssociationProperties();
+		
 		try {	
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			manager.saveOntology(ontology, os);
@@ -347,6 +354,33 @@ public class Transformer {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	private void removeAssociationProperties() {
+		Set<OWLAxiom> axioms = ontology.getAxioms();
+		for (OWLAxiom owlAxiom : axioms) {
+			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlOptions.isFunctionalAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlOptions.isInverseFunctionalAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlOptions.isTransitiveAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlOptions.isSymmetricAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlOptions.isAsymmetricAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlOptions.isReflexiveAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlOptions.isIrreflexiveAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}
+		}
+//		
+	}
+
+	private void validateDisjointness(){
+		Set<OWLClass> owlClasses = ontology.getClassesInSignature(false);
+		
 	}
 
 	private void createBasicStructure() throws OWLOntologyCreationException {
@@ -401,7 +435,7 @@ public class Transformer {
 			lst.addAll(lstSubCollectionOf);
 			processMeronymic(lst, "subCollectionOf");
 		}
-		if(lstSubCollectionOf.size() > 1){
+		if(lstSubCollectionOf.size() > 1 && owlOptions.isSwrlRulesAxiom()){
 			//For transitivity
 			createSWRLforTrasitivity("subCollectionOf");
 		}
@@ -414,7 +448,7 @@ public class Transformer {
 			lst.addAll(lstSubQuantityOf);
 			processMeronymic(lst, "subQuantityOf");
 		}
-		if(lstSubQuantityOf.size() > 1){
+		if(lstSubQuantityOf.size() > 1 && owlOptions.isSwrlRulesAxiom()){
 			//For transitivity
 			createSWRLforTrasitivity("subQuantityOf");
 		}
@@ -427,7 +461,7 @@ public class Transformer {
 			lst.addAll(lstComponentOf);
 			processMeronymic(lst, "componentOf");
 		}
-		if(lstComponentOf.size() > 1){
+		if(lstComponentOf.size() > 1 && owlOptions.isSwrlRulesAxiom()){
 			//For transitivity
 			createSWRLforTrasitivity("componentOf");
 		}
@@ -440,7 +474,7 @@ public class Transformer {
 			lst.addAll(lstMemberOf);
 			processMeronymic(lst, "memberOf");
 		}
-		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1)){
+		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlOptions.isSwrlRulesAxiom()){
 			//if has a memberof association and a subcollectionof association
 			createSWRLforMemberOfWithSubCollectionOf();	
 		}
@@ -609,7 +643,7 @@ public class Transformer {
 								|| material.getMemberEnd().get(1).getType().equals(mediation.getMemberEnd().get(1).getType())){
 							mediation1 = mediation;
 						}
-						if(mediation0 != null && mediation1 != null){
+						if(mediation0 != null && mediation1 != null && owlOptions.isSwrlRulesAxiom()){
 							//Now we have the Material and Mediations of the member-ends of the Material
 							createSWRLforRelator(mediation0, mediation1, material, relator);
 							break;

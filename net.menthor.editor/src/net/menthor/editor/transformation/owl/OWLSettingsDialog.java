@@ -153,7 +153,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		owlOptions.setReflexiveAxiom(axiomsPane.isReflexivity());
 		owlOptions.setIrreflexiveAxiom(axiomsPane.isIrreflexive());
 		owlOptions.setSymmetricAxiom(axiomsPane.isSymmetry());
-		owlOptions.setAsymmetricreflexiveAxiom(axiomsPane.isAsymmetric());
+		owlOptions.setAsymmetricAxiom(axiomsPane.isAsymmetric());
 		owlOptions.setTransitiveAxiom(axiomsPane.isTransitivity());
 		owlOptions.setFunctionalAxiom(axiomsPane.isFunctional());
 		owlOptions.setInverseFunctionalAxiom(axiomsPane.isInverseFunctional());		
