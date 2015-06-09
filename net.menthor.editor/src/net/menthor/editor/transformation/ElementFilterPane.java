@@ -4,19 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -30,83 +33,43 @@ import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
 
-import javax.swing.UIManager;
-
 public class ElementFilterPane extends JPanel {
 	
 	private static final long serialVersionUID = 1603594735794477309L;
 	private JScrollPane scrollTreePane = new JScrollPane();
-	private ElementFilterTree filter;	
+	private ElementFilterTree filterTree;	
 	private JPanel treeWrapper = new JPanel();	
 	private JPanel optPane = new JPanel();
 	private JCheckBox genSetCheck;
-	private JPanel relPane;
 	private JCheckBox attrCheck;
 	private JCheckBox relCheck;
 	private JCheckBox sourceCheck;
 	private JCheckBox targetCheck;
 	private JCheckBox quaCheck;
+	private JTextField findText;
+	private JPanel findPanel;
+	private JButton findButton;
+	
+	private String lastTextFound = new String();
+	private List<DefaultMutableTreeNode> lastFoundNodes = new ArrayList<DefaultMutableTreeNode>();
+	private int currentIndex = 0;
 	
 	public ElementFilterPane()
 	{
 		setLayout(new BorderLayout(0,0));				
-		setPreferredSize(new Dimension(529, 360));
+		setPreferredSize(new Dimension(529, 400));
+		optPane.setBorder(new EmptyBorder(4, 4, 4, 4));
 		
-		optPane.setPreferredSize(new Dimension(100, 100));
+		optPane.setPreferredSize(new Dimension(100, 135));
 		add(optPane, BorderLayout.NORTH);
 		
-		relPane = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) relPane.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		relPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Associations", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
-		JPanel panel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel.setBorder(new TitledBorder(null, "Select/Unselect all:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-		GroupLayout gl_optPane = new GroupLayout(optPane);
-		gl_optPane.setHorizontalGroup(
-			gl_optPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_optPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(relPane, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(101, Short.MAX_VALUE))
-		);
-		gl_optPane.setVerticalGroup(
-			gl_optPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_optPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_optPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-						.addComponent(relPane, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(39, Short.MAX_VALUE))
-		);
-		optPane.setLayout(gl_optPane);
-		
-		sourceCheck = new JCheckBox("Source End");
-		sourceCheck.setSelected(true);
-		sourceCheck.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectAllSources(e);
-			}
-		});	
-		relPane.add(sourceCheck);
-		
-		targetCheck = new JCheckBox("Target End");
-		targetCheck.setSelected(true);
-		targetCheck.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectAllTargets(e);
-			}
-		});	
-		relPane.add(targetCheck);
+		JPanel selectionPanel = new JPanel();
+		FlowLayout fl_selectionPanel = (FlowLayout) selectionPanel.getLayout();
+		fl_selectionPanel.setAlignment(FlowLayout.LEFT);
+		selectionPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Select/Unselect All", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		genSetCheck = new JCheckBox("Generalization sets");
+		genSetCheck.setPreferredSize(new Dimension(155, 23));
 		genSetCheck.setSelected(true);
 		genSetCheck.addActionListener(new ActionListener() {			
 			@Override
@@ -114,9 +77,10 @@ public class ElementFilterPane extends JPanel {
 				selectAllGeneralizationSets(e);
 			}
 		});		
-		panel.add(genSetCheck);
+		selectionPanel.add(genSetCheck);
 		
 		attrCheck = new JCheckBox("Attributes");		
+		attrCheck.setPreferredSize(new Dimension(140, 23));
 		attrCheck.setSelected(true);
 		attrCheck.addActionListener(new ActionListener() {			
 			@Override
@@ -124,19 +88,10 @@ public class ElementFilterPane extends JPanel {
 				selectAllAttributes(e);
 			}
 		});
-		panel.add(attrCheck);
+		selectionPanel.add(attrCheck);
 		
-		relCheck = new JCheckBox("Associations");
-		relCheck.setSelected(true);
-		relCheck.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectAllAssociations(e);
-			}
-		});
-		panel.add(relCheck);
-		
-		quaCheck = new JCheckBox("Qualities, Structures and Regions");
+		quaCheck = new JCheckBox("Qualities & Structures");
+		quaCheck.setPreferredSize(new Dimension(140, 23));
 		quaCheck.setSelected(true);
 		quaCheck.addActionListener(new ActionListener() {			
 			@Override
@@ -144,8 +99,70 @@ public class ElementFilterPane extends JPanel {
 				selectAllQualities(e);
 			}
 		});
-		panel.add(quaCheck);		
+		selectionPanel.add(quaCheck);		
+				
+		relCheck = new JCheckBox("Associations (with all ends)");
+		relCheck.setSelected(true);
+		relCheck.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectAllAssociations(e);
+			}
+		});
+		selectionPanel.add(relCheck);
 		
+		targetCheck = new JCheckBox("Association Target Ends");		
+		targetCheck.setSelected(true);
+		targetCheck.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectAllTargets(e);
+			}
+		});
+		optPane.setLayout(new BorderLayout(0, 0));
+		selectionPanel.add(targetCheck);
+		
+		sourceCheck = new JCheckBox("Association Source Ends");		
+		sourceCheck.setSelected(true);
+		sourceCheck.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectAllSources(e);
+			}
+		});
+		selectionPanel.add(sourceCheck);
+		
+		optPane.add(selectionPanel);
+		
+		findPanel = new JPanel();
+		findPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Find Term", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));		
+		findPanel.setLayout(new BorderLayout(0, 0));
+		optPane.add(findPanel, BorderLayout.SOUTH);
+		
+		findText = new JTextField();
+		findPanel.add(findText);
+		findText.setMargin(new Insets(2, 6, 2, 2));
+		findText.setPreferredSize(new Dimension(6, 28));
+		findText.setColumns(10);
+		findText.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				find();
+			}
+		});
+		
+		findButton = new JButton("");
+		findButton.setPreferredSize(new Dimension(30, 28));
+		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/resources/icons/x16/find.png")));
+		findButton.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				find();
+			}
+		});
+		
+		findPanel.add(findButton, BorderLayout.EAST);
+				
 		treeWrapper.setBackground(Color.WHITE);
 		treeWrapper.setBorder(new EmptyBorder(0,0, 0, 0));
 		treeWrapper.setPreferredSize(new Dimension(200,250));
@@ -156,6 +173,20 @@ public class ElementFilterPane extends JPanel {
 		add(scrollTreePane,BorderLayout.CENTER);		
 	}
 	
+	protected void find() 
+	{
+		filterTree.resetSelection();
+		if(findText.getText().equals(lastTextFound)) {						
+			if(currentIndex < lastFoundNodes.size()) { filterTree.select(lastFoundNodes.get(currentIndex)); currentIndex++; } 
+			else { currentIndex=0; filterTree.select(lastFoundNodes.get(currentIndex)); }			
+		}else{			
+			lastTextFound = findText.getText();
+			currentIndex=0; 
+			lastFoundNodes = filterTree.findName(lastTextFound);
+			filterTree.select(lastFoundNodes.get(currentIndex));
+		}
+	}
+		
 	public void selectAllQualities(ActionEvent e)
 	{
 		List<EObject> result = new ArrayList<EObject>();
@@ -179,10 +210,10 @@ public class ElementFilterPane extends JPanel {
 			result.addAll(getParser().getDirectRelationships(q));			
 		}
 		if(quaCheck.isSelected()){			
-			filter.check(result);
+			filterTree.check(result);
 		}
 		if(!quaCheck.isSelected()){
-			filter.uncheck(result);
+			filterTree.uncheck(result);
 		}
 	}
 		
@@ -193,10 +224,10 @@ public class ElementFilterPane extends JPanel {
 			targets.add(a.getMemberEnd().get(1));
 		}
 		if(targetCheck.isSelected()){			
-			filter.check(targets);
+			filterTree.check(targets);
 		}
 		if(!targetCheck.isSelected()){
-			filter.uncheck(targets);
+			filterTree.uncheck(targets);
 		}
 	}
 		
@@ -207,10 +238,10 @@ public class ElementFilterPane extends JPanel {
 			sources.add(a.getMemberEnd().get(0));
 		}
 		if(sourceCheck.isSelected()){			
-			filter.check(sources);
+			filterTree.check(sources);
 		}
 		if(!sourceCheck.isSelected()){
-			filter.uncheck(sources);
+			filterTree.uncheck(sources);
 		}
 	}
 	
@@ -219,10 +250,10 @@ public class ElementFilterPane extends JPanel {
 		List<EObject> associations = new ArrayList<EObject>();
 		associations.addAll(getParser().getAllInstances(RefOntoUML.Association.class));		
 		if(relCheck.isSelected()){			
-			filter.check(associations);
+			filterTree.check(associations);
 		}
 		if(!relCheck.isSelected()){
-			filter.uncheck(associations);
+			filterTree.uncheck(associations);
 		}
 	}
 	
@@ -235,10 +266,10 @@ public class ElementFilterPane extends JPanel {
 			}
 		}
 		if(attrCheck.isSelected()){			
-			filter.check(attributes);
+			filterTree.check(attributes);
 		}
 		if(!attrCheck.isSelected()){
-			filter.uncheck(attributes);
+			filterTree.uncheck(attributes);
 		}
 	}
 
@@ -254,16 +285,16 @@ public class ElementFilterPane extends JPanel {
 					genSets.add(g);				
 				}
 			}			
-			filter.check(genSets);
+			filterTree.check(genSets);
 		}
 		if(!genSetCheck.isSelected()){
-			filter.uncheck(genSets);
+			filterTree.uncheck(genSets);
 		}
 	}
 	
 	public void refresh()
 	{				
-		filter.updateUI();				
+		filterTree.updateUI();				
 		validate();
 		repaint();		
 	}
@@ -278,7 +309,7 @@ public class ElementFilterPane extends JPanel {
 		updateUI();
 	}
 	
-	public OntoUMLParser getParser() { return filter.refparser; }
+	public OntoUMLParser getParser() { return filterTree.refparser; }
 	
 	public OntoUMLParser getFilteredParser()
 	{					
@@ -286,18 +317,18 @@ public class ElementFilterPane extends JPanel {
 		return getParser();	
 	}
 	
-	public ElementFilterTree getFilter() { return filter; }
+	public ElementFilterTree getFilter() { return filterTree; }
 	
 	public void fillContent(OntoUMLParser refparser)
 	{
-		filter = ElementFilterTree.createFilter(refparser);
-		filter.setBorder(new EmptyBorder(2,2,2,2));				
-		scrollTreePane.setViewportView(filter);				
+		filterTree = ElementFilterTree.createFilter(refparser);
+		filterTree.setBorder(new EmptyBorder(2,2,2,2));				
+		scrollTreePane.setViewportView(filterTree);				
 		updateUI();		
 	}	
 	
 	public List<EObject> getChecked()
 	{
-		return filter.getCheckedElements();
+		return filterTree.getCheckedElements();
 	}
 }

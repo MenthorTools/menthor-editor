@@ -102,6 +102,11 @@ public class ElementFilterTree extends CheckboxTree {
         treeModel.reload();
     }    
     
+    public void resetSelection()
+    {
+    	
+    }
+    
     /** Get the selected node from the tree */
     public DefaultMutableTreeNode getSelectedNode()
     {
@@ -585,7 +590,7 @@ public class ElementFilterTree extends CheckboxTree {
 		
 	/** Find Node */
 	@SuppressWarnings("rawtypes")
-	public ArrayList<DefaultMutableTreeNode> findNode(String elementName)
+	public ArrayList<DefaultMutableTreeNode> findName(String elementName)
 	{		
 		ArrayList<DefaultMutableTreeNode> list = new ArrayList<DefaultMutableTreeNode>();
 		Enumeration e = modelRootNode.breadthFirstEnumeration();

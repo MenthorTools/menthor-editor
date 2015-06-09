@@ -199,7 +199,7 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 		filePathField.setEditable(false);
 		browseBtn = new JButton("...");
 		browseBtn.addActionListener(this);		
-		btnRun = new JButton("Parse File");				
+		btnRun = new JButton("Parse");				
 		btnUseDefaultOptions = new JButton("Reset Configuration");
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
@@ -397,26 +397,17 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 //						}
 //					}
 					
-					int opt = JOptionPane.showConfirmDialog(this, "Parsing completed. Do you want to filter the model now?", "EA Parser", JOptionPane.INFORMATION_MESSAGE);
-					if (opt == 0)
-					{
-						trees = transfManager.generateModelTrees(model, this);
-						
-						treeScrollPane.setViewportView(trees[0]);
-						treeScrollPane.validate();
-						treeScrollPane.repaint();
-						rdbtnFilterModelBy.setEnabled(true);
-						rdbtnFilterModelBy_1.setEnabled(true);
-						rdbtnFilterModelBy.setSelected(true);
-//						btnFilterModelAnd.setEnabled(true);
-						
-						
-						mainTabbedPane.setSelectedIndex(1);
-					}
-					else if (opt == 1)
-					{
-						finalize(model);
-					}
+					trees = transfManager.generateModelTrees(model, this);
+					 
+					treeScrollPane.setViewportView(trees[0]);
+					treeScrollPane.validate();
+					treeScrollPane.repaint();
+					rdbtnFilterModelBy.setEnabled(true);
+					rdbtnFilterModelBy_1.setEnabled(true);
+					rdbtnFilterModelBy.setSelected(true);
+//					btnFilterModelAnd.setEnabled(true);
+										
+					mainTabbedPane.setSelectedIndex(1);
 				}
 				catch (Exception ex)
 				{

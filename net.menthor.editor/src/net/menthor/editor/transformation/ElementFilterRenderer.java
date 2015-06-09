@@ -105,9 +105,7 @@ public class ElementFilterRenderer extends DefaultTreeCellRenderer implements Ch
 		
 		uniqueName.setForeground(Color.gray);
 
-		if (selected){    			
-			//label.setBackground(PaletteAccordion.getSelectedPaletteBackground());			
-			//label.setBorder(PaletteAccordion.getSelectedPaletteBorder());
+		if (selected){
 			label.setBackground(UIManager.getColor("List.selectionBackground"));			    			
 			label.setForeground(UIManager.getColor("List.selectionForeground"));
 			

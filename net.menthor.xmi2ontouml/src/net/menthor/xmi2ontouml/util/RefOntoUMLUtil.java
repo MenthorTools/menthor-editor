@@ -4,9 +4,9 @@ import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -55,6 +55,9 @@ public class RefOntoUMLUtil {
 	public static CheckboxTree createSelectionTreeFromModel(RefOntoUML.Model model) {
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new ChckBoxTreeNodeElem(model));
 		CheckboxTree modelTree = new CheckboxTree(rootNode);
+		modelTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);
+		modelTree.expandAll();
+		modelTree.addCheckingPath(new TreePath(rootNode));		
 		modelTree.setCellRenderer(new OntoUMLTreeCellRenderer());
 		
 		drawTree(rootNode, model);
@@ -103,6 +106,9 @@ public class RefOntoUMLUtil {
 	public static CheckboxTree createSelectionTreeByDiagram(XMIParser mapper, Model model) throws Exception {
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new ChckBoxTreeNodeElem(model));
 		CheckboxTree modelTree = new CheckboxTree(rootNode);
+		modelTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);
+		modelTree.expandAll();
+		modelTree.addCheckingPath(new TreePath(rootNode));
 		modelTree.setCellRenderer(new OntoUMLTreeCellRenderer());
 		
 //		for (PackageableElement pel : model.getPackagedElement()) {
@@ -256,9 +262,9 @@ public class RefOntoUMLUtil {
     	public OntoUMLTreeCellRenderer() {
     		label.setFocusable(true);
     		label.setOpaque(true);
-    		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    		panel.add(button);
-    		panel.add(label);
+    		panel.setLayout(new BorderLayout(0, 0));    		
+    		panel.add(BorderLayout.WEST,button);
+    		panel.add(BorderLayout.CENTER,label);
     		button.setBackground(UIManager.getColor("Tree.textBackground"));
     		panel.setBackground(UIManager.getColor("Tree.textBackground"));
     	}

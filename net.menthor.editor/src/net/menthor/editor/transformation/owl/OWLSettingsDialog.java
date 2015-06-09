@@ -97,8 +97,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 				}
 			}
 		});
-		getRootPane().setDefaultButton(configPane.getOkButton());
-		
+				
 		configPane.getCancelButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				dispose();
