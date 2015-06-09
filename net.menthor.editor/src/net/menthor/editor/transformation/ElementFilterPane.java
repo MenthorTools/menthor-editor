@@ -21,12 +21,15 @@ import javax.swing.border.TitledBorder;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Quality;
 import RefOntoUML.ReferenceRegion;
 import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
+
 import javax.swing.UIManager;
 
 public class ElementFilterPane extends JPanel {
@@ -244,6 +247,13 @@ public class ElementFilterPane extends JPanel {
 		List<EObject> genSets = new ArrayList<EObject>();
 		genSets.addAll(getParser().getAllInstances(RefOntoUML.GeneralizationSet.class));
 		if(genSetCheck.isSelected()){			
+			for(EObject gs: getParser().getAllInstances(RefOntoUML.GeneralizationSet.class)){
+				for(Generalization g: ((GeneralizationSet)gs).getGeneralization()){
+					genSets.add(g.getGeneral());
+					genSets.add(g.getSpecific());
+					genSets.add(g);				
+				}
+			}			
 			filter.check(genSets);
 		}
 		if(!genSetCheck.isSelected()){
@@ -272,8 +282,7 @@ public class ElementFilterPane extends JPanel {
 	
 	public OntoUMLParser getFilteredParser()
 	{					
-		getParser().select(getChecked(),true);
-		getParser().autoSelectDependencies(OntoUMLParser.NO_HIERARCHY, false);
+		getParser().select(getChecked(),true);		
 		return getParser();	
 	}
 	

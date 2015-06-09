@@ -91,6 +91,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 				if(validadeSettings())
 				{
 					saveSettings();
+					System.out.println(filterPane.getFilteredParser());
 					manager.generateOwl(filterPane.getFilteredParser(),owlOptions);
 		 			dispose();
 				}

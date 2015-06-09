@@ -211,12 +211,13 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when processing Datatypes;\n");
 		}
 
-		try{
+//		try{
 			processGeneralizations();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Generalizations;\n");
-		}
+//		}catch (Exception e){
+//			e.printStackTrace();
+//			errors = "";
+//			throw new Exception(ef);
+//		}
 
 		try{
 			processCharacterization();
