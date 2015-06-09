@@ -273,6 +273,7 @@ public class ElementFilterPane extends JPanel {
 	public OntoUMLParser getFilteredParser()
 	{					
 		getParser().select(getChecked(),true);
+		getParser().autoSelectDependencies(OntoUMLParser.NO_HIERARCHY, false);
 		return getParser();	
 	}
 	

@@ -101,7 +101,8 @@ public class StartPage extends JPanel implements Editor {
 	}
 	
 	public String getSelectedRecentFile(){
-		return (String) recentList.getSelectedValue();
+		String result = (String)recentList.getSelectedValue();
+		return result;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})

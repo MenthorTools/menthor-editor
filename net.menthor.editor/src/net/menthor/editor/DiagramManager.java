@@ -1062,25 +1062,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			setProjectFile(file);
 			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 			currentProject = (UmlProject) listFiles.get(0);				
-//				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
-//				{
-//					//@deprecated
-//					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";					
-//					String oldversion = new String();
-//					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
-//					else oldversion = currentProject.getVersion();
-//					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");		
-//					if(response == JOptionPane.OK_OPTION) {						
-//						openListFiles(listFiles);						
-//						remakeAllAssociationElements();						
-//					}else{
-//						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-//						return;
-//					}
-//				}else{
-				openListFiles(listFiles);					
-//				}
-		
+			openListFiles(listFiles);		
 		} catch (Exception ex) {
 			Main.printOutLine("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
@@ -1267,7 +1249,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 
-	/** Import a model from a XMI file (from Entreprise Architect). 
+	/** Import a model from a XMI file (from Enterprise Architect). 
 	 * @throws IOException */
 	public void importXMI() throws IOException
 	{		
@@ -1289,11 +1271,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 	}
 	
-	public void importXMI(String xmiPath) throws IOException
+	public void importXMIFromRecent() throws IOException
 	{		
-		lastImportEAPath = xmiPath;
+		lastImportEAPath = getStartPage().getSelectedRecentFile();
 		new ImportXMIDialog(frame, true, this, lastImportEAPath);
-		ConfigurationHelper.addRecentProject(xmiPath);				
+		ConfigurationHelper.addRecentProject(lastImportEAPath);				
 	}
 	
 	/** Export the current model as an Ecore instance file (Reference model)*/
@@ -2977,15 +2959,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Generates OWL from the selected model */
-	public void generateOwl(OWLTransformationOptions owlOptions) 
+	public void generateOwl(OntoUMLParser filteredParser, OWLTransformationOptions owlOptions) 
 	{
 		UmlProject project = getCurrentProject();
 		String owlType = ProjectSettings.OWL_MAPPING_TYPE.getValue(project);
 		MappingType mappingType = null;
 		if(!owlType.equals("SIMPLE")) mappingType = MappingType.valueOf(owlType);
 		String oclRules = new String();
-		oclRules = getWorkingConstraints();				
-		RefOntoUML.Package model = frame.getBrowserManager().getProjectBrowser().getParser().createModelFromSelections(new Copier());
+		oclRules = getWorkingConstraints();		
+		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
 		OperationResult result = OWLHelper.generateOwl(model, 
 			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),
 			mappingType,

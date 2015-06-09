@@ -333,7 +333,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			selectorMap.put("IMPORT_XMI",
 					new MethodCall(DiagramManager.class.getMethod("importXMI")));
 			selectorMap.put("IMPORT_XMI_FROM_FILE",
-					new MethodCall(DiagramManager.class.getMethod("importXMI",String.class),getDiagramManager().getStartPage().getSelectedRecentFile()));
+					new MethodCall(DiagramManager.class.getMethod("importXMIFromRecent")));
 			selectorMap.put("EXPORT_PATTERN",
 					new MethodCall(DiagramManager.class.getMethod("exportPattern")));
 			selectorMap.put("EXPORT_OCL",

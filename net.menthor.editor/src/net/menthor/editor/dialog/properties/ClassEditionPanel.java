@@ -95,7 +95,12 @@ public class ClassEditionPanel extends JPanel {
 		lblStereo = new JLabel("Classifier:");
 		
 		stereoCombo = new JComboBox();
-		stereoCombo.setModel(new DefaultComboBoxModel(new String[] {"Kind", "SubKind", "Collective", "Quantity", "Role", "Phase", "Category", "Mixin", "RoleMixin", "Relator", "Mode", "DataType", "Enumeration", "PrimitiveType", "PerceivableQuality", "NonPerceivableQuality", "NominalQuality"}));
+		stereoCombo.setModel(new DefaultComboBoxModel(new String[] {
+			"Category", "Collective", "DataType", "Domain", "DecimalIntervalDimension", "DecimalOrdinalDimension", "DecimalRationalDimension", 
+			"Enumeration", "IntegerIntervalDimension", "IntegerOrdinalDimension", "IntegerRationalDimension",						
+			"Kind", "Mode", "Mixin", "NominalQuality", "NonPerceivableQuality", "PerceivableQuality", 
+			"Phase", "PrimitiveType", "Quantity", "Relator", "Role", "RoleMixin", "SubKind", "StringNominalStructure"
+		}));
 		
 		GroupLayout gl_classPropPanel = new GroupLayout(classPropPanel);
 		gl_classPropPanel.setHorizontalGroup(

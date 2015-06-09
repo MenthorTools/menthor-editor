@@ -25,14 +25,14 @@ public class XMI2RefDatatype extends XMI2RefClassifier
 	private DataType solveStereotype(String stereotype, String basicType, String scale) throws Exception
 	{		
 		if (stereotype.equalsIgnoreCase("dimension")){
-			if(basicType.equalsIgnoreCase("integer") && basicType.equalsIgnoreCase("interval")) return factory.createIntegerIntervalDimension();
-			if(basicType.equalsIgnoreCase("decimal") && basicType.equalsIgnoreCase("interval")) return factory.createDecimalIntervalDimension();			
-			if(basicType.equalsIgnoreCase("integer") && basicType.equalsIgnoreCase("ordinal")) return factory.createIntegerOrdinalDimension();
-			if(basicType.equalsIgnoreCase("decimal") && basicType.equalsIgnoreCase("ordinal")) return factory.createDecimalOrdinalDimension();
-			if(basicType.equalsIgnoreCase("integer") && basicType.equalsIgnoreCase("rational")) return factory.createIntegerRationalDimension();
-			if(basicType.equalsIgnoreCase("decimal") && basicType.equalsIgnoreCase("rational")) return factory.createDecimalRationalDimension();
-			if(basicType.equalsIgnoreCase("string") && basicType.equalsIgnoreCase("nominal")) return factory.createStringNominalStructure();
-			return factory.createDataType();
+			if(basicType.equalsIgnoreCase("integer") && scale.equalsIgnoreCase("interval")) return factory.createIntegerIntervalDimension();
+			else if(basicType.equalsIgnoreCase("decimal") && scale.equalsIgnoreCase("interval")) return factory.createDecimalIntervalDimension();			
+			else if(basicType.equalsIgnoreCase("integer") && scale.equalsIgnoreCase("ordinal")) return factory.createIntegerOrdinalDimension();
+			else if(basicType.equalsIgnoreCase("decimal") && scale.equalsIgnoreCase("ordinal")) return factory.createDecimalOrdinalDimension();
+			else if(basicType.equalsIgnoreCase("integer") && scale.equalsIgnoreCase("rational")) return factory.createIntegerRationalDimension();
+			else if(basicType.equalsIgnoreCase("decimal") && scale.equalsIgnoreCase("rational")) return factory.createDecimalRationalDimension();
+			else if(basicType.equalsIgnoreCase("string") && scale.equalsIgnoreCase("nominal")) return factory.createStringNominalStructure();
+			else return factory.createDataType();
 		}  		
 		
 		else if (stereotype.equalsIgnoreCase("domain")){
@@ -67,7 +67,9 @@ public class XMI2RefDatatype extends XMI2RefClassifier
 				!((DataType)RefOntoUMLElement).getName().equalsIgnoreCase("Boolean") && 
 				!((DataType)RefOntoUMLElement).getName().equalsIgnoreCase("String") &&
 				!((DataType)RefOntoUMLElement).getName().equalsIgnoreCase("Unlimited Natural")))
-			super.deal();			
+		{
+			super.deal();
+		}
 	}
 
 	@Override

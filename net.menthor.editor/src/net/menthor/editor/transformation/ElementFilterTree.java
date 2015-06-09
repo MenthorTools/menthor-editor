@@ -677,13 +677,13 @@ public class ElementFilterTree extends CheckboxTree {
 	    while (e.hasMoreElements()) 
 	    {
 	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
-	    	if (alreadyUnchecked.contains(obj)) { uncheckNode(node,true); }	    			
+	    	if (alreadyUnchecked.contains(obj)) { uncheckNode(node,false); }	    			
 	    		    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element
 	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
-	    if (alreadyUnchecked.contains(obj)) { uncheckNode(node,true); }    	    	
+	    if (alreadyUnchecked.contains(obj)) { uncheckNode(node,false); }    	    	
 	}	
 	
 	/** Initialize Unchecked Nodes. */
