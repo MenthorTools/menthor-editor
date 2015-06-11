@@ -14,6 +14,7 @@ public class XMI2RefModel extends XMI2RefPackage
 	public static final PrimitiveType BOOLEAN_PRIMITIVE = createBooleanPrimitive();
 	public static final PrimitiveType STRING_PRIMITIVE = createStringPrimitive();
 	public static final PrimitiveType UNLIMITED_NATURAL_PRIMITIVE = createUnlimitedNaturalPrimitive();
+	public static final PrimitiveType REAL_NATURAL_PRIMITIVE = createRealPrimitive();
 	
 	protected static List<XMI2RefConstraint> constraints = new ArrayList<XMI2RefConstraint>();
 	protected static List<XMI2RefDiagram> diagrams = new ArrayList<XMI2RefDiagram>();
@@ -70,6 +71,13 @@ public class XMI2RefModel extends XMI2RefPackage
 	{
 		PrimitiveType integer = factory.createPrimitiveType();
 		integer.setName("Integer");
+		return integer;
+	}
+	
+	private static PrimitiveType createRealPrimitive()
+	{
+		PrimitiveType integer = factory.createPrimitiveType();
+		integer.setName("Real");
 		return integer;
 	}
 	

@@ -14,8 +14,7 @@ public class XMI2RefPrimitiveType extends XMI2RefDatatype
 		this.hashProp = Mapper.getProperties(XMIElement);
 		
 		String name = (String) hashProp.get("name");
-		if (name.equalsIgnoreCase("int") || name.equalsIgnoreCase("integer") ||
-				name.equalsIgnoreCase("double"))
+		if (name.equalsIgnoreCase("int") || name.equalsIgnoreCase("integer"))
 		{
 			this.RefOntoUMLElement = XMI2RefModel.INTEGER_PRIMITIVE;
     	}
@@ -28,10 +27,14 @@ public class XMI2RefPrimitiveType extends XMI2RefDatatype
 		{
 			this.RefOntoUMLElement = XMI2RefModel.STRING_PRIMITIVE;
     		
-    	} else if (name.equalsIgnoreCase("unlimited") || name.equalsIgnoreCase("float"))
+    	} else if (name.equalsIgnoreCase("unlimited"))
     	{
     		this.RefOntoUMLElement = XMI2RefModel.UNLIMITED_NATURAL_PRIMITIVE;
-    	}
+    		
+		} else if (name.equalsIgnoreCase("float") || name.equalsIgnoreCase("double"))
+		{
+			this.RefOntoUMLElement = XMI2RefModel.REAL_NATURAL_PRIMITIVE;
+		}
     	else
     	{
     		this.RefOntoUMLElement = factory.createPrimitiveType();
