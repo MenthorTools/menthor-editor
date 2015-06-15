@@ -75,8 +75,10 @@ import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
 import RefOntoUML.MixinClass;
 import RefOntoUML.MomentClass;
+import RefOntoUML.NominalQuality;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Phase;
+import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.SubstanceSortal;
@@ -153,7 +155,9 @@ public class Transformer {
 		}	
 		
 		ontoParser = new OntoUMLParser(model);
+		Set<NominalQuality> lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
+		lstOntClass.removeAll(lstNominalQualities);
 		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
 		lstGen = ontoParser.getAllInstances(Generalization.class);
 		lstMaterials = ontoParser.getAllInstances(MaterialAssociation.class);
@@ -167,7 +171,9 @@ public class Transformer {
 		lstSubQuantityOf = ontoParser.getAllInstances(subQuantityOf.class);
 		lstMemberOf = ontoParser.getAllInstances(memberOf.class);
 		hashAssociations = new HashMap<String,Set<OWLObjectProperty>>();
+		Set<PrimitiveType> lstPrimitiveTypes = ontoParser.getAllInstances(RefOntoUML.PrimitiveType.class);
 		lstDataType = ontoParser.getAllInstances(RefOntoUML.DataType.class);
+		lstDataType.removeAll(lstPrimitiveTypes);
 		hashDataProperty = new HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>>(); 
 		
 		lstAssociation = ontoParser.getAllInstances(RefOntoUML.Association.class);
@@ -1053,7 +1059,7 @@ public class Transformer {
 		}else if(upperCard == -1 && lowerCard == 1){
 			//1..*
 			OWLDatatype dataRange = factory.getOWLDatatype(OWL2Datatype.RDFS_LITERAL.getIRI());
-			OWLDataPropertyRangeAxiom rangeAxiom = factory.getOWLDataPropertyRangeAxiom(dataProperty, dataRange);
+			//OWLDataPropertyRangeAxiom rangeAxiom = factory.getOWLDataPropertyRangeAxiom(dataProperty, dataRange);
 			OWLDataSomeValuesFrom oecr = factory.getOWLDataSomeValuesFrom(dataProperty, dataRange);
 			ax = factory.getOWLEquivalentClassesAxiom(src, oecr);
 		}else if (upperCard != -1 && lowerCard == 0){
@@ -1395,8 +1401,8 @@ public class Transformer {
 			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
 		}
 		
-		existentClasses = new ArrayList<String>();
-		duplicatedClasses = new ArrayList<String>();
+		existentClasses.clear();;
+		duplicatedClasses.clear();;
 		_RefOntoOwnerClass = null;
 		for(RefOntoUML.DataType dtcls: lstDataType){
 			if(existentClasses.contains(dtcls.getName())){
@@ -1448,6 +1454,7 @@ public class Transformer {
 		for (String className : duplicatedClasses) {
 			errors += "Warning: Duplicated names were founded for the Datatype: " + className + "\n";
 		}
+		
 		
 	}
 
@@ -1595,6 +1602,8 @@ public class Transformer {
 		}
 		lowerCard *= prop.getLower();
 
+		if(!owlOptions.isCardinalityAxiom()) return;
+		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
 
@@ -1704,13 +1713,13 @@ public class Transformer {
 	 * It create a OWLClass for each RefOntoUML.Class
 	 * */
 	private void processClass() {
-		ArrayList<String> existentClasses = new ArrayList<String>();
-		ArrayList<String> duplicatedClasses = new ArrayList<String>();
+		ArrayList<RefOntoUML.Class> existentClasses = new ArrayList<RefOntoUML.Class>();
+		ArrayList<RefOntoUML.Class> duplicatedClasses = new ArrayList<RefOntoUML.Class>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
-			if(existentClasses.contains(ontCls.getName())){
-				duplicatedClasses.add(ontCls.getName());
+			if(existentClasses.contains(ontCls)){
+				duplicatedClasses.add(ontCls);
 			}else{
-				existentClasses.add(ontCls.getName());
+				existentClasses.add(ontCls);
 			}
 			OWLClass owlCls = getOwlClass(ontCls);
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
@@ -1742,8 +1751,8 @@ public class Transformer {
 			}
 		}
 		
-		for (String className : duplicatedClasses) {
-			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
+		for (RefOntoUML.Class className : duplicatedClasses) {
+			errors += "Warning: Duplicated names were founded for the class: " + className.getName() + "\n";
 		}
 	}
 
