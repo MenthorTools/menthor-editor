@@ -2,6 +2,8 @@ package net.menthor.editor.transformation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
@@ -10,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -53,6 +56,9 @@ public class ElementFilterPane extends JPanel {
 	private String lastTextFound = new String();
 	private List<DefaultMutableTreeNode> lastFoundNodes = new ArrayList<DefaultMutableTreeNode>();
 	private int currentIndex = 0;
+	private JPanel textPanel;
+	private Component horizontalStrut;
+	private JButton btnExpandAll;
 	
 	public ElementFilterPane()
 	{
@@ -60,7 +66,7 @@ public class ElementFilterPane extends JPanel {
 		setPreferredSize(new Dimension(529, 400));
 		optPane.setBorder(new EmptyBorder(4, 4, 4, 4));
 		
-		optPane.setPreferredSize(new Dimension(100, 135));
+		optPane.setPreferredSize(new Dimension(100, 125));
 		add(optPane, BorderLayout.NORTH);
 		
 		JPanel selectionPanel = new JPanel();
@@ -135,33 +141,54 @@ public class ElementFilterPane extends JPanel {
 		optPane.add(selectionPanel);
 		
 		findPanel = new JPanel();
-		findPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Find Term", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));		
-		findPanel.setLayout(new BorderLayout(0, 0));
 		optPane.add(findPanel, BorderLayout.SOUTH);
+		findPanel.setLayout(new BorderLayout(0, 0));
+		
+		textPanel = new JPanel();
+		findPanel.add(textPanel);
+		textPanel.setLayout(new BorderLayout(0, 0));
 		
 		findText = new JTextField();
-		findPanel.add(findText);
+		textPanel.add(findText);
 		findText.setMargin(new Insets(2, 6, 2, 2));
-		findText.setPreferredSize(new Dimension(6, 28));
 		findText.setColumns(10);
-		findText.addActionListener(new ActionListener() {			
+		
+		horizontalStrut = Box.createHorizontalStrut(37);
+		horizontalStrut.setPreferredSize(new Dimension(5, 0));
+		textPanel.add(horizontalStrut, BorderLayout.EAST);
+		
+		btnExpandAll = new JButton("Expand All");
+		btnExpandAll.addActionListener(new ActionListener() {			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				find();
+			public void actionPerformed(ActionEvent e) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				filterTree.expandAll();
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));				
 			}
 		});
+		textPanel.add(btnExpandAll, BorderLayout.WEST);
 		
 		findButton = new JButton("");
+		findButton.setContentAreaFilled(false);
+		findButton.setOpaque(false);
+		findButton.setFocusPainted(false);
+		findButton.setFocusable(false);
+		findButton.setBorderPainted(false);
+		findPanel.add(findButton, BorderLayout.EAST);
 		findButton.setPreferredSize(new Dimension(30, 28));
-		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/resources/icons/x16/find.png")));
+		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
 		findButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				find();
 			}
 		});
-		
-		findPanel.add(findButton, BorderLayout.EAST);
+		findText.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				find();
+			}
+		});
 				
 		treeWrapper.setBackground(Color.WHITE);
 		treeWrapper.setBorder(new EmptyBorder(0,0, 0, 0));
