@@ -31,6 +31,8 @@ public class OWLTransformationOptions extends TransformationOptions {
 	//cardinality
 	boolean cardinalityAxiom = true;
 	
+	boolean ufoStructure = false;
+	
 	public MappingType getMappingType() {
 		return mappingType;
 	}
@@ -138,6 +140,12 @@ public class OWLTransformationOptions extends TransformationOptions {
 	}
 	public boolean isCardinalityAxiom() {
 		return cardinalityAxiom;
+	}
+	public boolean isUfoStructure() {
+		return ufoStructure;
+	}
+	public void setUfoStructure(boolean ufoStructure) {
+		this.ufoStructure = ufoStructure;
 	}
 	
 }

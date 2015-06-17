@@ -77,7 +77,7 @@ public final class Main {
 	 * 		b: compilation with new features
 	 * 		c: compilation with bug fixes
 	 */	
-	public static String MENTHOR_VERSION = "1.0.2"; 
+	public static String MENTHOR_VERSION = "1.0.3"; 
 	
 	static DateFormat dateFormat = new SimpleDateFormat("dd yyyy");
 	static Date date = new Date();

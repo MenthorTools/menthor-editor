@@ -33,7 +33,8 @@ public class OWLAxiomFilterPane extends JPanel {
 	private JCheckBox assymetricCheck;
 	private JPanel panel_1;
 	private JCheckBox rulesCheck;
-
+	private JCheckBox ufoStructure;
+	
 	public OWLAxiomFilterPane()
 	{	
 		setPreferredSize(new Dimension(538, 290));
@@ -61,22 +62,32 @@ public class OWLAxiomFilterPane extends JPanel {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel_1.setBorder(new TitledBorder(null, "SWRL", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "Structure", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		ufoStructure = new JCheckBox("UFO Structure");
+		ufoStructure.setSelected(true);
+		panel_2.add(ufoStructure);
+		
 		GroupLayout gl_axiomsPane = new GroupLayout(this);
 		gl_axiomsPane.setHorizontalGroup(
 			gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_axiomsPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_axiomsPane.createSequentialGroup()
-							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_axiomsPane.createSequentialGroup()
+									.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(relCheckList, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(relCheckList, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(disjPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap())
+							.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(disjPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(14, Short.MAX_VALUE))
 		);
 		gl_axiomsPane.setVerticalGroup(
 			gl_axiomsPane.createParallelGroup(Alignment.LEADING)
@@ -90,7 +101,9 @@ public class OWLAxiomFilterPane extends JPanel {
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(137, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(77, Short.MAX_VALUE))
 		);
 		
 		rulesCheck = new JCheckBox("Rules");
@@ -167,4 +180,5 @@ public class OWLAxiomFilterPane extends JPanel {
 	public boolean isCardinality() { return cardinalityCheck.isSelected(); }
 	
 	public boolean isRules() { return rulesCheck.isSelected(); }
+	public boolean isUfoStructure() { return ufoStructure.isSelected(); }
 }

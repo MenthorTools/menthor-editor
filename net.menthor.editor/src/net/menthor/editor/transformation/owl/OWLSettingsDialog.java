@@ -164,5 +164,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		
 		//cardinality
 		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
+		
+		owlOptions.setUfoStructure(axiomsPane.isUfoStructure());
 	}
 }

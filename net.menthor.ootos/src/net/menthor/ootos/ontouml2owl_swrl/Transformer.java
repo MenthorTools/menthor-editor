@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLCardinalityRestriction;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -34,6 +35,7 @@ import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
@@ -203,7 +205,7 @@ public class Transformer {
 	 * @throws Exception 
 	 */
 	public String transform() throws Exception {
-		createBasicStructure();
+		if(owlOptions.isUfoStructure()) createBasicStructure();
 		
 		try{
 			processClass();
@@ -346,7 +348,7 @@ public class Transformer {
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
 		
-		removeAssociationProperties();
+		removeUndesiredAxioms();
 		
 		try {	
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -362,7 +364,7 @@ public class Transformer {
 		return "";
 	}
 	
-	private void removeAssociationProperties() {
+	private void removeUndesiredAxioms() {
 		Set<OWLAxiom> axioms = ontology.getAxioms();
 		for (OWLAxiom owlAxiom : axioms) {
 			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlOptions.isFunctionalAxiom()){
@@ -379,14 +381,17 @@ public class Transformer {
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlOptions.isIrreflexiveAxiom()){
 				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLDisjointClassesAxiom && !owlOptions.isDisjointClassAxioms()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLDisjointObjectPropertiesAxiom && !owlOptions.isDisjointAssociationAxioms()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof OWLCardinalityRestriction && !owlOptions.isCardinalityAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
+			}else if(owlAxiom instanceof SWRLRule && !owlOptions.isSwrlRulesAxiom()){
+				manager.removeAxiom(ontology, owlAxiom);
 			}
 		}
 //		
-	}
-
-	private void validateDisjointness(){
-		Set<OWLClass> owlClasses = ontology.getClassesInSignature(false);
-		
 	}
 
 	private void createBasicStructure() throws OWLOntologyCreationException {
@@ -1724,6 +1729,8 @@ public class Transformer {
 			OWLClass owlCls = getOwlClass(ontCls);
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
 			manager.addAxiom(ontology, declarationAxiom);
+			
+			if(!owlOptions.isUfoStructure()) continue; 
 			
 			Set<Classifier> parents = ontoParser.getParents(ontCls);
 			if(parents.size() == 0 ){
