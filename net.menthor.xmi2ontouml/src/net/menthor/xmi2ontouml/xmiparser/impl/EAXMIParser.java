@@ -725,6 +725,9 @@ public class EAXMIParser implements XMIParser {
 		return model2diagram;
 	}
 
+	public Object getElementById(String id){
+		return doc.getElementById(id);
+	}
 		
 //	private void reverseComposition(HashMap<String, Object> hashProp, Element elem) {
 //	String aggregation = elem.getAttribute("aggregation");
