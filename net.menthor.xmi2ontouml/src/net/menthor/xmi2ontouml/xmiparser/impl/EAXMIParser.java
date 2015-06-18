@@ -291,7 +291,12 @@ public class EAXMIParser implements XMIParser {
 		
 		Element stereotypeElem = stereotypes.get(elem.getAttributeNS(XMINS, "id"));
     	if (stereotypeElem != null) {
-    		stereotype = stereotypeElem.getNodeName().replace("OntoUML:", "");    		
+    		if(stereotypeElem.getNodeName().contains("OntoUML__")){
+    			stereotype = stereotypeElem.getNodeName().replace("OntoUML__", "");
+    		}else{
+    			stereotype = stereotypeElem.getNodeName().replace("OntoUML:", "");
+    		}
+
     	} else {
 			String type = elem.getAttributeNS(XMINS, "type").replace("uml:", "");
 			if (ElementType.get(type) == ElementType.CLASS ||

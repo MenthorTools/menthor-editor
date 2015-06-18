@@ -16,6 +16,7 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
+import RefOntoUML.Type;
 import RefOntoUML.subQuantityOf;
 
 public class XMI2RefAssociation extends XMI2RefClassifier
@@ -91,8 +92,8 @@ public class XMI2RefAssociation extends XMI2RefClassifier
     	if (relatorObj != null)
     	{
     		derivation = (Derivation) solveStereotype("derivation", "");
-    		Relator relator = (Relator) elemMap.getElement(relatorObj);
-        	
+    		Object relator  = elemMap.getElement(relatorObj);
+    		    		
         	Property prop1 = factory.createProperty();
         	prop1.setType((MaterialAssociation) RefOntoUMLElement);
         	LiteralUnlimitedNatural upper1 = factory.createLiteralUnlimitedNatural();
@@ -104,7 +105,7 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 			prop1.setLowerValue(lower1);
         	
         	Property prop2 = factory.createProperty();
-        	prop2.setType((Relator) relator);
+        	prop2.setType((Type)relator);
         	LiteralUnlimitedNatural upper2 = factory.createLiteralUnlimitedNatural();
 			upper2.setValue(1);
 			prop2.setUpperValue(upper2);
