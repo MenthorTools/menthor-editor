@@ -116,6 +116,7 @@ public class Transformer {
 	private Set<memberOf> lstMemberOf;
 	private Set<DataType> lstDataType;
 	private Set<Association> lstAssociation;
+	private Set<NominalQuality> lstNominalQualities;
 	private HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>> hashDataProperty;
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
@@ -157,7 +158,8 @@ public class Transformer {
 		}	
 		
 		ontoParser = new OntoUMLParser(model);
-		Set<NominalQuality> lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
+		
+		lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		lstOntClass.removeAll(lstNominalQualities);
 		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
@@ -1036,12 +1038,14 @@ public class Transformer {
 		OWLClass src = getOwlClass(ass.getMemberEnd().get(sideSrc).getType());		
 
 		//destination class of the relation
-		OWLClass dst = dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
+		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 		//Set domain and range from the property
-		if(owlOptions.isDomainAxiom())
+		if(owlOptions.isDomainAxiom() && !lstNominalQualities.contains(src))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlOptions.isRangeAxiom())
+		if(owlOptions.isRangeAxiom() && !lstNominalQualities.contains(dst))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
+
+		if(!lstNominalQualities.contains(src) || !lstNominalQualities.contains(dst)) return prop;
 		
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(sideDst).getUpper();
@@ -1136,8 +1140,6 @@ public class Transformer {
 	}
 
 	private void processAssociation(Set<Association> lstAssociation, String stereotype) {
-		int match = 0;
-
 		OWLObjectProperty prop = null;
 		OWLObjectProperty invProp = null;
 
@@ -1149,7 +1151,10 @@ public class Transformer {
 		for (Association ass : lstAssociation) {
 			RefOntoUML.Classifier srcT = (Classifier) ass.getMemberEnd().get(0).getType();
 			RefOntoUML.Classifier tgtT = (Classifier) ass.getMemberEnd().get(1).getType();
-			
+			if(lstNominalQualities.contains(srcT) || lstNominalQualities.contains(tgtT)){
+				System.out.println();
+//				continue;
+			}
 			if(!lstDataType.contains(srcT) && !lstDataType.contains(tgtT)){
 				//Verify the name of the property
 				String assName = mappingProperties.getPropertyName(ass);
@@ -1240,7 +1245,6 @@ public class Transformer {
 				//Make the inverse property disjoint of the property
 				//			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop,invProp)));
 	
-				match = 0;
 			}
 		}
 	}
