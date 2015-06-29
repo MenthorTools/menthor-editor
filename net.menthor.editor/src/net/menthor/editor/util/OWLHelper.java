@@ -29,6 +29,7 @@ import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
+import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
@@ -37,15 +38,18 @@ public class OWLHelper {
 		//System.out.println(ontologyIRI);
 		net.menthor.ontouml2temporalowl.auxiliary.MappingType mp = null;
 		String errors = "";
-		if(mappingType != null && !mappingType.equals(MappingType.RULES)){
+		if(mappingType != null && !mappingType.equals(MappingType.RULES) && !mappingType.equals(MappingType.UFO_RDF)){
 			mp = net.menthor.ontouml2temporalowl.auxiliary.MappingType.valueOf(mappingType.toString());
 		}
     	try
     	{
-    		String owlOutput;
+    		String owlOutput = "";
     		if(mappingType == null)
     		{
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, ontologyIRI);
+    		}else if(mappingType.equals(MappingType.UFO_RDF)){
+    			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, ontologyIRI);
+    			owlOutput = ontoUml2rdf.transform();
     		}else if(mappingType.equals(MappingType.RULES)){
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
     			owlOutput = ontoUML2OWL.Transformation(model, ontologyIRI, oclRules, owlOptions);

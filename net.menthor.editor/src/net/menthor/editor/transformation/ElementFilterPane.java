@@ -176,7 +176,7 @@ public class ElementFilterPane extends JPanel {
 		findButton.setBorderPainted(false);
 		findPanel.add(findButton, BorderLayout.EAST);
 		findButton.setPreferredSize(new Dimension(30, 28));
-		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
+//		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
 		findButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {

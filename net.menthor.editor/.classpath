@@ -68,5 +68,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/text-editor/rsyntaxtextarea_2.5.0/rsyntaxtextarea.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swingx-all-1.6.3.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2rdf"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

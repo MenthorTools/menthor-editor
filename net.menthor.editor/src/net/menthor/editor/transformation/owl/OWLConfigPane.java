@@ -238,7 +238,8 @@ public class OWLConfigPane extends JPanel {
 	{
 		UmlProject project = manager.getCurrentProject();
 		String projectName = project.getName().replace(" ","");
-		return "http://nemo.inf.ufes.br/" + projectName + ".owl";
+//		return "http://nemo.inf.ufes.br/" + projectName + ".owl";
+		return "http://www.menthor.net/" + projectName;
 	}
 
 	private void enableOrDisableFileChooser(boolean flag) {
@@ -277,6 +278,11 @@ public class OWLConfigPane extends JPanel {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ComboBoxModel getMappingTypeComboModel()
 	{
+//		MappingTypeComboItem rdfItem = new MappingTypeComboItem();
+//		rdfItem.setDisplayName("UFO RDF");
+//		rdfItem.setValue("UFO_RDF");
+//		rdfItem.setDescription(ApplicationResources.getInstance().getString("dialog.owlsettings.ontouml2rdf"));
+		
 		MappingTypeComboItem rulesItem = new MappingTypeComboItem();
 		rulesItem.setDisplayName("OOTOS");
 		rulesItem.setValue("RULES");
@@ -307,6 +313,7 @@ public class OWLConfigPane extends JPanel {
 		wormA2Item.setValue("WORM_VIEW_A2");
 		wormA2Item.setDescription(ApplicationResources.getInstance().getString("dialog.owlsettings.worm-view-a2"));
 		
+//		return new DefaultComboBoxModel(new Object[] { rdfItem, rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
 		return new DefaultComboBoxModel(new Object[] { rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
 	}
 }
