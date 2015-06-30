@@ -1,0 +1,47 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:mlt="http://www.nemo.inf.ufes.br/mlt#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <rdfs:Class rdf:about="http://www.nemo.inf.ufes.br/mlt#1stOT">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onClass>
+          <rdfs:Class rdf:about="http://www.nemo.inf.ufes.br/mlt#2ndOT"/>
+        </owl:onClass>
+        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:qualifiedCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.nemo.inf.ufes.br/mlt#powertypeOf"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:label>1stOT</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="http://www.nemo.inf.ufes.br/mlt#"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.nemo.inf.ufes.br/mlt#2ndOT">
+    <rdfs:label>2ndOT</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="http://www.nemo.inf.ufes.br/mlt#"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.nemo.inf.ufes.br/mlt#Individual">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onClass rdf:resource="http://www.nemo.inf.ufes.br/mlt#1stOT"/>
+        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:qualifiedCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.nemo.inf.ufes.br/mlt#powertypeOf"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:label>Individual</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="http://www.nemo.inf.ufes.br/mlt#"/>
+  </rdfs:Class>
+  <owl:ObjectProperty rdf:about="http://www.nemo.inf.ufes.br/mlt#powertypeOf">
+    <rdfs:range rdf:resource="http://www.nemo.inf.ufes.br/mlt#2ndOT"/>
+    <rdfs:domain rdf:resource="http://www.nemo.inf.ufes.br/mlt#1stOT"/>
+    <rdfs:range rdf:resource="http://www.nemo.inf.ufes.br/mlt#1stOT"/>
+    <rdfs:domain rdf:resource="http://www.nemo.inf.ufes.br/mlt#Individual"/>
+  </owl:ObjectProperty>
+</rdf:RDF>
