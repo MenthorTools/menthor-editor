@@ -121,6 +121,7 @@ public class OntoUML2RDF {
 			boolean isDisjoint = generalizationSet.isIsDisjoint();
 			
 			if(!isCovering && !isDisjoint) continue;
+			if(isDisjoint && !owlOptions.isDisjointClassAxioms()) continue;
 			
 			Resource generalRsrc = null;
 			EList<Generalization> generalizations = generalizationSet.getGeneralization();
@@ -210,13 +211,18 @@ public class OntoUML2RDF {
 	
 	private void createDomainAndRange(Resource propertyRrsc, Resource sourceRsrc, Resource rangeRsrc){
 		//set domain and range
-		Statement sourceStatement = rdfModel.createStatement(propertyRrsc, RDFS.domain, sourceRsrc);
-		rdfModel.add(sourceStatement);
-		Statement rangeStatement = rdfModel.createStatement(propertyRrsc, RDFS.range, rangeRsrc);
-		rdfModel.add(rangeStatement);	
+		if(owlOptions.isDomainAxiom()){
+			Statement sourceStatement = rdfModel.createStatement(propertyRrsc, RDFS.domain, sourceRsrc);
+			rdfModel.add(sourceStatement);
+		}
+		if(owlOptions.isRangeAxiom()){
+			Statement rangeStatement = rdfModel.createStatement(propertyRrsc, RDFS.range, rangeRsrc);
+			rdfModel.add(rangeStatement);
+		}
 	}
 	
 	private void createInverse(RefOntoUML.Association assoc, boolean isInverse, Resource stereotypeRsrc, Resource assocRrsc){
+		if(!owlOptions.isInverseAxiom()) return;
 		//set inverse
 		if(isInverse){
 			Resource origAssocRrsc = getResource(assoc.getName(), stereotypeRsrc);
@@ -244,6 +250,8 @@ public class OntoUML2RDF {
 	}
 	
 	private void createCardinality(Resource sourceRsrc, Resource rangeRsrc, Resource propertyRrsc, int rangeLowerCard, int rangeUpperCard){
+		if(!owlOptions.isCardinalityAxiom()) return;
+		
 		Resource restriction = rdfModel.createResource();
 		Statement restrStmt = rdfModel.createStatement(restriction, RDF.type, OWL2.Restriction);
 		rdfModel.add(restrStmt);
