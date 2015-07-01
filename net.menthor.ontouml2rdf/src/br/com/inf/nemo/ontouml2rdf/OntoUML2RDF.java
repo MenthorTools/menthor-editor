@@ -10,7 +10,6 @@ import org.eclipse.emf.common.util.EList;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
-import RefOntoUML.DataType;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
@@ -34,7 +33,7 @@ import com.hp.hpl.jena.vocabulary.XSD;
 public class OntoUML2RDF {
 	OWLTransformationOptions owlOptions;
 	String ontologyIRI;
-	String ontologyNS;
+	String ontologyNs;
 	OntoUMLParser ontoParser;
 	OntModel rdfModel;
 	
@@ -43,7 +42,7 @@ public class OntoUML2RDF {
 		this.rdfModel = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
 		this.ontologyIRI = ontologyIRI;
 		this.owlOptions = owlOptions;
-		this.ontologyNS = ontologyIRI + "#";
+		this.ontologyNs = ontologyIRI + "#";
 		
 		rdfModel.setNsPrefix(UFO.getPrefix(), UFO.getURI());
 		rdfModel.setNsPrefix(MLT.getPrefix(), MLT.getURI());
@@ -54,16 +53,54 @@ public class OntoUML2RDF {
 		processAssociations();
 		processGeneralizations();
 		processGeneralizationSets();
-		processDataTypes();
+		processDataTypesAndNominalQualities();
 		
 		return ontModelToString();
 	}
 	
-	private void processDataTypes() throws Exception {
+//	private void removeUndesiredAxioms() {
+//		Set<OWLAxiom> axioms = ontology.getAxioms();
+//		for (OWLAxiom owlAxiom : axioms) {
+//			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlOptions.isFunctionalAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlOptions.isInverseFunctionalAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlOptions.isTransitiveAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlOptions.isSymmetricAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlOptions.isAsymmetricAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlOptions.isReflexiveAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlOptions.isIrreflexiveAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLDisjointClassesAxiom && !owlOptions.isDisjointClassAxioms()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLDisjointObjectPropertiesAxiom && !owlOptions.isDisjointAssociationAxioms()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof OWLCardinalityRestriction && !owlOptions.isCardinalityAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}else if(owlAxiom instanceof SWRLRule && !owlOptions.isSwrlRulesAxiom()){
+//				manager.removeAxiom(ontology, owlAxiom);
+//			}
+//		}		
+//	}
+
+	private void processDataTypesAndNominalQualities() throws Exception {
 		Set<RefOntoUML.DataType> lstDataTypes = ontoParser.getAllInstances(RefOntoUML.DataType.class);
 		Set<RefOntoUML.PrimitiveType> lstPrimitiveTypes = ontoParser.getAllInstances(RefOntoUML.PrimitiveType.class);
-		lstDataTypes.removeAll(lstPrimitiveTypes);
-		for (DataType dataType : lstDataTypes) {
+//		lstDataTypes.removeAll(lstPrimitiveTypes);
+		
+		Set<RefOntoUML.NominalQuality> lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
+		
+		ArrayList<RefOntoUML.Classifier> lst = new ArrayList<RefOntoUML.Classifier>();
+//		Set<RefOntoUML.Classifier> lst;
+		lst.addAll(lstDataTypes);
+		lst.removeAll(lstPrimitiveTypes);
+		lst.addAll(lstNominalQualities);
+		
+		for (Classifier dataType : lst) {
 			ArrayList<Association> dataTypeAssocs = ontoParser.getDirectAssociations(dataType);
 			for (Association association : dataTypeAssocs) {
 				Type classPrefix;
@@ -72,7 +109,7 @@ public class OntoUML2RDF {
 				}else{
 					classPrefix = association.getMemberEnd().get(0).getType();
 				}
-				processAttributes(dataType, classPrefix);
+				processAttributes(dataType, classPrefix, association);
 			}
 		}		
 	}
@@ -93,10 +130,10 @@ public class OntoUML2RDF {
 			RDFNode[] specificNodeList = new RDFNode[generalizations.size()];
 			for (int i = 0; i < generalizations.size(); i++) {
 				Classifier specific = generalizations.get(i).getSpecific();
-				Resource specificRsrc = rdfModel.createResource(ontologyNS + specific.getName());
+				Resource specificRsrc = getResource(specific.getName());
 				
 				Classifier general = generalizations.get(i).getGeneral();
-				generalRsrc = rdfModel.createResource(ontologyNS + general.getName());
+				generalRsrc = getResource(general.getName());
 				
 				specificNodeList[i] = specificRsrc;	
 			}
@@ -122,10 +159,10 @@ public class OntoUML2RDF {
 		Set<RefOntoUML.Generalization> lstGeneralizations = ontoParser.getAllInstances(RefOntoUML.Generalization.class);
 		for (Generalization generalization : lstGeneralizations) {
 			Classifier specific = generalization.getSpecific();
-			Resource specificRsrc = rdfModel.createResource(ontologyNS + specific.getName());
+			Resource specificRsrc = getResource(specific.getName());
 			
 			Classifier general = generalization.getGeneral();
-			Resource generalRsrc = rdfModel.createResource(ontologyNS + general.getName());
+			Resource generalRsrc = getResource(general.getName());
 			
 			Statement subClsStmt = rdfModel.createStatement(specificRsrc, RDFS.subClassOf, generalRsrc);
 			rdfModel.add(subClsStmt);			
@@ -153,18 +190,18 @@ public class OntoUML2RDF {
 			range = assoc.getMemberEnd().get(1).getType();			
 		}
 		Set<RefOntoUML.DataType> lstDataTypes = ontoParser.getAllInstances(RefOntoUML.DataType.class);
-		if(lstDataTypes.contains(source) || lstDataTypes.contains(range)) return;
+		Set<RefOntoUML.NominalQuality> lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
+		if(lstDataTypes.contains(source) || lstDataTypes.contains(range) || lstNominalQualities.contains(source) || lstNominalQualities.contains(range)) return;
 		
 		//create association
 		String stereotype = ontoParser.getStereotype(assoc);
 		Resource stereotypeRsrc = UFO.resource(stereotype);
 		String assocName = assoc.getName();
 		if(isInverse) assocName = "INV." + assocName ;
-		Resource assocRrsc = rdfModel.createResource(ontologyNS + assocName, stereotypeRsrc);
+		Resource assocRrsc = getResource(assocName, stereotypeRsrc);
 		
-		
-		Resource sourceRsrc = rdfModel.createResource(ontologyNS + source.getName());
-		Resource rangeRsrc = rdfModel.createResource(ontologyNS + range.getName());
+		Resource sourceRsrc = getResource(source.getName());
+		Resource rangeRsrc = getResource(range.getName());
 		
 		createDomainAndRange(assocRrsc, sourceRsrc, rangeRsrc);
 		createCardinalityAssoc(assoc, isInverse, sourceRsrc, rangeRsrc, assocRrsc);
@@ -182,7 +219,7 @@ public class OntoUML2RDF {
 	private void createInverse(RefOntoUML.Association assoc, boolean isInverse, Resource stereotypeRsrc, Resource assocRrsc){
 		//set inverse
 		if(isInverse){
-			Resource origAssocRrsc = rdfModel.createResource(ontologyNS + assoc.getName(), stereotypeRsrc);
+			Resource origAssocRrsc = getResource(assoc.getName(), stereotypeRsrc);
 			Statement invStmt = rdfModel.createStatement(origAssocRrsc, OWL2.inverseOf, assocRrsc);
 			rdfModel.add(invStmt);
 		}
@@ -275,45 +312,63 @@ public class OntoUML2RDF {
 		//create classes
 		Set<RefOntoUML.Class> lstClasses = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		Set<RefOntoUML.DataType> lstDataTypes = ontoParser.getAllInstances(RefOntoUML.DataType.class);
+		Set<RefOntoUML.NominalQuality> lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstClasses.removeAll(lstDataTypes);
+		lstClasses.removeAll(lstNominalQualities);
 		
 		for (RefOntoUML.Class cls : lstClasses) {
 			String stereotype = ontoParser.getStereotype(cls);
 			Resource stereotypeRsrc = UFO.resource(stereotype);
-			rdfModel.createResource(ontologyIRI+ "#" + cls.getName(), stereotypeRsrc);
+			getResource(cls.getName(), stereotypeRsrc);
 			
-			processAttributes(cls, null);
+			processAttributes(cls, null, null);
 		}		
 	}
 
-	private void processAttributes(Classifier cls, Type classPrefix) throws Exception {
+	private void processAttributes(Classifier cls, Type classPrefix, Association association) throws Exception {
 		EList<Property> attributes = cls.getAttribute();
 		String clsName = cls.getName();
 		if(classPrefix != null){
 			clsName = classPrefix.getName() + "." + clsName;
 		}
 		
-		for(Property att : attributes){
-			String attName = att.getName();
+		if(attributes.isEmpty() && classPrefix != null){
+			String attName = clsName;
+			clsName = classPrefix.getName();
 			
-			Resource attRsrc = rdfModel.createResource(ontologyIRI+ "#" + clsName + "." + attName, OWL2.DatatypeProperty);
+			Resource attRsrc = getResource(attName, OWL2.DatatypeProperty);
+			Resource clsRsrc = getResource(clsName);
 			
-			String stereotype = ontoParser.getStereotype(cls);
-			Resource stereotypeRsrc = UFO.resource(stereotype);
-			Resource clsRsrc;
-			if(classPrefix != null){
-				clsRsrc = rdfModel.createResource(ontologyIRI+ "#" + classPrefix.getName(), stereotypeRsrc);
-			}else{
-				clsRsrc = rdfModel.createResource(ontologyIRI+ "#" + clsName, stereotypeRsrc);
+			Resource typeRsrc = getDataTypeRange(cls.getClass());
+			createDomainAndRange(attRsrc, clsRsrc, typeRsrc);
+			createCardinalityDataType(cls, association, clsRsrc, attRsrc, typeRsrc);
+//			createCardinalityAttribute(att, clsRsrc, typeRsrc, attRsrc);
+		}else{
+			for(Property att : attributes){
+				String attName = att.getName();
+				Resource attRsrc = getResource(clsName + "." + attName, OWL2.DatatypeProperty);
+				Resource clsRsrc = getResource(clsName);
+				
+				Type type = att.getType();
+				Resource typeRsrc = getDataTypeRange(type);
+				createDomainAndRange(attRsrc, clsRsrc, typeRsrc);	
+				createCardinalityAttribute(att, clsRsrc, typeRsrc, attRsrc);
 			}
-			
-			
-			Type type = att.getType();
-			Resource typeRsrc = getDataTypeRange(type);
-			createDomainAndRange(attRsrc, clsRsrc, typeRsrc);	
-			createCardinalityAttribute(att, clsRsrc, typeRsrc, attRsrc);
-		}
+		}		
 	}	
+
+	private void createCardinalityDataType(Classifier clsSource, Association association, Resource sourceRsrc, Resource attRsrc, Resource typeRsrc) {
+		int rangeUpperCard, rangeLowerCard;
+		Type source = association.getMemberEnd().get(0).getType();
+		if(source.equals(clsSource)){
+			rangeUpperCard = association.getMemberEnd().get(1).getUpper();
+			rangeLowerCard = association.getMemberEnd().get(1).getLower();
+		}else{
+			rangeUpperCard = association.getMemberEnd().get(0).getUpper();
+			rangeLowerCard = association.getMemberEnd().get(0).getLower();
+		}
+		createCardinality(sourceRsrc, typeRsrc, attRsrc, rangeLowerCard, rangeUpperCard);
+	}
 
 	/**
 	 * Get the range of this type.
@@ -323,31 +378,40 @@ public class OntoUML2RDF {
 	 * @throws Exception 
 	 * */
 	private Resource getDataTypeRange(Type type) throws Exception{
-		String range = type.getName();
-		if (range.equalsIgnoreCase("unsigned_int")){
+		String rangeName = type.getName();
+		return getDataTypeRange(rangeName);
+	}
+	
+	private Resource getDataTypeRange(Class type) throws Exception{
+		String rangeName = type.getName();
+		return getDataTypeRange(rangeName);
+	}
+	
+	private Resource getDataTypeRange(String rangeName) throws Exception{
+		if (rangeName.equalsIgnoreCase("unsigned_int")){
 			return XSD.unsignedInt;
-		}else if(range.equalsIgnoreCase("int") || range.equalsIgnoreCase("integer")){
+		}else if(rangeName.equalsIgnoreCase("int") || rangeName.equalsIgnoreCase("integer") || rangeName.contains("Integer")){
 			return XSD.integer;
-		}else if(range.equalsIgnoreCase("unsigned_byte")){
+		}else if(rangeName.equalsIgnoreCase("unsigned_byte")){
 			return XSD.unsignedByte;
-		}else if(range.equalsIgnoreCase("double")){
+		}else if(rangeName.equalsIgnoreCase("double") || rangeName.contains("Real") || rangeName.contains("Decimal")){
 			return XSD.xdouble;
-		}else if(range.equalsIgnoreCase("string")){
+		}else if(rangeName.equalsIgnoreCase("string") || rangeName.contains("String") || rangeName.contains("NominalQuality")){
 			return XSD.xstring;
-		}else if(range.equalsIgnoreCase("normalized_string")){
+		}else if(rangeName.equalsIgnoreCase("normalized_string")){
 			return XSD.normalizedString;
-		}else if(range.equalsIgnoreCase("boolean")){
+		}else if(rangeName.equalsIgnoreCase("boolean")){
 			return XSD.xboolean;
-		}else if(range.equalsIgnoreCase("hex_binary")){
+		}else if(rangeName.equalsIgnoreCase("hex_binary")){
 			return XSD.hexBinary;
-		}else if(range.equalsIgnoreCase("short")){
+		}else if(rangeName.equalsIgnoreCase("short")){
 			return XSD.xshort;
-		}else if(range.equalsIgnoreCase("byte")){
+		}else if(rangeName.equalsIgnoreCase("byte")){
 			return XSD.xbyte;
-		}else if(range.equalsIgnoreCase("unsigned_long")){
+		}else if(rangeName.equalsIgnoreCase("unsigned_long")){
 			return XSD.unsignedLong;
 		}
-		throw new Exception("No mapped primitive type.");
+		return XSD.xstring;
 	}
 	
 	private String ontModelToString(){
@@ -357,5 +421,17 @@ public class OntoUML2RDF {
 		rdfModel.write(out, syntax);
 		String result = out.toString();
 		return result;
+	}
+
+	public Resource getResource(String name, Resource rsrcType){
+		name = this.ontologyNs+name;
+		name = name.replaceAll(" ", "_");
+		return rdfModel.createResource(name, rsrcType);
+	}
+	
+	public Resource getResource(String name){
+		name = this.ontologyNs+name;
+		name = name.replaceAll(" ", "_");
+		return rdfModel.createResource(name);
 	}
 }

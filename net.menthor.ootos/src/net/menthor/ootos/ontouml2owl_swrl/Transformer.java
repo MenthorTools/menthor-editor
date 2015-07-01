@@ -151,8 +151,11 @@ public class Transformer {
 		this.nameSpace = nameSpace+"#";
 
 		try {
-			this.factory = manager.getOWLDataFactory();
-			this.ontology = manager.createOntology(IRI.create(nameSpace));			
+			this.factory = this.manager.getOWLDataFactory();
+			this.ontology = this.manager.createOntology(IRI.create(nameSpace));
+			
+//			this.manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().setPrefix("myprefix", this.nameSpace);
+			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}	
@@ -392,8 +395,7 @@ public class Transformer {
 			}else if(owlAxiom instanceof SWRLRule && !owlOptions.isSwrlRulesAxiom()){
 				manager.removeAxiom(ontology, owlAxiom);
 			}
-		}
-//		
+		}		
 	}
 
 	private void createBasicStructure() throws OWLOntologyCreationException {

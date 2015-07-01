@@ -1,10 +1,12 @@
 package net.menthor.virtuoso.dump;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.text.Normalizer;
 
 import javax.sql.DataSource;
 
@@ -20,13 +22,14 @@ import com.hp.hpl.jena.shared.JenaException;
 public class Main {
 
 	public static void main(String[] args) throws Exception  {
-		String owlPath;// = "C:\\Users\\fredd_000\\Google Drive\\GI2S\\GI2S - Freddy - John - Tiago - Bernardo\\Modelos\\GI2S_ontologia-cortada.owl";
+		String owlPath = "C:\\Users\\fredd_000\\Google Drive\\GI2S\\GI2S - Freddy - John - Tiago - Bernardo\\Modelos\\OWL\\GI2S_ontologia-cortada.owl";
 		
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Enter with .owl path:");
 		System.out.println("E.g.: C:\\...\\your-file.owl");
-		owlPath = bufferRead.readLine();
-		
+//		owlPath = bufferRead.readLine();
+		System.out.println("Arquivo escolhido:");
+		System.out.println(owlPath);
 		DumpIndividuals dump = new DumpIndividuals(owlPath);
 		dump.dump();
 		
@@ -36,12 +39,17 @@ public class Main {
         System.out.println("done");
 	}
 	
-	public static void saveRdf(OntModel ontModel, String rdfName){
+	public static void saveRdf(OntModel ontModel, String rdfName) throws UnsupportedEncodingException{
 		System.out.println("Saving RDF");
 		String syntax = "RDF/XML-ABBREV";
-		StringWriter out = new StringWriter();
+//		StringWriter out = new StringWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+//		ByteArrayOutputStream out = new ByteArrayOutputStream();		
+//		ontModel.write
 		ontModel.write(out, syntax);
-		String result = out.toString();
+		String result = new String(out.toByteArray(), "UTF-8");
+		result = Normalizer.normalize(result, Normalizer.Form.NFD);
+		result = result.replaceAll("[^\\p{ASCII}]", "");
 		File arquivo = new File(rdfName);  
 		if(arquivo.exists()){
 			arquivo.delete();
