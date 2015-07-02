@@ -22,12 +22,13 @@ import com.hp.hpl.jena.shared.JenaException;
 public class Main {
 
 	public static void main(String[] args) throws Exception  {
-		String owlPath = "C:\\Users\\fredd_000\\Google Drive\\GI2S\\GI2S - Freddy - John - Tiago - Bernardo\\Modelos\\OWL\\GI2S_ontologia-cortada.owl";
+//		String owlPath = "C:\\Users\\fredd_000\\Google Drive\\GI2S\\GI2S - Freddy - John - Tiago - Bernardo\\Modelos\\OWL\\GI2S_ontologia-cortada.owl";
+		String owlPath = "";
 		
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Enter with .owl path:");
 		System.out.println("E.g.: C:\\...\\your-file.owl");
-//		owlPath = bufferRead.readLine();
+		owlPath = bufferRead.readLine();
 		System.out.println("Arquivo escolhido:");
 		System.out.println(owlPath);
 		DumpIndividuals dump = new DumpIndividuals(owlPath);
