@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -38,8 +39,10 @@ import net.menthor.editor.util.ConfigurationHelper;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.Editor;
+import java.awt.Component;
+import javax.swing.Box;
 
-public class StartPage extends JPanel implements Editor {
+public class StartPage extends BackgroundPanel implements Editor {
 		
 	private static final long serialVersionUID = 2336092539913014948L;
 		
@@ -56,7 +59,9 @@ public class StartPage extends JPanel implements Editor {
 	private JButton btnStudyButton;
 	private JButton btnFAQButton;
 	private JButton btnCommunityButton;
+	private Component emptyHeaderArea;
 	private AppCommandListener commandListener;
+	private static Image img = (new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/mountain.png"))).getImage();
 	
 	public StartPage(AppCommandListener commandListener)
 	{
@@ -64,9 +69,12 @@ public class StartPage extends JPanel implements Editor {
 		this.commandListener = commandListener;			
 	}
 	
-    public StartPage(){
+    public StartPage(){    	
+    	super(img, BackgroundPanel.SCALED, 1.0f, 1.0f);
+    	//GradientPaint paint = new GradientPaint(0, 0, Color.BLUE, 600, 0, Color.RED);
+    	//setPaint(paint);
     	setLayout(new BorderLayout(0, 0));
-    	setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));    	
+    	//setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));    	
     	JPanel contentPane = createContentPane();
     	add(contentPane,BorderLayout.CENTER);
     	JPanel footerPane = createFooter();
@@ -166,8 +174,9 @@ public class StartPage extends JPanel implements Editor {
 		buttonsPane = new JPanel();
 		buttonsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		FlowLayout flowLayout = (FlowLayout) buttonsPane.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		buttonsPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		//buttonsPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+		buttonsPane.setBackground(new Color(0,0,0,0));
 		btnNewProject = createFileButton("NEW PROJECT");
 		btnNewProject.setToolTipText("Create new menthor project");
 		attachNewProjectAction();
@@ -246,7 +255,8 @@ public class StartPage extends JPanel implements Editor {
 	private JPanel createPageBtnPane()
 	{
 		pageBtnPane = new JPanel();		
-		pageBtnPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));		
+		//pageBtnPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+		pageBtnPane.setBackground(new Color(0,0,0,0));
 		btnEAButton = createPageLinkButton("<html>INSTALL ONTOUML<br>WITHIN EA</html>");
 		btnEAButton.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/learn_61.png")));
 		btnEAButton.setToolTipText("<html>Learn how to install OntoUML <br>within the EA tool</html>");
@@ -332,72 +342,83 @@ public class StartPage extends JPanel implements Editor {
     private JPanel createContentPane(){		
     	createContent();    	
 		//===============================
-		JPanel panel = new JPanel();
-		panel.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-					.addGap(167)
-					.addComponent(menthorImg)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(recentPane, GroupLayout.PREFERRED_SIZE, 412, GroupLayout.PREFERRED_SIZE)
-						.addComponent(buttonsPane, GroupLayout.PREFERRED_SIZE, 412, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(182, Short.MAX_VALUE))
+		JPanel greyPane = new JPanel();
+		//panel.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+		greyPane.setBackground(new Color(0,0,0,50));		
+		GroupLayout gl_greyPane = new GroupLayout(greyPane);
+		gl_greyPane.setHorizontalGroup(
+			gl_greyPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_greyPane.createSequentialGroup()
+					.addGap(66)
+					.addGroup(gl_greyPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(pageBtnPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(gl_greyPane.createSequentialGroup()
+							.addComponent(menthorImg, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_greyPane.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(buttonsPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(recentPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE))))
+					.addContainerGap(55, Short.MAX_VALUE))
 		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+		gl_greyPane.setVerticalGroup(
+			gl_greyPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_greyPane.createSequentialGroup()
 					.addGap(30)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_greyPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_greyPane.createSequentialGroup()
 							.addComponent(recentPane, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(buttonsPane, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 						.addComponent(menthorImg, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(46, Short.MAX_VALUE))
-		);
-		panel.setLayout(gl_panel);		
-		//===============================
-		JPanel centerPane = new JPanel();
-    	centerPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
-		GroupLayout gl_centerPane = new GroupLayout(centerPane);
-		gl_centerPane.setHorizontalGroup(
-			gl_centerPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_centerPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, gl_centerPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pageBtnPane, GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_centerPane.setVerticalGroup(
-			gl_centerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_centerPane.createSequentialGroup()
-					.addGap(32)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(pageBtnPane, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+					.addGap(27)
+					.addComponent(pageBtnPane, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		centerPane.setLayout(gl_centerPane);		
+		greyPane.setLayout(gl_greyPane);		
+		//===============================
+		JPanel boxPane = new JPanel();
+    	//centerPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+		boxPane.setBackground(new Color(0,0,0,0));
 		//===============================		
 		JPanel contentPane = new JPanel();
-		contentPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
-    	contentPane.add(centerPane);		
+		//contentPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+		contentPane.setBackground(new Color(0,0,0,0));
+    	contentPane.add(boxPane);		
+    	boxPane.setLayout(new BorderLayout(0, 0));
+    	boxPane.add(greyPane);
+    	
+    	emptyHeaderArea = Box.createRigidArea(new Dimension(20, (int)(0.1*getScreenWorkingHeight())));
+    	boxPane.add(emptyHeaderArea, BorderLayout.NORTH);
 		return contentPane;
     }
 
+    public static int getScreenWorkingHeight() {
+	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+	}
+    
     private JPanel createFooter(){
     	JPanel footerPane = new JPanel();
-    	footerPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
-    	footerPane.setPreferredSize(new Dimension(0, 70));    	    	
+    	//footerPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
+    	footerPane.setBackground(new Color(0,0,0,0));
+    	footerPane.setPreferredSize(new Dimension(0, 70));    	
+    	JPanel panel = new JPanel();
     	JLabel sloganImg = new JLabel("");
-    	sloganImg.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/slogan_startpage.png")));    	
-    	footerPane.add(sloganImg);    	
+    	panel.add(sloganImg);
+    	panel.setBackground(new Color(0,0,0,100));
+    	sloganImg.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/slogan.png")));
+    	GroupLayout gl_footerPane = new GroupLayout(footerPane);
+    	gl_footerPane.setHorizontalGroup(
+    		gl_footerPane.createParallelGroup(Alignment.LEADING)
+    			.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
+    	);
+    	gl_footerPane.setVerticalGroup(
+    		gl_footerPane.createParallelGroup(Alignment.LEADING)
+    			.addGroup(gl_footerPane.createSequentialGroup()
+    				.addGap(5)
+    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap(27, Short.MAX_VALUE))
+    	);
+    	footerPane.setLayout(gl_footerPane);
     	return footerPane;
     }
 	

@@ -90,6 +90,8 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		installMainMenu();
 		installMainToolBar();
 			  
+		showOnlyStartPage();
+		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				quitApplication();
@@ -167,6 +169,20 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 	}
 	
+	public void showOnlyStartPage()
+	{
+		browserManager.getProjectBrowser().setPreferredSize(new Dimension(0,250));
+		browserManager.setPreferredSize(new Dimension(0,250));			
+		toolManager.setPreferredSize(new Dimension(0,250));
+		toolManager.getPalleteAccordion().setPreferredSize(new Dimension(0,250));
+		bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth(),0));						
+		topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()));
+		getMainToolBar().getProjectBrowserButton().setSelected(false);
+		getMainMenu().getProjectBrowserItem().setSelected(false);
+		getMainToolBar().getToolBoxButton().setSelected(false);
+		getMainMenu().getToolBoxItem().setSelected(false);
+	}
+	
 	/**
 	 * Adds the main diagram manager (the tabbed pane which holds the diagrams)
 	 */
@@ -187,7 +203,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		toolManager.getPalleteAccordion().setPreferredSize(new Dimension(230,250));
 		
 		//==========	
-			
+		
 		String layoutDef = "(ROW weight=1.0 left (COLUMN middle.top middle.bottom) right)";
 		MultiSplitLayout.Node modelRoot = MultiSplitLayout.parseModel(layoutDef);
 		
