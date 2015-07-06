@@ -22,19 +22,19 @@ package net.menthor.editor.ui.commands;
  */
 
 import java.io.File;
-import java.io.IOException;
-
-import org.tinyuml.ui.commands.FileWriter;
 
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
 import net.menthor.ontouml2uml.OntoUML2UML;
 import net.menthor.ontouml2uml.OntoUML2UMLOption;
+
+import org.tinyuml.ui.commands.FileWriter;
+
 import RefOntoUML.parser.OntoUMLParser;
 
 public class UMLExporter extends FileWriter {
 
-	public void writeUML(DiagramManager manager, File file) throws IOException 
+	public void writeUML(DiagramManager manager, File file) throws Exception 
 	{
 		OntoUMLParser refparser = manager.getFrame().getProjectBrowser().getParser();
 		String umlPath = file.getAbsolutePath();

@@ -125,6 +125,7 @@ import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -1306,9 +1307,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 *  This exporting loses all the UML stereotypes that distinguishes OntoUML from UML*/
 	public void exportUML() 
 	{
-		if(getCurrentEditor() != null) {
+		if(getCurrentProject() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportUMLPath);
-			fileChooser.setDialogTitle("Export as UML");
+			fileChooser.setDialogTitle("Exporting as UML");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
 			fileChooser.setFileFilter(filter);
@@ -1316,15 +1317,21 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				if (fileChooser.getFileFilter() == filter) {
 					try {
+						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 						UMLExporter exporter = new UMLExporter();
 						exporter.writeUML(this, fileChooser.getSelectedFile());
 						lastExportUMLPath = fileChooser.getSelectedFile().getAbsolutePath();
+						frame.showSuccessfulMessageDialog("Success", "Project exported to UML successfully, located at: \n"+fileChooser.getSelectedFile());
+												
 					} catch (Exception ex) {
 						ex.printStackTrace();
-						JOptionPane.showMessageDialog(this, ex.getMessage(),"Export as UML", JOptionPane.ERROR_MESSAGE);
+						String msg = ex.getLocalizedMessage();
+						if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
+						frame.showErrorMessageDialog("Failure", "Current project could not be exported to UML. Motive:\n"+msg);
 					}
 				}
 			}
+			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 	}	
 	

@@ -31,7 +31,7 @@ public class TreeDragGestureListener implements DragGestureListener
  	    try{
  	    	dge.startDrag(cursor , node, new TreeDragSourceListener());
  	    }catch(InvalidDnDOperationException e){
- 	    	 e.printStackTrace(); 	    	 
+ 	    	 //e.printStackTrace(); 	    	 
  	    }
     }
     
