@@ -973,7 +973,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				setProjectFile(file);
 				createEmptyCurrentProject();				
 				saveCurrentProjectToFile(file);
-				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");				
+				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
+				frame.openProjectBrowser();
 				Main.printOutLine("New project succesffully created");
 				
 			} catch (Exception ex) {
@@ -1034,7 +1035,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 //						return;
 //					}				
 //				}else{
-					openListFiles(listFiles);				
+					openListFiles(listFiles);
+					frame.openProjectBrowser();
 //				}
 			} catch (Exception ex) {
 				Main.printOutLine("Failed to open Menthor project!");	
@@ -1063,7 +1065,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			setProjectFile(file);
 			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 			currentProject = (UmlProject) listFiles.get(0);				
-			openListFiles(listFiles);		
+			openListFiles(listFiles);	
+			frame.openProjectBrowser();
 		} catch (Exception ex) {
 			Main.printOutLine("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
