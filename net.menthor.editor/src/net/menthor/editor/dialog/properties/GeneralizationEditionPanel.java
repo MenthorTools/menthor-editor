@@ -49,7 +49,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.model.ElementType;
 
 import org.eclipse.emf.ecore.EObject;
@@ -60,6 +59,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 /**
  * @author John Guerson

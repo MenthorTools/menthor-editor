@@ -28,6 +28,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.TableCellEditor;
 
 import net.menthor.editor.dialog.properties.AttributesEditionPanel;
+import net.menthor.editor.dialog.properties.BaseTableModel;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import RefOntoUML.parser.OntoUMLParser;
@@ -38,13 +39,13 @@ public class BaseMappingPane extends JPanel {
 
 	protected JScrollPane scrollpane = new JScrollPane();
 	protected JTable table = new JTable();
-	protected ElementMappingTableModel tableModel;
+	protected BaseTableModel tableModel;
 	protected JPanel headerPane = new JPanel();
 	protected JButton btnAdd;
 	protected JButton btnDelete;
 	protected JTextPane textPane = new JTextPane();
 	
-	public ElementMappingTableModel getTableModel()
+	public BaseTableModel getTableModel()
 	{
 		return tableModel;
 	}
@@ -58,10 +59,18 @@ public class BaseMappingPane extends JPanel {
 		textPane.setText(text);		
 	}
 	
+	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String[] targetOptions, String choiceColumnTitle){
+		tableModel = new ChoiceElemMapTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
+		init(refparser);
+	}
+	
 	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String[] targetOptions)
 	{
 		tableModel = new ElementMappingTableModel(sourceColumnTitle, targetColumnTitle);
-		
+		init(refparser);
+	}	
+	
+	public void init(OntoUMLParser refparser){
 		scrollpane.setMinimumSize(new Dimension(0, 0));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

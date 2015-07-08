@@ -6,11 +6,12 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
-import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.transformation.AttributeMappingPane;
+import net.menthor.editor.transformation.ElementMappingTableModel;
 import net.menthor.editor.transformation.PrimitiveMappingPane;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 public class OWLPrimitiveMappingPane extends JPanel{
 
@@ -36,34 +37,34 @@ public class OWLPrimitiveMappingPane extends JPanel{
 		for(PrimitiveType pt: refparser.getAllInstances(PrimitiveType.class))
 		{	
 			if(pt.getName().compareToIgnoreCase("Integer")==0 || pt.getName().compareToIgnoreCase("Int")==0){
-				primitiveTypePane.getTableModel().addEntry(new OntoUMLElement(pt,""), "integer");
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), "integer");
 			}
 			if(pt.getName().compareToIgnoreCase("Boolean")==0){
-				primitiveTypePane.getTableModel().addEntry(new OntoUMLElement(pt,""), "boolean");
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), "boolean");
 			}
 			if(pt.getName().compareToIgnoreCase("String")==0){
-				primitiveTypePane.getTableModel().addEntry(new OntoUMLElement(pt,""), "string");
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), "string");
 			}
 			if(pt.getName().compareToIgnoreCase("Real")==0){
-				primitiveTypePane.getTableModel().addEntry(new OntoUMLElement(pt,""), "double");
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), "double");
 			}
 			if(pt.getName().compareToIgnoreCase("DateTime")==0){
-				primitiveTypePane.getTableModel().addEntry(new OntoUMLElement(pt,""), "dateTime");
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), "dateTime");
 			}
 			if(pt.getName().compareToIgnoreCase("Date")==0){
-				primitiveTypePane.getTableModel().addEntry(new OntoUMLElement(pt,""), "date");
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), "date");
 			}
 		}
 	}
 	
 	public HashMap<OntoUMLElement,String> getPrimitiveMap()
 	{
-		return primitiveTypePane.getTableModel().getEntries();
+		return ((ElementMappingTableModel)primitiveTypePane.getTableModel()).getEntries();
 	}
 	
 	public HashMap<OntoUMLElement,String> getAttributeMap()
 	{
-		return primitiveAttrPane.getTableModel().getEntries();
+		return ((ElementMappingTableModel)primitiveTypePane.getTableModel()).getEntries();
 	}
 	
 	public OWLPrimitiveMappingPane(OntoUMLParser refparser)

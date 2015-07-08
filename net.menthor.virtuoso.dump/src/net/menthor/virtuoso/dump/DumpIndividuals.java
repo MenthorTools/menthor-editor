@@ -73,9 +73,9 @@ public class DumpIndividuals {
 			Property pRsrc = ontModel.createProperty(p);
 			String o = allDataPropertiesOfIndivididuals.getString("o");
 			
-			if(o.contains(" GALDINO DE SOUSA")){
-				System.out.println(o);
-			}
+//			if(o.contains(" GALDINO DE SOUSA")){
+//				System.out.println(o);
+//			}
 			
 			if(p.contains("Elemento_CID.numero")){
 				o = o.replace(",", ".");

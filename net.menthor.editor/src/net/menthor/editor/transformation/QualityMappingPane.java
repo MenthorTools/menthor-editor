@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.editor.explorer.OntoUMLElement;
 import RefOntoUML.Quality;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 public class QualityMappingPane extends BaseMappingPane {
 	

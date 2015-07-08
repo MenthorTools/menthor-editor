@@ -75,7 +75,6 @@ import net.menthor.editor.derivation.UnionPattern;
 import net.menthor.editor.dialog.AlloySettingsDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
 import net.menthor.editor.explorer.CustomOntoUMLElement;
-import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.finder.FoundElement;
@@ -181,6 +180,7 @@ import RefOntoUML.StringExpression;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
+import RefOntoUML.util.OntoUMLElement;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 

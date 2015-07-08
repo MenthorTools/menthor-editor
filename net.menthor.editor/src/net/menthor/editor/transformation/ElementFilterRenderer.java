@@ -18,8 +18,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import net.menthor.editor.explorer.OntoUMLElement;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
@@ -28,6 +26,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
+import RefOntoUML.util.OntoUMLElement;
 
 public class ElementFilterRenderer extends DefaultTreeCellRenderer implements CheckboxTreeCellRenderer {
 

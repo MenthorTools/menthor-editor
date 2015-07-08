@@ -34,7 +34,6 @@ import javax.swing.tree.TreePath;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.DiagramListDialog;
-import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.model.ElementType;
@@ -51,6 +50,7 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
+import RefOntoUML.util.OntoUMLElement;
 
 /**
  * @author John Guerson

@@ -51,6 +51,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
+import RefOntoUML.util.OntoUMLElement;
 
 /**
  * OntoUML Cell Renderer for CheckBox Tree

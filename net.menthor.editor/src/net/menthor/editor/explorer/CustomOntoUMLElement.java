@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
+import RefOntoUML.util.OntoUMLElement;
 
 /** 
  * Custom OntoUML element used for listing ref-onto elements 

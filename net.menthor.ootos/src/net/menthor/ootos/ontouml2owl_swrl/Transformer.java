@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.menthor.common.transformation.GeneralizationMappingType;
 import net.menthor.common.transformation.OWLTransformationOptions;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
@@ -165,6 +166,26 @@ public class Transformer {
 		lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		lstOntClass.removeAll(lstNominalQualities);
+		
+		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
+		for(int i = 0; i < genSetEnumMappings.length; i++){
+			Boolean hide = (Boolean) genSetEnumMappings[i][2];
+			if(hide){
+				GeneralizationSet gs = (GeneralizationSet) genSetEnumMappings[i][0];
+				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
+//				if(mappingType.)
+//				Set<Classifier> children;
+//				children = ontoParser.getAllChildren(gs);
+//				children = ontoParser.getChildren(gs);
+//				children = ontoParser.getLeafChildren(gs);
+				
+				EList<Generalization> gens = gs.getGeneralization();
+				for (Generalization generalization : gens) {
+					lstOntClass.remove(generalization.getSpecific());
+				}
+			}
+		}
+		
 		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
 		lstGen = ontoParser.getAllInstances(Generalization.class);
 		lstMaterials = ontoParser.getAllInstances(MaterialAssociation.class);

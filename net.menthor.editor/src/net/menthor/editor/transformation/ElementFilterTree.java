@@ -11,7 +11,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import net.menthor.editor.explorer.OntoUMLElement;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -22,6 +21,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 public class ElementFilterTree extends CheckboxTree {
 

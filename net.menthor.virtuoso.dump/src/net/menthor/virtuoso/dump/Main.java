@@ -29,12 +29,16 @@ public class Main {
 		System.out.println("Enter with .owl path:");
 		System.out.println("E.g.: C:\\...\\your-file.owl");
 		owlPath = bufferRead.readLine();
+		System.out.print("Enter with a sufix: ");
+		String sufix = bufferRead.readLine();
 		System.out.println("Arquivo escolhido:");
 		System.out.println(owlPath);
 		DumpIndividuals dump = new DumpIndividuals(owlPath);
 		dump.dump();
 		
-		owlPath = owlPath.replace(".owl", "-populada.owl");
+		
+		
+		owlPath = owlPath.replace(".owl", "-"+sufix+".owl");
 		saveRdf(dump.getOntModel(), owlPath);
         
         System.out.println("done");

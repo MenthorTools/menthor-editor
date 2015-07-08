@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.menthor.editor.dialog.properties.BaseTableModel;
-import net.menthor.editor.explorer.OntoUMLElement;
+import RefOntoUML.util.OntoUMLElement;
 
 public class ElementMappingTableModel extends BaseTableModel {
 	

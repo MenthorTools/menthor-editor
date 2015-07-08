@@ -57,6 +57,7 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 /**
  * @author John Guerson

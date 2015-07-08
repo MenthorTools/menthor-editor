@@ -34,7 +34,6 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import net.menthor.editor.Main;
-import net.menthor.editor.explorer.OntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.model.UmlProject;
 
@@ -82,6 +81,7 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.NamedElementImpl;
 import RefOntoUML.impl.RefOntoUMLPackageImpl;
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.util.OntoUMLElement;
 
 /**
  * @author John Guerson

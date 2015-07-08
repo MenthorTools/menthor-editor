@@ -57,6 +57,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 	private OWLQualityMappingPane qualityPane;
 	private OWLAxiomFilterPane axiomsPane;
 	private OWLConfigPane configPane;
+	private OWLGeneralizationSetPane gsPane;
 
 	public OWLSettingsDialog(AppFrame frame, DiagramManager diagramManager, boolean modal) 
 	{
@@ -71,6 +72,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		filterPane.fillContent(refparser);		
 		primitivePane = new OWLPrimitiveMappingPane(refparser);
 		qualityPane = new OWLQualityMappingPane(refparser);
+		gsPane = new OWLGeneralizationSetPane(refparser);
 		axiomsPane = new OWLAxiomFilterPane();
 		
 		addNonClosable(tabbedPane,"Config", configPane);
@@ -78,6 +80,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		addNonClosable(tabbedPane,"OWL Axioms", axiomsPane);
 		addNonClosable(tabbedPane,"Primitive Types", primitivePane);
 		addNonClosable(tabbedPane,"Qualities", qualityPane);
+		addNonClosable(tabbedPane,"Generalization Sets", gsPane);
 		
 		tabbedPane.setSelectedComponent(configPane);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -166,5 +169,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
 		
 		owlOptions.setUfoStructure(axiomsPane.isUfoStructure());
+		
+		owlOptions.setGenSetEnumMappings(gsPane.getGenSetEnumMappingMap());
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -615,6 +616,59 @@ public class OntoUMLParser {
 		for (Classifier classifier : c.allChildren()) 
 		{
 			if(isSelected(classifier)) result.add(classifier);
+		}		
+		return result;
+	}
+	
+	/** Return all selected descendants (direct or indirect) of an element. */
+	public Set<Classifier> getAllChildren(GeneralizationSet gs)
+	{
+		Set<Classifier> result = new HashSet<Classifier>();
+		EList<Generalization> gen = gs.getGeneralization();
+		for (Generalization generalization : gen) {
+			Classifier specific = generalization.getSpecific();
+			if(isSelected(specific)){
+				result.add(specific);
+				
+				result.addAll(getAllChildren(specific));
+			}
+		}		
+		return result;
+	}
+	
+	/** Return all selected descendants (direct or indirect) of an element. */
+	public Set<Classifier> getLeafChildren(GeneralizationSet gs)
+	{
+		Set<Classifier> result = new HashSet<Classifier>();
+		EList<Generalization> gen = gs.getGeneralization();
+		for (Generalization generalization : gen) {
+			Classifier specific = generalization.getSpecific();
+			if(isSelected(specific)){
+				if(specific.getGeneralization().size() == 0){
+					result.add(specific);
+				}else{
+					Set<Classifier> allChildren = getAllChildren(specific);
+					for (Classifier classifier : allChildren) {
+						if(classifier.getGeneralization().size() == 0){
+							result.add(classifier);
+						}
+					}					
+				}				
+			}
+		}		
+		return result;
+	}
+	
+	/** Return all selected descendants (direct or indirect) of an element. */
+	public Set<Classifier> getChildren(GeneralizationSet gs)
+	{
+		Set<Classifier> result = new HashSet<Classifier>();
+		EList<Generalization> gen = gs.getGeneralization();
+		for (Generalization generalization : gen) {
+			Classifier specific = generalization.getSpecific();
+			if(isSelected(specific)){
+				result.add(specific);				
+			}
 		}		
 		return result;
 	}

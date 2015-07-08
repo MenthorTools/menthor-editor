@@ -5,9 +5,10 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
-import net.menthor.editor.explorer.OntoUMLElement;
+import net.menthor.editor.transformation.ElementMappingTableModel;
 import net.menthor.editor.transformation.QualityMappingPane;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 public class OWLQualityMappingPane extends JPanel{
 
@@ -17,7 +18,7 @@ public class OWLQualityMappingPane extends JPanel{
 	
 	public HashMap<OntoUMLElement,String> getQualityMap()
 	{
-		return qualityPane.getTableModel().getEntries();
+		return ((ElementMappingTableModel)qualityPane.getTableModel()).getEntries();
 	}
 	
 	public OWLQualityMappingPane(OntoUMLParser refparser)
