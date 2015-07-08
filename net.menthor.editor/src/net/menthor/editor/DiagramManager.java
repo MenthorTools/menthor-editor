@@ -699,6 +699,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			frame.getInfoManager().eraseProject();										
 			currentProject=null;				
 			addStartPanel(this,false);
+			frame.getMainToolBar().enableAll(false);
 			Main.printOutLine("Current project closed");
 		}
 		repaint();
@@ -947,14 +948,22 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return false;
 	}
 	
+	class MenthorFilter extends javax.swing.filechooser.FileFilter {
+	    public boolean accept(File file) {
+	        String filename = file.getName();
+	        return filename.endsWith(".menthor");
+	    }
+	    public String getDescription() {
+	        return "Menthor Project (*.menthor)";
+	    }
+	}
+	
 	/** New Menthor Project. */
 	public void newProject() 
 	{				
 		JFileChooser fileChooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("New Project");
-		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);
+		fileChooser.addChoosableFileFilter(new MenthorFilter());
 		fileChooser.setSelectedFile(new File("*.menthor"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
@@ -1005,10 +1014,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void openProject() 
 	{		
 		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("Open Project");
-		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);		
+		fileChooser.addChoosableFileFilter(new MenthorFilter());	
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -1020,24 +1027,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				lastOpenPath = file.getAbsolutePath();
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				currentProject = (UmlProject) listFiles.get(0);
-//				if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty() || (currentProject.getVersionAsInt()<=934))
-//				{
-//					//@deprecated					
-//					String msg = "This project was originally edited with an older version of Menthor Editor (prior to 1.X), hence some changes are required.\nPress \"OK\" to update this file automatically to this new version.\nNotice that saving this file however will make it no longer works in any version of Menthor Editor prior to 1.X.";
-//					String oldversion = new String();					
-//					if(currentProject.getVersion()==null || currentProject.getVersion().trim().isEmpty()) oldversion = "Unkown";
-//					else oldversion = currentProject.getVersion();
-//					int response = JOptionPane.showOptionDialog(this, msg, "Version Incompatibility: "+oldversion+" to "+Main.MENTHOR_VERSION, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,null, null, "default");					if(response == JOptionPane.OK_OPTION){														
-//						openListFiles(listFiles);						
-//						remakeAllAssociationElements();						
-//					}else{						
-//						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-//						return;
-//					}				
-//				}else{
-					openListFiles(listFiles);
-					frame.openProjectBrowser();
-//				}
+				openListFiles(listFiles);
+				frame.openProjectBrowser();
+				frame.getMainToolBar().enableAll(true);
 			} catch (Exception ex) {
 				Main.printOutLine("Failed to open Menthor project!");	
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
@@ -1067,6 +1059,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			currentProject = (UmlProject) listFiles.get(0);				
 			openListFiles(listFiles);	
 			frame.openProjectBrowser();
+			frame.getMainToolBar().enableAll(true);
 		} catch (Exception ex) {
 			Main.printOutLine("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
@@ -1152,9 +1145,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		JFileChooser fileChooser = new JFileChooser(lastSavePath);
 		fileChooser.setDialogTitle("Save Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
-		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);
+		fileChooser.addChoosableFileFilter(new MenthorFilter());
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
@@ -1220,33 +1211,33 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle(getResourceString("dialog.importecore.title"));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			if (fileChooser.getFileFilter() == filter) {
-				try {
-					closeCurrentProject();
-					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					ResourceSet resourceSet = new ResourceSetImpl();
-					resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
-					resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
-					File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
-					org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
-					Resource resource = resourceSet.createResource(fileURI);		
-					resource.load(Collections.emptyMap());
-					File projectFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".menthor"));
-					setProjectFile(projectFile);
-					lastOpenPath = projectFile.getAbsolutePath();
-					createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
-					saveCurrentProjectToFile(projectFile);
-					lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
-					ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
-					newDiagram();
-					frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
-					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.importecore.title"),JOptionPane.ERROR_MESSAGE);
-				}
+			try {
+				closeCurrentProject();
+				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				ResourceSet resourceSet = new ResourceSetImpl();
+				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
+				resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
+				File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
+				org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
+				Resource resource = resourceSet.createResource(fileURI);		
+				resource.load(Collections.emptyMap());
+				File projectFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".menthor"));
+				setProjectFile(projectFile);
+				lastOpenPath = projectFile.getAbsolutePath();
+				createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
+				saveCurrentProjectToFile(projectFile);
+				lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
+				ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
+				newDiagram();
+				frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
+				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				frame.openProjectBrowser();
+				frame.getMainToolBar().enableAll(true);
+				
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.importecore.title"),JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1261,17 +1252,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Import from EA");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("XMI, XML (*.xmi, *.xml)", "xmi", "xml");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);		
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 		{
-			if (fileChooser.getFileFilter() == filter)
-			{
-				File file = fileChooser.getSelectedFile();
-				lastImportEAPath = file.getAbsolutePath();
-				new ImportXMIDialog(frame, true, this, lastImportEAPath);
-				ConfigurationHelper.addRecentProject(file.getCanonicalPath());
-			}
+			File file = fileChooser.getSelectedFile();
+			lastImportEAPath = file.getAbsolutePath();
+			new ImportXMIDialog(frame, true, this, lastImportEAPath);
+			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
 		}		
 	}
 	
@@ -1290,17 +1277,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle(getResourceString("dialog.exportecore.title"));
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
 			fileChooser.addChoosableFileFilter(filter);
-			fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-				if (fileChooser.getFileFilter() == filter) {
-					try {
-						OntoUMLExporter exporter = new OntoUMLExporter();
-						exporter.writeOntoUML(this, fileChooser.getSelectedFile(), getCurrentEditor().getProject());
-						lastExportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.exportecore.title"), JOptionPane.ERROR_MESSAGE);
-					}
+				try {
+					OntoUMLExporter exporter = new OntoUMLExporter();
+					exporter.writeOntoUML(this, fileChooser.getSelectedFile(), getCurrentEditor().getProject());
+					lastExportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.exportecore.title"), JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
@@ -1315,23 +1299,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exporting as UML");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
-			fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-				if (fileChooser.getFileFilter() == filter) {
-					try {
-						getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						UMLExporter exporter = new UMLExporter();
-						exporter.writeUML(this, fileChooser.getSelectedFile());
-						lastExportUMLPath = fileChooser.getSelectedFile().getAbsolutePath();
-						frame.showSuccessfulMessageDialog("Success", "Project exported to UML successfully, located at: \n"+fileChooser.getSelectedFile());
-												
-					} catch (Exception ex) {
-						ex.printStackTrace();
-						String msg = ex.getLocalizedMessage();
-						if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
-						frame.showErrorMessageDialog("Failure", "Current project could not be exported to UML. Motive:\n"+msg);
-					}
+				try {
+					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					UMLExporter exporter = new UMLExporter();
+					exporter.writeUML(this, fileChooser.getSelectedFile());
+					lastExportUMLPath = fileChooser.getSelectedFile().getAbsolutePath();
+					frame.showSuccessfulMessageDialog("Success", "Project successfully exported to UML.\nLocation: "+fileChooser.getSelectedFile().getAbsolutePath());
+											
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					String msg = ex.getLocalizedMessage();
+					if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
+					frame.showErrorMessageDialog("Failure", "Current project could not be exported to UML.\nMotive: "+msg);
 				}
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1345,18 +1326,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle(getResourceString("dialog.exportgfx.title"));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Portable Network Graphics file (*.png)", "png");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {			
-			if (fileChooser.getFileFilter() == filter) {
-				try {
-					PngWriter exporter = new PngWriter();
-					exporter.writePNG(getCurrentDiagramEditor(), fileChooser.getSelectedFile());
-				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(),
-							getResourceString("error.exportgfx.title"),
-							JOptionPane.ERROR_MESSAGE);
-				}
+			try {
+				PngWriter exporter = new PngWriter();
+				exporter.writePNG(getCurrentDiagramEditor(), fileChooser.getSelectedFile());
+			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage(),
+						getResourceString("error.exportgfx.title"),
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

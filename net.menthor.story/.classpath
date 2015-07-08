@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ocl.ecore_3.3.0.v20130520-1222.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.osgi_3.9.1.v20130814-1242.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.jface_3.9.1.v20130725-1141.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -34,11 +34,11 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import org.tinyuml.ui.commands.AppCommandListener;
-
 import net.menthor.editor.ui.DiagramToolbar;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.IconLoader;
+
+import org.tinyuml.ui.commands.AppCommandListener;
 
 /**
  * This class manages and creates the application's main toolbar.
@@ -54,14 +54,49 @@ public class AppToolbar implements ActionListener {
 		new ArrayList<AppCommandListener>();
 	private Map<String, JButton> jbuttonMap = new HashMap<String, JButton>();
 	
-	private JButton save;	
+	private JButton btnSave;	
 	private JToggleButton btnToolBox;
 	private JToggleButton btnBrowser;
 	private JToggleButton btnBottomView;
+	private JButton btnUndo;
+	private JButton btnRedo;
+	private JButton btnFind;
+	@SuppressWarnings("unused")
+	private JButton btnNew;
+	@SuppressWarnings("unused")
+	private JButton btnOpen;
+	private JButton btnStats;
+	private JButton btnVerify;
+	private JButton btnText;
+	private JButton btnAlloy;
+	private JButton btnOWL;
+	private JButton btnSBVR;
+	private JButton btnAntiPattern;
+	private JButton btnMeronymic;
 	
 	public JToggleButton getToolBoxButton() { return btnToolBox; }
 	public JToggleButton getProjectBrowserButton() { return btnBrowser; }
 	public JToggleButton getBottomViewButton() { return btnBottomView; }
+	
+	public void enableAll(boolean value)
+	{
+		btnToolBox.setEnabled(value);
+		btnBrowser.setEnabled(value);
+		btnBottomView.setEnabled(value);
+		btnSave.setEnabled(value);
+		btnUndo.setEnabled(value);
+		btnRedo.setEnabled(value);
+		btnStats.setEnabled(value);
+		btnFind.setEnabled(value);
+		btnStats.setEnabled(value);
+		btnVerify.setEnabled(value);
+		btnText.setEnabled(value);
+		btnAlloy.setEnabled(value);
+		btnOWL.setEnabled(value);
+		btnSBVR.setEnabled(value);
+		btnAntiPattern.setEnabled(value);
+		btnMeronymic.setEnabled(value);
+	}
 	
 	/**
 	 * Constructor.
@@ -69,16 +104,17 @@ public class AppToolbar implements ActionListener {
 	public AppToolbar(final AppFrame frame) {
 		this.frame = frame;
 		
-		createButton("new");
+		
+		btnNew = createButton("new");
 		//createButton("newdiagram");
-		createButton("open");
-		save = createButton("save");		
+		btnOpen = createButton("open");
+		btnSave = createButton("save");		
 		//createButton("cut");
 		//createButton("copy");
 		//createButton("paste");
-		createButton("undo");
-		createButton("redo");
-		createButton("find");		
+		btnUndo = createButton("undo");
+		btnRedo = createButton("redo");
+		btnFind = createButton("find");		
 				
 		btnToolBox = new JToggleButton("");
 		btnToolBox.setSelected(frame.getMainMenu().isSelected("TOOLBOX"));
@@ -122,42 +158,42 @@ public class AppToolbar implements ActionListener {
 		btnBottomView.setIcon(new ImageIcon(AppToolbar.class.getResource("/resources/icons/x16/layout_select_footer.png")));
 		toolbar.add(btnBottomView);
 				
-		createButton("statistics");
+		btnStats = createButton("statistics");
 		
-		createButton("verify");
+		btnVerify = createButton("verify");
 		
 		toolbar.addSeparator();
-		JButton btnText = createButton("generatetext");
+		btnText = createButton("generatetext");
 		btnText.setToolTipText("" +
 			"<html>Glossary of Terms: Transform your ontology into a Textual Description in Portuguese-BR.<br><br>"+
 			"TIP: You may customize which packages or elements do you want to transform <br>" +
 			"just deselecting/selecting them on the project browser.<br><br>" +
 			"</html>");
-		JButton btnAlloy = createButton("generatealloy");
+		btnAlloy = createButton("generatealloy");
 		btnAlloy.setToolTipText("" +
 			"<html>Simulation & Checking: Validate your ontology using Alloy and its Analyzer. <br><br>"+
 			"TIP: You may customize which packages or elements do you want to transform <br>" +
 			"just deselecting/selecting them on the project browser.<br><br>" +
 			"</html>");		
-		JButton btnOWL = createButton("generateowlsettings");
+		btnOWL = createButton("generateowlsettings");
 		btnOWL.setToolTipText("" +
 			"<html>Semantic Web: Publish and Reason over your ontology using OWL/SWRL.<br><br>"+
 			"TIP: You may customize which packages or elements  do you want to transform <br>" +
 			"just deselecting/selecting them on the project browser.<br><br>" +
 			"</html>");
-		JButton btnSBVR = createButton("generatesbvr");
+		btnSBVR = createButton("generatesbvr");
 		btnSBVR.setToolTipText("" +
 			"<html>Business Vocabulary: Transform your ontology into a SBVR Document in HTML.<br><br>"+
 			"TIP: You may customize which packages or elements  do you want to transform <br>" +
 			"just deselecting/selecting them on the project browser.<br><br>" +
 			"</html>");
-		JButton btnAntiPattern = createButton("antipattern");
+		btnAntiPattern = createButton("antipattern");
 		btnAntiPattern.setToolTipText("" +
 			"<html>Anti-Patterns: Check and Fix your ontology detecting Anti-Patterns occurrences, if any. <br><br>"+
 			"TIP: You may customize which packages or elements do you want to consider <br>" +
 			"just deselecting/selecting them on the project browser.<br><br>" +
 			"</html>");	
-		JButton btnMeronymic = createButton("partwhole");
+		btnMeronymic = createButton("partwhole");
 		btnMeronymic.setToolTipText("" +
 			"<html>Part-Whole Relations: Evaluate your ontology regarding the transitivity of meronymic relations.<br><br>"+
 			"TIP: You may customize which packages or elements do you want to consider <br>" +
@@ -171,6 +207,8 @@ public class AppToolbar implements ActionListener {
 		
 		toolbar.setFloatable(false);
 		toolbar.setMargin(new Insets(5,5,5,5));
+		
+		enableAll(false);
 	}
 
 	/**
@@ -189,7 +227,7 @@ public class AppToolbar implements ActionListener {
 
 	public void enableSaveButton(boolean value)
 	{
-		save.setEnabled(value);
+		btnSave.setEnabled(value);
 	}
 	
 	/**

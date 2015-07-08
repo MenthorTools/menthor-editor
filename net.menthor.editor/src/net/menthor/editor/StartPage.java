@@ -74,6 +74,7 @@ public class StartPage extends BackgroundPanel implements Editor {
     	//GradientPaint paint = new GradientPaint(0, 0, Color.BLUE, 600, 0, Color.RED);
     	//setPaint(paint);
     	setLayout(new BorderLayout(0, 0));
+    	setBackground(Color.WHITE);
     	//setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));    	
     	JPanel contentPane = createContentPane();
     	add(contentPane,BorderLayout.CENTER);
@@ -163,10 +164,12 @@ public class StartPage extends BackgroundPanel implements Editor {
     	btn.setContentAreaFilled(false);        
         //btn.setBorderPainted(false);
         btn.setFocusPainted(false);
-        btn.setOpaque(true);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK));                        
-    	return btn;
+        btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK),1,true));
+        setRollOverLink(btn);
+        btn.setOpaque(true);
+        return btn;
     }
     
     private JPanel createButtonsPane()
@@ -239,19 +242,44 @@ public class StartPage extends BackgroundPanel implements Editor {
    
 	public void setRollOver(final JButton btn)
 	{	
+		btn.setRolloverEnabled(true);
 		btn.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();
                 if (model.isRollover()) {
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE_HOVER));                	
+                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE_HOVER)); 
+                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE),1,true));
+                	
                 } else{
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));                	
+                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));
+                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE),1,true));
+            		
                 }
             }
         });
     }
-    
+	
+	public void setRollOverLink(final JButton btn)
+	{	
+		btn.setRolloverEnabled(true);
+		btn.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                ButtonModel model = (ButtonModel) e.getSource();
+                if (model.isRollover()) {
+                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY)); 
+                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK),1,true));
+                	
+                } else{
+                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK));
+                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK),1,true));
+            		
+                }
+            }
+        });
+    }
+	
 	private JPanel createPageBtnPane()
 	{
 		pageBtnPane = new JPanel();		
