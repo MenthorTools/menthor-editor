@@ -542,7 +542,7 @@ public class ModelHelper {
 	public static String getClassAsStereotype(EObject eObject) {
 		String ret = eObject.eClass().getName().toLowerCase()
 				.replace("association", "");
-		return "<<" + ret + ">>";
+		return "\u00AB"+ret+"\u00BB";
 	}
 		
 	public static String getStereotype(RefOntoUML.Element element){

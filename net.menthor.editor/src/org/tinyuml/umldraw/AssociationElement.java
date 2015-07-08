@@ -1285,7 +1285,7 @@ public final class AssociationElement extends BaseConnection {
 	public String toString()
 	{
 		if(getRelationship() instanceof RefOntoUML.Association){
-			return "<<"+ModelHelper.getStereotype(getRelationship())+">> "+((RefOntoUML.Association)getRelationship()).getName();
+			return "\u00AB"+ModelHelper.getStereotype(getRelationship())+"\u00BB"+((RefOntoUML.Association)getRelationship()).getName();
 		}else if (getRelationship() instanceof RefOntoUML.Generalization){
 			return ModelHelper.getStereotype(getRelationship())+" "+((RefOntoUML.Generalization)getRelationship()).getSpecific()+" -> "+((RefOntoUML.Generalization)getRelationship()).getGeneral();
 		}else if (getRelationship()==null){
