@@ -837,7 +837,6 @@ public class ProjectTree extends CheckboxTree {
         {	            	
         	TreePath path = getPathForLocation ( e.getX (), e.getY () );
         	
-        	
         	setSelectionPath(path);
         	scrollPathToVisible(path); //adicionado por Tiago
             

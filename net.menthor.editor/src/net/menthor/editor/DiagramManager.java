@@ -984,6 +984,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				saveCurrentProjectToFile(file);
 				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 				frame.openProjectBrowser();
+				frame.getMainToolBar().enableAll(true);
 				Main.printOutLine("New project succesffully created");
 				
 			} catch (Exception ex) {

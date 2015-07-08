@@ -415,7 +415,7 @@ public class StartPage extends BackgroundPanel implements Editor {
     	boxPane.setLayout(new BorderLayout(0, 0));
     	boxPane.add(greyPane);
     	
-    	emptyHeaderArea = Box.createRigidArea(new Dimension(20, (int)(0.1*getScreenWorkingHeight())));
+    	emptyHeaderArea = Box.createRigidArea(new Dimension(20, (int)(0.08*getScreenWorkingHeight())));
     	boxPane.add(emptyHeaderArea, BorderLayout.NORTH);
 		return contentPane;
     }

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
@@ -100,15 +101,6 @@ public class SelectionHandler implements EditorMode {
 	public void deselectAll() { selection = NullSelection.getInstance(); }
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public void mouseClicked(EditorMouseEvent e) {		
-		if (e.isMainButton()) {
-			handleSelectionOnMouseClicked(e);
-		}
-	}
-
-	/**
 	 * Handles the selection on a mouseClicked event.
 	 * @param e the EditorMouseEvent
 	 */
@@ -158,13 +150,44 @@ public class SelectionHandler implements EditorMode {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void mouseClicked(EditorMouseEvent e) {		
+		if (e.isMainButton()) {
+			handleSelectionOnMouseClicked(e);
+		}
+		if (SwingUtilities.isRightMouseButton(e.getMouseEvent()))
+        {
+			handleSelectionOnMousePress(e);
+			displayContextMenu(e);
+			handleSelectionOnMouseReleased(e);	
+        }
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void mousePressed(EditorMouseEvent e) {		
 		handleSelectionOnMousePress(e);
 		if (e.isPopupTrigger()) {
+			//this was not working in Mac. I moved it to mouseClicked(e)
 			displayContextMenu(e);
+		}else{
+			
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public void mouseReleased(EditorMouseEvent e) {						
+		handleSelectionOnMouseReleased(e);		
+		if (e.isPopupTrigger()) {
+			//this was not working in Mac. I moved it to mouseClicked(e)
+			displayContextMenu(e);
+		}else{
+			
+		}
+	}
+	
 	public void select (DiagramElement element)
 	{
 		selection = element.getSelection(editor);
@@ -180,8 +203,16 @@ public class SelectionHandler implements EditorMode {
 		if (!nothingSelected()) {
 			if(selection.getElement() instanceof StructureDiagram == false)
 			{
-				JPopupMenu menu = contextMenuBuilder.setContext(selection,mx,my);
+				final JPopupMenu menu = contextMenuBuilder.setContext(selection,mx,my);
 				menu.show(e.getMouseEvent().getComponent(), e.getMouseEvent().getX(), e.getMouseEvent().getY());
+				//change the focus to the pop-up menu...
+//				editor.getDiagramManager().getFrame().addWindowFocusListener(new WindowFocusListener() {
+//				    @Override public void windowGainedFocus(WindowEvent arg0) {}
+//				    @Override public void windowLostFocus(WindowEvent arg0) {
+//				    	menu.setVisible(false);
+//				    	editor.getDiagramManager().getFrame().removeWindowFocusListener(this);
+//				    }
+//				});
 			}
 		}	
 	}
@@ -265,16 +296,6 @@ public class SelectionHandler implements EditorMode {
 			return element.getSelection(editor);
 		}
 		return editor.getDiagram().getSelection(editor);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void mouseReleased(EditorMouseEvent e) {						
-		handleSelectionOnMouseReleased(e);		
-		if (e.isPopupTrigger()) {
-			displayContextMenu(e);
-		}
 	}
 
 	/**

@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -265,6 +266,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}		
 	}
 
+	/** Returns true iff running on Mac OS X. **/
+	public static boolean onMac() {
+      return System.getProperty("mrj.version")!=null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");                                     
+	}	
+	
 	/** Adds the event handlers. */
 	private void installHandlers() 
 	{
@@ -278,12 +284,22 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		addMouseListener(new MouseAdapter()
 	    {
 			@Override
+			public void mousePressed(MouseEvent e) {
+				if(e.isPopupTrigger()){
+					openDiagramPopupMenu(e);
+				}
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(e.isPopupTrigger()){
+					openDiagramPopupMenu(e);
+				}
+			}
+			
+			@Override
 			public void mouseClicked(MouseEvent e) 
 			{			
-			    if (SwingUtilities.isRightMouseButton(e))
-	            {	            	     	
-			    	openDiagramPopupMenu(e);
-	            }
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {	            	  
 			    	if(e.getClickCount()==2){
@@ -294,7 +310,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}	       
 	    });					
 				
-		// install Scape KeyBinding
+		// install Space KeyBinding
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(' '),"openToolBoxMenu");
 		getActionMap().put("openToolBoxMenu", new AbstractAction() {
 
@@ -304,7 +320,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			public void actionPerformed(ActionEvent e) { openToolBoxPopupMenu(); }
 		});
 		
-		// install Escape KeyBinding
+		// install Escape (ESC) KeyBinding
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"),"cancelEditing");
 		getActionMap().put("cancelEditing", new AbstractAction() {
 
@@ -315,40 +331,46 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		});
 
 		// install Erase KeyBinding
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"),"excludeSelection");		
-		getActionMap().put("excludeSelection", new AbstractAction() {
-
-			private static final long serialVersionUID = -6375878624042384546L;
+		if(onMac()){
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("BACK_SPACE"),"excludeSelection");
+			getActionMap().put("excludeSelection", new AbstractAction() {
+						
+				private static final long serialVersionUID = -6375878624042384546L;
 			
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { excludeSelection(); }
-		});				
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.META_MASK),"excludeSelection");
-		getActionMap().put("excludeSelection", new AbstractAction() {
-					
-			private static final long serialVersionUID = -6375878624042384546L;
-		
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { excludeSelection(); }
-		});
-		
-		// install Delete KeyBinding
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK),"deleteSelection");		
-		getActionMap().put("deleteSelection", new AbstractAction() {
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { excludeSelection(); }
+			});	
+		}else{
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"),"excludeSelection");		
+			getActionMap().put("excludeSelection", new AbstractAction() {
 
-			private static final long serialVersionUID = -6375878624042384546L;
+				private static final long serialVersionUID = -6375878624042384546L;
+				
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { excludeSelection(); }
+			});				
+		}
+				
+		if(onMac()){
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK),"deleteSelection");
+			getActionMap().put("deleteSelection", new AbstractAction() {
+						
+				private static final long serialVersionUID = -6375878624042384546L;
 			
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { deleteSelection(); }
-		});				
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.CTRL_MASK),"deleteSelection");
-		getActionMap().put("deleteSelection", new AbstractAction() {
-					
-			private static final long serialVersionUID = -6375878624042384546L;
-		
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { deleteSelection(); }
-		});
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { deleteSelection(); }
+			});
+		}else{
+			// install Delete KeyBinding
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK),"deleteSelection");		
+			getActionMap().put("deleteSelection", new AbstractAction() {
+
+				private static final long serialVersionUID = -6375878624042384546L;
+				
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { deleteSelection(); }
+			});					
+		}
 	}
 
 	@Override
