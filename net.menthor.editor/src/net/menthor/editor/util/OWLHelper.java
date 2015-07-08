@@ -29,11 +29,12 @@ import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
+import RefOntoUML.parser.OntoUMLParser;
 import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(RefOntoUML.Package model, String ontologyIRI, MappingType mappingType, boolean fileOutput, String filePath, String oclRules, OWLTransformationOptions owlOptions)
+	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, MappingType mappingType, boolean fileOutput, String filePath, String oclRules, OWLTransformationOptions owlOptions)
 	{
 		//System.out.println(ontologyIRI);
 		net.menthor.ontouml2temporalowl.auxiliary.MappingType mp = null;
@@ -52,7 +53,7 @@ public class OWLHelper {
     			owlOutput = ontoUml2rdf.transform();
     		}else if(mappingType.equals(MappingType.RULES)){
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(model, ontologyIRI, oclRules, owlOptions);
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, ontologyIRI, oclRules, owlOptions);
     			errors = ontoUML2OWL.errors;
     		}else
     		{

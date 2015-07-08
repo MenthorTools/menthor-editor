@@ -2957,7 +2957,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		String oclRules = new String();
 		oclRules = getWorkingConstraints();		
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		OperationResult result = OWLHelper.generateOwl(model, 
+		OperationResult result = OWLHelper.generateOwl(filteredParser, model, 
 			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),
 			mappingType,
 			ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project),

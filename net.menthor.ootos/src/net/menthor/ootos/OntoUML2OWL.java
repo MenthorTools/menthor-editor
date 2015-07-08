@@ -11,9 +11,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.ocl.ParserException;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
-import RefOntoUML.Model;
-import RefOntoUML.Package;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class OntoUML2OWL {
 	public String errors = "";
@@ -27,7 +27,7 @@ public class OntoUML2OWL {
 	 * @throws ParserException 
 	 * @throws OWLOntologyCreationException
 	 */
-	public String Transformation(Package ecoreModel, String nameSpace, String oclRules, OWLTransformationOptions owlOptions) throws ParserException, Exception {
+	public String Transformation(OntoUMLParser ecoreModel, String nameSpace, String oclRules, OWLTransformationOptions owlOptions) throws ParserException, Exception {
 		Transformer transformer = new Transformer(ecoreModel, nameSpace, oclRules, owlOptions);
 		String transform = transformer.transform();
 		this.errors = transformer.getErrors();
@@ -45,7 +45,7 @@ public class OntoUML2OWL {
 	 * @throws OWLOntologyCreationException
 	 */
 	public String Transformation(File modelFile, String nameSpace, String oclRules, OWLTransformationOptions owlOptions) throws ParserException, Exception {
-		RefOntoUML.Model ecoreModel = intialize(modelFile);
+		OntoUMLParser ecoreModel = intialize(modelFile);
 		Transformer transformer = new Transformer(ecoreModel, nameSpace, oclRules, owlOptions);
 		String transform = transformer.transform();
 		this.errors = transformer.getErrors();
@@ -53,7 +53,7 @@ public class OntoUML2OWL {
 	}
 
 
-	public static RefOntoUML.Model intialize(File address) {
+	public static OntoUMLParser intialize(File address) {
 		try{
 			//Criar um ResourceSet para "gerenciar" o resource do modelo
 			ResourceSet resourceSet = new ResourceSetImpl();
@@ -61,7 +61,8 @@ public class OntoUML2OWL {
 			resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI,RefOntoUML.RefOntoUMLPackage.eINSTANCE);
 
 			Resource resource = resourceSet.getResource(URI.createFileURI(address.getAbsolutePath()),true);
-			return (Model) resource.getContents().get(0);
+			
+			return (OntoUMLParser) resource.getContents().get(0);
 		}catch (Exception e){
 			e.printStackTrace();
 		}

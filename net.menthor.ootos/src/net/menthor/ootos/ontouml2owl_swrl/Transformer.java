@@ -16,6 +16,7 @@ import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -40,14 +41,17 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
@@ -91,6 +95,7 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 
 public class Transformer {
@@ -121,7 +126,8 @@ public class Transformer {
 	private HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>> hashDataProperty;
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
-
+	private Set<Classifier> lstGsSetMapChildren;
+		
 	private OWLTransformationOptions owlOptions;
 	//OWL
 	private String nameSpace;
@@ -148,7 +154,7 @@ public class Transformer {
 	/**
 	 * Initialize the Transformer
 	 * */
-	public Transformer(RefOntoUML.Package model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) {
+	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) {
 		this.nameSpace = nameSpace+"#";
 
 		try {
@@ -161,7 +167,8 @@ public class Transformer {
 			e.printStackTrace();
 		}	
 		
-		ontoParser = new OntoUMLParser(model);
+//		ontoParser = new OntoUMLParser(model);
+		ontoParser = model;
 		
 		lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
@@ -171,18 +178,18 @@ public class Transformer {
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
-				GeneralizationSet gs = (GeneralizationSet) genSetEnumMappings[i][0];
+				OntoUMLElement gsElem = (OntoUMLElement) genSetEnumMappings[i][0];
+				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
 				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
-//				if(mappingType.)
-//				Set<Classifier> children;
-//				children = ontoParser.getAllChildren(gs);
-//				children = ontoParser.getChildren(gs);
-//				children = ontoParser.getLeafChildren(gs);
-				
-				EList<Generalization> gens = gs.getGeneralization();
-				for (Generalization generalization : gens) {
-					lstOntClass.remove(generalization.getSpecific());
+				if(mappingType.equals(GeneralizationMappingType.allClasses)){
+					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
+				}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+					lstGsSetMapChildren = ontoParser.getChildren(gs);
+				}else{
+					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
 				}
+				
+				lstOntClass.removeAll(lstGsSetMapChildren);
 			}
 		}
 		
@@ -368,6 +375,13 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when creating the Axioms;\n");
 		}
 
+		try{
+			processGenSetsMappings();
+		}catch (Exception e){
+			errors = "";
+			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
+		}
+
 		if(oclRules != null && !oclRules.equals("") && owlOptions.isSwrlRulesAxiom()){
 			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, nameSpace);
 			ocl2owl_swrl.Transformation();
@@ -390,6 +404,37 @@ public class Transformer {
 		return "";
 	}
 	
+	private void processGenSetsMappings() {
+		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
+		for(int i = 0; i < genSetEnumMappings.length; i++){
+			OntoUMLElement gsElem = (OntoUMLElement) genSetEnumMappings[i][0];
+			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
+			GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
+			Set<Classifier> localGsSetMapChildren;
+			if(mappingType.equals(GeneralizationMappingType.allClasses)){
+				localGsSetMapChildren = ontoParser.getAllChildren(gs);					
+			}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+				localGsSetMapChildren = ontoParser.getChildren(gs);
+			}else{
+				localGsSetMapChildren = ontoParser.getLeafChildren(gs);
+			}
+			
+			OWLIndividual[] individuals = new OWLIndividual[localGsSetMapChildren.size()];
+			int j = 0;
+			for (Classifier classifier : localGsSetMapChildren) {
+				OWLNamedIndividual individual = getOwlNamedIndividual(nameSpace, classifier.getName());
+				individuals[j] = individual;
+				j++;
+			}	
+			OWLObjectOneOf oneOf = factory.getOWLObjectOneOf(individuals);
+			
+			OWLClass owlGs = getOwlClass(this.nameSpace, gs.getName());
+			OWLEquivalentClassesAxiom ax = factory.getOWLEquivalentClassesAxiom(owlGs, oneOf);
+			manager.applyChange(new AddAxiom(ontology, ax));
+			
+		}
+	}
+
 	private void removeUndesiredAxioms() {
 		Set<OWLAxiom> axioms = ontology.getAxioms();
 		for (OWLAxiom owlAxiom : axioms) {
@@ -904,6 +949,9 @@ public class Transformer {
 	private OWLClass getOwlClass(String iri, String className){
 		return factory.getOWLClass(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
 	}	
+	private OWLNamedIndividual getOwlNamedIndividual(String iri, String className){
+		return factory.getOWLNamedIndividual(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
+	}	
 	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
 		return getOwlClass(nameSpace, ontCls);
 	}	
@@ -1175,9 +1223,10 @@ public class Transformer {
 			RefOntoUML.Classifier srcT = (Classifier) ass.getMemberEnd().get(0).getType();
 			RefOntoUML.Classifier tgtT = (Classifier) ass.getMemberEnd().get(1).getType();
 			if(lstNominalQualities.contains(srcT) || lstNominalQualities.contains(tgtT)){
-				System.out.println();
-//				continue;
+//				System.out.println();
+				continue;
 			}
+			if(lstGsSetMapChildren.contains(srcT) || lstGsSetMapChildren.contains(tgtT)) continue;
 			if(!lstDataType.contains(srcT) && !lstDataType.contains(tgtT)){
 				//Verify the name of the property
 				String assName = mappingProperties.getPropertyName(ass);
@@ -1281,8 +1330,10 @@ public class Transformer {
 			if(gen.getGeneral() instanceof DataType){
 				continue;
 			}
+			if(lstGsSetMapChildren.contains(gen.getGeneral()) || lstGsSetMapChildren.contains(gen.getSpecific())) continue;
+			
 			OWLClass father = getOwlClass(gen.getGeneral());
-
+			
 			OWLClass son = 	getOwlClass(gen.getSpecific());
 
 			//Set subClassOf 
@@ -1407,6 +1458,8 @@ public class Transformer {
 		ArrayList<String> existentClasses = new ArrayList<String>();
 		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
+			if(lstGsSetMapChildren.contains(ontCls)) continue;
+			
 			if(existentClasses.contains(ontCls.getName())){
 				duplicatedClasses.add(ontCls.getName());
 			}else{

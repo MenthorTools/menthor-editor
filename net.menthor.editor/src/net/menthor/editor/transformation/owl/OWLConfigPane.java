@@ -313,7 +313,7 @@ public class OWLConfigPane extends JPanel {
 		wormA2Item.setValue("WORM_VIEW_A2");
 		wormA2Item.setDescription(ApplicationResources.getInstance().getString("dialog.owlsettings.worm-view-a2"));
 		
-		return new DefaultComboBoxModel(new Object[] { rdfItem, rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
-//		return new DefaultComboBoxModel(new Object[] { rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
+//		return new DefaultComboBoxModel(new Object[] { rdfItem, rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
+		return new DefaultComboBoxModel(new Object[] { rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
 	}
 }
