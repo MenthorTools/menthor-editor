@@ -201,7 +201,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Set click color
-				btnNewProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE_CLICK));            	
+				btnNewProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN_DARK));            	
             	//Action
             	commandListener.handleCommand("NEW_PROJECT");            	
             	//Back to normal
@@ -216,7 +216,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Set click color
-				btnOpenProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE_CLICK));            	
+				btnOpenProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN_DARK));            	
 		       	//Action
 		       	commandListener.handleCommand("OPEN_PROJECT");            	
 		       	//Back to normal
@@ -231,7 +231,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Set click color
-				btnImportFromEA.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE_CLICK));            	
+				btnImportFromEA.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN_DARK));            	
 		       	//Action
 		       	commandListener.handleCommand("IMPORT_XMI");            	
 		       	//Back to normal
@@ -248,7 +248,7 @@ public class StartPage extends BackgroundPanel implements Editor {
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();
                 if (model.isRollover()) {
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE_HOVER)); 
+                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN)); 
                 	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE),1,true));
                 	
                 } else{

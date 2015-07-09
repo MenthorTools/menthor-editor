@@ -49,6 +49,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -711,7 +712,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		double waste = 0;
 		if(frame.isShowBrowser()) waste+=240;
 		if(frame.isShowToolBox()) waste+=240;
-		diagram.setSize(AppFrame.GetScreenWorkingWidth()-waste+100, AppFrame.GetScreenWorkingHeight()-100);
+		diagram.setSize((AppFrame.GetScreenWorkingWidth()-waste+100)*3, (AppFrame.GetScreenWorkingHeight()-100)*3);
 	}
 	
 	/** Creates a new Diagram with in existing Project */
@@ -979,6 +980,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						file = new File(file.getCanonicalFile()+"");
 					}
 				}				
+				JRootPane root = frame.getRootPane( );
+				root.putClientProperty( "Window.documentFile", file );
 				setProjectFile(file);
 				createEmptyCurrentProject();				
 				saveCurrentProjectToFile(file);
@@ -1024,6 +1027,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				closeCurrentProject();				
 				Main.printOutLine("Opening Menthor project...");				
 				File file = fileChooser.getSelectedFile();
+				JRootPane root = frame.getRootPane( );
+				root.putClientProperty( "Window.documentFile", file );
 				setProjectFile(file);
 				lastOpenPath = file.getAbsolutePath();
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
@@ -1055,6 +1060,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			closeCurrentProject();
 			Main.printOutLine("Opening recent project");				
 			File file = new File(filePath);
+			JRootPane root = frame.getRootPane( );
+			root.putClientProperty( "Window.documentFile", file );			
 			setProjectFile(file);
 			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 			currentProject = (UmlProject) listFiles.get(0);				
@@ -1225,6 +1232,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				Resource resource = resourceSet.createResource(fileURI);		
 				resource.load(Collections.emptyMap());
 				File projectFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".menthor"));
+				JRootPane root = frame.getRootPane( );
+				root.putClientProperty( "Window.documentFile", projectFile );
 				setProjectFile(projectFile);
 				lastOpenPath = projectFile.getAbsolutePath();
 				createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));

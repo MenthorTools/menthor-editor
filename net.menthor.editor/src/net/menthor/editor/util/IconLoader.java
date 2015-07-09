@@ -164,8 +164,8 @@ public final class IconLoader {
 		urlMap.put(IconType.MENTHOR, "resources/icons/menthor-16x16.png");
 		urlMap.put(IconType.NEMO, "resources/icons/window16.png");
 		
-		urlMap.put(IconType.PALETTE_OPEN, "resources/icons/x16/palette_open.png");
-		urlMap.put(IconType.PALETTE_CLOSED, "resources/icons/x16/palette_closed.png");
+		urlMap.put(IconType.PALETTE_OPEN, "net/menthor/resources/images/palette-open.png");
+		urlMap.put(IconType.PALETTE_CLOSED, "net/menthor/resources/images/palette-closed.png");
 		
 		urlMap.put(IconType.EA, "resources/icons/x16/ea.jpg");		
 		urlMap.put(IconType.UML, "resources/icons/x16/eclipse.gif");

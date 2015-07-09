@@ -87,7 +87,11 @@ public class AppMenu implements ActionListener {
 		menubar.add(projectMenu);
 		
 		JMenuItem parseMenuItem = createMenuItem(projectMenu,"parseocl");
-		parseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));		
+		if(Main.onMac()){
+			parseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK));		
+		}else{
+			parseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));		
+		}
 		
 		createMenuItem(projectMenu,"verify");
 		//JMenuItem verifyMenuItem = 
@@ -155,17 +159,28 @@ public class AppMenu implements ActionListener {
 		menubar.add(fileMenu);
 
 		JMenuItem newItem = createMenuItem(fileMenu, "new");
-		newItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			newItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.META_MASK));
+		}else{
+			newItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		}
 		
 		JMenuItem openItem = createMenuItem(fileMenu, "open");
-		openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK));	
+		}else{
+			openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		}
 		
 		//fileMenu.addSeparator();
-						
 		//fileMenu.addSeparator();
 		
 		JMenuItem saveItem = createMenuItem(fileMenu, "save");
-		saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.META_MASK));
+		}else{
+			saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		}
 		
 		createMenuItem(fileMenu, "saveas");
 		
@@ -196,7 +211,11 @@ public class AppMenu implements ActionListener {
 		createMenuItem(fileMenu,"close");
 		
 		JMenuItem quitItem = createMenuItem(fileMenu, "quit");
-		quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK));
+		}else{
+			quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		}
 	}
 	
 	private void createDiagramMenu()
@@ -206,16 +225,28 @@ public class AppMenu implements ActionListener {
 		menubar.add(diagramMenu);
 		
 		JMenuItem newdiagramItem = createMenuItem(diagramMenu,"newdiagram");
-		newdiagramItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			newdiagramItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.META_MASK));
+		}else{
+			newdiagramItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
+		}
 		
 		JMenuItem selectAllItem = createMenuItem(diagramMenu,"selectall");
-		selectAllItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			selectAllItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.META_MASK));
+		}else{
+			selectAllItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+		}
 //		selectAllItem.setEnabled(false);
 		
 		createMenuItem(diagramMenu,"exportgfx");
 		
 		JMenuItem closediagramItem = createMenuItem(diagramMenu,"closediagram");
-		closediagramItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			closediagramItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.META_MASK));	
+		}else{
+			closediagramItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -249,10 +280,18 @@ public class AppMenu implements ActionListener {
 		menubar.add(editMenu);
 		
 		JMenuItem undoItem = createMenuItem(editMenu, "undo");
-		undoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			undoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.META_MASK));	
+		}else{
+			undoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+		}
 		
 		JMenuItem redoItem = createMenuItem(editMenu, "redo");
-		redoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			redoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.META_MASK));
+		}else{
+			redoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+		}
 				
 		//JMenuItem findItem = createMenuItem(editMenu, "find");
 		//findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
@@ -283,9 +322,17 @@ public class AppMenu implements ActionListener {
 		menubar.add(viewMenu);
 				 
 		JMenuItem zoomInItem = createMenuItem(viewMenu,"zoomin");
-		zoomInItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			zoomInItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.META_MASK));
+		}else{
+			zoomInItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.CTRL_MASK));
+		}
 		JMenuItem zoomOutItem = createMenuItem(viewMenu,"zoomout");
-		zoomOutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK));
+		if(Main.onMac()){
+			zoomOutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.META_MASK));	
+		}else{
+			zoomOutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK));
+		}
 		viewMenu.add(zoomInItem);
 		viewMenu.add(zoomOutItem);
 		
@@ -330,8 +377,12 @@ public class AppMenu implements ActionListener {
 		menubar.add(projectMenu);
 		
 		JMenuItem findItem = createMenuItem(projectMenu, "find");
-		findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
-
+		if(Main.onMac()){
+			findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK));
+		}else{
+			findItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
+		}
+		
 		createMenuItem(projectMenu, "statistics");
 		//statisticItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
 

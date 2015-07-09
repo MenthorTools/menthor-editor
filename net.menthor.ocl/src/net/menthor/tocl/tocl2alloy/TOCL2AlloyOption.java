@@ -14,7 +14,7 @@ public class TOCL2AlloyOption extends OCL2AlloyOption {
 	public TOCL2AlloyOption(TOCLParser toclparser)
 	{
 		super(toclparser);
-		indexes=toclparser.getTemporalConstraintsIndexes();
+		if(toclparser!=null) indexes=toclparser.getTemporalConstraintsIndexes();
 	}
 
 	public TOCL2AlloyOption() { }

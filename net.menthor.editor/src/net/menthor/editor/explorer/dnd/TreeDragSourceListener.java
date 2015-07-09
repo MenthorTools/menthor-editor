@@ -16,7 +16,7 @@ public class TreeDragSourceListener implements DragSourceListener {
 		int dropAction = dsde.getDropAction();
 		if ((dropAction & DnDConstants.ACTION_COPY) != 0) context.setCursor(DragSource.DefaultCopyDrop);
 		else if ((dropAction & DnDConstants.ACTION_MOVE) != 0) context.setCursor(DragSource.DefaultMoveDrop);
-		else context.setCursor(DragSource.DefaultCopyNoDrop);			
+		else context.setCursor(DragSource.DefaultMoveDrop);			
 	}
 
 	public void dragExit(DragSourceEvent dse) {}

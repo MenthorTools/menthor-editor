@@ -464,7 +464,9 @@ public final class Main {
 							publish("Setting system font...");
 							chooseFont();
 							publish("Loading application...");
+							
 							frame = new AppFrame();					
+							
 							publish("Loading interface components...");
 							loadAppropriateSwtJar();
 							publish("Loading binary files...");
@@ -472,6 +474,7 @@ public final class Main {
 							publish("Extracting Alloy files...");
 							ExtractorUtil.extractAlloyJar();
 							publish("Setting window location...");
+							
 							frame.setLocationByPlatform(true);
 							
 							String menthorFileName = "";

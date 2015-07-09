@@ -44,6 +44,7 @@ import org.tinyuml.ui.commands.AppCommandListener;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.IconLoader;
 import net.menthor.editor.util.IconLoader.IconType;
+import java.awt.Color;
 
 /**
  * @author Antognoni Albuquerque
@@ -79,6 +80,7 @@ public class Palette extends JPanel
 	private void createContent()
 	{
 		content = new JPanel();
+		content.setBackground(Color.WHITE);
 		content.setPreferredSize(new Dimension(200, 750));
 		content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));	
 				
@@ -99,6 +101,8 @@ public class Palette extends JPanel
 
 		Icon icon = IconLoader.getInstance().getIcon(IconType.PALETTE_CLOSED);
 		nameLabel = new JLabel(name, icon, JLabel.LEFT);
+		nameLabel.setForeground(Color.WHITE);
+		
 		title.add(nameLabel, BorderLayout.CENTER);
 
 		title.setMaximumSize(new Dimension(32767, 24));

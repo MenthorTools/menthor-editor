@@ -30,7 +30,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -136,8 +135,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	private transient Scaling scaling = Scaling.SCALING_100;		
 	private static final double MARGIN_TOP=0;
 	private static final double MARGIN_LEFT=0;
-	private static final double MARGIN_RIGHT=AppFrame.GetScreenWorkingWidth();
-	private static final double MARGIN_BOTTOM=AppFrame.GetScreenWorkingHeight();
+	private static final double MARGIN_RIGHT=0;//AppFrame.GetScreenWorkingWidth();
+	private static final double MARGIN_BOTTOM=0;//AppFrame.GetScreenWorkingHeight();
 	private static final double ADDSCROLL_HORIZONTAL=0;
 	private static final double ADDSCROLL_VERTICAL=0;
 		
@@ -395,11 +394,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}else{	
 			if (e.getWheelRotation() < 0)
             {
-				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()-60);
+				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()-50);
             }
 			if (e.getWheelRotation() > 0)
             {
-				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()+60);
+				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()+50);
             }
 		}
 	}
@@ -430,8 +429,10 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void deleteSelection() {
 				
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);		
+		if(this.isFocusable()){
+			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);
+		}
 	}
 	
 	/** Create a generalizations from selected elements in the diagram */
@@ -460,11 +461,21 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Removes the elements selected only from the diagram  */
 	public void excludeSelection() 
 	{
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-		if(response==Window.OK)
-		{
-			execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
+		if(this.isFocusable()){
+			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			
+			//no diagram in the list...
+			List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
+			for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
+			diagramElementsList.removeAll(diagrams);
+			if(diagramElementsList.size()>0){
+				
+				int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+				if(response==Window.OK)
+				{
+					execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
+				}
+			}
 		}
 	}
 	

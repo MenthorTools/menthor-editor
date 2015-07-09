@@ -28,16 +28,11 @@ import java.awt.Rectangle;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
 import java.io.File;
-import java.util.TooManyListenersException;
 
+import javax.swing.BoundedRangeModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -45,7 +40,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
-import javax.swing.tree.TreePath;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.menthor.editor.explorer.dnd.DiagramDropListener;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
@@ -96,6 +92,18 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollpane.setViewportView(editor);
 		scrollpane.setBorder(new EmptyBorder(0,0,0,0));
+		
+		scrollpane.getVerticalScrollBar().getModel().addChangeListener(new ChangeListener() {
+		    @Override
+		    public void stateChanged(ChangeEvent event) {
+		        BoundedRangeModel model = (BoundedRangeModel) event.getSource();
+		        int extent = model.getExtent();
+		        int maximum = model.getMaximum();
+		        int value = model.getValue();
+		        System.out.println("Value: " + (value + extent) + " Max: " + maximum);
+
+		    }
+		});
 		
 		add(diagramToolbar,BorderLayout.NORTH);
 		add(scrollpane,BorderLayout.CENTER);

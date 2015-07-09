@@ -176,7 +176,7 @@ public class ElementFilterPane extends JPanel {
 		findButton.setBorderPainted(false);
 		findPanel.add(findButton, BorderLayout.EAST);
 		findButton.setPreferredSize(new Dimension(30, 28));
-//		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
+		findButton.setIcon(new ImageIcon(ElementFilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
 		findButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -205,12 +205,12 @@ public class ElementFilterPane extends JPanel {
 		filterTree.resetSelection();
 		if(findText.getText().equals(lastTextFound)) {						
 			if(currentIndex < lastFoundNodes.size()) { filterTree.select(lastFoundNodes.get(currentIndex)); currentIndex++; } 
-			else { currentIndex=0; filterTree.select(lastFoundNodes.get(currentIndex)); }			
+			else { if(lastFoundNodes.size()>0) currentIndex=0; filterTree.select(lastFoundNodes.get(currentIndex)); }			
 		}else{			
 			lastTextFound = findText.getText();
 			currentIndex=0; 
 			lastFoundNodes = filterTree.findName(lastTextFound);
-			filterTree.select(lastFoundNodes.get(currentIndex));
+			if(currentIndex < lastFoundNodes.size()) filterTree.select(lastFoundNodes.get(currentIndex));
 		}
 	}
 		

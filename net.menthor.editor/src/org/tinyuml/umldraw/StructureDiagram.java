@@ -64,6 +64,7 @@ import org.tinyuml.draw.Diagram;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DiagramOperations;
 import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LabelChangeListener;
@@ -72,7 +73,6 @@ import org.tinyuml.draw.Node;
 import org.tinyuml.draw.NodeChangeListener;
 import org.tinyuml.draw.Selection;
 import org.tinyuml.draw.SimpleLabel;
-import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 import org.tinyuml.umldraw.shared.DiagramSelection;
@@ -205,7 +205,6 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	public StructureDiagram(UmlProject project, DiagramElementFactoryImpl elementFactory, DrawingContext drawingContext) {
 		initializeNameLabel();		
 		this.project = project;
-		//setSize(AppFrame.GetScreenWorkingWidth(), AppFrame.GetScreenWorkingHeight());
 		simulationElements.add(getStateSimulationElement());
 		//this.elementFactory = elementFactory;
 		this.drawingContext = drawingContext;

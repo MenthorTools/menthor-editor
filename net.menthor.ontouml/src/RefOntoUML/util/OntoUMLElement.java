@@ -22,6 +22,8 @@ package RefOntoUML.util;
  * ============================================================================================
  */
 
+import java.io.Serializable;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -34,13 +36,15 @@ import RefOntoUML.parser.OntoUMLNameHelper;
  * @author John Guerson
  */
 
-public class OntoUMLElement {
+public class OntoUMLElement implements Serializable{
 	
-	protected EObject element;
+	private static final long serialVersionUID = 6497601879574303331L;
+	
+	protected transient EObject element;
 	protected String name;
 	protected String type;
 	protected String uniqueName="";	
-		
+	
 	/** 
 	 * Create a CheckBox Tree Node Element from Element.
 	 * 

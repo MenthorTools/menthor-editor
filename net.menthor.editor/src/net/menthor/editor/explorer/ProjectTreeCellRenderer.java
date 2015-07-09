@@ -41,6 +41,7 @@ import javax.swing.tree.TreePath;
 
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.palette.PaletteAccordion;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -87,7 +88,7 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 		label.setOpaque(true);
 		uniqueName.setFocusable(true);
 		uniqueName.setOpaque(true);    		 
-		panel.setLayout(new BorderLayout(0, 0));
+		panel.setLayout(new BorderLayout(2, 2));
 		panel.add(BorderLayout.WEST,checkbox);
 		panel.add(BorderLayout.CENTER,label);
 		panel.add(BorderLayout.EAST,uniqueName);    		
@@ -166,12 +167,13 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 		uniqueName.setForeground(Color.gray);
 
 		if (selected){    			
-			//label.setBackground(PaletteAccordion.getSelectedPaletteBackground());			
-			//label.setBorder(PaletteAccordion.getSelectedPaletteBorder());
-			label.setBackground(UIManager.getColor("List.selectionBackground"));			    			
-			label.setForeground(UIManager.getColor("List.selectionForeground"));
-			
+			label.setBackground(PaletteAccordion.getHoverItemBackground());			
+			//label.setBorder(PaletteAccordion.getHoverItemBorder());
+			//label.setBackground(UIManager.getColor("List.selectionBackground"));			    			
+			//label.setForeground(UIManager.getColor("List.selectionForeground"));
 		}else{
+			//panel.setBackground(PaletteAccordion.getResetBackground());			
+			label.setBorder(null);
 			label.setBackground(UIManager.getColor("Tree.textBackground"));    			
 		}
 				

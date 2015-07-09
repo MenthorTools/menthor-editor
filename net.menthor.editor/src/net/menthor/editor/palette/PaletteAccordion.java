@@ -66,20 +66,22 @@ public class PaletteAccordion extends JPanel{
 	private JPanel bottomTitles;
 
 	private static int PALLETE_VSPACE = 20;
-	private static Border resetBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-	private static Color resetBackground = null;
+	private static Border resetBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+	private static Color resetBackground = Color.WHITE;
+	private static Color resetForeground = Color.BLACK;
+	
+	private static Border selectedItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE), 1, true);
+	private static Color selectedItemBackground = ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE);
+	private static Color selectedItemForeground = Color.WHITE;
+	
+	private static Border hoverItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1, true);
+	private static Color hoverItemBackground = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHT);
 
-	private static Border selectedItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1, true);
-	private static Color selectedItemBackground = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHT);
+	private static Border selectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
+	private static Color selectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
 
-	private static Border hoverItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREY_DARK), 1, true);
-	private static Color hoverItemBackground = ColorPalette.getInstance().getColor(ThemeColor.GREY_LIGHT);
-
-	private static Border selectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1, true);
-	private static Color selectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM);
-
-	private static Border unselectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.GREY_DARK), 1, true);
-	private static Color unselectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.GREY_LIGHT);
+	private static Border unselectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
+	private static Color unselectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
 
 	private Palette ontopatternPalette;
 
@@ -100,7 +102,8 @@ public class PaletteAccordion extends JPanel{
 		
 		this.setLayout(new BorderLayout());		
 		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-
+		this.setBackground(Color.WHITE);
+		
 		topTitles = new JPanel();
 		bottomTitles = new JPanel();
 		openContent = new JPanel();
@@ -108,11 +111,15 @@ public class PaletteAccordion extends JPanel{
 		openContentScroll = new JScrollPane();
 		openContentScroll.setViewportView(openContent);
 		openContentScroll.setBorder(null);
+		openContentScroll.setBackground(Color.WHITE);
 		
 		topTitles.setLayout(new BoxLayout(topTitles, BoxLayout.Y_AXIS));
+		topTitles.setBackground(Color.WHITE);
 		bottomTitles.setLayout(new BoxLayout(bottomTitles, BoxLayout.Y_AXIS));
+		bottomTitles.setBackground(Color.WHITE);
 		openContent.setLayout(new BorderLayout());
-
+		openContent.setBackground(Color.WHITE);
+		
 		this.add(topTitles, BorderLayout.NORTH);
 		this.add(bottomTitles, BorderLayout.SOUTH);
 		this.add(openContentScroll, BorderLayout.CENTER);
@@ -402,6 +409,11 @@ public class PaletteAccordion extends JPanel{
 		return resetBackground;
 	}
 
+	public static Color getResetForeground()
+	{
+		return resetForeground;
+	}
+	
 	public static Border getSelectedItemBorder() {
 		return selectedItemBorder;
 	}
@@ -422,6 +434,11 @@ public class PaletteAccordion extends JPanel{
 		return selectedPaletteBorder;
 	}
 
+	public static Color getSelectedItemForeground()
+	{
+		return selectedItemForeground;
+	}
+	
 	public static Color getSelectedPaletteBackground() {
 		return selectedPaletteBackground;
 	}

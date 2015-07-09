@@ -36,6 +36,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
+import net.menthor.editor.ui.diagram.commands.SetColorCommand;
+import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.util.IconLoader;
+
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.DiagramEditor;
@@ -45,9 +49,6 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
 import RefOntoUML.Classifier;
 
 /**
@@ -69,7 +70,9 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 	private JMenu colorMenu;
 	@SuppressWarnings("unused")
 	private JMenuItem specializationItem;
+	@SuppressWarnings("unused")
 	private JMenuItem pastspecializationItem;
+	@SuppressWarnings("unused")
 	private JMenuItem exclusionItem;
 	private ClassStereotypeChangeMenu changeMenu;
 	private JMenuItem relatedItem;

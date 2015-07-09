@@ -99,6 +99,7 @@ public class PaletteElement extends JPanel implements MouseListener, MouseMotion
 	{
 		setBackground(PaletteAccordion.getSelectedItemBackground());
 		setBorder(PaletteAccordion.getSelectedItemBorder());
+		setForeground(PaletteAccordion.getSelectedItemForeground());
 		repaint();
 	}
 
@@ -113,6 +114,7 @@ public class PaletteElement extends JPanel implements MouseListener, MouseMotion
 	{
 		setBackground(PaletteAccordion.getResetBackground());
 		setBorder(PaletteAccordion.getResetBorder());
+		setForeground(PaletteAccordion.getResetForeground());
 		repaint();
 	}
 

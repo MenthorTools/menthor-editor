@@ -25,11 +25,14 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -83,8 +86,11 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		super.setIconImage(IconLoader.getInstance().getImage("WINDOW"));
 		setTitle(getResourceString("application.title"));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
 		setPreferredSize();
+		
+		if(onMac()) {
+			enableFullScreenMode(this);
+		}
 		
 		installManagers();
 		installMainMenu();
@@ -102,6 +108,26 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		pack();
 		initSelectorMap();	
 	}
+	
+	/** Returns true iff running on Mac OS X. **/
+	public boolean onMac() {
+      return System.getProperty("mrj.version")!=null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");                                     
+	}
+	
+	public void enableFullScreenMode(Window window) {
+        String className = "com.apple.eawt.FullScreenUtilities";
+        String methodName = "setWindowCanFullScreen";
+ 
+        try {
+            Class<?> clazz = Class.forName(className);
+            Method method = clazz.getMethod(methodName, new Class<?>[] {
+                    Window.class, boolean.class });
+            method.invoke(null, window, true);
+        } catch (Throwable t) {
+            System.err.println("Full screen mode is not supported");
+            t.printStackTrace();
+        }
+    }
 	
 	public void setPreferredSize()
 	{

@@ -38,6 +38,13 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import net.menthor.editor.dialog.properties.FeatureListDialog;
+import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
+import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
+import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.util.IconLoader;
+
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.commands.AppCommandListener;
@@ -46,17 +53,11 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
+import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
-import net.menthor.editor.dialog.properties.FeatureListDialog;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Meronymic;
@@ -118,7 +119,9 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 	private JMenuItem invertEndTypesItem;
 	@SuppressWarnings("unused")
 	private JMenuItem specializationItem;
+	@SuppressWarnings("unused")
 	private JMenuItem pastSpecializationItem;
+	@SuppressWarnings("unused")
 	private JMenuItem exclusionItem;
 	
 	public SingleConnectionPopupMenu()
