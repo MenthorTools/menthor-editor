@@ -1,0 +1,2119 @@
+import 'Imóvel.uml'
+
+ package _'Im�vel'
+
+--=====================================
+--World Structure
+--======================================
+
+context World
+inv no_cycle: self->asSet()->closure(next)->excludes(self)
+
+context Path
+inv no_parallel_structure: Path.allInstances()->forAll(p | self.world->intersection(p.world)->notEmpty())
+
+context Path
+inv one_terminal_world: self.world->one(w | w.next->isEmpty())
+
+context Path
+inv one_initial_world: self.world->one(w | w.previous.oclIsUndefined())
+
+context Path
+inv no_two_paths_with_same_end: Path.allInstances()->forAll(p | p<>self implies
+p.world->select(w |w.next->isEmpty()) <> 
+self.world->select(w |w.next->isEmpty()))
+
+context Path
+inv worlds_of_a_path_derived: 
+let t: Set(World) = self.world->select(w| w.next->isEmpty())
+in (self.world-t) = t->closure(previous)
+
+context Path
+inv every_end_in_one_path: 
+let ts: Set(World) = World.allInstances()->select(w |w.next->isEmpty())
+in ts->forAll(t | Path.allInstances()->one(p | p.world->includes(t)))
+
+--=====================================
+--Temporal Operations
+--======================================
+
+context World::next():Set(World) body: self.next
+
+context World::previous():World body: self.previous
+
+context World::paths():Set(Path) body: self.path
+
+context Path::worlds():Set(World) body: self.world
+
+context World::allIndividuals():Set(Individual) body: self.individual
+
+context World::hasNext():Boolean body: not self.next->isEmpty()
+
+context World::hasPrevious():Boolean body: not self.previous.oclIsUndefined()
+
+context Individual::existsIn(w: World):Boolean body: w.individual->includes(self)
+
+context World::allNext():Set(World) body: self->asSet()->closure(next)->asSet()
+
+context World::allNext(w: World):Set(World)
+body: if self.allNext()->includes(w) then w.allPrevious() - self.allPrevious() -
+self->asSet() else Set{} endif
+
+context World::allNext(p: Path):Set(World)
+body: self->asSet()->closure(next)->asSet()->select(w | w.paths()->includes(p))
+
+context World::allPrevious():Set(World) 
+body: self->asSet()->closure(previous)->asSet()
+
+context World::allPrevious(w: World):Set(World) 
+body: if self.allPrevious()->includes(w) then self.allPrevious() - w.allPrevious() - w->asSet()
+else Set{} endif
+
+--=====================================
+--Multiplicity: Relationships
+--======================================
+
+context World
+inv contem_from_municipio_to_estado: 
+    self.individual->select(i | i.oclIsKindOf(_'Munic�pio'))->forAll(m | 
+    let list : Set(_'Estado') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv contem_from_estado_to_municipio: 
+    self.individual->select(i | i.oclIsKindOf(_'Estado'))->forAll(m | 
+    let list : Set(_'Munic�pio') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= -1)
+
+context World
+inv contem_from_estado_to_pais: 
+    self.individual->select(i | i.oclIsKindOf(_'Estado'))->forAll(m | 
+    let list : Set(_'Pa�s') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv contem_from_pais_to_estado: 
+    self.individual->select(i | i.oclIsKindOf(_'Pa�s'))->forAll(m | 
+    let list : Set(_'Estado') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= -1)
+
+context World
+inv contem_from_municipio_to_distrito: 
+    self.individual->select(i | i.oclIsKindOf(_'Munic�pio'))->forAll(m | 
+    let list : Set(_'Distrito') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_distrito_to_municipio: 
+    self.individual->select(i | i.oclIsKindOf(_'Distrito'))->forAll(m | 
+    let list : Set(_'Munic�pio') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv relationship3_from_elemento_linear_to_ponto_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Ponto Linear') = m._'relationship3'->select(r | r.world = self)
+    in list->size() >= 2)
+
+context World
+inv relationship3_from_ponto_linear_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'relationship3'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv conectadoa_from_ponto_linear_to_ponto_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->forAll(m | 
+    let list : Set(_'Ponto Linear') = m._'conectadoa'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv conectadoa_from_ponto_linear_to_ponto_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->forAll(m | 
+    let list : Set(_'Ponto Linear') = m._'conectadoa'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv relationship5_from_elemento_espacial_to_ponto_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Ponto Espacial') = m._'relationship5'->select(r | r.world = self)
+    in list->size() >= 3)
+
+context World
+inv relationship5_from_ponto_espacial_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'relationship5'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv conectadoa_from_ponto_espacial_to_ponto_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->forAll(m | 
+    let list : Set(_'Ponto Espacial') = m._'conectadoa'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv conectadoa_from_ponto_espacial_to_ponto_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->forAll(m | 
+    let list : Set(_'Ponto Espacial') = m._'conectadoa'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv possuiintersecaocom_from_elemento_espacial_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'possuiinterse��ocom'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv possuiintersecaocom_from_elemento_espacial_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'possuiinterse��ocom'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_elemento_espacial_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_elemento_espacial_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv cruza_from_elemento_linear_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'cruza'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv cruza_from_elemento_linear_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'cruza'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv passapor_from_elemento_espacial_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'passapor'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv passapor_from_elemento_linear_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'passapor'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_elemento_linear_to_elemento_pontual: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Elemento Pontual') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_elemento_pontual_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Pontual'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_elemento_espacial_to_elemento_pontual: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->forAll(m | 
+    let list : Set(_'Elemento Pontual') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv contem_from_elemento_pontual_to_elemento_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Pontual'))->forAll(m | 
+    let list : Set(_'Elemento Espacial') = m._'cont�m'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv subconjuntode_from_elemento_linear_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'subconjuntode'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv subconjuntode_from_elemento_linear_to_elemento_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->forAll(m | 
+    let list : Set(_'Elemento Linear') = m._'subconjuntode'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv relationship14_from_coordenada_to_elemento_pontual: 
+    self.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->forAll(m | 
+    let list : Set(_'Elemento Pontual') = m._'relationship14'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv relationship14_from_elemento_pontual_to_coordenada: 
+    self.individual->select(i | i.oclIsKindOf(_'Elemento Pontual'))->forAll(m | 
+    let list : Set(_'Coordenada Geogr�fica') = m._'relationship14'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv relationship15_from_coordenada_to_ponto_linear: 
+    self.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->forAll(m | 
+    let list : Set(_'Ponto Linear') = m._'relationship15'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv relationship15_from_ponto_linear_to_coordenada: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->forAll(m | 
+    let list : Set(_'Coordenada Geogr�fica') = m._'relationship15'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv relationship16_from_ponto_espacial_to_coordenada: 
+    self.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->forAll(m | 
+    let list : Set(_'Coordenada Geogr�fica') = m._'relationship16'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv relationship16_from_coordenada_to_ponto_espacial: 
+    self.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->forAll(m | 
+    let list : Set(_'Ponto Espacial') = m._'relationship16'->select(r | r.world = self)
+    in list->size() >= 0 and list->size() <= -1)
+
+context World
+inv descreve_from_imovel_edificado_to_planta_do_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'Im�vel Edificado'))->forAll(m | 
+    let list : Set(_'Planta do Im�vel') = m._'descreve'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv descreve_from_planta_do_imovel_to_imovel_edificado: 
+    self.individual->select(i | i.oclIsKindOf(_'Planta do Im�vel'))->forAll(m | 
+    let list : Set(_'Im�vel Edificado') = m._'descreve'->select(r | r.world = self)
+    in list->size() >= 1)
+
+context World
+inv possui_from_certidao_de_registro_de_imovel_to_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'Certid�o de Registro de Im�vel'))->forAll(m | 
+    let list : Set(_'Im�vel') = m._'possui'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv possui_from_imovel_to_certidao_de_registro_de_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'Im�vel'))->forAll(m | 
+    let list : Set(_'Certid�o de Registro de Im�vel') = m._'possui'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv faz_from_certidao_de_registro_de_imovel_to_cartorio: 
+    self.individual->select(i | i.oclIsKindOf(_'Certid�o de Registro de Im�vel'))->forAll(m | 
+    let list : Set(_'Cart�rio') = m._'faz'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv faz_from_cartorio_to_certidao_de_registro_de_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'Cart�rio'))->forAll(m | 
+    let list : Set(_'Certid�o de Registro de Im�vel') = m._'faz'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= -1)
+
+context World
+inv registradoem_from_imovel_to_cartorio: 
+    self.individual->select(i | i.oclIsKindOf(_'Im�vel'))->forAll(m | 
+    let list : Set(_'Cart�rio') = m._'/registradoem'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv registradoem_from_cartorio_to_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'Cart�rio'))->forAll(m | 
+    let list : Set(_'Im�vel') = m._'/registradoem'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= -1)
+
+context World
+inv estadentrode_from_area_to_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'�rea'))->forAll(m | 
+    let list : Set(_'Im�vel') = m._'/est�dentrode'->select(r | r.world = self)
+    in list->size() >= 0)
+
+context World
+inv estadentrode_from_imovel_to_area: 
+    self.individual->select(i | i.oclIsKindOf(_'Im�vel'))->forAll(m | 
+    let list : Set(_'�rea') = m._'/est�dentrode'->select(r | r.world = self)
+    in list->size() >= 0)
+
+--=====================================
+--Multiplicity: Attributes
+--======================================
+
+context World
+inv attribute0_from_data_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute0'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute1_from_data_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute1'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute2_from_data_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute2'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute3_from_data_completa_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data Completa'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute3'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute4_from_data_completa_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data Completa'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute4'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute5_from_data_completa_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data Completa'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute5'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute6_from_data_completa_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data Completa'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute6'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute7_from_data_completa_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data Completa'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute7'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute8_from_data_completa_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Data Completa'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute8'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute9_from_amortizacao_acumulada_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Amortiza��o Acumulada'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute9'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute10_from_depreciacao_acumulada_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Deprecia��o Acumulada'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute10'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute11_from_tipo_de_ativo_depreciavel_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Depreci�vel'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute11'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute12_from_tipo_de_ativo_depreciavel_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Depreci�vel'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute12'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute13_from_tipo_de_ativo_intangivel_to_string: 
+    self.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Intang�vel'))->forAll(m | 
+    let list : Set(_'String') = m._'attribute13'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute14_from_tipo_de_ativo_intangivel_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Intang�vel'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute14'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute15_from_tipo_de_ativo_intangivel_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Intang�vel'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute15'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute16_from_parcela_de_amortizacao_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Parcela de Amortiza��o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute16'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute17_from_parcela_de_amortizacao_to_data: 
+    self.individual->select(i | i.oclIsKindOf(_'Parcela de Amortiza��o'))->forAll(m | 
+    let list : Set(_'Data') = m._'attribute17'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute18_from_despesa_de_juros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Despesa de Juros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute18'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute19_from_capital_de_terceiros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute19'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute20_from_capital_de_terceiros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute20'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute21_from_capital_de_terceiros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute21'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute22_from_capital_de_terceiros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute22'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute23_from_capital_de_terceiros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute23'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute24_from_taxa_de_juros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Taxa de Juros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute24'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute25_from_taxa_de_juros_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Taxa de Juros'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute25'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute26_from_capital_proprio_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute26'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute27_from_capital_proprio_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute27'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute28_from_capital_proprio_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute28'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute29_from_capital_proprio_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute29'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute30_from_reserva_de_capital_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Reserva de Capital'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute30'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute31_from_reserva_de_capital_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Reserva de Capital'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute31'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute32_from_custo_operacional_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Custo Operacional'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute32'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute33_from_despesa_operacional_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Despesa Operacional'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute33'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute34_from_receita_da_atividade_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Receita da Atividade'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute34'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute35_from_receita_da_atividade_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Receita da Atividade'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute35'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute36_from_resultado_do_exercicio_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Resultado do Exerc�cio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute36'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute37_from_resultado_do_exercicio_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Resultado do Exerc�cio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute37'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute38_from_patrimonio_liquido_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'/ Patrim�nio L�quido'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute38'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute39_from_gasto_com_licenciamento_ambiental_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Gasto com Licenciamento Ambiental'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute39'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute40_from_gasto_com_obra_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Gasto com Obra'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute40'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute41_from_coordenada_geografica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute41'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute42_from_coordenada_geografica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute42'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute43_from_coordenada_geografica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute43'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute44_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute44'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute45_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute45'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute46_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute46'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute47_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute47'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute48_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute48'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute49_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute49'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute50_from_condicao_climatica_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute50'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute51_from_trafego_acumulado_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tr�fego Acumulado'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute51'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute52_from_trafego_acumulado_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tr�fego Acumulado'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute52'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute53_from_trafego_acumulado_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Tr�fego Acumulado'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute53'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute54_from_cor_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Cor'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute54'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute55_from_cor_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Cor'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute55'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute56_from_cor_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Cor'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute56'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute57_from_neblina_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Neblina'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute57'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute58_from_neblina_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Neblina'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute58'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute59_from_neblina_to_data_completa: 
+    self.individual->select(i | i.oclIsKindOf(_'Neblina'))->forAll(m | 
+    let list : Set(_'Data Completa') = m._'attribute59'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute60_from_neblina_to_data_completa: 
+    self.individual->select(i | i.oclIsKindOf(_'Neblina'))->forAll(m | 
+    let list : Set(_'Data Completa') = m._'attribute60'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute61_from_intervalo_de_tempo_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute61'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute62_from_intervalo_de_tempo_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute62'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute63_from_intervalo_de_tempo_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute63'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute64_from_intervalo_de_tempo_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute64'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute65_from_intervalo_de_tempo_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute65'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute66_from_intervalo_de_tempo_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute66'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute67_from_valor_monetario_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Valor Monet�rio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute67'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute68_from_valor_monetario_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Valor Monet�rio'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute68'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute69_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute69'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute70_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute70'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute71_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute71'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute72_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute72'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute73_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute73'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute74_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute74'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute75_from_endereco_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Endere�o'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute75'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+context World
+inv attribute76_from_imovel_to_integer: 
+    self.individual->select(i | i.oclIsKindOf(_'Im�vel'))->forAll(m | 
+    let list : Set(_'Integer') = m._'attribute76'->select(r | r.world = self)
+    in list->size() >= 1 and list->size() <= 1)
+
+--=====================================
+--Existence Cycles: Relationships
+--======================================
+
+context _'cont�m'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Estado'))->includes(self._'estado')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Munic�pio'))->includes(self._'munic�pio')
+
+context _'cont�m'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Pa�s'))->includes(self._'pa�s')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Estado'))->includes(self._'estado')
+
+context _'cont�m'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Distrito'))->includes(self._'distrito')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Munic�pio'))->includes(self._'munic�pio')
+
+context _'relationship3'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->includes(self._'ponto linear')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+
+context _'conectadoa'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->includes(self._'ponto linear')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->includes(self._'ponto linear')
+
+context _'relationship5'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->includes(self._'ponto espacial')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+
+context _'conectadoa'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->includes(self._'ponto espacial')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->includes(self._'ponto espacial')
+
+context _'possuiinterse��ocom'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+
+context _'cont�m'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+
+context _'cruza'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+
+context _'passapor'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+
+context _'cont�m'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Pontual'))->includes(self._'elemento pontual')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+
+context _'cont�m'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Pontual'))->includes(self._'elemento pontual')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Espacial'))->includes(self._'elemento espacial')
+
+context _'subconjuntode'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Linear'))->includes(self._'elemento linear')
+
+context _'relationship14'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Elemento Pontual'))->includes(self._'elemento pontual')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->includes(self._'coordenada')
+
+context _'relationship15'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Linear'))->includes(self._'ponto linear')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->includes(self._'coordenada')
+
+context _'relationship16'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->includes(self._'coordenada')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Ponto Espacial'))->includes(self._'ponto espacial')
+
+context _'descreve'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Planta do Im�vel'))->includes(self._'planta do im�vel')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Im�vel Edificado'))->includes(self._'im�vel edificado')
+
+context _'possui'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Im�vel'))->includes(self._'im�vel')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Certid�o de Registro de Im�vel'))->includes(self._'certid�o de registro de im�vel')
+
+context _'faz'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Cart�rio'))->includes(self._'cart�rio')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Certid�o de Registro de Im�vel'))->includes(self._'certid�o de registro de im�vel')
+
+context _'/registradoem'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Cart�rio'))->includes(self._'cart�rio')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Im�vel'))->includes(self._'im�vel')
+
+context _'/est�dentrode'
+inv target_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Im�vel'))->includes(self._'im�vel')
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'�rea'))->includes(self._'�rea')
+
+--=====================================
+--Existence Cycles: Attributes
+--======================================
+
+context attribute0
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data'))->includes(self._'data')
+
+context attribute1
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data'))->includes(self._'data')
+
+context attribute2
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data'))->includes(self._'data')
+
+context attribute3
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data Completa'))->includes(self._'data completa')
+
+context attribute4
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data Completa'))->includes(self._'data completa')
+
+context attribute5
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data Completa'))->includes(self._'data completa')
+
+context attribute6
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data Completa'))->includes(self._'data completa')
+
+context attribute7
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data Completa'))->includes(self._'data completa')
+
+context attribute8
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Data Completa'))->includes(self._'data completa')
+
+context attribute9
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Amortiza��o Acumulada'))->includes(self._'amortiza��o acumulada')
+
+context attribute10
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Deprecia��o Acumulada'))->includes(self._'deprecia��o acumulada')
+
+context attribute11
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Depreci�vel'))->includes(self._'tipo de ativo depreci�vel')
+
+context attribute12
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Depreci�vel'))->includes(self._'tipo de ativo depreci�vel')
+
+context attribute13
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Intang�vel'))->includes(self._'tipo de ativo intang�vel')
+
+context attribute14
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Intang�vel'))->includes(self._'tipo de ativo intang�vel')
+
+context attribute15
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tipo de Ativo Intang�vel'))->includes(self._'tipo de ativo intang�vel')
+
+context attribute16
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Parcela de Amortiza��o'))->includes(self._'parcela de amortiza��o')
+
+context attribute17
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Parcela de Amortiza��o'))->includes(self._'parcela de amortiza��o')
+
+context attribute18
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Despesa de Juros'))->includes(self._'despesa de juros')
+
+context attribute19
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->includes(self._'capital de terceiros')
+
+context attribute20
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->includes(self._'capital de terceiros')
+
+context attribute21
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->includes(self._'capital de terceiros')
+
+context attribute22
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->includes(self._'capital de terceiros')
+
+context attribute23
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital de Terceiros'))->includes(self._'capital de terceiros')
+
+context attribute24
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Taxa de Juros'))->includes(self._'taxa de juros')
+
+context attribute25
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Taxa de Juros'))->includes(self._'taxa de juros')
+
+context attribute26
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->includes(self._'capital pr�prio')
+
+context attribute27
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->includes(self._'capital pr�prio')
+
+context attribute28
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->includes(self._'capital pr�prio')
+
+context attribute29
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Capital Pr�prio'))->includes(self._'capital pr�prio')
+
+context attribute30
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Reserva de Capital'))->includes(self._'reserva de capital')
+
+context attribute31
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Reserva de Capital'))->includes(self._'reserva de capital')
+
+context attribute32
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Custo Operacional'))->includes(self._'custo operacional')
+
+context attribute33
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Despesa Operacional'))->includes(self._'despesa operacional')
+
+context attribute34
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Receita da Atividade'))->includes(self._'receita da atividade')
+
+context attribute35
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Receita da Atividade'))->includes(self._'receita da atividade')
+
+context attribute36
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Resultado do Exerc�cio'))->includes(self._'resultado do exerc�cio')
+
+context attribute37
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Resultado do Exerc�cio'))->includes(self._'resultado do exerc�cio')
+
+context attribute38
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'/ Patrim�nio L�quido'))->includes(self._'/ patrim�nio l�quido')
+
+context attribute39
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Gasto com Licenciamento Ambiental'))->includes(self._'gasto com licenciamento ambiental')
+
+context attribute40
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Gasto com Obra'))->includes(self._'gasto com obra')
+
+context attribute41
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->includes(self._'coordenada geogr�fica')
+
+context attribute42
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->includes(self._'coordenada geogr�fica')
+
+context attribute43
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Coordenada Geogr�fica'))->includes(self._'coordenada geogr�fica')
+
+context attribute44
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute45
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute46
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute47
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute48
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute49
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute50
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Condi��o Clim�tica'))->includes(self._'condi��o clim�tica')
+
+context attribute51
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tr�fego Acumulado'))->includes(self._'tr�fego acumulado')
+
+context attribute52
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tr�fego Acumulado'))->includes(self._'tr�fego acumulado')
+
+context attribute53
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Tr�fego Acumulado'))->includes(self._'tr�fego acumulado')
+
+context attribute54
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Cor'))->includes(self._'cor')
+
+context attribute55
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Cor'))->includes(self._'cor')
+
+context attribute56
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Cor'))->includes(self._'cor')
+
+context attribute57
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Neblina'))->includes(self._'neblina')
+
+context attribute58
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Neblina'))->includes(self._'neblina')
+
+context attribute59
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Neblina'))->includes(self._'neblina')
+
+context attribute60
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Neblina'))->includes(self._'neblina')
+
+context attribute61
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->includes(self._'intervalo de tempo')
+
+context attribute62
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->includes(self._'intervalo de tempo')
+
+context attribute63
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->includes(self._'intervalo de tempo')
+
+context attribute64
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->includes(self._'intervalo de tempo')
+
+context attribute65
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->includes(self._'intervalo de tempo')
+
+context attribute66
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Intervalo de Tempo'))->includes(self._'intervalo de tempo')
+
+context attribute67
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Valor Monet�rio'))->includes(self._'valor monet�rio')
+
+context attribute68
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Valor Monet�rio'))->includes(self._'valor monet�rio')
+
+context attribute69
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute70
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute71
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute72
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute73
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute74
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute75
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Endere�o'))->includes(self._'endere�o')
+
+context attribute76
+inv source_cycle: 
+	   self.world.individual->select(i | i.oclIsKindOf(_'Im�vel'))->includes(self._'im�vel')
+
+--=====================================
+--Immutability (ReadOnly): Relationships
+--======================================
+
+context World
+inv immutable_imovel: 
+    self.individual->select(i | i.oclIsKindOf(_'Certid�o de Registro de Im�vel'))->forAll(m |
+      self->asSet()->closure(next)->asSet()->forAll(n |
+         m.oclAsType(_'Certid�o de Registro de Im�vel')._'possui'->select(r | r.world = n)._'im�vel' = 
+         m.oclAsType(_'Certid�o de Registro de Im�vel')._'possui'->select(r | r.world = self)._'im�vel'
+      )
+    )
+
+context World
+inv immutable_cartorio: 
+    self.individual->select(i | i.oclIsKindOf(_'Certid�o de Registro de Im�vel'))->forAll(m |
+      self->asSet()->closure(next)->asSet()->forAll(n |
+         m.oclAsType(_'Certid�o de Registro de Im�vel')._'faz'->select(r | r.world = n)._'cart�rio' = 
+         m.oclAsType(_'Certid�o de Registro de Im�vel')._'faz'->select(r | r.world = self)._'cart�rio'
+      )
+    )
+
+--=====================================
+--Set Collection Type: Relationships 
+--======================================
+
+context World
+inv no_duplicted_contem_between_municipio_and_estado: 
+    not self._'cont�m'->exists(m1, m2 |
+    m1 <> m2 and m1._'munic�pio' = m2._'munic�pio' and m1._'estado' = m2._'estado')
+
+context World
+inv no_duplicted_contem_between_estado_and_pais: 
+    not self._'cont�m'->exists(m1, m2 |
+    m1 <> m2 and m1._'estado' = m2._'estado' and m1._'pa�s' = m2._'pa�s')
+
+context World
+inv no_duplicted_contem_between_municipio_and_distrito: 
+    not self._'cont�m'->exists(m1, m2 |
+    m1 <> m2 and m1._'munic�pio' = m2._'munic�pio' and m1._'distrito' = m2._'distrito')
+
+context World
+inv no_duplicted_relationship3_between_elemento_linear_and_ponto_linear: 
+    not self._'relationship3'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento linear' = m2._'elemento linear' and m1._'ponto linear' = m2._'ponto linear')
+
+context World
+inv no_duplicted_conectadoa_between_ponto_linear_and_ponto_linear: 
+    not self._'conectadoa'->exists(m1, m2 |
+    m1 <> m2 and m1._'ponto linear' = m2._'ponto linear' and m1._'ponto linear' = m2._'ponto linear')
+
+context World
+inv no_duplicted_relationship5_between_elemento_espacial_and_ponto_espacial: 
+    not self._'relationship5'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento espacial' = m2._'elemento espacial' and m1._'ponto espacial' = m2._'ponto espacial')
+
+context World
+inv no_duplicted_conectadoa_between_ponto_espacial_and_ponto_espacial: 
+    not self._'conectadoa'->exists(m1, m2 |
+    m1 <> m2 and m1._'ponto espacial' = m2._'ponto espacial' and m1._'ponto espacial' = m2._'ponto espacial')
+
+context World
+inv no_duplicted_possuiintersecaocom_between_elemento_espacial_and_elemento_espacial: 
+    not self._'possuiinterse��ocom'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento espacial' = m2._'elemento espacial' and m1._'elemento espacial' = m2._'elemento espacial')
+
+context World
+inv no_duplicted_contem_between_elemento_espacial_and_elemento_espacial: 
+    not self._'cont�m'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento espacial' = m2._'elemento espacial' and m1._'elemento espacial' = m2._'elemento espacial')
+
+context World
+inv no_duplicted_cruza_between_elemento_linear_and_elemento_linear: 
+    not self._'cruza'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento linear' = m2._'elemento linear' and m1._'elemento linear' = m2._'elemento linear')
+
+context World
+inv no_duplicted_passapor_between_elemento_espacial_and_elemento_linear: 
+    not self._'passapor'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento espacial' = m2._'elemento espacial' and m1._'elemento linear' = m2._'elemento linear')
+
+context World
+inv no_duplicted_contem_between_elemento_linear_and_elemento_pontual: 
+    not self._'cont�m'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento linear' = m2._'elemento linear' and m1._'elemento pontual' = m2._'elemento pontual')
+
+context World
+inv no_duplicted_contem_between_elemento_espacial_and_elemento_pontual: 
+    not self._'cont�m'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento espacial' = m2._'elemento espacial' and m1._'elemento pontual' = m2._'elemento pontual')
+
+context World
+inv no_duplicted_subconjuntode_between_elemento_linear_and_elemento_linear: 
+    not self._'subconjuntode'->exists(m1, m2 |
+    m1 <> m2 and m1._'elemento linear' = m2._'elemento linear' and m1._'elemento linear' = m2._'elemento linear')
+
+context World
+inv no_duplicted_relationship14_between_coordenada_and_elemento_pontual: 
+    not self._'relationship14'->exists(m1, m2 |
+    m1 <> m2 and m1._'coordenada' = m2._'coordenada' and m1._'elemento pontual' = m2._'elemento pontual')
+
+context World
+inv no_duplicted_relationship15_between_coordenada_and_ponto_linear: 
+    not self._'relationship15'->exists(m1, m2 |
+    m1 <> m2 and m1._'coordenada' = m2._'coordenada' and m1._'ponto linear' = m2._'ponto linear')
+
+context World
+inv no_duplicted_relationship16_between_ponto_espacial_and_coordenada: 
+    not self._'relationship16'->exists(m1, m2 |
+    m1 <> m2 and m1._'ponto espacial' = m2._'ponto espacial' and m1._'coordenada' = m2._'coordenada')
+
+context World
+inv no_duplicted_descreve_between_imovel_edificado_and_planta_do_imovel: 
+    not self._'descreve'->exists(m1, m2 |
+    m1 <> m2 and m1._'im�vel edificado' = m2._'im�vel edificado' and m1._'planta do im�vel' = m2._'planta do im�vel')
+
+context World
+inv no_duplicted_possui_between_certidao_de_registro_de_imovel_and_imovel: 
+    not self._'possui'->exists(m1, m2 |
+    m1 <> m2 and m1._'certid�o de registro de im�vel' = m2._'certid�o de registro de im�vel' and m1._'im�vel' = m2._'im�vel')
+
+context World
+inv no_duplicted_faz_between_certidao_de_registro_de_imovel_and_cartorio: 
+    not self._'faz'->exists(m1, m2 |
+    m1 <> m2 and m1._'certid�o de registro de im�vel' = m2._'certid�o de registro de im�vel' and m1._'cart�rio' = m2._'cart�rio')
+
+context World
+inv no_duplicted_estadentrode_between_area_and_imovel: 
+    not self._'/est�dentrode'->exists(m1, m2 |
+    m1 <> m2 and m1._'�rea' = m2._'�rea' and m1._'im�vel' = m2._'im�vel')
+
+--=====================================
+--Navigations: Relationships
+--======================================
+
+context _'Munic�pio'::_'estado'(w: World) : Set(_'Estado')
+body: self._'cont�m'->select(m | m.world = w)->collect(_'estado')->asSet()
+
+context _'Munic�pio'::_'estado'() : Set(_'Estado') 
+body: self._'cont�m'->collect(_'estado')->asSet()
+
+context _'Estado'::_'munic�pio'(w: World) : Set(_'Munic�pio') 
+body: self._'cont�m'->select(m | m.world = w)->collect(_'munic�pio')->asSet()
+
+context _'Estado'::_'munic�pio'() : Set(_'Munic�pio') 
+body: self._'cont�m'->collect(_'munic�pio')->asSet()
+
+context _'Estado'::_'pa�s'(w: World) : Set(_'Pa�s')
+body: self._'cont�m'->select(m | m.world = w)->collect(_'pa�s')->asSet()
+
+context _'Estado'::_'pa�s'() : Set(_'Pa�s') 
+body: self._'cont�m'->collect(_'pa�s')->asSet()
+
+context _'Pa�s'::_'estado'(w: World) : Set(_'Estado') 
+body: self._'cont�m'->select(m | m.world = w)->collect(_'estado')->asSet()
+
+context _'Pa�s'::_'estado'() : Set(_'Estado') 
+body: self._'cont�m'->collect(_'estado')->asSet()
+
+context _'Munic�pio'::_'distrito'(w: World) : Set(_'Distrito')
+body: self._'cont�m'->select(m | m.world = w)->collect(_'distrito')->asSet()
+
+context _'Munic�pio'::_'distrito'() : Set(_'Distrito') 
+body: self._'cont�m'->collect(_'distrito')->asSet()
+
+context _'Distrito'::_'munic�pio'(w: World) : Set(_'Munic�pio') 
+body: self._'cont�m'->select(m | m.world = w)->collect(_'munic�pio')->asSet()
+
+context _'Distrito'::_'munic�pio'() : Set(_'Munic�pio') 
+body: self._'cont�m'->collect(_'munic�pio')->asSet()
+
+context _'Elemento Linear'::_'ponto linear'(w: World) : Set(_'Ponto Linear')
+body: self._'relationship3'->select(m | m.world = w)->collect(_'ponto linear')->asSet()
+
+context _'Elemento Linear'::_'ponto linear'() : Set(_'Ponto Linear') 
+body: self._'relationship3'->collect(_'ponto linear')->asSet()
+
+context _'Ponto Linear'::_'elemento linear'(w: World) : Set(_'Elemento Linear') 
+body: self._'relationship3'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Ponto Linear'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'relationship3'->collect(_'elemento linear')->asSet()
+
+context _'Ponto Linear'::_'ponto linear'(w: World) : Set(_'Ponto Linear')
+body: self._'conectadoa'->select(m | m.world = w)->collect(_'ponto linear')->asSet()
+
+context _'Ponto Linear'::_'ponto linear'() : Set(_'Ponto Linear') 
+body: self._'conectadoa'->collect(_'ponto linear')->asSet()
+
+context _'Ponto Linear'::_'ponto linear'(w: World) : Set(_'Ponto Linear') 
+body: self._'conectadoa'->select(m | m.world = w)->collect(_'ponto linear')->asSet()
+
+context _'Ponto Linear'::_'ponto linear'() : Set(_'Ponto Linear') 
+body: self._'conectadoa'->collect(_'ponto linear')->asSet()
+
+context _'Elemento Espacial'::_'ponto espacial'(w: World) : Set(_'Ponto Espacial')
+body: self._'relationship5'->select(m | m.world = w)->collect(_'ponto espacial')->asSet()
+
+context _'Elemento Espacial'::_'ponto espacial'() : Set(_'Ponto Espacial') 
+body: self._'relationship5'->collect(_'ponto espacial')->asSet()
+
+context _'Ponto Espacial'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial') 
+body: self._'relationship5'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Ponto Espacial'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'relationship5'->collect(_'elemento espacial')->asSet()
+
+context _'Ponto Espacial'::_'ponto espacial'(w: World) : Set(_'Ponto Espacial')
+body: self._'conectadoa'->select(m | m.world = w)->collect(_'ponto espacial')->asSet()
+
+context _'Ponto Espacial'::_'ponto espacial'() : Set(_'Ponto Espacial') 
+body: self._'conectadoa'->collect(_'ponto espacial')->asSet()
+
+context _'Ponto Espacial'::_'ponto espacial'(w: World) : Set(_'Ponto Espacial') 
+body: self._'conectadoa'->select(m | m.world = w)->collect(_'ponto espacial')->asSet()
+
+context _'Ponto Espacial'::_'ponto espacial'() : Set(_'Ponto Espacial') 
+body: self._'conectadoa'->collect(_'ponto espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial')
+body: self._'possuiinterse��ocom'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'possuiinterse��ocom'->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial') 
+body: self._'possuiinterse��ocom'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'possuiinterse��ocom'->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial')
+body: self._'cont�m'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'cont�m'->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial') 
+body: self._'cont�m'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Espacial'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'cont�m'->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'(w: World) : Set(_'Elemento Linear')
+body: self._'cruza'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'cruza'->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'(w: World) : Set(_'Elemento Linear') 
+body: self._'cruza'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'cruza'->collect(_'elemento linear')->asSet()
+
+context _'Elemento Espacial'::_'elemento linear'(w: World) : Set(_'Elemento Linear')
+body: self._'passapor'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Elemento Espacial'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'passapor'->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial') 
+body: self._'passapor'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Linear'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'passapor'->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Linear'::_'elemento pontual'(w: World) : Set(_'Elemento Pontual')
+body: self._'cont�m'->select(m | m.world = w)->collect(_'elemento pontual')->asSet()
+
+context _'Elemento Linear'::_'elemento pontual'() : Set(_'Elemento Pontual') 
+body: self._'cont�m'->collect(_'elemento pontual')->asSet()
+
+context _'Elemento Pontual'::_'elemento linear'(w: World) : Set(_'Elemento Linear') 
+body: self._'cont�m'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Elemento Pontual'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'cont�m'->collect(_'elemento linear')->asSet()
+
+context _'Elemento Espacial'::_'elemento pontual'(w: World) : Set(_'Elemento Pontual')
+body: self._'cont�m'->select(m | m.world = w)->collect(_'elemento pontual')->asSet()
+
+context _'Elemento Espacial'::_'elemento pontual'() : Set(_'Elemento Pontual') 
+body: self._'cont�m'->collect(_'elemento pontual')->asSet()
+
+context _'Elemento Pontual'::_'elemento espacial'(w: World) : Set(_'Elemento Espacial') 
+body: self._'cont�m'->select(m | m.world = w)->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Pontual'::_'elemento espacial'() : Set(_'Elemento Espacial') 
+body: self._'cont�m'->collect(_'elemento espacial')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'(w: World) : Set(_'Elemento Linear')
+body: self._'subconjuntode'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'subconjuntode'->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'(w: World) : Set(_'Elemento Linear') 
+body: self._'subconjuntode'->select(m | m.world = w)->collect(_'elemento linear')->asSet()
+
+context _'Elemento Linear'::_'elemento linear'() : Set(_'Elemento Linear') 
+body: self._'subconjuntode'->collect(_'elemento linear')->asSet()
+
+context _'Coordenada Geogr�fica'::_'elemento pontual'(w: World) : Set(_'Elemento Pontual')
+body: self._'relationship14'->select(m | m.world = w)->collect(_'elemento pontual')->asSet()
+
+context _'Coordenada Geogr�fica'::_'elemento pontual'() : Set(_'Elemento Pontual') 
+body: self._'relationship14'->collect(_'elemento pontual')->asSet()
+
+context _'Elemento Pontual'::_'coordenada'(w: World) : Set(_'Coordenada Geogr�fica') 
+body: self._'relationship14'->select(m | m.world = w)->collect(_'coordenada')->asSet()
+
+context _'Elemento Pontual'::_'coordenada'() : Set(_'Coordenada Geogr�fica') 
+body: self._'relationship14'->collect(_'coordenada')->asSet()
+
+context _'Coordenada Geogr�fica'::_'ponto linear'(w: World) : Set(_'Ponto Linear')
+body: self._'relationship15'->select(m | m.world = w)->collect(_'ponto linear')->asSet()
+
+context _'Coordenada Geogr�fica'::_'ponto linear'() : Set(_'Ponto Linear') 
+body: self._'relationship15'->collect(_'ponto linear')->asSet()
+
+context _'Ponto Linear'::_'coordenada'(w: World) : Set(_'Coordenada Geogr�fica') 
+body: self._'relationship15'->select(m | m.world = w)->collect(_'coordenada')->asSet()
+
+context _'Ponto Linear'::_'coordenada'() : Set(_'Coordenada Geogr�fica') 
+body: self._'relationship15'->collect(_'coordenada')->asSet()
+
+context _'Ponto Espacial'::_'coordenada'(w: World) : Set(_'Coordenada Geogr�fica')
+body: self._'relationship16'->select(m | m.world = w)->collect(_'coordenada')->asSet()
+
+context _'Ponto Espacial'::_'coordenada'() : Set(_'Coordenada Geogr�fica') 
+body: self._'relationship16'->collect(_'coordenada')->asSet()
+
+context _'Coordenada Geogr�fica'::_'ponto espacial'(w: World) : Set(_'Ponto Espacial') 
+body: self._'relationship16'->select(m | m.world = w)->collect(_'ponto espacial')->asSet()
+
+context _'Coordenada Geogr�fica'::_'ponto espacial'() : Set(_'Ponto Espacial') 
+body: self._'relationship16'->collect(_'ponto espacial')->asSet()
+
+context _'Im�vel Edificado'::_'planta do im�vel'(w: World) : Set(_'Planta do Im�vel')
+body: self._'descreve'->select(m | m.world = w)->collect(_'planta do im�vel')->asSet()
+
+context _'Im�vel Edificado'::_'planta do im�vel'() : Set(_'Planta do Im�vel') 
+body: self._'descreve'->collect(_'planta do im�vel')->asSet()
+
+context _'Planta do Im�vel'::_'im�vel edificado'(w: World) : Set(_'Im�vel Edificado') 
+body: self._'descreve'->select(m | m.world = w)->collect(_'im�vel edificado')->asSet()
+
+context _'Planta do Im�vel'::_'im�vel edificado'() : Set(_'Im�vel Edificado') 
+body: self._'descreve'->collect(_'im�vel edificado')->asSet()
+
+context _'Certid�o de Registro de Im�vel'::_'im�vel'(w: World) : Set(_'Im�vel')
+body: self._'possui'->select(m | m.world = w)->collect(_'im�vel')->asSet()
+
+context _'Certid�o de Registro de Im�vel'::_'im�vel'() : Set(_'Im�vel') 
+body: self._'possui'->collect(_'im�vel')->asSet()
+
+context _'Im�vel'::_'certid�o de registro de im�vel'(w: World) : Set(_'Certid�o de Registro de Im�vel') 
+body: self._'possui'->select(m | m.world = w)->collect(_'certid�o de registro de im�vel')->asSet()
+
+context _'Im�vel'::_'certid�o de registro de im�vel'() : Set(_'Certid�o de Registro de Im�vel') 
+body: self._'possui'->collect(_'certid�o de registro de im�vel')->asSet()
+
+context _'Certid�o de Registro de Im�vel'::_'cart�rio'(w: World) : Set(_'Cart�rio')
+body: self._'faz'->select(m | m.world = w)->collect(_'cart�rio')->asSet()
+
+context _'Certid�o de Registro de Im�vel'::_'cart�rio'() : Set(_'Cart�rio') 
+body: self._'faz'->collect(_'cart�rio')->asSet()
+
+context _'Cart�rio'::_'certid�o de registro de im�vel'(w: World) : Set(_'Certid�o de Registro de Im�vel') 
+body: self._'faz'->select(m | m.world = w)->collect(_'certid�o de registro de im�vel')->asSet()
+
+context _'Cart�rio'::_'certid�o de registro de im�vel'() : Set(_'Certid�o de Registro de Im�vel') 
+body: self._'faz'->collect(_'certid�o de registro de im�vel')->asSet()
+
+context _'Im�vel'::_'cart�rio'(w: World) : Set(_'Cart�rio')
+body: self._'/registradoem'->select(m | m.world = w)->collect(_'cart�rio')->asSet()
+
+context _'Im�vel'::_'cart�rio'() : Set(_'Cart�rio') 
+body: self._'/registradoem'->collect(_'cart�rio')->asSet()
+
+context _'Cart�rio'::_'im�vel'(w: World) : Set(_'Im�vel') 
+body: self._'/registradoem'->select(m | m.world = w)->collect(_'im�vel')->asSet()
+
+context _'Cart�rio'::_'im�vel'() : Set(_'Im�vel') 
+body: self._'/registradoem'->collect(_'im�vel')->asSet()
+
+context _'�rea'::_'im�vel'(w: World) : Set(_'Im�vel')
+body: self._'/est�dentrode'->select(m | m.world = w)->collect(_'im�vel')->asSet()
+
+context _'�rea'::_'im�vel'() : Set(_'Im�vel') 
+body: self._'/est�dentrode'->collect(_'im�vel')->asSet()
+
+context _'Im�vel'::_'�rea'(w: World) : Set(_'�rea') 
+body: self._'/est�dentrode'->select(m | m.world = w)->collect(_'�rea')->asSet()
+
+context _'Im�vel'::_'�rea'() : Set(_'�rea') 
+body: self._'/est�dentrode'->collect(_'�rea')->asSet()
+
+--=====================================
+--Navigations: Attributes
+--======================================
+
+context _'Data'::_'ano'(w: World) : Set(_'Integer') 
+body: self._'attribute0'->select(m | m.world = w)->collect(_'ano')->asSet()
+
+context _'Data'::_'ano'() : Set(_'Integer') 
+body: self._'attribute0'->collect(_'ano')->asSet()
+
+context _'Data'::_'m�s'(w: World) : Set(_'Integer') 
+body: self._'attribute1'->select(m | m.world = w)->collect(_'m�s')->asSet()
+
+context _'Data'::_'m�s'() : Set(_'Integer') 
+body: self._'attribute1'->collect(_'m�s')->asSet()
+
+context _'Data'::_'dia'(w: World) : Set(_'Integer') 
+body: self._'attribute2'->select(m | m.world = w)->collect(_'dia')->asSet()
+
+context _'Data'::_'dia'() : Set(_'Integer') 
+body: self._'attribute2'->collect(_'dia')->asSet()
+
+context _'Data Completa'::_'ano'(w: World) : Set(_'Integer') 
+body: self._'attribute3'->select(m | m.world = w)->collect(_'ano')->asSet()
+
+context _'Data Completa'::_'ano'() : Set(_'Integer') 
+body: self._'attribute3'->collect(_'ano')->asSet()
+
+context _'Data Completa'::_'m�s'(w: World) : Set(_'Integer') 
+body: self._'attribute4'->select(m | m.world = w)->collect(_'m�s')->asSet()
+
+context _'Data Completa'::_'m�s'() : Set(_'Integer') 
+body: self._'attribute4'->collect(_'m�s')->asSet()
+
+context _'Data Completa'::_'dia'(w: World) : Set(_'Integer') 
+body: self._'attribute5'->select(m | m.world = w)->collect(_'dia')->asSet()
+
+context _'Data Completa'::_'dia'() : Set(_'Integer') 
+body: self._'attribute5'->collect(_'dia')->asSet()
+
+context _'Data Completa'::_'hora'(w: World) : Set(_'Integer') 
+body: self._'attribute6'->select(m | m.world = w)->collect(_'hora')->asSet()
+
+context _'Data Completa'::_'hora'() : Set(_'Integer') 
+body: self._'attribute6'->collect(_'hora')->asSet()
+
+context _'Data Completa'::_'minuto'(w: World) : Set(_'Integer') 
+body: self._'attribute7'->select(m | m.world = w)->collect(_'minuto')->asSet()
+
+context _'Data Completa'::_'minuto'() : Set(_'Integer') 
+body: self._'attribute7'->collect(_'minuto')->asSet()
+
+context _'Data Completa'::_'segundo'(w: World) : Set(_'Integer') 
+body: self._'attribute8'->select(m | m.world = w)->collect(_'segundo')->asSet()
+
+context _'Data Completa'::_'segundo'() : Set(_'Integer') 
+body: self._'attribute8'->collect(_'segundo')->asSet()
+
+context _'Amortiza��o Acumulada'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute9'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Amortiza��o Acumulada'::_'valor'() : Set(_'Integer') 
+body: self._'attribute9'->collect(_'valor')->asSet()
+
+context _'Deprecia��o Acumulada'::_'valor depreciado'(w: World) : Set(_'Integer') 
+body: self._'attribute10'->select(m | m.world = w)->collect(_'valor depreciado')->asSet()
+
+context _'Deprecia��o Acumulada'::_'valor depreciado'() : Set(_'Integer') 
+body: self._'attribute10'->collect(_'valor depreciado')->asSet()
+
+context _'Tipo de Ativo Depreci�vel'::_'taxa de deprecia��o'(w: World) : Set(_'Integer') 
+body: self._'attribute11'->select(m | m.world = w)->collect(_'taxa de deprecia��o')->asSet()
+
+context _'Tipo de Ativo Depreci�vel'::_'taxa de deprecia��o'() : Set(_'Integer') 
+body: self._'attribute11'->collect(_'taxa de deprecia��o')->asSet()
+
+context _'Tipo de Ativo Depreci�vel'::_'vida �til'(w: World) : Set(_'Integer') 
+body: self._'attribute12'->select(m | m.world = w)->collect(_'vida �til')->asSet()
+
+context _'Tipo de Ativo Depreci�vel'::_'vida �til'() : Set(_'Integer') 
+body: self._'attribute12'->collect(_'vida �til')->asSet()
+
+context _'Tipo de Ativo Intang�vel'::_'descri��o'(w: World) : Set(_'String') 
+body: self._'attribute13'->select(m | m.world = w)->collect(_'descri��o')->asSet()
+
+context _'Tipo de Ativo Intang�vel'::_'descri��o'() : Set(_'String') 
+body: self._'attribute13'->collect(_'descri��o')->asSet()
+
+context _'Tipo de Ativo Intang�vel'::_'taxa de amortiza��o'(w: World) : Set(_'Integer') 
+body: self._'attribute14'->select(m | m.world = w)->collect(_'taxa de amortiza��o')->asSet()
+
+context _'Tipo de Ativo Intang�vel'::_'taxa de amortiza��o'() : Set(_'Integer') 
+body: self._'attribute14'->collect(_'taxa de amortiza��o')->asSet()
+
+context _'Tipo de Ativo Intang�vel'::_'vida �til'(w: World) : Set(_'Integer') 
+body: self._'attribute15'->select(m | m.world = w)->collect(_'vida �til')->asSet()
+
+context _'Tipo de Ativo Intang�vel'::_'vida �til'() : Set(_'Integer') 
+body: self._'attribute15'->collect(_'vida �til')->asSet()
+
+context _'Parcela de Amortiza��o'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute16'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Parcela de Amortiza��o'::_'valor'() : Set(_'Integer') 
+body: self._'attribute16'->collect(_'valor')->asSet()
+
+context _'Parcela de Amortiza��o'::_'data de pagamento'(w: World) : Set(_'Data') 
+body: self._'attribute17'->select(m | m.world = w)->collect(_'data de pagamento')->asSet()
+
+context _'Parcela de Amortiza��o'::_'data de pagamento'() : Set(_'Data') 
+body: self._'attribute17'->collect(_'data de pagamento')->asSet()
+
+context _'Despesa de Juros'::_'custo'(w: World) : Set(_'Integer') 
+body: self._'attribute18'->select(m | m.world = w)->collect(_'custo')->asSet()
+
+context _'Despesa de Juros'::_'custo'() : Set(_'Integer') 
+body: self._'attribute18'->collect(_'custo')->asSet()
+
+context _'Capital de Terceiros'::_'valor empr�stimo'(w: World) : Set(_'Integer') 
+body: self._'attribute19'->select(m | m.world = w)->collect(_'valor empr�stimo')->asSet()
+
+context _'Capital de Terceiros'::_'valor empr�stimo'() : Set(_'Integer') 
+body: self._'attribute19'->collect(_'valor empr�stimo')->asSet()
+
+context _'Capital de Terceiros'::_'valor financiamento'(w: World) : Set(_'Integer') 
+body: self._'attribute20'->select(m | m.world = w)->collect(_'valor financiamento')->asSet()
+
+context _'Capital de Terceiros'::_'valor financiamento'() : Set(_'Integer') 
+body: self._'attribute20'->collect(_'valor financiamento')->asSet()
+
+context _'Capital de Terceiros'::_'valor arrendamento'(w: World) : Set(_'Integer') 
+body: self._'attribute21'->select(m | m.world = w)->collect(_'valor arrendamento')->asSet()
+
+context _'Capital de Terceiros'::_'valor arrendamento'() : Set(_'Integer') 
+body: self._'attribute21'->collect(_'valor arrendamento')->asSet()
+
+context _'Capital de Terceiros'::_'valor deb�ntures'(w: World) : Set(_'Integer') 
+body: self._'attribute22'->select(m | m.world = w)->collect(_'valor deb�ntures')->asSet()
+
+context _'Capital de Terceiros'::_'valor deb�ntures'() : Set(_'Integer') 
+body: self._'attribute22'->collect(_'valor deb�ntures')->asSet()
+
+context _'Capital de Terceiros'::_'capital de terceiros'(w: World) : Set(_'Integer') 
+body: self._'attribute23'->select(m | m.world = w)->collect(_'capital de terceiros')->asSet()
+
+context _'Capital de Terceiros'::_'capital de terceiros'() : Set(_'Integer') 
+body: self._'attribute23'->collect(_'capital de terceiros')->asSet()
+
+context _'Taxa de Juros'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute24'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Taxa de Juros'::_'valor'() : Set(_'Integer') 
+body: self._'attribute24'->collect(_'valor')->asSet()
+
+context _'Taxa de Juros'::_'frequencia'(w: World) : Set(_'Integer') 
+body: self._'attribute25'->select(m | m.world = w)->collect(_'frequencia')->asSet()
+
+context _'Taxa de Juros'::_'frequencia'() : Set(_'Integer') 
+body: self._'attribute25'->collect(_'frequencia')->asSet()
+
+context _'Capital Pr�prio'::_'capital pr�prio total'(w: World) : Set(_'Integer') 
+body: self._'attribute26'->select(m | m.world = w)->collect(_'capital pr�prio total')->asSet()
+
+context _'Capital Pr�prio'::_'capital pr�prio total'() : Set(_'Integer') 
+body: self._'attribute26'->collect(_'capital pr�prio total')->asSet()
+
+context _'Capital Pr�prio'::_'capital social'(w: World) : Set(_'Integer') 
+body: self._'attribute27'->select(m | m.world = w)->collect(_'capital social')->asSet()
+
+context _'Capital Pr�prio'::_'capital social'() : Set(_'Integer') 
+body: self._'attribute27'->collect(_'capital social')->asSet()
+
+context _'Capital Pr�prio'::_'adiantamento'(w: World) : Set(_'Integer') 
+body: self._'attribute28'->select(m | m.world = w)->collect(_'adiantamento')->asSet()
+
+context _'Capital Pr�prio'::_'adiantamento'() : Set(_'Integer') 
+body: self._'attribute28'->collect(_'adiantamento')->asSet()
+
+context _'Capital Pr�prio'::_'resultado acumulado'(w: World) : Set(_'Integer') 
+body: self._'attribute29'->select(m | m.world = w)->collect(_'resultado acumulado')->asSet()
+
+context _'Capital Pr�prio'::_'resultado acumulado'() : Set(_'Integer') 
+body: self._'attribute29'->collect(_'resultado acumulado')->asSet()
+
+context _'Reserva de Capital'::_'valor reserva'(w: World) : Set(_'Integer') 
+body: self._'attribute30'->select(m | m.world = w)->collect(_'valor reserva')->asSet()
+
+context _'Reserva de Capital'::_'valor reserva'() : Set(_'Integer') 
+body: self._'attribute30'->collect(_'valor reserva')->asSet()
+
+context _'Reserva de Capital'::_'tipo reserva'(w: World) : Set(_'Integer') 
+body: self._'attribute31'->select(m | m.world = w)->collect(_'tipo reserva')->asSet()
+
+context _'Reserva de Capital'::_'tipo reserva'() : Set(_'Integer') 
+body: self._'attribute31'->collect(_'tipo reserva')->asSet()
+
+context _'Custo Operacional'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute32'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Custo Operacional'::_'valor'() : Set(_'Integer') 
+body: self._'attribute32'->collect(_'valor')->asSet()
+
+context _'Despesa Operacional'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute33'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Despesa Operacional'::_'valor'() : Set(_'Integer') 
+body: self._'attribute33'->collect(_'valor')->asSet()
+
+context _'Receita da Atividade'::_'receita bruta'(w: World) : Set(_'Integer') 
+body: self._'attribute34'->select(m | m.world = w)->collect(_'receita bruta')->asSet()
+
+context _'Receita da Atividade'::_'receita bruta'() : Set(_'Integer') 
+body: self._'attribute34'->collect(_'receita bruta')->asSet()
+
+context _'Receita da Atividade'::_'receita l�quida'(w: World) : Set(_'Integer') 
+body: self._'attribute35'->select(m | m.world = w)->collect(_'receita l�quida')->asSet()
+
+context _'Receita da Atividade'::_'receita l�quida'() : Set(_'Integer') 
+body: self._'attribute35'->collect(_'receita l�quida')->asSet()
+
+context _'Resultado do Exerc�cio'::_'resultado bruto'(w: World) : Set(_'Integer') 
+body: self._'attribute36'->select(m | m.world = w)->collect(_'resultado bruto')->asSet()
+
+context _'Resultado do Exerc�cio'::_'resultado bruto'() : Set(_'Integer') 
+body: self._'attribute36'->collect(_'resultado bruto')->asSet()
+
+context _'Resultado do Exerc�cio'::_'resultado l�quido'(w: World) : Set(_'Integer') 
+body: self._'attribute37'->select(m | m.world = w)->collect(_'resultado l�quido')->asSet()
+
+context _'Resultado do Exerc�cio'::_'resultado l�quido'() : Set(_'Integer') 
+body: self._'attribute37'->collect(_'resultado l�quido')->asSet()
+
+context _'/ Patrim�nio L�quido'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute38'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'/ Patrim�nio L�quido'::_'valor'() : Set(_'Integer') 
+body: self._'attribute38'->collect(_'valor')->asSet()
+
+context _'Gasto com Licenciamento Ambiental'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute39'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Gasto com Licenciamento Ambiental'::_'valor'() : Set(_'Integer') 
+body: self._'attribute39'->collect(_'valor')->asSet()
+
+context _'Gasto com Obra'::_'valor'(w: World) : Set(_'Integer') 
+body: self._'attribute40'->select(m | m.world = w)->collect(_'valor')->asSet()
+
+context _'Gasto com Obra'::_'valor'() : Set(_'Integer') 
+body: self._'attribute40'->collect(_'valor')->asSet()
+
+context _'Coordenada Geogr�fica'::_'longitude'(w: World) : Set(_'Integer') 
+body: self._'attribute41'->select(m | m.world = w)->collect(_'longitude')->asSet()
+
+context _'Coordenada Geogr�fica'::_'longitude'() : Set(_'Integer') 
+body: self._'attribute41'->collect(_'longitude')->asSet()
+
+context _'Coordenada Geogr�fica'::_'latitude'(w: World) : Set(_'Integer') 
+body: self._'attribute42'->select(m | m.world = w)->collect(_'latitude')->asSet()
+
+context _'Coordenada Geogr�fica'::_'latitude'() : Set(_'Integer') 
+body: self._'attribute42'->collect(_'latitude')->asSet()
+
+context _'Coordenada Geogr�fica'::_'altitude'(w: World) : Set(_'Integer') 
+body: self._'attribute43'->select(m | m.world = w)->collect(_'altitude')->asSet()
+
+context _'Coordenada Geogr�fica'::_'altitude'() : Set(_'Integer') 
+body: self._'attribute43'->collect(_'altitude')->asSet()
+
+context _'Condi��o Clim�tica'::_'precipta��o'(w: World) : Set(_'Integer') 
+body: self._'attribute44'->select(m | m.world = w)->collect(_'precipta��o')->asSet()
+
+context _'Condi��o Clim�tica'::_'precipta��o'() : Set(_'Integer') 
+body: self._'attribute44'->collect(_'precipta��o')->asSet()
+
+context _'Condi��o Clim�tica'::_'temperatura'(w: World) : Set(_'Integer') 
+body: self._'attribute45'->select(m | m.world = w)->collect(_'temperatura')->asSet()
+
+context _'Condi��o Clim�tica'::_'temperatura'() : Set(_'Integer') 
+body: self._'attribute45'->collect(_'temperatura')->asSet()
+
+context _'Condi��o Clim�tica'::_'humidade'(w: World) : Set(_'Integer') 
+body: self._'attribute46'->select(m | m.world = w)->collect(_'humidade')->asSet()
+
+context _'Condi��o Clim�tica'::_'humidade'() : Set(_'Integer') 
+body: self._'attribute46'->collect(_'humidade')->asSet()
+
+context _'Condi��o Clim�tica'::_'press�o'(w: World) : Set(_'Integer') 
+body: self._'attribute47'->select(m | m.world = w)->collect(_'press�o')->asSet()
+
+context _'Condi��o Clim�tica'::_'press�o'() : Set(_'Integer') 
+body: self._'attribute47'->collect(_'press�o')->asSet()
+
+context _'Condi��o Clim�tica'::_'neblina'(w: World) : Set(_'Integer') 
+body: self._'attribute48'->select(m | m.world = w)->collect(_'neblina')->asSet()
+
+context _'Condi��o Clim�tica'::_'neblina'() : Set(_'Integer') 
+body: self._'attribute48'->collect(_'neblina')->asSet()
+
+context _'Condi��o Clim�tica'::_'direcao do vento'(w: World) : Set(_'Integer') 
+body: self._'attribute49'->select(m | m.world = w)->collect(_'direcao do vento')->asSet()
+
+context _'Condi��o Clim�tica'::_'direcao do vento'() : Set(_'Integer') 
+body: self._'attribute49'->collect(_'direcao do vento')->asSet()
+
+context _'Condi��o Clim�tica'::_'velocidade do vento'(w: World) : Set(_'Integer') 
+body: self._'attribute50'->select(m | m.world = w)->collect(_'velocidade do vento')->asSet()
+
+context _'Condi��o Clim�tica'::_'velocidade do vento'() : Set(_'Integer') 
+body: self._'attribute50'->collect(_'velocidade do vento')->asSet()
+
+context _'Tr�fego Acumulado'::_'m�dio di�rio'(w: World) : Set(_'Integer') 
+body: self._'attribute51'->select(m | m.world = w)->collect(_'m�dio di�rio')->asSet()
+
+context _'Tr�fego Acumulado'::_'m�dio di�rio'() : Set(_'Integer') 
+body: self._'attribute51'->collect(_'m�dio di�rio')->asSet()
+
+context _'Tr�fego Acumulado'::_'m�dio anual'(w: World) : Set(_'Integer') 
+body: self._'attribute52'->select(m | m.world = w)->collect(_'m�dio anual')->asSet()
+
+context _'Tr�fego Acumulado'::_'m�dio anual'() : Set(_'Integer') 
+body: self._'attribute52'->collect(_'m�dio anual')->asSet()
+
+context _'Tr�fego Acumulado'::_'m�dio mensal'(w: World) : Set(_'Integer') 
+body: self._'attribute53'->select(m | m.world = w)->collect(_'m�dio mensal')->asSet()
+
+context _'Tr�fego Acumulado'::_'m�dio mensal'() : Set(_'Integer') 
+body: self._'attribute53'->collect(_'m�dio mensal')->asSet()
+
+context _'Cor'::_'satura��o'(w: World) : Set(_'Integer') 
+body: self._'attribute54'->select(m | m.world = w)->collect(_'satura��o')->asSet()
+
+context _'Cor'::_'satura��o'() : Set(_'Integer') 
+body: self._'attribute54'->collect(_'satura��o')->asSet()
+
+context _'Cor'::_'brilho'(w: World) : Set(_'Integer') 
+body: self._'attribute55'->select(m | m.world = w)->collect(_'brilho')->asSet()
+
+context _'Cor'::_'brilho'() : Set(_'Integer') 
+body: self._'attribute55'->collect(_'brilho')->asSet()
+
+context _'Cor'::_'contraste'(w: World) : Set(_'Integer') 
+body: self._'attribute56'->select(m | m.world = w)->collect(_'contraste')->asSet()
+
+context _'Cor'::_'contraste'() : Set(_'Integer') 
+body: self._'attribute56'->collect(_'contraste')->asSet()
+
+context _'Neblina'::_'km inicial'(w: World) : Set(_'Integer') 
+body: self._'attribute57'->select(m | m.world = w)->collect(_'km inicial')->asSet()
+
+context _'Neblina'::_'km inicial'() : Set(_'Integer') 
+body: self._'attribute57'->collect(_'km inicial')->asSet()
+
+context _'Neblina'::_'km final'(w: World) : Set(_'Integer') 
+body: self._'attribute58'->select(m | m.world = w)->collect(_'km final')->asSet()
+
+context _'Neblina'::_'km final'() : Set(_'Integer') 
+body: self._'attribute58'->collect(_'km final')->asSet()
+
+context _'Neblina'::_'hor�rio inicial'(w: World) : Set(_'Data Completa') 
+body: self._'attribute59'->select(m | m.world = w)->collect(_'hor�rio inicial')->asSet()
+
+context _'Neblina'::_'hor�rio inicial'() : Set(_'Data Completa') 
+body: self._'attribute59'->collect(_'hor�rio inicial')->asSet()
+
+context _'Neblina'::_'hor�rio final'(w: World) : Set(_'Data Completa') 
+body: self._'attribute60'->select(m | m.world = w)->collect(_'hor�rio final')->asSet()
+
+context _'Neblina'::_'hor�rio final'() : Set(_'Data Completa') 
+body: self._'attribute60'->collect(_'hor�rio final')->asSet()
+
+context _'Intervalo de Tempo'::_'anos'(w: World) : Set(_'Integer') 
+body: self._'attribute61'->select(m | m.world = w)->collect(_'anos')->asSet()
+
+context _'Intervalo de Tempo'::_'anos'() : Set(_'Integer') 
+body: self._'attribute61'->collect(_'anos')->asSet()
+
+context _'Intervalo de Tempo'::_'meses'(w: World) : Set(_'Integer') 
+body: self._'attribute62'->select(m | m.world = w)->collect(_'meses')->asSet()
+
+context _'Intervalo de Tempo'::_'meses'() : Set(_'Integer') 
+body: self._'attribute62'->collect(_'meses')->asSet()
+
+context _'Intervalo de Tempo'::_'dias'(w: World) : Set(_'Integer') 
+body: self._'attribute63'->select(m | m.world = w)->collect(_'dias')->asSet()
+
+context _'Intervalo de Tempo'::_'dias'() : Set(_'Integer') 
+body: self._'attribute63'->collect(_'dias')->asSet()
+
+context _'Intervalo de Tempo'::_'horas'(w: World) : Set(_'Integer') 
+body: self._'attribute64'->select(m | m.world = w)->collect(_'horas')->asSet()
+
+context _'Intervalo de Tempo'::_'horas'() : Set(_'Integer') 
+body: self._'attribute64'->collect(_'horas')->asSet()
+
+context _'Intervalo de Tempo'::_'minutos'(w: World) : Set(_'Integer') 
+body: self._'attribute65'->select(m | m.world = w)->collect(_'minutos')->asSet()
+
+context _'Intervalo de Tempo'::_'minutos'() : Set(_'Integer') 
+body: self._'attribute65'->collect(_'minutos')->asSet()
+
+context _'Intervalo de Tempo'::_'segundos'(w: World) : Set(_'Integer') 
+body: self._'attribute66'->select(m | m.world = w)->collect(_'segundos')->asSet()
+
+context _'Intervalo de Tempo'::_'segundos'() : Set(_'Integer') 
+body: self._'attribute66'->collect(_'segundos')->asSet()
+
+context _'Valor Monet�rio'::_'quantia'(w: World) : Set(_'Integer') 
+body: self._'attribute67'->select(m | m.world = w)->collect(_'quantia')->asSet()
+
+context _'Valor Monet�rio'::_'quantia'() : Set(_'Integer') 
+body: self._'attribute67'->collect(_'quantia')->asSet()
+
+context _'Valor Monet�rio'::_'moeda'(w: World) : Set(_'Integer') 
+body: self._'attribute68'->select(m | m.world = w)->collect(_'moeda')->asSet()
+
+context _'Valor Monet�rio'::_'moeda'() : Set(_'Integer') 
+body: self._'attribute68'->collect(_'moeda')->asSet()
+
+context _'Endere�o'::_'logradouro'(w: World) : Set(_'Integer') 
+body: self._'attribute69'->select(m | m.world = w)->collect(_'logradouro')->asSet()
+
+context _'Endere�o'::_'logradouro'() : Set(_'Integer') 
+body: self._'attribute69'->collect(_'logradouro')->asSet()
+
+context _'Endere�o'::_'n�mero'(w: World) : Set(_'Integer') 
+body: self._'attribute70'->select(m | m.world = w)->collect(_'n�mero')->asSet()
+
+context _'Endere�o'::_'n�mero'() : Set(_'Integer') 
+body: self._'attribute70'->collect(_'n�mero')->asSet()
+
+context _'Endere�o'::_'cep'(w: World) : Set(_'Integer') 
+body: self._'attribute71'->select(m | m.world = w)->collect(_'cep')->asSet()
+
+context _'Endere�o'::_'cep'() : Set(_'Integer') 
+body: self._'attribute71'->collect(_'cep')->asSet()
+
+context _'Endere�o'::_'bairro'(w: World) : Set(_'Integer') 
+body: self._'attribute72'->select(m | m.world = w)->collect(_'bairro')->asSet()
+
+context _'Endere�o'::_'bairro'() : Set(_'Integer') 
+body: self._'attribute72'->collect(_'bairro')->asSet()
+
+context _'Endere�o'::_'cidade'(w: World) : Set(_'Integer') 
+body: self._'attribute73'->select(m | m.world = w)->collect(_'cidade')->asSet()
+
+context _'Endere�o'::_'cidade'() : Set(_'Integer') 
+body: self._'attribute73'->collect(_'cidade')->asSet()
+
+context _'Endere�o'::_'estado'(w: World) : Set(_'Integer') 
+body: self._'attribute74'->select(m | m.world = w)->collect(_'estado')->asSet()
+
+context _'Endere�o'::_'estado'() : Set(_'Integer') 
+body: self._'attribute74'->collect(_'estado')->asSet()
+
+context _'Endere�o'::_'pa�s'(w: World) : Set(_'Integer') 
+body: self._'attribute75'->select(m | m.world = w)->collect(_'pa�s')->asSet()
+
+context _'Endere�o'::_'pa�s'() : Set(_'Integer') 
+body: self._'attribute75'->collect(_'pa�s')->asSet()
+
+context _'Im�vel'::_'dimens�o'(w: World) : Set(_'Integer') 
+body: self._'attribute76'->select(m | m.world = w)->collect(_'dimens�o')->asSet()
+
+context _'Im�vel'::_'dimens�o'() : Set(_'Integer') 
+body: self._'attribute76'->collect(_'dimens�o')->asSet()
+
+endpackage
