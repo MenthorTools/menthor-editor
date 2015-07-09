@@ -2,7 +2,7 @@ package net.menthor.ontouml2temporalowl;
 
 import java.io.File;
 
-import net.menthor.ontouml2temporalowl.auxiliary.MappingType;
+import net.menthor.common.transformation.owl.OWLMappingTypes;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
@@ -60,7 +60,7 @@ public class OntoUML2OWL
 
 			// mapping the OntoUML-based structure into an OWL-based structure
 			// according to a certain mapping type
-			map2OWLStructure(tp, MappingType.WORM_VIEW_A0);
+			map2OWLStructure(tp, OWLMappingTypes.WORM_VIEW_A0);
 			
 			// Writing transformed model into owl file 
 			myfile = new FileManager(fileAbsolutePath.replace(".refontouml", ".owl"));
@@ -74,7 +74,7 @@ public class OntoUML2OWL
 		}
 	}
 	
-	public static void map2OWLStructure (TreeProcessor tp, MappingType mt)
+	public static void map2OWLStructure (TreeProcessor tp, OWLMappingTypes mt)
 	{
 		owl = new OWLStructure(mt);
 		owl.map(tp);

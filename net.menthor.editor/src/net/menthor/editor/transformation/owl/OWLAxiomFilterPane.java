@@ -1,6 +1,5 @@
 package net.menthor.editor.transformation.owl;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -9,13 +8,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 public class OWLAxiomFilterPane extends JPanel {
 
 	private static final long serialVersionUID = 8425787008147140307L;
-	private JPanel disjPane;
 	private JPanel binPane;
 	private JPanel relCheckList;
 	private JCheckBox domainCheck;
@@ -34,15 +31,11 @@ public class OWLAxiomFilterPane extends JPanel {
 	private JPanel panel_1;
 	private JCheckBox rulesCheck;
 	private JCheckBox ufoStructure;
+	private JCheckBox chckbxComplete;
 	
 	public OWLAxiomFilterPane()
 	{	
 		setPreferredSize(new Dimension(538, 290));
-				
-		disjPane = new JPanel();
-		FlowLayout fl_disjPane = (FlowLayout) disjPane.getLayout();
-		fl_disjPane.setAlignment(FlowLayout.LEFT);
-		disjPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Disjointness", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		binPane = new JPanel();
 		FlowLayout fl_binPane = (FlowLayout) binPane.getLayout();
@@ -77,19 +70,18 @@ public class OWLAxiomFilterPane extends JPanel {
 				.addGroup(gl_axiomsPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_axiomsPane.createSequentialGroup()
-							.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_axiomsPane.createSequentialGroup()
-									.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(relCheckList, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+								.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(disjPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-					.addContainerGap(14, Short.MAX_VALUE))
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(46))
+						.addGroup(gl_axiomsPane.createSequentialGroup()
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(relCheckList, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_axiomsPane.setVerticalGroup(
 			gl_axiomsPane.createParallelGroup(Alignment.LEADING)
@@ -97,8 +89,7 @@ public class OWLAxiomFilterPane extends JPanel {
 					.addContainerGap()
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addComponent(relCheckList, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-						.addComponent(disjPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(relCheckList, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
@@ -115,6 +106,14 @@ public class OWLAxiomFilterPane extends JPanel {
 		cardinalityCheck = new JCheckBox("Cardinality");
 		cardinalityCheck.setSelected(true);
 		panel.add(cardinalityCheck);
+		
+		classCheck = new JCheckBox("Disjoint");
+		panel.add(classCheck);
+		classCheck.setSelected(true);
+		
+		chckbxComplete = new JCheckBox("Complete");
+		panel.add(chckbxComplete);
+		chckbxComplete.setSelected(true);
 		setLayout(gl_axiomsPane);
 		
 		domainCheck = new JCheckBox("Domain");
@@ -128,6 +127,10 @@ public class OWLAxiomFilterPane extends JPanel {
 		inverseCheck = new JCheckBox("Inverse");
 		inverseCheck.setSelected(true);
 		relCheckList.add(inverseCheck);
+		
+		relationshipCheck = new JCheckBox("Disjoint");
+		relCheckList.add(relationshipCheck);
+		relationshipCheck.setSelected(true);
 		
 		reflexivityCheck = new JCheckBox("Reflexivity");
 		reflexivityCheck.setSelected(true);
@@ -156,14 +159,6 @@ public class OWLAxiomFilterPane extends JPanel {
 		inverseFuncCheck = new JCheckBox("Inverse Functional");
 		inverseFuncCheck.setSelected(true);
 		binPane.add(inverseFuncCheck);
-		
-		classCheck = new JCheckBox("Class");
-		classCheck.setSelected(true);
-		disjPane.add(classCheck);
-		
-		relationshipCheck = new JCheckBox("Association");
-		relationshipCheck.setSelected(true);
-		disjPane.add(relationshipCheck);		
 	}
 	
 	public boolean isTransitivity() { return transitivityCheck.isSelected(); }
@@ -183,4 +178,5 @@ public class OWLAxiomFilterPane extends JPanel {
 	
 	public boolean isRules() { return rulesCheck.isSelected(); }
 	public boolean isUfoStructure() { return ufoStructure.isSelected(); }
+	public boolean isComplete() { return chckbxComplete.isSelected(); }
 }

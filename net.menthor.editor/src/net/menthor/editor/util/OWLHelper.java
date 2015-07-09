@@ -21,49 +21,52 @@ package net.menthor.editor.util;
  * ============================================================================================
  */
 
-import net.menthor.common.transformation.MappingType;
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLMappingTypes;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.util.OperationResult.ResultType;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
+import RefOntoUML.parser.OntoUMLParser;
 import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(RefOntoUML.Package model, String ontologyIRI, MappingType mappingType, boolean fileOutput, String filePath, String oclRules, OWLTransformationOptions owlOptions)
+	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, OWLMappingTypes mappingType, boolean fileOutput, String filePath, String oclRules, OWLTransformationOptions owlOptions)
 	{
 		//System.out.println(ontologyIRI);
-		net.menthor.ontouml2temporalowl.auxiliary.MappingType mp = null;
 		String errors = "";
-		if(mappingType != null && !mappingType.equals(MappingType.RULES) && !mappingType.equals(MappingType.UFO_RDF)){
-			mp = net.menthor.ontouml2temporalowl.auxiliary.MappingType.valueOf(mappingType.toString());
-		}
+//		OWLMappingTypes mp = null;
+//		if(mappingType != null && !mappingType.equals(OWLMappingTypes.OOTOS) && !mappingType.equals(OWLMappingTypes.UFO_RDF)){
+//			mp = OWLMappingTypes.valueOf(mappingType.toString());
+//		}
     	try
     	{
     		String owlOutput = "";
-    		if(mappingType == null)
+    		if(mappingType.equals(OWLMappingTypes.SIMPLE))
     		{
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, ontologyIRI);
-    		}else if(mappingType.equals(MappingType.UFO_RDF)){
+    		}else if(mappingType.equals(OWLMappingTypes.UFO_RDF)){
     			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, ontologyIRI);
     			owlOutput = ontoUml2rdf.transform();
-    		}else if(mappingType.equals(MappingType.RULES)){
+    		}else if(mappingType.equals(OWLMappingTypes.OOTOS)){
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(model, ontologyIRI, oclRules, owlOptions);
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, ontologyIRI, oclRules, owlOptions);
     			errors = ontoUML2OWL.errors;
-    		}else
+    		}else if(mappingType.equals(OWLMappingTypes.REIFICATION) || mappingType.equals(OWLMappingTypes.WORM_VIEW_A0) || mappingType.equals(OWLMappingTypes.WORM_VIEW_A1) || mappingType.equals(OWLMappingTypes.WORM_VIEW_A2))
     		{
     			TreeProcessor tp = new TreeProcessor(model);
         		
     			// mapping the OntoUML-based structure into an OWL-based structure
     			// according to a certain mapping type
-    			OWLStructure owl = new OWLStructure(mp);
+    			OWLStructure owl = new OWLStructure(mappingType);
     			owl.map(tp);
     			owlOutput = owl.verbose(ontologyIRI);
-    		}	
+    		}else{
+    			return new OperationResult(ResultType.ERROR, "The OWL Mapping Type " + mappingType + " does not exist.", null);
+    		}
 			
     		if(owlOutput != null && owlOutput.length() > 0)
     		{

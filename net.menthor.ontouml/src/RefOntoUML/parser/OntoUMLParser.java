@@ -67,6 +67,7 @@ import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
+import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 
 /** 
@@ -643,8 +644,10 @@ public class OntoUMLParser {
 		EList<Generalization> gen = gs.getGeneralization();
 		for (Generalization generalization : gen) {
 			Classifier specific = generalization.getSpecific();
+			System.out.println(specific.getName());
+			if(!isSelected(generalization)) continue;
 			if(isSelected(specific)){
-				if(specific.getGeneralization().size() == 0){
+				if(getAllChildren(specific).size() == 0){
 					result.add(specific);
 				}else{
 					Set<Classifier> allChildren = getAllChildren(specific);

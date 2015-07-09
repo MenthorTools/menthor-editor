@@ -58,8 +58,6 @@ public class Counters{
 				counter.warningReasons.add(e.getClass());	
 			}
 		}
-
-		//System.out.println();
 	}
 
 	public String getReturnMessage(){

@@ -11,16 +11,16 @@ public class ElementMappingTableModel extends BaseTableModel {
 	
 	private static final long serialVersionUID = 156864519388945910L;
 	private List<OntoUMLElement> sourceList = new ArrayList<OntoUMLElement>(); 
-	private List<String> targetList = new ArrayList<String>();
+	private List<Object> targetList = new ArrayList<Object>();
 	
 	public ElementMappingTableModel(String elementColumnTitle, String targetColumnTitle)
 	{
 		super(new String[]{elementColumnTitle, targetColumnTitle});
 	}
 
-	public HashMap<OntoUMLElement, String> getEntries()
+	public HashMap<OntoUMLElement, Object> getEntries()
 	{
-		HashMap<OntoUMLElement,String> map = new HashMap<OntoUMLElement,String>();
+		HashMap<OntoUMLElement,Object> map = new HashMap<OntoUMLElement,Object>();
 		int i =0;
 		for(OntoUMLElement src: sourceList)
 		{
@@ -30,21 +30,21 @@ public class ElementMappingTableModel extends BaseTableModel {
 		return map;
 	}
 	
-	public String getTargetPrimivive(OntoUMLElement srcPrimitive)
+	public Object getTargetPrimivive(OntoUMLElement srcPrimitive)
 	{
 		int idx = sourceList.indexOf(srcPrimitive);
 		if(idx>=0) return targetList.get(idx);
 		else return null;
 	}
 
-	public OntoUMLElement getSourcePrimivive(String tgtPrimitive)
+	public OntoUMLElement getSourcePrimivive(Object tgtPrimitive)
 	{
 		int idx = targetList.indexOf(tgtPrimitive);
 		if(idx>=0) return sourceList.get(idx);
 		else return null;
 	}
 	
-	public void addEntry(OntoUMLElement sourcePrimitive, String targetPrimitive)
+	public void addEntry(OntoUMLElement sourcePrimitive, Object targetPrimitive)
 	{
 		int size = sourceList.size();
 		if(!sourceList.contains(sourcePrimitive) && !targetList.contains(targetPrimitive)){
@@ -91,7 +91,7 @@ public class ElementMappingTableModel extends BaseTableModel {
 		if(sourceList.size() > 0 && targetList.size()>0)
 		{
 			OntoUMLElement sourceValue = sourceList.get(rowIndex);
-			String targetValue = targetList.get(rowIndex);			
+			Object targetValue = targetList.get(rowIndex);			
 			switch(columnIndex) {
 				case 0: {
 					if(sourceValue==null) return "<no value>";
@@ -99,7 +99,7 @@ public class ElementMappingTableModel extends BaseTableModel {
 				}
 				case 1: 
 				{
-					if(targetValue==null || targetValue.isEmpty()) return "<no value>";
+					if(targetValue==null) return "<no value>";
 					return targetValue;
 				}				
 			}
@@ -116,7 +116,7 @@ public class ElementMappingTableModel extends BaseTableModel {
 			sourceList.set(rowIndex, (OntoUMLElement)value);
 		} 
 		if(columnIndex == 1){			 
-			targetList.set(rowIndex, (String)value);
+			targetList.set(rowIndex, value);
 		}		
 	}
 	
@@ -128,7 +128,7 @@ public class ElementMappingTableModel extends BaseTableModel {
 		{
         	switch(columnIndex) {
 				case 0: return OntoUMLElement.class;
-				case 1: return String.class;			
+				case 1: return Object.class;			
 			}
 		}
 		return Object.class;

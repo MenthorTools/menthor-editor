@@ -21,7 +21,7 @@ import javax.swing.JTextPane;
 import javax.swing.LayoutStyle;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.MappingTypeComboItem;
 import net.menthor.editor.model.UmlProject;
@@ -285,7 +285,7 @@ public class OWLConfigPane extends JPanel {
 		
 		MappingTypeComboItem rulesItem = new MappingTypeComboItem();
 		rulesItem.setDisplayName("OOTOS");
-		rulesItem.setValue("RULES");
+		rulesItem.setValue("OOTOS");
 		rulesItem.setDescription(ApplicationResources.getInstance().getString("dialog.owlsettings.ontouml2owl"));
 		
 		MappingTypeComboItem simpleItem = new MappingTypeComboItem();
@@ -313,7 +313,7 @@ public class OWLConfigPane extends JPanel {
 		wormA2Item.setValue("WORM_VIEW_A2");
 		wormA2Item.setDescription(ApplicationResources.getInstance().getString("dialog.owlsettings.worm-view-a2"));
 		
-		return new DefaultComboBoxModel(new Object[] { rdfItem, rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
-//		return new DefaultComboBoxModel(new Object[] { rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
+//		return new DefaultComboBoxModel(new Object[] { rdfItem, rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
+		return new DefaultComboBoxModel(new Object[] { rulesItem, simpleItem, reificationItem, wormA0Item, wormA1Item, wormA2Item });
 	}
 }

@@ -3,8 +3,12 @@ package net.menthor.virtuoso.dump;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import net.menthor.virtuoso.queries.SparqlQueries;
 
@@ -65,6 +69,14 @@ public class DumpIndividuals {
 	}
 	
 	public void dumpDataProperties() throws SQLException{
+		HashMap<String, String> rangeHash = new HashMap<String, String>();
+		ResultSet ranges = sparqlQueries.getObjectPropertyRanges();
+		while(ranges.next()){
+			String op = ranges.getString("op");
+			String range = ranges.getString("range");
+			rangeHash.put(op, range);
+		}
+		
 		ResultSet allDataPropertiesOfIndivididuals = sparqlQueries.getAllDataPropertiesOfIndivididuals();
 		while(allDataPropertiesOfIndivididuals.next()){
 			String s = allDataPropertiesOfIndivididuals.getString("s");
@@ -84,10 +96,27 @@ public class DumpIndividuals {
 			}else if(p.contains("Idade.") || p.contains("Idade_Gestacional.") || p.contains("Peso.Gramas")){
 				long idade = Long.valueOf(o);
 				sRsrc.addLiteral(pRsrc, idade);				
+			}else if(rangeHash.containsKey(p)){
+				String type = rangeHash.get(p);
+				if(type.contains("double")){
+					double numero = Double.valueOf(o);
+					sRsrc.addLiteral(pRsrc, numero);
+				}else if(type.contains("long")){
+					long numero = Long.valueOf(o);
+					sRsrc.addLiteral(pRsrc, numero);
+				}else if(type.contains("integer")){
+					Integer numero = Integer.valueOf(o);
+					sRsrc.addLiteral(pRsrc, numero);
+				}else if(type.contains("datetime")){
+					Date data = Date.valueOf(o);
+					sRsrc.addLiteral(pRsrc, data);
+				}
 			}else{
 				Literal literal = ontModel.createLiteral(o);
 				sRsrc.addLiteral(pRsrc, literal);
-			}			
+			}
+			
+						
 		}
 	}
 	

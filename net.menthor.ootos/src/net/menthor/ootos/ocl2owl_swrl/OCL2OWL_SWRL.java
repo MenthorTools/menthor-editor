@@ -139,21 +139,10 @@ public class OCL2OWL_SWRL {
 		String strPackage = oclRules.substring(iPackage, endLinePackage);
 		//and remove the string from oclRules
 		oclRules = oclRules.replace(strPackage, "");
-		/*		
-		int iEndPackage = oclRules.indexOf("endpackage");
-		int endLineEndPackage = iEndPackage+10;//oclRules.indexOf("\n", iEndPackage);
 		
-		String strEndPackage = oclRules.substring(iEndPackage, endLineEndPackage);
-		*/
 		//remove the string "endpackage" from oclRules
 		oclRules = oclRules.replace("endpackage", "");
-		/*
-		int firstTag = oclRules.indexOf("--@");
-		int i = oclRules.indexOf("--@");
-		int j = oclRules.indexOf("\n", i);
-		String tag = oclRules.substring(i+3, j);
-		System.out.println();
-		*/
+		
 		//Now, the rules are treated by blocks.
 		//Is expected that rules without tags comes first and then blocks of rules with the same tag
 		//the first block is considered from the position zero to the first occurrence of a tag (--@)
@@ -333,14 +322,10 @@ public class OCL2OWL_SWRL {
 				    	
 					}
 				}
-				//System.out.println(this.errors);	
 			}
 		}
     	
-		//System.out.println(problematicRules);
-    	//this.errors += unsuccessfullyTransformedRules;
-		//String successMessage = "\n\n" + successfullyTransformedRules + " rule(s) successfully transformed.\n" + unsuccessfullyTransformedRules + " rule(s) unsuccessfully transformed.\n";
-    	String successMessage = this.logCounting.getReturnMessage();
+		String successMessage = this.logCounting.getReturnMessage();
 		this.errors += successMessage;
 		
 	}

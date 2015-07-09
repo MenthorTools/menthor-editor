@@ -11,7 +11,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.menthor.common.transformation.GeneralizationMappingType;
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLPrimitiveTypes;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
 
@@ -40,14 +41,17 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
@@ -91,6 +95,7 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.OntoUMLElement;
 
 
 public class Transformer {
@@ -121,7 +126,8 @@ public class Transformer {
 	private HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>> hashDataProperty;
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
-
+	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
+		
 	private OWLTransformationOptions owlOptions;
 	//OWL
 	private String nameSpace;
@@ -148,9 +154,11 @@ public class Transformer {
 	/**
 	 * Initialize the Transformer
 	 * */
-	public Transformer(RefOntoUML.Package model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) {
+	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) {
 		this.nameSpace = nameSpace+"#";
 
+		this.owlOptions = owlOptions;
+		
 		try {
 			this.factory = this.manager.getOWLDataFactory();
 			this.ontology = this.manager.createOntology(IRI.create(nameSpace));
@@ -161,33 +169,41 @@ public class Transformer {
 			e.printStackTrace();
 		}	
 		
-		ontoParser = new OntoUMLParser(model);
+//		ontoParser = new OntoUMLParser(model);
+		ontoParser = model;
 		
 		lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		lstOntClass.removeAll(lstNominalQualities);
 		
-		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
+		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
+		lstGen = ontoParser.getAllInstances(Generalization.class);
+		
+		Object[][] genSetEnumMappings = this.owlOptions.getGenSetEnumMappings();
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
-				GeneralizationSet gs = (GeneralizationSet) genSetEnumMappings[i][0];
+				OntoUMLElement gsElem = (OntoUMLElement) genSetEnumMappings[i][0];
+				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
 				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
-//				if(mappingType.)
-//				Set<Classifier> children;
-//				children = ontoParser.getAllChildren(gs);
-//				children = ontoParser.getChildren(gs);
-//				children = ontoParser.getLeafChildren(gs);
+				if(mappingType.equals(GeneralizationMappingType.allClasses)){
+					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
+				}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+					lstGsSetMapChildren = ontoParser.getChildren(gs);
+				}else{
+					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
+				}
 				
-				EList<Generalization> gens = gs.getGeneralization();
-				for (Generalization generalization : gens) {
-					lstOntClass.remove(generalization.getSpecific());
+				lstOntClass.removeAll(lstGsSetMapChildren);
+				
+				lstGenSets.remove(gs);
+				
+				for (Generalization generalization : gs.getGeneralization()) {
+					lstGen.remove(generalization);
 				}
 			}
 		}
 		
-		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
-		lstGen = ontoParser.getAllInstances(Generalization.class);
 		lstMaterials = ontoParser.getAllInstances(MaterialAssociation.class);
 		lstMediations = ontoParser.getAllInstances(Mediation.class);
 		lstCharacterization = ontoParser.getAllInstances(Characterization.class);
@@ -220,7 +236,6 @@ public class Transformer {
 		mappingProperties = new MappingProperties(ontoParser);
 		mappingProperties.generateAllPropertyNames();
 		
-		this.owlOptions = owlOptions;
 	}
 
 	/**
@@ -368,6 +383,13 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when creating the Axioms;\n");
 		}
 
+		try{
+			processGenSetsMappings();
+		}catch (Exception e){
+			errors = "";
+			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
+		}
+
 		if(oclRules != null && !oclRules.equals("") && owlOptions.isSwrlRulesAxiom()){
 			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, nameSpace);
 			ocl2owl_swrl.Transformation();
@@ -390,6 +412,53 @@ public class Transformer {
 		return "";
 	}
 	
+	private void processGenSetsMappings() {
+		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
+		for(int i = 0; i < genSetEnumMappings.length; i++){
+			OntoUMLElement gsElem = (OntoUMLElement) genSetEnumMappings[i][0];
+			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
+			GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
+			Set<Classifier> localGsSetMapChildren;
+			if(mappingType.equals(GeneralizationMappingType.allClasses)){
+				localGsSetMapChildren = ontoParser.getAllChildren(gs);					
+			}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+				localGsSetMapChildren = ontoParser.getChildren(gs);
+			}else{
+				localGsSetMapChildren = ontoParser.getLeafChildren(gs);
+			}
+			
+			OWLIndividual[] individuals = new OWLIndividual[localGsSetMapChildren.size()];
+			int j = 0;
+			for (Classifier classifier : localGsSetMapChildren) {
+				OWLNamedIndividual individual = getOwlNamedIndividual(nameSpace, classifier.getName());
+				individuals[j] = individual;
+				j++;
+			}	
+			OWLObjectOneOf oneOf = factory.getOWLObjectOneOf(individuals);
+			
+			OWLClass owlGs = getOwlClass(this.nameSpace, gs.getName());
+			OWLEquivalentClassesAxiom ax = factory.getOWLEquivalentClassesAxiom(owlGs, oneOf);
+			manager.applyChange(new AddAxiom(ontology, ax));
+			
+			int lowerCard;
+			int upperCard;
+			if(gs.isIsCovering() && gs.isIsDisjoint()){
+				lowerCard = 1;
+				upperCard = 1;
+			}else if(gs.isIsCovering()){
+				lowerCard = 1;
+				upperCard = -1;
+			}else{
+				lowerCard = 0;
+				upperCard = 1;
+			}
+			
+			OWLObjectProperty prop = getObjectProperty("has_"+gs.getName());
+			OWLClass src = getOwlClass(gs.getGeneralization().get(0).getGeneral());
+			processCardinality(prop, src, owlGs, lowerCard, upperCard);
+		}
+	}
+
 	private void removeUndesiredAxioms() {
 		Set<OWLAxiom> axioms = ontology.getAxioms();
 		for (OWLAxiom owlAxiom : axioms) {
@@ -904,6 +973,9 @@ public class Transformer {
 	private OWLClass getOwlClass(String iri, String className){
 		return factory.getOWLClass(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
 	}	
+	private OWLNamedIndividual getOwlNamedIndividual(String iri, String className){
+		return factory.getOWLNamedIndividual(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
+	}	
 	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
 		return getOwlClass(nameSpace, ontCls);
 	}	
@@ -923,6 +995,19 @@ public class Transformer {
 			String assName = mappingProperties.getPropertyName(ass);
 			return factory.getOWLObjectProperty(IRI.create(nameSpace+assName));
 			//return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+		}
+	}
+	
+
+	/**
+	 * Return an OWLObjectProperty if the Association ass has some name
+	 * or null otherwise;
+	 * */
+	private OWLObjectProperty getObjectProperty(String assocName){
+		if(assocName==null || assocName == "" || assocName == " " || assocName.length() == 0){
+			return null;
+		}else{
+			return factory.getOWLObjectProperty(IRI.create(nameSpace+assocName));
 		}
 	}
 
@@ -1175,9 +1260,9 @@ public class Transformer {
 			RefOntoUML.Classifier srcT = (Classifier) ass.getMemberEnd().get(0).getType();
 			RefOntoUML.Classifier tgtT = (Classifier) ass.getMemberEnd().get(1).getType();
 			if(lstNominalQualities.contains(srcT) || lstNominalQualities.contains(tgtT)){
-				System.out.println();
-//				continue;
+				continue;
 			}
+			if(lstGsSetMapChildren.contains(srcT) || lstGsSetMapChildren.contains(tgtT)) continue;
 			if(!lstDataType.contains(srcT) && !lstDataType.contains(tgtT)){
 				//Verify the name of the property
 				String assName = mappingProperties.getPropertyName(ass);
@@ -1281,8 +1366,10 @@ public class Transformer {
 			if(gen.getGeneral() instanceof DataType){
 				continue;
 			}
+			if(lstGsSetMapChildren.contains(gen.getGeneral()) || lstGsSetMapChildren.contains(gen.getSpecific())) continue;
+			
 			OWLClass father = getOwlClass(gen.getGeneral());
-
+			
 			OWLClass son = 	getOwlClass(gen.getSpecific());
 
 			//Set subClassOf 
@@ -1332,18 +1419,23 @@ public class Transformer {
 			//Used after to make the unionOf
 			lstCls.add(son);
 		}
-		if(lstCls.size() > 1){
+		
+		if(lstCls.size() > 1 && owlOptions.isDisjointClassAxioms()){
 			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstCls);		
 			manager.applyChange(new AddAxiom(ontology, axiom));
 		}		
 
-		//Set all classes equivalents
-		OWLObjectUnionOf ouf = factory.getOWLObjectUnionOf(lstCls);
-		OWLEquivalentClassesAxiom eqclax = factory.getOWLEquivalentClassesAxiom(father, ouf);
-		manager.addAxiom(ontology, eqclax);
+		if(owlOptions.isCompleteClassAxiom()){
+			//Set all classes equivalents
+			OWLObjectUnionOf ouf = factory.getOWLObjectUnionOf(lstCls);
+			OWLEquivalentClassesAxiom eqclax = factory.getOWLEquivalentClassesAxiom(father, ouf);
+			manager.addAxiom(ontology, eqclax);
+		}
 	}
 
 	private void processGeneralizationDisjoint(EList<Generalization> genSet){
+		if(!owlOptions.isDisjointClassAxioms()) return;
+		
 		OWLClass father = getOwlClass(genSet.get(0).getGeneral());
 
 		Set<OWLClass> lstCls = new HashSet<OWLClass>();
@@ -1366,6 +1458,8 @@ public class Transformer {
 	}
 
 	private void processGeneralizationCovering(EList<Generalization> genSet){
+		if(!owlOptions.isCompleteClassAxiom()) return;
+		
 		OWLClass father = getOwlClass(genSet.get(0).getGeneral());
 
 		Set<OWLClass> lstCls = new HashSet<OWLClass>();
@@ -1407,6 +1501,8 @@ public class Transformer {
 		ArrayList<String> existentClasses = new ArrayList<String>();
 		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
+			if(lstGsSetMapChildren.contains(ontCls)) continue;
+			
 			if(existentClasses.contains(ontCls.getName())){
 				duplicatedClasses.add(ontCls.getName());
 			}else{
@@ -1547,7 +1643,7 @@ public class Transformer {
 			_prop = prop;
 			String _aux = "";
 
-			tipoAtributo = getDataTypeRange(prop.getType());
+			tipoAtributo = getDataTypeRange(prop);
 			if(tipoAtributo == null){
 				//Isn't a simple DataType
 				if(_attributeName.isEmpty()){
@@ -1685,10 +1781,6 @@ public class Transformer {
 		for(DataType dt:lstDataType){	
 			//search in all datatypes from the model
 			if(dt.getName().equals(prop.getType().getName())){
-				if(dt.getName().contains("Completos")){
-					System.out.println();
-				}
-				
 				for (Property dtProp : dt.getAttribute()) {
 					createAttribute(dtProp);
 					f = true;
@@ -1699,10 +1791,8 @@ public class Transformer {
 				c++;
 			}
 		}
-		//		if(c==1){
 		errors += "Unknown datatype "+_attributeName.substring(_attributeName.indexOf("#")+1)+" of (class "+getName(_RefOntoOwnerClass)+") mapped to OWL Literal;\n";
 		createAttribute(null);
-		//		}
 	}
 
 	/**
@@ -1711,31 +1801,81 @@ public class Transformer {
 	 * double, string, normalized_string, boolean, hex_binary, 
 	 * short, byte, unsigned_long or null if doesn't have some match
 	 * */
-	private OWLDatatype getDataTypeRange(Type type) {
-		String range = getName(type);
-		if (range.equalsIgnoreCase("unsigned_int")){
+	private OWLDatatype getDataTypeRange(Property prop) {
+		Type propType = prop.getType();
+		String range = "";
+		OWL2Datatype owlPrimType = null;
+		if(owlOptions.getAttributeMappingsEObject().containsKey(prop)){
+			owlPrimType = (OWL2Datatype) owlOptions.getAttributeMappingsEObject().get(prop);
+			range = owlPrimType.toString();
+		}else if(owlOptions.getPrimitiveTypeMappingsEObject().containsKey(propType)){
+			owlPrimType = (OWL2Datatype) owlOptions.getPrimitiveTypeMappingsEObject().get(propType);
+//			Object x = owlOptions.getPrimitiveTypeMappingsEObject().get(propType);
+			range = owlPrimType.toString();
+		}else{
+			range = getName(propType);
+		}
+		
+		if(owlPrimType != null){
+			return factory.getOWLDatatype(owlPrimType.getIRI());
+		}else if (range.equalsIgnoreCase("unsigned_int") || range.equalsIgnoreCase("unsignedInt")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_INT.getIRI());
 		}else if(range.equalsIgnoreCase("int") || range.equalsIgnoreCase("integer")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
-		}else if(range.equalsIgnoreCase("unsigned_byte")){
+		}else if(range.equalsIgnoreCase("unsigned_byte") || range.equalsIgnoreCase("unsignedByte")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_BYTE.getIRI());
 		}else if(range.equalsIgnoreCase("double")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_DOUBLE.getIRI());
 		}else if(range.equalsIgnoreCase("string")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_STRING.getIRI());
-		}else if(range.equalsIgnoreCase("normalized_string")){
+		}else if(range.equalsIgnoreCase("normalized_string") || range.equalsIgnoreCase("normalizedString")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_NORMALIZED_STRING.getIRI());
 		}else if(range.equalsIgnoreCase("boolean")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_BOOLEAN.getIRI());
-		}else if(range.equalsIgnoreCase("hex_binary")){
+		}else if(range.equalsIgnoreCase("hex_binary") || range.equalsIgnoreCase("hexBinary")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_HEX_BINARY.getIRI());
 		}else if(range.equalsIgnoreCase("short")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_SHORT.getIRI());
 		}else if(range.equalsIgnoreCase("byte")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_BYTE.getIRI());
-		}else if(range.equalsIgnoreCase("unsigned_long")){
+		}else if(range.equalsIgnoreCase("unsigned_long") || range.equalsIgnoreCase("unsignedLong")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_LONG.getIRI());
+		}else if(range.equalsIgnoreCase("anyURI")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_ANY_URI.getIRI());
+		}else if(range.equalsIgnoreCase("base64Binary")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_BASE_64_BINARY.getIRI());
+		}else if(range.equalsIgnoreCase("date")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_DATE_TIME.getIRI());
+		}else if(range.equalsIgnoreCase("dateTime")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_DATE_TIME_STAMP.getIRI());
+		}else if(range.equalsIgnoreCase("decimal")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_DECIMAL.getIRI());
+		}else if(range.equalsIgnoreCase("Name")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_NAME.getIRI());
+		}else if(range.equalsIgnoreCase("NCName")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_NCNAME.getIRI());
+		}else if(range.equalsIgnoreCase("nonPositiveInteger")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_NON_POSITIVE_INTEGER.getIRI());
+		}else if(range.equalsIgnoreCase("nonNegativeInteger")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_NON_NEGATIVE_INTEGER.getIRI());
+		}else if(range.equalsIgnoreCase("unsignedShort")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_SHORT.getIRI());
+		}else if(range.equalsIgnoreCase("negativeInteger")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_NEGATIVE_INTEGER.getIRI());
+		}else if(range.equalsIgnoreCase("positiveInteger")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_POSITIVE_INTEGER.getIRI());
+		}else if(range.equalsIgnoreCase("language")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_LANGUAGE.getIRI());
+		}else if(range.equalsIgnoreCase("long")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_LONG.getIRI());
+		}else if(range.equalsIgnoreCase("float")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_FLOAT.getIRI());
+		}else if(range.equalsIgnoreCase("token")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_TOKEN.getIRI());
+		}else if(range.equalsIgnoreCase("NMTOKEN")){
+			return factory.getOWLDatatype(OWL2Datatype.XSD_NMTOKEN.getIRI());
 		}
+		
 		return null;
 	}
 
