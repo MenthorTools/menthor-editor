@@ -81,6 +81,22 @@ public class SparqlQueries {
 		return results;
 	}
 	
+	public ResultSet getObjectPropertyRanges() throws SQLException{
+		String sparql = ""
+					+ "sparql\n"
+					+ defineInference
+					+ prefixes
+					+ "SELECT * \n"
+					+ "WHERE \n"
+					+ "{ \n"
+					+ "\t?op rdfs:range ?range .\n"
+					+ "}";
+		
+		ResultSet results = this.st.executeQuery(sparql);
+		
+		return results;
+	}
+	
 	public ResultSet getAllIndividualInstanceObjPropAsTarget(String individualUri) throws SQLException{
 		String sparql = ""
 					+ "sparql\n"

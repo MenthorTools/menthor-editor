@@ -30,8 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import net.menthor.common.transformation.MappingType;
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLMappingTypes;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.MappingTypeComboItem;
@@ -141,7 +141,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		owlOptions.setGenerateFile(configPane.isFileSelected());
 		
 		if(configPane.isFileSelected()) owlOptions.setFilePath(configPane.getPathText());
-		owlOptions.setMappingType(MappingType.valueOf(((MappingTypeComboItem) configPane.getMappingItem()).value));
+		owlOptions.setMappingType(OWLMappingTypes.valueOf(((MappingTypeComboItem) configPane.getMappingItem()).value));
 		
 		//disjointness
 		owlOptions.setDisjointClassAxioms(axiomsPane.isClassDisjointness());
@@ -171,5 +171,10 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		owlOptions.setUfoStructure(axiomsPane.isUfoStructure());
 		
 		owlOptions.setGenSetEnumMappings(gsPane.getGenSetEnumMappingMap());
+		
+		owlOptions.setCompleteClassAxiom(axiomsPane.isComplete());
+		
+		owlOptions.setPrimitiveTypeMappingsOntoUMLElement(primitivePane.getPrimitiveMap());
+		owlOptions.setAttributeMappingsOntoUMLElement(primitivePane.getAttributeMap());
 	}
 }

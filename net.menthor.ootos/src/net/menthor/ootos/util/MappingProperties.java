@@ -71,7 +71,6 @@ public class MappingProperties {
 			source = ((PropertyImpl)property).getClass_().getName();
 			if(((PropertyImpl)property).getType() != null)
 				target = ((PropertyImpl)property).getType().getName();
-			System.out.println();
 		}
 		
 		source = source.replace(" ", "_").replace("\n", "_");
@@ -132,8 +131,6 @@ public class MappingProperties {
 		propertyByName.put(propertyName, newMappedProperty);
 		propertyByAlias.put(propertyAlias, newMappedProperty);
 		
-		//System.out.println("new relation -> " + propertyName);
-		
 		return propertyName;
 	}
 	
@@ -142,9 +139,7 @@ public class MappingProperties {
 		MappedProperty existentMappedProperty = propertyByName.get(propertyName);
 		MappedProperty abstractMappedProperty = existentMappedProperty;
 		if(existentMappedProperty.isAbstract() == false){
-			//System.out.print(propertyName + " -> changed to -> ");
 			abstractMappedProperty = new MappedProperty(null, propertyName, true);
-			//existentMappedProperty.setMappedAsSubPropertyOf(abstractMappedProperty);
 			propertyByName.put(propertyName, abstractMappedProperty);
 			generatePropertyName(existentMappedProperty.getProperty(), abstractMappedProperty);
 		}		
@@ -156,7 +151,6 @@ public class MappingProperties {
 		Set<Association> allAssociations = ontoParser.getAllInstances(RefOntoUML.Association.class);
 		
 		for (Association association : allAssociations) {
-			//System.out.println(association.getName());
 			generatePropertyName(association, null);
 		}
 		

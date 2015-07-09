@@ -16,7 +16,7 @@ public class GeneralizationSetMappingPane extends BaseMappingPane {
 	
 	public GeneralizationSetMappingPane(OntoUMLParser refparser)
 	{
-		super("Generalization Sets",refparser, "Mapping classes", GeneralizationMappingType.valuesStr(), "Hide classes?");
+		super("Generalization Sets",refparser, "Mapping classes", "Hide classes?");
 		
 		//load qualities as options
 		List<OntoUMLElement> sourcePrimitiveOptions = new ArrayList<OntoUMLElement>();

@@ -20,23 +20,6 @@ public enum GeneralizationMappingType {
 		}
 	};
 	
-//	@Override
-//	public String toString() {
-//		String value = "";
-//		switch (this) {
-//		case allClasses:
-//			value = "All Classes";
-//			break;
-//		case leafClasses:
-//			value = "Leaf Classes";
-//			break;
-//		case _1stClasses:
-//			value = "1st Classes";
-//			break;
-//		}
-//		return value;
-//	}
-	
 	public static String[] valuesStr(){
 		int length = GeneralizationMappingType.values().length;
 		String[] values = new String[length];

@@ -3,7 +3,7 @@ package net.menthor.ootos;
 import java.io.File;
 
 import net.menthor.common.resource.RefOntoUMLResourceFactoryImpl;
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.ootos.ontouml2owl_swrl.Transformer;
 
 import org.eclipse.emf.common.util.URI;

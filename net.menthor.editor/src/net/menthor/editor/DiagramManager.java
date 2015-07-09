@@ -61,8 +61,8 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.MappingType;
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLMappingTypes;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
 import net.menthor.editor.derivation.ExclusionPattern;
@@ -2952,8 +2952,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		UmlProject project = getCurrentProject();
 		String owlType = ProjectSettings.OWL_MAPPING_TYPE.getValue(project);
-		MappingType mappingType = null;
-		if(!owlType.equals("SIMPLE")) mappingType = MappingType.valueOf(owlType);
+//		OWLMappingTypes mappingType = null;
+//		if(!owlType.equals("SIMPLE")) 
+		OWLMappingTypes mappingType = OWLMappingTypes.valueOf(owlType);
 		String oclRules = new String();
 		oclRules = getWorkingConstraints();		
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());

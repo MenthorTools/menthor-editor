@@ -4,7 +4,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Set;
 
-import net.menthor.common.transformation.OWLTransformationOptions;
+import net.menthor.common.transformation.owl.OWLTransformationOptions;
 
 import org.eclipse.emf.common.util.EList;
 

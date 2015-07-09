@@ -59,12 +59,12 @@ public class BaseMappingPane extends JPanel {
 		textPane.setText(text);		
 	}
 	
-	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String[] targetOptions, String choiceColumnTitle){
+	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String choiceColumnTitle){
 		tableModel = new ChoiceElemMapTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
 		init(refparser);
 	}
 	
-	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String[] targetOptions)
+	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle)
 	{
 		tableModel = new ElementMappingTableModel(sourceColumnTitle, targetColumnTitle);
 		init(refparser);

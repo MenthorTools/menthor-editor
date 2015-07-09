@@ -325,14 +325,6 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		//set the axiom at the subClassOf
 		OWLSubClassOfAxiom subClassOf = factory.getOWLSubClassOfAxiom(contextClass, cardRest);
 		manager.applyChange(new AddAxiom(ontology, subClassOf));
-		
-		//factory.getOWLSubClassOfAxiom(arg0, arg1)
-		//OWLSymmetricObjectPropertyAxiom symmetric = factory.getOWLSymmetricObjectPropertyAxiom(relation);
-		
-		//apply changes in the owl manager
-		//manager.applyChange(new AddAxiom(ontology, symmetric));
-				
-		//System.out.println();
 	}
 	
 	public OWLClass getContextClass(String nameSpace, OWLDataFactory factory){
@@ -374,8 +366,6 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		
 		//apply changes in the owl manager
 		manager.applyChange(new AddAxiom(ontology, symmetric));
-				
-		//System.out.println();
 	}
 	
 	public void solveAsymmetric(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
@@ -389,8 +379,6 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		
 		//apply changes in the owl manager
 		manager.applyChange(new AddAxiom(ontology, asymmetric));
-				
-		//System.out.println();
 	}
 	
 	public void solveReflexive(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
@@ -404,8 +392,6 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		
 		//apply changes in the owl manager
 		manager.applyChange(new AddAxiom(ontology, reflexive));
-				
-		//System.out.println();
 	}
 	
 	public void solveTransitive(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
@@ -419,8 +405,6 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		
 		//apply changes in the owl manager
 		manager.applyChange(new AddAxiom(ontology, transitive));
-		
-		//System.out.println();
 	}
 	
 	public void solveSubRelationOf(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
@@ -435,18 +419,12 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		
 		//get the relation2
 		OWLObjectProperty relation2 = this.argumentFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
-		/*
-		System.out.println(relation1.getIRI().getFragment());
-		System.out.println(relation2.getIRI().getFragment());
-		System.out.println();
-		*/
+		
 		//set relation2 as subRelationOf relation1
 		OWLSubObjectPropertyOfAxiom subRelationOf = factory.getOWLSubObjectPropertyOfAxiom(relation2, relation1);
 		
 		//apply changes in the owl manager
 		manager.applyChange(new AddAxiom(ontology, subRelationOf));
-				
-		//System.out.println();
 	}
 	
 	@Override
@@ -468,8 +446,6 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		
 		//apply changes in the owl manager
 		manager.applyChange(new AddAxiom(ontology, irreflexive));
-				
-		//System.out.println();
 	}
 	
 	public ArrayList<SWRLDArgument> solveIncludes(String ctStereotype, OWLDataFactory factory, Set<SWRLAtom> antecedent, Set<SWRLAtom> consequent, ArrayList<SWRLDArgument> referredArgsX, ArrayList<SWRLDArgument> referredArgsY, Boolean leftSideOfImplies) {
