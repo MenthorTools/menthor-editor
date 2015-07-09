@@ -70,5 +70,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2rdf"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.apache.commons.lang_2.6.0.v201205030909.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-mac-x64/swt.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
