@@ -53,15 +53,6 @@ public class DiagramDropListener implements DropTargetListener{
 				  /** we may try to move the selected item from the tree, this should solve this issue (for now). */
 				  targetEditor.getDiagramManager().moveSelectedToDiagram(targetEditor, location);
 				  dtde.dropComplete(true);
-				  
-				  /** Exception thrown: NotSerializable (do not know how to make this work since EObjects are not serializable) */
-				  
-//				  Object o = tr.getTransferData(TransferableTreeNode.DEFAULT_MUTABLE_TREENODE_FLAVOR);				  				  
-//				  if(o instanceof OntoUMLElement){
-//					  EObject eobj = ((OntoUMLElement)o).getElement();					  
-//					  targetEditor.getDiagramManager().moveToDiagram((RefOntoUML.Element)eobj, targetEditor);
-//					  dtde.dropComplete(true);
-//				  }				  
 			  }			  
 			  dtde.rejectDrop();
 			  

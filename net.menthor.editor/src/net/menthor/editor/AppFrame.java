@@ -218,7 +218,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()));
 		getMainToolBar().getProjectBrowserButton().setSelected(false);
 		getMainMenu().getProjectBrowserItem().setSelected(false);
-		getMainToolBar().getToolBoxButton().setSelected(false);
+		//getMainToolBar().getToolBoxButton().setSelected(false);
 		getMainMenu().getToolBoxItem().setSelected(false);
 	}
 	
@@ -343,7 +343,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			browserManager.setPreferredSize(new Dimension(browserManager.getSize().width,250));
 			bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-toolboxWidth-browserManager.getSize().width-(2*dividerSize),bottomPane.getSize().height));
 			topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-toolboxWidth-browserManager.getSize().width-(2*dividerSize),topPane.getSize().height));	
-			getMainToolBar().getToolBoxButton().setSelected(true);			
+			//getMainToolBar().getToolBoxButton().setSelected(true);			
 		}else{
 			toolManager.setPreferredSize(new Dimension(0,250));
 			toolManager.getPalleteAccordion().setPreferredSize(new Dimension(0,250));
@@ -351,7 +351,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			browserManager.setPreferredSize(new Dimension(browserManager.getSize().width,250));
 			bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-browserManager.getSize().width-(2*dividerSize),bottomPane.getSize().height));						
 			topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-browserManager.getSize().width-(2*dividerSize),topPane.getSize().height));
-			getMainToolBar().getToolBoxButton().setSelected(false);
+			//getMainToolBar().getToolBoxButton().setSelected(false);
 		}		
 		multiSplitPane.revalidate();
 	}

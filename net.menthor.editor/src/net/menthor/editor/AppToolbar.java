@@ -55,7 +55,7 @@ public class AppToolbar implements ActionListener {
 	private Map<String, JButton> jbuttonMap = new HashMap<String, JButton>();
 	
 	private JButton btnSave;	
-	private JToggleButton btnToolBox;
+	//private JToggleButton btnToolBox;
 	private JToggleButton btnBrowser;
 	private JToggleButton btnBottomView;
 	private JButton btnUndo;
@@ -74,13 +74,13 @@ public class AppToolbar implements ActionListener {
 	private JButton btnAntiPattern;
 	private JButton btnMeronymic;
 	
-	public JToggleButton getToolBoxButton() { return btnToolBox; }
+	//public JToggleButton getToolBoxButton() { return btnToolBox; }
 	public JToggleButton getProjectBrowserButton() { return btnBrowser; }
 	public JToggleButton getBottomViewButton() { return btnBottomView; }
 	
 	public void enableAll(boolean value)
 	{
-		btnToolBox.setEnabled(value);
+		//btnToolBox.setEnabled(value);
 		btnBrowser.setEnabled(value);
 		btnBottomView.setEnabled(value);
 		btnSave.setEnabled(value);
@@ -116,19 +116,19 @@ public class AppToolbar implements ActionListener {
 		btnRedo = createButton("redo");
 		btnFind = createButton("find");		
 				
-		btnToolBox = new JToggleButton("");
-		btnToolBox.setSelected(frame.getMainMenu().isSelected("TOOLBOX"));
-		btnToolBox.setToolTipText("Show/hide Toolbox Sidebar");
-		btnToolBox.addActionListener(new ActionListener() {				
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		frame.getMainMenu().getToolBoxItem().setSelected(btnToolBox.isSelected());
-        		frame.showToolBox();
-        	}
-        });
-		btnToolBox.setFocusable(false);
-		btnToolBox.setIcon(new ImageIcon(DiagramToolbar.class.getResource("/resources/icons/x16/hammer_screwdriver.png")));
-		toolbar.add(btnToolBox);
+//		btnToolBox = new JToggleButton("");
+//		btnToolBox.setSelected(frame.getMainMenu().isSelected("TOOLBOX"));
+//		btnToolBox.setToolTipText("Show/hide Toolbox Sidebar");
+//		btnToolBox.addActionListener(new ActionListener() {				
+//        	@Override
+//        	public void actionPerformed(ActionEvent e) {
+//        		frame.getMainMenu().getToolBoxItem().setSelected(btnToolBox.isSelected());
+//        		frame.showToolBox();
+//        	}
+//        });
+//		btnToolBox.setFocusable(false);
+//		btnToolBox.setIcon(new ImageIcon(DiagramToolbar.class.getResource("/resources/icons/x16/hammer_screwdriver.png")));
+//		toolbar.add(btnToolBox);
 		
 		btnBrowser = new JToggleButton("");
 		btnBrowser.setSelected(frame.getMainMenu().isSelected("BROWSER"));
