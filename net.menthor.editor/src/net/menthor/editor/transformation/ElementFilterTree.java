@@ -27,59 +27,38 @@ public class ElementFilterTree extends CheckboxTree {
 
 	private static final long serialVersionUID = 1L;
 	
-	public OntoUMLParser refparser;		
+	private OntoUMLParser refparser;		
 	public DefaultMutableTreeNode modelRootNode;		
 	private DefaultTreeModel treeModel;
 	private TreeCheckingModel checkingModel;
+	private FilterOptions opt;
 	
-	private boolean disableClasses=false;
-	private boolean disableDataTypes=false;
-	private boolean disableAssociations=false;
-	private boolean disableAttributes=false;
-	private boolean disableEnds=false;
-	private boolean disableProperties=false;
-	private boolean disableGeneralizations=false;
+	public OntoUMLParser getParser() { return refparser; }
 	
 	/** Create an instance of the filter tree */
-	public static ElementFilterTree createFilter(OntoUMLParser refparser)
+	public static ElementFilterTree createFilter(OntoUMLParser refparser, FilterOptions opt)
 	{
 		return new ElementFilterTree(
 			new DefaultMutableTreeNode(new OntoUMLElement(refparser.getModel(),"")), 
-			refparser
+			refparser,
+			opt
 		);
 	}
 	
-	public static ElementFilterTree createFilter(OntoUMLParser refparser, boolean disableDataTypes)
+	public static ElementFilterTree createFilter(OntoUMLParser refparser, boolean hideDataTypes, FilterOptions opt)
 	{
-		ElementFilterTree filter = createFilter(refparser);
-		filter.disableDataTypes();
+		if(hideDataTypes) opt.disableDataTypes();
+		ElementFilterTree filter = createFilter(refparser, opt);
 		return filter;
 	}
-	
-	public void enableAll() 
-	{ 
-		disableClasses=false;
-		disableDataTypes=false;
-		disableAssociations=false;
-		disableAttributes=false;
-		disableEnds=false;
-		disableProperties=false;
-		disableGeneralizations=false;
-	}
-	public void disableClasses() { disableClasses=true; }
-	public void disableDataTypes() { disableDataTypes=true; }
-	public void disableAssociations() { disableAssociations=true; }
-	public void disableAttributes() { disableAttributes=true; }
-	public void disableEnds() { disableEnds=true; }
-	public void diableProperties() { disableProperties=true; }
-	public void disableGeneralizations() { disableGeneralizations=true; }
-	
+
 	/**Constructor */
-	private ElementFilterTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser)
+	private ElementFilterTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, FilterOptions opt)
 	{	
 		super(rootNode);			
 		this.refparser=refparser;
 		this.modelRootNode = rootNode;		
+		this.opt=opt;
 		this.treeModel = new DefaultTreeModel(rootNode);
 		setModel(treeModel);
 		    
@@ -324,7 +303,7 @@ public class ElementFilterTree extends CheckboxTree {
 			}
 		
 		/* Generalization */
-		} else if (object instanceof RefOntoUML.Generalization && !disableGeneralizations)
+		} else if (object instanceof RefOntoUML.Generalization && !opt.isDisabledGeneralizations())
 		{
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));			
 			parent.add(newNode);			
@@ -351,19 +330,19 @@ public class ElementFilterTree extends CheckboxTree {
 			checkingModel.setPathEnabled(new TreePath(newNode.getPath()),false);			
 		
 		/* Property */
-		}else if (object instanceof RefOntoUML.Property && !disableProperties)
+		}else if (object instanceof RefOntoUML.Property && !opt.isDisabledProperties())
 		{
 			String alias = new String();
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.Property)object);
 			else alias = "";
 			
-			if(((RefOntoUML.Property)object).getAssociation()!=null && !disableEnds)
+			if(((RefOntoUML.Property)object).getAssociation()!=null && !opt.isDisabledEnds())
 			{
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);
 				checkingModel.setPathEnabled(new TreePath(newNode.getPath()),true);	
 			
-			}else if (((RefOntoUML.Property)object).getAssociation()==null && !disableAttributes)
+			}else if (((RefOntoUML.Property)object).getAssociation()==null && !opt.isDisabledAttributes())
 			{
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);
@@ -384,7 +363,7 @@ public class ElementFilterTree extends CheckboxTree {
 						
 			//modelTree.collapsePath(new TreePath(newNode.getPath()));
 				
-			if (object instanceof RefOntoUML.Class && !disableClasses)
+			if (object instanceof RefOntoUML.Class && !opt.isDisabledClasses())
 			{	
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);	
@@ -403,7 +382,7 @@ public class ElementFilterTree extends CheckboxTree {
 				}
 			}		
 			
-			if (object instanceof RefOntoUML.DataType && !disableDataTypes)
+			if (object instanceof RefOntoUML.DataType && !opt.isDisabledDataTypes())
 			{	
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);	
@@ -429,7 +408,7 @@ public class ElementFilterTree extends CheckboxTree {
 				}
 			}		
 			
-			if (object instanceof RefOntoUML.Association && !disableAssociations)
+			if (object instanceof RefOntoUML.Association && !opt.isDisabledAssociations())
 			{	
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
 				parent.add(newNode);	

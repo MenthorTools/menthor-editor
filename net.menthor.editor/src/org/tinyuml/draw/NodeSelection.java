@@ -32,6 +32,8 @@ import java.util.List;
 import net.menthor.editor.palette.ColorPalette;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
 
+import org.tinyuml.umldraw.StructureDiagram;
+
 
 /**
  * A selection that holds a single rectangular shape. It is designed for reuse,
@@ -79,8 +81,10 @@ public class NodeSelection implements Selection, NodeChangeListener {
 	 */
 	public NodeSelection(DiagramOperations anEditor, AbstractNode aNode) {
 		editor = anEditor;
-		for (int i = 0; i < 8; i++) {
-			handles[i] = new Rectangle2D.Double();
+		if(!(aNode instanceof StructureDiagram)){
+			for (int i = 0; i < 8; i++) {
+				handles[i] = new Rectangle2D.Double();
+			}
 		}
 		node = aNode;
 		node.addNodeChangeListener(this);
@@ -126,46 +130,49 @@ public class NodeSelection implements Selection, NodeChangeListener {
 	 * Determines the handle positions.
 	 */
 	private void setHandlePositions() {
-		double absx = node.getAbsoluteX1(), absy = node.getAbsoluteY1(),
+		double absx = node.getAbsoluteX1(), 
+			   absy = node.getAbsoluteY1(),
+			   swidth = node.getSize().getWidth();
 		
-		swidth = node.getSize().getWidth();
+		double x = absx - HANDLE_SIZE + (HANDLE_SIZE/2), 
+			   y = absy - HANDLE_SIZE + (HANDLE_SIZE/2),
+		       width = HANDLE_SIZE, height = HANDLE_SIZE;
 		
-		double x = absx - HANDLE_SIZE + (HANDLE_SIZE/2), y = absy - HANDLE_SIZE + (HANDLE_SIZE/2),
-		
-		//first handle
-		width = HANDLE_SIZE, height = HANDLE_SIZE;
-		handles[0].setRect(x, y, width, height);
-
-		/** middle */
-		x = absx+(swidth/2)-(HANDLE_SIZE/2);
-		handles[4].setRect(x, y, width, height);
-		
-		// second handle
-		x = absx + swidth - (HANDLE_SIZE/2);
-		handles[1].setRect(x, y, width, height);
-
-		/** middle */
-		x = absx - HANDLE_SIZE + (HANDLE_SIZE/2);
-		y = absy + (node.getSize().getHeight()/2) - (HANDLE_SIZE/2);
-		handles[5].setRect(x, y, width, height);
-		
-		// third handle
-		x = absx - HANDLE_SIZE + (HANDLE_SIZE/2);
-		y = absy + node.getSize().getHeight() - (HANDLE_SIZE/2);
-		handles[2].setRect(x, y, width, height);
-
-		/** middle */
-		x = absx + (swidth/2) - (HANDLE_SIZE/2);		
-		handles[6].setRect(x, y, width, height);
-				
-		// fourth handle
-		x = absx + swidth - (HANDLE_SIZE/2);
-		handles[3].setRect(x, y, width, height);
-
-		/** middle */
-		x = absx + swidth - (HANDLE_SIZE/2);	
-		y = absy + (node.getSize().getHeight()/2) - (HANDLE_SIZE/2);
-		handles[7].setRect(x, y, width, height);
+		if(!(node instanceof StructureDiagram)){
+			//first handle
+			handles[0].setRect(x, y, width, height);
+	
+			/** middle */
+			x = absx+(swidth/2)-(HANDLE_SIZE/2);
+			handles[4].setRect(x, y, width, height);
+			
+			// second handle
+			x = absx + swidth - (HANDLE_SIZE/2);
+			handles[1].setRect(x, y, width, height);
+	
+			/** middle */
+			x = absx - HANDLE_SIZE + (HANDLE_SIZE/2);
+			y = absy + (node.getSize().getHeight()/2) - (HANDLE_SIZE/2);
+			handles[5].setRect(x, y, width, height);
+			
+			// third handle
+			x = absx - HANDLE_SIZE + (HANDLE_SIZE/2);
+			y = absy + node.getSize().getHeight() - (HANDLE_SIZE/2);
+			handles[2].setRect(x, y, width, height);
+	
+			/** middle */
+			x = absx + (swidth/2) - (HANDLE_SIZE/2);		
+			handles[6].setRect(x, y, width, height);
+					
+			// fourth handle
+			x = absx + swidth - (HANDLE_SIZE/2);
+			handles[3].setRect(x, y, width, height);
+	
+			/** middle */
+			x = absx + swidth - (HANDLE_SIZE/2);	
+			y = absy + (node.getSize().getHeight()/2) - (HANDLE_SIZE/2);
+			handles[7].setRect(x, y, width, height);
+		}
 	}
 
 	/**
@@ -621,9 +628,11 @@ public class NodeSelection implements Selection, NodeChangeListener {
 	 * @param drawingContext the DrawingContext
 	 */
 	private void drawHandles(DrawingContext drawingContext) {
-		for (int i = 0; i < handles.length; i++) {
-			drawingContext.drawRectangle(handles[i].getX(), handles[i].getY(),
-					handles[i].getWidth(), handles[i].getHeight(), HANDLE_BORDER_COLOR, HANDLE_FILL_COLOR);
+		if(!(node instanceof StructureDiagram)){
+			for (int i = 0; i < handles.length; i++) {
+				drawingContext.drawRectangle(handles[i].getX(), handles[i].getY(),
+						handles[i].getWidth(), handles[i].getHeight(), HANDLE_BORDER_COLOR, HANDLE_FILL_COLOR);
+			}
 		}
 	}
 
@@ -642,9 +651,11 @@ public class NodeSelection implements Selection, NodeChangeListener {
 	 * @return the handle number
 	 */
 	private int getResizeHandle(double x, double y) {
-		for (int i = 0; i < 8; i++) {
-			if (handles[i].contains(x, y)) {
-				return i;
+		if(!(node instanceof StructureDiagram)){
+			for (int i = 0; i < 8; i++) {
+				if (handles[i].contains(x, y)) {
+					return i;
+				}
 			}
 		}
 		return -1;

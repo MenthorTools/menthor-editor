@@ -34,15 +34,15 @@ import javax.swing.JColorChooser;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
+import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
+import net.menthor.editor.ui.diagram.commands.SetColorCommand;
+import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
+
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.umldraw.StructureDiagram;
-
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
-import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
-import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 
 /**
  * @author John Guerson
@@ -64,7 +64,7 @@ public class DiagramToolbar extends JToolBar {
 	private JButton btnZoomOut;
 	private JButton btnZoomIn;
 	private JButton btnZoomStatus;
-	private JButton btnNewDiagram;
+	//private JButton btnNewDiagram;
 	private JButton btnAlloy;
 	private JButton btnOWL;
 	private JButton btnAntiPattern;
@@ -85,18 +85,18 @@ public class DiagramToolbar extends JToolBar {
 		setMargin(new Insets(5,5,5,5));
 		setPreferredSize(new Dimension(100,38));
 		
-		btnNewDiagram = new JButton("");
-		btnNewDiagram.setToolTipText("New diagram");
-		btnNewDiagram.addActionListener(new ActionListener() {				
-        	@Override
-        	public void actionPerformed(ActionEvent e) {        		
-        		editor.getDiagramManager().newDiagram();
-        	}
-        });
-		btnNewDiagram.setFocusable(false);
-		btnNewDiagram.setBorderPainted(false);
-		btnNewDiagram.setIcon(new ImageIcon(DiagramToolbar.class.getResource("/resources/icons/x16/application_add.png")));
-		add(btnNewDiagram);
+//		btnNewDiagram = new JButton("");
+//		btnNewDiagram.setToolTipText("New diagram");
+//		btnNewDiagram.addActionListener(new ActionListener() {				
+//        	@Override
+//        	public void actionPerformed(ActionEvent e) {        		
+//        		editor.getDiagramManager().newDiagram();
+//        	}
+//        });
+//		btnNewDiagram.setFocusable(false);
+//		btnNewDiagram.setBorderPainted(false);
+//		btnNewDiagram.setIcon(new ImageIcon(DiagramToolbar.class.getResource("/resources/icons/x16/application_add.png")));
+//		add(btnNewDiagram);
 		
 		btnGrid = new JToggleButton("");
 		btnGrid.setSelected(editor.showGrid());
