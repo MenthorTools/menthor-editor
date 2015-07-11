@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -57,7 +57,11 @@ public class GlossaryGeneratorUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GlossaryGeneratorUI() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GlossaryGeneratorUI.class.getResource("/resources/icon/glossary.png")));
+		
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(GlossaryGeneratorUI.class.getResource("/resources/icon/glossary.png")));
+		ImageIcon icon = new ImageIcon("/resources/icon/glossary.png");
+		setIconImage(icon.getImage());
+		
 		setPreferredSize(new Dimension(390, 387));
 		setSize(new Dimension(390, 387));
 		
