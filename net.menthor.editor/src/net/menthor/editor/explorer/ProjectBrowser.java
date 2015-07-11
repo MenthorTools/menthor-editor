@@ -27,6 +27,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -37,8 +38,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.tinyuml.umldraw.StructureDiagram;
-
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
 import net.menthor.editor.model.AlloySpecification;
@@ -48,6 +47,9 @@ import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+
+import org.tinyuml.umldraw.StructureDiagram;
+
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -74,6 +76,12 @@ public class ProjectBrowser extends JPanel{
 	private OntoUML2AlloyOptions refOptions;
 	private TOCL2AlloyOption oclOptions;	
 			
+	@SuppressWarnings("unchecked")
+	public List<StructureDiagram> getAllDiagrams()
+	{
+		return (List<StructureDiagram>) project.getDiagrams();
+	}
+	
 	public void addTreeSelectionListener(TreeSelectionListener selectionListener) {
 		tree.addTreeSelectionListener(selectionListener);
 	}	

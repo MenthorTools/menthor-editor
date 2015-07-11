@@ -1360,36 +1360,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void workingOnlyWith(StructureDiagram diagram)
 	{
 		// get elements from the diagram
-		ArrayList<EObject> elements = new ArrayList<EObject>();
-		for(DiagramElement de: diagram.getChildren()){
-			if(de instanceof ClassElement) {
-				Classifier c = ((ClassElement)de).getClassifier();
-				elements.add(c);
-				if(c instanceof RefOntoUML.Class) {
-					for(Property attr: ((RefOntoUML.Class)c).getOwnedAttribute()) {
-						elements.add(attr);
-						if(!elements.contains(attr.getType())) elements.add(attr.getType());
-					}
-				}
-				if(c instanceof RefOntoUML.DataType) {
-					for(Property attr: ((RefOntoUML.DataType)c).getOwnedAttribute()) {
-						elements.add(attr);
-						if(!elements.contains(attr.getType())) elements.add(attr.getType());
-					}
-				}
-			}
-			if(de instanceof AssociationElement) { 
-				Association r = (Association)((AssociationElement)de).getRelationship();
-				elements.add(r.getMemberEnd().get(0));
-				elements.add(r.getMemberEnd().get(1));
-				elements.add(r);								
-			}
-			if(de instanceof GeneralizationElement) {
-				Relationship rel = ((GeneralizationElement)de).getRelationship();
-				elements.add(rel);
-				elements.addAll(((Generalization)rel).getGeneralizationSet());				 
-			}
-		}		
+		List<EObject> elements = ModelHelper.getElements(diagram);
 		//complete missing/mandatory dependencies on the parser
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();				
 		refparser.select((ArrayList<EObject>)elements,true);
@@ -1402,7 +1373,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		pb.getTree().updateUI();		
 		pb.setParser(refparser);
 	}
-
+	
 	/** Tell the application to work only with the elements contained in these diagrams. */
 	public void workingOnlyWith(ArrayList<StructureDiagram> diagrams)
 	{

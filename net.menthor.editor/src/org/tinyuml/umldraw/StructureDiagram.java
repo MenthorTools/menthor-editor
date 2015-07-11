@@ -104,7 +104,7 @@ import edu.mit.csail.sdg.alloy4graph.DotStyle;
  * @author Wei-ju Wu, John Guerson
  */
 public class StructureDiagram extends AbstractCompositeNode implements
-		NodeChangeListener, LabelSource, Diagram {
+		NodeChangeListener, LabelSource, Diagram, Comparable<StructureDiagram> {
 
 	private static final long serialVersionUID = -874538211438595440L;
 	private static final int ADDITIONAL_SPACE_RIGHT = 0;
@@ -1296,6 +1296,11 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		result.add(origin);
 		result.add(end);
 		return result;
+	}
+
+	@Override
+	public int compareTo(StructureDiagram arg0) {
+		return toString().compareTo(toString());		
 	}
 
 }

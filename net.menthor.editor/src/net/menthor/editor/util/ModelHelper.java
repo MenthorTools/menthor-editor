@@ -317,6 +317,64 @@ public class ModelHelper {
         return null;
     }	    
 	   
+    public static List<EObject> getPackgeableElements(StructureDiagram diagram)
+   	{
+   		ArrayList<EObject> elements = new ArrayList<EObject>();
+   		for(DiagramElement de: diagram.getChildren()){
+   			if(de instanceof ClassElement) {
+   				Classifier c = ((ClassElement)de).getClassifier();
+   				elements.add(c);   				
+   			}
+   			if(de instanceof AssociationElement) { 
+   				Association r = (Association)((AssociationElement)de).getRelationship();
+   				elements.add(r.getMemberEnd().get(0));
+   				elements.add(r.getMemberEnd().get(1));
+   				elements.add(r);								
+   			}
+   			if(de instanceof GeneralizationElement) {
+   				Relationship rel = ((GeneralizationElement)de).getRelationship();
+   				elements.add(rel);
+   				elements.addAll(((Generalization)rel).getGeneralizationSet());				 
+   			}
+   		}	
+   		return elements;
+   	}
+       
+    public static List<EObject> getElements(StructureDiagram diagram)
+	{
+		ArrayList<EObject> elements = new ArrayList<EObject>();
+		for(DiagramElement de: diagram.getChildren()){
+			if(de instanceof ClassElement) {
+				Classifier c = ((ClassElement)de).getClassifier();
+				elements.add(c);
+				if(c instanceof RefOntoUML.Class) {
+					for(Property attr: ((RefOntoUML.Class)c).getOwnedAttribute()) {
+						elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+				if(c instanceof RefOntoUML.DataType) {
+					for(Property attr: ((RefOntoUML.DataType)c).getOwnedAttribute()) {
+						elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+			}
+			if(de instanceof AssociationElement) { 
+				Association r = (Association)((AssociationElement)de).getRelationship();
+				elements.add(r.getMemberEnd().get(0));
+				elements.add(r.getMemberEnd().get(1));
+				elements.add(r);								
+			}
+			if(de instanceof GeneralizationElement) {
+				Relationship rel = ((GeneralizationElement)de).getRelationship();
+				elements.add(rel);
+				elements.addAll(((Generalization)rel).getGeneralizationSet());				 
+			}
+		}	
+		return elements;
+	}
+    
 	public static Collection<DiagramElement> getDiagramElements(Collection<Element> elements)
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		

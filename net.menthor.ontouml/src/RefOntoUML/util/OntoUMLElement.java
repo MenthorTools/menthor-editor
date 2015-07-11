@@ -77,10 +77,10 @@ public class OntoUMLElement implements Serializable{
 	 * 
 	 * @param name
 	 */
-	public OntoUMLElement (String name) 
-	{
-		this.name = name;
-	}	
+//	public OntoUMLElement (String name) 
+//	{
+//		this.name = name;
+//	}	
 	
 	public String getUniqueName()
 	{

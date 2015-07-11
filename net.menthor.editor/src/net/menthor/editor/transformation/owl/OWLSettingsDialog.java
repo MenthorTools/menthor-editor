@@ -36,7 +36,7 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.MappingTypeComboItem;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.transformation.ElementFilterPane;
+import net.menthor.editor.transformation.FilterPane;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ProjectSettings;
 import RefOntoUML.parser.OntoUMLParser;
@@ -52,7 +52,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 	private OWLTransformationOptions owlOptions;
 	
 	private JTabbedPane tabbedPane = new JTabbedPane();
-	private ElementFilterPane filterPane = new ElementFilterPane();
+	private FilterPane filterPane = new FilterPane();
 	private OWLPrimitiveMappingPane primitivePane;
 	private OWLQualityMappingPane qualityPane;
 	private OWLAxiomFilterPane axiomsPane;
@@ -69,7 +69,7 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		this.owlOptions = new OWLTransformationOptions();
 		
 		configPane = new OWLConfigPane(owlOptions, manager);		
-		filterPane.fillContent(refparser);		
+		filterPane.fillContent(refparser, frame.getProjectBrowser().getAllDiagrams());		
 		primitivePane = new OWLPrimitiveMappingPane(refparser);
 		qualityPane = new OWLQualityMappingPane(refparser);
 		gsPane = new OWLGeneralizationSetPane(refparser);
