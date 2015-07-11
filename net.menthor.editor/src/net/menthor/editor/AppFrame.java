@@ -38,6 +38,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
 import net.menthor.editor.explorer.ProjectBrowser;
@@ -634,8 +635,15 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	 */
 	public void showInformationMessageDialog(String title, String message)
 	{
+		JTextArea textArea = new JTextArea(message);
+		textArea.setColumns(30);
+		textArea.setLineWrap( true );
+		textArea.setWrapStyleWord(true);
+		textArea.setSize(textArea.getPreferredSize().width, 1);
+		textArea.setBackground(this.getBackground());
+		
 		JOptionPane.showMessageDialog(
-			this,message,title,JOptionPane.INFORMATION_MESSAGE
+			this, textArea,title,JOptionPane.ERROR_MESSAGE
 		);
 	}
 	
