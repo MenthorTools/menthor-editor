@@ -8,7 +8,7 @@ import javax.swing.table.TableColumn;
 import net.menthor.common.transformation.GeneralizationMappingType;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class GeneralizationSetMappingPane extends BaseMappingPane {
 	
@@ -19,11 +19,11 @@ public class GeneralizationSetMappingPane extends BaseMappingPane {
 		super("Generalization Sets",refparser, "Mapping classes", "Hide classes?");
 		
 		//load qualities as options
-		List<OntoUMLElement> sourcePrimitiveOptions = new ArrayList<OntoUMLElement>();
+		List<RefOntoUMLElement> sourcePrimitiveOptions = new ArrayList<RefOntoUMLElement>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
 		for(GeneralizationSet qua: refparser.getAllInstances(GeneralizationSet.class))
 		{
-			sourcePrimitiveOptions.add(new OntoUMLElement(qua,""));	
+			sourcePrimitiveOptions.add(new RefOntoUMLElement(qua,""));	
 		}		
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 

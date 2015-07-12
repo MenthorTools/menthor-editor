@@ -9,7 +9,7 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class AttributeMappingPane extends BaseMappingPane {
 
@@ -20,12 +20,12 @@ public class AttributeMappingPane extends BaseMappingPane {
 		super(sourceColumnTitle,refparser,targetColumnTitle);
 		
 		//load attributes as options
-		List<OntoUMLElement> sourcePrimitiveOptions = new ArrayList<OntoUMLElement>();
+		List<RefOntoUMLElement> sourcePrimitiveOptions = new ArrayList<RefOntoUMLElement>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
 		for(Property pt: refparser.getAllInstances(Property.class))
 		{
 			if(pt.getAssociation()==null && pt.getType()!=null) {
-				sourcePrimitiveOptions.add(new OntoUMLElement(pt,""));
+				sourcePrimitiveOptions.add(new RefOntoUMLElement(pt,""));
 			}
 		}
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));

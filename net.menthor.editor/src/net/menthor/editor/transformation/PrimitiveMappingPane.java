@@ -9,7 +9,7 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class PrimitiveMappingPane extends BaseMappingPane {
 	
@@ -20,11 +20,11 @@ public class PrimitiveMappingPane extends BaseMappingPane {
 		super(sourceColumnTitle, refparser, targetColumnTitle);
 		
 		//load primitive types as options
-		List<OntoUMLElement> sourcePrimitiveOptions = new ArrayList<OntoUMLElement>();
+		List<RefOntoUMLElement> sourcePrimitiveOptions = new ArrayList<RefOntoUMLElement>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
 		for(PrimitiveType pt: refparser.getAllInstances(PrimitiveType.class))
 		{
-			sourcePrimitiveOptions.add(new OntoUMLElement(pt, ""));	
+			sourcePrimitiveOptions.add(new RefOntoUMLElement(pt, ""));	
 		}		
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 

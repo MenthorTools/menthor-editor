@@ -7,11 +7,11 @@ import net.menthor.editor.dialog.properties.BaseTableModel;
 
 import org.eclipse.emf.ecore.EObject;
 
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class ChoiceElemMapTableModel extends BaseTableModel{
 	private static final long serialVersionUID = 156864519388945910L;
-	private List<OntoUMLElement> sourceList = new ArrayList<OntoUMLElement>(); 
+	private List<RefOntoUMLElement> sourceList = new ArrayList<RefOntoUMLElement>(); 
 	private List<Object> targetList = new ArrayList<Object>();
 	private List<Boolean> choiceOptions = new ArrayList<Boolean>();
 	
@@ -32,21 +32,21 @@ public class ChoiceElemMapTableModel extends BaseTableModel{
 		return map;
 	}
 	
-	public Object getTargetPrimitive(OntoUMLElement srcGs)
+	public Object getTargetPrimitive(RefOntoUMLElement srcGs)
 	{
 		int idx = sourceList.indexOf(srcGs);
 		if(idx>=0) return targetList.get(idx);
 		else return null;
 	}
 
-	public Boolean getTargetHideClass(OntoUMLElement srcGs)
+	public Boolean getTargetHideClass(RefOntoUMLElement srcGs)
 	{
 		int idx = sourceList.indexOf(srcGs);
 		if(idx>=0) return choiceOptions.get(idx);
 		else return null;
 	}
 
-	public void addEntry(OntoUMLElement sourcePrimitive, String targetPrimitive, Boolean choiceOption)
+	public void addEntry(RefOntoUMLElement sourcePrimitive, String targetPrimitive, Boolean choiceOption)
 	{
 		int size = sourceList.size();
 		if(!sourceList.contains(sourcePrimitive) && !targetList.contains(targetPrimitive)){
@@ -94,7 +94,7 @@ public class ChoiceElemMapTableModel extends BaseTableModel{
 	{
 		if(sourceList.size() > 0 && targetList.size()>0 && choiceOptions.size()>0)
 		{
-			OntoUMLElement sourceValue = sourceList.get(rowIndex);
+			RefOntoUMLElement sourceValue = sourceList.get(rowIndex);
 			Object targetValue = targetList.get(rowIndex);
 			Boolean choiceOption = choiceOptions.get(rowIndex);
 			switch(columnIndex) {
@@ -123,7 +123,7 @@ public class ChoiceElemMapTableModel extends BaseTableModel{
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
 		if(columnIndex == 0) {
-			sourceList.set(rowIndex, (OntoUMLElement)value);
+			sourceList.set(rowIndex, (RefOntoUMLElement)value);
 		} 
 		if(columnIndex == 1){			 
 			targetList.set(rowIndex, (Object)value);

@@ -54,7 +54,7 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -123,9 +123,9 @@ public class TreePopupMenu extends JPopupMenu {
 		setNameItem.addActionListener(new ActionListener() {				
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (TreePopupMenu.this.element instanceof OntoUMLElement)
+				if (TreePopupMenu.this.element instanceof RefOntoUMLElement)
 				{    					
-					RefOntoUML.Element element = (RefOntoUML.Element)((OntoUMLElement)TreePopupMenu.this.element).getElement();    					
+					RefOntoUML.Element element = (RefOntoUML.Element)((RefOntoUMLElement)TreePopupMenu.this.element).getElement();    					
 					ProjectBrowser.frame.getDiagramManager().renameElement(element);					
 				}
 				else if (TreePopupMenu.this.element instanceof StructureDiagram)
@@ -142,7 +142,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createMoveToDiagramItem()
 	{
-		final OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());  
+		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());  
 		JMenuItem moveToDiagramItem = new JMenuItem("Move to Diagram");
 		add(moveToDiagramItem);    			    			
 		moveToDiagramItem.addActionListener(new ActionListener() {				
@@ -156,7 +156,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createClassChangeItem()
 	{
-		final OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());  
+		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());  
 		final Type type = (Type)ontoElement.getElement();
 		ClassStereotypeChangeMenu changeMenu = new ClassStereotypeChangeMenu(frame.getDiagramManager());
 		changeMenu.setElement(type);
@@ -165,7 +165,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createRelationChangeItem()
 	{
-		final OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject()); 
+		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject()); 
 		final Association type = (Association)ontoElement.getElement();    			
 		RelationStereotypeChangeMenu changeMenu = new RelationStereotypeChangeMenu(frame.getDiagramManager());
 		changeMenu.setElement(type);
@@ -174,7 +174,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createAddElementItem()
 	{
-		OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());		
+		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());		
 		final RefOntoUML.Package eContainer = (RefOntoUML.Package)ontoElement.getElement();
 		ElementCreationMenu addElementMenu = new ElementCreationMenu(frame.getDiagramManager(),eContainer);
 		add(addElementMenu);
@@ -182,7 +182,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createAddRelationItem()
 	{
-		OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());
+		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());
 		final RefOntoUML.Package eContainer = (RefOntoUML.Package)ontoElement.getElement();
 		RelationCreationMenu addRelationMenu = new RelationCreationMenu(frame.getDiagramManager(),eContainer);
 		add(addRelationMenu);
@@ -190,7 +190,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createAddContainedItem()
 	{
-		OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());
+		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());
 		final RefOntoUML.Type eContainer = (RefOntoUML.Type)ontoElement.getElement();
 		JMenu addItem = new JMenu("Add");
 		JMenuItem addGenItem = new JMenuItem("Generalization");
@@ -225,7 +225,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createInvertItem()
 	{
-		OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());
+		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());
 		final Association association = (Association)ontoElement.getElement();
 		
 		JMenu invertMenu = new JMenu("Invert");
@@ -287,9 +287,9 @@ public class TreePopupMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {			
 				if(!tree.isFocusable())return;
-				if (TreePopupMenu.this.element instanceof OntoUMLElement)
+				if (TreePopupMenu.this.element instanceof RefOntoUMLElement)
 				{
-					OntoUMLElement ontoElem = (OntoUMLElement) ((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent()).getUserObject();
+					RefOntoUMLElement ontoElem = (RefOntoUMLElement) ((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent()).getUserObject();
 					RefOntoUML.Element elemForDeletion = (RefOntoUML.Element)ontoElem.getElement();
 					frame.getDiagramManager().deleteFromMenthor(elemForDeletion,true);    					    					
     				tree.setSelectionPath(new TreePath(tree.getModelRootNode().getPath()));    					    					
@@ -308,7 +308,7 @@ public class TreePopupMenu extends JPopupMenu {
 	
 	public void createFinInDiagramItem()
 	{
-		final OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());
+		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());
 		JMenuItem findDiagramItem = new JMenuItem("Find in Diagrams");
 		add(findDiagramItem);		
 		findDiagramItem.addActionListener(new ActionListener() {				
@@ -368,7 +368,7 @@ public class TreePopupMenu extends JPopupMenu {
     	// Model Elements...
     	
     	if ((!(TreePopupMenu.this.element instanceof StructureDiagram)) && (!(TreePopupMenu.this.element instanceof OCLDocument)) && 
-    		!((RefOntoUML.Element)((OntoUMLElement)TreePopupMenu.this.element).getElement() instanceof Generalization)) {
+    		!((RefOntoUML.Element)((RefOntoUMLElement)TreePopupMenu.this.element).getElement() instanceof Generalization)) {
     		createRenameItem();
     	}
     	
@@ -377,9 +377,9 @@ public class TreePopupMenu extends JPopupMenu {
     		createDeleteItem();
     	}
     	
-		if (selectedNode.getUserObject() instanceof OntoUMLElement)
+		if (selectedNode.getUserObject() instanceof RefOntoUMLElement)
 		{
-    		final OntoUMLElement ontoElement = ((OntoUMLElement)selectedNode.getUserObject());    		
+    		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());    		
     		if(ontoElement.getElement() instanceof RefOntoUML.Type || ontoElement.getElement() instanceof RefOntoUML.Generalization)
     		{
     			createMoveToDiagramItem();

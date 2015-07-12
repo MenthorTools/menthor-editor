@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class DiagramTree extends ElementTree {
 
@@ -28,7 +28,7 @@ public class DiagramTree extends ElementTree {
 	public static DiagramTree createFilter(OntoUMLParser refparser, List<StructureDiagram> diagrams, ElementVisibilityOption opt)
 	{
 		return new DiagramTree(
-				new DefaultMutableTreeNode(new OntoUMLElement(refparser.getModel(),"")), 
+				new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
 				refparser,
 				diagrams,
 				opt);
@@ -47,7 +47,7 @@ public class DiagramTree extends ElementTree {
 		FilterCellRenderer cellRenderer = new FilterCellRenderer();
 		setCellRenderer(cellRenderer);
 		
-		draw(modelRootNode, refparser.getModel(), checkingModel, refparser);	
+		drawDiagrams(modelRootNode, refparser.getModel(), checkingModel, refparser);	
 					
 		addCheckingPath(new TreePath(modelRootNode.getPath()));		
 		expandPath(new TreePath(modelRootNode.getPath()));
@@ -101,8 +101,7 @@ public class DiagramTree extends ElementTree {
     }
     			
 	/** Draw */	
-    @Override
-	protected void draw(DefaultMutableTreeNode parent, Object object, TreeCheckingModel checkingModel, OntoUMLParser refparser) 
+	protected void drawDiagrams(DefaultMutableTreeNode parent, Object object, TreeCheckingModel checkingModel, OntoUMLParser refparser) 
 	{				
 		if(object instanceof RefOntoUML.Model) {			
 			for (StructureDiagram diagram : diagrams) {
@@ -112,9 +111,9 @@ public class DiagramTree extends ElementTree {
 				expandPath(new TreePath(dNode.getPath()));
 				
 				//diagram elements
-				List<EObject> contents = ModelHelper.getElements(diagram);
+				List<EObject> contents = ModelHelper.getPackageableElements(diagram);
 				for(EObject eobj: contents){
-					super.draw(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser);
+					super.drawElement(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser);
 				}
 			}	
 		}
@@ -161,14 +160,14 @@ public class DiagramTree extends ElementTree {
 				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode)e.nextElement();				
 				while (e.hasMoreElements()) 
 		    	{			
-					if(childNode.getUserObject() instanceof OntoUMLElement){
+					if(childNode.getUserObject() instanceof RefOntoUMLElement){
 						super.checkNode(node, uncheckChildren);
 					}					
 					childNode = (DefaultMutableTreeNode)e.nextElement();
 				}
 	    	}			
 		}
-		else if(node.getUserObject() instanceof OntoUMLElement) {
+		else if(node.getUserObject() instanceof RefOntoUMLElement) {
 			super.checkNode(node, uncheckChildren);
 		}		
 	}
@@ -189,14 +188,14 @@ public class DiagramTree extends ElementTree {
 				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode)e.nextElement();				
 				while (e.hasMoreElements()) 
 		    	{					
-					if(childNode.getUserObject() instanceof OntoUMLElement){
+					if(childNode.getUserObject() instanceof RefOntoUMLElement){
 						super.uncheckNode(childNode, checkChildren);
 					}
 					childNode = (DefaultMutableTreeNode)e.nextElement();
 				}
 	    	}
 		}
-		else if(node.getUserObject() instanceof OntoUMLElement) {
+		else if(node.getUserObject() instanceof RefOntoUMLElement) {
 			super.uncheckNode(node, checkChildren);
 		}
 	}	

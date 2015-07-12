@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.menthor.editor.dialog.properties.BaseTableModel;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class ElementMappingTableModel extends BaseTableModel {
 	
 	private static final long serialVersionUID = 156864519388945910L;
-	private List<OntoUMLElement> sourceList = new ArrayList<OntoUMLElement>(); 
+	private List<RefOntoUMLElement> sourceList = new ArrayList<RefOntoUMLElement>(); 
 	private List<Object> targetList = new ArrayList<Object>();
 	
 	public ElementMappingTableModel(String elementColumnTitle, String targetColumnTitle)
@@ -18,11 +18,11 @@ public class ElementMappingTableModel extends BaseTableModel {
 		super(new String[]{elementColumnTitle, targetColumnTitle});
 	}
 
-	public HashMap<OntoUMLElement, Object> getEntries()
+	public HashMap<RefOntoUMLElement, Object> getEntries()
 	{
-		HashMap<OntoUMLElement,Object> map = new HashMap<OntoUMLElement,Object>();
+		HashMap<RefOntoUMLElement,Object> map = new HashMap<RefOntoUMLElement,Object>();
 		int i =0;
-		for(OntoUMLElement src: sourceList)
+		for(RefOntoUMLElement src: sourceList)
 		{
 			map.put(src,targetList.get(i));
 			i++;
@@ -30,21 +30,21 @@ public class ElementMappingTableModel extends BaseTableModel {
 		return map;
 	}
 	
-	public Object getTargetPrimivive(OntoUMLElement srcPrimitive)
+	public Object getTargetPrimivive(RefOntoUMLElement srcPrimitive)
 	{
 		int idx = sourceList.indexOf(srcPrimitive);
 		if(idx>=0) return targetList.get(idx);
 		else return null;
 	}
 
-	public OntoUMLElement getSourcePrimivive(Object tgtPrimitive)
+	public RefOntoUMLElement getSourcePrimivive(Object tgtPrimitive)
 	{
 		int idx = targetList.indexOf(tgtPrimitive);
 		if(idx>=0) return sourceList.get(idx);
 		else return null;
 	}
 	
-	public void addEntry(OntoUMLElement sourcePrimitive, Object targetPrimitive)
+	public void addEntry(RefOntoUMLElement sourcePrimitive, Object targetPrimitive)
 	{
 		int size = sourceList.size();
 		if(!sourceList.contains(sourcePrimitive) && !targetList.contains(targetPrimitive)){
@@ -90,7 +90,7 @@ public class ElementMappingTableModel extends BaseTableModel {
 	{
 		if(sourceList.size() > 0 && targetList.size()>0)
 		{
-			OntoUMLElement sourceValue = sourceList.get(rowIndex);
+			RefOntoUMLElement sourceValue = sourceList.get(rowIndex);
 			Object targetValue = targetList.get(rowIndex);			
 			switch(columnIndex) {
 				case 0: {
@@ -113,7 +113,7 @@ public class ElementMappingTableModel extends BaseTableModel {
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
 		if(columnIndex == 0) {
-			sourceList.set(rowIndex, (OntoUMLElement)value);
+			sourceList.set(rowIndex, (RefOntoUMLElement)value);
 		} 
 		if(columnIndex == 1){			 
 			targetList.set(rowIndex, value);
@@ -127,7 +127,7 @@ public class ElementMappingTableModel extends BaseTableModel {
         if(sourceList.size() > 0 && targetList.size()>0)
 		{
         	switch(columnIndex) {
-				case 0: return OntoUMLElement.class;
+				case 0: return RefOntoUMLElement.class;
 				case 1: return Object.class;			
 			}
 		}

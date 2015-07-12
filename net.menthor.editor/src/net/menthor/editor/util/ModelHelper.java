@@ -81,7 +81,7 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.NamedElementImpl;
 import RefOntoUML.impl.RefOntoUMLPackageImpl;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -270,7 +270,7 @@ public class ModelHelper {
 
 		if(found.size()>1)
 		{
-			Main.printErrLine("The model instance {"+new OntoUMLElement(element,"")+"} has 2 diagram elements for the same diagram editor.");
+			Main.printErrLine("The model instance {"+new RefOntoUMLElement(element,"")+"} has 2 diagram elements for the same diagram editor.");
 			return null;
 		}
 		if(found.size()==0)
@@ -317,13 +317,25 @@ public class ModelHelper {
         return null;
     }	    
 	   
-    public static List<EObject> getPackgeableElements(StructureDiagram diagram)
+    public static List<EObject> getPackageableElements(StructureDiagram diagram)
    	{
    		ArrayList<EObject> elements = new ArrayList<EObject>();
    		for(DiagramElement de: diagram.getChildren()){
    			if(de instanceof ClassElement) {
    				Classifier c = ((ClassElement)de).getClassifier();
-   				elements.add(c);   				
+   				elements.add(c);
+   				if(c instanceof RefOntoUML.Class) {
+					for(Property attr: ((RefOntoUML.Class)c).getOwnedAttribute()) {
+						//elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+				if(c instanceof RefOntoUML.DataType) {
+					for(Property attr: ((RefOntoUML.DataType)c).getOwnedAttribute()) {
+						//elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
    			}
    			if(de instanceof AssociationElement) { 
    				Association r = (Association)((AssociationElement)de).getRelationship();

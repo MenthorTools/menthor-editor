@@ -58,7 +58,7 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -429,30 +429,30 @@ public class PropertyEditionPanel extends JPanel {
     	}	
 		redefinedText.setText(str);		
 		
-		ArrayList<OntoUMLElement> list = new ArrayList<OntoUMLElement>();
-		OntoUMLElement value = null;
+		ArrayList<RefOntoUMLElement> list = new ArrayList<RefOntoUMLElement>();
+		RefOntoUMLElement value = null;
 		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
-		if (property.getType()!=null) value = new OntoUMLElement(property.getType(),"");
-		else value = new OntoUMLElement(null,"");			    	
+		if (property.getType()!=null) value = new RefOntoUMLElement(property.getType(),"");
+		else value = new RefOntoUMLElement(null,"");			    	
     	for(RefOntoUML.Type t: refparser.getAllInstances(RefOntoUML.Type.class))
     	{
 			if(t instanceof RefOntoUML.Class || t instanceof RefOntoUML.DataType || t instanceof RefOntoUML.Association)
 			{
-				if (((OntoUMLElement) value).getElement()!=null && t.equals(((OntoUMLElement) value).getElement())) list.add((OntoUMLElement)value);				
-    			else list.add(new OntoUMLElement(t,""));	    			
+				if (((RefOntoUMLElement) value).getElement()!=null && t.equals(((RefOntoUMLElement) value).getElement())) list.add((RefOntoUMLElement)value);				
+    			else list.add(new RefOntoUMLElement(t,""));	    			
     		}	    					
     	}
-    	if (((OntoUMLElement) value).getElement()==null) list.add((OntoUMLElement)value);
-    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(property.getType())) list.add((OntoUMLElement)value);    	
+    	if (((RefOntoUMLElement) value).getElement()==null) list.add((RefOntoUMLElement)value);
+    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(property.getType())) list.add((RefOntoUMLElement)value);    	
     	Collections.sort(list,new CustomComparator());	    	
     	typeCombo.setModel(new DefaultComboBoxModel(list.toArray()));
     	typeCombo.setSelectedItem(value);    	
 	}
 	
-	public class CustomComparator implements Comparator<OntoUMLElement> 
+	public class CustomComparator implements Comparator<RefOntoUMLElement> 
     {
         @Override
-        public int compare(OntoUMLElement o1, OntoUMLElement o2) {
+        public int compare(RefOntoUMLElement o1, RefOntoUMLElement o2) {
             return o1.toString().compareToIgnoreCase(o2.toString());
         }
     }
@@ -474,7 +474,7 @@ public class PropertyEditionPanel extends JPanel {
 			else if (((String)aggregCombo.getSelectedItem()).compareToIgnoreCase("composite")==0) property.setAggregation(AggregationKind.COMPOSITE);
 			else property.setAggregation(AggregationKind.NONE);			
 			ModelHelper.setMultiplicityFromString(property, (String)multCombo.getSelectedItem());
-			RefOntoUML.Type type = (RefOntoUML.Type)((OntoUMLElement)typeCombo.getSelectedItem()).getElement();			
+			RefOntoUML.Type type = (RefOntoUML.Type)((RefOntoUMLElement)typeCombo.getSelectedItem()).getElement();			
 			if (type!=null && !type.equals(property.getType())) redesign = true;
 			property.setType(type);
 

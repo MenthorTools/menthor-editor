@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import net.menthor.editor.transformation.ElementMappingTableModel;
 import net.menthor.editor.transformation.QualityMappingPane;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class OWLQualityMappingPane extends JPanel{
 
@@ -16,7 +16,7 @@ public class OWLQualityMappingPane extends JPanel{
 	
 	protected QualityMappingPane qualityPane;
 	
-	public HashMap<OntoUMLElement,Object> getQualityMap()
+	public HashMap<RefOntoUMLElement,Object> getQualityMap()
 	{
 		return ((ElementMappingTableModel)qualityPane.getTableModel()).getEntries();
 	}

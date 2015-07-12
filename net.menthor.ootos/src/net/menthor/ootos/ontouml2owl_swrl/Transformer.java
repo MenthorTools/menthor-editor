@@ -95,7 +95,7 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 
 public class Transformer {
@@ -183,7 +183,7 @@ public class Transformer {
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
-				OntoUMLElement gsElem = (OntoUMLElement) genSetEnumMappings[i][0];
+				RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
 				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
 				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
 				if(mappingType.equals(GeneralizationMappingType.allClasses)){
@@ -415,7 +415,7 @@ public class Transformer {
 	private void processGenSetsMappings() {
 		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
 		for(int i = 0; i < genSetEnumMappings.length; i++){
-			OntoUMLElement gsElem = (OntoUMLElement) genSetEnumMappings[i][0];
+			RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
 			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
 			GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
 			Set<Classifier> localGsSetMapChildren;

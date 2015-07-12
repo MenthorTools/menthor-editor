@@ -57,7 +57,7 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -95,7 +95,7 @@ public class ProjectTree extends CheckboxTree {
 		this.treeModel = new DefaultTreeModel(rootNode);
 		setModel(treeModel);
 		
-		modelRootNode = new DefaultMutableTreeNode(new OntoUMLElement(project.getModel(),""));
+		modelRootNode = new DefaultMutableTreeNode(new RefOntoUMLElement(project.getModel(),""));
 		StructureDiagram diagram = new StructureDiagram(project, frame.getDiagramManager().getElementFactory(), frame.getDiagramManager().getDrawingContext());
 		diagram.setName("Diagrams");
 		diagramRootNode = new DefaultMutableTreeNode(diagram);		
@@ -217,14 +217,14 @@ public class ProjectTree extends CheckboxTree {
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) 
 	    {
-	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    	EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    	if (obj.equals(eobject)) { 
 	    		return node;	    		
 	    	}	    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();
 	    }
 	    //last element
-	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    if (obj.equals(eobject)){ 
 	    	return node;	
 	    }	  
@@ -280,7 +280,7 @@ public class ProjectTree extends CheckboxTree {
 			
 		}else if (object instanceof RefOntoUML.Package || object instanceof RefOntoUML.Generalization || object instanceof RefOntoUML.GeneralizationSet || object instanceof RefOntoUML.Comment || object instanceof RefOntoUML.Constraintx) 
 		{		
-			return new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));
+			return new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),""));
 			
 		}else if (object instanceof RefOntoUML.EnumerationLiteral){
 			
@@ -288,7 +288,7 @@ public class ProjectTree extends CheckboxTree {
 			OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.EnumerationLiteral)object);
 			else alias = "";		
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),alias));
 			checkingModel.setPathEnabled(new TreePath(node.getPath()),false);
 			return node; 
 					
@@ -298,7 +298,7 @@ public class ProjectTree extends CheckboxTree {
 			OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.Property)object);
 			else alias = "";		
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),alias));
 			if(object instanceof RefOntoUML.Property){
 				if(((RefOntoUML.Property)object).getAssociation()!=null)
 					checkingModel.setPathEnabled(new TreePath(node.getPath()),false);
@@ -311,11 +311,11 @@ public class ProjectTree extends CheckboxTree {
 			OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.Classifier)object);
 			else alias = "";		
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),alias));
 			
 			for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization())
 			{
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)g),""));
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)g),""));
 				node.add(child);				
 			}
 				
@@ -325,12 +325,12 @@ public class ProjectTree extends CheckboxTree {
 				{
 					if (frame.getBrowserManager().getProjectBrowser().getParser()!=null) alias = refparser.getAlias((RefOntoUML.Classifier)object);
 					else alias = "";		
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)o),alias));
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)o),alias));
 					node.add(child);
 				}			
 				for (Comment o: ((RefOntoUML.Class)object).getOwnedComment())
 				{
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)o),""));
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)o),""));
 					node.add(child);
 				}
 			}		
@@ -341,19 +341,19 @@ public class ProjectTree extends CheckboxTree {
 				{
 					if (frame.getBrowserManager().getProjectBrowser().getParser()!=null) alias = refparser.getAlias((RefOntoUML.Classifier)object);
 					else alias = "";		
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)o),alias));
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)o),alias));
 					node.add(child);
 				}			
 				for (Comment o: ((RefOntoUML.DataType)object).getOwnedComment())
 				{
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)o),""));
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)o),""));
 					node.add(child);
 				}
 				if(object instanceof RefOntoUML.Enumeration){
 					
 					for(EnumerationLiteral lit: ((RefOntoUML.Enumeration)object).getOwnedLiteral())
 					{
-						DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)lit),""));
+						DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)lit),""));
 						node.add(child);
 					}
 				}
@@ -364,13 +364,13 @@ public class ProjectTree extends CheckboxTree {
 				{
 					if (frame.getBrowserManager().getProjectBrowser().getParser()!=null) alias = refparser.getAlias((RefOntoUML.Classifier)object);
 					else alias = "";		
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)o),alias));
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)o),alias));
 					node.add(child);					
 					checkingModel.setPathEnabled(new TreePath(child.getPath()),false);					
 				}
 				for (Comment o: ((RefOntoUML.Association)object).getOwnedComment())
 				{
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)o),""));
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)o),""));
 					node.add(child);
 				}
 			}
@@ -418,7 +418,7 @@ public class ProjectTree extends CheckboxTree {
 		/* Package */
 		} else if (object instanceof RefOntoUML.Package) 
 		{
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),""));
 			parent.add(newNode);
 			expandPath(new TreePath(newNode.getPath()));
 			
@@ -431,18 +431,18 @@ public class ProjectTree extends CheckboxTree {
 		/* Generalization */
 		} else if (object instanceof RefOntoUML.Generalization)
 		{
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));			
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),""));			
 			parent.add(newNode);			
 		
 		/* GeneralizationSet */
 		}else if (object instanceof RefOntoUML.GeneralizationSet)
 		{
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));			
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),""));			
 			parent.add(newNode);
 			
 		}else if (object instanceof RefOntoUML.Comment)
 		{
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));			
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),""));			
 			parent.add(newNode);	
 		
 		}else if (object instanceof RefOntoUML.EnumerationLiteral)
@@ -451,7 +451,7 @@ public class ProjectTree extends CheckboxTree {
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.EnumerationLiteral)object);
 			else alias = "";		
 			
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),alias));
 			parent.add(newNode);
 			checkingModel.setPathEnabled(new TreePath(newNode.getPath()),false);			
 		
@@ -462,13 +462,13 @@ public class ProjectTree extends CheckboxTree {
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.Property)object);
 			else alias = "";
 			
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),alias));			
 			parent.add(newNode);
 			checkingModel.setPathEnabled(new TreePath(newNode.getPath()),false);		
 		
 		}else if (object instanceof RefOntoUML.Constraintx)
 		{
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),""));			
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),""));			
 			parent.add(newNode);
 			
 		/* Classifier */
@@ -478,7 +478,7 @@ public class ProjectTree extends CheckboxTree {
 			if (refparser!=null) alias = refparser.getAlias((RefOntoUML.Classifier)object);
 			else alias = "";
 			
-			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new OntoUMLElement(((EObject)object),alias));			
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new RefOntoUMLElement(((EObject)object),alias));			
 			parent.add(newNode);					
 						
 			//modelTree.collapsePath(new TreePath(newNode.getPath()));
@@ -547,11 +547,11 @@ public class ProjectTree extends CheckboxTree {
 	    for (TreePath treepath : treepathList) 
 	    {	    	
 	    	DefaultMutableTreeNode node = ((DefaultMutableTreeNode)treepath.getLastPathComponent());
-	    	if (node.getUserObject() instanceof OntoUMLElement)
-	    		checkedNodes.add(((OntoUMLElement)node.getUserObject()).getElement());	    		    	
+	    	if (node.getUserObject() instanceof RefOntoUMLElement)
+	    		checkedNodes.add(((RefOntoUMLElement)node.getUserObject()).getElement());	    		    	
 	    }
 		    
-		OntoUMLElement rootObject = (OntoUMLElement) modelRootNode.getUserObject();
+		RefOntoUMLElement rootObject = (RefOntoUMLElement) modelRootNode.getUserObject();
 	    	    
 		initModelUncheckeNodes(rootObject.getElement(), checkedNodes, uncheckedNodes);
     	    	
@@ -573,11 +573,11 @@ public class ProjectTree extends CheckboxTree {
 	    for (TreePath treepath : treepathList) 
 	    {	    	
 	    	DefaultMutableTreeNode node = ((DefaultMutableTreeNode)treepath.getLastPathComponent());
-	    	if (node.getUserObject() instanceof OntoUMLElement)
-	    		checkedNodes.add(((OntoUMLElement)node.getUserObject()).getElement());	    		    	
+	    	if (node.getUserObject() instanceof RefOntoUMLElement)
+	    		checkedNodes.add(((RefOntoUMLElement)node.getUserObject()).getElement());	    		    	
 	    }
 		    
-		OntoUMLElement rootObject = (OntoUMLElement) modelRootNode.getUserObject();
+		RefOntoUMLElement rootObject = (RefOntoUMLElement) modelRootNode.getUserObject();
 	    	    
 		initModelUncheckeNodes(rootObject.getElement(), checkedNodes, uncheckedNodes);
     	    	
@@ -599,7 +599,7 @@ public class ProjectTree extends CheckboxTree {
 		
 		Object userobj = node.getUserObject();
 		Object obj=null;
-		if (userobj instanceof OntoUMLElement) obj = ((OntoUMLElement)userobj).getElement();
+		if (userobj instanceof RefOntoUMLElement) obj = ((RefOntoUMLElement)userobj).getElement();
 		else if (userobj instanceof StructureDiagram) obj = ((StructureDiagram)userobj);
 		else if (userobj instanceof OCLDocument) obj = ((OCLDocument)userobj);
 		else if (userobj instanceof UmlProject) obj = ((UmlProject)userobj);
@@ -613,7 +613,7 @@ public class ProjectTree extends CheckboxTree {
 			while (e.hasMoreElements()) 
 	    	{
 				childNode = (DefaultMutableTreeNode)e.nextElement();
-				childObject = ((OntoUMLElement)childNode.getUserObject()).getElement();		    		
+				childObject = ((RefOntoUMLElement)childNode.getUserObject()).getElement();		    		
 				getCheckingModel().removeCheckingPath(new TreePath(childNode.getPath()));				
 			}
     	}
@@ -634,7 +634,7 @@ public class ProjectTree extends CheckboxTree {
 		
 		Object userobj = node.getUserObject();
 		Object obj=null;
-		if (userobj instanceof OntoUMLElement) obj = ((OntoUMLElement)userobj).getElement();
+		if (userobj instanceof RefOntoUMLElement) obj = ((RefOntoUMLElement)userobj).getElement();
 		else if (userobj instanceof StructureDiagram) obj = ((StructureDiagram)userobj);
 		else if (userobj instanceof OCLDocument) obj = ((OCLDocument)userobj);
 		else if (userobj instanceof UmlProject) obj = ((UmlProject)userobj);
@@ -648,7 +648,7 @@ public class ProjectTree extends CheckboxTree {
 			while (e.hasMoreElements()) 
 	    	{
 				childNode = (DefaultMutableTreeNode)e.nextElement();
-				childObject = ((OntoUMLElement)childNode.getUserObject()).getElement();		    		
+				childObject = ((RefOntoUMLElement)childNode.getUserObject()).getElement();		    		
 				getCheckingModel().addCheckingPath(new TreePath(childNode.getPath()));				
 			}
     	}
@@ -657,14 +657,14 @@ public class ProjectTree extends CheckboxTree {
 	public boolean checkModelElement(EObject element)
 	{	
 		boolean result = false;
-		EObject rootEObj = ((OntoUMLElement)modelRootNode.getUserObject()).getElement();
+		EObject rootEObj = ((RefOntoUMLElement)modelRootNode.getUserObject()).getElement();
 		if (rootEObj.equals(element)) { result=true; select(modelRootNode); return result; }
 		
 		Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) 
 	    {
-	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    	EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    	if (obj.equals(element)) { 
 	    		result =true;
 	    		
@@ -677,7 +677,7 @@ public class ProjectTree extends CheckboxTree {
 	    	node = (DefaultMutableTreeNode)e.nextElement();
 	    }
 	    //last element
-	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    if (obj.equals(element)){ 
 	    	result =true;
 	    	
@@ -703,7 +703,7 @@ public class ProjectTree extends CheckboxTree {
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) 
 	    {
-	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    	EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    	if (obj instanceof RefOntoUML.NamedElement){
 	    		RefOntoUML.NamedElement namedElem = ((RefOntoUML.NamedElement)obj);	    		
 	    		if(namedElem.getName()!=null && !namedElem.getName().isEmpty()){
@@ -715,7 +715,7 @@ public class ProjectTree extends CheckboxTree {
 	    	node = (DefaultMutableTreeNode)e.nextElement();
 	    }
 	    //last element
-	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    if (obj instanceof RefOntoUML.NamedElement){
     		RefOntoUML.NamedElement namedElem = ((RefOntoUML.NamedElement)obj);    		
     		if(namedElem.getName()!=null && !namedElem.getName().isEmpty()){
@@ -745,13 +745,13 @@ public class ProjectTree extends CheckboxTree {
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) 
 	    {
-	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    	EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    	if (alreadyChecked.contains(obj)) { checkNode(node,true); }	    			
 	    		    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element
-	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    if (alreadyChecked.contains(obj)) { checkNode(node,true); }    	    	
 	}	
 	 
@@ -763,7 +763,7 @@ public class ProjectTree extends CheckboxTree {
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) 
 	    {
-	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    	EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    	if(!(obj instanceof RefOntoUML.Package)){
 	    		if (elements.contains(obj)) { checkNode(node,true); }	    			
 	    		else { uncheckNode(node,true); }
@@ -772,7 +772,7 @@ public class ProjectTree extends CheckboxTree {
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element
-	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    if(!(obj instanceof RefOntoUML.Package)){
 		    if (elements.contains(obj)) { checkNode(node,true); }  
 		    else { uncheckNode(node,true); }
@@ -797,13 +797,13 @@ public class ProjectTree extends CheckboxTree {
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) 
 	    {
-	    	EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    	EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    	if (alreadyUnchecked.contains(obj)) { uncheckNode(node,true); }	    			
 	    		    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element
-	    EObject obj = ((OntoUMLElement)node.getUserObject()).getElement();
+	    EObject obj = ((RefOntoUMLElement)node.getUserObject()).getElement();
 	    if (alreadyUnchecked.contains(obj)) { uncheckNode(node,true); }    	    	
 	}	
 	
@@ -872,9 +872,9 @@ public class ProjectTree extends CheckboxTree {
             		}
             	}
             	
-            	if(currentNode.getUserObject() instanceof OntoUMLElement)
+            	if(currentNode.getUserObject() instanceof RefOntoUMLElement)
             	{
-            		RefOntoUML.Element element = (RefOntoUML.Element)((OntoUMLElement)currentNode.getUserObject()).getElement();
+            		RefOntoUML.Element element = (RefOntoUML.Element)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
             		ElementDialogCaller.openDialog(element, frame);
             	}
         	}

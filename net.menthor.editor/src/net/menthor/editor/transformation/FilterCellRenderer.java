@@ -18,13 +18,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class FilterCellRenderer extends DefaultTreeCellRenderer implements CheckboxTreeCellRenderer {
 
@@ -41,10 +38,10 @@ public class FilterCellRenderer extends DefaultTreeCellRenderer implements Check
 	{
 		super();    		
 		label.setFocusable(true);
-		label.setOpaque(true);		    		 
+		label.setOpaque(true);		
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(BorderLayout.WEST,checkbox);
-		panel.add(BorderLayout.CENTER,label);		    		
+		panel.add(BorderLayout.CENTER,label);		
 		checkbox.setBackground(UIManager.getColor("Tree.textBackground"));    		
 		panel.setBackground(UIManager.getColor("Tree.textBackground"));		    		
 	}
@@ -57,9 +54,9 @@ public class FilterCellRenderer extends DefaultTreeCellRenderer implements Check
 		{							
 			label.setIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/tree/diagram.png")));
 		}
-		if(obj instanceof OntoUMLElement)
+		if(obj instanceof RefOntoUMLElement)
 		{			
-			EObject element = ((OntoUMLElement)obj).getElement();
+			EObject element = ((RefOntoUMLElement)obj).getElement();
 			String elementType = new String();
 			if (element != null) elementType = element.getClass().toString().replace("class " +"RefOntoUML.impl.", "").replace("Impl", "");				
 			if (elementType.toLowerCase().equals("property") || elementType.toLowerCase().equals("enumerationliteral"))
@@ -89,16 +86,24 @@ public class FilterCellRenderer extends DefaultTreeCellRenderer implements Check
 	   	checkbox.setSelected(checked);	   	
 	   	if(!checked) {
 	   		if (selected) {
-				label.setBackground(UIManager.getColor("List.selectionBackground"));							
+				label.setBackground(Color.LIGHT_GRAY);
+				//label.setBackground(PaletteAccordion.getHoverItemBackground());			
+				//label.setBorder(PaletteAccordion.getHoverItemBorder());
 			}else{
-				label.setBackground(UIManager.getColor("Tree.textBackground"));				
+				label.setBackground(UIManager.getColor("Tree.textBackground"));
+				label.setBorder(null);
 			}
-	   		label.setForeground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));
+	   		//label.setForeground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));
+	   		label.setForeground(Color.RED);
 	   	}else {
 	   		if (selected) {
-				label.setBackground(UIManager.getColor("List.selectionBackground"));							
+	   			label.setBackground(Color.LIGHT_GRAY);
+				//label.setBackground(UIManager.getColor("List.selectionBackground"));
+				//label.setBackground(PaletteAccordion.getHoverItemBackground());			
+				//label.setBorder(PaletteAccordion.getHoverItemBorder());
 			}else{
-				label.setBackground(UIManager.getColor("Tree.textBackground"));				
+				label.setBackground(UIManager.getColor("Tree.textBackground"));
+				label.setBorder(null);
 			}   		
 	   	}
 	   	

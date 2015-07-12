@@ -52,7 +52,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * OntoUML Cell Renderer for CheckBox Tree
@@ -101,11 +101,11 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) 
 	{    		
 		String elementType;
-		OntoUMLElement treeNodeElem = null;    		
+		RefOntoUMLElement treeNodeElem = null;    		
 		
-		if( ((DefaultMutableTreeNode)value).getUserObject() instanceof OntoUMLElement ){
+		if( ((DefaultMutableTreeNode)value).getUserObject() instanceof RefOntoUMLElement ){
 			
-			treeNodeElem = ((OntoUMLElement)((DefaultMutableTreeNode)value).getUserObject());
+			treeNodeElem = ((RefOntoUMLElement)((DefaultMutableTreeNode)value).getUserObject());
 			
 			EObject element = treeNodeElem.getElement();
 			

@@ -1,4 +1,4 @@
-package net.menthor.editor.explorer;
+package RefOntoUML.util;
 
 /**
  * ============================================================================================
@@ -26,16 +26,17 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
-import RefOntoUML.util.OntoUMLElement;
 
 /** 
  * Custom OntoUML element used for listing ref-onto elements 
  * 
  * @author John Guerson
  * */
-public class CustomOntoUMLElement extends OntoUMLElement {
+public class RefOntoUMLElementCustom extends RefOntoUMLElement {
 
-	public CustomOntoUMLElement(EObject refElement, String uniqueName) { super(refElement, uniqueName); }		
+	private static final long serialVersionUID = -5424356969453882382L;
+
+	public RefOntoUMLElementCustom(EObject refElement, String uniqueName) { super(refElement, uniqueName); }		
 	
 	@Override
 	public String toString() {

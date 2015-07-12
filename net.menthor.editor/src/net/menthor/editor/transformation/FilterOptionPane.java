@@ -26,7 +26,7 @@ import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
 
-public class ElementTreeCheckingPane extends JPanel{
+public class FilterOptionPane extends JPanel{
 	
 	private static final long serialVersionUID = -6393962006647644434L;
 	
@@ -43,10 +43,10 @@ public class ElementTreeCheckingPane extends JPanel{
 		this.elemTree=elemTree;
 	}
 	
-	public ElementTreeCheckingPane()
+	public FilterOptionPane()
 	{
 		JPanel selectionPanel = new JPanel();
-		selectionPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check/Uncheck", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		selectionPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check | Uncheck (Options)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		genSetCheck = new JCheckBox("Generalization sets");
 		genSetCheck.setPreferredSize(new Dimension(155, 23));

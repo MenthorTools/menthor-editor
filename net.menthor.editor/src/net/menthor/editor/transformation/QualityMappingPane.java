@@ -8,7 +8,7 @@ import javax.swing.table.TableColumn;
 import net.menthor.common.transformation.QualityMappingTypes;
 import RefOntoUML.Quality;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class QualityMappingPane extends BaseMappingPane {
 	
@@ -19,11 +19,11 @@ public class QualityMappingPane extends BaseMappingPane {
 		super(sourceColumnTitle, refparser, targetColumnTitle);
 		
 		//load qualities as options
-		List<OntoUMLElement> sourcePrimitiveOptions = new ArrayList<OntoUMLElement>();
+		List<RefOntoUMLElement> sourcePrimitiveOptions = new ArrayList<RefOntoUMLElement>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
 		for(Quality qua: refparser.getAllInstances(Quality.class))
 		{
-			sourcePrimitiveOptions.add(new OntoUMLElement(qua,""));	
+			sourcePrimitiveOptions.add(new RefOntoUMLElement(qua,""));	
 		}		
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 

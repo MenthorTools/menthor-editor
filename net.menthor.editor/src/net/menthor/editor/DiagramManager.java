@@ -75,7 +75,6 @@ import net.menthor.editor.derivation.SpecializationPattern;
 import net.menthor.editor.derivation.UnionPattern;
 import net.menthor.editor.dialog.AlloySettingsDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
-import net.menthor.editor.explorer.CustomOntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.finder.FoundElement;
@@ -181,7 +180,8 @@ import RefOntoUML.StringExpression;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElementCustom;
+import RefOntoUML.util.RefOntoUMLElement;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 
@@ -362,9 +362,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Useful method: Verifies if the element is contained in the list */
-	public boolean contains (ArrayList<CustomOntoUMLElement> list, RefOntoUML.Element elem)
+	public boolean contains (ArrayList<RefOntoUMLElementCustom> list, RefOntoUML.Element elem)
 	{
-		for(CustomOntoUMLElement coe: list){
+		for(RefOntoUMLElementCustom coe: list){
 			if(coe.getElement().equals(elem)) return true;
 		}
 		return false;
@@ -1670,13 +1670,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void deleteGeneralizationSet(DiagramEditor d, Collection<DiagramElement> diagramElementsList) 
 	{	
 		// retain only generalization sets from selected
-		ArrayList<CustomOntoUMLElement> genSets = new ArrayList<CustomOntoUMLElement>();		
+		ArrayList<RefOntoUMLElementCustom> genSets = new ArrayList<RefOntoUMLElementCustom>();		
 		for(DiagramElement dElem: diagramElementsList){
 			if (dElem instanceof GeneralizationElement){
 				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
 				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) {
 					for(GeneralizationSet gs: gen.getGeneralizationSet()) {
-						if (!contains(genSets,(RefOntoUML.Element)gs)) genSets.add(new CustomOntoUMLElement(gs,""));				
+						if (!contains(genSets,(RefOntoUML.Element)gs)) genSets.add(new RefOntoUMLElementCustom(gs,""));				
 					}
 				}
 			}
@@ -1685,7 +1685,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(genSets.size()==1){			
 			frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)genSets.get(0).getElement(),true);
 		}else{
-			CustomOntoUMLElement chosen = (CustomOntoUMLElement) JOptionPane.showInputDialog(getFrame(), 
+			RefOntoUMLElementCustom chosen = (RefOntoUMLElementCustom) JOptionPane.showInputDialog(getFrame(), 
 					"Which generalization set do you want to delete?",
 					"Deleting Generalization Set",
 					JOptionPane.QUESTION_MESSAGE, 
@@ -2254,9 +2254,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 			DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
 			Object obj = node.getUserObject();
-			if(obj instanceof OntoUMLElement)
+			if(obj instanceof RefOntoUMLElement)
 			{
-				EObject elem = ((OntoUMLElement)obj).getElement();
+				EObject elem = ((RefOntoUMLElement)obj).getElement();
 				moveToDiagram((RefOntoUML.Element)elem, location.x, location.y, editor);
 			}
 	}

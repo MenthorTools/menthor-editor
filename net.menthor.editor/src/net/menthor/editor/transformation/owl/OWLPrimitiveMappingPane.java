@@ -14,7 +14,7 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 public class OWLPrimitiveMappingPane extends JPanel{
 
@@ -40,32 +40,32 @@ public class OWLPrimitiveMappingPane extends JPanel{
 		for(PrimitiveType pt: refparser.getAllInstances(PrimitiveType.class))
 		{	
 			if(pt.getName().compareToIgnoreCase("Integer")==0 || pt.getName().compareToIgnoreCase("Int")==0){
-				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), OWL2Datatype.XSD_INTEGER);
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new RefOntoUMLElement(pt,""), OWL2Datatype.XSD_INTEGER);
 			}
 			if(pt.getName().compareToIgnoreCase("Boolean")==0){
-				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), OWL2Datatype.XSD_BOOLEAN);
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new RefOntoUMLElement(pt,""), OWL2Datatype.XSD_BOOLEAN);
 			}
 			if(pt.getName().compareToIgnoreCase("String")==0){
-				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), OWL2Datatype.XSD_STRING);
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new RefOntoUMLElement(pt,""), OWL2Datatype.XSD_STRING);
 			}
 			if(pt.getName().compareToIgnoreCase("Real")==0){
-				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), OWL2Datatype.XSD_DOUBLE);
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new RefOntoUMLElement(pt,""), OWL2Datatype.XSD_DOUBLE);
 			}
 			if(pt.getName().compareToIgnoreCase("DateTime")==0){
-				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), OWL2Datatype.XSD_DATE_TIME_STAMP);
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new RefOntoUMLElement(pt,""), OWL2Datatype.XSD_DATE_TIME_STAMP);
 			}
 			if(pt.getName().compareToIgnoreCase("Date")==0){
-				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new OntoUMLElement(pt,""), OWL2Datatype.XSD_DATE_TIME);
+				((ElementMappingTableModel)primitiveTypePane.getTableModel()).addEntry(new RefOntoUMLElement(pt,""), OWL2Datatype.XSD_DATE_TIME);
 			}
 		}
 	}
 	
-	public HashMap<OntoUMLElement,Object> getPrimitiveMap()
+	public HashMap<RefOntoUMLElement,Object> getPrimitiveMap()
 	{
 		return ((ElementMappingTableModel)primitiveTypePane.getTableModel()).getEntries();
 	}
 	
-	public HashMap<OntoUMLElement,Object> getAttributeMap()
+	public HashMap<RefOntoUMLElement,Object> getAttributeMap()
 	{
 		return ((ElementMappingTableModel)primitiveAttrPane.getTableModel()).getEntries();
 	}

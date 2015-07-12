@@ -36,7 +36,7 @@ import RefOntoUML.parser.OntoUMLNameHelper;
  * @author John Guerson
  */
 
-public class OntoUMLElement implements Serializable{
+public class RefOntoUMLElement implements Serializable{
 	
 	private static final long serialVersionUID = 6497601879574303331L;
 	
@@ -50,7 +50,7 @@ public class OntoUMLElement implements Serializable{
 	 * 
 	 * @param refElement
 	 */
-	public OntoUMLElement (EObject refElement, String uniqueName) 
+	public RefOntoUMLElement (EObject refElement, String uniqueName) 
 	{
 		this.element = refElement;
 		

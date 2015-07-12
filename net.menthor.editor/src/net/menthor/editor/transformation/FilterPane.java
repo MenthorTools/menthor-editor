@@ -37,9 +37,10 @@ public class FilterPane extends JPanel {
 	private JScrollPane scrollTreePane = new JScrollPane();
 	private JPanel treeWrapper = new JPanel();
 	private TreeType activeTree = TreeType.BY_ELEMENT;
+	private boolean isExpanded = false;
 	
 	//options
-	private ElementTreeCheckingPane optPane = new ElementTreeCheckingPane();
+	private FilterOptionPane optPane = new FilterOptionPane();
 	
 	//find
 	private JTextField findText;
@@ -59,15 +60,25 @@ public class FilterPane extends JPanel {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public FilterPane()
 	{
-		setLayout(new BorderLayout(0,0));				
+		setBorder(new EmptyBorder(10, 5, 5, 5));
+		setLayout(new BorderLayout(7,7));				
 		setPreferredSize(new Dimension(529, 400));
 		optPane.setBorder(new EmptyBorder(4, 4, 4, 4));
 		
-		optPane.setPreferredSize(new Dimension(100, 125));
-		add(optPane, BorderLayout.NORTH);
+		optPane.setPreferredSize(new Dimension(100, 100));
+		add(optPane, BorderLayout.SOUTH);
+				
+		treeWrapper.setBackground(Color.WHITE);
+		treeWrapper.setBorder(new EmptyBorder(0,0, 0, 0));
+		treeWrapper.setPreferredSize(new Dimension(200,250));
+		
+		scrollTreePane.setViewportView(treeWrapper);				
+		scrollTreePane.setPreferredSize(new Dimension(200,250));
+		
+		add(scrollTreePane,BorderLayout.CENTER);		
 		
 		findPanel = new JPanel();
-		optPane.add(findPanel, BorderLayout.SOUTH);
+		add(findPanel, BorderLayout.NORTH);
 		findPanel.setLayout(new BorderLayout(0, 0));
 		
 		textPanel = new JPanel();
@@ -88,7 +99,7 @@ public class FilterPane extends JPanel {
 		btnPanel.setLayout(new BorderLayout(3, 3));
 		
 		btnExpandAll = new JButton("Expand All");
-		btnPanel.add(btnExpandAll, BorderLayout.CENTER);
+		btnPanel.add(btnExpandAll, BorderLayout.WEST);
 		
 		treeTypeCombo = new JComboBox();
 		treeTypeCombo.setModel(new DefaultComboBoxModel(new String[] {"By Element", "By Diagram"}));
@@ -104,13 +115,12 @@ public class FilterPane extends JPanel {
 				ElementTree tree = getActiveTree();		
 				tree.setBorder(new EmptyBorder(2,2,2,2));				
 				scrollTreePane.setViewportView(tree);		
-				optPane.setFilter(tree);
-				tree.expandAll();
+				optPane.setFilter(tree);				
 				updateUI();
 			}
 		});
 		
-		btnPanel.add(treeTypeCombo, BorderLayout.WEST);
+		btnPanel.add(treeTypeCombo, BorderLayout.CENTER);
 		
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		horizontalStrut_1.setPreferredSize(new Dimension(5, 0));
@@ -118,9 +128,15 @@ public class FilterPane extends JPanel {
 		btnExpandAll.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(isExpanded) isExpanded=false; else isExpanded=true;
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				if(activeTree==TreeType.BY_ELEMENT) elemTree.expandAll();
-				if(activeTree==TreeType.BY_DIAGRAM) diagramTree.expandAll();
+				if(!isExpanded){
+					if(activeTree==TreeType.BY_ELEMENT) elemTree.expandAll();
+					if(activeTree==TreeType.BY_DIAGRAM) diagramTree.expandAll();
+				}else{
+					if(activeTree==TreeType.BY_ELEMENT) elemTree.colapseAll();
+					if(activeTree==TreeType.BY_DIAGRAM) diagramTree.colapseAll();
+				}
 				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));				
 			}
 		});
@@ -146,15 +162,6 @@ public class FilterPane extends JPanel {
 				find();
 			}
 		});
-				
-		treeWrapper.setBackground(Color.WHITE);
-		treeWrapper.setBorder(new EmptyBorder(0,0, 0, 0));
-		treeWrapper.setPreferredSize(new Dimension(200,250));
-		
-		scrollTreePane.setViewportView(treeWrapper);				
-		scrollTreePane.setPreferredSize(new Dimension(200,250));
-		
-		add(scrollTreePane,BorderLayout.CENTER);		
 	}
 
 	public enum TreeType{

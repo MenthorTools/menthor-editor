@@ -59,7 +59,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -80,7 +80,7 @@ public class GeneralizationEditionPanel extends JPanel {
 	private JScrollPane scrollPane;
 	@SuppressWarnings("rawtypes")
 	private JComboBox specificCombo;
-	private JList<OntoUMLElement> genSetList;
+	private JList<RefOntoUMLElement> genSetList;
 	private JButton btnRemove;
 	private JButton btnAdd;
 	@SuppressWarnings("rawtypes")
@@ -193,9 +193,9 @@ public class GeneralizationEditionPanel extends JPanel {
 		genSetModel = new DefaultListModel();
 		for(GeneralizationSet gs: element.getGeneralizationSet())
 		{
-			genSetModel.addElement(new OntoUMLElement(gs,""));
+			genSetModel.addElement(new RefOntoUMLElement(gs,""));
 		}		
-		genSetList= new JList<OntoUMLElement>(genSetModel);
+		genSetList= new JList<RefOntoUMLElement>(genSetModel);
 		
 		scrollPane = new JScrollPane(genSetList);
 		
@@ -205,7 +205,7 @@ public class GeneralizationEditionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (genSetModel.size()>0){
-					OntoUMLElement genSet = (OntoUMLElement)genSetList.getSelectedValue();
+					RefOntoUMLElement genSet = (RefOntoUMLElement)genSetList.getSelectedValue();
 					
 					((GeneralizationSet)genSet.getElement()).getGeneralization().remove(element);
 					element.getGeneralizationSet().remove(genSet.getElement());
@@ -221,15 +221,15 @@ public class GeneralizationEditionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
-				ArrayList<OntoUMLElement> genSetList = new ArrayList<OntoUMLElement>();
+				ArrayList<RefOntoUMLElement> genSetList = new ArrayList<RefOntoUMLElement>();
 				for(GeneralizationSet gs: refparser.getAllInstances(GeneralizationSet.class))
 				{
-					if (!(element.getGeneralizationSet().contains(gs))) genSetList.add(new OntoUMLElement(gs,""));
+					if (!(element.getGeneralizationSet().contains(gs))) genSetList.add(new RefOntoUMLElement(gs,""));
 				}				
 				if (genSetList.size()==0) {
 					JOptionPane.showMessageDialog(GeneralizationEditionPanel.this, "No generalization set left in the model.", "Add", JOptionPane.INFORMATION_MESSAGE);
 				}else{
-					OntoUMLElement genSet = (OntoUMLElement) JOptionPane.showInputDialog(GeneralizationEditionPanel.this, 
+					RefOntoUMLElement genSet = (RefOntoUMLElement) JOptionPane.showInputDialog(GeneralizationEditionPanel.this, 
 					        "To which generalization set do you want to include "+element.getSpecific().getName()+"->"+element.getGeneral().getName(),
 					        "Add",
 					        JOptionPane.QUESTION_MESSAGE, 
@@ -261,7 +261,7 @@ public class GeneralizationEditionPanel extends JPanel {
 					((GeneralizationSet)genSet).getGeneralization().add(element);
 					element.getGeneralizationSet().add((GeneralizationSet)genSet);					
 					ElementDialogCaller.callGeneralizationSetDialog(diagramManager.getFrame(), (GeneralizationSet)genSet,true);
-					genSetModel.addElement(new OntoUMLElement(genSet,""));				
+					genSetModel.addElement(new RefOntoUMLElement(genSet,""));				
 				}
 			}
 		});
@@ -272,7 +272,7 @@ public class GeneralizationEditionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(genSetModel.size()>0){
-					GeneralizationSet genSet = (GeneralizationSet)((OntoUMLElement)genSetList.getSelectedValue()).getElement();
+					GeneralizationSet genSet = (GeneralizationSet)((RefOntoUMLElement)genSetList.getSelectedValue()).getElement();
 					ElementDialogCaller.callGeneralizationSetDialog(diagramManager.getFrame(), genSet,true);
 				}
 			}
@@ -324,10 +324,10 @@ public class GeneralizationEditionPanel extends JPanel {
 		setInitialData();
 	}
 	
-	public class CustomComparator implements Comparator<OntoUMLElement> 
+	public class CustomComparator implements Comparator<RefOntoUMLElement> 
     {
         @Override
-        public int compare(OntoUMLElement o1, OntoUMLElement o2) {
+        public int compare(RefOntoUMLElement o1, RefOntoUMLElement o2) {
             return o1.toString().compareToIgnoreCase(o2.toString());
         }
     }
@@ -335,29 +335,29 @@ public class GeneralizationEditionPanel extends JPanel {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setInitialData()
 	{
-		ArrayList<OntoUMLElement> generallist = new ArrayList<OntoUMLElement>();
-		ArrayList<OntoUMLElement> specificlist = new ArrayList<OntoUMLElement>();
-		OntoUMLElement generalValue = null;
-		OntoUMLElement specificValue = null;
+		ArrayList<RefOntoUMLElement> generallist = new ArrayList<RefOntoUMLElement>();
+		ArrayList<RefOntoUMLElement> specificlist = new ArrayList<RefOntoUMLElement>();
+		RefOntoUMLElement generalValue = null;
+		RefOntoUMLElement specificValue = null;
 		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
-		if (element.getGeneral()!=null) generalValue = new OntoUMLElement(element.getGeneral(),"");
-		else generalValue = new OntoUMLElement(null,"");
-		if (element.getSpecific()!=null) specificValue = new OntoUMLElement(element.getSpecific(),"");
-		else specificValue = new OntoUMLElement(null,"");
+		if (element.getGeneral()!=null) generalValue = new RefOntoUMLElement(element.getGeneral(),"");
+		else generalValue = new RefOntoUMLElement(null,"");
+		if (element.getSpecific()!=null) specificValue = new RefOntoUMLElement(element.getSpecific(),"");
+		else specificValue = new RefOntoUMLElement(null,"");
     	for(RefOntoUML.Type t: refparser.getAllInstances(RefOntoUML.Type.class))
     	{
 			if(t instanceof RefOntoUML.Class || t instanceof RefOntoUML.DataType || t instanceof RefOntoUML.Association)
 			{
-				if (((OntoUMLElement) generalValue).getElement()!=null && t.equals(((OntoUMLElement) generalValue).getElement())) generallist.add((OntoUMLElement)generalValue);				
-    			else generallist.add(new OntoUMLElement(t,""));
-				if (((OntoUMLElement) specificValue).getElement()!=null && t.equals(((OntoUMLElement) specificValue).getElement())) specificlist.add((OntoUMLElement)specificValue);				
-    			else specificlist.add(new OntoUMLElement(t,""));
+				if (((RefOntoUMLElement) generalValue).getElement()!=null && t.equals(((RefOntoUMLElement) generalValue).getElement())) generallist.add((RefOntoUMLElement)generalValue);				
+    			else generallist.add(new RefOntoUMLElement(t,""));
+				if (((RefOntoUMLElement) specificValue).getElement()!=null && t.equals(((RefOntoUMLElement) specificValue).getElement())) specificlist.add((RefOntoUMLElement)specificValue);				
+    			else specificlist.add(new RefOntoUMLElement(t,""));
     		}	    					
     	}
-    	if (((OntoUMLElement) generalValue).getElement()==null) generallist.add((OntoUMLElement)generalValue);
-    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(element.getGeneral())) generallist.add((OntoUMLElement)generalValue);
-    	if (((OntoUMLElement) specificValue).getElement()==null) specificlist.add((OntoUMLElement)specificValue);
-    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(element.getSpecific())) specificlist.add((OntoUMLElement)specificValue);
+    	if (((RefOntoUMLElement) generalValue).getElement()==null) generallist.add((RefOntoUMLElement)generalValue);
+    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(element.getGeneral())) generallist.add((RefOntoUMLElement)generalValue);
+    	if (((RefOntoUMLElement) specificValue).getElement()==null) specificlist.add((RefOntoUMLElement)specificValue);
+    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(element.getSpecific())) specificlist.add((RefOntoUMLElement)specificValue);
     	Collections.sort(generallist,new CustomComparator());	    	
     	Collections.sort(specificlist,new CustomComparator());
     	generalCombo.setModel(new DefaultComboBoxModel(generallist.toArray()));
@@ -379,11 +379,11 @@ public class GeneralizationEditionPanel extends JPanel {
 	{
 		boolean redesign = false;
 		
-		RefOntoUML.Type general = (RefOntoUML.Type)((OntoUMLElement)generalCombo.getSelectedItem()).getElement();			
+		RefOntoUML.Type general = (RefOntoUML.Type)((RefOntoUMLElement)generalCombo.getSelectedItem()).getElement();			
 		if (general!=null && !general.equals(element.getGeneral())) redesign = true;
 		element.setGeneral((Classifier)general);
 		
-		RefOntoUML.Type specific = (RefOntoUML.Type)((OntoUMLElement)specificCombo.getSelectedItem()).getElement();			
+		RefOntoUML.Type specific = (RefOntoUML.Type)((RefOntoUMLElement)specificCombo.getSelectedItem()).getElement();			
 		if (specific!=null && !specific.equals(element.getSpecific())) redesign = true;
 		element.setSpecific((Classifier)specific);
 		

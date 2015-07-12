@@ -7,7 +7,7 @@ import net.menthor.common.transformation.TransformationOptions;
 
 import org.eclipse.emf.ecore.EObject;
 
-import RefOntoUML.util.OntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElement;
 
 
 public class OWLTransformationOptions extends TransformationOptions {
@@ -44,28 +44,28 @@ public class OWLTransformationOptions extends TransformationOptions {
 	
 	boolean ufoStructure = false;
 	
-	HashMap<OntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement = new HashMap<OntoUMLElement, Object>();
-	HashMap<OntoUMLElement, Object> attributeMappingsOntoUMLElement = new HashMap<OntoUMLElement, Object>();
+	HashMap<RefOntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement = new HashMap<RefOntoUMLElement, Object>();
+	HashMap<RefOntoUMLElement, Object> attributeMappingsOntoUMLElement = new HashMap<RefOntoUMLElement, Object>();
 	HashMap<EObject, Object> primitiveTypeMappingsEObject = new HashMap<EObject, Object>();
 	HashMap<EObject, Object> attributeMappingsEObject = new HashMap<EObject, Object>();
 	
-	public HashMap<OntoUMLElement, Object> getAttributeMappingsOntoUMLElement() {
+	public HashMap<RefOntoUMLElement, Object> getAttributeMappingsOntoUMLElement() {
 		return attributeMappingsOntoUMLElement;
 	}
-	public HashMap<OntoUMLElement, Object> getPrimitiveTypeMappingsOntoUMLElement() {
+	public HashMap<RefOntoUMLElement, Object> getPrimitiveTypeMappingsOntoUMLElement() {
 		return primitiveTypeMappingsOntoUMLElement;
 	}
-	public void setPrimitiveTypeMappingsOntoUMLElement(HashMap<OntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement) {
+	public void setPrimitiveTypeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement) {
 		this.primitiveTypeMappingsOntoUMLElement = primitiveTypeMappingsOntoUMLElement;
 		
-		for (Entry<OntoUMLElement, Object> entry : primitiveTypeMappingsOntoUMLElement.entrySet()) {
+		for (Entry<RefOntoUMLElement, Object> entry : primitiveTypeMappingsOntoUMLElement.entrySet()) {
 			primitiveTypeMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
 		}
 	}
-	public void setAttributeMappingsOntoUMLElement(HashMap<OntoUMLElement, Object> attributeMappingsOntoUMLElement) {
+	public void setAttributeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> attributeMappingsOntoUMLElement) {
 		this.attributeMappingsOntoUMLElement = attributeMappingsOntoUMLElement;
 
-		for (Entry<OntoUMLElement, Object> entry : attributeMappingsOntoUMLElement.entrySet()) {
+		for (Entry<RefOntoUMLElement, Object> entry : attributeMappingsOntoUMLElement.entrySet()) {
 			attributeMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
 		}
 	}	
