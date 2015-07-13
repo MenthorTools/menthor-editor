@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.transformation.alloy;
 
 /**
  * ============================================================================================
@@ -49,7 +49,7 @@ import org.eclipse.uml2.uml.Constraint;
  * @author John Guerson
  */
 
-public class SingleConstraintPanel extends JPanel {
+public class AlloyConstraintPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -72,7 +72,7 @@ public class SingleConstraintPanel extends JPanel {
 	 * @param ctType
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public SingleConstraintPanel(Constraint ct, String ctType, UMLEnvironment env)
+	public AlloyConstraintPanel(Constraint ct, String ctType, UMLEnvironment env)
 	{
 		this();
 		
@@ -101,7 +101,7 @@ public class SingleConstraintPanel extends JPanel {
 	 * Create the panel.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public SingleConstraintPanel() 
+	public AlloyConstraintPanel() 
 	{
 //		setBorder(BorderFactory.createTitledBorder(""));		
 		setPreferredSize(new Dimension(433, 76));
@@ -137,7 +137,7 @@ public class SingleConstraintPanel extends JPanel {
 		
 		JLabel lblIcon = new JLabel("");
 		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIcon.setIcon(new ImageIcon(SingleConstraintPanel.class.getResource("/resources/icons/x16/text-editor.png")));
+		lblIcon.setIcon(new ImageIcon(AlloyConstraintPanel.class.getResource("/resources/icons/x16/text-editor.png")));
 		lblIcon.setPreferredSize(new Dimension(30, 20));
 		ctPanel.add(lblIcon);
 		

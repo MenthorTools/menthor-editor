@@ -73,7 +73,6 @@ import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
 import net.menthor.editor.derivation.PastSpecializationPattern;
 import net.menthor.editor.derivation.SpecializationPattern;
 import net.menthor.editor.derivation.UnionPattern;
-import net.menthor.editor.dialog.AlloySettingsDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
@@ -97,6 +96,7 @@ import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
+import net.menthor.editor.transformation.alloy.AlloySettingsDialog;
 import net.menthor.editor.transformation.owl.OWLSettingsDialog;
 import net.menthor.editor.ui.ClosableTabPanel;
 import net.menthor.editor.ui.ConstraintEditor;
@@ -180,8 +180,8 @@ import RefOntoUML.StringExpression;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-import RefOntoUML.util.RefOntoUMLElementCustom;
 import RefOntoUML.util.RefOntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElementCustom;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 
@@ -431,7 +431,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					return ((DiagramEditorWrapper)c).getDiagramEditor();
 			}
 		}
-		return null;
+		return new DiagramEditor(getFrame(),this,diagram);
 	}
 	
 	/** Get the diagram editor which encapsulates this ocl document */
@@ -828,37 +828,65 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Delete Diagram */
-	public void deleteDiagram(StructureDiagram diagram)
+	public void deleteDiagram(StructureDiagram diagram, boolean showwarning)
 	{
-		//first remove all the elements in the diagram
-		for(DiagramElement dElem: diagram.getChildren()) {
-			if(dElem instanceof ClassElement) deleteFromDiagram(((ClassElement)dElem).getClassifier(), getDiagramEditor(diagram));
-			if(dElem instanceof AssociationElement) deleteFromDiagram(((AssociationElement)dElem).getRelationship(), getDiagramEditor(diagram));
-			if(dElem instanceof GeneralizationElement) deleteFromDiagram(((GeneralizationElement)dElem).getRelationship(), getDiagramEditor(diagram));
+		int response = -1;
+		if (showwarning){
+			response = JOptionPane.showConfirmDialog(
+				frame, 
+				"Are you sure that you want to delete this diagram?\nThis action CANNOT be undone.", 
+				"Delete diagram", 
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null
+			);
+		}else{
+			response = Window.OK;
 		}
-		//second deletes the diagram
-		getCurrentProject().getDiagrams().remove(diagram);
-		for(Component c: getComponents()){
-			if (c instanceof DiagramEditorWrapper){
-				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) remove(c);
+		if(response==Window.OK)
+		{	
+			//first remove all the elements in the diagram
+			for(DiagramElement dElem: diagram.getChildren()) {
+				if(dElem instanceof ClassElement) deleteFromDiagram(((ClassElement)dElem).getClassifier(), getDiagramEditor(diagram));
+				if(dElem instanceof AssociationElement) deleteFromDiagram(((AssociationElement)dElem).getRelationship(), getDiagramEditor(diagram));
+				if(dElem instanceof GeneralizationElement) deleteFromDiagram(((GeneralizationElement)dElem).getRelationship(), getDiagramEditor(diagram));
 			}
-		}		
-		//remove the diagram from the browser
-		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().removeCurrentNode();
+			//second deletes the diagram
+			getCurrentProject().getDiagrams().remove(diagram);
+			for(Component c: getComponents()){
+				if (c instanceof DiagramEditorWrapper){
+					if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) remove(c);
+				}
+			}		
+			//remove the diagram from the browser
+			ProjectBrowser browser = frame.getProjectBrowser();
+			browser.getTree().removeCurrentNode();
+		}
 	}
 
 	/** Delete OCL Document */
-	public void deleteOCLDocument(OCLDocument doc)
+	public void deleteOCLDocument(OCLDocument doc, boolean showwarning)
 	{		
-		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
-		pb.getOCLDocuments().remove(doc);
-		for(Component c: getComponents()){
-			if (c instanceof ConstraintEditor){
-				if (((ConstraintEditor)c).getOCLDocument().equals(doc)) remove(c);
-			}
-		}		
-		pb.getTree().removeCurrentNode();
+		int response = -1;
+		if (showwarning){
+			response = JOptionPane.showConfirmDialog(
+				frame, 
+				"Are you sure that you want to delete this document?\nThis action CANNOT be undone.", 
+				"Delete document", 
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null
+			);
+		}else{
+			response = Window.OK;
+		}
+		if(response==Window.OK)
+		{	
+			ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
+			pb.getOCLDocuments().remove(doc);
+			for(Component c: getComponents()){
+				if (c instanceof ConstraintEditor){
+					if (((ConstraintEditor)c).getOCLDocument().equals(doc)) remove(c);
+				}
+			}		
+			pb.getTree().removeCurrentNode();
+		}
 	}
 	
 	/** Get the names of all diagrams */
@@ -1565,6 +1593,24 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}   
 	}	
 	
+	public void delete(Object object)
+	{		
+		if (object instanceof RefOntoUMLElement)
+		{
+			RefOntoUMLElement ontoElem = (RefOntoUMLElement) object;
+			RefOntoUML.Element elemForDeletion = (RefOntoUML.Element)ontoElem.getElement();
+			frame.getDiagramManager().deleteFromMenthor(elemForDeletion,true);    					    					
+		}
+		else if (object instanceof StructureDiagram)
+		{
+			frame.getDiagramManager().deleteDiagram((StructureDiagram)object,true);    					
+		}
+		else if (object instanceof OCLDocument)
+		{
+			frame.getDiagramManager().deleteOCLDocument((OCLDocument)object,true);    					
+		}
+	}
+	
 	/** Delete element from the model and every diagram in each it appears. */
 	public void deleteFromMenthor(RefOntoUML.Element element, boolean showwarning)
 	{	
@@ -1721,7 +1767,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(element instanceof Comment) return;
 		ArrayList<RefOntoUML.Element> deletionList = new ArrayList<RefOntoUML.Element>();
 		deletionList.add(element);		
-		DeleteElementCommand cmd = new DeleteElementCommand(diagramEditor,deletionList, diagramEditor.getProject(),false,true);
+		DeleteElementCommand cmd = new DeleteElementCommand(diagramEditor,deletionList, getCurrentProject(),false,true);
 		cmd.run();		
 	}
 	
@@ -2555,7 +2601,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
 		refOptions.check(refparser);
 		// open settings
-		AlloySettingsDialog.open(refOptions, oclOptions, getFrame());	
+		AlloySettingsDialog.open(frame,
+			frame.getProjectBrowser().getParser(),
+			frame.getProjectBrowser().getAllDiagrams(),
+			refOptions, 
+			oclOptions
+		);	
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
@@ -2602,10 +2653,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Run Transformation to Alloy */
-	public void transformToAlloy()  
+	public void transformToAlloy(OntoUMLParser refparser)  
 	{									
-		runOntoUML2Alloy();
-		runTOCL2Alloy();
+		runOntoUML2Alloy(refparser);
+		runTOCL2Alloy(refparser);
 		
 		if (frame.getProjectBrowser().getOntoUMLOption().openAnalyzer) openAnalyzer(frame.getProjectBrowser().getAlloySpec(),true, -1);
 		else openAnalyzer(frame.getProjectBrowser().getAlloySpec(),false, 0);	
@@ -2616,9 +2667,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Run transformation from OntoUML into Alloy */
-	public void runOntoUML2Alloy()
-	{
-		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
+	public void runOntoUML2Alloy(OntoUMLParser refparser)
+	{		
 		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
 		try {
@@ -2631,9 +2681,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Run Transformation from TOCL into Alloy */
-	public void runTOCL2Alloy()
-	{
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();		
+	public void runTOCL2Alloy(OntoUMLParser refparser)
+	{				
 		TOCL2AlloyOption oclOptions = frame.getProjectBrowser().getOCLOption();
 		AlloySpecification alloySpec = frame.getProjectBrowser().getAlloySpec();
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
@@ -2687,7 +2736,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Open the OWL settings window	 */
 	public void openOwlSettings() 
 	{
-		OWLSettingsDialog dialog = new OWLSettingsDialog(frame, this, true);
+		OWLSettingsDialog dialog = new OWLSettingsDialog(frame, 
+			frame.getProjectBrowser().getParser(),
+			frame.getProjectBrowser().getAllDiagrams(),
+			true
+		);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 	}	
@@ -2856,13 +2909,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				}
 				for(DiagramElement elem: elemList){
 					if (diagram.containsChild(elem)) {
-						DiagramEditor editor = getDiagramEditor(diagram);
-						if (editor==null){
-							editor = new DiagramEditor(frame, this, diagram);
-							editor.addEditorStateListener(this);
-							editor.addSelectionListener(this);
-							editor.addAppCommandListener(editorDispatcher);						
-						}
+						DiagramEditor editor = getDiagramEditor(diagram);						
+						editor.addEditorStateListener(this);
+						editor.addSelectionListener(this);
+						editor.addAppCommandListener(editorDispatcher);						
 						list.add(editor);
 					}	
 				}				

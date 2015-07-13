@@ -398,18 +398,23 @@ public class ModelHelper {
 	}	
  
 	public static Collection<DiagramElement> getDiagramElementsByEditor(Collection<Element> elements, DiagramEditor editor)
+	{		
+		return getDiagramElementsByDiagram(elements, editor.getDiagram());
+	}	
+	
+	public static Collection<DiagramElement> getDiagramElementsByDiagram(Collection<Element> elements, StructureDiagram diagram)
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){
 			ArrayList<DiagramElement> dElem = mappings.get(elem);
 			if(dElem!=null){
 				for(DiagramElement de: dElem){
-					if (editor.getDiagram().containsChild(de)) list.add(de);
+					if (diagram.containsChild(de)) list.add(de);
 				}
 			}
 		}
 		return list;
-	}	
+	}
 	
 	public static Collection<Element> getElements(Collection<DiagramElement> diagramElements)
 	{

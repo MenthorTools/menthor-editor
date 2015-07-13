@@ -38,7 +38,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.dialog.SingleConstraintPanel;
+import net.menthor.editor.transformation.alloy.AlloyConstraintPanel;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 import org.eclipse.uml2.uml.Constraint;
@@ -58,7 +58,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	
 	private JPanel ctpanel;
 	private JScrollPane scrollPane; 
-	private ArrayList<SingleConstraintPanel> singleConstraintsListPanel;
+	private ArrayList<AlloyConstraintPanel> singleConstraintsListPanel;
 	private JButton btnDisableAll;
 	private JButton btnEnableAll;
 	private JLabel lblChooseWhichConstraints;
@@ -89,7 +89,7 @@ public class ConstraintSimulationPanel extends JPanel {
 		
 		for(Constraint ct : oclOptions.getConstraintList())
 		{
-			SingleConstraintPanel singleConstraint = new SingleConstraintPanel(ct,oclOptions.getConstraintType(ct),
+			AlloyConstraintPanel singleConstraint = new AlloyConstraintPanel(ct,oclOptions.getConstraintType(ct),
 			oclOptions.getParser().getUMLEnvironment());			
 			singleConstraintsListPanel.add(singleConstraint);
 			ctpanel.add(singleConstraint);			
@@ -110,7 +110,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	public ArrayList<Integer> getScopesListSelected()
 	{
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		for(SingleConstraintPanel singleCt: singleConstraintsListPanel)
+		for(AlloyConstraintPanel singleCt: singleConstraintsListPanel)
 		{
 			if (singleCt.checkEnforce.isSelected())
 				list.add((Integer)singleCt.spinCommandScope.getValue());
@@ -121,7 +121,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	public ArrayList<Integer> getWorldScopeListSelected()
 	{
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		for(SingleConstraintPanel singleCt: singleConstraintsListPanel)
+		for(AlloyConstraintPanel singleCt: singleConstraintsListPanel)
 		{
 			if (singleCt.checkEnforce.isSelected())
 				list.add((Integer)singleCt.worldSpinner.getValue());
@@ -132,7 +132,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	public ArrayList<Integer> getBitWidthListSelected()
 	{
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		for(SingleConstraintPanel singleCt: singleConstraintsListPanel)
+		for(AlloyConstraintPanel singleCt: singleConstraintsListPanel)
 		{
 			if (singleCt.checkEnforce.isSelected())
 				list.add((Integer)singleCt.bitSpinner.getValue());
@@ -143,7 +143,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	public ArrayList<Boolean> getSelectionList()
 	{
 		ArrayList<Boolean> list = new ArrayList<Boolean>();
-		for(SingleConstraintPanel singleCt: singleConstraintsListPanel)
+		for(AlloyConstraintPanel singleCt: singleConstraintsListPanel)
 		{
 			if (singleCt.checkEnforce.isSelected()) list.add(true);
 		}
@@ -158,7 +158,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	public ArrayList<String> getTransformationsTypesListSelected()
 	{
 		ArrayList<String> list = new ArrayList<String>();
-		for(SingleConstraintPanel singleCt: singleConstraintsListPanel)
+		for(AlloyConstraintPanel singleCt: singleConstraintsListPanel)
 		{
 			if (singleCt.checkEnforce.isSelected())
 				list.add((String)singleCt.comboTransformationType.getSelectedItem());
@@ -174,7 +174,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	public ArrayList<Constraint> getConstraintListSelected()
 	{
 		ArrayList<Constraint> list = new ArrayList<Constraint>();
-		for(SingleConstraintPanel singleCt: singleConstraintsListPanel)
+		for(AlloyConstraintPanel singleCt: singleConstraintsListPanel)
 		{
 			if (singleCt.checkEnforce.isSelected())
 				list.add((Constraint)singleCt.constraint);
@@ -202,7 +202,7 @@ public class ConstraintSimulationPanel extends JPanel {
 		scrollPane.setViewportView(ctpanel);
 		scrollPane.setPreferredSize(new Dimension(591,179));
 				
-		singleConstraintsListPanel = new ArrayList<SingleConstraintPanel>();
+		singleConstraintsListPanel = new ArrayList<AlloyConstraintPanel>();
 		
 		lblChooseWhichConstraints = new JLabel("Choose which constraints do you want to simulate and check.");
 		
@@ -214,7 +214,7 @@ public class ConstraintSimulationPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				for(SingleConstraintPanel singleCt : singleConstraintsListPanel)
+				for(AlloyConstraintPanel singleCt : singleConstraintsListPanel)
 				{
 					singleCt.checkEnforce.setSelected(true);
 				}
@@ -228,7 +228,7 @@ public class ConstraintSimulationPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				for(SingleConstraintPanel singleCt : singleConstraintsListPanel)
+				for(AlloyConstraintPanel singleCt : singleConstraintsListPanel)
 				{
 					singleCt.checkEnforce.setSelected(false);
 				}

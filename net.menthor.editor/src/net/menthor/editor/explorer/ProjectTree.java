@@ -122,7 +122,7 @@ public class ProjectTree extends CheckboxTree {
 		expandPath(new TreePath(diagramRootNode.getPath()));
 		expandPath(new TreePath(oclRootNode.getPath()));
 		//expandPath(new TreePath(modelRootNode.getPath()));
-		
+			
 		/** Right Click Mouse Listener */
 		addMouseListener(new MouseAdapter()
 	    {
@@ -531,7 +531,7 @@ public class ProjectTree extends CheckboxTree {
 			}
 		}		
 	}
-		
+	
 	/**
 	 * Get Checked Elements.
 	 * 

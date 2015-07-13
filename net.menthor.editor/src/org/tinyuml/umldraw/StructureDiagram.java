@@ -1300,7 +1300,8 @@ public class StructureDiagram extends AbstractCompositeNode implements
 
 	@Override
 	public int compareTo(StructureDiagram arg0) {
-		return toString().compareTo(toString());		
+		int value = arg0.getName().compareTo(this.getName());
+		if(value!=0) return -value; else return value;
 	}
 
 }

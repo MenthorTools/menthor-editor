@@ -1,7 +1,6 @@
 package net.menthor.editor.transformation;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import org.eclipse.emf.ecore.EObject;
@@ -25,6 +23,8 @@ import RefOntoUML.ReferenceRegion;
 import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class FilterOptionPane extends JPanel{
 	
@@ -45,8 +45,9 @@ public class FilterOptionPane extends JPanel{
 	
 	public FilterOptionPane()
 	{
+		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check/Uncheck All", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		JPanel selectionPanel = new JPanel();
-		selectionPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check | Uncheck (Options)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		selectionPanel.setPreferredSize(new Dimension(10, 200));
 		
 		genSetCheck = new JCheckBox("Generalization sets");
 		genSetCheck.setPreferredSize(new Dimension(155, 23));
@@ -57,7 +58,7 @@ public class FilterOptionPane extends JPanel{
 				selectAllGeneralizationSets(e);
 			}
 		});		
-		selectionPanel.setLayout(new GridLayout(0, 3, 0, 0));
+		selectionPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		selectionPanel.add(genSetCheck);
 		
 		attrCheck = new JCheckBox("Attributes");		
@@ -82,7 +83,7 @@ public class FilterOptionPane extends JPanel{
 		});
 		selectionPanel.add(quaCheck);		
 				
-		relCheck = new JCheckBox("Associations (with all ends)");
+		relCheck = new JCheckBox("Associations");
 		relCheck.setSelected(true);
 		relCheck.addActionListener(new ActionListener() {			
 			@Override
@@ -113,7 +114,7 @@ public class FilterOptionPane extends JPanel{
 		});
 		selectionPanel.add(sourceCheck);
 		
-		add(selectionPanel);
+		add(selectionPanel, BorderLayout.NORTH);
 	}
 	
 	public void selectAllQualities(ActionEvent e)

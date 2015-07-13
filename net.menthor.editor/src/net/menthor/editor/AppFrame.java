@@ -99,7 +99,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			  
 		openOnlyStartPage();
 		
-		addWindowListener(new WindowAdapter() {
+			addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				quitApplication();
 				Main.printOutLine("Menthor application closed");
@@ -109,7 +109,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		pack();
 		initSelectorMap();	
 	}
-	
+		
 	/** Returns true iff running on Mac OS X. **/
 	public boolean onMac() {
       return System.getProperty("mrj.version")!=null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");                                     

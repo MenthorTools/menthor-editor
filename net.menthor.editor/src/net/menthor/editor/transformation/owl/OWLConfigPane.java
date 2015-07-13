@@ -22,7 +22,6 @@ import javax.swing.LayoutStyle;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
-import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.MappingTypeComboItem;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.util.ApplicationResources;
@@ -46,7 +45,7 @@ public class OWLConfigPane extends JPanel {
 	private JLabel filePathLabel;
 	private JPanel destinationPanel;
 	private JRadioButton newTabButton;	
-	private DiagramManager manager;
+	private UmlProject project;
 	private JTextPane descriptionPane;
 	private JTextField iriText;
 	private JLabel iriLabel;
@@ -60,9 +59,9 @@ public class OWLConfigPane extends JPanel {
 	public JButton getCancelButton() { return cancelButton; }
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public OWLConfigPane(final OWLTransformationOptions owlOptions, DiagramManager diagramManager)
+	public OWLConfigPane(final OWLTransformationOptions owlOptions, UmlProject project)
 	{
-		this.manager = diagramManager;		
+		this.project = project;
 		GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)this);				
 		setLayout(GenerateOWLPanelLayout);				
 		destinationPanel = new JPanel();
@@ -210,8 +209,6 @@ public class OWLConfigPane extends JPanel {
 	{
 		mappingTypeCombo.setSelectedIndex(0);
 		updateDescriptionPane((MappingTypeComboItem) mappingTypeCombo.getSelectedItem());
-		
-		UmlProject project = manager.getCurrentProject();
 			
 		if(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project) != null && ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project).length() > 0)
 			iriText.setText(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project));
@@ -235,8 +232,7 @@ public class OWLConfigPane extends JPanel {
 	}
 
 	private String getDefaultIRI()
-	{
-		UmlProject project = manager.getCurrentProject();
+	{		
 		String projectName = project.getName().replace(" ","");
 //		return "http://nemo.inf.ufes.br/" + projectName + ".owl";
 		return "http://www.menthor.net/" + projectName;
@@ -271,10 +267,6 @@ public class OWLConfigPane extends JPanel {
 			descriptionPane.setText("");
 	}
 	
-	public DiagramManager getManager() {
-		return manager;
-	}
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ComboBoxModel getMappingTypeComboModel()
 	{

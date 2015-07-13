@@ -21,14 +21,11 @@ package net.menthor.editor.transformation.owl;
  * ============================================================================================
  */
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 import net.menthor.common.transformation.owl.OWLMappingTypes;
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
@@ -36,88 +33,69 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.MappingTypeComboItem;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.transformation.FilterPane;
+import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.ProjectSettings;
+
+import org.tinyuml.umldraw.StructureDiagram;
+
 import RefOntoUML.parser.OntoUMLParser;
 
-public class OWLSettingsDialog extends javax.swing.JDialog {
-
-	private static final long serialVersionUID = -4770351584655675698L;
+public class OWLSettingsDialog extends TransformationDialog {
 	
-	@SuppressWarnings("unused")
-	private AppFrame frame;
-	private DiagramManager manager;	
-	private OntoUMLParser refparser;	
+	private static final long serialVersionUID = -6094162448551064500L;
+	
 	private OWLTransformationOptions owlOptions;
-	
-	private JTabbedPane tabbedPane = new JTabbedPane();
-	private FilterPane filterPane = new FilterPane();
 	private OWLPrimitiveMappingPane primitivePane;
 	private OWLQualityMappingPane qualityPane;
 	private OWLAxiomFilterPane axiomsPane;
 	private OWLConfigPane configPane;
 	private OWLGeneralizationSetPane gsPane;
 
-	public OWLSettingsDialog(AppFrame frame, DiagramManager diagramManager, boolean modal) 
+	public OWLSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
 	{
-		super(frame, modal);
+		super(owner, refparser, diagrams, modal);
 		
-		this.frame = frame;
-		this.manager = diagramManager;		
-		this.refparser = frame.getProjectBrowser().getParser();
 		this.owlOptions = new OWLTransformationOptions();
 		
-		configPane = new OWLConfigPane(owlOptions, manager);		
-		filterPane.fillContent(refparser, frame.getProjectBrowser().getAllDiagrams());		
-		primitivePane = new OWLPrimitiveMappingPane(refparser);
-		qualityPane = new OWLQualityMappingPane(refparser);
-		gsPane = new OWLGeneralizationSetPane(refparser);
+		if(owner instanceof AppFrame){
+			UmlProject project = ((AppFrame)owner).getDiagramManager().getCurrentProject();
+			configPane = new OWLConfigPane(owlOptions, project);
+		}
+		
+		primitivePane = new OWLPrimitiveMappingPane(owner.getProjectBrowser().getParser());
+		qualityPane = new OWLQualityMappingPane(owner.getProjectBrowser().getParser());
+		gsPane = new OWLGeneralizationSetPane(owner.getProjectBrowser().getParser());
 		axiomsPane = new OWLAxiomFilterPane();
 		
-		addNonClosable(tabbedPane,"Config", configPane);
-		addNonClosable(tabbedPane,"Filter", filterPane);
-		addNonClosable(tabbedPane,"OWL Axioms", axiomsPane);
-		addNonClosable(tabbedPane,"Primitive Types", primitivePane);
-		addNonClosable(tabbedPane,"Qualities", qualityPane);
-		addNonClosable(tabbedPane,"Generalization Sets", gsPane);
+		addNonClosable("Config", configPane);
+		addNonClosable("Filter", getFilter());
+		addNonClosable("OWL Axioms", axiomsPane);
+		addNonClosable("Primitive Types", primitivePane);
+		addNonClosable("Qualities", qualityPane);
+		addNonClosable("Generalization Sets", gsPane);
 		
 		tabbedPane.setSelectedComponent(configPane);
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
+				
 		setTitle("OWL Settings");	
-		setSize(new java.awt.Dimension(550, 420));
-		
-		configPane.getOkButton().addActionListener(new ActionListener() {
+				
+		getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				if(validadeSettings())
 				{
 					saveSettings();
 					System.out.println(filterPane.getFilteredParser());
-					manager.generateOwl(filterPane.getFilteredParser(),owlOptions);
+					if(owner instanceof AppFrame){
+						DiagramManager manager = ((AppFrame)owner).getDiagramManager();
+						manager.generateOwl(filterPane.getFilteredParser(),owlOptions);
+					}					
 		 			dispose();
 				}
 			}
 		});
-				
-		configPane.getCancelButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				dispose();
-			}
-		});
-	}
-
-	/** Add Non Closable Tab */
-	public Component addNonClosable(JTabbedPane pane, String text, Component component)
-	{
-		if (component==null) component = new JPanel();
-		pane.addTab(text, component);		
-		pane.setSelectedComponent(component);
-		return component;
 	}
 	
-	protected boolean validadeSettings() 
+	public boolean validadeSettings() 
 	{		
 		if(configPane.isNewTabSelected()) return true;			
 		if(configPane.isFileSelected() && configPane.getPathText().length() > 0) return true;
@@ -128,14 +106,17 @@ public class OWLSettingsDialog extends javax.swing.JDialog {
 		return false;
 	}
 	
-	private void saveSettings()
+	public void saveSettings()
 	{
-		UmlProject project = manager.getCurrentProject();
+		if(getParent() instanceof AppFrame){
+			DiagramManager manager = ((AppFrame)getParent()).getDiagramManager();
+			UmlProject project = manager.getCurrentProject();
 		
-		ProjectSettings.OWL_ONTOLOGY_IRI.setValue(project, configPane.getURIText());
-		ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
-		if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
-		ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getMappingItem()).value);
+			ProjectSettings.OWL_ONTOLOGY_IRI.setValue(project, configPane.getURIText());
+			ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
+			if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
+			ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getMappingItem()).value);
+		}
 		
 		owlOptions.setOntologyIri(configPane.getURIText());
 		owlOptions.setGenerateFile(configPane.isFileSelected());

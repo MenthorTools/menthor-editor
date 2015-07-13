@@ -24,14 +24,19 @@ package net.menthor.editor.explorer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.TreeSelectionEvent;
@@ -137,9 +142,21 @@ public class ProjectBrowser extends JPanel{
 		Main.printOutLine("Creating OntoUML parser");
 		refparser = new OntoUMLParser(project.getModel());				
 		Main.printOutLine("Creating project browser tree");		
+		
 		tree = new ProjectTree(frame, root,project,refparser,oclDocList);
 		tree.setBorder(new EmptyBorder(2,2,2,2));
-		tree.addTreeSelectionListener(new ProjectTreeSelectionListener());		
+		tree.addTreeSelectionListener(new ProjectTreeSelectionListener());
+		
+		/** Delete Key Stroke */
+		tree.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK), "delete");		
+		tree.getActionMap().put("delete", new AbstractAction() {			
+			private static final long serialVersionUID = -340479571291150368L;			
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+		       frame.getDiagramManager().delete(tree.getSelectedNode().getUserObject());
+		    }
+		});
+
 		String name = ((RefOntoUML.Package)project.getResource().getContents().get(0)).getName();
 		if (name==null || name.isEmpty()) name = "model";		
 		alloySpec = new AlloySpecification(project.getTempDir()+File.separator+name.toLowerCase()+".als");				
@@ -190,6 +207,7 @@ public class ProjectBrowser extends JPanel{
 		@Override
 		public void valueChanged(TreeSelectionEvent e) 
 		{
+			tree.requestFocus();
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
 			if(node!=null)
 			{				

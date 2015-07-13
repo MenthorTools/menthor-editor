@@ -83,6 +83,7 @@ public class AutoCompletionDialog extends JDialog {
 	 * 
 	 * @param event
 	 */
+	@SuppressWarnings("deprecation")
 	public void AutoSelectionActionPerformed(ActionEvent event)
 	{
 		if (rbAllAncestors.isSelected())

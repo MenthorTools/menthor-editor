@@ -167,7 +167,8 @@ public class CreationHandler implements EditorMode {
   /**
    * {@inheritDoc}
    */
-  public void mousePressed(EditorMouseEvent event) {
+  @SuppressWarnings("unused")
+public void mousePressed(EditorMouseEvent event) {
     CompositeNode parent = editor.getDiagram();
     DiagramElement possibleParent = editor.getDiagram().getChildAt(tmpPos.getX(), tmpPos.getY());
     

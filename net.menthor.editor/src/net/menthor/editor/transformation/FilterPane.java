@@ -2,7 +2,6 @@ package net.menthor.editor.transformation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -11,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,12 +48,11 @@ public class FilterPane extends JPanel {
 	private List<DefaultMutableTreeNode> lastFoundNodes = new ArrayList<DefaultMutableTreeNode>();
 	private int currentIndex = 0;
 	private JPanel textPanel;
-	private Component horizontalStrut;
 	private JButton btnExpandAll;
 	private JPanel btnPanel;
 	@SuppressWarnings("rawtypes")
 	private JComboBox treeTypeCombo;
-	private Component horizontalStrut_1;
+	private JPanel searchPane;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public FilterPane()
@@ -63,17 +60,16 @@ public class FilterPane extends JPanel {
 		setBorder(new EmptyBorder(10, 5, 5, 5));
 		setLayout(new BorderLayout(7,7));				
 		setPreferredSize(new Dimension(529, 400));
-		optPane.setBorder(new EmptyBorder(4, 4, 4, 4));
-		
-		optPane.setPreferredSize(new Dimension(100, 100));
-		add(optPane, BorderLayout.SOUTH);
+				
+		optPane.setPreferredSize(new Dimension(162, 100));
+		add(optPane, BorderLayout.EAST);
 				
 		treeWrapper.setBackground(Color.WHITE);
 		treeWrapper.setBorder(new EmptyBorder(0,0, 0, 0));
-		treeWrapper.setPreferredSize(new Dimension(200,250));
+		treeWrapper.setPreferredSize(new Dimension(210,250));
 		
 		scrollTreePane.setViewportView(treeWrapper);				
-		scrollTreePane.setPreferredSize(new Dimension(200,250));
+		scrollTreePane.setPreferredSize(new Dimension(210,250));
 		
 		add(scrollTreePane,BorderLayout.CENTER);		
 		
@@ -83,20 +79,11 @@ public class FilterPane extends JPanel {
 		
 		textPanel = new JPanel();
 		findPanel.add(textPanel);
-		textPanel.setLayout(new BorderLayout(0, 0));
-		
-		findText = new JTextField();
-		textPanel.add(findText);
-		findText.setMargin(new Insets(2, 6, 2, 2));
-		findText.setColumns(10);
-		
-		horizontalStrut = Box.createHorizontalStrut(37);
-		horizontalStrut.setPreferredSize(new Dimension(5, 0));
-		textPanel.add(horizontalStrut, BorderLayout.EAST);
+		textPanel.setLayout(new BorderLayout(3, 3));
 		
 		btnPanel = new JPanel();
-		textPanel.add(btnPanel, BorderLayout.WEST);
-		btnPanel.setLayout(new BorderLayout(3, 3));
+		textPanel.add(btnPanel, BorderLayout.EAST);
+		btnPanel.setLayout(new BorderLayout(2, 2));
 		
 		btnExpandAll = new JButton("Expand All");
 		btnPanel.add(btnExpandAll, BorderLayout.WEST);
@@ -122,9 +109,37 @@ public class FilterPane extends JPanel {
 		
 		btnPanel.add(treeTypeCombo, BorderLayout.CENTER);
 		
-		horizontalStrut_1 = Box.createHorizontalStrut(20);
-		horizontalStrut_1.setPreferredSize(new Dimension(5, 0));
-		btnPanel.add(horizontalStrut_1, BorderLayout.EAST);
+		searchPane = new JPanel();
+		textPanel.add(searchPane, BorderLayout.CENTER);
+		searchPane.setLayout(new BorderLayout(0, 0));
+		
+		findText = new JTextField();
+		searchPane.add(findText);
+		findText.setPreferredSize(new Dimension(100, 20));
+		findText.setMargin(new Insets(2, 6, 2, 2));
+		findText.setColumns(38);
+		
+		findButton = new JButton("");
+		searchPane.add(findButton, BorderLayout.EAST);
+		findButton.setContentAreaFilled(false);
+		findButton.setOpaque(false);
+		findButton.setFocusPainted(false);
+		findButton.setFocusable(false);
+		findButton.setBorderPainted(false);
+		findButton.setPreferredSize(new Dimension(30, 28));
+		findButton.setIcon(new ImageIcon(FilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
+		findButton.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				find();
+			}
+		});
+		findText.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				find();
+			}
+		});
 		btnExpandAll.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -138,28 +153,6 @@ public class FilterPane extends JPanel {
 					if(activeTree==TreeType.BY_DIAGRAM) diagramTree.colapseAll();
 				}
 				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));				
-			}
-		});
-		
-		findButton = new JButton("");
-		findButton.setContentAreaFilled(false);
-		findButton.setOpaque(false);
-		findButton.setFocusPainted(false);
-		findButton.setFocusable(false);
-		findButton.setBorderPainted(false);
-		findPanel.add(findButton, BorderLayout.EAST);
-		findButton.setPreferredSize(new Dimension(30, 28));
-		findButton.setIcon(new ImageIcon(FilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
-		findButton.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				find();
-			}
-		});
-		findText.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				find();
 			}
 		});
 	}

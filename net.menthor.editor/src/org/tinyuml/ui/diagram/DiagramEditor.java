@@ -1617,7 +1617,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			l.stateChanged(this, changeType);
 		}
 		
-		wrapper.getScrollPane().updateUI();
+		if(wrapper!=null) wrapper.getScrollPane().updateUI();
 		
 		if(changeType == ChangeType.ELEMENTS_REMOVED || (changeType == ChangeType.ELEMENTS_ADDED && notificationType == NotificationType.UNDO))
 		{
