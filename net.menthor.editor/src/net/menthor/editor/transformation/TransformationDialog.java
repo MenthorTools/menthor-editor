@@ -23,12 +23,15 @@ public class TransformationDialog extends javax.swing.JDialog {
 	protected List<StructureDiagram> diagrams;	
 	protected OntoUMLParser refparser;		
 	protected JTabbedPane tabbedPane = new JTabbedPane();
+	protected JPanel principalPane;
+	
 	protected FilterPane filterPane = new FilterPane();
+		
 	protected JButton btnOk;
 	protected JButton btnCancel;
 	
 	protected FilterPane getFilter() { return filterPane; } 
-	
+			
 	protected JButton getOkButton() { return btnOk; }
 	protected JFrame getFrame() { return frame; }
 	
@@ -43,7 +46,7 @@ public class TransformationDialog extends javax.swing.JDialog {
 		filterPane.fillContent(refparser, diagrams);
 				
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
+	
 		JPanel footerPane = new JPanel();
 		getContentPane().add(footerPane, BorderLayout.SOUTH);
 		

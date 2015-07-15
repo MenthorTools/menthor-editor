@@ -492,7 +492,8 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 				}				
 			}
 		}
-		
+		diagManager.getFrame().openProjectBrowser();
+		diagManager.getFrame().getMainToolBar().enableAll(true);
 		this.dispose();
 	}
 	

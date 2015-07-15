@@ -67,9 +67,9 @@ public class OWLSettingsDialog extends TransformationDialog {
 		gsPane = new OWLGeneralizationSetPane(owner.getProjectBrowser().getParser());
 		axiomsPane = new OWLAxiomFilterPane();
 		
-		addNonClosable("Config", configPane);
+		addNonClosable("Type", configPane);
 		addNonClosable("Filter", getFilter());
-		addNonClosable("OWL Axioms", axiomsPane);
+		addNonClosable("Axioms", axiomsPane);
 		addNonClosable("Primitive Types", primitivePane);
 		addNonClosable("Qualities", qualityPane);
 		addNonClosable("Generalization Sets", gsPane);
@@ -112,8 +112,8 @@ public class OWLSettingsDialog extends TransformationDialog {
 			UmlProject project = manager.getCurrentProject();
 		
 			ProjectSettings.OWL_ONTOLOGY_IRI.setValue(project, configPane.getURIText());
-			ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
-			if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
+			//ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
+			//if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
 			//ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getSelectedMapping()).value);
 		}
 		

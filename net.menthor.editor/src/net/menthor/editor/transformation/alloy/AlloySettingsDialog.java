@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
+import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.parser.TOCLParser;
@@ -51,24 +52,40 @@ public class AlloySettingsDialog extends TransformationDialog {
 	private ConstraintSimulationPanel constraintSimulationPanel;
 	private AlloyModelSimulationPanel modelSimulationPanel;	
 	private TOCLParser toclparser;
+	private AlloyMappingTypePane mapPane;
+	private DestinationPane destPane;
 	
+	private JPanel axiomPane;
+	private JPanel principalPane;
 	/**
 	 * @wbp.parser.constructor
 	 */
 	public AlloySettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
+				
+		principalPane = new JPanel();
+		principalPane.setLayout(new BorderLayout(5,5));
+		
+		destPane = new DestinationPane("Alloy (*.als)","als");
+		destPane.renameAppButton("Alloy Analyzer");
+		principalPane.add(destPane, BorderLayout.NORTH);
+		
+		mapPane = new AlloyMappingTypePane();
+		principalPane.add(mapPane,BorderLayout.CENTER);
 		
 		modelSimulationPanel = new AlloyModelSimulationPanel();		
 		constraintSimulationPanel = new ConstraintSimulationPanel();
 		
-		JPanel mainPane = new JPanel();
-		mainPane.setLayout(new BorderLayout(5, 5));		
-		mainPane.add(modelSimulationPanel, BorderLayout.NORTH);		
+		axiomPane = new JPanel();
+		axiomPane.setLayout(new BorderLayout(5, 5));		
+		axiomPane.add(modelSimulationPanel, BorderLayout.NORTH);	
 		
-		addNonClosable("Config", mainPane);
+		addNonClosable("Principal", principalPane);
 		addNonClosable("Filter", getFilter());
-		addNonClosable("Mapping", new AlloyMappingTypePane());
+		addNonClosable("Axioms", axiomPane);
+		
+		tabbedPane.setSelectedComponent(principalPane);
 		
 		setTitle("Alloy Settings");		
 		getOkButton().addActionListener(new ActionListener() 
@@ -103,7 +120,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 		
 		constraintSimulationPanel.setOCLOptionPane(oclOptions,owner);		
 		if (oclOptions.getConstraintList().size()>0) {
-			getContentPane().add(constraintSimulationPanel, BorderLayout.CENTER);
+			axiomPane.add(constraintSimulationPanel, BorderLayout.CENTER);
 		}				
 		invalidate();
 	}

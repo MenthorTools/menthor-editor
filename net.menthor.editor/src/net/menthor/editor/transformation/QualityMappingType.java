@@ -10,7 +10,7 @@ public enum QualityMappingType {
 	maintainQuality{
 		@Override
 		public String toString() {
-			return "Maintain the quality as a class";
+			return "Maintain the quality";
 		}
 	}
 }
