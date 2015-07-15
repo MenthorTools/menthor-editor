@@ -70,10 +70,11 @@ public class OWLHelper {
 			
     		if(owlOutput != null && owlOutput.length() > 0)
     		{
-				if(fileOutput && filePath != null)
+				if(owlOptions.isGenerateFile() && filePath != null)
 				{
-					String owlFileName = ConfigurationHelper.canon(filePath);
-				    	
+//					String owlFileName = ConfigurationHelper.canon(filePath);
+					String owlFileName = owlOptions.getFilePath();
+							
 					// Writing transformed model into owl file
 					FileManager fileManager = new FileManager(owlFileName);
 					fileManager.write(owlOutput);

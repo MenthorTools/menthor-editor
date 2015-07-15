@@ -79,15 +79,12 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
-import RefOntoUML.MixinClass;
-import RefOntoUML.MomentClass;
 import RefOntoUML.NominalQuality;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Phase;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
-import RefOntoUML.SubstanceSortal;
 import RefOntoUML.Type;
 import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
@@ -95,7 +92,6 @@ import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
-
 
 public class Transformer {
 	/**
@@ -126,7 +122,8 @@ public class Transformer {
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
-		
+	ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
+	
 	private OWLTransformationOptions owlOptions;
 	//OWL
 	private String nameSpace;
@@ -152,23 +149,16 @@ public class Transformer {
 
 	/**
 	 * Initialize the Transformer
+	 * @throws OWLOntologyCreationException 
 	 * */
-	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) {
+	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) throws OWLOntologyCreationException {
 		this.nameSpace = nameSpace+"#";
 
 		this.owlOptions = owlOptions;
 		
-		try {
-			this.factory = this.manager.getOWLDataFactory();
-			this.ontology = this.manager.createOntology(IRI.create(nameSpace));
+		this.factory = this.manager.getOWLDataFactory();
+		this.ontology = this.manager.createOntology(IRI.create(nameSpace));
 			
-//			this.manager.getOntologyFormat(ontology).asPrefixOWLOntologyFormat().setPrefix("myprefix", this.nameSpace);
-			
-		} catch (OWLOntologyCreationException e) {
-			e.printStackTrace();
-		}	
-		
-//		ontoParser = new OntoUMLParser(model);
 		ontoParser = model;
 		
 		lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
@@ -214,9 +204,13 @@ public class Transformer {
 		lstSubQuantityOf = ontoParser.getAllInstances(subQuantityOf.class);
 		lstMemberOf = ontoParser.getAllInstances(memberOf.class);
 		hashAssociations = new HashMap<String,Set<OWLObjectProperty>>();
-		Set<PrimitiveType> lstPrimitiveTypes = ontoParser.getAllInstances(RefOntoUML.PrimitiveType.class);
 		lstDataType = ontoParser.getAllInstances(RefOntoUML.DataType.class);
+		Set<PrimitiveType> lstPrimitiveTypes = ontoParser.getAllInstances(RefOntoUML.PrimitiveType.class);
 		lstDataType.removeAll(lstPrimitiveTypes);
+		
+		lstDataTypeAndNominalQualities.addAll(lstDataType);
+		lstDataTypeAndNominalQualities.addAll(lstNominalQualities);
+		
 		hashDataProperty = new HashMap<RefOntoUML.Classifier,Set<OWLDataProperty>>(); 
 		
 		lstAssociation = ontoParser.getAllInstances(RefOntoUML.Association.class);
@@ -1278,34 +1272,7 @@ public class Transformer {
 					//Create Association with the name stereotype.Source.Destiny
 					prop = createAssociation(ass,stereotype);
 					invProp = createInverseAssociation(ass,stereotype);
-				}else{
-	
-					//Verify if exist other prop with the same name
-	//				for (Association sameAss : lstAssociation) {
-	//					//If exist some relations with the same names
-	//					if(getObjectPropertyName(ass,stereotype).equalsIgnoreCase(getObjectPropertyName(sameAss, stereotype))){
-	//						match++;
-	//					}
-	//					if(match > 1){
-	//						//errors += "Warning: The association <"+getObjectPropertyName(ass,stereotype)+"> with repeted name was mapped as subPropertyOf <"+getObjectPropertyName(ass, stereotype)+"> with the name <"+getObjectPropertyName(ass, stereotype)+"."+getName(ass.getMemberEnd().get(0).getType())+"."+getName(ass.getMemberEnd().get(1).getType())+">;\n";
-	//
-	//						//If has some associations with the same name
-	//						//Create a top property with the name of the associations
-	////						topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+getObjectPropertyName(ass, stereotype)));
-	////						invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+getObjectPropertyName(ass, stereotype)));
-	//						topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+assName));
-	//						invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+assName));
-	//
-	//						//Create the associations with the name assName.Source.Destiny
-	//						prop = createAssociation(ass);
-	//						invProp = createInverseAssociation(ass);
-	//
-	//						//Improve performance
-	//						break;
-	//					}
-	//				}
-					
-					if(mappingProperties.isMappedAsSubRelationOf(ass)){
+				}else if(mappingProperties.isMappedAsSubRelationOf(ass)){
 						String superPropertyName = mappingProperties.getSuperPropertyName(ass);
 						topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+superPropertyName));
 						invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+superPropertyName));
@@ -1313,9 +1280,13 @@ public class Transformer {
 						//Create the associations with the name assName.Source.Destiny
 						prop = createAssociation(ass);
 						invProp = createInverseAssociation(ass);
-					}				
+								
 				}
 	
+				OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ass.getName()));
+				OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( prop.getIRI(), commentAnno);
+				manager.applyChange(new AddAxiom(ontology, commeAx));
+				
 				//			if(match > 1 || nameNull){
 				if(mappingProperties.isMappedAsSubRelationOf(ass)){
 				//if(match > 1){
@@ -1528,10 +1499,11 @@ public class Transformer {
 			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
 		}
 		
-		existentClasses.clear();;
-		duplicatedClasses.clear();;
+		existentClasses.clear();
+		duplicatedClasses.clear();
 		_RefOntoOwnerClass = null;
-		for(RefOntoUML.DataType dtcls: lstDataType){
+//		for(RefOntoUML.DataType dtcls: lstDataType){
+		for(RefOntoUML.Classifier dtcls: lstDataTypeAndNominalQualities){
 			if(existentClasses.contains(dtcls.getName())){
 				duplicatedClasses.add(dtcls.getName());
 			}else{
@@ -1565,8 +1537,14 @@ public class Transformer {
 					if(dataTypesProcesseds.contains(prop)){
 						continue;
 					}
+					
 					//Set the owner class of the datatype
 					_OWLownerClass = null;
+					_OWLownerClass = getOwlClass(dtcls);
+					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(dtcls.getName()));
+					OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( _OWLownerClass.getIRI(), commentAnno);
+					manager.applyChange(new AddAxiom(ontology, commeAx));
+					
 					_RefOntoOwnerClass = dtcls;
 					_upperCard.add(1);
 					_lowerCard.add(1);
@@ -1600,6 +1578,11 @@ public class Transformer {
 		
 		_attributeName = getDataPropertyName(_RefOntoOwnerClass, datatype);
 		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
+		
+		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + datatype.getName()));
+		OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( dataProperty.getIRI(), commentAnno);
+		manager.applyChange(new AddAxiom(ontology, commeAx));
+		
 		_OWLownerClass = getOwlClass(_RefOntoOwnerClass);
 		if(_RefOntoOwnerClass != null){
 			if(!hashDataProperty.containsKey(_RefOntoOwnerClass)){
@@ -1683,7 +1666,11 @@ public class Transformer {
 				}
 			}
 		}
-
+		
+		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + prop.getName()));
+		OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( atributo.getIRI(), commentAnno);
+		manager.applyChange(new AddAxiom(ontology, commeAx));
+		
 		if(_RefOntoOwnerClass != null){
 			if(!hashDataProperty.containsKey(_RefOntoOwnerClass)){
 				hashDataProperty.put(_RefOntoOwnerClass, new HashSet<OWLDataProperty>());
@@ -1896,6 +1883,10 @@ public class Transformer {
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
 			manager.addAxiom(ontology, declarationAxiom);
 			
+			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ontCls.getName()));
+			OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
+			manager.applyChange(new AddAxiom(ontology, ax));
+			
 			if(!owlOptions.isUfoStructure()) continue; 
 			
 			Set<Classifier> parents = ontoParser.getParents(ontCls);
@@ -2015,91 +2006,4 @@ public class Transformer {
 			}
 		}
 	}	
-
-	/**
-	 * Grounded in the UFO's rules, we make:
-	 * - All the substancesortal are differents from each other
-	 * - Every substancesortal are differents from every top level moment
-	 * - Every Top level moment are differents from each other
-	 * - Every top level mixinclass is disjoint from every top level moment
-	 * @param 
-	 */
-	private void processDisjointClass() {
-		if(!owlOptions.isDisjointClassAxioms()) return;
-		
-		Set<SubstanceSortal> setSortal = ontoParser.getAllInstances(SubstanceSortal.class);
-		Set<MomentClass> setMoment = ontoParser.getAllInstances(MomentClass.class);
-		Set<MixinClass> mixinClass =  ontoParser.getAllInstances(MixinClass.class);		
-
-		//All the substancesortal are differents from each other
-		Set<OWLClass> lstSortalCls = new HashSet<OWLClass>();
-		for(SubstanceSortal ss1 : setSortal){
-			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+ss1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-			lstSortalCls.add(cl1);
-		}
-		if(lstSortalCls.size() > 1){
-			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstSortalCls);		
-			manager.applyChange(new AddAxiom(ontology, axiom));
-		}
-		
-		//Every substancesortal are differents from every top level moment
-		Set<OWLClass> lstMomentCls = new HashSet<OWLClass>();
-		for(MomentClass sm : setMoment){
-			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-			if(sm.getGeneral().isEmpty()){
-				for(SubstanceSortal ss : setSortal){
-					OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+ss.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-					if(!lstMomentCls.contains(cl1))	lstMomentCls.add(cl1);
-					if(!lstMomentCls.contains(cl2))	lstMomentCls.add(cl2);
-//					manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
-				}
-			}			
-		}
-		if(lstMomentCls.size() > 0){
-			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstMomentCls);		
-			manager.applyChange(new AddAxiom(ontology, axiom));
-		}	
-		
-		//Every Top level moment are differents from each other		
-		Set<OWLClass> lstTopMomentCls = new HashSet<OWLClass>();
-		for(MomentClass sm1 : setMoment){
-			OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+sm1.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-			if(sm1.getGeneral().isEmpty()){				
-				for(MomentClass sm2 : setMoment){
-					if(!sm1.equals(sm2)){
-						if(sm2.getGeneral().isEmpty()){
-							OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-							if(!lstTopMomentCls.contains(cl1))	lstTopMomentCls.add(cl1);
-							if(!lstTopMomentCls.contains(cl2))	lstTopMomentCls.add(cl2);
-//							manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
-						}
-					}
-				}
-			}			
-		}
-		if(lstTopMomentCls.size() > 1){
-			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstTopMomentCls);		
-			manager.applyChange(new AddAxiom(ontology, axiom));
-		}
-		
-		//every top level mixinclass is disjoint from every top level moment
-		Set<OWLClass> lstMixinCls = new HashSet<OWLClass>();
-		for(MixinClass smixin : mixinClass){
-			if(smixin.getGeneral().isEmpty()){	
-				OWLClass cl1 = factory.getOWLClass(IRI.create(nameSpace+smixin.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-				for(MomentClass sm2 : setMoment){
-					if(sm2.getGeneral().isEmpty()){
-						OWLClass cl2 = factory.getOWLClass(IRI.create(nameSpace+sm2.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-						if(!lstMixinCls.contains(cl1))	lstMixinCls.add(cl1);
-						if(!lstMixinCls.contains(cl2))	lstMixinCls.add(cl2);
-//						manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointClassesAxiom(cl1,cl2)));
-					}
-				}
-			}			
-		}
-		if(lstMixinCls.size() > 1){
-			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstMixinCls);		
-			manager.applyChange(new AddAxiom(ontology, axiom));
-		}
-	}
 }

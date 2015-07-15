@@ -2993,7 +2993,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			type);
 		if(result.getResultType() != ResultType.ERROR)
 		{
-			if(!ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project))
+			if(!owlOptions.isGenerateFile())
 			{
 				frame.getInfoManager().showOutputText(result.toString(), true, false);
 				TextEditor textViz = (TextEditor) getEditorForProject(project, EditorNature.TEXT);

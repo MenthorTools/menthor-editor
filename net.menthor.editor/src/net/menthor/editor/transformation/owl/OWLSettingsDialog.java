@@ -83,7 +83,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 				if(validadeSettings())
 				{
 					saveSettings();
-					System.out.println(filterPane.getFilteredParser());
+//					System.out.println(filterPane.getFilteredParser());
 					if(owner instanceof AppFrame){
 						DiagramManager manager = ((AppFrame)owner).getDiagramManager();
 						manager.generateOwl(filterPane.getFilteredParser(),owlOptions, configPane.getSelectedMapping());
@@ -156,5 +156,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 		
 		owlOptions.setPrimitiveTypeMappingsOntoUMLElement(primitivePane.getPrimitiveMap());
 		owlOptions.setAttributeMappingsOntoUMLElement(primitivePane.getAttributeMap());
+		
+		owlOptions.setQualityTypeMappingsOntoUMLElement(qualityPane.getQualityMap());
 	}
 }

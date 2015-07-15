@@ -44,27 +44,22 @@ public class OWLTransformationOptions extends TransformationOptions {
 	
 	boolean ufoStructure = false;
 	
-	HashMap<RefOntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement = new HashMap<RefOntoUMLElement, Object>();
-	HashMap<RefOntoUMLElement, Object> attributeMappingsOntoUMLElement = new HashMap<RefOntoUMLElement, Object>();
 	HashMap<EObject, Object> primitiveTypeMappingsEObject = new HashMap<EObject, Object>();
 	HashMap<EObject, Object> attributeMappingsEObject = new HashMap<EObject, Object>();
 	
-	public HashMap<RefOntoUMLElement, Object> getAttributeMappingsOntoUMLElement() {
-		return attributeMappingsOntoUMLElement;
-	}
-	public HashMap<RefOntoUMLElement, Object> getPrimitiveTypeMappingsOntoUMLElement() {
-		return primitiveTypeMappingsOntoUMLElement;
+	HashMap<EObject, Object> qualityMappingsEObject = new HashMap<EObject, Object>();
+	
+	public void setQualityTypeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> qualityMappingsOntoUMLElement) {
+		for (Entry<RefOntoUMLElement, Object> entry : qualityMappingsOntoUMLElement.entrySet()) {
+			qualityMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
+		}
 	}
 	public void setPrimitiveTypeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement) {
-		this.primitiveTypeMappingsOntoUMLElement = primitiveTypeMappingsOntoUMLElement;
-		
 		for (Entry<RefOntoUMLElement, Object> entry : primitiveTypeMappingsOntoUMLElement.entrySet()) {
 			primitiveTypeMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
 		}
 	}
 	public void setAttributeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> attributeMappingsOntoUMLElement) {
-		this.attributeMappingsOntoUMLElement = attributeMappingsOntoUMLElement;
-
 		for (Entry<RefOntoUMLElement, Object> entry : attributeMappingsOntoUMLElement.entrySet()) {
 			attributeMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
 		}
