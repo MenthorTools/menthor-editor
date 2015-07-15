@@ -57,6 +57,7 @@ public class MappingTypePane extends JPanel {
 		setBorder(new TitledBorder(null, "Mapping Type", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		mappingCombo = new JComboBox();
+		mappingCombo.setOpaque(false);
 		mappingCombo.setFocusable(false);
 		mappingCombo.addActionListener(new ActionListener() {			
 			@Override

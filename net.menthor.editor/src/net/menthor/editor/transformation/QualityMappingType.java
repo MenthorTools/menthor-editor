@@ -1,6 +1,6 @@
-package net.menthor.common.transformation;
+package net.menthor.editor.transformation;
 
-public enum QualityMappingTypes {
+public enum QualityMappingType {
 	hideQuality{
 		@Override
 		public String toString() {

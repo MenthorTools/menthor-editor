@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.common.transformation.QualityMappingTypes;
 import RefOntoUML.Quality;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
@@ -29,7 +28,7 @@ public class QualityMappingPane extends BaseMappingPane {
 
 		//load target options
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
-		typeColumn2.setCellEditor(createEditor(QualityMappingTypes.values()));
+		typeColumn2.setCellEditor(createEditor(QualityMappingType.values()));
 		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	

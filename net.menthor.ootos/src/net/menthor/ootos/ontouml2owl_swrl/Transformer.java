@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.menthor.common.transformation.GeneralizationMappingType;
-import net.menthor.common.transformation.owl.OWLPrimitiveTypes;
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
