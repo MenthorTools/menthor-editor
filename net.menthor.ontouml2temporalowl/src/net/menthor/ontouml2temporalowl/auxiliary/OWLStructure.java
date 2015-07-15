@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.menthor.common.transformation.owl.OWLMappingTypes;
 import net.menthor.ontouml2temporalowl.tree.NodeBinAssociation;
 import net.menthor.ontouml2temporalowl.tree.NodeBinAssociation.Restriction;
 import net.menthor.ontouml2temporalowl.tree.NodeClass;

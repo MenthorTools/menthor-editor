@@ -68,6 +68,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 		
 		addNonClosable("Config", mainPane);
 		addNonClosable("Filter", getFilter());
+		addNonClosable("Mapping", new AlloyMappingTypePane());
 		
 		setTitle("Alloy Settings");		
 		getOkButton().addActionListener(new ActionListener() 

@@ -2,7 +2,7 @@ package net.menthor.ontouml2temporalowl;
 
 import java.io.File;
 
-import net.menthor.common.transformation.owl.OWLMappingTypes;
+import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;

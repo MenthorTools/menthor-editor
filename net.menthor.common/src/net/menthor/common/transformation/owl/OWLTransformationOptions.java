@@ -3,6 +3,7 @@ package net.menthor.common.transformation.owl;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import net.menthor.common.transformation.MappingType;
 import net.menthor.common.transformation.TransformationOptions;
 
 import org.eclipse.emf.ecore.EObject;
@@ -12,7 +13,7 @@ import RefOntoUML.util.RefOntoUMLElement;
 
 public class OWLTransformationOptions extends TransformationOptions {
 	String ontologyIri = "";
-	OWLMappingTypes mappingType;
+	//MappingType mappingType;
 	boolean generateFile = false;
 	String filePath = "";
 	
@@ -87,12 +88,12 @@ public class OWLTransformationOptions extends TransformationOptions {
 	public void setDisjointObjectPropertyAxioms(boolean disjointObjectPropertyAxioms) {
 		this.disjointObjectPropertyAxioms = disjointObjectPropertyAxioms;
 	}
-	public OWLMappingTypes getMappingType() {
-		return mappingType;
-	}
-	public void setMappingType(OWLMappingTypes mappingType) {
-		this.mappingType = mappingType;
-	}
+//	public MappingType getMappingType() {
+//		return mappingType;
+//	}
+//	public void setMappingType(MappingType mappingType) {
+//		this.mappingType = mappingType;
+//	}
 	public boolean isDisjointClassAxioms() {
 		return disjointClassAxioms;
 	}

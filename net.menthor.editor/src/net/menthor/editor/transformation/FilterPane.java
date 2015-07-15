@@ -171,7 +171,7 @@ public class FilterPane extends JPanel {
 		diagramTree = DiagramTree.createFilter(refparser, diagrams, new ElementVisibilityOption());
 		elemTree = ElementTree.createFilter(refparser, new ElementVisibilityOption());
 		ElementTree tree = getActiveTree();		
-		tree.setBorder(new EmptyBorder(2,2,2,2));				
+		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		
 		optPane.setFilter(tree);
 		updateUI();						

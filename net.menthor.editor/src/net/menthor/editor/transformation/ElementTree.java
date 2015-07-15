@@ -39,11 +39,15 @@ public class ElementTree extends CheckboxTree {
 	/** Create an instance of the filter tree */
 	public static ElementTree createFilter(OntoUMLParser refparser, ElementVisibilityOption opt)
 	{
-		return new ElementTree(
-			new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
-			refparser,
-			opt
-		);
+		if(refparser!=null){
+			return new ElementTree(
+				new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
+				refparser,
+				opt
+			);
+		}else{
+			return null;
+		}
 	}
 	
 	public static ElementTree createFilter(OntoUMLParser refparser, boolean hideDataTypes, ElementVisibilityOption opt)

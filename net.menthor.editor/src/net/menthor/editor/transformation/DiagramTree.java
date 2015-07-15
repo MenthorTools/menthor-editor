@@ -27,11 +27,15 @@ public class DiagramTree extends ElementTree {
 	/** Create an instance of the filter tree */
 	public static DiagramTree createFilter(OntoUMLParser refparser, List<StructureDiagram> diagrams, ElementVisibilityOption opt)
 	{
-		return new DiagramTree(
-				new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
-				refparser,
-				diagrams,
-				opt);
+		if(refparser!=null){
+			return new DiagramTree(
+					new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
+					refparser,
+					diagrams,
+					opt);
+		}else{
+			return null;
+		}
 	}
 	
 	/**Constructor */

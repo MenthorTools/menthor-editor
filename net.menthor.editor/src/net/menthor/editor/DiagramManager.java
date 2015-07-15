@@ -62,7 +62,6 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.owl.OWLMappingTypes;
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
@@ -96,6 +95,7 @@ import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
+import net.menthor.editor.transformation.MappingType;
 import net.menthor.editor.transformation.alloy.AlloySettingsDialog;
 import net.menthor.editor.transformation.owl.OWLSettingsDialog;
 import net.menthor.editor.ui.ClosableTabPanel;
@@ -2978,23 +2978,19 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Generates OWL from the selected model */
-	public void generateOwl(OntoUMLParser filteredParser, OWLTransformationOptions owlOptions) 
+	public void generateOwl(OntoUMLParser filteredParser, OWLTransformationOptions owlOptions, MappingType type) 
 	{
 		UmlProject project = getCurrentProject();
-		String owlType = ProjectSettings.OWL_MAPPING_TYPE.getValue(project);
-//		OWLMappingTypes mappingType = null;
-//		if(!owlType.equals("SIMPLE")) 
-		OWLMappingTypes mappingType = OWLMappingTypes.valueOf(owlType);
 		String oclRules = new String();
 		oclRules = getWorkingConstraints();		
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
 		OperationResult result = OWLHelper.generateOwl(filteredParser, model, 
 			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),
-			mappingType,
 			ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project),
 			ProjectSettings.OWL_FILE_PATH.getValue(project),
 			oclRules,
-			owlOptions);
+			owlOptions,
+			type);
 		if(result.getResultType() != ResultType.ERROR)
 		{
 			if(!ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project))

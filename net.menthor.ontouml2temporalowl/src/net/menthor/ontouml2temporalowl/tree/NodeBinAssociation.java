@@ -3,7 +3,7 @@ package net.menthor.ontouml2temporalowl.tree;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.menthor.common.transformation.owl.OWLMappingTypes;
+import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
 import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.Class;

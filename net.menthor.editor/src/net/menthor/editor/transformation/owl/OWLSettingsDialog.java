@@ -27,11 +27,9 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import net.menthor.common.transformation.owl.OWLMappingTypes;
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.dialog.MappingTypeComboItem;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.editor.util.ApplicationResources;
@@ -46,6 +44,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 	private static final long serialVersionUID = -6094162448551064500L;
 	
 	private OWLTransformationOptions owlOptions;
+	
 	private OWLPrimitiveMappingPane primitivePane;
 	private OWLQualityMappingPane qualityPane;
 	private OWLAxiomFilterPane axiomsPane;
@@ -87,7 +86,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 					System.out.println(filterPane.getFilteredParser());
 					if(owner instanceof AppFrame){
 						DiagramManager manager = ((AppFrame)owner).getDiagramManager();
-						manager.generateOwl(filterPane.getFilteredParser(),owlOptions);
+						manager.generateOwl(filterPane.getFilteredParser(),owlOptions, configPane.getSelectedMapping());
 					}					
 		 			dispose();
 				}
@@ -115,14 +114,14 @@ public class OWLSettingsDialog extends TransformationDialog {
 			ProjectSettings.OWL_ONTOLOGY_IRI.setValue(project, configPane.getURIText());
 			ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
 			if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
-			ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getMappingItem()).value);
+			//ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getSelectedMapping()).value);
 		}
 		
 		owlOptions.setOntologyIri(configPane.getURIText());
 		owlOptions.setGenerateFile(configPane.isFileSelected());
 		
 		if(configPane.isFileSelected()) owlOptions.setFilePath(configPane.getPathText());
-		owlOptions.setMappingType(OWLMappingTypes.valueOf(((MappingTypeComboItem) configPane.getMappingItem()).value));
+		//owlOptions.setMappingType(configPane.getSelectedMapping());
 		
 		//disjointness
 		owlOptions.setDisjointClassAxioms(axiomsPane.isClassDisjointness());
