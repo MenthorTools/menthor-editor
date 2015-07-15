@@ -3,7 +3,6 @@ package net.menthor.common.transformation.owl;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import net.menthor.common.transformation.MappingType;
 import net.menthor.common.transformation.TransformationOptions;
 
 import org.eclipse.emf.ecore.EObject;

@@ -3,7 +3,6 @@ package net.menthor.common.transformation;
 
 public class OWLTransformationOptions extends TransformationOptions {
 	String ontologyIri = "";
-	MappingType mappingType;
 	boolean generateFile = false;
 	String filePath = "";
 	
@@ -32,13 +31,7 @@ public class OWLTransformationOptions extends TransformationOptions {
 	boolean cardinalityAxiom = true;
 	
 	boolean ufoStructure = false;
-	
-	public MappingType getMappingType() {
-		return mappingType;
-	}
-	public void setMappingType(MappingType mappingType) {
-		this.mappingType = mappingType;
-	}
+		
 	public boolean isDisjointClassAxioms() {
 		return disjointClassAxioms;
 	}
