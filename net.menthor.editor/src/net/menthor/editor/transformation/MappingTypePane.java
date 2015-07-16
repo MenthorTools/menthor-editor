@@ -38,7 +38,7 @@ public class MappingTypePane extends JPanel {
 		}
 	}
 	
-	public MappingType getSelectedEntry()
+	public MappingType getMappingType()
 	{
 		return (MappingType) mappingCombo.getSelectedItem();
 	}

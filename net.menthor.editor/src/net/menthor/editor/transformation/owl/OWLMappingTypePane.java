@@ -21,7 +21,8 @@ public class OWLMappingTypePane extends MappingTypePane {
 		mt = new MappingType(
 			"OOTOS",
 			"OOTOS",
-			"(No Description)"
+			"Static scenario where it is considered structured datatypes, cardinalities, transitivity of material and parthood relations "
+			+ "(as SWRL rules) and disjointness between substance sortals."
 		);		
 		addEntry(mt);
 		selectEntry(mt.getType());
@@ -65,11 +66,11 @@ public class OWLMappingTypePane extends MappingTypePane {
 		);		
 		addEntry(mt);
 		
-		mt = new MappingType(
-			"UFO_RDF",
-			"UFO/RDF",
-			"(No Description)"
-		);		
-		addEntry(mt);		
+//		mt = new MappingType(
+//			"UFO_RDF",
+//			"UFO/RDF",
+//			"(No Description)"
+//		);		
+//		addEntry(mt);		
 	}
 }

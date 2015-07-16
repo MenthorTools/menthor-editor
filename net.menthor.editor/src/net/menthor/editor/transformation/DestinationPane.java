@@ -35,6 +35,10 @@ public class DestinationPane extends JPanel {
 	private String fileDescription;
 	private String fileExtension;
 	
+	public void selectTab() { radioTab.setSelected(true); }
+	public void selectFile() { radioFile.setSelected(true); }
+	public void selectApp() { radioApp.setSelected(true); }
+	
 	public DestinationPane(String fileDescription, String fileExtension) 
 	{
 		setBorder(new TitledBorder(null, "Destination", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -101,21 +105,27 @@ public class DestinationPane extends JPanel {
 		});
 	}
 	
-	public boolean isFileSelected() { return radioFile.isSelected(); }
-	public String getPathText() { return pathText.getText(); }
-	public boolean isNewTabSelected() { return radioTab.isSelected(); }	
-	
-	public JRadioButton getAppButton()
-	{
-		return radioApp;
+	public DestinationEnum getDestination() { 
+		if(radioFile.isSelected()){
+			return DestinationEnum.FILE;
+		}
+		else if(radioApp.isSelected()){
+			return DestinationEnum.APP;
+		}else{
+			return DestinationEnum.TAB;
+		}
 	}
+	
+	public String getPath() { return pathText.getText(); }
+	
+	public JRadioButton getAppButton() { return radioApp; }
 	
 	public void renameAppButton(String text)
 	{
 		radioApp.setText(text);
 	}
 	
-	private void enableFileChooser(boolean flag) 
+	public void enableFileChooser(boolean flag) 
 	{
 		pathText.setEnabled(flag);
 		pathText.setEditable(flag);

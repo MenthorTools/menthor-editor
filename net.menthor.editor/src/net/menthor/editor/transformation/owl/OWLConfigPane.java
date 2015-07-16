@@ -1,5 +1,7 @@
 package net.menthor.editor.transformation.owl;
 
+import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -10,6 +12,7 @@ import javax.swing.LayoutStyle;
 
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.transformation.DestinationEnum;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.MappingType;
 import net.menthor.editor.util.ApplicationResources;
@@ -29,11 +32,11 @@ public class OWLConfigPane extends JPanel {
 	private JTextField iriText;
 	private JLabel iriLabel;
 		
-	public String getURIText() { return iriText.getText(); }
-	public boolean isFileSelected() { return destinationPanel.isFileSelected(); }
-	public String getPathText() { return destinationPanel.getPathText(); }
-	public MappingType getSelectedMapping() { return typePanel.getSelectedEntry(); }
-	public boolean isNewTabSelected() { return destinationPanel.isNewTabSelected(); }	
+	public String getURIText() { return iriText.getText(); }	
+	public String getPathText() { return destinationPanel.getPath(); }
+	public MappingType getSelectedMapping() { return typePanel.getMappingType(); }
+	public DestinationEnum getDestination() { return destinationPanel.getDestination(); }
+	
 	public JButton getOkButton() { return okButton; }
 	public JButton getCancelButton() { return cancelButton; }
 	
@@ -45,7 +48,8 @@ public class OWLConfigPane extends JPanel {
 		iriLabel = new JLabel();
 		iriLabel.setText(ApplicationResources.getInstance().getString("dialog.owlsettings.ontologyiri"));
 		iriText = new JTextField();
-
+		iriText.setFont(new Font(iriText.getFont().getName(),Font.ITALIC,iriText.getFont().getSize()));
+		
 		filePathLabel = new JLabel();
 		filePathLabel.setText(ApplicationResources.getInstance().getString("dialog.owlsettings.filepath"));
 		filePathLabel.setEnabled(false);
@@ -61,7 +65,10 @@ public class OWLConfigPane extends JPanel {
 		cancelButton.setText(ApplicationResources.getInstance().getString("stdcaption.cancel"));
 		typePanel = new OWLMappingTypePane();
 		
-		destinationPanel = new DestinationPane("OWL File (*.owl)","owl");
+		destinationPanel = new DestinationPane("OWL (*.owl)","owl");
+		destinationPanel.renameAppButton("Protégé");
+		destinationPanel.selectTab();
+		destinationPanel.enableFileChooser(false);
 		
 		GenerateOWLPanelLayout.setHorizontalGroup(GenerateOWLPanelLayout.createSequentialGroup()
 			.addContainerGap()

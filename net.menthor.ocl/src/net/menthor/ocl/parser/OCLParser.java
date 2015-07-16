@@ -72,6 +72,9 @@ public class OCLParser {
     	if (tempDirPath.endsWith(File.separator)) umlPath += tempDirPath + backgroundModelName + ".uml";
     	else umlPath += tempDirPath + File.separator + backgroundModelName + ".uml";
 
+    	File umlfile = new File(umlPath);
+		umlfile.deleteOnExit();
+		
     	umlResource = OntoUML2UML.convertToUML(refparser,umlPath,new OntoUML2UMLOption(true,false));
     	    	
     	umap = OntoUML2UML.getStandardMap();

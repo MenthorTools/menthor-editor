@@ -22,7 +22,8 @@ package net.menthor.editor.util;
  */
 
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
-import net.menthor.editor.transformation.MappingType;
+import net.menthor.editor.transformation.TransformationOption;
+import net.menthor.editor.transformation.DestinationEnum;
 import net.menthor.editor.util.OperationResult.ResultType;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
@@ -35,65 +36,53 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, boolean fileOutput, String filePath, String oclRules, OWLTransformationOptions owlOptions, MappingType mappingType)
+	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OWLTransformationOptions owlOptions, TransformationOption trOpt)
 	{
-		String errors = "";
-    	try
-    	{
-    		String owlOutput = "";
-    		if(mappingType.getType().equals("SIMPLE"))
-    		{
+		String errors = new String();
+		String owlOutput = new String();
+    	try {    		
+    		if(trOpt.getMappingType().getType().equals("SIMPLE")) 
+    		{    			
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, ontologyIRI);
-    		}else if(mappingType.getType().equals("UFO_RDF")){
+    		}
+    		if(trOpt.getMappingType().getType().equals("UFO_RDF")) 
+    		{    			
     			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, ontologyIRI);
     			owlOutput = ontoUml2rdf.transform();
-    		}else if(mappingType.getType().equals("OOTOS")){
+    		}
+    		if(trOpt.getMappingType().getType().equals("OOTOS"))
+    		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
     			owlOutput = ontoUML2OWL.Transformation(filteredParser, ontologyIRI, oclRules, owlOptions);
     			errors = ontoUML2OWL.errors;
-    		}else if(mappingType.getType().equals("REIFICATION") || mappingType.getType().equals("WORM_VIEW_A0") || mappingType.getType().equals("WORM_VIEW_A1") || mappingType.getType().equals("WORM_VIEW_A2"))
+    		}
+    		if(trOpt.getMappingType().getType().equals("REIFICATION") || trOpt.getMappingType().getType().equals("WORM_VIEW_A0") || trOpt.getMappingType().getType().equals("WORM_VIEW_A1") || trOpt.getMappingType().getType().equals("WORM_VIEW_A2"))
     		{
     			TreeProcessor tp = new TreeProcessor(model);
-        		
-    			// mapping the OntoUML-based structure into an OWL-based structure
-    			// according to a certain mapping type
     			OWLMappingTypes mtypes = OWLMappingTypes.REIFICATION;
-    			if(mappingType.getType().equals("WORM_VIEW_A0")) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
-    			if(mappingType.getType().equals("WORM_VIEW_A1")) mtypes = OWLMappingTypes.WORM_VIEW_A1;
-    			if(mappingType.getType().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
+    			if(trOpt.getMappingType().getType().equals("WORM_VIEW_A0")) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
+    			if(trOpt.getMappingType().getType().equals("WORM_VIEW_A1")) mtypes = OWLMappingTypes.WORM_VIEW_A1;
+    			if(trOpt.getMappingType().getType().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
     			OWLStructure owl = new OWLStructure(mtypes);
     			owl.map(tp);
     			owlOutput = owl.verbose(ontologyIRI);
-    		}else{
-    			return new OperationResult(ResultType.ERROR, "The OWL Mapping Type " + mappingType + " does not exist.", null);
-    		}
-			
-    		if(owlOutput != null && owlOutput.length() > 0)
+    		}    		
+    		if(owlOutput.length()>0)
     		{
-				if(owlOptions.isGenerateFile() && filePath != null)
+				if(trOpt.getDestination()==DestinationEnum.FILE && trOpt.getPath()!=null && !trOpt.getPath().isEmpty())
 				{
-//					String owlFileName = ConfigurationHelper.canon(filePath);
-					String owlFileName = owlOptions.getFilePath();
-							
-					// Writing transformed model into owl file
+					String owlFileName = trOpt.getPath();							
 					FileManager fileManager = new FileManager(owlFileName);
 					fileManager.write(owlOutput);
-					fileManager.done();
-					
+					fileManager.done();					
 					return new OperationResult(ResultType.SUCESS, errors + "OWL generated successfully", new Object[] { owlFileName });
-				}
-				else
-				{
+				}else{
 					return new OperationResult(ResultType.SUCESS, errors + "OWL generated successfully", new Object[] { owlOutput });
 				}
-    		}
-    		else
-    		{
+    		}else{
     			return new OperationResult(ResultType.ERROR, errors + "No OWL generated", null);
     		}
-    	}
-    	catch (Exception ex)
-    	{
+    	}catch (Exception ex) {
     		ex.printStackTrace();
     		return new OperationResult(ResultType.ERROR, "Error while generating the OWL for the model. \nDetails: " + ex.getMessage() + errors, null);
     	}

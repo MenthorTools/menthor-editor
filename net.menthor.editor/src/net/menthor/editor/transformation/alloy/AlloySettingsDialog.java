@@ -33,6 +33,7 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
+import net.menthor.editor.transformation.TransformationOption;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -57,18 +58,19 @@ public class AlloySettingsDialog extends TransformationDialog {
 	
 	private JPanel axiomPane;
 	private JPanel principalPane;
-	/**
-	 * @wbp.parser.constructor
-	 */
+	
+	/** @wbp.parser.constructor */
 	public AlloySettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 				
 		principalPane = new JPanel();
-		principalPane.setLayout(new BorderLayout(5,5));
+		principalPane.setLayout(new BorderLayout(10,10));
 		
 		destPane = new DestinationPane("Alloy (*.als)","als");
 		destPane.renameAppButton("Alloy Analyzer");
+		destPane.selectApp();
+		destPane.enableFileChooser(false);
 		principalPane.add(destPane, BorderLayout.NORTH);
 		
 		mapPane = new AlloyMappingTypePane();
@@ -81,13 +83,13 @@ public class AlloySettingsDialog extends TransformationDialog {
 		axiomPane.setLayout(new BorderLayout(5, 5));		
 		axiomPane.add(modelSimulationPanel, BorderLayout.NORTH);	
 		
-		addNonClosable("Principal", principalPane);
+		addNonClosable("Approach", principalPane);
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomPane);
 		
 		tabbedPane.setSelectedComponent(principalPane);
 		
-		setTitle("Alloy Settings");		
+		setTitle("Alloy Settings");
 		getOkButton().addActionListener(new ActionListener() 
 		{
        		public void actionPerformed(ActionEvent event) 
@@ -149,8 +151,17 @@ public class AlloySettingsDialog extends TransformationDialog {
 		}		  
 		
 		//dispose();
-		if(getOwner() instanceof AppFrame){			
-			((AppFrame)getOwner()).getDiagramManager().transformToAlloy(filterPane.getFilteredParser());
+		
+		if(getOwner() instanceof AppFrame)
+		{		
+			TransformationOption options = new TransformationOption(
+				mapPane.getMappingType(),
+				destPane.getDestination(),				
+				destPane.getPath()				
+			);			
+			((AppFrame)getOwner()).getDiagramManager().transformToAlloy(
+				filterPane.getFilteredParser(), options				
+			);
 		}
 	}
 }

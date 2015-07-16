@@ -95,7 +95,8 @@ import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
-import net.menthor.editor.transformation.MappingType;
+import net.menthor.editor.transformation.DestinationEnum;
+import net.menthor.editor.transformation.TransformationOption;
 import net.menthor.editor.transformation.alloy.AlloySettingsDialog;
 import net.menthor.editor.transformation.owl.OWLSettingsDialog;
 import net.menthor.editor.ui.ClosableTabPanel;
@@ -2652,32 +2653,51 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 	}
 	
+	public void showInTextEditor(String content)
+	{
+		TextEditor textViz = (TextEditor) getEditorForProject(getCurrentProject(), EditorNature.TEXT);
+		if(textViz == null){
+			textViz = new TextEditor(getCurrentProject());
+			addClosable(this,"Text Editor", textViz);
+		}else{
+			setSelectedComponent(textViz);
+		}
+		textViz.setText(content);
+	}
+	
 	/** Run Transformation to Alloy */
-	public void transformToAlloy(OntoUMLParser refparser)  
-	{									
-		runOntoUML2Alloy(refparser);
-		runTOCL2Alloy(refparser);
-		
-		if (frame.getProjectBrowser().getOntoUMLOption().openAnalyzer) openAnalyzer(frame.getProjectBrowser().getAlloySpec(),true, -1);
-		else openAnalyzer(frame.getProjectBrowser().getAlloySpec(),false, 0);	
-		
-		String umlpath = frame.getProjectBrowser().getAlloySpec().getAlloyPath().replace(".als", ".uml");
-		File umlfile = new File(umlpath);
-		umlfile.deleteOnExit();		
+	public void transformToAlloy(OntoUMLParser refparser, TransformationOption to)  
+	{			
+		try{
+			if(to.getDestination()==DestinationEnum.FILE){
+				if(to.getPath()!=null) frame.getProjectBrowser().getAlloySpec().setAlloyPath(to.getPath());
+			}
+			runOntoUML2Alloy(refparser);		
+			runTOCL2Alloy(refparser);			
+			if(to.getDestination()==DestinationEnum.APP) {
+				openAnalyzer(frame.getProjectBrowser().getAlloySpec(),true, -1);			
+			}
+			if(to.getDestination()==DestinationEnum.TAB){				
+				showInTextEditor(frame.getProjectBrowser().getAlloySpec().getContent());
+			}
+			if(to.getDestination()==DestinationEnum.FILE){
+				frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to Alloy.\nLocation: "+to.getPath());			
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			String msg = e.getLocalizedMessage();
+			if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(e);
+			frame.showErrorMessageDialog("Failure", "Current project could not be transformed to Alloy.\nMotive: "+msg);
+		}
 	}
 	
 	/** Run transformation from OntoUML into Alloy */
-	public void runOntoUML2Alloy(OntoUMLParser refparser)
+	public void runOntoUML2Alloy(OntoUMLParser refparser) throws Exception
 	{		
 		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
-		try {
-			frame.getProjectBrowser().getAlloySpec().setDomainModel(refparser,refOptions);
-			frame.getProjectBrowser().getAlloySpec().transformDomainModel();
-		} catch (Exception e) {
-			frame.showErrorMessageDialog("Transforming OntoUML into Alloy",e.getLocalizedMessage());					
-			e.printStackTrace();
-		}
+		frame.getProjectBrowser().getAlloySpec().setDomainModel(refparser,refOptions);
+		frame.getProjectBrowser().getAlloySpec().transformDomainModel();	
 	}
 	
 	/** Run Transformation from TOCL into Alloy */
@@ -2978,33 +2998,24 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Generates OWL from the selected model */
-	public void generateOwl(OntoUMLParser filteredParser, OWLTransformationOptions owlOptions, MappingType type) 
+	public void generateOwl(OntoUMLParser filteredParser, OWLTransformationOptions owlOptions, TransformationOption trOpt) 
 	{
 		UmlProject project = getCurrentProject();
-		String oclRules = new String();
-		oclRules = getWorkingConstraints();		
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		OperationResult result = OWLHelper.generateOwl(filteredParser, model, 
-			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),
-			ProjectSettings.OWL_GENERATE_FILE.getBoolValue(project),
-			ProjectSettings.OWL_FILE_PATH.getValue(project),
-			oclRules,
+		OperationResult result = OWLHelper.generateOwl(
+			filteredParser, 
+			model, 
+			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),			
+			getWorkingConstraints(),
 			owlOptions,
-			type);
+			trOpt
+		);
 		if(result.getResultType() != ResultType.ERROR)
 		{
-			if(!owlOptions.isGenerateFile())
+			if(trOpt.getDestination()==DestinationEnum.TAB)
 			{
 				frame.getInfoManager().showOutputText(result.toString(), true, false);
-				TextEditor textViz = (TextEditor) getEditorForProject(project, EditorNature.TEXT);
-				if(textViz == null)
-				{
-					textViz = new TextEditor(project);
-					addClosable(this,"Text Editor", textViz);
-				}else{
-					setSelectedComponent(textViz);
-				}
-				textViz.setText((String) result.getData()[0]);
+				showInTextEditor((String)result.getData()[0]);
 			}else{
 				frame.getInfoManager().showOutputText(result.toString(), true, true);
 			}
@@ -3013,7 +3024,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-
 	private Editor getEditorForProject(UmlProject project, EditorNature nature)
 	{
 		int totalTabs = getTabCount();

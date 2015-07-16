@@ -98,6 +98,13 @@ public class AlloySpecification {
 		alsmodelName = alsPath.substring(alsPath.lastIndexOf(File.separator)+1,alsPath.length()).replace(".als","");	
 	}
 	
+	public void setAlloyPath(String alloyPath)
+	{
+		this.alsPath = alloyPath;			
+		alsOutDirectory = alsPath.substring(0, alsPath.lastIndexOf(File.separator)+1);		
+		alsmodelName = alsPath.substring(alsPath.lastIndexOf(File.separator)+1,alsPath.length()).replace(".als","");
+	}
+	
 	public void setDomainModel(OntoUMLParser refparser, OntoUML2AlloyOptions ontoOptions)
 	{
 		ontouml2alloy = new OntoUML2Alloy(refparser, alsPath, ontoOptions);

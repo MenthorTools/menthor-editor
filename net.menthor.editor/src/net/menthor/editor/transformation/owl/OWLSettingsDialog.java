@@ -25,14 +25,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import net.menthor.common.transformation.owl.OWLTransformationOptions;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.TransformationDialog;
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.transformation.TransformationOption;
 import net.menthor.editor.util.ProjectSettings;
 
 import org.tinyuml.umldraw.StructureDiagram;
@@ -67,7 +65,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 		gsPane = new OWLGeneralizationSetPane(owner.getProjectBrowser().getParser());
 		axiomsPane = new OWLAxiomFilterPane();
 		
-		addNonClosable("Type", configPane);
+		addNonClosable("Approach", configPane);
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomsPane);
 		addNonClosable("Primitive Types", primitivePane);
@@ -82,11 +80,21 @@ public class OWLSettingsDialog extends TransformationDialog {
 			public void actionPerformed(ActionEvent evt) {
 				if(validadeSettings())
 				{
-					saveSettings();
+					//saveSettings();
+					TransformationOption transOpt = new TransformationOption(
+						configPane.getSelectedMapping(), 
+						configPane.getDestination(),
+						configPane.getPathText()
+					);
+					
 //					System.out.println(filterPane.getFilteredParser());
 					if(owner instanceof AppFrame){
 						DiagramManager manager = ((AppFrame)owner).getDiagramManager();
-						manager.generateOwl(filterPane.getFilteredParser(),owlOptions, configPane.getSelectedMapping());
+						manager.generateOwl(
+							filterPane.getFilteredParser(), 
+							owlOptions, 
+							transOpt
+						);
 					}					
 		 			dispose();
 				}
@@ -96,13 +104,13 @@ public class OWLSettingsDialog extends TransformationDialog {
 	
 	public boolean validadeSettings() 
 	{		
-		if(configPane.isNewTabSelected()) return true;			
-		if(configPane.isFileSelected() && configPane.getPathText().length() > 0) return true;
-		else JOptionPane.showMessageDialog(this, 
-			ApplicationResources.getInstance().getString("dialog.owlsettings.error.informfilepath"), 
-			ApplicationResources.getInstance().getString("dialog.owlsettings.title"),	
-			JOptionPane.ERROR_MESSAGE);		
-		return false;
+//		if(configPane.isNewTabSelected()) return true;			
+//		if(configPane.isFileSelected() && configPane.getPathText().length() > 0) return true;
+//		else JOptionPane.showMessageDialog(this, 
+//			ApplicationResources.getInstance().getString("dialog.owlsettings.error.informfilepath"), 
+//			ApplicationResources.getInstance().getString("dialog.owlsettings.title"),	
+//			JOptionPane.ERROR_MESSAGE);		
+		return true;
 	}
 	
 	public void saveSettings()
@@ -118,9 +126,9 @@ public class OWLSettingsDialog extends TransformationDialog {
 		}
 		
 		owlOptions.setOntologyIri(configPane.getURIText());
-		owlOptions.setGenerateFile(configPane.isFileSelected());
+//		owlOptions.setGenerateFile(configPane.isFileSelected());
 		
-		if(configPane.isFileSelected()) owlOptions.setFilePath(configPane.getPathText());
+//		if(configPane.isFileSelected()) owlOptions.setFilePath(configPane.getPathText());
 		//owlOptions.setMappingType(configPane.getSelectedMapping());
 		
 		//disjointness
