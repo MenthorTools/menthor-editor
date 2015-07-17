@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+
 public class OWLAxiomFilterPane extends JPanel {
 
 	private static final long serialVersionUID = 8425787008147140307L;
@@ -32,6 +34,8 @@ public class OWLAxiomFilterPane extends JPanel {
 	private JCheckBox rulesCheck;
 	private JCheckBox ufoStructure;
 	private JCheckBox chckbxComplete;
+	
+	private OwlAxiomsEnforcement opt = new OwlAxiomsEnforcement();
 	
 	public OWLAxiomFilterPane()
 	{	
@@ -161,6 +165,9 @@ public class OWLAxiomFilterPane extends JPanel {
 		binPane.add(inverseFuncCheck);
 	}
 	
+//	public boolean getOwlAxiomsEnforcement() {
+//		
+//	}
 	public boolean isTransitivity() { return transitivityCheck.isSelected(); }
 	public boolean isSymmetry() { return symmetryCheck.isSelected(); }
 	public boolean isAsymmetric() { return irreflexiveCheck.isSelected(); }

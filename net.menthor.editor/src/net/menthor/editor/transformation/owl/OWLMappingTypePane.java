@@ -1,6 +1,6 @@
 package net.menthor.editor.transformation.owl;
 
-import net.menthor.editor.transformation.MappingType;
+import net.menthor.common.transformation.MappingType;
 import net.menthor.editor.transformation.MappingTypePane;
 
 public class OWLMappingTypePane extends MappingTypePane {
@@ -25,7 +25,7 @@ public class OWLMappingTypePane extends MappingTypePane {
 			+ "(as SWRL rules) and disjointness between substance sortals."
 		);		
 		addEntry(mt);
-		selectEntry(mt.getType());
+		selectEntry(mt.getIdentifier());
 		
 		mt = new MappingType(
 			"REIFICATION",

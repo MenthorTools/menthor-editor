@@ -1,6 +1,6 @@
 package net.menthor.editor.transformation.alloy;
 
-import net.menthor.editor.transformation.MappingType;
+import net.menthor.common.transformation.MappingType;
 import net.menthor.editor.transformation.MappingTypePane;
 
 public class AlloyMappingTypePane extends MappingTypePane {

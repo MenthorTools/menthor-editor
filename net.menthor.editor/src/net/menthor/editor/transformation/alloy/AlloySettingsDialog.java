@@ -29,11 +29,11 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
-import net.menthor.editor.transformation.TransformationOption;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -49,14 +49,16 @@ import RefOntoUML.parser.OntoUMLParser;
 public class AlloySettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = 7877781445149017806L;
+			
+	private DestinationPane destPane;
+	private AlloyMappingTypePane mapPane;
+	private JPanel axiomPane;
+	
+	private AlloyModelSimulationPanel modelSimulationPanel;
+	private OntoUML2AlloyOptions refOptions;
 	
 	private ConstraintSimulationPanel constraintSimulationPanel;
-	private AlloyModelSimulationPanel modelSimulationPanel;	
-	private TOCLParser toclparser;
-	private AlloyMappingTypePane mapPane;
-	private DestinationPane destPane;
-	
-	private JPanel axiomPane;
+	private TOCL2AlloyOption oclOptions;	
 	private JPanel principalPane;
 	
 	/** @wbp.parser.constructor */
@@ -116,7 +118,8 @@ public class AlloySettingsDialog extends TransformationDialog {
 	{
 		this(owner,refparser,diagrams, false);	
 		
-		this.toclparser = oclOptions.getParser();
+		this.refOptions = refOptions;
+		this.oclOptions = oclOptions;
 		
 		modelSimulationPanel.setOntoUMLOptionsPane(refOptions,owner);
 		
@@ -139,7 +142,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 			((AppFrame)getOwner()).getProjectBrowser().setOntoUMLOption(ontoumlOptions);
 		}
 				
-		TOCL2AlloyOption oclOptions = new TOCL2AlloyOption(toclparser);		
+		TOCL2AlloyOption oclOptions = new TOCL2AlloyOption(this.oclOptions.getParser());		
 		oclOptions.setTransformationType(constraintSimulationPanel.getTransformationsTypesListSelected());
     	oclOptions.setCommandScope(constraintSimulationPanel.getScopesListSelected());    			
     	oclOptions.setBiwidth(constraintSimulationPanel.getBitWidthListSelected());

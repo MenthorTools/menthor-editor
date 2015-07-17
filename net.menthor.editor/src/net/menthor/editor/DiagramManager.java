@@ -62,7 +62,9 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.owl.OWLTransformationOptions;
+import net.menthor.common.transformation.DestinationEnum;
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
 import net.menthor.editor.derivation.ExclusionPattern;
@@ -95,8 +97,6 @@ import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
-import net.menthor.editor.transformation.DestinationEnum;
-import net.menthor.editor.transformation.TransformationOption;
 import net.menthor.editor.transformation.alloy.AlloySettingsDialog;
 import net.menthor.editor.transformation.owl.OWLSettingsDialog;
 import net.menthor.editor.ui.ClosableTabPanel;
@@ -2998,7 +2998,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Generates OWL from the selected model */
-	public void generateOwl(OntoUMLParser filteredParser, OWLTransformationOptions owlOptions, TransformationOption trOpt) 
+	public void generateOwl(OntoUMLParser filteredParser, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt) 
 	{
 		UmlProject project = getCurrentProject();
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());

@@ -25,12 +25,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import net.menthor.common.transformation.owl.OWLTransformationOptions;
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.TransformationDialog;
-import net.menthor.editor.transformation.TransformationOption;
 import net.menthor.editor.util.ProjectSettings;
 
 import org.tinyuml.umldraw.StructureDiagram;
@@ -41,7 +41,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
-	private OWLTransformationOptions owlOptions;
+	private OwlAxiomsEnforcement owlOptions;
 	
 	private OWLPrimitiveMappingPane primitivePane;
 	private OWLQualityMappingPane qualityPane;
@@ -53,7 +53,7 @@ public class OWLSettingsDialog extends TransformationDialog {
 	{
 		super(owner, refparser, diagrams, modal);
 		
-		this.owlOptions = new OWLTransformationOptions();
+		this.owlOptions = new OwlAxiomsEnforcement();
 		
 		if(owner instanceof AppFrame){
 			UmlProject project = ((AppFrame)owner).getDiagramManager().getCurrentProject();
@@ -132,35 +132,35 @@ public class OWLSettingsDialog extends TransformationDialog {
 		//owlOptions.setMappingType(configPane.getSelectedMapping());
 		
 		//disjointness
-		owlOptions.setDisjointClassAxioms(axiomsPane.isClassDisjointness());
-		owlOptions.setDisjointAssociationAxioms(axiomsPane.isAssociatoinDisjointness());		
+		owlOptions.setEnforcingDisjointOfClass(axiomsPane.isClassDisjointness());
+		owlOptions.setEnforcingDisjointOfAssociation(axiomsPane.isAssociatoinDisjointness());		
 		
 		//associations
-		owlOptions.setDomainAxiom(axiomsPane.isDomain());
-		owlOptions.setRangeAxiom(axiomsPane.isRange());
-		owlOptions.setInverseAxiom(axiomsPane.isInverse());		
+		owlOptions.setEnforcingDomain(axiomsPane.isDomain());
+		owlOptions.setEnforcingRange(axiomsPane.isRange());
+		owlOptions.setEnforcingInverse(axiomsPane.isInverse());		
 		
 		//association binary association
-		owlOptions.setReflexiveAxiom(axiomsPane.isReflexivity());
-		owlOptions.setIrreflexiveAxiom(axiomsPane.isIrreflexive());
-		owlOptions.setSymmetricAxiom(axiomsPane.isSymmetry());
-		owlOptions.setAsymmetricAxiom(axiomsPane.isAsymmetric());
-		owlOptions.setTransitiveAxiom(axiomsPane.isTransitivity());
-		owlOptions.setFunctionalAxiom(axiomsPane.isFunctional());
-		owlOptions.setInverseFunctionalAxiom(axiomsPane.isInverseFunctional());		
-		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
+		owlOptions.setEnforcingReflexive(axiomsPane.isReflexivity());
+		owlOptions.setEnforcingIrreflexive(axiomsPane.isIrreflexive());
+		owlOptions.setEnforcingSymmetric(axiomsPane.isSymmetry());
+		owlOptions.setEnforcingAsymmetric(axiomsPane.isAsymmetric());
+		owlOptions.setEnforcingTransitive(axiomsPane.isTransitivity());
+		owlOptions.setEnforcingFunctional(axiomsPane.isFunctional());
+		owlOptions.setEnforcingInverseFunctional(axiomsPane.isInverseFunctional());		
+		owlOptions.setEnforcingCardinality(axiomsPane.isCardinality());
 		
 		//swrl rules
-		owlOptions.setSwrlRulesAxiom(axiomsPane.isRules());
+		owlOptions.setEnforcingSwrlRules(axiomsPane.isRules());
 		
 		//cardinality
-		owlOptions.setCardinalityAxiom(axiomsPane.isCardinality());
+		owlOptions.setEnforcingCardinality(axiomsPane.isCardinality());
 		
-		owlOptions.setUfoStructure(axiomsPane.isUfoStructure());
+		owlOptions.setEnforcingUfoStructure(axiomsPane.isUfoStructure());
 		
 		owlOptions.setGenSetEnumMappings(gsPane.getGenSetEnumMappingMap());
 		
-		owlOptions.setCompleteClassAxiom(axiomsPane.isComplete());
+		owlOptions.setEnforcingCompleteOfClass(axiomsPane.isComplete());
 		
 		owlOptions.setPrimitiveTypeMappingsOntoUMLElement(primitivePane.getPrimitiveMap());
 		owlOptions.setAttributeMappingsOntoUMLElement(primitivePane.getAttributeMap());

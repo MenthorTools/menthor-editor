@@ -21,9 +21,9 @@ package net.menthor.editor.util;
  * ============================================================================================
  */
 
-import net.menthor.common.transformation.owl.OWLTransformationOptions;
-import net.menthor.editor.transformation.TransformationOption;
-import net.menthor.editor.transformation.DestinationEnum;
+import net.menthor.common.transformation.DestinationEnum;
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.util.OperationResult.ResultType;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
@@ -36,33 +36,33 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OWLTransformationOptions owlOptions, TransformationOption trOpt)
+	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt)
 	{
 		String errors = new String();
 		String owlOutput = new String();
     	try {    		
-    		if(trOpt.getMappingType().getType().equals("SIMPLE")) 
+    		if(trOpt.getMappingType().getIdentifier().equals("SIMPLE")) 
     		{    			
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, ontologyIRI);
     		}
-    		if(trOpt.getMappingType().getType().equals("UFO_RDF")) 
+    		if(trOpt.getMappingType().getIdentifier().equals("UFO_RDF")) 
     		{    			
     			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, ontologyIRI);
     			owlOutput = ontoUml2rdf.transform();
     		}
-    		if(trOpt.getMappingType().getType().equals("OOTOS"))
+    		if(trOpt.getMappingType().getIdentifier().equals("OOTOS"))
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
     			owlOutput = ontoUML2OWL.Transformation(filteredParser, ontologyIRI, oclRules, owlOptions);
     			errors = ontoUML2OWL.errors;
     		}
-    		if(trOpt.getMappingType().getType().equals("REIFICATION") || trOpt.getMappingType().getType().equals("WORM_VIEW_A0") || trOpt.getMappingType().getType().equals("WORM_VIEW_A1") || trOpt.getMappingType().getType().equals("WORM_VIEW_A2"))
+    		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
     		{
     			TreeProcessor tp = new TreeProcessor(model);
     			OWLMappingTypes mtypes = OWLMappingTypes.REIFICATION;
-    			if(trOpt.getMappingType().getType().equals("WORM_VIEW_A0")) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
-    			if(trOpt.getMappingType().getType().equals("WORM_VIEW_A1")) mtypes = OWLMappingTypes.WORM_VIEW_A1;
-    			if(trOpt.getMappingType().getType().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
+    			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0")) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
+    			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1")) mtypes = OWLMappingTypes.WORM_VIEW_A1;
+    			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
     			OWLStructure owl = new OWLStructure(mtypes);
     			owl.map(tp);
     			owlOutput = owl.verbose(ontologyIRI);

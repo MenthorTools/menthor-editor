@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.common.transformation.GeneralizationMappingType;
+import net.menthor.common.transformation.owl.GeneralizationMappingType;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;

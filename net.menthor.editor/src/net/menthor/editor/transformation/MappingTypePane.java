@@ -14,6 +14,8 @@ import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import net.menthor.common.transformation.MappingType;
+
 public class MappingTypePane extends JPanel {
 
 	private static final long serialVersionUID = 2408763450380277965L;
@@ -34,7 +36,7 @@ public class MappingTypePane extends JPanel {
 	public void selectEntry(String type)
 	{
 		for(MappingType mt: mappings){
-			if(mt.getType().compareToIgnoreCase(type)==0) mappingCombo.setSelectedItem(mt);
+			if(mt.getIdentifier().compareToIgnoreCase(type)==0) mappingCombo.setSelectedItem(mt);
 		}
 	}
 	

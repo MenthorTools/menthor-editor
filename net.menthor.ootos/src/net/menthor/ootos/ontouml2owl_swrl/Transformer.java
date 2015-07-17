@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.menthor.common.transformation.GeneralizationMappingType;
-import net.menthor.common.transformation.owl.OWLTransformationOptions;
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.owl.GeneralizationMappingType;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
 
@@ -124,7 +124,7 @@ public class Transformer {
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
 	ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
 	
-	private OWLTransformationOptions owlOptions;
+	private OwlAxiomsEnforcement owlOptions;
 	//OWL
 	private String nameSpace;
 
@@ -151,7 +151,7 @@ public class Transformer {
 	 * Initialize the Transformer
 	 * @throws OWLOntologyCreationException 
 	 * */
-	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OWLTransformationOptions owlOptions) throws OWLOntologyCreationException {
+	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OwlAxiomsEnforcement owlOptions) throws OWLOntologyCreationException {
 		this.nameSpace = nameSpace+"#";
 
 		this.owlOptions = owlOptions;
@@ -239,7 +239,7 @@ public class Transformer {
 	 * @throws Exception 
 	 */
 	public String transform() throws Exception {
-		if(owlOptions.isUfoStructure()) createBasicStructure();
+		if(owlOptions.isEnforcingUfoStructure()) createBasicStructure();
 		
 		try{
 			processClass();
@@ -383,7 +383,7 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
 		}
 
-		if(oclRules != null && !oclRules.equals("") && owlOptions.isSwrlRulesAxiom()){
+		if(oclRules != null && !oclRules.equals("") && owlOptions.isEnforcingSwrlRules()){
 			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, nameSpace);
 			ocl2owl_swrl.Transformation();
 			this.errors += "\n" + ocl2owl_swrl.errors;
@@ -455,27 +455,27 @@ public class Transformer {
 	private void removeUndesiredAxioms() {
 		Set<OWLAxiom> axioms = ontology.getAxioms();
 		for (OWLAxiom owlAxiom : axioms) {
-			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlOptions.isFunctionalAxiom()){
+			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlOptions.isEnforcingFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlOptions.isInverseFunctionalAxiom()){
+			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlOptions.isEnforcingInverseFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlOptions.isTransitiveAxiom()){
+			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlOptions.isEnforcingTransitive()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlOptions.isSymmetricAxiom()){
+			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlOptions.isEnforcingSymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlOptions.isAsymmetricAxiom()){
+			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlOptions.isEnforcingAsymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlOptions.isReflexiveAxiom()){
+			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlOptions.isEnforcingReflexive()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlOptions.isIrreflexiveAxiom()){
+			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlOptions.isEnforcingIrreflexive()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLDisjointClassesAxiom && !owlOptions.isDisjointClassAxioms()){
+			}else if(owlAxiom instanceof OWLDisjointClassesAxiom && !owlOptions.isClassDisjointness()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLDisjointObjectPropertiesAxiom && !owlOptions.isDisjointAssociationAxioms()){
+			}else if(owlAxiom instanceof OWLDisjointObjectPropertiesAxiom && !owlOptions.isAssociationDisjointness()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLCardinalityRestriction && !owlOptions.isCardinalityAxiom()){
+			}else if(owlAxiom instanceof OWLCardinalityRestriction && !owlOptions.isEnforcingCardinality()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof SWRLRule && !owlOptions.isSwrlRulesAxiom()){
+			}else if(owlAxiom instanceof SWRLRule && !owlOptions.isEnforcingSwrlRules()){
 				manager.removeAxiom(ontology, owlAxiom);
 			}
 		}		
@@ -495,7 +495,7 @@ public class Transformer {
 	 * Set all stereotype of association disjoint between they
 	 * */
 	private void processDisjointAssociation() {
-		if(!owlOptions.isDisjointAssociationAxioms()) return;
+		if(!owlOptions.isAssociationDisjointness()) return;
 		
 		Set<OWLObjectProperty> lstOP = new HashSet<OWLObjectProperty>();
 		for (String stereotype : hashAssociations.keySet()) {
@@ -533,7 +533,7 @@ public class Transformer {
 			lst.addAll(lstSubCollectionOf);
 			processMeronymic(lst, "subCollectionOf");
 		}
-		if(lstSubCollectionOf.size() > 1 && owlOptions.isSwrlRulesAxiom()){
+		if(lstSubCollectionOf.size() > 1 && owlOptions.isEnforcingSwrlRules()){
 			//For transitivity
 			createSWRLforTrasitivity("subCollectionOf");
 		}
@@ -546,7 +546,7 @@ public class Transformer {
 			lst.addAll(lstSubQuantityOf);
 			processMeronymic(lst, "subQuantityOf");
 		}
-		if(lstSubQuantityOf.size() > 1 && owlOptions.isSwrlRulesAxiom()){
+		if(lstSubQuantityOf.size() > 1 && owlOptions.isEnforcingSwrlRules()){
 			//For transitivity
 			createSWRLforTrasitivity("subQuantityOf");
 		}
@@ -559,7 +559,7 @@ public class Transformer {
 			lst.addAll(lstComponentOf);
 			processMeronymic(lst, "componentOf");
 		}
-		if(lstComponentOf.size() > 1 && owlOptions.isSwrlRulesAxiom()){
+		if(lstComponentOf.size() > 1 && owlOptions.isEnforcingSwrlRules()){
 			//For transitivity
 			createSWRLforTrasitivity("componentOf");
 		}
@@ -572,7 +572,7 @@ public class Transformer {
 			lst.addAll(lstMemberOf);
 			processMeronymic(lst, "memberOf");
 		}
-		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlOptions.isSwrlRulesAxiom()){
+		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlOptions.isEnforcingSwrlRules()){
 			//if has a memberof association and a subcollectionof association
 			createSWRLforMemberOfWithSubCollectionOf();	
 		}
@@ -658,13 +658,13 @@ public class Transformer {
 		putInHash(stereotype, topProp);
 		putInHash(stereotype, topInvProp);
 
-		if(owlOptions.isInverseAxiom()){
+		if(owlOptions.isInverse()){
 			OWLInverseObjectPropertiesAxiom inv = factory.getOWLInverseObjectPropertiesAxiom(topInvProp, topProp);
 			manager.applyChange(new AddAxiom(ontology, inv));
 		}
 		
 		//Make the inverse top property disjoint of the top property
-		if(owlOptions.isDisjointAssociationAxioms())
+		if(owlOptions.isAssociationDisjointness())
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProp, topInvProp)));
 
 		//Set prop irreflexive
@@ -693,11 +693,11 @@ public class Transformer {
 			invProp = createInverseAssociation(ass,stereotype);
 
 			//Set invProp inverse of prop
-			if(owlOptions.isInverseAxiom())
+			if(owlOptions.isInverse())
 				manager.applyChange(new AddAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(invProp, prop)));
 			
 			//Set both property disjoints
-			if(owlOptions.isDisjointAssociationAxioms())
+			if(owlOptions.isAssociationDisjointness())
 				manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop, invProp)));
 
 			//Set both subPropertyOf its top property
@@ -741,7 +741,7 @@ public class Transformer {
 								|| material.getMemberEnd().get(1).getType().equals(mediation.getMemberEnd().get(1).getType())){
 							mediation1 = mediation;
 						}
-						if(mediation0 != null && mediation1 != null && owlOptions.isSwrlRulesAxiom()){
+						if(mediation0 != null && mediation1 != null && owlOptions.isEnforcingSwrlRules()){
 							//Now we have the Material and Mediations of the member-ends of the Material
 							createSWRLforRelator(mediation0, mediation1, material, relator);
 							break;
@@ -1061,9 +1061,9 @@ public class Transformer {
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 
 		//Set domain and range from the property
-		if(owlOptions.isDomainAxiom())
+		if(owlOptions.isDomain())
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlOptions.isRangeAxiom())
+		if(owlOptions.isRange())
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
 
 		//Processing cardinality to the destiny
@@ -1141,9 +1141,9 @@ public class Transformer {
 		//destination class of the relation
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 		//Set domain and range from the property
-		if(owlOptions.isDomainAxiom() && !lstNominalQualities.contains(src))
+		if(owlOptions.isDomain() && !lstNominalQualities.contains(src))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlOptions.isRangeAxiom() && !lstNominalQualities.contains(dst))
+		if(owlOptions.isRange() && !lstNominalQualities.contains(dst))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
 
 		if(!lstNominalQualities.contains(src) || !lstNominalQualities.contains(dst)) return prop;
@@ -1158,7 +1158,7 @@ public class Transformer {
 	}
 
 	private void processCardinality(OWLClass src, OWLDataProperty dataProperty, int lowerCard, int upperCard) {
-		if(!owlOptions.isCardinalityAxiom()) return;
+		if(!owlOptions.isEnforcingCardinality()) return;
 		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
@@ -1200,7 +1200,7 @@ public class Transformer {
 	}
 
 	private void processCardinality(OWLObjectProperty prop, OWLClass src, OWLClass dst, int lowerCard, int upperCard){
-		if(!owlOptions.isCardinalityAxiom()) return;
+		if(!owlOptions.isEnforcingCardinality()) return;
 		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
@@ -1298,7 +1298,7 @@ public class Transformer {
 					manager.applyChange(new AddAxiom(ontology, sopa));
 	
 					//set that the inverse top property is the inverse of the top property
-					if(owlOptions.isInverseAxiom())
+					if(owlOptions.isInverse())
 						manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(topProperty, invTopProperty)));
 	
 					//Make the inverse top property disjoint of the top property
@@ -1317,7 +1317,7 @@ public class Transformer {
 				}
 	
 				//set that the inverse property is the inverse of the property
-				if(owlOptions.isInverseAxiom())
+				if(owlOptions.isInverse())
 					manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(prop, invProp)));
 	
 				//Make the inverse property disjoint of the property
@@ -1390,12 +1390,12 @@ public class Transformer {
 			lstCls.add(son);
 		}
 		
-		if(lstCls.size() > 1 && owlOptions.isDisjointClassAxioms()){
+		if(lstCls.size() > 1 && owlOptions.isClassDisjointness()){
 			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstCls);		
 			manager.applyChange(new AddAxiom(ontology, axiom));
 		}		
 
-		if(owlOptions.isCompleteClassAxiom()){
+		if(owlOptions.isClassCompleteness()){
 			//Set all classes equivalents
 			OWLObjectUnionOf ouf = factory.getOWLObjectUnionOf(lstCls);
 			OWLEquivalentClassesAxiom eqclax = factory.getOWLEquivalentClassesAxiom(father, ouf);
@@ -1404,7 +1404,7 @@ public class Transformer {
 	}
 
 	private void processGeneralizationDisjoint(EList<Generalization> genSet){
-		if(!owlOptions.isDisjointClassAxioms()) return;
+		if(!owlOptions.isClassDisjointness()) return;
 		
 		OWLClass father = getOwlClass(genSet.get(0).getGeneral());
 
@@ -1428,7 +1428,7 @@ public class Transformer {
 	}
 
 	private void processGeneralizationCovering(EList<Generalization> genSet){
-		if(!owlOptions.isCompleteClassAxiom()) return;
+		if(!owlOptions.isClassCompleteness()) return;
 		
 		OWLClass father = getOwlClass(genSet.get(0).getGeneral());
 
@@ -1716,7 +1716,7 @@ public class Transformer {
 		}
 		lowerCard *= prop.getLower();
 
-		if(!owlOptions.isCardinalityAxiom()) return;
+		if(!owlOptions.isEnforcingCardinality()) return;
 		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
@@ -1887,7 +1887,7 @@ public class Transformer {
 			OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
 			manager.applyChange(new AddAxiom(ontology, ax));
 			
-			if(!owlOptions.isUfoStructure()) continue; 
+			if(!owlOptions.isEnforcingUfoStructure()) continue; 
 			
 			Set<Classifier> parents = ontoParser.getParents(ontCls);
 			if(parents.size() == 0 ){

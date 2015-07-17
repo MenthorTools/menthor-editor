@@ -1,4 +1,4 @@
-package net.menthor.common.transformation;
+package net.menthor.common.transformation.owl;
 
 public class TransformationOptions {
 	Object[][] genSetEnumMappings;

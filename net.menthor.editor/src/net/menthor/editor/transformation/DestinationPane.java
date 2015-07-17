@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import net.menthor.common.transformation.DestinationEnum;
+
 public class DestinationPane extends JPanel {
 
 	private static final long serialVersionUID = 5020467392354283714L;
