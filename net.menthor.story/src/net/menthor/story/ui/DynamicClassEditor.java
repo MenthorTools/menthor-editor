@@ -5,7 +5,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 
-import stories.Node_state;
+import stories.Classification_statement;
 
 public class DynamicClassEditor extends ClassEditor {
 
@@ -15,7 +15,7 @@ public class DynamicClassEditor extends ClassEditor {
 	}
 	
 	protected EList<RefOntoUML.Class> unpackElementYesClasses(TreeItem ti){
-		return ((Node_state)ti.getData()).getAntiRigidClasses();
+		return ((Classification_statement)ti.getData()).getAntiRigidClasses();
 		
 	}
 	protected EList<RefOntoUML.Class> unpackElementNoClasses(TreeItem ti){

@@ -11,10 +11,10 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Class;
 import stories.Link;
 import stories.Node;
-import stories.Node_state;
+import stories.Classification_statement;
 import stories.impl.LinkImpl;
 import stories.impl.NodeImpl;
-import stories.impl.Node_stateImpl;
+import stories.impl.Classification_statementImpl;
 
 public class CheckboxClassListener implements Listener {   
 	private final StoryElementTimeline parent;
@@ -50,8 +50,8 @@ public class CheckboxClassListener implements Listener {
 				}else if(data.getClass() == LinkImpl.class){
 	    			Link l = (Link)data;
 	    			l.getInstance_of().add((Association)classifier);
-	    		}else if( data.getClass() == Node_stateImpl.class){
-	    			Node_state ns = (Node_state)data;
+	    		}else if( data.getClass() == Classification_statementImpl.class){
+	    			Classification_statement ns = (Classification_statement)data;
 	    			ns.getAntiRigidClasses().add((Class)classifier);
 	    		}
 			}
@@ -67,8 +67,8 @@ public class CheckboxClassListener implements Listener {
 	    			Link l = (Link)data;
 	    			l.getInstance_of().remove((Association)classifier);
 	    			l.getNot_instance_of().add((Association)classifier);
-	    		}else if( data.getClass() == Node_stateImpl.class){
-	    			Node_state ns = (Node_state)data;
+	    		}else if( data.getClass() == Classification_statementImpl.class){
+	    			Classification_statement ns = (Classification_statement)data;
 	    			ns.getAntiRigidClasses().remove((Class)classifier);
 	    			
 	    		}
@@ -84,8 +84,8 @@ public class CheckboxClassListener implements Listener {
 				}else if(data.getClass() == LinkImpl.class){
 	    			Link l = (Link)data;
 	    			l.getNot_instance_of().remove((Association)classifier);
-	    		}else if( data.getClass() == Node_stateImpl.class){
-	    			Node_state ns = (Node_state)data;
+	    		}else if( data.getClass() == Classification_statementImpl.class){
+	    			Classification_statement ns = (Classification_statement)data;
 	    			//ns.getAntiRigidClasses().add((Class)classifier);
 	    		}
 			}

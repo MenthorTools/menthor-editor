@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import stories.Action;
 import stories.Node;
-import stories.Node_state;
+import stories.Classification_statement;
 import stories.StoriesPackage;
 import stories.World;
 import RefOntoUML.*;
@@ -27,7 +27,7 @@ import RefOntoUML.*;
  * <ul>
  *   <li>{@link stories.impl.NodeImpl#getPerformed <em>Performed</em>}</li>
  *   <li>{@link stories.impl.NodeImpl#getInstance_of <em>Instance of</em>}</li>
- *   <li>{@link stories.impl.NodeImpl#getStates <em>States</em>}</li>
+ *   <li>{@link stories.impl.NodeImpl#getIs_referred_to_in <em>Is referred to in</em>}</li>
  *   <li>{@link stories.impl.NodeImpl#getNot_instance_of <em>Not instance of</em>}</li>
  * </ul>
  * </p>
@@ -57,15 +57,14 @@ public class NodeImpl extends IndividualImpl implements Node {
 	protected EList<RefOntoUML.Class> instance_of;
 
 	/**
-	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
+	 * The cached value of the '{@link #getIs_referred_to_in() <em>Is referred to in</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStates()
+	 * @see #getIs_referred_to_in()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Node_state> states;
-
+	protected EList<Classification_statement> is_referred_to_in;
 	/**
 	 * The cached value of the '{@link #getNot_instance_of() <em>Not instance of</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -129,11 +128,11 @@ public class NodeImpl extends IndividualImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Node_state> getStates() {
-		if (states == null) {
-			states = new EObjectContainmentEList<Node_state>(Node_state.class, this, StoriesPackage.NODE__STATES);
+	public EList<Classification_statement> getIs_referred_to_in() {
+		if (is_referred_to_in == null) {
+			is_referred_to_in = new EObjectContainmentEList<Classification_statement>(Classification_statement.class, this, StoriesPackage.NODE__IS_REFERRED_TO_IN);
 		}
-		return states;
+		return is_referred_to_in;
 	}
 
 	/**
@@ -173,8 +172,8 @@ public class NodeImpl extends IndividualImpl implements Node {
 		switch (featureID) {
 			case StoriesPackage.NODE__PERFORMED:
 				return ((InternalEList<?>)getPerformed()).basicRemove(otherEnd, msgs);
-			case StoriesPackage.NODE__STATES:
-				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
+			case StoriesPackage.NODE__IS_REFERRED_TO_IN:
+				return ((InternalEList<?>)getIs_referred_to_in()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -191,8 +190,8 @@ public class NodeImpl extends IndividualImpl implements Node {
 				return getPerformed();
 			case StoriesPackage.NODE__INSTANCE_OF:
 				return getInstance_of();
-			case StoriesPackage.NODE__STATES:
-				return getStates();
+			case StoriesPackage.NODE__IS_REFERRED_TO_IN:
+				return getIs_referred_to_in();
 			case StoriesPackage.NODE__NOT_INSTANCE_OF:
 				return getNot_instance_of();
 		}
@@ -216,9 +215,9 @@ public class NodeImpl extends IndividualImpl implements Node {
 				getInstance_of().clear();
 				getInstance_of().addAll((Collection<? extends RefOntoUML.Class>)newValue);
 				return;
-			case StoriesPackage.NODE__STATES:
-				getStates().clear();
-				getStates().addAll((Collection<? extends Node_state>)newValue);
+			case StoriesPackage.NODE__IS_REFERRED_TO_IN:
+				getIs_referred_to_in().clear();
+				getIs_referred_to_in().addAll((Collection<? extends Classification_statement>)newValue);
 				return;
 			case StoriesPackage.NODE__NOT_INSTANCE_OF:
 				getNot_instance_of().clear();
@@ -242,8 +241,8 @@ public class NodeImpl extends IndividualImpl implements Node {
 			case StoriesPackage.NODE__INSTANCE_OF:
 				getInstance_of().clear();
 				return;
-			case StoriesPackage.NODE__STATES:
-				getStates().clear();
+			case StoriesPackage.NODE__IS_REFERRED_TO_IN:
+				getIs_referred_to_in().clear();
 				return;
 			case StoriesPackage.NODE__NOT_INSTANCE_OF:
 				getNot_instance_of().clear();
@@ -264,8 +263,8 @@ public class NodeImpl extends IndividualImpl implements Node {
 				return performed != null && !performed.isEmpty();
 			case StoriesPackage.NODE__INSTANCE_OF:
 				return instance_of != null && !instance_of.isEmpty();
-			case StoriesPackage.NODE__STATES:
-				return states != null && !states.isEmpty();
+			case StoriesPackage.NODE__IS_REFERRED_TO_IN:
+				return is_referred_to_in != null && !is_referred_to_in.isEmpty();
 			case StoriesPackage.NODE__NOT_INSTANCE_OF:
 				return not_instance_of != null && !not_instance_of.isEmpty();
 		}
@@ -292,9 +291,9 @@ public class NodeImpl extends IndividualImpl implements Node {
 	}
 
 	@Override
-	public String states() {
+	public String is_referred_to_in() {
 		String states ="";
-		for(Node_state ns: this.getStates()){
+		for(Classification_statement ns: this.getIs_referred_to_in()){
 			states = states + ns.existance(this);
 		}
 		return states;

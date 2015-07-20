@@ -22,8 +22,8 @@
         eType="#//Action" containment="true" eOpposite="#//Action/performed_by"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="instance_of" upperBound="-1"
         eType="ecore:EClass ../../br.ufes.inf.nemo.ontouml/model/RefOntoUML.ecore#//Class"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
-        eType="#//Node_state" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_referred_to_in" upperBound="-1"
+        eType="#//Classification_statement" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="not_instance_of" upperBound="-1"
         eType="ecore:EClass ../../br.ufes.inf.nemo.ontouml/model/RefOntoUML.ecore#//Class"/>
   </eClassifiers>
@@ -74,10 +74,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="distinct_members" lowerBound="2"
         upperBound="-1" eType="#//Individual"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Node_state">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classified_in" upperBound="-1"
+  <eClassifiers xsi:type="ecore:EClass" name="Classification_statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="holds_in" upperBound="-1"
         eType="#//World"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="not_classified_in" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="not_holds_in" upperBound="-1"
         eType="#//World"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="antiRigidClasses" lowerBound="1"
         upperBound="-1" eType="ecore:EClass ../../br.ufes.inf.nemo.ontouml/model/RefOntoUML.ecore#//Class"/>

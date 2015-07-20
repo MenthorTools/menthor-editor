@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import stories.Link;
 import stories.Node;
-import stories.Node_state;
+import stories.Classification_statement;
 import stories.StoriesFactory;
 import stories.Story;
 import stories.World;
@@ -104,7 +104,7 @@ public class OntoUMLStoryCrafter {
 		
 		rset.getPackageRegistry().put(stories.StoriesPackage.eNS_URI,	stories.StoriesPackage.eINSTANCE);
 		
-		//Essa implementaï¿½ï¿½o estï¿½ dando problemas com os URIs. Resolve mal. O problema ï¿½ que na hora de resolver ele nao sabe o caminho e se o caminho estï¿½ na URI dï¿½ um outro tipo de problema.
+		//Essa implementação está dando problemas com os URIs. Resolve mal. O problema é que na hora de resolver ele nao sabe o caminho e se o caminho está na URI dá um outro tipo de problema.
 	    File file = new File(filename);
 		URI fileURI = URI.createFileURI(filename);		
 		Resource resource = rset.createResource(fileURI);		
@@ -118,7 +118,7 @@ public class OntoUMLStoryCrafter {
 	private static void teste1() throws IOException{
 		final OntoUMLStoryCrafter ont = new OntoUMLStoryCrafter("test_data/input/model_completo.refontouml");
 		//uma interface permite que a pessoa crie instancias e selecione que classes do modelo ela instancia.
-		//aqui vou fazer um exemplo de execuï¿½ï¿½o dessa interface. O usuï¿½rio cria duas instancias, dois mundos, uma relaï¿½ï¿½o entre elas no segundo mundo.
+		//aqui vou fazer um exemplo de execução dessa interface. O usuário cria duas instancias, dois mundos, uma relação entre elas no segundo mundo.
 		
 		StoriesFactory factory = StoriesFactory.eINSTANCE;
 		
@@ -150,13 +150,13 @@ public class OntoUMLStoryCrafter {
 		l1.getPresent_in().add(w2);
 		
 		
-		Node_state ns = factory.createNode_state();
-		m.getStates().add(ns);
-		ns.getClassified_in().add(w1);
+		Classification_statement ns = factory.createClassification_statement();
+		m.getIs_referred_to_in().add(ns);
+		ns.getHolds_in().add(w1);
 		
-		Node_state nsj = factory.createNode_state();
-		j.getStates().add(nsj);
-		nsj.getNot_classified_in().add(w1);
+		Classification_statement nsj = factory.createClassification_statement();
+		j.getIs_referred_to_in().add(nsj);
+		nsj.getNot_holds_in().add(w1);
 		
 		
 		Story container = factory.createStory();
@@ -193,7 +193,7 @@ public class OntoUMLStoryCrafter {
 			}
 		}
 		
-		System.out.println(OntoUMLStoryCrafter.getAuxPredicates());//por enquanto estï¿½ vazio
+		System.out.println(OntoUMLStoryCrafter.getAuxPredicates());//por enquanto está vazio
 		System.out.println(container.generatePredicates());
 		Resource res =OntoUMLStoryCrafter.saveStory("storytest.xmi", "test_data/output/", container);
 		
@@ -214,7 +214,7 @@ public class OntoUMLStoryCrafter {
 	private static void teste2() throws IOException{
 		final OntoUMLStoryCrafter ont = new OntoUMLStoryCrafter("test_data/input/artefato.refontouml");
 		//uma interface permite que a pessoa crie instancias e selecione que classes do modelo ela instancia.
-		//aqui vou fazer um exemplo de execuï¿½ï¿½o dessa interface. O usuï¿½rio cria duas instancias, dois mundos, uma relaï¿½ï¿½o entre elas no segundo mundo.
+		//aqui vou fazer um exemplo de execução dessa interface. O usuário cria duas instancias, dois mundos, uma relação entre elas no segundo mundo.
 		
 		StoriesFactory factory = StoriesFactory.eINSTANCE;
 		
@@ -256,13 +256,13 @@ public class OntoUMLStoryCrafter {
 		l1.getPresent_in().add(w2);
 		
 		
-		Node_state ns = factory.createNode_state();
-		m.getStates().add(ns);
-		ns.getClassified_in().add(w1);
+		Classification_statement ns = factory.createClassification_statement();
+		m.getIs_referred_to_in().add(ns);
+		ns.getHolds_in().add(w1);
 		
-		Node_state nsj = factory.createNode_state();
-		j.getStates().add(nsj);
-		nsj.getNot_classified_in().add(w1);
+		Classification_statement nsj = factory.createClassification_statement();
+		j.getIs_referred_to_in().add(nsj);
+		nsj.getNot_holds_in().add(w1);
 		
 		
 		Story container = factory.createStory();
@@ -291,7 +291,7 @@ public class OntoUMLStoryCrafter {
 			
 		}
 		
-		System.out.println(OntoUMLStoryCrafter.getAuxPredicates());//por enquanto estï¿½ vazio
+		System.out.println(OntoUMLStoryCrafter.getAuxPredicates());//por enquanto está vazio
 		System.out.println(container.generatePredicates());
 		Resource res =OntoUMLStoryCrafter.saveStory("artefato_test.xmi", "test_data/output/", container);
 		
@@ -299,7 +299,7 @@ public class OntoUMLStoryCrafter {
 	private static void bancoStory() throws IOException{
 		final OntoUMLStoryCrafter ont = new OntoUMLStoryCrafter("test_data/input/bank.refontouml");
 		//uma interface permite que a pessoa crie instancias e selecione que classes do modelo ela instancia.
-		//aqui vou fazer um exemplo de execuï¿½ï¿½o dessa interface. O usuï¿½rio cria duas instancias, dois mundos, uma relaï¿½ï¿½o entre elas no segundo mundo.
+		//aqui vou fazer um exemplo de execução dessa interface. O usuário cria duas instancias, dois mundos, uma relação entre elas no segundo mundo.
 		
 		StoriesFactory factory = StoriesFactory.eINSTANCE;
 		
@@ -389,7 +389,7 @@ public class OntoUMLStoryCrafter {
 			}
 		}
 		
-		System.out.println(OntoUMLStoryCrafter.getAuxPredicates());//por enquanto estï¿½ vazio
+		System.out.println(OntoUMLStoryCrafter.getAuxPredicates());//por enquanto está vazio
 		System.out.println(container.generatePredicates());
 		Resource res =OntoUMLStoryCrafter.saveStory("bank_test.xmi", "test_data/output/", container);
 	}
@@ -435,8 +435,8 @@ public class OntoUMLStoryCrafter {
 		
 		Node a = factory.createNode();
 		
-		Node_state delta = factory.createNode_state();
-		a.getStates().add(delta);
+		Classification_statement delta = factory.createClassification_statement();
+		a.getIs_referred_to_in().add(delta);
 		
 		World w1 = factory.createWorld();
 		World w2 = factory.createWorld();

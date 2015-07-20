@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.common"/>
@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.osgi_3.9.1.v20130814-1242.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.jface_3.9.1.v20130725-1141.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Bernardo/Downloads/eclipse-standard-kepler-SR2-win32-x86_64/eclipse/plugins/org.eclipse.jface_3.9.1.v20130725-1141.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

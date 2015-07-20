@@ -16,7 +16,7 @@ import stories.Happening;
 import stories.Individual;
 import stories.Link;
 import stories.Node;
-import stories.Node_state;
+import stories.Classification_statement;
 import stories.StoriesFactory;
 import stories.StoriesPackage;
 import stories.Story;
@@ -105,7 +105,7 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass node_stateEClass = null;
+	private EClass classification_statementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -275,7 +275,7 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_States() {
+	public EReference getNode_Is_referred_to_in() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -509,8 +509,8 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNode_state() {
-		return node_stateEClass;
+	public EClass getClassification_statement() {
+		return classification_statementEClass;
 	}
 
 	/**
@@ -518,8 +518,8 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_state_Classified_in() {
-		return (EReference)node_stateEClass.getEStructuralFeatures().get(0);
+	public EReference getClassification_statement_Holds_in() {
+		return (EReference)classification_statementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -527,8 +527,8 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_state_Not_classified_in() {
-		return (EReference)node_stateEClass.getEStructuralFeatures().get(1);
+	public EReference getClassification_statement_Not_holds_in() {
+		return (EReference)classification_statementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -536,8 +536,8 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_state_AntiRigidClasses() {
-		return (EReference)node_stateEClass.getEStructuralFeatures().get(2);
+	public EReference getClassification_statement_AntiRigidClasses() {
+		return (EReference)classification_statementEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -545,8 +545,8 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNode_state_Label() {
-		return (EAttribute)node_stateEClass.getEStructuralFeatures().get(3);
+	public EAttribute getClassification_statement_Label() {
+		return (EAttribute)classification_statementEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -590,7 +590,7 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 		nodeEClass = createEClass(NODE);
 		createEReference(nodeEClass, NODE__PERFORMED);
 		createEReference(nodeEClass, NODE__INSTANCE_OF);
-		createEReference(nodeEClass, NODE__STATES);
+		createEReference(nodeEClass, NODE__IS_REFERRED_TO_IN);
 		createEReference(nodeEClass, NODE__NOT_INSTANCE_OF);
 
 		linkEClass = createEClass(LINK);
@@ -624,11 +624,11 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 		allDifferentEClass = createEClass(ALL_DIFFERENT);
 		createEReference(allDifferentEClass, ALL_DIFFERENT__DISTINCT_MEMBERS);
 
-		node_stateEClass = createEClass(NODE_STATE);
-		createEReference(node_stateEClass, NODE_STATE__CLASSIFIED_IN);
-		createEReference(node_stateEClass, NODE_STATE__NOT_CLASSIFIED_IN);
-		createEReference(node_stateEClass, NODE_STATE__ANTI_RIGID_CLASSES);
-		createEAttribute(node_stateEClass, NODE_STATE__LABEL);
+		classification_statementEClass = createEClass(CLASSIFICATION_STATEMENT);
+		createEReference(classification_statementEClass, CLASSIFICATION_STATEMENT__HOLDS_IN);
+		createEReference(classification_statementEClass, CLASSIFICATION_STATEMENT__NOT_HOLDS_IN);
+		createEReference(classification_statementEClass, CLASSIFICATION_STATEMENT__ANTI_RIGID_CLASSES);
+		createEAttribute(classification_statementEClass, CLASSIFICATION_STATEMENT__LABEL);
 	}
 
 	/**
@@ -686,7 +686,7 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNode_Performed(), this.getAction(), this.getAction_Performed_by(), "performed", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Instance_of(), theRefOntoUMLPackage.getClass_(), null, "instance_of", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_States(), this.getNode_state(), null, "states", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_Is_referred_to_in(), this.getClassification_statement(), null, "is_referred_to_in", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Not_instance_of(), theRefOntoUMLPackage.getClass_(), null, "not_instance_of", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -720,11 +720,11 @@ public class StoriesPackageImpl extends EPackageImpl implements StoriesPackage {
 		initEClass(allDifferentEClass, AllDifferent.class, "AllDifferent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAllDifferent_Distinct_members(), this.getIndividual(), null, "distinct_members", null, 2, -1, AllDifferent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(node_stateEClass, Node_state.class, "Node_state", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNode_state_Classified_in(), this.getWorld(), null, "classified_in", null, 0, -1, Node_state.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_state_Not_classified_in(), this.getWorld(), null, "not_classified_in", null, 0, -1, Node_state.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_state_AntiRigidClasses(), theRefOntoUMLPackage.getClass_(), null, "antiRigidClasses", null, 1, -1, Node_state.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNode_state_Label(), theEcorePackage.getEString(), "label", null, 0, 1, Node_state.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(classification_statementEClass, Classification_statement.class, "Classification_statement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getClassification_statement_Holds_in(), this.getWorld(), null, "holds_in", null, 0, -1, Classification_statement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassification_statement_Not_holds_in(), this.getWorld(), null, "not_holds_in", null, 0, -1, Classification_statement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassification_statement_AntiRigidClasses(), theRefOntoUMLPackage.getClass_(), null, "antiRigidClasses", null, 1, -1, Classification_statement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClassification_statement_Label(), theEcorePackage.getEString(), "label", null, 0, 1, Classification_statement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

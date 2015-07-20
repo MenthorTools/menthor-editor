@@ -27,12 +27,12 @@ public class ActionAddNode extends Action {
           if (parent == null)
           {	        	  
 	          int index = tree.indexOf(tree.getSelection()[0]);
-	          setml.createStoryElement(tree, index+1);
+	          setml.createNode(tree, index+1);
 	           
           }          
         }else{
           //nothing selected. Insert at beggining
-          setml.createStoryElement(tree, 0);
+          setml.createNode(tree, 0);
           
       	}
 		

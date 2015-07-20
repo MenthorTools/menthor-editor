@@ -228,6 +228,7 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 		String head = "pred "+this.getLabel()+" [";
 		for(Story_element se : this.getElements()){
 			if("Node".equals(se.eClass().getName())){
+				System.out.println();
 				head = head+se.getLabel()+":one Object+Property,";
 			}else if("World".equals(se.eClass().getName())){
 				head = head+se.getLabel()+":one World,";
@@ -247,6 +248,7 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 	 * 
 	 */
 	public String generatePredicates(){
+		//OntoUMLNameHandler n = new OntoUMLNameHandler();
 		
 		String predicate = this.predicateHead();
 		for(Story_element se : this.getElements()){
@@ -257,7 +259,7 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 				predicate = predicate+((Node)se).static_classification();
 				predicate = predicate+((Node)se).existance();
 				predicate = predicate+((Node)se).identity();
-				predicate = predicate+((Node)se).states();
+				predicate = predicate+((Node)se).is_referred_to_in();
 			}
 			if("Link".equals(se.eClass().getName())){
 				Link l = ((Link)se);
