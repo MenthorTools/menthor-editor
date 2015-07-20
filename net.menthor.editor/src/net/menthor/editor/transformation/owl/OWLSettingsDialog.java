@@ -30,7 +30,6 @@ import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.TransformationDialog;
 
 import org.tinyuml.umldraw.StructureDiagram;
@@ -41,50 +40,49 @@ public class OwlSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
+	private OwlApproachPane approachPane;
+	private OwlAxiomPane axiomsPane;
 	private OwlPrimitiveMappingPane primitivePane;
 	private OwlQualityMappingPane qualityPane;
-	private OwlAxiomPane axiomsPane;
-	private OwlApproachPane configPane;
 	private OwlGenSetMappingPane gsPane;
 	
 	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 		
-		if(owner instanceof AppFrame){
-			UmlProject project = ((AppFrame)owner).getDiagramManager().getCurrentProject();
-			configPane = new OwlApproachPane(project);
-		}
-		
+		approachPane = new OwlApproachPane(owner.getDiagramManager().getCurrentProject().getName());
 		primitivePane = new OwlPrimitiveMappingPane(owner.getProjectBrowser().getParser());
 		qualityPane = new OwlQualityMappingPane(owner.getProjectBrowser().getParser());
 		gsPane = new OwlGenSetMappingPane(owner.getProjectBrowser().getParser());
 		axiomsPane = new OwlAxiomPane();
 		
-		addNonClosable("Approach", configPane);
+		addNonClosable("Approach", approachPane);
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomsPane);
 		addNonClosable("Primitive Types", primitivePane);
 		addNonClosable("Qualities", qualityPane);
 		addNonClosable("Generalization Sets", gsPane);
 		
-		tabbedPane.setSelectedComponent(configPane);
+		tabbedPane.setSelectedComponent(approachPane);
 				
 		setTitle("OWL Settings");	
 				
 		getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {				
 									
+				/**base options*/
 				TransformationOption transOpt = new TransformationOption(
-					configPane.getSelectedMapping(), 
-					configPane.getDestination(),
-					configPane.getPathText()
+					approachPane.getSelectedMapping(), 
+					approachPane.getDestination(),
+					approachPane.getPathText()
 				);
 				
+				/**owl axioms*/
 				OwlAxiomsEnforcement axioms = axiomsPane.getOwlAxiomsEnforcement();
-				axioms.setOntologyIri(configPane.getURIText());
+				axioms.setOntologyIri(approachPane.getURIText());
 				transOpt.setAxiomsEnforcement(axioms);
 				
+				/**owl mappings customizations*/
 				OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
 				mappings.setAttributeMappings(primitivePane.getAttributeMap());
 				mappings.setGenSetMappings(gsPane.getGenSetEnumMappingMap());										
@@ -92,15 +90,17 @@ public class OwlSettingsDialog extends TransformationDialog {
 				mappings.setQualityMappings(qualityPane.getQualityMap());
 				transOpt.setMappingsEnforcement(mappings);
 				
-				//System.out.println(filterPane.getFilteredParser());
 				if(owner instanceof AppFrame){
 					DiagramManager manager = ((AppFrame)owner).getDiagramManager();
+					
+					/**generate*/
 					manager.generateOwl(
 						filterPane.getFilteredParser(),							 
 						transOpt
 					);
-				}					
-	 			dispose();
+				}				
+				
+	 			//dispose();
 			}
 		});
 	}	

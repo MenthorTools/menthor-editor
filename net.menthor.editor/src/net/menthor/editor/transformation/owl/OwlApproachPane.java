@@ -12,7 +12,6 @@ import javax.swing.LayoutStyle;
 
 import net.menthor.common.transformation.DestinationEnum;
 import net.menthor.common.transformation.MappingType;
-import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.util.ApplicationResources;
 
@@ -24,7 +23,7 @@ public class OwlApproachPane extends JPanel {
 	private JButton okButton;
 	private OwlMappingTypePane typePanel;
 	private DestinationPane destinationPanel;
-	private UmlProject project;
+	private String projectName;
 	private JTextField iriText;
 	private JLabel iriLabel;
 		
@@ -34,17 +33,17 @@ public class OwlApproachPane extends JPanel {
 	public DestinationEnum getDestination() { return destinationPanel.getDestination(); }
 	
 	private String getDefaultIRI()
-	{		
-		String projectName = project.getName().replace(" ","");
+	{	
 		return "http://www.menthor.net/" + projectName;
 	}	
 	
 	public JButton getOkButton() { return okButton; }
 	public JButton getCancelButton() { return cancelButton; }
 	
-	public OwlApproachPane(UmlProject project)
+	public OwlApproachPane(String projectName)
 	{
-		this.project = project;
+		this.projectName=projectName;
+		
 		GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)this);				
 		setLayout(GenerateOWLPanelLayout);				
 		iriLabel = new JLabel();
@@ -65,6 +64,7 @@ public class OwlApproachPane extends JPanel {
 		destinationPanel = new DestinationPane("OWL (*.owl)","owl");
 		destinationPanel.renameAppButton("Protégé");
 		destinationPanel.selectTab();
+		destinationPanel.getAppButton().setEnabled(false);
 		destinationPanel.enableFileChooser(false);
 		
 		GenerateOWLPanelLayout.setHorizontalGroup(GenerateOWLPanelLayout.createSequentialGroup()
@@ -91,10 +91,6 @@ public class OwlApproachPane extends JPanel {
 		);
 	
 		this.setSize(543, 365);	
-		
-//		if(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project) != null && ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project).length() > 0)
-//			iriText.setText(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project));
-//		else
-			iriText.setText(getDefaultIRI());
+		iriText.setText(getDefaultIRI());
 	}
 }

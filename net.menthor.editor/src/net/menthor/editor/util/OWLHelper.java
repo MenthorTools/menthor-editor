@@ -36,7 +36,6 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-//	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OWLTransformationOptions owlOptions, TransformationOption trOpt)
 	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, TransformationOption trOpt)
 	{
 		String errors = new String();

@@ -2998,12 +2998,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Generates OWL from the selected model */
 	public void generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
 	{
-//		UmlProject project = getCurrentProject();
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
 		OperationResult result = OWLHelper.generateOwl(
 			filteredParser, 
 			model, 
-//			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),			
 			getWorkingConstraints(),			
 			trOpt
 		);
