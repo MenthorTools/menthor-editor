@@ -168,31 +168,8 @@ public class Transformer {
 		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
 		lstGen = ontoParser.getAllInstances(Generalization.class);
 		
-		Object[][] genSetEnumMappings = this.owlOptions.getGenSetEnumMappings();
-		for(int i = 0; i < genSetEnumMappings.length; i++){
-			Boolean hide = (Boolean) genSetEnumMappings[i][2];
-			if(hide){
-				RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
-				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
-				if(mappingType.equals(GeneralizationMappingType.allClasses)){
-					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
-				}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
-					lstGsSetMapChildren = ontoParser.getChildren(gs);
-				}else{
-					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
-				}
+		createGsSetMappingStructure();
 				
-				lstOntClass.removeAll(lstGsSetMapChildren);
-				
-				lstGenSets.remove(gs);
-				
-				for (Generalization generalization : gs.getGeneralization()) {
-					lstGen.remove(generalization);
-				}
-			}
-		}
-		
 		lstMaterials = ontoParser.getAllInstances(MaterialAssociation.class);
 		lstMediations = ontoParser.getAllInstances(Mediation.class);
 		lstCharacterization = ontoParser.getAllInstances(Characterization.class);
@@ -231,6 +208,34 @@ public class Transformer {
 		
 	}
 
+	private void createGsSetMappingStructure() {
+		Object[][] genSetEnumMappings = this.owlOptions.getGenSetEnumMappings();
+		if(genSetEnumMappings == null) return;
+		for(int i = 0; i < genSetEnumMappings.length; i++){
+			Boolean hide = (Boolean) genSetEnumMappings[i][2];
+			if(hide){
+				RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
+				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
+				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
+				if(mappingType.equals(GeneralizationMappingType.allClasses)){
+					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
+				}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+					lstGsSetMapChildren = ontoParser.getChildren(gs);
+				}else{
+					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
+				}
+				
+				lstOntClass.removeAll(lstGsSetMapChildren);
+				
+				lstGenSets.remove(gs);
+				
+				for (Generalization generalization : gs.getGeneralization()) {
+					lstGen.remove(generalization);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Transform a RefOntoUML.Model to OWL
 	 * 
@@ -256,13 +261,13 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when processing Datatypes;\n");
 		}
 
-//		try{
+		try{
 			processGeneralizations();
-//		}catch (Exception e){
-//			e.printStackTrace();
-//			errors = "";
-//			throw new Exception(ef);
-//		}
+		}catch (Exception e){
+			e.printStackTrace();
+			errors = "";
+			throw new Exception("Error: An unexpected exception happened when processing Generalizations;\n");
+		}
 
 		try{
 			processCharacterization();
@@ -407,6 +412,7 @@ public class Transformer {
 	
 	private void processGenSetsMappings() {
 		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
+		if(genSetEnumMappings == null) return;
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
 			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();

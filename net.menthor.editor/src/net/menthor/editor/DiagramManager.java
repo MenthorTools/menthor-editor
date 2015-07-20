@@ -117,7 +117,6 @@ import net.menthor.editor.util.ModelHelper;
 import net.menthor.editor.util.OWLHelper;
 import net.menthor.editor.util.OperationResult;
 import net.menthor.editor.util.OperationResult.ResultType;
-import net.menthor.editor.util.ProjectSettings;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2sbvr.core.OntoUML2SBVR;
@@ -3000,12 +2999,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Generates OWL from the selected model */
 	public void generateOwl(OntoUMLParser filteredParser, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt) 
 	{
-		UmlProject project = getCurrentProject();
+//		UmlProject project = getCurrentProject();
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
 		OperationResult result = OWLHelper.generateOwl(
 			filteredParser, 
 			model, 
-			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),			
+//			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),			
 			getWorkingConstraints(),
 			owlOptions,
 			trOpt

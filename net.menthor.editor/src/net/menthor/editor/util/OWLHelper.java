@@ -36,24 +36,25 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt)
+//	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OWLTransformationOptions owlOptions, TransformationOption trOpt)
+	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt)
 	{
 		String errors = new String();
 		String owlOutput = new String();
     	try {    		
     		if(trOpt.getMappingType().getIdentifier().equals("SIMPLE")) 
     		{    			
-    			owlOutput = OntoUML2SimpleOWL.Transformation(model, ontologyIRI);
+    			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getOntologyIri());
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("UFO_RDF")) 
     		{    			
-    			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, ontologyIRI);
+    			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, owlOptions.getOntologyIri());
     			owlOutput = ontoUml2rdf.transform();
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("OOTOS"))
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(filteredParser, ontologyIRI, oclRules, owlOptions);
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, owlOptions.getOntologyIri(), oclRules, owlOptions);
     			errors = ontoUML2OWL.errors;
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
@@ -65,7 +66,7 @@ public class OWLHelper {
     			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
     			OWLStructure owl = new OWLStructure(mtypes);
     			owl.map(tp);
-    			owlOutput = owl.verbose(ontologyIRI);
+    			owlOutput = owl.verbose(owlOptions.getOntologyIri());
     		}    		
     		if(owlOutput.length()>0)
     		{

@@ -31,7 +31,6 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.TransformationDialog;
-import net.menthor.editor.util.ProjectSettings;
 
 import org.tinyuml.umldraw.StructureDiagram;
 
@@ -115,15 +114,15 @@ public class OWLSettingsDialog extends TransformationDialog {
 	
 	public void saveSettings()
 	{
-		if(getParent() instanceof AppFrame){
-			DiagramManager manager = ((AppFrame)getParent()).getDiagramManager();
-			UmlProject project = manager.getCurrentProject();
-		
-			ProjectSettings.OWL_ONTOLOGY_IRI.setValue(project, configPane.getURIText());
-			//ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
-			//if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
-			//ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getSelectedMapping()).value);
-		}
+//		if(getParent() instanceof AppFrame){
+//			DiagramManager manager = ((AppFrame)getParent()).getDiagramManager();
+//			UmlProject project = manager.getCurrentProject();
+//		
+//			ProjectSettings.OWL_ONTOLOGY_IRI.setValue(project, configPane.getURIText());
+//			//ProjectSettings.OWL_GENERATE_FILE.setValue(project, Boolean.toString(configPane.isFileSelected()));
+//			//if(configPane.isFileSelected()) ProjectSettings.OWL_FILE_PATH.setValue(project, configPane.getPathText());		
+//			//ProjectSettings.OWL_MAPPING_TYPE.setValue(project, ((MappingTypeComboItem) configPane.getSelectedMapping()).value);
+//		}
 		
 		owlOptions.setOntologyIri(configPane.getURIText());
 //		owlOptions.setGenerateFile(configPane.isFileSelected());

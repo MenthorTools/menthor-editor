@@ -16,7 +16,6 @@ import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.ProjectSettings;
 
 public class OWLConfigPane extends JPanel {
 
@@ -94,9 +93,9 @@ public class OWLConfigPane extends JPanel {
 	
 		this.setSize(543, 365);	
 		
-		if(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project) != null && ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project).length() > 0)
-			iriText.setText(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project));
-		else
+//		if(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project) != null && ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project).length() > 0)
+//			iriText.setText(ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project));
+//		else
 			iriText.setText(getDefaultIRI());
 	}
 }
