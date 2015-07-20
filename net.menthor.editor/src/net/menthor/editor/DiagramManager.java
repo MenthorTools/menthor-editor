@@ -63,7 +63,6 @@ import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.common.transformation.DestinationEnum;
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
@@ -97,8 +96,8 @@ import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
-import net.menthor.editor.transformation.alloy.AlloySettingsDialog;
-import net.menthor.editor.transformation.owl.OWLSettingsDialog;
+import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
+import net.menthor.editor.transformation.owl.OwlSettingsDialog;
 import net.menthor.editor.ui.ClosableTabPanel;
 import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DiagramEditorWrapper;
@@ -2601,7 +2600,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
 		refOptions.check(refparser);
 		// open settings
-		AlloySettingsDialog.open(frame,
+		AlsSettingsDialog.open(frame,
 			frame.getProjectBrowser().getParser(),
 			frame.getProjectBrowser().getAllDiagrams(),
 			refOptions, 
@@ -2755,7 +2754,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Open the OWL settings window	 */
 	public void openOwlSettings() 
 	{
-		OWLSettingsDialog dialog = new OWLSettingsDialog(frame, 
+		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
 			frame.getProjectBrowser().getParser(),
 			frame.getProjectBrowser().getAllDiagrams(),
 			true
@@ -2997,7 +2996,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Generates OWL from the selected model */
-	public void generateOwl(OntoUMLParser filteredParser, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt) 
+	public void generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
 	{
 //		UmlProject project = getCurrentProject();
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
@@ -3005,8 +3004,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			filteredParser, 
 			model, 
 //			ProjectSettings.OWL_ONTOLOGY_IRI.getValue(project),			
-			getWorkingConstraints(),
-			owlOptions,
+			getWorkingConstraints(),			
 			trOpt
 		);
 		if(result.getResultType() != ResultType.ERROR)

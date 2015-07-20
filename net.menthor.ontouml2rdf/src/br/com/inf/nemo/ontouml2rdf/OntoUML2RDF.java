@@ -250,7 +250,7 @@ public class OntoUML2RDF {
 	}
 	
 	private void createCardinality(Resource sourceRsrc, Resource rangeRsrc, Resource propertyRrsc, int rangeLowerCard, int rangeUpperCard){
-		if(!owlOptions.isEnforcingCardinality()) return;
+		if(!owlOptions.isCardinality()) return;
 		
 		Resource restriction = rdfModel.createResource();
 		Statement restrStmt = rdfModel.createStatement(restriction, RDF.type, OWL2.Restriction);

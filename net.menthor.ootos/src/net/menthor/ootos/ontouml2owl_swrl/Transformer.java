@@ -10,8 +10,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.menthor.common.transformation.GenMappingEnum;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.owl.GeneralizationMappingType;
+import net.menthor.common.transformation.OwlMappingsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
 
@@ -124,9 +126,9 @@ public class Transformer {
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
 	ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
 	
-	private OwlAxiomsEnforcement owlOptions;
-	//OWL
-	private String nameSpace;
+	private OwlAxiomsEnforcement owlAxioms;
+	private OwlMappingsEnforcement owlMappings;
+	private String owlNameSpace;
 
 	//OWL API
 	private OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -151,13 +153,14 @@ public class Transformer {
 	 * Initialize the Transformer
 	 * @throws OWLOntologyCreationException 
 	 * */
-	public Transformer(OntoUMLParser model, String nameSpace, String _oclRules, OwlAxiomsEnforcement owlOptions) throws OWLOntologyCreationException {
-		this.nameSpace = nameSpace+"#";
-
-		this.owlOptions = owlOptions;
+	public Transformer(OntoUMLParser model, String _oclRules, TransformationOption owlOptions) throws OWLOntologyCreationException {
+		
+		this.owlAxioms = (OwlAxiomsEnforcement) owlOptions.getAxiomsEnforcement();
+		this.owlMappings = (OwlMappingsEnforcement) owlOptions.getMappingsEnforcement();
+		this.owlNameSpace = owlAxioms.getOntologyIri()+"#";
 		
 		this.factory = this.manager.getOWLDataFactory();
-		this.ontology = this.manager.createOntology(IRI.create(nameSpace));
+		this.ontology = this.manager.createOntology(IRI.create(owlNameSpace));
 			
 		ontoParser = model;
 		
@@ -209,17 +212,17 @@ public class Transformer {
 	}
 
 	private void createGsSetMappingStructure() {
-		Object[][] genSetEnumMappings = this.owlOptions.getGenSetEnumMappings();
+		Object[][] genSetEnumMappings = this.owlMappings.getGenSetMappings();
 		if(genSetEnumMappings == null) return;
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
 				RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
 				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-				GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
-				if(mappingType.equals(GeneralizationMappingType.allClasses)){
+				GenMappingEnum mappingType = (GenMappingEnum) genSetEnumMappings[i][1];
+				if(mappingType.equals(GenMappingEnum.allClasses)){
 					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
-				}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+				}else if(mappingType.equals(GenMappingEnum._1stClasses)){
 					lstGsSetMapChildren = ontoParser.getChildren(gs);
 				}else{
 					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
@@ -244,7 +247,7 @@ public class Transformer {
 	 * @throws Exception 
 	 */
 	public String transform() throws Exception {
-		if(owlOptions.isEnforcingUfoStructure()) createBasicStructure();
+		if(owlAxioms.isUfoStructure()) createBasicStructure();
 		
 		try{
 			processClass();
@@ -388,8 +391,8 @@ public class Transformer {
 			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
 		}
 
-		if(oclRules != null && !oclRules.equals("") && owlOptions.isEnforcingSwrlRules()){
-			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, nameSpace);
+		if(oclRules != null && !oclRules.equals("") && owlAxioms.isSwrlRules()){
+			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, owlNameSpace);
 			ocl2owl_swrl.Transformation();
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
@@ -411,16 +414,16 @@ public class Transformer {
 	}
 	
 	private void processGenSetsMappings() {
-		Object[][] genSetEnumMappings = owlOptions.getGenSetEnumMappings();
+		Object[][] genSetEnumMappings = owlMappings.getGenSetMappings();
 		if(genSetEnumMappings == null) return;
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
 			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-			GeneralizationMappingType mappingType = (GeneralizationMappingType) genSetEnumMappings[i][1];
+			GenMappingEnum mappingType = (GenMappingEnum) genSetEnumMappings[i][1];
 			Set<Classifier> localGsSetMapChildren;
-			if(mappingType.equals(GeneralizationMappingType.allClasses)){
+			if(mappingType.equals(GenMappingEnum.allClasses)){
 				localGsSetMapChildren = ontoParser.getAllChildren(gs);					
-			}else if(mappingType.equals(GeneralizationMappingType._1stClasses)){
+			}else if(mappingType.equals(GenMappingEnum._1stClasses)){
 				localGsSetMapChildren = ontoParser.getChildren(gs);
 			}else{
 				localGsSetMapChildren = ontoParser.getLeafChildren(gs);
@@ -429,13 +432,13 @@ public class Transformer {
 			OWLIndividual[] individuals = new OWLIndividual[localGsSetMapChildren.size()];
 			int j = 0;
 			for (Classifier classifier : localGsSetMapChildren) {
-				OWLNamedIndividual individual = getOwlNamedIndividual(nameSpace, classifier.getName());
+				OWLNamedIndividual individual = getOwlNamedIndividual(owlNameSpace, classifier.getName());
 				individuals[j] = individual;
 				j++;
 			}	
 			OWLObjectOneOf oneOf = factory.getOWLObjectOneOf(individuals);
 			
-			OWLClass owlGs = getOwlClass(this.nameSpace, gs.getName());
+			OWLClass owlGs = getOwlClass(this.owlNameSpace, gs.getName());
 			OWLEquivalentClassesAxiom ax = factory.getOWLEquivalentClassesAxiom(owlGs, oneOf);
 			manager.applyChange(new AddAxiom(ontology, ax));
 			
@@ -461,27 +464,27 @@ public class Transformer {
 	private void removeUndesiredAxioms() {
 		Set<OWLAxiom> axioms = ontology.getAxioms();
 		for (OWLAxiom owlAxiom : axioms) {
-			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlOptions.isEnforcingFunctional()){
+			if(owlAxiom instanceof OWLFunctionalObjectPropertyAxiom && !owlAxioms.isFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlOptions.isEnforcingInverseFunctional()){
+			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlAxioms.isInverseFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlOptions.isEnforcingTransitive()){
+			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlAxioms.isTransitive()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlOptions.isEnforcingSymmetric()){
+			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlAxioms.isSymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlOptions.isEnforcingAsymmetric()){
+			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlAxioms.isAsymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlOptions.isEnforcingReflexive()){
+			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlAxioms.isReflexive()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlOptions.isEnforcingIrreflexive()){
+			}else if(owlAxiom instanceof OWLIrreflexiveObjectPropertyAxiom && !owlAxioms.isIrreflexive()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLDisjointClassesAxiom && !owlOptions.isClassDisjointness()){
+			}else if(owlAxiom instanceof OWLDisjointClassesAxiom && !owlAxioms.isClassDisjointness()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLDisjointObjectPropertiesAxiom && !owlOptions.isAssociationDisjointness()){
+			}else if(owlAxiom instanceof OWLDisjointObjectPropertiesAxiom && !owlAxioms.isAssociationDisjointness()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLCardinalityRestriction && !owlOptions.isEnforcingCardinality()){
+			}else if(owlAxiom instanceof OWLCardinalityRestriction && !owlAxioms.isCardinality()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof SWRLRule && !owlOptions.isEnforcingSwrlRules()){
+			}else if(owlAxiom instanceof SWRLRule && !owlAxioms.isSwrlRules()){
 				manager.removeAxiom(ontology, owlAxiom);
 			}
 		}		
@@ -501,7 +504,7 @@ public class Transformer {
 	 * Set all stereotype of association disjoint between they
 	 * */
 	private void processDisjointAssociation() {
-		if(!owlOptions.isAssociationDisjointness()) return;
+		if(!owlAxioms.isAssociationDisjointness()) return;
 		
 		Set<OWLObjectProperty> lstOP = new HashSet<OWLObjectProperty>();
 		for (String stereotype : hashAssociations.keySet()) {
@@ -539,7 +542,7 @@ public class Transformer {
 			lst.addAll(lstSubCollectionOf);
 			processMeronymic(lst, "subCollectionOf");
 		}
-		if(lstSubCollectionOf.size() > 1 && owlOptions.isEnforcingSwrlRules()){
+		if(lstSubCollectionOf.size() > 1 && owlAxioms.isSwrlRules()){
 			//For transitivity
 			createSWRLforTrasitivity("subCollectionOf");
 		}
@@ -552,7 +555,7 @@ public class Transformer {
 			lst.addAll(lstSubQuantityOf);
 			processMeronymic(lst, "subQuantityOf");
 		}
-		if(lstSubQuantityOf.size() > 1 && owlOptions.isEnforcingSwrlRules()){
+		if(lstSubQuantityOf.size() > 1 && owlAxioms.isSwrlRules()){
 			//For transitivity
 			createSWRLforTrasitivity("subQuantityOf");
 		}
@@ -565,7 +568,7 @@ public class Transformer {
 			lst.addAll(lstComponentOf);
 			processMeronymic(lst, "componentOf");
 		}
-		if(lstComponentOf.size() > 1 && owlOptions.isEnforcingSwrlRules()){
+		if(lstComponentOf.size() > 1 && owlAxioms.isSwrlRules()){
 			//For transitivity
 			createSWRLforTrasitivity("componentOf");
 		}
@@ -578,7 +581,7 @@ public class Transformer {
 			lst.addAll(lstMemberOf);
 			processMeronymic(lst, "memberOf");
 		}
-		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlOptions.isEnforcingSwrlRules()){
+		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlAxioms.isSwrlRules()){
 			//if has a memberof association and a subcollectionof association
 			createSWRLforMemberOfWithSubCollectionOf();	
 		}
@@ -586,13 +589,13 @@ public class Transformer {
 
 	private void createSWRLforMemberOfWithSubCollectionOf() {
 		//FALTA PADRONIZAR AQUI
-		OWLObjectProperty memberOf = factory.getOWLObjectProperty(IRI.create(nameSpace+"memberOf"));
-		OWLObjectProperty subCollectionOf = factory.getOWLObjectProperty(IRI.create(nameSpace+"subCollectionOf"));
+		OWLObjectProperty memberOf = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"memberOf"));
+		OWLObjectProperty subCollectionOf = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"subCollectionOf"));
 
 		//Variables
-		SWRLVariable varX = factory.getSWRLVariable(IRI.create(nameSpace+"x"));
-		SWRLVariable varY = factory.getSWRLVariable(IRI.create(nameSpace+"y"));
-		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(nameSpace+"z"));
+		SWRLVariable varX = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
+		SWRLVariable varY = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
+		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
 
 		//Make all variables disjoint between they
 		SWRLAtom diffYX = factory.getSWRLDifferentIndividualsAtom(varY, varX);
@@ -621,12 +624,12 @@ public class Transformer {
 
 	private void createSWRLforTrasitivity(String propName) {
 		//FALTA PADRONIZAR AQUI
-		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
+		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
 
 		//Create the variables
-		SWRLVariable varX = factory.getSWRLVariable(IRI.create(nameSpace+"x"));
-		SWRLVariable varY = factory.getSWRLVariable(IRI.create(nameSpace+"y"));
-		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(nameSpace+"z"));
+		SWRLVariable varX = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
+		SWRLVariable varY = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
+		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
 
 		//Set all variables disjoint between they
 		SWRLAtom diffYX = factory.getSWRLDifferentIndividualsAtom(varY, varX);
@@ -657,20 +660,20 @@ public class Transformer {
 	private void processMeronymic(Set<Association> lstAssociation, String stereotype){
 		//Create the top property
 		//FALTA PADRONIZAR AQUI
-		OWLObjectProperty topProp = factory.getOWLObjectProperty(IRI.create(nameSpace+stereotype));
-		OWLObjectProperty topInvProp = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+stereotype));
+		OWLObjectProperty topProp = factory.getOWLObjectProperty(IRI.create(owlNameSpace+stereotype));
+		OWLObjectProperty topInvProp = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+stereotype));
 
 		//Used after to make associations disjoints
 		putInHash(stereotype, topProp);
 		putInHash(stereotype, topInvProp);
 
-		if(owlOptions.isInverse()){
+		if(owlAxioms.isInverse()){
 			OWLInverseObjectPropertiesAxiom inv = factory.getOWLInverseObjectPropertiesAxiom(topInvProp, topProp);
 			manager.applyChange(new AddAxiom(ontology, inv));
 		}
 		
 		//Make the inverse top property disjoint of the top property
-		if(owlOptions.isAssociationDisjointness())
+		if(owlAxioms.isAssociationDisjointness())
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProp, topInvProp)));
 
 		//Set prop irreflexive
@@ -699,11 +702,11 @@ public class Transformer {
 			invProp = createInverseAssociation(ass,stereotype);
 
 			//Set invProp inverse of prop
-			if(owlOptions.isInverse())
+			if(owlAxioms.isInverse())
 				manager.applyChange(new AddAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(invProp, prop)));
 			
 			//Set both property disjoints
-			if(owlOptions.isAssociationDisjointness())
+			if(owlAxioms.isAssociationDisjointness())
 				manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop, invProp)));
 
 			//Set both subPropertyOf its top property
@@ -747,7 +750,7 @@ public class Transformer {
 								|| material.getMemberEnd().get(1).getType().equals(mediation.getMemberEnd().get(1).getType())){
 							mediation1 = mediation;
 						}
-						if(mediation0 != null && mediation1 != null && owlOptions.isEnforcingSwrlRules()){
+						if(mediation0 != null && mediation1 != null && owlAxioms.isSwrlRules()){
 							//Now we have the Material and Mediations of the member-ends of the Material
 							createSWRLforRelator(mediation0, mediation1, material, relator);
 							break;
@@ -776,9 +779,9 @@ public class Transformer {
 		//SWRL
 
 		//variables
-		SWRLVariable varMaterialSource = factory.getSWRLVariable(IRI.create(nameSpace+"x"));
-		SWRLVariable varMaterialDestiny = factory.getSWRLVariable(IRI.create(nameSpace+"y"));
-		SWRLVariable varRelator = factory.getSWRLVariable(IRI.create(nameSpace+"z"));
+		SWRLVariable varMaterialSource = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
+		SWRLVariable varMaterialDestiny = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
+		SWRLVariable varRelator = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
 
 		//Set the type of the variables
 		SWRLAtom typeOfMaterialSource = factory.getSWRLClassAtom(materialSource, varMaterialSource); //A(?x)
@@ -950,16 +953,16 @@ public class Transformer {
 	 * */
 	private String getDataPropertyName(RefOntoUML.Classifier ontCls, RefOntoUML.Property prop){
 		if(ontCls == null){
-			return nameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
+			return owlNameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
 		}
-		return  nameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
+		return  owlNameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
 	private String getDataPropertyName(RefOntoUML.Classifier ontCls, RefOntoUML.Classifier prop){
 		if(ontCls == null){
-			return nameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
+			return owlNameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
 		}
-		return  nameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
+		return  owlNameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
 	private String getPropertyName(RefOntoUML.Property prop){
@@ -976,10 +979,10 @@ public class Transformer {
 		return factory.getOWLNamedIndividual(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
 	}	
 	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
-		return getOwlClass(nameSpace, ontCls);
+		return getOwlClass(owlNameSpace, ontCls);
 	}	
 	private OWLClass getOwlClass(String iri, RefOntoUML.NamedElement ontCls){
-		return getOwlClass(nameSpace, ontCls.getName());
+		return getOwlClass(owlNameSpace, ontCls.getName());
 	}
 	
 
@@ -992,7 +995,7 @@ public class Transformer {
 			return null;
 		}else{
 			String assName = mappingProperties.getPropertyName(ass);
-			return factory.getOWLObjectProperty(IRI.create(nameSpace+assName));
+			return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
 			//return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 		}
 	}
@@ -1006,7 +1009,7 @@ public class Transformer {
 		if(assocName==null || assocName == "" || assocName == " " || assocName.length() == 0){
 			return null;
 		}else{
-			return factory.getOWLObjectProperty(IRI.create(nameSpace+assocName));
+			return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assocName));
 		}
 	}
 
@@ -1016,7 +1019,7 @@ public class Transformer {
 	 * */
 	private OWLObjectProperty getObjectProperty(RefOntoUML.Association ass, String stereotype){
 		String propName = mappingProperties.getPropertyName(ass);
-		return factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
+		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
 		
 //		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
 //			//String propName = stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
@@ -1045,7 +1048,7 @@ public class Transformer {
 	 * */
 	private OWLObjectProperty getInverseObjectProperty(RefOntoUML.Association ass, String stereotype){
 		String propName = mappingProperties.getPropertyName(ass);
-		return factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+propName));
+		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+propName));
 //		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
 //			//String propName = "INV."+stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
 //			return factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
@@ -1067,9 +1070,9 @@ public class Transformer {
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 
 		//Set domain and range from the property
-		if(owlOptions.isDomain())
+		if(owlAxioms.isDomain())
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlOptions.isRange())
+		if(owlAxioms.isRange())
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
 
 		//Processing cardinality to the destiny
@@ -1116,14 +1119,14 @@ public class Transformer {
 
 	private OWLObjectProperty getObjectProperty(Association ass, String src, String dst) {
 		String assName = mappingProperties.getPropertyName(ass);
-		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+assName));
+		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
 		//OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ","_")+"."+src+"."+dst));
 		return prop;
 	}
 
 	private OWLObjectProperty getInverseObjectProperty(Association ass, String src, String dst) {
 		String assName = mappingProperties.getPropertyName(ass);
-		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+assName));
+		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+assName));
 		//OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+ass.getName().replaceAll(" ","_")+"."+src+"."+dst));
 		return prop;
 	}
@@ -1147,9 +1150,9 @@ public class Transformer {
 		//destination class of the relation
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
 		//Set domain and range from the property
-		if(owlOptions.isDomain() && !lstNominalQualities.contains(src))
+		if(owlAxioms.isDomain() && !lstNominalQualities.contains(src))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlOptions.isRange() && !lstNominalQualities.contains(dst))
+		if(owlAxioms.isRange() && !lstNominalQualities.contains(dst))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
 
 		if(!lstNominalQualities.contains(src) || !lstNominalQualities.contains(dst)) return prop;
@@ -1164,7 +1167,7 @@ public class Transformer {
 	}
 
 	private void processCardinality(OWLClass src, OWLDataProperty dataProperty, int lowerCard, int upperCard) {
-		if(!owlOptions.isEnforcingCardinality()) return;
+		if(!owlAxioms.isCardinality()) return;
 		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
@@ -1206,7 +1209,7 @@ public class Transformer {
 	}
 
 	private void processCardinality(OWLObjectProperty prop, OWLClass src, OWLClass dst, int lowerCard, int upperCard){
-		if(!owlOptions.isEnforcingCardinality()) return;
+		if(!owlAxioms.isCardinality()) return;
 		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
@@ -1272,16 +1275,16 @@ public class Transformer {
 					
 	//				topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+stereotype));
 	//				invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+stereotype));
-					topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+assName));
-					invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+assName));
+					topProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
+					invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+assName));
 	
 					//Create Association with the name stereotype.Source.Destiny
 					prop = createAssociation(ass,stereotype);
 					invProp = createInverseAssociation(ass,stereotype);
 				}else if(mappingProperties.isMappedAsSubRelationOf(ass)){
 						String superPropertyName = mappingProperties.getSuperPropertyName(ass);
-						topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+superPropertyName));
-						invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+superPropertyName));
+						topProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+superPropertyName));
+						invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+superPropertyName));
 	
 						//Create the associations with the name assName.Source.Destiny
 						prop = createAssociation(ass);
@@ -1304,7 +1307,7 @@ public class Transformer {
 					manager.applyChange(new AddAxiom(ontology, sopa));
 	
 					//set that the inverse top property is the inverse of the top property
-					if(owlOptions.isInverse())
+					if(owlAxioms.isInverse())
 						manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(topProperty, invTopProperty)));
 	
 					//Make the inverse top property disjoint of the top property
@@ -1323,7 +1326,7 @@ public class Transformer {
 				}
 	
 				//set that the inverse property is the inverse of the property
-				if(owlOptions.isInverse())
+				if(owlAxioms.isInverse())
 					manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(prop, invProp)));
 	
 				//Make the inverse property disjoint of the property
@@ -1396,12 +1399,12 @@ public class Transformer {
 			lstCls.add(son);
 		}
 		
-		if(lstCls.size() > 1 && owlOptions.isClassDisjointness()){
+		if(lstCls.size() > 1 && owlAxioms.isClassDisjointness()){
 			OWLAxiom axiom = factory.getOWLDisjointClassesAxiom(lstCls);		
 			manager.applyChange(new AddAxiom(ontology, axiom));
 		}		
 
-		if(owlOptions.isClassCompleteness()){
+		if(owlAxioms.isClassCompleteness()){
 			//Set all classes equivalents
 			OWLObjectUnionOf ouf = factory.getOWLObjectUnionOf(lstCls);
 			OWLEquivalentClassesAxiom eqclax = factory.getOWLEquivalentClassesAxiom(father, ouf);
@@ -1410,7 +1413,7 @@ public class Transformer {
 	}
 
 	private void processGeneralizationDisjoint(EList<Generalization> genSet){
-		if(!owlOptions.isClassDisjointness()) return;
+		if(!owlAxioms.isClassDisjointness()) return;
 		
 		OWLClass father = getOwlClass(genSet.get(0).getGeneral());
 
@@ -1434,7 +1437,7 @@ public class Transformer {
 	}
 
 	private void processGeneralizationCovering(EList<Generalization> genSet){
-		if(!owlOptions.isClassCompleteness()) return;
+		if(!owlAxioms.isClassCompleteness()) return;
 		
 		OWLClass father = getOwlClass(genSet.get(0).getGeneral());
 
@@ -1722,7 +1725,7 @@ public class Transformer {
 		}
 		lowerCard *= prop.getLower();
 
-		if(!owlOptions.isEnforcingCardinality()) return;
+		if(!owlAxioms.isCardinality()) return;
 		
 		OWLEquivalentClassesAxiom ax = null;
 		OWLSubClassOfAxiom sax = null; 
@@ -1797,11 +1800,11 @@ public class Transformer {
 		Type propType = prop.getType();
 		String range = "";
 		OWL2Datatype owlPrimType = null;
-		if(owlOptions.getAttributeMappingsEObject().containsKey(prop)){
-			owlPrimType = (OWL2Datatype) owlOptions.getAttributeMappingsEObject().get(prop);
+		if(owlMappings.getAttributeMappings().containsKey(prop)){
+			owlPrimType = (OWL2Datatype) owlMappings.getAttributeMappings().get(prop);
 			range = owlPrimType.toString();
-		}else if(owlOptions.getPrimitiveTypeMappingsEObject().containsKey(propType)){
-			owlPrimType = (OWL2Datatype) owlOptions.getPrimitiveTypeMappingsEObject().get(propType);
+		}else if(owlMappings.getPrimitiveMappings().containsKey(propType)){
+			owlPrimType = (OWL2Datatype) owlMappings.getPrimitiveMappings().get(propType);
 //			Object x = owlOptions.getPrimitiveTypeMappingsEObject().get(propType);
 			range = owlPrimType.toString();
 		}else{
@@ -1893,7 +1896,7 @@ public class Transformer {
 			OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
 			manager.applyChange(new AddAxiom(ontology, ax));
 			
-			if(!owlOptions.isEnforcingUfoStructure()) continue; 
+			if(!owlAxioms.isUfoStructure()) continue; 
 			
 			Set<Classifier> parents = ontoParser.getParents(ontCls);
 			if(parents.size() == 0 ){
@@ -1939,7 +1942,7 @@ public class Transformer {
 						String comment = c.getBody().replaceAll("\\<[^>]*>","").replaceAll("\"", "");
 						comment = Normalizer.normalize(comment, Normalizer.Form.NFD);  
 						comment = comment.replaceAll("[^\\p{ASCII}]", "");  
-						OWLClass cls = factory.getOWLClass(IRI.create(nameSpace+p.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
+						OWLClass cls = factory.getOWLClass(IRI.create(owlNameSpace+p.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
 						OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSComment(),  factory.getOWLLiteral(comment, "pt"));
 						OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( cls.getIRI(), commentAnno);
 						manager.applyChange(new AddAxiom(ontology, ax));
@@ -1950,7 +1953,7 @@ public class Transformer {
 						comment = Normalizer.normalize(comment, Normalizer.Form.NFD);  
 						comment = comment.replaceAll("[^\\p{ASCII}]", "");  
 						OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSComment(),  factory.getOWLLiteral(comment, "pt"));
-						OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( IRI.create(nameSpace.substring(0,nameSpace.length()-1)), commentAnno);
+						OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( IRI.create(owlNameSpace.substring(0,owlNameSpace.length()-1)), commentAnno);
 						manager.applyChange(new AddAxiom(ontology, ax));
 					}
 				}

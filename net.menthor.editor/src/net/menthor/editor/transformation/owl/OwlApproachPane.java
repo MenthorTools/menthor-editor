@@ -12,18 +12,17 @@ import javax.swing.LayoutStyle;
 
 import net.menthor.common.transformation.DestinationEnum;
 import net.menthor.common.transformation.MappingType;
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.util.ApplicationResources;
 
-public class OWLConfigPane extends JPanel {
+public class OwlApproachPane extends JPanel {
 
 	private static final long serialVersionUID = -5681113361932739723L;
 	
 	private JButton cancelButton;
 	private JButton okButton;
-	private OWLMappingTypePane typePanel;
+	private OwlMappingTypePane typePanel;
 	private DestinationPane destinationPanel;
 	private UmlProject project;
 	private JTextField iriText;
@@ -43,7 +42,7 @@ public class OWLConfigPane extends JPanel {
 	public JButton getOkButton() { return okButton; }
 	public JButton getCancelButton() { return cancelButton; }
 	
-	public OWLConfigPane(final OwlAxiomsEnforcement owlOptions, UmlProject project)
+	public OwlApproachPane(UmlProject project)
 	{
 		this.project = project;
 		GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)this);				
@@ -61,7 +60,7 @@ public class OWLConfigPane extends JPanel {
 		cancelButton.setVisible(false);
 		cancelButton.setText(ApplicationResources.getInstance().getString("stdcaption.cancel"));
 		
-		typePanel = new OWLMappingTypePane();
+		typePanel = new OwlMappingTypePane();
 		
 		destinationPanel = new DestinationPane("OWL (*.owl)","owl");
 		destinationPanel.renameAppButton("Protégé");

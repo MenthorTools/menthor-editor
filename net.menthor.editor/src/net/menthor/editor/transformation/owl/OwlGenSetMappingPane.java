@@ -8,7 +8,7 @@ import net.menthor.editor.transformation.ChoiceElemMapTableModel;
 import net.menthor.editor.transformation.GeneralizationSetMappingPane;
 import RefOntoUML.parser.OntoUMLParser;
 
-public class OWLGeneralizationSetPane extends JPanel{
+public class OwlGenSetMappingPane extends JPanel{
 
 	private static final long serialVersionUID = -164010334881840365L;
 	
@@ -19,7 +19,7 @@ public class OWLGeneralizationSetPane extends JPanel{
 		return ((ChoiceElemMapTableModel)gsPane.getTableModel()).getEntries();
 	}
 	
-	public OWLGeneralizationSetPane(OntoUMLParser refparser)
+	public OwlGenSetMappingPane(OntoUMLParser refparser)
 	{
 		gsPane = new GeneralizationSetMappingPane(refparser);
 		

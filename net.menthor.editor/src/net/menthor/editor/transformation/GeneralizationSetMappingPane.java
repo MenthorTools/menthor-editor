@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.common.transformation.owl.GeneralizationMappingType;
+import net.menthor.common.transformation.GenMappingEnum;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
@@ -33,7 +33,7 @@ public class GeneralizationSetMappingPane extends BaseMappingPane {
 //		for (GeneralizationMappingType gsMapTypes : GeneralizationMappingType.values()) {
 //			
 //		}
-		typeColumn2.setCellEditor(createEditor(GeneralizationMappingType.values()));
+		typeColumn2.setCellEditor(createEditor(GenMappingEnum.values()));
 		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	

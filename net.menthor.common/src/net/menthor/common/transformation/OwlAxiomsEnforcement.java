@@ -1,11 +1,5 @@
 package net.menthor.common.transformation;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.util.RefOntoUMLElement;
 
 
 public class OwlAxiomsEnforcement extends AxiomsEnforcement {
@@ -43,83 +37,39 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	private boolean ufoStructure = false;
 	
 	public boolean isClassCompleteness() { return classCompleteness; }
-	public void setEnforcingCompleteOfClass(boolean completeClassAxiom) { this.classCompleteness = completeClassAxiom; }
+	public void setClassCompleteness(boolean classCompleteness) { this.classCompleteness = classCompleteness; }
 	public boolean isObjectPropertyDisjointness() { return objectPropertyDisjointness; }
-	public void setEnforcingDisjointOfObjectProperty(boolean disjointObjectPropertyAxioms) { this.objectPropertyDisjointness = disjointObjectPropertyAxioms; }
+	public void setObjectPropertyDisjointness(boolean objectPropertyDisjointness) { this.objectPropertyDisjointness = objectPropertyDisjointness; }
 	public boolean isClassDisjointness() { return classDisjointness; }	
-	public void setEnforcingDisjointOfClass(boolean disjointClassAxioms) { this.classDisjointness = disjointClassAxioms; }
+	public void setClassDisjointness(boolean classDisjointness) { this.classDisjointness = classDisjointness; }
 	public boolean isAssociationDisjointness() { return associationDisjointness; }
-	public void setEnforcingDisjointOfAssociation(boolean disjointAssociationAxioms) { this.associationDisjointness = disjointAssociationAxioms; }
+	public void setAssociationDisjointness(boolean associationDisjointness) { this.associationDisjointness = associationDisjointness; }
 	public boolean isDomain() { return domain; }
-	public void setEnforcingDomain(boolean domainAxiom) { this.domain = domainAxiom; }
+	public void setDomain(boolean domain) { this.domain = domain; }
 	public boolean isRange() { return range; }
-	public void setEnforcingRange(boolean rangeAxiom) { this.range = rangeAxiom; }
+	public void setRange(boolean range) { this.range = range; }
 	public boolean isInverse() { return inverse; }
-	public void setEnforcingInverse(boolean inverseAxiom) { this.inverse = inverseAxiom; }
-	public boolean isEnforcingReflexive() { return reflexive; }
-	public void setEnforcingReflexive(boolean reflexiveAxiom) { this.reflexive = reflexiveAxiom; }
-	public boolean isEnforcingIrreflexive() { return irreflexive; }
-	public void setEnforcingIrreflexive(boolean irreflexiveAxiom) { this.irreflexive = irreflexiveAxiom; }
-	public boolean isEnforcingSymmetric() { return symmetric; }
-	public void setEnforcingSymmetric(boolean symmetricAxiom) { this.symmetric = symmetricAxiom; }
-	public boolean isEnforcingAsymmetric() { return asymmetric;}
-	public void setEnforcingAsymmetric(boolean asymmetricreflexiveAxiom) { this.asymmetric = asymmetricreflexiveAxiom; }
-	public boolean isEnforcingTransitive() { return transitive;}
-	public void setEnforcingTransitive(boolean transitiveAxiom) { this.transitive = transitiveAxiom; }
-	public boolean isEnforcingFunctional() { return functional; }
-	public void setEnforcingFunctional(boolean functionalAxiom) { this.functional = functionalAxiom; }
-	public boolean isEnforcingInverseFunctional() { return inverseFunctional; }
-	public void setEnforcingInverseFunctional(boolean inverseFunctionalAxiom) { this.inverseFunctional = inverseFunctionalAxiom; }
+	public void setInverse(boolean inverse) { this.inverse = inverse; }
+	public boolean isReflexive() { return reflexive; }
+	public void setReflexive(boolean reflexive) { this.reflexive = reflexive; }
+	public boolean isIrreflexive() { return irreflexive; }
+	public void setIrreflexive(boolean irreflexive) { this.irreflexive = irreflexive; }
+	public boolean isSymmetric() { return symmetric; }
+	public void setSymmetric(boolean symmetric) { this.symmetric = symmetric; }
+	public boolean isAsymmetric() { return asymmetric;}
+	public void setAsymmetric(boolean y) { this.asymmetric = y; }
+	public boolean isTransitive() { return transitive;}
+	public void setTransitive(boolean transitive) { this.transitive = transitive; }
+	public boolean isFunctional() { return functional; }
+	public void setFunctional(boolean functional) { this.functional = functional; }
+	public boolean isInverseFunctional() { return inverseFunctional; }
+	public void setInverseFunctional(boolean inverseFunctional) { this.inverseFunctional = inverseFunctional; }
 	public String getOntologyIri() { return ontologyIri; }
 	public void setOntologyIri(String ontologyIri) { this.ontologyIri = ontologyIri; }	
-	public void setEnforcingCardinality(boolean cardinality) { this.cardinality = cardinality; }
-	public boolean isEnforcingSwrlRules() { return swrlRules; }
-	public void setEnforcingSwrlRules(boolean swrlRulesAxiom) { this.swrlRules = swrlRulesAxiom; }
-	public boolean isEnforcingCardinality() { return cardinality; }
-	public boolean isEnforcingUfoStructure() { return ufoStructure; }
-	public void setEnforcingUfoStructure(boolean ufoStructure) { this.ufoStructure = ufoStructure; }
-	
-	//==========================================================
-	HashMap<EObject, Object> primitiveTypeMappingsEObject = new HashMap<EObject, Object>();
-	HashMap<EObject, Object> attributeMappingsEObject = new HashMap<EObject, Object>();	
-	HashMap<EObject, Object> qualityMappingsEObject = new HashMap<EObject, Object>();	
-	Object[][] genSetEnumMappings;
-	
-	public void setQualityTypeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> qualityMappingsOntoUMLElement) 
-	{
-		for (Entry<RefOntoUMLElement, Object> entry : qualityMappingsOntoUMLElement.entrySet()){
-			qualityMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
-		}
-	}
-	
-	public void setPrimitiveTypeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> primitiveTypeMappingsOntoUMLElement)
-	{
-		for (Entry<RefOntoUMLElement, Object> entry : primitiveTypeMappingsOntoUMLElement.entrySet()) {
-			primitiveTypeMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
-		}
-	}
-	
-	public void setAttributeMappingsOntoUMLElement(HashMap<RefOntoUMLElement, Object> attributeMappingsOntoUMLElement) 
-	{
-		for (Entry<RefOntoUMLElement, Object> entry : attributeMappingsOntoUMLElement.entrySet()) {
-			attributeMappingsEObject.put(entry.getKey().getElement(),entry.getValue());
-		}
-	}	
-	
-	public void setGenSetEnumMappings(Object[][] genSetEnumMappings) 
-	{
-		this.genSetEnumMappings = genSetEnumMappings;
-	}
-	
-	public Object[][] getGenSetEnumMappings() {
-		return genSetEnumMappings;
-	}
-	
-	public HashMap<EObject, Object> getAttributeMappingsEObject() {
-		return attributeMappingsEObject;
-	}
-	public HashMap<EObject, Object> getPrimitiveTypeMappingsEObject() {
-		return primitiveTypeMappingsEObject;
-	}
-	
+	public void setCardinality(boolean cardinality) { this.cardinality = cardinality; }
+	public boolean isSwrlRules() { return swrlRules; }
+	public void setSwrlRules(boolean swrlRules) { this.swrlRules = swrlRules; }
+	public boolean isCardinality() { return cardinality; }
+	public boolean isUfoStructure() { return ufoStructure; }
+	public void setUfoStructure(boolean ufoStructure) { this.ufoStructure = ufoStructure; }	
 }

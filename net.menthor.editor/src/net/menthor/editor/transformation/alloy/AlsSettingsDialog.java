@@ -35,7 +35,6 @@ import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 import org.tinyuml.umldraw.StructureDiagram;
@@ -46,15 +45,16 @@ import RefOntoUML.parser.OntoUMLParser;
  * @author John Guerson
  */
 
-public class AlloySettingsDialog extends TransformationDialog {
+public class AlsSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = 7877781445149017806L;
 			
 	private DestinationPane destPane;
-	private AlloyMappingTypePane mapPane;
+	private AlsMappingTypePane mapPane;
 	private JPanel axiomPane;
 	
 	private AlloyModelSimulationPanel modelSimulationPanel;
+	@SuppressWarnings("unused")
 	private OntoUML2AlloyOptions refOptions;
 	
 	private ConstraintSimulationPanel constraintSimulationPanel;
@@ -62,7 +62,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 	private JPanel principalPane;
 	
 	/** @wbp.parser.constructor */
-	public AlloySettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 				
@@ -75,7 +75,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 		destPane.enableFileChooser(false);
 		principalPane.add(destPane, BorderLayout.NORTH);
 		
-		mapPane = new AlloyMappingTypePane();
+		mapPane = new AlsMappingTypePane();
 		principalPane.add(mapPane,BorderLayout.CENTER);
 		
 		modelSimulationPanel = new AlloyModelSimulationPanel();		
@@ -105,7 +105,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 	public static void open(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		try {			
-			AlloySettingsDialog dialog = new AlloySettingsDialog(owner, refparser, diagrams, refOptions, oclOptions);
+			AlsSettingsDialog dialog = new AlsSettingsDialog(owner, refparser, diagrams, refOptions, oclOptions);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.setLocationRelativeTo(owner);			
@@ -114,7 +114,7 @@ public class AlloySettingsDialog extends TransformationDialog {
 		}
 	}
 	
-	public AlloySettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		this(owner,refparser,diagrams, false);	
 		

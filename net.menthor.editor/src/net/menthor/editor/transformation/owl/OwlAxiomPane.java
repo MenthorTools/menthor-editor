@@ -12,11 +12,13 @@ import javax.swing.border.TitledBorder;
 
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 
-public class OWLAxiomFilterPane extends JPanel {
+public class OwlAxiomPane extends JPanel {
 
 	private static final long serialVersionUID = 8425787008147140307L;
-	private JPanel binPane;
+	private JPanel binPane;	
 	private JPanel relCheckList;
+	private JPanel panel_1;
+	
 	private JCheckBox domainCheck;
 	private JCheckBox rangeCheck;
 	private JCheckBox inverseCheck;
@@ -24,20 +26,17 @@ public class OWLAxiomFilterPane extends JPanel {
 	private JCheckBox symmetryCheck;
 	private JCheckBox transitivityCheck;
 	private JCheckBox irreflexiveCheck;
-	private JCheckBox classCheck;
-	private JCheckBox relationshipCheck;
+	private JCheckBox classDisjCheck;
+	private JCheckBox assocDisjCheck;
 	private JCheckBox cardinalityCheck;
 	private JCheckBox functionalCheck;
 	private JCheckBox inverseFuncCheck;
-	private JCheckBox assymetricCheck;
-	private JPanel panel_1;
+	private JCheckBox assymetricCheck;	
 	private JCheckBox rulesCheck;
 	private JCheckBox ufoStructure;
-	private JCheckBox chckbxComplete;
+	private JCheckBox classCompleteCheck;
 	
-	private OwlAxiomsEnforcement opt = new OwlAxiomsEnforcement();
-	
-	public OWLAxiomFilterPane()
+	public OwlAxiomPane()
 	{	
 		setPreferredSize(new Dimension(538, 290));
 		
@@ -111,13 +110,13 @@ public class OWLAxiomFilterPane extends JPanel {
 		cardinalityCheck.setSelected(true);
 		panel.add(cardinalityCheck);
 		
-		classCheck = new JCheckBox("Disjoint");
-		panel.add(classCheck);
-		classCheck.setSelected(true);
+		classDisjCheck = new JCheckBox("Disjoint");
+		panel.add(classDisjCheck);
+		classDisjCheck.setSelected(true);
 		
-		chckbxComplete = new JCheckBox("Complete");
-		panel.add(chckbxComplete);
-		chckbxComplete.setSelected(true);
+		classCompleteCheck = new JCheckBox("Complete");
+		panel.add(classCompleteCheck);
+		classCompleteCheck.setSelected(true);
 		setLayout(gl_axiomsPane);
 		
 		domainCheck = new JCheckBox("Domain");
@@ -132,9 +131,9 @@ public class OWLAxiomFilterPane extends JPanel {
 		inverseCheck.setSelected(true);
 		relCheckList.add(inverseCheck);
 		
-		relationshipCheck = new JCheckBox("Disjoint");
-		relCheckList.add(relationshipCheck);
-		relationshipCheck.setSelected(true);
+		assocDisjCheck = new JCheckBox("Disjoint");
+		relCheckList.add(assocDisjCheck);
+		assocDisjCheck.setSelected(true);
 		
 		reflexivityCheck = new JCheckBox("Reflexivity");
 		reflexivityCheck.setSelected(true);
@@ -165,9 +164,27 @@ public class OWLAxiomFilterPane extends JPanel {
 		binPane.add(inverseFuncCheck);
 	}
 	
-//	public boolean getOwlAxiomsEnforcement() {
-//		
-//	}
+	public OwlAxiomsEnforcement getOwlAxiomsEnforcement() {			
+		OwlAxiomsEnforcement opt = new OwlAxiomsEnforcement();
+		opt.setAssociationDisjointness(assocDisjCheck.isSelected());
+		opt.setAsymmetric(assymetricCheck.isSelected());
+		opt.setCardinality(cardinalityCheck.isSelected());
+		opt.setClassCompleteness(classCompleteCheck.isSelected());
+		opt.setClassDisjointness(classDisjCheck.isSelected());
+		opt.setDomain(domainCheck.isSelected());
+		opt.setFunctional(functionalCheck.isSelected());
+		opt.setInverse(inverseCheck.isSelected());
+		opt.setInverseFunctional(inverseFuncCheck.isSelected());
+		opt.setIrreflexive(irreflexiveCheck.isSelected());
+		opt.setRange(rangeCheck.isSelected());
+		opt.setReflexive(reflexivityCheck.isSelected());
+		opt.setSwrlRules(rulesCheck.isSelected());
+		opt.setSymmetric(symmetryCheck.isSelected());
+		opt.setTransitive(transitivityCheck.isSelected());
+		opt.setUfoStructure(ufoStructure.isSelected());
+		return opt;
+	}
+	
 	public boolean isTransitivity() { return transitivityCheck.isSelected(); }
 	public boolean isSymmetry() { return symmetryCheck.isSelected(); }
 	public boolean isAsymmetric() { return irreflexiveCheck.isSelected(); }
@@ -176,8 +193,8 @@ public class OWLAxiomFilterPane extends JPanel {
 	public boolean isFunctional() { return functionalCheck.isSelected(); }
 	public boolean isInverseFunctional() { return inverseFuncCheck.isSelected(); }
 	
-	public boolean isClassDisjointness() { return classCheck.isSelected(); }
-	public boolean isAssociatoinDisjointness() { return relationshipCheck.isSelected(); }
+	public boolean isClassDisjointness() { return classDisjCheck.isSelected(); }
+	public boolean isAssociationDisjointness() { return assocDisjCheck.isSelected(); }
 	public boolean isDomain() { return domainCheck.isSelected(); }
 	public boolean isRange() { return rangeCheck.isSelected(); }
 	public boolean isInverse() { return inverseCheck.isSelected(); }	
@@ -185,5 +202,5 @@ public class OWLAxiomFilterPane extends JPanel {
 	
 	public boolean isRules() { return rulesCheck.isSelected(); }
 	public boolean isUfoStructure() { return ufoStructure.isSelected(); }
-	public boolean isComplete() { return chckbxComplete.isSelected(); }
+	public boolean isComplete() { return classCompleteCheck.isSelected(); }
 }

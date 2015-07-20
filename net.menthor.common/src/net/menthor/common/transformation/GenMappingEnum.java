@@ -1,6 +1,6 @@
-package net.menthor.common.transformation.owl;
+package net.menthor.common.transformation;
 
-public enum GeneralizationMappingType {
+public enum GenMappingEnum {
 	allClasses {
 		@Override
 		public String toString() {
@@ -21,11 +21,11 @@ public enum GeneralizationMappingType {
 	};
 	
 	public static String[] valuesStr(){
-		int length = GeneralizationMappingType.values().length;
+		int length = GenMappingEnum.values().length;
 		String[] values = new String[length];
 		
 		for (int i = 0; i < length; i++) {
-			values[i] = GeneralizationMappingType.values()[i].toString();
+			values[i] = GenMappingEnum.values()[i].toString();
 		}
 		
 		return values;

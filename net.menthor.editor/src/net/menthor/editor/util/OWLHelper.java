@@ -37,10 +37,11 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 public class OWLHelper {
 
 //	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String ontologyIRI, String oclRules, OWLTransformationOptions owlOptions, TransformationOption trOpt)
-	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, OwlAxiomsEnforcement owlOptions, TransformationOption trOpt)
+	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, TransformationOption trOpt)
 	{
 		String errors = new String();
 		String owlOutput = new String();
+		OwlAxiomsEnforcement owlOptions = (OwlAxiomsEnforcement) trOpt.getAxiomsEnforcement();
     	try {    		
     		if(trOpt.getMappingType().getIdentifier().equals("SIMPLE")) 
     		{    			
@@ -54,7 +55,7 @@ public class OWLHelper {
     		if(trOpt.getMappingType().getIdentifier().equals("OOTOS"))
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(filteredParser, owlOptions.getOntologyIri(), oclRules, owlOptions);
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt);
     			errors = ontoUML2OWL.errors;
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
