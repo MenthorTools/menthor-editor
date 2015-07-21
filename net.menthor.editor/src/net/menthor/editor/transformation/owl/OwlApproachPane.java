@@ -21,7 +21,7 @@ public class OwlApproachPane extends JPanel {
 	
 	private JButton cancelButton;
 	private JButton okButton;
-	private OwlMappingTypePane typePanel;
+	private OwMappingTypePane typePanel;
 	private DestinationPane destinationPanel;
 	private String projectName;
 	private JTextField iriText;
@@ -59,7 +59,7 @@ public class OwlApproachPane extends JPanel {
 		cancelButton.setVisible(false);
 		cancelButton.setText(ApplicationResources.getInstance().getString("stdcaption.cancel"));
 		
-		typePanel = new OwlMappingTypePane();
+		typePanel = new OwMappingTypePane();
 		
 		destinationPanel = new DestinationPane("OWL (*.owl)","owl");
 		destinationPanel.renameAppButton("Protégé");

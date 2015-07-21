@@ -16,7 +16,7 @@ import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
 
-public class OwlPrimitiveMappingPane extends JPanel{
+public class OwPrimitiveMappingPane extends JPanel{
 
 	private static final long serialVersionUID = -4780878204262573447L;
 	
@@ -70,7 +70,7 @@ public class OwlPrimitiveMappingPane extends JPanel{
 		return ((ElementMappingTableModel)primitiveAttrPane.getTableModel()).getEntries();
 	}
 	
-	public OwlPrimitiveMappingPane(OntoUMLParser refparser)
+	public OwPrimitiveMappingPane(OntoUMLParser refparser)
 	{
 		primitiveTypePane = new PrimitiveMappingPane("Primitive Type",refparser, "OWL/RDF");
 		addDefault(refparser);

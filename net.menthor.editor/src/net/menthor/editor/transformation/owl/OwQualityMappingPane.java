@@ -10,7 +10,7 @@ import net.menthor.editor.transformation.QualityMappingPane;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
 
-public class OwlQualityMappingPane extends JPanel{
+public class OwQualityMappingPane extends JPanel{
 
 	private static final long serialVersionUID = -164010334881840365L;
 	
@@ -21,7 +21,7 @@ public class OwlQualityMappingPane extends JPanel{
 		return ((ElementMappingTableModel)qualityPane.getTableModel()).getEntries();
 	}
 	
-	public OwlQualityMappingPane(OntoUMLParser refparser)
+	public OwQualityMappingPane(OntoUMLParser refparser)
 	{
 		qualityPane = new QualityMappingPane("Quality and Structures",refparser, "OWL/RDF");
 		

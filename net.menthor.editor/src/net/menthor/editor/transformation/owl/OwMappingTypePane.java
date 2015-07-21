@@ -3,11 +3,11 @@ package net.menthor.editor.transformation.owl;
 import net.menthor.common.transformation.MappingType;
 import net.menthor.editor.transformation.MappingTypePane;
 
-public class OwlMappingTypePane extends MappingTypePane {
+public class OwMappingTypePane extends MappingTypePane {
 
 	private static final long serialVersionUID = -4968883469407719592L;
 	
-	public OwlMappingTypePane()
+	public OwMappingTypePane()
 	{
 		super();
 		MappingType mt = new MappingType(

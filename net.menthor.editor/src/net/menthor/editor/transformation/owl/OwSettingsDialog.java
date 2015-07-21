@@ -36,23 +36,23 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.parser.OntoUMLParser;
 
-public class OwlSettingsDialog extends TransformationDialog {
+public class OwSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
 	private OwlApproachPane approachPane;
 	private OwlAxiomPane axiomsPane;
-	private OwlPrimitiveMappingPane primitivePane;
-	private OwlQualityMappingPane qualityPane;
+	private OwPrimitiveMappingPane primitivePane;
+	private OwQualityMappingPane qualityPane;
 	private OwlGenSetMappingPane gsPane;
 	
-	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
+	public OwSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 		
 		approachPane = new OwlApproachPane(owner.getDiagramManager().getCurrentProject().getName());
-		primitivePane = new OwlPrimitiveMappingPane(owner.getProjectBrowser().getParser());
-		qualityPane = new OwlQualityMappingPane(owner.getProjectBrowser().getParser());
+		primitivePane = new OwPrimitiveMappingPane(owner.getProjectBrowser().getParser());
+		qualityPane = new OwQualityMappingPane(owner.getProjectBrowser().getParser());
 		gsPane = new OwlGenSetMappingPane(owner.getProjectBrowser().getParser());
 		axiomsPane = new OwlAxiomPane();
 		
