@@ -60,7 +60,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomsPane);
 		addNonClosable("Primitive Types", primitivePane);
-		addNonClosable("Qualities", qualityPane);
+//		addNonClosable("Qualities", qualityPane);
 		addNonClosable("Generalization Sets", gsPane);
 		
 		tabbedPane.setSelectedComponent(approachPane);

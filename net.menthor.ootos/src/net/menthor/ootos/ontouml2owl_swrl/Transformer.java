@@ -456,7 +456,16 @@ public class Transformer {
 			}
 			
 			OWLObjectProperty prop = getObjectProperty("has_"+gs.getName());
+			OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
+			manager.addAxiom(ontology, declAxiom);
+			
 			OWLClass src = getOwlClass(gs.getGeneralization().get(0).getGeneral());
+			
+			if(owlAxioms.isDomain())
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
+			if(owlAxioms.isRange())
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, owlGs)));
+			
 			processCardinality(prop, src, owlGs, lowerCard, upperCard);
 		}
 	}
@@ -1089,6 +1098,8 @@ public class Transformer {
 	 * */
 	private OWLObjectProperty createInverseAssociation(Association ass, String stereotype){
 		OWLObjectProperty prop = getInverseObjectProperty(ass, stereotype);
+		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
+		manager.addAxiom(ontology, declAxiom);
 		return processCreateInverseAssociation(ass, prop);
 	}
 
@@ -1097,6 +1108,8 @@ public class Transformer {
 	 * */
 	private OWLObjectProperty createInverseAssociation(Association ass){
 		OWLObjectProperty prop = getInverseObjectProperty(ass, getName(ass.getMemberEnd().get(0).getType()), getName(ass.getMemberEnd().get(1).getType()));
+		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
+		manager.addAxiom(ontology, declAxiom);
 		return processCreateInverseAssociation(ass, prop);
 	}
 
@@ -1105,6 +1118,8 @@ public class Transformer {
 	 * */
 	private OWLObjectProperty createAssociation(Association ass, String stereotype){
 		OWLObjectProperty prop = getObjectProperty(ass, stereotype);
+		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
+		manager.addAxiom(ontology, declAxiom);
 		return processCreateAssociation(ass, prop);
 	}
 
@@ -1114,6 +1129,8 @@ public class Transformer {
 	private OWLObjectProperty createAssociation(Association ass){
 		//Set the name of the associations with the name of its range and domain
 		OWLObjectProperty prop = getObjectProperty(ass, getName(ass.getMemberEnd().get(0).getType()), getName(ass.getMemberEnd().get(1).getType()));
+		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
+		manager.addAxiom(ontology, declAxiom);
 		return processCreateAssociation(ass, prop);
 	}
 

@@ -140,12 +140,16 @@ public class DestinationPane extends JPanel {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Destination");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension);
-		fileChooser.addChoosableFileFilter(filter);		
+		
+		fileChooser.addChoosableFileFilter(filter);
+		fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) 
 		{
 			File selectedFile = fileChooser.getSelectedFile();
-			pathText.setText(selectedFile.getAbsolutePath());
+			String filePath = selectedFile.getAbsolutePath();
+			if(!filePath.endsWith("."+fileExtension)) filePath += "."+fileExtension;				
+			pathText.setText(filePath);
 		}
 	}
 }

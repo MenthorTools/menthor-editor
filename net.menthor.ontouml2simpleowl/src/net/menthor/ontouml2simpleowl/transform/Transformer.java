@@ -563,16 +563,17 @@ public class Transformer {
 			OWLObjectPropertyDomainAxiom daxPrp = manager.getOWLDataFactory().getOWLObjectPropertyDomainAxiom(oprp, dcls);
 			addToOntology(daxPrp);
 			
-			rcls = (OWLClass) process(prp.getOpposite().getType());
-			OWLObjectPropertyRangeAxiom raxPrp = manager.getOWLDataFactory().getOWLObjectPropertyRangeAxiom(oprp, rcls);
-			addToOntology(raxPrp);
+			if(prp.getOpposite() != null){
+				rcls = (OWLClass) process(prp.getOpposite().getType());
+				OWLObjectPropertyRangeAxiom raxPrp = manager.getOWLDataFactory().getOWLObjectPropertyRangeAxiom(oprp, rcls);
+				addToOntology(raxPrp);
 						
-			//Deal with cardinality
-			OWLClassExpression expr = getCardinalityRestriction(prp.getOpposite().getLower(), prp.getOpposite().getUpper(), oprp, dcls, rcls);
-			
-			//Create an anonymous superclass for the Object Property
-			OWLAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(dcls, expr); 			
-			addToOntology(subAxm);
+				//Deal with cardinality
+				OWLClassExpression expr = getCardinalityRestriction(prp.getOpposite().getLower(), prp.getOpposite().getUpper(), oprp, dcls, rcls);
+				//Create an anonymous superclass for the Object Property
+				OWLAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(dcls, expr); 			
+				addToOntology(subAxm);
+			}
 			
 			owlMappings.put(prp, oprp);
 			

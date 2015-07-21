@@ -53,8 +53,8 @@ public class OCL2OWL_SWRL {
 		this.oclRules = oclRules;
 		this.ontoParser = ontoParser;
 		this.manager = manager;
-		this.factory = manager.getOWLDataFactory();
-		this.ontology = manager.getOntology(IRI.create(nameSpace.substring(0, nameSpace.length()-1)));
+		this.factory = manager.getOWLDataFactory();		
+		this.ontology = manager.getOntology(IRI.create(nameSpace));
 		
 		//verify if all variables were initialized
 		this.verifyVariablesInitialization();

@@ -3014,8 +3014,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}else{
 				frame.getInfoManager().showOutputText(result.toString(), true, true);
 			}
+			frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to OWL.");
 		}else{
 			frame.getInfoManager().showOutputText(result.toString(), true, true); 
+			frame.showSuccessfulMessageDialog("Failed", "Project unsuccessfully transformed to OWL.");
 		}
 	}
 	

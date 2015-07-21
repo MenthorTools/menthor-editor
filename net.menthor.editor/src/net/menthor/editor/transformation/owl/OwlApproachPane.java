@@ -34,7 +34,7 @@ public class OwlApproachPane extends JPanel {
 	
 	private String getDefaultIRI()
 	{	
-		return "http://www.menthor.net/" + projectName;
+		return "http://www.menthor.net/" + projectName.replaceAll(" ", "_");
 	}	
 	
 	public JButton getOkButton() { return okButton; }

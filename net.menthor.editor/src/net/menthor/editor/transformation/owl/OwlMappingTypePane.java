@@ -11,14 +11,6 @@ public class OwlMappingTypePane extends MappingTypePane {
 	{
 		super();
 		MappingType mt = new MappingType(
-			"SIMPLE",
-			"Simple",
-			"Static scenario where domain entities are represented "
-			+ "directly according to the OntoUML stereotypes."
-		);		
-		addEntry(mt);
-		
-		mt = new MappingType(
 			"OOTOS",
 			"OOTOS",
 			"Static scenario where it is considered structured datatypes, cardinalities, transitivity of material and parthood relations "
@@ -26,6 +18,14 @@ public class OwlMappingTypePane extends MappingTypePane {
 		);		
 		addEntry(mt);
 		selectEntry(mt.getIdentifier());
+		
+		mt = new MappingType(
+			"SIMPLE",
+			"Simple",
+			"Static scenario where domain entities are represented "
+			+ "directly according to the OntoUML stereotypes."
+		);		
+		addEntry(mt);
 		
 		mt = new MappingType(
 			"REIFICATION",
