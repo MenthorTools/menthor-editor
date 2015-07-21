@@ -22,7 +22,7 @@ import com.hp.hpl.jena.shared.JenaException;
 public class Main {
 
 	public static void main(String[] args) throws Exception  {
-//		String owlPath = "C:\\Users\\fredd_000\\Google Drive\\GI2S\\GI2S - Freddy - John - Tiago - Bernardo\\Modelos\\OWL\\GI2S_ontologia-cortada.owl";
+//		String owlPath = "C:\\Users\\Freddy\\Google Drive\\GI2S\\GI2S - Freddy - John - Tiago - Bernardo\\Modelos\\OWL\\2015-07-21-GI2S-ontologia-full.owl";
 		String owlPath = "";
 		
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
@@ -31,6 +31,7 @@ public class Main {
 		owlPath = bufferRead.readLine();
 		System.out.print("Enter with a sufix: ");
 		String sufix = bufferRead.readLine();
+//		String sufix = "populada";
 		System.out.println("Arquivo escolhido:");
 		System.out.println(owlPath);
 		DumpIndividuals dump = new DumpIndividuals(owlPath);
