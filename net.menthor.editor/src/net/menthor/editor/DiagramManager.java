@@ -97,7 +97,7 @@ import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
-import net.menthor.editor.transformation.owl.OwlSettingsDialog;
+import net.menthor.editor.transformation.owl.OwSettingsDialog;
 import net.menthor.editor.ui.ClosableTabPanel;
 import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DiagramEditorWrapper;
@@ -2754,7 +2754,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Open the OWL settings window	 */
 	public void openOwlSettings() 
 	{
-		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
+		OwSettingsDialog dialog = new OwSettingsDialog(frame, 
 			frame.getProjectBrowser().getParser(),
 			frame.getProjectBrowser().getAllDiagrams(),
 			true
