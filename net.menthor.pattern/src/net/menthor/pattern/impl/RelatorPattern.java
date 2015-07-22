@@ -1,8 +1,7 @@
 package net.menthor.pattern.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Arrays;
 
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
@@ -22,112 +21,107 @@ import RefOntoUML.parser.OntoUMLParser;
 
 public class RelatorPattern extends AbstractPattern {
 
-
+	private Classifier c = null;
 	public RelatorPattern(OntoUMLParser parser, double x, double y) {
 		super(parser, x, y, "/resource/RelatorPattern.png", "Relator Pattern");
 	}
 
+	public RelatorPattern(OntoUMLParser parser, Classifier c, double x, double y) {
+		super(parser, x, y, "/resource/RelatorPattern.png", "Relator Pattern");
+		this.c = c;
+	}
+
 	@Override
 	public void runPattern() {
-		HashMap<String, String[]> hashTree = new HashMap<>();
-		Set<? extends Classifier> set;
+		if(dym==null || dm==null) return;
+		dym.addHashTree(fillouthashTree(Arrays.asList(new Class[]{Kind.class, Quantity.class, Collective.class, SubKind.class, Relator.class, Role.class, Phase.class})));
 
-		set = parser.getAllInstances(Kind.class);
-		if(!set.isEmpty())
-			hashTree.put("Kind", UtilAssistant.getStringRepresentationClass(set));
+		if(c != null && c instanceof Role){
+			dym.addTableLine("general", "General 1", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
+			dym.addTableRigidLine("specific", UtilAssistant.getStringRepresentationClass(c), new String[] {"Role"});
 
-		set = parser.getAllInstances(Collective.class);
-		if(!set.isEmpty())
-			hashTree.put("Collective", UtilAssistant.getStringRepresentationClass(set));
+			dym.addTableLine("general", "General 2", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
+			dym.addTableLine("specific", "Specific 2", new String[] {"Role"});
+		}else{
+			dym.addTableLine("general", "General 1", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
+			dym.addTableLine("specific", "Specific 1", new String[] {"Role"});
 
-		set = parser.getAllInstances(Quantity.class);
-		if(!set.isEmpty())
-			hashTree.put("Quantity", UtilAssistant.getStringRepresentationClass(set));
+			dym.addTableLine("general", "General 2", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
+			dym.addTableLine("specific", "Specific 2", new String[] {"Role"});
+		}
 
-		set = parser.getAllInstances(SubKind.class);
-		if(!set.isEmpty())
-			hashTree.put("Subkind", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Phase.class);
-		if(!set.isEmpty())
-			hashTree.put("Phase", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Role.class);
-		if(!set.isEmpty())
-			hashTree.put("Role", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Relator.class);
-		if(!set.isEmpty())
-			hashTree.put("Relator", UtilAssistant.getStringRepresentationClass(set));
-
-		dym.addHashTree(hashTree);
-
-		dym.addTableLine("general", "General 1", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
-		dym.addTableLine("general", "General 2", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
-
-		dym.addTableLine("specific", "Specific 1", new String[] {"Role"});
-		dym.addTableLine("specific", "Specific 2", new String[] {"Role"});
-
-		dym.addTableLine("relator", "Relator", new String[] {"Relator"});
+		if(c != null && c instanceof Relator){
+			dym.addTableRigidLine("relator", UtilAssistant.getStringRepresentationClass(c), new String[] {"Relator"});
+		}else{
+			dym.addTableLine("relator", "Relator", new String[] {"Relator"});
+		}
 
 		dm.open();		
 	}
 
 	@Override
-	public Fix getFix() {
-		try{
-			Package root = parser.getModel();
-			outcomeFixer = new OutcomeFixer(root);
-			fix = new Fix();
+	public Fix getSpecificFix() {
+		Package root = parser.getModel();
+		outcomeFixer = new OutcomeFixer(root);
+		fix = new Fix();
 
-			ArrayList<Object[]> generals = dym.getRowsOf("general");
-			ArrayList<Object[]> specifics = dym.getRowsOf("specific");
-			ArrayList<Object[]> relators = dym.getRowsOf("relator");
+		ArrayList<Object[]> generals = dym.getRowsOf("general");
+		ArrayList<Object[]> specifics = dym.getRowsOf("specific");
+		ArrayList<Object[]> relators = dym.getRowsOf("relator");
 
-			Classifier general1 	= getClassifier(generals.get(0), x, y);
-			Classifier general2 	= getClassifier(generals.get(1), x+verticalDistance, y);
-			Classifier specific1 	= getClassifier(specifics.get(0),x, y+(horizontalDistance/2));
-			Classifier specific2 	= getClassifier(specifics.get(1),x+verticalDistance, y+(horizontalDistance/2));
-			Classifier relator 		= getClassifier(relators.get(0), x+(verticalDistance/2), y);
+		if(generals == null || specifics == null || relators == null)
+			return null;
+		
+		Classifier general1, general2, specific1, specific2, relator;
 
-			Association leftMediation = null;
-			Association rightMediation = null;
-			Association material = null;
-			Association derivation = null;
-
-			if(general1 != null && specific1 != null){
-				fix.addAll(outcomeFixer.createGeneralization(specific1,general1));	
-			}
-
-			if(general2 != null && specific2 != null){
-				fix.addAll(outcomeFixer.createGeneralization(specific2,general2));	
-			}
-
-			if(specific1 != null && specific2 != null){
-				material = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MATERIAL, "", specific1, specific2).getAdded().get(0);
-				fix.includeAdded(material);
-			}
-
-			if(relator != null){
-				if(specific1 != null){
-					leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, specific1).getAdded().get(0);
-					fix.includeAdded(leftMediation);
-				}
-
-				if(specific2 != null){
-					rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, specific2).getAdded().get(0);
-					fix.includeAdded(rightMediation);
-				}
-
-				if(material != null){
-					derivation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.DERIVATION, "", relator, material).getAdded().get(0);
-					fix.includeAdded(derivation);
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
+		if(c != null){
+			general1 	= getClassifier(generals.get(0), x-(verticalDistance/2), y+70);
+			general2 	= getClassifier(generals.get(1), x+(verticalDistance/2), y+70);
+			specific1 	= getClassifier(specifics.get(0),x-(verticalDistance/2), y+(horizontalDistance/2)+70);
+			specific2 	= getClassifier(specifics.get(1),x+(verticalDistance/2), y+(horizontalDistance/2)+70);
+			relator 		= getClassifier(relators.get(0), x, y);
+		}else{
+			general1 	= getClassifier(generals.get(0), x-(verticalDistance/2), y);
+			general2 	= getClassifier(generals.get(1), x+(verticalDistance/2), y);
+			specific1 	= getClassifier(specifics.get(0),x-(verticalDistance/2), y+(horizontalDistance/2));
+			specific2 	= getClassifier(specifics.get(1),x+(verticalDistance/2), y+(horizontalDistance/2));
+			relator 		= getClassifier(relators.get(0), x, y);
 		}
 
+		Association leftMediation = null;
+		Association rightMediation = null;
+		Association material = null;
+		Association derivation = null;
+
+		if(general1 != null && specific1 != null){
+			fix.addAll(outcomeFixer.createGeneralization(specific1,general1));	
+		}
+
+		if(general2 != null && specific2 != null){
+			fix.addAll(outcomeFixer.createGeneralization(specific2,general2));	
+		}
+
+		if(specific1 != null && specific2 != null){
+			material = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MATERIAL, "", specific1, specific2).getAdded().get(0);
+			fix.includeAdded(material);
+		}
+
+		if(relator != null){
+			if(specific1 != null){
+				leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, specific1).getAdded().get(0);
+				fix.includeAdded(leftMediation);
+			}
+
+			if(specific2 != null){
+				rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, specific2).getAdded().get(0);
+				fix.includeAdded(rightMediation);
+			}
+
+			if(material != null){
+				derivation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.DERIVATION, "", relator, material).getAdded().get(0);
+				fix.includeAdded(derivation);
+			}
+		}
 		return fix;
 	}
 

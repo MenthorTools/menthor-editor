@@ -73,6 +73,7 @@ public class AppToolbar implements ActionListener {
 	private JButton btnSBVR;
 	private JButton btnAntiPattern;
 	private JButton btnMeronymic;
+	private JToggleButton btnModelCompleter;
 	
 	//public JToggleButton getToolBoxButton() { return btnToolBox; }
 	public JToggleButton getProjectBrowserButton() { return btnBrowser; }
@@ -199,6 +200,22 @@ public class AppToolbar implements ActionListener {
 			"TIP: You may customize which packages or elements do you want to consider <br>" +
 			"just deselecting/selecting them on the project browser.<br><br>" +
 			"</html>");	
+		
+//		btnModelCompleter = new JToggleButton("");
+//		btnModelCompleter.setSelected(frame.getMainMenu().isSelected("MODEL_COMPLETER"));
+//		btnModelCompleter.setToolTipText("Activating Model Completer: Evaluate your ontology regarding its completeness.");
+//		btnModelCompleter.addActionListener(new ActionListener() {				
+//        	@Override
+//        	public void actionPerformed(ActionEvent e) {
+//        		frame.getDiagramManager().setModelCompleter(btnModelCompleter.isSelected());
+//        		frame.getMainMenu().setModelCompleterItemSelection(btnModelCompleter.isSelected());
+////        		frame.showBottomView();
+//        	}
+//        });
+//		btnModelCompleter.setFocusable(false);
+//		btnModelCompleter.setIcon(new ImageIcon(AppToolbar.class.getResource("/resources/icons/x16/wand.png")));
+//		toolbar.add(btnModelCompleter);
+		
 		enableButton("UNDO", true);
 		enableButton("REDO", true);
 		//enableButton("CUT", false);
@@ -211,6 +228,11 @@ public class AppToolbar implements ActionListener {
 		enableAll(false);
 	}
 
+
+	public void setModelCompleter(boolean bool) {
+		btnModelCompleter.setSelected(bool);
+	}
+	
 	/**
 	 * Returns the toolbar.
 	 * @return the toolbar

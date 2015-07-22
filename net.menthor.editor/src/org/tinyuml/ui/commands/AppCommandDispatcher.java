@@ -240,6 +240,7 @@ public class AppCommandDispatcher implements AppCommandListener {
 			//		DiagramEditor.class.getMethod("setCreationMode", ElementType.class),
 			//		ElementType.NOTE));
 
+
 			selectorMap.put("CREATE_NOTE_CONNECTION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
 							RelationType.class), RelationType.NOTE_CONNECTOR));
@@ -289,6 +290,9 @@ public class AppCommandDispatcher implements AppCommandListener {
 
 			selectorMap.put("SHOW_GRID", new MethodCall(
 					getClass().getMethod("showGrid")));
+			
+			selectorMap.put("MODEL_COMPLETER", new MethodCall(
+					getClass().getMethod("activateModelCompleter")));
 
 			selectorMap.put("TOOLBOX", new MethodCall(
 					getClass().getMethod("showToolbox")));
@@ -390,21 +394,45 @@ public class AppCommandDispatcher implements AppCommandListener {
 			selectorMap.put("PATTERN_ROLE_PARTITION", new MethodCall(
 					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_ROLE_PARTITION));
 			
-			selectorMap.put("PATTERN_SUBSTANCE_SORTAL_PARTITION", new MethodCall(
-					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_SUBSTANCE_SORTAL_PARTITION));
+			selectorMap.put("GENERIC_PATTERN_RELATOR", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.GENERIC_RELATOR));
+			
+			selectorMap.put("PATTERN_ROLEMIXIN_DEPENDENT", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.DEPENDENT_ROLEMIXIN));
+			
+			selectorMap.put("PATTERN_KIND_PARTITION", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.KIND_PARTITION));
+			
+			selectorMap.put("PATTERN_COLLECTIVE_PARTITION", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.COLLECTIVE_PARTITION));
+			
+			selectorMap.put("PATTERN_QUANTITY_PARTITION", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.QUANTITY_PARTITION));
+			
+			selectorMap.put("CATEGORY_PATTERN", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.CATEGORY_PATTERN));
 			
 			selectorMap.put("PATTERN_COMPLETER", new MethodCall(
 					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_COMPLETER));
 			
-			selectorMap.put("PATTERN_ROLEMIXIN_PATTERN", new MethodCall(
-					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_ROLEMIXIN_PATTERN));
+			selectorMap.put("PATTERN_ROLEMIXIN", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_ROLEMIXIN));
+			
+			selectorMap.put("CHARACTERIZATION_PATTERN", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.CHARACTERIZATION_PATTERN));
+			
+			selectorMap.put("RIGID_WEAK_SUPPLEMENTATION", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.RIGID_WEAK_SUPPLEMENTATION));
+			
+			selectorMap.put("ANTIRIGID_WEAK_SUPPLEMENTATION", new MethodCall(
+					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.ANTIRIGID_WEAK_SUPPLEMENTATION));
 			
 			selectorMap.put("PATTERN_RELATOR", new MethodCall(
 					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_RELATOR));
 
 			selectorMap.put("DOMAIN_PATTERN", new MethodCall(
 					DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.DOMAIN_PATTERN));
-
+			
 		} catch (NoSuchMethodException ex) {
 			ex.printStackTrace();
 		}
@@ -464,7 +492,7 @@ public class AppCommandDispatcher implements AppCommandListener {
 	public void collectStatistics()
 	{
 		if (manager.isProjectLoaded()==false) return;
-		manager.getFrame().getDiagramManager().openStatisticPanel();
+		manager.getFrame().getDiagramManager().addStatisticsPanel(frame.getInfoManager(),true);
 	}
 	
 	public void showGrid() {
@@ -474,6 +502,15 @@ public class AppCommandDispatcher implements AppCommandListener {
 		manager.getCurrentWrapper().getToolBar().update();
 	}
 
+	public void activateModelCompleter(){
+		if(manager==null) return;
+		if(manager.getCurrentDiagramEditor().getWrapper() != null){
+			manager.getCurrentDiagramEditor().getWrapper().getScrollPane().updateUI();
+		}
+		manager.setModelCompleter(getMenuManager().isSelected("MODEL_COMPLETER"));
+		manager.getFrame().getMainToolBar().setModelCompleter(getMenuManager().isSelected("MODEL_COMPLETER"));
+	}
+	
 	public void showToolbox() {
 		manager.getFrame().showToolBox();
 	}
@@ -624,4 +661,5 @@ public class AppCommandDispatcher implements AppCommandListener {
 	public void snapToGrid() {
 		manager.getCurrentDiagramEditor().snapToGrid(getMenuManager().isSelected("SNAP_TO_GRID"));
 	}
+
 }

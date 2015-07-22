@@ -121,11 +121,13 @@ public class StartPage extends BackgroundPanel implements Editor {
 			public void mouseClicked(MouseEvent evt) {
 		        if (evt.getClickCount() >= 2) 
 		        {
-		        	if(getSelectedRecentFile().contains(".menthor")){
-		        		commandListener.handleCommand("OPEN_RECENT_PROJECT");
-		        	}else if(getSelectedRecentFile().contains(".xml") || getSelectedRecentFile().contains(".xmi")){
-		        		commandListener.handleCommand("IMPORT_XMI_FROM_FILE");
-		        	}		        	
+		        	if(getSelectedRecentFile()!=null){
+			        	if(getSelectedRecentFile().contains(".menthor")){
+			        		commandListener.handleCommand("OPEN_RECENT_PROJECT");
+			        	}else if(getSelectedRecentFile().contains(".xml") || getSelectedRecentFile().contains(".xmi")){
+			        		commandListener.handleCommand("IMPORT_XMI_FROM_FILE");
+			        	}		        	
+		        	}
 		        }
 		    }
 		});

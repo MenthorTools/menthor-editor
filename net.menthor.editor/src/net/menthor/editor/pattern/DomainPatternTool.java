@@ -1,49 +1,31 @@
 package net.menthor.editor.pattern;
 
-/**
- * ============================================================================================
- * Menthor Editor -- Copyright (c) 2015 
- *
- * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
- * distributed under the same license terms.
- *
- * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation; either 
- * version 2 of the License, or (at your option) any later version.
- *
- * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Menthor Editor; 
- * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
- * MA  02110-1301  USA
- * ============================================================================================
- */
-
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.commands.AppCommandListener;
-import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.PngWriter;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
-import org.tinyuml.umldraw.StructureDiagram;
-
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.Main;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.palette.Palette;
 import net.menthor.editor.palette.PaletteAccordion;
 import net.menthor.editor.palette.PaletteElement;
 import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
 import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
+
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.commands.AppCommandDispatcher;
+import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.commands.PngWriter;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
+
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
@@ -148,6 +130,21 @@ public class DomainPatternTool {
 		}
 		
 		return fix;
+	}
+	
+	public static void runPattern(final DiagramManager diagramManager,final double x, final double y) {
+		if(Main.onMac()){
+			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
+				@Override
+				public void run() {
+					Fix fix = DomainPatternTool.run(x, y);
+					diagramManager.updateMenthor(fix);
+				}
+			});
+		}else{
+			Fix fix = DomainPatternTool.run(x, y);
+			diagramManager.updateMenthor(fix);
+		}
 	}
 
 }

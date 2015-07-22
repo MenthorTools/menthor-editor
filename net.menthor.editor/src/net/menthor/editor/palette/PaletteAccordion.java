@@ -212,9 +212,17 @@ public class PaletteAccordion extends JPanel{
 		ontopatternPalette.createElement("staticpalette.pattern", "subkindpartition");
 		ontopatternPalette.createElement("staticpalette.pattern", "phasepartition");
 		ontopatternPalette.createElement("staticpalette.pattern", "rolepartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "substancesortalpartition");
 		ontopatternPalette.createElement("staticpalette.pattern", "rolemixinpattern");
 		ontopatternPalette.createElement("staticpalette.pattern", "relatorpattern");
+		ontopatternPalette.createElement("staticpalette.pattern", "dependentrolemixinpattern");
+		ontopatternPalette.createElement("staticpalette.pattern", "genericrelatorpattern");
+		ontopatternPalette.createElement("staticpalette.pattern", "characterizationpattern");
+		ontopatternPalette.createElement("staticpalette.pattern", "rigidweaksupplementation");
+		ontopatternPalette.createElement("staticpalette.pattern", "antirigidweaksupplementation");
+		ontopatternPalette.createElement("staticpalette.pattern", "kindpartition");
+		ontopatternPalette.createElement("staticpalette.pattern", "quantitypartition");
+		ontopatternPalette.createElement("staticpalette.pattern", "collectivepartition");
+		ontopatternPalette.createElement("staticpalette.pattern", "categorypattern");
 		
 		ontopatternPalette.addCommandListener(editorDispatcher);
 		
@@ -225,6 +233,7 @@ public class PaletteAccordion extends JPanel{
 
 		ontopatternPalette.sort();
 	}
+	
 	
 	private void createPatternsPalette(AppCommandDispatcher editorDispatcher)
 	{
