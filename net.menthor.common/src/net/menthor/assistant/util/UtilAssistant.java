@@ -1,5 +1,6 @@
 package net.menthor.assistant.util;
 
+
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +9,7 @@ import java.util.Set;
 import RefOntoUML.Category;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
+import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Kind;
 import RefOntoUML.Mixin;
 import RefOntoUML.NamedElement;
@@ -133,5 +135,13 @@ public class UtilAssistant {
 		return s;
 	}
 	
+	public static String getStereotypeFromSpecificsInPartition(Set<GeneralizationSet> generalizationSets, String partition){
+		for(GeneralizationSet gs : generalizationSets){
+			if(gs.getName().equals(partition)){
+				return UtilAssistant.getStringRepresentationStereotype(gs.getGeneralization().get(0).getSpecific());
+			}
+		}
+		return null;
+	}
 }
 
