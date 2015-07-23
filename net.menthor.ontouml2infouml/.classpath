@@ -25,9 +25,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.equinox.registry_3.5.301.v20130717-1549.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.jface_3.9.1.v20130725-1141.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.osgi_3.9.1.v20130814-1242.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.swt_3.102.0.v20130605-1539.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ui_3.105.0.v20130522-1122.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ui.workbench_3.105.0.v20130529-1406.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.uml2_4.1.0.v20130902-0826.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.uml2.common_1.8.1.v20130902-0826.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.uml2.types_1.1.0.v20130902-0826.jar"/>
@@ -39,5 +36,7 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt_1.6.0.r36x201305212024.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.widgets.baseline_1.6.0.r36x201305212028.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ui_3.107.0.v20150507-1945.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ui.workbench_3.107.0.v20150510-1732.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
