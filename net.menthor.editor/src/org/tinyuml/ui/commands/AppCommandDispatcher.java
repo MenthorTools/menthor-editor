@@ -511,7 +511,7 @@ public class AppCommandDispatcher implements AppCommandListener {
 			manager.getCurrentDiagramEditor().getWrapper().getScrollPane().updateUI();
 		}
 		manager.setModelCompleter(getMenuManager().isSelected("MODEL_COMPLETER"));
-		manager.getFrame().getMainToolBar().setModelCompleter(getMenuManager().isSelected("MODEL_COMPLETER"));
+		//manager.getFrame().getMainToolBar().setModelCompleter(getMenuManager().isSelected("MODEL_COMPLETER"));
 	}
 	
 	public void showToolbox() {

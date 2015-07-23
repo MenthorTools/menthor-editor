@@ -23,11 +23,11 @@ public class RelatorPattern extends AbstractPattern {
 
 	private Classifier c = null;
 	public RelatorPattern(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/RelatorPattern.png", "Relator Pattern");
+		super(parser, x, y, "/resources/patterns/RelatorPattern.png", "Relator Pattern");
 	}
 
 	public RelatorPattern(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/RelatorPattern.png", "Relator Pattern");
+		super(parser, x, y, "/resources/patterns/RelatorPattern.png", "Relator Pattern");
 		this.c = c;
 	}
 

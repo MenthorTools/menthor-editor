@@ -21,7 +21,7 @@ import RefOntoUML.parser.OntoUMLParser;
 public class PrincipleOfIdentity extends AbstractPattern{
 	private Classifier c;
 	public PrincipleOfIdentity(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser,x,y, "/resource/PrincipleOfIdentity_"+UtilAssistant.getStringRepresentationStereotype(c)+".png", "Principle of Identity Pattern");
+		super(parser,x,y, "/resources/patterns/PrincipleOfIdentity_"+UtilAssistant.getStringRepresentationStereotype(c)+".png", "Principle of Identity Pattern");
 		this.c = c;
 	}
 

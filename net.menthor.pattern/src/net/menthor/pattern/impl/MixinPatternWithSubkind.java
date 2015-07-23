@@ -20,7 +20,7 @@ import RefOntoUML.parser.OntoUMLParser;
 public class MixinPatternWithSubkind extends AbstractPattern{
 
 	public MixinPatternWithSubkind(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/MixinPatternWithSubkind.png", "Mixin Pattern With Subkind");
+		super(parser, x, y, "/resources/patterns/MixinPatternWithSubkind.png", "Mixin Pattern With Subkind");
 	}
 
 	@Override

@@ -22,11 +22,11 @@ public class MixinPattern extends AbstractPattern{
 	private Classifier c;
 
 	public MixinPattern(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/MixinPattern.png", "Mixin Pattern");
+		super(parser, x, y, "/resources/patterns/MixinPattern.png", "Mixin Pattern");
 	}
 
 	public MixinPattern(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/MixinPattern.png", "Mixin Pattern");
+		super(parser, x, y, "/resources/patterns/MixinPattern.png", "Mixin Pattern");
 		this.c = c;
 	}
 

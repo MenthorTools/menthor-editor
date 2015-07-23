@@ -22,7 +22,7 @@ import RefOntoUML.parser.OntoUMLParser;
 
 public class RigidWeakSupplementation extends AbstractPattern {
 	public RigidWeakSupplementation(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/RigidWeakSupplementation.png", "Rigid Weak Supplementation");
+		super(parser, x, y, "/resources/patterns/RigidWeakSupplementation.png", "Rigid Weak Supplementation");
 	}
 
 	@Override

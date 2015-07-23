@@ -20,7 +20,7 @@ import RefOntoUML.parser.OntoUMLParser;
 
 public class AntiRigidWeakSupplementation extends AbstractPattern {
 	public AntiRigidWeakSupplementation(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/AntiRigidWeakSupplementation.png", "Anti-Rigid Weak Supplementation");
+		super(parser, x, y, "/resources/patterns/AntiRigidWeakSupplementation.png", "Anti-Rigid Weak Supplementation");
 	}
 
 	@Override

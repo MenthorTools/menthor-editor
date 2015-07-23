@@ -42,7 +42,7 @@ public class SplashScreen extends JDialog {
 		versionLabel.setFont(new Font(versionLabel.getFont().getFontName(), Font.BOLD, 11));
 		versionLabel.setBounds(10, 263, 580, 14);
 		layeredPane.add(versionLabel);		
-		statusLabel = new JLabel("Loading");
+		statusLabel = new JLabel("Loading...");
 		statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		statusLabel.setForeground(Color.WHITE);
 		layeredPane.setLayer(statusLabel, 1);
@@ -79,7 +79,12 @@ public class SplashScreen extends JDialog {
 		});
 	}
 
-	public void setStatusLabel(String status) {
-		this.statusLabel.setText(status);
+	public void setStatusLabel(final String status){
+		SwingUtilities.invokeLater(new Runnable() {			
+			@Override
+			public void run() {
+				statusLabel.setText(status);				
+			}
+		});		
 	}
 }

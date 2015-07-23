@@ -16,11 +16,11 @@ public class CategoryPattern extends AbstractPattern{
 	private Classifier c;
 
 	public CategoryPattern(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/CategoryPattern.png", "Category Pattern");
+		super(parser, x, y, "/resources/patterns/CategoryPattern.png", "Category Pattern");
 	}
 
 	public CategoryPattern(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/CategoryPattern.png", "Category Pattern");
+		super(parser, x, y, "/resources/patterns/CategoryPattern.png", "Category Pattern");
 		this.c = c;
 	}
 

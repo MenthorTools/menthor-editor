@@ -1,9 +1,5 @@
 package net.menthor.editor.pattern;
 
-import javax.swing.SwingUtilities;
-
-import org.eclipse.swt.widgets.Display;
-
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
@@ -28,6 +24,9 @@ import net.menthor.pattern.impl.RoleMixinPattern;
 import net.menthor.pattern.impl.RolePartition;
 import net.menthor.pattern.impl.SubkindPartition;
 import net.menthor.pattern.ui.manager.ModelCompleterManager;
+
+import org.eclipse.swt.widgets.Display;
+
 import RefOntoUML.Classifier;
 
 /**

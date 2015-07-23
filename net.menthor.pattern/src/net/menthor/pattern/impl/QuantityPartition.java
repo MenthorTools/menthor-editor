@@ -10,7 +10,7 @@ import RefOntoUML.parser.OntoUMLParser;
 public class QuantityPartition extends AbstractPattern{
 
 	public QuantityPartition(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y,"/resource/QuantityPartition.png", "Quantity Partition");
+		super(parser, x, y,"/resources/patterns/QuantityPartition.png", "Quantity Partition");
 	}
 
 	@Override

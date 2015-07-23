@@ -16,12 +16,12 @@ import RefOntoUML.parser.OntoUMLParser;
 public class RolePartition extends AbstractPattern{
 	private Classifier c;
 	public RolePartition(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/RolePartition.png", "Role Partition");
+		super(parser, x, y, "/resources/patterns/RolePartition.png", "Role Partition");
 		this.c = c;
 	}
 
 	public RolePartition(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/RolePartition.png", "Role Partition");
+		super(parser, x, y, "/resources/patterns/RolePartition.png", "Role Partition");
 	}
 	
 	@Override

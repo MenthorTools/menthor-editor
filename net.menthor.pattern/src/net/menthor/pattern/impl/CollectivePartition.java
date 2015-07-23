@@ -10,7 +10,7 @@ import RefOntoUML.parser.OntoUMLParser;
 public class CollectivePartition extends AbstractPattern{
 
 	public CollectivePartition(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y,"/resource/CollectivePartition.png", "Collective Partition");
+		super(parser, x, y,"/resources/patterns/CollectivePartition.png", "Collective Partition");
 	}
 
 	@Override

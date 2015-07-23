@@ -23,11 +23,11 @@ public class GenericMultipleRelator extends AbstractPattern {
 
 
 	public GenericMultipleRelator(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/MultipleGenericRelator.PNG", "Multiple Generic Relator");
+		super(parser, x, y, "/resources/patterns/MultipleGenericRelator.PNG", "Multiple Generic Relator");
 	}
 
 	public GenericMultipleRelator(OntoUMLParser parser, Classifier c, double x,	double y) {
-		super(parser, x, y, "/resource/MultipleGenericRelator.PNG", "Multiple Generic Relator");
+		super(parser, x, y, "/resources/patterns/MultipleGenericRelator.PNG", "Multiple Generic Relator");
 		this.c = c;
 	}
 	private Classifier c = null;

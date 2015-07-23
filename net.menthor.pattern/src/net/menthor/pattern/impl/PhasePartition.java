@@ -16,12 +16,12 @@ import RefOntoUML.parser.OntoUMLParser;
 public class PhasePartition extends AbstractPattern{
 
 	public PhasePartition(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/PhasePartition.png", "Phase Partition");
+		super(parser, x, y, "/resources/patterns/PhasePartition.png", "Phase Partition");
 	}
 
 	private Classifier c;
 	public PhasePartition(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/PhasePartition.png", "Phase Partition");
+		super(parser, x, y, "/resources/patterns/PhasePartition.png", "Phase Partition");
 		this.c = c;
 	}
 	

@@ -65,13 +65,13 @@ public class DynamicWindow extends Dialog {
 
 	public static DynamicWindow createDialog(final String title, final String imagePath)
 	{	
-//		Display display = Display.getDefault();		
-//		Shell shell = display.getActiveShell();	
-//		if(shell == null){
-//			shell = new Shell(display,SWT.ON_TOP);
-//		}		
-		DynamicWindow resultDIalog = new DynamicWindow(null,title,imagePath);
-		//UtilPattern.centralizeShell(display, shell);
+		Display display = Display.getDefault();		
+		Shell shell = display.getActiveShell();	
+		if(shell == null){
+			shell = new Shell(display,SWT.ON_TOP);
+		}		
+		DynamicWindow resultDIalog = new DynamicWindow(shell,title,imagePath);
+		UtilPattern.centralizeShell(display, shell);
 		resultDIalog.create();				
 
 		return resultDIalog;

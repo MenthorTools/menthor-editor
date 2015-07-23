@@ -27,11 +27,11 @@ public class CharacterizationPattern extends AbstractPattern {
 
 	private Classifier c = null;
 	public CharacterizationPattern(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/Characterization.png", "Characterization Pattern");
+		super(parser, x, y, "/resources/patterns/Characterization.png", "Characterization Pattern");
 	}
 
 	public CharacterizationPattern(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/Characterization.png", "Characterization Pattern");
+		super(parser, x, y, "/resources/patterns/Characterization.png", "Characterization Pattern");
 		this.c = c;
 	}
 

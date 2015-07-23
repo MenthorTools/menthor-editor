@@ -21,12 +21,12 @@ import RefOntoUML.parser.OntoUMLParser;
 public class RoleMixinPattern extends AbstractPattern{
 
 	public RoleMixinPattern(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/RoleMixin.png", "RoleMixin Pattern");
+		super(parser, x, y, "/resources/patterns/RoleMixin.png", "RoleMixin Pattern");
 	}
 
 	Classifier c;
 	public RoleMixinPattern(OntoUMLParser parser, Classifier c, double x, double y) {
-		super(parser, x, y, "/resource/RoleMixin.png", "RoleMixin Pattern");
+		super(parser, x, y, "/resources/patterns/RoleMixin.png", "RoleMixin Pattern");
 		this.c = c;
 	}
 

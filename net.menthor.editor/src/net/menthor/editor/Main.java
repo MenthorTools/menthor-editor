@@ -38,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 import java.util.jar.Manifest;
 import java.util.logging.FileHandler;
@@ -51,7 +50,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
@@ -83,6 +81,8 @@ public final class Main {
 	static Date date = new Date();
 	static Calendar c = Calendar.getInstance();
 	public static String MENTHOR_COMPILATION_DATE = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);
+	
+	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
 	
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;
@@ -442,6 +442,21 @@ public final class Main {
 		}		
 	}
 	
+	public static void publish(final String msg)
+	{
+		SwingUtilities.invokeLater(new Runnable() {			
+			@Override
+			public void run() {
+				Thread thread = new Thread() {
+				      public void run() {
+						splashScreen.setStatusLabel(msg);										
+					}
+				};
+				thread.start();
+			}
+		});
+	}
+	
 	/**  
 	 * The start method for this application.
 	 * @param args the command line parameters
@@ -449,73 +464,56 @@ public final class Main {
 	public static void main(final String[] args) 
 	{	
 		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				final SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
-				SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>() {
-
-					@Override
-					protected Boolean doInBackground() throws Exception {
-						try {
-							publish("Redirecting system to a log...");
-							if(USE_LOG_FILE) redirectSystemToALog();
-							publish("Setting system properties...");
-							setSystemProperties();				
-							publish("Setting system font...");
-							chooseFont();
-							publish("Loading application...");
-							
-							frame = new AppFrame();					
-							
-							publish("Loading interface components...");
-							loadAppropriateSwtJar();
-							publish("Loading binary files...");
-							copyBinaryFilesTo();
-							publish("Extracting Alloy files...");
-							ExtractorUtil.extractAlloyJar();
-							publish("Setting window location...");
-							
-							frame.setLocationByPlatform(true);
-							
-							String menthorFileName = "";
-							for (String arg : args) {
-								if(arg.endsWith(".menthor")){
-									menthorFileName  = arg;
-									break;
-								}
-							}
-							if(!menthorFileName.equals("")){
-								publish("Opening project: " + menthorFileName + "...");
-								frame.getDiagramManager().openProject(menthorFileName);
-							}
-							
-							publish("Enjoy Menthor Editor!");
-							//Thread.sleep(1000);
-							
-							frame.setVisible(true);
-							frame.toFront();	
-							splashScreen.close();
-						} catch (Exception ex) {
-							JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
-							ex.printStackTrace();
-						}	
-						return null;
+			public void run() {				
+				try {
+					publish("Redirecting system to a log...");
+					if(USE_LOG_FILE) redirectSystemToALog();
+					
+					publish("Setting system properties...");
+					setSystemProperties();
+					
+					publish("Setting system font...");
+					chooseFont();
+					
+					publish("Loading interface components...");
+					loadAppropriateSwtJar();
+					
+					publish("Loading binary files...");
+					copyBinaryFilesTo();
+					
+					publish("Extracting Alloy files...");
+					ExtractorUtil.extractAlloyJar();
+										
+					publish("Loading application...");						
+					frame = new AppFrame();
+					
+					publish("Setting window location...");
+					frame.setLocationByPlatform(true);
+					
+					String menthorFileName = "";
+					for (String arg : args) {
+						if(arg.endsWith(".menthor")){
+							menthorFileName  = arg;
+							break;
+						}
+					}
+					if(!menthorFileName.equals("")){
+						publish("Opening project: " + menthorFileName + "...");
+						frame.getDiagramManager().openProject(menthorFileName);
 					}
 					
-					@Override
-					protected void process(List<String> chunks) {
-						splashScreen.setStatusLabel(chunks.get(chunks.size()-1));
-						Main.printOutLine(chunks.get(chunks.size()-1));
-					}
+					//publish("Enjoy Menthor Editor!");
+					//Thread.sleep(1000);
 					
-					@Override
-					protected void done() {
-						// TODO Auto-generated method stub
-						super.done();
-					}
-				};
-				worker.execute();			
-			}
-		});		
-		
+					frame.setVisible(true);
+					frame.toFront();	
+					splashScreen.close();
+					
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
+					ex.printStackTrace();
+				}					
+			}			
+		});				
 	}
 }

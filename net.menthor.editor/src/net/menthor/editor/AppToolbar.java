@@ -73,7 +73,7 @@ public class AppToolbar implements ActionListener {
 	private JButton btnSBVR;
 	private JButton btnAntiPattern;
 	private JButton btnMeronymic;
-	private JToggleButton btnModelCompleter;
+//	private JToggleButton btnModelCompleter;
 	
 	//public JToggleButton getToolBoxButton() { return btnToolBox; }
 	public JToggleButton getProjectBrowserButton() { return btnBrowser; }
@@ -228,11 +228,11 @@ public class AppToolbar implements ActionListener {
 		enableAll(false);
 	}
 
-
-	public void setModelCompleter(boolean bool) {
-		btnModelCompleter.setSelected(bool);
-	}
-	
+//
+//	public void setModelCompleter(boolean bool) {
+//		btnModelCompleter.setSelected(bool);
+//	}
+//	
 	/**
 	 * Returns the toolbar.
 	 * @return the toolbar

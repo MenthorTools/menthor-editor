@@ -12,7 +12,7 @@ import RefOntoUML.parser.OntoUMLParser;
 public class SubkindPartition extends AbstractPattern{
 
 	public SubkindPartition(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y,"/resource/SubkindPartition.png", "Subkind Partition");
+		super(parser, x, y,"/resources/patterns/SubkindPartition.png", "Subkind Partition");
 	}
 
 	@Override
