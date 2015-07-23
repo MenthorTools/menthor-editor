@@ -74,13 +74,13 @@ public class OwlPrimitiveMappingPane extends JPanel{
 	{
 		primitiveTypePane = new PrimitiveMappingPane("Primitive Type",refparser, "OWL/RDF");
 		addDefault(refparser);
-		primitiveTypePane.setText("Map a primitive type to an OWL's primitive/derived data type");
+		primitiveTypePane.setText("Map a model primitive type to an OWL/RDF's data type");
 		primitiveTypePane.getHeaderPane().setPreferredSize(new Dimension(10,45));
 		
 		primitiveTypePane.setPreferredSize(new Dimension(100, 150));
 		primitiveAttrPane = new AttributeMappingPane("Attribute",refparser, "OWL/RDF");
 		primitiveAttrPane.setPreferredSize(new Dimension(100, 150));
-		primitiveAttrPane.setText("Map an attribute's primitive type to an OWL's primitive/derived data type");
+		primitiveAttrPane.setText("Map a model attribute's primitive type to an OWL/RDF's data type");
 		primitiveAttrPane.getHeaderPane().setPreferredSize(new Dimension(10,45));
 		
 		setLayout(new BorderLayout(0,0));

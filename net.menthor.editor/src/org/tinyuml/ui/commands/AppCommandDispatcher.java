@@ -338,6 +338,9 @@ public class AppCommandDispatcher implements AppCommandListener {
 			selectorMap.put("GENERATE_SBVR", new MethodCall(
 					getClass().getMethod("generateSbvr")));
 
+			selectorMap.put("GENERATE_INFOUML", new MethodCall(
+					getClass().getMethod("generateInfoUML")));
+			
 			selectorMap.put("GENERATE_TEXT", new MethodCall(
 					getClass().getMethod("callGlossary")));
 
@@ -552,6 +555,14 @@ public class AppCommandDispatcher implements AppCommandListener {
 		manager.generateSbvr((RefOntoUML.Model)refparser.createModelFromSelections(new Copier()));
 	}
 		
+	public void generateInfoUML()
+	{
+		if (manager.isProjectLoaded()==false) return;
+		manager.workingOnlyWithChecked();
+		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+		manager.generateInfoUML((RefOntoUML.Model)refparser.createModelFromSelections(new Copier()));
+	}
+	
 	public void generateAlloy()
 	{
 		if (manager.isProjectLoaded()==false) return;

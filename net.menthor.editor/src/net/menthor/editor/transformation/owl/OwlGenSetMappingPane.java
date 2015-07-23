@@ -23,7 +23,7 @@ public class OwlGenSetMappingPane extends JPanel{
 	{
 		gsPane = new GeneralizationSetMappingPane(refparser);
 		
-		gsPane.setText("Map specific classes from a Generalization Set to a OWL Enumeration.");
+		gsPane.setText("Map specific classes from a Generalization Set to a Enumeration.");
 		
 		setLayout(new BorderLayout(0,0));
 		

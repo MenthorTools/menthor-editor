@@ -118,6 +118,7 @@ import net.menthor.editor.util.OperationResult;
 import net.menthor.editor.util.OperationResult.ResultType;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
+import net.menthor.ontouml2infouml.OntoUML2InfoUML;
 import net.menthor.ontouml2sbvr.core.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
@@ -2761,6 +2762,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
+	}	
+	
+	public void generateInfoUML(RefOntoUML.Package model) 
+	{
+		OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
 	}	
 	
 	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */

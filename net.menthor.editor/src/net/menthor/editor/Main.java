@@ -87,8 +87,7 @@ public final class Main {
 	public static boolean USE_LOG_FILE = false;
 	public static PrintStream psOut;
 	public static PrintStream psErr;
-	
-	
+		
 	/** This caches the result of the call to get all fonts. */
 	private static String[] allFonts = null;
 	    	   

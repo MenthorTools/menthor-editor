@@ -122,6 +122,8 @@ public class AppMenu implements ActionListener {
 		//owlItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
 		
 		JMenuItem sbvrItem = createMenuItem(transformMenu, "generatesbvr");
+		
+		JMenuItem infoItem = createMenuItem(transformMenu, "generatesinfouml");
 		//sbvrItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
 		
 		JMenuItem textItem = createMenuItem(transformMenu, "generatetext");
