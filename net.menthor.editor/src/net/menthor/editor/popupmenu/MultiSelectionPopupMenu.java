@@ -49,7 +49,7 @@ import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
 import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 import RefOntoUML.Generalization;
 
 /**

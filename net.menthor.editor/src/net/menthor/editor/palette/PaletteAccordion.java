@@ -45,7 +45,7 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 
 /**
  * This class provides an accordion pane for accomodating the many allElements 

@@ -43,8 +43,8 @@ import javax.swing.border.EtchedBorder;
 
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
 import net.menthor.editor.util.MethodCall;
+import net.menthor.resources.icons.IconLoader;
 
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.jdesktop.swingx.MultiSplitPane;

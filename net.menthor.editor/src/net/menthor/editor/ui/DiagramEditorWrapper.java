@@ -94,6 +94,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		add(scrollpane,BorderLayout.CENTER);
 		add(diagramStatus,BorderLayout.SOUTH);
 		
+		/**drag from the tree and drop at the diagram*/
 		JTree tree = editor.getDiagramManager().getFrame().getProjectBrowser().getTree();
 		ds = DragSource.getDefaultDragSource();
 	    ds.createDefaultDragGestureRecognizer(tree, DnDConstants.ACTION_MOVE, new TreeDragGestureListener());

@@ -24,6 +24,9 @@ package net.menthor.editor.explorer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -43,8 +46,13 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.tinyuml.umldraw.StructureDiagram;
+
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
+import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
+import net.menthor.editor.explorer.dnd.TreeDropListener;
 import net.menthor.editor.model.AlloySpecification;
 import net.menthor.editor.model.AntiPatternList;
 import net.menthor.editor.model.InferenceList;
@@ -52,10 +60,6 @@ import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -147,6 +151,11 @@ public class ProjectBrowser extends JPanel{
 		tree.setBorder(new EmptyBorder(2,2,2,2));
 		tree.addTreeSelectionListener(new ProjectTreeSelectionListener());
 		
+		/**drag from the tree and drop at the same tree*/
+		DragSource ds = DragSource.getDefaultDragSource();
+	    ds.createDefaultDragGestureRecognizer(tree, DnDConstants.ACTION_MOVE, new TreeDragGestureListener());
+	    DropTarget dt = new DropTarget(tree, new TreeDropListener(tree));
+	    	    
 		/** Delete Key Stroke */
 		tree.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK), "delete");		
 		tree.getActionMap().put("delete", new AbstractAction() {			

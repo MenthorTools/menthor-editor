@@ -1,6 +1,9 @@
-package net.menthor.ontouml2sbvr.core;
+package net.menthor.ontouml2sbvr;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -9,6 +12,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import RefOntoUML.Class;
+import RefOntoUML.Classifier;
+import RefOntoUML.DataType;
+import RefOntoUML.Package;
+
 public class OntoUML2SBVR
 {
 	public static void main (String args[])
@@ -16,7 +24,7 @@ public class OntoUML2SBVR
 		OntoUML2SBVR.Transformation(args[0]);
 	}
 	
-	public static void Transformation (String fileName)
+	public static void Transformation(String fileName)
 	{
 		// Configure ResourceSet
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -25,7 +33,7 @@ public class OntoUML2SBVR
 				
 		// Open the model
 		File sourceFile = new File(fileName);
-		sourceFile.deleteOnExit();
+		//sourceFile.deleteOnExit();
 		
 		if (!sourceFile.isFile())
 		{
@@ -38,10 +46,33 @@ public class OntoUML2SBVR
 		{
 			// Read the objects in the model
 			Resource resource = resourceSet.getResource(uri, true);
-			EObject p1 = resource.getContents().get(0);
+			EObject eObj = resource.getContents().get(0);
 
-			Transformation t = new Transformation(sourceFile);
-			t.Transform(p1, false);
+			if (!(eObj instanceof Package))
+				return;
+			
+			Package p = (Package)eObj;
+			
+			FileManager myfile = new FileManager(sourceFile);
+			myfile.serial = false;
+			TreeNavigator treeNavigator = new TreeNavigatorImpl();
+			treeNavigator.build((RefOntoUML.Package)p);
+			myfile.addTreeNavigator(treeNavigator);
+
+			List<Classifier> mainClasses = new LinkedList<>();
+			for (Classifier c : treeNavigator.getClasses())
+				if (c.parents().size() == 0)
+					mainClasses.add(c);
+			for (Classifier c : mainClasses)
+				myfile.DealNode((Class)c, !myfile.serial);
+			
+			for (DataType dt : treeNavigator.getDataTypes())
+				myfile.DealDataType(dt);
+
+			for (Map.Entry<String, Classifier> ar : treeNavigator.getAssociationRoles())
+				myfile.DealAssociationRole(ar.getKey(), ar.getValue());
+
+			myfile.Done();
 		}
 		catch (Exception e)
 		{

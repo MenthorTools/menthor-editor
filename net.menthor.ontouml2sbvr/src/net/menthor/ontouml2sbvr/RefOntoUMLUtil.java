@@ -1,11 +1,10 @@
-package net.menthor.ontouml2sbvr.core;
+package net.menthor.ontouml2sbvr;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.emf.common.util.EList;
 
-import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
@@ -41,7 +40,7 @@ public class RefOntoUMLUtil
 		return specifics;
 	}
 	
-	public static LinkedList<String> IncludedInCs (Class c)
+	public static LinkedList<String> IncludedInCs (Classifier c)
 	{
 		LinkedList<String> gsets = new LinkedList<String>();
 		
@@ -89,31 +88,4 @@ public class RefOntoUMLUtil
 		
 		return gsName;
 	}
-	
-	/*public String getGSets (Class c)
-	{
-		String gsets = null;
-		
-		// For every Generalization, get the Generalization Set
-		for (Iterator<Generalization> gens = c.getGeneralization().iterator(); gens.hasNext(); )
-		{
-			// Considering that every Generalization has at most one Generalization Set
-			Generalization g = gens.next();
-			
-			// If there is a Generalization Set
-			if (g.getGeneralizationSet().size() > 0)
-			{
-				GeneralizationSet gs = g.getGeneralizationSet().get(0);
-				
-				if (gsets == null)
-					gsets = "";
-				else
-					gsets += " and ";
-				
-				gsets += getGSetName(gs);
-			}
-		}
-					
-		return gsets;
-	}*/
 }

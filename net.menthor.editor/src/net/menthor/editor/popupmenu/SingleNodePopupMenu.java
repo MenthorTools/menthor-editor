@@ -38,7 +38,7 @@ import javax.swing.KeyStroke;
 
 import net.menthor.editor.ui.diagram.commands.SetColorCommand;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.commands.AppCommandListener;

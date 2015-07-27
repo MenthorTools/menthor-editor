@@ -36,7 +36,7 @@ import javax.swing.JToolBar;
 
 import net.menthor.editor.ui.DiagramToolbar;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 
 import org.tinyuml.ui.commands.AppCommandListener;
 

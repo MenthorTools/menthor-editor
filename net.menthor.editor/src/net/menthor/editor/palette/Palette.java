@@ -42,8 +42,9 @@ import javax.swing.JPanel;
 import org.tinyuml.ui.commands.AppCommandListener;
 
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
-import net.menthor.editor.util.IconLoader.IconType;
+import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconLoader.IconType;
+
 import java.awt.Color;
 
 /**

@@ -43,7 +43,7 @@ import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;

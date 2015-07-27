@@ -1,4 +1,4 @@
-package net.menthor.ontouml2sbvr.core;
+package net.menthor.ontouml2sbvr;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,7 +12,6 @@ public class HtmlHelper
 	{
 		divNum = new HashMap<String, Integer>();
 	}
-	
 	public String StartDocument (String title)
 	{
 		return  "<!DOCTYPE HTML>\n" +
@@ -64,7 +63,7 @@ public class HtmlHelper
 		return "</div>\n</body>\n</html>\n";
 	}
 		
-	private String Term (String str)
+	public String Term (String str)
 	{
 		return "<font class='term'>" + str + "</font>";
 	}
@@ -93,11 +92,6 @@ public class HtmlHelper
 	{
 		return "<font class='keyword title'>" + str + "</font>";
 	}
-	
-	private String Entry (String str)
-	{
-		return "<font>" + str + "</font>";
-	}	
 	
 	private String CS (String str)
 	{
@@ -199,7 +193,7 @@ public class HtmlHelper
 	
 	public String ConceptType (String str)
 	{
-		return DivLeft(Entry("Concept Type:")) + DivRight(Term(str)) + LineFeed();
+		return DivLeft(Text("Concept Type:")) + DivRight(Term(str)) + LineFeed();
 	}
 	
 	public String GeneralConcept (LinkedList<String> parents, boolean anchor)
@@ -220,17 +214,17 @@ public class HtmlHelper
 				str += ", ";
 		}
 		
-		return DivLeft(Entry("General Concept:")) + DivRight(str) + LineFeed();
+		return DivLeft(Text("General Concept:")) + DivRight(str) + LineFeed();
 	}
 	
 	private String Definition (String str)
 	{
-		return DivLeft(Entry("Definition:")) + DivRight(str) + LineFeed();
+		return DivLeft(Text("Definition:")) + DivRight(str) + LineFeed();
 	}
 	
 	private String Necessity (String str)
 	{
-		return DivLeft(Entry("Necessity:")) + DivRight(str) + LineFeed();
+		return DivLeft(Text("Necessity:")) + DivRight(str) + LineFeed();
 	}
 	
 	public String VerbConcept (String relata1, String assoc, String relata2, boolean reverse, boolean anchor)
@@ -366,10 +360,66 @@ public class HtmlHelper
 		
 		return Necessity(mynecessity);
 	}
-		
+
+	/**
+	 * Create an HTML tag representing the 'Description' caption for a SBVR
+	 * Vocabulary/Guidance Entry, with a certain content.
+	 * 
+	 * @param str the content of the 'Description' caption.
+	 * @return an HTML tag representing the 'Description' caption for 
+	 * 		   a given vocabulary/guidance entry.
+	 * 
+	 * @author petrux
+	 * @since 11 July 2014
+	 */
+	public String Description(String str) {
+		return DivLeft(Text("Description")) 
+				+ DivRight(str) + LineFeed(); 
+	}
+	
+	/**
+	 * Create an HTML tag to represent plain text. 
+	 * 
+	 * @param str the plain text content
+	 * @return an HTML tag to represent plain text.
+	 * 
+	 * @author petrux
+	 * @since 11 July 2014
+	 */
+	public String Text(String str) {
+		return "<font>" + str + "</font>"; 
+	}
+	
 	private String LineFeed ()
 	{
 		return "\n";
+	}
+	
+	/**
+	 * Generates the HTML snippet for a line break.
+	 * 
+	 * @return an HTML tag for a line break.
+	 * 
+	 * @author petrux
+	 * @since 11 July 2014
+	 */
+	public String lineBreak() {
+		return "</br>";
+	}
+	
+	/**
+	 * Generates the HTML tag to represent a named individual. 
+	 * Please note that also referenced Categorization Scheme should
+	 * be mentioned following this convention.
+	 *  
+	 * @param name the named individual's name.
+	 * @return a HTML tag to represent a named individual.
+	 * 
+	 * @author petrux
+	 * @since 11 July 2014
+	 */
+	public String individual(String name) {
+		return "<font class=\"cs double\">" + name + "</font>";
 	}
 	
 	public String SectionBreaker ()

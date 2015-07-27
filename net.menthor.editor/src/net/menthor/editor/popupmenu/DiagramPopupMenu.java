@@ -35,7 +35,7 @@ import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 
 /**
  * @author John Guerson

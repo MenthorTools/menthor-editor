@@ -41,7 +41,7 @@ import org.tinyuml.ui.commands.AppCommandListener;
 import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.IconLoader;
+import net.menthor.resources.icons.IconLoader;
 
 /**
  * This class manages the pulldown menu of the application.

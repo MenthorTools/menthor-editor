@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>SBVR Documentation: 04</title>
+
+<style type='text/css'>
+	div { margin-bottom:2px; margin-top:2px; float:left; }
+	div#container { margin:auto; width:85%; float:none; }
+	div.headerdiv { clear:left; }
+	div.leftdiv { width:200px; margin-left:25px; clear:left; }
+	div.rightdiv { }
+	div.collapsible { clear:left; display:none; padding:10px; margin-left:25px; }
+	div.sectiondiv { clear:left; border:3px double black; padding:10px; }
+	div.breaker { clear:left; height:25px; }
+	font { font-family:arial; font-size:medium; }
+	font.title { font-size:large; }
+	font.term { color:teal; text-decoration:underline; }
+	font.verb { color:blue; }
+	font.keyword { color:#FF6500; }
+	font.cs { color:teal; }
+	sub { vertical-align: -0.35em; }
+	.double { border-bottom: 3px double teal; line-height: 1.7em;}
+	img { border:none; }
+</style>
+
+<script type='text/javascript'>
+function toggle(name, anchor)
+{
+	if (document.getElementById(name).style.display == 'block')
+	{
+		document.getElementById(name).style.display = 'none';
+		anchor.innerHTML = "<img src='show.png'></img>" 
+	}
+	else
+	{
+		document.getElementById(name).style.display = 'block';
+		anchor.innerHTML = "<img src='hide.png'></img>" 
+	}
+}
+</script>
+</head>
+
+<body>
+<div id='container'>
+<div id='Person_Section' class='sectiondiv'>
+<div class='headerdiv'><a href='javascript:;' onclick="toggle('Person', this);"><img src='show.png'></img></a> <font class='term title'>Person</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>fundamental concept</font></div>
+<div class='leftdiv'><font>Description</font></div><div class='rightdiv'><font>According to the </font><font>segmentation</font><font> </font><font class="cs double">Gender</font><font> a </font><font class='term'>Person</font><font> must be exactly one of </font><font>a </font><font class='term'>Man</font><font> or a </font><font class='term'>Woman</font><font>.</font></br></div>
+<div id='Person' class='collapsible'>
+<div class='headerdiv'><span class='double'><font class='cs title'>Gender</font></span></div>
+<div class='leftdiv'><font>Definition:</font></div><div class='rightdiv'><font class='term'>segmentation</font> <font class='keyword'>that</font> <font class='verb'>is for</font> <font class='term'>Person</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><span class='double'><font class='cs'>Gender</font></span> <font class='verb'>contains</font> <font class='keyword'>the</font> <font class='term'>categories</font> <font class='keyword'>'</font><font class='term'>Man</font><font class='keyword'>'</font> <font class='keyword'>and</font> <font class='keyword'>'</font><font class='term'>Woman</font><font class='keyword'>'</font></div>
+<div class='breaker'></div>
+
+<div id='Man_Section' class='sectiondiv'>
+<div class='headerdiv'><a href='javascript:;' onclick="toggle('Man', this);"><img src='show.png'></img></a> <font class='term title'>Man</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Person</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>object type</font></div>
+<div class='leftdiv'><font>Description</font></div><div class='rightdiv'><font>A </font><font class='term'>Man</font><font> may be a </font><font class='term'>Husband</font><font>.</font></br><font>A </font><font class='term'>Man</font><font> may partecipate in a relation of type </font><font class='term'>Marriage</font><font> in the role of a </font><font class='term'>Husband</font></br></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>The</font> <font class='term'>concept</font> <font class='term'>Man</font> <font class='verb'>is included in</font> <span class='double'><font class='cs'>Gender</font></span></div>
+<div id='Man' class='collapsible'>
+<div id='Husband_Section' class='sectiondiv'>
+<div class='headerdiv'><a href='javascript:;' onclick="toggle('Husband', this);"><img src='show.png'></img></a> <font class='term title'>Husband</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Man</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>role</font></div>
+<div id='Husband' class='collapsible'>
+<div class='headerdiv'><font class='term title'>marriage</font> <font class='verb title'>mediates</font> <font class='term title'>husband</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>associative fact type</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>marriage</font> <font class='verb'>mediates</font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>husband</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>husband</font> <font class='verb'>is related to </font> <font class='keyword'><font class='keyword'>at least one</font></font> <font class='term'>marriage</font></div>
+<div class='breaker'></div>
+
+<div class='headerdiv'><font class='term title'>husband</font> <font class='verb title'>Material1</font> <font class='term title'>wife</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>associative fact type</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>husband</font> <font class='verb'>Material1</font> <font class='keyword'><font class='keyword'>at least one</font></font> <font class='term'>wife</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>wife</font> <font class='verb'>is related to </font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>husband</font></div>
+</div>
+</div>
+</div>
+</div>
+<div class='breaker'></div>
+
+<div id='Woman_Section' class='sectiondiv'>
+<div class='headerdiv'><a href='javascript:;' onclick="toggle('Woman', this);"><img src='show.png'></img></a> <font class='term title'>Woman</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Person</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>object type</font></div>
+<div class='leftdiv'><font>Description</font></div><div class='rightdiv'><font>A </font><font class='term'>Woman</font><font> may be a </font><font class='term'>Wife</font><font>.</font></br><font>A </font><font class='term'>Woman</font><font> may partecipate in a relation of type </font><font class='term'>Marriage</font><font> in the role of a </font><font class='term'>Wife</font></br></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>The</font> <font class='term'>concept</font> <font class='term'>Woman</font> <font class='verb'>is included in</font> <span class='double'><font class='cs'>Gender</font></span></div>
+<div id='Woman' class='collapsible'>
+<div id='Wife_Section' class='sectiondiv'>
+<div class='headerdiv'><a href='javascript:;' onclick="toggle('Wife', this);"><img src='show.png'></img></a> <font class='term title'>Wife</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Woman</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>role</font></div>
+<div id='Wife' class='collapsible'>
+<div class='headerdiv'><font class='term title'>marriage</font> <font class='verb title'>mediates</font> <font class='term title'>wife</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>associative fact type</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>marriage</font> <font class='verb'>mediates</font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>wife</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>wife</font> <font class='verb'>is related to </font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>marriage</font></div>
+<div class='breaker'></div>
+
+<div class='headerdiv'><font class='term title'>husband</font> <font class='verb title'>Material1</font> <font class='term title'>wife</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>associative fact type</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>husband</font> <font class='verb'>Material1</font> <font class='keyword'><font class='keyword'>at least one</font></font> <font class='term'>wife</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>wife</font> <font class='verb'>is related to </font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>husband</font></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='breaker'></div>
+
+<div id='Marriage_Section' class='sectiondiv'>
+<div class='headerdiv'><a href='javascript:;' onclick="toggle('Marriage', this);"><img src='show.png'></img></a> <font class='term title'>Marriage</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>object type</font></div>
+<div class='leftdiv'><font>Description</font></div><div class='rightdiv'><font>An instance of </font><font class='term'>Marriage</font><font> mediates between </font><font>exactly one instance</font><font> of </font><font class='term'>Wife</font><font> and </font><font>exactly one instance</font><font> of </font><font class='term'>Husband</font><font>.</font></br><font>Each instance of </font><font class='term'>Wife</font><font> is involved in </font><font>exactly one instance</font><font class='term'> of </font><font class='term'>Marriage</font><font>.</font></br><font>Each instance of </font><font class='term'>Husband</font><font> is involved in </font><font>at least one instance</font><font class='term'> of </font><font class='term'>Marriage</font><font>.</font></br><font>From an instance of </font><font class='term'>Marriage</font><font>, </font><font>at least one instance</font><font> of </font><font class='term'>material1</font><font> relation can be derived, each one involving </font><font> </font><font>exactly one instance</font><font> of </font><font class='term'>Husband</font><font> and </font><font> </font><font>at least one instance</font><font> of </font><font class='term'>Wife</font><font>.</font></br></div>
+<div id='Marriage' class='collapsible'>
+<div class='headerdiv'><font class='term title'>marriage</font> <font class='verb title'>mediates</font> <font class='term title'>husband</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>associative fact type</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>marriage</font> <font class='verb'>mediates</font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>husband</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>husband</font> <font class='verb'>is related to </font> <font class='keyword'><font class='keyword'>at least one</font></font> <font class='term'>marriage</font></div>
+<div class='breaker'></div>
+
+<div class='headerdiv'><font class='term title'>marriage</font> <font class='verb title'>mediates</font> <font class='term title'>wife</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>associative fact type</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>marriage</font> <font class='verb'>mediates</font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>wife</font></div>
+<div class='leftdiv'><font>Necessity:</font></div><div class='rightdiv'><font class='keyword'>Each </font><font class='term'>wife</font> <font class='verb'>is related to </font> <font class='keyword'><font class='keyword'>one</font></font> <font class='term'>marriage</font></div>
+</div>
+</div>
+<div class='breaker'></div>
+
+<div class='headerdiv'><font class='term title'>wife</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Wife</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>role</font></div>
+<div class='breaker'></div>
+
+<div class='headerdiv'><font class='term title'>husband</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Husband</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>role</font></div>
+<div class='breaker'></div>
+
+<div class='headerdiv'><font class='term title'>marriage</font></div>
+<div class='leftdiv'><font>General Concept:</font></div><div class='rightdiv'><font class='term'>Marriage</font></div>
+<div class='leftdiv'><font>Concept Type:</font></div><div class='rightdiv'><font class='term'>role</font></div>
+<div class='breaker'></div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_NuprEAdTEeSslqF3taDFwQ" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_4xmXcQdUEeSuy8Hi2gaYqw" name="Person" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_9vwTgAdUEeSuy8Hi2gaYqw" name="FootballFan" visibility="public">
+    <generalization xmi:id="_B2pQYAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_FNwWIAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="__N_zIAdUEeSuy8Hi2gaYqw" name="TennisFan" visibility="public">
+    <generalization xmi:id="_CnznkAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_FNwWIAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_FNwWIAdVEeSuy8Hi2gaYqw" name="Sport" visibility="public" generalization="_B2pQYAdVEeSuy8Hi2gaYqw _CnznkAdVEeSuy8Hi2gaYqw"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_H53-IAdVEeSuy8Hi2gaYqw" name="Italian" visibility="public">
+    <generalization xmi:id="_KFBnEAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_UNOmIAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_IPxVoAdVEeSuy8Hi2gaYqw" name="English" visibility="public">
+    <generalization xmi:id="_MMNWAAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_UNOmIAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_UNOmIAdVEeSuy8Hi2gaYqw" name="Nationality" visibility="public" isDisjoint="true" generalization="_KFBnEAdVEeSuy8Hi2gaYqw _MMNWAAdVEeSuy8Hi2gaYqw"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_qP5MEAdVEeSuy8Hi2gaYqw" name="Student" visibility="public">
+    <generalization xmi:id="_s5o1gAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_v93bgAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_rPJCkAdVEeSuy8Hi2gaYqw" name="Worker" visibility="public">
+    <generalization xmi:id="_tlICgAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_v93bgAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_v93bgAdVEeSuy8Hi2gaYqw" name="Employment" visibility="public" isCovering="true" generalization="_s5o1gAdVEeSuy8Hi2gaYqw _tlICgAdVEeSuy8Hi2gaYqw"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_zrwpkAdVEeSuy8Hi2gaYqw" name="Man" visibility="public">
+    <generalization xmi:id="_1m9yAAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_4Vd_oAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_0gxmAAdVEeSuy8Hi2gaYqw" name="Woman" visibility="public">
+    <generalization xmi:id="_2QxkAAdVEeSuy8Hi2gaYqw" general="_4xmXcQdUEeSuy8Hi2gaYqw" generalizationSet="_4Vd_oAdVEeSuy8Hi2gaYqw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_4Vd_oAdVEeSuy8Hi2gaYqw" name="Gender" visibility="public" isCovering="true" isDisjoint="true" generalization="_1m9yAAdVEeSuy8Hi2gaYqw _2QxkAAdVEeSuy8Hi2gaYqw"/>
+</RefOntoUML:Model>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_q5cqwBDqEeSHAojL-TXCpw" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_ruT2MBDqEeSHAojL-TXCpw" name="Person" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_tCv5kBDqEeSHAojL-TXCpw" name="Man" visibility="public">
+    <generalization xmi:id="_0zIssBDqEeSHAojL-TXCpw" general="_ruT2MBDqEeSHAojL-TXCpw" generalizationSet="_24yxoBDqEeSHAojL-TXCpw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_vsp7EBDqEeSHAojL-TXCpw" name="Woman" visibility="public">
+    <generalization xmi:id="_1t2ogBDqEeSHAojL-TXCpw" general="_ruT2MBDqEeSHAojL-TXCpw" generalizationSet="_24yxoBDqEeSHAojL-TXCpw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_xiOVkBDqEeSHAojL-TXCpw" name="Husband" visibility="public">
+    <generalization xmi:id="_4S3i8BDqEeSHAojL-TXCpw" general="_tCv5kBDqEeSHAojL-TXCpw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_zYZ0EBDqEeSHAojL-TXCpw" name="Wife" visibility="public">
+    <generalization xmi:id="_487MkBDqEeSHAojL-TXCpw" general="_vsp7EBDqEeSHAojL-TXCpw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_24yxoBDqEeSHAojL-TXCpw" name="Gender" visibility="public" isCovering="true" isDisjoint="true" generalization="_0zIssBDqEeSHAojL-TXCpw _1t2ogBDqEeSHAojL-TXCpw"/>
+  <packagedElement xsi:type="RefOntoUML:Relator" xmi:id="_9SamIBDqEeSHAojL-TXCpw" name="Marriage" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_Cbh1ABDrEeSHAojL-TXCpw" name="husband_marriage" visibility="public" memberEnd="_Cbh1ARDrEeSHAojL-TXCpw _Cbh1BBDrEeSHAojL-TXCpw" navigableOwnedEnd="_Cbh1ARDrEeSHAojL-TXCpw _Cbh1BBDrEeSHAojL-TXCpw">
+    <ownedEnd xmi:id="_Cbh1ARDrEeSHAojL-TXCpw" name="marriage" type="_9SamIBDqEeSHAojL-TXCpw" association="_Cbh1ABDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_PnbOkBDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_PnangBDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Cbh1BBDrEeSHAojL-TXCpw" name="husband" type="_xiOVkBDqEeSHAojL-TXCpw" isReadOnly="true" association="_Cbh1ABDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_PnbOkhDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_PnbOkRDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_Dbs4kBDrEeSHAojL-TXCpw" name="wife_marriage" visibility="public" memberEnd="_Dbs4kRDrEeSHAojL-TXCpw _Dbs4lBDrEeSHAojL-TXCpw" navigableOwnedEnd="_Dbs4kRDrEeSHAojL-TXCpw _Dbs4lBDrEeSHAojL-TXCpw">
+    <ownedEnd xmi:id="_Dbs4kRDrEeSHAojL-TXCpw" name="marriage" type="_9SamIBDqEeSHAojL-TXCpw" association="_Dbs4kBDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_Q64agRDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_Q64agBDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Dbs4lBDrEeSHAojL-TXCpw" name="wife" type="_zYZ0EBDqEeSHAojL-TXCpw" isReadOnly="true" association="_Dbs4kBDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_Q65BkRDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_Q65BkBDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:MaterialAssociation" xmi:id="_IXoAABDrEeSHAojL-TXCpw" name="MaterialMarriage" visibility="public" memberEnd="_IXoAARDrEeSHAojL-TXCpw _IXoABBDrEeSHAojL-TXCpw" isDerived="true" navigableOwnedEnd="_IXoAARDrEeSHAojL-TXCpw _IXoABBDrEeSHAojL-TXCpw">
+    <ownedEnd xmi:id="_IXoAARDrEeSHAojL-TXCpw" name="husband" type="_xiOVkBDqEeSHAojL-TXCpw" association="_IXoAABDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_aN5eARDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_aN5eABDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_IXoABBDrEeSHAojL-TXCpw" name="wife" type="_zYZ0EBDqEeSHAojL-TXCpw" association="_IXoAABDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_aN5eAxDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_aN5eAhDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Derivation" xmi:id="_R6v8EBDrEeSHAojL-TXCpw" name="Marriage_Marriage" visibility="public" memberEnd="_R6v8ERDrEeSHAojL-TXCpw _R6wjIhDrEeSHAojL-TXCpw" navigableOwnedEnd="_R6v8ERDrEeSHAojL-TXCpw _R6wjIhDrEeSHAojL-TXCpw">
+    <ownedEnd xmi:id="_R6v8ERDrEeSHAojL-TXCpw" name="material1" type="_IXoAABDrEeSHAojL-TXCpw" association="_R6v8EBDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_VmfOARDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_VmfOABDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_R6wjIhDrEeSHAojL-TXCpw" name="marriage" type="_9SamIBDqEeSHAojL-TXCpw" isReadOnly="true" association="_R6v8EBDrEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_VmfOAxDrEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_VmfOAhDrEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_XUHtIBDuEeSHAojL-TXCpw" name="PlayStation" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_biH-oBDuEeSHAojL-TXCpw" name="SurrogatedWife" visibility="public">
+    <generalization xmi:id="_dbpsEBDuEeSHAojL-TXCpw" general="_XUHtIBDuEeSHAojL-TXCpw"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:MaterialAssociation" xmi:id="_egUOEBDuEeSHAojL-TXCpw" name="SurrogatedMarriage" visibility="public" memberEnd="_egUOERDuEeSHAojL-TXCpw _egUOFBDuEeSHAojL-TXCpw" isDerived="true" navigableOwnedEnd="_egUOERDuEeSHAojL-TXCpw _egUOFBDuEeSHAojL-TXCpw">
+    <ownedEnd xmi:id="_egUOERDuEeSHAojL-TXCpw" name="husband" type="_xiOVkBDqEeSHAojL-TXCpw" association="_egUOEBDuEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_j6_uERDuEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_j6_uEBDuEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_egUOFBDuEeSHAojL-TXCpw" name="surrogatedwife" type="_biH-oBDuEeSHAojL-TXCpw" association="_egUOEBDuEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_j7AVIRDuEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_j7AVIBDuEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Derivation" xmi:id="_h7cRIBDuEeSHAojL-TXCpw" name="Marriage_SurrogatedMarriage" visibility="public" memberEnd="_h7cRIRDuEeSHAojL-TXCpw _h7cRJBDuEeSHAojL-TXCpw" navigableOwnedEnd="_h7cRIRDuEeSHAojL-TXCpw _h7cRJBDuEeSHAojL-TXCpw">
+    <ownedEnd xmi:id="_h7cRIRDuEeSHAojL-TXCpw" name="material3" type="_egUOEBDuEeSHAojL-TXCpw" association="_h7cRIBDuEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_ld8ukRDuEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_ld8ukBDuEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_h7cRJBDuEeSHAojL-TXCpw" name="marriage" type="_9SamIBDqEeSHAojL-TXCpw" isReadOnly="true" association="_h7cRIBDuEeSHAojL-TXCpw">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_ld9VoRDuEeSHAojL-TXCpw" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_ld9VoBDuEeSHAojL-TXCpw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_oXLksREeEeS-Z8vVc9u88g" name="Marriage_SurrogatedWife" visibility="public" memberEnd="_oXLkshEeEeS-Z8vVc9u88g _oXLktREeEeS-Z8vVc9u88g" navigableOwnedEnd="_oXLkshEeEeS-Z8vVc9u88g _oXLktREeEeS-Z8vVc9u88g">
+    <ownedEnd xmi:id="_oXLkshEeEeS-Z8vVc9u88g" name="marriage" type="_9SamIBDqEeSHAojL-TXCpw" association="_oXLksREeEeS-Z8vVc9u88g">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_5BEvIREeEeS-Z8vVc9u88g" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_5BEvIBEeEeS-Z8vVc9u88g" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_oXLktREeEeS-Z8vVc9u88g" name="surrogatedwife" type="_biH-oBDuEeSHAojL-TXCpw" isReadOnly="true" association="_oXLksREeEeS-Z8vVc9u88g">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_5BEvIxEeEeS-Z8vVc9u88g" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_5BEvIhEeEeS-Z8vVc9u88g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</RefOntoUML:Model>
