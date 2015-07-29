@@ -31,9 +31,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -41,16 +39,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.MethodCall;
-import net.menthor.resources.icons.IconLoader;
-
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.jdesktop.swingx.MultiSplitPane;
+import org.tinyuml.ui.commands.AppCommandDispatcher;
 import org.tinyuml.ui.commands.AppCommandListener;
 
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
+import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.util.MethodCall;
+import net.menthor.resources.icons.CommandMap;
+import net.menthor.resources.icons.CommandType;
+import net.menthor.resources.icons.IconLoader;
 
 /**
  * @author Wei-ju Wu, John Guerson
@@ -60,7 +60,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	private static final long serialVersionUID = 3464348864344034246L;
 	
 	private transient AppMenu mainMenu;
-	private transient AppToolbar mainToolBar;
+	private transient NewAppToolbar mainToolBar;
 	
 	private transient ToolboxPane toolManager;
 	private transient TopViewPane topPane;
@@ -68,8 +68,6 @@ public class AppFrame extends JFrame implements AppCommandListener {
 //	private transient DiagramManager diagramManager;
 //	private transient InfoManager infoManager;
 	private transient ProjectBrowserPane browserManager;
-	
-	private transient Map<String, MethodCall> selectorMap = new HashMap<String, MethodCall>();
 	
 	private transient SimpleGUICustom analyzer;
 
@@ -107,7 +105,6 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		});
 
 		pack();
-		initSelectorMap();	
 	}
 		
 	/** Returns true iff running on Mac OS X. **/
@@ -160,13 +157,13 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	 */
 	private void installMainToolBar() 
 	{		
-		mainToolBar = new AppToolbar(this);
+		mainToolBar = new NewAppToolbar(this);
 		mainToolBar.addCommandListener(this);
 		mainToolBar.addCommandListener(getDiagramManager().getEditorDispatcher());
 		JPanel panel = new JPanel();		
 		panel.setLayout(new BorderLayout(5,5));
 		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(mainToolBar.getToolbar(), BorderLayout.WEST);		
+		panel.add(mainToolBar, BorderLayout.WEST);		
 		this.getContentPane().add(panel, BorderLayout.NORTH);
 		//this.getContentPane().add(mainToolBar.getToolbar(), BorderLayout.NORTH);
 	}
@@ -183,7 +180,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		return topPane.getDiagramManager();
 	}
 			
-	public AppToolbar getMainToolBar()
+	public NewAppToolbar getMainToolBar()
 	{
 		return mainToolBar;
 	}
@@ -205,7 +202,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		toolManager.getPalleteAccordion().setPreferredSize(new Dimension(toolManager.getSize().width,250));
 		bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-browserWidth-toolManager.getSize().width-(2*dividerSize),bottomPane.getSize().height));
 		topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-browserWidth-toolManager.getSize().width-(2*dividerSize),topPane.getSize().height));	
-		getMainToolBar().getProjectBrowserButton().setSelected(true);
+		//getMainToolBar().getProjectBrowserButton().setSelected(true);
 		getMainMenu().getProjectBrowserItem().setSelected(true);
 	}
 	
@@ -217,7 +214,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		toolManager.getPalleteAccordion().setPreferredSize(new Dimension(0,250));
 		bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth(),0));						
 		topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()));
-		getMainToolBar().getProjectBrowserButton().setSelected(false);
+		//getMainToolBar().getProjectBrowserButton().setSelected(false);
 		getMainMenu().getProjectBrowserItem().setSelected(false);
 		//getMainToolBar().getToolBoxButton().setSelected(false);
 		getMainMenu().getToolBoxItem().setSelected(false);
@@ -285,7 +282,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			toolManager.setPreferredSize(new Dimension(toolManager.getSize().width,250));
 			toolManager.getPalleteAccordion().setPreferredSize(new Dimension(toolManager.getSize().width,250));			
 			topPane.setPreferredSize(new Dimension(topPane.getSize().width,GetScreenWorkingHeight()-infoHeight-dividerSize-70));
-			getMainToolBar().getBottomViewButton().setSelected(true);			
+			//getMainToolBar().getBottomViewButton().setSelected(true);			
 		}else{
 			bottomPane.setPreferredSize(new Dimension(bottomPane.getSize().width,0));
 			browserManager.getProjectBrowser().setPreferredSize(new Dimension(browserManager.getSize().width,250));
@@ -293,7 +290,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			toolManager.setPreferredSize(new Dimension(toolManager.getSize().width,250));
 			toolManager.getPalleteAccordion().setPreferredSize(new Dimension(toolManager.getSize().width,250));			
 			topPane.setPreferredSize(new Dimension(topPane.getSize().width,GetScreenWorkingHeight()-dividerSize-70));	
-			getMainToolBar().getBottomViewButton().setSelected(false);			
+			//getMainToolBar().getBottomViewButton().setSelected(false);			
 		}		
 		multiSplitPane.revalidate();	
 	}
@@ -317,7 +314,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			toolManager.getPalleteAccordion().setPreferredSize(new Dimension(toolManager.getSize().width,250));
 			bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-browserWidth-toolManager.getSize().width-(2*dividerSize),bottomPane.getSize().height));
 			topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-browserWidth-toolManager.getSize().width-(2*dividerSize),topPane.getSize().height));	
-			getMainToolBar().getProjectBrowserButton().setSelected(true);
+			//getMainToolBar().getProjectBrowserButton().setSelected(true);
 			getMainMenu().getProjectBrowserItem().setSelected(true);
 		}else{
 			browserManager.getProjectBrowser().setPreferredSize(new Dimension(0,250));
@@ -326,7 +323,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			toolManager.getPalleteAccordion().setPreferredSize(new Dimension(toolManager.getSize().width,250));
 			bottomPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-toolManager.getSize().width-(2*dividerSize),bottomPane.getSize().height));						
 			topPane.setPreferredSize(new Dimension(GetScreenWorkingWidth()-toolManager.getSize().width-(2*dividerSize),topPane.getSize().height));
-			getMainToolBar().getProjectBrowserButton().setSelected(false);
+			//getMainToolBar().getProjectBrowserButton().setSelected(false);
 			getMainMenu().getProjectBrowserItem().setSelected(false);
 		}		
 		multiSplitPane.revalidate();
@@ -356,74 +353,26 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		}		
 		multiSplitPane.revalidate();
 	}
-
-	/**
-	 * Initializes the selector map.
-	 */
-	private void initSelectorMap() {
-		try {
-			selectorMap.put("NEW_PROJECT",
-					new MethodCall(DiagramManager.class.getMethod("newProject")));
-			selectorMap.put("NEW_DIAGRAM",
-					new MethodCall(DiagramManager.class.getMethod("newDiagram")));
-			selectorMap.put("CLOSE_DIAGRAM",
-					new MethodCall(DiagramManager.class.getMethod("closeDiagram")));
-			selectorMap.put("OPEN_PROJECT",
-					new MethodCall(DiagramManager.class.getMethod("openProject")));
-			selectorMap.put("CLOSE_PROJECT",
-					new MethodCall(DiagramManager.class.getMethod("closeCurrentProject")));
-			selectorMap.put("OPEN_RECENT_PROJECT",
-					new MethodCall(DiagramManager.class.getMethod("openRecentProject")));			
-			selectorMap.put("SAVE_PROJECT_AS",
-					new MethodCall(DiagramManager.class.getMethod("saveProjectAs")));
-			selectorMap.put("SAVE_PROJECT",
-					new MethodCall(DiagramManager.class.getMethod("saveProject")));
-			selectorMap.put("EXPORT_GFX",
-					new MethodCall(DiagramManager.class.getMethod("exportGfx")));
-			selectorMap.put("EXPORT_ECORE",
-					new MethodCall(DiagramManager.class.getMethod("exportEcore")));
-			selectorMap.put("EXPORT_UML",
-					new MethodCall(DiagramManager.class.getMethod("exportUML")));
-			selectorMap.put("IMPORT_ECORE",
-					new MethodCall(DiagramManager.class.getMethod("importEcore")));
-			selectorMap.put("IMPORT_PATTERN",
-					new MethodCall(DiagramManager.class.getMethod("importPattern")));
-			selectorMap.put("IMPORT_XMI",
-					new MethodCall(DiagramManager.class.getMethod("importXMI")));
-			selectorMap.put("IMPORT_XMI_FROM_FILE",
-					new MethodCall(DiagramManager.class.getMethod("importXMIFromRecent")));
-			selectorMap.put("EXPORT_PATTERN",
-					new MethodCall(DiagramManager.class.getMethod("exportPattern")));
-			selectorMap.put("EXPORT_OCL",
-					new MethodCall(DiagramManager.class.getMethod("exportOCL")));
-			selectorMap.put("IMPORT_OCL",
-					new MethodCall(DiagramManager.class.getMethod("importOCL")));
-			selectorMap.put("EDIT_SETTINGS", new MethodCall(getClass()
-					.getMethod("editSettings")));
-			selectorMap.put("QUIT",
-					new MethodCall(getClass().getMethod("quitApplication")));
-			selectorMap.put("ABOUT",
-					new MethodCall(getClass().getMethod("about")));			
-			selectorMap.put("HELP_CONTENTS", new MethodCall(getClass()
-					.getMethod("displayHelpContents")));
-		} catch (NoSuchMethodException ex) {
-			ex.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Handles the fired commands.
 	 * */
 	@Override
-	public void handleCommand(String command) {
-		MethodCall methodcall = selectorMap.get(command);
-		if (methodcall != null) {
-			if(methodcall.getMethod().getDeclaringClass() != getClass())
-				methodcall.call(getDiagramManager());
-			else
-				methodcall.call(this);
-		} else { 
-			//System.out.println("not handled: " + command);
+	public void handleCommand(String command) {		
+		MethodCall methodcall=null;
+		if(CommandType.isValueOf(command)){
+			methodcall = CommandMap.getInstance().getMap().get(CommandType.valueOf(command));
+		}else{
+			methodcall = getDiagramManager().getEditorDispatcher().getMap().get(command);
+		}		
+		if(methodcall.getMethod().getDeclaringClass() == AppCommandDispatcher.class){					
+			methodcall.call(getDiagramManager().getEditorDispatcher());
+		}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
+			methodcall.call(getDiagramManager());
+		}else if(methodcall.getMethod().getDeclaringClass() == getClass()){
+			methodcall.call(this);
+		}else{
+			System.out.println("Command not handled: "+methodcall.getMethod().getDeclaringClass()+" - "+methodcall);
 		}
 	}
 
@@ -556,8 +505,6 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		toolManager = null;
 		topPane = null;		
 		bottomPane = null;
-				
-		initSelectorMap();
 	}
 
 	/**
@@ -671,5 +618,5 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	public void selectStatistic()
 	{
 		bottomPane.getInfoManager().selectStatistic();
-	}	
+	}
 }

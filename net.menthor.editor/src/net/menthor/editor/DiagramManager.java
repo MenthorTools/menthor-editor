@@ -181,6 +181,7 @@ import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2infouml.OntoUML2InfoUML;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
+import net.menthor.resources.icons.CommandType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -246,6 +247,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return start;
 	}
 
+	public void searchInProject()
+	{
+		addFinderPanel(this,true);
+	}
+	
 	/** Adds a Finder panel to the manager */
 	public FoundPane addFinderPanel(JTabbedPane pane, boolean closable)
 	{
@@ -280,6 +286,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(closable) addClosable(pane,"Errors", problemsPane);
 		else addNonClosable(pane,"Errors", problemsPane);
 		return problemsPane;
+	}
+	
+	public void collectStatistics()
+	{
+		addStatisticsPanel(frame.getInfoManager(),true);
 	}
 	
 	/** Adds a Statistics panel to the manager */
@@ -606,7 +617,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void saveProjectNeeded(boolean value)
 	{
 		currentProject.setSaveModelNeeded(value);		
-		frame.getMainToolBar().enableSaveButton(value);
+		frame.getMainToolBar().enableButton(CommandType.SAVE_PROJECT, value);
 	}
 	
 	public boolean isSaveProjectNeeded()

@@ -25,6 +25,10 @@ import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.tinyuml.ui.diagram.DiagramEditor;
+
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.AppMenu;
 import net.menthor.editor.DiagramManager;
@@ -35,11 +39,6 @@ import net.menthor.editor.model.RelationEndType;
 import net.menthor.editor.model.RelationType;
 import net.menthor.editor.util.MethodCall;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
-
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.tinyuml.ui.diagram.DiagramEditor;
-
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * This class receives BaseEditor related AppCommands and dispatches them to
@@ -55,6 +54,9 @@ public class AppCommandDispatcher implements AppCommandListener {
 	private DiagramManager manager;
 	private Map<String, MethodCall> selectorMap = new HashMap<String, MethodCall>();
 
+	public Map<String, MethodCall> getMap()
+	{ return selectorMap; }
+	
 	/**
 	 * Constructor.
 	 * @param aFrame the application frame
@@ -672,5 +674,6 @@ public class AppCommandDispatcher implements AppCommandListener {
 	public void snapToGrid() {
 		manager.getCurrentDiagramEditor().snapToGrid(getMenuManager().isSelected("SNAP_TO_GRID"));
 	}
+
 
 }

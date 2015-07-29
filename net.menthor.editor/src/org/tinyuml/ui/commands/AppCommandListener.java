@@ -32,4 +32,4 @@ public interface AppCommandListener {
    * @param command the actio  command string
    */
   void handleCommand(String command);
-}
+ }

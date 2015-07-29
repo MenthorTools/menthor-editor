@@ -5,18 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.menthor.assistant.util.UtilAssistant;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.Main;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.Palette;
-import net.menthor.editor.palette.PaletteAccordion;
-import net.menthor.editor.palette.PaletteElement;
-import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
-import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
 import org.tinyuml.ui.commands.AppCommandListener;
@@ -31,6 +19,17 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.Main;
+import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.palette.Palette;
+import net.menthor.editor.palette.PaletteAccordion;
+import net.menthor.editor.palette.PaletteElement;
+import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
+import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
 
 public class DomainPatternTool {
 
@@ -57,6 +56,7 @@ public class DomainPatternTool {
 			public void handleCommand(String command) {
 				currentDiagram = hashDomainPalette.get(domainPallete.getSelectedElement());
 			}
+
 		});
 	}
 
