@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 
 import org.tinyuml.ui.commands.AppCommandDispatcher;
 
-import net.menthor.editor.palette.Palette;
+import net.menthor.editor.palette.PaletteGrouping;
 import net.menthor.editor.palette.PaletteAccordion;
 
 /**
@@ -77,21 +77,21 @@ public class ToolboxPane extends JPanel {
 		return editorDispatcher;
 	}
 	
-	public Palette getOpenPalette() {
+	public PaletteGrouping getOpenPalette() {
 		return palettes.getOpenPalette();
 	}
 
-	public Palette getElementsPalette()
+	public PaletteGrouping getElementsPalette()
 	{
 		return palettes.getElementsPalette();
 	}
 
-	public Palette getDerivationPatternsPalette()
+	public PaletteGrouping getDerivationPatternsPalette()
 	{
 		return palettes.getDerivationPatternsPalette();
 	}
 	
-	public Palette getPatternsPalette()
+	public PaletteGrouping getPatternsPalette()
 	{
 		return palettes.getPatternsPalette();
 	}

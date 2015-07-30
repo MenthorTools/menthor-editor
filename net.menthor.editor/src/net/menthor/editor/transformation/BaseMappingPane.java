@@ -27,11 +27,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.TableCellEditor;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.dialog.properties.AttributesEditionPanel;
 import net.menthor.editor.dialog.properties.BaseTableModel;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 public class BaseMappingPane extends JPanel {
 	
@@ -81,7 +81,7 @@ public class BaseMappingPane extends JPanel {
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-		table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
+		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);

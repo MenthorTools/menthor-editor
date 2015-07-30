@@ -23,10 +23,6 @@ package org.tinyuml.umldraw.shared;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.LineConnectMethod;
@@ -85,6 +81,9 @@ import RefOntoUML.impl.MaterialAssociationImpl;
 import RefOntoUML.impl.MediationImpl;
 import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
+import net.menthor.editor.model.ElementType;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.resources.icons.RelationshipType;
 
 /**
  * Implementation of the DiagramElementFactory interface. A
@@ -96,9 +95,9 @@ import RefOntoUML.impl.StructurationImpl;
 public class DiagramElementFactoryImpl implements DiagramElementFactory {
 
   private Map<ElementType, UmlDiagramElement> elementPrototypes = new HashMap<ElementType, UmlDiagramElement>();
-  private Map<RelationType, UmlConnection> relationPrototypes = new HashMap<RelationType, UmlConnection>();
+  private Map<RelationshipType, UmlConnection> relationPrototypes = new HashMap<RelationshipType, UmlConnection>();
   private Map<ElementType, Integer> elementCounters = new HashMap<ElementType, Integer>();
-  private Map<RelationType, Integer> relationCounters = new HashMap<RelationType, Integer>();
+  private Map<RelationshipType, Integer> relationCounters = new HashMap<RelationshipType, Integer>();
   
   private RefOntoUMLFactory factory;
   
@@ -273,96 +272,94 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 
 	factory = RefOntoUMLFactory.eINSTANCE;
 		
-    Generalization generalization = (RefOntoUML.Generalization)createRelationship(RelationType.GENERALIZATION);    
+    Generalization generalization = (RefOntoUML.Generalization)createRelationship(RelationshipType.GENERALIZATION);    
     GeneralizationElement generalizationElement = (GeneralizationElement) GeneralizationElement.getPrototype().clone();
     generalizationElement.setRelationship(generalization);
-    relationPrototypes.put(RelationType.GENERALIZATION, generalizationElement);
+    relationPrototypes.put(RelationshipType.GENERALIZATION, generalizationElement);
         
-    Characterization characterization = (RefOntoUML.Characterization)createRelationship(RelationType.CHARACTERIZATION);   
+    Characterization characterization = (RefOntoUML.Characterization)createRelationship(RelationshipType.CHARACTERIZATION);   
     AssociationElement characterizationElement = (AssociationElement) AssociationElement.getPrototype().clone();
     characterizationElement.setRelationship(characterization);
-    characterizationElement.setAssociationType(RelationType.CHARACTERIZATION);
+    characterizationElement.setAssociationType(RelationshipType.CHARACTERIZATION);
     characterizationElement.setShowOntoUmlStereotype(true);
-    relationPrototypes.put(RelationType.CHARACTERIZATION, characterizationElement);
+    relationPrototypes.put(RelationshipType.CHARACTERIZATION, characterizationElement);
     createPropertiesByDefault(characterization);
     
-    FormalAssociation formalAssociation = (RefOntoUML.FormalAssociation)createRelationship(RelationType.FORMAL);
+    FormalAssociation formalAssociation = (RefOntoUML.FormalAssociation)createRelationship(RelationshipType.FORMAL);
     AssociationElement formalAssociationElement = (AssociationElement) AssociationElement.getPrototype().clone();
     formalAssociationElement.setRelationship(formalAssociation);
-    formalAssociationElement.setAssociationType(RelationType.FORMAL);
+    formalAssociationElement.setAssociationType(RelationshipType.FORMAL);
     formalAssociationElement.setShowOntoUmlStereotype(true);
-    relationPrototypes.put(RelationType.FORMAL, formalAssociationElement);
+    relationPrototypes.put(RelationshipType.FORMAL, formalAssociationElement);
     createPropertiesByDefault(formalAssociation);
           
-    MaterialAssociation materialAssociation = (RefOntoUML.MaterialAssociation)createRelationship(RelationType.MATERIAL);    
+    MaterialAssociation materialAssociation = (RefOntoUML.MaterialAssociation)createRelationship(RelationshipType.MATERIAL);    
     AssociationElement materialAssociationElement = (AssociationElement) AssociationElement.getPrototype().clone();
     materialAssociationElement.setRelationship(materialAssociation);
-    materialAssociationElement.setAssociationType(RelationType.MATERIAL);
+    materialAssociationElement.setAssociationType(RelationshipType.MATERIAL);
     materialAssociationElement.setShowOntoUmlStereotype(true);
-    relationPrototypes.put(RelationType.MATERIAL, materialAssociationElement);
+    relationPrototypes.put(RelationshipType.MATERIAL, materialAssociationElement);
     createPropertiesByDefault(materialAssociation);
     
-    Mediation mediation = (RefOntoUML.Mediation)createRelationship(RelationType.MEDIATION);   
+    Mediation mediation = (RefOntoUML.Mediation)createRelationship(RelationshipType.MEDIATION);   
     AssociationElement mediationElement = (AssociationElement) AssociationElement.getPrototype().clone();
     mediationElement.setRelationship(mediation);
-    mediationElement.setAssociationType(RelationType.MEDIATION);
+    mediationElement.setAssociationType(RelationshipType.MEDIATION);
     mediationElement.setShowOntoUmlStereotype(true);
-    relationPrototypes.put(RelationType.MEDIATION, mediationElement);
+    relationPrototypes.put(RelationshipType.MEDIATION, mediationElement);
     createPropertiesByDefault(mediation);
         
-    memberOf memberof = (RefOntoUML.memberOf)createRelationship(RelationType.MEMBEROF);   
+    memberOf memberof = (RefOntoUML.memberOf)createRelationship(RelationshipType.MEMBEROF);   
     AssociationElement memberofElement = (AssociationElement) AssociationElement.getPrototype().clone();
-    memberofElement.setAssociationType(RelationType.MEMBEROF);
+    memberofElement.setAssociationType(RelationshipType.MEMBEROF);
     memberofElement.setRelationship(memberof);
-    relationPrototypes.put(RelationType.MEMBEROF, memberofElement);
+    relationPrototypes.put(RelationshipType.MEMBEROF, memberofElement);
     createPropertiesByDefault(memberof);
     
-    subQuantityOf subquantityof = (RefOntoUML.subQuantityOf)createRelationship(RelationType.SUBQUANTITYOF);    
+    subQuantityOf subquantityof = (RefOntoUML.subQuantityOf)createRelationship(RelationshipType.SUBQUANTITYOF);    
     AssociationElement subquantityofElement = (AssociationElement) AssociationElement.getPrototype().clone();
-    subquantityofElement.setAssociationType(RelationType.SUBQUANTITYOF);
+    subquantityofElement.setAssociationType(RelationshipType.SUBQUANTITYOF);
     subquantityofElement.setRelationship(subquantityof);
-    relationPrototypes.put(RelationType.SUBQUANTITYOF, subquantityofElement);
+    relationPrototypes.put(RelationshipType.SUBQUANTITYOF, subquantityofElement);
     createPropertiesByDefault(subquantityof);    
     
-    subCollectionOf subcollectionof = (RefOntoUML.subCollectionOf)createRelationship(RelationType.SUBCOLLECTIONOF);    
+    subCollectionOf subcollectionof = (RefOntoUML.subCollectionOf)createRelationship(RelationshipType.SUBCOLLECTIONOF);    
     AssociationElement subcollectionofElement = (AssociationElement) AssociationElement.getPrototype().clone();
-    subcollectionofElement.setAssociationType(RelationType.SUBCOLLECTIONOF);
+    subcollectionofElement.setAssociationType(RelationshipType.SUBCOLLECTIONOF);
     subcollectionofElement.setRelationship(subcollectionof);
-    relationPrototypes.put(RelationType.SUBCOLLECTIONOF, subcollectionofElement);
+    relationPrototypes.put(RelationshipType.SUBCOLLECTIONOF, subcollectionofElement);
     createPropertiesByDefault(subcollectionof);     
     
-    componentOf componentof = (RefOntoUML.componentOf)createRelationship(RelationType.COMPONENTOF);    
+    componentOf componentof = (RefOntoUML.componentOf)createRelationship(RelationshipType.COMPONENTOF);    
     AssociationElement componentofElement = (AssociationElement) AssociationElement.getPrototype().clone();
-    componentofElement.setAssociationType(RelationType.COMPONENTOF);
+    componentofElement.setAssociationType(RelationshipType.COMPONENTOF);
     componentofElement.setRelationship(componentof);
-    relationPrototypes.put(RelationType.COMPONENTOF, componentofElement);
+    relationPrototypes.put(RelationshipType.COMPONENTOF, componentofElement);
     createPropertiesByDefault(componentof); 
     
-    Derivation derivation = (RefOntoUML.Derivation)createRelationship(RelationType.DERIVATION); 
+    Derivation derivation = (RefOntoUML.Derivation)createRelationship(RelationshipType.DERIVATION); 
     AssociationElement derivationeElement = (AssociationElement) AssociationElement.getPrototype().clone();
-    derivationeElement.setAssociationType(RelationType.DERIVATION);
+    derivationeElement.setAssociationType(RelationshipType.DERIVATION);
     derivationeElement.setRelationship(derivation);
     derivationeElement.setIsDashed(true);
     derivationeElement.setShowOntoUmlStereotype(false);
-    relationPrototypes.put(RelationType.DERIVATION, derivationeElement);
+    relationPrototypes.put(RelationshipType.DERIVATION, derivationeElement);
     createPropertiesByDefault(derivation); 
 
-    Structuration structuration = (RefOntoUML.Structuration)createRelationship(RelationType.STRUCTURATION);
+    Structuration structuration = (RefOntoUML.Structuration)createRelationship(RelationshipType.STRUCTURATION);
     AssociationElement structurationElement = (AssociationElement) AssociationElement.getPrototype().clone();
     structurationElement.setRelationship(structuration);
     structurationElement.setShowOntoUmlStereotype(true);
-    structurationElement.setAssociationType(RelationType.STRUCTURATION);
-    relationPrototypes.put(RelationType.STRUCTURATION, structurationElement);     
+    structurationElement.setAssociationType(RelationshipType.STRUCTURATION);
+    relationPrototypes.put(RelationshipType.STRUCTURATION, structurationElement);     
     createPropertiesByDefault(structuration); 
     
-    Association datatyperelationship = (RefOntoUML.Association)createRelationship(RelationType.ASSOCIATION);
+    Association datatyperelationship = (RefOntoUML.Association)createRelationship(RelationshipType.ASSOCIATION);
     AssociationElement datatyperelationshipElement = (AssociationElement) AssociationElement.getPrototype().clone();
     datatyperelationshipElement.setRelationship(datatyperelationship);
-    datatyperelationshipElement.setAssociationType(RelationType.ASSOCIATION);
-    relationPrototypes.put(RelationType.ASSOCIATION, datatyperelationshipElement);     
-    createPropertiesByDefault(datatyperelationship); 
-    
-    relationPrototypes.put(RelationType.NOTE_CONNECTOR, NoteConnection.getPrototype());
+    datatyperelationshipElement.setAssociationType(RelationshipType.ASSOCIATION);
+    relationPrototypes.put(RelationshipType.ASSOCIATION, datatyperelationshipElement);     
+    createPropertiesByDefault(datatyperelationship);
   }
   
   /**
@@ -432,23 +429,24 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * Create only the RefOntoUML Relationship element and do not create the referred UmlConnection on the Diagram.
    */
-  public RefOntoUML.Relationship createRelationship(RelationType relationType)
+  @SuppressWarnings("static-access")
+public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipType)
   {
 	  RefOntoUML.Relationship rel = null;
-	  if (relationType.equals(RelationType.GENERALIZATION)) rel = factory.createGeneralization();
-	  if (relationType.equals(RelationType.CHARACTERIZATION)) rel = factory.createCharacterization();
-	  if (relationType.equals(RelationType.FORMAL)) rel = factory.createFormalAssociation();
-	  if (relationType.equals(RelationType.MATERIAL)) { rel = factory.createMaterialAssociation(); ((MaterialAssociation)rel).setIsDerived(true); }
-	  if (relationType.equals(RelationType.MEDIATION)) rel = factory.createMediation();
-	  if (relationType.equals(RelationType.MEMBEROF)) { rel = factory.creatememberOf(); ((memberOf)rel).setIsShareable(true); }
-	  if (relationType.equals(RelationType.SUBQUANTITYOF)) { rel = factory.createsubQuantityOf(); ((subQuantityOf)rel).setIsShareable(false); } 
-	  if (relationType.equals(RelationType.SUBCOLLECTIONOF)) { rel = factory.createsubCollectionOf(); ((subCollectionOf)rel).setIsShareable(true); } 
-	  if (relationType.equals(RelationType.COMPONENTOF)) { rel = factory.createcomponentOf(); ((componentOf)rel).setIsShareable(true); }
-	  if (relationType.equals(RelationType.DERIVATION)) rel = factory.createDerivation();
-	  if (relationType.equals(RelationType.ASSOCIATION)) rel = factory.createAssociation();	  
-	  if (relationType.equals(RelationType.STRUCTURATION)) rel = factory.createStructuration();
+	  if (RelationshipType.equals(RelationshipType.GENERALIZATION)) rel = factory.createGeneralization();
+	  if (RelationshipType.equals(RelationshipType.CHARACTERIZATION)) rel = factory.createCharacterization();
+	  if (RelationshipType.equals(RelationshipType.FORMAL)) rel = factory.createFormalAssociation();
+	  if (RelationshipType.equals(RelationshipType.MATERIAL)) { rel = factory.createMaterialAssociation(); ((MaterialAssociation)rel).setIsDerived(true); }
+	  if (RelationshipType.equals(RelationshipType.MEDIATION)) rel = factory.createMediation();
+	  if (RelationshipType.equals(RelationshipType.MEMBEROF)) { rel = factory.creatememberOf(); ((memberOf)rel).setIsShareable(true); }
+	  if (RelationshipType.equals(RelationshipType.SUBQUANTITYOF)) { rel = factory.createsubQuantityOf(); ((subQuantityOf)rel).setIsShareable(false); } 
+	  if (RelationshipType.equals(RelationshipType.SUBCOLLECTIONOF)) { rel = factory.createsubCollectionOf(); ((subCollectionOf)rel).setIsShareable(true); } 
+	  if (RelationshipType.equals(RelationshipType.COMPONENTOF)) { rel = factory.createcomponentOf(); ((componentOf)rel).setIsShareable(true); }
+	  if (RelationshipType.equals(RelationshipType.DERIVATION)) rel = factory.createDerivation();
+	  if (RelationshipType.equals(RelationshipType.ASSOCIATION)) rel = factory.createAssociation();	  
+	  if (RelationshipType.equals(RelationshipType.STRUCTURATION)) rel = factory.createStructuration();
 	  if (rel instanceof Classifier){
-		  ((Classifier)rel).setName(ModelHelper.getStereotype(rel)+nextRelationCount(relationType));		  
+		  ((Classifier)rel).setName(ModelHelper.getStereotype(rel)+nextRelationCount(RelationshipType));		  
 		  ((Classifier)rel).setVisibility(VisibilityKind.PUBLIC);
 	  }
 	  return rel;			  
@@ -498,9 +496,9 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * {@inheritDoc}  This method also create the referred RefOntoUML Relationship of the UmlConnection. 
    */
-  public UmlConnection createConnection(RelationType relationType, UmlNode node1, UmlNode node2) 
+  public UmlConnection createConnection(RelationshipType RelationshipType, UmlNode node1, UmlNode node2) 
   {
-    UmlConnection prototype = relationPrototypes.get(relationType);    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType);    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -509,7 +507,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
       if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
       {
     	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationCount(relationType));
+    	  association.setName(association.getName() + nextRelationCount(RelationshipType));
       }
     }    
     return conn;
@@ -520,7 +518,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
    */
   public UmlConnection createConnection(RefOntoUML.Relationship relationship, UmlNode node1, UmlNode node2) 
   {	
-    UmlConnection prototype = relationPrototypes.get(RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -535,7 +533,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
    * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
    */
   @Override
-  public UmlConnection createConnectionFromCon(RelationType relationType, UmlConnection c1, UmlNode node2) 
+  public UmlConnection createConnectionFromCon(RelationshipType relationType, UmlConnection c1, UmlNode node2) 
   {
 	  UmlConnection prototype = relationPrototypes.get(relationType);	  
       UmlConnection conn = null;
@@ -558,7 +556,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   @Override
   public UmlConnection createConnectionFromCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlNode node2) 
   {
-	  UmlConnection prototype = relationPrototypes.get(RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));	  
+	  UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));	  
       UmlConnection conn = null;
       if (prototype != null) 
       {
@@ -572,9 +570,9 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
    */
-  public UmlConnection createConnectionToCon(RelationType relationType, UmlNode node1, UmlConnection c2) 
+  public UmlConnection createConnectionToCon(RelationshipType RelationshipType, UmlNode node1, UmlConnection c2) 
   {
-    UmlConnection prototype = relationPrototypes.get(relationType);    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType);    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -583,7 +581,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
       if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
       {
     	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationCount(relationType));    	 
+    	  association.setName(association.getName() + nextRelationCount(RelationshipType));    	 
       }
     }    
     return conn;
@@ -594,7 +592,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
    */
   public UmlConnection createConnectionToCon(RefOntoUML.Relationship relationship, UmlNode node1, UmlConnection c2) 
   {
-    UmlConnection prototype = relationPrototypes.get(RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -608,9 +606,9 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
    */
-  public UmlConnection createConnectionBetweenCon(RelationType relationType, UmlConnection c1, UmlConnection c2) 
+  public UmlConnection createConnectionBetweenCon(RelationshipType RelationshipType, UmlConnection c1, UmlConnection c2) 
   {
-    UmlConnection prototype = relationPrototypes.get(relationType);    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType);    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -619,7 +617,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
       if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
       {
     	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationCount(relationType));    	  
+    	  association.setName(association.getName() + nextRelationCount(RelationshipType));    	  
       }
     }    
     return conn;
@@ -630,7 +628,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
    */
   public UmlConnection createConnectionBetweenCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlConnection c2) 
   {
-    UmlConnection prototype = relationPrototypes.get(RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -641,14 +639,14 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
     return conn;
   }
   
-  public String nextRelationCount(RelationType relationType)
+  public String nextRelationCount(RelationshipType RelationshipType)
   {	  
-	  if (relationCounters.get(relationType)!=null) {
-		  int count = relationCounters.get(relationType);
-		  relationCounters.put(relationType, count+1);
+	  if (relationCounters.get(RelationshipType)!=null) {
+		  int count = relationCounters.get(RelationshipType);
+		  relationCounters.put(RelationshipType, count+1);
 		  return Integer.toString(count+1);
 	  }else{
-		  relationCounters.put(relationType, 0);
+		  relationCounters.put(RelationshipType, 0);
 		  return "";
 	  }	  
   }
@@ -656,9 +654,9 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * {@inheritDoc}
    */
-  public LineConnectMethod getConnectMethod(RelationType relationType)
+  public LineConnectMethod getConnectMethod(RelationshipType RelationshipType)
   {
-    UmlConnection conn = relationPrototypes.get(relationType);
+    UmlConnection conn = relationPrototypes.get(RelationshipType);
     return (conn == null) ? null : conn.getConnectMethod();
   }
 

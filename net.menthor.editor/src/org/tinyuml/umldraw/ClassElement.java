@@ -25,26 +25,26 @@ import java.awt.geom.Dimension2D;
 
 import org.tinyuml.draw.AbstractCompositeNode;
 import org.tinyuml.draw.Compartment;
+import org.tinyuml.draw.Compartment.Alignment;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LabelSource;
 import org.tinyuml.draw.SimpleLabel;
-import org.tinyuml.draw.Compartment.Alignment;
-import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.umldraw.shared.UmlModelElementLabelSource;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Property;
 import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
+import net.menthor.editor.model.RelationEndType;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.resources.icons.RelationshipType;
 
 /**
  * This class represents a Class element in the editor. It is responsible for
@@ -466,7 +466,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean acceptsConnection(RelationType associationType,
+	public boolean acceptsConnection(RelationshipType associationType,
 			RelationEndType as, UmlNode with) {
 		return true;
 	}

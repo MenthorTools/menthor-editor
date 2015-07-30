@@ -2,6 +2,7 @@ package net.menthor.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -31,16 +33,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.util.ConfigurationHelper;
-
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.Editor;
-import java.awt.Component;
-import javax.swing.Box;
+
+import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.util.ConfigurationHelper;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 public class StartPage extends BackgroundPanel implements Editor {
 		
@@ -86,7 +86,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 	private JPanel createRecentPane(){
 		JScrollPane recentScrollPane = new JScrollPane();
 		recentPane = new JPanel();    	
-		recentPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK));		
+		recentPane.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK));		
 		recentPane.setLayout(new BorderLayout(0, 0));
 		JLabel recentLabel = createRecentLabel("OPEN RECENTS");		
 		recentList.setFont(new Font(recentLabel.getFont().getName(),Font.BOLD,10));
@@ -104,7 +104,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		recentLabel.setBorder(new EmptyBorder(0, 8, 0, 0));
 		recentLabel.setPreferredSize(new Dimension(75, 30));
 		recentLabel.setForeground(Color.WHITE);
-		recentLabel.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK));
+		recentLabel.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK));
 		recentLabel.setFont(new Font(recentLabel.getFont().getName(),Font.BOLD,11));
 		return recentLabel;
 	}
@@ -150,8 +150,8 @@ public class StartPage extends BackgroundPanel implements Editor {
 		//btn.setBorderPainted(false);
 		btn.setFocusPainted(false);
 		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));
-		btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE),1,true));
+		btn.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));
+		btn.setBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE),1,true));
 		setRollOver(btn);
 		btn.setOpaque(true);        
 		return btn;
@@ -167,8 +167,8 @@ public class StartPage extends BackgroundPanel implements Editor {
         //btn.setBorderPainted(false);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK));                        
-        btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK),1,true));
+        btn.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK));                        
+        btn.setBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK),1,true));
         setRollOverLink(btn);
         btn.setOpaque(true);
         return btn;
@@ -203,11 +203,11 @@ public class StartPage extends BackgroundPanel implements Editor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Set click color
-				btnNewProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN_DARK));            	
+				btnNewProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
             	//Action
             	commandListener.handleCommand("NEW_PROJECT");            	
             	//Back to normal
-            	btnNewProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));            	
+            	btnNewProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
 		});
     }
@@ -218,11 +218,11 @@ public class StartPage extends BackgroundPanel implements Editor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Set click color
-				btnOpenProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN_DARK));            	
+				btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
 		       	commandListener.handleCommand("OPEN_PROJECT");            	
 		       	//Back to normal
-		       	btnOpenProject.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));            	
+		       	btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
 		});
    }
@@ -233,11 +233,11 @@ public class StartPage extends BackgroundPanel implements Editor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Set click color
-				btnImportFromEA.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN_DARK));            	
+				btnImportFromEA.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
 		       	commandListener.handleCommand("IMPORT_XMI");            	
 		       	//Back to normal
-		       	btnImportFromEA.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));            	
+		       	btnImportFromEA.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
 		});
    }
@@ -250,12 +250,12 @@ public class StartPage extends BackgroundPanel implements Editor {
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();
                 if (model.isRollover()) {
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_BROWN)); 
-                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE),1,true));
+                	btn.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN)); 
+                	btn.setBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE),1,true));
                 	
                 } else{
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE));
-                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE),1,true));
+                	btn.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));
+                	btn.setBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE),1,true));
             		
                 }
             }
@@ -270,12 +270,12 @@ public class StartPage extends BackgroundPanel implements Editor {
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();
                 if (model.isRollover()) {
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY)); 
-                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK),1,true));
+                	btn.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY)); 
+                	btn.setBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK),1,true));
                 	
                 } else{
-                	btn.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK));
-                	btn.setBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY_DARK),1,true));
+                	btn.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK));
+                	btn.setBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK),1,true));
             		
                 }
             }

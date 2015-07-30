@@ -32,15 +32,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.dialog.DiagramListDialog;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.explorer.ProjectTree;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
@@ -51,6 +42,14 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLElement;
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.dialog.DiagramListDialog;
+import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.explorer.ProjectTree;
+import net.menthor.editor.model.ElementType;
+import net.menthor.editor.model.OCLDocument;
+import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.resources.icons.RelationshipType;
 
 /**
  * @author John Guerson
@@ -199,7 +198,7 @@ public class TreePopupMenu extends JPopupMenu {
 		addGenItem.addActionListener(new ActionListener() {				
 	        	@Override
 	        	public void actionPerformed(ActionEvent e) {
-	        		frame.getDiagramManager().addRelation(RelationType.GENERALIZATION,eContainer);
+	        		frame.getDiagramManager().addRelation(RelationshipType.GENERALIZATION,eContainer);
 	        	}
 	        });
 		addCommentItem.addActionListener(new ActionListener() {				

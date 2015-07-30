@@ -41,7 +41,7 @@ import org.tinyuml.ui.commands.AppCommandListener;
 import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconMap;
 
 /**
  * This class manages the pulldown menu of the application.
@@ -507,7 +507,7 @@ public class AppMenu implements ActionListener {
 		// icon
 		String iconType = getResourceString(prefix + ".icon");
 		if (iconType != null) {
-			menuitem.setIcon(IconLoader.getInstance().getIcon(iconType));
+			menuitem.setIcon(IconMap.getInstance().getIcon(iconType));
 		}
 	}
 

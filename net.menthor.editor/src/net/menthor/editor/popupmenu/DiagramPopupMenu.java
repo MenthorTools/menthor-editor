@@ -35,7 +35,7 @@ import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconMap;
 
 /**
  * @author John Guerson
@@ -84,7 +84,7 @@ public class DiagramPopupMenu extends JPopupMenu implements ActionListener{
 		// icon
 		String iconType = getResourceString(prefix + ".icon");
 		if (iconType != null) {
-			menuitem.setIcon(IconLoader.getInstance().getIcon(iconType));
+			menuitem.setIcon(IconMap.getInstance().getIcon(iconType));
 		}
 		menu.add(menuitem);
 		return menuitem;

@@ -33,8 +33,8 @@ import javax.swing.event.DocumentListener;
 
 import org.tinyuml.draw.Label;
 
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 /**
  * This class acts as an in-editor text input element.
@@ -57,8 +57,8 @@ implements DocumentListener, BaseTextEditor {
 	public CaptionEditor(DiagramEditor editor) {
 		super();
 		this.editor=editor;
-		setBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST));
-		Border border = new CompoundBorder(new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1), new EmptyBorder(1, 3, 1, 1));	
+		setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST));
+		Border border = new CompoundBorder(new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_DARK), 1), new EmptyBorder(1, 3, 1, 1));	
 		setBorder(border);
 		hideEditor();
 		getDocument().addDocumentListener(this);		

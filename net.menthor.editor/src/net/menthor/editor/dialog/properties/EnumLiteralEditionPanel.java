@@ -45,16 +45,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
+import net.menthor.editor.DiagramManager;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 public class EnumLiteralEditionPanel extends JPanel{
 
@@ -111,7 +110,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-		table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
+		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);

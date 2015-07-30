@@ -141,7 +141,6 @@ import net.menthor.editor.finder.FoundPane;
 import net.menthor.editor.model.AlloySpecification;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.RelationType;
 import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.pattern.DomainPatternTool;
@@ -182,6 +181,7 @@ import net.menthor.ontouml2infouml.OntoUML2InfoUML;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.resources.icons.CommandType;
+import net.menthor.resources.icons.RelationshipType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -1508,13 +1508,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Add relationship to the model instance (not to diagram). */
-	public RefOntoUML.Relationship addRelation(RelationType stereotype, EObject eContainer)
+	public RefOntoUML.Relationship addRelation(RelationshipType stereotype, EObject eContainer)
 	{
 		RefOntoUML.Relationship relationship = elementFactory.createRelationship(stereotype);
 		// add default properties
 		if(relationship instanceof RefOntoUML.Association) elementFactory.createPropertiesByDefault((RefOntoUML.Association)relationship);
 		//to add only in the model do exactly as follow				
-		if (stereotype==RelationType.GENERALIZATION) {
+		if (stereotype==RelationshipType.GENERALIZATION) {
 			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,(RefOntoUML.Classifier)eContainer,null,getCurrentProject(),null);
 			cmd.run();
 		}else{
@@ -2596,6 +2596,18 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				settings.setVisible(true);
 			}
 		});
+	}
+	
+	public void simulate()
+	{	
+		workingOnlyWithChecked();		
+		openAlloySettings();
+	}
+
+	public void implementInOwl() 
+	{	
+		workingOnlyWithChecked();
+		openOwlSettings();
 	}
 	
 	/** Open the Alloy simulation settings window */

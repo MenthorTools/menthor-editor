@@ -34,7 +34,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.RelationType;
+import net.menthor.resources.icons.RelationshipType;
 
 public class RelationCreationMenu  extends JMenu{
 
@@ -70,7 +70,7 @@ public class RelationCreationMenu  extends JMenu{
 		materialItem.addActionListener(new ActionListener() {				
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		diagramManager.addRelation(RelationType.MATERIAL,eContainer);
+	    		diagramManager.addRelation(RelationshipType.MATERIAL,eContainer);
 	    	}
 	    });
 		//add(formalItem);
@@ -78,7 +78,7 @@ public class RelationCreationMenu  extends JMenu{
 		formalItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.FORMAL,eContainer);
+        		diagramManager.addRelation(RelationshipType.FORMAL,eContainer);
         	}
         });    			
 		//add(characterizationItem);
@@ -86,7 +86,7 @@ public class RelationCreationMenu  extends JMenu{
 		characterizationItem.addActionListener(new ActionListener() {				
 	        	@Override
 	        	public void actionPerformed(ActionEvent e) {
-	        		diagramManager.addRelation(RelationType.CHARACTERIZATION,eContainer);
+	        		diagramManager.addRelation(RelationshipType.CHARACTERIZATION,eContainer);
 	        	}
 	        });    			
 		//add(mediationItem);
@@ -94,7 +94,7 @@ public class RelationCreationMenu  extends JMenu{
 		mediationItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.MEDIATION,eContainer);
+        		diagramManager.addRelation(RelationshipType.MEDIATION,eContainer);
         	}
         });
 		//add(componentOfItem);
@@ -102,7 +102,7 @@ public class RelationCreationMenu  extends JMenu{
 		componentOfItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.COMPONENTOF,eContainer);
+        		diagramManager.addRelation(RelationshipType.COMPONENTOF,eContainer);
         	}
         });
 		//add(memberOfItem);
@@ -110,7 +110,7 @@ public class RelationCreationMenu  extends JMenu{
 		memberOfItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.MEMBEROF,eContainer);
+        		diagramManager.addRelation(RelationshipType.MEMBEROF,eContainer);
         	}
         });
 		//add(subcollectionOfItem);
@@ -118,7 +118,7 @@ public class RelationCreationMenu  extends JMenu{
 		subcollectionOfItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.SUBCOLLECTIONOF,eContainer);
+        		diagramManager.addRelation(RelationshipType.SUBCOLLECTIONOF,eContainer);
         	}
         });    			
 		//add(subquantityOfItem);
@@ -126,7 +126,7 @@ public class RelationCreationMenu  extends JMenu{
 		subquantityOfItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.SUBQUANTITYOF,eContainer);
+        		diagramManager.addRelation(RelationshipType.SUBQUANTITYOF,eContainer);
         	}
         });    	
 		//add(structurationItem);
@@ -134,7 +134,7 @@ public class RelationCreationMenu  extends JMenu{
 		structurationItem.addActionListener(new ActionListener() {				
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		diagramManager.addRelation(RelationType.STRUCTURATION,eContainer);
+	    		diagramManager.addRelation(RelationshipType.STRUCTURATION,eContainer);
 	    	}
 	    });
 		//add(associationItem);
@@ -142,7 +142,7 @@ public class RelationCreationMenu  extends JMenu{
 		associationItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.ASSOCIATION,eContainer);
+        		diagramManager.addRelation(RelationshipType.ASSOCIATION,eContainer);
         	}
         });  
 		//add(derivationItem);
@@ -150,7 +150,7 @@ public class RelationCreationMenu  extends JMenu{
 		derivationItem.addActionListener(new ActionListener() {				
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		diagramManager.addRelation(RelationType.DERIVATION,eContainer);
+        		diagramManager.addRelation(RelationshipType.DERIVATION,eContainer);
         	}
         });      			
 		associationItem.setIcon(new ImageIcon(RelationCreationMenu.class.getResource("/resources/icons/x16/tree/association-arrow.png")));

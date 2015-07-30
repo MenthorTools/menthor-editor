@@ -56,12 +56,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.umldraw.ClassElement;
@@ -71,6 +65,11 @@ import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Element;
 import RefOntoUML.Property;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 /**
  * @author John Guerson
@@ -132,7 +131,7 @@ public class AttributesEditionPanel extends JPanel {
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-		table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
+		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);

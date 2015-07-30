@@ -25,22 +25,22 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.Palette;
+import net.menthor.editor.palette.PaletteGrouping;
 import net.menthor.editor.palette.PaletteAccordion;
-import net.menthor.editor.palette.PaletteElement;
 import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
 import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
+import net.menthor.resources.icons.PaletteItem;
 
 public class DomainPatternTool {
 
 	private static StructureDiagram currentDiagram;
-	private static Palette domainPallete;
+	private static PaletteGrouping domainPallete;
 	private static AppFrame frame;
 	private static OntoUMLParser parser;
 	
 	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, AppCommandDispatcher editorDispatcher, AppFrame appFrame) {
 		//Creating Palettes
-		HashMap<PaletteElement, StructureDiagram> hashDomainPalette = new HashMap<>();
+		HashMap<PaletteItem, StructureDiagram> hashDomainPalette = new HashMap<>();
 		domainPallete = palleteAccordion.createDomainPalette(patternProject, hashDomainPalette,editorDispatcher);
 		
 		frame = appFrame;
@@ -49,7 +49,7 @@ public class DomainPatternTool {
 		DomainPatternTool.createDomainPalleteListener(domainPallete, hashDomainPalette,frame);
 	}
 
-	public static void createDomainPalleteListener(final Palette domainPallete,final HashMap<PaletteElement, StructureDiagram> hashDomainPalette, AppFrame frame) {
+	public static void createDomainPalleteListener(final PaletteGrouping domainPallete,final HashMap<PaletteItem, StructureDiagram> hashDomainPalette, AppFrame frame) {
 		domainPallete.addCommandListener(new AppCommandListener() {
 
 			@Override

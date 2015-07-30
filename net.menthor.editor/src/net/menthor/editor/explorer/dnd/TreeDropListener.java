@@ -68,7 +68,8 @@ public class TreeDropListener implements DropTargetListener {
 
 	  public void dropActionChanged(DropTargetDragEvent dtde) {}
 
-	  public void drop(DropTargetDropEvent dtde) 
+	  @SuppressWarnings("unused")
+	public void drop(DropTargetDropEvent dtde) 
 	  {
 	    Point pt = dtde.getLocation();
 	    DropTargetContext dtc = dtde.getDropTargetContext();

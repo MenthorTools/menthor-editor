@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-
 import org.tinyuml.umldraw.StructureDiagram;
+
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 
 /**
@@ -43,9 +43,9 @@ import org.tinyuml.umldraw.StructureDiagram;
  */
 public class NodeSelection implements Selection, NodeChangeListener {
 
-	private static final Color ACCEPT_COLOR = ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM);
-	private static final Color HANDLE_FILL_COLOR = ColorPalette.getInstance().getColor(ThemeColor.GREY_LIGHT);
-	private static final Color HANDLE_BORDER_COLOR = ColorPalette.getInstance().getColor(ThemeColor.GREY_DARK); 
+	private static final Color ACCEPT_COLOR = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE);
+	private static final Color HANDLE_FILL_COLOR = ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_LIGHT);
+	private static final Color HANDLE_BORDER_COLOR = ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_DARK); 
 	
 	private static final int HANDLE_SIZE = 6;
 	private static final int HANDLE_NW = 0;

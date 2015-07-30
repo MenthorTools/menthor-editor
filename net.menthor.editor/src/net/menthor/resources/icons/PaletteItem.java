@@ -1,4 +1,4 @@
-package net.menthor.editor.palette;
+package net.menthor.resources.icons;
 
 /**
  * ============================================================================================
@@ -32,61 +32,49 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * @author Antognoni Albuquerque
- */
-public class PaletteElement extends JPanel implements MouseListener, MouseMotionListener
-{
+import net.menthor.editor.palette.PaletteAccordion;
+import net.menthor.editor.palette.PaletteGrouping;
 
+public class PaletteItem extends JPanel implements MouseListener, MouseMotionListener
+{
 	private static final long serialVersionUID = 5550202293825101613L;
 	
-	private Palette parent = null;
-	private String command = ""; 
+	private PaletteGrouping parent = null;
+	private String command = new String(); 
 	private String caption = new String();
 	private String type = new String();
+	private boolean isSelected = false;
 	
 	public String getCaption() { return caption; }
 	public String getType() { return type; }
+	public String getCommand() { return command; }
 	
-	private boolean isSelected = false;
-	
-	public PaletteElement(Icon icon, String caption, String command, Palette palette, String type)
-	{
+	public PaletteItem(Icon icon, String caption, String command, PaletteGrouping palette, String type){
 		super();
-
 		this.command = command;
 		this.parent = palette;
 		this.caption = caption;
-		this.type = type;
-		
+		this.type = type;		
 		this.setMaximumSize(new Dimension(32767, 24));
 		this.setSize(new Dimension(200, 24));
 		this.setPreferredSize(new Dimension(200, 24));
-		this.setMinimumSize(new Dimension(0, 24));
-		
-		
+		this.setMinimumSize(new Dimension(0, 24));		
 		this.setBorder(PaletteAccordion.getResetBorder());
 		this.setBackground(PaletteAccordion.getResetBackground());
-
 		this.setLayout(new BorderLayout());
-
 		JLabel label = new JLabel(caption, icon, JLabel.LEFT);
 		label.setIconTextGap(10);
-		label.setBorder(BorderFactory.createEmptyBorder(1, 10, 1, 1));
-		
+		label.setBorder(BorderFactory.createEmptyBorder(1, 10, 1, 1));		
 		this.add(label, BorderLayout.CENTER);
 		this.addMouseListener(this);
 	}
 
 	public void setSelected(boolean selected) {
 		this.isSelected = selected;
-		if(selected)
-		{
+		if(selected){
 			setSelectedStyle();
-			parent.NotifySelection(this);
-		}
-		else
-		{
+			parent.notifySelection(this);
+		} else {
 			resetStyle();
 		}
 	}
@@ -95,33 +83,26 @@ public class PaletteElement extends JPanel implements MouseListener, MouseMotion
 		return isSelected;
 	}
 
-	private void setSelectedStyle()
-	{
+	private void setSelectedStyle(){
 		setBackground(PaletteAccordion.getSelectedItemBackground());
 		setBorder(PaletteAccordion.getSelectedItemBorder());
 		setForeground(PaletteAccordion.getSelectedItemForeground());
 		repaint();
 	}
 
-	private void setHoverStyle()
-	{
+	private void setHoverStyle(){
 		setBackground(PaletteAccordion.getHoverItemBackground());
 		setBorder(PaletteAccordion.getHoverItemBorder());
 		repaint();
 	}
 
-	private void resetStyle()
-	{
+	private void resetStyle(){
 		setBackground(PaletteAccordion.getResetBackground());
 		setBorder(PaletteAccordion.getResetBorder());
 		setForeground(PaletteAccordion.getResetForeground());
 		repaint();
 	}
 
-	public String getCommand() {
-		return command;
-	}
-	
 	@Override
 	public void mouseEntered(MouseEvent e) {		
 		if(!isSelected)
@@ -133,8 +114,6 @@ public class PaletteElement extends JPanel implements MouseListener, MouseMotion
 		if(!isSelected)
 		resetStyle();
 	}
-
-	//==========================================
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -150,8 +129,6 @@ public class PaletteElement extends JPanel implements MouseListener, MouseMotion
 	public void mouseClicked(MouseEvent e) {		
 		
 	}
-	
-	//============================================
 	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {

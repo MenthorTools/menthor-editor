@@ -139,6 +139,7 @@ public class ProjectBrowser extends JPanel{
 	public UmlProject getProject(){ return project; }	
 	public ProjectTree getTree() { return tree; }
 	
+	@SuppressWarnings("unused")
 	public void setProject(UmlProject project)
 	{
 		this.project = project;		

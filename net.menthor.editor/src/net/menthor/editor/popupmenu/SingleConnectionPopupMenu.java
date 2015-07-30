@@ -43,7 +43,7 @@ import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconMap;
 
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
@@ -799,7 +799,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 		// icon
 		String iconType = getResourceString(prefix + ".icon");
 		if (iconType != null) {
-			menuitem.setIcon(IconLoader.getInstance().getIcon(iconType));
+			menuitem.setIcon(IconMap.getInstance().getIcon(iconType));
 		}
 		menu.add(menuitem);
 		return menuitem;

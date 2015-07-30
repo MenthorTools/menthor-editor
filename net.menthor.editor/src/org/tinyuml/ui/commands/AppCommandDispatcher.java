@@ -36,9 +36,9 @@ import net.menthor.editor.Main;
 import net.menthor.editor.dialog.AutoCompletionDialog;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.RelationType;
 import net.menthor.editor.util.MethodCall;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
+import net.menthor.resources.icons.RelationshipType;
 
 /**
  * This class receives BaseEditor related AppCommands and dispatches them to
@@ -180,72 +180,67 @@ public class AppCommandDispatcher implements AppCommandListener {
 			//Commands for creating relations		
 			selectorMap.put("CREATE_GENERALIZATION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.GENERALIZATION));
+							RelationshipType.class), RelationshipType.GENERALIZATION));
 
 			selectorMap.put("CREATE_CHARACTERIZATION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.CHARACTERIZATION));
+							RelationshipType.class), RelationshipType.CHARACTERIZATION));
 
 			selectorMap.put("CREATE_FORMAL", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.FORMAL));
+							RelationshipType.class), RelationshipType.FORMAL));
 
 			selectorMap.put("CREATE_MATERIAL", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.MATERIAL));
+							RelationshipType.class), RelationshipType.MATERIAL));
 
 			selectorMap.put("CREATE_MEDIATION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.MEDIATION));
+							RelationshipType.class), RelationshipType.MEDIATION));
 
 			selectorMap.put("CREATE_MEMBEROF", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.MEMBEROF));
+							RelationshipType.class), RelationshipType.MEMBEROF));
 
 			selectorMap.put("CREATE_SUBQUANTITYOF", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.SUBQUANTITYOF));
+							RelationshipType.class), RelationshipType.SUBQUANTITYOF));
 
 			selectorMap.put("CREATE_SUBCOLLECTIONOF", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.SUBCOLLECTIONOF));
+							RelationshipType.class), RelationshipType.SUBCOLLECTIONOF));
 
 			selectorMap.put("CREATE_COMPONENTOF", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.COMPONENTOF));
+							RelationshipType.class), RelationshipType.COMPONENTOF));
 
 			selectorMap.put("CREATE_DERIVATION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.DERIVATION));
+							RelationshipType.class), RelationshipType.DERIVATION));
 
 			selectorMap.put("CREATE_ASSOCIATION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.ASSOCIATION));
+							RelationshipType.class), RelationshipType.ASSOCIATION));
 
 			selectorMap.put("CREATE_STRUCTURATION", new MethodCall(
 					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.STRUCTURATION));
+							RelationshipType.class), RelationshipType.STRUCTURATION));
 			
 			//selectorMap.put("CREATE_CONDITION", new MethodCall(
 			//		DiagramEditor.class.getMethod("setCreateConnectionMode",
-			//				RelationType.class), RelationType.ASSOCIATION));//Asso
+			//				RelationshipType.class), RelationshipType.ASSOCIATION));//Asso
 
 			//selectorMap.put("CREATE_DERIVATIONRULE", new MethodCall(
 			//		DiagramEditor.class.getMethod("setCreateConnectionMode",
-			//				RelationType.class), RelationType.ASSOCIATION));//Asso
+			//				RelationshipType.class), RelationshipType.ASSOCIATION));//Asso
 
 			//selectorMap.put("CREATE_CONCLUSION", new MethodCall(
 			//		DiagramEditor.class.getMethod("setCreateConnectionMode",
-			//				RelationType.class), RelationType.ASSOCIATION));//Asso
+			//				RelationshipType.class), RelationshipType.ASSOCIATION));//Asso
 
 			//selectorMap.put("CREATE_NOTE", new MethodCall(
 			//		DiagramEditor.class.getMethod("setCreationMode", ElementType.class),
 			//		ElementType.NOTE));
-
-
-			selectorMap.put("CREATE_NOTE_CONNECTION", new MethodCall(
-					DiagramEditor.class.getMethod("setCreateConnectionMode",
-							RelationType.class), RelationType.NOTE_CONNECTOR));
 
 			selectorMap.put("RESET_POINTS", new MethodCall(
 					DiagramEditor.class.getMethod("resetConnectionPoints")));

@@ -52,14 +52,14 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.popupmenu.TabPopupMenu;
-
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
+
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.popupmenu.TabPopupMenu;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 
 /**
@@ -309,7 +309,7 @@ public class ClosableTabPanel extends JPanel {
 			g2.setStroke(new BasicStroke(1,BasicStroke.JOIN_ROUND,BasicStroke.CAP_ROUND));
 			g2.setColor(Color.BLACK);
 			if (getModel().isRollover()) {
-				g2.setColor(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK));
+				g2.setColor(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_DARK));
 			}
 			int delta = 5;
 

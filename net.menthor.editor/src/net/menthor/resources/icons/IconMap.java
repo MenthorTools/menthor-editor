@@ -28,48 +28,20 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public final class IconLoader {
+public final class IconMap {
 
-	private static IconLoader instance = new IconLoader();
+	private static IconMap instance = new IconMap();
+	public static IconMap getInstance() { return instance; }
 	
 	private Map<IconType, String> urlMap = new HashMap<IconType, String>();
 	private Map<IconType, Icon> iconMap = new HashMap<IconType, Icon>();
 	private Map<String, IconType> iconTypeMap = new HashMap<String, IconType>();
 	
-	public enum IconType {
-		
-		MENTHOR_DELETE, MENTHOR_SAVE, MENTHOR_ERASE, MENTHOR_FOLDER, MENTHOR_ADD, 
-		MENTHOR_SETTINGS, MENTHOR_DOC, MENTHOR_STATS, MENTHOR_ADD_GREEN, MENTHOR_EDIT, 
-		MENTHOR_EXPORT, MENTHOR_IMPORT, MENTHOR_TO_FRONT, MENTHOR_ZOOM_EXPORT, MENTHOR_ZOOM_IN, 
-		MENTHOR_ZOOM_OUT, MENTHOR_REDO, MENTHOR_UNDO, MENTHOR_SEARCH, MENTHOR_WARNING, MENTHOR_ERROR, 
-		MENTHOR_GRID, MENTHOR_CHECK, MENTHOR_RECTILINEAR, MENTHOR_DIRECT, MENTHOR_TO_BACK, MENTHOR_PLAY, 
-		MENTHOR_CLOSED, MENTHOR_OPEN, MENTHOR_EDIT_ROUND, MENTHOR_FIT, MENTHOR_PATTERN, MENTHOR_PICKER, 
-		MENTHOR_COLOR_CHOOSER, MENTHOR_ALIGN_LEFT, MENTHOR_ALIGN_RIGHT, MENTHOR_ALIGN_BOTTOM, MENTHOR_ALIGN_TOP, 
-		MENTHOR_ALIGN_HORIZONTAL, MENTHOR_ALIGN_VERTICAL, MENTHOR_DIAGRAM_TAB, MENTHOR_ADD_TAB, 
-		MENTHOR_ADD_FOLDER, MENTHOR_TREE, MENTHOR_GEN_SET, MENTHOR_DOWNLOAD, MENTHOR_UPLOAD, MENTHOR_LINE, 
-		MENTHOR_LINE2, MENTHOR_GEN_BLACK, MENTHOR_COMMENT, MENTHOR_PARTHOOD_BLACK, MENTHOR_DERIVATION, 
-		MENTHOR_GRAPH, MENTHOR_GEN_WHITE, MENTHOR_PARTHOOD_M, MENTHOR_DASHED_LINE, MENTHOR_NOTE, MENTHOR_DOC_OCL, 
-		MENTHOR_RED_BOX, MENTHOR_PARTHOOD_C, MENTHOR_PARTHOOD_Q, MENTHOR_BACK_BOXES, MENTHOR_CLASS, MENTHOR_PARTHOOD_E, 
-		MENTHOR_DIAGRAM, MENTHOR_W3C, MENTHOR_SEMANTIC_WEB, MENTHOR_UML,
-		
-		//OLED
-		NEW, OPEN, SAVE, CUT, COPY, PASTE, DELETE, UNDO, TOOLBOX, REDO, ERROR, WARNING, OUTPUT, OCLEDITOR, ABOUT, 
-		ANNOTATION, MOUSE_POINTER, CLASS, ASSOCIATION, ASSOCIATION_ARROW, AGGREGATION, AGGREGATION_C, AGGREGATION_M, 
-		AGGREGATION_Q, COMPOSITION, INHERITANCE, NOTE, NOTE_CONNECTOR, DIAGNOSTIC, VALIDATE, VERIFY_SETTINGS, VERIFY, 
-		VERIFY_FILE, GENERATE_ALLOY, PARSE, VIEW, RECTILINEAR, STRAIGHT, DERIVATION, RULE, WINDOW, AUTO_SELECTION, PALETTE_OPEN, 
-		PALETTE_CLOSED, GENERATE_OWL_SETTINGS, GENERATE_OWL, GENERATE_SBVR, GENERATE_TEXT, EA, IMPORT, EXPORT, UML, PICTURE,
-		BACKGROUND_WELCOME, HEAD_WELCOME, NEW_PROJECT, NEW_DIAGRAM, OPEN_PROJECT, ISSUE_REPORT, NEXT, PACKAGE, ADD, REMOVE,
-		GREEN_LIGHT, RED_LIGHT, EXCLUDE, GREY_LIGHT, ARROW_UP, COPYRIGHTS, ARROW_DOWN, ANTIPATTERN, PART_WHOLE_VALIDATION,
-		DERIVERELATIONS, MENTHOR, NEMO, DIRECT, PATTERN, FIND, STATISTICS,  
-	}
-	
-	/** Private constructor. */
-	private IconLoader() 
+	private IconMap() 
 	{
 		for (IconType iconType : IconType.values()) {
 			iconTypeMap.put(iconType.toString(), iconType);
-		}
-				
+		}				
 		urlMap.put(IconType.MENTHOR_DOC, "net/menthor/resources/icons/novos_icones-01.png");
 		urlMap.put(IconType.MENTHOR_FOLDER, "net/menthor/resources/icons/novos_icones-02.png");
 		urlMap.put(IconType.MENTHOR_SAVE, "net/menthor/resources/icons/novos_icones-03.png");
@@ -206,42 +178,20 @@ public final class IconLoader {
 		urlMap.put(IconType.NEXT, "resources/icons/x16/next.png");		
 	}
 
-	/**
-	 * Returns the singleton instance.
-	 * @return the singleton instance
-	 */
-	public static IconLoader getInstance() { return instance; }
-
-	/**
-	 * Returns the icon for the specified icon type.
-	 * @param type the icon type
-	 * @return the icon
-	 */
 	public Icon getIcon(IconType type) {
-		if (!iconMap.containsKey(type)) {
+		if (!iconMap.containsKey(type)){
 			String urlstr = urlMap.get(type);
-			if (urlstr != null) {
-				iconMap.put(type,
-						new ImageIcon(getClass().getClassLoader().getResource(urlstr)));
+			if (urlstr != null){
+				iconMap.put(type, new ImageIcon(getClass().getClassLoader().getResource(urlstr)));
 			}
 		}
 		return iconMap.get(type);
 	}
 
-	/**
-	 * Returns the icon for the specified icon type name.
-	 * @param typeName the icon type name
-	 * @return the icon
-	 */
 	public Icon getIcon(String typeName) {
 		return getIcon(iconTypeMap.get(typeName));
 	}
 
-	/**
-	 * Returns the icon for the specified icon type name.
-	 * @param typeName the icon type name
-	 * @return the icon
-	 */
 	public Image getImage(String typeName) {
 		try {
 			IconType type = iconTypeMap.get(typeName);

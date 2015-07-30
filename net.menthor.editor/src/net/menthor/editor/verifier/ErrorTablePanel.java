@@ -41,9 +41,9 @@ import javax.swing.border.EmptyBorder;
 
 import net.menthor.common.file.FileUtil;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import net.menthor.editor.util.FileChoosersUtil;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 /**
  * @author John Guerson
@@ -165,7 +165,7 @@ public class ErrorTablePanel extends JPanel {
 		//table.setPreferredScrollableViewportSize(new Dimension(500, 150));		
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-	    table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHT));
+	    table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHT));
 	    table.setSelectionForeground(Color.BLACK);
 	    table.setFocusable(false);	    
 		add(scrollpane,BorderLayout.CENTER);

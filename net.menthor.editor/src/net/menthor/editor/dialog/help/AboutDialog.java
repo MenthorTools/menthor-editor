@@ -37,13 +37,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import net.menthor.editor.ui.JHyperLinkLabel;
-import javax.swing.UIManager;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 /**
  * @author John Guerson
@@ -117,7 +117,7 @@ public class AboutDialog extends JDialog {
 		label = new JLabel("");
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(label, BorderLayout.CENTER);
-		panel.setBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST));
+		panel.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST));
 		label.setBackground(Color.WHITE);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setIcon(new ImageIcon(AboutDialog.class.getResource("/resources/icons/menthor-64x64.png")));

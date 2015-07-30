@@ -22,9 +22,6 @@ package org.tinyuml.ui.diagram;
 
 import java.awt.geom.Point2D;
 
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
@@ -40,6 +37,8 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.resources.icons.RelationshipType;
 
 /**
  * This class is a handler for line shaped allElements.
@@ -53,7 +52,7 @@ public class LineHandler implements EditorMode {
   private Point2D tmpPos = new Point2D.Double();
   private DiagramElement source;
   private boolean isDragging;
-  private RelationType relationType;
+  private RelationshipType relationType;
   private LineConnectMethod connectMethod;
 
   /**
@@ -69,7 +68,7 @@ public class LineHandler implements EditorMode {
    * @param anAssociationType the association type
    * @param aConnectMethod the connect method
    */
-  public void setRelationType(RelationType anAssociationType,
+  public void setRelationType(RelationshipType anAssociationType,
     LineConnectMethod aConnectMethod) {
     connectMethod = aConnectMethod;
     relationType = anAssociationType;   
@@ -128,7 +127,7 @@ public class LineHandler implements EditorMode {
   /**
    * Create a connection and add it to the Diagram (from a RelationType)
    */
-  public UmlConnection createAndAddConnection(DiagramEditor editor, RelationType relationType, DiagramElement source, DiagramElement target, EObject eContainer)
+  public UmlConnection createAndAddConnection(DiagramEditor editor, RelationshipType relationType, DiagramElement source, DiagramElement target, EObject eContainer)
   {
 	  Point2D sourcePoint = new Point2D.Double();
 	  Point2D targetPoint = new Point2D.Double();	  
@@ -155,7 +154,7 @@ public class LineHandler implements EditorMode {
 	  if(target instanceof ClassElement) targetPoint.setLocation(((ClassElement)target).getAbsCenterX(),((ClassElement)target).getAbsCenterY());
 	  if(source instanceof AssociationElement) sourcePoint.setLocation(((AssociationElement)source).getAbsCenterX(),((AssociationElement)source).getAbsCenterY());
 	  if(target instanceof AssociationElement) targetPoint.setLocation(((AssociationElement)target).getAbsCenterX(),((AssociationElement)target).getAbsCenterY());	  
-	  RelationType relationType = RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
+	  RelationshipType relationType = RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
 	  LineConnectMethod connectMethod = editor.getDiagramManager().getElementFactory().getConnectMethod(relationType);	  
 	  UmlConnection conn = createConnection(editor, connectMethod, relationship, source, target, sourcePoint, targetPoint);	  
 	  addConnection(editor, conn, source, target, eContainer);  	  
@@ -210,7 +209,7 @@ public class LineHandler implements EditorMode {
   /**
    * Create connection from a RelationType.
    */
-  public UmlConnection createConnection (DiagramEditor editor, LineConnectMethod connectMethod, RelationType relationType, DiagramElement source, DiagramElement target, Point2D anchor, Point2D tmpPos)
+  public UmlConnection createConnection (DiagramEditor editor, LineConnectMethod connectMethod, RelationshipType relationType, DiagramElement source, DiagramElement target, Point2D anchor, Point2D tmpPos)
   {
 	  UmlConnection conn = null;
 	  
@@ -224,7 +223,7 @@ public class LineHandler implements EditorMode {
 	  if (source instanceof UmlNode && target instanceof UmlConnection)
 	  {
 		  //invert sides if derivation is pushed from the UmlNode (relator), it should be from the UmlConnection (material)
-		  if (relationType == RelationType.DERIVATION) { 
+		  if (relationType == RelationshipType.DERIVATION) { 
 			  conn = editor.getDiagramManager().getElementFactory().createConnectionFromCon(relationType, (UmlConnection) target, (UmlNode) source);   
               connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection) target, (UmlNode)source, anchor, tmpPos); 
 		  }
@@ -233,8 +232,8 @@ public class LineHandler implements EditorMode {
 	  if (source instanceof UmlNode && target instanceof UmlNode)
 	  {
 		  //invert sides if characterization is pushed from a UmlNode that is not a Mode. It should be from a Mode.
-		  if ((relationType == RelationType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
-		     (relationType == RelationType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) )
+		  if ((relationType == RelationshipType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
+		     (relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) )
 		  {
 			  conn = editor.getDiagramManager().getElementFactory().createConnection(relationType, (UmlNode) target, (UmlNode) source);
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) target, (UmlNode)source, anchor, tmpPos);
@@ -279,7 +278,7 @@ public class LineHandler implements EditorMode {
 		if (source instanceof UmlNode && target instanceof UmlConnection)
 		{
 			//invert sides if derivation is pushed from the UmlNode (relator), it should be from the UmlConnection (material)
-			if (relationType == RelationType.DERIVATION) { 
+			if (relationType == RelationshipType.DERIVATION) { 
 				if (target instanceof GeneralizationElement){
 					aSource =  (Classifier) ((GeneralizationElement)target).getRelationship(); 
 					aTarget =  (Classifier) ((UmlNode)source).getClassifier();
@@ -293,8 +292,8 @@ public class LineHandler implements EditorMode {
 	    if (source instanceof UmlNode && target instanceof UmlNode)
 	    {
 		    //invert sides if characterization is pushed from a UmlNode that is not a Mode. It should be from a Mode.
-		    if ((relationType == RelationType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
-		       (relationType == RelationType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) )
+		    if ((relationType == RelationshipType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
+		       (relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) )
 		    {				  
 		    	aSource =  (Classifier) ((UmlNode)target).getClassifier(); 
 		    	aTarget =  (Classifier) ((UmlNode)source).getClassifier();
@@ -329,7 +328,7 @@ public class LineHandler implements EditorMode {
   /**
    * Create connection cloning
    */
-  public UmlConnection createCloning(RelationType relationType, RefOntoUML.Relationship toBeCloned)
+  public UmlConnection createCloning(RelationshipType relationType, RefOntoUML.Relationship toBeCloned)
   {
 	  RefOntoUML.Type sourceType = null;
 	  RefOntoUML.Type targetType = null;

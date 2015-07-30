@@ -36,7 +36,7 @@ import javax.swing.JToolBar;
 
 import net.menthor.editor.ui.DiagramToolbar;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconMap;
 
 import org.tinyuml.ui.commands.AppCommandListener;
 
@@ -260,7 +260,7 @@ public class AppToolbar implements ActionListener {
 	private JButton createButton(String name) {
 		String prefix = "maintoolbar." + name;
 		JButton button = new JButton(
-				IconLoader.getInstance().getIcon(getResourceString(prefix + ".icon")));
+				IconMap.getInstance().getIcon(getResourceString(prefix + ".icon")));
 		button.setMargin(new Insets(1, 1, 1, 1));
 		String command = getResourceString(prefix + ".command");
 		button.setActionCommand(command);

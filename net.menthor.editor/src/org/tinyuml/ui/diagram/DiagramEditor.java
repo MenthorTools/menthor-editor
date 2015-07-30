@@ -55,20 +55,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.popupmenu.DiagramPopupMenu;
-import net.menthor.editor.popupmenu.ToolboxPopupMenu;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
@@ -109,6 +95,19 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.model.ElementType;
+import net.menthor.editor.model.RelationEndType;
+import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.popupmenu.DiagramPopupMenu;
+import net.menthor.editor.popupmenu.ToolboxPopupMenu;
+import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -545,7 +544,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		}
 		boolean gridVisible = diagram.isGridVisible();
-		Color background = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST);
+		Color background = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST);
 		if (toScreen) {
 			scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
 		} else {
@@ -1010,7 +1009,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Switches the editor into connection creation mode.
 	 * @param relationType the RelationType to create
 	 */
-	public void setCreateConnectionMode(RelationType relationType) 
+	public void setCreateConnectionMode(RelationshipType relationType) 
 	{
 		lineHandler.setRelationType(relationType,getDiagramManager().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;
@@ -1018,7 +1017,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
-		RelationType relationType = RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
+		RelationshipType relationType = RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
 		lineHandler.setRelationType(relationType, getDiagramManager().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;		
 		RefOntoUML.Type source = null;

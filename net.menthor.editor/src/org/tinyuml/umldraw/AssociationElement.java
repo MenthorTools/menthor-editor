@@ -33,24 +33,24 @@ import java.util.List;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContext.FontType;
+import org.tinyuml.draw.DrawingContext.StrokeType;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LabelSource;
 import org.tinyuml.draw.Node;
 import org.tinyuml.draw.RectilinearConnection;
 import org.tinyuml.draw.SimpleArrowTip;
 import org.tinyuml.draw.SimpleLabel;
-import org.tinyuml.draw.DrawingContext.FontType;
-import org.tinyuml.draw.DrawingContext.StrokeType;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.Main;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Association;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
+import net.menthor.editor.Main;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.resources.icons.RelationshipType;
 
 /**
  * This class implements an association connection. The association connection
@@ -64,7 +64,7 @@ public final class AssociationElement extends BaseConnection {
 
 	private static final long serialVersionUID = 1866495594812659939L;
 	private static AssociationElement prototype = new AssociationElement();
-	private RelationType associationType = RelationType.ASSOCIATION;
+	private RelationshipType associationType = RelationshipType.ASSOCIATION;
 	
 	/** A direction of an end point relative to its connected node. */
 	private enum Direction  { NORTH, SOUTH, EAST, WEST }
@@ -544,10 +544,10 @@ public final class AssociationElement extends BaseConnection {
 	public Label getSubsetting2Label() { return subset2Label; }
 	
 	/** Returns the AssociationType. */
-	public RelationType getAssociationType() { return associationType; }
+	public RelationshipType getAssociationType() { return associationType; }
 
 	/** Sets the AssociationType. */
-	public void setAssociationType(RelationType anAssociationType) { associationType = anAssociationType; }
+	public void setAssociationType(RelationshipType anAssociationType) { associationType = anAssociationType; }
 
 	/** Gets the association relationship*/
 	public Association getAssociation() { return (Association) getRelationship(); }
@@ -625,11 +625,11 @@ public final class AssociationElement extends BaseConnection {
 		super.draw(drawingContext);
 		
 		//First, draw the line
-		if (associationType == RelationType.DERIVATION) drawingContext.setStrokeType(StrokeType.DASHED_BOLD);
+		if (associationType == RelationshipType.DERIVATION) drawingContext.setStrokeType(StrokeType.DASHED_BOLD);
 		
 		//Then, draw decorations
-		if (associationType == RelationType.DERIVATION) drawCircle(drawingContext, calculateRotationInEndPoint2(), true);		
-		else if (associationType == RelationType.COMPONENTOF) {
+		if (associationType == RelationshipType.DERIVATION) drawCircle(drawingContext, calculateRotationInEndPoint2(), true);		
+		else if (associationType == RelationshipType.COMPONENTOF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), null);
@@ -637,7 +637,7 @@ public final class AssociationElement extends BaseConnection {
 				Main.printErrLine("Trying to draw a memberOf decoration... null relationship!");
 			}
 		}		
-		else if (associationType == RelationType.MEMBEROF) {
+		else if (associationType == RelationshipType.MEMBEROF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "M");
@@ -645,7 +645,7 @@ public final class AssociationElement extends BaseConnection {
 				Main.printErrLine("Trying to draw a memberOf decoration... null relationship!");
 			}
 		}
-		else if (associationType == RelationType.SUBQUANTITYOF) {
+		else if (associationType == RelationshipType.SUBQUANTITYOF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "Q");
@@ -653,7 +653,7 @@ public final class AssociationElement extends BaseConnection {
 				System.err.println("Trying to draw a subQuantityOf decoration... null relationship!");
 			}
 		}
-		else if (associationType == RelationType.SUBCOLLECTIONOF) {
+		else if (associationType == RelationshipType.SUBCOLLECTIONOF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "C");

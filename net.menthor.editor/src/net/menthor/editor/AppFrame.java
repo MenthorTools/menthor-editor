@@ -50,7 +50,7 @@ import net.menthor.editor.util.ApplicationResources;
 import net.menthor.editor.util.MethodCall;
 import net.menthor.resources.icons.CommandMap;
 import net.menthor.resources.icons.CommandType;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconMap;
 
 /**
  * @author Wei-ju Wu, John Guerson
@@ -82,7 +82,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	 * */
 	public AppFrame() {
 		super();
-		super.setIconImage(IconLoader.getInstance().getImage("WINDOW"));
+		super.setIconImage(IconMap.getInstance().getImage("WINDOW"));
 		setTitle(getResourceString("application.title"));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize();

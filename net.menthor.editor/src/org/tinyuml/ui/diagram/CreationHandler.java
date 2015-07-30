@@ -24,15 +24,15 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.Node;
 import org.tinyuml.umldraw.ClassElement;
+
+import net.menthor.editor.model.ElementType;
+import net.menthor.editor.util.ModelHelper;
 
 
 /**
@@ -48,6 +48,7 @@ public class CreationHandler implements EditorMode {
   private static final Color ACCEPT_COLOR = new Color(0, 220, 50);
   private DiagramEditor editor;
   private ElementType elementType;
+  
   private Node element;
   private Point2D tmpPos = new Point2D.Double();
   private Rectangle2D cachedBounds;

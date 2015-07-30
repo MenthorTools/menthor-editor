@@ -35,6 +35,7 @@ import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -44,21 +45,21 @@ import org.tinyuml.umldraw.StructureDiagram;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.ColorMap;
+import net.menthor.resources.icons.ColorType;
+import net.menthor.resources.icons.IconMap;
+import net.menthor.resources.icons.PaletteItem;
 
 /**
  * This class provides an accordion pane for accomodating the many allElements 
  * used by the editor.
- * 
- * @author Antognoni Albuquerque
  */
 public class PaletteAccordion extends JPanel{
 
 	private static final long serialVersionUID = 8265628368514182832L;
 
 	private AppFrame frame;
-	private Map<String, Palette> paletteMap = new LinkedHashMap<String, Palette>();
+	private Map<String, PaletteGrouping> paletteMap = new LinkedHashMap<String, PaletteGrouping>();
 	private String openPalette = null;
 	private JPanel openContent = null;
 
@@ -70,24 +71,24 @@ public class PaletteAccordion extends JPanel{
 	private static Color resetBackground = Color.WHITE;
 	private static Color resetForeground = Color.BLACK;
 	
-	private static Border selectedItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE), 1, true);
-	private static Color selectedItemBackground = ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_ORANGE);
+	private static Border selectedItemBorder = new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE), 1, true);
+	private static Color selectedItemBackground = ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE);
 	private static Color selectedItemForeground = Color.WHITE;
 	
-	private static Border hoverItemBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK), 1, true);
-	private static Color hoverItemBackground = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHT);
+	private static Border hoverItemBorder = new LineBorder(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_DARK), 1, true);
+	private static Color hoverItemBackground = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHT);
 
-	private static Border selectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
-	private static Color selectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
+	private static Border selectedPaletteBorder = UIManager.getBorder("Panel.border"); //new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
+	private static Color selectedPaletteBackground = UIManager.getColor("Panel.background");//ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
 
-	private static Border unselectedPaletteBorder = new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
-	private static Color unselectedPaletteBackground = ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
+	private static Border unselectedPaletteBorder = UIManager.getBorder("Panel.border"); //new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
+	private static Color unselectedPaletteBackground = UIManager.getColor("Panel.background"); //ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
 
-	private Palette ontopatternPalette;
+	private PaletteGrouping ontopatternPalette;
 
-	private Palette derivedPalette;
+	private PaletteGrouping derivedPalette;
 
-	private Palette elementsPalette;
+	private PaletteGrouping elementsPalette;
 
 	private JScrollPane openContentScroll;
 		
@@ -102,7 +103,6 @@ public class PaletteAccordion extends JPanel{
 		
 		this.setLayout(new BorderLayout());		
 		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-		this.setBackground(Color.WHITE);
 		
 		topTitles = new JPanel();
 		bottomTitles = new JPanel();
@@ -111,7 +111,6 @@ public class PaletteAccordion extends JPanel{
 		openContentScroll = new JScrollPane();
 		openContentScroll.setViewportView(openContent);
 		openContentScroll.setBorder(null);
-		openContentScroll.setBackground(Color.WHITE);
 		
 		topTitles.setLayout(new BoxLayout(topTitles, BoxLayout.Y_AXIS));
 		topTitles.setBackground(Color.WHITE);
@@ -176,53 +175,53 @@ public class PaletteAccordion extends JPanel{
 		}
 	}
 	
-	public Palette getOpenPalette()
+	public PaletteGrouping getOpenPalette()
 	{
 		return paletteMap.get(openPalette);
 	}
 	
-	public Palette getElementsPalette()
+	public PaletteGrouping getElementsPalette()
 	{
 		return paletteMap.get("Elements");
 	}
 
-	public Palette getDerivationPatternsPalette()
+	public PaletteGrouping getDerivationPatternsPalette()
 	{
 		return paletteMap.get("Derived Patterns");
 	}
 	
-	public Palette getPatternsPalette()
+	public PaletteGrouping getPatternsPalette()
 	{
 		return paletteMap.get("Patterns");
 	}
 	
-	public Map<String, Palette> getPaletteMap() {
+	public Map<String, PaletteGrouping> getPaletteMap() {
 		return paletteMap;
 	}
 	
 	private void createOntoUMLPatternsPalette(AppCommandDispatcher editorDispatcher) 
 	{
 		String pelleteName = "Patterns";
-		ontopatternPalette = new Palette(this, pelleteName);
+		ontopatternPalette = new PaletteGrouping(this, pelleteName);
 		
-		ontopatternPalette.createElement("staticpalette.pattern", "completer");
-		ontopatternPalette.createElement("staticpalette.pattern", "mixinpattern");
-		ontopatternPalette.createElement("staticpalette.pattern", "mixinpatternwithsubkind");
-		ontopatternPalette.createElement("staticpalette.pattern", "phasepartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "subkindpartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "phasepartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "rolepartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "rolemixinpattern");
-		ontopatternPalette.createElement("staticpalette.pattern", "relatorpattern");
-		ontopatternPalette.createElement("staticpalette.pattern", "dependentrolemixinpattern");
-		ontopatternPalette.createElement("staticpalette.pattern", "genericrelatorpattern");
-		ontopatternPalette.createElement("staticpalette.pattern", "characterizationpattern");
-		ontopatternPalette.createElement("staticpalette.pattern", "rigidweaksupplementation");
-		ontopatternPalette.createElement("staticpalette.pattern", "antirigidweaksupplementation");
-		ontopatternPalette.createElement("staticpalette.pattern", "kindpartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "quantitypartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "collectivepartition");
-		ontopatternPalette.createElement("staticpalette.pattern", "categorypattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "completer");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "mixinpattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "mixinpatternwithsubkind");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "phasepartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "subkindpartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "phasepartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "rolepartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "rolemixinpattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "relatorpattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "dependentrolemixinpattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "genericrelatorpattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "characterizationpattern");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "rigidweaksupplementation");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "antirigidweaksupplementation");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "kindpartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "quantitypartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "collectivepartition");
+		ontopatternPalette.createPaletteElement("staticpalette.pattern", "categorypattern");
 		
 		ontopatternPalette.addCommandListener(editorDispatcher);
 		
@@ -237,15 +236,15 @@ public class PaletteAccordion extends JPanel{
 	
 	private void createPatternsPalette(AppCommandDispatcher editorDispatcher)
 	{
-		derivedPalette = new Palette(this, "Derived Patterns");
+		derivedPalette = new PaletteGrouping(this, "Derived Patterns");
 		
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		derivedPalette.createElement("staticpalette.patterns", "derivationbyunion");
-		derivedPalette.createElement("staticpalette.patterns2", "derivationbyexclusion");
-		derivedPalette.createElement("staticpalette.patterns3", "derivationbyintersection");
-		derivedPalette.createElement("staticpalette.patterns4", "derivationbyspecialization");
-		derivedPalette.createElement("staticpalette.patterns5", "derivationbypastspecialization");
-		derivedPalette.createElement("staticpalette.patterns6", "derivationbyparticipation");
+		derivedPalette.createPaletteElement("staticpalette.patterns", "derivationbyunion");
+		derivedPalette.createPaletteElement("staticpalette.patterns2", "derivationbyexclusion");
+		derivedPalette.createPaletteElement("staticpalette.patterns3", "derivationbyintersection");
+		derivedPalette.createPaletteElement("staticpalette.patterns4", "derivationbyspecialization");
+		derivedPalette.createPaletteElement("staticpalette.patterns5", "derivationbypastspecialization");
+		derivedPalette.createPaletteElement("staticpalette.patterns6", "derivationbyparticipation");
 		
 		derivedPalette.addCommandListener(editorDispatcher);
 		
@@ -259,47 +258,47 @@ public class PaletteAccordion extends JPanel{
 	
 	private void createStaticClassesPalette(AppCommandDispatcher editorDispatcher)
 	{
-		elementsPalette = new Palette(this, "Elements");
+		elementsPalette = new PaletteGrouping(this, "Elements");
 		
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.classes", "kind");
-		elementsPalette.createElement("staticpalette.classes", "quantity");
-		elementsPalette.createElement("staticpalette.classes", "collective");
-		elementsPalette.createElement("staticpalette.classes", "subkind");
+		elementsPalette.createPaletteElement("staticpalette.classes", "kind");
+		elementsPalette.createPaletteElement("staticpalette.classes", "quantity");
+		elementsPalette.createPaletteElement("staticpalette.classes", "collective");
+		elementsPalette.createPaletteElement("staticpalette.classes", "subkind");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.classes", "phase");
-		elementsPalette.createElement("staticpalette.classes", "role");
+		elementsPalette.createPaletteElement("staticpalette.classes", "phase");
+		elementsPalette.createPaletteElement("staticpalette.classes", "role");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.classes", "category");
-		elementsPalette.createElement("staticpalette.classes", "rolemixin");
-		elementsPalette.createElement("staticpalette.classes", "mixin");
+		elementsPalette.createPaletteElement("staticpalette.classes", "category");
+		elementsPalette.createPaletteElement("staticpalette.classes", "rolemixin");
+		elementsPalette.createPaletteElement("staticpalette.classes", "mixin");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.classes", "mode");
-		elementsPalette.createElement("staticpalette.classes", "relator");
+		elementsPalette.createPaletteElement("staticpalette.classes", "mode");
+		elementsPalette.createPaletteElement("staticpalette.classes", "relator");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.classes", "datatype");
-		elementsPalette.createElement("staticpalette.classes", "enumeration");
-		elementsPalette.createElement("staticpalette.classes", "primitivetype");
-		elementsPalette.createElement("staticpalette.classes", "perceivablequality");
-		elementsPalette.createElement("staticpalette.classes", "nonperceivablequality");
-		elementsPalette.createElement("staticpalette.classes", "nominalquality");
+		elementsPalette.createPaletteElement("staticpalette.classes", "datatype");
+		elementsPalette.createPaletteElement("staticpalette.classes", "enumeration");
+		elementsPalette.createPaletteElement("staticpalette.classes", "primitivetype");
+		elementsPalette.createPaletteElement("staticpalette.classes", "perceivablequality");
+		elementsPalette.createPaletteElement("staticpalette.classes", "nonperceivablequality");
+		elementsPalette.createPaletteElement("staticpalette.classes", "nominalquality");
 		
-		elementsPalette.createElement("staticpalette.relations", "generalization");
+		elementsPalette.createPaletteElement("staticpalette.relations", "generalization");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.relations", "material");
-		elementsPalette.createElement("staticpalette.relations", "formal");
+		elementsPalette.createPaletteElement("staticpalette.relations", "material");
+		elementsPalette.createPaletteElement("staticpalette.relations", "formal");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.relations", "characterization");
-		elementsPalette.createElement("staticpalette.relations", "mediation");
-		elementsPalette.createElement("staticpalette.relations", "derivation");
+		elementsPalette.createPaletteElement("staticpalette.relations", "characterization");
+		elementsPalette.createPaletteElement("staticpalette.relations", "mediation");
+		elementsPalette.createPaletteElement("staticpalette.relations", "derivation");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.relations", "componentof");
-		elementsPalette.createElement("staticpalette.relations", "memberof");	
-		elementsPalette.createElement("staticpalette.relations", "subcollectionof");
-		elementsPalette.createElement("staticpalette.relations", "subquantityof");
+		elementsPalette.createPaletteElement("staticpalette.relations", "componentof");
+		elementsPalette.createPaletteElement("staticpalette.relations", "memberof");	
+		elementsPalette.createPaletteElement("staticpalette.relations", "subcollectionof");
+		elementsPalette.createPaletteElement("staticpalette.relations", "subquantityof");
 		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createElement("staticpalette.relations", "structuration");
-		elementsPalette.createElement("staticpalette.relations", "association");
+		elementsPalette.createPaletteElement("staticpalette.relations", "structuration");
+		elementsPalette.createPaletteElement("staticpalette.relations", "association");
 		
 //		elementsPalette.addSpacer(0,PALLETE_VSPACE);
 //		elementsPalette.addSpacer(0,PALLETE_VSPACE);
@@ -317,15 +316,15 @@ public class PaletteAccordion extends JPanel{
 		elementsPalette.sort();
 	}
 
-	public Palette createDomainPalette(UmlProject patternProject,HashMap<PaletteElement, StructureDiagram> dynamicHash, AppCommandDispatcher dispatcher){
-		Icon icon = IconLoader.getInstance().getIcon("PATTERN");
+	public PaletteGrouping createDomainPalette(UmlProject patternProject,HashMap<PaletteItem, StructureDiagram> dynamicHash, AppCommandDispatcher dispatcher){
+		Icon icon = IconMap.getInstance().getIcon("PATTERN");
 		
 		String pelleteName = "Domain Patterns";
-		Palette domainPallete = new Palette(this, pelleteName);
+		PaletteGrouping domainPallete = new PaletteGrouping(this, pelleteName);
 		
 		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){
 			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
-				PaletteElement paletteElement = domainPallete.createStaticElement(icon, diagram.getName(), "");
+				PaletteItem paletteElement = domainPallete.createStaticElement(icon, diagram.getName(), "");
 				dynamicHash.put(paletteElement, diagram);
 		}
 		
@@ -343,24 +342,24 @@ public class PaletteAccordion extends JPanel{
 	@SuppressWarnings("unused")
 	private void createStaticRelationshipsPalette(AppCommandDispatcher editorDispatcher)
 	{
-		Palette palette =  new Palette(this, "Relationships");
-		palette.createElement("staticpalette.relations", "select");
+		PaletteGrouping palette =  new PaletteGrouping(this, "Relationships");
+		palette.createPaletteElement("staticpalette.relations", "select");
 		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createElement("staticpalette.relations", "generalization");
+		palette.createPaletteElement("staticpalette.relations", "generalization");
 		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createElement("staticpalette.relations", "material");
-		palette.createElement("staticpalette.relations", "formal");
+		palette.createPaletteElement("staticpalette.relations", "material");
+		palette.createPaletteElement("staticpalette.relations", "formal");
 		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createElement("staticpalette.relations", "characterization");
-		palette.createElement("staticpalette.relations", "mediation");
-		palette.createElement("staticpalette.relations", "derivation");
+		palette.createPaletteElement("staticpalette.relations", "characterization");
+		palette.createPaletteElement("staticpalette.relations", "mediation");
+		palette.createPaletteElement("staticpalette.relations", "derivation");
 		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createElement("staticpalette.relations", "componentof");
-		palette.createElement("staticpalette.relations", "memberof");	
-		palette.createElement("staticpalette.relations", "subcollectionof");
-		palette.createElement("staticpalette.relations", "subquantityof");
+		palette.createPaletteElement("staticpalette.relations", "componentof");
+		palette.createPaletteElement("staticpalette.relations", "memberof");	
+		palette.createPaletteElement("staticpalette.relations", "subcollectionof");
+		palette.createPaletteElement("staticpalette.relations", "subquantityof");
 		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createElement("staticpalette.relations", "association");
+		palette.createPaletteElement("staticpalette.relations", "association");
 		
 		palette.addCommandListener(editorDispatcher);
 
@@ -373,11 +372,11 @@ public class PaletteAccordion extends JPanel{
 	@SuppressWarnings("unused")
 	private void createMiscellaneousPalette(AppCommandDispatcher editorDispatcher)
 	{
-		Palette palette =  new Palette(this, "Miscellaneous");
-		palette.createElement("staticpalette.misc", "select");
-		palette.createElement("staticpalette.misc", "package");
-		palette.createElement("staticpalette.misc", "note");
-		palette.createElement("staticpalette.misc", "noteconnector");
+		PaletteGrouping palette =  new PaletteGrouping(this, "Miscellaneous");
+		palette.createPaletteElement("staticpalette.misc", "select");
+		palette.createPaletteElement("staticpalette.misc", "package");
+		palette.createPaletteElement("staticpalette.misc", "note");
+		palette.createPaletteElement("staticpalette.misc", "noteconnector");
 		
 		palette.addCommandListener(editorDispatcher);
 
@@ -390,11 +389,11 @@ public class PaletteAccordion extends JPanel{
 	@SuppressWarnings("unused")
 	private void createStaticRulesPalette(AppCommandDispatcher editorDispatcher)
 	{
-		Palette palette =  new Palette(this, "Rules");
-		palette.createElement("staticpalette.rules", "select");
-		palette.createElement("staticpalette.rules", "condition");
-		palette.createElement("staticpalette.rules", "derivationrule");
-		palette.createElement("staticpalette.rules", "conclusion");
+		PaletteGrouping palette =  new PaletteGrouping(this, "Rules");
+		palette.createPaletteElement("staticpalette.rules", "select");
+		palette.createPaletteElement("staticpalette.rules", "condition");
+		palette.createPaletteElement("staticpalette.rules", "derivationrule");
+		palette.createPaletteElement("staticpalette.rules", "conclusion");
 		
 		palette.addCommandListener(editorDispatcher);
 
@@ -404,8 +403,8 @@ public class PaletteAccordion extends JPanel{
 			openPalette = "Rules";
 	}
 	
-	public void NotifySelection(PaletteElement item) {
-		for (Palette palette : paletteMap.values()) {
+	public void NotifySelection(PaletteItem item) {
+		for (PaletteGrouping palette : paletteMap.values()) {
 			palette.unselectAllBut(item);
 		}
 	}

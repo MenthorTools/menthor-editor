@@ -18,8 +18,8 @@ import javax.swing.SwingConstants;
 import org.tinyuml.ui.commands.AppCommandListener;
 
 import net.menthor.resources.icons.CommandType;
-import net.menthor.resources.icons.IconLoader;
-import net.menthor.resources.icons.IconLoader.IconType;
+import net.menthor.resources.icons.IconMap;
+import net.menthor.resources.icons.IconType;
 
 public class NewAppToolbar extends JToolBar implements ActionListener {
 
@@ -29,12 +29,16 @@ public class NewAppToolbar extends JToolBar implements ActionListener {
 	private Map<CommandType, JButton> jbuttonMap = new HashMap<CommandType, JButton>();		
 	
 	/** buttons */
+	@SuppressWarnings("unused")
 	private JButton btnNewProject;	
+	@SuppressWarnings("unused")
 	private JButton btnOpenProject;
 	private JButton btnSaveProject;
 	private JButton btnSearchTerm;
 	private JButton btnStatistics;
 	private JButton btnCheckSyntax;
+	private JButton btnSemanticWeb;
+	private JButton btnSimulation;
 	
 	/** height and width of buttons*/
 	private int btnHeight = 32;
@@ -61,6 +65,8 @@ public class NewAppToolbar extends JToolBar implements ActionListener {
 		btnSearchTerm.setEnabled(value);
 		btnStatistics.setEnabled(value);
 		btnCheckSyntax.setEnabled(value);
+		btnSimulation.setEnabled(value);
+		btnSemanticWeb.setEnabled(value);
 	}
 	
 	/** constructor */
@@ -68,39 +74,51 @@ public class NewAppToolbar extends JToolBar implements ActionListener {
 		//setBackground(Color.WHITE);
 		btnNewProject = createButton(
 			null, 
-			IconLoader.getInstance().getIcon(IconType.MENTHOR_DOC),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_DOC),
 			CommandType.NEW_PROJECT.toString(),
 			"Create new menthor project"
 		);
 		btnOpenProject = createButton(
 			null, 
-			IconLoader.getInstance().getIcon(IconType.MENTHOR_FOLDER),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_FOLDER),
 			CommandType.OPEN_PROJECT.toString(),
 			"Open existing menthor project"
 		);	
 		btnSaveProject = createButton(
 			null, 
-			IconLoader.getInstance().getIcon(IconType.MENTHOR_SAVE),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_SAVE),
 			CommandType.SAVE_PROJECT.toString(),
 			"Save current menthor project"
 		);
 		btnSearchTerm = createButton(
 			null,
-			IconLoader.getInstance().getIcon(IconType.MENTHOR_SEARCH),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_SEARCH),
 			CommandType.SEARCH_TERM.toString(),
 			"Search a term in current project"
 		);		
 		btnCheckSyntax = createButton(
 			null,
-			IconLoader.getInstance().getIcon(IconType.MENTHOR_CHECK),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_CHECK),
 			CommandType.CHECK_SYNTAX.toString(),
 			"Check syntax of current project"
 		);
 		btnStatistics = createButton(
 			null,
-			IconLoader.getInstance().getIcon(IconType.MENTHOR_STATS),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_STATS),
 			CommandType.COLLECT_STATISTICS.toString(),
 			"Collect statistics of current project"
+		);
+		btnSimulation = createButton(
+			null,
+			IconMap.getInstance().getIcon(IconType.MENTHOR_PLAY),
+			CommandType.SIMULATE.toString(),
+			"Simulate and check current project using Alloy"
+		);
+		btnSemanticWeb = createButton(
+			null,
+			IconMap.getInstance().getIcon(IconType.MENTHOR_SEMANTIC_WEB),
+			CommandType.IMPLEMENT_IN_OWL.toString(),
+			"Generate current project implementation in OWL/RDF"
 		);
 		setFloatable(false);
 		setMargin(new Insets(5, 15, 5, 5));		

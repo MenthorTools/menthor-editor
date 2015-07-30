@@ -49,7 +49,7 @@ import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
 import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
 import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconLoader;
+import net.menthor.resources.icons.IconMap;
 import RefOntoUML.Generalization;
 
 /**
@@ -365,7 +365,7 @@ public class MultiSelectionPopupMenu extends JPopupMenu implements ActionListene
 		// icon
 		String iconType = getResourceString(prefix + ".icon");
 		if (iconType != null) {
-			menuitem.setIcon(IconLoader.getInstance().getIcon(iconType));
+			menuitem.setIcon(IconMap.getInstance().getIcon(iconType));
 		}
 		menu.add(menuitem);
 		return menuitem;
