@@ -20,3 +20,5 @@ tmp/**/*
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+net.menthor.story.edit/
+net.menthor.story.editor/

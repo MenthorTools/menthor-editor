@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/br.ufes.inf.nemo.story/src" modelPluginID="br.ufes.inf.nemo.story"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/net.menthor.story/src" modelPluginID="net.menthor.story"
     modelName="Stories" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
-    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../br.ufes.inf.nemo.ontouml/model/RefOntoUML.genmodel#//RefOntoUML"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../net.menthor.ontouml/model/RefOntoUML.genmodel#//RefOntoUML"
     operationReflection="true" importOrganizing="true">
   <foreignModel>stories.ecore</foreignModel>
   <genPackages prefix="Stories" resource="XML" disposableProviderFactory="true" ecorePackage="stories.ecore#/">
