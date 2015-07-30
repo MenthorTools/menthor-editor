@@ -47,7 +47,9 @@ import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.resources.icons.ColorMap;
 import net.menthor.resources.icons.ColorType;
+import net.menthor.resources.icons.CommandType;
 import net.menthor.resources.icons.IconMap;
+import net.menthor.resources.icons.IconType;
 import net.menthor.resources.icons.PaletteItem;
 
 /**
@@ -79,17 +81,17 @@ public class PaletteAccordion extends JPanel{
 	private static Color hoverItemBackground = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHT);
 
 	private static Border selectedPaletteBorder = UIManager.getBorder("Panel.border"); //new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
-	private static Color selectedPaletteBackground = UIManager.getColor("Panel.background");//ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
+	private static Color selectedPaletteBackground = UIManager.getColor("Panel.background");//ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_MEDIUM);
 
 	private static Border unselectedPaletteBorder = UIManager.getBorder("Panel.border"); //new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
 	private static Color unselectedPaletteBackground = UIManager.getColor("Panel.background"); //ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
 
-	private PaletteGrouping ontopatternPalette;
-
-	private PaletteGrouping derivedPalette;
-
-	private PaletteGrouping elementsPalette;
-
+	private PaletteGrouping patternGrouping;
+	private PaletteGrouping derivedGrouping;
+	private PaletteGrouping classGrouping;
+	private PaletteGrouping relationshipGrouping;
+	private PaletteGrouping datatypeGrouping;
+	
 	private JScrollPane openContentScroll;
 		
 	public AppFrame getFrame()
@@ -127,9 +129,11 @@ public class PaletteAccordion extends JPanel{
 
 	public void createStaticStructurePalettes(AppCommandDispatcher editorDispatcher)
 	{
-		createStaticClassesPalette(editorDispatcher);		
-		createOntoUMLPatternsPalette(editorDispatcher);
-		createPatternsPalette(editorDispatcher);		
+		createClassesGrouping();
+		createDataTypesGrouping();
+		createRelationshipsGrouping();
+		createPatternGrouping();
+		createDerivedGrouping();		
 		render();
 	}
 	
@@ -145,19 +149,19 @@ public class PaletteAccordion extends JPanel{
 			if(!found)
 			{
 				paletteMap.get(item).setUnselectedLayout();
-				topTitles.add(paletteMap.get(item).getTitle());
+				topTitles.add(paletteMap.get(item).getTitlePane());
 				topTitles.add(Box.createRigidArea(new Dimension(0,1)));
 			}
 			else
 			{
 				paletteMap.get(item).setUnselectedLayout();
-				bottomTitles.add(paletteMap.get(item).getTitle());
+				bottomTitles.add(paletteMap.get(item).getTitlePane());
 				bottomTitles.add(Box.createRigidArea(new Dimension(0,1)));
 			}
 			if(item == openPalette)
 			{
 				found = true;
-				openContent.add(paletteMap.get(item).getContent(), BorderLayout.CENTER);				
+				openContent.add(paletteMap.get(item).getContentPane(), BorderLayout.CENTER);				
 				paletteMap.get(item).setSelectedLayout();
 			}			
 		}
@@ -182,138 +186,401 @@ public class PaletteAccordion extends JPanel{
 	
 	public PaletteGrouping getElementsPalette()
 	{
-		return paletteMap.get("Elements");
+		return paletteMap.get("Class");
 	}
 
 	public PaletteGrouping getDerivationPatternsPalette()
 	{
-		return paletteMap.get("Derived Patterns");
+		return paletteMap.get("Derived Pattern");
+	}
+
+	public PaletteGrouping getRelationshipPalette()
+	{
+		return paletteMap.get("Relationship");
+	}
+	
+	public PaletteGrouping getDataTypePalette()
+	{
+		return paletteMap.get("DataType");
 	}
 	
 	public PaletteGrouping getPatternsPalette()
 	{
-		return paletteMap.get("Patterns");
+		return paletteMap.get("Pattern");
 	}
 	
 	public Map<String, PaletteGrouping> getPaletteMap() {
 		return paletteMap;
 	}
 	
-	private void createOntoUMLPatternsPalette(AppCommandDispatcher editorDispatcher) 
+	private void createPatternGrouping() 
 	{
-		String pelleteName = "Patterns";
-		ontopatternPalette = new PaletteGrouping(this, pelleteName);
+		String paletteName = "Pattern";
+		patternGrouping = new PaletteGrouping(this,paletteName);
 		
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "completer");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "mixinpattern");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "mixinpatternwithsubkind");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "phasepartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "subkindpartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "phasepartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "rolepartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "rolemixinpattern");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "relatorpattern");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "dependentrolemixinpattern");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "genericrelatorpattern");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "characterizationpattern");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "rigidweaksupplementation");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "antirigidweaksupplementation");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "kindpartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "quantitypartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "collectivepartition");
-		ontopatternPalette.createPaletteElement("staticpalette.pattern", "categorypattern");
-		
-		ontopatternPalette.addCommandListener(editorDispatcher);
-		
-		paletteMap.put(pelleteName, ontopatternPalette);
-		
-		if(openPalette == null)
-			openPalette = pelleteName;	
-
-		ontopatternPalette.sort();
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Completer",
+			CommandType.CALL_COMPLETER_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Mixin",
+			CommandType.CALL_MIXIN_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Mixin With Subkind",
+			CommandType.CALL_MIXIN_WITH_SUBKIND_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Phase Partition",
+			CommandType.CALL_PHASE_PARTITION_PATTERN,
+			""
+		);		
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"SubKind Partition",
+			CommandType.CALL_SUBKIND_PARTITION_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Role Partition",
+			CommandType.CALL_ROLE_PARTITION_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"RoleMixin",
+			CommandType.CALL_ROLEMIXIN_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Relator",
+			CommandType.CALL_RELATOR_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Dependent Role Mixin",
+			CommandType.CALL_DEPENDENT_ROLEMIXIN_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Generic Relator",
+			CommandType.CALL_GENERIC_RELATOR_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Characterization",
+			CommandType.CALL_CHARACTERIZATION_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Rigid Weak Supplementation",
+			CommandType.CALL_RIGID_WS_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"AntiRigid Weak Supplementation",
+			CommandType.CALL_ANTIRIGID_WS_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"AntiRigid Weak Supplementation",
+			CommandType.CALL_ANTIRIGID_WS_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Kind Partition",
+			CommandType.CALL_KIND_PARTITION_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Collective Partition",
+			CommandType.CALL_COLLECTIVE_PARTITION_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Quantity Partition",
+			CommandType.CALL_QUANTITY_PARTITION_PATTERN,
+			""
+		);
+		patternGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Category",
+			CommandType.CALL_CATEGORY_PATTERN,
+			""
+		);		
+		patternGrouping.addCommandListener(frame);		
+		paletteMap.put(paletteName, patternGrouping);		
+		if(openPalette == null) openPalette = paletteName;
+		patternGrouping.sort();
+	}
+	
+	private void createDerivedGrouping()
+	{
+		String paletteName = "Derived Pattern";
+		derivedGrouping = new PaletteGrouping(this, paletteName);
+		derivedGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Union",
+			CommandType.CALL_UNION_PATTERN,
+			""
+		);
+		derivedGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Exclusion",
+			CommandType.CALL_EXCLUSION_PATTERN,
+			""
+		);
+		derivedGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Intersection",
+			CommandType.CALL_INTERSECTION_PATTERN,
+			""
+		);
+		derivedGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Specialization",
+			CommandType.CALL_SPECIALIZATION_PATTERN,
+			""
+		);
+		derivedGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Past Specialization",
+			CommandType.CALL_PASTSPECIALIZATION_PATTERN,
+			""
+		);
+		derivedGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PATTERN), 
+			"Participation",
+			CommandType.CALL_PARTICIPATION_PATTERN,
+			""
+		);		
+		derivedGrouping.addCommandListener(frame);		
+		paletteMap.put(paletteName, derivedGrouping);
+		if(openPalette == null) openPalette = paletteName;		
+		derivedGrouping.sort();
+	}
+	
+	private void createDataTypesGrouping()
+	{
+		String paletteName = "DataType";
+		datatypeGrouping = new PaletteGrouping(this, paletteName);
+		datatypeGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"DataType",
+			CommandType.CREATE_DATATYPE,
+			""
+		);
+		datatypeGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Enumeration",
+			CommandType.CREATE_ENUMERATION,
+			""
+		);
+		datatypeGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Primitive Type",
+			CommandType.CREATE_PRIMITIVETYPE,
+			""
+		);
+		datatypeGrouping.addCommandListener(frame);		
+		paletteMap.put(paletteName, datatypeGrouping);
+		if(openPalette == null) openPalette = paletteName;		
+		datatypeGrouping.sort();
+	}
+	
+	private void createRelationshipsGrouping()
+	{
+		String paletteName = "Relationship";
+		relationshipGrouping = new PaletteGrouping(this, paletteName);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_GEN_WHITE), 
+			"Generalization",
+			CommandType.CREATE_GENERALIZATION,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE), 
+			"Material",
+			CommandType.CREATE_MATERIAL,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE), 
+			"Formal",
+			CommandType.CREATE_FORMAL,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE), 
+			"Characterization",
+			CommandType.CREATE_CHARACTERIZATION,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE), 
+			"Mediation",
+			CommandType.CREATE_MEDIATION,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DERIVATION), 
+			"Derivation",
+			CommandType.CREATE_DERIVATION,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE), 
+			"Structuration",
+			CommandType.CREATE_STRUCTURATION,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE), 
+			"Association",
+			CommandType.CREATE_ASSOCIATION,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_BLACK), 
+			"ComponentOf",
+			CommandType.CREATE_COMPONENTOF,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_C), 
+			"SubCollectionOf",
+			CommandType.CREATE_SUBCOLLECTIONOF,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_Q), 
+			"SubQuantityOf",
+			CommandType.CREATE_SUBQUANTITYOF,
+			""
+		);
+		relationshipGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_M), 
+			"MemberOf",
+			CommandType.CREATE_MEMBEROF,
+			""
+		);
+		relationshipGrouping.addCommandListener(frame);		
+		paletteMap.put(paletteName, relationshipGrouping);
+		if(openPalette == null) openPalette = paletteName;		
+		relationshipGrouping.sort();
 	}
 	
 	
-	private void createPatternsPalette(AppCommandDispatcher editorDispatcher)
+	private void createClassesGrouping()
 	{
-		derivedPalette = new PaletteGrouping(this, "Derived Patterns");
-		
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		derivedPalette.createPaletteElement("staticpalette.patterns", "derivationbyunion");
-		derivedPalette.createPaletteElement("staticpalette.patterns2", "derivationbyexclusion");
-		derivedPalette.createPaletteElement("staticpalette.patterns3", "derivationbyintersection");
-		derivedPalette.createPaletteElement("staticpalette.patterns4", "derivationbyspecialization");
-		derivedPalette.createPaletteElement("staticpalette.patterns5", "derivationbypastspecialization");
-		derivedPalette.createPaletteElement("staticpalette.patterns6", "derivationbyparticipation");
-		
-		derivedPalette.addCommandListener(editorDispatcher);
-		
-		paletteMap.put("Derived Patterns", derivedPalette);
-
-		if(openPalette == null)
-			openPalette = "Derived Patterns";
-		
-		derivedPalette.sort();
-	}
-	
-	private void createStaticClassesPalette(AppCommandDispatcher editorDispatcher)
-	{
-		elementsPalette = new PaletteGrouping(this, "Elements");
-		
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.classes", "kind");
-		elementsPalette.createPaletteElement("staticpalette.classes", "quantity");
-		elementsPalette.createPaletteElement("staticpalette.classes", "collective");
-		elementsPalette.createPaletteElement("staticpalette.classes", "subkind");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.classes", "phase");
-		elementsPalette.createPaletteElement("staticpalette.classes", "role");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.classes", "category");
-		elementsPalette.createPaletteElement("staticpalette.classes", "rolemixin");
-		elementsPalette.createPaletteElement("staticpalette.classes", "mixin");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.classes", "mode");
-		elementsPalette.createPaletteElement("staticpalette.classes", "relator");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.classes", "datatype");
-		elementsPalette.createPaletteElement("staticpalette.classes", "enumeration");
-		elementsPalette.createPaletteElement("staticpalette.classes", "primitivetype");
-		elementsPalette.createPaletteElement("staticpalette.classes", "perceivablequality");
-		elementsPalette.createPaletteElement("staticpalette.classes", "nonperceivablequality");
-		elementsPalette.createPaletteElement("staticpalette.classes", "nominalquality");
-		
-		elementsPalette.createPaletteElement("staticpalette.relations", "generalization");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.relations", "material");
-		elementsPalette.createPaletteElement("staticpalette.relations", "formal");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.relations", "characterization");
-		elementsPalette.createPaletteElement("staticpalette.relations", "mediation");
-		elementsPalette.createPaletteElement("staticpalette.relations", "derivation");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.relations", "componentof");
-		elementsPalette.createPaletteElement("staticpalette.relations", "memberof");	
-		elementsPalette.createPaletteElement("staticpalette.relations", "subcollectionof");
-		elementsPalette.createPaletteElement("staticpalette.relations", "subquantityof");
-		//palette.addSpacer(0,PALLETE_VSPACE);
-		elementsPalette.createPaletteElement("staticpalette.relations", "structuration");
-		elementsPalette.createPaletteElement("staticpalette.relations", "association");
-		
-//		elementsPalette.addSpacer(0,PALLETE_VSPACE);
-//		elementsPalette.addSpacer(0,PALLETE_VSPACE);
-//		elementsPalette.addSpacer(0,PALLETE_VSPACE);
-//		elementsPalette.addSpacer(0,PALLETE_VSPACE);
-//		elementsPalette.createElement("", "");
-		
-		elementsPalette.addCommandListener(editorDispatcher);
-		
-		paletteMap.put("Elements", elementsPalette);
-
-		if(openPalette == null)
-			openPalette = "Elements";	
-		
-		elementsPalette.sort();
+		String paletteName = "Class";
+		classGrouping = new PaletteGrouping(this, paletteName);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Kind",
+			CommandType.CREATE_KIND,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Collective",
+			CommandType.CREATE_COLLECTIVE,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Quantity",
+			CommandType.CREATE_QUANTITY,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Relator",
+			CommandType.CREATE_RELATOR,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Mode",
+			CommandType.CREATE_MODE,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Role",
+			CommandType.CREATE_ROLE,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Phase",
+			CommandType.CREATE_PHASE,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"SubKind",
+			CommandType.CREATE_SUBKIND,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Category",
+			CommandType.CREATE_CATEGORY,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Mixin",
+			CommandType.CREATE_MIXIN,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"RoleMixin",
+			CommandType.CREATE_ROLEMIXIN,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Perceivable Quality",
+			CommandType.CREATE_PERCEIVABLE_QUALITY,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"NonPerceivable Quality",
+			CommandType.CREATE_NONPERCEIVABLE_QUALITY,
+			""
+		);
+		classGrouping.createPaletteItem(
+			IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS), 
+			"Nominal Quality",
+			CommandType.CREATE_NOMINAL_QUALITY,
+			""
+		);
+		classGrouping.addCommandListener(frame);	
+		paletteMap.put(paletteName, classGrouping);
+		if(openPalette == null) openPalette = paletteName;		
+		classGrouping.sort();
 	}
 
 	public PaletteGrouping createDomainPalette(UmlProject patternProject,HashMap<PaletteItem, StructureDiagram> dynamicHash, AppCommandDispatcher dispatcher){
@@ -324,11 +591,12 @@ public class PaletteAccordion extends JPanel{
 		
 		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){
 			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
-				PaletteItem paletteElement = domainPallete.createStaticElement(icon, diagram.getName(), "");
-				dynamicHash.put(paletteElement, diagram);
+			
+			PaletteItem paletteElement = domainPallete.createPaletteItem(icon, diagram.getName(), CommandType.CALL_DOMAIN_PATTERN,"");
+			dynamicHash.put(paletteElement, diagram);
 		}
 		
-		domainPallete.addCommandListener(dispatcher);
+//		domainPallete.addCommandListener(dispatcher);
 		paletteMap.put(pelleteName, domainPallete);
 		
 		openPalette = pelleteName;
@@ -343,25 +611,25 @@ public class PaletteAccordion extends JPanel{
 	private void createStaticRelationshipsPalette(AppCommandDispatcher editorDispatcher)
 	{
 		PaletteGrouping palette =  new PaletteGrouping(this, "Relationships");
-		palette.createPaletteElement("staticpalette.relations", "select");
-		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createPaletteElement("staticpalette.relations", "generalization");
-		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createPaletteElement("staticpalette.relations", "material");
-		palette.createPaletteElement("staticpalette.relations", "formal");
-		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createPaletteElement("staticpalette.relations", "characterization");
-		palette.createPaletteElement("staticpalette.relations", "mediation");
-		palette.createPaletteElement("staticpalette.relations", "derivation");
-		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createPaletteElement("staticpalette.relations", "componentof");
-		palette.createPaletteElement("staticpalette.relations", "memberof");	
-		palette.createPaletteElement("staticpalette.relations", "subcollectionof");
-		palette.createPaletteElement("staticpalette.relations", "subquantityof");
-		palette.addSpacer(0,PALLETE_VSPACE);
-		palette.createPaletteElement("staticpalette.relations", "association");
-		
-		palette.addCommandListener(editorDispatcher);
+//		palette.createPaletteElement("staticpalette.relations", "select");
+//		palette.addSpacer(0,PALLETE_VSPACE);
+//		palette.createPaletteElement("staticpalette.relations", "generalization");
+//		palette.addSpacer(0,PALLETE_VSPACE);
+//		palette.createPaletteElement("staticpalette.relations", "material");
+//		palette.createPaletteElement("staticpalette.relations", "formal");
+//		palette.addSpacer(0,PALLETE_VSPACE);
+//		palette.createPaletteElement("staticpalette.relations", "characterization");
+//		palette.createPaletteElement("staticpalette.relations", "mediation");
+//		palette.createPaletteElement("staticpalette.relations", "derivation");
+//		palette.addSpacer(0,PALLETE_VSPACE);
+//		palette.createPaletteElement("staticpalette.relations", "componentof");
+//		palette.createPaletteElement("staticpalette.relations", "memberof");	
+//		palette.createPaletteElement("staticpalette.relations", "subcollectionof");
+//		palette.createPaletteElement("staticpalette.relations", "subquantityof");
+//		palette.addSpacer(0,PALLETE_VSPACE);
+//		palette.createPaletteElement("staticpalette.relations", "association");
+//		
+		//palette.addCommandListener(editorDispatcher);
 
 		paletteMap.put("Relationships", palette);
 
@@ -369,40 +637,6 @@ public class PaletteAccordion extends JPanel{
 			openPalette = "Relationships";
 	}
 
-	@SuppressWarnings("unused")
-	private void createMiscellaneousPalette(AppCommandDispatcher editorDispatcher)
-	{
-		PaletteGrouping palette =  new PaletteGrouping(this, "Miscellaneous");
-		palette.createPaletteElement("staticpalette.misc", "select");
-		palette.createPaletteElement("staticpalette.misc", "package");
-		palette.createPaletteElement("staticpalette.misc", "note");
-		palette.createPaletteElement("staticpalette.misc", "noteconnector");
-		
-		palette.addCommandListener(editorDispatcher);
-
-		paletteMap.put("Miscellaneous", palette);
-
-		if(openPalette == null)
-			openPalette = "Miscellaneous";
-	}
-	
-	@SuppressWarnings("unused")
-	private void createStaticRulesPalette(AppCommandDispatcher editorDispatcher)
-	{
-		PaletteGrouping palette =  new PaletteGrouping(this, "Rules");
-		palette.createPaletteElement("staticpalette.rules", "select");
-		palette.createPaletteElement("staticpalette.rules", "condition");
-		palette.createPaletteElement("staticpalette.rules", "derivationrule");
-		palette.createPaletteElement("staticpalette.rules", "conclusion");
-		
-		palette.addCommandListener(editorDispatcher);
-
-		paletteMap.put("Rules", palette);
-
-		if(openPalette == null)
-			openPalette = "Rules";
-	}
-	
 	public void NotifySelection(PaletteItem item) {
 		for (PaletteGrouping palette : paletteMap.values()) {
 			palette.unselectAllBut(item);

@@ -1,6 +1,6 @@
 package net.menthor.resources.icons;
 
-/**
+/*
 * ============================================================================================
 * Menthor Editor -- Copyright (c) 2015 
 *
@@ -28,7 +28,7 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.util.MethodCall;
+import net.menthor.editor.model.ElementType;
 
 public class CommandMap {
 	
@@ -62,50 +62,56 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("newDiagram")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM,
 				new MethodCall(DiagramManager.class.getMethod("closeDiagram")));
+
+		cmdMap.put(CommandType.POINTER_MODE, 
+				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));
 		
-//		cmdMap.put(CommandType.CREATE_KIND, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.KIND));
-//		cmdMap.put(CommandType.CREATE_QUANTITY, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.QUANTITY));
-//		cmdMap.put(CommandType.CREATE_COLLECTIVE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.COLLECTIVE));
-//		cmdMap.put(CommandType.CREATE_SUBKIND, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.SUBKIND));
-//		cmdMap.put(CommandType.CREATE_PHASE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.PHASE));
-//		cmdMap.put(CommandType.CREATE_ROLE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.ROLE));
-//		cmdMap.put(CommandType.CREATE_CATEGORY, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.CATEGORY));
-//		cmdMap.put(CommandType.CREATE_ROLEMIXIN, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.ROLEMIXIN));
-//		cmdMap.put(CommandType.CREATE_MIXIN, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.MIXIN));
-//		cmdMap.put(CommandType.CREATE_MODE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.MODE));
-//		cmdMap.put(CommandType.CREATE_RELATOR, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.RELATOR));
-//		cmdMap.put(CommandType.CREATE_PERCEIVABLE_QUALITY, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.PERCEIVABLE_QUALITY));
-//		cmdMap.put(CommandType.CREATE_NOMINAL_QUALITY, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NOMINAL_QUALITY));
+		cmdMap.put(CommandType.CREATE_KIND, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.KIND));
+		cmdMap.put(CommandType.CREATE_QUANTITY, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.QUANTITY));
+		cmdMap.put(CommandType.CREATE_COLLECTIVE, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.COLLECTIVE));
+		cmdMap.put(CommandType.CREATE_SUBKIND, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.SUBKIND));
+		cmdMap.put(CommandType.CREATE_PHASE, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.PHASE));
+		cmdMap.put(CommandType.CREATE_ROLE, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.ROLE));
+		cmdMap.put(CommandType.CREATE_CATEGORY, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.CATEGORY));
+		cmdMap.put(CommandType.CREATE_ROLEMIXIN, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.ROLEMIXIN));
+		cmdMap.put(CommandType.CREATE_MIXIN, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.MIXIN));
+		cmdMap.put(CommandType.CREATE_MODE, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.MODE));
+		cmdMap.put(CommandType.CREATE_RELATOR, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.RELATOR));
+		cmdMap.put(CommandType.CREATE_PERCEIVABLE_QUALITY, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.PERCEIVABLEQUALITY));
+		cmdMap.put(CommandType.CREATE_NOMINAL_QUALITY, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.NOMINALQUALITY));
+		cmdMap.put(CommandType.CREATE_NONPERCEIVABLE_QUALITY, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.NONPERCEIVABLEQUALITY));
+		
 //		cmdMap.put(CommandType.CREATE_EVENT, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.EVENT));
+//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.EVENT));
 //		cmdMap.put(CommandType.CREATE_POWERTYPE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.POWERTYPE));
+//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.POWERTYPE));
 //		cmdMap.put(CommandType.CREATE_CLASS, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.CLASS));
+//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.CLASS));
 //		
-//		cmdMap.put(CommandType.CREATE_DATATYPE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DATATYPE));
-//		cmdMap.put(CommandType.CREATE_ENUMERATION, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.ENUMERATION));
+		cmdMap.put(CommandType.CREATE_DATATYPE, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.DATATYPE));
+		cmdMap.put(CommandType.CREATE_ENUMERATION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.ENUMERATION));
 //		cmdMap.put(CommandType.CREATE_DIMENSION, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DIMENSION));
+//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.DIMENSION));
 //		cmdMap.put(CommandType.CREATE_DOMAIN, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DOMAIN));
-//		cmdMap.put(CommandType.CREATE_PRIMITIVETYPE, 
-//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.PRIMITIVETYPE));
+//				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.DOMAIN));
+		cmdMap.put(CommandType.CREATE_PRIMITIVETYPE, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ElementType.class), ElementType.PRIMITIVETYPE));
 		
 		cmdMap.put(CommandType.CREATE_GENERALIZATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.GENERALIZATION));
@@ -131,6 +137,57 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.ASSOCIATION));
 		cmdMap.put(CommandType.CREATE_STRUCTURATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.STRUCTURATION));
+		
+		cmdMap.put(CommandType.CALL_MIXIN_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_MIXIN_PATTERN));		
+		cmdMap.put(CommandType.CALL_MIXIN_WITH_SUBKIND_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_MIXIN_PATTERN_WITH_SUBKIND));		
+		cmdMap.put(CommandType.CALL_PHASE_PARTITION_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_PHASE_PARTITION));
+		cmdMap.put(CommandType.CALL_SUBKIND_PARTITION_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_SUBKIND_PARTITION));		
+		cmdMap.put(CommandType.CALL_ROLE_PARTITION_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_ROLE_PARTITION));		
+		cmdMap.put(CommandType.CALL_GENERIC_RELATOR_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.GENERIC_RELATOR));		
+		cmdMap.put(CommandType.CALL_DEPENDENT_ROLEMIXIN_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.DEPENDENT_ROLEMIXIN));		
+		cmdMap.put(CommandType.CALL_KIND_PARTITION_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.KIND_PARTITION));		
+		cmdMap.put(CommandType.CALL_COLLECTIVE_PARTITION_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.COLLECTIVE_PARTITION));		
+		cmdMap.put(CommandType.CALL_QUANTITY_PARTITION_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.QUANTITY_PARTITION));		
+		cmdMap.put(CommandType.CALL_CATEGORY_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.CATEGORY_PATTERN));		
+		cmdMap.put(CommandType.CALL_COMPLETER_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_COMPLETER));		
+		cmdMap.put(CommandType.CALL_ROLEMIXIN_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_ROLEMIXIN));		
+		cmdMap.put(CommandType.CALL_CHARACTERIZATION_PATTERN,
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.CHARACTERIZATION_PATTERN));		
+		cmdMap.put(CommandType.CALL_RIGID_WS_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.RIGID_WEAK_SUPPLEMENTATION));		
+		cmdMap.put(CommandType.CALL_ANTIRIGID_WS_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.ANTIRIGID_WEAK_SUPPLEMENTATION));		
+		cmdMap.put(CommandType.CALL_RELATOR_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.PATTERN_RELATOR));
+		
+		cmdMap.put(CommandType.CALL_DOMAIN_PATTERN, 
+				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",ElementType.class),ElementType.DOMAIN_PATTERN));
+		
+		cmdMap.put(CommandType.CALL_UNION_PATTERN, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByUnion")));
+		cmdMap.put(CommandType.CALL_EXCLUSION_PATTERN, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByExclusion")));
+		cmdMap.put(CommandType.CALL_SPECIALIZATION_PATTERN, 
+				new MethodCall(DiagramManager.class.getMethod("deriveBySpecialization")));
+		cmdMap.put(CommandType.CALL_INTERSECTION_PATTERN, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByIntersection")));
+		cmdMap.put(CommandType.CALL_PASTSPECIALIZATION_PATTERN, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByPastSpecialization")));
+		cmdMap.put(CommandType.CALL_PARTICIPATION_PATTERN, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByParticipation")));
 		
 		cmdMap.put(CommandType.SEARCH_TERM,
 				new MethodCall(DiagramManager.class.getMethod("searchInProject")));

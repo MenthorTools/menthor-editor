@@ -222,7 +222,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
     			{    				
     			    if (SwingUtilities.isLeftMouseButton(e))
     	            {	            	     	
-    			    	frame.getToolManager().getElementsPalette().getPalleteElement("kind").setSelected(true);             
+    			    	frame.getToolManager().getElementsPalette().getPalleteItem("Kind").setSelected(true);             
     	            }
     			}	       
 		});     
@@ -233,7 +233,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("quantity").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("quantity").setSelected(true);
 	            }
        		}
 		});
@@ -244,7 +244,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("collective").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Collective").setSelected(true);
 	            }
        		}
 		});
@@ -255,7 +255,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("subkind").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("SubKind").setSelected(true);
 	            }
        		}
 		});
@@ -266,7 +266,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("phase").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Phase").setSelected(true);
 	            }
        		}
 		});
@@ -277,7 +277,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("role").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Role").setSelected(true);
 	            }
        		}
 		});
@@ -288,7 +288,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("category").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Category").setSelected(true);
 	            }
        		}
 		});
@@ -299,7 +299,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("rolemixin").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("RoleMixin").setSelected(true);
 	            }
        		}
 		});
@@ -310,7 +310,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("mixin").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Mixin").setSelected(true);
 	            }
        		}
 		});
@@ -321,7 +321,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("mode").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Mode").setSelected(true);
 	            }
        		}
 		});
@@ -332,7 +332,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("relator").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Relator").setSelected(true);
 	            }
        		}
 		});
@@ -343,7 +343,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("datatype").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("DataType").setSelected(true);
 	            }
        		}
 		});
@@ -354,7 +354,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("enumeration").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Enumeration").setSelected(true);
 	            }
        		}
 		});
@@ -365,7 +365,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("perceivablequality").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Perceivable Quality").setSelected(true);
 	            }
        		}
 		});
@@ -376,7 +376,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("nonperceivablequality").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("NonPerceivable Quality").setSelected(true);
 	            }
        		}
 		});
@@ -387,7 +387,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("nominalquality").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Nominal Quality").setSelected(true);
 	            }
        		}
 		});
@@ -398,7 +398,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("generalization").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Generalization").setSelected(true);
 	            }
        		}
 		});
@@ -409,7 +409,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("material").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Material").setSelected(true);
 	            }
        		}
 		});
@@ -420,7 +420,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("formal").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Formal").setSelected(true);
 	            }
        		}
 		});
@@ -431,7 +431,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("characterization").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Characterization").setSelected(true);
 	            }
       		}
 		});
@@ -442,7 +442,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("mediation").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Mediation").setSelected(true);
 	            }
      		}
 		});
@@ -453,7 +453,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("componentof").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("ComponentOf").setSelected(true);
 	            }
     		}
 		});
@@ -464,7 +464,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("memberof").setSelected(true);	
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("MemberOf").setSelected(true);	
 	            }
 			}
 		});
@@ -475,7 +475,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("subcollectionof").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("SubCollectionOf").setSelected(true);
 	            }
 			}
 		});
@@ -486,7 +486,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("subquantityof").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("SubQuantityOf").setSelected(true);
 	            }
 			}
 		});
@@ -497,7 +497,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("association").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Association").setSelected(true);
 	            }
 			}
 		});
@@ -508,7 +508,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("structuration").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Structuration").setSelected(true);
 	            }
 			}
 		});
@@ -519,7 +519,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
 			{			
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {
-			    	frame.getToolManager().getElementsPalette().getPalleteElement("derivation").setSelected(true);
+			    	frame.getToolManager().getElementsPalette().getPalleteItem("Derivation").setSelected(true);
 	            }
 			}
 		});
@@ -591,7 +591,7 @@ public class ToolboxPopupMenu extends JPopupMenu {
  			{			
  			    if (SwingUtilities.isLeftMouseButton(e))
  	            {
- 			    	frame.getToolManager().getElementsPalette().getPalleteElement("select").setSelected(true);
+ 			    	frame.getToolManager().getElementsPalette().selectMousePointer();
  	            }
  			}
  		});   

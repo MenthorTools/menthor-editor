@@ -1,6 +1,6 @@
 package net.menthor.resources.icons;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -188,10 +188,22 @@ public final class IconMap {
 		return iconMap.get(type);
 	}
 
+	public Icon getIcon(IconType icontype, int height, int width) {
+		Icon icon = getIcon(icontype);
+		Image img = ((ImageIcon)icon).getImage();  
+		Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);  
+		Icon newIcon = new ImageIcon(newimg);
+		return newIcon;
+	}
+
+	public Icon getSmallIcon(IconType icontype){
+		return getIcon(icontype,16,16);
+	}
+	
 	public Icon getIcon(String typeName) {
 		return getIcon(iconTypeMap.get(typeName));
 	}
-
+	
 	public Image getImage(String typeName) {
 		try {
 			IconType type = iconTypeMap.get(typeName);

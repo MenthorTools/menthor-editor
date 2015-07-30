@@ -36,8 +36,8 @@ import net.menthor.editor.Main;
 import net.menthor.editor.dialog.AutoCompletionDialog;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.util.MethodCall;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
+import net.menthor.resources.icons.MethodCall;
 import net.menthor.resources.icons.RelationshipType;
 
 /**

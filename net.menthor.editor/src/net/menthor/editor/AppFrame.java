@@ -43,14 +43,15 @@ import org.jdesktop.swingx.MultiSplitLayout;
 import org.jdesktop.swingx.MultiSplitPane;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
 import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.diagram.DiagramEditor;
 
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.MethodCall;
 import net.menthor.resources.icons.CommandMap;
 import net.menthor.resources.icons.CommandType;
 import net.menthor.resources.icons.IconMap;
+import net.menthor.resources.icons.MethodCall;
 
 /**
  * @author Wei-ju Wu, John Guerson
@@ -364,11 +365,14 @@ public class AppFrame extends JFrame implements AppCommandListener {
 			methodcall = CommandMap.getInstance().getMap().get(CommandType.valueOf(command));
 		}else{
 			methodcall = getDiagramManager().getEditorDispatcher().getMap().get(command);
-		}		
+		}				
+		//System.out.println("Calling "+methodcall.getMethod()+" at "+methodcall.getMethod().getDeclaringClass());
 		if(methodcall.getMethod().getDeclaringClass() == AppCommandDispatcher.class){					
 			methodcall.call(getDiagramManager().getEditorDispatcher());
 		}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
 			methodcall.call(getDiagramManager());
+		}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
+			methodcall.call(getDiagramManager().getCurrentDiagramEditor());
 		}else if(methodcall.getMethod().getDeclaringClass() == getClass()){
 			methodcall.call(this);
 		}else{

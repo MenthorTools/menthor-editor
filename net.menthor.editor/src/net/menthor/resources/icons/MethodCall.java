@@ -1,6 +1,6 @@
-package net.menthor.editor.util;
+package net.menthor.resources.icons;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -27,20 +27,13 @@ import java.lang.reflect.Method;
 /**
  * This class implements a method call by reflection. It is used to implement
  * pluggable selectors.
- *
- * @author Wei-ju Wu, John Guerson
  */
 public class MethodCall {
 
   private Method method;
   private final Object[] methodParameters;
 
-  /**
-   * Constructor.
-   * @param theMethod the method to call
-   * @param parameters the parameter list
-   */
-  public MethodCall(final Method theMethod, final Object... parameters) {
+  public MethodCall(final Method theMethod, final Object... parameters){
     method = theMethod;
     methodParameters = new Object[parameters.length];
     for (int i = 0; i < parameters.length; i++) {
@@ -48,17 +41,9 @@ public class MethodCall {
     }
   }
 
-  /**
-   * Returns the method.
-   * @return the method.
-   */
   public Method getMethod() { return method; }
 
-  /**
-   * Call the method on the specified target.
-   * @param target the target object
-   */
-  public void call(Object target) {
+  public void call(Object target){
     try {
       method.invoke(target, methodParameters);
     } catch (InvocationTargetException ex) {

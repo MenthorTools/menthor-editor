@@ -1,6 +1,6 @@
 package net.menthor.resources.icons;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -40,21 +40,18 @@ public class PaletteItem extends JPanel implements MouseListener, MouseMotionLis
 	private static final long serialVersionUID = 5550202293825101613L;
 	
 	private PaletteGrouping parent = null;
-	private String command = new String(); 
-	private String caption = new String();
-	private String type = new String();
+	private CommandType command = CommandType.POINTER_MODE; 
+	private String name = new String();	
 	private boolean isSelected = false;
 	
-	public String getCaption() { return caption; }
-	public String getType() { return type; }
-	public String getCommand() { return command; }
+	public String getName() { return name; }
+	public CommandType getCommand() { return command; }
 	
-	public PaletteItem(Icon icon, String caption, String command, PaletteGrouping palette, String type){
+	public PaletteItem(Icon icon, String name, CommandType command, PaletteGrouping palette){
 		super();
-		this.command = command;
 		this.parent = palette;
-		this.caption = caption;
-		this.type = type;		
+		this.command = command;		
+		this.name = name;
 		this.setMaximumSize(new Dimension(32767, 24));
 		this.setSize(new Dimension(200, 24));
 		this.setPreferredSize(new Dimension(200, 24));
@@ -62,7 +59,7 @@ public class PaletteItem extends JPanel implements MouseListener, MouseMotionLis
 		this.setBorder(PaletteAccordion.getResetBorder());
 		this.setBackground(PaletteAccordion.getResetBackground());
 		this.setLayout(new BorderLayout());
-		JLabel label = new JLabel(caption, icon, JLabel.LEFT);
+		JLabel label = new JLabel(name, icon, JLabel.LEFT);
 		label.setIconTextGap(10);
 		label.setBorder(BorderFactory.createEmptyBorder(1, 10, 1, 1));		
 		this.add(label, BorderLayout.CENTER);

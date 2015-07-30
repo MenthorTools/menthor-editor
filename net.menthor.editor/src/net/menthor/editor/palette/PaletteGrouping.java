@@ -43,8 +43,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.diagram.DiagramEditor;
 
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.resources.icons.CommandType;
 import net.menthor.resources.icons.IconMap;
 import net.menthor.resources.icons.IconType;
 import net.menthor.resources.icons.PaletteItem;
@@ -54,10 +55,11 @@ public class PaletteGrouping extends JPanel
 	private static final long serialVersionUID = -4131252046223204095L;
 		
 	private PaletteAccordion parent;
-	
+	private PaletteItem mousePointerItem;
 	private List<AppCommandListener> listeners = new ArrayList<AppCommandListener>();
-	private Map<String, PaletteItem> elementMap = new HashMap<String, PaletteItem>();
-	public Map<String, PaletteItem> getElementMap() { return elementMap; }
+	private Map<String, PaletteItem> itemMap = new HashMap<String, PaletteItem>();
+	
+	public Map<String, PaletteItem> getItemMap() { return itemMap; }
 	
 	private String name;
 	private JPanel titlePane;
@@ -67,14 +69,15 @@ public class PaletteGrouping extends JPanel
 	private int iconHeight = 16;
 	private int iconWidth = 16;
 	private JPanel contentPane;
-	private PaletteItem selectedElement = null;
+	private PaletteItem selectedItem = null;
 
 	public String getName() { return this.name; }
-	public PaletteItem getPalleteElement(String name){ return elementMap.get(name); }	
-	public Collection<PaletteItem> getPaletteElements() { return elementMap.values(); }	
-	public JPanel getTitle(){ return titlePane; }
-	public JPanel getContent(){ return contentPane; }	
-	public PaletteItem getSelectedElement(){ return selectedElement; }
+	public PaletteItem getPalleteItem(String name){ return itemMap.get(name); }	
+	public Collection<PaletteItem> getPaletteItems() { return itemMap.values(); }	
+	public JPanel getTitlePane(){ return titlePane; }
+	public JPanel getContentPane(){ return contentPane; }	
+	public PaletteItem getSelected(){ return selectedItem; }
+	public void selectMousePointer() { mousePointerItem.setSelected(true); }
 	
 	public PaletteGrouping(PaletteAccordion parent, String name){
 		super();
@@ -89,8 +92,8 @@ public class PaletteGrouping extends JPanel
 		img = ((ImageIcon)icon).getImage();  
 		newimg = img.getScaledInstance(iconWidth, iconHeight, java.awt.Image.SCALE_SMOOTH);  
 		openIcon = new ImageIcon(newimg);		
-		createTitlePane();
-		createContentPane();
+		createTitlePane();		
+		createContentPane();				
 	}
 	
 	private void createTitlePane(){
@@ -119,51 +122,34 @@ public class PaletteGrouping extends JPanel
 		this.add(contentPane, BorderLayout.CENTER);
 	}
 	
-	public PaletteItem createPaletteElement(String type, String name){
-		String prefix = type + "." + name;
-		String command = getResourceString(prefix + ".command");
-		String caption = getResourceString(prefix + ".caption");
-		Icon icon = IconMap.getInstance().getIcon(getResourceString(prefix + ".icon"));
-		PaletteItem element = new PaletteItem(icon, caption, command, this,type);
-		if (name.equals("derivation")) element.setEnabled(false);
-		element.setToolTipText(getResourceString(prefix + ".tooltip"));
-		elementMap.put(name, element);
-		//content.add(element);
-		//content.add(PaletteAccordion.getSpacer(0,1));
-		return element;
-	}
-	
-	public PaletteItem createStaticElement(Icon icon, String caption, String type ){
-		PaletteItem element = new PaletteItem(icon, caption, "DOMAIN_PATTERN", this,type);
-		elementMap.put(caption, element);
+	public PaletteItem createPaletteItem(Icon icon, String name, CommandType command, String tooltip){
+		PaletteItem element = new PaletteItem(icon, name, command, this);		
+		element.setToolTipText(tooltip);
+		itemMap.put(name, element);
 		return element;
 	}
 	
 	public void sort() {
-		ArrayList<PaletteItem> result = sort(elementMap.values());
-		contentPane.add(createPaletteElement("staticpalette.classes", "select"));
+		ArrayList<PaletteItem> result = sort(itemMap.values());		
+		mousePointerItem = createPaletteItem(null, "Mouse Pointer", CommandType.POINTER_MODE, "");
+		contentPane.add(mousePointerItem);
 		for(PaletteItem pe: result){
 			contentPane.add(pe);
 			contentPane.add(PaletteAccordion.getSpacer(0,1));;
 		}
 	}
 	
-	class PalleteElementComparator implements Comparator<PaletteItem> {
+	class PalleteItemComparator implements Comparator<PaletteItem>{
         @Override
         public int compare(PaletteItem o1, PaletteItem o2) {        	
-        	if(o1.getType().contains("classes") && o2.getType().contains("relations")){
-        		return -1;        	
-        	}else if (o1.getType().contains("relations") && o2.getType().contains("classes")){        		
-        		return 1;
-        	} else
-        		return o1.getCaption().compareToIgnoreCase(o2.getCaption());
+        	return o1.getName().compareToIgnoreCase(o2.getName());
         }
     }
 	
 	public ArrayList<PaletteItem> sort(Collection<PaletteItem> list){
 		ArrayList<PaletteItem> result = new ArrayList<PaletteItem>();
 		result.addAll(list);
-		Collections.sort(result,new PalleteElementComparator());
+		Collections.sort(result,new PalleteItemComparator());
 		return result;
 	}
 	
@@ -172,25 +158,26 @@ public class PaletteGrouping extends JPanel
 	}
 	
 	public void selectDefault() {
-		elementMap.get("select").setSelected(true);
+		selectMousePointer();
 	}
 	
 	public void unselectAllBut(PaletteItem item) {
-		if(selectedElement != null && selectedElement != item)
-			selectedElement.setSelected(false);
+		if(selectedItem != null && selectedItem != item)
+			selectedItem.setSelected(false);
 	}
 	
 	public void notifySelection(PaletteItem item) {
-		if(selectedElement != null) {
-			if(item != selectedElement) selectedElement.setSelected(false);
-		}		
-		if(parent.getFrame().getDiagramManager().getCurrentDiagramEditor()!=null){
-			parent.getFrame().getDiagramManager().getCurrentDiagramEditor().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		if(selectedItem != null) {
+			if(item != selectedItem) selectedItem.setSelected(false);
+		}	
+		DiagramEditor ed = parent.getFrame().getDiagramManager().getCurrentDiagramEditor();
+		if(ed!=null){
+			ed.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
-		selectedElement = item;
+		selectedItem = item;
 		parent.NotifySelection(item);		
 		for (AppCommandListener listener : listeners) {
-			listener.handleCommand(item.getCommand());
+			listener.handleCommand(item.getCommand().toString());
 		}
 	}
 
@@ -212,9 +199,5 @@ public class PaletteGrouping extends JPanel
 		titlePane.setBorder(PaletteAccordion.getUnselectedPaletteBorder());
 		titlePane.setBackground(PaletteAccordion.getUnselectedPaletteBackground());		
 		titleLabel.setIcon(closedIcon);
-	}
-	
-	private String getResourceString(String property) {
-		return ApplicationResources.getInstance().getString(property);
 	}
 }

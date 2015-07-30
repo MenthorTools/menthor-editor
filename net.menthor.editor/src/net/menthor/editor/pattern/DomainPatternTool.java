@@ -50,14 +50,14 @@ public class DomainPatternTool {
 	}
 
 	public static void createDomainPalleteListener(final PaletteGrouping domainPallete,final HashMap<PaletteItem, StructureDiagram> hashDomainPalette, AppFrame frame) {
-		domainPallete.addCommandListener(new AppCommandListener() {
-
-			@Override
-			public void handleCommand(String command) {
-				currentDiagram = hashDomainPalette.get(domainPallete.getSelectedElement());
-			}
-
-		});
+//		domainPallete.addCommandListener(new AppCommandListener() {
+//
+//			@Override
+//			public void handleCommand(String command) {
+//				currentDiagram = hashDomainPalette.get(domainPallete.getSelected());
+//			}
+//
+//		});
 	}
 
 	//Falta pegar os GeneralizationSets	
@@ -122,7 +122,7 @@ public class DomainPatternTool {
 			}
 		}
 		dynwin.open();
-		domainPallete.getSelectedElement().setSelected(false);
+		domainPallete.getSelected().setSelected(false);
 		HashMap<String, ArrayList<Object[]>> hash = dynwin.getHashTable();
 		Fix fix = null;
 		if(hash != null){
