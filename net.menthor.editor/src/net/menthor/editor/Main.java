@@ -75,12 +75,9 @@ public final class Main {
 	 * 		b: compilation with new features
 	 * 		c: compilation with bug fixes
 	 */	
-	public static String MENTHOR_VERSION = "1.1.0 beta"; 
+	public static String MENTHOR_VERSION = "1.1.0 gama"; 
 	
-	static DateFormat dateFormat = new SimpleDateFormat("dd yyyy");
-	static Date date = new Date();
-	static Calendar c = Calendar.getInstance();
-	public static String MENTHOR_COMPILATION_DATE = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);
+	public static String MENTHOR_COMPILATION_DATE = getCompilationDateMessage();
 	
 	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
 	
@@ -90,7 +87,17 @@ public final class Main {
 		
 	/** This caches the result of the call to get all fonts. */
 	private static String[] allFonts = null;
-	    	   
+	    
+	/**
+	 * get compilation date message.
+	 */
+	private static String getCompilationDateMessage(){
+		DateFormat dateFormat = new SimpleDateFormat("d, yyyy");
+		Date date = new Date();
+		Calendar c = Calendar.getInstance();
+		return c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);
+	}
+	
 	/**
 	 * Private constructor.
 	 */

@@ -392,7 +392,7 @@ public class Transformer {
 		}
 
 		if(oclRules != null && !oclRules.equals("") && owlAxioms.isSwrlRules()){
-			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(oclRules, ontoParser, manager, owlNameSpace);
+			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, oclRules, ontoParser, manager, owlNameSpace);
 			ocl2owl_swrl.Transformation();
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}

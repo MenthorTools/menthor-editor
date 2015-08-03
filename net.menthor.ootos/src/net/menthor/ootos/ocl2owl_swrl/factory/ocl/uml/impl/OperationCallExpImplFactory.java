@@ -13,6 +13,7 @@ import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.SelectedReasoner;
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
+import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.expressions.OCLExpression;
@@ -65,8 +66,8 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 
 	public OCLExpressionImplFactory argumentFactory;
 	
-	public OperationCallExpImplFactory(NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
-		super(m_NamedElementImpl);
+	public OperationCallExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+		super(mappingProperties, m_NamedElementImpl);
 		
 		//verify if the operator is unsupported and throw a new exception
 		if(this.isUnsupported()){
@@ -146,7 +147,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 			}
 			
 			//and a factory is created according to the argument class 
-			this.argumentFactory = (OCLExpressionImplFactory) Factory.constructor(argument, this.m_NamedElementImpl);
+			this.argumentFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, argument, this.m_NamedElementImpl);
 			//the argument is solved and the and the returned arguments from the argumentSolveMethod above are returned 
 			retArgsY = this.argumentFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, referredArgument, operatorNot, repeatNumber, leftSideOfImplies);
 			if(retArgsY != null){
@@ -160,7 +161,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		}
 		
 		//and a factory is created according to the source class 
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(source, this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, source, this.m_NamedElementImpl);
 		
 		//do refArgAux as referredArgument, excepting cases that source is part of a LET
 		SWRLDArgument refArgAux = referredArgument;
@@ -279,7 +280,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	public void solveCardinality(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
 		//the source of the operation is got
 		//and a factory is created according to the source class 
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation of the source
 		OWLObjectProperty relation = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
@@ -356,7 +357,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	}
 	
 	public void solveSymmetric(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation
 		OWLObjectProperty relation = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
@@ -369,7 +370,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	}
 	
 	public void solveAsymmetric(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation
 		OWLObjectProperty relation = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
@@ -382,7 +383,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	}
 	
 	public void solveReflexive(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation
 		OWLObjectProperty relation = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
@@ -395,7 +396,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	}
 	
 	public void solveTransitive(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation
 		OWLObjectProperty relation = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
@@ -408,13 +409,13 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	}
 	
 	public void solveSubRelationOf(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation1
 		OWLObjectProperty relation1 = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
 		
 		if(operationCallExpImpl.getArgument().size()>0){
-			this.argumentFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getArgument().get(0), this.m_NamedElementImpl);
+			this.argumentFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getArgument().get(0), this.m_NamedElementImpl);
 		}
 		
 		//get the relation2
@@ -430,13 +431,13 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 	@Override
 	public OWLObjectProperty getOWLObjectProperty(OCLExpressionImpl oclExpression, String nameSpace, OntoUMLParser refParser, OWLDataFactory factory)  throws Ocl2Owl_SwrlException{
 		OperationCallExpImpl operationCallExpImpl = (OperationCallExpImpl) this.m_NamedElementImpl; 
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		return this.sourceFactory.getOWLObjectProperty(oclExpression, nameSpace, refParser, factory);
 	}
 	
 	public void solveIrreflexive(OperationCallExpImpl operationCallExpImpl, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology) throws Ocl2Owl_SwrlException{
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(operationCallExpImpl.getSource(), this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, operationCallExpImpl.getSource(), this.m_NamedElementImpl);
 		
 		//get the relation
 		OWLObjectProperty relation = this.sourceFactory.getOWLObjectProperty(operationCallExpImpl, nameSpace, refParser, factory);
@@ -761,7 +762,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 		if(referredArgY == null && referredOperationName.equals("-")){
 			if(referredArgX.getClass().equals(SWRLLiteralArgumentImpl.class)){
 				OCLExpression<?> literal = ((OperationCallExpImpl)m_NamedElementImpl).getSource();
-				NumericLiteralExpImplFactory numericFactory = (NumericLiteralExpImplFactory) Factory.constructor(literal, this.m_NamedElementImpl);
+				NumericLiteralExpImplFactory numericFactory = (NumericLiteralExpImplFactory) Factory.constructor(mappingProperties, literal, this.m_NamedElementImpl);
 				
 				retArgs = numericFactory.solveNegativeNumber(nameSpace, manager, factory, ontology, antecedent, consequent, referredArgX, false);
 				

@@ -15,6 +15,7 @@ import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Counters;
 import net.menthor.ootos.ocl2owl_swrl.util.SelectReasoner;
 import net.menthor.ootos.ocl2owl_swrl.util.SelectedReasoner;
+import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.ExpressionInOCLImpl;
 import org.eclipse.uml2.uml.Constraint;
@@ -37,6 +38,7 @@ public class OCL2OWL_SWRL {
 	public static SelectedReasoner selectedReasoner = null;
 	
 	public Counters logCounting = new Counters();
+	private MappingProperties mappingProperties;
 		
 	//public OCL2SWRL(OCLParser oclParser, OntoUMLParser refParser, OWLOntologyManager manager, String nameSpace) {
 	/**
@@ -47,7 +49,7 @@ public class OCL2OWL_SWRL {
 	 * @param manager - contains the OWLOntologyManager, used to get the OWLDataFactory and the OwlOntology
 	 * @param nameSpace
 	 */
-	public OCL2OWL_SWRL(String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
+	public OCL2OWL_SWRL(MappingProperties mappingProperties, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
 		this.nameSpace = nameSpace;
 		//this.oclParser = oclParser;
 		this.oclRules = oclRules;
@@ -55,6 +57,8 @@ public class OCL2OWL_SWRL {
 		this.manager = manager;
 		this.factory = manager.getOWLDataFactory();		
 		this.ontology = manager.getOntology(IRI.create(nameSpace));
+		
+		this.mappingProperties = mappingProperties;
 		
 		//verify if all variables were initialized
 		this.verifyVariablesInitialization();
@@ -250,7 +254,7 @@ public class OCL2OWL_SWRL {
 					ExpressionInOCLImpl expr = (ExpressionInOCLImpl) ct.getSpecification();
 					
 					//create a factory based on the element
-					ExpressionInOCLImplFactory exprFactory = new ExpressionInOCLImplFactory(expr);
+					ExpressionInOCLImplFactory exprFactory = new ExpressionInOCLImplFactory(mappingProperties, expr);
 					
 					//set the element
 					if(ct.getConstrainedElements().size() > 0){

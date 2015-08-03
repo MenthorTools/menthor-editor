@@ -6,6 +6,7 @@ import java.util.Set;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
+import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -27,7 +28,8 @@ public class NamedElementImplFactory extends Factory {
 
 	public NamedElementImpl m_NamedElementImpl;
 	
-	public NamedElementImplFactory(NamedElementImpl m_NamedElementImpl){
+	public NamedElementImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties);
 		this.m_NamedElementImpl = m_NamedElementImpl;
 	}
 	
