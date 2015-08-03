@@ -1,5 +1,8 @@
 package net.menthor.editor.util;
 
+import RefOntoUML.parser.OntoUMLParser;
+import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -24,19 +27,18 @@ package net.menthor.editor.util;
 import net.menthor.common.transformation.DestinationEnum;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.util.OperationResult.ResultType;
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
-import RefOntoUML.parser.OntoUMLParser;
-import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static OperationResult generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, TransformationOption trOpt)
+	public static ResultType generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, TransformationOption trOpt)
 	{
 		String errors = new String();
 		String owlOutput = new String();
@@ -76,16 +78,16 @@ public class OWLHelper {
 					FileManager fileManager = new FileManager(owlFileName);
 					fileManager.write(owlOutput);
 					fileManager.done();					
-					return new OperationResult(ResultType.SUCESS, errors + "OWL generated successfully", new Object[] { owlFileName });
+					return new ResultType(Result.SUCESS, errors + "OWL generated successfully", new Object[] { owlFileName });
 				}else{
-					return new OperationResult(ResultType.SUCESS, errors + "OWL generated successfully", new Object[] { owlOutput });
+					return new ResultType(Result.SUCESS, errors + "OWL generated successfully", new Object[] { owlOutput });
 				}
     		}else{
-    			return new OperationResult(ResultType.ERROR, errors + "No OWL generated", null);
+    			return new ResultType(Result.ERROR, errors + "No OWL generated", null);
     		}
     	}catch (Exception ex) {
     		ex.printStackTrace();
-    		return new OperationResult(ResultType.ERROR, "Error while generating the OWL for the model. \nDetails: " + ex.getMessage() + errors, null);
+    		return new ResultType(Result.ERROR, "Error while generating the OWL for the model. \nDetails: " + ex.getMessage() + errors, null);
     	}
 	}
 }

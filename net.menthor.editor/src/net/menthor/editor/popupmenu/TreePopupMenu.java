@@ -49,7 +49,7 @@ import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * @author John Guerson

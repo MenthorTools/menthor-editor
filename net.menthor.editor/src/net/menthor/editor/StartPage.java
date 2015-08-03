@@ -19,7 +19,6 @@ import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -34,13 +33,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.Editor;
 
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ConfigurationHelper;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.util.MenthorConfigurator;
 
 public class StartPage extends BackgroundPanel implements Editor {
 		
@@ -60,10 +61,10 @@ public class StartPage extends BackgroundPanel implements Editor {
 	private JButton btnFAQButton;
 	private JButton btnCommunityButton;
 	private Component emptyHeaderArea;
-	private AppCommandListener commandListener;
-	private static Image img = (new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/mountain.png"))).getImage();
+	private CommandListener commandListener;
+	private static Image img = IconMap.getInstance().getImage(IconType.MENTHOR_WELCOME_BACKGROUND.toString());
 	
-	public StartPage(AppCommandListener commandListener)
+	public StartPage(CommandListener commandListener)
 	{
 		this();
 		this.commandListener = commandListener;			
@@ -116,7 +117,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	private void populateRecentProjects(){
-		recentList.setModel(new DefaultComboBoxModel(ConfigurationHelper.getRecentProjects()));
+		recentList.setModel(new DefaultComboBoxModel(MenthorConfigurator.getRecentProjects()));
 		recentList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 		        if (evt.getClickCount() >= 2) 
@@ -136,7 +137,7 @@ public class StartPage extends BackgroundPanel implements Editor {
     private JLabel createLogo(){
     	menthorImg = new JLabel("");
 		menthorImg.setVerticalAlignment(SwingConstants.TOP);
-		menthorImg.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/logo-startpage_150.png")));
+		menthorImg.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_WELCOME_LOGO));
 		return menthorImg;
     }
     
@@ -288,23 +289,24 @@ public class StartPage extends BackgroundPanel implements Editor {
 		//pageBtnPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
 		pageBtnPane.setBackground(new Color(0,0,0,0));
 		btnEAButton = createPageLinkButton("<html>INSTALL ONTOUML<br>WITHIN EA</html>");
-		btnEAButton.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/learn_61.png")));
+		btnEAButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_WELCOME_LEARN));
+				
 		btnEAButton.setToolTipText("<html>Learn how to install OntoUML <br>within the EA tool</html>");
 		pageBtnPane.add(btnEAButton);
 		attachEALink();
 		btnFAQButton = createPageLinkButton("<html>FREQUENTLY ASKED<br>QUESTIONS</html>");
-		btnFAQButton.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/faq_61.png")));
+		btnFAQButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_WELCOME_FAQ));
 		btnFAQButton.setToolTipText("<html>See users' frequently asked questions</html>");
 		pageBtnPane.add(btnFAQButton);
 		attachFAQLink();
 		btnCommunityButton = createPageLinkButton("<html>USER<br>COMMUNITY</html>");
-		btnCommunityButton.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/forum_61.png")));
+		btnCommunityButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_WELCOME_FORUM));
 		btnCommunityButton.setToolTipText("<html>See our community of users</html>");
 		pageBtnPane.add(btnCommunityButton);
 		attachCommunityLink();
 		btnStudyButton = createPageLinkButton("<html>ONTOUML STUDY<br>GUIDE</html>");
 		btnStudyButton.setToolTipText("<html>See our study guide for the OntoUML <br>modeling language</html>");
-		btnStudyButton.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/studyguide_61.png")));
+		btnStudyButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_WELCOME_STUDYGUIDE));
 		pageBtnPane.add(btnStudyButton);
 		attachStudyLink();
 		return pageBtnPane;
@@ -435,7 +437,7 @@ public class StartPage extends BackgroundPanel implements Editor {
     	JLabel sloganImg = new JLabel("");
     	panel.add(sloganImg);
     	panel.setBackground(new Color(0,0,0,100));
-    	sloganImg.setIcon(new ImageIcon(StartPage.class.getResource("/net/menthor/resources/images/slogan.png")));
+    	sloganImg.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_WELCOME_SLOGAN));
     	GroupLayout gl_footerPane = new GroupLayout(footerPane);
     	gl_footerPane.setHorizontalGroup(
     		gl_footerPane.createParallelGroup(Alignment.LEADING)

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,12 +39,12 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.menthor.common.file.FileUtil;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.FileChoosersUtil;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 /**
  * @author John Guerson
@@ -191,9 +192,31 @@ public class WarningTablePanel extends JPanel {
 		//toolBar.add(warningMessage);		
 	}
 	
+	public static String saveTxtLocation(Component frame, String lastLocation)
+	{
+		JFileChooser fileChooser = new JFileChooser(lastLocation);
+		fileChooser.setDialogTitle("Export");
+		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("Text Document (*.txt)", "txt");
+		fileChooser.addChoosableFileFilter(txtFilter);
+		fileChooser.setFileFilter(txtFilter);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) 
+		{
+			if (fileChooser.getFileFilter() == txtFilter) 
+			{
+				String path = fileChooser.getSelectedFile().getPath();
+				if (path.contains(".txt"))
+					return fileChooser.getSelectedFile().getPath();
+				else
+					return fileChooser.getSelectedFile().getPath()+".txt";				
+			}
+		}
+		return null;
+	}
+	
 	public void saveContentToTxtFile (Component parent)
     {    	
-    	String path = FileChoosersUtil.saveTxtLocation(parent,null);
+    	String path = saveTxtLocation(parent,null);
     	
     	if(path!=null)
 		try {

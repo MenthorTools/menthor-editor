@@ -41,9 +41,9 @@ import javax.swing.UIManager;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
-import net.menthor.editor.ui.JHyperLinkLabel;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.JHyperLinkLabel;
 
 /**
  * @author John Guerson

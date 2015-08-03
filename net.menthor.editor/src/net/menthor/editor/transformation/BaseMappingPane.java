@@ -30,8 +30,8 @@ import javax.swing.table.TableCellEditor;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.dialog.properties.AttributesEditionPanel;
 import net.menthor.editor.dialog.properties.BaseTableModel;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 public class BaseMappingPane extends JPanel {
 	

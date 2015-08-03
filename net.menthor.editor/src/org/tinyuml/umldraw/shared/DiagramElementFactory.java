@@ -25,7 +25,7 @@ import org.tinyuml.umldraw.StructureDiagram;
  */
 
 import net.menthor.editor.model.ElementType;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 
 /**

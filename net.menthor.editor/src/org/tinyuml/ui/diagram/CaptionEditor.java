@@ -33,8 +33,8 @@ import javax.swing.event.DocumentListener;
 
 import org.tinyuml.draw.Label;
 
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 /**
  * This class acts as an in-editor text input element.

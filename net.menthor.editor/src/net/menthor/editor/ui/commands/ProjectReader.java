@@ -35,7 +35,7 @@ import net.menthor.editor.Main;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.util.MenthorSettings;
+import net.menthor.editor.v2.util.MenthorSettings;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -82,7 +82,7 @@ public final class ProjectReader extends FileHandler {
 		ZipEntry entry;
 		while(entries.hasMoreElements()) {
 			entry = entries.nextElement();			
-			if(entry.getName().equals(MenthorSettings.MODEL_DEFAULT_FILE.getValue()) && !modelLoaded)
+			if(entry.getName().equals(MenthorSettings.DEFAULT_MODEL_FILE.getValue()) && !modelLoaded)
 			{
 				Main.printOutLine("Loading model XMI information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
@@ -98,7 +98,7 @@ public final class ProjectReader extends FileHandler {
 				in.close();
 				modelLoaded = true;
 			}
-			else if (entry.getName().equals(MenthorSettings.PROJECT_DEFAULT_FILE.getValue()) && !projectLoaded)
+			else if (entry.getName().equals(MenthorSettings.DEFAULT_PROJECT_FILE.getValue()) && !projectLoaded)
 			{
 				Main.printOutLine("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);

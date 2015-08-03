@@ -42,26 +42,27 @@ import javax.swing.border.EtchedBorder;
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.jdesktop.swingx.MultiSplitPane;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.CommandMap;
-import net.menthor.resources.icons.CommandType;
-import net.menthor.resources.icons.IconMap;
-import net.menthor.resources.icons.MethodCall;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandMap;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.MethodCall;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.toolbars.MainToolbar;
 
 /**
  * @author Wei-ju Wu, John Guerson
  */
-public class AppFrame extends JFrame implements AppCommandListener {
+public class AppFrame extends JFrame implements CommandListener {
 
 	private static final long serialVersionUID = 3464348864344034246L;
 	
 	private transient AppMenu mainMenu;
-	private transient NewAppToolbar mainToolBar;
+	private transient MainToolbar mainToolBar;
 	
 	private transient ToolboxPane toolManager;
 	private transient TopViewPane topPane;
@@ -158,8 +159,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 	 */
 	private void installMainToolBar() 
 	{		
-		mainToolBar = new NewAppToolbar(this);
-		mainToolBar.addCommandListener(this);
+		mainToolBar = new MainToolbar(this);		
 		mainToolBar.addCommandListener(getDiagramManager().getEditorDispatcher());
 		JPanel panel = new JPanel();		
 		panel.setLayout(new BorderLayout(5,5));
@@ -181,7 +181,7 @@ public class AppFrame extends JFrame implements AppCommandListener {
 		return topPane.getDiagramManager();
 	}
 			
-	public NewAppToolbar getMainToolBar()
+	public MainToolbar getMainToolBar()
 	{
 		return mainToolBar;
 	}

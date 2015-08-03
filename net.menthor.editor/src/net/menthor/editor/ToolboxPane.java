@@ -29,8 +29,8 @@ import javax.swing.JPanel;
 
 import org.tinyuml.ui.commands.AppCommandDispatcher;
 
-import net.menthor.editor.palette.PaletteGrouping;
-import net.menthor.editor.palette.PaletteAccordion;
+import net.menthor.editor.v2.palette.PaletteAccordion;
+import net.menthor.editor.v2.palette.PaletteGrouping;
 
 /**
  * @author John Guerson
@@ -57,7 +57,7 @@ public class ToolboxPane extends JPanel {
 		
 		palettes = new PaletteAccordion(frame);
 		palettes.setBackground(Color.WHITE);
-		palettes.createStaticStructurePalettes(editorDispatcher);
+		palettes.createGroupings();
 		
 		//TitlePane panel = new TitlePane("Toolbox","/resources/icons/x16/hammer_screwdriver.png");	
 				
@@ -93,7 +93,7 @@ public class ToolboxPane extends JPanel {
 	
 	public PaletteGrouping getPatternsPalette()
 	{
-		return palettes.getPatternsPalette();
+		return palettes.getPatternPalette();
 	}
 	
 	public PaletteAccordion getPalleteAccordion()

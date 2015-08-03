@@ -27,7 +27,6 @@ import javax.swing.JPopupMenu;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Selection;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
@@ -37,6 +36,7 @@ import net.menthor.editor.popupmenu.DiagramPopupMenu;
 import net.menthor.editor.popupmenu.MultiSelectionPopupMenu;
 import net.menthor.editor.popupmenu.SingleConnectionPopupMenu;
 import net.menthor.editor.popupmenu.SingleNodePopupMenu;
+import net.menthor.editor.v2.commands.CommandListener;
 
 /**
  * This class creates context menus, depending on the specified parameters.
@@ -111,7 +111,7 @@ public class ContextMenusBuilder {
 	 * @param l
 	 *            the AppCommandListener to add
 	 */
-	public void addAppCommandListener(AppCommandListener l) {
+	public void addAppCommandListener(CommandListener l) {
 		singleNodePopup.addAppCommandListener(l);
 		singleConnectionPopup.addAppCommandListener(l);
 		multiSelectinoPopup.addAppCommandListener(l);

@@ -36,9 +36,10 @@ import net.menthor.editor.Main;
 import net.menthor.editor.dialog.AutoCompletionDialog;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.model.RelationEndType;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.MethodCall;
+import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
-import net.menthor.resources.icons.MethodCall;
-import net.menthor.resources.icons.RelationshipType;
 
 /**
  * This class receives BaseEditor related AppCommands and dispatches them to
@@ -48,7 +49,7 @@ import net.menthor.resources.icons.RelationshipType;
  *
  * @author Wei-ju Wu, John Guerson 
  */
-public class AppCommandDispatcher implements AppCommandListener {
+public class AppCommandDispatcher implements CommandListener {
 	
 	private AppFrame frame;
 	private DiagramManager manager;
@@ -472,7 +473,6 @@ public class AppCommandDispatcher implements AppCommandListener {
 	public void redo()
 	{
 		if (manager.isProjectLoaded()==false) return;
-
 		if(manager.getCurrentDiagramEditor()!=null) 
 		{			
 			if(manager.getCurrentDiagramEditor().canRedo()){
@@ -499,7 +499,7 @@ public class AppCommandDispatcher implements AppCommandListener {
 		if (manager.isProjectLoaded()==false) return;
 
 		manager.getCurrentDiagramEditor().showGrid(getMenuManager().isSelected("SHOW_GRID"));
-		manager.getCurrentWrapper().getToolBar().update();
+		manager.getCurrentWrapper().getToolBar().update(manager.getCurrentDiagramEditor().getZoomPercentualValue());
 	}
 
 	public void activateModelCompleter(){
@@ -527,14 +527,14 @@ public class AppCommandDispatcher implements AppCommandListener {
 	{
 		if (manager.isProjectLoaded()==false) return;
 		manager.getCurrentDiagramEditor().zoomOut();
-		manager.getCurrentWrapper().getToolBar().update();
+		manager.getCurrentWrapper().getToolBar().update(manager.getCurrentDiagramEditor().getZoomPercentualValue());
 	}
 	
 	public void zoomIn()
 	{
 		if (manager.isProjectLoaded()==false) return;
 		manager.getCurrentDiagramEditor().zoomIn();
-		manager.getCurrentWrapper().getToolBar().update();
+		manager.getCurrentWrapper().getToolBar().update(manager.getCurrentDiagramEditor().getZoomPercentualValue());
 	}
 	
 	public void callGlossary()

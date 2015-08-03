@@ -50,7 +50,7 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import net.menthor.editor.Main;
 import net.menthor.editor.util.ModelHelper;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class implements an association connection. The association connection

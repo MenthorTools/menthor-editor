@@ -30,8 +30,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import net.menthor.editor.Main;
-import net.menthor.editor.util.ConfigurationHelper;
 import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.v2.util.MenthorConfigurator;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -61,6 +61,7 @@ public class UmlProject implements Serializable {
 	private transient Resource resource;
 	private transient boolean saveNeeded = false;
 	public static transient String tempDir;
+	public static transient String binDir;
 	private List<UmlDiagram> diagrams = new ArrayList<UmlDiagram>();
 	private ArrayList<Integer> openedDiagrams = new ArrayList<Integer>();
 	private Properties properties;
@@ -310,18 +311,23 @@ public class UmlProject implements Serializable {
 		this.properties = properties;
 	}
 	
-	public String getTempDir()
-	{
-		if(tempDir == null)
-			tempDir = ConfigurationHelper.makeTempDir();
-		
+	public String getTempDir(){
+		if(tempDir == null) tempDir = MenthorConfigurator.makeTempDir();		
+		return tempDir;
+	}
+
+	public String getBinDir(){
+		if(binDir == null) binDir = MenthorConfigurator.makeBinDir();		
+		return binDir;
+	}
+	
+	public static String createTempDir(){
+		if(tempDir == null) tempDir = MenthorConfigurator.makeTempDir();		
 		return tempDir;
 	}
 	
-	public static String createTempDir()
-	{
-		if(tempDir == null)
-			tempDir = ConfigurationHelper.makeTempDir();		
-		return tempDir;
+	public static String createBinDir(){
+		if(binDir == null) binDir = MenthorConfigurator.makeBinDir();		
+		return binDir;
 	}
 }

@@ -54,10 +54,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
+import org.eclipse.swt.LoadingException;
+import org.eclipse.swt.SWTBinaryLoader;
+
 import net.menthor.common.file.TimeHelper;
-import net.menthor.editor.util.BinaryLoader;
-import net.menthor.editor.util.ExtractorUtil;
-import net.menthor.editor.util.LoadingException;
+import net.menthor.editor.v2.util.MenthorConfigurator;
 
 /**
  * This is the start class of the Menthor Editor application. Menthor Editor is based on the TinyUML project by Wei-ju Wu.
@@ -329,13 +330,11 @@ public final class Main {
 		//}
 	}
 	
-	/** Load the SWT binaries (*.dlls, *.jnilib, *.so) according to the appropriate Operating System.  */
-	public static BinaryLoader copyBinaryFilesTo() throws LoadingException, URISyntaxException
+	/** Load the SWT binaries (*.dlls, *.jnilib, *.so) according to the appropriate Operating System.  
+	 * @throws IOException */
+	public static void copyBinaryFilesTo() throws LoadingException, URISyntaxException, IOException
 	{
-		BinaryLoader loader = new BinaryLoader(null, getOSx(), getArch());
-		loader.extractSWTBinaryFiles();
-		loader.addBinariesToJavaPathBySystem();
-		return loader;
+		SWTBinaryLoader.load(MenthorConfigurator.getBinDir());
 	}
 	
 	/** Add and load the appropriate SWT jar to the classpath according to the operating system. 
@@ -489,8 +488,9 @@ public final class Main {
 					copyBinaryFilesTo();
 					
 					publish("Extracting Alloy files...");
-					ExtractorUtil.extractAlloyJar();
-										
+					File alloyJarFile = MenthorConfigurator.extractLib("alloy4.2.jar");
+					Main.printOutLine("Extracted: "+alloyJarFile.getAbsolutePath());
+					
 					publish("Loading application...");						
 					frame = new AppFrame();
 					

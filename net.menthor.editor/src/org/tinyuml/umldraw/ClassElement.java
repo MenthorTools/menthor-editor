@@ -44,7 +44,7 @@ import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
 import net.menthor.editor.model.RelationEndType;
 import net.menthor.editor.util.ModelHelper;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class represents a Class element in the editor. It is responsible for

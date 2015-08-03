@@ -4,10 +4,10 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.commands.PngWriter;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
@@ -24,12 +24,13 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
+import net.menthor.editor.model.UmlDiagram;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.PaletteGrouping;
-import net.menthor.editor.palette.PaletteAccordion;
+import net.menthor.editor.v2.palette.PaletteAccordion;
+import net.menthor.editor.v2.palette.PaletteGrouping;
+import net.menthor.editor.v2.palette.PaletteItem;
 import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
 import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
-import net.menthor.resources.icons.PaletteItem;
 
 public class DomainPatternTool {
 
@@ -39,16 +40,28 @@ public class DomainPatternTool {
 	private static OntoUMLParser parser;
 	
 	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, AppCommandDispatcher editorDispatcher, AppFrame appFrame) {
-		//Creating Palettes
-		HashMap<PaletteItem, StructureDiagram> hashDomainPalette = new HashMap<>();
-		domainPallete = palleteAccordion.createDomainPalette(patternProject, hashDomainPalette,editorDispatcher);
+		
+		List<String> names = new ArrayList<String>();
+		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){
+			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
+			names.add(diagram.getName());
+		}
+			
+		domainPallete = palleteAccordion.createDomainGrouping(names);
 		
 		frame = appFrame;
 		parser = frame.getBrowserManager().getProjectBrowser().getParser();
 		
+		HashMap<PaletteItem, StructureDiagram> hashDomainPalette = new HashMap<>();
+		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){
+			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
+			PaletteItem item = domainPallete.getItemMap().get(diagram.getName());
+			if(item!=null) hashDomainPalette.put(item, diagram);
+		}
+		
 		DomainPatternTool.createDomainPalleteListener(domainPallete, hashDomainPalette,frame);
 	}
-
+	
 	public static void createDomainPalleteListener(final PaletteGrouping domainPallete,final HashMap<PaletteItem, StructureDiagram> hashDomainPalette, AppFrame frame) {
 //		domainPallete.addCommandListener(new AppCommandListener() {
 //

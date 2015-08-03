@@ -38,10 +38,10 @@ import javax.swing.KeyStroke;
 
 import net.menthor.editor.ui.diagram.commands.SetColorCommand;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconMap;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
@@ -57,7 +57,7 @@ import RefOntoUML.Classifier;
 public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private Set<AppCommandListener> commandListeners = new HashSet<AppCommandListener>();
+	private Set<CommandListener> commandListeners = new HashSet<CommandListener>();
 	private UmlNode node;
 	final JMenuItem showAttrItem;
 	final JMenuItem showOperItem;	
@@ -262,7 +262,7 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 	 * @param l
 	 *            the AppCommandListener to add
 	 */
-	public void addAppCommandListener(AppCommandListener l) {
+	public void addAppCommandListener(CommandListener l) {
 		commandListeners.add(l);
 	}
 	
@@ -309,7 +309,7 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 	 * {@inheritDoc}
 	 */
 	public void actionPerformed(ActionEvent e) {
-		for (AppCommandListener l : commandListeners) {
+		for (CommandListener l : commandListeners) {
 			l.handleCommand(e.getActionCommand());
 		}
 	}

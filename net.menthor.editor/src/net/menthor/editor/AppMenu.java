@@ -36,12 +36,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
-import org.tinyuml.ui.commands.AppCommandListener;
-
 import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconMap;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
 
 /**
  * This class manages the pulldown menu of the application.
@@ -51,7 +50,7 @@ import net.menthor.resources.icons.IconMap;
 public class AppMenu implements ActionListener {
 
 	private JMenuBar menubar;
-	private List<AppCommandListener> listeners = new ArrayList<AppCommandListener>();
+	private List<CommandListener> listeners = new ArrayList<CommandListener>();
 	private Map<String, JMenuItem> itemMap = new HashMap<String, JMenuItem>();
 	private AppFrame frame;
 	private JMenuItem toolboxItem;
@@ -517,7 +516,7 @@ public class AppMenu implements ActionListener {
 	 * @param l
 	 *            the CommandListener to add
 	 */
-	public void addCommandListener(AppCommandListener l) {
+	public void addCommandListener(CommandListener l) {
 		listeners.add(l);
 	}
 
@@ -525,7 +524,7 @@ public class AppMenu implements ActionListener {
 	 * {@inheritDoc}
 	 */
 	public void actionPerformed(ActionEvent e) {
-		for (AppCommandListener l : listeners) {			
+		for (CommandListener l : listeners) {			
 			l.handleCommand(e.getActionCommand());
 		}
 	}

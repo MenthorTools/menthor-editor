@@ -1,6 +1,6 @@
 package net.menthor.editor.ui;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -58,8 +58,8 @@ import org.tinyuml.ui.diagram.Editor;
 
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.popupmenu.TabPopupMenu;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 
 /**

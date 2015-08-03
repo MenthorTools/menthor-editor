@@ -168,20 +168,20 @@ import net.menthor.editor.ui.commands.UMLExporter;
 import net.menthor.editor.ui.diagram.commands.AddGeneralizationSetCommand;
 import net.menthor.editor.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.ConfigurationHelper;
-import net.menthor.editor.util.MenthorResourceFactory;
-import net.menthor.editor.util.MenthorSettings;
 import net.menthor.editor.util.ModelHelper;
 import net.menthor.editor.util.OWLHelper;
-import net.menthor.editor.util.OperationResult;
-import net.menthor.editor.util.OperationResult.ResultType;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.util.MenthorConfigurator;
+import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
+import net.menthor.editor.v2.util.MenthorSettings;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2infouml.OntoUML2InfoUML;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
-import net.menthor.resources.icons.CommandType;
-import net.menthor.resources.icons.RelationshipType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -1128,7 +1128,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		frame.getInfoManager().setProject(currentProject);	
 		openDiagrams();
 		saveProjectNeeded(false);				
-		ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
+		MenthorConfigurator.addRecentProject(projectFile.getCanonicalPath());
 		frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
 	}
 	
@@ -1152,7 +1152,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				currentProject.saveAsOpened(editor.getDiagram());
 			}			
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, frame.getBrowserManager().getProjectBrowser().getOCLDocuments());		
-			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
+			MenthorConfigurator.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthor",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
@@ -1263,7 +1263,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				closeCurrentProject();
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
+				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactoryImpl());
 				resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
 				File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
 				org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
@@ -1277,7 +1277,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
 				saveCurrentProjectToFile(projectFile);
 				lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
-				ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
+				MenthorConfigurator.addRecentProject(projectFile.getCanonicalPath());
 				newDiagram();
 				frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1306,7 +1306,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			File file = fileChooser.getSelectedFile();
 			lastImportEAPath = file.getAbsolutePath();
 			new ImportXMIDialog(frame, true, this, lastImportEAPath);
-			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
+			MenthorConfigurator.addRecentProject(file.getCanonicalPath());
 		}		
 	}
 	
@@ -1314,7 +1314,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		lastImportEAPath = getStartPage().getSelectedRecentFile();
 		new ImportXMIDialog(frame, true, this, lastImportEAPath);
-		ConfigurationHelper.addRecentProject(lastImportEAPath);				
+		MenthorConfigurator.addRecentProject(lastImportEAPath);				
 	}
 	
 	/** Export the current model as an Ecore instance file (Reference model)*/
@@ -1962,6 +1962,31 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		updateMenthor(fix);   		   		
    	}
 
+	public void undo()
+	{		
+		if (isProjectLoaded()==false) return;
+		if(getCurrentDiagramEditor()!=null){
+			if(getCurrentDiagramEditor().canUndo()){
+				getCurrentDiagramEditor().undo();
+			}else{				
+				getFrame().showInformationMessageDialog("Cannot Undo", "No other action to be undone.\n\n");
+			}
+		}
+	}
+
+	public void redo()
+	{
+		if (isProjectLoaded()==false) return;
+		if(getCurrentDiagramEditor()!=null) 
+		{			
+			if(getCurrentDiagramEditor().canRedo()){
+				getCurrentDiagramEditor().redo();
+			}else{
+				getFrame().showInformationMessageDialog("Cannot Redo", "No other action to be redone.\n\n");
+			}
+		}
+	}
+	
 	/** Re-make element in the diagram . 
 	 *  This actually deletes the current diagramElement and creates another diagramElement, including it in the diagram.*/
 	public void remakeDiagramElement(RefOntoUML.Element element, DiagramEditor d)
@@ -2795,8 +2820,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void generateSbvr(RefOntoUML.Model refpackage) 
 	{
 		UmlProject project = getCurrentProject();
-		OperationResult result;
-		String modelFileName = ConfigurationHelper.getCanonPath(project.getTempDir(), MenthorSettings.MODEL_DEFAULT_FILE.getValue());
+		ResultType result;
+		String modelFileName = MenthorConfigurator.getCanonPath(project.getTempDir(), MenthorSettings.DEFAULT_MODEL_FILE.getValue());
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {			
@@ -2804,12 +2829,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
 			frame.getInfoManager().showOutputText("SBVR generated successfully", true, true); 
-			result = new OperationResult(ResultType.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
+			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result = new OperationResult(ResultType.ERROR, "Error while generating the SBVR representaion. Details: " + ex.getMessage(), null);
+			result = new ResultType(Result.ERROR, "Error while generating the SBVR representaion. Details: " + ex.getMessage(), null);
 		}		
-		if(result.getResultType() != ResultType.ERROR)
+		if(result.getResultType() != Result.ERROR)
 		{
 			frame.getInfoManager().showOutputText(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
@@ -3027,13 +3052,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
 	{
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		OperationResult result = OWLHelper.generateOwl(
+		ResultType result = OWLHelper.generateOwl(
 			filteredParser, 
 			model, 
 			getWorkingConstraints(),			
 			trOpt
 		);
-		if(result.getResultType() != ResultType.ERROR)
+		if(result.getResultType() != Result.ERROR)
 		{
 			if(trOpt.getDestination()==DestinationEnum.TAB)
 			{
@@ -3243,7 +3268,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				currentProject.saveAsOpened(editor.getDiagram());
 			}			
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, frame.getBrowserManager().getProjectBrowser().getOCLDocuments());		
-			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
+			MenthorConfigurator.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);

@@ -40,15 +40,16 @@ import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.explorer.dnd.DiagramDropListener;
-import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
-
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
+
+import net.menthor.editor.explorer.dnd.DiagramDropListener;
+import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
+import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.v2.toolbars.DiagramToolBar;
 
 /** 
  * Wrapper class for {@link DiagramEditor} responsible for providing toolbar and handling the model file.
@@ -60,7 +61,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 	private static final long serialVersionUID = -1962960747434759099L;
 	private DiagramEditor editor;
 	private JScrollPane scrollpane;
-	private DiagramToolbar diagramToolbar;
+	private DiagramToolBar diagramToolbar;
 	private DiagramStatusBar diagramStatus;
 	
 	public DragSource ds;
@@ -69,7 +70,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 	//TODO Remove me
 	private File projectFile;
 	
-	public DiagramToolbar getToolBar() { return diagramToolbar; }
+	public DiagramToolBar getToolBar() { return diagramToolbar; }
 	public DiagramStatusBar getStatusBar() { return diagramStatus; }
 	
 	public DiagramEditorWrapper(final DiagramEditor editor, AppCommandDispatcher editorDispatcher)
@@ -77,7 +78,8 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		super(new BorderLayout(0,0));
 		this.editor = editor;		
 	
-		diagramToolbar = new DiagramToolbar(editor);
+		diagramToolbar = new DiagramToolBar(editor.getListener());		
+		diagramToolbar.addCommandListener(editor.getDiagramManager().getEditorDispatcher());
 		diagramStatus = new DiagramStatusBar(editor);
 		
 		scrollpane = new JScrollPane();

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -121,13 +120,13 @@ public class FilterPane extends JPanel {
 		
 		findButton = new JButton("");
 		searchPane.add(findButton, BorderLayout.EAST);
-		findButton.setContentAreaFilled(false);
-		findButton.setOpaque(false);
-		findButton.setFocusPainted(false);
+//		findButton.setContentAreaFilled(false);
+//		findButton.setOpaque(false);
+//		findButton.setFocusPainted(false);
 		findButton.setFocusable(false);
-		findButton.setBorderPainted(false);
-		findButton.setPreferredSize(new Dimension(30, 28));
-		findButton.setIcon(new ImageIcon(FilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
+//		findButton.setBorderPainted(false);
+		findButton.setPreferredSize(new Dimension(60, 28));
+		findButton.setText("Find");
 		findButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {

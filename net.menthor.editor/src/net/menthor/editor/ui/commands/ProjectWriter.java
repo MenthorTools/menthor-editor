@@ -35,7 +35,7 @@ import java.util.zip.ZipOutputStream;
 import net.menthor.editor.Main;
 import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.MenthorSettings;
+import net.menthor.editor.v2.util.MenthorSettings;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.commands.FileWriter;
@@ -65,7 +65,7 @@ public final class ProjectWriter extends FileWriter {
 		
 		Main.printOutLine("Saving model XMI information in Menthor file...");
 		//Save the model as a resource inside the file
-		ZipEntry modelEntry = new ZipEntry(MenthorSettings.MODEL_DEFAULT_FILE.getValue());			
+		ZipEntry modelEntry = new ZipEntry(MenthorSettings.DEFAULT_MODEL_FILE.getValue());			
 		out.putNextEntry(modelEntry);
 		Resource resource = project.getResource();
 		resource.save(out, Collections.EMPTY_MAP);
@@ -73,7 +73,7 @@ public final class ProjectWriter extends FileWriter {
 		
 		Main.printOutLine("Saving project DAT information in Menthor file...");
 		//Save the project a.k.a the diagrams inside the file
-		ZipEntry projectEntry = new ZipEntry(MenthorSettings.PROJECT_DEFAULT_FILE.getValue());
+		ZipEntry projectEntry = new ZipEntry(MenthorSettings.DEFAULT_PROJECT_FILE.getValue());
 		out.putNextEntry(projectEntry);
 		ObjectOutputStream oos = new ObjectOutputStream(out);
 		oos.writeObject(project); 

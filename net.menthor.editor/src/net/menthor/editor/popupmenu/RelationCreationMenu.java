@@ -34,7 +34,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 public class RelationCreationMenu  extends JMenu{
 

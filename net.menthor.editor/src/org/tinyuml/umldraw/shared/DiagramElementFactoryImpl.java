@@ -83,7 +83,7 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
 import net.menthor.editor.model.ElementType;
 import net.menthor.editor.util.ModelHelper;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * Implementation of the DiagramElementFactory interface. A

@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 import net.menthor.editor.Main;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
@@ -112,7 +113,7 @@ public class ModelHelper {
 	public static void initializeHelper() {
 		try{
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactoryImpl());
 
 		resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
 		
