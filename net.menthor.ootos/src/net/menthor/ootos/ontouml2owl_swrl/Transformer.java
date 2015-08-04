@@ -1309,10 +1309,11 @@ public class Transformer {
 								
 				}
 	
-				OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ass.getName()));
-				OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( prop.getIRI(), commentAnno);
-				manager.applyChange(new AddAxiom(ontology, commeAx));
-				
+				if(this.owlAxioms.isLabels()){
+					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ass.getName()));
+					OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( prop.getIRI(), commentAnno);
+					manager.applyChange(new AddAxiom(ontology, commeAx));
+				}
 				//			if(match > 1 || nameNull){
 				if(mappingProperties.isMappedAsSubRelationOf(ass)){
 				//if(match > 1){
@@ -1567,10 +1568,11 @@ public class Transformer {
 					//Set the owner class of the datatype
 					_OWLownerClass = null;
 					_OWLownerClass = getOwlClass(dtcls);
-					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(dtcls.getName()));
-					OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( _OWLownerClass.getIRI(), commentAnno);
-					manager.applyChange(new AddAxiom(ontology, commeAx));
-					
+					if(this.owlAxioms.isLabels()){
+						OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(dtcls.getName()));
+						OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( _OWLownerClass.getIRI(), commentAnno);
+						manager.applyChange(new AddAxiom(ontology, commeAx));
+					}
 					_RefOntoOwnerClass = dtcls;
 					_upperCard.add(1);
 					_lowerCard.add(1);
@@ -1604,11 +1606,11 @@ public class Transformer {
 		
 		_attributeName = getDataPropertyName(_RefOntoOwnerClass, datatype);
 		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
-		
-		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + datatype.getName()));
-		OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( dataProperty.getIRI(), commentAnno);
-		manager.applyChange(new AddAxiom(ontology, commeAx));
-		
+		if(this.owlAxioms.isLabels()){
+			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + datatype.getName()));
+			OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( dataProperty.getIRI(), commentAnno);
+			manager.applyChange(new AddAxiom(ontology, commeAx));
+		}
 		_OWLownerClass = getOwlClass(_RefOntoOwnerClass);
 		if(_RefOntoOwnerClass != null){
 			if(!hashDataProperty.containsKey(_RefOntoOwnerClass)){
@@ -1692,11 +1694,11 @@ public class Transformer {
 				}
 			}
 		}
-		
-		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + prop.getName()));
-		OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( atributo.getIRI(), commentAnno);
-		manager.applyChange(new AddAxiom(ontology, commeAx));
-		
+		if(this.owlAxioms.isLabels()){
+			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + prop.getName()));
+			OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( atributo.getIRI(), commentAnno);
+			manager.applyChange(new AddAxiom(ontology, commeAx));
+		}
 		if(_RefOntoOwnerClass != null){
 			if(!hashDataProperty.containsKey(_RefOntoOwnerClass)){
 				hashDataProperty.put(_RefOntoOwnerClass, new HashSet<OWLDataProperty>());
@@ -1908,11 +1910,11 @@ public class Transformer {
 			OWLClass owlCls = getOwlClass(ontCls);
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
 			manager.addAxiom(ontology, declarationAxiom);
-			
-			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ontCls.getName()));
-			OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
-			manager.applyChange(new AddAxiom(ontology, ax));
-			
+			if(this.owlAxioms.isLabels()){
+				OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ontCls.getName()));
+				OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
+				manager.applyChange(new AddAxiom(ontology, ax));
+			}
 			if(!owlAxioms.isUfoStructure()) continue; 
 			
 			Set<Classifier> parents = ontoParser.getParents(ontCls);
@@ -1952,6 +1954,8 @@ public class Transformer {
 	 * @param 
 	 */
 	private void processAnnotation(){
+		if(!this.owlAxioms.isComments()) return;
+			
 		for(PackageableElement p : ontoParser.getAllInstances(PackageableElement.class)){
 			if(p.getOwnedComment() != null && !p.getOwnedComment().isEmpty()){
 				if(p instanceof Class){
