@@ -37,9 +37,9 @@ import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlModelElementLabelSource;
 
-import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
+import net.menthor.editor.ui.ModelHelper;
 
 /**
  * An generalization connection.

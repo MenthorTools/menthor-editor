@@ -24,8 +24,9 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
-import net.menthor.editor.model.UmlDiagram;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.UmlDiagram;
 import net.menthor.editor.v2.palette.PaletteAccordion;
 import net.menthor.editor.v2.palette.PaletteGrouping;
 import net.menthor.editor.v2.palette.PaletteItem;
@@ -50,7 +51,7 @@ public class DomainPatternTool {
 		domainPallete = palleteAccordion.createDomainGrouping(names);
 		
 		frame = appFrame;
-		parser = frame.getBrowserManager().getProjectBrowser().getParser();
+		parser = Models.getRefparser();
 		
 		HashMap<PaletteItem, StructureDiagram> hashDomainPalette = new HashMap<>();
 		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){

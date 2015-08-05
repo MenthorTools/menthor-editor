@@ -39,12 +39,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.ui.TitlePanel;
 
 public class PaletteGrouping extends JPanel
 {
@@ -59,8 +59,7 @@ public class PaletteGrouping extends JPanel
 	private PaletteItem mousePointerItem;
 	
 	private String name;
-	private JPanel titlePane;
-	private JLabel titleLabel;
+	private TitlePanel titlePane;
 	private JPanel contentPane;
 	private Icon closedIcon;
 	private Icon openIcon;
@@ -105,20 +104,12 @@ public class PaletteGrouping extends JPanel
 	
 	/** Create title pane */
 	private void createTitlePane(){
-		titlePane = new JPanel();
+		titlePane = new TitlePanel(name,closedIcon);
 		titlePane.addMouseListener(new MouseAdapter() { 
 			public void mousePressed(MouseEvent me) { 
 				parent.openPalette(name); 
 			} 
-		}); 
-		titlePane.setLayout(new BorderLayout());
-		titleLabel = new JLabel(name,closedIcon,JLabel.LEFT);		
-		titleLabel.setFocusable(false);		
-		titlePane.add(titleLabel, BorderLayout.CENTER);
-		titlePane.setMaximumSize(new Dimension(32767, 24));
-		Dimension size = new Dimension(200, 24);
-		titlePane.setSize(size);
-		titlePane.setPreferredSize(size);		
+		});				
 		this.add(titlePane, BorderLayout.NORTH);
 	}
 
@@ -145,7 +136,7 @@ public class PaletteGrouping extends JPanel
 		mousePointerItem = createPaletteItem(
 			IconType.MENTHOR_MOUSE_POINTER, 
 			"Mouse Pointer", 
-			CommandType.POINTER_MODE
+			CommandType.TB_DND_POINTER_MODE
 		);
 		contentPane.add(mousePointerItem);
 		for(PaletteItem pe: result){
@@ -187,13 +178,13 @@ public class PaletteGrouping extends JPanel
 	public void setSelectedLayout(){
 		titlePane.setBorder(PaletteColors.getSelectedGroupingBorder());
 		titlePane.setBackground(PaletteColors.getSelectedGroupingBackground());		
-		titleLabel.setIcon(openIcon);
+		titlePane.setIcon(openIcon);
 	}
 
 	/** Set unselected layout */
 	public void setUnselectedLayout(){
 		titlePane.setBorder(PaletteColors.getUnselectedGroupingBorder());
 		titlePane.setBackground(PaletteColors.getUnselectedGroupingBackground());		
-		titleLabel.setIcon(closedIcon);
+		titlePane.setIcon(closedIcon);
 	}
 }

@@ -25,16 +25,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
 import net.menthor.editor.transformation.TransformationDialog;
-
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.UmlDiagram;
 
 public class OwlSettingsDialog extends TransformationDialog {
 	
@@ -46,14 +45,14 @@ public class OwlSettingsDialog extends TransformationDialog {
 	private OwlQualityMappingPane qualityPane;
 	private OwlGenSetMappingPane gsPane;
 	
-	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
+	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 		
 		approachPane = new OwlApproachPane(owner.getDiagramManager().getCurrentProject().getName());
-		primitivePane = new OwlPrimitiveMappingPane(owner.getProjectBrowser().getParser());
-		qualityPane = new OwlQualityMappingPane(owner.getProjectBrowser().getParser());
-		gsPane = new OwlGenSetMappingPane(owner.getProjectBrowser().getParser());
+		primitivePane = new OwlPrimitiveMappingPane(Models.getRefparser());
+		qualityPane = new OwlQualityMappingPane(Models.getRefparser());
+		gsPane = new OwlGenSetMappingPane(Models.getRefparser());
 		axiomsPane = new OwlAxiomPane();
 		
 		addNonClosable("Approach", approachPane);

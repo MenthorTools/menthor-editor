@@ -37,17 +37,17 @@ import javax.swing.JPopupMenu;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.SetColorCommand;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
-import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import RefOntoUML.Generalization;
@@ -387,7 +387,7 @@ public class MultiSelectionPopupMenu extends JPopupMenu implements ActionListene
 	 */
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : commandListeners) {
-			l.handleCommand(e.getActionCommand());
+			l.handleCommand(e.getActionCommand(),null);
 		}
 	}
 	

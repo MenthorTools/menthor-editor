@@ -36,20 +36,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
-import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.icon.IconMap;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Classifier;
+import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.menus.ChangeClassMenu;
 
 /**
  * @author John Guerson
@@ -74,11 +74,12 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 	private JMenuItem pastspecializationItem;
 	@SuppressWarnings("unused")
 	private JMenuItem exclusionItem;
-	private ClassStereotypeChangeMenu changeMenu;
+	private ChangeClassMenu changeMenu;
 	private JMenuItem relatedItem;
 	
-	public SingleNodePopupMenu()
+	public SingleNodePopupMenu(final DiagramEditor editor)
 	{
+		this.editor = editor;
 		JMenuItem propertyItem = createMenuItem(this, "editproperties");
 		propertyItem.setAccelerator(KeyStroke.getKeyStroke("F9"));		
 		
@@ -110,7 +111,7 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 		addSeparator();
 		createColorMenu();	
 		
-		changeMenu = new ClassStereotypeChangeMenu();
+		changeMenu = new ChangeClassMenu(editor.getListener());
 		add(changeMenu);
 		
 		JMenu drawOrderMenu = new JMenu(ApplicationResources.getInstance().getString("submenu.draworder.name"));
@@ -251,8 +252,7 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 			showOperItem.setSelected(((ClassElement)node).showOperations());
 		}
 		if(changeMenu!=null) {
-			changeMenu.setElement(((ClassElement)node).getClassifier());
-			changeMenu.setDiagramManager(editor.getDiagramManager());
+			changeMenu.setContext(((ClassElement)node).getClassifier());			
 		}
 	}	
 	
@@ -310,7 +310,7 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : commandListeners) {
-			l.handleCommand(e.getActionCommand());
+			l.handleCommand(e.getActionCommand(),null);
 		}
 	}
 

@@ -24,7 +24,7 @@ package net.menthor.editor.v2.types;
 public enum DataType {
 
 	DATATYPE("DataType"), DIMENSION("Dimension"), DOMAIN("Domain"), 
-	ENUMERATION("Enumeration"), PRIMITIVETYPE("Primitive Type");
+	ENUMERATION("Enumeration"), PRIMITIVETYPE("PrimitiveType");
 	
 	private String name;
 

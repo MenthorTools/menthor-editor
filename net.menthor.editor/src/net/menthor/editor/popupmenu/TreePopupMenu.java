@@ -46,9 +46,13 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.OCLDocument;
 import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.menus.AddClassMenu;
+import net.menthor.editor.v2.menus.AddDataTypeMenu;
+import net.menthor.editor.v2.menus.AddRelationshipMenu;
+import net.menthor.editor.v2.menus.ChangeClassMenu;
+import net.menthor.editor.v2.menus.ChangeRelationshipMenu;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -74,19 +78,6 @@ public class TreePopupMenu extends JPopupMenu {
 		});    	    	
 	}
 	
-	public void createCompleteItem()
-	{
-		JMenuItem autoCompleteItem = new JMenuItem("Complete selection");
-    	add(autoCompleteItem);	    	
-    	autoCompleteItem.addActionListener(new ActionListener() {				
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				frame.getDiagramManager().getEditorDispatcher().autoComplete();
-			}
-		});
-	}
-	
 	public void createAddDiagramItem()
 	{
 		JMenuItem addDiagramItem = new JMenuItem("Add Diagram");
@@ -106,7 +97,7 @@ public class TreePopupMenu extends JPopupMenu {
 		addOCLDocumentItem.addActionListener(new ActionListener() {				
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.getDiagramManager().newOCLDocument(true);    				
+				frame.getDiagramManager().newOclDocument(true);    				
 			}
 		});
 	}
@@ -127,9 +118,9 @@ public class TreePopupMenu extends JPopupMenu {
 				{
 					ProjectBrowser.frame.getDiagramManager().renameDiagram((StructureDiagram)element);					
 				}
-				else if (TreePopupMenu.this.element instanceof OCLDocument)
+				else if (TreePopupMenu.this.element instanceof OclDocument)
 				{
-					ProjectBrowser.frame.getDiagramManager().renameOCLDocument((OCLDocument)element);					
+					ProjectBrowser.frame.getDiagramManager().renameOclDocument((OclDocument)element);					
 				}
 			}
 		});
@@ -153,34 +144,39 @@ public class TreePopupMenu extends JPopupMenu {
 	{
 		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());  
 		final Type type = (Type)ontoElement.getElement();
-		ClassStereotypeChangeMenu changeMenu = new ClassStereotypeChangeMenu(frame.getDiagramManager());
-		changeMenu.setElement(type);
+		ChangeClassMenu changeMenu = new ChangeClassMenu(frame);		
 		add(changeMenu);	
+		changeMenu.setContext(type);
 	}
 	
 	public void createRelationChangeItem()
 	{
-		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject()); 
-		final Association type = (Association)ontoElement.getElement();    			
-		RelationStereotypeChangeMenu changeMenu = new RelationStereotypeChangeMenu(frame.getDiagramManager());
-		changeMenu.setElement(type);
+		final RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());  
+		final Type type = (Type)ontoElement.getElement();
+		ChangeRelationshipMenu changeMenu = new ChangeRelationshipMenu(frame);		
 		add(changeMenu);
+		changeMenu.setContext(type);
 	}
 	
 	public void createAddElementItem()
 	{
-		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());		
-		final RefOntoUML.Package eContainer = (RefOntoUML.Package)ontoElement.getElement();
-		ElementCreationMenu addElementMenu = new ElementCreationMenu(frame.getDiagramManager(),eContainer);
-		add(addElementMenu);
+		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());
+		AddClassMenu addClassMenu = new AddClassMenu(frame);
+		AddDataTypeMenu addDataTypeMenu = new AddDataTypeMenu(frame);
+		add(addClassMenu);
+		add(addDataTypeMenu);
+		addClassMenu.setContext(ontoElement.getElement());
+		addDataTypeMenu.setContext(ontoElement.getElement());
+		//Add GeneralizationSet
+		//AddPackage
 	}
 	
 	public void createAddRelationItem()
 	{
-		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());
-		final RefOntoUML.Package eContainer = (RefOntoUML.Package)ontoElement.getElement();
-		RelationCreationMenu addRelationMenu = new RelationCreationMenu(frame.getDiagramManager(),eContainer);
+		RefOntoUMLElement ontoElement = ((RefOntoUMLElement)selectedNode.getUserObject());		
+		AddRelationshipMenu addRelationMenu = new AddRelationshipMenu(frame);
 		add(addRelationMenu);
+		addRelationMenu.setContext(ontoElement.getElement());
 	}
 	
 	public void createAddContainedItem()
@@ -204,13 +200,13 @@ public class TreePopupMenu extends JPopupMenu {
 		addCommentItem.addActionListener(new ActionListener() {				
 	        	@Override
 	        	public void actionPerformed(ActionEvent e) {
-	        		frame.getDiagramManager().addElement(ElementType.COMMENT,eContainer);
+	        		frame.getDiagramManager().addComment(eContainer);
 	        	}
 	        });
 		addConstraintItem.addActionListener(new ActionListener() {				
 	        	@Override
 	        	public void actionPerformed(ActionEvent e) {
-	        		frame.getDiagramManager().addElement(ElementType.CONSTRAINT,eContainer);
+	        		frame.getDiagramManager().addConstraintx("",eContainer);
 	        	}
 	        });
 		addGenItem.setIcon(new ImageIcon(DiagramEditorWrapper.class.getResource("/resources/icons/x16/tree/generalization.png")));
@@ -335,14 +331,14 @@ public class TreePopupMenu extends JPopupMenu {
     	}
     	
     	// OCL Documents...
-    	if (TreePopupMenu.this.element instanceof OCLDocument) {
+    	if (TreePopupMenu.this.element instanceof OclDocument) {
     		createRenameItem(); 
     		createDeleteItem();
     	}
     	
     	// Model Elements...
     	
-    	if ((!(TreePopupMenu.this.element instanceof StructureDiagram)) && (!(TreePopupMenu.this.element instanceof OCLDocument)) && 
+    	if ((!(TreePopupMenu.this.element instanceof StructureDiagram)) && (!(TreePopupMenu.this.element instanceof OclDocument)) && 
     		!((RefOntoUML.Element)((RefOntoUMLElement)TreePopupMenu.this.element).getElement() instanceof Generalization)) {
     		createRenameItem();
     	}

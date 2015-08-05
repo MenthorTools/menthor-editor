@@ -23,24 +23,23 @@ package net.menthor.editor.ui.commands;
 
 import java.io.File;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.Main;
-import net.menthor.ontouml2uml.OntoUML2UML;
-import net.menthor.ontouml2uml.OntoUML2UMLOption;
-
 import org.tinyuml.ui.commands.FileWriter;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
+import net.menthor.ontouml2uml.OntoUML2UML;
+import net.menthor.ontouml2uml.OntoUML2UMLOption;
 
 public class UMLExporter extends FileWriter {
 
 	public void writeUML(DiagramManager manager, File file) throws Exception 
 	{
-		OntoUMLParser refparser = manager.getFrame().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		String umlPath = file.getAbsolutePath();
 		if(!umlPath.contains(".uml")) umlPath += ".uml";		
 		OntoUML2UML.convertToUMLProfile(refparser,umlPath,new OntoUML2UMLOption(false,false));
-		Main.printOutLine(OntoUML2UML.getLog());
+		System.out.println(OntoUML2UML.getLog());
 	}
 
 	protected String getSuffix() 

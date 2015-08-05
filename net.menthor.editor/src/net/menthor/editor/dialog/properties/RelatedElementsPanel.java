@@ -44,6 +44,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
@@ -194,7 +195,7 @@ public class RelatedElementsPanel extends JPanel {
 		this.diagramManager = diagramManager;
 		this.diagramElement = diagramElement;
 		this.element = element;
-		this.refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+		this.refparser = Models.getRefparser();
 		
 		lblTop = new JLabel("Related associations:");		
 		lblBottom = new JLabel("Related generalizations:");

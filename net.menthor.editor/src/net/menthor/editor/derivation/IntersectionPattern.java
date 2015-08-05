@@ -50,6 +50,7 @@ import br.ufes.inf.nemo.derivedtypes.DerivedByIntersection;
 import javax.swing.JCheckBox;
 
 import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
 
 /**
  * @author Cássio Reginato
@@ -272,7 +273,7 @@ public class IntersectionPattern extends JDialog {
 
 									
 									String rule="\ncontext _'"+txtBase.getText()+"'\n"+"inv: self.allInstances()->forAll( x |  x.oclIsTypeOf(_'"+txtBase_1.getText()+"') implies x.oclIsTypeOf(_'"+txtDerived.getText()+"'))";
-									dm.getFrame().getBrowserManager().getProjectBrowser().getOCLDocuments().get(0).addContent(rule);
+									Models.getOclDocList().get(0).addContentAsString(rule);
 									dispose();
 								}
 								else{

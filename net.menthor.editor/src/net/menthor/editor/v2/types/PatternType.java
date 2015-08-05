@@ -41,7 +41,8 @@ public enum PatternType {
 	CHARACTERIZATION("Characterization"),
 	RIGID_WEAK_SUPPLEMENTATION("Rigid Weak Supplementation"),
 	ANTIRIGID_WEAK_SUPPLEMENTATION("AntiRigid Weak Supplementation"),
-	COMPLETER("Complete");
+	COMPLETER("Complete"),
+	DOMAIN_PATTERN("Domain Dependent Pattern");
 	
 	private String name;
 

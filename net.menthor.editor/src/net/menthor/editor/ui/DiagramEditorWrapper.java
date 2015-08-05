@@ -38,6 +38,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JViewport;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.tinyuml.draw.Diagram;
@@ -47,9 +48,8 @@ import org.tinyuml.ui.diagram.Editor;
 
 import net.menthor.editor.explorer.dnd.DiagramDropListener;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.v2.toolbars.DiagramToolBar;
+import net.menthor.editor.v2.bars.DiagramToolBar;
+import net.menthor.editor.v2.status.StatusPane;
 
 /** 
  * Wrapper class for {@link DiagramEditor} responsible for providing toolbar and handling the model file.
@@ -62,7 +62,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 	private DiagramEditor editor;
 	private JScrollPane scrollpane;
 	private DiagramToolBar diagramToolbar;
-	private DiagramStatusBar diagramStatus;
+	private StatusPane diagramStatus;
 	
 	public DragSource ds;
 	public DropTarget dt;
@@ -71,16 +71,16 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 	private File projectFile;
 	
 	public DiagramToolBar getToolBar() { return diagramToolbar; }
-	public DiagramStatusBar getStatusBar() { return diagramStatus; }
+	public StatusPane getStatusBar() { return diagramStatus; }
 	
 	public DiagramEditorWrapper(final DiagramEditor editor, AppCommandDispatcher editorDispatcher)
 	{
 		super(new BorderLayout(0,0));
 		this.editor = editor;		
 	
-		diagramToolbar = new DiagramToolBar(editor.getListener());		
+		diagramToolbar = new DiagramToolBar(editor.getListener(),SwingConstants.VERTICAL);		
 		diagramToolbar.addCommandListener(editor.getDiagramManager().getEditorDispatcher());
-		diagramStatus = new DiagramStatusBar(editor);
+		diagramStatus = new StatusPane();
 		
 		scrollpane = new JScrollPane();
 		scrollpane.setBackground(Color.WHITE);
@@ -92,7 +92,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		scrollpane.setViewportView(editor);
 		scrollpane.setBorder(new EmptyBorder(0,0,0,0));
 		
-		add(diagramToolbar,BorderLayout.NORTH);
+		add(diagramToolbar,BorderLayout.WEST);
 		add(scrollpane,BorderLayout.CENTER);
 		add(diagramStatus,BorderLayout.SOUTH);
 		

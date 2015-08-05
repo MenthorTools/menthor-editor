@@ -38,9 +38,8 @@ import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.Main;
 import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.ui.ApplicationResources;
 
 /**
  * This class exports a diagram to a Portable Network Graphics file.
@@ -105,7 +104,7 @@ public class PngWriter extends FileWriter {
 		
 		return croped;
 		}catch(Exception e){
-			Main.printOutLine("Could not generate an intern image for a diagram: "+e.getMessage());	
+			System.err.println("Could not generate an intern image for a diagram: "+e.getMessage());	
 			JOptionPane.showMessageDialog(null, "Could not generate an intern image for a diagram:\n"+e.getMessage(), 
 				ApplicationResources.getInstance().getString("error.readfile.title"), JOptionPane.ERROR_MESSAGE
 			);

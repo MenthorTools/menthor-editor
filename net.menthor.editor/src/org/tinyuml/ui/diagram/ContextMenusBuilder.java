@@ -55,8 +55,8 @@ public class ContextMenusBuilder {
 	public ContextMenusBuilder(DiagramEditor editor)
 	{
 		this.editor = editor;
-		singleNodePopup = new SingleNodePopupMenu();
-		singleConnectionPopup = new SingleConnectionPopupMenu();		
+		singleNodePopup = new SingleNodePopupMenu(editor);
+		singleConnectionPopup = new SingleConnectionPopupMenu(editor);		
 		multiSelectinoPopup = new MultiSelectionPopupMenu();
 		diagramPopup = new DiagramPopupMenu(editor);
 	}

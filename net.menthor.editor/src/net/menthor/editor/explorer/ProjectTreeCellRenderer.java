@@ -49,8 +49,8 @@ import RefOntoUML.util.RefOntoUMLElement;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
 
 /**
  * OntoUML Cell Renderer for CheckBox Tree
@@ -152,9 +152,9 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 			expanded = true;
 			label.setText(value.toString());
 		}
-		else if( ((DefaultMutableTreeNode)value).getUserObject() instanceof OCLDocument ) 
+		else if( ((DefaultMutableTreeNode)value).getUserObject() instanceof OclDocument ) 
 		{
-			if ((((DefaultMutableTreeNode)((DefaultMutableTreeNode)value).getParent()).getUserObject()) instanceof OCLDocument)
+			if ((((DefaultMutableTreeNode)((DefaultMutableTreeNode)value).getParent()).getUserObject()) instanceof OclDocument)
 				label.setIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/text-editor.png")));				
 			else 
 				label.setIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/tree/view.png")));
@@ -167,7 +167,8 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 		if (selected){    			
 			//label.setBackground(PaletteColors.getHoverItemBackground());			
 			//label.setBorder(PaletteAccordion.getHoverItemBorder());
-			label.setBackground(UIManager.getColor("List.selectionBackground"));			    			
+			//label.setBackground(UIManager.getColor("List.selectionBackground"));
+			label.setBackground(Color.LIGHT_GRAY);
 			//label.setForeground(UIManager.getColor("List.selectionForeground"));
 		}else{
 			//panel.setBackground(PaletteAccordion.getResetBackground());			

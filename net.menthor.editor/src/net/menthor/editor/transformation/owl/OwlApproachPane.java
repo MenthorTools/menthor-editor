@@ -13,7 +13,7 @@ import javax.swing.LayoutStyle;
 import net.menthor.common.transformation.DestinationEnum;
 import net.menthor.common.transformation.MappingType;
 import net.menthor.editor.transformation.DestinationPane;
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.ui.ApplicationResources;
 
 public class OwlApproachPane extends JPanel {
 

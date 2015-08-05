@@ -86,7 +86,7 @@ import net.menthor.antipattern.wizard.reprel.RepRelWizard;
 import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard;
 import net.menthor.antipattern.wizard.undefphase.UndefPhaseWizard;
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.model.AntiPatternList;
+import net.menthor.editor.ui.AntiPatternList;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;

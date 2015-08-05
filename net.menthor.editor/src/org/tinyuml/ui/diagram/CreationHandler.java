@@ -31,8 +31,11 @@ import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.Node;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.PatternType;
 
 
 /**
@@ -47,7 +50,11 @@ public class CreationHandler implements EditorMode {
 
   private static final Color ACCEPT_COLOR = new Color(0, 220, 50);
   private DiagramEditor editor;
-  private ElementType elementType;
+  
+  private ClassType classType;
+  private DataType dataType;
+  private DerivedPatternType derivedType;
+  private PatternType patternType;
   
   private Node element;
   private Point2D tmpPos = new Point2D.Double();
@@ -55,9 +62,17 @@ public class CreationHandler implements EditorMode {
   
   public boolean isDragging =false;
 
-  public void setPattern(ElementType elementType) 
+  public void setPattern(DerivedPatternType elementType) 
   {
-	this.elementType = elementType;	
+	this.derivedType = elementType;	
+	element = null;
+	tmpPos = new Point2D.Double();
+	cachedBounds = null;
+  }
+  
+  public void setPattern(PatternType elementType) 
+  {
+	this.patternType = elementType;	
 	element = null;
 	tmpPos = new Point2D.Double();
 	cachedBounds = null;
@@ -66,7 +81,10 @@ public class CreationHandler implements EditorMode {
   public void clear()
   {
 	  element = null;
-	  elementType=null;
+	  classType=null;
+	  dataType=null;
+	  derivedType=null;
+	  patternType=null;
 	  tmpPos = new Point2D.Double();
 	  cachedBounds = null;
   }
@@ -88,56 +106,73 @@ public class CreationHandler implements EditorMode {
   }
 
   
-  public Node createNode(ElementType stereotype) {
+  public Node createNode(ClassType stereotype) {
 	isDragging = false;
-    elementType = stereotype;
-    element = editor.getDiagramManager().getElementFactory().createNode(elementType,editor.getDiagram());
-
+    classType = stereotype;
+    element = editor.getDiagramManager().getElementFactory().createNode(classType,editor.getDiagram());
     //Add mapping from the refontouml element to the diagram element
-    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);
-    
-    element.setParent(editor.getDiagram());
-    
-    cachedBounds = null;
-    
+    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);    
+    element.setParent(editor.getDiagram());    
+    cachedBounds = null;    
+    return element;
+  }
+  
+  public Node createNode(DataType stereotype) {
+	isDragging = false;
+    dataType = stereotype;
+    element = editor.getDiagramManager().getElementFactory().createNode(dataType,editor.getDiagram());
+    //Add mapping from the refontouml element to the diagram element
+    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);	    
+    element.setParent(editor.getDiagram());	    
+    cachedBounds = null;	    
     return element;
   }
   
   public Node createNode(RefOntoUML.Type type, EObject eContainer) {
 	isDragging = true;
-    elementType = ElementType.valueOf(type.eClass().getName().toUpperCase());
-    
-    element = editor.getDiagramManager().getElementFactory().createNode(type,eContainer,editor.getDiagram());
-    
+	if(type instanceof RefOntoUML.Class){
+		classType = ClassType.valueOf(type.eClass().getName().toUpperCase());
+	}else{
+		dataType = DataType.valueOf(type.eClass().getName().toUpperCase());
+	}
+    element = editor.getDiagramManager().getElementFactory().createNode(type,eContainer,editor.getDiagram());    
     //Add mapping from the refontouml element to the diagram element
-    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);
-    
+    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);    
     element.setParent(editor.getDiagram());
     cachedBounds = null;
     
     return element;
   }
   
-  public Node createNodeCloning(ElementType stereotype, RefOntoUML.Type type) {
-    elementType = stereotype;
-    element = editor.getDiagramManager().getElementFactory().createNode(elementType,editor.getDiagram());
-
+  public Node createNodeCloning(ClassType stereotype, RefOntoUML.Type type) {
+    classType = stereotype;
+    element = editor.getDiagramManager().getElementFactory().createNode(classType,editor.getDiagram());
     //Add mapping from the refontouml element to the diagram element
-    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);
-    
-    if(((ClassElement)element).getClassifier() != null) 
-	{
+    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);    
+    if(((ClassElement)element).getClassifier() != null){
 		  RefOntoUML.Classifier classifier = (RefOntoUML.Classifier)((ClassElement)element).getClassifier();
 		  classifier.setName(((RefOntoUML.Classifier)type).getName());
 		  classifier.setVisibility(type.getVisibility());		  
-	}
-    
+	}    
     element.setParent(editor.getDiagram());
-    cachedBounds = null;
-    
+    cachedBounds = null;    
     return element;
   }
   
+  public Node createNodeCloning(DataType stereotype, RefOntoUML.Type type) {
+	  dataType = stereotype;
+    element = editor.getDiagramManager().getElementFactory().createNode(dataType,editor.getDiagram());
+    //Add mapping from the refontouml element to the diagram element
+    ModelHelper.addMapping(((ClassElement)element).getClassifier(), element);    
+    if(((ClassElement)element).getClassifier() != null){
+		  RefOntoUML.Classifier classifier = (RefOntoUML.Classifier)((ClassElement)element).getClassifier();
+		  classifier.setName(((RefOntoUML.Classifier)type).getName());
+		  classifier.setVisibility(type.getVisibility());		  
+	}    
+    element.setParent(editor.getDiagram());
+    cachedBounds = null;    
+    return element;
+  }
 //  public void addNode(ElementType elementType, double x, double y)
 //  {
 //	  createNode(elementType);
@@ -188,24 +223,24 @@ public void mousePressed(EditorMouseEvent event) {
     }else{	   
     	// CASSIO : DERIVED TYPES PATTERNS
     	editor.cancelEditing();
-    	if(elementType == ElementType.UNION){
+    	if(derivedType == DerivedPatternType.UNION){
     		editor.getDiagramManager().openDerivedTypePatternUnion(tmpPos.getX(),tmpPos.getY());
-    	}else if(elementType == ElementType.EXCLUSION){
+    	}else if(derivedType == DerivedPatternType.EXCLUSION){
     		editor.getDiagramManager().openDerivedTypePatternExclusion(tmpPos.getX(),tmpPos.getY());
-    	}else if(elementType == ElementType.INTERSECTION){
+    	}else if(derivedType == DerivedPatternType.INTERSECTION){
     		editor.getDiagramManager().openDerivedTypePatternIntersection(tmpPos.getX(),tmpPos.getY());
-    	}else if (elementType == ElementType.SPECIALIZATION){
+    	}else if (derivedType == DerivedPatternType.SPECIALIZATION){
     		editor.getDiagramManager().openDerivedTypePatternSpecialization(tmpPos.getX(),tmpPos.getY());
-    	}else if (elementType == ElementType.PASTSPECIALIZATION){
+    	}else if (derivedType == DerivedPatternType.PASTSPECIALIZATION){
     		editor.getDiagramManager().openDerivedTypePatternPastSpecialization(tmpPos.getX(),tmpPos.getY());
-    	}else if (elementType == ElementType.PARTICIPATION){
+    	}else if (derivedType == DerivedPatternType.PARTICIPATION){
     		editor.getDiagramManager().openDerivedTypePatternParticipation(tmpPos.getX(),tmpPos.getY());
-    	}else if(elementType == ElementType.DOMAIN_PATTERN){
+    	}else if(patternType == PatternType.DOMAIN_PATTERN){
     		//Victor and Fabiano Domain Patterns
     		editor.getDiagramManager().runDomainPattern(tmpPos.getX(),tmpPos.getY());
     	}else{
 	    	//Victor trying to run some pattern
-	    	editor.getDiagramManager().runPattern(elementType, tmpPos.getX(),tmpPos.getY());
+	    	editor.getDiagramManager().runPattern(patternType, tmpPos.getX(),tmpPos.getY());
     	}
     }
   }

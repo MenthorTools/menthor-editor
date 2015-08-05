@@ -22,7 +22,7 @@ package org.tinyuml.ui.commands;
 
 import java.io.File;
 
-import net.menthor.editor.v2.util.MenthorConfigurator;
+import net.menthor.editor.v2.util.MenthorUtil;
 
 
 /**
@@ -47,7 +47,7 @@ public abstract class FileHandler {
    * @return the file that ends with the specified suffix
    */
   protected File getFileWithExtension(File file) {
-	  return MenthorConfigurator.getFileWithExtension(file, getSuffix());
+	  return MenthorUtil.getFileWithExtension(file, getSuffix());
   }
  
 }

@@ -39,7 +39,6 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
-import RefOntoUML.DataType;
 import RefOntoUML.Derivation;
 import RefOntoUML.Enumeration;
 import RefOntoUML.FormalAssociation;
@@ -81,8 +80,9 @@ import RefOntoUML.impl.MaterialAssociationImpl;
 import RefOntoUML.impl.MediationImpl;
 import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -94,9 +94,14 @@ import net.menthor.editor.v2.types.RelationshipType;
  */
 public class DiagramElementFactoryImpl implements DiagramElementFactory {
 
-  private Map<ElementType, UmlDiagramElement> elementPrototypes = new HashMap<ElementType, UmlDiagramElement>();
-  private Map<RelationshipType, UmlConnection> relationPrototypes = new HashMap<RelationshipType, UmlConnection>();
-  private Map<ElementType, Integer> elementCounters = new HashMap<ElementType, Integer>();
+  //private Map<ElementType, UmlDiagramElement> elementPrototypes = new HashMap<ElementType, UmlDiagramElement>();
+  private Map<ClassType, UmlDiagramElement> classPrototypes = new HashMap<ClassType, UmlDiagramElement>();
+  private Map<ClassType, Integer> classCounters = new HashMap<ClassType, Integer>();
+  
+  private Map<DataType, UmlDiagramElement> datatypesPrototypes = new HashMap<DataType, UmlDiagramElement>();
+  private Map<DataType, Integer> datatypeCounters = new HashMap<DataType, Integer>();
+  
+  private Map<RelationshipType, UmlConnection> relationPrototypes = new HashMap<RelationshipType, UmlConnection>();  
   private Map<RelationshipType, Integer> relationCounters = new HashMap<RelationshipType, Integer>();
   
   private RefOntoUMLFactory factory;
@@ -118,97 +123,93 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   private void setupElementMaps() {
 	
 	factory = ModelHelper.getFactory();
-	
-	NoteElement notePrototype = (NoteElement)
-    NoteElement.getPrototype().clone();
-    elementPrototypes.put(ElementType.NOTE, notePrototype);
     
-    Kind kind = (RefOntoUML.Kind)createElement(ElementType.KIND);    
+    Kind kind = (RefOntoUML.Kind)createClass(ClassType.KIND);    
     ClassElement kindElement = (ClassElement) ClassElement.getPrototype().clone();
     kindElement.setClassifier(kind);
-    elementPrototypes.put(ElementType.KIND, kindElement);
+    classPrototypes.put(ClassType.KIND, kindElement);
         
-    Quantity quantity = (RefOntoUML.Quantity)createElement(ElementType.QUANTITY);
+    Quantity quantity = (RefOntoUML.Quantity)createClass(ClassType.QUANTITY);
     ClassElement quantityElement = (ClassElement) ClassElement.getPrototype().clone();
     quantityElement.setClassifier(quantity);
-    elementPrototypes.put(ElementType.QUANTITY, quantityElement);
+    classPrototypes.put(ClassType.QUANTITY, quantityElement);
         
-    Collective collective = (RefOntoUML.Collective)createElement(ElementType.COLLECTIVE);   
+    Collective collective = (RefOntoUML.Collective)createClass(ClassType.COLLECTIVE);   
     ClassElement collectiveElement = (ClassElement) ClassElement.getPrototype().clone();
     collectiveElement.setClassifier(collective);
-    elementPrototypes.put(ElementType.COLLECTIVE, collectiveElement);
+    classPrototypes.put(ClassType.COLLECTIVE, collectiveElement);
         
-    SubKind subkind = (RefOntoUML.SubKind)createElement(ElementType.SUBKIND);   
+    SubKind subkind = (RefOntoUML.SubKind)createClass(ClassType.SUBKIND);   
     ClassElement subkindElement = (ClassElement) ClassElement.getPrototype().clone();
     subkindElement.setClassifier(subkind);
-    elementPrototypes.put(ElementType.SUBKIND, subkindElement);
+    classPrototypes.put(ClassType.SUBKIND, subkindElement);
         
-    Phase phase = (RefOntoUML.Phase)createElement(ElementType.PHASE);    
+    Phase phase = (RefOntoUML.Phase)createClass(ClassType.PHASE);    
     ClassElement phaseElement = (ClassElement) ClassElement.getPrototype().clone();
     phaseElement.setClassifier(phase);
-    elementPrototypes.put(ElementType.PHASE, phaseElement);
+    classPrototypes.put(ClassType.PHASE, phaseElement);
         
-    Role role = (RefOntoUML.Role)createElement(ElementType.ROLE);  
+    Role role = (RefOntoUML.Role)createClass(ClassType.ROLE);  
     ClassElement roleElement = (ClassElement) ClassElement.getPrototype().clone();
     roleElement.setClassifier(role);
-    elementPrototypes.put(ElementType.ROLE, roleElement);
+    classPrototypes.put(ClassType.ROLE, roleElement);
         
-    Category category = (RefOntoUML.Category)createElement(ElementType.CATEGORY);  
+    Category category = (RefOntoUML.Category)createClass(ClassType.CATEGORY);  
     ClassElement categoryElement = (ClassElement) ClassElement.getPrototype().clone();
     categoryElement.setClassifier(category);
-    elementPrototypes.put(ElementType.CATEGORY, categoryElement);
+    classPrototypes.put(ClassType.CATEGORY, categoryElement);
         
-    RoleMixin rolemixin = (RefOntoUML.RoleMixin)createElement(ElementType.ROLEMIXIN);   
+    RoleMixin rolemixin = (RefOntoUML.RoleMixin)createClass(ClassType.ROLEMIXIN);   
     ClassElement rolemixinElement = (ClassElement) ClassElement.getPrototype().clone();
     rolemixinElement.setClassifier(rolemixin);
-    elementPrototypes.put(ElementType.ROLEMIXIN, rolemixinElement);
+    classPrototypes.put(ClassType.ROLEMIXIN, rolemixinElement);
         
-    Mixin mixin = (RefOntoUML.Mixin)createElement(ElementType.MIXIN);   
+    Mixin mixin = (RefOntoUML.Mixin)createClass(ClassType.MIXIN);   
     ClassElement mixinElement = (ClassElement) ClassElement.getPrototype().clone();
     mixinElement.setClassifier(mixin);
-    elementPrototypes.put(ElementType.MIXIN, mixinElement);
+    classPrototypes.put(ClassType.MIXIN, mixinElement);
         
-    Mode mode = (RefOntoUML.Mode)createElement(ElementType.MODE);   
+    Mode mode = (RefOntoUML.Mode)createClass(ClassType.MODE);   
     ClassElement modeElement = (ClassElement) ClassElement.getPrototype().clone();
     modeElement.setClassifier(mode);
-    elementPrototypes.put(ElementType.MODE, modeElement);
+    classPrototypes.put(ClassType.MODE, modeElement);
         
-    Relator relator = (RefOntoUML.Relator)createElement(ElementType.RELATOR);   
+    Relator relator = (RefOntoUML.Relator)createClass(ClassType.RELATOR);   
     ClassElement relatorElement = (ClassElement) ClassElement.getPrototype().clone();
     relatorElement.setClassifier(relator);
-    elementPrototypes.put(ElementType.RELATOR, relatorElement);
+    classPrototypes.put(ClassType.RELATOR, relatorElement);
         
-    DataType datatype = (RefOntoUML.DataType)createElement(ElementType.DATATYPE);
+    RefOntoUML.DataType datatype = (RefOntoUML.DataType)createDataType(DataType.DATATYPE);
     ClassElement datatypeElement = (ClassElement) ClassElement.getPrototype().clone();
     datatypeElement.setClassifier(datatype);
     datatypeElement.setShowAttributes(true);
-    elementPrototypes.put(ElementType.DATATYPE, datatypeElement);
+    datatypesPrototypes.put(DataType.DATATYPE, datatypeElement);
     
-    Enumeration enumeration = (RefOntoUML.Enumeration)createElement(ElementType.ENUMERATION);
+    Enumeration enumeration = (RefOntoUML.Enumeration)createDataType(DataType.ENUMERATION);
     ClassElement enumElement = (ClassElement) ClassElement.getPrototype().clone();
     enumElement.setClassifier(enumeration);
     enumElement.setShowAttributes(true);
-    elementPrototypes.put(ElementType.ENUMERATION, enumElement);    
+    datatypesPrototypes.put(DataType.ENUMERATION, enumElement);    
     
-    PrimitiveType primitive = (RefOntoUML.PrimitiveType)createElement(ElementType.PRIMITIVETYPE);
+    PrimitiveType primitive = (RefOntoUML.PrimitiveType)createDataType(DataType.PRIMITIVETYPE);
     ClassElement primitiveElement = (ClassElement) ClassElement.getPrototype().clone();
     primitiveElement.setClassifier(primitive);    
-    elementPrototypes.put(ElementType.PRIMITIVETYPE, primitiveElement);    
+    datatypesPrototypes.put(DataType.PRIMITIVETYPE, primitiveElement);    
     
-    PerceivableQuality perceivableQuality = (RefOntoUML.PerceivableQuality)createElement(ElementType.PERCEIVABLEQUALITY);
+    PerceivableQuality perceivableQuality = (RefOntoUML.PerceivableQuality)createClass(ClassType.PERCEIVABLE_QUALITY);
     ClassElement pqualityElement = (ClassElement) ClassElement.getPrototype().clone();
     pqualityElement.setClassifier(perceivableQuality);    
-    elementPrototypes.put(ElementType.PERCEIVABLEQUALITY, pqualityElement);
+    classPrototypes.put(ClassType.PERCEIVABLE_QUALITY, pqualityElement);
     
-    NonPerceivableQuality nonperceivableQuality = (RefOntoUML.NonPerceivableQuality)createElement(ElementType.NONPERCEIVABLEQUALITY);
+    NonPerceivableQuality nonperceivableQuality = (RefOntoUML.NonPerceivableQuality)createClass(ClassType.NONPERCEIVABLE_QUALITY);
     ClassElement npqualityElement = (ClassElement) ClassElement.getPrototype().clone();
     npqualityElement.setClassifier(nonperceivableQuality);    
-    elementPrototypes.put(ElementType.NONPERCEIVABLEQUALITY, npqualityElement);
+    classPrototypes.put(ClassType.NONPERCEIVABLE_QUALITY, npqualityElement);
     
-    NominalQuality nominalQuality = (RefOntoUML.NominalQuality)createElement(ElementType.NOMINALQUALITY);
+    NominalQuality nominalQuality = (RefOntoUML.NominalQuality)createClass(ClassType.NOMINAL_QUALITY);
     ClassElement nqElement = (ClassElement) ClassElement.getPrototype().clone();
     nqElement.setClassifier(nominalQuality);    
-    elementPrototypes.put(ElementType.NOMINALQUALITY, nqElement);
+    classPrototypes.put(ClassType.NOMINAL_QUALITY, nqElement);
   }
 
   public void createPropertiesByDefault(Association association)
@@ -365,38 +366,63 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * Create only the RefOntoUML Type element and do not create the referred UmlNode on the Diagram.
    */
-  public RefOntoUML.Element createElement(ElementType elementType)
+  public RefOntoUML.Element createClass(ClassType elementType)
   {
 	  RefOntoUML.Element type = null;
-	  if (elementType.equals(ElementType.PACKAGE)) type = factory.createPackage();
-	  if (elementType.equals(ElementType.KIND)) type = factory.createKind();
-	  if (elementType.equals(ElementType.COLLECTIVE)) type = factory.createCollective();
-	  if (elementType.equals(ElementType.QUANTITY)) type = factory.createQuantity();
-	  if (elementType.equals(ElementType.SUBKIND)) type = factory.createSubKind();
-	  if (elementType.equals(ElementType.PHASE)) type = factory.createPhase();
-	  if (elementType.equals(ElementType.ROLE)) type = factory.createRole();
-	  if (elementType.equals(ElementType.CATEGORY)) { type = factory.createCategory(); ((Classifier)type).setIsAbstract(true); }	  
-	  if (elementType.equals(ElementType.ROLEMIXIN)) { type = factory.createRoleMixin(); ((Classifier)type).setIsAbstract(true); }
-	  if (elementType.equals(ElementType.MIXIN)) { type = factory.createMixin(); ((Classifier)type).setIsAbstract(true); }
-	  if (elementType.equals(ElementType.MODE)) { type = factory.createMode();}
-	  if (elementType.equals(ElementType.RELATOR)) { type = factory.createRelator();  }
-	  if (elementType.equals(ElementType.DATATYPE)) { type = factory.createDataType();  }	  
-	  if (elementType.equals(ElementType.ENUMERATION)) { type = factory.createEnumeration();  }
-	  if (elementType.equals(ElementType.PRIMITIVETYPE)) { type = factory.createPrimitiveType();  }
-	  if (elementType.equals(ElementType.PERCEIVABLEQUALITY)) { type = factory.createPerceivableQuality();  }
-	  if (elementType.equals(ElementType.NONPERCEIVABLEQUALITY)) { type = factory.createNonPerceivableQuality();  }
-	  if (elementType.equals(ElementType.NOMINALQUALITY)) { type = factory.createNominalQuality();  }
-	  if (elementType.equals(ElementType.GENERALIZATIONSET)) { type = factory.createGeneralizationSet();  }
-	  if (elementType.equals(ElementType.COMMENT)) { type = createComment();  }
-	  if (elementType.equals(ElementType.CONSTRAINT)) { type = createConstraintx();  }
+	  if (elementType.equals(ClassType.KIND)) type = factory.createKind();
+	  if (elementType.equals(ClassType.COLLECTIVE)) type = factory.createCollective();
+	  if (elementType.equals(ClassType.QUANTITY)) type = factory.createQuantity();
+	  if (elementType.equals(ClassType.SUBKIND)) type = factory.createSubKind();
+	  if (elementType.equals(ClassType.PHASE)) type = factory.createPhase();
+	  if (elementType.equals(ClassType.ROLE)) type = factory.createRole();
+	  if (elementType.equals(ClassType.CATEGORY)) { type = factory.createCategory(); ((Classifier)type).setIsAbstract(true); }	  
+	  if (elementType.equals(ClassType.ROLEMIXIN)) { type = factory.createRoleMixin(); ((Classifier)type).setIsAbstract(true); }
+	  if (elementType.equals(ClassType.MIXIN)) { type = factory.createMixin(); ((Classifier)type).setIsAbstract(true); }
+	  if (elementType.equals(ClassType.MODE)) { type = factory.createMode();}
+	  if (elementType.equals(ClassType.RELATOR)) { type = factory.createRelator();  }
+	  if (elementType.equals(ClassType.PERCEIVABLE_QUALITY)) { type = factory.createPerceivableQuality();  }
+	  if (elementType.equals(ClassType.NONPERCEIVABLE_QUALITY)) { type = factory.createNonPerceivableQuality();  }
+	  if (elementType.equals(ClassType.NOMINAL_QUALITY)) { type = factory.createNominalQuality();  }
 	  if(type instanceof NamedElement){
 		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)+nextElementCount(elementType)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
 	  }		 
-	  return type;			  
-	  
+	  return type;	  
   }
-    
+  
+  public RefOntoUML.Element createDataType(DataType elementType)
+  {
+	  RefOntoUML.Element type = null;
+	  if (elementType.equals(DataType.DATATYPE)) { type = factory.createDataType();  }	  
+	  if (elementType.equals(DataType.ENUMERATION)) { type = factory.createEnumeration();  }
+	  if (elementType.equals(DataType.PRIMITIVETYPE)) { type = factory.createPrimitiveType();  }	  
+	  if(type instanceof NamedElement){
+		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)+nextElementCount(elementType)); 
+		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
+	  }		 
+	  return type;	  
+  }
+   
+  public RefOntoUML.Element createPackage()
+  {
+	  RefOntoUML.Element type = factory.createPackage();
+	  if(type instanceof NamedElement){
+		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)); 
+		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
+	  }		 
+	  return type;	  
+  }
+  
+  public RefOntoUML.Element createGeneralizationSet()
+  {
+	  RefOntoUML.Element type = factory.createGeneralizationSet();
+	  if(type instanceof NamedElement){
+		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)); 
+		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
+	  }		 
+	  return type;	  
+  }
+  
   public Comment createComment()
   {
 	  Comment c = factory.createComment();
@@ -417,15 +443,24 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   /**
    * Create an Element with the given stereotype that contains all the features of the given Type. 
    */
-  public RefOntoUML.PackageableElement createElement(ElementType elementType, RefOntoUML.Type type)
+  public RefOntoUML.PackageableElement createClass(ClassType elementType, RefOntoUML.Type type)
   {
-	  RefOntoUML.PackageableElement newType = (PackageableElement)createElement(elementType);
+	  RefOntoUML.PackageableElement newType = (PackageableElement)createClass(elementType);
 	  newType.setVisibility(type.getVisibility());
 	  newType.setName(type.getName());
 	  ((Classifier)newType).setIsAbstract(((Classifier)type).isIsAbstract());
 	  return newType;
   }
 
+  public RefOntoUML.PackageableElement createDataType(DataType elementType, RefOntoUML.Type type)
+  {
+	  RefOntoUML.PackageableElement newType = (PackageableElement)createDataType(elementType);
+	  newType.setVisibility(type.getVisibility());
+	  newType.setName(type.getName());
+	  ((Classifier)newType).setIsAbstract(((Classifier)type).isIsAbstract());
+	  return newType;
+  }
+  
   /**
    * Create only the RefOntoUML Relationship element and do not create the referred UmlConnection on the Diagram.
    */
@@ -459,36 +494,54 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
   /**
    * {@inheritDoc} This method also create the referred RefOntoUML Type of the UmlNode. 
    */
-  public UmlNode createNode(ElementType elementType, StructureDiagram diagram) 
+  public UmlNode createNode(ClassType classType, StructureDiagram diagram) 
   {
-    UmlNode umlnode = (UmlNode) elementPrototypes.get(elementType).clone();
-    
-    if(umlnode.getClassifier() != null) umlnode.getClassifier().setName(umlnode.getClassifier().getName() + nextElementCount(elementType));
-    
-    umlnode.addNodeChangeListener(diagram);
-    
+    UmlNode umlnode = (UmlNode) classPrototypes.get(classType).clone();    
+    if(umlnode.getClassifier() != null) umlnode.getClassifier().setName(umlnode.getClassifier().getName() + nextElementCount(classType));
+    umlnode.addNodeChangeListener(diagram);    
+    return umlnode;
+  }
+  public UmlNode createNode(DataType dataType, StructureDiagram diagram) 
+  {
+    UmlNode umlnode = (UmlNode) datatypesPrototypes.get(dataType).clone();    
+    if(umlnode.getClassifier() != null) umlnode.getClassifier().setName(umlnode.getClassifier().getName() + nextElementCount(dataType));
+    umlnode.addNodeChangeListener(diagram);    
     return umlnode;
   }
   
   public UmlNode createNode(RefOntoUML.Type type, EObject eContainer, StructureDiagram diagram) 
   {
-    UmlNode umlnode = (UmlNode) elementPrototypes.get(ElementType.valueOf(type.eClass().getName().toUpperCase())).clone();
-    
-    ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);
-        
-    umlnode.addNodeChangeListener(diagram);
-    
-    return umlnode;
+	  UmlNode umlnode=null;  
+	  if(type instanceof RefOntoUML.Class){
+		  umlnode = (UmlNode) classPrototypes.get(ClassType.valueOf(type.eClass().getName().toUpperCase())).clone();
+	  }else{ 
+		  umlnode = (UmlNode) datatypesPrototypes.get(DataType.valueOf(type.eClass().getName().toUpperCase())).clone();
+	  }
+	  ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);        
+	  umlnode.addNodeChangeListener(diagram);    
+	  return umlnode;
   }
   
-  public String nextElementCount(ElementType elementType)
+  public String nextElementCount(ClassType elementType)
   {	  
-	  if (elementCounters.get(elementType)!=null) {
-		  int count = elementCounters.get(elementType);
-		  elementCounters.put(elementType, count+1);
+	  if (classCounters.get(elementType)!=null) {
+		  int count = classCounters.get(elementType);
+		  classCounters.put(elementType, count+1);
 		  return Integer.toString(count+1);
 	  }else{
-		  elementCounters.put(elementType, 0);
+		  classCounters.put(elementType, 0);
+		  return "";
+	  }
+  }
+  
+  public String nextElementCount(DataType elementType)
+  {	  
+	  if (datatypeCounters.get(elementType)!=null) {
+		  int count = datatypeCounters.get(elementType);
+		  datatypeCounters.put(elementType, count+1);
+		  return Integer.toString(count+1);
+	  }else{
+		  datatypeCounters.put(elementType, 0);
 		  return "";
 	  }
   }

@@ -41,7 +41,7 @@ public class PaletteItem extends JPanel implements MouseListener, MouseMotionLis
 	private static final long serialVersionUID = 5550202293825101613L;
 	
 	private PaletteGrouping parent = null;
-	private CommandType command = CommandType.POINTER_MODE; 
+	private CommandType command = CommandType.TB_DND_POINTER_MODE; 
 	private String name = new String();	
 	private boolean isSelected = false;
 	

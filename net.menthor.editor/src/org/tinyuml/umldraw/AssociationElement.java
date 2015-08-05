@@ -48,8 +48,7 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
-import net.menthor.editor.Main;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -634,7 +633,7 @@ public final class AssociationElement extends BaseConnection {
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), null);
 			}else{
-				Main.printErrLine("Trying to draw a memberOf decoration... null relationship!");
+				System.err.println("Trying to draw a memberOf decoration... null relationship!");
 			}
 		}		
 		else if (associationType == RelationshipType.MEMBEROF) {
@@ -642,7 +641,7 @@ public final class AssociationElement extends BaseConnection {
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "M");
 			}else{
-				Main.printErrLine("Trying to draw a memberOf decoration... null relationship!");
+				System.err.println("Trying to draw a memberOf decoration... null relationship!");
 			}
 		}
 		else if (associationType == RelationshipType.SUBQUANTITYOF) {

@@ -1,5 +1,9 @@
 package net.menthor.editor.v2.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -25,20 +29,13 @@ import java.util.Properties;
 
 public enum MenthorSettings {
 	
-	USER_LOCALE("USER_LOCALE", "en-US"),
-	
-	DEFAULT_SETTINGS_FILE("DEFAULT_SETTINGS_FILE", "settings.xml"),
-	
-	DEFAULT_MODEL_FILE("DEFAULT_MODEL_FILE", "model.refontouml"),
-	
-	DEFAULT_OCL_FILE("DEFAULT_OCL_FILE","constraints.ocl"),
-	
-	DEFAULT_PROJECT_FILE("DEFAULT_PROJECT_FILE","project.dat"),
-	
-	DEFAULT_OWL_FILE("DEFAULT_OWL_FILE", "model.owl"),
-	
-	DEFAULT_SBVR_FILE("DEFAULT_SBVR_FILE", "model-sbvr.html"),
-	
+	USER_LOCALE("USER_LOCALE", "en-US"),	
+	DEFAULT_SETTINGS_FILE("DEFAULT_SETTINGS_FILE", "settings.xml"),	
+	DEFAULT_MODEL_FILE("DEFAULT_MODEL_FILE", "model.refontouml"),	
+	DEFAULT_OCL_FILE("DEFAULT_OCL_FILE","constraints.ocl"),	
+	DEFAULT_PROJECT_FILE("DEFAULT_PROJECT_FILE","project.dat"),	
+	DEFAULT_OWL_FILE("DEFAULT_OWL_FILE", "model.owl"),	
+	DEFAULT_SBVR_FILE("DEFAULT_SBVR_FILE", "model-sbvr.html"),	
 	RECENT_PROJECT_1("RECENT_PROJECT_1", ""),	
 	RECENT_PROJECT_2("RECENT_PROJECT_2", ""),	
 	RECENT_PROJECT_3("RECENT_PROJECT_3", ""),	
@@ -52,7 +49,8 @@ public enum MenthorSettings {
 	
 	private final String key;
 	private final String value;
-	
+		
+	/** Constructor */
 	private MenthorSettings(String key, String value) {
 		this.key = key;
 		this.value = value;
@@ -62,13 +60,13 @@ public enum MenthorSettings {
 	public String getDefaultValue() { return this.value; }
 
 	public String getValue() {
-		Properties properties = MenthorConfigurator.getProperties();
+		Properties properties = getProperties();
 		if(properties != null) return properties.getProperty(getKey(), getDefaultValue());		
 		return getDefaultValue();
 	}
 	
 	public void setValue(String value) {
-		Properties properties = MenthorConfigurator.getProperties();
+		Properties properties = getProperties();
 		if(properties != null) properties.put(getKey(), value);
 	}
 	
@@ -81,4 +79,58 @@ public enum MenthorSettings {
 		String value = getValue();
 		return Boolean.parseBoolean(value);
 	}
+	
+	//=====================================================
+	
+	private static Properties properties;
+	
+	public static boolean saveProperties(){
+		if(properties != null) {
+			File file = new File(MenthorUtil.getCanonPath(MenthorTemp.getTempDir(), MenthorSettings.DEFAULT_SETTINGS_FILE.getValue()));
+			try {
+				FileOutputStream out = new FileOutputStream(file);
+				properties.storeToXML(out, "Menthor Configuration File", "UTF-8");
+				MenthorUtil.close(out);
+				return true;
+			} catch (Exception ex) {}
+		}		
+		return false;
+	}
+	
+	public static Properties getProperties() {
+		if(properties != null) return properties;		
+		properties = new Properties();		
+		File file = new File(MenthorUtil.getCanonPath(MenthorTemp.getTempDir(), MenthorSettings.DEFAULT_SETTINGS_FILE.getValue()));
+		if(file.exists()) {
+			try {
+				FileInputStream in = new FileInputStream(file);
+				properties.loadFromXML(in);
+				MenthorUtil.close(in);
+			} catch (Exception ex) {}
+		}	
+		return properties;
+	}
+
+	public static void addRecentProject(String path) {
+		if(!MenthorSettings.RECENT_PROJECT_1.getValue().equals(path)) {
+			int histSize = 10;		
+			for (int i = histSize-1; i > 0; i--) {
+				MenthorSettings setting = MenthorSettings.valueOf("RECENT_PROJECT_" + i); 
+				MenthorSettings nextSetting = MenthorSettings.valueOf("RECENT_PROJECT_" + (i + 1));
+				nextSetting.setValue(setting.getValue());
+			}			
+			MenthorSettings.RECENT_PROJECT_1.setValue(path);
+			saveProperties();
+		}
+	}
+	
+	public static String[] getRecentProjects() {
+		int histSize = 10;
+		String[] ans = new String[histSize];		
+		for (int i = 1; i < histSize; i++) {
+			ans[i] = MenthorSettings.valueOf("RECENT_PROJECT_" + i).getValue();
+		}		
+		return ans;
+	}
+
 }

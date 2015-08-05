@@ -22,7 +22,6 @@ package org.tinyuml.umldraw.shared;
 
 import org.tinyuml.draw.Node;
 
-import net.menthor.editor.model.RelationEndType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -43,5 +42,5 @@ public interface UmlNode extends Node, UmlDiagramElement {
    * @return true if connection is accepted, false otherwise
    */
   boolean acceptsConnection(RelationshipType associationType,
-                            RelationEndType as, UmlNode with);
+                            UmlNode with);
 }

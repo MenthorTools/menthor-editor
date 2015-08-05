@@ -28,14 +28,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.problems.ErrorPane;
 import net.menthor.editor.problems.ProblemPane;
 import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.statistician.StatisticsPane;
+import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.ui.OutputPane;
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.ui.ConsolePane;
 
 /**
  * @author John Guerson
@@ -43,7 +43,7 @@ import net.menthor.editor.util.ApplicationResources;
 public class InfoManager extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;	
-	public static OutputPane outputPane;	
+	public static ConsolePane outputPane;	
 	public AppFrame frame;
 	public UmlProject project;
 		
@@ -104,7 +104,7 @@ public class InfoManager extends JTabbedPane {
 	{
 		for(Component c: getComponents())
 		{
-			if(c instanceof OutputPane) setSelectedIndex(indexOfComponent(c));	
+			if(c instanceof ConsolePane) setSelectedIndex(indexOfComponent(c));	
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class InfoManager extends JTabbedPane {
 		this.frame=frame;
 		this.project = project;
 				
-		outputPane = new OutputPane();
+		outputPane = new ConsolePane();
 		
 		setBorder(null);
 		setBackground(UIManager.getColor("Panel.background"));
@@ -124,7 +124,7 @@ public class InfoManager extends JTabbedPane {
 						
 	}
 	
-	public OutputPane getOutput(){
+	public ConsolePane getOutput(){
 		return outputPane;
 	}
 		

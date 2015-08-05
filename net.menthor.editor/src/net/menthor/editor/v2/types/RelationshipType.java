@@ -24,11 +24,21 @@ package net.menthor.editor.v2.types;
 public enum RelationshipType {
 
 	ASSOCIATION("Association"), 
-	GENERALIZATION("Generalization"), GENERALIZATIONSET("Generalization Set"),
-	CHARACTERIZATION("Characterization"), MEDIATION("Mediation"), DERIVATION("Derivation"), STRUCTURATION("Structuration"), 
-	FORMAL("Formal"), MATERIAL("Material"), 
-	COMPONENTOF("ComponentOf"), MEMBEROF("MemberOf"), SUBCOLLECTIONOF("SubCollectionOf"), SUBQUANTITYOF("SubQuantityOf"),
-	SUBEVENTOF("SubEventOf"), PARTICIPATION("Participation"), TEMPORAL("Temporal"),
+	GENERALIZATION("Generalization"), 
+	GENERALIZATIONSET("GeneralizationSet"),
+	CHARACTERIZATION("Characterization"), 
+	MEDIATION("Mediation"), 
+	DERIVATION("Derivation"), 
+	STRUCTURATION("Structuration"), 
+	FORMAL("Formal"), 
+	MATERIAL("Material"), 
+	COMPONENTOF("ComponentOf"), 
+	MEMBEROF("MemberOf"), 
+	SUBCOLLECTIONOF("SubCollectionOf"), 
+	SUBQUANTITYOF("SubQuantityOf"),
+	SUBEVENTOF("SubEventOf"), 
+	PARTICIPATION("Participation"), 
+	TEMPORAL("Temporal"),
 	INSTANCEOF("InstanceOf");
 	
 	private String name;

@@ -75,6 +75,7 @@ import org.tinyuml.draw.Scaling;
 import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.draw.TreeConnection;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
 import org.tinyuml.ui.diagram.commands.Command;
 import org.tinyuml.ui.diagram.commands.ConvertConnectionTypeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
@@ -83,8 +84,9 @@ import org.tinyuml.ui.diagram.commands.EditConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.MoveElementCommand;
 import org.tinyuml.ui.diagram.commands.ResetConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.ResizeElementCommand;
-import org.tinyuml.ui.diagram.commands.SetConnectionNavigabilityCommand;
+import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -98,19 +100,18 @@ import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.popupmenu.DiagramPopupMenu;
 import net.menthor.editor.popupmenu.ToolboxPopupMenu;
 import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
-import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -417,7 +418,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 		editorMode.cancel();
 		selectionHandler.deselectAll();
-		frame.getToolManager().getElementsPalette().selectMousePointer();
+		frame.getToolManager().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
 		requestFocusInEditor();
@@ -967,12 +968,22 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Switches the editor into creation mode.
 	 * @param elementType the ElementType that indicates what to create
 	 */
-	public void setCreationMode(ElementType elementType) 
+	public void setCreationMode(ClassType elementType) 
 	{
 		creationHandler.createNode(elementType);
 		editorMode = creationHandler;
 	}
 
+	/**
+	 * Switches the editor into creation mode.
+	 * @param elementType the ElementType that indicates what to create
+	 */
+	public void setCreationMode(DataType elementType) 
+	{
+		creationHandler.createNode(elementType);
+		editorMode = creationHandler;
+	}
+	
 	public void setDragElementMode(RefOntoUML.Type type, EObject eContainer)
 	{		
 		creationHandler.createNode(type,eContainer);
@@ -981,41 +992,41 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		
 	public void setPatternCreationMode()
 	{
-		creationHandler.setPattern(ElementType.UNION);
+		creationHandler.setPattern(DerivedPatternType.UNION);
 		editorMode = creationHandler;
 	}
 	
-	public void setPatternMode(ElementType elemType)
+	public void setPatternMode(PatternType elemType)
 	{
 		creationHandler.setPattern(elemType);
 		editorMode = creationHandler;
 	}
 	public void setPatternCreationModeEx()
 	{
-		creationHandler.setPattern(ElementType.EXCLUSION);
+		creationHandler.setPattern(DerivedPatternType.EXCLUSION);
 		editorMode = creationHandler;
 	}
 	public void setPatternCreationModeIntersection()
 	{
-		creationHandler.setPattern(ElementType.INTERSECTION);
+		creationHandler.setPattern(DerivedPatternType.INTERSECTION);
 		editorMode = creationHandler;
 	}
 	
 	public void setPatternCreationModeSpecialization()
 	{
-		creationHandler.setPattern(ElementType.SPECIALIZATION);
+		creationHandler.setPattern(DerivedPatternType.SPECIALIZATION);
 		editorMode = creationHandler;
 	}
 	
 	public void setPatternCreationModePastSpecialization()
 	{
-		creationHandler.setPattern(ElementType.PASTSPECIALIZATION);
+		creationHandler.setPattern(DerivedPatternType.PASTSPECIALIZATION);
 		editorMode = creationHandler;
 	}
 	
 	public void setPatternCreationModeParticipation()
 	{
-		creationHandler.setPattern(ElementType.PARTICIPATION);
+		creationHandler.setPattern(DerivedPatternType.PARTICIPATION);
 		editorMode = creationHandler;
 	}
 	
@@ -1621,27 +1632,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		selectionHandler.deselectAll();		
 	}
 	
-	/**
-	 * Sets the end type navigability of the current selected connection.
-	 * @param endType the RelationEndType
-	 */
-	@Deprecated
-	public void setNavigability(RelationEndType endType) 
-	{
-		if (getSelectedElements().size() > 0 && getSelectedElements().get(0) instanceof UmlConnection) 
-		{
-			UmlConnection conn = (UmlConnection) getSelectedElements().get(0);
-					
-			// Setup a toggle
-			if (endType == RelationEndType.SOURCE) {
-				execute(new SetConnectionNavigabilityCommand(this, conn, endType, true)); //FIXME Improve this = !relationship.isNavigableToElement1()
-			}
-			if (endType == RelationEndType.TARGET) {
-				execute(new SetConnectionNavigabilityCommand(this, conn, endType, true));
-			}
-		}
-	}
-		
 	/**
 	 * Runs the specified command by this editor's CommandProcessor, which makes
 	 * the operation reversible.

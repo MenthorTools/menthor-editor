@@ -29,7 +29,7 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;

@@ -39,7 +39,7 @@ import org.tinyuml.draw.Diagram;
 import org.tinyuml.ui.diagram.Editor;
 
 import net.menthor.editor.finder.FoundElement;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.UmlProject;
 
 /**
  * @author John Guerson

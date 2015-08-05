@@ -27,8 +27,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
 
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -46,6 +44,7 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
+import net.menthor.editor.ui.ModelHelper;
 
 /**
  * UML specific connections wrap the connections defined in the draw package and

@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
 public class MethodCall {
 
   private Method method;
-  private final Object[] methodParameters;
+  private Object[] methodParameters;
 
   public MethodCall(final Method theMethod, final Object... parameters){
     method = theMethod;
@@ -41,8 +41,25 @@ public class MethodCall {
     }
   }
 
+  public void printParameters() {
+	System.out.println(method);
+    for (int i = 0; i < methodParameters.length; i++) {
+      System.out.println(methodParameters[i]);
+    }
+  }
   public Method getMethod() { return method; }
-
+	
+  public void addParameter(Object parameter)
+  {
+	  int size = methodParameters.length;
+	  Object[] newParameters = new Object[size+1];
+	  for (int i = 0; i < methodParameters.length; i++) {
+		  newParameters[i] = methodParameters[i];
+	  }
+	  newParameters[size] = parameter;	  
+	  methodParameters = newParameters;	  
+  }
+  
   public void call(Object target){
     try {
       method.invoke(target, methodParameters);

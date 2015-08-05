@@ -35,13 +35,14 @@ import javax.swing.event.ChangeListener;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.ui.diagram.Editor;
 
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.util.MenthorConfigurator;
+import net.menthor.editor.v2.ui.BackgroundPanel;
+import net.menthor.editor.v2.util.MenthorSettings;
 
 public class StartPage extends BackgroundPanel implements Editor {
 		
@@ -117,16 +118,16 @@ public class StartPage extends BackgroundPanel implements Editor {
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	private void populateRecentProjects(){
-		recentList.setModel(new DefaultComboBoxModel(MenthorConfigurator.getRecentProjects()));
+		recentList.setModel(new DefaultComboBoxModel(MenthorSettings.getRecentProjects()));
 		recentList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 		        if (evt.getClickCount() >= 2) 
 		        {
 		        	if(getSelectedRecentFile()!=null){
 			        	if(getSelectedRecentFile().contains(".menthor")){
-			        		commandListener.handleCommand("OPEN_RECENT_PROJECT");
+			        		commandListener.handleCommand("OPEN_RECENT_PROJECT",null);
 			        	}else if(getSelectedRecentFile().contains(".xml") || getSelectedRecentFile().contains(".xmi")){
-			        		commandListener.handleCommand("IMPORT_XMI_FROM_FILE");
+			        		commandListener.handleCommand("IMPORT_XMI_FROM_FILE",null);
 			        	}		        	
 		        	}
 		        }
@@ -206,7 +207,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnNewProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
             	//Action
-            	commandListener.handleCommand("NEW_PROJECT");            	
+            	commandListener.handleCommand("NEW_PROJECT",null);            	
             	//Back to normal
             	btnNewProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
@@ -221,7 +222,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
-		       	commandListener.handleCommand("OPEN_PROJECT");            	
+		       	commandListener.handleCommand("OPEN_PROJECT",null);            	
 		       	//Back to normal
 		       	btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
@@ -236,7 +237,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnImportFromEA.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
-		       	commandListener.handleCommand("IMPORT_XMI");            	
+		       	commandListener.handleCommand("IMPORT_XMI",null);            	
 		       	//Back to normal
 		       	btnImportFromEA.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}

@@ -31,7 +31,6 @@ import javax.swing.SwingWorker;
 
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
-import net.menthor.editor.Main;
 
 public class AntipatternTask extends SwingWorker<Void, Void>{
 	private Antipattern<?> antipattern;
@@ -85,7 +84,7 @@ public class AntipatternTask extends SwingWorker<Void, Void>{
 	
 	private void updateStatus(String s) {
 		progressBarDescr.setText(s);
-		Main.printOutLine(s);
+		System.out.println(s);
 		
 	}
 

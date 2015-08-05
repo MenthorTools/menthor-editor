@@ -23,8 +23,6 @@ package net.menthor.editor.dialog.properties;
 
 import java.text.ParseException;
 
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
@@ -32,6 +30,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Property;
 import RefOntoUML.impl.DataTypeImpl;
+import net.menthor.editor.ui.ModelHelper;
 
 /**
  * This class implements a BaseTableModel for class RefOntoUML.Proprties

@@ -31,7 +31,6 @@ import org.tinyuml.draw.LabelSource;
 import org.tinyuml.draw.MultiLineLabel;
 
 import RefOntoUML.NamedElement;
-import net.menthor.editor.model.RelationEndType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -162,7 +161,7 @@ implements UmlNode, LabelSource {
    * {@inheritDoc}
    */
   public boolean acceptsConnection(RelationshipType associationType,
-    RelationEndType as, UmlNode with) {
+    UmlNode with) {
     return false;// associationType == RelationshipType.NOTE_CONNECTOR;
   }
 }

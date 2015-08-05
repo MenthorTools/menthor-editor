@@ -71,7 +71,7 @@ public class PaletteAccordion extends JPanel{
 		for (PaletteGrouping palette : paletteMap.values()) {
 			palette.unselectAllBut(item);
 		}		
-		listener.handleCommand(item.getCommand().toString());		
+		listener.handleCommand(item.getCommand().toString(), null);		
 	}
 	
 	/** Constructor */
@@ -142,7 +142,7 @@ public class PaletteAccordion extends JPanel{
 		}
 	}
 		
-	public PaletteGrouping getElementsPalette() { return paletteMap.get("Class"); }
+	public PaletteGrouping getClassPalette() { return paletteMap.get("Class"); }
 	public PaletteGrouping getPatternPalette() { return paletteMap.get("Pattern"); }	
 	public PaletteGrouping getDerivationPatternsPalette() { return paletteMap.get("Derived Pattern"); }
 	public PaletteGrouping getRelationshipPalette() { return paletteMap.get("Relationship"); }	
@@ -154,32 +154,32 @@ public class PaletteAccordion extends JPanel{
 		derivedGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			DerivedPatternType.UNION.toString(),
-			CommandType.CALL_UNION_PATTERN
+			CommandType.TB_DND_UNION_PATTERN
 		);
 		derivedGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			DerivedPatternType.EXCLUSION.toString(),
-			CommandType.CALL_EXCLUSION_PATTERN
+			CommandType.TB_DND_EXCLUSION_PATTERN
 		);
 		derivedGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			DerivedPatternType.INTERSECTION.toString(),
-			CommandType.CALL_INTERSECTION_PATTERN
+			CommandType.TB_DND_INTERSECTION_PATTERN
 		);
 		derivedGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			DerivedPatternType.SPECIALIZATION.toString(),
-			CommandType.CALL_SPECIALIZATION_PATTERN
+			CommandType.TB_DND_SPECIALIZATION_PATTERN
 		);
 		derivedGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			DerivedPatternType.PASTSPECIALIZATION.toString(),
-			CommandType.CALL_PASTSPECIALIZATION_PATTERN
+			CommandType.TB_DND_PASTSPECIALIZATION_PATTERN
 		);
 		derivedGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			DerivedPatternType.PARTICIPATION.toString(),
-			CommandType.CALL_PARTICIPATION_PATTERN
+			CommandType.TB_DND_PARTICIPATION_PATTERN
 		);		
 		paletteMap.put(paletteName, derivedGrouping);
 		if(openPalette == null) openPalette = paletteName;		
@@ -193,17 +193,17 @@ public class PaletteAccordion extends JPanel{
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.DATATYPE.toString(),
-			CommandType.CREATE_DATATYPE
+			CommandType.TB_DND_DATATYPE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.ENUMERATION.toString(),
-			CommandType.CREATE_ENUMERATION
+			CommandType.TB_DND_ENUMERATION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.PRIMITIVETYPE.toString(),
-			CommandType.CREATE_PRIMITIVETYPE
+			CommandType.TB_DND_PRIMITIVETYPE
 		);
 		paletteMap.put(paletteName, datatypeGrouping);
 		if(openPalette == null) openPalette = paletteName;		
@@ -217,87 +217,87 @@ public class PaletteAccordion extends JPanel{
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.COMPLETER.toString(),
-			CommandType.CALL_COMPLETER_PATTERN
+			CommandType.TB_DND_COMPLETER_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.MIXIN.toString(),
-			CommandType.CALL_MIXIN_PATTERN
+			CommandType.TB_DND_MIXIN_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.MIXIN_WITH_SUBKIND.toString(),
-			CommandType.CALL_MIXIN_WITH_SUBKIND_PATTERN
+			CommandType.TB_DND_MIXIN_WITH_SUBKIND_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.PHASE_PARTITION.toString(),
-			CommandType.CALL_PHASE_PARTITION_PATTERN
+			CommandType.TB_DND_PHASE_PARTITION_PATTERN
 		);		
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.SUBKIND_PARTITION.toString(),
-			CommandType.CALL_SUBKIND_PARTITION_PATTERN
+			CommandType.TB_DND_SUBKIND_PARTITION_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.ROLE_PARTITION.toString(),
-			CommandType.CALL_ROLE_PARTITION_PATTERN
+			CommandType.TB_DND_ROLE_PARTITION_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.ROLEMIXIN.toString(),
-			CommandType.CALL_ROLEMIXIN_PATTERN
+			CommandType.TB_DND_ROLEMIXIN_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.RELATOR.toString(),
-			CommandType.CALL_RELATOR_PATTERN
+			CommandType.TB_DND_RELATOR_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.DEPENDENT_ROLEMIXIN.toString(),
-			CommandType.CALL_DEPENDENT_ROLEMIXIN_PATTERN
+			CommandType.TB_DND_DEPENDENT_ROLEMIXIN_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.GENERIC_RELATOR.toString(),
-			CommandType.CALL_GENERIC_RELATOR_PATTERN
+			CommandType.TB_DND_GENERIC_RELATOR_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.CHARACTERIZATION.toString(),
-			CommandType.CALL_CHARACTERIZATION_PATTERN
+			CommandType.TB_DND_CHARACTERIZATION_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.RIGID_WEAK_SUPPLEMENTATION.toString(),
-			CommandType.CALL_RIGID_WS_PATTERN
+			CommandType.TB_DND_RIGID_WS_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.ANTIRIGID_WEAK_SUPPLEMENTATION.toString(),
-			CommandType.CALL_ANTIRIGID_WS_PATTERN
+			CommandType.TB_DND_ANTIRIGID_WS_PATTERN
 		);		
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.KIND_PARTITION.toString(),
-			CommandType.CALL_KIND_PARTITION_PATTERN
+			CommandType.TB_DND_KIND_PARTITION_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.COLLECTIVE_PARTITION.toString(),
-			CommandType.CALL_COLLECTIVE_PARTITION_PATTERN
+			CommandType.TB_DND_COLLECTIVE_PARTITION_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.QUANTITY_PARTITION.toString(),
-			CommandType.CALL_QUANTITY_PARTITION_PATTERN
+			CommandType.TB_DND_QUANTITY_PARTITION_PATTERN
 		);
 		patternGrouping.createPaletteItem(
 			IconType.MENTHOR_PATTERN, 
 			PatternType.CATEGORY.toString(),
-			CommandType.CALL_CATEGORY_PATTERN
+			CommandType.TB_DND_CATEGORY_PATTERN
 		);		
 		paletteMap.put(name, patternGrouping);
 		if(openPalette == null) openPalette = name;
@@ -311,62 +311,62 @@ public class PaletteAccordion extends JPanel{
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_GEN_WHITE, 
 			RelationshipType.GENERALIZATION.toString(),
-			CommandType.CREATE_GENERALIZATION
+			CommandType.TB_DND_GENERALIZATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_LINE, 
 			RelationshipType.MATERIAL.toString(),
-			CommandType.CREATE_MATERIAL
+			CommandType.TB_DND_MATERIAL
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_LINE, 
 			RelationshipType.FORMAL.toString(),
-			CommandType.CREATE_FORMAL
+			CommandType.TB_DND_FORMAL
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_LINE, 
 			RelationshipType.CHARACTERIZATION.toString(),
-			CommandType.CREATE_CHARACTERIZATION
+			CommandType.TB_DND_CHARACTERIZATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_LINE, 
 			RelationshipType.MEDIATION.toString(),
-			CommandType.CREATE_MEDIATION
+			CommandType.TB_DND_MEDIATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_DERIVATION, 
 			RelationshipType.DERIVATION.toString(),
-			CommandType.CREATE_DERIVATION
+			CommandType.TB_DND_DERIVATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_LINE, 
 			RelationshipType.STRUCTURATION.toString(),
-			CommandType.CREATE_STRUCTURATION
+			CommandType.TB_DND_STRUCTURATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_LINE, 
 			RelationshipType.ASSOCIATION.toString(),
-			CommandType.CREATE_ASSOCIATION
+			CommandType.TB_DND_ASSOCIATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_PARTHOOD_BLACK, 
 			RelationshipType.COMPONENTOF.toString(),
-			CommandType.CREATE_COMPONENTOF
+			CommandType.TB_DND_COMPONENTOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_PARTHOOD_C, 
 			RelationshipType.SUBCOLLECTIONOF.toString(),
-			CommandType.CREATE_SUBCOLLECTIONOF
+			CommandType.TB_DND_SUBCOLLECTIONOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_PARTHOOD_Q, 
 			RelationshipType.SUBQUANTITYOF.toString(),
-			CommandType.CREATE_SUBQUANTITYOF
+			CommandType.TB_DND_SUBQUANTITYOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_PARTHOOD_M, 
 			RelationshipType.MEMBEROF.toString(),
-			CommandType.CREATE_MEMBEROF
+			CommandType.TB_DND_MEMBEROF
 		);
 		paletteMap.put(paletteName, relationshipGrouping);
 		if(openPalette == null) openPalette = paletteName;		
@@ -381,72 +381,72 @@ public class PaletteAccordion extends JPanel{
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.KIND.toString(),
-			CommandType.CREATE_KIND
+			CommandType.TB_DND_KIND
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.COLLECTIVE.toString(),
-			CommandType.CREATE_COLLECTIVE
+			CommandType.TB_DND_COLLECTIVE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.QUANTITY.toString(),
-			CommandType.CREATE_QUANTITY
+			CommandType.TB_DND_QUANTITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.RELATOR.toString(),
-			CommandType.CREATE_RELATOR
+			CommandType.TB_DND_RELATOR
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.MODE.toString(),
-			CommandType.CREATE_MODE
+			CommandType.TB_DND_MODE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.ROLE.toString(),
-			CommandType.CREATE_ROLE
+			CommandType.TB_DND_ROLE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.PHASE.toString(),
-			CommandType.CREATE_PHASE
+			CommandType.TB_DND_PHASE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.SUBKIND.toString(),
-			CommandType.CREATE_SUBKIND
+			CommandType.TB_DND_SUBKIND
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.CATEGORY.toString(),
-			CommandType.CREATE_CATEGORY
+			CommandType.TB_DND_CATEGORY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.MIXIN.toString(),
-			CommandType.CREATE_MIXIN
+			CommandType.TB_DND_MIXIN
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.ROLEMIXIN.toString(),
-			CommandType.CREATE_ROLEMIXIN
+			CommandType.TB_DND_ROLEMIXIN
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.PERCEIVABLE_QUALITY.toString(),
-			CommandType.CREATE_PERCEIVABLE_QUALITY
+			CommandType.TB_DND_PERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.NONPERCEIVABLE_QUALITY.toString(),
-			CommandType.CREATE_NONPERCEIVABLE_QUALITY
+			CommandType.TB_DND_NONPERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.NOMINAL_QUALITY.toString(),
-			CommandType.CREATE_NOMINAL_QUALITY
+			CommandType.TB_DND_NOMINAL_QUALITY
 		);
 		paletteMap.put(paletteName, classGrouping);
 		if(openPalette == null) openPalette = paletteName;		
@@ -462,7 +462,7 @@ public class PaletteAccordion extends JPanel{
 			domainGrouping.createPaletteItem(
 				IconType.MENTHOR_CLASS,
 				name, 
-				CommandType.CALL_DOMAIN_PATTERN
+				CommandType.TB_DND_DOMAIN_PATTERN
 			);			
 		}
 		paletteMap.put(paletteName, domainGrouping);

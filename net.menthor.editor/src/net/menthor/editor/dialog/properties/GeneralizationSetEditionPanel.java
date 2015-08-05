@@ -45,6 +45,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
@@ -126,7 +127,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+				OntoUMLParser refparser = Models.getRefparser();
 				ArrayList<RefOntoUMLElementCustom> list = new ArrayList<RefOntoUMLElementCustom>();
 				for(Generalization g: refparser.getAllInstances(Generalization.class))
 				{

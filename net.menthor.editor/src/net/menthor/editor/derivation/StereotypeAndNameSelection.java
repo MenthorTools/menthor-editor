@@ -113,7 +113,6 @@ public class StereotypeAndNameSelection {
 
 	}
 	
-	@SuppressWarnings("unused")
 	public static String defineNameDerivedType() {
 
 		String name = "";
@@ -124,7 +123,6 @@ public class StereotypeAndNameSelection {
 		return name;
 	}
 	
-	@SuppressWarnings("unused")
 	public static String defineNameDerivedType(String message) {
 
 		String name = "";

@@ -33,7 +33,7 @@ import javax.swing.JPopupMenu;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
 
-import net.menthor.editor.util.ApplicationResources;
+import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 
@@ -106,7 +106,7 @@ public class DiagramPopupMenu extends JPopupMenu implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : commandListeners) {
-			l.handleCommand(e.getActionCommand());
+			l.handleCommand(e.getActionCommand(), null);
 		}
 	}
 	

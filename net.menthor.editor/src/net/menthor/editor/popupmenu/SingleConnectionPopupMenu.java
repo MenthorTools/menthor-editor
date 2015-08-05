@@ -38,24 +38,17 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import net.menthor.editor.dialog.properties.FeatureListDialog;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.icon.IconMap;
-
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.GeneralizationElement;
-import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
@@ -64,6 +57,12 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
+import net.menthor.editor.dialog.properties.FeatureListDialog;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.menus.ChangeRelationshipMenu;
 
 /**
  * @author John Guerson
@@ -113,7 +112,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 	private JMenu invertMenu;
 	private JMenuItem subsettingItem;
 	private JMenuItem redefinesItem;
-	private RelationStereotypeChangeMenu changeMenu;
+	private ChangeRelationshipMenu changeMenu;
 	private JMenuItem invertEndMultiplicitiesItem;
 	private JMenuItem invertEndNamesItem;
 	private JMenuItem invertEndTypesItem;
@@ -124,8 +123,9 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 	@SuppressWarnings("unused")
 	private JMenuItem exclusionItem;
 	
-	public SingleConnectionPopupMenu()
+	public SingleConnectionPopupMenu(DiagramEditor editor)
 	{   
+		this.editor = editor;
 		createPropertyMenu();		
 		addSeparator();		
 		createFindInProjectMenu();		
@@ -186,7 +186,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 	
 	public JMenu createChangeMenu()
 	{
-		changeMenu = new RelationStereotypeChangeMenu();
+		changeMenu = new ChangeRelationshipMenu(editor.getListener());
 		add(changeMenu);
 		return changeMenu;
 	}
@@ -362,7 +362,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
         	public void actionPerformed(ActionEvent e) {
         		if(editor!=null){
         			FeatureListDialog.open(editor.getDiagramManager().getFrame(),null, "Subsetted", property, 
-        			ProjectBrowser.frame.getBrowserManager().getProjectBrowser().getParser());
+        					Models.getRefparser());
         			SwingUtilities.invokeLater(new Runnable() {						
 						@Override
 						public void run() {
@@ -386,7 +386,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
         	public void actionPerformed(ActionEvent e) {
         		if(editor!=null){
         			FeatureListDialog.open(editor.getDiagramManager().getFrame(),null, "Redefined", property, 
-        			ProjectBrowser.frame.getBrowserManager().getProjectBrowser().getParser());
+        					Models.getRefparser());
         			SwingUtilities.invokeLater(new Runnable() {						
 						@Override
 						public void run() {
@@ -706,13 +706,10 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 		multiplicityMenu.setVisible(false);
 		endNameItem.setVisible(false);
 		subsettingItem.setVisible(false);
-		redefinesItem.setVisible(false);
+		redefinesItem.setVisible(false);		
 		
-		if(((BaseConnection)con).getRelationship() instanceof Association)
-		{
-			changeMenu.setElement(((BaseConnection)con).getRelationship());
-			changeMenu.setDiagramManager(editor.getDiagramManager());
-		}
+		Relationship rel = ((AssociationElement)con).getRelationship();
+		changeMenu.setContext(rel);
 	}		
 	
 	public void setConnection (UmlConnection con, DiagramEditor editor, boolean isSourceEndPoint)
@@ -821,7 +818,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 	 */
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : commandListeners) {
-			l.handleCommand(e.getActionCommand());
+			l.handleCommand(e.getActionCommand(),null);
 		}
 	}
 	

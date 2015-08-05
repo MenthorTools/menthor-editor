@@ -44,6 +44,7 @@ import javax.swing.SwingConstants;
 import org.tinyuml.draw.DiagramElement;
 
 import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
 import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;
 import RefOntoUML.StringExpression;
@@ -244,7 +245,7 @@ public class ConstraintEditionPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	public void setInitialData()
 	{		
-		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		for(Constraintx c: refparser.getAllInstances(RefOntoUML.Constraintx.class)){		
 			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
 				if (elem.equals(element)) comboConstraint.addItem(new ConstraintElement(c));

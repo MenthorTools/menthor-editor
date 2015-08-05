@@ -32,13 +32,12 @@ import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import net.menthor.editor.Main;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.v2.util.MenthorSettings;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.commands.FileWriter;
+
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.util.MenthorSettings;
 
 /**
  * This class writes the current model and diagram data to an XML file.
@@ -57,13 +56,13 @@ public final class ProjectWriter extends FileWriter {
 	/**
 	 * Writes the specified UmlProject to a file.
 	 */
-	public File writeProject(Component comp, File file, UmlProject project, ArrayList<OCLDocument> oclDocList) throws IOException {
+	public File writeProject(Component comp, File file, UmlProject project, ArrayList<OclDocument> oclDocList) throws IOException {
 
 		File outFile = getFileWithExtension(file);
 		FileOutputStream dest = new FileOutputStream(outFile);
 		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
 		
-		Main.printOutLine("Saving model XMI information in Menthor file...");
+		System.out.println("Saving model XMI information in Menthor file...");
 		//Save the model as a resource inside the file
 		ZipEntry modelEntry = new ZipEntry(MenthorSettings.DEFAULT_MODEL_FILE.getValue());			
 		out.putNextEntry(modelEntry);
@@ -71,7 +70,7 @@ public final class ProjectWriter extends FileWriter {
 		resource.save(out, Collections.EMPTY_MAP);
 		out.closeEntry();
 		
-		Main.printOutLine("Saving project DAT information in Menthor file...");
+		System.out.println("Saving project DAT information in Menthor file...");
 		//Save the project a.k.a the diagrams inside the file
 		ZipEntry projectEntry = new ZipEntry(MenthorSettings.DEFAULT_PROJECT_FILE.getValue());
 		out.putNextEntry(projectEntry);
@@ -80,18 +79,18 @@ public final class ProjectWriter extends FileWriter {
 		oos.flush();
 		out.closeEntry();
 		
-		Main.printOutLine("Saving OCL constraints in Menthor file...");
+		System.out.println("Saving OCL constraints in Menthor file...");
 		//Save the OCL content in the editor inside the file
-		for(OCLDocument oclDoc: oclDocList){
+		for(OclDocument oclDoc: oclDocList){
 			String filename = new String();			
 			filename = oclDoc.getName();
 			ZipEntry  constraintEntry = new ZipEntry(filename+".ocl");			
 			out.putNextEntry(constraintEntry);
-			out.write(oclDoc.getContent().getBytes());
+			out.write(oclDoc.getContentAsString().getBytes());
 			out.closeEntry();
 		}
 		
-		Main.printOutLine("Finalizing Menthor file...");
+		System.out.println("Finalizing Menthor file...");
 		//Flushes and closes the zip file
 		out.flush();
 		out.finish();

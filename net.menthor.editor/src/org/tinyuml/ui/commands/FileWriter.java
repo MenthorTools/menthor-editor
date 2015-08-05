@@ -26,34 +26,28 @@ import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
 
-import net.menthor.editor.util.ApplicationResources;
-
-/**
- * This class is an abstract super class that provides useful functionality
- * for graphics exporter classes.
- *
- * @author Wei-ju Wu
- */
+/** This class is an abstract super class that provides useful functionality
+ *  for graphics exporter classes. */
 public abstract class FileWriter extends FileHandler {
 
   /**
    * Returns true if the file can be written. This method checks the existence
    * of the file and if it exists, the user will be asked whether to overwrite
    * the file.
+   * 
    * @param component the parent component for the message dialog
    * @param file the file to write
+   * 
    * @return true if the file does not yet exist or if the user confirmed
    * overwriting it, false if the file should not be written
    */
   protected boolean canWrite(Component component, File file) {
-    if (file.exists()) {
-      ApplicationResources resources = ApplicationResources.getInstance();
-      String message = resources.getString("dialog.replacefile.confirm.msg");
-      message = MessageFormat.format(message, file.getName());
-      String title = resources.getString("dialog.replacefile.confirm.title");
-      return JOptionPane.showConfirmDialog(component, message, title,
-        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
-    }
-    return true;
+	if (file.exists()) {      
+	  String message = "The file "+file.getName()+" already exists. Do you want to replace it ?";
+	  message = MessageFormat.format(message, file.getName());
+	  String title = "Confirm replace file";
+	  return JOptionPane.showConfirmDialog(component, message, title, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+	}
+	return true;
   }
 }

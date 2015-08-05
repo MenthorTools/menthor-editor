@@ -26,7 +26,6 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -40,11 +39,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.jar.Manifest;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -57,8 +51,8 @@ import javax.swing.plaf.FontUIResource;
 import org.eclipse.swt.LoadingException;
 import org.eclipse.swt.SWTBinaryLoader;
 
-import net.menthor.common.file.TimeHelper;
-import net.menthor.editor.v2.util.MenthorConfigurator;
+import net.menthor.editor.v2.util.MenthorTemp;
+import net.menthor.editor.v2.util.MenthorUtil;
 
 /**
  * This is the start class of the Menthor Editor application. Menthor Editor is based on the TinyUML project by Wei-ju Wu.
@@ -81,10 +75,6 @@ public final class Main {
 	public static String MENTHOR_COMPILATION_DATE = getCompilationDateMessage();
 	
 	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
-	
-	public static boolean USE_LOG_FILE = false;
-	public static PrintStream psOut;
-	public static PrintStream psErr;
 		
 	/** This caches the result of the call to get all fonts. */
 	private static String[] allFonts = null;
@@ -287,9 +277,9 @@ public final class Main {
         		
 	        	File file = new File(workingDir.concat(swtFileName));
 	        	swtFileUrl = file.toURI().toURL();
-	        	if (!file.exists ()) Main.printErrLine("Can't locate SWT Jar File" + file.getAbsolutePath());
+	        	if (!file.exists ()) System.err.println("Can't locate SWT Jar File" + file.getAbsolutePath());
 	    	}	    	
-	        Main.printOutLine("Adding to classpath: " + swtFileUrl);            
+	        System.out.println("Adding to classpath: " + swtFileUrl);            
             addUrlMethod.invoke (classLoader, swtFileUrl);		
             
             return swtFileUrl;
@@ -316,9 +306,9 @@ public final class Main {
 			Class classToLoad=null;
 			try {
 				classToLoad = cl.loadClass("org.eclipse.swt.widgets.Display");
-				if(classToLoad!=null) Main.printOutLine("SWT loaded from org.eclipse.swt.widgets.Display in "+swtJarURLs[0]);						        
+				if(classToLoad!=null) System.out.println("SWT loaded from org.eclipse.swt.widgets.Display in "+swtJarURLs[0]);						        
 			} catch (ClassNotFoundException exx) {
-				Main.printErrLine("Launch failed: Failed to load SWT class from jar: " + swtJarURLs[0]);
+				System.err.println("Launch failed: Failed to load SWT class from jar: " + swtJarURLs[0]);
 				throw new RuntimeException(exx);
 			}
 			Method method = classToLoad.getDeclaredMethod ("getDefault");
@@ -334,7 +324,7 @@ public final class Main {
 	 * @throws IOException */
 	public static void copyBinaryFilesTo() throws LoadingException, URISyntaxException, IOException
 	{
-		SWTBinaryLoader.load(MenthorConfigurator.getBinDir());
+		SWTBinaryLoader.load(MenthorTemp.getBinDir());
 	}
 	
 	/** Add and load the appropriate SWT jar to the classpath according to the operating system. 
@@ -367,87 +357,6 @@ public final class Main {
         }
 	}
 	
-	private static void redirectSystemToALog() throws SecurityException, IOException 
-	{
-		 // initialize logging to go to rolling log file
-        LogManager logManager = LogManager.getLogManager();
-        logManager.reset();
-
-        File file = new File("menthor.log");
-        if(file.exists()) file.delete();
-        
-        // log file max size 10M, 1 rolling files, append-on-open
-        Handler fileHandler = new FileHandler("menthor.log", 10000000, 1, true);
-        SimpleFormatter formatter = new SimpleFormatter();        
-        fileHandler.setFormatter(formatter);
-        Logger.getLogger("").addHandler(fileHandler);        
-
-        // preserve old stdout/stderr streams in case they might be useful
-        //PrintStream stdout = System.out;
-        //PrintStream stderr = System.err;
-	
-        // now rebind stdout/stderr to logger
-        Logger logger;
-        
-        logger = Logger.getLogger("stdout");
-        LoggingOutputStream losOut = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
-        psOut = new PrintStream(losOut, true);
-        System.setOut(psOut);
-	
-        logger = Logger.getLogger("stderr");
-        LoggingOutputStream losErr = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-        psErr = new PrintStream(losErr, true);
-        System.setErr(psErr);
-    }
-	
-	public static void printOut(String msg)
-	{
-		Object[] array = msg.split("\n");
-		for(Object obj: array){
-			if(!USE_LOG_FILE){
-				System.out.print(TimeHelper.getTime()+" - "+obj);
-			}else{
-				System.out.print(obj);
-			}
-		}
-	}
-
-	public static void printErr(String msg)
-	{
-		Object[] array = msg.split("\n");
-		for(Object obj: array){
-			if(!USE_LOG_FILE){
-				System.err.print(TimeHelper.getTime()+" - "+obj);
-			}else{
-				System.err.print(obj);
-			}
-		}
-	}
-	
-	public static void printErrLine(String msg)
-	{
-		Object[] array = msg.split("\n");
-		for(Object obj: array){
-			if(!USE_LOG_FILE){
-				System.err.println(TimeHelper.getTime()+" - "+obj);
-			}else{
-				System.err.println(obj);
-			}
-		}
-	}
-	
-	public static void printOutLine(String msg)
-	{
-		Object[] array = msg.split("\n");
-		for(Object obj: array){
-			if(!USE_LOG_FILE){
-				System.out.println(TimeHelper.getTime()+" - "+obj);
-			}else{
-				System.out.println(obj);
-			}	
-		}		
-	}
-	
 	public static void publish(final String msg)
 	{
 		SwingUtilities.invokeLater(new Runnable() {			
@@ -472,8 +381,8 @@ public final class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {				
 				try {
-					publish("Redirecting system to a log...");
-					if(USE_LOG_FILE) redirectSystemToALog();
+					publish("Redirecting system to a log...");					
+					//Log.redirect(false);
 					
 					publish("Setting system properties...");
 					setSystemProperties();
@@ -488,8 +397,8 @@ public final class Main {
 					copyBinaryFilesTo();
 					
 					publish("Extracting Alloy files...");
-					File alloyJarFile = MenthorConfigurator.extractLib("alloy4.2.jar");
-					Main.printOutLine("Extracted: "+alloyJarFile.getAbsolutePath());
+					File alloyJarFile = MenthorUtil.extractLib("alloy4.2.jar");
+					System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());
 					
 					publish("Loading application...");						
 					frame = new AppFrame();

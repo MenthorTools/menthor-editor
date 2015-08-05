@@ -42,8 +42,7 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Property;
 import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -466,8 +465,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean acceptsConnection(RelationshipType associationType,
-			RelationEndType as, UmlNode with) {
+	public boolean acceptsConnection(RelationshipType associationType, UmlNode with) {
 		return true;
 	}
 

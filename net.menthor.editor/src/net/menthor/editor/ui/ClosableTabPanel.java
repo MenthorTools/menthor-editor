@@ -55,7 +55,6 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
-
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.popupmenu.TabPopupMenu;
 import net.menthor.editor.v2.types.ColorMap;
@@ -192,7 +191,7 @@ public class ClosableTabPanel extends JPanel {
                     pane.setTabComponentAt(index, ClosableTabPanel.this);
                     Editor currentEditor = ((DiagramManager)pane).getCurrentEditor();
                     if(currentEditor instanceof DiagramEditor) ((DiagramEditor)currentEditor).getDiagram().setName(editor.getText());
-                    if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOCLDocument().setName(editor.getText());
+                    if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOclDocument().setName(editor.getText());
                     ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refreshTree();
                 } 
             } 
@@ -205,7 +204,7 @@ public class ClosableTabPanel extends JPanel {
             	pane.setTabComponentAt(index, ClosableTabPanel.this); 
             	Editor currentEditor = ((DiagramManager)pane).getCurrentEditor();
                 if(currentEditor instanceof DiagramEditor) ((DiagramEditor)currentEditor).getDiagram().setName(editor.getText());
-                if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOCLDocument().setName(editor.getText());
+                if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOclDocument().setName(editor.getText());
                 ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refreshTree();
             } 
         }); 

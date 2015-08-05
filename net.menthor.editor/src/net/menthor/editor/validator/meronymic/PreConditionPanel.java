@@ -137,8 +137,8 @@ public class PreConditionPanel extends ValidationPanel<MeronymicError<?>> {
 		btnHelp1.setBorderPainted(false);
 		btnHelp1.setContentAreaFilled(false);
 		btnHelp1.setOpaque(false);
-		btnHelp1.setRolloverIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help-rollover.png")));
-		btnHelp1.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		btnHelp1.setRolloverIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help-rollover.png")));
+		btnHelp1.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		
 		checkHierarchyCycle = new JCheckBox("Hierarchy Cycle");
 		GridBagConstraints gbc_checkHierarchyCycle = new GridBagConstraints();
@@ -154,7 +154,7 @@ public class PreConditionPanel extends ValidationPanel<MeronymicError<?>> {
 		gbc_button_2.gridx = 2;
 		gbc_button_2.gridy = 0;
 		panel.add(button_2, gbc_button_2);
-		button_2.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		button_2.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		button_2.setPreferredSize(new Dimension(20, 20));
 		button_2.setOpaque(false);
 		button_2.setContentAreaFilled(false);
@@ -175,7 +175,7 @@ public class PreConditionPanel extends ValidationPanel<MeronymicError<?>> {
 		gbc_button.gridx = 0;
 		gbc_button.gridy = 1;
 		panel.add(button, gbc_button);
-		button.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		button.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		button.setPreferredSize(new Dimension(20, 20));
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);
@@ -195,7 +195,7 @@ public class PreConditionPanel extends ValidationPanel<MeronymicError<?>> {
 		gbc_button_6.gridx = 2;
 		gbc_button_6.gridy = 1;
 		panel.add(button_6, gbc_button_6);
-		button_6.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		button_6.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		button_6.setPreferredSize(new Dimension(20, 20));
 		button_6.setOpaque(false);
 		button_6.setContentAreaFilled(false);
@@ -215,7 +215,7 @@ public class PreConditionPanel extends ValidationPanel<MeronymicError<?>> {
 		gbc_button_1.gridx = 0;
 		gbc_button_1.gridy = 2;
 		panel.add(button_1, gbc_button_1);
-		button_1.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		button_1.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		button_1.setPreferredSize(new Dimension(20, 20));
 		button_1.setOpaque(false);
 		button_1.setContentAreaFilled(false);
@@ -235,7 +235,7 @@ public class PreConditionPanel extends ValidationPanel<MeronymicError<?>> {
 		gbc_button_7.gridx = 2;
 		gbc_button_7.gridy = 2;
 		panel.add(button_7, gbc_button_7);
-		button_7.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		button_7.setIcon(new ImageIcon(PreConditionPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		button_7.setPreferredSize(new Dimension(20, 20));
 		button_7.setOpaque(false);
 		button_7.setContentAreaFilled(false);

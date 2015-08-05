@@ -45,7 +45,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.ModelHelper;
 
 import org.tinyuml.draw.DiagramElement;
 
@@ -210,10 +211,10 @@ public class PropertyEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if (parent instanceof JFrame)
 					FeatureListDialog.open((JFrame)parent,subsettedText, "Subsetted", property, 
-					diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser());
+							Models.getRefparser());
 				else
 					FeatureListDialog.open((JDialog)parent,subsettedText, "Subsetted", property, 
-					diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser());
+							Models.getRefparser());
 			}
 		});
 		
@@ -235,10 +236,10 @@ public class PropertyEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if (parent instanceof JFrame)
 					FeatureListDialog.open((JFrame)parent,redefinedText, "Redefined", property, 
-					diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser());
+							Models.getRefparser());
 				else
 					FeatureListDialog.open((JDialog)parent,redefinedText, "Redefined", property,
-					diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser());
+							Models.getRefparser());
 			}
 		});
 		
@@ -431,7 +432,7 @@ public class PropertyEditionPanel extends JPanel {
 		
 		ArrayList<RefOntoUMLElement> list = new ArrayList<RefOntoUMLElement>();
 		RefOntoUMLElement value = null;
-		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		if (property.getType()!=null) value = new RefOntoUMLElement(property.getType(),"");
 		else value = new RefOntoUMLElement(null,"");			    	
     	for(RefOntoUML.Type t: refparser.getAllInstances(RefOntoUML.Type.class))

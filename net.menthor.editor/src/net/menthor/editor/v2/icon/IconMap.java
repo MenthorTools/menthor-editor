@@ -104,7 +104,7 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_RED_BOX, "net/menthor/editor/v2/icon/novos_icones-60.png");//?????????????
 		urlMap.put(IconType.MENTHOR_PARTHOOD_C, "net/menthor/editor/v2/icon/novos_icones-61.png");
 		urlMap.put(IconType.MENTHOR_PARTHOOD_Q, "net/menthor/editor/v2/icon/novos_icones-62.png");
-		urlMap.put(IconType.MENTHOR_BACK_BOXES, "net/menthor/editor/v2/icon/novos_icones-63.png");//????????????
+		urlMap.put(IconType.MENTHOR_BLACK_BOXES, "net/menthor/editor/v2/icon/novos_icones-63.png");//????????????
 		urlMap.put(IconType.MENTHOR_CLASS, "net/menthor/editor/v2/icon/novos_icones-64.png");
 		urlMap.put(IconType.MENTHOR_PARTHOOD_E, "net/menthor/editor/v2/icon/novos_icones-65.png");
 		urlMap.put(IconType.MENTHOR_DIAGRAM, "net/menthor/editor/v2/icon/novos_icones-66.png");

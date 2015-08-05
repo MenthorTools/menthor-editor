@@ -71,19 +71,22 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 import org.tinyuml.umldraw.shared.DiagramSelection;
 
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import RefOntoUML.Dependency;
 import RefOntoUML.DirectedRelationship;
 import RefOntoUML.Element;
+import RefOntoUML.Generalization;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Namespace;
 import RefOntoUML.Package;
+import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
-import net.menthor.editor.Main;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
 
 /**
  * This class implements the effective layout area. It shows the boundaries of
@@ -163,10 +166,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 			if (obj instanceof AssociationElement){
 				AssociationElement assocElem = (AssociationElement)obj;
 				if (assocElem.getRelationship() ==null) {
-					Main.printErrLine("Draw Exception: Association Element "+assocElem+" cannot be drawed! Cause: null relationship. ");
-					Main.printErr("Fixing the problem... ");
-					if(ModelHelper.removeMapping(assocElem)) Main.printErr("Association Element "+assocElem+" removed. ");
-					else Main.printErr("Association Element "+assocElem+" ignored. ");
+					System.err.println("Draw Exception: Association Element "+assocElem+" cannot be drawed! Cause: null relationship. ");
+					System.err.print("Fixing the problem... ");
+					if(ModelHelper.removeMapping(assocElem)) System.err.print("Association Element "+assocElem+" removed. ");
+					else System.err.print("Association Element "+assocElem+" ignored. ");
 					iter.remove();
 				} 
 			}
@@ -174,10 +177,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 			else if (obj instanceof GeneralizationElement) {
 				GeneralizationElement genElem = (GeneralizationElement)obj;
 				if (genElem.getRelationship() ==null) {
-					Main.printErrLine("Draw Exception: Generalization Element "+genElem+" cannot be drawed! Cause: null generalization. ");
-					Main.printErr("Fixing the problem... ");
-					if(ModelHelper.removeMapping(genElem)) Main.printErr("Generalization Element "+genElem+" removed. ");
-					else Main.printErr("Generalization Element "+genElem+" ignored. ");
+					System.err.println("Draw Exception: Generalization Element "+genElem+" cannot be drawed! Cause: null generalization. ");
+					System.err.print("Fixing the problem... ");
+					if(ModelHelper.removeMapping(genElem)) System.err.print("Generalization Element "+genElem+" removed. ");
+					else System.err.print("Generalization Element "+genElem+" ignored. ");
 					iter.remove();
 				}
 			}			
@@ -231,6 +234,41 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	public DrawingContext getDrawingContext() {
 		if(drawingContext==null) drawingContext = new DrawingContextImpl();		
 		return drawingContext;
+	}
+	
+	public List<EObject> getPackageableElements()
+	{	 
+   		ArrayList<EObject> elements = new ArrayList<EObject>();   		
+   		for(DiagramElement de: this.getChildren()){
+   			if(de instanceof ClassElement) {
+   				Classifier c = ((ClassElement)de).getClassifier();
+   				elements.add(c);
+   				if(c instanceof RefOntoUML.Class) {
+					for(Property attr: ((RefOntoUML.Class)c).getOwnedAttribute()) {
+						//elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+				if(c instanceof RefOntoUML.DataType) {
+					for(Property attr: ((RefOntoUML.DataType)c).getOwnedAttribute()) {
+						//elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+   			}
+   			if(de instanceof AssociationElement) { 
+   				Association r = (Association)((AssociationElement)de).getRelationship();
+   				elements.add(r.getMemberEnd().get(0));
+   				elements.add(r.getMemberEnd().get(1));
+   				elements.add(r);								
+   			}
+   			if(de instanceof GeneralizationElement) {
+   				Relationship rel = ((GeneralizationElement)de).getRelationship();
+   				elements.add(rel);
+   				elements.addAll(((Generalization)rel).getGeneralizationSet());				 
+   			}
+   		}	
+   		return elements;	   	
 	}
 	
 	@Override

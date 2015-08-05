@@ -48,9 +48,6 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.ElementType;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.GeneralizationElement;
 
@@ -60,6 +57,8 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
 
 /**
  * @author John Guerson
@@ -220,7 +219,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+				OntoUMLParser refparser = Models.getRefparser();
 				ArrayList<RefOntoUMLElement> genSetList = new ArrayList<RefOntoUMLElement>();
 				for(GeneralizationSet gs: refparser.getAllInstances(GeneralizationSet.class))
 				{
@@ -254,7 +253,7 @@ public class GeneralizationEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				int response = JOptionPane.showConfirmDialog(GeneralizationEditionPanel.this, "Are you sure you want to create a new generalization set?", "Creating Generalization Set", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(response==JOptionPane.OK_OPTION){
-					PackageableElement genSet = (PackageableElement)diagramManager.addElement(ElementType.GENERALIZATIONSET,(RefOntoUML.Package)element.eContainer().eContainer());
+					PackageableElement genSet = (PackageableElement)diagramManager.addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
 					genSet.setName("gs");
 					((GeneralizationSet)genSet).setIsCovering(true);
 					((GeneralizationSet)genSet).setIsDisjoint(true);
@@ -339,7 +338,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		ArrayList<RefOntoUMLElement> specificlist = new ArrayList<RefOntoUMLElement>();
 		RefOntoUMLElement generalValue = null;
 		RefOntoUMLElement specificValue = null;
-		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		if (element.getGeneral()!=null) generalValue = new RefOntoUMLElement(element.getGeneral(),"");
 		else generalValue = new RefOntoUMLElement(null,"");
 		if (element.getSpecific()!=null) specificValue = new RefOntoUMLElement(element.getSpecific(),"");

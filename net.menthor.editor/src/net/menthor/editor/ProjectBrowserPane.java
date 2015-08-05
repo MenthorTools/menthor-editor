@@ -24,15 +24,15 @@ package net.menthor.editor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.v2.ui.RoundedPanel;
 
 /**
  * @author John Guerson
  */
-public class ProjectBrowserPane extends JPanel {
+public class ProjectBrowserPane extends RoundedPanel {
 
 	private static final long serialVersionUID = 1752050268631906319L;
 	@SuppressWarnings("unused")
@@ -49,7 +49,7 @@ public class ProjectBrowserPane extends JPanel {
 		setFocusable(false);
 		setLayout(new BorderLayout(3,3));
 		
-		browser = new ProjectBrowser(frame,null,null);
+		browser = new ProjectBrowser(frame, null, null);
 		browser.setBorder(new EmptyBorder(0, 0, 0, 0));
 			
 		//TitlePane panel = new TitlePane("Project Browser","/resources/icons/x16/door_in.png");

@@ -32,8 +32,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.v2.OclDocument;
 import net.menthor.tocl.editor.TOCLEditorPanel;
 
 import org.tinyuml.draw.Diagram;
@@ -42,7 +41,7 @@ import org.tinyuml.ui.diagram.Editor;
 public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 
 	private static final long serialVersionUID = 7380862047111803466L;
-	public OCLDocument oclDoc;
+	public OclDocument oclDoc;
 	public JMenuItem parserMenuItem = new JMenuItem("Parse");
 	
 	public ConstraintEditor(final Component parent) {
@@ -89,12 +88,12 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 		});
 	}
 		
-	public OCLDocument getOCLDocument() { return oclDoc; }
+	public OclDocument getOclDocument() { return oclDoc; }
 	
-	public ConstraintEditor(Component parent, OCLDocument oclDoc) {
+	public ConstraintEditor(Component parent, OclDocument oclDoc) {
 		this(parent);
 		this.oclDoc = oclDoc;
-		setText(oclDoc.getContent());
+		setText(oclDoc.getContentAsString());
 	}
 	
 	@Override
