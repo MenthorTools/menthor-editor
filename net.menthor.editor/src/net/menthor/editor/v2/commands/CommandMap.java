@@ -62,6 +62,7 @@ public class CommandMap {
 			edit();
 			tabs();
 			diagram();
+			rules();
 			project();
 			verificate();
 			validate();
@@ -129,6 +130,13 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("deleteSelection")));
 		cmdMap.put(CommandType.ERASE, 
 				new MethodCall(DiagramEditor.class.getMethod("excludeSelection")));
+	}
+	
+	private void rules() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.NEW_RULES,
+				new MethodCall(DiagramManager.class.getMethod("newOclDocument")));
+		cmdMap.put(CommandType.CLOSE_RULES,
+				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
 	}
 	
 	private void diagram() throws NoSuchMethodException, SecurityException{
@@ -221,7 +229,7 @@ public class CommandMap {
 	private void verificate() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CHECK_MODEL_SYNTAX,
 				new MethodCall(DiagramManager.class.getMethod("verifyModelSyntactically")));
-		cmdMap.put(CommandType.PARSE_CONSTRAINTS, 
+		cmdMap.put(CommandType.PARSE_RULES, 
 				new MethodCall(DiagramManager.class.getMethod("parseConstraints")));
 	}
 	

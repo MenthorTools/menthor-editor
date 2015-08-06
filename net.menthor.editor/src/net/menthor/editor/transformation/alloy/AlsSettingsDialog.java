@@ -36,7 +36,7 @@ import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
 import net.menthor.editor.explorer.Models;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -61,7 +61,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 	private JPanel principalPane;
 	
 	/** @wbp.parser.constructor */
-	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, boolean modal) 
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 				
@@ -101,7 +101,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 	}
 	
 	/** Launch the Dialog. */
-	public static void open(AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public static void open(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		try {			
 			AlsSettingsDialog dialog = new AlsSettingsDialog(owner, refparser, diagrams, refOptions, oclOptions);
@@ -113,7 +113,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 		}
 	}
 	
-	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		this(owner,refparser,diagrams, false);	
 		

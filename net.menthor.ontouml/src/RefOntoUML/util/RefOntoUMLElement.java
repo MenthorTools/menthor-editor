@@ -55,6 +55,16 @@ public class RefOntoUMLElement implements Serializable{
 	 * 
 	 * @param refElement
 	 */
+	public RefOntoUMLElement (EObject refElement) 
+	{
+		this(refElement,"");
+	}
+	
+	/** 
+	 * Create a CheckBox Tree Node Element from Element.
+	 * 
+	 * @param refElement
+	 */
 	public RefOntoUMLElement (EObject refElement, String uniqueName) 
 	{
 		this.element = refElement;
@@ -195,10 +205,10 @@ public class RefOntoUMLElement implements Serializable{
 		
 		if (name == null || name.equals("")) 
 		{	    
-		    return type + ""+name;			
+		    return type + " "+name;			
 		}
 		
-		return "<"+name+">";
+		return type + " "+name;
 	}
 	
 	public String getName()

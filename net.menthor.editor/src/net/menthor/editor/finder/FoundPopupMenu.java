@@ -75,7 +75,7 @@ public class FoundPopupMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {	
 				
-				ProjectBrowser.frame.getDiagramManager().getFrame().getBrowserManager().getProjectBrowser().getTree().checkModelElement(context.getElement());		
+				ProjectBrowser.frame.getDiagramManager().getFrame().getBrowserManager().getProjectBrowser().getTree().checkElement(context.getElement());		
 			}
 		});
 		

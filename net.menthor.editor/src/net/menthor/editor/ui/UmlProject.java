@@ -30,7 +30,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import net.menthor.editor.Main;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.util.Directories;
 
 import org.eclipse.emf.common.util.EList;
@@ -56,13 +56,12 @@ public class UmlProject implements Serializable {
 	//All the model operations like adding, removing or changing allElements are done through a editing domain
 	//which provides some useful features, like redo/undo, clipboard etc.
 	
-	private static final long serialVersionUID = -2356413039446009810L;
-	private transient AdapterFactoryEditingDomain editingDomain;
+	private static final long serialVersionUID = -2356413039446009810L;	
 	private transient Resource resource;
 	private transient boolean saveNeeded = false;
 	public static transient String tempDir;
 	public static transient String binDir;
-	private List<UmlDiagram> diagrams = new ArrayList<UmlDiagram>();
+	private List<OntoumlDiagram> diagrams = new ArrayList<OntoumlDiagram>();
 	private ArrayList<Integer> openedDiagrams = new ArrayList<Integer>();
 	private Properties properties;
 	private  Collection<DiagramElement> exclusionDerivationList= new HashSet<DiagramElement>();
@@ -87,7 +86,7 @@ public class UmlProject implements Serializable {
 		RefOntoUML.Package model = ModelHelper.getFactory().createModel();
 		if(model.getName()==null || model.getName()=="") model.setName("Model");
 		resource.getContents().add(model);		
-		getEditingDomain();
+		ModelHelper.createAdapterEditingDomain();
 		name = "New Project";		
 	}
 
@@ -115,7 +114,7 @@ public class UmlProject implements Serializable {
 		return openedDiagrams;
 	}
 	
-	public void saveAsOpened(UmlDiagram diagram)
+	public void saveAsOpened(OntoumlDiagram diagram)
 	{
 		int index = diagrams.indexOf(diagram);
 		if(index>=0) {
@@ -129,13 +128,13 @@ public class UmlProject implements Serializable {
 	{
 		boolean allClosed = true;
 		if (openedDiagrams!=null){
-			for(UmlDiagram diagram: diagrams)
+			for(OntoumlDiagram diagram: diagrams)
 			if(openedDiagrams.contains(diagram)) allClosed=false;
 		}
 		return allClosed;
 	}
 
-	public boolean isOpened(UmlDiagram diagram)
+	public boolean isOpened(OntoumlDiagram diagram)
 	{
 		if (openedDiagrams!=null){
 			return openedDiagrams.contains(diagrams.indexOf(diagram));
@@ -148,11 +147,11 @@ public class UmlProject implements Serializable {
 		properties = new Properties();
 		resource = ModelHelper.createResource();
 		resource.getContents().add(model);		
-		getEditingDomain();
+		ModelHelper.createAdapterEditingDomain();
 		name = "New Project";
 	}
 	
-	public void addDiagram(UmlDiagram diagram) {
+	public void addDiagram(OntoumlDiagram diagram) {
 		diagrams.add(diagram);
 	}
 
@@ -172,7 +171,7 @@ public class UmlProject implements Serializable {
 		return name;
 	}
 	
-	public List<? extends UmlDiagram> getDiagrams() {
+	public List<OntoumlDiagram> getDiagrams() {
 		return diagrams;
 	}
 
@@ -287,12 +286,6 @@ public class UmlProject implements Serializable {
 			}
 		}
 		return associations;
-	}
-
-	public AdapterFactoryEditingDomain getEditingDomain() {
-		if(editingDomain == null)
-			editingDomain = ModelHelper.getAdapterEditingDomain();
-		return editingDomain;
 	}
 
 	public void setSaveModelNeeded(boolean saveNeeded) {

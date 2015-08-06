@@ -52,9 +52,6 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
 import net.menthor.antipattern.GSRig.GSRigAntipattern;
@@ -83,6 +80,7 @@ import net.menthor.editor.Main;
 import net.menthor.editor.explorer.Models;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.AntiPatternList;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author Tiago Sales
@@ -987,7 +985,7 @@ public class AntiPatternSearchDialog extends JDialog {
   			
 			preTask = new SwingWorker<Void, Void>() {
 				
-				private List<EObject> checked;
+				private List<Object> checked;
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -998,7 +996,7 @@ public class AntiPatternSearchDialog extends JDialog {
 				@Override
 				protected void done() {
 					ProjectBrowser modeltree = frame.getBrowserManager().getProjectBrowser();	
-					modeltree.getTree().checkModelElements(checked, true);			
+					modeltree.getTree().check(checked);			
 					modeltree.getTree().updateUI();
 					preLatch.countDown();
 				}

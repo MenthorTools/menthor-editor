@@ -110,7 +110,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	private UmlProject project;
 //	private DiagramElementFactory elementFactory;
 	private DrawingContext drawingContext;
-	
+	private transient Object container;
 	private transient boolean generateTheme = true;
 	
 	/**
@@ -187,12 +187,18 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		}		
 	}
 	
+	@Override
+	public Object getContainer() {		
+		return container;
+	}
+	
 	/**
 	 * Constructor.
 	 */
 	public StructureDiagram(UmlProject project, DiagramElementFactoryImpl elementFactory, DrawingContext drawingContext) {
 		initializeNameLabel();		
-		this.project = project;		
+		this.project = project;	
+		this.container=project.getModel();
 		//this.elementFactory = elementFactory;
 		this.drawingContext = drawingContext;
 	}
@@ -1166,5 +1172,6 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		int value = arg0.getName().compareTo(this.getName());
 		if(value!=0) return -value; else return value;
 	}
+
 
 }

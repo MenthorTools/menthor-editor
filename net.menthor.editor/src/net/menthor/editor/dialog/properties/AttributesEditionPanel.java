@@ -430,8 +430,8 @@ public class AttributesEditionPanel extends JPanel {
 			if(modelDataTypes.keySet().contains(property.getType().getName().trim()) == false)
 			{	
 				UmlProject project = diagramManager.getCurrentProject();				
-				AddCommand cmd = new AddCommand(project.getEditingDomain(), project.getModel().getPackagedElement(), property.getType());
-				project.getEditingDomain().getCommandStack().execute(cmd);				
+				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), project.getModel().getPackagedElement(), property.getType());
+				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);				
 				modelDataTypes.put(property.getType().getName(),(DataType)property.getType());
 				createdList.add((Element) property.getType());
 			}

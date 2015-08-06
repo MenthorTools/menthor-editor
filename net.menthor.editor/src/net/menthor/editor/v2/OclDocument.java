@@ -1,14 +1,5 @@
 package net.menthor.editor.v2;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-
-import net.menthor.tocl.parser.TOCLParser;
-import RefOntoUML.impl.PackageableElementImpl;
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -29,12 +20,26 @@ import RefOntoUML.impl.PackageableElementImpl;
  * MA  02110-1301  USA
  * ============================================================================================
  */
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+
+import net.menthor.tocl.parser.TOCLParser;
+import RefOntoUML.impl.PackageableElementImpl;
+
 import java.io.File;
 
 public class OclDocument extends PackageableElementImpl implements Serializable {
 		
 	private static final long serialVersionUID = 1L;
 
+	private Object container;
+	public Object getContainer() { return container; }
+	
 	private String oclstring = new String();
 	public String getContentAsString() { return oclstring; }	
 	public void setContentAsString(String oclcontent) { String content = oclcontent; this.oclstring = content; }

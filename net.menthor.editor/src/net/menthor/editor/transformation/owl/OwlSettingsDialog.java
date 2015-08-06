@@ -33,7 +33,7 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.explorer.Models;
 import net.menthor.editor.transformation.TransformationDialog;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 
 public class OwlSettingsDialog extends TransformationDialog {
 	
@@ -45,7 +45,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 	private OwlQualityMappingPane qualityPane;
 	private OwlGenSetMappingPane gsPane;
 	
-	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, boolean modal) 
+	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 		

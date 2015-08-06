@@ -86,7 +86,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
-			project.getEditingDomain().getCommandStack().undo();
+			ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
 			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(element);
 		}
 		
@@ -166,8 +166,8 @@ public class AddNodeCommand extends BaseDiagramCommand {
 			
 			if (!(project.getModel().getPackagedElement().contains(element)))
 			{
-				AddCommand cmd = new AddCommand(project.getEditingDomain(), project.getModel().getPackagedElement(), element);
-				project.getEditingDomain().getCommandStack().execute(cmd);
+				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), project.getModel().getPackagedElement(), element);
+				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 			}
 			
 		}else{
@@ -175,40 +175,40 @@ public class AddNodeCommand extends BaseDiagramCommand {
 			{
 				if (!(((RefOntoUML.Package)eContainer).getPackagedElement().contains(element)))
 				{					
-					AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), element);
-					project.getEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), element);
+					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.Element && element instanceof RefOntoUML.Comment)
 			{
 				if (!(((RefOntoUML.Element)eContainer).getOwnedComment().contains(element)))
 				{
-					AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.Element)eContainer).getOwnedComment(), element);
-					project.getEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Element)eContainer).getOwnedComment(), element);
+					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.Classifier && element instanceof RefOntoUML.Constraintx)
 			{
 				if (!(((RefOntoUML.Constraintx)element).getConstrainedElement().contains((RefOntoUML.Classifier)eContainer)))						
 				{
-					AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.Constraintx)element).getConstrainedElement(), (RefOntoUML.Classifier)eContainer);
-					project.getEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Constraintx)element).getConstrainedElement(), (RefOntoUML.Classifier)eContainer);
+					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.Class && element instanceof RefOntoUML.Property)
 			{
 				if (!(((RefOntoUML.Class)eContainer).getOwnedAttribute().contains(element)))
 				{
-					AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
-					project.getEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
+					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.DataType && element instanceof RefOntoUML.Property)
 			{
 				if (!(((RefOntoUML.DataType)eContainer).getOwnedAttribute().contains(element)))
 				{
-					AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
-					project.getEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
+					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 				}
 			}			
 		}		

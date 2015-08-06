@@ -414,12 +414,20 @@ public class ModelHelper {
 		return factory;
 	}
 
-	public static AdapterFactoryEditingDomain getAdapterEditingDomain() {
+	public AdapterFactoryEditingDomain getEditingDomain() {
+		if(editingDomain == null)
+			editingDomain = ModelHelper.createAdapterEditingDomain();
+		return editingDomain;
+	}
+	
+	public static AdapterFactoryEditingDomain createAdapterEditingDomain() {
 		if (!initialized) {
 			initializeHelper();
 		}
+		
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
 				new BasicCommandStack(), resourceSet);
+		
 		return editingDomain;
 	}
 	

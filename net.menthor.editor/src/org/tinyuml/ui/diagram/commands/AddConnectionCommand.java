@@ -88,7 +88,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 						
 		if (relationship!=null){
 //			System.out.println("Undoing ="+relationship);
-			project.getEditingDomain().getCommandStack().undo();
+			ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
 			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(relationship);
 		}
 		
@@ -181,11 +181,11 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 			
 			// add to model
 			if(eContainer==null){
-				AddCommand cmd = new AddCommand(project.getEditingDomain(), project.getModel().getPackagedElement(), relationship);
-				project.getEditingDomain().getCommandStack().execute(cmd);
+				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), project.getModel().getPackagedElement(), relationship);
+				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 			}else{				
-				AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), relationship);
-				project.getEditingDomain().getCommandStack().execute(cmd);
+				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), relationship);
+				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 			}			
 		}
 		if (relationship instanceof Generalization)
@@ -196,8 +196,8 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 			
 			//add to model
 			if(source!=null){
-				AddCommand cmd = new AddCommand(project.getEditingDomain(), ((RefOntoUML.Classifier)source).getGeneralization(), (RefOntoUML.Generalization)relationship);
-				project.getEditingDomain().getCommandStack().execute(cmd);				
+				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Classifier)source).getGeneralization(), (RefOntoUML.Generalization)relationship);
+				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);				
 			}
 						
 		}		

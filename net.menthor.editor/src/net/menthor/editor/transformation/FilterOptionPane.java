@@ -122,7 +122,7 @@ public class FilterOptionPane extends JPanel{
 	public void selectAllQualities(ActionEvent e)
 	{
 		OntoUMLParser refparser = elemTree.getParser();
-		List<EObject> result = new ArrayList<EObject>();
+		List<Object> result = new ArrayList<Object>();
 		result.addAll(refparser.getAllInstances(RefOntoUML.Quality.class));
 		for(Quality q: refparser.getAllInstances(RefOntoUML.Quality.class)){
 			result.addAll(refparser.getDirectRelationships(q));
@@ -152,7 +152,7 @@ public class FilterOptionPane extends JPanel{
 		
 	public void selectAllTargets(ActionEvent e)
 	{
-		List<EObject> targets = new ArrayList<EObject>();
+		List<Object> targets = new ArrayList<Object>();
 		for(Association a: elemTree.getParser().getAllInstances(RefOntoUML.Association.class)){
 			targets.add(a.getMemberEnd().get(1));
 		}
@@ -166,7 +166,7 @@ public class FilterOptionPane extends JPanel{
 		
 	public void selectAllSources(ActionEvent e)
 	{
-		List<EObject> sources = new ArrayList<EObject>();
+		List<Object> sources = new ArrayList<Object>();
 		for(Association a: elemTree.getParser().getAllInstances(RefOntoUML.Association.class)){
 			sources.add(a.getMemberEnd().get(0));
 		}
@@ -180,7 +180,7 @@ public class FilterOptionPane extends JPanel{
 	
 	public void selectAllAssociations(ActionEvent e)
 	{
-		List<EObject> associations = new ArrayList<EObject>();
+		List<Object> associations = new ArrayList<Object>();
 		associations.addAll(elemTree.getParser().getAllInstances(RefOntoUML.Association.class));		
 		if(relCheck.isSelected()){			
 			elemTree.check(associations);
@@ -192,7 +192,7 @@ public class FilterOptionPane extends JPanel{
 	
 	public void selectAllAttributes(ActionEvent e)
 	{
-		List<EObject> attributes = new ArrayList<EObject>();
+		List<Object> attributes = new ArrayList<Object>();
 		for(Property p: elemTree.getParser().getAllInstances(RefOntoUML.Property.class)){
 			if(p.getAssociation()==null){
 				attributes.add(p);
@@ -208,7 +208,7 @@ public class FilterOptionPane extends JPanel{
 
 	public void selectAllGeneralizationSets(ActionEvent e)
 	{
-		List<EObject> genSets = new ArrayList<EObject>();
+		List<Object> genSets = new ArrayList<Object>();
 		genSets.addAll(elemTree.getParser().getAllInstances(RefOntoUML.GeneralizationSet.class));
 		if(genSetCheck.isSelected()){			
 			for(EObject gs: elemTree.getParser().getAllInstances(RefOntoUML.GeneralizationSet.class)){

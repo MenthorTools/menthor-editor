@@ -47,6 +47,12 @@ public enum CommandType {
 	//====================================================
 	// DIAGRAM
 	//====================================================
+	NEW_RULES("Createa a new rules document"),
+	CLOSE_RULES("Createa a new rules document"),
+	
+	//====================================================
+	// DIAGRAM
+	//====================================================
 	NEW_DIAGRAM("Create a new class diagram"), 
 	CLOSE_DIAGRAM("Close current class diagram"),	
 	REDRAW_DIAGRAM("Redraw the current class diagram"),
@@ -114,8 +120,8 @@ public enum CommandType {
 	//====================================================
 	// VERIFICATE
 	//====================================================
-	CHECK_MODEL_SYNTAX("Check syntax of current model"), 
-	PARSE_CONSTRAINTS("Check syntax of current constraints"),
+	CHECK_MODEL_SYNTAX("Check syntax of the entire model"), 
+	PARSE_RULES("Check syntax of all rules at the current project"),
 	 
 	//====================================================
 	// VALIDATE

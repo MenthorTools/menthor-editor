@@ -32,6 +32,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.dialog.DiagramListDialog;
+import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.menus.AddClassMenu;
+import net.menthor.editor.v2.menus.AddDataTypeMenu;
+import net.menthor.editor.v2.menus.AddRelationshipMenu;
+import net.menthor.editor.v2.menus.ChangeClassMenu;
+import net.menthor.editor.v2.menus.ChangeRelationshipMenu;
+import net.menthor.editor.v2.trees.ElementTree;
+import net.menthor.editor.v2.types.RelationshipType;
+
+import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
@@ -42,18 +56,6 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLElement;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.dialog.DiagramListDialog;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.explorer.ProjectTree;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.menus.AddClassMenu;
-import net.menthor.editor.v2.menus.AddDataTypeMenu;
-import net.menthor.editor.v2.menus.AddRelationshipMenu;
-import net.menthor.editor.v2.menus.ChangeClassMenu;
-import net.menthor.editor.v2.menus.ChangeRelationshipMenu;
-import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * @author John Guerson
@@ -63,7 +65,7 @@ public class TreePopupMenu extends JPopupMenu {
 	private static final long serialVersionUID = 1L;
 	public Object element;
 	public AppFrame frame;
-	public ProjectTree tree;
+	public ElementTree tree;
 	public DefaultMutableTreeNode selectedNode;
 	
 	public void createRefreshItem()
@@ -110,18 +112,20 @@ public class TreePopupMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (TreePopupMenu.this.element instanceof RefOntoUMLElement)
-				{    					
-					RefOntoUML.Element element = (RefOntoUML.Element)((RefOntoUMLElement)TreePopupMenu.this.element).getElement();    					
-					ProjectBrowser.frame.getDiagramManager().renameElement(element);					
-				}
-				else if (TreePopupMenu.this.element instanceof StructureDiagram)
-				{
-					ProjectBrowser.frame.getDiagramManager().renameDiagram((StructureDiagram)element);					
-				}
-				else if (TreePopupMenu.this.element instanceof OclDocument)
-				{
-					ProjectBrowser.frame.getDiagramManager().renameOclDocument((OclDocument)element);					
-				}
+				{    		
+					EObject elem = ((RefOntoUMLElement)TreePopupMenu.this.element).getElement();
+					if (elem instanceof StructureDiagram)
+					{
+						ProjectBrowser.frame.getDiagramManager().renameDiagram((StructureDiagram)elem);					
+					}
+					else if (elem instanceof OclDocument)
+					{
+						ProjectBrowser.frame.getDiagramManager().renameOclDocument((OclDocument)elem);					
+					} 
+					else if (elem instanceof RefOntoUML.Element){						    					
+						ProjectBrowser.frame.getDiagramManager().renameElement((RefOntoUML.Element)element);
+					}
+				}				 
 			}
 		});
 	}
@@ -291,7 +295,7 @@ public class TreePopupMenu extends JPopupMenu {
 		});
 	}
 	
-    public TreePopupMenu(final AppFrame frame, final ProjectTree tree, Object element)
+    public TreePopupMenu(final AppFrame frame, final ElementTree tree, Object element)
     {       
     	this.element = element; 
     	this.frame = frame;
@@ -307,7 +311,7 @@ public class TreePopupMenu extends JPopupMenu {
     	} 
     	
     	// Model Node: Model
-    	if (tree.getModelRootNode().equals(selectedNode)) {
+    	if (tree.getRootNode().equals(selectedNode)) {
     		createAddElementItem();
 			createAddRelationItem();
     		//createCompleteItem();
@@ -315,12 +319,12 @@ public class TreePopupMenu extends JPopupMenu {
     	} 
     	
     	// Diagram Node: Diagrams
-    	if(tree.getDiagramRootNode().equals(selectedNode)) {
+    	if(tree.getRootNode().equals(selectedNode)) {
     		createAddDiagramItem();
     		return;
     	} 
 
-    	if(tree.getConstraintRootNode().equals(selectedNode)){
+    	if(tree.getRootNode().equals(selectedNode)){
     		createAddOCLDocumentItem();
     		return;
     	}

@@ -14,7 +14,7 @@ import net.menthor.editor.Main;
 import net.menthor.editor.explorer.Models;
 import net.menthor.editor.ui.PngWriter;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.palette.PaletteAccordion;
 import net.menthor.editor.v2.palette.PaletteGrouping;
@@ -44,7 +44,7 @@ public class DomainPatternTool {
 	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, CommandListener editorDispatcher, AppFrame appFrame) {
 		
 		List<String> names = new ArrayList<String>();
-		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){
+		for(OntoumlDiagram umlDiagram: patternProject.getDiagrams()){
 			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
 			names.add(diagram.getName());
 		}
@@ -55,7 +55,7 @@ public class DomainPatternTool {
 		parser = Models.getRefparser();
 		
 		HashMap<PaletteItem, StructureDiagram> hashDomainPalette = new HashMap<>();
-		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){
+		for(OntoumlDiagram umlDiagram: patternProject.getDiagrams()){
 			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
 			PaletteItem item = domainPallete.getItemMap().get(diagram.getName());
 			if(item!=null) hashDomainPalette.put(item, diagram);

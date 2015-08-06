@@ -30,11 +30,8 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.NamedElement;
 
 public class BaseCheckBoxTree extends CheckboxTree {
 
@@ -75,7 +72,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
     }
     
     /** Add child to the currently selected node. */
-    public DefaultMutableTreeNode addElement(EObject child){    		
+    public DefaultMutableTreeNode addElement(Object child){    		
         DefaultMutableTreeNode parentNode = null;
         TreePath parentPath = getSelectionPath(); 
         if (parentPath == null){
@@ -86,12 +83,12 @@ public class BaseCheckBoxTree extends CheckboxTree {
         return addElement(parentNode, child, true);
     }    
       
-    public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, EObject child){
-    	return addElement(parent, child, false);
+    public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child){
+    	return addElement(parent, child, true);
     }
     
     /** Add element to the tree */
-    public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, EObject child, boolean shouldBeVisible){    	
+    public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible){    	
 		DefaultMutableTreeNode node = getNode(child);
 		if(node!=null) return node;    	    	
 		DefaultMutableTreeNode childNode = createNode(child);		
@@ -114,7 +111,8 @@ public class BaseCheckBoxTree extends CheckboxTree {
     
     /** Get the node of this user object */
     @SuppressWarnings("rawtypes")
-    public DefaultMutableTreeNode getNode(EObject userObject){	
+    public DefaultMutableTreeNode getNode(Object userObject){	
+    	if(modelRootNode.getUserObject().equals(userObject)) return modelRootNode;
 		Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()){	    	
@@ -129,58 +127,40 @@ public class BaseCheckBoxTree extends CheckboxTree {
     }
     
     /** Create a node to the tree*/
-    public DefaultMutableTreeNode createNode(EObject object){
+    public DefaultMutableTreeNode createNode(Object object){
     	return new DefaultMutableTreeNode(object);    
     }
     
 	
 	/** Get checked elements */
-    public List<EObject> getCheckedElements () {		
-		List<EObject> checkedNodes = new ArrayList<EObject>();
+    public List<Object> getCheckedElements () {		
+		List<Object> checkedNodes = new ArrayList<Object>();
 	    TreePath[] treepathList = getCheckingPaths();	    	
 	    for (TreePath treepath : treepathList){	    	
 	    	DefaultMutableTreeNode node = ((DefaultMutableTreeNode)treepath.getLastPathComponent());	    	
-	    	EObject elem = (EObject)node.getUserObject();
+	    	Object elem = (Object)node.getUserObject();
 	    	if(!checkedNodes.contains(elem)) checkedNodes.add(elem);	    		    		    	
 	    }		    	
 	    return checkedNodes;
 	}
     
 	/** Get Unchecked Elements. */
-    public List<EObject> getUncheckedElements (){
-		List<EObject> uncheckedNodes = new ArrayList<EObject>();
-		List<EObject> checkedNodes = new ArrayList<EObject>();
+    public List<Object> getUncheckedElements (){
+		List<Object> uncheckedNodes = new ArrayList<Object>();
+		List<Object> checkedNodes = new ArrayList<Object>();
 	    TreePath[] treepathList = getCheckingPaths();	    	
 	    for (TreePath treepath : treepathList){	    	
 	    	DefaultMutableTreeNode node = ((DefaultMutableTreeNode)treepath.getLastPathComponent());	    	
-	    	EObject elem = (EObject)node.getUserObject();
+	    	Object elem = (Object)node.getUserObject();
 	    	if(!checkedNodes.contains(elem)) checkedNodes.add(elem);	    	
 	    }		    
-		EObject rootObject = (EObject)modelRootNode.getUserObject();	    	    
-		initUncheckeNodes(rootObject, checkedNodes, uncheckedNodes);    	    	
 	    return uncheckedNodes;
 	}
 
-    /** Initialize Unchecked Nodes. */
-	protected void initUncheckeNodes(EObject element, List<EObject> checkedElements,List<EObject> uncheckedElements){    	
-    	if (element == null) return;    	
-    	Object[] elemArray = element.eContents().toArray();
-		for (Object obj : elemArray){
-			initUncheckeNodes((EObject)obj, checkedElements, uncheckedElements);
-		}    	
-    	if(!checkedElements.contains(element)){
-    		if (element instanceof Package){    			
-    			// nothing to do in this case...
-    		}else{    			
-    			uncheckedElements.add(element);    			
-    		}
-    	}	
-    }
-		
 	/** Check Node. */
 	@SuppressWarnings({ "rawtypes", "unused" })
 	protected void checkNode(DefaultMutableTreeNode node, boolean uncheckChildren){		
-		EObject childObject;		
+		Object childObject;		
 		addCheckingPath(new TreePath(node.getPath()));				
 		Object userobj = node.getUserObject();
 		//unselected children only if was different than Association
@@ -189,7 +169,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 			DefaultMutableTreeNode childNode = (DefaultMutableTreeNode)e.nextElement();				
 			while (e.hasMoreElements()){
 				childNode = (DefaultMutableTreeNode)e.nextElement();				
-				childObject = (EObject)childNode.getUserObject();		    		
+				childObject = (Object)childNode.getUserObject();		    		
 				getCheckingModel().removeCheckingPath(new TreePath(childNode.getPath()));				
 			}
     	}
@@ -197,8 +177,8 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	
 	/** Uncheck Node. */
 	@SuppressWarnings({ "rawtypes", "unused" })
-	protected void uncheckNode(DefaultMutableTreeNode node, boolean checkChildren){		
-		EObject childObject;		
+	public void uncheckNode(DefaultMutableTreeNode node, boolean checkChildren){		
+		Object childObject;		
 		removeCheckingPath(new TreePath(node.getPath()));		
 		Object userobj = node.getUserObject();				
 		//unselected children only if was different than Association
@@ -207,7 +187,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 			DefaultMutableTreeNode childNode = (DefaultMutableTreeNode)e.nextElement();					
 			while (e.hasMoreElements()) {
 				childNode = (DefaultMutableTreeNode)e.nextElement();				
-				childObject = (EObject)childNode.getUserObject();		    		
+				childObject = (Object)childNode.getUserObject();		    		
 				getCheckingModel().addCheckingPath(new TreePath(childNode.getPath()));				
 			}
     	}
@@ -221,29 +201,29 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	
 	/** Check these elements. We do not concern with other elements*/
 	@SuppressWarnings("rawtypes")
-	public void check(List<EObject> elements){			   
-		List<EObject> alreadyChecked = getCheckedElements();	    
+	public void check(List<Object> elements){			   
+		List<Object> alreadyChecked = getCheckedElements();	    
 		alreadyChecked.removeAll(elements);
 		alreadyChecked.addAll(elements);				
 	    Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) {	    	
-		    EObject obj = (EObject)node.getUserObject();
+	    	Object obj = (Object)node.getUserObject();
 		    if (alreadyChecked.contains(obj)) { checkNode(node,true); }	    		    		    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element	    
-		EObject obj = (EObject)node.getUserObject();
+	    Object obj = (Object)node.getUserObject();
 		if (alreadyChecked.contains(obj)) { checkNode(node,true); }	    
 	}	
 	
 	/** Check these elements in the tree uncheking all other leafs */
 	@SuppressWarnings("rawtypes")
-	protected void checkStrictly(List<EObject> elements){			   
+	public void checkStrictly(List<Object> elements){			   
 	    Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) {	    	
-	    	EObject obj = (EObject)node.getUserObject();
+	    	Object obj = (Object)node.getUserObject();
 	    	if(node.isLeaf()){
 	    		if (elements.contains(obj)) { checkNode(node,true); }	    			
 	    		else { uncheckNode(node,true); }
@@ -251,7 +231,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element	    
-		EObject obj = (EObject)node.getUserObject();
+	    Object obj = (Object)node.getUserObject();
 		if(node.isLeaf()){
 		    if (elements.contains(obj)) { checkNode(node,true); }  
 		    else { uncheckNode(node,true); }
@@ -260,32 +240,32 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	
 	/** Uncheck this elements */
 	@SuppressWarnings("rawtypes")
-	public void uncheck(List<EObject> elements){			   
-		List<EObject> alreadyUnchecked = getUncheckedElements();	    
+	public void uncheck(List<Object> elements){			   
+		List<Object> alreadyUnchecked = getUncheckedElements();	    
 		alreadyUnchecked.removeAll(elements);
 		alreadyUnchecked.addAll(elements);				
 	    Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()){	    	
-		    EObject obj = (EObject)node.getUserObject();
+	    	Object obj = (Object)node.getUserObject();
 		    if (alreadyUnchecked.contains(obj)) { uncheckNode(node,true); }	    		    		    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();	    
 	    }
 	    //last element	    
-		EObject obj = (EObject)node.getUserObject();
+	    Object obj = (Object)node.getUserObject();
 		if (alreadyUnchecked.contains(obj)) { uncheckNode(node,true); }	    
 	}	
 	
 	/** Check Element */
 	@SuppressWarnings("rawtypes")
-	protected boolean checkElement(EObject element){	
+	public boolean checkElement(Object element){	
 		boolean result = false;
-		EObject rootEObj = (EObject)modelRootNode.getUserObject();
+		Object rootEObj = (Object)modelRootNode.getUserObject();
 		if (rootEObj.equals(element)) { result=true; select(modelRootNode); return result; }		
 		Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()) {	    	
-	    	EObject obj = (EObject)node.getUserObject();
+	    	Object obj = (Object)node.getUserObject();
 	    	if (obj.equals(element)) { 
 	    		result =true;		    		
 	    		this.setSelectionPath(new TreePath(node.getPath()));
@@ -295,7 +275,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	    	node = (DefaultMutableTreeNode)e.nextElement();
 	    }
 	    //last element	    
-	    EObject obj = (EObject)node.getUserObject();
+	    Object obj = (Object)node.getUserObject();
 	    if (obj.equals(element)){ 
 	    	result =true;		    	
 	    	this.setSelectionPath(new TreePath(node.getPath()));
@@ -305,35 +285,16 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	    return result;	    
 	}
 	
-	/** Find Node */
-	@SuppressWarnings("rawtypes")
-	public ArrayList<DefaultMutableTreeNode> findName(String name)
-	{		
-		ArrayList<DefaultMutableTreeNode> list = new ArrayList<DefaultMutableTreeNode>();
-		Enumeration e = modelRootNode.breadthFirstEnumeration();
-	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
-	    while (e.hasMoreElements()) {	    	
-    		EObject obj = ((EObject)node.getUserObject());	
-    		if(obj instanceof NamedElement){
-    			NamedElement namedElem = (NamedElement)obj;
-		    	if(namedElem.getName()!=null && !namedElem.getName().isEmpty()){
-				   	if (namedElem.getName().contains(name) || namedElem.getName().equalsIgnoreCase(name)) {			    		
-				   		list.add(node);			    		
-				   	}
-		    	}	    	
-    		}
-	    	node = (DefaultMutableTreeNode)e.nextElement();
-	    }
-	    //last element
-	    EObject obj = ((EObject)node.getUserObject());	
-		if(obj instanceof NamedElement){
-			NamedElement namedElem = (NamedElement)obj;        		
-    		if(namedElem.getName()!=null && !namedElem.getName().isEmpty()){
-		    	if (namedElem.getName().contains(name) || namedElem.getName().equalsIgnoreCase(name)) {		    		
-		    		list.add(node);		    		
-		    	}
-    		}	    	
-	    }
-	    return list;
-	}
+	 /** Remove the currently selected node. */
+    public void removeCurrentNode(){
+        TreePath currentSelection = getSelectionPath();
+        if (currentSelection != null){
+            DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(currentSelection.getLastPathComponent());
+            MutableTreeNode parent = (MutableTreeNode)(currentNode.getParent());
+            if (parent != null){
+                treeModel.removeNodeFromParent(currentNode);
+                return;
+            }
+        }
+    }    
 }

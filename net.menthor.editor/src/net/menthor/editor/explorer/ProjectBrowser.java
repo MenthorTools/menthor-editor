@@ -24,11 +24,14 @@ package net.menthor.editor.explorer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -38,26 +41,34 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
 import net.menthor.editor.explorer.dnd.TreeDropListener;
+import net.menthor.editor.popupmenu.TreePopupMenu;
 import net.menthor.editor.ui.AlloySpecification;
 import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.trees.ElementTree;
+import net.menthor.editor.v2.trees.ElementTreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+
+import org.tinyuml.umldraw.StructureDiagram;
+
+import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -71,14 +82,13 @@ public class ProjectBrowser extends RoundedPanel{
 	public static AppFrame frame;
 	private ProjectToolBar ptoolbar;
 	private JScrollPane scroll;
-	private ProjectTree tree;
+	private ElementTree tree;
 	//======
 		
 			
-	@SuppressWarnings("unchecked")
-	public List<UmlDiagram> getAllDiagrams()
+	public List<OntoumlDiagram> getAllDiagrams()
 	{
-		return (List<UmlDiagram>) Models.getProject().getDiagrams();
+		return (List<OntoumlDiagram>) Models.getProject().getDiagrams();
 	}
 	
 	public void addTreeSelectionListener(TreeSelectionListener selectionListener) {
@@ -105,9 +115,8 @@ public class ProjectBrowser extends RoundedPanel{
 	
 	public void refreshTree()
 	{				
-		tree.updateUI();				
-		validate();
-		repaint();		
+		tree.updateUI();		
+		updateUI();
 	}
 	
 	public void clear()
@@ -123,7 +132,69 @@ public class ProjectBrowser extends RoundedPanel{
 		updateUI();
 	}
 	
-	public ProjectTree getTree() { return tree; }
+  	
+	/**
+	 * Show the Popup Menu
+	 */
+	public void doPopup (MouseEvent e, ElementTree tree)
+	{
+		TreePath path = tree.getPathForLocation(e.getX(), e.getY());
+		DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());		
+		TreePopupMenu menu = new TreePopupMenu(frame, tree, currentNode.getUserObject());
+	    menu.show(e.getComponent(), e.getX(), e.getY());		
+	}
+	
+	public void mouseClickedActionPerformed(MouseEvent e)
+	{
+		if (SwingUtilities.isRightMouseButton(e))
+        {	            	
+        	TreePath path = tree.getPathForLocation ( e.getX (), e.getY () );
+        	
+        	tree.setSelectionPath(path);
+        	tree.scrollPathToVisible(path); //adicionado por Tiago
+            
+        	Rectangle pathBounds = tree.getUI().getPathBounds(tree, path);
+            if (pathBounds != null && pathBounds.contains(e.getX (),e.getY()))
+            {
+            	doPopup(e,tree);
+            }	                
+        }
+        if (e.getClickCount()==2 && SwingUtilities.isLeftMouseButton(e))
+        {
+        	TreePath path = tree.getPathForLocation (e.getX (), e.getY () );
+        	if (path!=null){
+            	DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());
+            	
+            	// open diagram
+            	if (((RefOntoUMLElement)currentNode.getUserObject()).getElement() instanceof StructureDiagram)
+            	{
+            		StructureDiagram diagram = (StructureDiagram)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
+            		if (!frame.getDiagramManager().isDiagramOpened(diagram)) {
+            			// create the diagram visualization again
+            			frame.getDiagramManager().createDiagramEditor(diagram);
+            		}
+            	}
+            	
+            	// open diagram
+            	if (((RefOntoUMLElement)currentNode.getUserObject()).getElement() instanceof OclDocument)
+            	{
+            		OclDocument oclDoc = (OclDocument)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
+            		if (!frame.getDiagramManager().isOclDocumentOpened(oclDoc)) {
+            			// create the constraint visualization again
+            			frame.getDiagramManager().createConstraintEditor(oclDoc);
+            		}
+            	}
+            	
+            	if(((RefOntoUMLElement)currentNode.getUserObject()).getElement() instanceof RefOntoUML.Element)
+            	{
+            		RefOntoUML.Element element = (RefOntoUML.Element)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
+            		ElementDialogCaller.openDialog(element, frame);
+            	}
+        	}
+        }
+	}
+	
+	public ElementTree getTree() { return tree; }
 	
 	@SuppressWarnings("unused")
 	public void setProject(UmlProject project)
@@ -134,9 +205,18 @@ public class ProjectBrowser extends RoundedPanel{
 		Models.setRefparser(new OntoUMLParser(project.getModel()));				
 		System.out.println("Creating project browser tree");		
 		
-		tree = new ProjectTree(frame, root,project,Models.getRefparser(),Models.getOclDocList());
+		tree = ElementTree.createElementTree(Models.getRefparser(), Models.getOclDocList(), Models.getProject().getDiagrams(),new ElementTreeVisibility(), false);
 		tree.setBorder(new EmptyBorder(2,2,2,2));
 		tree.addTreeSelectionListener(new ProjectTreeSelectionListener());
+		
+		/** Right Click Mouse Listener */
+		tree.addMouseListener(new MouseAdapter()
+	    {
+	        public void mouseClicked (MouseEvent e)
+	        {	       	
+	            mouseClickedActionPerformed(e);
+	        }
+	    });	
 		
 		/**drag from the tree and drop at the same tree*/
 		DragSource ds = DragSource.getDefaultDragSource();
@@ -167,7 +247,7 @@ public class ProjectBrowser extends RoundedPanel{
 		updateUI();		
 	}
 
-	public void setTree(ProjectTree tree)
+	public void setTree(ElementTree tree)
 	{
 		remove(scroll);		
 		this.tree = tree;

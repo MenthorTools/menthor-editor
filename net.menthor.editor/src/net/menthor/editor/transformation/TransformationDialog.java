@@ -12,14 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 
 public class TransformationDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = -4770351584655675698L;
 	
 	protected JFrame frame;
-	protected List<UmlDiagram> diagrams;	
+	protected List<OntoumlDiagram> diagrams;	
 	protected OntoUMLParser refparser;		
 	protected JTabbedPane tabbedPane = new JTabbedPane();
 	protected JPanel principalPane;
@@ -34,7 +34,7 @@ public class TransformationDialog extends javax.swing.JDialog {
 	protected JButton getOkButton() { return btnOk; }
 	protected JFrame getFrame() { return frame; }
 	
-	protected TransformationDialog(JFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, boolean modal) 
+	protected TransformationDialog(JFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, modal);
 		

@@ -29,6 +29,7 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
 import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 
 import org.eclipse.emf.edit.command.DeleteCommand;
@@ -149,8 +150,8 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 	private void delete (RefOntoUML.Element elem)
 	{			
 //		System.out.println("Deleting = "+elem);
-		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(project.getEditingDomain(), elem);
-		project.getEditingDomain().getCommandStack().execute(cmd);
+		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(ModelHelper.createAdapterEditingDomain(), elem);
+		ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
 	}
 	
@@ -169,7 +170,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 	private void undo (RefOntoUML.Element elem)
 	{		
 //		System.out.println("Undoing = "+elem);
-		project.getEditingDomain().getCommandStack().undo();
+		ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
 	}
 }

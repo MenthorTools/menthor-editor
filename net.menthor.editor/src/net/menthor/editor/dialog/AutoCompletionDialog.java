@@ -31,7 +31,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -39,7 +38,6 @@ import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.ui.UmlProject;
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -49,6 +47,7 @@ public class AutoCompletionDialog extends JDialog {
 	private static final long serialVersionUID = -251319551154959770L;
 	
 	private AppFrame frame;
+	@SuppressWarnings("unused")
 	private UmlProject project;
 	
 	private final JPanel contentPanel = new JPanel();
@@ -83,48 +82,47 @@ public class AutoCompletionDialog extends JDialog {
 	 * 
 	 * @param event
 	 */
-	@SuppressWarnings("deprecation")
 	public void AutoSelectionActionPerformed(ActionEvent event)
 	{
 		if (rbAllAncestors.isSelected())
 		{
 			if (frame.getProjectBrowser()==null) return;       		    	
-		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.ALL_ANCESTORS,project);       	   				    	
-	   		JOptionPane.showMessageDialog(
-	   			frame,msg,"All ancestors",JOptionPane.INFORMATION_MESSAGE	   			
-	   		); 
+//		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.ALL_ANCESTORS,project);       	   				    	
+//	   		JOptionPane.showMessageDialog(
+//	   			frame,msg,"All ancestors",JOptionPane.INFORMATION_MESSAGE	   			
+//	   		); 
 		}
 		if (rbAllAncestorsDescendants.isSelected())
 		{
-			if (frame.getProjectBrowser()==null) return;       		    	
-		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.COMPLETE_HIERARCHY,project);       	   				    	
-	   		JOptionPane.showMessageDialog(
-	   			frame,msg,"All ancestors and descendants",JOptionPane.INFORMATION_MESSAGE	   			
-	   		);        				
+//			if (frame.getProjectBrowser()==null) return;       		    	
+//		   	//String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.COMPLETE_HIERARCHY,project);       	   				    	
+//	   		JOptionPane.showMessageDialog(
+//	   			frame,msg,"All ancestors and descendants",JOptionPane.INFORMATION_MESSAGE	   			
+//	   		);        				
 		}
 		if (rbAllAncestorsUntil.isSelected())
 		{
-			if (frame.getProjectBrowser()==null) return;       		    	
-		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.SORTAL_ANCESTORS,project);       	   				    	
-	   		JOptionPane.showMessageDialog(
-	   			frame,msg,"All ancestors until a Substance Sortal",JOptionPane.INFORMATION_MESSAGE	   			
-	   		); 
+//			if (frame.getProjectBrowser()==null) return;       		    	
+//		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.SORTAL_ANCESTORS,project);       	   				    	
+//	   		JOptionPane.showMessageDialog(
+//	   			frame,msg,"All ancestors until a Substance Sortal",JOptionPane.INFORMATION_MESSAGE	   			
+//	   		); 
 		}
 		if (rbAllDescendants.isSelected())
 		{
-			if (frame.getProjectBrowser()==null) return;       		    	
-		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.ALL_DESCENDANTS,project);       	   				    	
-	   		JOptionPane.showMessageDialog(
-	   			frame,msg,"All descendants",JOptionPane.INFORMATION_MESSAGE	   			
-	   		); 
+//			if (frame.getProjectBrowser()==null) return;       		    	
+//		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.ALL_DESCENDANTS,project);       	   				    	
+//	   		JOptionPane.showMessageDialog(
+//	   			frame,msg,"All descendants",JOptionPane.INFORMATION_MESSAGE	   			
+//	   		); 
 		}
 		if (rbMandatory.isSelected())
 		{
 			if (frame.getProjectBrowser()==null) return;       		    	
-		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.NO_HIERARCHY,project);       	   				    	
-	   		JOptionPane.showMessageDialog(
-	   			frame,msg,"Only mandatory dependencies",JOptionPane.INFORMATION_MESSAGE	   			
-	   		); 
+//		   	String msg = frame.getDiagramManager().autoCompleteSelection(OntoUMLParser.NO_HIERARCHY,project);       	   				    	
+//	   		JOptionPane.showMessageDialog(
+//	   			frame,msg,"Only mandatory dependencies",JOptionPane.INFORMATION_MESSAGE	   			
+//	   		); 
 		}
 	}
 	

@@ -22,8 +22,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.UmlDiagram;
-import net.menthor.editor.v2.trees.DiagramTree;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.trees.DiagramStrictTree;
 import net.menthor.editor.v2.trees.ElementTree;
 import net.menthor.editor.v2.trees.ElementTreeVisibility;
 
@@ -33,7 +33,7 @@ public class FilterPane extends JPanel {
 		
 	//tree
 	private ElementTree elemTree;
-	private DiagramTree diagramTree;
+	private DiagramStrictTree diagramTree;
 	private JScrollPane scrollTreePane = new JScrollPane();
 	private JPanel treeWrapper = new JPanel();
 	private TreeType activeTree = TreeType.BY_ELEMENT;
@@ -168,10 +168,10 @@ public class FilterPane extends JPanel {
 		public String value() { return value; }
 	}
 	
-	public void fillContent(OntoUMLParser refparser, List<UmlDiagram> diagrams)
+	public void fillContent(OntoUMLParser refparser, List<OntoumlDiagram> diagrams)
 	{
-		diagramTree = DiagramTree.createDiagramTree(refparser, diagrams, new ElementTreeVisibility(),true);
-		elemTree = ElementTree.createElementTree(refparser, null,new ElementTreeVisibility(),true);
+		diagramTree = DiagramStrictTree.createDiagramTree(refparser, diagrams, new ElementTreeVisibility(),true);
+		elemTree = ElementTree.createElementTree(refparser, null,null, new ElementTreeVisibility(),true);
 		ElementTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		

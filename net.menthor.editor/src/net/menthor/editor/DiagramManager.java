@@ -78,7 +78,6 @@ import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
 import net.menthor.editor.explorer.Models;
 import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.finder.FoundPane;
 import net.menthor.editor.pattern.DomainPatternTool;
@@ -110,10 +109,11 @@ import net.menthor.editor.ui.commands.ProjectReader;
 import net.menthor.editor.ui.commands.ProjectWriter;
 import net.menthor.editor.ui.commands.UMLExporter;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.bars.MainMenuBar;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.trees.ElementTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.PatternType;
@@ -663,7 +663,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Tell the application that we need to save all diagrams i.e. the diagrams were all modified */
 	public void saveAllDiagramNeeded(boolean value)
 	{
-		for(UmlDiagram d: getCurrentProject().getDiagrams()) ((StructureDiagram)d).setSaveNeeded(value);
+		for(OntoumlDiagram d: getCurrentProject().getDiagrams()) ((StructureDiagram)d).setSaveNeeded(value);
 		saveProjectNeeded(value);	
 	}
 	
@@ -675,7 +675,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		frame.getBrowserManager().getProjectBrowser().setProject(currentProject);
 		frame.getInfoManager().setProject(currentProject);
 		
-		for(UmlDiagram diagram: currentProject.getDiagrams()) 
+		for(OntoumlDiagram diagram: currentProject.getDiagrams()) 
 			createDiagramEditor((StructureDiagram)diagram);
 		
 		if(currentProject.getDiagrams().size()==0) 
@@ -765,7 +765,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		createDiagramEditor(diagram);			
 		//add the diagram from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().addObject(browser.getTree().getDiagramRootNode(),diagram);
+		browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),new RefOntoUMLElement(diagram,""));
 	}
 
 	/** Creates a new OCL document with in existing Project */
@@ -778,7 +778,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(openInTab)createConstraintEditor(oclDoc);		
 		//add the ocl document from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().addObject(browser.getTree().getConstraintRootNode(),oclDoc);
+		browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),new RefOntoUMLElement(oclDoc,""));
 	}
 	
 	/** Creates a new diagram on the current Project */
@@ -794,8 +794,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			createDiagramEditor(diagram);			
 			//add the diagram from the browser
 			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().addObject(browser.getTree().getDiagramRootNode(),diagram);			
+			browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),new RefOntoUMLElement(diagram,""));			
 		}
+	}
+	
+	public void newOclDocument()
+	{
+		newOclDocument(true);
 	}
 	
 	/** Creates a new ocl document on the current Project */
@@ -803,14 +808,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		if (currentProject!=null)
 		{
-			OclDocument oclDoc = new OclDocument();			
+			OclDocument oclDoc = new OclDocument();		
 			ArrayList<OclDocument> docs = Models.getOclDocList();			
 			oclDoc.setName("Document"+docs.size());			
 			docs.add(oclDoc);
 			if(openInTab) createConstraintEditor(oclDoc);				
 			//add the ocl document from the browser
 			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().addObject(browser.getTree().getConstraintRootNode(),oclDoc);	
+			browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),new RefOntoUMLElement(oclDoc,""));	
 		}
 	}
 	
@@ -828,6 +833,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
+	/** Close current diagram editor */
+	public void closeOclDocument()
+	{
+		Editor editor = getCurrentConstraintEditor();
+		if(editor!=null){
+			if(editor.isSaveNeeded()){
+				int option = JOptionPane.showConfirmDialog(getFrame(), "Your rules document has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
+				if (option== JOptionPane.YES_OPTION) {saveProject(); }
+				else if (option==JOptionPane.CANCEL_OPTION) { return; }
+			}			
+			DiagramManager.closeTab(getTabIndex(((ConstraintEditor)editor).getOclDocument()),this);
+		}
+	}
+	
 	public void closeAll(Component c){
 		closeAll(this);
 	}
@@ -944,7 +963,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public ArrayList<String> getDiagramNames()
 	{
 		ArrayList<String> result = new ArrayList<String>();
-		for(UmlDiagram d: currentProject.getDiagrams()){
+		for(OntoumlDiagram d: currentProject.getDiagrams()){
 			result.add(d.getName());			
 		}
 		return result;
@@ -977,8 +996,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						diagram.setName(newtext);
 						int index = getTabIndex(diagram);					
 						if(index>=0) setTitleAt(index, newtext);			        
-						getFrame().getBrowserManager().getProjectBrowser().refreshTree();	
-				        updateUI();
+						updateUI();
+						getFrame().getBrowserManager().getProjectBrowser().refreshTree();				        
 					}
 				});				
 			}
@@ -1084,7 +1103,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			System.out.println("Loading diagram \""+currentProject.getDiagrams().get(0).getName()+"\"");	
 			createDiagramEditor((StructureDiagram)currentProject.getDiagrams().get(0));
 		}else{
-			for(UmlDiagram diagram: currentProject.getDiagrams()) {
+			for(OntoumlDiagram diagram: currentProject.getDiagrams()) {
 				if(currentProject.isOpened(diagram)){
 					System.out.println("Loading diagram \""+diagram.getName()+"\"");	
 					createDiagramEditor((StructureDiagram)diagram);
@@ -1161,11 +1180,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private void openListFiles(ArrayList<Object> listFiles) throws IOException
 	{
 		currentProject = (UmlProject) listFiles.get(0);
-		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
+		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();		
 		for(int i=1; i<listFiles.size();i++)
 		{																
 			OclDocument oclDoc = (OclDocument)listFiles.get(i);										
-			Models.getOclDocList().add(oclDoc);					
+			Models.getOclDocList().add(oclDoc);
 		}
 		pb.setProject(currentProject);
 		frame.getInfoManager().setProject(currentProject);	
@@ -1524,15 +1543,19 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 * This  enables all the application to work only with the checked elements in the parser/tree.
 	 * @return 
 	 */
-	public List<EObject> workingOnlyWithChecked()
+	public List<Object> workingOnlyWithChecked()
 	{	
 		// This method does a lot of processing and updates the UI -- 
 		//This causes lag and frozen ui because they take a lot of time on big models.
 		//Suggestion: Call this method from a "doInBackground" of a SwingWorker and the commented ones from "done".
 		OntoUMLParser refparser = Models.getRefparser();
 		ProjectBrowser modeltree = frame.getProjectBrowser();			
-		List<EObject> selected = modeltree.getTree().getModelCheckedElements();
-		refparser.select((ArrayList<EObject>)selected,true);		
+		List<Object> selected = modeltree.getTree().getCheckedElements();
+		List<EObject> result = new ArrayList<EObject>();
+		for(Object c: selected){
+			result.add((EObject)c);
+		}
+		refparser.select(result,true);		
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);		
 		selected.removeAll(added);
 		selected.addAll(added);	
@@ -1689,18 +1712,22 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		if (object instanceof RefOntoUMLElement)
 		{
-			RefOntoUMLElement ontoElem = (RefOntoUMLElement) object;
-			RefOntoUML.Element elemForDeletion = (RefOntoUML.Element)ontoElem.getElement();
-			frame.getDiagramManager().deleteFromMenthor(elemForDeletion,true);    					    					
-		}
-		else if (object instanceof StructureDiagram)
-		{
-			frame.getDiagramManager().deleteDiagram((StructureDiagram)object,true);    					
-		}
-		else if (object instanceof OclDocument)
-		{
-			frame.getDiagramManager().deleteOclDocument((OclDocument)object,true);    					
-		}
+			RefOntoUMLElement elem = (RefOntoUMLElement)object;
+			
+			if (elem.getElement() instanceof StructureDiagram)
+			{
+				frame.getDiagramManager().deleteDiagram((StructureDiagram)elem.getElement(),true);    					
+			}
+			else if (elem.getElement() instanceof OclDocument)
+			{
+				frame.getDiagramManager().deleteOclDocument((OclDocument)elem.getElement(),true);    					
+			}
+			else if (elem.getElement() instanceof RefOntoUML.Element){
+				RefOntoUMLElement ontoElem = (RefOntoUMLElement) object;
+				RefOntoUML.Element elemForDeletion = (RefOntoUML.Element)ontoElem.getElement();
+				frame.getDiagramManager().deleteFromMenthor(elemForDeletion,true);    					    					
+			}
+		}		
 	}
 	
 	/** Delete element from the model and every diagram in each it appears. */
@@ -2451,11 +2478,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		association.getOwnedEnd().add(source);
    		association.getNavigableOwnedEnd().add(target);
    		association.getNavigableOwnedEnd().add(source);
-   		ProjectTree tree = frame.getProjectBrowser().getTree();
-   		tree.checkModelElement(source);
+   		ElementTree tree = frame.getProjectBrowser().getTree();
+   		tree.checkElement(source);
    		tree.removeCurrentNode();   		
-   		tree.checkModelElement(association);
-   		tree.addObject(source);  
+   		tree.checkElement(association);
+   		tree.addElement(new RefOntoUMLElement(source));  
    		tree.updateUI();
    		frame.getDiagramManager().updateMenthorFromModification(association, true);
 	}
@@ -2522,19 +2549,19 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			public void run() {
 				UmlProject project = ProjectBrowser.frame.getDiagramManager().getCurrentProject();
 				// add to the tree
-				ProjectTree tree = frame.getProjectBrowser().getTree();
-				boolean found = tree.checkModelElement(addedElement);
+				ElementTree tree = frame.getProjectBrowser().getTree();
+				boolean found = tree.checkElement((EObject)addedElement);
 				if(!found) {
-					if(addedElement.eContainer()!=null) tree.checkModelElement(addedElement.eContainer());
-					else if(addedElement instanceof EnumerationLiteral) tree.checkModelElement(((EnumerationLiteral)addedElement).getEnumeration());
-					else tree.checkModelElement(project.getModel());					
-					tree.addObject(addedElement);					
+					if(addedElement.eContainer()!=null) tree.checkElement(addedElement.eContainer());
+					else if(addedElement instanceof EnumerationLiteral) tree.checkElement(((EnumerationLiteral)addedElement).getEnumeration());
+					else tree.checkElement(project.getModel());					
+					tree.addElement(new RefOntoUMLElement(addedElement, Models.getRefparser().getAlias(addedElement)));					
 				} else {
 					if(addedElement instanceof Generalization){
-						tree.checkModelElement(addedElement);
+						tree.checkElement(addedElement);
 						tree.removeCurrentNode();
-						tree.checkModelElement(addedElement.eContainer());
-						tree.addObject(addedElement);
+						tree.checkElement(addedElement.eContainer());
+						tree.addElement(new RefOntoUMLElement(addedElement, Models.getRefparser().getAlias(addedElement)));
 					}
 				}
 				tree.updateUI();						
@@ -2943,47 +2970,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	/**
-	 * Auto complete selection in the model
-	 */
-	@Deprecated
-	public String autoCompleteSelection(int option, UmlProject project)
-	{		
-		OntoUMLParser refparser = Models.getRefparser();
-		ProjectBrowser modeltree = frame.getProjectBrowser();
-
-		if (refparser==null) { return ""; }	
-
-		// Get elements from the tree
-		List<EObject> selected = modeltree.getTree().getModelCheckedElements();
-
-		// Get added elements from the auto selection completion
-		refparser.select((ArrayList<EObject>)selected,true);		
-		List<EObject> added = refparser.autoSelectDependencies(option,false);
-
-		// Show which elements were added to selection
-		String msg = new String();
-		if (added.size()>0) msg = "The following elements were include in selection:\n\n";
-		for(EObject o: added)
-		{
-			msg += ""+refparser.getStringRepresentation(o)+".\n";
-		}
-		if (added.size()==0) msg += "No elements to include in selection.";		
-
-		// Update tree adding the elements...
-		selected.removeAll(added);
-		selected.addAll(added);		
-
-		modeltree.getTree().checkModelElements(selected, true);			
-		modeltree.getTree().updateUI();    	
-
-		// Create a new model package from selected elements in the model.
-		// ontoumlmodel.setOntoUMLPackage(ontoumlmodel.getOntoUMLParser().createPackageFromSelections(new Copier()));
-
-		return msg;
-	}
-	
-	
 	/** Set Alloy Analyzer instance */
 	@Deprecated
 	public Thread createAlloyAnalyzer(final boolean visible)
@@ -3059,7 +3045,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public ArrayList<DiagramEditor> getDiagramEditors(RefOntoUML.Element element)
 	{
 		ArrayList<DiagramEditor> list = new ArrayList<DiagramEditor>();
-		for(UmlDiagram d: currentProject.getDiagrams())
+		for(OntoumlDiagram d: currentProject.getDiagrams())
 		{
 			if(d instanceof StructureDiagram)
 			{

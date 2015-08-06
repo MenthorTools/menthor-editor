@@ -1,10 +1,5 @@
 package net.menthor.editor.v2;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.PackageableElement;
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -26,9 +21,15 @@ import RefOntoUML.PackageableElement;
  * ============================================================================================
  */
 
-/** Interface used to specify (Onto)UML class diagrams */
-public interface UmlDiagram extends PackageableElement {
+import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.PackageableElement;
+
+/** Interface used to specify (Onto)UML class diagrams */
+public interface OntoumlDiagram extends PackageableElement {
+	
 	abstract public List<EObject> getPackageableElements();
-		
+	abstract public Object getContainer();
 }

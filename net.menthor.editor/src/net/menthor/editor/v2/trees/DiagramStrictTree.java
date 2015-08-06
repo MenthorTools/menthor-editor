@@ -21,6 +21,8 @@ package net.menthor.editor.v2.trees;
  * ============================================================================================
  */
 
+import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -28,25 +30,23 @@ import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import net.menthor.editor.v2.OntoumlDiagram;
+
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
 
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-
-import net.menthor.editor.v2.UmlDiagram;
-
-public class DiagramTree extends ElementTree {
+public class DiagramStrictTree extends ElementTree {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<UmlDiagram> diagrams;
+	private List<OntoumlDiagram> diagrams;
 	
 	/** Create an instance of the tree */
-	public static DiagramTree createDiagramTree(OntoUMLParser refparser, List<UmlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){
+	public static DiagramStrictTree createDiagramTree(OntoUMLParser refparser, List<OntoumlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){
 		if(refparser!=null){
-			return new DiagramTree(new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
+			return new DiagramStrictTree(new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
 			refparser, diagrams, opt,checkboxVisible);
 		}else{
 			return null;
@@ -54,9 +54,8 @@ public class DiagramTree extends ElementTree {
 	}
 	
 	/**Constructor */
-	private DiagramTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<UmlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){	
+	private DiagramStrictTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){	
 		super(rootNode);			
-		this.refparser = refparser;		
 		this.diagrams=diagrams;
 		this.opt=opt;		
 		//Collections.sort(this.diagrams);		
@@ -69,19 +68,19 @@ public class DiagramTree extends ElementTree {
 
     /** Get the node of this element */
     @SuppressWarnings("rawtypes")
-	protected DefaultMutableTreeNode getNode(UmlDiagram object){	
+	protected DefaultMutableTreeNode getNode(OntoumlDiagram object){	
 		Enumeration e = modelRootNode.breadthFirstEnumeration();
 	    DefaultMutableTreeNode  node = (DefaultMutableTreeNode)e.nextElement();
 	    while (e.hasMoreElements()){
-	    	if(node.getUserObject() instanceof UmlDiagram){
-	    		EObject obj = ((UmlDiagram)node.getUserObject());
+	    	if(node.getUserObject() instanceof OntoumlDiagram){
+	    		EObject obj = ((OntoumlDiagram)node.getUserObject());
 	    		if (obj.equals(object)) return node;	    		
 	    	}	    		
 	    	node = (DefaultMutableTreeNode)e.nextElement();
 	    }
 	    //last element
-	    if(node.getUserObject() instanceof UmlDiagram){
-	    	EObject obj = ((UmlDiagram)node.getUserObject());
+	    if(node.getUserObject() instanceof OntoumlDiagram){
+	    	EObject obj = ((OntoumlDiagram)node.getUserObject());
 	    	if (obj.equals(object)) return node;	
 	    }	  
 	    return null;
@@ -89,13 +88,13 @@ public class DiagramTree extends ElementTree {
             
     /** Add element to the tree */
     @Override
-	public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, EObject child, boolean shouldBeVisible) 
+	public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) 
     {
-    	if(child instanceof EObject){ 
+    	if(child instanceof Object){ 
     		super.addElement(parent,child,shouldBeVisible); 
     	}
-    	else if (child instanceof UmlDiagram){    		
-    		DefaultMutableTreeNode node = getNode((UmlDiagram)child);
+    	else if (child instanceof OntoumlDiagram){    		
+    		DefaultMutableTreeNode node = getNode((OntoumlDiagram)child);
     		if(node!=null) return node;
     	}    	
 		DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);		
@@ -110,34 +109,34 @@ public class DiagramTree extends ElementTree {
 	/** Draw */	
 	protected void drawDiagrams(DefaultMutableTreeNode parent, Object object, TreeCheckingModel checkingModel, OntoUMLParser refparser){				
 		if(object instanceof RefOntoUML.Model) {			
-			for (UmlDiagram diagram : diagrams) {
+			for (OntoumlDiagram diagram : diagrams) {
 				DefaultMutableTreeNode dNode = new DefaultMutableTreeNode(diagram);
 				parent.add(dNode);
 				expandPath(new TreePath(dNode.getPath()));				
 				//diagram elements
 				List<EObject> contents = diagram.getPackageableElements();
 				for(EObject eobj: contents){
-					super.drawElement(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser,null);
+					super.drawElements(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser);
 				}
 			}	
 		}
 	}
 		
 	/** Get checked elements */
-	public List<UmlDiagram> getCheckedDiagrams(){	
-		List<UmlDiagram> checkedNodes = new ArrayList<UmlDiagram>();
+	public List<OntoumlDiagram> getCheckedDiagrams(){	
+		List<OntoumlDiagram> checkedNodes = new ArrayList<OntoumlDiagram>();
 	    TreePath[] treepathList = getCheckingPaths();	    	
 	    for (TreePath treepath : treepathList){	    	
 	    	DefaultMutableTreeNode node = ((DefaultMutableTreeNode)treepath.getLastPathComponent());
-	    	if (node.getUserObject() instanceof UmlDiagram)
-	    		checkedNodes.add(((UmlDiagram)node.getUserObject()));	    		    	
+	    	if (node.getUserObject() instanceof OntoumlDiagram)
+	    		checkedNodes.add(((OntoumlDiagram)node.getUserObject()));	    		    	
 	    }	    
 	    return checkedNodes;
 	}
 	
 	/** Get Unchecked Elements. */
-	public List<UmlDiagram> getUncheckedDiagrams (){
-		List<UmlDiagram> result = new ArrayList<UmlDiagram>();
+	public List<OntoumlDiagram> getUncheckedDiagrams (){
+		List<OntoumlDiagram> result = new ArrayList<OntoumlDiagram>();
 		if(diagrams!=null) result.addAll(diagrams);
 		result.removeAll(getCheckedDiagrams());
 		return result;
@@ -146,7 +145,7 @@ public class DiagramTree extends ElementTree {
 	/** Check Node. */
 	@SuppressWarnings({ "rawtypes", "unused" })
 	protected void checkNode(DefaultMutableTreeNode node, boolean uncheckChildren){			
-		if(node.getUserObject() instanceof UmlDiagram || getRootNode().equals(node))
+		if(node.getUserObject() instanceof OntoumlDiagram || getRootNode().equals(node))
 		{
 			addCheckingPath(new TreePath(node.getPath()));	
 			//uncheck children
@@ -169,8 +168,8 @@ public class DiagramTree extends ElementTree {
 	
 	/** Uncheck Node. */
 	@SuppressWarnings({ "rawtypes", "unused" })
-	protected void uncheckNode(DefaultMutableTreeNode node, boolean checkChildren){		
-		if(node.getUserObject() instanceof UmlDiagram || getRootNode().equals(node))
+	public void uncheckNode(DefaultMutableTreeNode node, boolean checkChildren){		
+		if(node.getUserObject() instanceof OntoumlDiagram || getRootNode().equals(node))
 		{
 			removeCheckingPath(new TreePath(node.getPath()));
 			//check children

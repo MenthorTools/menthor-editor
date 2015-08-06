@@ -71,8 +71,8 @@ public class MainMenuBar extends BaseMenuBar {
 		add(verificate);
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
-		createMenuItem(verificate, "Parse Constraints", CommandType.PARSE_CONSTRAINTS, background,stroke);
-		createMenuItem(verificate, "Check Model Syntax", CommandType.CHECK_MODEL_SYNTAX, background);
+		createMenuItem(verificate, "Parse All Rules", CommandType.PARSE_RULES, background,stroke);
+		createMenuItem(verificate, "Check All Model Syntax", CommandType.CHECK_MODEL_SYNTAX, background);
 	}
 	
 	public void selectWindowMenu(boolean projectBrowser, boolean palette, boolean console) {
@@ -113,6 +113,15 @@ public class MainMenuBar extends BaseMenuBar {
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);
 		createMenuItem(project, "Find", CommandType.FIND_TERM, background,stroke);
 		createMenuItem(project, "Collect Statistics", CommandType.COLLECT_STATISTICS, background);
+	}
+	
+
+	private void createRulesMenu(){
+		JMenu rules = new JMenu("Rules");
+		add(rules);
+		createMenuItem(rules, "New", CommandType.NEW_RULES, background);
+		rules.addSeparator();
+		createMenuItem(rules, "Close", CommandType.CLOSE_RULES, background);
 	}
 	
 	private void createDiagramMenu(){
@@ -159,6 +168,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createFileMenu();
 		createEditMenu();
 		createDiagramMenu();
+		createRulesMenu();
 		createProjectMenu();
 		createVerificateMenu();
 		createValidateMenu();

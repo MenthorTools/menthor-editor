@@ -54,6 +54,8 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.menus.TabPopupMenu;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -86,21 +88,21 @@ public class ClosableTabPanel extends JPanel {
 			Component obj = (pane.getComponentAt(i));			
 			if(obj instanceof DiagramEditorWrapper)
 			{
-				Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/tree/diagram.png"));
+				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			}
 			else if(obj instanceof ConstraintEditor)
 			{
-				Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/text-editor.png"));
+				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			}
 			else if(obj instanceof TextEditor)
 			{
-				Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/editor.png"));
+				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);

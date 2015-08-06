@@ -41,7 +41,7 @@ import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 
@@ -90,8 +90,8 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 			else if(element instanceof RefOntoUML.Package) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_RED_BOX));
 			else if(element instanceof RefOntoUML.Comment) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_COMMENT));
 			else if(element instanceof RefOntoUML.Constraintx) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_NOTE));			
-			else if(obj instanceof UmlDiagram) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM));		
-			else if(obj instanceof OclDocument) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL));
+			else if(element instanceof OntoumlDiagram) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM));		
+			else if(element instanceof OclDocument) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL));
 			else label.setIcon(null);
 		}			
 		
