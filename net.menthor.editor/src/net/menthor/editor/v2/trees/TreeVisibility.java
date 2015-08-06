@@ -21,44 +21,78 @@ package net.menthor.editor.v2.trees;
  * ============================================================================================
  */
 
-public class ElementTreeVisibility {
+public class TreeVisibility {
 
 	private boolean hideClasses=false;
 	private boolean hideDataTypes=false;
 	private boolean hideAssociations=false;
+	private boolean hideGeneralizationSets=false;
+	
+	private boolean hideComments=false;
+	private boolean hideConstraints=false;
 	private boolean hideAttributes=false;
 	private boolean hideEnds=false;
 	private boolean hideProperties=false;
 	private boolean hideGeneralizations=false;
+	private boolean hideLiteral=false;
+	
+	public void showOnlyPackageable(){			
+		hideClasses=false;
+		hideDataTypes=false;
+		hideAssociations=false;
+		hideGeneralizationSets=false;
+		hideComments=true;
+		hideConstraints=true;
+		hideAttributes=true;
+		hideEnds=true;
+		hideProperties=true;
+		hideGeneralizations=true;
+		hideLiteral=true;
+	}
 	
 	public void hideAll(){ 
 		hideClasses=true;
 		hideDataTypes=true;
 		hideAssociations=true;
+		hideGeneralizationSets=true;
+		hideComments=true;
+		hideConstraints=true;
 		hideAttributes=true;
 		hideEnds=true;
 		hideProperties=true;
 		hideGeneralizations=true;
+		hideLiteral=true;
 	}
 	
 	public void showAll(){ 
 		hideClasses=false;
 		hideDataTypes=false;
 		hideAssociations=false;
+		hideGeneralizationSets=false;
+		hideComments=false;
+		hideConstraints=false;
 		hideAttributes=false;
 		hideEnds=false;
 		hideProperties=false;
 		hideGeneralizations=false;
+		hideLiteral=false;
 	}
 	
 	public boolean isHiddenGeneralizations() { return hideGeneralizations; }
+	public boolean isHiddenGeneralizationSets() { return hideGeneralizationSets; }
+	public boolean isHiddenComments() { return hideComments; }
+	public boolean isHiddenConstraints() { return hideConstraints; }
 	public boolean isHiddenProperties() { return hideProperties; }
 	public boolean isHiddenEnds() { return hideEnds; }
 	public boolean isHiddenAttributes() { return hideAttributes; }
 	public boolean isHiddenAssociations() { return hideAssociations; }
 	public boolean isHiddenDataTypes() { return hideDataTypes; }
 	public boolean isHiddenClasses() { return hideClasses; }
+	public boolean isHiddenLiterals() { return hideLiteral; }
 	
+	public void hideGeneralizationSets() { hideGeneralizationSets=true; }
+	public void hideComments() { hideComments=true; }
+	public void hideConstraints() { hideConstraints=true; }
 	public void hideClasses() { hideClasses=true; }
 	public void hideDataTypes() { hideDataTypes=true; }
 	public void hideAssociations() { hideAssociations=true; }
@@ -66,7 +100,11 @@ public class ElementTreeVisibility {
 	public void hideEnds() { hideEnds=true; }
 	public void hideProperties() { hideProperties=true; }
 	public void hideGeneralizations() { hideGeneralizations=true; }
+	public void hideLiterals() { hideLiteral=true; }
 	
+	public void showGeneralizationSets() { hideGeneralizationSets=false; }
+	public void showComments() { hideComments=false; }
+	public void showConstraints() { hideConstraints=false; }
 	public void showClasses() { hideClasses=false; }
 	public void showDataTypes() { hideDataTypes=false; }
 	public void showAssociations() { hideAssociations=false; }
@@ -74,5 +112,6 @@ public class ElementTreeVisibility {
 	public void showEnds() { hideEnds=false; }
 	public void showProperties() { hideProperties=false; }
 	public void showGeneralizations() { hideGeneralizations=false; }
+	public void showLiteral() { hideLiteral=false; }
 	
 }

@@ -58,81 +58,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
-import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.DestinationEnum;
-import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.derivation.DerivedTypesOperations;
-import net.menthor.editor.derivation.ExclusionDerivationOperations;
-import net.menthor.editor.derivation.ExclusionPattern;
-import net.menthor.editor.derivation.IntersectionPattern;
-import net.menthor.editor.derivation.ParticipationDerivationOperations;
-import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
-import net.menthor.editor.derivation.PastSpecializationPattern;
-import net.menthor.editor.derivation.SpecializationPattern;
-import net.menthor.editor.derivation.UnionPattern;
-import net.menthor.editor.dialog.ImportXMIDialog;
-import net.menthor.editor.dialog.help.AboutDialog;
-import net.menthor.editor.dialog.help.LicensesDialog;
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.finder.FoundElement;
-import net.menthor.editor.finder.FoundPane;
-import net.menthor.editor.pattern.DomainPatternTool;
-import net.menthor.editor.pattern.PatternTool;
-import net.menthor.editor.problems.ErrorElement;
-import net.menthor.editor.problems.ErrorPane;
-import net.menthor.editor.problems.ErrorVerificator;
-import net.menthor.editor.problems.ProblemElement;
-import net.menthor.editor.problems.ProblemElement.TypeProblem;
-import net.menthor.editor.problems.ProblemPane;
-import net.menthor.editor.problems.WarningPane;
-import net.menthor.editor.problems.WarningVerificator;
-import net.menthor.editor.statistician.StatisticalElement;
-import net.menthor.editor.statistician.StatisticsPane;
-import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
-import net.menthor.editor.transformation.owl.OwlSettingsDialog;
-import net.menthor.editor.ui.AlloySpecification;
-import net.menthor.editor.ui.ApplicationResources;
-import net.menthor.editor.ui.ClosableTabPanel;
-import net.menthor.editor.ui.ConstraintEditor;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.OWLHelper;
-import net.menthor.editor.ui.PngWriter;
-import net.menthor.editor.ui.TextEditor;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.ui.commands.OntoUMLExporter;
-import net.menthor.editor.ui.commands.ProjectReader;
-import net.menthor.editor.ui.commands.ProjectWriter;
-import net.menthor.editor.ui.commands.UMLExporter;
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.bars.MainMenuBar;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.trees.ElementTree;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.types.ResultType;
-import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.util.Directories;
-import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
-import net.menthor.editor.v2.util.Settings;
-import net.menthor.editor.v2.util.Util;
-import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
-import net.menthor.editor.validator.meronymic.ValidationDialog;
-import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-import net.menthor.ontouml2infouml.OntoUML2InfoUML;
-import net.menthor.ontouml2sbvr.OntoUML2SBVR;
-import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
-import net.menthor.tocl.parser.TOCLParser;
-import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -189,10 +114,85 @@ import RefOntoUML.StringExpression;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-import RefOntoUML.util.RefOntoUMLElement;
 import RefOntoUML.util.RefOntoUMLElementCustom;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
+import net.menthor.common.transformation.DestinationEnum;
+import net.menthor.common.transformation.TransformationOption;
+import net.menthor.editor.derivation.DerivedTypesOperations;
+import net.menthor.editor.derivation.ExclusionDerivationOperations;
+import net.menthor.editor.derivation.ExclusionPattern;
+import net.menthor.editor.derivation.IntersectionPattern;
+import net.menthor.editor.derivation.ParticipationDerivationOperations;
+import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
+import net.menthor.editor.derivation.PastSpecializationPattern;
+import net.menthor.editor.derivation.SpecializationPattern;
+import net.menthor.editor.derivation.UnionPattern;
+import net.menthor.editor.dialog.ImportXMIDialog;
+import net.menthor.editor.dialog.help.AboutDialog;
+import net.menthor.editor.dialog.help.LicensesDialog;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.finder.FoundElement;
+import net.menthor.editor.finder.FoundPane;
+import net.menthor.editor.pattern.DomainPatternTool;
+import net.menthor.editor.pattern.PatternTool;
+import net.menthor.editor.problems.ErrorElement;
+import net.menthor.editor.problems.ErrorPane;
+import net.menthor.editor.problems.ErrorVerificator;
+import net.menthor.editor.problems.ProblemElement;
+import net.menthor.editor.problems.ProblemElement.TypeProblem;
+import net.menthor.editor.problems.ProblemPane;
+import net.menthor.editor.problems.WarningPane;
+import net.menthor.editor.problems.WarningVerificator;
+import net.menthor.editor.statistician.StatisticalElement;
+import net.menthor.editor.statistician.StatisticsPane;
+import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
+import net.menthor.editor.transformation.owl.OwlSettingsDialog;
+import net.menthor.editor.ui.AlloySpecification;
+import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.ui.ClosableTabPanel;
+import net.menthor.editor.ui.ConstraintEditor;
+import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.OWLHelper;
+import net.menthor.editor.ui.PngWriter;
+import net.menthor.editor.ui.TextEditor;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.ui.commands.OntoUMLExporter;
+import net.menthor.editor.ui.commands.ProjectReader;
+import net.menthor.editor.ui.commands.ProjectWriter;
+import net.menthor.editor.ui.commands.UMLExporter;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.bars.MainMenuBar;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.trees.ProjectTree;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
+import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.Util;
+import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
+import net.menthor.editor.validator.meronymic.ValidationDialog;
+import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
+import net.menthor.ontouml2infouml.OntoUML2InfoUML;
+import net.menthor.ontouml2sbvr.OntoUML2SBVR;
+import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
+import net.menthor.tocl.parser.TOCLParser;
+import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 /**
  * Class responsible for managing and organizing the editors in tabs.
@@ -548,7 +548,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		pane.addTab(text, component);		
 		if(component instanceof DiagramEditorWrapper){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/tree/diagram.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -556,7 +556,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof ConstraintEditor){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/text-editor.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -564,7 +564,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof TextEditor){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/editor.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -572,7 +572,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof FoundPane){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/find.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SEARCH);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -580,7 +580,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 		if(component instanceof ProblemPane){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/cross_shield.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ERROR);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -588,7 +588,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof StatisticsPane){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/diagnostic.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_STATS);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -596,7 +596,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 		if(component instanceof WarningPane) {
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/exclamation_octagon_fram.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_WARNING);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -604,7 +604,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof ErrorPane) {
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/cross_octagon.png"));
+			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ERROR);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -765,7 +765,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		createDiagramEditor(diagram);			
 		//add the diagram from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),new RefOntoUMLElement(diagram,""));
+		browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),diagram);
 	}
 
 	/** Creates a new OCL document with in existing Project */
@@ -773,12 +773,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		OclDocument oclDoc = new OclDocument();
 		ArrayList<OclDocument> docs = Models.getOclDocList();			
-		oclDoc.setName("Document"+docs.size());			
+		oclDoc.setName("Rules"+docs.size());			
 		docs.add(oclDoc);
 		if(openInTab)createConstraintEditor(oclDoc);		
 		//add the ocl document from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),new RefOntoUMLElement(oclDoc,""));
+		browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),oclDoc);
 	}
 	
 	/** Creates a new diagram on the current Project */
@@ -794,7 +794,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			createDiagramEditor(diagram);			
 			//add the diagram from the browser
 			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),new RefOntoUMLElement(diagram,""));			
+			browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),diagram);			
 		}
 	}
 	
@@ -810,12 +810,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			OclDocument oclDoc = new OclDocument();		
 			ArrayList<OclDocument> docs = Models.getOclDocList();			
-			oclDoc.setName("Document"+docs.size());			
+			oclDoc.setName("Rules"+docs.size());			
 			docs.add(oclDoc);
 			if(openInTab) createConstraintEditor(oclDoc);				
 			//add the ocl document from the browser
 			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),new RefOntoUMLElement(oclDoc,""));	
+			browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),oclDoc);	
 		}
 	}
 	
@@ -1708,26 +1708,19 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}   
 	}	
 	
-	public void delete(Object object)
-	{		
-		if (object instanceof RefOntoUMLElement)
+	public void delete(Object elem)
+	{	
+		if (elem instanceof StructureDiagram)
 		{
-			RefOntoUMLElement elem = (RefOntoUMLElement)object;
-			
-			if (elem.getElement() instanceof StructureDiagram)
-			{
-				frame.getDiagramManager().deleteDiagram((StructureDiagram)elem.getElement(),true);    					
-			}
-			else if (elem.getElement() instanceof OclDocument)
-			{
-				frame.getDiagramManager().deleteOclDocument((OclDocument)elem.getElement(),true);    					
-			}
-			else if (elem.getElement() instanceof RefOntoUML.Element){
-				RefOntoUMLElement ontoElem = (RefOntoUMLElement) object;
-				RefOntoUML.Element elemForDeletion = (RefOntoUML.Element)ontoElem.getElement();
-				frame.getDiagramManager().deleteFromMenthor(elemForDeletion,true);    					    					
-			}
-		}		
+			frame.getDiagramManager().deleteDiagram((StructureDiagram)elem,true);    					
+		}
+		else if (elem instanceof OclDocument)
+		{
+			frame.getDiagramManager().deleteOclDocument((OclDocument)elem,true);    					
+		}
+		else if (elem instanceof RefOntoUML.Element){				
+			frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)elem,true);    					    					
+		}				
 	}
 	
 	/** Delete element from the model and every diagram in each it appears. */
@@ -2454,13 +2447,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Mode tree selected element to a Diagram */
 	public void moveSelectedToDiagram(DiagramEditor editor, Point location) 
 	{
-			DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
-			Object obj = node.getUserObject();
-			if(obj instanceof RefOntoUMLElement)
-			{
-				EObject elem = ((RefOntoUMLElement)obj).getElement();
-				moveToDiagram((RefOntoUML.Element)elem, location.x, location.y, editor);
-			}
+		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
+		Object obj = node.getUserObject();				
+		moveToDiagram((RefOntoUML.Element)obj, location.x, location.y, editor);			
 	}
 	
 	/** Invert end points of an association. This method switch the current properties of an association. 
@@ -2478,11 +2467,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
    		association.getOwnedEnd().add(source);
    		association.getNavigableOwnedEnd().add(target);
    		association.getNavigableOwnedEnd().add(source);
-   		ElementTree tree = frame.getProjectBrowser().getTree();
+   		ProjectTree tree = frame.getProjectBrowser().getTree();
    		tree.checkElement(source);
    		tree.removeCurrentNode();   		
    		tree.checkElement(association);
-   		tree.addElement(new RefOntoUMLElement(source));  
+   		tree.addElement(source);  
    		tree.updateUI();
    		frame.getDiagramManager().updateMenthorFromModification(association, true);
 	}
@@ -2549,19 +2538,19 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			public void run() {
 				UmlProject project = ProjectBrowser.frame.getDiagramManager().getCurrentProject();
 				// add to the tree
-				ElementTree tree = frame.getProjectBrowser().getTree();
+				ProjectTree tree = frame.getProjectBrowser().getTree();
 				boolean found = tree.checkElement((EObject)addedElement);
 				if(!found) {
 					if(addedElement.eContainer()!=null) tree.checkElement(addedElement.eContainer());
 					else if(addedElement instanceof EnumerationLiteral) tree.checkElement(((EnumerationLiteral)addedElement).getEnumeration());
 					else tree.checkElement(project.getModel());					
-					tree.addElement(new RefOntoUMLElement(addedElement, Models.getRefparser().getAlias(addedElement)));					
+					tree.addElement(addedElement);					
 				} else {
 					if(addedElement instanceof Generalization){
 						tree.checkElement(addedElement);
 						tree.removeCurrentNode();
 						tree.checkElement(addedElement.eContainer());
-						tree.addElement(new RefOntoUMLElement(addedElement, Models.getRefparser().getAlias(addedElement)));
+						tree.addElement(addedElement);
 					}
 				}
 				tree.updateUI();						

@@ -26,7 +26,7 @@ import java.awt.Insets;
 import javax.swing.JToolBar;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.v2.trees.ElementTree;
+import net.menthor.editor.v2.trees.ProjectTree;
 
 /**
  * @author John Guerson
@@ -35,13 +35,13 @@ public class ProjectToolBar extends JToolBar {
 
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
-	private ElementTree tree;
+	private ProjectTree tree;
 	@SuppressWarnings("unused")
 	private DiagramManager diagramManager;
 //	private JButton btnCompleteSelection;
 //	private JButton btnRefresh;
 		
-	public ProjectToolBar (ElementTree tree, final DiagramManager diagramManager)
+	public ProjectToolBar (ProjectTree tree, final DiagramManager diagramManager)
 	{		
 		this.tree = tree;
 		this.diagramManager = diagramManager;

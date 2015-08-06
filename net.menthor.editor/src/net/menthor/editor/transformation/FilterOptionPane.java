@@ -25,8 +25,7 @@ import RefOntoUML.ReferenceRegion;
 import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
-
-import net.menthor.editor.v2.trees.ElementTree;
+import net.menthor.editor.v2.trees.ProjectTree;
 
 public class FilterOptionPane extends JPanel{
 	
@@ -39,9 +38,9 @@ public class FilterOptionPane extends JPanel{
 	private JCheckBox targetCheck;
 	private JCheckBox quaCheck;
 	
-	private ElementTree elemTree;
+	private ProjectTree elemTree;
 	
-	public void setFilter(ElementTree elemTree){
+	public void setFilter(ProjectTree elemTree){
 		this.elemTree=elemTree;
 	}
 	

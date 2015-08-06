@@ -33,7 +33,7 @@ public class OntoUML2UMLUtil {
 	    	resource.save(Collections.emptyMap());
 	    }catch(IOException e){
 	    	e.printStackTrace();
-	    }	    	    
+	    }
 	    return resource;		   	
 	}
 	

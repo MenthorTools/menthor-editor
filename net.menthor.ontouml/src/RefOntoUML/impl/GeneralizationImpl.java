@@ -10,7 +10,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.RefOntoUMLPackage;
-
+import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.util.RefOntoUMLValidator;
 
 import java.util.Collection;
@@ -390,20 +390,9 @@ public class GeneralizationImpl extends DirectedRelationshipImpl implements Gene
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isSubstitutable: ");
-		result.append(isSubstitutable);
-		result.append(')');
-		return result.toString();
+	public String toString(){
+		return OntoUMLNameHelper.getCommonName(this);
 	}
-
+	
 } //GeneralizationImpl

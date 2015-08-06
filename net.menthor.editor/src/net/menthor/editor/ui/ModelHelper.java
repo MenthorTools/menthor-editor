@@ -77,7 +77,6 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.NamedElementImpl;
 import RefOntoUML.impl.RefOntoUMLPackageImpl;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import RefOntoUML.util.RefOntoUMLElement;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 
@@ -268,7 +267,7 @@ public class ModelHelper {
 
 		if(found.size()>1)
 		{
-			System.err.println("The model instance {"+new RefOntoUMLElement(element,"")+"} has 2 diagram elements for the same diagram editor.");
+			System.err.println("The model instance {"+element+"} has 2 diagram elements for the same diagram editor.");
 			return null;
 		}
 		if(found.size()==0)

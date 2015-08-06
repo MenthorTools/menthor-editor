@@ -23,16 +23,16 @@ import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.trees.DiagramStrictTree;
-import net.menthor.editor.v2.trees.ElementTree;
-import net.menthor.editor.v2.trees.ElementTreeVisibility;
+import net.menthor.editor.v2.trees.TreeVisibility;
 
 public class FilterPane extends JPanel {
 	
 	private static final long serialVersionUID = 1603594735794477309L;
 		
 	//tree
-	private ElementTree elemTree;
+	private ProjectTree elemTree;
 	private DiagramStrictTree diagramTree;
 	private JScrollPane scrollTreePane = new JScrollPane();
 	private JPanel treeWrapper = new JPanel();
@@ -101,7 +101,7 @@ public class FilterPane extends JPanel {
 				if(treeTypeCombo.getSelectedIndex()==1){
 					activeTree=TreeType.BY_DIAGRAM;
 				}
-				ElementTree tree = getActiveTree();		
+				ProjectTree tree = getActiveTree();		
 				tree.setBorder(new EmptyBorder(2,2,2,2));				
 				scrollTreePane.setViewportView(tree);		
 				optPane.setFilter(tree);				
@@ -170,9 +170,9 @@ public class FilterPane extends JPanel {
 	
 	public void fillContent(OntoUMLParser refparser, List<OntoumlDiagram> diagrams)
 	{
-		diagramTree = DiagramStrictTree.createDiagramTree(refparser, diagrams, new ElementTreeVisibility(),true);
-		elemTree = ElementTree.createElementTree(refparser, null,null, new ElementTreeVisibility(),true);
-		ElementTree tree = getActiveTree();		
+		diagramTree = DiagramStrictTree.createDiagramTree(refparser, diagrams, new TreeVisibility(),true);
+		elemTree = ProjectTree.create(refparser, null,null, new TreeVisibility(),true);
+		ProjectTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		
 		optPane.setFilter(tree);
@@ -185,16 +185,16 @@ public class FilterPane extends JPanel {
 		fillContent(refparser, null);		
 	}	
 	
-	protected ElementTree getActiveTree()
+	protected ProjectTree getActiveTree()
 	{
-		ElementTree active;
+		ProjectTree active;
 		if(activeTree == TreeType.BY_DIAGRAM) active = diagramTree; else active = elemTree;
 		return active;
 	}
 	
 	protected void find() 
 	{
-		ElementTree tree = getActiveTree();		
+		ProjectTree tree = getActiveTree();		
 		tree.resetSelection();
 		if(findText.getText().equals(lastTextFound)) {						
 			if(currentIndex < lastFoundNodes.size()) { tree.select(lastFoundNodes.get(currentIndex)); currentIndex++; } 
@@ -209,7 +209,7 @@ public class FilterPane extends JPanel {
 	
 	public void refresh()
 	{				
-		ElementTree tree = getActiveTree();
+		ProjectTree tree = getActiveTree();
 		if(tree!=null) tree.updateUI();		
 		validate();
 		repaint();		
@@ -233,7 +233,7 @@ public class FilterPane extends JPanel {
 		return getParser();	
 	}
 	
-	public ElementTree getFilter() { return getActiveTree(); }
+	public ProjectTree getFilter() { return getActiveTree(); }
 	
 	public List<EObject> getCheckedElements()
 	{

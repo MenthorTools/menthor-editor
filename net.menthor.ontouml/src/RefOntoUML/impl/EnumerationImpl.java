@@ -9,6 +9,7 @@ package RefOntoUML.impl;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.RefOntoUMLPackage;
+import RefOntoUML.parser.OntoUMLNameHelper;
 
 import java.util.Collection;
 
@@ -165,5 +166,5 @@ public class EnumerationImpl extends DataTypeImpl implements Enumeration {
 		}
 		return super.eIsSet(featureID);
 	}
-
+	
 } //EnumerationImpl

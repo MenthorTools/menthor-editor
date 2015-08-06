@@ -10,7 +10,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.RefOntoUMLPackage;
-
+import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.util.RefOntoUMLValidator;
 
 import java.util.Collection;
@@ -488,23 +488,9 @@ public class GeneralizationSetImpl extends PackageableElementImpl implements Gen
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isCovering: ");
-		result.append(isCovering);
-		result.append(", isDisjoint: ");
-		result.append(isDisjoint);
-		result.append(')');
-		return result.toString();
-	}
+		return OntoUMLNameHelper.getCommonName(this);	}
 
 	/**
 	 * The parsed OCL expression for the body of the '{@link #parent <em>Parent</em>}' operation.
@@ -527,4 +513,5 @@ public class GeneralizationSetImpl extends PackageableElementImpl implements Gen
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/ocl/examples/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
+	
 } //GeneralizationSetImpl

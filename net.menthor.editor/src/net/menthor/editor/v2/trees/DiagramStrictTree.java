@@ -21,8 +21,6 @@ package net.menthor.editor.v2.trees;
  * ============================================================================================
  */
 
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -30,23 +28,23 @@ import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import net.menthor.editor.v2.OntoumlDiagram;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLElement;
 
-public class DiagramStrictTree extends ElementTree {
+import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
+import net.menthor.editor.v2.OntoumlDiagram;
+
+public class DiagramStrictTree extends ProjectTree {
 
 	private static final long serialVersionUID = 1L;
 	
 	private List<OntoumlDiagram> diagrams;
 	
 	/** Create an instance of the tree */
-	public static DiagramStrictTree createDiagramTree(OntoUMLParser refparser, List<OntoumlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){
+	public static DiagramStrictTree createDiagramTree(OntoUMLParser refparser, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean checkboxVisible){
 		if(refparser!=null){
-			return new DiagramStrictTree(new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
+			return new DiagramStrictTree(new DefaultMutableTreeNode(refparser.getModel()), 
 			refparser, diagrams, opt,checkboxVisible);
 		}else{
 			return null;
@@ -54,7 +52,7 @@ public class DiagramStrictTree extends ElementTree {
 	}
 	
 	/**Constructor */
-	private DiagramStrictTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){	
+	private DiagramStrictTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean checkboxVisible){	
 		super(rootNode);			
 		this.diagrams=diagrams;
 		this.opt=opt;		
@@ -116,7 +114,7 @@ public class DiagramStrictTree extends ElementTree {
 				//diagram elements
 				List<EObject> contents = diagram.getPackageableElements();
 				for(EObject eobj: contents){
-					super.drawElements(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser);
+					super.drawElements(dNode, (RefOntoUML.Element) eobj);
 				}
 			}	
 		}
@@ -154,14 +152,14 @@ public class DiagramStrictTree extends ElementTree {
 				Enumeration e = node.breadthFirstEnumeration();
 				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode)e.nextElement();				
 				while (e.hasMoreElements()){			
-					if(childNode.getUserObject() instanceof RefOntoUMLElement){
+					if(childNode.isLeaf()){
 						super.checkNode(node, uncheckChildren);
 					}					
 					childNode = (DefaultMutableTreeNode)e.nextElement();
 				}
 	    	}			
 		}
-		else if(node.getUserObject() instanceof RefOntoUMLElement) {
+		else if(node.isLeaf()) {
 			super.checkNode(node, uncheckChildren);
 		}		
 	}
@@ -178,14 +176,14 @@ public class DiagramStrictTree extends ElementTree {
 				Enumeration e = node.breadthFirstEnumeration();
 				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode)e.nextElement();				
 				while (e.hasMoreElements()){					
-					if(childNode.getUserObject() instanceof RefOntoUMLElement){
+					if(node.isLeaf()){
 						super.uncheckNode(childNode, checkChildren);
 					}
 					childNode = (DefaultMutableTreeNode)e.nextElement();
 				}
 	    	}
 		}
-		else if(node.getUserObject() instanceof RefOntoUMLElement) {
+		else if(node.isLeaf()) {
 			super.uncheckNode(node, checkChildren);
 		}
 	}	

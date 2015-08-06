@@ -191,21 +191,10 @@ public class ModelImpl extends PackageImpl implements Model {
 		}
 		return super.eIsSet(featureID);
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	
 	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (viewpoint: ");
-		if (viewpointESet) result.append(viewpoint); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+	public String toString(){
+		return super.toString();
 	}
 
 } //ModelImpl

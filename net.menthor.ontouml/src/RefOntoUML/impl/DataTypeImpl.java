@@ -10,6 +10,7 @@ import RefOntoUML.DataType;
 import RefOntoUML.Property;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLNameHelper;
 
 import java.util.Collection;
 
@@ -188,5 +189,11 @@ public class DataTypeImpl extends ClassifierImpl implements DataType {
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	@Override
+	public String toString(){		
+		return OntoUMLNameHelper.getCommonName(this);		
+	}
+
 
 } //DataTypeImpl

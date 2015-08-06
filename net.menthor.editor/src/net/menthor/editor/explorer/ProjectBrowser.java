@@ -49,6 +49,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.tinyuml.umldraw.StructureDiagram;
+
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
@@ -59,16 +62,11 @@ import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.trees.ElementTree;
-import net.menthor.editor.v2.trees.ElementTreeVisibility;
+import net.menthor.editor.v2.trees.ProjectTree;
+import net.menthor.editor.v2.trees.TreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -82,7 +80,7 @@ public class ProjectBrowser extends RoundedPanel{
 	public static AppFrame frame;
 	private ProjectToolBar ptoolbar;
 	private JScrollPane scroll;
-	private ElementTree tree;
+	private ProjectTree tree;
 	//======
 		
 			
@@ -136,7 +134,7 @@ public class ProjectBrowser extends RoundedPanel{
 	/**
 	 * Show the Popup Menu
 	 */
-	public void doPopup (MouseEvent e, ElementTree tree)
+	public void doPopup (MouseEvent e, ProjectTree tree)
 	{
 		TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 		DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());		
@@ -166,9 +164,9 @@ public class ProjectBrowser extends RoundedPanel{
             	DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());
             	
             	// open diagram
-            	if (((RefOntoUMLElement)currentNode.getUserObject()).getElement() instanceof StructureDiagram)
+            	if (currentNode.getUserObject() instanceof StructureDiagram)
             	{
-            		StructureDiagram diagram = (StructureDiagram)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
+            		StructureDiagram diagram = (StructureDiagram)currentNode.getUserObject();
             		if (!frame.getDiagramManager().isDiagramOpened(diagram)) {
             			// create the diagram visualization again
             			frame.getDiagramManager().createDiagramEditor(diagram);
@@ -176,25 +174,25 @@ public class ProjectBrowser extends RoundedPanel{
             	}
             	
             	// open diagram
-            	if (((RefOntoUMLElement)currentNode.getUserObject()).getElement() instanceof OclDocument)
+            	if (currentNode.getUserObject() instanceof OclDocument)
             	{
-            		OclDocument oclDoc = (OclDocument)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
+            		OclDocument oclDoc = (OclDocument)currentNode.getUserObject();
             		if (!frame.getDiagramManager().isOclDocumentOpened(oclDoc)) {
             			// create the constraint visualization again
             			frame.getDiagramManager().createConstraintEditor(oclDoc);
             		}
             	}
             	
-            	if(((RefOntoUMLElement)currentNode.getUserObject()).getElement() instanceof RefOntoUML.Element)
+            	if(currentNode.getUserObject() instanceof RefOntoUML.Element)
             	{
-            		RefOntoUML.Element element = (RefOntoUML.Element)((RefOntoUMLElement)currentNode.getUserObject()).getElement();
+            		RefOntoUML.Element element = (RefOntoUML.Element)currentNode.getUserObject();
             		ElementDialogCaller.openDialog(element, frame);
             	}
         	}
         }
 	}
 	
-	public ElementTree getTree() { return tree; }
+	public ProjectTree getTree() { return tree; }
 	
 	@SuppressWarnings("unused")
 	public void setProject(UmlProject project)
@@ -205,8 +203,14 @@ public class ProjectBrowser extends RoundedPanel{
 		Models.setRefparser(new OntoUMLParser(project.getModel()));				
 		System.out.println("Creating project browser tree");		
 		
-		tree = ElementTree.createElementTree(Models.getRefparser(), Models.getOclDocList(), Models.getProject().getDiagrams(),new ElementTreeVisibility(), false);
-		tree.setBorder(new EmptyBorder(2,2,2,2));
+		
+		tree = ProjectTree.create(
+			Models.getRefparser(), 
+			Models.getOclDocList(), 
+			Models.getProject().getDiagrams(),
+			new TreeVisibility(), 
+			false
+		);		
 		tree.addTreeSelectionListener(new ProjectTreeSelectionListener());
 		
 		/** Right Click Mouse Listener */
@@ -247,7 +251,7 @@ public class ProjectBrowser extends RoundedPanel{
 		updateUI();		
 	}
 
-	public void setTree(ElementTree tree)
+	public void setTree(ProjectTree tree)
 	{
 		remove(scroll);		
 		this.tree = tree;

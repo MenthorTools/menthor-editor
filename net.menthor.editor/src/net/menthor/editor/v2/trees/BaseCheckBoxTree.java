@@ -88,7 +88,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
     }
     
     /** Add element to the tree */
-    public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible){    	
+    protected DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible){    	
 		DefaultMutableTreeNode node = getNode(child);
 		if(node!=null) return node;    	    	
 		DefaultMutableTreeNode childNode = createNode(child);		

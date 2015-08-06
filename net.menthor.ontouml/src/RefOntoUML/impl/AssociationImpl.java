@@ -1,10 +1,32 @@
-/**
- * <copyright>
- * </copyright>
- *
- * $Id$
- */
 package RefOntoUML.impl;
+
+import java.util.Collection;
+import java.util.Map;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.Query;
+import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.ecore.OCL.Helper;
+import org.eclipse.ocl.expressions.OCLExpression;
 
 import RefOntoUML.Association;
 import RefOntoUML.Element;
@@ -12,45 +34,8 @@ import RefOntoUML.Property;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
-
+import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.util.RefOntoUMLValidator;
-
-import java.util.Collection;
-import java.util.Map;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectValidator;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.Query;
-
-import org.eclipse.ocl.ecore.OCL;
-
-import org.eclipse.ocl.ecore.OCL.Helper;
-
-import org.eclipse.ocl.expressions.OCLExpression;
 
 /**
  * <!-- begin-user-doc -->
@@ -549,22 +534,6 @@ public class AssociationImpl extends ClassifierImpl implements Association {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isDerived: ");
-		result.append(isDerived);
-		result.append(')');
-		return result.toString();
-	}
-
-	/**
 	 * The parsed OCL expression for the derivation of '{@link #getRelatedElement <em>Related Element</em>}' property.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -585,4 +554,10 @@ public class AssociationImpl extends ClassifierImpl implements Association {
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/ocl/examples/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
+	
+	@Override
+	public String toString(){
+		return OntoUMLNameHelper.getCommonName(this);
+	}
+	
 } //AssociationImpl
