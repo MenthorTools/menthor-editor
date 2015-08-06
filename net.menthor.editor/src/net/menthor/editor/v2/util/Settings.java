@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 
 import java.util.Properties;
 
-public enum MenthorSettings {
+public enum Settings {
 	
 	USER_LOCALE("USER_LOCALE", "en-US"),	
 	DEFAULT_SETTINGS_FILE("DEFAULT_SETTINGS_FILE", "settings.xml"),	
@@ -51,7 +51,7 @@ public enum MenthorSettings {
 	private final String value;
 		
 	/** Constructor */
-	private MenthorSettings(String key, String value) {
+	private Settings(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}
@@ -86,11 +86,11 @@ public enum MenthorSettings {
 	
 	public static boolean saveProperties(){
 		if(properties != null) {
-			File file = new File(MenthorUtil.getCanonPath(MenthorTemp.getTempDir(), MenthorSettings.DEFAULT_SETTINGS_FILE.getValue()));
+			File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_SETTINGS_FILE.getValue()));
 			try {
 				FileOutputStream out = new FileOutputStream(file);
 				properties.storeToXML(out, "Menthor Configuration File", "UTF-8");
-				MenthorUtil.close(out);
+				Util.close(out);
 				return true;
 			} catch (Exception ex) {}
 		}		
@@ -100,26 +100,26 @@ public enum MenthorSettings {
 	public static Properties getProperties() {
 		if(properties != null) return properties;		
 		properties = new Properties();		
-		File file = new File(MenthorUtil.getCanonPath(MenthorTemp.getTempDir(), MenthorSettings.DEFAULT_SETTINGS_FILE.getValue()));
+		File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_SETTINGS_FILE.getValue()));
 		if(file.exists()) {
 			try {
 				FileInputStream in = new FileInputStream(file);
 				properties.loadFromXML(in);
-				MenthorUtil.close(in);
+				Util.close(in);
 			} catch (Exception ex) {}
 		}	
 		return properties;
 	}
 
 	public static void addRecentProject(String path) {
-		if(!MenthorSettings.RECENT_PROJECT_1.getValue().equals(path)) {
+		if(!Settings.RECENT_PROJECT_1.getValue().equals(path)) {
 			int histSize = 10;		
 			for (int i = histSize-1; i > 0; i--) {
-				MenthorSettings setting = MenthorSettings.valueOf("RECENT_PROJECT_" + i); 
-				MenthorSettings nextSetting = MenthorSettings.valueOf("RECENT_PROJECT_" + (i + 1));
+				Settings setting = Settings.valueOf("RECENT_PROJECT_" + i); 
+				Settings nextSetting = Settings.valueOf("RECENT_PROJECT_" + (i + 1));
 				nextSetting.setValue(setting.getValue());
 			}			
-			MenthorSettings.RECENT_PROJECT_1.setValue(path);
+			Settings.RECENT_PROJECT_1.setValue(path);
 			saveProperties();
 		}
 	}
@@ -128,7 +128,7 @@ public enum MenthorSettings {
 		int histSize = 10;
 		String[] ans = new String[histSize];		
 		for (int i = 1; i < histSize; i++) {
-			ans[i] = MenthorSettings.valueOf("RECENT_PROJECT_" + i).getValue();
+			ans[i] = Settings.valueOf("RECENT_PROJECT_" + i).getValue();
 		}		
 		return ans;
 	}

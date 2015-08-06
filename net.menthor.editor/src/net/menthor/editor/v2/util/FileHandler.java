@@ -1,6 +1,6 @@
-package net.menthor.editor.ui.commands;
+package net.menthor.editor.v2.util;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -21,32 +21,21 @@ package net.menthor.editor.ui.commands;
  * ============================================================================================
  */
 
-import java.awt.Component;
 import java.io.File;
-import java.io.IOException;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.FileWriter;
+/** This class generalizes classes which deal with some kind of files with extensions. */
+public abstract class FileHandler {
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
+  /** Returns the suffix of the file format. Implemented by derived classes. */
+  protected abstract String getSuffix();
 
-public class OntoUMLExporter extends FileWriter {
-
-	public void writeOntoUML(Component comp, File file, UmlProject project) throws IOException 
-	{
-		if (canWrite(comp, file)) 
-		{
-			URI path = URI.createFileURI(getFileWithExtension(file).getPath());
-			Resource resource = project.getResource();
-			resource.setURI(path);
-			ModelHelper.saveXMI(resource);
-		}
-	}
-
-	protected String getSuffix() 
-	{
-		return ".refontouml";
-	}
+  /**
+   * Inspects the name of the specified file and checks if it ends with the
+   * specified suffix. If not, a new file will be created, appending the suffix
+   * to the file name, otherwise the original file object will be returned.
+   */
+  protected File getFileWithExtension(File file) {
+	  return Util.getFileWithExtension(file, getSuffix());
+  }
+ 
 }

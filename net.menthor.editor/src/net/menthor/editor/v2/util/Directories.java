@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Random;
 
-public final class MenthorTemp {
+public final class Directories {
 	
 	private static File BIN_DIR = null;
 	private static String TEMP_DIR = null;
@@ -50,7 +50,7 @@ public final class MenthorTemp {
             File f=new File(dest);
             if (f.mkdirs()) {
                 f.deleteOnExit();
-                return MenthorUtil.canon(dest);
+                return Util.canon(dest);
             }
         }
     }
@@ -65,11 +65,11 @@ public final class MenthorTemp {
 		//String username = System.getProperty("user.name");
 		File tempfile = new File(temp + File.separatorChar + "menthor_tmp");		
 		tempfile.mkdirs();
-		String ans = MenthorUtil.canon(tempfile.getPath());		
+		String ans = Util.canon(tempfile.getPath());		
 		if (!tempfile.isDirectory()) {
 			System.err.println("Error. Cannot create the temporary directory "	+ ans);
 		}
-		if (!MenthorUtil.onWindows()) {
+		if (!Util.onWindows()) {
 			String[] args = { "chmod", "700", ans };
 			try {
 				Runtime.getRuntime().exec(args).waitFor();
@@ -89,11 +89,11 @@ public final class MenthorTemp {
 		//String username = System.getProperty("user.name");
 		File tempfile = new File(temp + File.separatorChar + "menthor_bin");			
 		tempfile.mkdirs();
-		String ans = MenthorUtil.canon(tempfile.getPath());			
+		String ans = Util.canon(tempfile.getPath());			
 		if (!tempfile.isDirectory()) {
 			System.out.println("Error. Cannot create the temporary directory "	+ ans);
 		}
-		if (!MenthorUtil.onWindows()){
+		if (!Util.onWindows()){
 			String[] args = { "chmod", "700", ans };
 			try {
 				Runtime.getRuntime().exec(args).waitFor();

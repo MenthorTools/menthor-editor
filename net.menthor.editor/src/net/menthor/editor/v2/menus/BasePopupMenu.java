@@ -1,5 +1,7 @@
 package net.menthor.editor.v2.menus;
 
+import java.awt.Image;
+
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -30,11 +32,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 public class BasePopupMenu extends JPopupMenu implements ActionListener{
 
@@ -45,10 +51,10 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
 	public void addCommandListener(CommandListener l) { listeners.add(l); }
 	
-	public HashMap<CommandType,JMenuItem> elementsMap = new HashMap<CommandType,JMenuItem>();
-	public void enableButton(CommandType cmdType, boolean flag) { elementsMap.get(cmdType).setEnabled(flag); }
-	public JMenuItem getButton(CommandType cmdType) { return elementsMap.get(cmdType); }
-	public void enableAll(boolean value) { for(JMenuItem btn: elementsMap.values()) { btn.setEnabled(value); } }
+	public HashMap<CommandType,JMenuItem> menuItemsMap = new HashMap<CommandType,JMenuItem>();
+	public void enableButton(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
+	public JMenuItem getButton(CommandType cmdType) { return menuItemsMap.get(cmdType); }
+	public void enableAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setEnabled(value); } }
 	
 	/** some actions are executed in the context of a given element, 
 	 *  called here of 'context' */ 
@@ -63,8 +69,51 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 		}		
 	}
 
+	public BasePopupMenu(CommandListener listener) { 
+		super();
+		addCommandListener(listener);
+	}
+	
+	/** create menu item */
+	protected JMenuItem createMenuItem(String name, IconType icontype, CommandType command){
+		JMenuItem item = new JMenuItem();
+		if(icontype!=null){
+			Icon icon = IconMap.getInstance().getIcon(icontype);
+			Image img = ((ImageIcon)icon).getImage();  
+			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
+			Icon newIcon = new ImageIcon(newimg);
+			item.setIcon(newIcon);
+		}		
+		if(name!=null) item.setText(name);				
+		item.setActionCommand(command.toString());
+		item.addActionListener(this);
+		menuItemsMap.put(command, item);
+		add(item);		
+		item.setToolTipText(command.getDescription());
+		return item;
+	}	
+
+	/** create menu item */
+	protected JMenuItem createMenuItem(String name, IconType icontype, CommandType command, boolean isAdd){
+		JMenuItem item = new JMenuItem();
+		if(icontype!=null){
+			Icon icon = IconMap.getInstance().getIcon(icontype);
+			Image img = ((ImageIcon)icon).getImage();  
+			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
+			Icon newIcon = new ImageIcon(newimg);
+			item.setIcon(newIcon);
+		}		
+		if(name!=null) item.setText(name);				
+		item.setActionCommand(command.toString());
+		item.addActionListener(this);
+		menuItemsMap.put(command, item);
+		if(isAdd) add(item);		
+		item.setToolTipText(command.getDescription());
+		return item;
+	}	
+
 	public void sort(){
-  		ArrayList<JMenuItem> result = sort(elementsMap.values());		
+  		ArrayList<JMenuItem> result = sort(menuItemsMap.values());		
   		for(JMenuItem pe: result){
   			add(pe);			
   		}

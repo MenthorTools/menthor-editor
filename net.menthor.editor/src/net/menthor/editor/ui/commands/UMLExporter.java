@@ -23,11 +23,10 @@ package net.menthor.editor.ui.commands;
 
 import java.io.File;
 
-import org.tinyuml.ui.commands.FileWriter;
-
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.explorer.Models;
+import net.menthor.editor.v2.util.FileWriter;
 import net.menthor.ontouml2uml.OntoUML2UML;
 import net.menthor.ontouml2uml.OntoUML2UMLOption;
 

@@ -31,7 +31,7 @@ import java.util.Set;
 
 import net.menthor.editor.Main;
 import net.menthor.editor.v2.UmlDiagram;
-import net.menthor.editor.v2.util.MenthorTemp;
+import net.menthor.editor.v2.util.Directories;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -312,22 +312,22 @@ public class UmlProject implements Serializable {
 	}
 	
 	public String getTempDir(){
-		if(tempDir == null) tempDir = MenthorTemp.makeTempDir();		
+		if(tempDir == null) tempDir = Directories.makeTempDir();		
 		return tempDir;
 	}
 
 	public String getBinDir(){
-		if(binDir == null) binDir = MenthorTemp.makeBinDir();		
+		if(binDir == null) binDir = Directories.makeBinDir();		
 		return binDir;
 	}
 	
 	public static String createTempDir(){
-		if(tempDir == null) tempDir = MenthorTemp.makeTempDir();		
+		if(tempDir == null) tempDir = Directories.makeTempDir();		
 		return tempDir;
 	}
 	
 	public static String createBinDir(){
-		if(binDir == null) binDir = MenthorTemp.makeBinDir();		
+		if(binDir == null) binDir = Directories.makeBinDir();		
 		return binDir;
 	}
 }

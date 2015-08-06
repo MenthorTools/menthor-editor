@@ -1,5 +1,7 @@
 package net.menthor.editor.v2.commands;
 
+import java.awt.Component;
+
 /*
 * ============================================================================================
 * Menthor Editor -- Copyright (c) 2015 
@@ -130,6 +132,13 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight")));
 		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
 				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));
+		
+		cmdMap.put(CommandType.CLOSE_THIS_TAB,
+				new MethodCall(DiagramManager.class.getMethod("closeTab", Integer.class)));
+		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
+				new MethodCall(DiagramManager.class.getMethod("closeOthers", Component.class)));
+		cmdMap.put(CommandType.CLOSE_ALL_TABS,
+				new MethodCall(DiagramManager.class.getMethod("closeAll")));
 		
 		cmdMap.put(CommandType.PALETTE_OF_ELEMENTS,
 				new MethodCall(AppFrame.class.getMethod("showToolBox")));

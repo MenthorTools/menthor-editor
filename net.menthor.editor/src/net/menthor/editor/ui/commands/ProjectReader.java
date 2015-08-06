@@ -35,12 +35,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.tinyuml.ui.commands.FileHandler;
 
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.util.MenthorSettings;
+import net.menthor.editor.v2.util.FileHandler;
+import net.menthor.editor.v2.util.Settings;
 
 /**
  * Reads a model from a file. Models are stored and retrieved using
@@ -81,7 +81,7 @@ public final class ProjectReader extends FileHandler {
 		ZipEntry entry;
 		while(entries.hasMoreElements()) {
 			entry = entries.nextElement();			
-			if(entry.getName().equals(MenthorSettings.DEFAULT_MODEL_FILE.getValue()) && !modelLoaded)
+			if(entry.getName().equals(Settings.DEFAULT_MODEL_FILE.getValue()) && !modelLoaded)
 			{
 				System.out.println("Loading model XMI information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
@@ -97,7 +97,7 @@ public final class ProjectReader extends FileHandler {
 				in.close();
 				modelLoaded = true;
 			}
-			else if (entry.getName().equals(MenthorSettings.DEFAULT_PROJECT_FILE.getValue()) && !projectLoaded)
+			else if (entry.getName().equals(Settings.DEFAULT_PROJECT_FILE.getValue()) && !projectLoaded)
 			{
 				System.out.println("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);

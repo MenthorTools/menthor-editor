@@ -123,6 +123,10 @@ public enum CommandType {
 	SEARCH_FOR_ANTIPATTERNS("Search for semantic anti-patterns in current project"),
 	VALIDATE_PARTHOOD_TRANSITIVITY("Validate the transitivity of parthood relationships"),
 	
+	CLOSE_THIS_TAB("Close this tab"),
+	CLOSE_OTHER_TABS("Close all other tabs except this one"),
+	CLOSE_ALL_TABS("Close all tabs"),
+	
 	//====================================================
 	// TOOLBOX DRAG AND DROP: CLASS
 	//====================================================

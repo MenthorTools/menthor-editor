@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 /** A helper class which provides settings and file management facilities. */
-public class MenthorUtil {
+public class Util {
 
 	public static boolean onMac() {
 		return System.getProperty("mrj.version") != null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");
@@ -122,7 +122,7 @@ public class MenthorUtil {
 	/** Extract a file from menthor's /lib class path */
 	public static File extractLib(String fileNameWithExtension) throws IOException
 	{
-		String destFolderPath = MenthorUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
+		String destFolderPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
 		if(destFolderPath.lastIndexOf("/") < destFolderPath.lastIndexOf(".")){
 			int lastBar = destFolderPath.lastIndexOf("/");
 			destFolderPath = destFolderPath.substring(0, lastBar+1);
@@ -131,7 +131,7 @@ public class MenthorUtil {
 		String alloyPath = URLDecoder.decode(destFolderPath, "UTF-8");		
 		File alloyJarFile = new File(alloyPath);
 		if (alloyJarFile.exists()) return alloyJarFile;				
-		InputStream is = MenthorUtil.class.getClassLoader().getResourceAsStream(fileNameWithExtension);		
+		InputStream is = Util.class.getClassLoader().getResourceAsStream(fileNameWithExtension);		
 		if(is == null) is = new FileInputStream("lib/"+fileNameWithExtension);
 		OutputStream out = new FileOutputStream(alloyJarFile);				
 		// copy data flow -> MB x MB

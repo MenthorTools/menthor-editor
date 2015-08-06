@@ -49,6 +49,7 @@ import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
@@ -708,7 +709,7 @@ public class SingleConnectionPopupMenu extends JPopupMenu implements ActionListe
 		subsettingItem.setVisible(false);
 		redefinesItem.setVisible(false);		
 		
-		Relationship rel = ((AssociationElement)con).getRelationship();
+		Relationship rel = ((BaseConnection)con).getRelationship();
 		changeMenu.setContext(rel);
 	}		
 	

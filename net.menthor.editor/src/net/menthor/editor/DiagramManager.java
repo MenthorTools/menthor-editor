@@ -74,7 +74,6 @@ import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.draw.LineStyle;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.PngWriter;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
 import org.tinyuml.ui.diagram.Editor.EditorNature;
@@ -164,6 +163,7 @@ import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DiagramEditorWrapper;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.OWLHelper;
+import net.menthor.editor.ui.PngWriter;
 import net.menthor.editor.ui.TextEditor;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.ui.commands.OntoUMLExporter;
@@ -181,9 +181,9 @@ import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
-import net.menthor.editor.v2.util.MenthorSettings;
-import net.menthor.editor.v2.util.MenthorTemp;
-import net.menthor.editor.v2.util.MenthorUtil;
+import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.Util;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
@@ -827,13 +827,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
-	public static void closeAll(JTabbedPane pane)
-	{
+	public void closeAll(){
+		closeAll(this);
+	}
+	
+	public static void closeAll(JTabbedPane pane){
 		 int tabCount = pane.getTabCount();
          
          for (int i = 1; i < tabCount; i++) {
              closeTab(1, pane);
          }
+	}
+	
+	public void closeOthers(Component component){
+		closeOthers(this,component);
 	}
 	
 	public static void closeOthers(JTabbedPane pane,Component component)
@@ -854,6 +861,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
                 closeTab(1,pane);
             }
         }
+	}
+	
+	public void closeTab(int i)
+	{
+		closeTab(i,this);
 	}
 	
 	public static void closeTab(int i, JTabbedPane pane)
@@ -1158,7 +1170,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		frame.getInfoManager().setProject(currentProject);	
 		openDiagrams();
 		saveProjectNeeded(false);				
-		MenthorSettings.addRecentProject(projectFile.getCanonicalPath());
+		Settings.addRecentProject(projectFile.getCanonicalPath());
 		frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
 	}
 	
@@ -1182,7 +1194,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				currentProject.saveAsOpened(editor.getDiagram());
 			}			
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
-			MenthorSettings.addRecentProject(file.getCanonicalPath());
+			Settings.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthor",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
@@ -1317,7 +1329,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
 				saveCurrentProjectToFile(projectFile);
 				lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
-				MenthorSettings.addRecentProject(projectFile.getCanonicalPath());
+				Settings.addRecentProject(projectFile.getCanonicalPath());
 				newDiagram();
 				frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1345,7 +1357,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			File file = fileChooser.getSelectedFile();
 			lastImportEAPath = file.getAbsolutePath();
 			new ImportXMIDialog(frame, true, this, lastImportEAPath);
-			MenthorSettings.addRecentProject(file.getCanonicalPath());
+			Settings.addRecentProject(file.getCanonicalPath());
 		}		
 	}
 	
@@ -1353,7 +1365,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		lastImportEAPath = getStartPage().getSelectedRecentFile();
 		new ImportXMIDialog(frame, true, this, lastImportEAPath);
-		MenthorSettings.addRecentProject(lastImportEAPath);				
+		Settings.addRecentProject(lastImportEAPath);				
 	}
 	
 	public void exportToEcore() 
@@ -2906,7 +2918,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void generateSbvr(RefOntoUML.Model refpackage) 
 	{
 		ResultType result;
-		String modelFileName = MenthorUtil.getCanonPath(MenthorTemp.getTempDir(), MenthorSettings.DEFAULT_MODEL_FILE.getValue());
+		String modelFileName = Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_MODEL_FILE.getValue());
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {			
@@ -3273,6 +3285,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
+	
+	public void openDerivedTypePatternIntersection(Point p) {
+		openDerivedTypePatternIntersection(p.getX(),p.getY());
+	}
+	
 	public void deriveByIntersection() {
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
 		UmlProject project = getCurrentEditor().getProject();
@@ -3353,7 +3370,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				currentProject.saveAsOpened(editor.getDiagram());
 			}			
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
-			MenthorSettings.addRecentProject(file.getCanonicalPath());
+			Settings.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);

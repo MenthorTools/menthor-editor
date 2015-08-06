@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.PngWriter;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -25,6 +24,7 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
 import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.PngWriter;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.UmlDiagram;
 import net.menthor.editor.v2.palette.PaletteAccordion;

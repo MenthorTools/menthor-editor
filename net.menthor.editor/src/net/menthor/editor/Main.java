@@ -51,8 +51,8 @@ import javax.swing.plaf.FontUIResource;
 import org.eclipse.swt.LoadingException;
 import org.eclipse.swt.SWTBinaryLoader;
 
-import net.menthor.editor.v2.util.MenthorTemp;
-import net.menthor.editor.v2.util.MenthorUtil;
+import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.Util;
 
 /**
  * This is the start class of the Menthor Editor application. Menthor Editor is based on the TinyUML project by Wei-ju Wu.
@@ -324,7 +324,7 @@ public final class Main {
 	 * @throws IOException */
 	public static void copyBinaryFilesTo() throws LoadingException, URISyntaxException, IOException
 	{
-		SWTBinaryLoader.load(MenthorTemp.getBinDir());
+		SWTBinaryLoader.load(Directories.getBinDir());
 	}
 	
 	/** Add and load the appropriate SWT jar to the classpath according to the operating system. 
@@ -397,7 +397,7 @@ public final class Main {
 					copyBinaryFilesTo();
 					
 					publish("Extracting Alloy files...");
-					File alloyJarFile = MenthorUtil.extractLib("alloy4.2.jar");
+					File alloyJarFile = Util.extractLib("alloy4.2.jar");
 					System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());
 					
 					publish("Loading application...");						

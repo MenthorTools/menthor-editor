@@ -76,6 +76,7 @@ import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.ui.diagram.commands.Command;
 import org.tinyuml.ui.diagram.commands.ConvertConnectionTypeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
@@ -86,7 +87,6 @@ import org.tinyuml.ui.diagram.commands.ResetConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.ResizeElementCommand;
 import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -101,11 +101,11 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.popupmenu.DiagramPopupMenu;
-import net.menthor.editor.popupmenu.ToolboxPopupMenu;
 import net.menthor.editor.ui.DiagramEditorWrapper;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.menus.PalettePopupMenu;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -503,7 +503,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		DiagramElement elem = diagram.getChildAt(currentPointerPosition.getX(), currentPointerPosition.getY());		
 		if (elem instanceof NullElement)
 		{
-			ToolboxPopupMenu menu = new ToolboxPopupMenu(frame,currentPointerPosition.getX(),currentPointerPosition.getY());
+			PalettePopupMenu menu = new PalettePopupMenu(frame,currentPointerPosition.getX(),currentPointerPosition.getY());
+			//ToolboxPopupMenu menu = new ToolboxPopupMenu(frame,currentPointerPosition.getX(),currentPointerPosition.getY());
 			menu.show(this, (int)currentPointerPosition.getX(), (int) currentPointerPosition.getY());				
 		}
 	}

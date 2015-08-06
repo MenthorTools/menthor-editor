@@ -1,4 +1,4 @@
-package org.tinyuml.ui.commands;
+package net.menthor.editor.ui;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -39,7 +39,7 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.v2.util.FileWriter;
 
 /**
  * This class exports a diagram to a Portable Network Graphics file.
