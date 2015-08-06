@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -21,9 +20,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.trees.DiagramTree;
+import net.menthor.editor.v2.trees.ElementTree;
+import net.menthor.editor.v2.trees.ElementTreeVisibility;
 
 public class FilterPane extends JPanel {
 	
@@ -121,13 +123,13 @@ public class FilterPane extends JPanel {
 		
 		findButton = new JButton("");
 		searchPane.add(findButton, BorderLayout.EAST);
-		findButton.setContentAreaFilled(false);
-		findButton.setOpaque(false);
-		findButton.setFocusPainted(false);
+//		findButton.setContentAreaFilled(false);
+//		findButton.setOpaque(false);
+//		findButton.setFocusPainted(false);
 		findButton.setFocusable(false);
-		findButton.setBorderPainted(false);
-		findButton.setPreferredSize(new Dimension(30, 28));
-		findButton.setIcon(new ImageIcon(FilterPane.class.getResource("/net/menthor/resources/images/find-24.png")));
+//		findButton.setBorderPainted(false);
+		findButton.setPreferredSize(new Dimension(60, 28));
+		findButton.setText("Find");
 		findButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -166,10 +168,10 @@ public class FilterPane extends JPanel {
 		public String value() { return value; }
 	}
 	
-	public void fillContent(OntoUMLParser refparser, List<StructureDiagram> diagrams)
+	public void fillContent(OntoUMLParser refparser, List<UmlDiagram> diagrams)
 	{
-		diagramTree = DiagramTree.createFilter(refparser, diagrams, new ElementVisibilityOption());
-		elemTree = ElementTree.createFilter(refparser, new ElementVisibilityOption());
+		diagramTree = DiagramTree.createTree(refparser, diagrams, new ElementTreeVisibility());
+		elemTree = ElementTree.createTree(refparser, new ElementTreeVisibility());
 		ElementTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		

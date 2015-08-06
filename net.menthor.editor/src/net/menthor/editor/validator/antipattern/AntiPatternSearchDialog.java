@@ -52,6 +52,9 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
 import net.menthor.antipattern.GSRig.GSRigAntipattern;
@@ -77,12 +80,9 @@ import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
+import net.menthor.editor.explorer.Models;
 import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.AntiPatternList;
-
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.AntiPatternList;
 
 /**
  * @author Tiago Sales
@@ -847,12 +847,12 @@ public class AntiPatternSearchDialog extends JDialog {
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {
-			    	AntiPatternList apList = frame.getProjectBrowser().getAntiPatternList();
+			    	AntiPatternList apList = Models.getAntipatterns();
 			    	AntiPatternResultDialog.openDialog(apList,frame);
 				}
 			});
 		}else{
-			AntiPatternList apList = frame.getProjectBrowser().getAntiPatternList();
+			AntiPatternList apList = Models.getAntipatterns();
 	    	AntiPatternResultDialog.openDialog(apList,frame);
 		}
 	}
@@ -912,7 +912,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	
 	private void updateStatus(String s) {
 		progressBarDescr.setText(s);
-		Main.printOutLine(s);
+		System.out.println(s);
 	}
 	
 	private void executeAntipattern(AntipatternTask task, Antipattern<?> antipattern, AntipatternInfo info, JLabel label, JCheckBox checkBox, 
@@ -1005,7 +1005,7 @@ public class AntiPatternSearchDialog extends JDialog {
 			};
 			preTask.execute();
 			
-			OntoUMLParser parser = frame.getBrowserManager().getProjectBrowser().getParser();
+			OntoUMLParser parser =  Models.getRefparser();
 			
 			if (parser.getElements() == null) 
 				return;
@@ -1108,7 +1108,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 			antipatternList = new AntiPatternList (assCyc, binOver, depPhase, freeRole, gsRig, hetColl, homoFunc, impAbs, mixIden,
 					   mixRig, multiDep, relComp, relOver, relRig, relSpec, repRel, undefFormal, undefPhase, wholeOver, partOver, decInt);
-			frame.getProjectBrowser().setAntiPatternList(antipatternList);
+			Models.setAntipatterns(antipatternList);
 			
 			new Supervisor(latch).execute();
 				

@@ -66,10 +66,10 @@ import RefOntoUML.DataType;
 import RefOntoUML.Element;
 import RefOntoUML.Property;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 /**
  * @author John Guerson

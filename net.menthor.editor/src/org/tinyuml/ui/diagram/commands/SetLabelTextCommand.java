@@ -35,10 +35,11 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
 import RefOntoUML.Classifier;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
 
 /**
  * This class represents a reversible operation that sets a Label to a new
@@ -81,14 +82,13 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 		if (parent instanceof ClassElement) 
 		{
 			Classifier element = (((ClassElement)parent).getClassifier());
-			
-			ProjectBrowser pb = ProjectBrowser.frame.getBrowserManager().getProjectBrowser();						
+									
 			// replace all references in constraints
-			for(OCLDocument oclDoc: pb.getOCLDocuments())
+			for(OclDocument oclDoc: Models.getOclDocList())
 			{
-				String currentConstraints = oclDoc.getContent();
+				String currentConstraints = oclDoc.getContentAsString();
 				String newConstraints = currentConstraints.replaceAll(oldName,text);
-				oclDoc.setContent(newConstraints);
+				oclDoc.setContentAsString(newConstraints);
 			}
 			
 			// update application accordingly
@@ -131,14 +131,13 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 		if (parent instanceof ClassElement) 
 		{
 			Classifier element = (((ClassElement)parent).getClassifier());
-						
-			ProjectBrowser pb = ProjectBrowser.frame.getBrowserManager().getProjectBrowser();
+			
 			// replace all references in constraints
-			for(OCLDocument oclDoc: pb.getOCLDocuments())
+			for(OclDocument oclDoc: Models.getOclDocList())
 			{
-				String currentConstraints = oclDoc.getContent();
+				String currentConstraints = oclDoc.getContentAsString();
 				String newConstraints = currentConstraints.replaceAll(text,oldText);
-				oclDoc.setContent(newConstraints);
+				oclDoc.setContentAsString(newConstraints);
 			}
 			
 			// update application accordingly

@@ -23,8 +23,6 @@ package org.tinyuml.ui.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.menthor.editor.model.UmlProject;
-
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.edit.command.ChangeCommand;
 import org.tinyuml.draw.DiagramElement;
@@ -32,6 +30,8 @@ import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
+
+import net.menthor.editor.ui.UmlProject;
 
 /**
  * This class implements a command to add nodes. It is introduced, because

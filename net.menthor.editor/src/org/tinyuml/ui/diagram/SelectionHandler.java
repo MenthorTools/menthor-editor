@@ -39,10 +39,11 @@ import org.tinyuml.draw.NullElement;
 import org.tinyuml.draw.NullSelection;
 import org.tinyuml.draw.RubberbandSelector;
 import org.tinyuml.draw.Selection;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
+
+import net.menthor.editor.v2.commands.CommandListener;
 
 /**
  * This class handles selections of diagram allElements, this includes all
@@ -466,7 +467,7 @@ public class SelectionHandler implements EditorMode {
 	 * Adds the specified AppCommandListener.
 	 * @param l the AppCommandListener to add
 	 */
-	public void addAppCommandListener(AppCommandListener l) {
+	public void addAppCommandListener(CommandListener l) {
 		contextMenuBuilder.addAppCommandListener(l);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
+import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.TypeExpImpl;
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
@@ -22,8 +23,8 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class TypeExpImplFactory extends OCLExpressionImplFactory {
 
-	public TypeExpImplFactory(NamedElementImpl m_NamedElementImpl){
-		super(m_NamedElementImpl);
+	public TypeExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, m_NamedElementImpl);
 	}
 
 	@Override

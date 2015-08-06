@@ -43,10 +43,15 @@ import org.tinyuml.umldraw.ClassElement;
 
 public class PastSpecializationDiagram extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4908768218483460011L;
 	static public final JPanel contentPanel = new JPanel();
 	public static JLabel lal = new JLabel("Supertype");
 	static private JTextField txt_super;
 	static private JTextField txt_past;
+	@SuppressWarnings("rawtypes")
 	static JComboBox cmb_stereotype = new JComboBox();
 	static JLabel lblNewLabel = new JLabel("Past Specialization");
 	static ClassElement ce;
@@ -56,6 +61,7 @@ public class PastSpecializationDiagram extends JDialog {
 	
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked", "static-access" })
 	public PastSpecializationDiagram(ClassElement ce) {
 		this.ce= ce;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PastSpecializationDiagram.class.getResource("/resources/icons/x16/sitemap.png")));
@@ -142,6 +148,7 @@ public class PastSpecializationDiagram extends JDialog {
 	public static String getCmb_stereotype() {
 		return cmb_stereotype.getSelectedItem().toString();
 	}
+	@SuppressWarnings("rawtypes")
 	public static void setCmb_stereotype(JComboBox cmb_stereotype) {
 		PastSpecializationDiagram.cmb_stereotype = cmb_stereotype;
 	}

@@ -3,6 +3,8 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.ootos.util.MappingProperties;
+
 import org.eclipse.ocl.uml.impl.RealLiteralExpImpl;
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -20,8 +22,8 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class RealLiteralExpImplFactory extends NumericLiteralExpImplFactory {
 
-	public RealLiteralExpImplFactory(NamedElementImpl m_NamedElementImpl){
-		super(m_NamedElementImpl);
+	public RealLiteralExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, m_NamedElementImpl);
 	}
 
 	@Override

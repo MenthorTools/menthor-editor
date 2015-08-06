@@ -1,6 +1,7 @@
 package net.menthor.editor.transformation;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import org.eclipse.emf.ecore.EObject;
@@ -23,8 +25,8 @@ import RefOntoUML.ReferenceRegion;
 import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
-import javax.swing.UIManager;
-import java.awt.Color;
+
+import net.menthor.editor.v2.trees.ElementTree;
 
 public class FilterOptionPane extends JPanel{
 	

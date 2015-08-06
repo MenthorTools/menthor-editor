@@ -34,16 +34,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-
-import net.menthor.editor.Main;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.util.SimulationElement;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -77,25 +71,22 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 import org.tinyuml.umldraw.shared.DiagramSelection;
 
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import RefOntoUML.Dependency;
 import RefOntoUML.DirectedRelationship;
 import RefOntoUML.Element;
+import RefOntoUML.Generalization;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Namespace;
 import RefOntoUML.Package;
-import RefOntoUML.PackageableElement;
+import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
-import RefOntoUML.impl.AssociationImpl;
-import RefOntoUML.impl.ClassImpl;
-import RefOntoUML.impl.NonRigidMixinClassImpl;
-import RefOntoUML.impl.PackageImpl;
-import RefOntoUML.impl.SubstanceSortalImpl;
-import edu.mit.csail.sdg.alloy4graph.DotColor;
-import edu.mit.csail.sdg.alloy4graph.DotShape;
-import edu.mit.csail.sdg.alloy4graph.DotStyle;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
 
 /**
  * This class implements the effective layout area. It shows the boundaries of
@@ -119,8 +110,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	private UmlProject project;
 //	private DiagramElementFactory elementFactory;
 	private DrawingContext drawingContext;
-	private List<SimulationElement> simulationElements = new ArrayList<SimulationElement>();
-
+	
 	private transient boolean generateTheme = true;
 	
 	/**
@@ -136,8 +126,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		stream.writeUTF(name);
 		stream.writeObject(connections);
 		stream.writeObject(nameLabel);
-		stream.writeObject(project);
-		stream.writeObject(simulationElements);
+		stream.writeObject(project);		
 	}
 
 	/**
@@ -156,8 +145,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		name = stream.readUTF();
 		connections = (List<Connection>) stream.readObject();		
 		nameLabel = (Label) stream.readObject();
-		project = (UmlProject) stream.readObject();
-		simulationElements = (List<SimulationElement>) stream.readObject();		
+		project = (UmlProject) stream.readObject();				
 		gridVisible = true;
 		snapToGrid = true;
 		saveNeeded = false;
@@ -178,10 +166,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 			if (obj instanceof AssociationElement){
 				AssociationElement assocElem = (AssociationElement)obj;
 				if (assocElem.getRelationship() ==null) {
-					Main.printErrLine("Draw Exception: Association Element "+assocElem+" cannot be drawed! Cause: null relationship. ");
-					Main.printErr("Fixing the problem... ");
-					if(ModelHelper.removeMapping(assocElem)) Main.printErr("Association Element "+assocElem+" removed. ");
-					else Main.printErr("Association Element "+assocElem+" ignored. ");
+					System.err.println("Draw Exception: Association Element "+assocElem+" cannot be drawed! Cause: null relationship. ");
+					System.err.print("Fixing the problem... ");
+					if(ModelHelper.removeMapping(assocElem)) System.err.print("Association Element "+assocElem+" removed. ");
+					else System.err.print("Association Element "+assocElem+" ignored. ");
 					iter.remove();
 				} 
 			}
@@ -189,10 +177,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 			else if (obj instanceof GeneralizationElement) {
 				GeneralizationElement genElem = (GeneralizationElement)obj;
 				if (genElem.getRelationship() ==null) {
-					Main.printErrLine("Draw Exception: Generalization Element "+genElem+" cannot be drawed! Cause: null generalization. ");
-					Main.printErr("Fixing the problem... ");
-					if(ModelHelper.removeMapping(genElem)) Main.printErr("Generalization Element "+genElem+" removed. ");
-					else Main.printErr("Generalization Element "+genElem+" ignored. ");
+					System.err.println("Draw Exception: Generalization Element "+genElem+" cannot be drawed! Cause: null generalization. ");
+					System.err.print("Fixing the problem... ");
+					if(ModelHelper.removeMapping(genElem)) System.err.print("Generalization Element "+genElem+" removed. ");
+					else System.err.print("Generalization Element "+genElem+" ignored. ");
 					iter.remove();
 				}
 			}			
@@ -204,8 +192,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	 */
 	public StructureDiagram(UmlProject project, DiagramElementFactoryImpl elementFactory, DrawingContext drawingContext) {
 		initializeNameLabel();		
-		this.project = project;
-		simulationElements.add(getStateSimulationElement());
+		this.project = project;		
 		//this.elementFactory = elementFactory;
 		this.drawingContext = drawingContext;
 	}
@@ -247,6 +234,41 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	public DrawingContext getDrawingContext() {
 		if(drawingContext==null) drawingContext = new DrawingContextImpl();		
 		return drawingContext;
+	}
+	
+	public List<EObject> getPackageableElements()
+	{	 
+   		ArrayList<EObject> elements = new ArrayList<EObject>();   		
+   		for(DiagramElement de: this.getChildren()){
+   			if(de instanceof ClassElement) {
+   				Classifier c = ((ClassElement)de).getClassifier();
+   				elements.add(c);
+   				if(c instanceof RefOntoUML.Class) {
+					for(Property attr: ((RefOntoUML.Class)c).getOwnedAttribute()) {
+						//elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+				if(c instanceof RefOntoUML.DataType) {
+					for(Property attr: ((RefOntoUML.DataType)c).getOwnedAttribute()) {
+						//elements.add(attr);
+						if(!elements.contains(attr.getType())) elements.add(attr.getType());
+					}
+				}
+   			}
+   			if(de instanceof AssociationElement) { 
+   				Association r = (Association)((AssociationElement)de).getRelationship();
+   				elements.add(r.getMemberEnd().get(0));
+   				elements.add(r.getMemberEnd().get(1));
+   				elements.add(r);								
+   			}
+   			if(de instanceof GeneralizationElement) {
+   				Relationship rel = ((GeneralizationElement)de).getRelationship();
+   				elements.add(rel);
+   				elements.addAll(((Generalization)rel).getGeneralizationSet());				 
+   			}
+   		}	
+   		return elements;	   	
 	}
 	
 	@Override
@@ -753,167 +775,8 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	public UmlProject getProject() {
 		return project;
 	}
-
-	public List<SimulationElement> getSimulationElements() {
-		updateSimulationElements();
-		return simulationElements;
-	}
-
-	public void setSimulationElements(List<SimulationElement> simulationElements) {
-		this.simulationElements = simulationElements;
-	}
-
-	//Updates the SimulationElements list in order to include the newly added model elements
-	//and also define a random theme for them if they are identity providers
-	private void updateSimulationElements()
-	{
-		//We keep track of the new identity providers added to the model so we can 
-		//set their style properly
-		List<SimulationElement> newIdentityProviders = new ArrayList<SimulationElement>();
-		
-		//We keep track of the used attributes so we don't repeat (at least we try to)
-		Set<Object> usedAttributes = new HashSet<Object>();
-		
-		packageToSimulationElements(project.getModel(), usedAttributes, newIdentityProviders);
-		
-//		//We always iterate thru model items in case there are new items
-//		for (PackageableElement element : project.getElements()) {
-//			
-//			SimulationElement existingElement = getSimulationElement(element);
-//			
-//			if(existingElement != null)
-//			{
-//				usedAttributes.add(existingElement.getColor());
-//				usedAttributes.add(existingElement.getShape());
-//			}
-//			else
-//			{
-//				if(element instanceof)
-//				if(element instanceof ClassImpl || element instanceof AssociationImpl)
-//				{
-//					SimulationElement simulatioElement = new SimulationElement();
-//					simulatioElement.setElement(element);
-//					simulatioElement.setSimulate(true);
-//					simulatioElement.setColor(null);
-//					simulatioElement.setStyle(null);
-//					simulatioElement.setShape(null);
-//					
-//					if(element instanceof SubstanceSortalImpl || element instanceof NonRigidMixinClassImpl)
-//					{
-//						newIdentityProviders.add(simulatioElement);
-//						simulatioElement.setStyle(DotStyle.SOLID);
-//					}
-//					
-//					simulationElements.add(simulatioElement);
-//				}
-//			}
-//		}
-//		
-		if(newIdentityProviders.size() > 0)
-			defaultThemeForIdentityProvider(newIdentityProviders, usedAttributes);
-		
-		//Clear the deleted elements
-		List<SimulationElement> toRemove = new ArrayList<SimulationElement>();
-		for (SimulationElement elm : simulationElements) {
-			if(elm.getElementUUID() != null && ModelHelper.getElementByUUID(project.getModel(), elm.getElementUUID()) == null)
-				toRemove.add(elm);
-		}
-		simulationElements.removeAll(toRemove);
-	}
 	
-	private void packageToSimulationElements(Package pack, Set<Object> usedAttributes, List<SimulationElement> newIdentityProviders) {
-		
-		for (PackageableElement element : pack.getPackagedElement()) {
-			
-			SimulationElement existingElement = getSimulationElement(element);
-			
-			if(existingElement != null)
-			{
-				usedAttributes.add(existingElement.getColor());
-				usedAttributes.add(existingElement.getShape());
-			}
-			else
-			{
-				if(element instanceof ClassImpl || element instanceof AssociationImpl)
-				{
-					SimulationElement simulatioElement = new SimulationElement();
-					simulatioElement.setElement(element);
-					simulatioElement.setSimulate(true);
-					simulatioElement.setColor(null);
-					simulatioElement.setStyle(null);
-					simulatioElement.setShape(null);
-					
-					if(element instanceof SubstanceSortalImpl || element instanceof NonRigidMixinClassImpl)
-					{
-						newIdentityProviders.add(simulatioElement);
-						simulatioElement.setStyle(DotStyle.SOLID);
-					}
-					
-					simulationElements.add(simulatioElement);
-				}
-				else if (element instanceof PackageImpl) {
-					packageToSimulationElements((Package)element, usedAttributes, newIdentityProviders);
-				}
-			}
-		}
-	}
-	
-	public SimulationElement getSimulationElement(PackageableElement element) {
-		
-		SimulationElement found = null;
-		for (SimulationElement entry : simulationElements) {
-			if(entry.getElementUUID() != null && entry.getElementUUID().equals(ModelHelper.getUUIDFromElement(element)))
-				found = entry;
-		}
-		return found;
-	}
-
-	private SimulationElement getStateSimulationElement()
-	{
-		SimulationElement stateElement = new SimulationElement();
-		stateElement.setName("State");
-		stateElement.setSimulate(true);
-		stateElement.setColor(DotColor.GRAY);
-		stateElement.setShape(DotShape.INV_HOUSE);
-		
-		return stateElement;
-	}
-	
-	private void defaultThemeForIdentityProvider(List<SimulationElement> simulationElements, Set<Object> usedAttributes)
-	{
-		List<Object> defaultColors = new LinkedList<Object>();
-		
-		//defaultAttributes.add();
-		defaultColors.add(DotColor.RED);
-		defaultColors.add(DotColor.GREEN);
-		defaultColors.add(DotColor.BLUE);
-		defaultColors.add(DotColor.YELLOW);
-		
-		List<Object> defaultShapes = new LinkedList<Object>();
-		
-		defaultShapes.add(DotShape.CIRCLE);
-		defaultShapes.add(DotShape.TRAPEZOID);
-		defaultShapes.add(DotShape.TRIANGLE);
-		defaultShapes.add(DotShape.DIAMOND);
-		defaultShapes.add(DotShape.OCTAGON);
-		defaultShapes.add(DotShape.DIAMOND);
-				
-		DotColor color;
-		DotShape shape;
-		
-		for (SimulationElement item : simulationElements) {
-			
-			color = (DotColor) getRandom(defaultColors, usedAttributes);
-			shape = (DotShape) getRandom(defaultShapes, usedAttributes);
-			
-			item.setColor(color);
-			item.setShape(shape);
-
-			usedAttributes.add(color);
-			usedAttributes.add(shape);
-		}
-	}
-	
+	@SuppressWarnings("unused")
 	private Object getRandom(List<Object> possible, Set<Object> used)
 	{
 		Random generator = new Random();

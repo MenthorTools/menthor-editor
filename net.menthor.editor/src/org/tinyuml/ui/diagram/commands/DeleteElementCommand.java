@@ -28,9 +28,10 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
+import net.menthor.editor.explorer.Models;
 import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
 
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.CompositeNode;
@@ -104,7 +105,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		for (Element elem : theElements) 
 		{
 			// level 1 of dependency
-			ArrayList<Relationship> depList = ProjectBrowser.frame.getBrowserManager().getProjectBrowser().getParser().getDirectRelationships(elem);			
+			ArrayList<Relationship> depList = Models.getRefparser().getDirectRelationships(elem);			
 			depList.removeAll(elemList);
 			for(Element e: depList) { if(!elemDep1List.contains(e)) elemDep1List.add(e); }			
 			
@@ -114,7 +115,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 			{ 
 				if (r instanceof MaterialAssociation) 
 				{ 
-					Derivation d = ProjectBrowser.frame.getBrowserManager().getProjectBrowser().getParser().getDerivation((MaterialAssociation)r);
+					Derivation d =  Models.getRefparser().getDerivation((MaterialAssociation)r);
 					if(d!=null) {
 						if(!elemDep2List.contains(d)) elemDep2List.add(d);						
 					}

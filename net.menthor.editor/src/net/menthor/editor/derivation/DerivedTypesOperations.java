@@ -47,14 +47,6 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-import net.menthor.common.positioning.ClassPosition;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.UmlProject;
 import RefOntoUML.AntiRigidMixinClass;
 import RefOntoUML.AntiRigidSortalClass;
 import RefOntoUML.Association;
@@ -75,6 +67,14 @@ import RefOntoUML.SemiRigidMixinClass;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
 import br.ufes.inf.nemo.derivedtypes.DerivedByUnion;
+import net.menthor.common.ontoumlfixer.ClassStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlfixer.RelationStereotype;
+import net.menthor.common.positioning.ClassPosition;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.UmlProject;
 
 /**
  * @author Cássio Reginato
@@ -131,6 +131,7 @@ public class DerivedTypesOperations {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static Fix createUnionDerivation(DiagramEditor activeEditor,
 			UmlProject project, DiagramManager dm) {
 
@@ -321,8 +322,7 @@ public class DerivedTypesOperations {
 		}
 
 		Property element = (Property) associations.get(0).getMemberEnd().get(0);
-		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager()
-				.getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 
 		for (RefOntoUML.Property p : refparser
 				.getAllInstances(RefOntoUML.Property.class)) {
@@ -928,8 +928,7 @@ public class DerivedTypesOperations {
 		String rule = "\ncontext _'" + names.get(0) + "'\n"
 				+ "inv: self.allInstances()->forAll( x |  x.oclIsTypeOf(_'"
 				+ names.get(1) + "') implies x.oclIsTypeOf(_'" + name + "'))";
-		diagramManager.getFrame().getBrowserManager().getProjectBrowser()
-				.getOCLDocuments().get(0).addContent(rule);
+		Models.getOclDocList().get(0).addContentAsString(rule);
 
 		createMultipleGeneralizationIntersection(newElement, classifiers);
 		mainfix.includeAdded(newElement, newElementPosition.getX(),
@@ -1019,8 +1018,7 @@ public class DerivedTypesOperations {
 						1));
 
 				Property element = (Property) association.getMemberEnd().get(0);
-				OntoUMLParser refparser = diagramManager.getFrame()
-						.getBrowserManager().getProjectBrowser().getParser();
+				OntoUMLParser refparser = Models.getRefparser();
 
 				for (RefOntoUML.Property p : refparser
 						.getAllInstances(RefOntoUML.Property.class)) {
@@ -1104,8 +1102,7 @@ public class DerivedTypesOperations {
 					+ "'.allInstances(self)->forAll( wk | self.allPrevious()->exists(w | wk.oclIsKindOf(_'"
 					+ namespecial + "',w)) and not wk.oclIsKindOf("
 					+ namespecial + ",self))";
-			dman.getFrame().getBrowserManager().getProjectBrowser()
-					.getOCLDocuments().get(0).addContent(rule_ocl);
+			Models.getOclDocList().get(0).addContentAsString(rule_ocl);
 		}
 
 		dman2.updateMenthor(mainfix);
@@ -1259,8 +1256,7 @@ public class DerivedTypesOperations {
 						+ ce.getClassifier().eClass().getName()
 						+ "',w)) and not wk.oclIsKindOf("
 						+ ce.getClassifier().eClass().getName() + ",self))";
-				dman.getFrame().getBrowserManager().getProjectBrowser()
-						.getOCLDocuments().get(0).addContent(rule_ocl);
+				Models.getOclDocList().get(0).addContentAsString(rule_ocl);
 			} else {
 				JDialog dialog = new PastSpecializationDiagram(ce);
 				dialog.setVisible(true);
@@ -1293,8 +1289,7 @@ public class DerivedTypesOperations {
 				+ ce.getClassifier().eClass().getName()
 				+ "',w)) and not wk.oclIsKindOf("
 				+ ce.getClassifier().eClass().getName() + ",self))";
-		dman.getFrame().getBrowserManager().getProjectBrowser()
-				.getOCLDocuments().get(0).addContent(rule_ocl);
+		Models.getOclDocList().get(0).addContentAsString(rule_ocl);
 		dman.updateMenthor(mainfix);
 
 	}
@@ -1319,8 +1314,7 @@ public class DerivedTypesOperations {
 	}
 
 	public static boolean verifyHierarquicalProblem(DiagramEditor activeDiagram){
-		OntoUMLParser parser = ProjectBrowser.frame.getProjectBrowser()
-				.getParser();
+		OntoUMLParser parser = Models.getRefparser();
 		ArrayList<DiagramElement> list= (ArrayList<DiagramElement>) activeDiagram.getSelectedElements();
 		ArrayList<Classifier> list_classifier = new ArrayList<Classifier>();
 		

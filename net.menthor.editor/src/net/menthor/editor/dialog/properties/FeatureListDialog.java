@@ -42,8 +42,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Classifier;
@@ -53,6 +51,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.ModelHelper;
 
 /**
  * @author John Guerson

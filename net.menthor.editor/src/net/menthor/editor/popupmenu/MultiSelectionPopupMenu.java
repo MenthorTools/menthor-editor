@@ -36,20 +36,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.commands.AppCommandListener;
 import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.SetColorCommand;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand;
-import net.menthor.editor.ui.diagram.commands.SetColorCommand;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand;
-import net.menthor.editor.ui.diagram.commands.AlignElementsCommand.Alignment;
-import net.menthor.editor.ui.diagram.commands.SetVisibilityCommand.Visibility;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.resources.icons.IconMap;
+import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.icon.IconMap;
 import RefOntoUML.Generalization;
 
 /**
@@ -58,7 +58,7 @@ import RefOntoUML.Generalization;
 public class MultiSelectionPopupMenu extends JPopupMenu implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	private Set<AppCommandListener> commandListeners = new HashSet<AppCommandListener>();
+	private Set<CommandListener> commandListeners = new HashSet<CommandListener>();
 	private DiagramEditor editor;
 	private ArrayList<DiagramElement> selected = new ArrayList<DiagramElement>();	
 	private JMenuItem createGenSetItem;
@@ -339,7 +339,7 @@ public class MultiSelectionPopupMenu extends JPopupMenu implements ActionListene
 	 * @param l
 	 *            the AppCommandListener to add
 	 */
-	public void addAppCommandListener(AppCommandListener l) {
+	public void addAppCommandListener(CommandListener l) {
 		commandListeners.add(l);
 	}
 	
@@ -386,8 +386,8 @@ public class MultiSelectionPopupMenu extends JPopupMenu implements ActionListene
 	 * {@inheritDoc}
 	 */
 	public void actionPerformed(ActionEvent e) {
-		for (AppCommandListener l : commandListeners) {
-			l.handleCommand(e.getActionCommand());
+		for (CommandListener l : commandListeners) {
+			l.handleCommand(e.getActionCommand(),null);
 		}
 	}
 	

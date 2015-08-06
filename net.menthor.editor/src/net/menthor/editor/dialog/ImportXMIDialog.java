@@ -58,7 +58,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.OCLDocument;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.v2.OclDocument;
 import net.menthor.xmi2ontouml.Creator;
 import net.menthor.xmi2ontouml.framework.XMI2RefConstraint;
 import net.menthor.xmi2ontouml.framework.XMI2RefModel;
@@ -484,16 +485,16 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 		
 		if (chckbxImportConstraints.isSelected())
 		{
-			ArrayList<OCLDocument> documents;
+			ArrayList<OclDocument> documents;
 			for (XMI2RefConstraint constr : XMI2RefModel.getConstraints()){
-				documents = diagManager.getFrame().getBrowserManager().getProjectBrowser().getOCLDocuments();
+				documents = Models.getOclDocList();
 				if(documents.size() > 0){
-					documents.get(0).addContent(constr.getStringRepresentation());
+					documents.get(0).addContentAsString(constr.getStringRepresentation());
 				}				
 			}
 		}
-		diagManager.getFrame().openProjectBrowser();
-		diagManager.getFrame().getMainToolBar().enableAll(true);
+		diagManager.getFrame().forceShowProjectBrowser();
+		diagManager.getFrame().forceShowToolBox();
 		this.dispose();
 	}
 	

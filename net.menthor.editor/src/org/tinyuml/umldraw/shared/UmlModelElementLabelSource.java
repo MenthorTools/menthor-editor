@@ -25,9 +25,9 @@ import org.tinyuml.draw.LabelSource;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.UmlLabelFormatter;
 
-import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Element;
 import RefOntoUML.NamedElement;
+import net.menthor.editor.ui.ModelHelper;
 
 /**
  * This class decorates an UmlProperty with the Label source interface.

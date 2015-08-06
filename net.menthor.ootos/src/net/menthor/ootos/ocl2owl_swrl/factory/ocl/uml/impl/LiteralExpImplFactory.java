@@ -1,5 +1,7 @@
 package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 
+import net.menthor.ootos.util.MappingProperties;
+
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
 
 /**
@@ -7,7 +9,7 @@ import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
  */
 public class LiteralExpImplFactory extends OCLExpressionImplFactory {
 
-	public LiteralExpImplFactory(NamedElementImpl m_NamedElementImpl){
-		super(m_NamedElementImpl);
+	public LiteralExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, m_NamedElementImpl);
 	}
 }

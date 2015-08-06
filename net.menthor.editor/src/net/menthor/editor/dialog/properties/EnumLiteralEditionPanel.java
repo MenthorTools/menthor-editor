@@ -52,8 +52,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import net.menthor.editor.DiagramManager;
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 public class EnumLiteralEditionPanel extends JPanel{
 

@@ -36,6 +36,14 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	/**ufo's structure*/
 	private boolean ufoStructure = false;
 	
+	/**Documentation **/
+	private boolean labels = true;
+	private boolean comments = true;
+	
+	public boolean isComments() { return comments; }
+	public boolean isLabels() { return labels; }
+	public void setComments(boolean comments) { this.comments = comments; }
+	public void setLabels(boolean labels) { this.labels = labels; }
 	public boolean isClassCompleteness() { return classCompleteness; }
 	public void setClassCompleteness(boolean classCompleteness) { this.classCompleteness = classCompleteness; }
 	public boolean isObjectPropertyDisjointness() { return objectPropertyDisjointness; }

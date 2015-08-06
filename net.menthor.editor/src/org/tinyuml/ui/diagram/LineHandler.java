@@ -37,8 +37,8 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
-import net.menthor.editor.util.ModelHelper;
-import net.menthor.resources.icons.RelationshipType;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class is a handler for line shaped allElements.

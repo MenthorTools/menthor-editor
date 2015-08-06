@@ -1,10 +1,13 @@
 package net.menthor.editor.pattern;
 
+import org.eclipse.swt.widgets.Display;
+
+import RefOntoUML.Classifier;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.ElementType;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.v2.types.PatternType;
 import net.menthor.pattern.dynamic.ui.ModelCompleter;
 import net.menthor.pattern.impl.AbstractPattern;
 import net.menthor.pattern.impl.AntiRigidWeakSupplementation;
@@ -25,66 +28,62 @@ import net.menthor.pattern.impl.RolePartition;
 import net.menthor.pattern.impl.SubkindPartition;
 import net.menthor.pattern.ui.manager.ModelCompleterManager;
 
-import org.eclipse.swt.widgets.Display;
-
-import RefOntoUML.Classifier;
-
 /**
  * @author Victor Amorim
  */
 public class PatternTool {
 	@SuppressWarnings("incomplete-switch")
-	private static Fix tryToRun(DiagramManager diagramManager, ElementType elem,double x,double y){
+	private static Fix tryToRun(DiagramManager diagramManager, PatternType elem,double x,double y){
 		AbstractPattern pm = null;
 
 		switch (elem) {
-		case PATTERN_MIXIN_PATTERN:
-			pm = new MixinPattern(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y); 
+		case MIXIN:
+			pm = new MixinPattern(Models.getRefparser(), x, y); 
 			break;
-		case PATTERN_MIXIN_PATTERN_WITH_SUBKIND:
-			pm = new MixinPatternWithSubkind(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case MIXIN_WITH_SUBKIND:
+			pm = new MixinPatternWithSubkind(Models.getRefparser(), x, y);
 			break;
-		case PATTERN_PHASE_PARTITION:
-			pm = new PhasePartition(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case PHASE_PARTITION:
+			pm = new PhasePartition(Models.getRefparser(), x, y);
 			break;
-		case PATTERN_RELATOR:
-			pm = new RelatorPattern(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case RELATOR:
+			pm = new RelatorPattern(Models.getRefparser(), x, y);
 			break;
-		case PATTERN_ROLEMIXIN:
-			pm = new RoleMixinPattern(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case ROLEMIXIN:
+			pm = new RoleMixinPattern(Models.getRefparser(), x, y);
 			break;
-		case PATTERN_ROLE_PARTITION:
-			pm = new RolePartition(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case ROLE_PARTITION:
+			pm = new RolePartition(Models.getRefparser(), x, y);
 			break;
-		case PATTERN_SUBKIND_PARTITION:
-			pm = new SubkindPartition(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case SUBKIND_PARTITION:
+			pm = new SubkindPartition(Models.getRefparser(), x, y);
 			break;
 		case KIND_PARTITION:
-			pm = new KindPartition(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new KindPartition(Models.getRefparser(), x, y);
 			break;
 		case COLLECTIVE_PARTITION:
-			pm = new CollectivePartition(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new CollectivePartition(Models.getRefparser(), x, y);
 			break;
 		case QUANTITY_PARTITION:
-			pm = new QuantityPartition(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new QuantityPartition(Models.getRefparser(), x, y);
 			break;
-		case CATEGORY_PATTERN:
-			pm = new CategoryPattern(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case CATEGORY:
+			pm = new CategoryPattern(Models.getRefparser(), x, y);
 			break;
 		case DEPENDENT_ROLEMIXIN:
-			pm = new RoleMixinDependentPattern(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new RoleMixinDependentPattern(Models.getRefparser(), x, y);
 			break;
 		case GENERIC_RELATOR:
-			pm = new GenericMultipleRelator(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new GenericMultipleRelator(Models.getRefparser(), x, y);
 			break;
-		case CHARACTERIZATION_PATTERN:
-			pm = new CharacterizationPattern(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+		case CHARACTERIZATION:
+			pm = new CharacterizationPattern(Models.getRefparser(), x, y);
 			break;
 		case RIGID_WEAK_SUPPLEMENTATION:
-			pm = new RigidWeakSupplementation(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new RigidWeakSupplementation(Models.getRefparser(), x, y);
 			break;
 		case ANTIRIGID_WEAK_SUPPLEMENTATION:
-			pm = new AntiRigidWeakSupplementation(ProjectBrowser.frame.getProjectBrowser().getParser(), x, y);
+			pm = new AntiRigidWeakSupplementation(Models.getRefparser(), x, y);
 			break;
 		}
 
@@ -97,7 +96,7 @@ public class PatternTool {
 				_runModelCompleter(diagramManager, x, y,false);
 			}
 		}else{
-			if(elem == ElementType.PATTERN_COMPLETER)
+			if(elem == PatternType.COMPLETER)
 				_runModelCompleter(diagramManager, x, y);
 		}
 
@@ -110,7 +109,7 @@ public class PatternTool {
 	private static void _runModelCompleter(final DiagramManager diagramManager,final double x, final double y) {
 		try{
 			ModelCompleter mcw = ModelCompleter.createDialog();
-			ModelCompleterManager mcm = new ModelCompleterManager(ProjectBrowser.frame.getProjectBrowser().getParser(), mcw, x, y);
+			ModelCompleterManager mcm = new ModelCompleterManager(Models.getRefparser(), mcw, x, y);
 
 			mcm.runAnalysis();
 			if(mcw.isEmpty()){
@@ -136,7 +135,7 @@ public class PatternTool {
 	private static void _runModelCompleter(final DiagramManager diagramManager,final double x, final double y, boolean showCompleteMessage) {
 		try{
 			ModelCompleter mcw = ModelCompleter.createDialog(showCompleteMessage);
-			ModelCompleterManager mcm = new ModelCompleterManager(ProjectBrowser.frame.getProjectBrowser().getParser(), mcw, x, y);
+			ModelCompleterManager mcm = new ModelCompleterManager(Models.getRefparser(), mcw, x, y);
 
 			mcm.runAnalysis();
 			if(mcw.isEmpty())
@@ -157,7 +156,7 @@ public class PatternTool {
 		}
 	}
 
-	public static void runPattern(final DiagramManager diagramManager,final ElementType elementType, final double x, final double y) {
+	public static void runPattern(final DiagramManager diagramManager,final PatternType elementType, final double x, final double y) {
 		if(Main.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override

@@ -9,6 +9,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.UnexpectedResultingRule;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl.NamedElementImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
+import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.uml.impl.ExpressionInOCLImpl;
@@ -49,10 +50,10 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 		this.element = element;
 	}
 	
-	public ExpressionInOCLImplFactory(NamedElementImpl m_NamedElementImpl){
-		super(m_NamedElementImpl);
+	public ExpressionInOCLImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, m_NamedElementImpl);
 	}
-	
+
 	@Override
 	public ArrayList<SWRLDArgument> solve(String ctStereotype, OntoUMLParser refParser, String nameSpace, OWLOntologyManager manager, OWLDataFactory factory, OWLOntology ontology, Set<SWRLAtom> antecedent, Set<SWRLAtom> consequent, SWRLDArgument referredArgument, Boolean operatorNot, int repeatNumber, Boolean leftSideOfImplies) throws Ocl2Owl_SwrlException{
 		//since the factory is created according to the rule fragment, the fragment is got as a expression fragment
@@ -61,7 +62,7 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 		OCLExpressionImpl bodyExpression = (OCLExpressionImpl) expressionInOCLImpl.getBodyExpression();
 		
 		//and a factory is created according to the bodyExpression class 
-		bodyExpressionFactory = (OCLExpressionImplFactory) NamedElementImplFactory.constructor(bodyExpression, this.m_NamedElementImpl);
+		bodyExpressionFactory = (OCLExpressionImplFactory) NamedElementImplFactory.constructor(mappingProperties, bodyExpression, this.m_NamedElementImpl);
 		//bodyExpressionFactory.setIsBodyExpression(true);
 
 		//then, the context variable of the expression is got
@@ -113,7 +114,7 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 				
 			}else if(org.eclipse.ocl.utilities.UMLReflection.DERIVATION.equals(ctStereotype)){
 				//in the derivations case, the context is always considered the unique atom on the consequent
-				this.elementFactory = new PropertyCallExpImplFactory(m_NamedElementImpl, (Property) element);
+				this.elementFactory = new PropertyCallExpImplFactory(mappingProperties, m_NamedElementImpl, (Property) element);
 				ArrayList<SWRLDArgument> retArgsY = this.elementFactory.solvePropertyAssociation(refParser, nameSpace, manager, factory, ontology, antecedent, consequent, contextVar, operatorNot, 1);
 				
 				if(retArgsX.size() > 0 && retArgsY.size() > 0){

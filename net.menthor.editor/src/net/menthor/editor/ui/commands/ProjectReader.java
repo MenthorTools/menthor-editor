@@ -31,17 +31,16 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.menthor.editor.Main;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.util.MenthorSettings;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.tinyuml.ui.commands.FileHandler;
+
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.util.FileHandler;
+import net.menthor.editor.v2.util.Settings;
 
 /**
  * Reads a model from a file. Models are stored and retrieved using
@@ -69,7 +68,7 @@ public final class ProjectReader extends FileHandler {
 		ArrayList<Object> list = new ArrayList<Object>();
 		
 		boolean modelLoaded = false, projectLoaded = false, constraintLoaded = false;
-		ArrayList<OCLDocument> constraintContent = new ArrayList<OCLDocument>();
+		ArrayList<OclDocument> constraintContent = new ArrayList<OclDocument>();
 		ZipFile inFile = new ZipFile(file);	
 		
 		//Read the model and the project file 
@@ -82,9 +81,9 @@ public final class ProjectReader extends FileHandler {
 		ZipEntry entry;
 		while(entries.hasMoreElements()) {
 			entry = entries.nextElement();			
-			if(entry.getName().equals(MenthorSettings.MODEL_DEFAULT_FILE.getValue()) && !modelLoaded)
+			if(entry.getName().equals(Settings.DEFAULT_MODEL_FILE.getValue()) && !modelLoaded)
 			{
-				Main.printOutLine("Loading model XMI information from Menthor file...");
+				System.out.println("Loading model XMI information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
 				
 				/**Load options that significantly improved the performance of loading EMF Model instances (by Tiago)*/
@@ -98,9 +97,9 @@ public final class ProjectReader extends FileHandler {
 				in.close();
 				modelLoaded = true;
 			}
-			else if (entry.getName().equals(MenthorSettings.PROJECT_DEFAULT_FILE.getValue()) && !projectLoaded)
+			else if (entry.getName().equals(Settings.DEFAULT_PROJECT_FILE.getValue()) && !projectLoaded)
 			{
-				Main.printOutLine("Loading project DAT information from Menthor file...");
+				System.out.println("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
 				ObjectInputStream oin = new ObjectInputStream(in);
 				project = (UmlProject) oin.readObject(); 
@@ -109,14 +108,14 @@ public final class ProjectReader extends FileHandler {
 			}
 			else if (entry.getName().contains("ocl"))
 			{
-				Main.printOutLine("Loading constraints information from Menthor file...");
+				System.out.println("Loading constraints information from Menthor file...");
 				InputStream is = inFile.getInputStream(entry);
 								
 				byte[] b = new byte[is.available()];
 				is.read(b);
-				OCLDocument oclDoc = new OCLDocument();
+				OclDocument oclDoc = new OclDocument();
 				oclDoc.setName(entry.getName().replace(".ocl",""));
-				oclDoc.addContent(new String(b));
+				oclDoc.addContentAsString(new String(b));
 				constraintContent.add(oclDoc);
 					
 				is.close();

@@ -31,8 +31,8 @@ import java.util.List;
 
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.resources.icons.ColorMap;
-import net.menthor.resources.icons.ColorType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 
 /**

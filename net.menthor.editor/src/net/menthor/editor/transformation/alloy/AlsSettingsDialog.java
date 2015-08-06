@@ -29,17 +29,16 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
+import net.menthor.editor.explorer.Models;
 import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
+import net.menthor.editor.v2.UmlDiagram;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -62,7 +61,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 	private JPanel principalPane;
 	
 	/** @wbp.parser.constructor */
-	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, boolean modal) 
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 				
@@ -102,7 +101,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 	}
 	
 	/** Launch the Dialog. */
-	public static void open(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public static void open(AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		try {			
 			AlsSettingsDialog dialog = new AlsSettingsDialog(owner, refparser, diagrams, refOptions, oclOptions);
@@ -114,7 +113,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 		}
 	}
 	
-	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<StructureDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<UmlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		this(owner,refparser,diagrams, false);	
 		
@@ -139,7 +138,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 		ontoumlOptions.relatorConstraint = modelSimulationPanel.isSelectedRelatorConstraint();			    	
 		
 		if(getOwner() instanceof AppFrame){
-			((AppFrame)getOwner()).getProjectBrowser().setOntoUMLOption(ontoumlOptions);
+			Models.setRefOptions(ontoumlOptions);
 		}
 				
 		TOCL2AlloyOption oclOptions = new TOCL2AlloyOption(this.oclOptions.getParser());		
@@ -150,7 +149,7 @@ public class AlsSettingsDialog extends TransformationDialog {
 		oclOptions.setConstraintList(constraintSimulationPanel.getConstraintListSelected());
     	
 		if(getOwner() instanceof AppFrame){
-			((AppFrame)getOwner()).getProjectBrowser().setOCLOption(oclOptions);
+			Models.setOclOptions(oclOptions);
 		}		  
 		
 		//dispose();

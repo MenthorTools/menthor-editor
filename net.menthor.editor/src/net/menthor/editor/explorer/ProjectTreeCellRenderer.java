@@ -1,5 +1,30 @@
 package net.menthor.editor.explorer;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
+
+import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.StructureDiagram;
+
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Package;
+import RefOntoUML.Property;
+import RefOntoUML.util.RefOntoUMLElement;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -24,35 +49,8 @@ package net.menthor.editor.explorer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.UIManager;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreePath;
-
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.PaletteAccordion;
-
-import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.Association;
-import RefOntoUML.Classifier;
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.Package;
-import RefOntoUML.Property;
-import RefOntoUML.util.RefOntoUMLElement;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
 
 /**
  * OntoUML Cell Renderer for CheckBox Tree
@@ -154,9 +152,9 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 			expanded = true;
 			label.setText(value.toString());
 		}
-		else if( ((DefaultMutableTreeNode)value).getUserObject() instanceof OCLDocument ) 
+		else if( ((DefaultMutableTreeNode)value).getUserObject() instanceof OclDocument ) 
 		{
-			if ((((DefaultMutableTreeNode)((DefaultMutableTreeNode)value).getParent()).getUserObject()) instanceof OCLDocument)
+			if ((((DefaultMutableTreeNode)((DefaultMutableTreeNode)value).getParent()).getUserObject()) instanceof OclDocument)
 				label.setIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/text-editor.png")));				
 			else 
 				label.setIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/tree/view.png")));
@@ -167,9 +165,10 @@ public class ProjectTreeCellRenderer extends DefaultTreeCellRenderer implements 
 		uniqueName.setForeground(Color.gray);
 
 		if (selected){    			
-			label.setBackground(PaletteAccordion.getHoverItemBackground());			
+			//label.setBackground(PaletteColors.getHoverItemBackground());			
 			//label.setBorder(PaletteAccordion.getHoverItemBorder());
-			//label.setBackground(UIManager.getColor("List.selectionBackground"));			    			
+			//label.setBackground(UIManager.getColor("List.selectionBackground"));
+			label.setBackground(Color.LIGHT_GRAY);
 			//label.setForeground(UIManager.getColor("List.selectionForeground"));
 		}else{
 			//panel.setBackground(PaletteAccordion.getResetBackground());			

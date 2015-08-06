@@ -25,12 +25,12 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.FileWriter;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.tinyuml.ui.commands.FileWriter;
 
 public class OntoUMLExporter extends FileWriter {
 

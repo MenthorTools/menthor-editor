@@ -74,7 +74,6 @@ import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.draw.LineStyle;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.PngWriter;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
 import org.tinyuml.ui.diagram.Editor.EditorNature;
@@ -82,8 +81,10 @@ import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.SelectionListener;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
+import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
+import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
@@ -134,15 +135,13 @@ import net.menthor.editor.derivation.PastSpecializationPattern;
 import net.menthor.editor.derivation.SpecializationPattern;
 import net.menthor.editor.derivation.UnionPattern;
 import net.menthor.editor.dialog.ImportXMIDialog;
+import net.menthor.editor.dialog.help.AboutDialog;
+import net.menthor.editor.dialog.help.LicensesDialog;
+import net.menthor.editor.explorer.Models;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.explorer.ProjectTree;
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.finder.FoundPane;
-import net.menthor.editor.model.AlloySpecification;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlDiagram;
-import net.menthor.editor.model.UmlProject;
 import net.menthor.editor.pattern.DomainPatternTool;
 import net.menthor.editor.pattern.PatternTool;
 import net.menthor.editor.problems.ErrorElement;
@@ -157,31 +156,40 @@ import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
 import net.menthor.editor.transformation.owl.OwlSettingsDialog;
+import net.menthor.editor.ui.AlloySpecification;
+import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.ui.ClosableTabPanel;
 import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.OWLHelper;
+import net.menthor.editor.ui.PngWriter;
 import net.menthor.editor.ui.TextEditor;
+import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.ui.commands.OntoUMLExporter;
 import net.menthor.editor.ui.commands.ProjectReader;
 import net.menthor.editor.ui.commands.ProjectWriter;
 import net.menthor.editor.ui.commands.UMLExporter;
-import net.menthor.editor.ui.diagram.commands.AddGeneralizationSetCommand;
-import net.menthor.editor.ui.diagram.commands.DeleteGeneralizationSetCommand;
-import net.menthor.editor.util.ApplicationResources;
-import net.menthor.editor.util.ConfigurationHelper;
-import net.menthor.editor.util.MenthorResourceFactory;
-import net.menthor.editor.util.MenthorSettings;
-import net.menthor.editor.util.ModelHelper;
-import net.menthor.editor.util.OWLHelper;
-import net.menthor.editor.util.OperationResult;
-import net.menthor.editor.util.OperationResult.ResultType;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.bars.MainMenuBar;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
+import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.Util;
+import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.ontouml2infouml.OntoUML2InfoUML;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
-import net.menthor.resources.icons.CommandType;
-import net.menthor.resources.icons.RelationshipType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -246,7 +254,26 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		else addNonClosable(pane,"Welcome", start);
 		return start;
 	}
+	
+	public void runPatternByMenu(PatternType type)
+	{
+		runPattern(type, 0, 0);
+	}
 
+	public void generateSbvr()
+	{
+		workingOnlyWithChecked();
+		OntoUMLParser refparser = Models.getRefparser();
+		generateSbvr((RefOntoUML.Model)refparser.createModelFromSelections(new Copier()));
+	}
+		
+	public void generateInfoUML()
+	{	
+		workingOnlyWithChecked();
+		OntoUMLParser refparser = Models.getRefparser();
+		generateInfoUML((RefOntoUML.Model)refparser.createModelFromSelections(new Copier()));
+	}
+	
 	public void searchInProject()
 	{
 		addFinderPanel(this,true);
@@ -360,7 +387,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		Desktop desktop = Desktop.getDesktop();
 		if( !desktop.isSupported(Desktop.Action.BROWSE)){
-			Main.printErrLine( "Desktop doesn't support the browse action (fatal)" );
+			System.err.println( "Desktop doesn't support the browse action (fatal)" );
 			return;
 		}
 		try {
@@ -423,11 +450,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Select the tab which contains this ocl document */
-	public void select(OCLDocument oclDoc)
+	public void select(OclDocument oclDoc)
 	{		
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) {
-				if(((ConstraintEditor) c).getOCLDocument().equals(oclDoc)) setSelectedComponent(c);
+				if(((ConstraintEditor) c).getOclDocument().equals(oclDoc)) setSelectedComponent(c);
 			}
 		}		
 	}
@@ -445,11 +472,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Get the diagram editor which encapsulates this ocl document */
-	public ConstraintEditor getConstraintEditor(OCLDocument oclDoc)
+	public ConstraintEditor getConstraintEditor(OclDocument oclDoc)
 	{		
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) {
-				if (((ConstraintEditor)c).getOCLDocument().equals(oclDoc))
+				if (((ConstraintEditor)c).getOclDocument().equals(oclDoc))
 					return (ConstraintEditor)c;
 			}
 		}
@@ -462,7 +489,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Component c: getComponents()){
 			if(c instanceof DiagramEditorWrapper) {
 				if(((DiagramEditorWrapper) c).getDiagramEditor().equals(diagramEditor)){
-					((DiagramEditorWrapper) c).getStatusBar().reportStatus(status);
+					((DiagramEditorWrapper) c).getStatusBar().report(status);
 				}
 			}
 		}		
@@ -480,11 +507,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return -1;
 	}
 	
-	public int getTabIndex(OCLDocument oclDoc)
+	public int getTabIndex(OclDocument oclDoc)
 	{
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) {
-				if (((ConstraintEditor)c).getOCLDocument().equals(oclDoc))
+				if (((ConstraintEditor)c).getOclDocument().equals(oclDoc))
 					return indexOfComponent(c);
 			}
 		}
@@ -508,7 +535,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Gets the MainMenu from the application frame */
-	public AppMenu getMainMenu() 
+	public MainMenuBar getMainMenu() 
 	{
 		return frame.getMainMenu();
 	}
@@ -617,7 +644,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void saveProjectNeeded(boolean value)
 	{
 		currentProject.setSaveModelNeeded(value);		
-		frame.getMainToolBar().enableButton(CommandType.SAVE_PROJECT, value);
+		//frame.getMainToolBar().enableButton(CommandType.SAVE_PROJECT, value);
 	}
 	
 	public boolean isSaveProjectNeeded()
@@ -635,7 +662,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Tell the application that we need to save all diagrams i.e. the diagrams were all modified */
 	public void saveAllDiagramNeeded(boolean value)
 	{
-		for(UmlDiagram d: getCurrentProject().getDiagrams()) d.setSaveNeeded(value);
+		for(UmlDiagram d: getCurrentProject().getDiagrams()) ((StructureDiagram)d).setSaveNeeded(value);
 		saveProjectNeeded(value);	
 	}
 	
@@ -653,9 +680,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(currentProject.getDiagrams().size()==0) 
 			newDiagram(currentProject);
 		
-		newOCLDocument(currentProject, false);
+		newOclDocument(currentProject, false);
 		
-		newOCLDocument(currentProject,false);
+		newOclDocument(currentProject,false);
 		return currentProject;
 	}
 
@@ -667,7 +694,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		frame.getBrowserManager().getProjectBrowser().setProject(currentProject);
 		frame.getInfoManager().setProject(currentProject);
 		newDiagram(currentProject);
-		newOCLDocument(currentProject,false);
+		newOclDocument(currentProject,false);
 	}
 
 	/** Verifies if there is a project opened/loaded. */
@@ -703,15 +730,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
 				}
 			}			
-			Main.printOutLine("Closing current project");
+			System.out.println("Closing current project");
 			removeAll();
 			frame.setTitle("Menthor Editor");	
 			frame.getBrowserManager().getProjectBrowser().clear();
 			frame.getInfoManager().eraseProject();										
 			currentProject=null;				
 			addStartPanel(this,false);
-			frame.getMainToolBar().enableAll(false);
-			Main.printOutLine("Current project closed");
+			frame.showOnlyStartPage();
+
+			System.out.println("Current project closed");
 		}
 		repaint();
 		revalidate();
@@ -740,10 +768,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Creates a new OCL document with in existing Project */
-	public void newOCLDocument(UmlProject project, boolean openInTab)
+	public void newOclDocument(UmlProject project, boolean openInTab)
 	{
-		OCLDocument oclDoc = new OCLDocument();
-		ArrayList<OCLDocument> docs = frame.getBrowserManager().getProjectBrowser().getOCLDocuments();			
+		OclDocument oclDoc = new OclDocument();
+		ArrayList<OclDocument> docs = Models.getOclDocList();			
 		oclDoc.setName("Document"+docs.size());			
 		docs.add(oclDoc);
 		if(openInTab)createConstraintEditor(oclDoc);		
@@ -770,12 +798,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Creates a new ocl document on the current Project */
-	public void newOCLDocument(boolean openInTab)
+	public void newOclDocument(boolean openInTab)
 	{
 		if (currentProject!=null)
 		{
-			OCLDocument oclDoc = new OCLDocument();			
-			ArrayList<OCLDocument> docs = frame.getBrowserManager().getProjectBrowser().getOCLDocuments();			
+			OclDocument oclDoc = new OclDocument();			
+			ArrayList<OclDocument> docs = Models.getOclDocList();			
 			oclDoc.setName("Document"+docs.size());			
 			docs.add(oclDoc);
 			if(openInTab) createConstraintEditor(oclDoc);				
@@ -799,13 +827,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
-	public static void closeAll(JTabbedPane pane)
-	{
+	public void closeAll(){
+		closeAll(this);
+	}
+	
+	public static void closeAll(JTabbedPane pane){
 		 int tabCount = pane.getTabCount();
          
          for (int i = 1; i < tabCount; i++) {
              closeTab(1, pane);
          }
+	}
+	
+	public void closeOthers(Component component){
+		closeOthers(this,component);
 	}
 	
 	public static void closeOthers(JTabbedPane pane,Component component)
@@ -826,6 +861,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
                 closeTab(1,pane);
             }
         }
+	}
+	
+	public void closeTab(int i)
+	{
+		closeTab(i,this);
 	}
 	
 	public static void closeTab(int i, JTabbedPane pane)
@@ -873,7 +913,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Delete OCL Document */
-	public void deleteOCLDocument(OCLDocument doc, boolean showwarning)
+	public void deleteOclDocument(OclDocument doc, boolean showwarning)
 	{		
 		int response = -1;
 		if (showwarning){
@@ -889,10 +929,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(response==Window.OK)
 		{	
 			ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
-			pb.getOCLDocuments().remove(doc);
+			Models.getOclDocList().remove(doc);
 			for(Component c: getComponents()){
 				if (c instanceof ConstraintEditor){
-					if (((ConstraintEditor)c).getOCLDocument().equals(doc)) remove(c);
+					if (((ConstraintEditor)c).getOclDocument().equals(doc)) remove(c);
 				}
 			}		
 			pb.getTree().removeCurrentNode();
@@ -910,10 +950,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/**Get the names of all ocl documents */
-	public ArrayList<String> getOCLDocumentNames()
+	public ArrayList<String> getOclDocumentNames()
 	{
 		ArrayList<String> result = new ArrayList<String>();
-		for(OCLDocument d: frame.getBrowserManager().getProjectBrowser().getOCLDocuments()){
+		for(OclDocument d: Models.getOclDocList()){
 			result.add(d.getName());			
 		}
 		return result;
@@ -945,14 +985,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Rename OCL document */
-	public void renameOCLDocument(final OCLDocument oclDoc)
+	public void renameOclDocument(final OclDocument oclDoc)
 	{
 		String text = new String();    						
 		text = (String)JOptionPane.showInputDialog(ProjectBrowser.frame,"Please, enter the new name:","Rename OCL Document",JOptionPane.INFORMATION_MESSAGE,null,null,oclDoc.getName());    						
 		final String newtext = text;
 		if(text!=null)
 		{
-			if(getOCLDocumentNames().contains(text)){
+			if(getOclDocumentNames().contains(text)){
 				// ocl document name must be unique
 			}else{
 				SwingUtilities.invokeLater(new Runnable() {				
@@ -979,11 +1019,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Verifies if this ocl document is already opened in a tab. */
-	public boolean isOCLDocumentOpened (OCLDocument oclDoc)
+	public boolean isOclDocumentOpened (OclDocument oclDoc)
 	{
 		for(Component c: getComponents())
 			if (c instanceof ConstraintEditor)
-				if (((ConstraintEditor)c).getOCLDocument().equals(oclDoc)) return true;
+				if (((ConstraintEditor)c).getOclDocument().equals(oclDoc)) return true;
 		return false;
 	}
 	
@@ -1008,7 +1048,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
 			try {			
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));				
-				Main.printOutLine("Creating New project");				
+				System.out.println("Creating New project");				
 				closeCurrentProject();
 				File file = fileChooser.getSelectedFile();				
 				if (!file.exists()){
@@ -1024,9 +1064,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				createEmptyCurrentProject();				
 				saveCurrentProjectToFile(file);
 				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-				frame.openProjectBrowser();
-				frame.getMainToolBar().enableAll(true);
-				Main.printOutLine("New project succesffully created");
+				frame.forceShowProjectBrowser();
+				frame.forceShowToolBox();				
+				System.out.println("New project succesffully created");
 				
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
@@ -1040,12 +1080,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void openDiagrams()
 	{
 		if(currentProject.isAllClosed() && currentProject.getDiagrams().size()>0){
-			Main.printOutLine("Loading diagram \""+currentProject.getDiagrams().get(0).getName()+"\"");	
+			System.out.println("Loading diagram \""+currentProject.getDiagrams().get(0).getName()+"\"");	
 			createDiagramEditor((StructureDiagram)currentProject.getDiagrams().get(0));
 		}else{
 			for(UmlDiagram diagram: currentProject.getDiagrams()) {
 				if(currentProject.isOpened(diagram)){
-					Main.printOutLine("Loading diagram \""+diagram.getName()+"\"");	
+					System.out.println("Loading diagram \""+diagram.getName()+"\"");	
 					createDiagramEditor((StructureDiagram)diagram);
 				}
 			}
@@ -1063,7 +1103,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			try {
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				closeCurrentProject();				
-				Main.printOutLine("Opening Menthor project...");				
+				System.out.println("Opening Menthor project...");				
 				File file = fileChooser.getSelectedFile();
 				JRootPane root = frame.getRootPane( );
 				root.putClientProperty( "Window.documentFile", file );
@@ -1072,15 +1112,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				currentProject = (UmlProject) listFiles.get(0);
 				openListFiles(listFiles);
-				frame.openProjectBrowser();
-				frame.getMainToolBar().enableAll(true);
+				frame.forceShowProjectBrowser();
+				frame.forceShowToolBox();		
+				
 			} catch (Exception ex) {
-				Main.printOutLine("Failed to open Menthor project!");	
+				System.out.println("Failed to open Menthor project!");	
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			Main.printOutLine("Menthor project successfully opened!");	
+			System.out.println("Menthor project successfully opened!");	
 		}		
 	}
 	
@@ -1096,7 +1137,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		try {
 			closeCurrentProject();
-			Main.printOutLine("Opening recent project");				
+			System.out.println("Opening recent project");				
 			File file = new File(filePath);
 			JRootPane root = frame.getRootPane( );
 			root.putClientProperty( "Window.documentFile", file );			
@@ -1104,14 +1145,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 			currentProject = (UmlProject) listFiles.get(0);				
 			openListFiles(listFiles);	
-			frame.openProjectBrowser();
-			frame.getMainToolBar().enableAll(true);
+			frame.forceShowProjectBrowser();
+			frame.forceShowToolBox();		
+			
 		} catch (Exception ex) {
-			Main.printOutLine("Failed to open Menthor project!");	
+			System.out.println("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		Main.printOutLine("Menthor project successfully opened!");	
+		System.out.println("Menthor project successfully opened!");	
 	}
 
 	/** Open Menthor project from the list of object read from stream as a result of the menthor file serialization */
@@ -1121,21 +1163,21 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
 		for(int i=1; i<listFiles.size();i++)
 		{																
-			OCLDocument oclDoc = (OCLDocument)listFiles.get(i);										
-			pb.getOCLDocuments().add(oclDoc);					
+			OclDocument oclDoc = (OclDocument)listFiles.get(i);										
+			Models.getOclDocList().add(oclDoc);					
 		}
 		pb.setProject(currentProject);
 		frame.getInfoManager().setProject(currentProject);	
 		openDiagrams();
 		saveProjectNeeded(false);				
-		ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
+		Settings.addRecentProject(projectFile.getCanonicalPath());
 		frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
 	}
 	
 	/** Save current Project to a file *.menthor */
 	private File saveCurrentProjectToFile(File file) 
 	{
-		Main.printOutLine("Saving Menthor project...");
+		System.out.println("Saving Menthor project...");
 		currentProject.setVersion(Main.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
@@ -1145,14 +1187,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				file = new File(file.getCanonicalFile() + ".menthor");
 			}						
 			for(ConstraintEditor ce: getConstraintEditors()){				
-				if(ce!=null) ce.getOCLDocument().setContent(ce.getText());
+				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
 			}
 			currentProject.clearOpenedDiagrams();
 			for(DiagramEditor editor: getDiagramEditors()){
 				currentProject.saveAsOpened(editor.getDiagram());
 			}			
-			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, frame.getBrowserManager().getProjectBrowser().getOCLDocuments());		
-			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
+			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
+			Settings.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthor",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
@@ -1160,11 +1202,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			invalidate();
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} catch (Exception ex) {
-			Main.printOutLine("Failed to save Menthor project!");
+			System.out.println("Failed to save Menthor project!");
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.savefile.title"), JOptionPane.ERROR_MESSAGE);
 		}
-		Main.printOutLine("Menthor project successfully saved!");
+		System.out.println("Menthor project successfully saved!");
 		return result;
 	}
 
@@ -1242,15 +1284,25 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Creates an editor for a given OCL document. */
-	public ConstraintEditor createConstraintEditor(OCLDocument oclDoc)
+	public ConstraintEditor createConstraintEditor(OclDocument oclDoc)
 	{		
 		ConstraintEditor editor = new ConstraintEditor(frame, oclDoc);
 		addClosable(this,oclDoc.getName(), editor);		
 		return editor;
 	}
+
+	public void about()
+	{
+		AboutDialog.open(getFrame());
+	}
 	
+	public void licenses()
+	{
+		LicensesDialog.open(getFrame());
+	}
+
 	/** Import a Reference OntoUML model instance. */
-	public void importEcore() 
+	public void importFromXMI() 
 	{
 		JFileChooser fileChooser = new JFileChooser(lastImportEcorePath);
 		fileChooser.setDialogTitle(getResourceString("dialog.saveas.title"));
@@ -1263,7 +1315,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				closeCurrentProject();
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactory());
+				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactoryImpl());
 				resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
 				File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
 				org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
@@ -1277,13 +1329,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
 				saveCurrentProjectToFile(projectFile);
 				lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
-				ConfigurationHelper.addRecentProject(projectFile.getCanonicalPath());
+				Settings.addRecentProject(projectFile.getCanonicalPath());
 				newDiagram();
 				frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				frame.openProjectBrowser();
-				frame.getMainToolBar().enableAll(true);
-				
+				frame.forceShowProjectBrowser();
+				frame.forceShowToolBox();								
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.importecore.title"),JOptionPane.ERROR_MESSAGE);
 			}
@@ -1294,7 +1345,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	/** Import a model from a XMI file (from Enterprise Architect). 
 	 * @throws IOException */
-	public void importXMI() throws IOException
+	public void importFromEA() throws IOException
 	{		
 		JFileChooser fileChooser = new JFileChooser(lastImportEAPath);
 		fileChooser.setDialogTitle("Import from EA");
@@ -1306,19 +1357,23 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			File file = fileChooser.getSelectedFile();
 			lastImportEAPath = file.getAbsolutePath();
 			new ImportXMIDialog(frame, true, this, lastImportEAPath);
-			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
+			Settings.addRecentProject(file.getCanonicalPath());
 		}		
 	}
 	
-	public void importXMIFromRecent() throws IOException
+	public void importFromEARecent() throws IOException
 	{		
 		lastImportEAPath = getStartPage().getSelectedRecentFile();
 		new ImportXMIDialog(frame, true, this, lastImportEAPath);
-		ConfigurationHelper.addRecentProject(lastImportEAPath);				
+		Settings.addRecentProject(lastImportEAPath);				
 	}
 	
+	public void exportToEcore() 
+	{
+		
+	}
 	/** Export the current model as an Ecore instance file (Reference model)*/
-	public void exportEcore() 
+	public void exportToXMI() 
 	{
 		if(getCurrentEditor() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportEcorePath);
@@ -1340,7 +1395,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	/** Export the current model as an UML2 instance file (EMF-implementation of UML)
 	 *  This exporting loses all the UML stereotypes that distinguishes OntoUML from UML*/
-	public void exportUML() 
+	public void exportToUML() 
 	{
 		if(getCurrentProject() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportUMLPath);
@@ -1400,7 +1455,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		// get elements from the diagram
 		List<EObject> elements = ModelHelper.getElements(diagram);
 		//complete missing/mandatory dependencies on the parser
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();				
+		OntoUMLParser refparser = Models.getRefparser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
 		elements.removeAll(added);
@@ -1409,7 +1464,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ProjectBrowser pb = frame.getProjectBrowser();
 		//pb.getTree().check(elements, true);					
 		pb.getTree().updateUI();		
-		pb.setParser(refparser);
+		Models.setRefparser(refparser);
 	}
 	
 	/** Tell the application to work only with the elements contained in these diagrams. */
@@ -1448,7 +1503,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}		
 		}			
 		//complete missing/mandatory dependencies on the parser
-		OntoUMLParser refparser = frame.getProjectBrowser().getParser();				
+		OntoUMLParser refparser = Models.getRefparser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
 		elements.removeAll(added);
@@ -1457,8 +1512,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ProjectBrowser modeltree = frame.getProjectBrowser();
 		//modeltree.getTree().check(elements, true);					
 		modeltree.getTree().updateUI();		
-		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
-		pb.setParser(refparser);
+		Models.setRefparser(refparser);
 	}
 	
 	/** 
@@ -1474,7 +1528,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		// This method does a lot of processing and updates the UI -- 
 		//This causes lag and frozen ui because they take a lot of time on big models.
 		//Suggestion: Call this method from a "doInBackground" of a SwingWorker and the commented ones from "done".
-		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		ProjectBrowser modeltree = frame.getProjectBrowser();			
 		List<EObject> selected = modeltree.getTree().getModelCheckedElements();
 		refparser.select((ArrayList<EObject>)selected,true);		
@@ -1484,9 +1538,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		
 //		modeltree.getTree().checkModelElements(selected, true);			
 		modeltree.getTree().updateUI();
-		
-		ProjectBrowser pb = frame.getBrowserManager().getProjectBrowser();
-		pb.setParser(refparser);
+	
+		Models.setRefparser(refparser);
 		
 		return selected;
 	}
@@ -1499,12 +1552,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 */
 	public void workingWithAll()
 	{
-		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		ProjectBrowser pb = frame.getProjectBrowser();			
 		//pb.getTree().checkModelElement(currentProject.getModel());
 		refparser.selectAll();		
 		pb.getTree().updateUI();		
-		pb.setParser(refparser);
+		Models.setRefparser(refparser);
 	}
 	
 	/** Add relationship to the model instance (not to diagram). */
@@ -1534,6 +1587,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return comment;
 	}
 
+	/** Add comment to the model instance (not to diagram) */
+	public RefOntoUML.Element addPackage(RefOntoUML.Element eContainer)
+	{
+		RefOntoUML.Element comment = elementFactory.createPackage();
+		//to add only in the model do exactly as follow		
+		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,getCurrentProject(),eContainer);		
+		cmd.run();
+		return comment;
+	}
+	
 	/** Add constraintx to the model instance (not to diagram) */
 	public void addConstraintx(Constraintx cmt, RefOntoUML.Element eContainer) 
 	{
@@ -1545,8 +1608,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Add constraintx to the model instance (not to diagram) */
 	public void addConstraintx(String text, RefOntoUML.Element eContainer) 
 	{
-		RefOntoUML.Constraintx ct = (Constraintx)addElement(ElementType.CONSTRAINT,eContainer);		
-		((StringExpression)ct.getSpecification()).setSymbol(text);
+		RefOntoUML.Constraintx element = elementFactory.createConstraintx();
+		((StringExpression)element.getSpecification()).setSymbol(text);
+		//to add only in the model do exactly as follow		
+		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
+		cmd.run();				
+	}
+	
+	public void manageAntiPatterns()
+	{			
+		System.out.println("Opening anti-pattern dialog...");
+		AntiPatternSearchDialog.open(getFrame());		
 	}
 	
 	/** Add comment to the model instance (not to diagram) */
@@ -1556,28 +1628,37 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		AddNodeCommand cmd = new AddNodeCommand(null,null,c,0,0,getCurrentProject(),eContainer);		
 		cmd.run();
 	}
-
+		
 	/** Add element to the model instance (not to diagram).  */
-	public RefOntoUML.Element addElement(ElementType stereotype, RefOntoUML.Element eContainer)
+	public RefOntoUML.Element addGeneralizationSet(RefOntoUML.Element eContainer)
 	{
-		RefOntoUML.Element element = elementFactory.createElement(stereotype);				
-		if(element instanceof RefOntoUML.Comment){
-			AddNodeCommand cmd = new AddNodeCommand(null,null,(RefOntoUML.Comment)element,0,0,getCurrentProject(),eContainer);		
-			cmd.run();
-		}else if (element instanceof RefOntoUML.Constraintx){
-			AddNodeCommand cmd = new AddNodeCommand(null,null,(RefOntoUML.Constraintx)element,0,0,getCurrentProject(),eContainer);		
-			cmd.run();
-		}else if (element instanceof RefOntoUML.GeneralizationSet){
-			AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand(null,null,(RefOntoUML.GeneralizationSet)element,((RefOntoUML.GeneralizationSet)element).getGeneralization(),getCurrentProject(),eContainer);		
-			cmd.run();
-		}else{
-			//to add only in the model do exactly as follow		
-			AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
-			cmd.run();
-		}
+		RefOntoUML.Element element = elementFactory.createGeneralizationSet();		
+		//to add only in the model do exactly as follow		
+		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
+		cmd.run();		
 		return element;
 	}
 
+	/** Add element to the model instance (not to diagram).  */
+	public RefOntoUML.Element addClass(ClassType stereotype, RefOntoUML.Element eContainer)
+	{
+		RefOntoUML.Element element = elementFactory.createClass(stereotype);		
+		//to add only in the model do exactly as follow		
+		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
+		cmd.run();		
+		return element;
+	}
+	
+	/** Add element to the model instance (not to diagram).  */
+	public RefOntoUML.Element addDataType(DataType stereotype, RefOntoUML.Element eContainer)
+	{
+		RefOntoUML.Element element = elementFactory.createDataType(stereotype);		
+		//to add only in the model do exactly as follow		
+		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
+		cmd.run();		
+		return element;
+	}
+	
 	/** Rename an element. It updates the application accordingly (including the diagrams in which the element appears). It also shows a input dialog for text entry. */
 	public void renameElement(RefOntoUML.Element element)
 	{
@@ -1615,9 +1696,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			frame.getDiagramManager().deleteDiagram((StructureDiagram)object,true);    					
 		}
-		else if (object instanceof OCLDocument)
+		else if (object instanceof OclDocument)
 		{
-			frame.getDiagramManager().deleteOCLDocument((OCLDocument)object,true);    					
+			frame.getDiagramManager().deleteOclDocument((OclDocument)object,true);    					
 		}
 	}
 	
@@ -1682,7 +1763,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						cmd.run();
 					}
 				}else{
-					Main.printErrLine("There is a diagram element without a corresponding model instance. Wrong behaviour.");
+					System.err.println("There is a diagram element without a corresponding model instance. Wrong behaviour.");
 				}
 			}
 		}
@@ -1710,7 +1791,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		EObject eContainer = null;
 		if(gens.size()>1) eContainer = gens.get(0).getSpecific().eContainer();	
 		else eContainer = getCurrentProject().getModel();
-		RefOntoUML.GeneralizationSet newgenset = (GeneralizationSet)elementFactory.createElement(ElementType.GENERALIZATIONSET);
+		RefOntoUML.GeneralizationSet newgenset = (GeneralizationSet)elementFactory.createGeneralizationSet();
 		((RefOntoUML.Package)eContainer).getPackagedElement().add(newgenset);
 		// init data of generalization set
 		((GeneralizationSet)newgenset).setIsCovering(true);
@@ -1785,7 +1866,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public ArrayList<FoundElement> strictlyFindByName(String text)
 	{		
 		ArrayList<FoundElement> result = new ArrayList<FoundElement>();
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		if(refparser!=null && text!=null /*&& !text.isEmpty()*/){
 			for(EObject eobj: refparser.getAllInstances(EObject.class)){
 				if (eobj instanceof NamedElement){
@@ -1830,7 +1911,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}					
 		
 		//loading application problems...
-		ErrorVerificator errorVerificator = new ErrorVerificator(frame.getProjectBrowser().getParser());
+		ErrorVerificator errorVerificator = new ErrorVerificator(Models.getRefparser());
 		errorVerificator.run();
 		problems.addAll(errorVerificator.getErrors());			
 		
@@ -1852,7 +1933,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		int count=0;
 		ArrayList<ProblemElement> warnings = new ArrayList<ProblemElement>();				
 		//loading application warnings...
-		WarningVerificator warningVerificator= new WarningVerificator(frame.getProjectBrowser().getParser());
+		WarningVerificator warningVerificator= new WarningVerificator(Models.getRefparser());
 		warningVerificator.run();
 		warnings.addAll(warningVerificator.getWarnings());		
 		Collections.sort(warnings,new DescriptionComparator());
@@ -1865,7 +1946,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void showBottomView()
 	{
-		if(!frame.isShowBottomView()) { getMainMenu().getBottomViewItem().setSelected(true); frame.showBottomView(); }
+		if(!frame.isShowBottomView()) { getMainMenu().select(CommandType.CONSOLE,true); frame.showBottomView(); }
 	}
 	
 	/** It runs the syntactical verification of the metamodel, plus the error and warnings verificator of the application */
@@ -1889,7 +1970,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public ArrayList<StatisticalElement> collectStatistic()
 	{
 		ArrayList<StatisticalElement> result = new ArrayList<StatisticalElement>();
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		if(refparser!=null){
 			OntoUMLModelStatistic diagnostic = new OntoUMLModelStatistic(refparser);
 			diagnostic.run();
@@ -1939,10 +2020,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Change a class stereotype */ 
+	public void changeClassStereotype(ClassType type, RefOntoUML.Element element) 
+	{ 
+		changeClassStereotype((RefOntoUML.Type)element, type.getName());
+	}
+	
+	/** Change a class stereotype */ 
 	public void changeClassStereotype(Type type, String stereo) 
 	{   
 		ArrayList<DiagramElement> diagramElemList = ModelHelper.getDiagramElements(type);		
-   		OutcomeFixer fixer = new OutcomeFixer(frame.getBrowserManager().getProjectBrowser().getParser().getModel());
+   		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
    		Fix fix = fixer.changeClassStereotypeTo(type, fixer.getClassStereotype(stereo));   	
    		for(DiagramElement diagramElem: diagramElemList){
 	   		if (diagramElem !=null && diagramElem instanceof ClassElement) {
@@ -1955,13 +2042,44 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Change relation stereotype */ 
+	public void changeRelationStereotype(RelationshipType type, RefOntoUML.Relationship element) 
+	{	
+		changeRelationStereotype(element, type.getName());
+	}
+	
+	/** Change relation stereotype */ 
 	public void changeRelationStereotype(Relationship type, String stereo) 
 	{	
-   		OutcomeFixer fixer = new OutcomeFixer(frame.getBrowserManager().getProjectBrowser().getParser().getModel());
+   		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
    		Fix fix = fixer.changeRelationStereotypeTo(type, fixer.getRelationshipStereotype(stereo));   		
    		updateMenthor(fix);   		   		
    	}
 
+	public void undo()
+	{		
+		if (isProjectLoaded()==false) return;
+		if(getCurrentDiagramEditor()!=null){
+			if(getCurrentDiagramEditor().canUndo()){
+				getCurrentDiagramEditor().undo();
+			}else{				
+				getFrame().showInformationMessageDialog("Cannot Undo", "No other action to be undone.\n\n");
+			}
+		}
+	}
+
+	public void redo()
+	{
+		if (isProjectLoaded()==false) return;
+		if(getCurrentDiagramEditor()!=null) 
+		{			
+			if(getCurrentDiagramEditor().canRedo()){
+				getCurrentDiagramEditor().redo();
+			}else{
+				getFrame().showInformationMessageDialog("Cannot Redo", "No other action to be redone.\n\n");
+			}
+		}
+	}
+	
 	/** Re-make element in the diagram . 
 	 *  This actually deletes the current diagramElement and creates another diagramElement, including it in the diagram.*/
 	public void remakeDiagramElement(RefOntoUML.Element element, DiagramEditor d)
@@ -2001,7 +2119,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 */
 	public void remakeAllAssociationElements()
 	{
-		Set<Association> assocList = frame.getProjectBrowser().getParser().getAllInstances(Association.class);
+		Set<Association> assocList = Models.getRefparser().getAllInstances(Association.class);
 		for(Association assoc: assocList){
 			remakeDiagramElement(assoc);
 		}
@@ -2085,7 +2203,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			int row = 0;
 			int column = 0;
 
-			OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+			OntoUMLParser refparser = Models.getRefparser();
 
 			
 			HashSet<Type> addedTypes = new HashSet<Type>();
@@ -2194,7 +2312,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 */
 	public void moveGeneralizationsToDiagram(RefOntoUML.Element element, EObject eContainer, DiagramEditor d)
 	{
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element))
 		{
 			moveGeneralizationToDiagram(gen, d, false);
@@ -2207,7 +2325,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 */
 	public void moveAssociationsToDiagram(RefOntoUML.Element element, EObject eContainer, DiagramEditor d)
 	{
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		
 		for(RefOntoUML.Association a: refparser.getDirectAssociations((RefOntoUML.Classifier)element))
 		{
@@ -2239,7 +2357,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			
 			//bring derivation
 			if(association instanceof MaterialAssociation){				
-				OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+				OntoUMLParser refparser = Models.getRefparser();
 				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
 				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, direction);
 			}
@@ -2396,7 +2514,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void updateMenthorFromInclusion(final RefOntoUML.Element addedElement)
 	{		
 		// add to the parser
-		frame.getBrowserManager().getProjectBrowser().getParser().addElement(addedElement);	
+		Models.getRefparser().addElement(addedElement);	
 		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -2554,7 +2672,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void updateMenthorFromDeletion(final RefOntoUML.Element deletedElement)
 	{		
 		// delete from the parser
-		frame.getBrowserManager().getProjectBrowser().getParser().removeElement(deletedElement);
+		Models.getRefparser().removeElement(deletedElement);
 		
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -2581,7 +2699,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			deleteFromMenthor((RefOntoUML.Element)obj,false);				
 		}
 		for(String str: fix.getAddedRules()){
-			frame.getBrowserManager().getProjectBrowser().getOCLDocuments().get(0).addContent(str);		
+			Models.getOclDocList().get(0).addContentAsString(str);		
 		}
 		return ;
 	}
@@ -2592,7 +2710,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				GlossaryGeneratorUI settings = new GlossaryGeneratorUI(frame.getBrowserManager().getProjectBrowser().getParser());
+				GlossaryGeneratorUI settings = new GlossaryGeneratorUI(Models.getRefparser());
 				settings.setVisible(true);
 			}
 		});
@@ -2617,14 +2735,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//parse TOCL
 		parseConstraints(false);
-		TOCL2AlloyOption oclOptions = frame.getProjectBrowser().getOCLOption();
+		TOCL2AlloyOption oclOptions = Models.getOclOptions();
 		//configure a default ontouml2alloy option
-		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();
+		OntoUML2AlloyOptions refOptions = Models.getRefOptions();
+		OntoUMLParser refparser = Models.getRefparser();
 		refOptions.check(refparser);
 		// open settings
 		AlsSettingsDialog.open(frame,
-			frame.getProjectBrowser().getParser(),
+			Models.getRefparser(),
 			frame.getProjectBrowser().getAllDiagrams(),
 			refOptions, 
 			oclOptions
@@ -2636,27 +2754,32 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public String getWorkingConstraints()
 	{
 		String result = new String();
-		for(OCLDocument oclmodel: frame.getBrowserManager().getProjectBrowser().getOCLDocuments())
+		for(OclDocument oclmodel: Models.getOclDocList())
 		{				
 			ConstraintEditor ce = getConstraintEditor(oclmodel);
 			if(ce!=null) result+=ce.getText();
-			else result+=oclmodel.getContent();
+			else result+=oclmodel.getContentAsString();
 		}
 		return result;
+	}
+	
+	/** Parse constraints from the editor */
+	public void parseConstraints(){
+		parseConstraints(true);		
 	}
 	
 	/** Parse constraints from the editor */
 	public void parseConstraints(boolean showSuccesfullyMessage)
 	{
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));		
-		OntoUMLParser refparser = frame.getBrowserManager().getProjectBrowser().getParser();		
+		OntoUMLParser refparser = Models.getRefparser();		
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create an Menthor project first."); return; }		
 		try { 
 			String name = ((RefOntoUML.Package)getCurrentProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,getCurrentProject().getTempDir()+File.separator,name.toLowerCase());
 			toclparser.parseTemporalOCL(getWorkingConstraints());			
-			frame.getProjectBrowser().setOCLOption(new TOCL2AlloyOption(toclparser));
+			Models.setOclOptions(new TOCL2AlloyOption(toclparser));
 			String msg =  "Constraints are syntactically correct.\n";
 			if(showSuccesfullyMessage) frame.showSuccessfulMessageDialog("Parsing Constraints",msg);			
 		}catch(SemanticException e2){
@@ -2691,15 +2814,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{			
 		try{
 			if(to.getDestination()==DestinationEnum.FILE){
-				if(to.getPath()!=null) frame.getProjectBrowser().getAlloySpec().setAlloyPath(to.getPath());
+				if(to.getPath()!=null) Models.getAlloySpec().setAlloyPath(to.getPath());
 			}
 			runOntoUML2Alloy(refparser);		
 			runTOCL2Alloy(refparser);			
 			if(to.getDestination()==DestinationEnum.APP) {
-				openAnalyzer(frame.getProjectBrowser().getAlloySpec(),true, -1);			
+				openAnalyzer(Models.getAlloySpec(),true, -1);			
 			}
 			if(to.getDestination()==DestinationEnum.TAB){				
-				showInTextEditor(frame.getProjectBrowser().getAlloySpec().getContent());
+				showInTextEditor(Models.getAlloySpec().getContent());
 			}
 			if(to.getDestination()==DestinationEnum.FILE){
 				frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to Alloy.\nLocation: "+to.getPath());			
@@ -2715,17 +2838,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Run transformation from OntoUML into Alloy */
 	public void runOntoUML2Alloy(OntoUMLParser refparser) throws Exception
 	{		
-		OntoUML2AlloyOptions refOptions = frame.getProjectBrowser().getOntoUMLOption();
+		OntoUML2AlloyOptions refOptions = Models.getRefOptions();
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
-		frame.getProjectBrowser().getAlloySpec().setDomainModel(refparser,refOptions);
-		frame.getProjectBrowser().getAlloySpec().transformDomainModel();	
+		Models.getAlloySpec().setDomainModel(refparser,refOptions);
+		Models.getAlloySpec().transformDomainModel();	
 	}
 	
 	/** Run Transformation from TOCL into Alloy */
 	public void runTOCL2Alloy(OntoUMLParser refparser)
 	{				
-		TOCL2AlloyOption oclOptions = frame.getProjectBrowser().getOCLOption();
-		AlloySpecification alloySpec = frame.getProjectBrowser().getAlloySpec();
+		TOCL2AlloyOption oclOptions = Models.getOclOptions();
+		AlloySpecification alloySpec = Models.getAlloySpec();
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create first a Menthor project."); return; }
 		if (oclOptions.getParser()==null) { /*frame.showErrorMessageDialog("Error","Inexistent constraints. You need to first create constraints.");*/  return; }
 		try {						
@@ -2778,7 +2901,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void openOwlSettings() 
 	{
 		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
-			frame.getProjectBrowser().getParser(),
+			Models.getRefparser(),
 			frame.getProjectBrowser().getAllDiagrams(),
 			true
 		);
@@ -2794,9 +2917,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */
 	public void generateSbvr(RefOntoUML.Model refpackage) 
 	{
-		UmlProject project = getCurrentProject();
-		OperationResult result;
-		String modelFileName = ConfigurationHelper.getCanonPath(project.getTempDir(), MenthorSettings.MODEL_DEFAULT_FILE.getValue());
+		ResultType result;
+		String modelFileName = Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_MODEL_FILE.getValue());
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {			
@@ -2804,12 +2926,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
 			frame.getInfoManager().showOutputText("SBVR generated successfully", true, true); 
-			result = new OperationResult(ResultType.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
+			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result = new OperationResult(ResultType.ERROR, "Error while generating the SBVR representaion. Details: " + ex.getMessage(), null);
+			result = new ResultType(Result.ERROR, "Error while generating the SBVR representaion. Details: " + ex.getMessage(), null);
 		}		
-		if(result.getResultType() != ResultType.ERROR)
+		if(result.getResultType() != Result.ERROR)
 		{
 			frame.getInfoManager().showOutputText(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
@@ -2826,7 +2948,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	@Deprecated
 	public String autoCompleteSelection(int option, UmlProject project)
 	{		
-		OntoUMLParser refparser = frame.getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		ProjectBrowser modeltree = frame.getProjectBrowser();
 
 		if (refparser==null) { return ""; }	
@@ -2887,7 +3009,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void exportOCL() 
 	{
 //		try{
-//			OCLDocument oclmodel = ProjectBrowser.getOCLDocumentFor(getCurrentProject());
+//			OclDocument oclmodel = ProjectBrowser.getOclDocumentFor(getCurrentProject());
 //			String path = FileChoosersUtil.saveOCLPathLocation(frame,oclmodel.getPath());	    		
 //			if (path==null) return;			
 //			if(getCurrentConstraintEditor()!=null){
@@ -2918,7 +3040,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 //		try{
 //			if (getCurrentProject()==null) newProject();			
-//			OCLDocument oclmodel = ProjectBrowser.getOCLDocumentFor(getCurrentProject());
+//			OclDocument oclmodel = ProjectBrowser.getOclDocumentFor(getCurrentProject());
 //			String path = FileChoosersUtil.openOCLPathLocation(frame,oclmodel.getPath());
 //			if (path==null) return;
 //			oclmodel.setConstraints(path,"PATH");			
@@ -3027,13 +3149,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
 	{
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		OperationResult result = OWLHelper.generateOwl(
+		ResultType result = OWLHelper.generateOwl(
 			filteredParser, 
 			model, 
 			getWorkingConstraints(),			
 			trOpt
 		);
-		if(result.getResultType() != ResultType.ERROR)
+		if(result.getResultType() != Result.ERROR)
 		{
 			if(trOpt.getDestination()==DestinationEnum.TAB)
 			{
@@ -3148,7 +3270,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		dialog.setLocation(x_1, y_2);
 	}
 	
-	public void runPattern(final ElementType elementType, final double x, final double y) {
+	public void runPattern(final PatternType elementType, final double x, final double y) {
 		PatternTool.runPattern(this, elementType, x, y);
 	}
 
@@ -3163,6 +3285,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
+	
+	public void openDerivedTypePatternIntersection(Point p) {
+		openDerivedTypePatternIntersection(p.getX(),p.getY());
+	}
+	
 	public void deriveByIntersection() {
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
 		UmlProject project = getCurrentEditor().getProject();
@@ -3173,7 +3300,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	public void validatesParthood() {
-		ValidationDialog.open(frame.getBrowserManager().getProjectBrowser().getParser(), frame);
+		ValidationDialog.open(Models.getRefparser(), frame);
 		
 	}
 	public void openDerivedTypePatternSpecialization(double x, double y) {
@@ -3223,7 +3350,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	@SuppressWarnings("unused")
 	private File exportCurrentProjectToFile(File file) 
 	{
-		Main.printOutLine("Saving Menthor Pattern project...");
+		System.out.println("Saving Menthor Pattern project...");
 		currentProject.setVersion(Main.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
@@ -3236,14 +3363,14 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					file = new File(file.getCanonicalFile() + ".menthorpattern");
 			}						
 			for(ConstraintEditor ce: getConstraintEditors()){				
-				if(ce!=null) ce.getOCLDocument().setContent(ce.getText());
+				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
 			}
 			currentProject.clearOpenedDiagrams();
 			for(DiagramEditor editor: getDiagramEditors()){
 				currentProject.saveAsOpened(editor.getDiagram());
 			}			
-			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, frame.getBrowserManager().getProjectBrowser().getOCLDocuments());		
-			ConfigurationHelper.addRecentProject(file.getCanonicalPath());
+			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
+			Settings.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
 			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
 			saveAllDiagramNeeded(false);
@@ -3251,16 +3378,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			invalidate();
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} catch (Exception ex) {
-			Main.printOutLine("Failed to save Menthor Pattern project!");
+			System.out.println("Failed to save Menthor Pattern project!");
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.savefile.title"), JOptionPane.ERROR_MESSAGE);
 		}
-		Main.printOutLine("Menthor Pattern project successfully saved!");
+		System.out.println("Menthor Pattern project successfully saved!");
 		return result;
 	}
 
 	//Export as .menthorpattern	
-	public void exportPattern(){
+	public void exportAsPattern(){
 		DomainPatternTool.exportModelAsPattern(currentProject);
 		//call exportCurrentProject
 		//call exportAsMenthorPattern
@@ -3278,23 +3405,23 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				Main.printOutLine("Opening Menthor project...");				
+				System.out.println("Opening Menthor project...");				
 				File file = fileChooser.getSelectedFile();
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				patternProject = (UmlProject) listFiles.get(0);
 			} catch (Exception ex) {
-				Main.printOutLine("Failed to open Menthor project!");	
+				System.out.println("Failed to open Menthor project!");	
 				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			Main.printOutLine("Menthor project successfully opened!");	
+			System.out.println("Menthor project successfully opened!");	
 		}
 		
 		return patternProject;
 	}
 	
-	public void importPattern(){
+	public void importFromPattern(){
 		//opening .menthorpattern
 		UmlProject patternProject = importPatternProjectFile();
 		if(patternProject != null){		

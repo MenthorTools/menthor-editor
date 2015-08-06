@@ -38,7 +38,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.AppFrame;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.UmlProject;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
