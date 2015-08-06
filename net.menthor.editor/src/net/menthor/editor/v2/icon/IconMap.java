@@ -119,6 +119,7 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_WELCOME_FAQ,"net/menthor/editor/v2/icon/faq.png");
 		urlMap.put(IconType.MENTHOR_WELCOME_FORUM,"net/menthor/editor/v2/icon/forum.png");
 		urlMap.put(IconType.MENTHOR_WELCOME_STUDYGUIDE,"net/menthor/editor/v2/icon/studyguide.png");
+		urlMap.put(IconType.MENTHOR_SPLASH_SCREEN, "net/menthor/editor/v2/icon/splashscreen.png");
 		
 		//OLED
 		urlMap.put(IconType.MOUSE_POINTER, "resources/icons/x16/mousepointer.png");		

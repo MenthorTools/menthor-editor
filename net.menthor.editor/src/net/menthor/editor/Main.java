@@ -51,6 +51,7 @@ import javax.swing.plaf.FontUIResource;
 import org.eclipse.swt.LoadingException;
 import org.eclipse.swt.SWTBinaryLoader;
 
+import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
 

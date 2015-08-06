@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import RefOntoUML.PackageableElement;
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -25,10 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  * ============================================================================================
  */
 
-import RefOntoUML.NamedElement;
-
 /** Interface used to specify (Onto)UML class diagrams */
-public interface UmlDiagram extends NamedElement {
+public interface UmlDiagram extends PackageableElement {
 
 	abstract public List<EObject> getPackageableElements();
 		

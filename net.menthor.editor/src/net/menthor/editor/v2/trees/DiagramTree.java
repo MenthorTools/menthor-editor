@@ -44,23 +44,23 @@ public class DiagramTree extends ElementTree {
 	private List<UmlDiagram> diagrams;
 	
 	/** Create an instance of the tree */
-	public static DiagramTree createTree(OntoUMLParser refparser, List<UmlDiagram> diagrams, ElementTreeVisibility opt){
+	public static DiagramTree createDiagramTree(OntoUMLParser refparser, List<UmlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){
 		if(refparser!=null){
-			return new DiagramTree(	new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
-			refparser, diagrams, opt);
+			return new DiagramTree(new DefaultMutableTreeNode(new RefOntoUMLElement(refparser.getModel(),"")), 
+			refparser, diagrams, opt,checkboxVisible);
 		}else{
 			return null;
 		}
 	}
 	
 	/**Constructor */
-	private DiagramTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<UmlDiagram> diagrams, ElementTreeVisibility opt){	
+	private DiagramTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<UmlDiagram> diagrams, ElementTreeVisibility opt, boolean checkboxVisible){	
 		super(rootNode);			
 		this.refparser = refparser;		
 		this.diagrams=diagrams;
 		this.opt=opt;		
 		//Collections.sort(this.diagrams);		
-		TreeCellRenderer cellRenderer = new TreeCellRenderer();
+		TreeCellRenderer cellRenderer = new TreeCellRenderer(checkboxVisible);
 		setCellRenderer(cellRenderer);		
 		drawDiagrams(modelRootNode, refparser.getModel(), checkingModel, refparser);					
 		addCheckingPath(new TreePath(modelRootNode.getPath()));		
@@ -89,7 +89,7 @@ public class DiagramTree extends ElementTree {
             
     /** Add element to the tree */
     @Override
-    protected DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) 
+	public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, EObject child, boolean shouldBeVisible) 
     {
     	if(child instanceof EObject){ 
     		super.addElement(parent,child,shouldBeVisible); 
@@ -117,7 +117,7 @@ public class DiagramTree extends ElementTree {
 				//diagram elements
 				List<EObject> contents = diagram.getPackageableElements();
 				for(EObject eobj: contents){
-					super.drawElement(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser);
+					super.drawElement(dNode, (RefOntoUML.Element) eobj, checkingModel, refparser,null);
 				}
 			}	
 		}

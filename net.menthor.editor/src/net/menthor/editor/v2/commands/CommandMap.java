@@ -44,17 +44,42 @@ public class CommandMap {
 	private Map<CommandType, String> descMap = new HashMap<CommandType, String>();
 	public Map<CommandType, MethodCall> getMap() { return cmdMap; }
 	
+	public String getDescription(CommandType cmdType) { return descMap.get(cmdType); }	
+	public MethodCall getMethodCall(CommandType cmdType){ return cmdMap.get(cmdType); }	
+	public static CommandMap getInstance() { return instance; }
+	
 	public void addParameter(CommandType cmdType, Object parameter){
 		if(getMap().get(cmdType)!=null) getMap().get(cmdType).addParameter(parameter);
 	}
 	
-	public String getDescription(CommandType cmdType) {
-		return descMap.get(cmdType);
-	}
 	/** constructor */
 	private CommandMap(){
 		try {
-		
+			
+			file();					
+			exportation();
+			importation();
+			edit();
+			tabs();
+			diagram();
+			project();
+			verificate();
+			validate();
+			window();
+			help();
+			
+			palette(); //palette drag and drop
+			additions(); //add elements			
+			changes(); //change elements
+			
+		} catch (NoSuchMethodException e) {		
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void file() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
 				new MethodCall(DiagramManager.class.getMethod("newProject")));
 		cmdMap.put(CommandType.OPEN_PROJECT,
@@ -69,7 +94,9 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("saveProject")));
 		cmdMap.put(CommandType.QUIT_MENTHOR,
 				new MethodCall(AppFrame.class.getMethod("quitApplication")));
-		
+	}
+	
+	private void exportation() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.EXPORT_TO_ECORE,
 				new MethodCall(DiagramManager.class.getMethod("exportToEcore")));
 		cmdMap.put(CommandType.EXPORT_TO_UML,
@@ -78,7 +105,9 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("exportToXMI")));
 		cmdMap.put(CommandType.EXPORT_AS_PATTERN,
 				new MethodCall(DiagramManager.class.getMethod("exportAsPattern")));
-		
+	}
+	
+	private void importation() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
 				new MethodCall(DiagramManager.class.getMethod("importFromXMI")));
 		cmdMap.put(CommandType.IMPORT_FROM_PATTERN,
@@ -86,13 +115,23 @@ public class CommandMap {
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
 				new MethodCall(DiagramManager.class.getMethod("importFromEA")));
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
-				new MethodCall(DiagramManager.class.getMethod("importFromEARecent")));		
-				
+				new MethodCall(DiagramManager.class.getMethod("importFromEARecent")));
+	}
+	
+	private void edit() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.REDO,
 				new MethodCall(DiagramManager.class.getMethod("redo")));
 		cmdMap.put(CommandType.UNDO,
 				new MethodCall(DiagramManager.class.getMethod("undo")));
-		
+		cmdMap.put(CommandType.EDIT, 
+				new MethodCall(DiagramEditor.class.getMethod("editProperties")));			
+		cmdMap.put(CommandType.DELETE, 
+				new MethodCall(DiagramEditor.class.getMethod("deleteSelection")));
+		cmdMap.put(CommandType.ERASE, 
+				new MethodCall(DiagramEditor.class.getMethod("excludeSelection")));
+	}
+	
+	private void diagram() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_DIAGRAM,
 				new MethodCall(DiagramManager.class.getMethod("newDiagram")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM,
@@ -113,7 +152,6 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("zoom100")));
 		cmdMap.put(CommandType.ZOOM_IN,
 				new MethodCall(DiagramEditor.class.getMethod("zoomIn")));
-		
 		cmdMap.put(CommandType.PUT_BACK,
 				new MethodCall(DiagramEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
@@ -131,32 +169,64 @@ public class CommandMap {
 		cmdMap.put(CommandType.ALIGN_RIGHT,
 				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight")));
 		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));
-		
+				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));				
+		cmdMap.put(CommandType.ADD_GEN_SET_DIAGRAM, 
+			new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet")));
+		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
+			new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet")));
+		cmdMap.put(CommandType.RESET_POINTS, 
+			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints")));
+		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toDirect")));
+		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toRectilinear")));
+		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical")));		
+		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal")));
+	}
+	
+	private void project() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.FIND_TERM,
+				new MethodCall(DiagramManager.class.getMethod("searchInProject")));
+		cmdMap.put(CommandType.COLLECT_STATISTICS,
+				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));		
+	}
+	
+	private void tabs() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS_TAB,
-				new MethodCall(DiagramManager.class.getMethod("closeTab", Integer.class)));
+				new MethodCall(DiagramManager.class.getMethod("closeTab", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
 				new MethodCall(DiagramManager.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL_TABS,
-				new MethodCall(DiagramManager.class.getMethod("closeAll")));
-		
+				new MethodCall(DiagramManager.class.getMethod("closeAll", Component.class)));
+	}
+	
+	private void window() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.PALETTE_OF_ELEMENTS,
 				new MethodCall(AppFrame.class.getMethod("showToolBox")));
 		cmdMap.put(CommandType.PROJECT_BROWSER,
 				new MethodCall(AppFrame.class.getMethod("showProjectBrowser")));
 		cmdMap.put(CommandType.CONSOLE,
 				new MethodCall(AppFrame.class.getMethod("showBottomView")));
-		
-		cmdMap.put(CommandType.FIND_TERM,
-				new MethodCall(DiagramManager.class.getMethod("searchInProject")));
-		cmdMap.put(CommandType.COLLECT_STATISTICS,
-				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));
-		
+	}
+	
+	private void help() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ABOUT,
+				new MethodCall(DiagramManager.class.getMethod("about")));			
+		cmdMap.put(CommandType.LICENSES, 
+				new MethodCall(DiagramManager.class.getMethod("licenses")));
+	}
+	
+	private void verificate() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CHECK_MODEL_SYNTAX,
 				new MethodCall(DiagramManager.class.getMethod("verifyModelSyntactically")));
 		cmdMap.put(CommandType.PARSE_CONSTRAINTS, 
 				new MethodCall(DiagramManager.class.getMethod("parseConstraints")));
-				
+	}
+	
+	private void validate() throws NoSuchMethodException, SecurityException{
+		
 		cmdMap.put(CommandType.SIMULATE_AND_CHECK,
 				new MethodCall(DiagramManager.class.getMethod("simulate")));
 		cmdMap.put(CommandType.IMPLEMENT_IN_OWL,
@@ -171,143 +241,9 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("generateInfoUML")));
 		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
 				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
-		
-		cmdMap.put(CommandType.ABOUT,
-				new MethodCall(DiagramManager.class.getMethod("about")));			
-		cmdMap.put(CommandType.LICENSES, 
-				new MethodCall(DiagramManager.class.getMethod("licenses")));
-		
-		//===============================================================================
-		
-		cmdMap.put(CommandType.ADD_KIND, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.KIND));
-		cmdMap.put(CommandType.ADD_SUBKIND, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.SUBKIND));
-		cmdMap.put(CommandType.ADD_COLLECTIVE, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.COLLECTIVE));
-		cmdMap.put(CommandType.ADD_QUANTITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.QUANTITY));
-		cmdMap.put(CommandType.ADD_ROLE, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.ROLE));
-		cmdMap.put(CommandType.ADD_PHASE, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PHASE));
-		cmdMap.put(CommandType.ADD_RELATOR, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.RELATOR));
-		cmdMap.put(CommandType.ADD_MODE, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
-		cmdMap.put(CommandType.ADD_PERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.ADD_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.ADD_NOMINAL_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
-		cmdMap.put(CommandType.ADD_CATEGORY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
-		cmdMap.put(CommandType.ADD_MIXIN, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MIXIN));
-		cmdMap.put(CommandType.ADD_ROLEMIXIN, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.ROLEMIXIN));
-		cmdMap.put(CommandType.ADD_DATATYPE, 
-				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DATATYPE));
-		cmdMap.put(CommandType.ADD_PRIMITIVETYPE, 
-				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.PRIMITIVETYPE));
-		cmdMap.put(CommandType.ADD_ENUMERATION, 
-				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.ENUMERATION));
-		cmdMap.put(CommandType.ADD_GENERALIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.ADD_MEDIATION, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.ADD_DERIVATION, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.ADD_COMPONENTOF, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.ADD_SUBCOLLECTIONOF, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.ADD_SUBQUANTITYOF, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.ADD_MEMBEROF, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.ADD_STRUCTURATION, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.STRUCTURATION));
-		cmdMap.put(CommandType.ADD_FORMAL, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.ADD_MATERIAL, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MATERIAL));
-		cmdMap.put(CommandType.ADD_ASSOCIATION, 
-				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.ASSOCIATION));
-		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(DiagramManager.class.getMethod("addPackage",RefOntoUML.Element.class)));
-		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
-				new MethodCall(DiagramManager.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
-
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_UNION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByUnion")));				
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_EXCLUSION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByExclusion")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_SPECIALIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveBySpecialization")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_INTERSECTION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByIntersection")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_PAST_SPECIALIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByPastSpecialization")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_PARTICIPATION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByParticipation")));
-		
-		cmdMap.put(CommandType.CHANGE_TO_KIND, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.KIND));
-		cmdMap.put(CommandType.CHANGE_TO_SUBKIND, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.SUBKIND));
-		cmdMap.put(CommandType.CHANGE_TO_COLLECTIVE, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.COLLECTIVE));
-		cmdMap.put(CommandType.CHANGE_TO_QUANTITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.QUANTITY));
-		cmdMap.put(CommandType.CHANGE_TO_ROLE, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.ROLE));
-		cmdMap.put(CommandType.CHANGE_TO_PHASE, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PHASE));
-		cmdMap.put(CommandType.CHANGE_TO_RELATOR, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.RELATOR));
-		cmdMap.put(CommandType.CHANGE_TO_MODE, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
-		cmdMap.put(CommandType.CHANGE_TO_PERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.CHANGE_TO_NOMINAL_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
-		cmdMap.put(CommandType.CHANGE_TO_CATEGORY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
-		cmdMap.put(CommandType.CHANGE_TO_MIXIN, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MIXIN));
-		cmdMap.put(CommandType.CHANGE_TO_ROLEMIXIN, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.ROLEMIXIN));
-		cmdMap.put(CommandType.CHANGE_TO_GENERALIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.CHANGE_TO_MEDIATION, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.CHANGE_TO_CHARACTERIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.CHANGE_TO_DERIVATION, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.CHANGE_TO_COMPONENTOF, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.CHANGE_TO_SUBCOLLECTIONOF, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.CHANGE_TO_SUBQUANTITYOF, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.CHANGE_TO_MEMBEROF, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.CHANGE_TO_STRUCTURATION, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.STRUCTURATION));
-		cmdMap.put(CommandType.CHANGE_TO_FORMAL, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.CHANGE_TO_MATERIAL, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MATERIAL));
-		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
-				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
-		
+	}
+	
+	private void palette() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.TB_DND_POINTER_MODE, 
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));		
 		cmdMap.put(CommandType.TB_DND_KIND, 
@@ -421,7 +357,141 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModePastSpecialization")));				
 		cmdMap.put(CommandType.TB_DND_PARTICIPATION_PATTERN, 
 				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModeParticipation")));
-		
+	}
+	
+	private void additions() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ADD_KIND, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.KIND));
+		cmdMap.put(CommandType.ADD_SUBKIND, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.SUBKIND));
+		cmdMap.put(CommandType.ADD_COLLECTIVE, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.COLLECTIVE));
+		cmdMap.put(CommandType.ADD_QUANTITY, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.QUANTITY));
+		cmdMap.put(CommandType.ADD_ROLE, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.ROLE));
+		cmdMap.put(CommandType.ADD_PHASE, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PHASE));
+		cmdMap.put(CommandType.ADD_RELATOR, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.RELATOR));
+		cmdMap.put(CommandType.ADD_MODE, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
+		cmdMap.put(CommandType.ADD_PERCEIVABLE_QUALITY, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
+		cmdMap.put(CommandType.ADD_NONPERCEIVABLE_QUALITY, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
+		cmdMap.put(CommandType.ADD_NOMINAL_QUALITY, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
+		cmdMap.put(CommandType.ADD_CATEGORY, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
+		cmdMap.put(CommandType.ADD_MIXIN, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MIXIN));
+		cmdMap.put(CommandType.ADD_ROLEMIXIN, 
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.ROLEMIXIN));
+		cmdMap.put(CommandType.ADD_DATATYPE, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DATATYPE));
+		cmdMap.put(CommandType.ADD_PRIMITIVETYPE, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.PRIMITIVETYPE));
+		cmdMap.put(CommandType.ADD_ENUMERATION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.ENUMERATION));
+		cmdMap.put(CommandType.ADD_GENERALIZATION, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.GENERALIZATION));
+		cmdMap.put(CommandType.ADD_MEDIATION, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
+		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.CHARACTERIZATION));
+		cmdMap.put(CommandType.ADD_DERIVATION, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.DERIVATION));
+		cmdMap.put(CommandType.ADD_COMPONENTOF, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.COMPONENTOF));
+		cmdMap.put(CommandType.ADD_SUBCOLLECTIONOF, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.SUBCOLLECTIONOF));
+		cmdMap.put(CommandType.ADD_SUBQUANTITYOF, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.SUBQUANTITYOF));
+		cmdMap.put(CommandType.ADD_MEMBEROF, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MEMBEROF));
+		cmdMap.put(CommandType.ADD_STRUCTURATION, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.STRUCTURATION));
+		cmdMap.put(CommandType.ADD_FORMAL, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.FORMAL));
+		cmdMap.put(CommandType.ADD_MATERIAL, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MATERIAL));
+		cmdMap.put(CommandType.ADD_ASSOCIATION, 
+				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.ASSOCIATION));
+		cmdMap.put(CommandType.ADD_PACKAGE, 
+				new MethodCall(DiagramManager.class.getMethod("addPackage",RefOntoUML.Element.class)));
+		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
+				new MethodCall(DiagramManager.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
+
+		cmdMap.put(CommandType.ADD_DERIVATION_BY_UNION, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByUnion")));				
+		cmdMap.put(CommandType.ADD_DERIVATION_BY_EXCLUSION, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByExclusion")));
+		cmdMap.put(CommandType.ADD_DERIVATION_BY_SPECIALIZATION, 
+				new MethodCall(DiagramManager.class.getMethod("deriveBySpecialization")));
+		cmdMap.put(CommandType.ADD_DERIVATION_BY_INTERSECTION, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByIntersection")));
+		cmdMap.put(CommandType.ADD_DERIVATION_BY_PAST_SPECIALIZATION, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByPastSpecialization")));
+		cmdMap.put(CommandType.ADD_DERIVATION_BY_PARTICIPATION, 
+				new MethodCall(DiagramManager.class.getMethod("deriveByParticipation")));
+	}
+	
+	private void changes() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.CHANGE_TO_KIND, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.KIND));
+		cmdMap.put(CommandType.CHANGE_TO_SUBKIND, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.SUBKIND));
+		cmdMap.put(CommandType.CHANGE_TO_COLLECTIVE, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.COLLECTIVE));
+		cmdMap.put(CommandType.CHANGE_TO_QUANTITY, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.QUANTITY));
+		cmdMap.put(CommandType.CHANGE_TO_ROLE, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.ROLE));
+		cmdMap.put(CommandType.CHANGE_TO_PHASE, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PHASE));
+		cmdMap.put(CommandType.CHANGE_TO_RELATOR, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.RELATOR));
+		cmdMap.put(CommandType.CHANGE_TO_MODE, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
+		cmdMap.put(CommandType.CHANGE_TO_PERCEIVABLE_QUALITY, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
+		cmdMap.put(CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
+		cmdMap.put(CommandType.CHANGE_TO_NOMINAL_QUALITY, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
+		cmdMap.put(CommandType.CHANGE_TO_CATEGORY, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
+		cmdMap.put(CommandType.CHANGE_TO_MIXIN, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MIXIN));
+		cmdMap.put(CommandType.CHANGE_TO_ROLEMIXIN, 
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.ROLEMIXIN));
+		cmdMap.put(CommandType.CHANGE_TO_GENERALIZATION, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.GENERALIZATION));
+		cmdMap.put(CommandType.CHANGE_TO_MEDIATION, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEDIATION));
+		cmdMap.put(CommandType.CHANGE_TO_CHARACTERIZATION, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.CHARACTERIZATION));
+		cmdMap.put(CommandType.CHANGE_TO_DERIVATION, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.DERIVATION));
+		cmdMap.put(CommandType.CHANGE_TO_COMPONENTOF, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.COMPONENTOF));
+		cmdMap.put(CommandType.CHANGE_TO_SUBCOLLECTIONOF, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBCOLLECTIONOF));
+		cmdMap.put(CommandType.CHANGE_TO_SUBQUANTITYOF, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBQUANTITYOF));
+		cmdMap.put(CommandType.CHANGE_TO_MEMBEROF, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEMBEROF));
+		cmdMap.put(CommandType.CHANGE_TO_STRUCTURATION, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.STRUCTURATION));
+		cmdMap.put(CommandType.CHANGE_TO_FORMAL, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.FORMAL));
+		cmdMap.put(CommandType.CHANGE_TO_MATERIAL, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MATERIAL));
+		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
+				new MethodCall(DiagramManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
+	}
+	
 //		selectorMap.put("LANGUAGE_GENERALIZATION_SPECIALIZATION", new MethodCall(
 //				getClass().getMethod("runPatternByMenu",ElementType.class),ElementType.GENERALIZATIONSPECIALIZATION));
 //
@@ -438,14 +508,6 @@ public class CommandMap {
 //		{
 //			if (manager.isProjectLoaded()==false) return;
 //			manager.runPattern(type, 0, 0);
-//		}
-		
-		} catch (NoSuchMethodException e) {		
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-	}
+//		}		
 
-	public static CommandMap getInstance() { return instance; }
 }

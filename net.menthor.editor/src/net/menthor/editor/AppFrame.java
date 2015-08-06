@@ -39,12 +39,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
-import org.jdesktop.swingx.MultiSplitLayout;
-import org.jdesktop.swingx.MultiSplitPane;
-import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.diagram.DiagramEditor;
-
-import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.v2.bars.MainMenuBar;
@@ -55,6 +49,12 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.palette.PalettePane;
+
+import org.jdesktop.swingx.MultiSplitLayout;
+import org.jdesktop.swingx.MultiSplitPane;
+import org.tinyuml.ui.diagram.DiagramEditor;
+
+import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 
 /**
  * @author Wei-ju Wu, John Guerson
@@ -161,7 +161,7 @@ public class AppFrame extends JFrame implements CommandListener {
 	private void installMainToolBar() 
 	{		
 		mainToolBar = new MainToolbar(this);		
-		mainToolBar.addCommandListener(getDiagramManager().getEditorDispatcher());
+		mainToolBar.addCommandListener(getDiagramManager().getCommandListener());
 		JPanel panel = new JPanel();		
 		panel.setLayout(new BorderLayout(5,5));
 		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -366,24 +366,23 @@ public class AppFrame extends JFrame implements CommandListener {
 	
 	/** Handles the fired commands. */
 	@Override
-	public void handleCommand(String command, Object parameter) {		
+	public void handleCommand(String command, Object parameter) {	
 		MethodCall methodcall=null;
-		if(CommandType.isValueOf(command)){
-			CommandType cmdType = CommandType.valueOf(command);
+		CommandType cmdType = CommandType.valueOf(command);
+		if(CommandType.isValueOf(command)){			
 			if(parameter!=null) CommandMap.getInstance().addParameter(cmdType, parameter);
-			methodcall = CommandMap.getInstance().getMap().get(cmdType);			
-		}else{
-			methodcall = getDiagramManager().getEditorDispatcher().getMap().get(command);
-		}		
-		methodcall.printParameters();
-		if(methodcall.getMethod().getDeclaringClass() == AppCommandDispatcher.class){					
-			methodcall.call(getDiagramManager().getEditorDispatcher());
+			methodcall = CommandMap.getInstance().getMethodCall(cmdType);			
+		}
+		if(methodcall==null){
+			System.err.println("A method could not be found for command: "+cmdType);
+			return;
+		}
+		if(methodcall.getMethod().getDeclaringClass() == getClass()){
+			methodcall.call(this);
 		}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
 			methodcall.call(getDiagramManager());
 		}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
-			methodcall.call(getDiagramManager().getCurrentDiagramEditor());
-		}else if(methodcall.getMethod().getDeclaringClass() == getClass()){
-			methodcall.call(this);
+			methodcall.call(getDiagramManager().getCurrentDiagramEditor());		
 		}else{
 			System.out.println("Command not handled: "+methodcall.getMethod().getDeclaringClass()+" - "+methodcall);
 		}

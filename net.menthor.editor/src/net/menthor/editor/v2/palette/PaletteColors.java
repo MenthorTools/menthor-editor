@@ -45,10 +45,10 @@ public class PaletteColors {
 	private static Color hoverItemBackground = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHT);
 
 	private static Border selectedGroupingBorder = UIManager.getBorder("Panel.border"); //new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
-	private static Color selectedGroupingBackground = UIManager.getColor("Panel.background");//ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_MEDIUM);
+	private static Color selectedGroupingBackground = Color.LIGHT_GRAY; //UIManager.getColor("Panel.background");//ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_MEDIUM);
 
 	private static Border unselectedGroupingBorder = UIManager.getBorder("Panel.border"); //new LineBorder(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY), 1, true);
-	private static Color unselectedGroupingBackground = UIManager.getColor("Panel.background"); //ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
+	private static Color unselectedGroupingBackground = Color.LIGHT_GRAY; //UIManager.getColor("Panel.background"); //ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY);
 
 	public static Border getResetBorder() { return resetBorder; }
 	public static Color getResetBackground() { return resetBackground; }

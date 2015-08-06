@@ -52,13 +52,15 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.menus.TabPopupMenu;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.popupmenu.TabPopupMenu;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
 
 
 /**
@@ -71,8 +73,10 @@ public class ClosableTabPanel extends JPanel {
 	public JLabel label;
 	public TabButton button;
 	public boolean isTitleEditable = true;
+	private CommandListener listener;
 	
 	public JLabel getLabel() { return label; }
+	public CommandListener getListener() { return listener; }
 	
 	public void setIcon()
 	{
@@ -104,9 +108,15 @@ public class ClosableTabPanel extends JPanel {
 		}
 	}
 	
-	public ClosableTabPanel(final JTabbedPane pane, boolean isTitleEditable) {
+	public ClosableTabPanel(final JTabbedPane pane, boolean isTitleEditable, CommandListener listener) {
 		this(pane);
 		this.isTitleEditable = isTitleEditable;
+		this.listener=listener;
+	}
+	
+	public ClosableTabPanel(final JTabbedPane pane,CommandListener listener) {
+		this(pane);
+		this.listener=listener;
 	}
 	
 	/**
@@ -153,8 +163,10 @@ public class ClosableTabPanel extends JPanel {
                 } else if (SwingUtilities.isRightMouseButton(e)){
                 	if(pane instanceof DiagramManager){                		
                 		int index = pane.indexOfTabComponent(ClosableTabPanel.this);
-                		Component comp = pane.getComponentAt(index);                		
-                		TabPopupMenu popup = new TabPopupMenu(pane,comp);
+                		Component comp = pane.getComponentAt(index);
+                		
+                		TabPopupMenu popup = new TabPopupMenu(listener);
+                		popup.setContext(comp);
                 		popup.show(e.getComponent(),e.getX(),e.getY());
                 	}
                 } else { 

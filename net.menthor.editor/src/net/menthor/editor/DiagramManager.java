@@ -58,67 +58,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.edit.provider.IDisposable;
-import org.eclipse.jface.window.Window;
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.SemanticException;
-import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.draw.DrawingContext;
-import org.tinyuml.draw.DrawingContextImpl;
-import org.tinyuml.draw.LineStyle;
-import org.tinyuml.draw.Node;
-import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.Editor;
-import org.tinyuml.ui.diagram.Editor.EditorNature;
-import org.tinyuml.ui.diagram.EditorMouseEvent;
-import org.tinyuml.ui.diagram.EditorStateListener;
-import org.tinyuml.ui.diagram.SelectionListener;
-import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
-import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
-import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.DiagramNotification;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
-import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
-import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
-import org.tinyuml.umldraw.StructureDiagram;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
-import org.tinyuml.umldraw.shared.UmlConnection;
-
-import RefOntoUML.Association;
-import RefOntoUML.Classifier;
-import RefOntoUML.Comment;
-import RefOntoUML.Constraintx;
-import RefOntoUML.Derivation;
-import RefOntoUML.EnumerationLiteral;
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.LiteralInteger;
-import RefOntoUML.LiteralUnlimitedNatural;
-import RefOntoUML.MaterialAssociation;
-import RefOntoUML.NamedElement;
-import RefOntoUML.Property;
-import RefOntoUML.Relationship;
-import RefOntoUML.StringExpression;
-import RefOntoUML.Type;
-import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.parser.SyntacticVerificator;
-import RefOntoUML.util.RefOntoUMLElement;
-import RefOntoUML.util.RefOntoUMLElementCustom;
-import RefOntoUML.util.RefOntoUMLResourceUtil;
-import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
@@ -173,6 +112,7 @@ import net.menthor.editor.ui.commands.UMLExporter;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.UmlDiagram;
 import net.menthor.editor.v2.bars.MainMenuBar;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -180,9 +120,9 @@ import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 import net.menthor.editor.v2.util.Settings;
-import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
@@ -192,6 +132,67 @@ import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.provider.IDisposable;
+import org.eclipse.jface.window.Window;
+import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.SemanticException;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContextImpl;
+import org.tinyuml.draw.LineStyle;
+import org.tinyuml.draw.Node;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.Editor;
+import org.tinyuml.ui.diagram.Editor.EditorNature;
+import org.tinyuml.ui.diagram.EditorMouseEvent;
+import org.tinyuml.ui.diagram.EditorStateListener;
+import org.tinyuml.ui.diagram.SelectionListener;
+import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
+import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
+import org.tinyuml.ui.diagram.commands.AddNodeCommand;
+import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
+import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
+import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
+import org.tinyuml.umldraw.shared.UmlConnection;
+
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
+import RefOntoUML.Comment;
+import RefOntoUML.Constraintx;
+import RefOntoUML.Derivation;
+import RefOntoUML.EnumerationLiteral;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.LiteralInteger;
+import RefOntoUML.LiteralUnlimitedNatural;
+import RefOntoUML.MaterialAssociation;
+import RefOntoUML.NamedElement;
+import RefOntoUML.Property;
+import RefOntoUML.Relationship;
+import RefOntoUML.StringExpression;
+import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.parser.SyntacticVerificator;
+import RefOntoUML.util.RefOntoUMLElement;
+import RefOntoUML.util.RefOntoUMLElementCustom;
+import RefOntoUML.util.RefOntoUMLResourceUtil;
+import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 
 /**
  * Class responsible for managing and organizing the editors in tabs.
@@ -203,7 +204,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private static final long serialVersionUID = 5019191384767258996L;
 	public final AppFrame frame;
 	
-	private AppCommandDispatcher editorDispatcher;
+	private CommandListener listener;
 	private DiagramElementFactoryImpl elementFactory;
 	private DrawingContext drawingContext;
 	
@@ -232,7 +233,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		super();
 		this.frame = frame;		
-		editorDispatcher = new AppCommandDispatcher(this,frame);
+		listener = frame;
 		elementFactory = new DiagramElementFactoryImpl(); //doesn't have yet any diagram
 		drawingContext =  new DrawingContextImpl();
 		ModelHelper.initializeHelper();		
@@ -333,15 +334,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Sets the dispatcher responsible for routing events of the editor */
-	public void setEditorDispatcher(AppCommandDispatcher editorDispatcher) 
+	public void setCommandListener(CommandListener listener) 
 	{
-		this.editorDispatcher = editorDispatcher;
+		this.listener = listener;
 	}
 
 	/** Gets the dispatcher responsible for routing events of the editor */
-	public AppCommandDispatcher getEditorDispatcher() 
+	public CommandListener getCommandListener() 
 	{
-		return editorDispatcher;
+		return listener;
 	}
 
 	/** Gets the current DiagramEditor (the editor displayed in the focused tab). If there's no suitable editor, returns null. */
@@ -541,12 +542,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Adds a new tab. */
-	public static Component addClosable(JTabbedPane pane, String text, Component component)
+	public Component addClosable(JTabbedPane pane, String text, Component component)
 	{
 		if (component==null) component = new JPanel();
 		pane.addTab(text, component);		
 		if(component instanceof DiagramEditorWrapper){
-			ClosableTabPanel tab = new ClosableTabPanel(pane);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/tree/diagram.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -554,7 +555,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);
 		}
 		if(component instanceof ConstraintEditor){
-			ClosableTabPanel tab = new ClosableTabPanel(pane);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/text-editor.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -562,7 +563,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);
 		}
 		if(component instanceof TextEditor){
-			ClosableTabPanel tab = new ClosableTabPanel(pane,false);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/editor.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -570,7 +571,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);
 		}
 		if(component instanceof FoundPane){
-			ClosableTabPanel tab = new ClosableTabPanel(pane,false);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/find.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -578,7 +579,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);
 		}		
 		if(component instanceof ProblemPane){
-			ClosableTabPanel tab = new ClosableTabPanel(pane,false);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/cross_shield.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -586,7 +587,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);
 		}
 		if(component instanceof StatisticsPane){
-			ClosableTabPanel tab = new ClosableTabPanel(pane,false);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/diagnostic.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -594,7 +595,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);
 		}		
 		if(component instanceof WarningPane) {
-			ClosableTabPanel tab = new ClosableTabPanel(pane,false);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/exclamation_octagon_fram.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -602,7 +603,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			pane.setTabComponentAt(pane.indexOfComponent(component),tab);			
 		}
 		if(component instanceof ErrorPane) {
-			ClosableTabPanel tab = new ClosableTabPanel(pane,false);
+			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
 			Icon icon = new ImageIcon(pane.getClass().getClassLoader().getResource("resources/icons/x16/cross_octagon.png"));
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
@@ -827,7 +828,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
-	public void closeAll(){
+	public void closeAll(Component c){
 		closeAll(this);
 	}
 	
@@ -863,9 +864,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
         }
 	}
 	
-	public void closeTab(int i)
+	public void closeTab(Component c)
 	{
-		closeTab(i,this);
+		closeTab(indexOfComponent(c),this);
 	}
 	
 	public static void closeTab(int i, JTabbedPane pane)
@@ -1272,12 +1273,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		editor.showGrid(false);	
 		editor.addEditorStateListener(this);
 		editor.addSelectionListener(this);
-		editor.addAppCommandListener(editorDispatcher);
+		editor.addAppCommandListener(listener);
 		// Add all the diagram elements of 'diagram' to the ModelHelper mapping.
 		// Keeps trace of mappings between DiagramElement <-> Element.
 		ModelHelper.addMapping(editor.getDiagram());
 		//Add the diagram to the tabbed pane (this), through the wrapper
-		DiagramEditorWrapper wrapper = new DiagramEditorWrapper(editor, editorDispatcher);
+		DiagramEditorWrapper wrapper = new DiagramEditorWrapper(editor, listener);
 		editor.setWrapper(wrapper);
 		addClosable(this,diagram.getLabelText(), wrapper);		
 		return editor;
@@ -3080,7 +3081,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						DiagramEditor editor = getDiagramEditor(diagram);						
 						editor.addEditorStateListener(this);
 						editor.addSelectionListener(this);
-						editor.addAppCommandListener(editorDispatcher);						
+						editor.addAppCommandListener(listener);						
 						list.add(editor);
 					}	
 				}				
@@ -3425,7 +3426,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		//opening .menthorpattern
 		UmlProject patternProject = importPatternProjectFile();
 		if(patternProject != null){		
-			DomainPatternTool.initializeDomainPatternPalette(frame.getToolManager().getPalleteAccordion(), patternProject, editorDispatcher, frame);
+			DomainPatternTool.initializeDomainPatternPalette(frame.getToolManager().getPalleteAccordion(), patternProject, listener, frame);
 		}
 	}
 

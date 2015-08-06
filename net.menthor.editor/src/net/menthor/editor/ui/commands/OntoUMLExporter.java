@@ -1,6 +1,6 @@
 package net.menthor.editor.ui.commands;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *

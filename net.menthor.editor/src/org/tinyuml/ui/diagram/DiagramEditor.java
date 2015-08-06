@@ -56,6 +56,22 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.menus.PalettePopupMenu;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
@@ -97,22 +113,6 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.popupmenu.DiagramPopupMenu;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.menus.PalettePopupMenu;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -291,14 +291,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if(e.isPopupTrigger()){
-					openDiagramPopupMenu(e);
+					
 				}
 			}
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if(e.isPopupTrigger()){
-					openDiagramPopupMenu(e);
+					
 				}
 			}
 			
@@ -483,13 +483,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				}
 			}
 		}
-	}
-	
-	/** Open Diagram PopupMenu */
-	public void openDiagramPopupMenu(MouseEvent e)
-	{
-		DiagramPopupMenu popup = new DiagramPopupMenu(frame.getDiagramManager().getCurrentDiagramEditor());
-		popup.show(e.getComponent(),e.getX(),e.getY());
 	}
 	
 	/** Open ToolBox Menu. */

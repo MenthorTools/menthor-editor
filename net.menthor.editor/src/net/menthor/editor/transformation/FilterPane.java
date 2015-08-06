@@ -170,8 +170,8 @@ public class FilterPane extends JPanel {
 	
 	public void fillContent(OntoUMLParser refparser, List<UmlDiagram> diagrams)
 	{
-		diagramTree = DiagramTree.createTree(refparser, diagrams, new ElementTreeVisibility());
-		elemTree = ElementTree.createTree(refparser, new ElementTreeVisibility());
+		diagramTree = DiagramTree.createDiagramTree(refparser, diagrams, new ElementTreeVisibility(),true);
+		elemTree = ElementTree.createElementTree(refparser, null,new ElementTreeVisibility(),true);
 		ElementTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		
@@ -237,6 +237,10 @@ public class FilterPane extends JPanel {
 	
 	public List<EObject> getCheckedElements()
 	{
-		return getActiveTree().getCheckedElements();
+		List<EObject> result = new ArrayList<EObject>();
+		for(Object c: getActiveTree().getCheckedElements()){
+			if(c instanceof EObject)result.add((EObject)c);
+		}
+		return result;
 	}
 }

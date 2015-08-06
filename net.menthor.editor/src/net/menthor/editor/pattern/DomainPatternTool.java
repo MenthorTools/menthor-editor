@@ -6,8 +6,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.Main;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.PngWriter;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.UmlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.palette.PaletteAccordion;
+import net.menthor.editor.v2.palette.PaletteGrouping;
+import net.menthor.editor.v2.palette.PaletteItem;
+import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
+import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
+
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.commands.AppCommandDispatcher;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -18,20 +33,6 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.assistant.util.UtilAssistant;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.Main;
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.ui.PngWriter;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.UmlDiagram;
-import net.menthor.editor.v2.palette.PaletteAccordion;
-import net.menthor.editor.v2.palette.PaletteGrouping;
-import net.menthor.editor.v2.palette.PaletteItem;
-import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
-import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
 
 public class DomainPatternTool {
 
@@ -40,7 +41,7 @@ public class DomainPatternTool {
 	private static AppFrame frame;
 	private static OntoUMLParser parser;
 	
-	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, AppCommandDispatcher editorDispatcher, AppFrame appFrame) {
+	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, CommandListener editorDispatcher, AppFrame appFrame) {
 		
 		List<String> names = new ArrayList<String>();
 		for(UmlDiagram umlDiagram: patternProject.getDiagrams()){

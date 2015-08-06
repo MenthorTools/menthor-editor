@@ -37,11 +37,10 @@ import javax.swing.tree.TreePath;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.util.RefOntoUMLElement;
-
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-
+import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.UmlDiagram;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -53,12 +52,14 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 	public JCheckBox checkbox = new JCheckBox();
 	public JPanel panel = new JPanel();
 	public JLabel label = new JLabel();    	
+	public boolean checkBoxVisible=true;
 	
 	@Override
 	public boolean isOnHotspot(int x, int y) { return (checkbox.getBounds().contains(x, y)); }
 	
-	public TreeCellRenderer(){
+	public TreeCellRenderer(boolean checkBoxVisible){
 		super();    		
+		this.checkBoxVisible=checkBoxVisible;
 		label.setFocusable(true);
 		label.setOpaque(true);		
 		panel.setLayout(new BorderLayout(0, 0));
@@ -70,12 +71,9 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
    
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
-	{    	
+	{
 		Object obj = ((DefaultMutableTreeNode)value).getUserObject();
-		/**diagram*/
-		if(obj instanceof UmlDiagram) {
-			label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM));		
-		}		
+			
 		/**model element*/
 		if(obj instanceof RefOntoUMLElement){			
 			EObject element = ((RefOntoUMLElement)obj).getElement();
@@ -91,7 +89,9 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 			else if(element instanceof RefOntoUML.GeneralizationSet) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_GEN_SET));
 			else if(element instanceof RefOntoUML.Package) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_RED_BOX));
 			else if(element instanceof RefOntoUML.Comment) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_COMMENT));
-			else if(element instanceof RefOntoUML.Constraintx) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_NOTE));
+			else if(element instanceof RefOntoUML.Constraintx) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_NOTE));			
+			else if(obj instanceof UmlDiagram) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM));		
+			else if(obj instanceof OclDocument) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL));
 			else label.setIcon(null);
 		}			
 		
@@ -101,7 +101,7 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 	   	boolean enabled = checkingModel.isPathEnabled(path);
 	   	boolean checked = checkingModel.isPathChecked(path);
 	   	boolean grayed = checkingModel.isPathGreyed(path);	   	
-	   	checkbox.setVisible(true);
+	   	checkbox.setVisible(checkBoxVisible);
 	   	checkbox.setEnabled(enabled);	   		   	
 	   	if (grayed){
 	   		label.setForeground(Color.BLACK);	   		

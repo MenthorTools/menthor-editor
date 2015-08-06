@@ -45,6 +45,11 @@ public class RefOntoUMLElement implements Serializable{
 	protected String type;
 	protected String uniqueName="";	
 	
+	@Override
+	public boolean equals(Object obj) {
+		return this.element.equals(obj);
+	};
+	
 	/** 
 	 * Create a CheckBox Tree Node Element from Element.
 	 * 
@@ -62,6 +67,7 @@ public class RefOntoUMLElement implements Serializable{
 				name = ne.getName();
 		}
 		if (refElement!=null){
+			
 			type = OntoUMLNameHelper.getTypeName(refElement);
 		}
 		if(refElement==null){

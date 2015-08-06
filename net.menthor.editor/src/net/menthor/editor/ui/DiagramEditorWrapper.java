@@ -38,18 +38,17 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JViewport;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.Editor;
 
 import net.menthor.editor.explorer.dnd.DiagramDropListener;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
 import net.menthor.editor.v2.bars.DiagramToolBar;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.status.StatusPane;
+
+import org.tinyuml.draw.Diagram;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.Editor;
 
 /** 
  * Wrapper class for {@link DiagramEditor} responsible for providing toolbar and handling the model file.
@@ -73,13 +72,13 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 	public DiagramToolBar getToolBar() { return diagramToolbar; }
 	public StatusPane getStatusBar() { return diagramStatus; }
 	
-	public DiagramEditorWrapper(final DiagramEditor editor, AppCommandDispatcher editorDispatcher)
+	public DiagramEditorWrapper(final DiagramEditor editor, CommandListener editorDispatcher)
 	{
 		super(new BorderLayout(0,0));
 		this.editor = editor;		
 	
-		diagramToolbar = new DiagramToolBar(editor.getListener(),SwingConstants.VERTICAL);		
-		diagramToolbar.addCommandListener(editor.getDiagramManager().getEditorDispatcher());
+		diagramToolbar = new DiagramToolBar(editor.getListener());		
+		diagramToolbar.addCommandListener(editorDispatcher);
 		diagramStatus = new StatusPane();
 		
 		scrollpane = new JScrollPane();
@@ -92,7 +91,7 @@ public class DiagramEditorWrapper extends JPanel implements Editor{
 		scrollpane.setViewportView(editor);
 		scrollpane.setBorder(new EmptyBorder(0,0,0,0));
 		
-		add(diagramToolbar,BorderLayout.WEST);
+		add(diagramToolbar,BorderLayout.NORTH);
 		add(scrollpane,BorderLayout.CENTER);
 		add(diagramStatus,BorderLayout.SOUTH);
 		

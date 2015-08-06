@@ -40,8 +40,9 @@ public enum CommandType {
 	//====================================================
 	REDO("Redo action"),	
 	UNDO("Undo action"),
-	EDIT_PROPERTIES_SELECTED("Edit properties of selected element(s)"),
-	DELETE_SELECTED("Delete selected element(s)"),
+	EDIT("Edit selected element(s)"),
+	DELETE("Delete selected element(s)"),
+	ERASE("Erase selected element(s)"),
 	
 	//====================================================
 	// DIAGRAM
@@ -70,7 +71,11 @@ public enum CommandType {
 	CHANGE_FROM_DIRECT_TO_RECT("Change line style from Direct to Rectilinear"),
 	APPLY_VERTICAL_STYLE("Apply vertical style on line"),
 	APPLY_HORIZONTAL_STYLE("Apply horizontal style on line"),	
-	
+	DELETE_GEN_SET_DIAGRAM(null),
+	ADD_GEN_SET_DIAGRAM(null),
+	APPLY_DIRECT_STYLE(null), 
+	APPLY_RECTILINEAR_STYLE(null), 
+	 
 	//====================================================
 	// EXPORT
 	//====================================================
@@ -162,7 +167,8 @@ public enum CommandType {
 	//====================================================
 	// TOOLBOX DRAG AND DROP: RELATIONSHIP
 	//====================================================
-	TB_DND_GENERALIZATION(null), 
+	TB_DND_GENERALIZATION(null),
+	TB_DND_GENERALIZATIONSET(null), 
 	TB_DND_MEDIATION(null), 
 	TB_DND_CHARACTERIZATION(null), 
 	TB_DND_DERIVATION(null), 
@@ -302,10 +308,7 @@ public enum CommandType {
 	CHANGE_TO_ROLEMIXIN(null),
 	CHANGE_TO_PERCEIVABLE_QUALITY(null),
 	CHANGE_TO_NONPERCEIVABLE_QUALITY(null),
-	CHANGE_TO_NOMINAL_QUALITY(null),
-	
-	CREATE_DND_GENERALIZATIONSET(null),	
-	DELETE_DND_GENERALIZATIONSET(null);
+	CHANGE_TO_NOMINAL_QUALITY(null);
 	
 	private String description;
 

@@ -37,6 +37,7 @@ import org.tinyuml.ui.diagram.Editor;
 
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
@@ -207,7 +208,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnNewProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
             	//Action
-            	commandListener.handleCommand("NEW_PROJECT",null);            	
+            	commandListener.handleCommand(CommandType.NEW_PROJECT.toString(),null);            	
             	//Back to normal
             	btnNewProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
@@ -222,7 +223,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
-		       	commandListener.handleCommand("OPEN_PROJECT",null);            	
+		       	commandListener.handleCommand(CommandType.OPEN_PROJECT.toString(),null);            	
 		       	//Back to normal
 		       	btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}
@@ -237,7 +238,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnImportFromEA.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
-		       	commandListener.handleCommand("IMPORT_XMI",null);            	
+		       	commandListener.handleCommand(CommandType.IMPORT_FROM_XMI_EA.toString(),null);            	
 		       	//Back to normal
 		       	btnImportFromEA.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}

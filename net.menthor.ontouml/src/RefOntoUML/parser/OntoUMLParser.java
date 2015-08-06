@@ -67,7 +67,6 @@ import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
-import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 
 /** 

@@ -1,5 +1,7 @@
 package RefOntoUML.parser;
 
+import java.text.Normalizer;
+
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
@@ -15,6 +17,7 @@ import RefOntoUML.DecimalIntervalDimension;
 import RefOntoUML.DecimalOrdinalDimension;
 import RefOntoUML.DecimalRationalDimension;
 import RefOntoUML.Derivation;
+import RefOntoUML.Element;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.FormalAssociation;
@@ -111,7 +114,16 @@ public class OntoUMLNameHelper {
 		if(elem instanceof Comment) return "Comment";	
 		if(elem instanceof Constraintx) return "Constraint";		
 		if(elem instanceof EnumerationLiteral) return "EnumLiteral";		
+		if(elem instanceof Element) return elem.getClass().getName();//getStereotype((Element)elem);
 		return "UnknownType";
+	}
+	
+	public static String getStereotype(RefOntoUML.Element element){
+		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
+	    type = type.replaceAll("Impl","");
+	    type = Normalizer.normalize(type, Normalizer.Form.NFD);	    
+	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");	    
+	    return type;
 	}
 	
 	/** 

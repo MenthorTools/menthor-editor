@@ -32,7 +32,6 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.popupmenu.DiagramPopupMenu;
 import net.menthor.editor.popupmenu.MultiSelectionPopupMenu;
 import net.menthor.editor.popupmenu.SingleConnectionPopupMenu;
 import net.menthor.editor.popupmenu.SingleNodePopupMenu;
@@ -49,8 +48,6 @@ public class ContextMenusBuilder {
 	private SingleNodePopupMenu singleNodePopup;	
 	private SingleConnectionPopupMenu singleConnectionPopup;	
 	private MultiSelectionPopupMenu multiSelectinoPopup;
-	@SuppressWarnings("unused")
-	private DiagramPopupMenu diagramPopup;
 	
 	public ContextMenusBuilder(DiagramEditor editor)
 	{
@@ -58,7 +55,6 @@ public class ContextMenusBuilder {
 		singleNodePopup = new SingleNodePopupMenu(editor);
 		singleConnectionPopup = new SingleConnectionPopupMenu(editor);		
 		multiSelectinoPopup = new MultiSelectionPopupMenu();
-		diagramPopup = new DiagramPopupMenu(editor);
 	}
 	
 	/**
