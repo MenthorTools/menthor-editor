@@ -171,7 +171,7 @@ public class FilterPane extends JPanel {
 	public void fillContent(OntoUMLParser refparser, List<OntoumlDiagram> diagrams)
 	{
 		diagramTree = DiagramStrictTree.createDiagramTree(refparser, diagrams, new TreeVisibility(),true);
-		elemTree = ProjectTree.create(refparser, null,null, new TreeVisibility(),true);
+		elemTree = ProjectTree.create(null, refparser, null,null, new TreeVisibility(),true);
 		ProjectTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		

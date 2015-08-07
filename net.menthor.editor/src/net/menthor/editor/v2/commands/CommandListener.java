@@ -26,5 +26,6 @@ public interface CommandListener {
 	
   /** Handles the specified action command string. */
   void handleCommand(String command, Object parameter);
+  void handleCommand(String command);
   
  }

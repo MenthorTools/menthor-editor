@@ -40,11 +40,10 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
-
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.types.EditorType;
 
 /**
  * @author John Guerson
@@ -201,13 +200,8 @@ public class StatisticsPane extends JPanel implements Editor {
 	}
 
 	@Override
-	public EditorNature getEditorNature() {
-		return EditorNature.STATISTICS;
-	}
-
-	@Override
-	public Diagram getDiagram() {
-		return null;
+	public EditorType getEditorType() {
+		return EditorType.STATISTICS_EDITOR;
 	}
 
 	@Override
@@ -215,8 +209,4 @@ public class StatisticsPane extends JPanel implements Editor {
 		
 	}
 
-	@Override
-	public UmlProject getProject() {
-		return null;
-	}
 }

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.types;
+package net.menthor.editor.v2.editors;
 
 /*
  * ============================================================================================
@@ -21,8 +21,14 @@ package net.menthor.editor.v2.types;
  * ============================================================================================
  */
 
-public enum EditorType {
-	
-	WELCOME_EDITOR, ONTOUML_DIAGRAM, TEXT_EDITOR, OCL_EDITOR, 
-	FINDER_EDITOR, PROBLEMS_EDITOR, STATISTICS_EDITOR;	
+import javax.swing.JComponent;
+
+import net.menthor.editor.v2.types.EditorType;
+
+public abstract class BaseEditor extends JComponent implements Editor {
+
+	private static final long serialVersionUID = -5942413080525420849L;
+			
+	public boolean isSaveNeeded(){ return false; }
+	public abstract EditorType getEditorType();
 }

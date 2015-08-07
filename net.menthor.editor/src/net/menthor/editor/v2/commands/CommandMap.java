@@ -1,7 +1,18 @@
 package net.menthor.editor.v2.commands;
 
 import java.awt.Component;
+import java.util.Map;
 
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.v2.trees.BaseCheckBoxTree;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+
+import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.ui.diagram.DiagramEditor;
 /*
 * ============================================================================================
 * Menthor Editor -- Copyright (c) 2015 
@@ -22,19 +33,7 @@ import java.awt.Component;
 * MA  02110-1301  USA
 * ============================================================================================
 */
-
 import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.ui.diagram.DiagramEditor;
-
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
 
 public class CommandMap {
 	
@@ -50,6 +49,10 @@ public class CommandMap {
 	
 	public void addParameter(CommandType cmdType, Object parameter){
 		if(getMap().get(cmdType)!=null) getMap().get(cmdType).addParameter(parameter);
+	}
+	
+	public void setParameter(CommandType cmdType, Object parameter){
+		if(getMap().get(cmdType)!=null) getMap().get(cmdType).setParameter(parameter);
 	}
 	
 	/** constructor */
@@ -68,16 +71,24 @@ public class CommandMap {
 			validate();
 			window();
 			help();
-			
-			palette(); //palette drag and drop
+						
+			dnd(); //palette drag and drop
 			additions(); //add elements			
 			changes(); //change elements
+			tree(); 
 			
 		} catch (NoSuchMethodException e) {		
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void tree() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.MOVE_UP_TREE,
+				new MethodCall(BaseCheckBoxTree.class.getMethod("moveUp")));
+		cmdMap.put(CommandType.MOVE_DOWN_TREE,
+				new MethodCall(BaseCheckBoxTree.class.getMethod("moveDown")));
 	}
 
 	private void file() throws NoSuchMethodException, SecurityException{
@@ -176,8 +187,6 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("executeAlignLeft")));
 		cmdMap.put(CommandType.ALIGN_RIGHT,
 				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight")));
-		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));				
 		cmdMap.put(CommandType.ADD_GEN_SET_DIAGRAM, 
 			new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet")));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
@@ -204,7 +213,8 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("pasteColor", Object.class)));
 		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
 				new MethodCall(DiagramEditor.class.getMethod("showAttributes", Object.class)));
-		
+		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));		
 	}
 	
 	private void project() throws NoSuchMethodException, SecurityException{
@@ -221,6 +231,8 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL_TABS,
 				new MethodCall(DiagramManager.class.getMethod("closeAll", Component.class)));
+		cmdMap.put(CommandType.SELECT_TAB,
+				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
 	}
 	
 	private void window() throws NoSuchMethodException, SecurityException{
@@ -264,7 +276,7 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
 	}
 	
-	private void palette() throws NoSuchMethodException, SecurityException{
+	private void dnd() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.TB_DND_POINTER_MODE, 
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));		
 		cmdMap.put(CommandType.TB_DND_KIND, 

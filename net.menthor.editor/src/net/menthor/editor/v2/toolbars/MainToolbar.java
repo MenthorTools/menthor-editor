@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.menus;
+package net.menthor.editor.v2.toolbars;
 
 /*
  * ============================================================================================
@@ -21,17 +21,30 @@ package net.menthor.editor.v2.menus;
  * ============================================================================================
  */
 
+import java.awt.Color;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.icon.IconType;
 
-public class TabPopupMenu extends BasePopupMenu {
+public class MainToolbar extends BaseToolBar {
 
-	private static final long serialVersionUID = 8404322926387805476L;
-
-	public TabPopupMenu(CommandListener listener) {
-		super(listener);
-		createMenuItem("Close This Tab", null, CommandType.CLOSE_THIS_TAB);
-		createMenuItem("Close All Other Tabs", null, CommandType.CLOSE_OTHER_TABS);
-		createMenuItem("Close All Tabs", null, CommandType.CLOSE_ALL_TABS);
-	}
+	private static final long serialVersionUID = 8870790907921523710L;
+	
+	private static Color background = null; //Color.WHITE;
+	
+	/** constructor */
+	public MainToolbar(CommandListener listener){
+		super(listener, background, 32, 32);
+		setBackground(background);
+		createButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background);
+		createButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_PROJECT, background);	
+		createButton(IconType.MENTHOR_SAVE, CommandType.SAVE_PROJECT, background);
+		createButton(IconType.MENTHOR_SEARCH,CommandType.FIND_TERM, background);		
+		createButton(IconType.MENTHOR_CHECK,CommandType.CHECK_MODEL_SYNTAX, background);
+		createButton(IconType.MENTHOR_STATS,CommandType.COLLECT_STATISTICS, background);
+		createButton(IconType.MENTHOR_PLAY, CommandType.SIMULATE_AND_CHECK, background);
+		createButton(IconType.MENTHOR_SEMANTIC_WEB, CommandType.IMPLEMENT_IN_OWL, background);				
+		enableAll(false);
+	}	
 }

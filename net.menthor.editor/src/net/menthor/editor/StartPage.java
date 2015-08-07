@@ -32,16 +32,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
-
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.BackgroundPanel;
 import net.menthor.editor.v2.util.Settings;
 
@@ -458,24 +456,11 @@ public class StartPage extends BackgroundPanel implements Editor {
 	
 	@Override
 	public void dispose() { }
+	
+	@Override
+	public boolean isSaveNeeded() { return false; }
 
 	@Override
-	public boolean isSaveNeeded() {
-		return false;
-	}
-
-	@Override
-	public EditorNature getEditorNature() {
-		return null;
-	}
-
-	@Override
-	public UmlProject getProject() {
-		return null;
-	}
-
-	@Override
-	public Diagram getDiagram() {	
-		return null;
-	}	
+	public EditorType getEditorType() { return EditorType.WELCOME_EDITOR; } 
+	
 }

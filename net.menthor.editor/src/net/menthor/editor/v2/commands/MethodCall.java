@@ -44,13 +44,17 @@ public class MethodCall {
   public void printParameters() {
 	System.out.println(method);
     for (int i = 0; i < methodParameters.length; i++) {
-      System.out.println(methodParameters[i]);
+      System.out.println("Parameter#"+i+": "+methodParameters[i]);
     }
   }
   public Method getMethod() { return method; }
 	
-  public void addParameter(Object parameter)
-  {
+  public void setParameter(Object parameter){  
+	  methodParameters = new Object[1];
+	  methodParameters[0] = parameter;
+  }
+  
+  public void addParameter(Object parameter){  
 	  int size = methodParameters.length;
 	  Object[] newParameters = new Object[size+1];
 	  for (int i = 0; i < methodParameters.length; i++) {

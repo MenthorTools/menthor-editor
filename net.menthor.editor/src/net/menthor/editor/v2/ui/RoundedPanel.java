@@ -53,11 +53,15 @@ public class RoundedPanel extends JPanel {
     /** The transparency value of shadow. ( 0 - 255) */
     protected int shadowAlpha = 150;
     
+    Graphics2D graphics;
+    
 	/** {@inheritDoc} */
 	@Override
 	public boolean isOpaque() {
 		return false;
 	}
+	
+	//public void setBorderColor(Color color) {  if(graphics!=null) graphics.setColor(color); repaint();}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -66,7 +70,7 @@ public class RoundedPanel extends JPanel {
         int height = getHeight();
         int shadowGap = this.shadowGap;
         Color shadowColorA = new Color(shadowColor.getRed(), shadowColor.getGreen(), shadowColor.getBlue(), shadowAlpha);
-        Graphics2D graphics = (Graphics2D) g;
+        graphics = (Graphics2D) g;
         //Sets antialiasing if HQ.
         if (highQuality) {
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 

@@ -25,21 +25,25 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-public class ConsolePane extends JPanel
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+
+public class ConsolePane extends RoundedPanel
 {
 	private static final long serialVersionUID = -7066838889714939605L;
 	
 	private JTextPane output = new JTextPane();
-		
+	private Color background = ColorMap.getInstance().getColor(ColorType.MENTHOR_GREY_LIGHT);
+	
 	public ConsolePane(){
 		super();		
 		output.setEditable(false);
 		output.setBorder(null);
-		output.setBackground(Color.WHITE);		
+		output.setBackground(background);		
+		setBackground(background);
 		output.setMinimumSize(new Dimension(0, 0));		
 		BorderLayout layout = new BorderLayout(0,0);
 		this.setLayout(layout);			
@@ -48,7 +52,7 @@ public class ConsolePane extends JPanel
 		scrollpane.getHorizontalScrollBar().setUnitIncrement(10);
 		scrollpane.setBorder(null);		
 		this.add(scrollpane, BorderLayout.CENTER);
-		this.setMinimumSize(new Dimension(0, 0));
+		this.setMinimumSize(new Dimension(0, 0));		
 	}
 	
 	public void append(String text){ output.setText(output.getText() + text); }	

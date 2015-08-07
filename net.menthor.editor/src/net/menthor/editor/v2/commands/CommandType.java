@@ -124,6 +124,12 @@ public enum CommandType {
 	COLLECT_STATISTICS("Collect statistics of current project"),
 	
 	//====================================================
+	// TREE
+	//====================================================
+	MOVE_DOWN_TREE(null),
+	MOVE_UP_TREE(null),
+	
+	//====================================================
 	// VERIFICATE
 	//====================================================
 	CHECK_MODEL_SYNTAX("Check syntax of the entire model"), 
@@ -140,9 +146,13 @@ public enum CommandType {
 	SEARCH_FOR_ANTIPATTERNS("Search for semantic anti-patterns in current project"),
 	VALIDATE_PARTHOOD_TRANSITIVITY("Validate the transitivity of parthood relationships"),
 	
+	//====================================================
+	// TABS
+	//====================================================
 	CLOSE_THIS_TAB("Close this tab"),
 	CLOSE_OTHER_TABS("Close all other tabs except this one"),
 	CLOSE_ALL_TABS("Close all tabs"),
+	SELECT_TAB("Select tab"),
 	
 	//====================================================
 	// TOOLBOX DRAG AND DROP: CLASS

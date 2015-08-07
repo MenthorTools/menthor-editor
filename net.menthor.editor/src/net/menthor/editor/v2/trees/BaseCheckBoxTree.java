@@ -99,7 +99,45 @@ public class BaseCheckBoxTree extends CheckboxTree {
 		if (shouldBeVisible) scrollPathToVisible(new TreePath(childNode.getPath()));		
 		return childNode;
     }
-    
+      	
+  	public void moveUp(){	
+  		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) getLastSelectedPathComponent();
+  		if (selectedNode == null) return;
+		DefaultMutableTreeNode parent = (DefaultMutableTreeNode) selectedNode.getParent();
+  		 // Check if this is the top node in its group
+        if( selectedNode.getPreviousSibling() != null ){
+            // Move the node up one
+            DefaultTreeModel treeModel = (DefaultTreeModel)getModel();
+            int newIndex = treeModel.getIndexOfChild(parent,selectedNode) - 1;
+            treeModel.removeNodeFromParent(selectedNode);
+            treeModel.insertNodeInto(selectedNode,parent,newIndex);
+            // Select the node, make sure it's visible, and repaint the tree
+            TreePath newPath = new TreePath(selectedNode.getPath());
+            scrollPathToVisible(newPath);
+            setSelectionPath(newPath);
+            repaint();
+        }
+  	}
+  	
+  	public void moveDown(){	
+  		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) getLastSelectedPathComponent();
+  		if (selectedNode == null) return;
+		DefaultMutableTreeNode parent = (DefaultMutableTreeNode) selectedNode.getParent();
+  		 // Check if this is the bottom node in its group
+        if( selectedNode.getNextSibling() != null ){
+            // Move the node down one
+            DefaultTreeModel treeModel = (DefaultTreeModel)getModel();
+            int newIndex = treeModel.getIndexOfChild(parent,selectedNode) + 1;
+            treeModel.removeNodeFromParent(selectedNode);
+            treeModel.insertNodeInto(selectedNode,parent,newIndex);
+            // Select the node, make sure it's visible, and repaint the tree
+            TreePath newPath = new TreePath(selectedNode.getPath());
+            scrollPathToVisible(newPath);
+            setSelectionPath(newPath);
+            repaint();
+        }
+  	}
+  	
     /** Get the root node from the tree */
     public DefaultMutableTreeNode getRootNode(){
 		return modelRootNode;
@@ -293,6 +331,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
             MutableTreeNode parent = (MutableTreeNode)(currentNode.getParent());
             if (parent != null){
                 treeModel.removeNodeFromParent(currentNode);
+                treeModel.nodeChanged(parent);
                 return;
             }
         }

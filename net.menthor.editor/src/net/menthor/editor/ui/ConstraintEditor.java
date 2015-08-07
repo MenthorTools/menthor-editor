@@ -33,10 +33,9 @@ import javax.swing.event.DocumentListener;
 
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.types.EditorType;
 import net.menthor.tocl.editor.TOCLEditorPanel;
-
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
 
 public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 
@@ -107,17 +106,7 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 	}
 
 	@Override
-	public EditorNature getEditorNature() {
-		return EditorNature.OCL;
-	}
-
-	@Override
-	public Diagram getDiagram() {
-		return null;
-	}
-
-	@Override
-	public UmlProject getProject() {
-		return null;
+	public EditorType getEditorType() {
+		return EditorType.OCL_EDITOR;
 	}
 }

@@ -44,11 +44,11 @@ import net.menthor.editor.v2.icon.IconType;
 public class BaseMenu extends JMenu implements ActionListener{
 
 	private static final long serialVersionUID = -1451727867476622857L;
-
-	protected Object context;
 	
 	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
 	public void addCommandListener(CommandListener l) { listeners.add(l); }
+	
+	protected Object context;
 	
 	public HashMap<CommandType,JMenuItem> menuItemsMap = new HashMap<CommandType,JMenuItem>();
 	public void enableItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
@@ -69,7 +69,8 @@ public class BaseMenu extends JMenu implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {		
 		for (CommandListener l : listeners) {
-			l.handleCommand(e.getActionCommand(), context);
+			if(context!=null) l.handleCommand(e.getActionCommand(), context);
+			else l.handleCommand(e.getActionCommand());
 		}		
 	}
 

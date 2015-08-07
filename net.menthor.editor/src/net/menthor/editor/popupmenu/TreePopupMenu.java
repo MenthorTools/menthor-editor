@@ -45,7 +45,7 @@ import RefOntoUML.util.RefOntoUMLElement;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.menus.AddClassMenu;
 import net.menthor.editor.v2.menus.AddDataTypeMenu;
@@ -206,9 +206,9 @@ public class TreePopupMenu extends JPopupMenu {
 	        		frame.getDiagramManager().addConstraintx("",eContainer);
 	        	}
 	        });
-		addGenItem.setIcon(new ImageIcon(DiagramEditorWrapper.class.getResource("/resources/icons/x16/tree/generalization.png")));
-		addCommentItem.setIcon(new ImageIcon(DiagramEditorWrapper.class.getResource("/resources/icons/x16/tree/comment.png")));
-		addConstraintItem.setIcon(new ImageIcon(DiagramEditorWrapper.class.getResource("/resources/icons/x16/tree/constraintx.png")));
+		addGenItem.setIcon(new ImageIcon(DiagramWrapper.class.getResource("/resources/icons/x16/tree/generalization.png")));
+		addCommentItem.setIcon(new ImageIcon(DiagramWrapper.class.getResource("/resources/icons/x16/tree/comment.png")));
+		addConstraintItem.setIcon(new ImageIcon(DiagramWrapper.class.getResource("/resources/icons/x16/tree/constraintx.png")));
 	}
 	
 	public void createInvertItem()

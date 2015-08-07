@@ -41,16 +41,12 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
@@ -63,12 +59,17 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.toolbars.ProjectToolBar;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.trees.TreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+
+import org.tinyuml.umldraw.StructureDiagram;
+
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -80,9 +81,9 @@ public class ProjectBrowser extends RoundedPanel{
 	
 	private static final long serialVersionUID = 5598591779372431118L;	
 	public static AppFrame frame;
-	private ProjectToolBar ptoolbar;
 	private JScrollPane scroll;
 	private ProjectTree tree;
+	private ProjectToolBar toolbar;
 	//======
 		
 			
@@ -91,10 +92,10 @@ public class ProjectBrowser extends RoundedPanel{
 		return (List<OntoumlDiagram>) Models.getProject().getDiagrams();
 	}
 	
-	public void addTreeSelectionListener(TreeSelectionListener selectionListener) {
-		tree.addTreeSelectionListener(selectionListener);
-	}	
-	
+//	public void addTreeSelectionListener(TreeSelectionListener selectionListener) {
+//		tree.addTreeSelectionListener(selectionListener);
+//	}	
+//	
 	public ProjectBrowser(AppFrame appframe, UmlProject project, OclDocument oclDoc)
 	{
 		super();		
@@ -102,7 +103,7 @@ public class ProjectBrowser extends RoundedPanel{
 		frame = appframe;		
 		scroll = new JScrollPane();		
 		scroll.setBorder(null);
-		if (project!=null) setProject(project);
+		if (project!=null) setProject(project);		
 		add(scroll, BorderLayout.CENTER);			
 		RoundedPanel emptyTempPanel = new RoundedPanel();
 		emptyTempPanel.setBackground(Color.WHITE);
@@ -110,7 +111,7 @@ public class ProjectBrowser extends RoundedPanel{
 		scroll.setViewportView(emptyTempPanel);		
 		emptyTempPanel.setPreferredSize(new Dimension(200,250));
 		scroll.setPreferredSize(new Dimension(200,250));
-		setPreferredSize(new Dimension(216, 317));
+		setPreferredSize(new Dimension(216, 317));		
 	}
 	
 	public void refreshTree()
@@ -204,15 +205,16 @@ public class ProjectBrowser extends RoundedPanel{
 		Models.setRefparser(new OntoUMLParser(project.getModel()));				
 		System.out.println("Creating project browser tree");		
 		
+		toolbar = new ProjectToolBar(frame);
 		
-		tree = ProjectTree.create(
+		tree = ProjectTree.create(frame,
 			Models.getRefparser(), 
 			Models.getOclDocList(), 
 			Models.getProject().getDiagrams(),
 			new TreeVisibility(), 
 			false
 		);		
-		tree.addTreeSelectionListener(new ProjectTreeSelectionListener());
+		//tree.addTreeSelectionListener(new ProjectTreeSelectionListener());
 		
 		/** Right Click Mouse Listener */
 		tree.addMouseListener(new MouseAdapter()
@@ -247,45 +249,27 @@ public class ProjectBrowser extends RoundedPanel{
 		System.out.println("Creating modeling assistant");
 		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getSmallIcon(IconType.MENTHOR_TREE));
 		title.setBackground(Color.LIGHT_GRAY);
-		add(title, BorderLayout.NORTH);		
+		RoundedPanel panel = new RoundedPanel();
+		panel.add(title, BorderLayout.NORTH);
+		panel.add(toolbar, BorderLayout.CENTER);
+		add(panel, BorderLayout.NORTH);
 		scroll.setViewportView(tree);		
 		treeMap.put(project, this);		
 		updateUI();
 	}
 
-	public void setTree(ProjectTree tree)
-	{
-		remove(scroll);		
-		this.tree = tree;
-		this.tree.setBorder(new EmptyBorder(2,2,2,2));		
-		this.addTreeSelectionListener(new ProjectTreeSelectionListener());	
-		scroll = new JScrollPane();
-		scroll.setViewportView(tree);
-		add(scroll, BorderLayout.CENTER);				
-		scroll.validate();
-		scroll.repaint();
-		this.validate();
-		this.repaint();
-	}
+//	public void setTree(ProjectTree tree)
+//	{
+//		remove(scroll);		
+//		this.tree = tree;
+//		this.tree.setBorder(new EmptyBorder(2,2,2,2));			
+//		scroll = new JScrollPane();
+//		scroll.setViewportView(tree);
+//		add(scroll, BorderLayout.CENTER);				
+//		scroll.validate();
+//		scroll.repaint();
+//		this.validate();
+//		this.repaint();
+//	}
 	
-	class ProjectTreeSelectionListener implements TreeSelectionListener 
-	{
-		@Override
-		public void valueChanged(TreeSelectionEvent e) 
-		{
-			tree.requestFocus();
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
-			if(node!=null)
-			{				
-				if (node.getUserObject()!=null && node.getParent() != null && (node.getUserObject() instanceof StructureDiagram) && !(((DefaultMutableTreeNode)node.getParent()).getUserObject() instanceof UmlProject))
-				{
-					frame.getDiagramManager().select((StructureDiagram)node.getUserObject());
-				}
-				else if(node.getUserObject()!=null && node.getParent() != null && (node.getUserObject() instanceof OclDocument) && (((DefaultMutableTreeNode)node.getParent()).getUserObject() instanceof OclDocument))
-				{					
-					frame.getDiagramManager().select((OclDocument)node.getUserObject());
-				}
-			}
-		}		
-	}
 }

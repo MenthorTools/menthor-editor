@@ -41,7 +41,6 @@ import java.awt.event.MouseListener;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,6 +53,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.menus.TabPopupMenu;
@@ -62,7 +62,6 @@ import net.menthor.editor.v2.types.ColorType;
 
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.Editor;
 
 
 /**
@@ -86,7 +85,7 @@ public class ClosableTabPanel extends JPanel {
 		int i = pane.indexOfTabComponent(ClosableTabPanel.this);
 		if (i != -1) {
 			Component obj = (pane.getComponentAt(i));			
-			if(obj instanceof DiagramEditorWrapper)
+			if(obj instanceof DiagramWrapper)
 			{
 				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM);
 				label.setIcon(icon);
@@ -265,8 +264,8 @@ public class ClosableTabPanel extends JPanel {
 			if(tabbedpane instanceof DiagramManager){
 				Editor editor = ((DiagramManager)tabbedpane).getCurrentEditor();
 				if(editor!=null){
-					if(editor instanceof DiagramEditorWrapper){
-						if(((DiagramEditorWrapper) editor).getDiagramEditor().isSaveNeeded()) 
+					if(editor instanceof DiagramWrapper){
+						if(((DiagramWrapper) editor).getDiagramEditor().isSaveNeeded()) 
 						{				
 							int option = JOptionPane.showConfirmDialog(((DiagramManager)tabbedpane).getFrame(), "Your diagram has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
 							if (option== JOptionPane.YES_OPTION) {((DiagramManager)tabbedpane).saveProject(); }

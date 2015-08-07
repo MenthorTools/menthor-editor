@@ -25,8 +25,15 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -40,9 +47,6 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
-
 public class ProjectTree extends BaseCheckBoxTree {
 
 	private static final long serialVersionUID = 1L;
@@ -52,54 +56,74 @@ public class ProjectTree extends BaseCheckBoxTree {
 	protected OntoUMLParser refparser;
 	public OntoUMLParser getParser(){ return refparser;}
 		
-	public static ProjectTree create(OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox)
+	//==========================================================
+    // STATIC CONSTRUCTORS
+	//==========================================================
+	
+	public static ProjectTree create(CommandListener listener, OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox)
 	{
-		if(refparser!=null) return new ProjectTree(new DefaultMutableTreeNode(refparser.getModel()), refparser, oclDocList, diagrams, opt, useCheckbox);
+		if(refparser!=null) return new ProjectTree(listener, new DefaultMutableTreeNode(refparser.getModel()), refparser, oclDocList, diagrams, opt, useCheckbox);
 		else return null;		
 	}
 	
-	public static ProjectTree createPackageableTree(OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams)
+	public static ProjectTree createPackageableTree(CommandListener listener,OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams)
 	{	
 		TreeVisibility opt = new TreeVisibility();
 		opt.showOnlyPackageable();
-		ProjectTree tree = create(refparser, oclDocList, diagrams, opt, false);
+		ProjectTree tree = create(listener,refparser, oclDocList, diagrams, opt, false);
 		
 		return tree;
 	}
 	
-	public static ProjectTree create(OntoUMLParser refparser, TreeVisibility opt, boolean useCheckbox)
+	public static ProjectTree create(CommandListener listener,OntoUMLParser refparser, TreeVisibility opt, boolean useCheckbox)
 	{		
-		ProjectTree tree = create(refparser, null, null, opt,useCheckbox);
+		ProjectTree tree = create(listener,refparser, null, null, opt,useCheckbox);
 		return tree;
 	}
 	
-	public static ProjectTree createPackageableTree(OntoUMLParser refparser)
+	public static ProjectTree createPackageableTree(CommandListener listener,OntoUMLParser refparser)
 	{	
 		TreeVisibility opt = new TreeVisibility();
 		opt.showOnlyPackageable();
-		ProjectTree tree = create(refparser, null, null, opt, false);
+		ProjectTree tree = create(listener, refparser, null, null, opt, false);
 		return tree;
 	}
+	
+	//==========================================================
+    // CONSTRUCTOR
+	//==========================================================
 		
-	/** Constructor */
 	protected ProjectTree (DefaultMutableTreeNode rootNode){
 		super(rootNode);
 	}
 	    
-	/** Constructor */
-	protected ProjectTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox){
+	protected ProjectTree (final CommandListener listener, DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox){
 		
 		super(rootNode);		
 		this.opt=opt;		
+		this.refparser=refparser;
 		TreeCellRenderer cellRenderer = new TreeCellRenderer(useCheckbox);
 		setCellRenderer(cellRenderer);		
 		drawElements(modelRootNode, rootNode.getUserObject());
-		drawDiagrams(diagrams);
-		drawRules(oclDocList);
+		if(diagrams!=null) drawDiagrams(diagrams);
+		if(oclDocList!=null) drawRules(oclDocList);
 		addCheckingPath(new TreePath(modelRootNode.getPath()));		
-		expandPath(new TreePath(modelRootNode.getPath()));		
+		expandPath(new TreePath(modelRootNode.getPath()));	
+		addTreeSelectionListener(new TreeSelectionListener() {			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
+				if(node!=null && node.getUserObject()!=null && (node.getUserObject() instanceof OntoumlDiagram || node.getUserObject() instanceof OclDocument)){
+					listener.handleCommand(CommandType.SELECT_TAB.toString(),node.getUserObject());		
+				}
+			}			
+		});
 	}	
-	    
+	
+	//==========================================================
+	// DRAW TREE
+	//==========================================================
+	
     protected void drawRules(List<OclDocument> oclDocList)
     {    			
 		for(OclDocument c: oclDocList){
@@ -121,95 +145,6 @@ public class ProjectTree extends BaseCheckBoxTree {
 			else modelRootNode.add(newNode);
 		}		
     }
-    
-	@Override
-    public DefaultMutableTreeNode createNode(Object object)
-    {		
-		/* Generalization or Comment */
-		if(object instanceof RefOntoUML.Generalization || object instanceof RefOntoUML.Comment){
-			return new DefaultMutableTreeNode(object);	
-		}
-			
-		/* Enumeration Literal */
-		else if (object instanceof RefOntoUML.EnumerationLiteral){			
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(object);
-			checkingModel.setPathEnabled(new TreePath(node.getPath()),false);
-			return node; 					
-		}
-		
-		/* Property */
-		else if ((object instanceof RefOntoUML.Property)){		
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(object);
-			if(((RefOntoUML.Property)object).getAssociation()!=null) checkingModel.setPathEnabled(new TreePath(node.getPath()),false);				
-			return node;
-		}
-		
-		/* Classifier */
-		else if(object instanceof RefOntoUML.Classifier){			
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(object);			
-			
-			/* Class: Attributes, Comments and Generalizations */
-			if (object instanceof RefOntoUML.Class){				
-				for (Property o: ((RefOntoUML.Class)object).getOwnedAttribute()){					
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
-					node.add(child);
-				}			
-				for (Comment o: ((RefOntoUML.Class)object).getOwnedComment()){
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
-					node.add(child);
-				}
-				for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization()){
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(g);
-					node.add(child);
-				}
-			}			
-			/* DataType: Attributes, Comments and Generalizations */
-			if (object instanceof RefOntoUML.DataType){				
-				for (Property o: ((RefOntoUML.DataType)object).getOwnedAttribute()){					
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
-					node.add(child);
-				}			
-				for (Comment o: ((RefOntoUML.DataType)object).getOwnedComment()){
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
-					node.add(child);
-				}
-				for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization()){
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(g);
-					node.add(child);				
-				}				
-				if(object instanceof RefOntoUML.Enumeration){					
-					for(EnumerationLiteral lit: ((RefOntoUML.Enumeration)object).getOwnedLiteral()){
-						DefaultMutableTreeNode child = new DefaultMutableTreeNode(lit);
-						node.add(child);
-					}
-				}
-			}			
-			
-			/* Association: Properties, Comments and Generalizations */
-			if (object instanceof RefOntoUML.Association){
-				for (RefOntoUML.Property o: ((RefOntoUML.Association)object).getMemberEnd()){					
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
-					node.add(child);
-					checkingModel.setPathEnabled(new TreePath(child.getPath()),false);					
-				}
-				for (Comment o: ((RefOntoUML.Association)object).getOwnedComment()){
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
-					node.add(child);
-				}
-				for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization()){
-					DefaultMutableTreeNode child = new DefaultMutableTreeNode(g);
-					node.add(child);				
-				}
-			}
-			
-			return node;
-		}
-		
-		else{
-			if(object instanceof PackageableElement) return super.createNode(object);
-			return null;
-		}
-	}
     
     protected void drawElements(DefaultMutableTreeNode parent, Object object)
     {    	
@@ -334,25 +269,123 @@ public class ProjectTree extends BaseCheckBoxTree {
 		}		
     }
     
+	//==========================================================
+    // CREATE NODE
+	//==========================================================
+    
+	@Override
+    public DefaultMutableTreeNode createNode(Object object)
+    {		
+		/* Generalization or Comment */
+		if(object instanceof RefOntoUML.Generalization || object instanceof RefOntoUML.Comment){
+			return new DefaultMutableTreeNode(object);	
+		}
+			
+		/* Enumeration Literal */
+		else if (object instanceof RefOntoUML.EnumerationLiteral){			
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(object);
+			checkingModel.setPathEnabled(new TreePath(node.getPath()),false);
+			return node; 					
+		}
+		
+		/* Property */
+		else if ((object instanceof RefOntoUML.Property)){		
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(object);
+			if(((RefOntoUML.Property)object).getAssociation()!=null) checkingModel.setPathEnabled(new TreePath(node.getPath()),false);				
+			return node;
+		}
+		
+		/* Classifier */
+		else if(object instanceof RefOntoUML.Classifier){			
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(object);			
+			
+			/* Class: Attributes, Comments and Generalizations */
+			if (object instanceof RefOntoUML.Class){				
+				for (Property o: ((RefOntoUML.Class)object).getOwnedAttribute()){					
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
+					node.add(child);
+				}			
+				for (Comment o: ((RefOntoUML.Class)object).getOwnedComment()){
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
+					node.add(child);
+				}
+				for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization()){
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(g);
+					node.add(child);
+				}
+			}			
+			/* DataType: Attributes, Comments and Generalizations */
+			if (object instanceof RefOntoUML.DataType){				
+				for (Property o: ((RefOntoUML.DataType)object).getOwnedAttribute()){					
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
+					node.add(child);
+				}			
+				for (Comment o: ((RefOntoUML.DataType)object).getOwnedComment()){
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
+					node.add(child);
+				}
+				for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization()){
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(g);
+					node.add(child);				
+				}				
+				if(object instanceof RefOntoUML.Enumeration){					
+					for(EnumerationLiteral lit: ((RefOntoUML.Enumeration)object).getOwnedLiteral()){
+						DefaultMutableTreeNode child = new DefaultMutableTreeNode(lit);
+						node.add(child);
+					}
+				}
+			}			
+			
+			/* Association: Properties, Comments and Generalizations */
+			if (object instanceof RefOntoUML.Association){
+				for (RefOntoUML.Property o: ((RefOntoUML.Association)object).getMemberEnd()){					
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
+					node.add(child);
+					checkingModel.setPathEnabled(new TreePath(child.getPath()),false);					
+				}
+				for (Comment o: ((RefOntoUML.Association)object).getOwnedComment()){
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(o);
+					node.add(child);
+				}
+				for(Generalization g: ((RefOntoUML.Classifier) object).getGeneralization()){
+					DefaultMutableTreeNode child = new DefaultMutableTreeNode(g);
+					node.add(child);				
+				}
+			}
+			
+			return node;
+		}
+		
+		else{
+			if(object instanceof PackageableElement) return super.createNode(object);
+			return null;
+		}
+	}
+        
+	//==========================================================
+    // REMOVE OBJECT
+	//==========================================================
+	
     public void remove(RefOntoUML.Element deletedElement){		
     	
     	/* Generalization */
 		if(deletedElement instanceof Generalization){
-			checkElement(deletedElement);
+			checkElement(deletedElement);						
 			removeCurrentNode();
 			for(GeneralizationSet genSet: ((Generalization)deletedElement).getGeneralizationSet()){
 				if(genSet.getGeneralization().size()==1 && genSet.getGeneralization().get(0).equals(deletedElement)) { checkElement(genSet); removeCurrentNode(); }
 				if(genSet.getGeneralization().size()==0) { checkElement(genSet); removeCurrentNode(); }
 			}
-			updateUI();
 			return;
-		}
-		
-		checkElement(deletedElement);
-		removeCurrentNode();		
-		updateUI();		
+		}		
+		checkElement(deletedElement);		
+		removeCurrentNode();				
 	}    
 
+    //==========================================================
+    // FIND 
+	//==========================================================
+    
     /** Find Node */
 	@SuppressWarnings("rawtypes")
 	public ArrayList<DefaultMutableTreeNode> findName(String name)

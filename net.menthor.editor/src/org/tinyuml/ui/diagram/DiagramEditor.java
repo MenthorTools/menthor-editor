@@ -106,16 +106,18 @@ import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.explorer.Models;
-import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.BaseEditor;
 import net.menthor.editor.v2.menus.PalettePopupMenu;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 
@@ -134,7 +136,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	public AppFrame frame;
 	private DiagramManager diagramManager;
-	private DiagramEditorWrapper wrapper;
+	private DiagramWrapper wrapper;
 		
 	private transient EditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
@@ -197,12 +199,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		scaling = Scaling.SCALING_100;
 	}
 	
-	public void setWrapper(DiagramEditorWrapper wrapper)
+	public void setWrapper(DiagramWrapper wrapper)
 	{
 		this.wrapper = wrapper;
 	}
 	
-	public DiagramEditorWrapper getWrapper() { return wrapper; }
+	public DiagramWrapper getWrapper() { return wrapper; }
 	
 	/** Empty constructor for testing. Do not use !  */
 	public DiagramEditor() { }
@@ -1103,6 +1105,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void showGrid(boolean flag) 
 	{
 		diagram.setGridVisible(flag);
+		updateUI();
 		if(wrapper!=null)wrapper.getScrollPane().updateUI();
 	}
 
@@ -2001,7 +2004,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void requestFocusInEditor() { diagramManager.requestFocus(); }
 
 	/** {@inheritDoc} */
-	public EditorNature getEditorNature() {	return EditorNature.ONTOUML; }
+	public EditorType getEditorType() {	return EditorType.ONTOUML_DIAGRAM; }
 
 	/** {@inheritDoc} */
 	@Override

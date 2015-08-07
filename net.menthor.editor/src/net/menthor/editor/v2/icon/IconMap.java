@@ -120,6 +120,8 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_WELCOME_FORUM,"net/menthor/editor/v2/icon/forum.png");
 		urlMap.put(IconType.MENTHOR_WELCOME_STUDYGUIDE,"net/menthor/editor/v2/icon/studyguide.png");
 		urlMap.put(IconType.MENTHOR_SPLASH_SCREEN, "net/menthor/editor/v2/icon/splashscreen.png");
+		urlMap.put(IconType.MENTHOR_UP, "net/menthor/editor/v2/icon/arrowup.png");
+		urlMap.put(IconType.MENTHOR_DOWN, "net/menthor/editor/v2/icon/arrowdown.png");
 		
 		//OLED
 		urlMap.put(IconType.MOUSE_POINTER, "resources/icons/x16/mousepointer.png");		

@@ -33,7 +33,7 @@ import net.menthor.editor.problems.ProblemPane;
 import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.ui.ApplicationResources;
-import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.ConsolePane;
 
@@ -120,7 +120,7 @@ public class InfoManager extends JTabbedPane {
 		setMinimumSize(new Dimension(0,0));
 				
 		addTab(" Console ",outputPane);	
-		setIconAt(indexOfComponent(outputPane),new ImageIcon(DiagramEditorWrapper.class.getResource("/resources/icons/x16/monitor.png")));
+		setIconAt(indexOfComponent(outputPane),new ImageIcon(DiagramWrapper.class.getResource("/resources/icons/x16/monitor.png")));
 						
 	}
 	

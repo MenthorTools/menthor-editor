@@ -41,14 +41,15 @@ import javax.swing.border.EtchedBorder;
 
 import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.ApplicationResources;
-import net.menthor.editor.v2.bars.MainMenuBar;
-import net.menthor.editor.v2.bars.MainToolbar;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.menus.MainMenuBar;
 import net.menthor.editor.v2.palette.PalettePane;
+import net.menthor.editor.v2.toolbars.MainToolbar;
+import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 
 import org.jdesktop.swingx.MultiSplitLayout;
 import org.jdesktop.swingx.MultiSplitPane;
@@ -364,31 +365,54 @@ public class AppFrame extends JFrame implements CommandListener {
 		multiSplitPane.revalidate();
 	}
 	
-	/** Handles the fired commands. */
-	@Override
-	public void handleCommand(String command, Object parameter) {	
+	//=========================================================================
+	
+	private MethodCall getMethodCall(String command, Object parameter){
 		MethodCall methodcall=null;
 		CommandType cmdType = CommandType.valueOf(command);
 		if(CommandType.isValueOf(command)){			
-			if(parameter!=null) CommandMap.getInstance().addParameter(cmdType, parameter);
+			if(parameter!=null) CommandMap.getInstance().setParameter(cmdType, parameter);
 			methodcall = CommandMap.getInstance().getMethodCall(cmdType);			
 		}
 		if(methodcall==null){
 			System.err.println("A method could not be found for command: "+cmdType);
-			return;
+			return null;
 		}
-		//methodcall.printParameters(); //debug!
+		return methodcall;
+	}
+
+	private void callMethod(MethodCall methodcall){
 		if(methodcall.getMethod().getDeclaringClass() == getClass()){
 			methodcall.call(this);
 		}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
 			methodcall.call(getDiagramManager());
 		}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
-			methodcall.call(getDiagramManager().getCurrentDiagramEditor());		
+			methodcall.call(getDiagramManager().getCurrentDiagramEditor());
+		}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){
+			methodcall.call(getProjectBrowser().getTree());		
 		}else{
 			System.out.println("Command not handled: "+methodcall.getMethod().getDeclaringClass()+" - "+methodcall);
 		}
 	}
-
+	
+	/** Handles the fired commands. */
+	@Override
+	public void handleCommand(String command, Object parameter) {	
+		MethodCall methodcall = getMethodCall(command,parameter);
+		if(methodcall!=null) methodcall.printParameters(); //debug!
+		callMethod(methodcall);
+	}
+	
+	/** Handles the fired commands. */
+	@Override
+	public void handleCommand(String command) {	
+		MethodCall methodcall = getMethodCall(command,null);
+		if(methodcall!=null) methodcall.printParameters(); //debug!
+		callMethod(methodcall);
+	}
+	
+	//=========================================================================
+		
 	/**
 	 * Displays the settings manager.
 	 * */
