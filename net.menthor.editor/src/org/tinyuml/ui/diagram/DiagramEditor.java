@@ -435,6 +435,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		selectionHandler.select(element);
 	}
 	
+	public void deleteSelection(Object element){
+		if(element instanceof DiagramElement){
+			DiagramElement ce = ((DiagramElement)element);
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add(ce);
+			frame.getDiagramManager().deleteFromMenthor(list,true);
+		}
+	}
+	
 	/**
 	 * Removes the elements selected. From the diagram and the model.
 	 */
@@ -470,23 +479,37 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection(Object element){
+		if(element instanceof DiagramElement){
+			DiagramElement ce = ((DiagramElement)element);
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add(ce);
+			excludeSelection(list);
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection(Collection<DiagramElement> diagramElementsList){
+		//no diagram in the list...
+		List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
+		for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
+		diagramElementsList.removeAll(diagrams);
+		if(diagramElementsList.size()>0){
+			
+			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+			if(response==Window.OK)
+			{
+				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
+			}
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
 	public void excludeSelection() 
 	{
 		if(this.isFocusable()){
 			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			
-			//no diagram in the list...
-			List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
-			for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
-			diagramElementsList.removeAll(diagrams);
-			if(diagramElementsList.size()>0){
-				
-				int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-				if(response==Window.OK)
-				{
-					execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
-				}
-			}
+			excludeSelection(diagramElementsList);
 		}
 	}
 	

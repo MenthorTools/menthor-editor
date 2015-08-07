@@ -127,9 +127,9 @@ public class CommandMap {
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(DiagramEditor.class.getMethod("editProperties", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DiagramEditor.class.getMethod("deleteSelection")));
+				new MethodCall(DiagramEditor.class.getMethod("deleteSelection", Object.class)));
 		cmdMap.put(CommandType.ERASE, 
-				new MethodCall(DiagramEditor.class.getMethod("excludeSelection")));
+				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));
 	}
 	
 	private void rules() throws NoSuchMethodException, SecurityException{

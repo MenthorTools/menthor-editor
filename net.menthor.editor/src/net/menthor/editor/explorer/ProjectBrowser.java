@@ -43,7 +43,6 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -62,9 +61,12 @@ import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.trees.TreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;
+import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -95,11 +97,11 @@ public class ProjectBrowser extends RoundedPanel{
 	
 	public ProjectBrowser(AppFrame appframe, UmlProject project, OclDocument oclDoc)
 	{
-		super();
-		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		super();		
 		Models.setProject(project);
 		frame = appframe;		
 		scroll = new JScrollPane();		
+		scroll.setBorder(null);
 		if (project!=null) setProject(project);
 		add(scroll, BorderLayout.CENTER);			
 		RoundedPanel emptyTempPanel = new RoundedPanel();
@@ -128,8 +130,7 @@ public class ProjectBrowser extends RoundedPanel{
 		scroll.setViewportView(emptyTempPanel);		
 		emptyTempPanel.setPreferredSize(new Dimension(200,250));		
 		updateUI();
-	}
-	
+	}	
   	
 	/**
 	 * Show the Popup Menu
@@ -244,11 +245,12 @@ public class ProjectBrowser extends RoundedPanel{
 		Models.setRefOptions(new OntoUML2AlloyOptions());		
 		Models.setAntipatterns(new AntiPatternList());		
 		System.out.println("Creating modeling assistant");
-		ptoolbar = new ProjectToolBar(tree,frame.getDiagramManager());
-		add(ptoolbar, BorderLayout.NORTH);		
+		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getSmallIcon(IconType.MENTHOR_TREE));
+		title.setBackground(Color.LIGHT_GRAY);
+		add(title, BorderLayout.NORTH);		
 		scroll.setViewportView(tree);		
 		treeMap.put(project, this);		
-		updateUI();		
+		updateUI();
 	}
 
 	public void setTree(ProjectTree tree)
