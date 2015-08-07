@@ -34,6 +34,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -75,6 +76,11 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 	}
 	
 	/** create menu item */
+	protected JMenuItem createMenuItem(String name, CommandType command){
+		return createMenuItem(name,null, command);
+	}
+	
+	/** create menu item */
 	protected JMenuItem createMenuItem(String name, IconType icontype, CommandType command){
 		JMenuItem item = new JMenuItem();
 		if(icontype!=null){
@@ -92,7 +98,30 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 		item.setToolTipText(command.getDescription());
 		return item;
 	}	
-
+	
+	protected JCheckBoxMenuItem createCheckBoxMenuItem(String name, CommandType command){
+		return createCheckBoxMenuItem(name,null,command);
+	}
+	
+	/** create menu item */
+	protected JCheckBoxMenuItem createCheckBoxMenuItem(String name, IconType icontype, CommandType command){
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+		if(icontype!=null){
+			Icon icon = IconMap.getInstance().getIcon(icontype);
+			Image img = ((ImageIcon)icon).getImage();  
+			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
+			Icon newIcon = new ImageIcon(newimg);
+			item.setIcon(newIcon);
+		}		
+		if(name!=null) item.setText(name);				
+		item.setActionCommand(command.toString());
+		item.addActionListener(this);
+		menuItemsMap.put(command, item);
+		add(item);		
+		item.setToolTipText(command.getDescription());
+		return item;
+	}
+	
 	/** create menu item */
 	protected JMenuItem createMenuItem(String name, IconType icontype, CommandType command, boolean isAdd){
 		JMenuItem item = new JMenuItem();

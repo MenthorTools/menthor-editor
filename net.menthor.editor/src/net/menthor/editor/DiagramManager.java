@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -72,7 +71,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.draw.LineStyle;
-import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.Editor;
 import org.tinyuml.ui.diagram.Editor.EditorNature;
@@ -2211,99 +2209,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				}			
 			}
 		}		
-	}
-	
-	/** Bring related elements to diagram */
-	public void addAllRelatedElements(DiagramElement diagramElement, DiagramEditor d)
-	{
-		if(diagramElement instanceof Node){
-			ClassElement ce = (ClassElement)diagramElement;
-			Classifier element = ce.getClassifier();
-			double x = ce.getAbsoluteX2()+30;
-			double y = ce.getAbsoluteY1()-30;
-			int row = 0;
-			int column = 0;
-
-			OntoUMLParser refparser = Models.getRefparser();
-
-			
-			HashSet<Type> addedTypes = new HashSet<Type>();
-			
-			ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
-			relatedAssociations.addAll(refparser.getDirectAssociations(element));
-			relatedAssociations.addAll(refparser.getDirectGeneralizations(element));
-		
-			for(Relationship rel: relatedAssociations){
-				try{
-					if(d.getDiagram().containsChild(rel))
-						continue;
-					
-					Classifier source = null, target = null;
-					
-					if(rel instanceof Association){
-						source = (Classifier)((Association)rel).getMemberEnd().get(0).getType();
-						target = (Classifier)((Association)rel).getMemberEnd().get(1).getType();
-						addedTypes.add((Association)rel);
-					}
-					
-					if(rel instanceof Generalization){
-						source = (Classifier)((Generalization)rel).getGeneral();
-						target = (Classifier)((Generalization)rel).getSpecific();
-					}
-					
-					if(source!=null && !d.getDiagram().containsChild(source)) { 
-						moveToDiagram(source,x+100*column,y+75*row,d); 
-						row++; 
-						
-						if(row>2) {
-							row=0; column++;
-						} 
-						addedTypes.add(source);
-					}
-						
-					if(target!=null && !d.getDiagram().containsChild(target)) {  
-						moveToDiagram(target,x+100*column,y+75*row,d); 
-						row++; 
-						
-						if(row>2) {
-							row=0; 
-							column++;
-						}
-						addedTypes.add(target);
-					}
-					
-					if(d.getDiagram().containsChild(source) && d.getDiagram().containsChild(target)) 
-						moveToDiagram(rel, d);
-					
-				}catch(Exception e){
-					e.printStackTrace();
-					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
-				}
-			}
-			
-			HashSet<Type> typesInDiagram = new HashSet<Type>();
-			for (DiagramElement de : d.getDiagram().getChildren()) {
-				if(de instanceof ClassElement)
-					typesInDiagram.add(((ClassElement) de).getClassifier());
-			}
-			
-			for (Association a : refparser.getAssociationsBetween(typesInDiagram)) {
-				Type source = a.getMemberEnd().get(0).getType();
-				Type target = a.getMemberEnd().get(1).getType();
-				
-				if(!d.getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
-					moveToDiagram(a,d);
-			}
-			
-			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
-				RefOntoUML.Type specific = g.getSpecific();
-				RefOntoUML.Type general = g.getGeneral();
-				
-				if(!d.getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
-					moveToDiagram(g,d);
-			}
-			
-		}
 	}
 		
 	/** Move generalization to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */

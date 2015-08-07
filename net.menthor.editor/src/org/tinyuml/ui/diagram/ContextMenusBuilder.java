@@ -30,12 +30,11 @@ import org.tinyuml.draw.Selection;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
-import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.popupmenu.MultiSelectionPopupMenu;
 import net.menthor.editor.popupmenu.SingleConnectionPopupMenu;
-import net.menthor.editor.popupmenu.SingleNodePopupMenu;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.menus.NodePopupMenu;
 
 /**
  * This class creates context menus, depending on the specified parameters.
@@ -45,14 +44,14 @@ import net.menthor.editor.v2.commands.CommandListener;
 public class ContextMenusBuilder {
 	
 	private DiagramEditor editor;
-	private SingleNodePopupMenu singleNodePopup;	
+	private NodePopupMenu singleNodePopup;	
 	private SingleConnectionPopupMenu singleConnectionPopup;	
 	private MultiSelectionPopupMenu multiSelectinoPopup;
 	
 	public ContextMenusBuilder(DiagramEditor editor)
 	{
 		this.editor = editor;
-		singleNodePopup = new SingleNodePopupMenu(editor);
+		singleNodePopup = new NodePopupMenu(editor.getDiagramManager().getFrame());
 		singleConnectionPopup = new SingleConnectionPopupMenu(editor);		
 		multiSelectinoPopup = new MultiSelectionPopupMenu();
 	}
@@ -92,7 +91,7 @@ public class ContextMenusBuilder {
 				singleConnectionPopup.setConnection((Connection)elem,editor);
 				return singleConnectionPopup;				
 			}
-			singleNodePopup.setNode((UmlNode)elem,editor);
+			singleNodePopup.setContext(elem);
 			return singleNodePopup;
 		}
 	}
@@ -107,8 +106,7 @@ public class ContextMenusBuilder {
 	 * @param l
 	 *            the AppCommandListener to add
 	 */
-	public void addAppCommandListener(CommandListener l) {
-		singleNodePopup.addAppCommandListener(l);
+	public void addAppCommandListener(CommandListener l) {		
 		singleConnectionPopup.addAppCommandListener(l);
 		multiSelectinoPopup.addAppCommandListener(l);
 	}

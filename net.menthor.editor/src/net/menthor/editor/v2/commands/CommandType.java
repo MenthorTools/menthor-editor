@@ -43,6 +43,7 @@ public enum CommandType {
 	EDIT("Edit selected element(s)"),
 	DELETE("Delete selected element(s)"),
 	ERASE("Erase selected element(s)"),
+	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
 	
 	//====================================================
 	// DIAGRAM
@@ -70,8 +71,7 @@ public enum CommandType {
 	ALIGN_LEFT("Align selected elements on left"), 
 	ALIGN_RIGHT("Align selected elements on right"),
 	BRING_TO_FRONT("Bring selected elements to front"), 
-	PUT_BACK("Put selected elements back"), 
-	SET_BACKGROUND_COLOR("Set the background color for selected classes"),		
+	PUT_BACK("Put selected elements back"),			
 	RESET_POINTS("Reset connection points in the selected relationship"),
 	CHANGE_FROM_RECT_TO_DIRECT("Change line style from Rectilinear to Direct"), 
 	CHANGE_FROM_DIRECT_TO_RECT("Change line style from Direct to Rectilinear"),
@@ -81,7 +81,12 @@ public enum CommandType {
 	ADD_GEN_SET_DIAGRAM(null),
 	APPLY_DIRECT_STYLE(null), 
 	APPLY_RECTILINEAR_STYLE(null), 
-	 
+	SET_BACKGROUND_COLOR("Set the background color for selected classes"),
+	SETUP_BACKGROUND_COLOR("Setup background color for selected classes"),
+	COPY_BACKGROUND_COLOR("Copy background color from selected classes"),
+	PASTE_BACKGROUND_COLOR("Paste background color into selected classes"),
+	SHOW_ATTRIBUTES(null),
+	
 	//====================================================
 	// EXPORT
 	//====================================================
@@ -115,6 +120,7 @@ public enum CommandType {
 	// PROJECT
 	//====================================================
 	FIND_TERM("Find a term in current project"),
+	FIND_IN_PROJECT_BROWSER("Find a term in project browser"),
 	COLLECT_STATISTICS("Collect statistics of current project"),
 	
 	//====================================================

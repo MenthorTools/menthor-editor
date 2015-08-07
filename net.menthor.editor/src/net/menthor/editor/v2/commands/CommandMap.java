@@ -125,7 +125,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.UNDO,
 				new MethodCall(DiagramManager.class.getMethod("undo")));
 		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(DiagramEditor.class.getMethod("editProperties")));			
+				new MethodCall(DiagramEditor.class.getMethod("editProperties", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
 				new MethodCall(DiagramEditor.class.getMethod("deleteSelection")));
 		cmdMap.put(CommandType.ERASE, 
@@ -190,13 +190,26 @@ public class CommandMap {
 			new MethodCall(DiagramEditor.class.getMethod("toRectilinear")));
 		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
 			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical")));		
-		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE, 
+		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
 			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal")));
+		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
+				new MethodCall(DiagramEditor.class.getMethod("findInProjectBrowser", Object.class)));
+		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
+				new MethodCall(DiagramEditor.class.getMethod("addAllRelatedElements", Object.class)));
+		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("setupColor", Object.class)));
+		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("copyColor", Object.class)));
+		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("pasteColor", Object.class)));
+		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
+				new MethodCall(DiagramEditor.class.getMethod("showAttributes", Object.class)));
+		
 	}
 	
 	private void project() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.FIND_TERM,
-				new MethodCall(DiagramManager.class.getMethod("searchInProject")));
+				new MethodCall(DiagramManager.class.getMethod("searchInProject")));		
 		cmdMap.put(CommandType.COLLECT_STATISTICS,
 				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));		
 	}

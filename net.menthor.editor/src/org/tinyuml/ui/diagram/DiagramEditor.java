@@ -44,6 +44,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,22 +56,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
-
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.menus.PalettePopupMenu;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
@@ -111,8 +96,28 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
+import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Relationship;
+import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.AppFrame;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.DiagramEditorWrapper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.menus.PalettePopupMenu;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -1391,16 +1396,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}			
 		}
 	}
-	
-	public void executeSetBackgroundColor()
-	{
-		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", color);
-		if (color != null){
-			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),getProject(),color));        			
-		}        		   
-	}
-	
+
 	/** Returns all selected class elements */
 	private ArrayList<DiagramElement>getSelectedClassElements()
 	{
@@ -1533,29 +1529,29 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		selectionHandler.selectAll();
 	}
 	
-	public void showAttribute()
-	{
-		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
-		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);
-	}
+//	public void showAttribute()
+//	{
+//		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);
+//	}
 	
-	public void showOperation()
-	{
-		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
-		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);
-	}
+//	public void showOperation()
+//	{
+//		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);
+//	}
+//	
+//	public void showOperationsOnSelected()
+//	{
+//		DiagramElement element = selectionHandler.getSelection().getElement();
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);		
+//	}
 	
-	public void showOperationsOnSelected()
-	{
-		DiagramElement element = selectionHandler.getSelection().getElement();
-		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);		
-	}
-	
-	public void showAttributesOnSelected()
-	{
-		DiagramElement element = selectionHandler.getSelection().getElement();
-		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);	
-	}
+//	public void showAttributesOnSelected()
+//	{
+//		DiagramElement element = selectionHandler.getSelection().getElement();
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);	
+//	}
 
 	/** Switches a rectilinear connection to a direct one. */
 	public void toDirect() 
@@ -1777,14 +1773,148 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	// ***** Diagram Editor Operations
 	// *************************************************************************
 
+	public void findInProjectBrowser(Object element){
+		if (element instanceof ClassElement) {
+			ClassElement classElement = (ClassElement) element;		
+			Classifier c = classElement.getClassifier();
+			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+		}
+		if (element instanceof AssociationElement) {
+			AssociationElement classElement = (AssociationElement) element;		
+			Relationship c = classElement.getRelationship();
+			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+		}
+		if (element instanceof GeneralizationElement) {
+			GeneralizationElement classElement = (GeneralizationElement) element;		
+			Relationship c = classElement.getRelationship();
+			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+		}
+	}
+	
+	private Color copiedColor=Color.WHITE;
+	
+	public void copyColor(Object node){
+		copiedColor = ((ClassElement)node).getBackgroundColor();
+	}
+	
+	public void pasteColor(Object node){
+		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+		list.add((DiagramElement)node);				
+		if (copiedColor != null){
+			execute(new SetColorCommand((DiagramNotification)this,list,getProject(),copiedColor));        			
+		} 
+	}
+	
+	public void executeSetBackgroundColor()
+	{
+		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", color);
+		if (color != null){
+			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),getProject(),color));        			
+		}        		   
+	}
+	
+	public void showAttributes(Object node){
+		if (node instanceof ClassElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();			
+			list.add((DiagramElement)node);
+			boolean value = ((ClassElement)node).showAttributes();
+			((ClassElement)node).setShowAttributes(!value);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}				
+	}
+	
+	public void setupColor(Object node)
+	{
+		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+		list.add((DiagramElement)node);
+		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", color);
+		if (color != null){
+			execute(new SetColorCommand((DiagramNotification)this,list,getProject(),color));        			
+		} 
+	}
+	
 	/** Edits the current selection's properties. */
 	public void editProperties() 
 	{
 		if (getSelectedElements().size() > 0) editProperties(getSelectedElements().get(0));		
 	}
 	
+	/** Bring related elements to diagram */
+	public void addAllRelatedElements(Object diagramElement)
+	{
+		if(diagramElement instanceof Node){
+			ClassElement ce = (ClassElement)diagramElement;
+			Classifier element = ce.getClassifier();
+			double x = ce.getAbsoluteX2()+30;
+			double y = ce.getAbsoluteY1()-30;
+			int row = 0;
+			int column = 0;
+			OntoUMLParser refparser = Models.getRefparser();			
+			HashSet<Type> addedTypes = new HashSet<Type>();			
+			ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
+			relatedAssociations.addAll(refparser.getDirectAssociations(element));
+			relatedAssociations.addAll(refparser.getDirectGeneralizations(element));		
+			for(Relationship rel: relatedAssociations){
+				try{
+					if(getDiagram().containsChild(rel)) continue;					
+					Classifier source = null, target = null;					
+					if(rel instanceof Association){
+						source = (Classifier)((Association)rel).getMemberEnd().get(0).getType();
+						target = (Classifier)((Association)rel).getMemberEnd().get(1).getType();
+						addedTypes.add((Association)rel);
+					}					
+					if(rel instanceof Generalization){
+						source = (Classifier)((Generalization)rel).getGeneral();
+						target = (Classifier)((Generalization)rel).getSpecific();
+					}					
+					if(source!=null && !getDiagram().containsChild(source)) { 
+						getDiagramManager().moveToDiagram(source,x+100*column,y+75*row,this); 
+						row++; 						
+						if(row>2) {
+							row=0; column++;
+						} 
+						addedTypes.add(source);
+					}						
+					if(target!=null && !getDiagram().containsChild(target)) {  
+						getDiagramManager().moveToDiagram(target,x+100*column,y+75*row,this); 
+						row++;						
+						if(row>2) {
+							row=0; 
+							column++;
+						}
+						addedTypes.add(target);
+					}					
+					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
+						getDiagramManager().moveToDiagram(rel, this);					
+				}catch(Exception e){
+					e.printStackTrace();
+					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
+				}
+			}			
+			HashSet<Type> typesInDiagram = new HashSet<Type>();
+			for (DiagramElement de : getDiagram().getChildren()) {
+				if(de instanceof ClassElement)
+					typesInDiagram.add(((ClassElement) de).getClassifier());
+			}			
+			for (Association a : refparser.getAssociationsBetween(typesInDiagram)) {
+				Type source = a.getMemberEnd().get(0).getType();
+				Type target = a.getMemberEnd().get(1).getType();				
+				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
+					getDiagramManager().moveToDiagram(a,this);
+			}			
+			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
+				RefOntoUML.Type specific = g.getSpecific();
+				RefOntoUML.Type general = g.getGeneral();			
+				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
+					getDiagramManager().moveToDiagram(g,this);
+			}			
+		}
+	}
+
 	/** {@inheritDoc} */
-	public void editProperties(DiagramElement element) 
+	public void editProperties(Object element) 
 	{
 		if (element instanceof ClassElement) {
 			ClassElement classElement = (ClassElement) element;			
@@ -1856,84 +1986,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	@Override
 	public void dispose() { }
-
-	//===================================================================
-	// Drop
-	//===================================================================
-	
-//	/*
-//	   * Drop Event Handlers
-//	   */
-//	private TreeNode getNodeForEvent(DropTargetDragEvent dtde) 
-//	{
-//	    Point p = dtde.getLocation();
-//	    DropTargetContext dtc = dtde.getDropTargetContext();
-//	    JTree tree = (JTree) dtc.getComponent();
-//	    TreePath path = tree.getClosestPathForLocation(p.x, p.y);
-//	    return (TreeNode) path.getLastPathComponent();
-//	}
-//	  
-//	@Override
-//	public void dragEnter(DropTargetDragEvent dtde) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void dragExit(DropTargetEvent dte) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void dragOver(DropTargetDragEvent dtde) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void drop(DropTargetDropEvent dtde) {
-//		
-//	      1 void drop(DropTargetDropEvent dtde) {
-//	      2        Transferable transferable = dtde.getTransferable();
-//	      3
-//	      4        //flavor not supported, reject drop
-//	      5        if (!transferable.isDataFlavorSupported( <DATA FLAVOR> )) {
-//	      6           e.rejectDrop();
-//	      7           return;
-//	      8        }
-//	      9
-//	     10        DefaultMutableTreeNode oldParent =
-//	getSelectedNode().getParent();
-//	     11
-//	     12        Point loc = dtde.getLocation();
-//	     13        TreePath destinationPath = getPathForLocation(loc.x, loc.y);
-//	     14        DefaultMutableTreeNode newParent =
-//	     15          (DefaultMutableTreeNode)
-//	destinationPath.getLastPathComponent();
-//	     16
-//	     17        DefaultMutableTreeNode newChild = null;
-//	     18        if (dtde.getDropAction() == DnDConstants.ACTION_COPY) {
-//	//make a new child
-//	     19          Object data = tranferable.getTransferData( <DATA FLAVOR> );
-//	     20          DefaultMutableTreeNode newChild = new
-//	DefaultMutableTreeNode(data.clone());
-//	     21        }
-//	     22        else { //move
-//	     23          newChild = getSelectedNode();
-//	     24          oldParent.remove(newChild);
-//	     25        }
-//	     26
-//	     27        newParent.add(child);
-//	     28      }
-//		
-//	}
-//
-//	@Override
-//	public void dropActionChanged(DropTargetDragEvent dtde) {
-//		// TODO Auto-generated method stub
-//		
-//	}
 
 }
 

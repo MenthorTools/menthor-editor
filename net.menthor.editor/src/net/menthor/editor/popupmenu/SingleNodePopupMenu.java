@@ -180,7 +180,7 @@ public class SingleNodePopupMenu extends JPopupMenu implements ActionListener {
 		relatedItem.addActionListener(new ActionListener() {				
 			@Override
         	public void actionPerformed(ActionEvent e) { 
-				editor.getDiagramManager().addAllRelatedElements(node, editor);
+				editor.getDiagramManager().getCurrentDiagramEditor().addAllRelatedElements(node);
 			}
 		});
 		add(relatedItem);

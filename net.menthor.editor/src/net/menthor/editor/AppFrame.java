@@ -377,6 +377,7 @@ public class AppFrame extends JFrame implements CommandListener {
 			System.err.println("A method could not be found for command: "+cmdType);
 			return;
 		}
+		//methodcall.printParameters(); //debug!
 		if(methodcall.getMethod().getDeclaringClass() == getClass()){
 			methodcall.call(this);
 		}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){

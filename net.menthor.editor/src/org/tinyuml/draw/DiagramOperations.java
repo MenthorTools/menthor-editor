@@ -58,7 +58,7 @@ public interface DiagramOperations {
    * Tells the editor to show the properties of the element.
    * @param element the element
    */
-  void editProperties(DiagramElement element);
+  void editProperties(Object element);
 
   /**
    * Returns the diagram that belongs to this object.

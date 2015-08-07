@@ -126,9 +126,9 @@ public class StartPage extends BackgroundPanel implements Editor {
 		        {
 		        	if(getSelectedRecentFile()!=null){
 			        	if(getSelectedRecentFile().contains(".menthor")){
-			        		commandListener.handleCommand("OPEN_RECENT_PROJECT",null);
+			        		commandListener.handleCommand(CommandType.OPEN_RECENT_PROJECT.toString(),null);
 			        	}else if(getSelectedRecentFile().contains(".xml") || getSelectedRecentFile().contains(".xmi")){
-			        		commandListener.handleCommand("IMPORT_XMI_FROM_FILE",null);
+			        		commandListener.handleCommand(CommandType.IMPORT_FROM_XMI_EA_FILE.toString(),null);
 			        	}		        	
 		        	}
 		        }

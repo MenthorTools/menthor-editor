@@ -74,6 +74,11 @@ public class BaseMenu extends JMenu implements ActionListener{
 	}
 
 	/** create menu item */
+	protected JMenuItem createMenuItem(String name, CommandType command){
+		return createMenuItem(name,null, command);
+	}
+	
+	/** create menu item */
 	protected JMenuItem createMenuItem(String name, IconType icontype, CommandType command){
 		JMenuItem item = new JMenuItem();
 		if(icontype!=null){
