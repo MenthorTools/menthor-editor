@@ -29,13 +29,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import net.menthor.editor.Main;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.util.Directories;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.tinyuml.draw.DiagramElement;
 
 import RefOntoUML.Association;
@@ -44,6 +39,9 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.GeneralizationSetImpl;
+import net.menthor.editor.Main;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.util.Directories;
 
 /**
  * Class responsable for holding the model instance and its diagrams

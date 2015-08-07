@@ -443,6 +443,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
 			frame.getDiagramManager().deleteFromMenthor(list,true);
+		}else{
+			frame.getDiagramManager().delete(element);
 		}
 	}
 	

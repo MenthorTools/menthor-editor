@@ -84,6 +84,14 @@ public class MainMenuBar extends BaseMenuBar {
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Redo", CommandType.REDO, background,stroke);
+		edit.addSeparator();		
+		if(Util.onMac()) stroke = KeyStroke.getKeyStroke("BACK_SPACE");
+		else stroke = KeyStroke.getKeyStroke("DELETE");
+		createMenuItem(edit, "Erase", CommandType.ERASE, background, stroke);	
+		edit.addSeparator();
+		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK);
+		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK);
+		createMenuItem(edit, "Delete", CommandType.DELETE, background,stroke);	
 	}
 	
 	private void createVerificateMenu(){

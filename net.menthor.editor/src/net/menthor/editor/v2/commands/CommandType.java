@@ -41,6 +41,7 @@ public enum CommandType {
 	REDO("Redo action"),	
 	UNDO("Undo action"),
 	EDIT("Edit selected element(s)"),
+	RENAME("Rename selected element"),
 	DELETE("Delete selected element(s)"),
 	ERASE("Erase selected element(s)"),
 	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
@@ -128,6 +129,8 @@ public enum CommandType {
 	//====================================================
 	MOVE_DOWN_TREE(null),
 	MOVE_UP_TREE(null),
+	MOVE_TO_DIAGRAM(null),
+	FIND_IN_DIAGRAMS(null),
 	
 	//====================================================
 	// VERIFICATE
@@ -243,6 +246,16 @@ public enum CommandType {
 	// ADD PACKAGE
 	//====================================================
 	ADD_PACKAGE(null),
+
+	//====================================================
+	// ADD DIAGRAM
+	//====================================================
+	ADD_DIAGRAM(null),
+	
+	//====================================================
+	// ADD RULES DOCUMENT
+	//====================================================
+	ADD_RULES_DOCUMENT(null),
 	
 	//====================================================
 	// ADD CLASS

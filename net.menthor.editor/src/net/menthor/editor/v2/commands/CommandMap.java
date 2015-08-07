@@ -89,6 +89,10 @@ public class CommandMap {
 				new MethodCall(BaseCheckBoxTree.class.getMethod("moveUp")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
 				new MethodCall(BaseCheckBoxTree.class.getMethod("moveDown")));
+		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
+				new MethodCall(DiagramManager.class.getMethod("moveToDiagram", Object.class)));
+		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
+				new MethodCall(DiagramManager.class.getMethod("findInDiagrams", Object.class)));
 	}
 
 	private void file() throws NoSuchMethodException, SecurityException{
@@ -135,6 +139,8 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("redo")));
 		cmdMap.put(CommandType.UNDO,
 				new MethodCall(DiagramManager.class.getMethod("undo")));
+		cmdMap.put(CommandType.RENAME,
+				new MethodCall(DiagramManager.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(DiagramEditor.class.getMethod("editProperties", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
@@ -145,11 +151,11 @@ public class CommandMap {
 	
 	private void rules() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_RULES,
-				new MethodCall(DiagramManager.class.getMethod("newOclDocument")));
+				new MethodCall(DiagramManager.class.getMethod("newRulesDocument")));
 		cmdMap.put(CommandType.CLOSE_RULES,
 				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
 	}
-	
+
 	private void diagram() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_DIAGRAM,
 				new MethodCall(DiagramManager.class.getMethod("newDiagram")));
@@ -468,6 +474,11 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("deriveByPastSpecialization")));
 		cmdMap.put(CommandType.ADD_DERIVATION_BY_PARTICIPATION, 
 				new MethodCall(DiagramManager.class.getMethod("deriveByParticipation")));
+		
+		cmdMap.put(CommandType.ADD_DIAGRAM, 
+				new MethodCall(DiagramManager.class.getMethod("newDiagram", Object.class)));
+		cmdMap.put(CommandType.ADD_RULES_DOCUMENT, 
+				new MethodCall(DiagramManager.class.getMethod("newRulesDocument", Object.class)));
 	}
 	
 	private void changes() throws NoSuchMethodException, SecurityException{

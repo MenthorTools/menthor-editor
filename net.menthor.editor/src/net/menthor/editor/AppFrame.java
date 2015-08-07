@@ -375,40 +375,47 @@ public class AppFrame extends JFrame implements CommandListener {
 			methodcall = CommandMap.getInstance().getMethodCall(cmdType);			
 		}
 		if(methodcall==null){
-			System.err.println("A method could not be found for command: "+cmdType);
+			System.err.println("A method call could not be found for command type: "+cmdType);
 			return null;
 		}
 		return methodcall;
 	}
 
 	private void callMethod(MethodCall methodcall){
-		if(methodcall.getMethod().getDeclaringClass() == getClass()){
-			methodcall.call(this);
-		}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
-			methodcall.call(getDiagramManager());
-		}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
-			methodcall.call(getDiagramManager().getCurrentDiagramEditor());
-		}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){
-			methodcall.call(getProjectBrowser().getTree());		
-		}else{
-			System.out.println("Command not handled: "+methodcall.getMethod().getDeclaringClass()+" - "+methodcall);
+		try{
+			if(methodcall.getMethod().getDeclaringClass() == getClass()){
+				methodcall.call(this);
+			}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
+				methodcall.call(getDiagramManager());
+			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
+				methodcall.call(getDiagramManager().getCurrentDiagramEditor());
+			}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){
+				methodcall.call(getProjectBrowser().getTree());		
+			}
+		}catch(java.lang.IllegalArgumentException e){
+			System.err.println("Method not called. Reason: "+e.getLocalizedMessage());
+			System.err.println("     >> "+methodcall);			
 		}
 	}
 	
 	/** Handles the fired commands. */
 	@Override
 	public void handleCommand(String command, Object parameter) {	
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MethodCall methodcall = getMethodCall(command,parameter);
 		if(methodcall!=null) methodcall.printParameters(); //debug!
 		callMethod(methodcall);
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
 	/** Handles the fired commands. */
 	@Override
 	public void handleCommand(String command) {	
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MethodCall methodcall = getMethodCall(command,null);
 		if(methodcall!=null) methodcall.printParameters(); //debug!
 		callMethod(methodcall);
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
 	//=========================================================================

@@ -41,12 +41,14 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.tinyuml.umldraw.StructureDiagram;
+
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
@@ -66,10 +68,6 @@ import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
-import org.tinyuml.umldraw.StructureDiagram;
-
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -140,7 +138,8 @@ public class ProjectBrowser extends RoundedPanel{
 	{
 		TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 		DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());		
-		TreePopupMenu menu = new TreePopupMenu(frame, tree, currentNode.getUserObject());
+		TreePopupMenu menu = new TreePopupMenu(frame);
+		menu.setContext(currentNode.getUserObject());
 	    menu.show(e.getComponent(), e.getX(), e.getY());		
 	}
 	

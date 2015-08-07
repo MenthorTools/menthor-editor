@@ -192,6 +192,8 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		return container;
 	}
 	
+	public void setContainer(Object conteiner){ this.container = container; }
+	
 	/**
 	 * Constructor.
 	 */

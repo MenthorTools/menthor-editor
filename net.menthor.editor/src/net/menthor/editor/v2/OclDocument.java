@@ -23,15 +23,14 @@ package net.menthor.editor.v2;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 
-import net.menthor.tocl.parser.TOCLParser;
 import RefOntoUML.impl.PackageableElementImpl;
-
-import java.io.File;
+import net.menthor.tocl.parser.TOCLParser;
 
 public class OclDocument extends PackageableElementImpl implements Serializable {
 		
@@ -39,6 +38,7 @@ public class OclDocument extends PackageableElementImpl implements Serializable 
 
 	private Object container;
 	public Object getContainer() { return container; }
+	public void setContainer(Object epackage) { this.container = epackage; }
 	
 	private String oclstring = new String();
 	public String getContentAsString() { return oclstring; }	

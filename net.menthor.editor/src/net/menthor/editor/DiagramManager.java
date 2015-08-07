@@ -57,6 +57,62 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.provider.IDisposable;
+import org.eclipse.jface.window.Window;
+import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.SemanticException;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContextImpl;
+import org.tinyuml.draw.LineStyle;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.EditorMouseEvent;
+import org.tinyuml.ui.diagram.EditorStateListener;
+import org.tinyuml.ui.diagram.SelectionListener;
+import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
+import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
+import org.tinyuml.ui.diagram.commands.AddNodeCommand;
+import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
+import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
+import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
+import org.tinyuml.umldraw.shared.UmlConnection;
+
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
+import RefOntoUML.Comment;
+import RefOntoUML.Constraintx;
+import RefOntoUML.Derivation;
+import RefOntoUML.EnumerationLiteral;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.LiteralInteger;
+import RefOntoUML.LiteralUnlimitedNatural;
+import RefOntoUML.MaterialAssociation;
+import RefOntoUML.NamedElement;
+import RefOntoUML.Property;
+import RefOntoUML.Relationship;
+import RefOntoUML.StringExpression;
+import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.parser.SyntacticVerificator;
+import RefOntoUML.util.RefOntoUMLElementCustom;
+import RefOntoUML.util.RefOntoUMLResourceUtil;
+import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
@@ -72,6 +128,7 @@ import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
 import net.menthor.editor.derivation.PastSpecializationPattern;
 import net.menthor.editor.derivation.SpecializationPattern;
 import net.menthor.editor.derivation.UnionPattern;
+import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
 import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
@@ -135,63 +192,6 @@ import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.edit.provider.IDisposable;
-import org.eclipse.jface.window.Window;
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.SemanticException;
-import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.draw.DrawingContext;
-import org.tinyuml.draw.DrawingContextImpl;
-import org.tinyuml.draw.LineStyle;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.EditorMouseEvent;
-import org.tinyuml.ui.diagram.EditorStateListener;
-import org.tinyuml.ui.diagram.SelectionListener;
-import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
-import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
-import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.DiagramNotification;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
-import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
-import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
-import org.tinyuml.umldraw.StructureDiagram;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
-import org.tinyuml.umldraw.shared.UmlConnection;
-
-import RefOntoUML.Association;
-import RefOntoUML.Classifier;
-import RefOntoUML.Comment;
-import RefOntoUML.Constraintx;
-import RefOntoUML.Derivation;
-import RefOntoUML.EnumerationLiteral;
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.LiteralInteger;
-import RefOntoUML.LiteralUnlimitedNatural;
-import RefOntoUML.MaterialAssociation;
-import RefOntoUML.NamedElement;
-import RefOntoUML.Property;
-import RefOntoUML.Relationship;
-import RefOntoUML.StringExpression;
-import RefOntoUML.Type;
-import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.parser.SyntacticVerificator;
-import RefOntoUML.util.RefOntoUMLElementCustom;
-import RefOntoUML.util.RefOntoUMLResourceUtil;
-import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
 
 /**
  * Class responsible for managing and organizing the editors in tabs.
@@ -690,11 +690,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			createDiagramEditor((StructureDiagram)diagram);
 		
 		if(currentProject.getDiagrams().size()==0) 
-			newDiagram(currentProject);
+			newDiagram(currentProject,null);
 		
-		newOclDocument(currentProject, false);
+		newRulesDocument(false);
 		
-		newOclDocument(currentProject,false);
+		newRulesDocument(false);
 		return currentProject;
 	}
 
@@ -705,8 +705,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		saveProjectNeeded(false);
 		frame.getBrowserManager().getProjectBrowser().setProject(currentProject);
 		frame.getInfoManager().setProject(currentProject);
-		newDiagram(currentProject);
-		newOclDocument(currentProject,false);
+		newDiagram(currentProject,null);
+		newRulesDocument(null);
 	}
 
 	/** Verifies if there is a project opened/loaded. */
@@ -765,10 +765,30 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		diagram.setSize((AppFrame.GetScreenWorkingWidth()-waste+100)*3, (AppFrame.GetScreenWorkingHeight()-100)*3);
 	}
 	
+	//====================================================
+	// NEW DIAGRAM
+	//====================================================
+	
+	/** Creates a new diagram on the current Project */
+	public void newDiagram(){
+		StructureDiagram diagram = newDiagram(getCurrentProject(),null);
+		saveDiagramNeeded(diagram,false);
+	}
+	
 	/** Creates a new Diagram with in existing Project */
-	public void newDiagram(UmlProject project)
-	{
-		StructureDiagram diagram = new StructureDiagram(project,elementFactory,drawingContext);	
+	public StructureDiagram newDiagram(UmlProject project){	
+		return newDiagram(project,null);
+	}
+	
+	/** Creates a new Diagram with in existing Project */
+	public StructureDiagram newDiagram(Object epackage){	
+		return newDiagram(getCurrentProject(),epackage);
+	}
+	
+	/** Creates a new Diagram with in existing Project */
+	public StructureDiagram newDiagram(UmlProject project, Object epackage){	
+		StructureDiagram diagram = new StructureDiagram(project,elementFactory,drawingContext);
+		if(epackage!=null)diagram.setContainer(epackage);
 		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+getCurrentProject().getDiagrams().size());
 		getCurrentProject().addDiagram(diagram);
@@ -777,58 +797,43 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		//add the diagram from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
 		browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),diagram);
+		return diagram;
 	}
 
-	/** Creates a new OCL document with in existing Project */
-	public void newOclDocument(UmlProject project, boolean openInTab)
-	{
+	//====================================================
+	// RENAME
+	//====================================================
+	
+	public void rename(Object obj){		
+		if (obj instanceof StructureDiagram) renameDiagram((StructureDiagram)obj);		
+		else if (obj instanceof OclDocument) renameOclDocument((OclDocument)obj);							
+		else if (obj instanceof RefOntoUML.Element) renameElement((RefOntoUML.Element)obj);		
+	}
+	
+	//====================================================
+	// NEW RULES DOCUMENT
+	//====================================================
+	
+	/** Creates a new rules document on the current Project */
+	public OclDocument newRulesDocument(){
+		return newRulesDocument(null);		
+	}
+	
+	/** Creates a new rules document with in existing Project */
+	public OclDocument newRulesDocument(Object epackage){
 		OclDocument oclDoc = new OclDocument();
+		oclDoc.setContainer(epackage);
 		ArrayList<OclDocument> docs = Models.getOclDocList();			
 		oclDoc.setName("Rules"+docs.size());			
 		docs.add(oclDoc);
-		if(openInTab)createConstraintEditor(oclDoc);		
-		//add the ocl document from the browser
+		createConstraintEditor(oclDoc);		
+		//add the rules document from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
 		browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),oclDoc);
+		return oclDoc;
 	}
 	
-	/** Creates a new diagram on the current Project */
-	public void newDiagram()
-	{
-		if (currentProject!=null)
-		{
-			StructureDiagram diagram = new StructureDiagram(getCurrentProject(), elementFactory,drawingContext);
-			setDefaultDiagramSize(diagram);
-			diagram.setLabelText("Diagram"+getCurrentProject().getDiagrams().size());
-			getCurrentProject().addDiagram(diagram);						
-			saveDiagramNeeded(diagram,true);
-			createDiagramEditor(diagram);			
-			//add the diagram from the browser
-			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),diagram);			
-		}
-	}
-	
-	public void newOclDocument()
-	{
-		newOclDocument(true);
-	}
-	
-	/** Creates a new ocl document on the current Project */
-	public void newOclDocument(boolean openInTab)
-	{
-		if (currentProject!=null)
-		{
-			OclDocument oclDoc = new OclDocument();		
-			ArrayList<OclDocument> docs = Models.getOclDocList();			
-			oclDoc.setName("Rules"+docs.size());			
-			docs.add(oclDoc);
-			if(openInTab) createConstraintEditor(oclDoc);				
-			//add the ocl document from the browser
-			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),oclDoc);	
-		}
-	}
+	//====================================================
 	
 	/** Close current diagram editor */
 	public void closeDiagram()
@@ -908,6 +913,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
+	public void findInDiagrams(Object element){
+		ArrayList<DiagramEditor> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagramEditors((RefOntoUML.Element)element);
+		DiagramListDialog.open(ProjectBrowser.frame, diagrams,(RefOntoUML.Element)element);		
+	}
+	
 	/** Delete Diagram */
 	public void deleteDiagram(StructureDiagram diagram, boolean showwarning)
 	{
@@ -2336,6 +2346,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if((element instanceof RefOntoUML.Association)){			
 			moveAssociationToDiagram((RefOntoUML.Association)element, d, false , true, true, true, false, ReadingDesign.UNDEFINED);
 		}
+	}
+	
+	public void moveToDiagram(Object element)
+	{
+		moveToDiagram((RefOntoUML.Element)element,getCurrentDiagramEditor());
 	}
 	
 	/** Move element to a Diagram */
