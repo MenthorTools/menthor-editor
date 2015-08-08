@@ -23,11 +23,19 @@ package net.menthor.editor.v2.trees;
 
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.util.Util;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -40,6 +48,34 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	protected DefaultMutableTreeNode modelRootNode;		
 	protected DefaultTreeModel treeModel;
 	protected TreeCheckingModel checkingModel;
+	
+	protected BaseCheckBoxTree(final CommandListener listener, DefaultMutableTreeNode rootNode){
+		this(rootNode);
+		/* Ctrl+Up / Ctrl+Down Key Stroke */
+		if(Util.onMac()){
+			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, ActionEvent.META_MASK), "moveup");
+			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, ActionEvent.META_MASK), "movedown");
+		}else{
+			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, ActionEvent.CTRL_MASK), "moveup");
+			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, ActionEvent.CTRL_MASK), "movedown");
+		}
+		getActionMap().put("moveup", new AbstractAction() {			
+			private static final long serialVersionUID = -340479571291150368L;			
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) getSelectedNode();
+				listener.handleCommand(CommandType.MOVE_UP_TREE.toString(),node.getUserObject());
+		    }
+		});				
+		getActionMap().put("movedown", new AbstractAction() {			
+			private static final long serialVersionUID = -340479571291150368L;			
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) getSelectedNode();
+				listener.handleCommand(CommandType.MOVE_DOWN_TREE.toString(),node.getUserObject());
+		    }
+		});
+	}
 	
 	/**Constructor */
 	protected BaseCheckBoxTree(DefaultMutableTreeNode rootNode){

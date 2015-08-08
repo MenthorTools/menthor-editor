@@ -132,8 +132,7 @@ import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.dialog.ImportXMIDialog;
 import net.menthor.editor.dialog.help.AboutDialog;
 import net.menthor.editor.dialog.help.LicensesDialog;
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.finder.FoundPane;
 import net.menthor.editor.pattern.DomainPatternTool;
@@ -156,8 +155,10 @@ import net.menthor.editor.ui.ClosableTabPanel;
 import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.OWLHelper;
 import net.menthor.editor.ui.PngWriter;
+import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.TextEditor;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.ui.commands.OntoUMLExporter;
@@ -1018,7 +1019,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						int index = getTabIndex(diagram);					
 						if(index>=0) setTitleAt(index, newtext);			        
 						updateUI();
-						getFrame().getBrowserManager().getProjectBrowser().refreshTree();				        
+						getFrame().getBrowserManager().getProjectBrowser().refresh();				        
 					}
 				});				
 			}
@@ -1042,7 +1043,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						oclDoc.setName(newtext);
 						int index = getTabIndex(oclDoc);					
 						if(index>=0) setTitleAt(index, newtext);			        
-				        getFrame().getBrowserManager().getProjectBrowser().refreshTree();	
+				        getFrame().getBrowserManager().getProjectBrowser().refresh();	
 				        updateUI();
 					}
 				});
@@ -1237,7 +1238,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
 			Settings.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthor",""));
-			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+			getFrame().getBrowserManager().getProjectBrowser().refresh();
 			saveAllDiagramNeeded(false);
 			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 			invalidate();
@@ -1650,6 +1651,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		cmd.run();
 	}
 	
+
+	/** Add constraintx to the model instance (not to diagram) */
+	public void addConstraintx(RefOntoUML.Element eContainer) 
+	{
+		addConstraintx("",eContainer);
+	}
+	
 	/** Add constraintx to the model instance (not to diagram) */
 	public void addConstraintx(String text, RefOntoUML.Element eContainer) 
 	{
@@ -1686,7 +1694,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	/** Add element to the model instance (not to diagram).  */
 	public RefOntoUML.Element addClass(ClassType stereotype, RefOntoUML.Element eContainer)
-	{
+	{	
 		RefOntoUML.Element element = elementFactory.createClass(stereotype);		
 		//to add only in the model do exactly as follow		
 		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
@@ -1781,6 +1789,26 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
+	public void editProperties(Object element)
+	{
+    	if (element instanceof StructureDiagram){
+    		StructureDiagram diagram = (StructureDiagram)element;
+    		if (!frame.getDiagramManager().isDiagramOpened(diagram)){
+    			frame.getDiagramManager().createDiagramEditor(diagram);
+    		}
+    	}    	
+    	else if (element instanceof OclDocument){
+    		OclDocument oclDoc = (OclDocument)element;
+    		if (!frame.getDiagramManager().isOclDocumentOpened(oclDoc)) {    		
+    			frame.getDiagramManager().createConstraintEditor(oclDoc);
+    		}
+    	}    	
+    	else if(element instanceof RefOntoUML.Element){
+    		RefOntoUML.Element e = (RefOntoUML.Element)element;
+    		ElementDialogCaller.openDialog(e, frame);
+    	}
+	}
+	
 	/** Delete elements from the model and every diagram in each they appear. It shows a message before deletion. */
 	public void deleteFromMenthor(Collection<DiagramElement> diagramElementList, boolean showmessage)
 	{
@@ -2050,7 +2078,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
 		refreshDiagramElement(property.getAssociation());
-		getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+		getFrame().getBrowserManager().getProjectBrowser().refresh();
 	}
 	
 	/** Change multiplicity from string and update the connections in diagrams */
@@ -2058,7 +2086,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		ModelHelper.setMultiplicityFromString(property, multiplicity);
 		refreshDiagramElement(property.getAssociation());
-		getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+		getFrame().getBrowserManager().getProjectBrowser().refresh();
 	}
 	
 	/** Change a class stereotype */ 
@@ -3281,7 +3309,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
 			Settings.addRecentProject(file.getCanonicalPath());
 			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
-			getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+			getFrame().getBrowserManager().getProjectBrowser().refresh();
 			saveAllDiagramNeeded(false);
 			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 			invalidate();

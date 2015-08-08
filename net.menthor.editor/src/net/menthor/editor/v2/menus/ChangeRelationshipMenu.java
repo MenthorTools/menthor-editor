@@ -31,7 +31,16 @@ public class ChangeRelationshipMenu extends BaseMenu {
 	private static final long serialVersionUID = 3797953970276009760L;
 		
 	public ChangeRelationshipMenu(CommandListener listener){
-		super(listener, "Change To");
+		super(listener, "Change To");	
+		build();
+	}
+	
+	public ChangeRelationshipMenu(CommandListener listener,String text){
+		super(listener, text);	
+		build();
+	}
+	
+	public void build(){
 		createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GEN_WHITE, CommandType.CHANGE_TO_GENERALIZATION);
 		createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_LINE, CommandType.CHANGE_TO_CHARACTERIZATION);
 		createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_LINE, CommandType.CHANGE_TO_MEDIATION);

@@ -28,9 +28,9 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
 
 import org.eclipse.emf.edit.command.DeleteCommand;
@@ -96,7 +96,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+		diagramElemList.addAll(ModelHelper.getDiagramElementsByEditor(elemList,(DiagramEditor)notification));
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
 		//System.out.println("Related diagram elements requested for deletion: \n- "+diagramElemList);
@@ -122,8 +122,8 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 				}
 			}			
 		}		
-		diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
-		diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByEditor(elemDep1List,(DiagramEditor)notification));		
+		diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByEditor(elemDep2List,(DiagramEditor)notification));
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
 		//System.out.println("Related diagram elements of dependences level 1 for deletion: \n- "+diagramElemDep1List);

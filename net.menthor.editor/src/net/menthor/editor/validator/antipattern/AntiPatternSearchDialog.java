@@ -77,9 +77,9 @@ import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.Main;
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.AntiPatternList;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.ProjectBrowser;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**

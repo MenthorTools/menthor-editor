@@ -77,7 +77,6 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.NamedElementImpl;
 import RefOntoUML.impl.RefOntoUMLPackageImpl;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 
 /**
@@ -361,6 +360,7 @@ public class ModelHelper {
  
 	public static Collection<DiagramElement> getDiagramElementsByEditor(Collection<Element> elements, DiagramEditor editor)
 	{		
+		if(editor==null) return new ArrayList<DiagramElement>();
 		return getDiagramElementsByDiagram(elements, editor.getDiagram());
 	}	
 	

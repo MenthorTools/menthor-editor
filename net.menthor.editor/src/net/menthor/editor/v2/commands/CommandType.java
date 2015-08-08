@@ -248,6 +248,12 @@ public enum CommandType {
 	ADD_PACKAGE(null),
 
 	//====================================================
+	// ADD OTHERS
+	//====================================================
+	ADD_COMMENT(null),
+	ADD_CONSTRAINT(null),
+	
+	//====================================================
 	// ADD DIAGRAM
 	//====================================================
 	ADD_DIAGRAM(null),
@@ -343,7 +349,15 @@ public enum CommandType {
 	CHANGE_TO_ROLEMIXIN(null),
 	CHANGE_TO_PERCEIVABLE_QUALITY(null),
 	CHANGE_TO_NONPERCEIVABLE_QUALITY(null),
-	CHANGE_TO_NOMINAL_QUALITY(null);
+	CHANGE_TO_NOMINAL_QUALITY(null),
+	
+	//====================================================
+	// INVERT
+	//====================================================
+	INVERT_END_NAMES(null),
+	INVERT_END_POINTS(null),
+	INVERT_END_MULTIPLICITIES(null),
+	INVERT_END_TYPES(null);
 	
 	private String description;
 

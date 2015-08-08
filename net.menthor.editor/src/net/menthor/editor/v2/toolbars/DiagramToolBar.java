@@ -38,12 +38,11 @@ public class DiagramToolBar extends BaseToolBar {
 	
 	
 	public DiagramToolBar (CommandListener listener, int orientation){
-		this(listener);
-		setOrientation(VERTICAL);
+		this(listener);	
 	}
 	
 	public DiagramToolBar (CommandListener listener){		
-		super(listener, background,28,28);	
+		super(listener, background,20,20);	
 		setBackground(background);
 		createButton(IconType.MENTHOR_GRID, CommandType.SHOW_GRID, background);
 		createButton(IconType.MENTHOR_ALIGN_BOTTOM,CommandType.ALIGN_BOTTOM,background);

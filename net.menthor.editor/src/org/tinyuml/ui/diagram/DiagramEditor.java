@@ -105,9 +105,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.explorer.Models;
 import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.BaseEditor;
@@ -437,28 +437,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		selectionHandler.select(element);
 	}
 	
-	public void deleteSelection(Object element){
-		if(element instanceof DiagramElement){
-			DiagramElement ce = ((DiagramElement)element);
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add(ce);
-			frame.getDiagramManager().deleteFromMenthor(list,true);
-		}else{
-			frame.getDiagramManager().delete(element);
-		}
-	}
-	
-	/**
-	 * Removes the elements selected. From the diagram and the model.
-	 */
-	public void deleteSelection() {
-				
-		if(this.isFocusable()){
-			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);
-		}
-	}
-	
 	/** Create a generalizations from selected elements in the diagram */
 	public void addGeneralizationSet()
 	{		
@@ -480,41 +458,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		frame.getDiagramManager().deleteGeneralizationSet(this,diagramElementsList);		
 		deselectAll();
 		cancelEditing();		
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection(Object element){
-		if(element instanceof DiagramElement){
-			DiagramElement ce = ((DiagramElement)element);
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add(ce);
-			excludeSelection(list);
-		}
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection(Collection<DiagramElement> diagramElementsList){
-		//no diagram in the list...
-		List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
-		for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
-		diagramElementsList.removeAll(diagrams);
-		if(diagramElementsList.size()>0){
-			
-			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-			if(response==Window.OK)
-			{
-				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
-			}
-		}
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection() 
-	{
-		if(this.isFocusable()){
-			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			excludeSelection(diagramElementsList);
-		}
 	}
 	
 	/** Open ToolBox Menu. */
@@ -1104,7 +1047,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Sets the grid to visible.
 	 * @param flag true for visible grid, false otherwise
 	 */
-	public void showGrid(boolean flag) 
+	public void showGrid(Boolean flag) 
 	{
 		diagram.setGridVisible(flag);
 		updateUI();
@@ -1863,12 +1806,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		} 
 	}
 	
-	/** Edits the current selection's properties. */
-	public void editProperties() 
-	{
-		if (getSelectedElements().size() > 0) editProperties(getSelectedElements().get(0));		
-	}
-	
 	/** Bring related elements to diagram */
 	public void addAllRelatedElements(Object diagramElement)
 	{
@@ -1941,6 +1878,68 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 
+	public void deleteSelection(Object element){
+		if(element instanceof DiagramElement){
+			DiagramElement ce = ((DiagramElement)element);
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add(ce);
+			frame.getDiagramManager().deleteFromMenthor(list,true);
+		}else{
+			frame.getDiagramManager().delete(element);
+		}
+	}
+	
+	/**
+	 * Removes the elements selected. From the diagram and the model.
+	 */
+	public void deleteSelection() {
+				
+		if(this.isFocusable()){
+			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection(Object element){
+		if(element instanceof DiagramElement){
+			DiagramElement ce = ((DiagramElement)element);
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add(ce);
+			excludeSelection(list);
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection(Collection<DiagramElement> diagramElementsList){
+		//no diagram in the list...
+		List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
+		for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
+		diagramElementsList.removeAll(diagrams);
+		if(diagramElementsList.size()>0){
+			
+			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+			if(response==Window.OK)
+			{
+				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
+			}
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection() 
+	{
+		if(this.isFocusable()){
+			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			excludeSelection(diagramElementsList);
+		}
+	}
+
+	/** Edits the current selection's properties. */
+	public void editProperties(){
+		if (getSelectedElements().size() > 0) editProperties(getSelectedElements().get(0));		
+	}
+	
 	/** {@inheritDoc} */
 	public void editProperties(Object element) 
 	{
@@ -1956,6 +1955,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
 			ElementDialogCaller.callGeneralizationDialog(frame, generalization, true);			
 			redraw();
+		}else{
+			frame.getDiagramManager().editProperties(element);
 		}
 	}
 

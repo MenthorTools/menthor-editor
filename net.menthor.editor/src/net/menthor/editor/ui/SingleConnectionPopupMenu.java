@@ -1,4 +1,4 @@
-package net.menthor.editor.popupmenu;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -59,8 +59,6 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import net.menthor.editor.dialog.properties.FeatureListDialog;
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.menus.ChangeRelationshipMenu;

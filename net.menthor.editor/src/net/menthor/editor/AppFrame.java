@@ -39,8 +39,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
-import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
@@ -370,8 +370,8 @@ public class AppFrame extends JFrame implements CommandListener {
 	private MethodCall getMethodCall(String command, Object parameter){
 		MethodCall methodcall=null;
 		CommandType cmdType = CommandType.valueOf(command);
-		if(CommandType.isValueOf(command)){			
-			if(parameter!=null) CommandMap.getInstance().setParameter(cmdType, parameter);
+		if(CommandType.isValueOf(command)){
+			if(parameter!=null) CommandMap.getInstance().addParameter(cmdType, parameter);
 			methodcall = CommandMap.getInstance().getMethodCall(cmdType);			
 		}
 		if(methodcall==null){
@@ -394,7 +394,7 @@ public class AppFrame extends JFrame implements CommandListener {
 			}
 		}catch(java.lang.IllegalArgumentException e){
 			System.err.println("Method not called. Reason: "+e.getLocalizedMessage());
-			System.err.println("     >> "+methodcall);			
+			System.err.println(methodcall);			
 		}
 	}
 	
@@ -403,8 +403,8 @@ public class AppFrame extends JFrame implements CommandListener {
 	public void handleCommand(String command, Object parameter) {	
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MethodCall methodcall = getMethodCall(command,parameter);
-		if(methodcall!=null) methodcall.printParameters(); //debug!
-		callMethod(methodcall);
+		System.out.println(methodcall);
+		if(methodcall!=null) callMethod(methodcall);
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
@@ -413,8 +413,8 @@ public class AppFrame extends JFrame implements CommandListener {
 	public void handleCommand(String command) {	
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MethodCall methodcall = getMethodCall(command,null);
-		if(methodcall!=null) methodcall.printParameters(); //debug!
-		callMethod(methodcall);
+		System.out.println(methodcall);
+		if(methodcall!=null)callMethod(methodcall);
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
@@ -565,60 +565,31 @@ public class AppFrame extends JFrame implements CommandListener {
 //		}
 //	}
 	
-	/**
-	 * Shoe Error Message Dialog.
-	 * 
-	 * @param title
-	 * @param message
-	 */
-	public void showErrorMessageDialog(String title, String message)
-	{
+	public void showErrorMessageDialog(String title, String message){
 		JOptionPane.showMessageDialog(
 			this,message,title,JOptionPane.ERROR_MESSAGE			
 		);	
 	}
 	
-	/**
-	 * Show Warning Message Dialog.
-	 * 
-	 * @param title
-	 * @param message
-	 */
-	public void showWarningMessageDialog(String title, String message)
-	{
+	public void showWarningMessageDialog(String title, String message){
 		JOptionPane.showMessageDialog(
 			this,message,title,JOptionPane.WARNING_MESSAGE			
 		);	
 	}
-	
-	/**
-	 * Show Successful Message Dialog.
-	 * 
-	 * @param title
-	 * @param message
-	 */
-	public void showSuccessfulMessageDialog(String title, String message)
-	{
+		
+	public void showSuccessfulMessageDialog(String title, String message){
 		JOptionPane.showMessageDialog(
 			this,message,title,JOptionPane.INFORMATION_MESSAGE			
 		);
 	}
 	
-	/**
-	 * Show Information Message Dialog.
-	 * 
-	 * @param title
-	 * @param message
-	 */
-	public void showInformationMessageDialog(String title, String message)
-	{
+	public void showInformationMessageDialog(String title, String message){
 		JTextArea textArea = new JTextArea(message);
 		textArea.setColumns(30);
 		textArea.setLineWrap( true );
 		textArea.setWrapStyleWord(true);
 		textArea.setSize(textArea.getPreferredSize().width, 1);
-		textArea.setBackground(this.getBackground());
-		
+		textArea.setBackground(this.getBackground());		
 		JOptionPane.showMessageDialog(
 			this, textArea,title,JOptionPane.ERROR_MESSAGE
 		);

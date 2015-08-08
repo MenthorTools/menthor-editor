@@ -1,4 +1,4 @@
-package net.menthor.editor.explorer.dnd;
+package net.menthor.editor.ui;
   
 import java.awt.Point;
 import java.awt.datatransfer.Transferable;
@@ -10,6 +10,8 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
+
+import net.menthor.editor.v2.trees.TransferableTreeNode;
 
 public class DiagramDropListener implements DropTargetListener{
 	  

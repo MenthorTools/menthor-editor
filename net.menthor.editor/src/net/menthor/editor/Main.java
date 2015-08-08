@@ -71,7 +71,7 @@ public final class Main {
 	 * 		b: compilation with new features
 	 * 		c: compilation with bug fixes
 	 */	
-	public static String MENTHOR_VERSION = "1.1.0 gama"; 
+	public static String MENTHOR_VERSION = "1.1.0 test"; 
 	
 	public static String MENTHOR_COMPILATION_DATE = getCompilationDateMessage();
 	

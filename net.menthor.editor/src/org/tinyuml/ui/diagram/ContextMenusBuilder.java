@@ -31,8 +31,8 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.popupmenu.MultiSelectionPopupMenu;
-import net.menthor.editor.popupmenu.SingleConnectionPopupMenu;
+import net.menthor.editor.ui.MultiSelectionPopupMenu;
+import net.menthor.editor.ui.SingleConnectionPopupMenu;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.menus.NodePopupMenu;
 

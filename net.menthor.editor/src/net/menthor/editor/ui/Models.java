@@ -1,11 +1,8 @@
-package net.menthor.editor.explorer;
+package net.menthor.editor.ui;
 
 import java.util.ArrayList;
 
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.AlloySpecification;
-import net.menthor.editor.ui.AntiPatternList;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -38,5 +35,11 @@ public class Models {
 
 	private static TOCL2AlloyOption oclOptions;
 	public static TOCL2AlloyOption getOclOptions() { return oclOptions; }
-	public static void setOclOptions(TOCL2AlloyOption oclOptions) { Models.oclOptions = oclOptions; }	
+	public static void setOclOptions(TOCL2AlloyOption oclOptions) { Models.oclOptions = oclOptions; }
+	
+	public static void clear() {
+		Models.setProject(null);
+		Models.setRefparser(null);
+		Models.getOclDocList().clear();
+	}
 }

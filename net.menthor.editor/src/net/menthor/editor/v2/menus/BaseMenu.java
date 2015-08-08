@@ -46,7 +46,7 @@ public class BaseMenu extends JMenu implements ActionListener{
 	private static final long serialVersionUID = -1451727867476622857L;
 	
 	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { listeners.add(l); }
+	public void addCommandListener(CommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
 	
 	protected Object context;
 	
@@ -67,7 +67,7 @@ public class BaseMenu extends JMenu implements ActionListener{
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {		
+	public void actionPerformed(ActionEvent e) {	
 		for (CommandListener l : listeners) {
 			if(context!=null) l.handleCommand(e.getActionCommand(), context);
 			else l.handleCommand(e.getActionCommand());

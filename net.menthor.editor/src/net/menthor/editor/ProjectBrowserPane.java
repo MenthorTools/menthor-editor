@@ -26,7 +26,7 @@ import java.awt.Color;
 
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.ui.RoundedPanel;
 
 /**

@@ -30,8 +30,17 @@ public class AddClassMenu extends BaseMenu {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
+	public AddClassMenu(CommandListener listener, String text){
+		super(listener, text);	
+		build();
+	}
+	
 	public AddClassMenu(CommandListener listener){
 		super(listener, "Add Class");		
+		build();
+  	}
+	
+	public void build(){
 		createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_KIND);
 		createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_SUBKIND);
 		createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_COLLECTIVE);
@@ -47,5 +56,5 @@ public class AddClassMenu extends BaseMenu {
 		createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NONPERCEIVABLE_QUALITY);
 		createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NOMINAL_QUALITY);
         sort();
-  	}
+	}
 }

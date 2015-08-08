@@ -46,8 +46,8 @@ import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.Models;
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 
 public class ExclusionDerivationOperations {

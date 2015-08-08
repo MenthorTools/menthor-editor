@@ -30,8 +30,17 @@ public class ChangeClassMenu extends BaseMenu {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 		
+	public ChangeClassMenu(CommandListener listener, String text){
+		super(listener, text);	
+		build();
+	}
+	
 	public ChangeClassMenu(CommandListener listener){
-		super(listener, "Change To");		
+		super(listener, "Change To");
+		build();
+	}
+	
+	public void build(){
 		createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_KIND);
 		createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_SUBKIND);
 		createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_COLLECTIVE);

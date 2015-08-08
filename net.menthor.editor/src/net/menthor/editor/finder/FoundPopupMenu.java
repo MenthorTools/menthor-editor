@@ -30,7 +30,7 @@ import javax.swing.JPopupMenu;
 
 import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.ProjectBrowser;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;

@@ -45,8 +45,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.Models;
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
 
 import org.tinyuml.draw.DiagramElement;
 

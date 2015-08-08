@@ -205,7 +205,7 @@ public class ClosableTabPanel extends JPanel {
                     Editor currentEditor = ((DiagramManager)pane).getCurrentEditor();
                     if(currentEditor instanceof DiagramEditor) ((DiagramEditor)currentEditor).getDiagram().setName(editor.getText());
                     if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOclDocument().setName(editor.getText());
-                    ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+                    ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refresh();
                 } 
             } 
         }); 
@@ -218,7 +218,7 @@ public class ClosableTabPanel extends JPanel {
             	Editor currentEditor = ((DiagramManager)pane).getCurrentEditor();
                 if(currentEditor instanceof DiagramEditor) ((DiagramEditor)currentEditor).getDiagram().setName(editor.getText());
                 if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOclDocument().setName(editor.getText());
-                ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+                ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refresh();
             } 
         }); 
         return editor; 

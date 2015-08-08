@@ -44,7 +44,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 

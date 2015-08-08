@@ -23,6 +23,8 @@ package net.menthor.editor.v2.commands;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class implements a method call by reflection. It is used to implement
@@ -31,42 +33,48 @@ import java.lang.reflect.Method;
 public class MethodCall {
 
   private Method method;
-  private Object[] methodParameters;
-
+  private List<Object> earlyParameters = new ArrayList<Object>();
+  private List<Object> lateParameters = new ArrayList<Object>();
+  
   public MethodCall(final Method theMethod, final Object... parameters){
     method = theMethod;
-    methodParameters = new Object[parameters.length];
+    earlyParameters.clear();
     for (int i = 0; i < parameters.length; i++) {
-      methodParameters[i] = parameters[i];
+    	earlyParameters.add(parameters[i]);
     }
   }
 
-  public void printParameters() {
-	System.out.println(method);
-    for (int i = 0; i < methodParameters.length; i++) {
-      System.out.println("Parameter#"+i+": "+methodParameters[i]);
-    }
-  }
-  public Method getMethod() { return method; }
-	
-  public void setParameter(Object parameter){  
-	  methodParameters = new Object[1];
-	  methodParameters[0] = parameter;
+  public String toString(){
+	  String result = new String();
+	  result+=""+getMethod()+"";			
+	  if(earlyParameters.size()>0||lateParameters.size()>0) result+="\n"+parametersAsString()+"";
+	  return result;
   }
   
-  public void addParameter(Object parameter){  
-	  int size = methodParameters.length;
-	  Object[] newParameters = new Object[size+1];
-	  for (int i = 0; i < methodParameters.length; i++) {
-		  newParameters[i] = methodParameters[i];
-	  }
-	  newParameters[size] = parameter;	  
-	  methodParameters = newParameters;	  
+  public String parametersAsString() {
+      String result = new String();
+      for(Object obj: earlyParameters){
+    	  result += "Parameter:'"+obj+"';";
+      }
+      for(Object obj: lateParameters){
+    	  result += "Parameter:'"+obj+"';";
+      }
+      return result;
+  }
+  
+  public Method getMethod() { return method; }
+ 
+  public void set(final Object parameter){  
+	  lateParameters.clear();
+	  lateParameters.add(parameter);	  
   }
   
   public void call(Object target){
+	  List<Object> parameters = new ArrayList<Object>();
+	  parameters.addAll(earlyParameters);
+	  parameters.addAll(lateParameters);
     try {
-      method.invoke(target, methodParameters);
+      method.invoke(target, parameters.toArray());
     } catch (InvocationTargetException ex) {
       ex.printStackTrace();
     } catch (IllegalAccessException ex) {

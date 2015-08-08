@@ -30,8 +30,16 @@ public class AddDataTypeMenu extends BaseMenu {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
+	public AddDataTypeMenu(CommandListener listener, String text){
+		super(listener, text);
+		build();
+	}
 	public AddDataTypeMenu(CommandListener listener){
 		super(listener, "Add DataType");
+		build();
+	}
+	
+	public void build(){
 		createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_DATATYPE);
 		createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_ENUMERATION);
 		createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_PRIMITIVETYPE);

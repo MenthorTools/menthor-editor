@@ -30,8 +30,17 @@ public class AddRelationshipMenu extends BaseMenu {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
+	public AddRelationshipMenu(CommandListener listener, String text){
+		super(listener, text);	
+		build();
+	}
+	
 	public AddRelationshipMenu(CommandListener listener){
-		super(listener, "Add Relationship");
+		super(listener, "Add Relationship");	
+		build();
+	}
+	
+	public void build(){
 		createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GEN_WHITE, CommandType.ADD_GENERALIZATION);
 		createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_LINE, CommandType.ADD_CHARACTERIZATION);
 		createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_LINE, CommandType.ADD_MEDIATION);

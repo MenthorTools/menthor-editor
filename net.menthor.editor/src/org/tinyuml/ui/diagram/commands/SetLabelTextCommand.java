@@ -36,8 +36,8 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
-import net.menthor.editor.explorer.Models;
-import net.menthor.editor.explorer.ProjectBrowser;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 

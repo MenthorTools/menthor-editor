@@ -1,4 +1,4 @@
-package net.menthor.editor.popupmenu;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -47,7 +47,6 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.ui.ApplicationResources;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import RefOntoUML.Generalization;

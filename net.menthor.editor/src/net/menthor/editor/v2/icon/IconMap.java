@@ -55,8 +55,8 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_EXPORT, "net/menthor/editor/v2/icon/novos_icones-11.png");
 		urlMap.put(IconType.MENTHOR_IMPORT, "net/menthor/editor/v2/icon/novos_icones-12.png");
 		urlMap.put(IconType.MENTHOR_ZOOM_EXPORT, "net/menthor/editor/v2/icon/novos_icones-13.png"); //????????
-		urlMap.put(IconType.MENTHOR_ZOOM_IN, "net/menthor/editor/v2/icon/novos_icones-14.png");
-		urlMap.put(IconType.MENTHOR_ZOOM_OUT, "net/menthor/editor/v2/icon/novos_icones-15.png");
+		urlMap.put(IconType.MENTHOR_ZOOM_IN, "net/menthor/editor/v2/icon/zoomin.png");
+		urlMap.put(IconType.MENTHOR_ZOOM_OUT, "net/menthor/editor/v2/icon/zoomout.png");
 		urlMap.put(IconType.MENTHOR_REDO, "net/menthor/editor/v2/icon/novos_icones-16.png");
 		urlMap.put(IconType.MENTHOR_UNDO, "net/menthor/editor/v2/icon/novos_icones-17.png");
 		urlMap.put(IconType.MENTHOR_SEARCH, "net/menthor/editor/v2/icon/novos_icones-18.png");

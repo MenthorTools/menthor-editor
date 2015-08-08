@@ -37,6 +37,7 @@ public class ProjectToolBar extends BaseToolBar {
 	
 	public ProjectToolBar(CommandListener listener){
 		super(listener, background, 16, 16);
+		setFloatable(false);
 		setBackground(background);
 		createButton(IconType.MENTHOR_UP, CommandType.MOVE_UP_TREE, background);
 		createButton(IconType.MENTHOR_DOWN, CommandType.MOVE_DOWN_TREE, background);

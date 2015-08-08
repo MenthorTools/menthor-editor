@@ -34,12 +34,11 @@ import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.explorer.dnd.DiagramDropListener;
-import net.menthor.editor.explorer.dnd.TreeDragGestureListener;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.status.StatusPane;
 import net.menthor.editor.v2.toolbars.DiagramToolBar;
+import net.menthor.editor.v2.trees.TreeDragGestureListener;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.RoundedPanel;
 

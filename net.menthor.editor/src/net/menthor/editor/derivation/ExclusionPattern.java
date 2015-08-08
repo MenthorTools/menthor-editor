@@ -46,7 +46,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.Models;
 import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 
 /**

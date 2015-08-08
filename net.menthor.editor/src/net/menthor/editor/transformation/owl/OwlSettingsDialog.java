@@ -31,8 +31,8 @@ import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.Models;
 import net.menthor.editor.transformation.TransformationDialog;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 
 public class OwlSettingsDialog extends TransformationDialog {

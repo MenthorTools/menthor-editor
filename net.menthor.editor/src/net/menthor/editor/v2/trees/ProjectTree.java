@@ -1,5 +1,14 @@
 package net.menthor.editor.v2.trees;
 
+import java.awt.Rectangle;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -25,15 +34,14 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -47,11 +55,19 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.menus.TreePopupMenu;
+import net.menthor.editor.v2.util.Util;
+
 public class ProjectTree extends BaseCheckBoxTree {
 
 	private static final long serialVersionUID = 1L;
 	
 	protected TreeVisibility opt;
+	private TreePopupMenu popupmenu;
 	
 	protected OntoUMLParser refparser;
 	public OntoUMLParser getParser(){ return refparser;}
@@ -98,7 +114,6 @@ public class ProjectTree extends BaseCheckBoxTree {
 	}
 	    
 	protected ProjectTree (final CommandListener listener, DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox){
-		
 		super(rootNode);		
 		this.opt=opt;		
 		this.refparser=refparser;
@@ -109,6 +124,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 		if(oclDocList!=null) drawRules(oclDocList);
 		addCheckingPath(new TreePath(modelRootNode.getPath()));		
 		expandPath(new TreePath(modelRootNode.getPath()));	
+		/* Select Action */
 		addTreeSelectionListener(new TreeSelectionListener() {			
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
@@ -118,7 +134,59 @@ public class ProjectTree extends BaseCheckBoxTree {
 				}
 			}			
 		});
+		/* Delete Key Stroke */
+		if(Util.onMac()){
+			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK), "delete");
+		}else{
+			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK), "delete");
+		}
+		getActionMap().put("delete", new AbstractAction() {			
+			private static final long serialVersionUID = -340479571291150368L;			
+			@Override
+		    public void actionPerformed(ActionEvent e) {				
+		       listener.handleCommand(CommandType.DELETE.toString(), getSelectedNode().getUserObject());
+		    }
+		});				
+		popupmenu = new TreePopupMenu(listener);
+		/* Click */
+		addMouseListener(new MouseAdapter(){
+	        public void mouseClicked (MouseEvent e){	       	
+	        	if (SwingUtilities.isRightMouseButton(e)){	            	
+	        		openPopupMenu(e);         
+	            }
+	        	if (e.getClickCount()==2 && SwingUtilities.isLeftMouseButton(e)){
+	            	TreePath path = getPathForLocation(e.getX(),e.getY());
+	            	if (path!=null){
+	                	DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());
+	                	if(currentNode!=null) listener.handleCommand(CommandType.EDIT.toString(), currentNode.getUserObject());
+	            	}
+	            }
+	        }
+	    });
+		/* Drag and Drop (at the same tree) */		
+		DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(
+			this, DnDConstants.ACTION_MOVE, new TreeDragGestureListener()
+		);
+	    new DropTarget(this, new TreeDropTargetListener(this));
+		/* Select Root */
+	    select(getRootNode());
 	}	
+	
+	//==========================================================
+	// POPUP MENU
+	//==========================================================
+	
+	public void openPopupMenu(MouseEvent e){				
+		TreePath path = getPathForLocation(e.getX (), e.getY());        	
+    	setSelectionPath(path);
+    	scrollPathToVisible(path);            
+    	DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());
+    	Rectangle pathBounds = getUI().getPathBounds(ProjectTree.this, path);
+        if (pathBounds != null && pathBounds.contains(e.getX (),e.getY())){
+        	popupmenu.setContext(currentNode.getUserObject());
+    		popupmenu.show(e.getComponent(), e.getX(), e.getY());
+        }			
+	}
 	
 	//==========================================================
 	// DRAW TREE

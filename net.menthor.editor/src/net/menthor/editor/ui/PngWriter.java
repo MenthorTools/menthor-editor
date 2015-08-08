@@ -38,26 +38,21 @@ import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.v2.util.FileWriter;
 
-/**
- * This class exports a diagram to a Portable Network Graphics file.
- *
- * @author Wei-ju Wu
- */
+/** This class exports a diagram to a Portable Network Graphics file. */
 public class PngWriter extends FileWriter {
 
 	/**
 	 * Export the editor graphics to a file in PNG format.
 	 * Edited: exporting now, just the used parts of the model.
+	 * 
 	 * @param editor the editor
 	 * @param file the file to write
 	 * @throws IOException if error occurred
 	 */
 	public void writePNG(DiagramEditor editor, File file) throws IOException 
-	{
-		//Dimension size = editor.getTotalCanvasSize();
+	{		
 		ArrayList<Point> points = editor.getUsedCanvasSize();
 		Point origin = points.get(0);
 		Point end = points.get(1);
@@ -71,38 +66,29 @@ public class PngWriter extends FileWriter {
 		}
 	}
 
-	/**
-	 * Get the used part of the diagram in a BufferedImage 
-	 * */
+	/** Get the used part of the diagram in a BufferedImage */
 	public static BufferedImage getPNGImage(StructureDiagram diagram){
 		try{
-		ArrayList<Point> points = diagram.getUsedCanvasSize();
-		Point origin = points.get(0);
-		Point end = points.get(1);
-		BufferedImage image = new BufferedImage((int) end.x+20, (int) end.y+20, BufferedImage.TYPE_INT_RGB);
-
-		Graphics g =  image.getGraphics();
-		Rectangle bounds = new Rectangle(origin.x - 21, origin.y - 21, (end.x + 40 - origin.x), (end.y + 40 - origin.y));
-		g.setClip(bounds);
-		
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		g.setColor(Color.WHITE);
-		g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-
-		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_DEFAULT);
-		diagram.setGridVisible(false);
-		
-		DrawingContext dw = ProjectBrowser.frame.getDiagramManager().getDrawingContext();
-		dw.setGraphics2D(g2d, bounds);
-		diagram.draw(dw, false);
-
-		BufferedImage croped = image.getSubimage(origin.x - 21, origin.y - 21, (end.x + 40 - origin.x), (end.y + 40 - origin.y));
-		
-		return croped;
+			ArrayList<Point> points = diagram.getUsedCanvasSize();
+			Point origin = points.get(0);
+			Point end = points.get(1);
+			BufferedImage image = new BufferedImage((int) end.x+20, (int) end.y+20, BufferedImage.TYPE_INT_RGB);
+			Graphics g =  image.getGraphics();
+			Rectangle bounds = new Rectangle(origin.x - 21, origin.y - 21, (end.x + 40 - origin.x), (end.y + 40 - origin.y));
+			g.setClip(bounds);		
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);		
+			g.setColor(Color.WHITE);
+			g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_DEFAULT);
+			diagram.setGridVisible(false);		
+			DrawingContext dw = ProjectBrowser.frame.getDiagramManager().getDrawingContext();
+			dw.setGraphics2D(g2d, bounds);
+			diagram.draw(dw, false);
+			BufferedImage croped = image.getSubimage(origin.x - 21, origin.y - 21, (end.x + 40 - origin.x), (end.y + 40 - origin.y));		
+			return croped;
 		}catch(Exception e){
 			System.err.println("Could not generate an intern image for a diagram: "+e.getMessage());	
 			JOptionPane.showMessageDialog(null, "Could not generate an intern image for a diagram:\n"+e.getMessage(), 
@@ -112,10 +98,7 @@ public class PngWriter extends FileWriter {
 		}
 		return null;
 	}
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
+		
+	/** {@inheritDoc} */
 	protected String getSuffix() { return ".png"; }
 }

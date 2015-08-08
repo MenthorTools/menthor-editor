@@ -26,8 +26,8 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.explorer.ProjectBrowser;
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
 
 import org.eclipse.emf.ecore.EObject;

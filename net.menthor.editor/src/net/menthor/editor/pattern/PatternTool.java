@@ -6,7 +6,7 @@ import RefOntoUML.Classifier;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
-import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.PatternType;
 import net.menthor.pattern.dynamic.ui.ModelCompleter;
 import net.menthor.pattern.impl.AbstractPattern;

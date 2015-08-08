@@ -50,11 +50,12 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 	protected Object context;
 	
 	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { listeners.add(l); }
+	public void addCommandListener(CommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
 	
 	public HashMap<CommandType,JMenuItem> menuItemsMap = new HashMap<CommandType,JMenuItem>();
-	public void enableButton(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
-	public JMenuItem getButton(CommandType cmdType) { return menuItemsMap.get(cmdType); }
+	public void enableMenuItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
+	public void seeMenuItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setVisible(flag); }
+	public JMenuItem getMenuItem(CommandType cmdType) { return menuItemsMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setEnabled(value); } }
 	
 	/** some actions are executed in the context of a given element, 
@@ -65,6 +66,7 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("basepopupmenu");
 		for (CommandListener l : listeners) {
 			if(context!=null) l.handleCommand(e.getActionCommand(), context);
 			else l.handleCommand(e.getActionCommand());

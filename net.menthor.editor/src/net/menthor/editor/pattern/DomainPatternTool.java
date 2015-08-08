@@ -11,7 +11,7 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.AppFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
-import net.menthor.editor.explorer.Models;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.PngWriter;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;

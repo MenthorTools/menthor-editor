@@ -1,6 +1,6 @@
-package net.menthor.editor.ui.commands;
+package net.menthor.editor.v2.menus;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -21,28 +21,28 @@ package net.menthor.editor.ui.commands;
  * ============================================================================================
  */
 
-import java.io.File;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
 
-import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.util.FileWriter;
-import net.menthor.ontouml2uml.OntoUML2UML;
-import net.menthor.ontouml2uml.OntoUML2UMLOption;
+public class InvertMenu extends BaseMenu {
 
-public class UMLExporter extends FileWriter {
-
-	public void writeUML(DiagramManager manager, File file) throws Exception 
-	{
-		OntoUMLParser refparser = Models.getRefparser();
-		String umlPath = file.getAbsolutePath();
-		if(!umlPath.contains(".uml")) umlPath += ".uml";		
-		OntoUML2UML.convertToUMLProfile(refparser,umlPath,new OntoUML2UMLOption(false,false));
-		System.out.println(OntoUML2UML.getLog());
+	private static final long serialVersionUID = 3797953970276009760L;
+	
+	public InvertMenu(CommandListener listener, String text){
+		super(listener, text);	
+		build();
 	}
-
-	protected String getSuffix() 
-	{
-		return ".uml";
+	
+	public InvertMenu(CommandListener listener){
+		super(listener, "Invert");		
+		build();
+  	}
+	
+	public void build(){
+		createMenuItem("End-Points Names", CommandType.INVERT_END_NAMES);
+		createMenuItem("End-Points", CommandType.INVERT_END_POINTS);
+		createMenuItem("End-Points Multiplicities", CommandType.INVERT_END_MULTIPLICITIES);
+		createMenuItem("End-Points Types", CommandType.INVERT_END_TYPES);		
+		sort();
 	}
 }
