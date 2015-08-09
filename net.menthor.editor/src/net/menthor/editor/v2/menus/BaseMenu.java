@@ -33,8 +33,10 @@ import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
@@ -74,6 +76,51 @@ public class BaseMenu extends JMenu implements ActionListener{
 		}		
 	}
 
+	protected JCheckBoxMenuItem createCheckBoxMenuItem(String name, CommandType command){
+		return createCheckBoxMenuItem(name,null,command);
+	}
+	
+	/** create menu item */
+	protected JCheckBoxMenuItem createCheckBoxMenuItem(String name, IconType icontype, CommandType command){
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+		if(icontype!=null){
+			Icon icon = IconMap.getInstance().getIcon(icontype);
+			Image img = ((ImageIcon)icon).getImage();  
+			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
+			Icon newIcon = new ImageIcon(newimg);
+			item.setIcon(newIcon);
+		}		
+		if(name!=null) item.setText(name);				
+		item.setActionCommand(command.toString());
+		item.addActionListener(this);
+		menuItemsMap.put(command, item);
+		add(item);		
+		item.setToolTipText(command.getDescription());
+		return item;
+	}
+	
+	protected JRadioButtonMenuItem createRadioMenuItem(String name, CommandType command){
+		return createRadioMenuItem(name,null,command);
+	}
+	
+	/** create menu item */
+	protected JRadioButtonMenuItem createRadioMenuItem(String name, IconType icontype, CommandType command){
+		JRadioButtonMenuItem item = new JRadioButtonMenuItem();
+		if(icontype!=null){
+			Icon icon = IconMap.getInstance().getIcon(icontype);
+			Image img = ((ImageIcon)icon).getImage();  
+			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
+			Icon newIcon = new ImageIcon(newimg);
+			item.setIcon(newIcon);
+		}		
+		if(name!=null) item.setText(name);				
+		item.setActionCommand(command.toString());
+		item.addActionListener(this);
+		menuItemsMap.put(command, item);
+		add(item);		
+		item.setToolTipText(command.getDescription());
+		return item;
+	}
 	/** create menu item */
 	protected JMenuItem createMenuItem(String name, CommandType command){
 		return createMenuItem(name,null, command);

@@ -114,7 +114,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 	}
 	    
 	protected ProjectTree (final CommandListener listener, DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox){
-		super(rootNode);		
+		super(listener, rootNode);		
 		this.opt=opt;		
 		this.refparser=refparser;
 		TreeCellRenderer cellRenderer = new TreeCellRenderer(useCheckbox);

@@ -39,11 +39,11 @@ public class NodePopupMenu extends BasePopupMenu {
 	
 	public NodePopupMenu(CommandListener listener) {
 		super(listener);
-		createMenuItem("Edit Properties", CommandType.EDIT);
+		createMenuItem("Edit Properties", IconType.MENTHOR_EDIT, CommandType.EDIT);
 		addSeparator();
 		attrItem = createCheckBoxMenuItem("Show Attributes", CommandType.SHOW_ATTRIBUTES);
 		addSeparator();
-		createMenuItem("Find in Project Browser", CommandType.FIND_IN_PROJECT_BROWSER);
+		createMenuItem("Find in Project Browser", IconType.MENTHOR_TREE, CommandType.FIND_IN_PROJECT_BROWSER);
 		createMenuItem("Add All Related Elements", CommandType.ADD_ALL_RELATED_ELEMENTS);
 		addSeparator();
 		color = new BaseMenu(listener,"Background Color");

@@ -62,17 +62,15 @@ public class BaseCheckBoxTree extends CheckboxTree {
 		getActionMap().put("moveup", new AbstractAction() {			
 			private static final long serialVersionUID = -340479571291150368L;			
 			@Override
-		    public void actionPerformed(ActionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) getSelectedNode();
-				listener.handleCommand(CommandType.MOVE_UP_TREE.toString(),node.getUserObject());
+		    public void actionPerformed(ActionEvent e) {				
+				listener.handleCommand(CommandType.MOVE_UP_TREE.toString());
 		    }
 		});				
 		getActionMap().put("movedown", new AbstractAction() {			
 			private static final long serialVersionUID = -340479571291150368L;			
 			@Override
-		    public void actionPerformed(ActionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) getSelectedNode();
-				listener.handleCommand(CommandType.MOVE_DOWN_TREE.toString(),node.getUserObject());
+		    public void actionPerformed(ActionEvent e) {				
+				listener.handleCommand(CommandType.MOVE_DOWN_TREE.toString());
 		    }
 		});
 	}

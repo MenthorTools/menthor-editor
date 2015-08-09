@@ -117,6 +117,13 @@ public class MainMenuBar extends BaseMenuBar {
 		createCheckBoxMenuItem(window, "Console", CommandType.CONSOLE, background);
 		createCheckBoxMenuItem(window, "Project Browser", CommandType.PROJECT_BROWSER, background);		
 	}
+
+	private void createVerbalizeMenu(){
+		JMenu verbalize = new JMenu("Verbalize");
+		add(verbalize);		
+		createMenuItem(verbalize, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
+		createMenuItem(verbalize, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
+	}
 	
 	private void createValidateMenu(){		
 		JMenu validate = new JMenu("Validate");
@@ -125,10 +132,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(validate, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
 		validate.addSeparator();
 		createMenuItem(validate, "Semantic Anti-Patterns", CommandType.SEARCH_FOR_ANTIPATTERNS, background);
-		createMenuItem(validate, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);
-		validate.addSeparator();
-		createMenuItem(validate, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
-		createMenuItem(validate, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
+		createMenuItem(validate, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);		
 		validate.addSeparator();
 		createMenuItem(validate, "Information Model (UML)", CommandType.DESIGN_AS_INFO_UML, background);
 				
@@ -201,6 +205,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createProjectMenu();
 		createVerificateMenu();
 		createValidateMenu();
+		createVerbalizeMenu();
 		createWindowMenu();
 		createHelpMenu();
 	}	

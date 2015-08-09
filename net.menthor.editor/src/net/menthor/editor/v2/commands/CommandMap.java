@@ -194,15 +194,15 @@ public class CommandMap {
 		cmdMap.put(CommandType.ALIGN_RIGHT,
 				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight")));
 		cmdMap.put(CommandType.RESET_POINTS, 
-			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints")));
+			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
 		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toDirect")));
+			new MethodCall(DiagramEditor.class.getMethod("toDirect", Object.class)));
 		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toRectilinear")));
+			new MethodCall(DiagramEditor.class.getMethod("toRectilinear", Object.class)));
 		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical")));		
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
 		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal")));
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));
 		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
 				new MethodCall(DiagramEditor.class.getMethod("findInProjectBrowser", Object.class)));
 		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
@@ -219,8 +219,77 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));	
 		cmdMap.put(CommandType.ADD_GEN_SET_DIAGRAM, 
 				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet")));
-			cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
+		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
 				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet")));
+		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
+				new MethodCall(DiagramEditor.class.getMethod("showEndPointNames",Object.class)));
+		cmdMap.put(CommandType.SHOW_MULTIPLICITIES,
+				new MethodCall(DiagramEditor.class.getMethod("showMultiplicities",Object.class)));
+		cmdMap.put(CommandType.SHOW_NAME,
+				new MethodCall(DiagramEditor.class.getMethod("showName",Object.class)));
+		cmdMap.put(CommandType.SHOW_REDEFINITIONS,
+				new MethodCall(DiagramEditor.class.getMethod("showRedefinitions",Object.class)));
+		cmdMap.put(CommandType.SHOW_SUBSETTING,
+				new MethodCall(DiagramEditor.class.getMethod("showSubsetting",Object.class)));
+		cmdMap.put(CommandType.SHOW_STEREOTYPE,
+				new MethodCall(DiagramEditor.class.getMethod("showStereotype",Object.class)));
+		cmdMap.put(CommandType.READING_DIRECTION_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("readingDesignToSource",Object.class)));
+		cmdMap.put(CommandType.READING_DIRECTION_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("readingDesignToTarget",Object.class)));
+		cmdMap.put(CommandType.READING_DIRECTION_UNSPECIFIED,
+				new MethodCall(DiagramEditor.class.getMethod("readingDesignUnspecified",Object.class)));
+		cmdMap.put(CommandType.SUBSETS_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("subsetsSource", Object.class)));
+		cmdMap.put(CommandType.SUBSETS_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("subsetsTarget", Object.class)));
+		cmdMap.put(CommandType.REDEFINES_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("redefinesSource", Object.class)));
+		cmdMap.put(CommandType.REDEFINES_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("redefinesTarget", Object.class)));
+		cmdMap.put(CommandType.SET_ESSENTIAL,
+				new MethodCall(DiagramEditor.class.getMethod("essential", Object.class)));
+		cmdMap.put(CommandType.SET_INSEPARABLE,
+				new MethodCall(DiagramEditor.class.getMethod("inseparable", Object.class)));
+		cmdMap.put(CommandType.SET_IMMUTABLEPART,
+				new MethodCall(DiagramEditor.class.getMethod("immutablePart", Object.class)));
+		cmdMap.put(CommandType.SET_IMMUTABLEWHOLE,
+				new MethodCall(DiagramEditor.class.getMethod("immutableWhole", Object.class)));
+		cmdMap.put(CommandType.SET_SHAREABLE,
+				new MethodCall(DiagramEditor.class.getMethod("shareable", Object.class)));
+		cmdMap.put(CommandType.OPTIONAL_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("optionalOnSource", Object.class)));
+		cmdMap.put(CommandType.OPTIONAL_ON_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("optionalOnTarget", Object.class)));
+		cmdMap.put(CommandType.SINGULAR_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("singularOnSource", Object.class)));
+		cmdMap.put(CommandType.SINGULAR_ON_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("singularOnTarget", Object.class)));
+		cmdMap.put(CommandType.SOME_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("someOnSource", Object.class)));
+		cmdMap.put(CommandType.SOME_ON_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("someOnTarget", Object.class)));
+		cmdMap.put(CommandType.ANY_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("anyOnSource", Object.class)));
+		cmdMap.put(CommandType.ANY_ON_TARGET,				
+				new MethodCall(DiagramEditor.class.getMethod("anyOnTarget", Object.class)));
+		cmdMap.put(CommandType.TWO_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("twoOnSource", Object.class)));
+		cmdMap.put(CommandType.TWO_ON_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("twoOnTarget", Object.class)));
+		cmdMap.put(CommandType.TWO_AT_LEAST_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("twoAtLeastOnSource", Object.class)));
+		cmdMap.put(CommandType.TWO_AT_LEAST_ON_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("twoAtLeastOnTarget", Object.class)));
+		cmdMap.put(CommandType.OTHER_ON_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("otherOnSource", Object.class)));
+		cmdMap.put(CommandType.OTHER_ON_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("otherOnTarget", Object.class)));
+		cmdMap.put(CommandType.SET_SOURCE_END_POINT_NAME,
+				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnSource", Object.class)));
+		cmdMap.put(CommandType.SET_TARGET_END_POINT_NAME,
+				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnTarget", Object.class)));
+		
 	}
 	
 	private void project() throws NoSuchMethodException, SecurityException{

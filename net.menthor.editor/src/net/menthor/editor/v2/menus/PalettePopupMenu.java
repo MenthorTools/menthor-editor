@@ -43,16 +43,9 @@ public class PalettePopupMenu extends BasePopupMenu {
 	List<JMenuItem> classes = new ArrayList<JMenuItem>();
 	List<JMenuItem> relationships = new ArrayList<JMenuItem>();
 	
-	@SuppressWarnings("unused")
-	private int x;
-	@SuppressWarnings("unused")
-	private int y;
-	
-	public PalettePopupMenu(CommandListener listener, int x, int y){
+	public PalettePopupMenu(CommandListener listener){
 		super(listener);
-		this.x=x;
-		this.y=y;
-		
+	
 		BaseMenu derived = new BaseMenu(listener,"Derived Pattern");
 		add(derived);		
 		derived.createMenuItem(DerivedPatternType.UNION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_UNION_PATTERN);

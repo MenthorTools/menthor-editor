@@ -32,8 +32,8 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import net.menthor.editor.ui.MultiSelectionPopupMenu;
-import net.menthor.editor.ui.SingleConnectionPopupMenu;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.menus.ConnectionPopupMenu;
 import net.menthor.editor.v2.menus.NodePopupMenu;
 
 /**
@@ -44,15 +44,16 @@ import net.menthor.editor.v2.menus.NodePopupMenu;
 public class ContextMenusBuilder {
 	
 	private DiagramEditor editor;
+	
 	private NodePopupMenu singleNodePopup;	
-	private SingleConnectionPopupMenu singleConnectionPopup;	
+	private ConnectionPopupMenu singleConnectionPopup;	
 	private MultiSelectionPopupMenu multiSelectinoPopup;
 	
 	public ContextMenusBuilder(DiagramEditor editor)
 	{
 		this.editor = editor;
 		singleNodePopup = new NodePopupMenu(editor.getDiagramManager().getFrame());
-		singleConnectionPopup = new SingleConnectionPopupMenu(editor);		
+		singleConnectionPopup = new ConnectionPopupMenu(editor.getDiagramManager().getFrame());		
 		multiSelectinoPopup = new MultiSelectionPopupMenu();
 	}
 	
@@ -81,14 +82,14 @@ public class ContextMenusBuilder {
 					if (diffx1<0) diffx1 = diffx1*(-1); if (diffy1<0) diffy1 = diffy1*(-1);
 					if (diffx2<0) diffx2 = diffx2*(-1); if (diffy2<0) diffy2 = diffy2*(-1);
 					if(diffx1<30 && diffy1<30){	
-						singleConnectionPopup.setConnection((UmlConnection)elem,editor,true);
+						singleConnectionPopup.setContext((UmlConnection)elem);//true (isSourceEndPoint)
 						return singleConnectionPopup;
 					}else if(diffx2<30 && diffy2<30){
-						singleConnectionPopup.setConnection((UmlConnection)elem,editor,false);
+						singleConnectionPopup.setContext((UmlConnection)elem);//false (isSourceEndPoint)
 						return singleConnectionPopup;
 					}
 				}				
-				singleConnectionPopup.setConnection((Connection)elem,editor);
+				singleConnectionPopup.setContext((Connection)elem);
 				return singleConnectionPopup;				
 			}
 			singleNodePopup.setContext(elem);
@@ -107,7 +108,6 @@ public class ContextMenusBuilder {
 	 *            the AppCommandListener to add
 	 */
 	public void addAppCommandListener(CommandListener l) {		
-		singleConnectionPopup.addAppCommandListener(l);
 		multiSelectinoPopup.addAppCommandListener(l);
 	}
 }

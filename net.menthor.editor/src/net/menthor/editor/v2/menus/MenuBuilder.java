@@ -68,4 +68,45 @@ public class MenuBuilder {
 		parent.add(invertMenu);
 		return invertMenu;
 	}
+	
+	public static ReadingDirectionMenu buildReadingDirection(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		ReadingDirectionMenu directionMenu = new ReadingDirectionMenu(listener, text);
+		parent.add(directionMenu);
+		return directionMenu;
+	}
+	
+	public static SourceMultiplicityMenu buildSourceMultiplicity(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		SourceMultiplicityMenu srcMenu = new SourceMultiplicityMenu(listener, text);
+		parent.add(srcMenu);
+		return srcMenu;
+	}
+	public static TargetMultiplicityMenu buildTargetMultiplicity(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		TargetMultiplicityMenu tgtMenu = new TargetMultiplicityMenu(listener, text);
+		parent.add(tgtMenu);
+		return tgtMenu;
+	}
+	
+	public static MetaAttributeMenu buildMetaAttribute(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		MetaAttributeMenu attrMenu = new MetaAttributeMenu(listener, text);
+		parent.add(attrMenu);
+		return attrMenu;
+	}
+	
+	public static VisibilityMenu buildVisibility(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		VisibilityMenu visibilityMenu = new VisibilityMenu(listener, text);
+		parent.add(visibilityMenu);
+		return visibilityMenu;
+	}
+	
+	public static LineStyleMenu buildLineStyle(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		LineStyleMenu styleMenu = new LineStyleMenu(listener, text);
+		parent.add(styleMenu);
+		return styleMenu;
+	}
 }
