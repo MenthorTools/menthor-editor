@@ -61,12 +61,12 @@ public class OWLHelper {
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
     		{
-    			TreeProcessor tp = new TreeProcessor(model);
     			OWLMappingTypes mtypes = OWLMappingTypes.REIFICATION;
     			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0")) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
     			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1")) mtypes = OWLMappingTypes.WORM_VIEW_A1;
     			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
-    			OWLStructure owl = new OWLStructure(mtypes);
+    			TreeProcessor tp = new TreeProcessor(model);
+    			OWLStructure owl = new OWLStructure(mtypes, tp);
     			owl.map(tp);
     			owlOutput = owl.verbose(owlOptions.getOntologyIri());
     		}    		

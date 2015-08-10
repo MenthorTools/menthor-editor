@@ -20,9 +20,11 @@ public class NodeBinAssociation {
 	public List<String> listSuperAssociations = null;
 	public List<Restriction> listRestrictions = null;
 	Property sourceEnd, targetEnd;
+	TreeProcessor treeProc;
 	
-	public NodeBinAssociation (Association a)
+	public NodeBinAssociation (Association a, TreeProcessor treeProc)
 	{
+		this.treeProc = treeProc;
 		myAssociation = a;
 		if (a instanceof Meronymic)
 		{
@@ -44,12 +46,12 @@ public class NodeBinAssociation {
 
 	public NodeClass getDomain()
 	{
-		return TreeProcessor.getNode((Class) sourceEnd.getType());
+		return treeProc.getNode((Class) sourceEnd.getType());
 	}
 	
 	public NodeClass getRange()
 	{
-		return TreeProcessor.getNode((Class) targetEnd.getType());
+		return treeProc.getNode((Class) targetEnd.getType());
 	}
 
 	private Boolean hasRigidDomain()

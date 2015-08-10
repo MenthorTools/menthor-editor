@@ -1,5 +1,6 @@
 package net.menthor.ontouml2temporalowl.tree;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,23 +13,23 @@ import RefOntoUML.parser.OntoUMLParser;
 
 public class TreeProcessor
 {
-	public LinkedList<NodeClass> nodes;
-	public List<NodeBinAssociation> assocNodes;
-	static HashMap<Class, NodeClass> class2node;
-	public static List<String> kindsNames = null;
-	public static List<String> collectivesNames = null;
-	public static List<String> quantitiesNames = null;
-	public static List<String> relatorsNames = null;
-	public static List<String> modesNames = null;
-	public static List<String> qualitiesNames = null;
-	public static List<String> relationalquasNames = null;
-	public static List<String> phasedquasNames = null;
+	private LinkedList<NodeClass> nodes;
+	private List<NodeBinAssociation> assocNodes;
+	private HashMap<Class, NodeClass> class2node;
+	private List<String> kindsNames = null;
+	private List<String> collectivesNames = null;
+	private List<String> quantitiesNames = null;
+	private List<String> relatorsNames = null;
+	private List<String> modesNames = null;
+	private List<String> qualitiesNames = null;
+	private List<String> relationalquasNames = null;
+	private List<String> phasedquasNames = null;
 
 	public TreeProcessor (Package p)
 	{
-		nodes = new LinkedList<NodeClass>();
+		setNodes(new LinkedList<NodeClass>());
 		class2node = new HashMap<Class, NodeClass>();
-		assocNodes = new LinkedList<NodeBinAssociation>();
+		setAssocNodes(new LinkedList<NodeBinAssociation>());
 
 		/*
 		 	To maintain conformance with the Editor Application structure changes,
@@ -38,14 +39,19 @@ public class TreeProcessor
 		OntoUMLParser ontoParser = new OntoUMLParser(p);
 		Set<Object> packagedElements = ontoParser.getAllInstances(Object.class);
 		
+		ArrayList<Association> associations = new ArrayList<Association>();
 		// Pre Process
 		for (Object pe : packagedElements) {
 		//for (PackageableElement pe : p.getPackagedElement()){
 			if (pe instanceof Class)
 				ProcessClass((Class) pe);
 			if (pe instanceof Association && !(pe instanceof Derivation))
-				ProcessAssociation((Association) pe);
-						
+//				ProcessAssociation((Association) pe);	
+				associations.add((Association) pe);
+		}
+		
+		for (Association association : associations) {
+			ProcessAssociation(association);
 		}
 
 		// Set up the specialization tree
@@ -55,46 +61,46 @@ public class TreeProcessor
 
 	private void ProcessClass (Class c)
 	{
-		NodeClass n = new NodeClass(c);
-		nodes.add(n);
+		NodeClass n = new NodeClass(c, this);
+		getNodes().add(n);
 		class2node.put(c, n);
 		
 		if (c instanceof Kind)
 		{
-			if (kindsNames == null)
-				kindsNames = new LinkedList<String>();
-			kindsNames.add(c.getName());
+			if (getKindsNames() == null)
+				setKindsNames(new LinkedList<String>());
+			getKindsNames().add(c.getName());
 		}
 		else if (c instanceof Collective)
 		{
-			if (collectivesNames == null)
-				collectivesNames = new LinkedList<String>();
-			collectivesNames.add(c.getName());
+			if (getCollectivesNames() == null)
+				setCollectivesNames(new LinkedList<String>());
+			getCollectivesNames().add(c.getName());
 		}
 		else if (c instanceof Quantity)
 		{
-			if (quantitiesNames == null)
-				quantitiesNames = new LinkedList<String>();
-			quantitiesNames.add(c.getName());
+			if (getQuantitiesNames() == null)
+				setQuantitiesNames(new LinkedList<String>());
+			getQuantitiesNames().add(c.getName());
 		}
 		else if (c instanceof Relator)
 		{
-			if (relatorsNames == null)
-				relatorsNames = new LinkedList<String>();
-			relatorsNames.add(c.getName());
+			if (getRelatorsNames() == null)
+				setRelatorsNames(new LinkedList<String>());
+			getRelatorsNames().add(c.getName());
 		}
 		else if (c instanceof Mode)
 		{
-			if (modesNames == null)
-				modesNames = new LinkedList<String>();
-			modesNames.add(c.getName());
+			if (getModesNames() == null)
+				setModesNames(new LinkedList<String>());
+			getModesNames().add(c.getName());
 		}
 	}
 
 	private void ProcessAssociation(Association a) 
 	{
-		NodeBinAssociation na = new NodeBinAssociation(a);
-		assocNodes.add(na);
+		NodeBinAssociation na = new NodeBinAssociation(a, this);
+		getAssocNodes().add(na);
 		
 		/*
 		 	To maintain conformance with the Editor Application structure changes,
@@ -144,7 +150,7 @@ public class TreeProcessor
 	private void ProcessNodes ()
 	{
 		// For every node, add children and child partitions
-		for (NodeClass n : nodes)
+		for (NodeClass n : getNodes())
 		{
 			// Get the related class
 			Class c = n.getRelatedClass();
@@ -177,11 +183,11 @@ public class TreeProcessor
 			if (n.isUltimateSortal())
 			{
 				if (c instanceof Kind)
-					n.setDisjointSiblingsNames(kindsNames);
+					n.setDisjointSiblingsNames(getKindsNames());
 				else if (c instanceof Quantity)
-					n.setDisjointSiblingsNames(quantitiesNames);
+					n.setDisjointSiblingsNames(getQuantitiesNames());
 				else if (c instanceof Collective)
-					n.setDisjointSiblingsNames(collectivesNames);
+					n.setDisjointSiblingsNames(getCollectivesNames());
 			}
 		}
 		
@@ -192,9 +198,89 @@ public class TreeProcessor
 		return nodes;
 	}
 	
-	public static NodeClass getNode (Class c)
+	public NodeClass getNode (Class c)
 	{
+		NodeClass node = class2node.get(c);
+		if(node == null){
+			System.out.println();
+		}
 		return class2node.get(c);
+	}
+
+	public void setNodes(LinkedList<NodeClass> nodes) {
+		this.nodes = nodes;
+	}
+
+	public List<NodeBinAssociation> getAssocNodes() {
+		return assocNodes;
+	}
+
+	public void setAssocNodes(List<NodeBinAssociation> assocNodes) {
+		this.assocNodes = assocNodes;
+	}
+
+	public List<String> getKindsNames() {
+		return kindsNames;
+	}
+
+	public void setKindsNames(List<String> kindsNames) {
+		this.kindsNames = kindsNames;
+	}
+
+	public List<String> getCollectivesNames() {
+		return collectivesNames;
+	}
+
+	public void setCollectivesNames(List<String> collectivesNames) {
+		this.collectivesNames = collectivesNames;
+	}
+
+	public List<String> getQuantitiesNames() {
+		return quantitiesNames;
+	}
+
+	public void setQuantitiesNames(List<String> quantitiesNames) {
+		this.quantitiesNames = quantitiesNames;
+	}
+
+	public List<String> getRelatorsNames() {
+		return relatorsNames;
+	}
+
+	public void setRelatorsNames(List<String> relatorsNames) {
+		this.relatorsNames = relatorsNames;
+	}
+
+	public List<String> getModesNames() {
+		return modesNames;
+	}
+
+	public void setModesNames(List<String> modesNames) {
+		this.modesNames = modesNames;
+	}
+
+	public List<String> getRelationalquasNames() {
+		return relationalquasNames;
+	}
+
+	public void setRelationalquasNames(List<String> relationalquasNames) {
+		this.relationalquasNames = relationalquasNames;
+	}
+
+	public List<String> getPhasedquasNames() {
+		return phasedquasNames;
+	}
+
+	public void setPhasedquasNames(List<String> phasedquasNames) {
+		this.phasedquasNames = phasedquasNames;
+	}
+
+	public List<String> getQualitiesNames() {
+		return qualitiesNames;
+	}
+
+	public void setQualitiesNames(List<String> qualitiesNames) {
+		this.qualitiesNames = qualitiesNames;
 	}		
 
 }

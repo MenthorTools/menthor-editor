@@ -27,11 +27,13 @@ public class OWLStructure
 	private List<OWLClass> OWLClasses;
 	private List<OWLObjectProperty> OWLObjectProperties;
 	private List<OWLDataTypeProperty> OWLDataTypeProperties;
+	TreeProcessor treeProc;
 
 	/*************************************************************
 	 * Procedures for creating an OWLElements object	         */
-	public OWLStructure (OWLMappingTypes mt)
+	public OWLStructure (OWLMappingTypes mt, TreeProcessor treeProc)
 	{
+		this.treeProc = treeProc;
 		this.OWLClasses = new LinkedList<OWLClass>();
 		this.OWLObjectProperties = new LinkedList<OWLObjectProperty>();
 		this.OWLDataTypeProperties = new LinkedList<OWLDataTypeProperty>();
@@ -665,13 +667,13 @@ public class OWLStructure
     {
 		completeOWLStructuralClasses();
 		
-		for (NodeClass nc : tp.nodes)
+		for (NodeClass nc : tp.getNodes())
 		{
 			mapNodeClass2OWL(nc);
 			mapAttributes2OWL(nc);
 		}
 		
-		for (NodeBinAssociation na : tp.assocNodes)
+		for (NodeBinAssociation na : tp.getAssocNodes())
 			mapNodeAssociation2OWL(na);
     }
     
@@ -680,38 +682,38 @@ public class OWLStructure
 		OWLClass oc;
 
 		oc = getOWLClass("FunctionalComplex");
-		oc.addCompleteClasses(TreeProcessor.kindsNames);
+		oc.addCompleteClasses(treeProc.getKindsNames());
 
 		oc = getOWLClass("Collective");
-		oc.addCompleteClasses(TreeProcessor.collectivesNames);
+		oc.addCompleteClasses(treeProc.getCollectivesNames());
 
 		oc = getOWLClass("Quantity");
-		oc.addCompleteClasses(TreeProcessor.quantitiesNames);
+		oc.addCompleteClasses(treeProc.getQuantitiesNames());
 
 		oc = getOWLClass("Relator");
-		oc.addCompleteClasses(TreeProcessor.relatorsNames);
+		oc.addCompleteClasses(treeProc.getRelatorsNames());
 
 		if (isReificationView())
 		{
-			if (TreeProcessor.modesNames == null)
-				TreeProcessor.modesNames = new LinkedList<String>();
-			TreeProcessor.modesNames.add("QuaIndividual");
+			if (treeProc.getModesNames() == null)
+				treeProc.setModesNames(new LinkedList<String>());
+			treeProc.getModesNames().add("QuaIndividual");
 		}
 		oc = getOWLClass("Mode");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.modesNames);
+			oc.addCompleteClasses(treeProc.getModesNames());
 		
 		oc = getOWLClass("RelationalQuaIndividual");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.relationalquasNames);
+			oc.addCompleteClasses(treeProc.getRelationalquasNames());
 
 		oc = getOWLClass("PhasedQuaIndividual");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.phasedquasNames);
+			oc.addCompleteClasses(treeProc.getPhasedquasNames());
 
 		oc = getOWLClass("Quality");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.qualitiesNames);    	
+			oc.addCompleteClasses(treeProc.getQualitiesNames());    	
     }
     
     public void mapNodeClass2OWL(NodeClass n)
@@ -804,9 +806,9 @@ public class OWLStructure
 	
 					qlt.addRestriction("some", "inheresIn", n.getName(), false, null, null);
 					qlt.addRestriction("some", "hasValue", range, false, null, null);
-					if (TreeProcessor.qualitiesNames == null)
-						TreeProcessor.qualitiesNames = new LinkedList<String>();
-					TreeProcessor.qualitiesNames.add(name);
+					if (treeProc.getQualitiesNames() == null)
+						treeProc.setQualitiesNames(new LinkedList<String>());
+					treeProc.getQualitiesNames().add(name);
 						
 					//adding an owl cardinality restriction for the class
 					//if it is not an immutable attribute, thus the individual
