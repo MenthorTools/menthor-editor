@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -58,7 +58,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.menthor.editor.DiagramManager;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.xmi2ontouml.Creator;
 import net.menthor.xmi2ontouml.framework.XMI2RefConstraint;
@@ -74,7 +73,7 @@ import RefOntoUML.Model;
 /**
  * @author Vinicius Sobral
  */
-public class ImportXMIDialog extends JDialog implements ActionListener, TreeSelectionListener
+public class EASettingsDialog extends JDialog implements ActionListener, TreeSelectionListener
 {
 	private static final long serialVersionUID = 2093867102692070258L;
 	
@@ -99,20 +98,20 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public ImportXMIDialog(JFrame owner, boolean modal, DiagramManager diagManager)
+	public EASettingsDialog(JFrame owner, boolean modal, DiagramManager diagManager)
 	{
 		super(owner, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ImportXMIDialog.class.getResource("/resources/icons/x16/ea.jpg")));		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(EASettingsDialog.class.getResource("/resources/icons/x16/ea.jpg")));		
 		this.diagManager = diagManager;		
 		initGUI();
 		setLocationRelativeTo(owner);
 		setVisible(true);
 	}
 	
-	public ImportXMIDialog(JFrame owner, boolean modal, DiagramManager diagManager, String filePath)
+	public EASettingsDialog(JFrame owner, boolean modal, DiagramManager diagManager, String filePath)
 	{
 		super(owner, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ImportXMIDialog.class.getResource("/resources/icons/x16/ea.jpg")));		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(EASettingsDialog.class.getResource("/resources/icons/x16/ea.jpg")));		
 		this.diagManager = diagManager;		
 		initGUI();		
 		filePathField.setText(filePath);
@@ -373,30 +372,6 @@ public class ImportXMIDialog extends JDialog implements ActionListener, TreeSele
 							true, 
 							true, 
 							chckbxGenerateCard.isSelected());
-					
-//					TreeIterator<EObject> ti = model.eAllContents();
-//					while (ti.hasNext())
-//					{
-//						EObject el = ti.next();
-//						EObject parent = el.eContainer();
-//						while (parent != null)
-//						{
-//							if (((NamedElement)parent).getName() != null &&
-//									(((NamedElement)parent).getName().equals("Fiscalização") ||
-//									((NamedElement)parent).getName().equals("Infração") ||
-//									((NamedElement)parent).getName().equals("Veículo Ferroviário") ||
-//									((NamedElement)parent).getName().equals("Concessão Ferroviária") ||
-//									((NamedElement)parent).getName().equals("Obra em Concessão") ||
-//									((NamedElement)parent).getName().equals("Bem da Concessão") ||
-//									((NamedElement)parent).getName().equals("Seguro em Concessão") ||
-//									((NamedElement)parent).getName().equals("Transporte Ferroviário") ||
-//									((NamedElement)parent).getName().equals("Gestão Ambiental")))
-//							{
-//								SyntacticVerificator.elems.add((Element) el);
-//							}
-//							parent = parent.eContainer();
-//						}
-//					}
 					
 					trees = transfManager.generateModelTrees(model, this);
 					 

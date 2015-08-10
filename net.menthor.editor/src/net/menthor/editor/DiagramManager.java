@@ -57,6 +57,89 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
+import net.menthor.common.transformation.DestinationEnum;
+import net.menthor.common.transformation.TransformationOption;
+import net.menthor.editor.derivation.DerivedTypesOperations;
+import net.menthor.editor.derivation.ExclusionDerivationOperations;
+import net.menthor.editor.derivation.ExclusionPattern;
+import net.menthor.editor.derivation.IntersectionPattern;
+import net.menthor.editor.derivation.ParticipationDerivationOperations;
+import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
+import net.menthor.editor.derivation.PastSpecializationPattern;
+import net.menthor.editor.derivation.SpecializationPattern;
+import net.menthor.editor.derivation.UnionPattern;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.finder.FoundElement;
+import net.menthor.editor.finder.FoundPane;
+import net.menthor.editor.pattern.DomainPatternTool;
+import net.menthor.editor.pattern.PatternTool;
+import net.menthor.editor.problems.ErrorElement;
+import net.menthor.editor.problems.ErrorPane;
+import net.menthor.editor.problems.ErrorVerificator;
+import net.menthor.editor.problems.ProblemElement;
+import net.menthor.editor.problems.ProblemElement.TypeProblem;
+import net.menthor.editor.problems.ProblemPane;
+import net.menthor.editor.problems.WarningPane;
+import net.menthor.editor.problems.WarningVerificator;
+import net.menthor.editor.statistician.StatisticalElement;
+import net.menthor.editor.statistician.StatisticsPane;
+import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
+import net.menthor.editor.transformation.owl.OwlSettingsDialog;
+import net.menthor.editor.ui.AlloySpecification;
+import net.menthor.editor.ui.ApplicationResources;
+import net.menthor.editor.ui.ClosableTabPanel;
+import net.menthor.editor.ui.ConstraintEditor;
+import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.EASettingsDialog;
+import net.menthor.editor.ui.LicensesDialog;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.OWLHelper;
+import net.menthor.editor.ui.PngWriter;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.ui.ProjectReader;
+import net.menthor.editor.ui.ProjectWriter;
+import net.menthor.editor.ui.TextEditor;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.menus.MainMenuBar;
+import net.menthor.editor.v2.trees.ProjectTree;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.EditorType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.ui.AboutDialog;
+import net.menthor.editor.v2.ui.DiagramListDialog;
+import net.menthor.editor.v2.ui.StartPage;
+import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.EcoreWriter;
+import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
+import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.UMLWriter;
+import net.menthor.editor.v2.util.Util;
+import net.menthor.editor.v2.util.XMIWriter;
+import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
+import net.menthor.editor.validator.meronymic.ValidationDialog;
+import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
+import net.menthor.ontouml2infouml.OntoUML2InfoUML;
+import net.menthor.ontouml2sbvr.OntoUML2SBVR;
+import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
+import net.menthor.tocl.parser.TOCLParser;
+import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -113,86 +196,6 @@ import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLElementCustom;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
-import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.DestinationEnum;
-import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.derivation.DerivedTypesOperations;
-import net.menthor.editor.derivation.ExclusionDerivationOperations;
-import net.menthor.editor.derivation.ExclusionPattern;
-import net.menthor.editor.derivation.IntersectionPattern;
-import net.menthor.editor.derivation.ParticipationDerivationOperations;
-import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
-import net.menthor.editor.derivation.PastSpecializationPattern;
-import net.menthor.editor.derivation.SpecializationPattern;
-import net.menthor.editor.derivation.UnionPattern;
-import net.menthor.editor.dialog.DiagramListDialog;
-import net.menthor.editor.dialog.ImportXMIDialog;
-import net.menthor.editor.dialog.help.AboutDialog;
-import net.menthor.editor.dialog.help.LicensesDialog;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.finder.FoundElement;
-import net.menthor.editor.finder.FoundPane;
-import net.menthor.editor.pattern.DomainPatternTool;
-import net.menthor.editor.pattern.PatternTool;
-import net.menthor.editor.problems.ErrorElement;
-import net.menthor.editor.problems.ErrorPane;
-import net.menthor.editor.problems.ErrorVerificator;
-import net.menthor.editor.problems.ProblemElement;
-import net.menthor.editor.problems.ProblemElement.TypeProblem;
-import net.menthor.editor.problems.ProblemPane;
-import net.menthor.editor.problems.WarningPane;
-import net.menthor.editor.problems.WarningVerificator;
-import net.menthor.editor.statistician.StatisticalElement;
-import net.menthor.editor.statistician.StatisticsPane;
-import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
-import net.menthor.editor.transformation.owl.OwlSettingsDialog;
-import net.menthor.editor.ui.AlloySpecification;
-import net.menthor.editor.ui.ApplicationResources;
-import net.menthor.editor.ui.ClosableTabPanel;
-import net.menthor.editor.ui.ConstraintEditor;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.OWLHelper;
-import net.menthor.editor.ui.PngWriter;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.TextEditor;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.ui.commands.OntoUMLExporter;
-import net.menthor.editor.ui.commands.ProjectReader;
-import net.menthor.editor.ui.commands.ProjectWriter;
-import net.menthor.editor.ui.commands.UMLExporter;
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.editors.Editor;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.menus.MainMenuBar;
-import net.menthor.editor.v2.trees.ProjectTree;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.types.ResultType;
-import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.util.Directories;
-import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
-import net.menthor.editor.v2.util.Settings;
-import net.menthor.editor.v2.util.Util;
-import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
-import net.menthor.editor.validator.meronymic.ValidationDialog;
-import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-import net.menthor.ontouml2infouml.OntoUML2InfoUML;
-import net.menthor.ontouml2sbvr.OntoUML2SBVR;
-import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
-import net.menthor.tocl.parser.TOCLParser;
-import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 /**
  * Class responsible for managing and organizing the editors in tabs.
@@ -438,6 +441,21 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				if(c.equals(editor)) setSelectedComponent(c);
 			}
 		}		
+	}
+	
+	public void openTab(Object obj)
+	{
+		for(Component c: getComponents()){
+			if(c instanceof DiagramWrapper) {
+				if(((DiagramWrapper) c).getDiagramEditor().getDiagram().equals(obj)) { setSelectedComponent(c); return; }				
+			}			
+			if(c instanceof ConstraintEditor) {
+				if(((ConstraintEditor) c).getOclDocument().equals(obj)) { setSelectedComponent(c); return; }	
+			}
+		}
+		if(obj instanceof OntoumlDiagram) { createDiagramEditor((OntoumlDiagram)obj); return; }
+		if(obj instanceof OclDocument) { createConstraintEditor((OclDocument)obj); return; }
+		
 	}
 	
 	public void selectTab(Object obj)
@@ -797,7 +815,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		createDiagramEditor(diagram);			
 		//add the diagram from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().addElement(browser.getTree().getNode(diagram.getContainer()),diagram);
+		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
+		browser.getTree().addElement(container,diagram);
 		return diagram;
 	}
 
@@ -830,7 +849,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		createConstraintEditor(oclDoc);		
 		//add the rules document from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
-		browser.getTree().addElement(browser.getTree().getNode(oclDoc.getContainer()),oclDoc);
+		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
+		browser.getTree().addElement(container,oclDoc);
 		return oclDoc;
 	}
 	
@@ -915,8 +935,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	public void findInDiagrams(Object element){
-		ArrayList<DiagramEditor> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagramEditors((RefOntoUML.Element)element);
-		DiagramListDialog.open(ProjectBrowser.frame, diagrams,(RefOntoUML.Element)element);		
+		List<OntoumlDiagram> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagrams((RefOntoUML.Element)element);
+		DiagramListDialog.open(ProjectBrowser.frame, diagrams);		
 	}
 	
 	/** Delete Diagram */
@@ -1308,7 +1328,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	
 	/** Creates an editor for a given Diagram. */
-	public DiagramEditor createDiagramEditor(StructureDiagram diagram)
+	public DiagramEditor createDiagramEditor(OntoumlDiagram diagram)
 	{		
 		DiagramEditor editor = new DiagramEditor(frame, this, diagram);
 		editor.showGrid(false);	
@@ -1321,7 +1341,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		//Add the diagram to the tabbed pane (this), through the wrapper
 		DiagramWrapper wrapper = new DiagramWrapper(editor, listener);
 		editor.setWrapper(wrapper);
-		addClosable(this,diagram.getLabelText(), wrapper);		
+		addClosable(this,((StructureDiagram)diagram).getLabelText(), wrapper);		
 		return editor;
 	}
 	
@@ -1335,7 +1355,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	public void about()
 	{
-		AboutDialog.open(getFrame());
+		AboutDialog.open(getFrame(),Main.MENTHOR_COMPILATION_DATE,Main.MENTHOR_VERSION);
 	}
 	
 	public void licenses()
@@ -1398,7 +1418,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			File file = fileChooser.getSelectedFile();
 			lastImportEAPath = file.getAbsolutePath();
-			new ImportXMIDialog(frame, true, this, lastImportEAPath);
+			new EASettingsDialog(frame, true, this, lastImportEAPath);
 			Settings.addRecentProject(file.getCanonicalPath());
 		}		
 	}
@@ -1406,50 +1426,105 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void importFromEARecent() throws IOException
 	{		
 		lastImportEAPath = getStartPage().getSelectedRecentFile();
-		new ImportXMIDialog(frame, true, this, lastImportEAPath);
+		new EASettingsDialog(frame, true, this, lastImportEAPath);
 		Settings.addRecentProject(lastImportEAPath);				
 	}
 	
 	public void exportToEcore() 
 	{
-		
+		if(getCurrentProject() != null) {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("Exportation");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Ecore (*.ecore)", "ecore");
+			fileChooser.addChoosableFileFilter(filter);
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+				try {
+					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					EcoreWriter exporter = new EcoreWriter();
+					exporter.toEcore(frame,Models.getRefparser(), fileChooser.getSelectedFile());					
+					frame.showSuccessfulMessageDialog("Success", "Project successfully exported to Ecore.\nLocation: "+fileChooser.getSelectedFile().getAbsolutePath());
+											
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					String msg = ex.getLocalizedMessage();
+					if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
+					frame.showErrorMessageDialog("Failure", "Current project could not be exported to Ecore.\nMotive: "+msg);
+				}
+			}
+			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
 	}
+	
 	/** Export the current model as an Ecore instance file (Reference model)*/
 	public void exportToXMI() 
 	{
 		if(getCurrentEditor() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportEcorePath);
-			fileChooser.setDialogTitle(getResourceString("dialog.exportecore.title"));
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
+			fileChooser.setDialogTitle("Exportation");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML (*.refontouml)", "refontouml");
 			fileChooser.addChoosableFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
-					OntoUMLExporter exporter = new OntoUMLExporter();
-					exporter.writeOntoUML(this, fileChooser.getSelectedFile(), getCurrentProject());
+					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					XMIWriter exporter = new XMIWriter();
+					exporter.toRefontouml(frame,Models.getRefparser(), fileChooser.getSelectedFile());
 					lastExportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
+					frame.showSuccessfulMessageDialog("Success", "Project successfully exported to RefOntoUML.\nLocation: "+fileChooser.getSelectedFile().getAbsolutePath());
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.exportecore.title"), JOptionPane.ERROR_MESSAGE);
+					ex.printStackTrace();
+					String msg = ex.getLocalizedMessage();
+					if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
+					frame.showErrorMessageDialog("Failure", "Current project could not be exported to RefOntoUML.\nMotive: "+msg);					
 				}
 			}
+			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 	}	
 
 	/** Export the current model as an UML2 instance file (EMF-implementation of UML)
 	 *  This exporting loses all the UML stereotypes that distinguishes OntoUML from UML*/
-	public void exportToUML() 
+	public void exportToProfileUML() 
 	{
 		if(getCurrentProject() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportUMLPath);
-			fileChooser.setDialogTitle("Exporting as UML");
+			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
 					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					UMLExporter exporter = new UMLExporter();
-					exporter.writeUML(this, fileChooser.getSelectedFile());
+					UMLWriter exporter = new UMLWriter();
+					exporter.toProfileUML(frame,Models.getRefparser(), fileChooser.getSelectedFile());
+					lastExportUMLPath = fileChooser.getSelectedFile().getAbsolutePath();
+					frame.showSuccessfulMessageDialog("Success", "Project successfully exported to Profile UML.\nLocation: "+fileChooser.getSelectedFile().getAbsolutePath());
+											
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					String msg = ex.getLocalizedMessage();
+					if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
+					frame.showErrorMessageDialog("Failure", "Current project could not be exported to Profile UML.\nMotive: "+msg);
+				}
+			}
+			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
+	}	
+	
+	public void exportToUML() 
+	{
+		if(getCurrentProject() != null) {
+			JFileChooser fileChooser = new JFileChooser(lastExportUMLPath);
+			fileChooser.setDialogTitle("Exportation");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
+			fileChooser.addChoosableFileFilter(filter);
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+				try {
+					getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					UMLWriter exporter = new UMLWriter();
+					exporter.toUML(frame,Models.getRefparser(), fileChooser.getSelectedFile());
 					lastExportUMLPath = fileChooser.getSelectedFile().getAbsolutePath();
 					frame.showSuccessfulMessageDialog("Success", "Project successfully exported to UML.\nLocation: "+fileChooser.getSelectedFile().getAbsolutePath());
 											
@@ -1463,7 +1538,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 	}	
-	
 	/** Exports graphics as PNG. */
 	public void exportGfx() 
 	{
@@ -3019,6 +3093,40 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						editor.addSelectionListener(this);
 						editor.addAppCommandListener(listener);						
 						list.add(editor);
+					}	
+				}				
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * Gets all Diagrams that contains a given element. 
+	 * Some of them might appear opened in the Tab but others don't.
+	 */
+	public List<OntoumlDiagram> getDiagrams(RefOntoUML.Element element)
+	{
+		ArrayList<OntoumlDiagram> list = new ArrayList<OntoumlDiagram>();
+		for(OntoumlDiagram d: currentProject.getDiagrams())
+		{
+			if(d instanceof StructureDiagram)
+			{
+				StructureDiagram diagram = (StructureDiagram)d;
+				ArrayList<DiagramElement> elemList=new ArrayList<DiagramElement>();
+				if(element instanceof Property){
+					elemList = ModelHelper.getDiagramElements((RefOntoUML.Element)element.eContainer());
+				}else if(element instanceof EnumerationLiteral){
+					elemList = ModelHelper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
+				}else if (element instanceof GeneralizationSet){
+					for(Generalization gen: ((RefOntoUML.GeneralizationSet)element).getGeneralization()){
+						elemList = ModelHelper.getDiagramElements(gen);
+					}
+				}else{
+					elemList = ModelHelper.getDiagramElements(element);
+				}
+				for(DiagramElement elem: elemList){
+					if (diagram.containsChild(elem)) {											
+						list.add(diagram);
 					}	
 				}				
 			}

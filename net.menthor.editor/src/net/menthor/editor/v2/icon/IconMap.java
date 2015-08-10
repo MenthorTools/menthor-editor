@@ -19,6 +19,8 @@ package net.menthor.editor.v2.icon;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import java.awt.Image;
@@ -119,7 +121,7 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_WELCOME_FAQ,"net/menthor/editor/v2/icon/faq.png");
 		urlMap.put(IconType.MENTHOR_WELCOME_FORUM,"net/menthor/editor/v2/icon/forum.png");
 		urlMap.put(IconType.MENTHOR_WELCOME_STUDYGUIDE,"net/menthor/editor/v2/icon/studyguide.png");
-		urlMap.put(IconType.MENTHOR_SPLASH_SCREEN, "net/menthor/editor/v2/icon/splashscreen.png");
+		urlMap.put(IconType.MENTHOR_SPLASH_SCREEN, "net/menthor/editor/v2/icon/splashscreenB.png");
 		urlMap.put(IconType.MENTHOR_UP, "net/menthor/editor/v2/icon/arrowup.png");
 		urlMap.put(IconType.MENTHOR_DOWN, "net/menthor/editor/v2/icon/arrowdown.png");
 		urlMap.put(IconType.MENTHOR_HAND_CURSOR, "net/menthor/editor/v2/icon/handcursor.png");

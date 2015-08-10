@@ -19,6 +19,8 @@ package net.menthor.editor.v2.commands;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 /** A simple interface to be implemented by classes that receive application commands strings. */

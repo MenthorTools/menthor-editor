@@ -1,4 +1,4 @@
-package net.menthor.editor.ui.commands;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -34,7 +34,6 @@ import java.util.zip.ZipOutputStream;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.util.FileWriter;
 import net.menthor.editor.v2.util.Settings;

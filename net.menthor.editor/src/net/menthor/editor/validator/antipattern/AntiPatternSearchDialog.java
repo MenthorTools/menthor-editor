@@ -80,6 +80,7 @@ import net.menthor.editor.Main;
 import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.v2.util.Util;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -841,7 +842,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	 */
 	public void showResult()
 	{
-		if(Main.onMac()){
+		if(Util.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {

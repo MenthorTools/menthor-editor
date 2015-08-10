@@ -19,6 +19,8 @@ package net.menthor.editor.v2.ui;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import java.awt.CardLayout;
@@ -37,9 +39,6 @@ import net.menthor.editor.v2.icon.IconType;
 public class SplashScreen extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
-	private JLabel statusLabel;
-	private JLabel versionLabel;
 	private JLabel splash_img;
 	private JLabel rightsLabel;
 	
@@ -55,28 +54,13 @@ public class SplashScreen extends JDialog {
 		splash_img.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SPLASH_SCREEN));		
 		int imgWidth = splash_img.getIcon().getIconWidth(); 
 		int imgHeigth = splash_img.getIcon().getIconHeight();
-		setSize(imgWidth, imgHeigth);
+		setSize(600, 316);
 		splash_img.setBounds(SwingConstants.CENTER, SwingConstants.CENTER, imgWidth, imgHeigth);
 		layeredPane.add(splash_img);
-		versionLabel = new JLabel("Version "+MENTHOR_VERSION+" ("+MENTHOR_COMPILATION_DATE+")");
-		versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		layeredPane.setLayer(versionLabel, 1);
-		versionLabel.setForeground(Color.WHITE);
-		versionLabel.setBackground(Color.WHITE);
-		versionLabel.setFont(new Font(versionLabel.getFont().getFontName(), Font.BOLD, 11));
-		versionLabel.setBounds(10, 263, 580, 14);
-		layeredPane.add(versionLabel);		
-		statusLabel = new JLabel("Loading...");
-		statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		statusLabel.setForeground(Color.WHITE);
-		layeredPane.setLayer(statusLabel, 1);
-		statusLabel.setFont(new Font(statusLabel.getFont().getFontName(), Font.ITALIC, 11));
-		statusLabel.setBounds(10, 241, 580, 14);
-		layeredPane.add(statusLabel);		
-		rightsLabel = new JLabel("2015 Menthor. All rights reserved.");
+		rightsLabel = new JLabel("Copyright © 2015 Menthor. All rights reserved.");
+		rightsLabel.setFont(new Font(rightsLabel.getFont().getFontName(), Font.BOLD, 11));
 		rightsLabel.setForeground(Color.WHITE);
-		rightsLabel.setFont(new Font(statusLabel.getFont().getFontName(), Font.BOLD, 11));
-		rightsLabel.setBounds(10, 288, 446, 14);		
+		rightsLabel.setBounds(10, 291, 446, 24);		
 		layeredPane.setLayer(rightsLabel, 1);
 		layeredPane.add(rightsLabel);
 		setLocationRelativeTo(null);
@@ -107,7 +91,7 @@ public class SplashScreen extends JDialog {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {
-				statusLabel.setText(status);				
+				//statusLabel.setText(status);				
 			}
 		});		
 	}

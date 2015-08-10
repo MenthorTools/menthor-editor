@@ -1,6 +1,14 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.v2.util;
 
-/**
+import java.awt.Component;
+import java.io.File;
+
+import net.menthor.ontouml2ecore.OntoUML2Ecore;
+import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
+
+import RefOntoUML.parser.OntoUMLParser;
+
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -21,37 +29,17 @@ package net.menthor.editor.dialog;
  * ============================================================================================
  */
 
-public class MappingTypeComboItem {
-	
-	public String value;
-	public String displayName;
-	public String description;
-	
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
-	public String getDisplayName() {
-		return displayName;
-	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
+
+public class EcoreWriter extends FileWriter {
+
+	public void toEcore(Component parent, OntoUMLParser refparser, File outputfile) throws Exception{
+		if (canWrite(parent, outputfile)){
+			outputfile = Util.getFileWithExtension(outputfile, getSuffix());
+			String path = outputfile.getAbsolutePath();				
+			OntoUML2Ecore.convertToEcore(refparser,path,new OntoUML2EcoreOption(false,false));
+		}
 	}
 	
-	@Override
-	public String toString()
-	{
-		if(displayName != null)
-			return displayName;
-		
-		return value;
-	}
+	protected String getSuffix() { return ".ecore"; } 
+
 }

@@ -1,6 +1,6 @@
-package net.menthor.editor.dialog.help;
+package net.menthor.editor.ui;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -22,8 +22,10 @@ package net.menthor.editor.dialog.help;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,143 +38,96 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.menthor.editor.AppFrame;
-
-/**
- * This Dialog is used to displays the Copyright Licenses.
- * 
- * @author John Guerson
- */
 public class LicensesDialog extends JDialog {
 
 	private static final long serialVersionUID = 3853224908119790266L;
 	
-	private AppFrame frame;
+	private Component parent;
 	@SuppressWarnings("rawtypes")
 	private JComboBox choices;
 	private JTextArea textArea;
 	private JButton btnClose;
 	private JScrollPane scrollPane;
 	
-	/**
-	 * Launch the Dialog.
-	 */
-	public static void open(AppFrame frame) 
-	{
-		try {
-			
-			LicensesDialog dialog = new LicensesDialog(frame);
+	public static void open(Component parent){
+		try {			
+			LicensesDialog dialog = new LicensesDialog(parent);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			dialog.setLocationRelativeTo(frame);
-						
-		} catch (Exception e) {
+			dialog.setLocationRelativeTo(parent);						
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
-		
-	/**
-	 * Creates a License Dialog from the main frame application.
-	 * 
-	 * @param frame
-	 */
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public LicensesDialog (AppFrame frame)
+	public LicensesDialog (Component parent)
 	{	
-		super(frame);
-		
-		this.frame = frame;
-		
+		super((Frame) parent);		
+		this.parent = parent;		
 		choices = new JComboBox();
-		choices.setModel(new DefaultComboBoxModel(new String[] {"TinyUML","Alloy", "Kodkod", "JavaCup", "SAT4J", "ZChaff", "MiniSat","AutoComplete","RSyntaxTextArea","LEDIcons"}));
+		choices.setModel(new DefaultComboBoxModel(new String[] {"TinyUML","Alloy", "Kodkod", "JavaCup", "SAT4J", "ZChaff", "MiniSat","AutoComplete","RSyntaxTextArea"}));
 		choices.setPreferredSize(new Dimension(150, 20));
 		choices.setFocusable(false);
-		choices.addActionListener(new ActionListener() 
-		{
-       		public void actionPerformed(ActionEvent event) 
-       		{       
+		choices.addActionListener(new ActionListener(){
+       		public void actionPerformed(ActionEvent event){       
        			String value = (String)choices.getSelectedItem();
        			setLicense(value);
        		}
-		});		
-		
-		JLabel labelSee = new JLabel("See copyrights: ");
-		
+		});				
+		JLabel labelSee = new JLabel("See copyrights: ");		
 		textArea = new JTextArea();		
 		textArea.setEditable(false);
-		textArea.setCaretPosition(0);
-		
+		textArea.setCaretPosition(0);		
 		scrollPane = new JScrollPane();		
 		scrollPane.setPreferredSize(new Dimension(400, 200));
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);		
-		scrollPane.setViewportView(textArea);
-		
+		scrollPane.setViewportView(textArea);		
 		btnClose = new JButton("Close");
-		btnClose.addActionListener(new ActionListener() 
-		{
-       		public void actionPerformed(ActionEvent event) 
-       		{
+		btnClose.addActionListener(new ActionListener(){
+       		public void actionPerformed(ActionEvent event){
        			dispose();
        		}
 		});
-		
 		Panel buttonsPanel = new Panel();
-		buttonsPanel.add(btnClose);
-		
+		buttonsPanel.add(btnClose);		
 		JPanel choicesPanel = new JPanel();		
 		FlowLayout flowLayout = (FlowLayout) choicesPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);	
 		choicesPanel.add(labelSee);		
-		choicesPanel.add(BorderLayout.NORTH,choices);
-		
+		choicesPanel.add(BorderLayout.NORTH,choices);		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		getContentPane().add(choicesPanel, BorderLayout.NORTH);
-		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);		
-		
+		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);			
 		setTitle("Licenses");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setPreferredSize(new Dimension(600, 400));
-		//Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
-		//setIconImage(icon);
-		
+		setPreferredSize(new Dimension(600, 400));		
 		choices.setSelectedIndex(0);		
-		setLicense((String)choices.getSelectedItem());
-		
+		setLicense((String)choices.getSelectedItem());		
 		repaint();
 		validate();
 		pack();		
 	}
-	
-	/**
-	 * Set License Text to Text Area.
-	 * 
-	 * @param value
-	 * @throws IOException
-	 */
+
 	@SuppressWarnings("unused")
-	public void setLicense(String value) 	
-	{		
-		try{
-			
+	public void setLicense(String value){		
+		try{			
 			InputStream is = LicensesDialog.class.getClassLoader().getResourceAsStream("resources/licenses/"+ value + ".txt");
-			if(is == null) 
-				is = new FileInputStream("src/resources/licenses/"+ value + ".txt");
-			
+			if(is == null) is = new FileInputStream("src/resources/licenses/"+ value + ".txt");			
 			StringBuffer result = new StringBuffer();
 			byte[] b = new byte[is.available()];
 			is.read(b);
-	        String text = new String(b);
-			
+	        String text = new String(b);			
 			textArea.setText(text);
-			textArea.setCaretPosition(0);
-			
+			textArea.setCaretPosition(0);			
 		}catch(IOException e){
-			frame.showErrorMessageDialog("IO", e.getLocalizedMessage());
+			JOptionPane.showMessageDialog(parent, e.getLocalizedMessage(),"License Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

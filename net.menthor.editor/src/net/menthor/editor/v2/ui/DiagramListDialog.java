@@ -1,6 +1,6 @@
-package net.menthor.editor.dialog;
+package net.menthor.editor.v2.ui;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -19,15 +19,20 @@ package net.menthor.editor.dialog;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -41,119 +46,88 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
-import net.menthor.editor.AppFrame;
-import RefOntoUML.Element;
-
-/**
- * @author John Guerson
- */
 public class DiagramListDialog extends JDialog {
 	
 	private static final long serialVersionUID = -251319551154959770L;
 	
-	private AppFrame frame;
-	private ArrayList<DiagramEditor> diagrams = new ArrayList<DiagramEditor>();	
-	private final JPanel contentPanel = new JPanel();
-	private JButton btnOk;
-	@SuppressWarnings("unused")
-	private RefOntoUML.Element elem;
-	private JButton btnCancel;
-	private JList<DiagramEditor> diagramList;
-	private JScrollPane scroll;
+	private CommandListener listener;
+	private List<OntoumlDiagram> diagrams = new ArrayList<OntoumlDiagram>();	
+	
+	private JList<OntoumlDiagram> diagramList;	
 	@SuppressWarnings("rawtypes")
 	private DefaultListModel diagramListModel;
-
+	private final JPanel contentPanel = new JPanel();
+	private JButton btnOk;	
+	private JButton btnCancel;	
+	private JScrollPane scroll;		
 	private JLabel lblText;
 			
-	public static void open(AppFrame frame, ArrayList<DiagramEditor> diagrams, Element elem) 
-	{
+	public static void open(CommandListener listener, List<OntoumlDiagram> diagrams){
 		try {			
-			DiagramListDialog dialog = new DiagramListDialog(frame,diagrams,elem);
+			DiagramListDialog dialog = new DiagramListDialog(listener,diagrams);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			dialog.setLocationRelativeTo(frame);			
+			dialog.setLocationRelativeTo((Component)listener);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public void okPerformed(ActionEvent event)
-	{
-		DiagramEditor de = diagramList.getSelectedValue();
-		if (de!=null && !frame.getDiagramManager().isDiagramOpened(de.getDiagram())) {
-			frame.getDiagramManager().createDiagramEditor(de.getDiagram());
-		}else{
-			
-		}
-	}
 		
-	public DiagramListDialog(AppFrame frame, ArrayList<DiagramEditor> diagrams, Element elem) 
-	{
-		super(frame);
-		
-		this.frame = frame;
-		this.elem = elem;
-		this.diagrams = diagrams;
-		
-//		setIconImage(Toolkit.getDefaultToolkit().getImage(DiagramListDialog.class.getResource("/resources/icons/x16/text_list_bullets.png")));
+	public DiagramListDialog(CommandListener listener, List<OntoumlDiagram> diagrams){
+		super((Frame) listener);		
+		this.listener = listener;
+		this.diagrams = diagrams;		
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_DIAGRAM.toString()));
 		initGUI();
 	}
 	
-	public DiagramListDialog()
-	{
-//		setIconImage(Toolkit.getDefaultToolkit().getImage(DiagramListDialog.class.getResource("/resources/icons/x16/text_list_bullets.png")));
+	public DiagramListDialog(){
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_DIAGRAM.toString()));
 		initGUI();
+	}
+	
+	public void callOpenTab(OntoumlDiagram de){
+		listener.handleCommand(CommandType.OPEN_TAB.toString(),de);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void initGUI()
-	{
+	public void initGUI(){
 		setTitle("Diagrams");
-		setBounds(100, 100, 397, 328);
-		
+		setBounds(100, 100, 397, 328);		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPanel.setPreferredSize(new Dimension(100, 170));
-		
+		contentPanel.setPreferredSize(new Dimension(100, 170));		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		
+		getContentPane().add(contentPanel, BorderLayout.CENTER);		
 		diagramListModel = new DefaultListModel();  
-		for(DiagramEditor de: diagrams){
+		for(OntoumlDiagram de: diagrams){
 			diagramListModel.addElement(de);
 		}
-		diagramList = new JList<DiagramEditor>(diagramListModel);
-		
+		diagramList = new JList<OntoumlDiagram>(diagramListModel);		
 		diagramList.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 		        JList list = (JList)evt.getSource();
 		        if (evt.getClickCount() == 2) {
 		            int index = list.locationToIndex(evt.getPoint());
-		            DiagramEditor de = diagrams.get(index);
-		            if (!frame.getDiagramManager().isDiagramOpened(de.getDiagram())) {
-		            	frame.getDiagramManager().createDiagramEditor(de.getDiagram());
-		            }else{
-		            	frame.getDiagramManager().select(de);
-		            }
+		            OntoumlDiagram de = diagrams.get(index);
+		            callOpenTab(de);
 		        } else if (evt.getClickCount() == 3) { // Triple-click
 		            int index = list.locationToIndex(evt.getPoint());
-		            DiagramEditor de = diagrams.get(index);
-		            if (!frame.getDiagramManager().isDiagramOpened(de.getDiagram())) {
-		            	frame.getDiagramManager().createDiagramEditor(de.getDiagram());
-		            }else{
-		            	frame.getDiagramManager().select(de);
-		            }
+		            OntoumlDiagram de = diagrams.get(index);
+		            callOpenTab(de);
 		        }
 		    }
 		});
 		
 		scroll = new JScrollPane();
-		scroll.setViewportView(diagramList);
-		
+		scroll.setViewportView(diagramList);		
 		lblText = new JLabel("");
-		lblText.setText("The element appear in the following diagrams:");
-		
+		lblText.setText("The element appear in the following diagrams:");		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
@@ -173,31 +147,23 @@ public class DiagramListDialog extends JDialog {
 					.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
 					.addGap(8))
 		);
-		contentPanel.setLayout(gl_contentPanel);
-		
+		contentPanel.setLayout(gl_contentPanel);		
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(50, 50));
-		getContentPane().add(panel, BorderLayout.SOUTH);
-		
+		getContentPane().add(panel, BorderLayout.SOUTH);		
 		btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() 
-		{
-       		public void actionPerformed(ActionEvent event) 
-       		{
+		btnOk.addActionListener(new ActionListener(){
+       		public void actionPerformed(ActionEvent event){       			
+       			callOpenTab(diagramList.getSelectedValue());
        			dispose();
-       			okPerformed(event);       			
        		}
-		});
-		
+		});		
 		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() 
-		{
-       		public void actionPerformed(ActionEvent event) 
-       		{
+		btnCancel.addActionListener(new ActionListener() {
+       		public void actionPerformed(ActionEvent event){
        			dispose();
        		}
-		});
-		
+		});		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)

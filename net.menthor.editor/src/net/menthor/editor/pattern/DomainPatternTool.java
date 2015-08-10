@@ -19,6 +19,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.palette.PaletteAccordion;
 import net.menthor.editor.v2.palette.PaletteGrouping;
 import net.menthor.editor.v2.palette.PaletteItem;
+import net.menthor.editor.v2.util.Util;
 import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
 import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
 
@@ -148,7 +149,7 @@ public class DomainPatternTool {
 	}
 	
 	public static void runPattern(final DiagramManager diagramManager,final double x, final double y) {
-		if(Main.onMac()){
+		if(Util.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {

@@ -24,13 +24,16 @@ package net.menthor.editor.finder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.menthor.editor.dialog.DiagramListDialog;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.ui.DiagramListDialog;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
@@ -82,8 +85,8 @@ public class FoundPopupMenu extends JPopupMenu {
 		findInDiagramMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {	
-				ArrayList<DiagramEditor> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagramEditors((Element)context.getElement());
-				DiagramListDialog.open(ProjectBrowser.frame, diagrams,(Element) context.getElement());
+				List<OntoumlDiagram> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagrams((Element)context.getElement());
+				DiagramListDialog.open((CommandListener)ProjectBrowser.frame, diagrams);
 			}
 		});
 	}

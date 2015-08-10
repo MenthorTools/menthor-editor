@@ -19,7 +19,10 @@ package net.menthor.editor.v2.menus;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
+
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;

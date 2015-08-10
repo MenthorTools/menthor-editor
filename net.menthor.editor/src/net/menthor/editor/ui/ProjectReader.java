@@ -1,4 +1,4 @@
-package net.menthor.editor.ui.commands;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -36,8 +36,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.util.FileHandler;
 import net.menthor.editor.v2.util.Settings;

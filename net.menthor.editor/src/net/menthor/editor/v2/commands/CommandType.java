@@ -19,7 +19,9 @@ package net.menthor.editor.v2.commands;
 * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
 * MA  02110-1301  USA
 * ============================================================================================
-*/
+ * 
+ * @author John Guerson
+ */
 
 public enum CommandType {		
 	
@@ -33,6 +35,7 @@ public enum CommandType {
 	CLOSE_PROJECT("Close current menthor project"), 
 	SAVE_PROJECT_AS("Save current menthor project"), 
 	SAVE_PROJECT("Save current menthor project as..."), 
+	OPEN_LINK_WITH_BROWSER("Open link with browser"),
 	QUIT_MENTHOR(null),
 	
 	//====================================================
@@ -127,6 +130,7 @@ public enum CommandType {
 	//====================================================
 	EXPORT_AS_PATTERN("Export current project as a pattern"),	
 	EXPORT_TO_UML("Export current project to UML (UML2)"), 
+	EXPORT_TO_PROFILE_UML("Export current project to Profile UML (UML2)"),
 	EXPORT_TO_ECORE("Export current project to Ecore (EMF)"),
 	EXPORT_TO_XMI("Export current project to XMI (EMF)"),
 		
@@ -190,6 +194,7 @@ public enum CommandType {
 	CLOSE_OTHER_TABS("Close all other tabs except this one"),
 	CLOSE_ALL_TABS("Close all tabs"),
 	SELECT_TAB("Select tab"),
+	OPEN_TAB("Select tab"),
 	
 	//====================================================
 	// TOOLBOX DRAG AND DROP: CLASS

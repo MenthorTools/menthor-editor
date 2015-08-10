@@ -8,6 +8,7 @@ import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.util.Util;
 import net.menthor.pattern.dynamic.ui.ModelCompleter;
 import net.menthor.pattern.impl.AbstractPattern;
 import net.menthor.pattern.impl.AntiRigidWeakSupplementation;
@@ -157,7 +158,7 @@ public class PatternTool {
 	}
 
 	public static void runPattern(final DiagramManager diagramManager,final PatternType elementType, final double x, final double y) {
-		if(Main.onMac()){
+		if(Util.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {
@@ -181,7 +182,7 @@ public class PatternTool {
 		//Needs to rename the class
 		diagramManager.renameElement(elem);
 
-		if(Main.onMac()){
+		if(Util.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {

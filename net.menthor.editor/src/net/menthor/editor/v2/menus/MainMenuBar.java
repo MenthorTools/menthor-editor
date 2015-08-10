@@ -19,6 +19,8 @@ package net.menthor.editor.v2.menus;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import java.awt.Color;
@@ -56,18 +58,19 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(file, "Save", CommandType.SAVE_PROJECT, background,stroke);		
 		createMenuItem(file, "Save As...", CommandType.SAVE_PROJECT_AS, background);		
 		file.addSeparator();		
-		JMenu export = new JMenu("Export");
+		JMenu export = new JMenu("Export As");
 		file.add(export);		
-		createMenuItem(export, "XMI (Ecore Metamodel)", CommandType.EXPORT_TO_XMI, background);
-		createMenuItem(export, "UML (UML2)", CommandType.EXPORT_TO_UML, background);
-		createMenuItem(export, "Ecore (EMF)", CommandType.EXPORT_TO_ECORE, background);
-		createMenuItem(export, "As Pattern (Menthor)", CommandType.EXPORT_AS_PATTERN, background);
+		createMenuItem(export, "XMI (.refontouml)", CommandType.EXPORT_TO_XMI, background);
+		createMenuItem(export, "UML2 (.uml)", CommandType.EXPORT_TO_UML, background);
+		createMenuItem(export, "Profile UML2 (.uml)", CommandType.EXPORT_TO_PROFILE_UML, background);
+		createMenuItem(export, "Ecore (.ecore)", CommandType.EXPORT_TO_ECORE, background);
+		createMenuItem(export, "Pattern (.menthor)", CommandType.EXPORT_AS_PATTERN, background);
 		file.addSeparator();
-		JMenu importation = new JMenu("Import");
+		JMenu importation = new JMenu("Import From");
 		file.add(importation);
-		createMenuItem(importation, "XMI (Ecore Metamodel)", CommandType.IMPORT_FROM_XMI_EMF, background);
-		createMenuItem(importation, "XMI (EA)", CommandType.IMPORT_FROM_XMI_EA, background);
-		createMenuItem(importation, "From a Pattern (Menthor)", CommandType.IMPORT_FROM_PATTERN, background);		
+		createMenuItem(importation, "XMI (.refontouml)", CommandType.IMPORT_FROM_XMI_EMF, background);
+		createMenuItem(importation, "EA (.xml)", CommandType.IMPORT_FROM_XMI_EA, background);
+		createMenuItem(importation, "Pattern (.menthor)", CommandType.IMPORT_FROM_PATTERN, background);		
 		file.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
@@ -118,6 +121,14 @@ public class MainMenuBar extends BaseMenuBar {
 		createCheckBoxMenuItem(window, "Project Browser", CommandType.PROJECT_BROWSER, background);		
 	}
 
+	private void createImplementMenu(){
+		JMenu implement = new JMenu("Implement");
+		add(implement);		
+		createMenuItem(implement, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
+		implement.addSeparator();
+		createMenuItem(implement, "Information Model (UML)", CommandType.DESIGN_AS_INFO_UML, background);		
+	}
+	
 	private void createVerbalizeMenu(){
 		JMenu verbalize = new JMenu("Verbalize");
 		add(verbalize);		
@@ -128,14 +139,10 @@ public class MainMenuBar extends BaseMenuBar {
 	private void createValidateMenu(){		
 		JMenu validate = new JMenu("Validate");
 		add(validate);		
-		createMenuItem(validate, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);
-		createMenuItem(validate, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
+		createMenuItem(validate, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);		
 		validate.addSeparator();
 		createMenuItem(validate, "Semantic Anti-Patterns", CommandType.SEARCH_FOR_ANTIPATTERNS, background);
 		createMenuItem(validate, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);		
-		validate.addSeparator();
-		createMenuItem(validate, "Information Model (UML)", CommandType.DESIGN_AS_INFO_UML, background);
-				
 	}
 	
 	private void createProjectMenu(){
@@ -206,6 +213,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createVerificateMenu();
 		createValidateMenu();
 		createVerbalizeMenu();
+		createImplementMenu();
 		createWindowMenu();
 		createHelpMenu();
 	}	

@@ -52,6 +52,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 import net.menthor.editor.DiagramManager;
+import org.tinyuml.ui.diagram.DiagramEditor;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
@@ -61,8 +63,6 @@ import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
 import org.eclipse.emf.edit.provider.IDisposable;
-import org.tinyuml.ui.diagram.DiagramEditor;
-
 
 /**
  * Internal class used to create closable tabs
@@ -162,14 +162,14 @@ public class ClosableTabPanel extends JPanel {
                 		if (editor.getPreferredSize().width < 100) editor.setPreferredSize(new Dimension(100, editor.getPreferredSize().height));
                 	}
                 } else if (SwingUtilities.isRightMouseButton(e)){
-                	if(pane instanceof DiagramManager){                		
-                		int index = pane.indexOfTabComponent(ClosableTabPanel.this);
-                		Component comp = pane.getComponentAt(index);
-                		
-                		TabPopupMenu popup = new TabPopupMenu(listener);
-                		popup.setContext(comp);
-                		popup.show(e.getComponent(),e.getX(),e.getY());
-                	}
+                	             		
+            		int index = pane.indexOfTabComponent(ClosableTabPanel.this);
+            		Component comp = pane.getComponentAt(index);
+            		
+            		TabPopupMenu popup = new TabPopupMenu(listener);
+            		popup.setContext(comp);
+            		popup.show(e.getComponent(),e.getX(),e.getY());
+                	
                 } else { 
                     if (pane.getSelectedIndex() != pane.indexOfTabComponent(ClosableTabPanel.this)) pane.setSelectedIndex(pane.indexOfTabComponent(ClosableTabPanel.this)); 
                     pane.requestFocus(); 

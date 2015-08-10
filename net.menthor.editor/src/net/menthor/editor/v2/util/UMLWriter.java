@@ -1,4 +1,4 @@
-package net.menthor.editor.ui.commands;
+package net.menthor.editor.v2.util;
 
 /*
  * ============================================================================================
@@ -23,30 +23,28 @@ package net.menthor.editor.ui.commands;
 
 import java.awt.Component;
 import java.io.File;
-import java.io.IOException;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.FileWriter;
+import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.ontouml2uml.OntoUML2UML;
+import net.menthor.ontouml2uml.OntoUML2UMLOption;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
+public class UMLWriter extends FileWriter {
 
-public class OntoUMLExporter extends FileWriter {
-
-	public void writeOntoUML(Component comp, File file, UmlProject project) throws IOException 
-	{
-		if (canWrite(comp, file)) 
-		{
-			URI path = URI.createFileURI(getFileWithExtension(file).getPath());
-			Resource resource = project.getResource();
-			resource.setURI(path);
-			ModelHelper.saveXMI(resource);
+	public void toProfileUML(Component parent, OntoUMLParser refparser, File outputfile) throws Exception{
+		if (canWrite(parent, outputfile)){
+			outputfile = Util.getFileWithExtension(outputfile, getSuffix());
+			String umlPath = outputfile.getAbsolutePath();				
+			OntoUML2UML.convertToUMLProfile(refparser,umlPath,new OntoUML2UMLOption(false,false));
 		}
 	}
 
-	protected String getSuffix() 
-	{
-		return ".refontouml";
+	public void toUML(Component parent, OntoUMLParser refparser, File outputfile) throws Exception{
+		if (canWrite(parent, outputfile)){
+			outputfile = Util.getFileWithExtension(outputfile, getSuffix());
+			String umlPath = outputfile.getAbsolutePath();				
+			OntoUML2UML.convertToUML(refparser,umlPath,new OntoUML2UMLOption(false,false));
+		}	
 	}
+	
+	protected String getSuffix() { return ".uml"; }
 }

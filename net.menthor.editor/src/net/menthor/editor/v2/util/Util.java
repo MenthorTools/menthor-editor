@@ -19,8 +19,11 @@ package net.menthor.editor.v2.util;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
+import java.awt.Color;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,9 +37,14 @@ import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /** A helper class which provides settings and file management facilities. */
 public class Util {
-
+	
 	public static boolean onMac() {
 		return System.getProperty("mrj.version") != null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");
 	}
@@ -56,7 +64,36 @@ public class Util {
 	public static boolean onWindows() {
 		return System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
 	};
+
+	public static String getOSx(){ 
+		if (onWindows()) return "win"; else if (onMac()) return "mac"; else return "linux"; 
+	}
+			
+	public static String getArch() { 
+		String osArch = System.getProperty("os.arch").toLowerCase();
+		String arch = osArch.contains("64") ? "x64" : "x86";                
+        return arch;
+	}
+
+    public static int getScreenWorkingHeight() {
+	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+	}
+    
+    /** Helper method for constructing an always-on-top modal dialog. */
+    public static Object show(String title, int type, Object message, Object[] options, Object initialOption) {
+		if (options == null) { options = new Object[]{"Ok"};  initialOption = "Ok"; }
+		JOptionPane p = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION, null, options, initialOption);
+		p.setInitialValue(initialOption);
+		JDialog d = p.createDialog(null, title);
+		p.selectInitialValue();
+		d.setAlwaysOnTop(true);
+		d.setVisible(true);
+		d.dispose();
+		return p.getValue();
+	}
 	
+    
+    
 	/** 
 	 * This returns the constant prefix to denote whether Util.readAll() should read from a JAR or read from the file system.
 	 * (The reason we made this into a "method" rather than a constant String is that it is used
@@ -120,8 +157,7 @@ public class Util {
 	}
 	
 	/** Extract a file from menthor's /lib class path */
-	public static File extractLib(String fileNameWithExtension) throws IOException
-	{
+	public static File extractLib(String fileNameWithExtension) throws IOException{
 		String destFolderPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
 		if(destFolderPath.lastIndexOf("/") < destFolderPath.lastIndexOf(".")){
 			int lastBar = destFolderPath.lastIndexOf("/");

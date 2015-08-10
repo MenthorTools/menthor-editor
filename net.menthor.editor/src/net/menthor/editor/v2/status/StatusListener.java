@@ -19,7 +19,10 @@ package net.menthor.editor.v2.status;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
+
 
 /**
  * Interface to be implemented by classes who should listen to the applications status messages

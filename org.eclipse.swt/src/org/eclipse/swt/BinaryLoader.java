@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Locale;
 
 /**
  * 
@@ -30,23 +29,23 @@ import java.util.Locale;
  * @version 1.1
  */
 
-public class SWTBinaryLoader {
+public class BinaryLoader {
 	
-	public File jarFile = null;	
+	private File jarFile = null;	
 	public File getJarFile() { return jarFile; }
 	
-	public String osx = "undef";
-	public String arch = "undef";
+	private String osx = "undef";
+	private String arch = "undef";
 		
 	public static void load(File binDir) throws LoadingException, IOException
 	{	
-		SWTBinaryLoader loader = new SWTBinaryLoader(null, getOSx(), getArch());		
+		BinaryLoader loader = new BinaryLoader(null, Util.getOSx(), Util.getArch());		
 		loader.extract(binDir);
 		loader.includeInJavaPath(binDir);		
 	}
 
 	/** Constructor */
-	private SWTBinaryLoader(String jarName, String osx, String arch) {
+	private BinaryLoader(String jarName, String osx, String arch) {
 		this.osx = osx;		
 		this.arch = arch;
 		if (jarName!=null  && !jarName.isEmpty()){		
@@ -176,40 +175,12 @@ public class SWTBinaryLoader {
 		return outFile.getAbsolutePath();
 	}
 
-	public String getBinWorkingDir() {
+	private String getBinWorkingDir() {
 		String dir = System.getProperty("user.dir");
 		if (dir.contains("net.menthor.editor")) 
 			dir = dir.replace("net.menthor.editor","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);
 		else
 			dir = "";
 		return dir;
-	}
-	
-	public static final String canon(String filename){
-		if (filename == null || filename.length() == 0) return "";		
-		File file = new File(filename);
-		try {
-			return file.getCanonicalPath();
-		} catch (IOException ex) {
-			return file.getAbsolutePath();
-		}
-	}
-	
-	public static boolean onWindows() {
-		return System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
-	};
-	
-	public static String getOSx(){ 
-		if (onWindows()) return "win"; else if (onMac()) return "mac"; else return "linux"; 
-	}
-			
-	public static String getArch(){ 
-		String osArch = System.getProperty("os.arch").toLowerCase();
-		String arch = osArch.contains("64") ? "x64" : "x86";                
-        return arch;
-	}
-	
-	public static boolean onMac() {
-      return System.getProperty("mrj.version")!=null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");                                     
 	}
 }

@@ -19,6 +19,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -38,7 +39,10 @@ import net.menthor.editor.v2.icon.IconType;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
+
 import java.awt.Image;
 
 public class BaseToolBar extends JToolBar implements ActionListener {

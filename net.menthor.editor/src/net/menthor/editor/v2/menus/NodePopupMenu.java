@@ -19,6 +19,8 @@ package net.menthor.editor.v2.menus;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import javax.swing.JCheckBoxMenuItem;
@@ -48,7 +50,7 @@ public class NodePopupMenu extends BasePopupMenu {
 		addSeparator();
 		color = new BaseMenu(listener,"Background Color");
 		add(color);
-		color.createMenuItem("Set", CommandType.SETUP_BACKGROUND_COLOR);
+		color.createMenuItem("Set", IconType.MENTHOR_COLOR_CHOOSER, CommandType.SETUP_BACKGROUND_COLOR);
 		color.createMenuItem("Copy", CommandType.COPY_BACKGROUND_COLOR);
 		color.createMenuItem("Paste", CommandType.PASTE_BACKGROUND_COLOR);
 		addSeparator();

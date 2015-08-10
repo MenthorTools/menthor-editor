@@ -1,6 +1,6 @@
-package net.menthor.editor.ui.commands;
+package net.menthor.editor.v2.util;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -21,28 +21,22 @@ package net.menthor.editor.ui.commands;
  * ============================================================================================
  */
 
+import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
 
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.util.FileWriter;
-import net.menthor.ontouml2uml.OntoUML2UML;
-import net.menthor.ontouml2uml.OntoUML2UMLOption;
+import RefOntoUML.util.RefOntoUMLResourceUtil;
 
-public class UMLExporter extends FileWriter {
+public class XMIWriter extends FileWriter {
 
-	public void writeUML(DiagramManager manager, File file) throws Exception 
+	public void toRefontouml(Component parent, OntoUMLParser refparser, File outputfile) throws IOException 
 	{
-		OntoUMLParser refparser = Models.getRefparser();
-		String umlPath = file.getAbsolutePath();
-		if(!umlPath.contains(".uml")) umlPath += ".uml";		
-		OntoUML2UML.convertToUMLProfile(refparser,umlPath,new OntoUML2UMLOption(false,false));
-		System.out.println(OntoUML2UML.getLog());
+		if (canWrite(parent, outputfile)){
+			outputfile = Util.getFileWithExtension(outputfile, getSuffix());
+			RefOntoUMLResourceUtil.saveModel(outputfile.getAbsolutePath(), refparser.getModel());
+		}
 	}
 
-	protected String getSuffix() 
-	{
-		return ".uml";
-	}
+	protected String getSuffix() { return ".refontouml"; }
 }

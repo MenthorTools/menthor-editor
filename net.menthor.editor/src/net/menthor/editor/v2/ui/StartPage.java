@@ -1,4 +1,27 @@
-package net.menthor.editor;
+package net.menthor.editor.v2.ui;
+
+/*
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ * 
+ * @author John Guerson
+ */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,13 +63,15 @@ import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.ui.BackgroundPanel;
 import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.Util;
 
 public class StartPage extends BackgroundPanel implements Editor {
 		
 	private static final long serialVersionUID = 2336092539913014948L;
-		
+	
+	private static Image img = IconMap.getInstance().getImage(IconType.MENTHOR_WELCOME_BACKGROUND.toString());
+	
 	private JPanel recentPane;
 	private JPanel buttonsPane;
 	private JPanel pageBtnPane;
@@ -62,10 +87,8 @@ public class StartPage extends BackgroundPanel implements Editor {
 	private JButton btnCommunityButton;
 	private Component emptyHeaderArea;
 	private CommandListener commandListener;
-	private static Image img = IconMap.getInstance().getImage(IconType.MENTHOR_WELCOME_BACKGROUND.toString());
 	
-	public StartPage(CommandListener commandListener)
-	{
+	public StartPage(CommandListener commandListener){
 		this();
 		this.commandListener = commandListener;			
 	}
@@ -84,6 +107,13 @@ public class StartPage extends BackgroundPanel implements Editor {
     	populateRecentProjects();
     }    
     
+	@Override
+	public void dispose() { }	
+	@Override
+	public boolean isSaveNeeded() { return false; }
+	@Override
+	public EditorType getEditorType() { return EditorType.WELCOME_EDITOR; }
+	
 	private JPanel createRecentPane(){
 		JScrollPane recentScrollPane = new JScrollPane();
 		recentPane = new JPanel();    	
@@ -99,8 +129,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		return recentPane;				
     }
 
-	public JLabel createRecentLabel(String name)
-	{
+	public JLabel createRecentLabel(String name){
 		JLabel recentLabel = new JLabel(name);
 		recentLabel.setBorder(new EmptyBorder(0, 8, 0, 0));
 		recentLabel.setPreferredSize(new Dimension(75, 30));
@@ -141,8 +170,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		return menthorImg;
     }
     
-    public JButton createFileButton(String name)
-    {
+    public JButton createFileButton(String name){
     	JButton btn = new JButton(name);
 		btn.setPreferredSize(new Dimension(130, 25));
 		btn.setForeground(Color.WHITE);
@@ -158,8 +186,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		return btn;
     }
     
-    public JButton createPageLinkButton(String htmlName)
-    {
+    public JButton createPageLinkButton(String htmlName){
     	JButton btn = new JButton(htmlName);    	
     	btn.setPreferredSize(new Dimension(200, 70));
     	btn.setForeground(Color.WHITE);
@@ -175,8 +202,7 @@ public class StartPage extends BackgroundPanel implements Editor {
         return btn;
     }
     
-    private JPanel createButtonsPane()
-    {
+    private JPanel createButtonsPane(){
 		buttonsPane = new JPanel();
 		buttonsPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		FlowLayout flowLayout = (FlowLayout) buttonsPane.getLayout();
@@ -198,8 +224,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		return buttonsPane;
     }
 	
-   private void attachNewProjectAction()
-    {
+   private void attachNewProjectAction(){
     	btnNewProject.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -213,8 +238,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		});
     }
    
-   private void attachOpenProjectAction()
-   {
+   private void attachOpenProjectAction(){
    		btnOpenProject.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -228,8 +252,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		});
    }
    
-   private void attachImportFromEAAction()
-   {
+   private void attachImportFromEAAction(){
    		btnImportFromEA.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -243,8 +266,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 		});
    }
    
-	public void setRollOver(final JButton btn)
-	{	
+	public void setRollOver(final JButton btn){	
 		btn.setRolloverEnabled(true);
 		btn.getModel().addChangeListener(new ChangeListener() {
             @Override
@@ -263,8 +285,7 @@ public class StartPage extends BackgroundPanel implements Editor {
         });
     }
 	
-	public void setRollOverLink(final JButton btn)
-	{	
+	public void setRollOverLink(final JButton btn){	
 		btn.setRolloverEnabled(true);
 		btn.getModel().addChangeListener(new ChangeListener() {
             @Override
@@ -283,8 +304,7 @@ public class StartPage extends BackgroundPanel implements Editor {
         });
     }
 	
-	private JPanel createPageBtnPane()
-	{
+	private JPanel createPageBtnPane(){
 		pageBtnPane = new JPanel();		
 		//pageBtnPane.setBackground(ColorPalette.getInstance().getColor(ThemeColor.MENTHOR_GREY));
 		pageBtnPane.setBackground(new Color(0,0,0,0));
@@ -312,54 +332,46 @@ public class StartPage extends BackgroundPanel implements Editor {
 		return pageBtnPane;
 	}
 	
-	private void attachEALink()
-	{
+	private void attachEALink(){
 		btnEAButton.addMouseListener(new MouseAdapter() {			
 			 @Override
-			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/tutorial-how-to-use-ontouml-in-enterprise-architect.html");
-				 }
+			    public void mouseClicked(MouseEvent e) {
+				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(), 
+					"http://www.menthor.net/tutorial-how-to-use-ontouml-in-enterprise-architect.html"
+				 );
 			 }
 		});	
 	}	
 	
-	private void attachFAQLink()
-	{
+	private void attachFAQLink(){
 		btnFAQButton.addMouseListener(new MouseAdapter() {			
 			 @Override
 			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/faq.html");
-				 }
+				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
+					 "http://www.menthor.net/faq.html"
+				 );
 			 }
 		});
 	}
 	
-	private void attachCommunityLink()
-	{
+	private void attachCommunityLink(){
 		btnCommunityButton.addMouseListener(new MouseAdapter() {			
 			 @Override
 			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/user-community.html");
-				 }
+				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
+					 "http://www.menthor.net/user-community.html"
+				 );
 			 }
 		});
 	}
 	
-	private void attachStudyLink()
-	{
+	private void attachStudyLink(){
 		btnStudyButton.addMouseListener(new MouseAdapter() {			
 			 @Override
 			    public void mouseClicked(MouseEvent e) {			     
-				 if(commandListener instanceof AppFrame){
-					 AppFrame frame = (AppFrame)commandListener;
-					 frame.getDiagramManager().openLinkWithBrowser("http://www.menthor.net/ontouml-study-guide.html");
-				 }
+				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
+					 "http://www.menthor.net/ontouml-study-guide.html"
+				 );
 			 }
 		});
 	}
@@ -419,14 +431,10 @@ public class StartPage extends BackgroundPanel implements Editor {
     	boxPane.setLayout(new BorderLayout(0, 0));
     	boxPane.add(greyPane);
     	
-    	emptyHeaderArea = Box.createRigidArea(new Dimension(20, (int)(0.08*getScreenWorkingHeight())));
+    	emptyHeaderArea = Box.createRigidArea(new Dimension(20, (int)(0.08*Util.getScreenWorkingHeight())));
     	boxPane.add(emptyHeaderArea, BorderLayout.NORTH);
 		return contentPane;
     }
-
-    public static int getScreenWorkingHeight() {
-	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
-	}
     
     private JPanel createFooter(){
     	JPanel footerPane = new JPanel();
@@ -453,14 +461,5 @@ public class StartPage extends BackgroundPanel implements Editor {
     	footerPane.setLayout(gl_footerPane);
     	return footerPane;
     }
-	
-	@Override
-	public void dispose() { }
-	
-	@Override
-	public boolean isSaveNeeded() { return false; }
-
-	@Override
-	public EditorType getEditorType() { return EditorType.WELCOME_EDITOR; } 
 	
 }

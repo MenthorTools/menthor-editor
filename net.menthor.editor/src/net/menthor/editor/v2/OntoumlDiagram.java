@@ -19,6 +19,8 @@ package net.menthor.editor.v2;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import java.util.List;
@@ -32,4 +34,5 @@ public interface OntoumlDiagram extends PackageableElement {
 	
 	abstract public List<EObject> getPackageableElements();
 	abstract public Object getContainer();
+	abstract public void setContainer(Object container);
 }

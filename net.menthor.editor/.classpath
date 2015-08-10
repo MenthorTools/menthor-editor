@@ -6,7 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/alloy4.2.jar"/>
-	<classpathentry kind="lib" path="lib/ui.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2sbvr"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2simpleowl"/>
@@ -72,5 +71,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-mac-x64/swt.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2infouml"/>
+	<classpathentry kind="lib" path="lib/ui.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

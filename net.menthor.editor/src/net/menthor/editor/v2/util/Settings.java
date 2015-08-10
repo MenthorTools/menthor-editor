@@ -23,6 +23,8 @@ import java.io.FileOutputStream;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
+ * 
+ * @author John Guerson
  */
 
 import java.util.Properties;
@@ -49,7 +51,8 @@ public enum Settings {
 	
 	private final String key;
 	private final String value;
-		
+	private static Properties properties;
+	
 	/** Constructor */
 	private Settings(String key, String value) {
 		this.key = key;
@@ -79,11 +82,7 @@ public enum Settings {
 		String value = getValue();
 		return Boolean.parseBoolean(value);
 	}
-	
-	//=====================================================
-	
-	private static Properties properties;
-	
+		
 	public static boolean saveProperties(){
 		if(properties != null) {
 			File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_SETTINGS_FILE.getValue()));

@@ -20,7 +20,10 @@ import java.awt.Component;
 * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
 * MA  02110-1301  USA
 * ============================================================================================
-*/
+ * 
+ * @author John Guerson
+ */
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,6 +99,8 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("saveProject")));
 		cmdMap.put(CommandType.QUIT_MENTHOR,
 				new MethodCall(AppFrame.class.getMethod("quitApplication")));
+		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
+				new MethodCall(DiagramManager.class.getMethod("openLinkWithBrowser", String.class)));
 	}
 	
 	private void exportation() throws NoSuchMethodException, SecurityException{
@@ -103,6 +108,8 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("exportToEcore")));
 		cmdMap.put(CommandType.EXPORT_TO_UML,
 				new MethodCall(DiagramManager.class.getMethod("exportToUML")));
+		cmdMap.put(CommandType.EXPORT_TO_PROFILE_UML,
+				new MethodCall(DiagramManager.class.getMethod("exportToProfileUML")));		
 		cmdMap.put(CommandType.EXPORT_TO_XMI,
 				new MethodCall(DiagramManager.class.getMethod("exportToXMI")));
 		cmdMap.put(CommandType.EXPORT_AS_PATTERN,
@@ -308,6 +315,8 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_TAB,
 				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
+		cmdMap.put(CommandType.OPEN_TAB,
+				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));
 	}
 	
 	private void window() throws NoSuchMethodException, SecurityException{
