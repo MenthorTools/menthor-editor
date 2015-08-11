@@ -214,7 +214,7 @@ public void mousePressed(EditorMouseEvent event) {
     
     if(element!=null){
 	    
-	    editor.getDiagramManager().moveToDiagram(((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor);
+	    editor.getDiagramManager().moveToDiagram(((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor,true);
 	    	    	    
 //	    if (!isDragging) {
 //	    	editor.getDiagramManager().openModellingAssistant(elem);

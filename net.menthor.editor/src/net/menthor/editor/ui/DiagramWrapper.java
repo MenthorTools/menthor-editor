@@ -68,7 +68,6 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 		super();
 		this.editor = editor;	
 		diagramToolbar = new DiagramToolBar(editor.getListener());		
-		diagramToolbar.addCommandListener(editorDispatcher);
 		diagramStatus = new StatusPane();		
 		scrollpane = new JScrollPane();
 		scrollpane.setBackground(Color.WHITE);

@@ -52,7 +52,7 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = -665363641218269342L;
 	
 	private List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { listeners.add(l); }
+	public void addCommandListener(CommandListener l) { if(!listeners.contains(l))  listeners.add(l); }
 	
 	private Map<CommandType, JButton> jbuttonMap = new HashMap<CommandType, JButton>();		
 	public void enableButton(CommandType cmdType, boolean flag) { jbuttonMap.get(cmdType).setEnabled(flag); }

@@ -126,7 +126,10 @@ public class OntoUMLNameHelper {
 	public static String getTypeName(EObject elem, boolean addGuillemets)
 	{
 		//Changed to unicode because on mac this character appear like ?
-		if(addGuillemets) return "\u00AB"+getTypeName(elem)+"\u00BB";		
+		if(addGuillemets) {
+			if(!getTypeName(elem).isEmpty()) return "\u00AB"+getTypeName(elem)+"\u00BB";
+			else return "";
+		}
 		return getTypeName(elem);
 	}
 	

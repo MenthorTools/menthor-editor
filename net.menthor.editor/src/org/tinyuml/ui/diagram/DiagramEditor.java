@@ -533,10 +533,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		Color background = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST);
 		if (toScreen) {
 			scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
-		} else {
-			diagram.setGridVisible(false);
-			background = Color.WHITE;
-		}
+		} 
+//		else {
+//			diagram.setGridVisible(gridVisible);
+//			background = Color.WHITE;
+//		}
 		int width = (int)(diagram.getSize().getWidth()+ MARGIN_RIGHT + MARGIN_RIGHT + ADDSCROLL_HORIZONTAL);
 		int height = (int)(diagram.getSize().getHeight() + MARGIN_BOTTOM + MARGIN_TOP + ADDSCROLL_VERTICAL);		
 		bounds = new Rectangle((int)width,(int)height);
@@ -548,7 +549,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			editorMode.draw(getDrawingContext());
 		}
 		restoreRenderingHints(g2d);
-		diagram.setGridVisible(gridVisible);
+		//diagram.setGridVisible(gridVisible);
 	}
 
 	/** Get the width of the diagram considering the zoom */
@@ -1059,7 +1060,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void showGrid(Boolean flag) 
 	{
-		diagram.setGridVisible(flag);
+		diagram.setGridVisible(flag);		
 		updateUI();
 		if(wrapper!=null)wrapper.getScrollPane().updateUI();
 	}
@@ -2180,7 +2181,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						target = (Classifier)((Generalization)rel).getSpecific();
 					}					
 					if(source!=null && !getDiagram().containsChild(source)) { 
-						getDiagramManager().moveToDiagram(source,x+100*column,y+75*row,this); 
+						getDiagramManager().moveToDiagram(source,x+100*column,y+75*row,this,false); 
 						row++; 						
 						if(row>2) {
 							row=0; column++;
@@ -2188,7 +2189,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						addedTypes.add(source);
 					}						
 					if(target!=null && !getDiagram().containsChild(target)) {  
-						getDiagramManager().moveToDiagram(target,x+100*column,y+75*row,this); 
+						getDiagramManager().moveToDiagram(target,x+100*column,y+75*row,this,false); 
 						row++;						
 						if(row>2) {
 							row=0; 
@@ -2197,7 +2198,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						addedTypes.add(target);
 					}					
 					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
-						getDiagramManager().moveToDiagram(rel, this);					
+						getDiagramManager().moveToDiagram(rel, this, false);					
 				}catch(Exception e){
 					e.printStackTrace();
 					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
@@ -2212,13 +2213,13 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				Type source = a.getMemberEnd().get(0).getType();
 				Type target = a.getMemberEnd().get(1).getType();				
 				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
-					getDiagramManager().moveToDiagram(a,this);
+					getDiagramManager().moveToDiagram(a,this, false);
 			}			
 			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
 				RefOntoUML.Type specific = g.getSpecific();
 				RefOntoUML.Type general = g.getGeneral();			
 				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
-					getDiagramManager().moveToDiagram(g,this);
+					getDiagramManager().moveToDiagram(g,this, false);
 			}			
 		}
 	}

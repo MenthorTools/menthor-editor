@@ -1333,8 +1333,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Creates an editor for a given Diagram. */
 	public DiagramEditor createDiagramEditor(OntoumlDiagram diagram)
 	{		
-		DiagramEditor editor = new DiagramEditor(frame, this, diagram);
-		editor.showGrid(false);	
+		DiagramEditor editor = new DiagramEditor(frame, this, diagram);			
 		editor.addEditorStateListener(this);
 		editor.addSelectionListener(this);
 		editor.addAppCommandListener(listener);
@@ -2370,7 +2369,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = Models.getRefparser();
 		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element))
 		{
-			moveGeneralizationToDiagram(gen, d, false);
+			if(!d.getDiagram().containsChild(gen)) moveGeneralizationToDiagram(gen, d, false);
 		}
 	}
 	
@@ -2390,7 +2389,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				Derivation deriv = refparser.getDerivation((MaterialAssociation)a);
 				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, ReadingDesign.UNDEFINED);
 			}			
-			moveAssociationToDiagram(a, d, false, true, true, true, false, ReadingDesign.UNDEFINED);		
+			if(!d.getDiagram().containsChild(a)) moveAssociationToDiagram(a, d, false, true, true, true, false, ReadingDesign.UNDEFINED);		
 		}
 	}
 	
@@ -2432,9 +2431,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 		
 	/** Move element to a Diagram */
-	public void moveToDiagram(RefOntoUML.Element element, double x, double y, DiagramEditor d)
+	public void moveToDiagram(RefOntoUML.Element element, double x, double y, DiagramEditor d, boolean showmessage)
 	{
-		if (d!=null && d.getDiagram().containsChild(element))
+		if (d!=null && d.getDiagram().containsChild(element) && showmessage)
 		{
 			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram...", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
 			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
@@ -2456,13 +2455,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void moveToDiagram(Object element)
 	{
-		moveToDiagram((RefOntoUML.Element)element,getCurrentDiagramEditor());
+		moveToDiagram((RefOntoUML.Element)element,getCurrentDiagramEditor(),true);
 	}
 	
 	/** Move element to a Diagram */
-	public void moveToDiagram(RefOntoUML.Element element, DiagramEditor d)
+	public void moveToDiagram(RefOntoUML.Element element, DiagramEditor d, boolean showmessage)
 	{
-		if (d!=null && d.getDiagram().containsChild(element))
+		if (d!=null && d.getDiagram().containsChild(element) && showmessage)
 		{
 			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram...", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
 			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
@@ -2488,7 +2487,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
 		Object obj = node.getUserObject();				
-		moveToDiagram((RefOntoUML.Element)obj, location.x, location.y, editor);			
+		moveToDiagram((RefOntoUML.Element)obj, location.x, location.y, editor, true);			
 	}
 	
 	/** Invert end points of an association. This method switch the current properties of an association. 
@@ -2623,7 +2622,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.Relationship && !(obj instanceof RefOntoUML.Derivation)) {
 				updateMenthorFromInclusion((RefOntoUML.Element)obj);
-				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor());
+				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor(),false);
 			}
 			if(obj instanceof RefOntoUML.Property){		
 				updateMenthorFromInclusion((RefOntoUML.Element)obj);
@@ -2633,7 +2632,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.Derivation) {
 				updateMenthorFromInclusion((RefOntoUML.Element)obj);
-				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor());
+				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor(),false);
 			}
 		}	
 		//generalization sets
