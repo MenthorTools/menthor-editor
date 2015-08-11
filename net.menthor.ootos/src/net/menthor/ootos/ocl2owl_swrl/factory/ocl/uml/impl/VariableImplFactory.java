@@ -3,6 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl.TypedElementImplFactory;
@@ -28,8 +29,8 @@ import RefOntoUML.parser.OntoUMLParser;
 public class VariableImplFactory extends TypedElementImplFactory {
 	OCLExpressionImplFactory initExpressionFactory;
 	
-	public VariableImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
-		super(mappingProperties, m_NamedElementImpl);
+	public VariableImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 	
 	@Override
@@ -40,7 +41,7 @@ public class VariableImplFactory extends TypedElementImplFactory {
 		//then, the initExpression of the variable is got
 		OCLExpression initExpression = (OCLExpression) variable.getInitExpression();
 		//and a factory is created according to the initExpression class 
-		this.initExpressionFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, initExpression, this.m_NamedElementImpl);
+		this.initExpressionFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, owlOptions, initExpression, this.m_NamedElementImpl);
 		//the initExpression is solved and the and the returned arguments from the initExpressionSolveMethod above are returned 
 		ArrayList<SWRLDArgument> retArgsX = this.initExpressionFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, referredArgument, operatorNot, repeatNumber, leftSideOfImplies);
 		SWRLDArgument varX = retArgsX.get(retArgsX.size()-1);//get the last

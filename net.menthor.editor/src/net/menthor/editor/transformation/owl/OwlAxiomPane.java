@@ -12,6 +12,15 @@ import javax.swing.border.TitledBorder;
 
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+
+import net.menthor.common.transformation.OwlReasoner;
+
+import javax.swing.SwingConstants;
+
+import java.awt.Component;
+
 public class OwlAxiomPane extends JPanel {
 
 	private static final long serialVersionUID = 8425787008147140307L;
@@ -37,6 +46,7 @@ public class OwlAxiomPane extends JPanel {
 	private JCheckBox classCompleteCheck;
 	private JCheckBox labelsCheck;
 	private JCheckBox commentsCheck;
+	private JComboBox<OwlReasoner> owlReasonerBox;
 	
 	public OwlAxiomPane()
 	{	
@@ -58,7 +68,7 @@ public class OwlAxiomPane extends JPanel {
 		panel_1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel_1.setBorder(new TitledBorder(null, "SWRL", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "Reasoner", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JPanel panel_2 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_2.getLayout();
@@ -80,6 +90,9 @@ public class OwlAxiomPane extends JPanel {
 		commentsCheck.setSelected(true);
 		panel_3.add(commentsCheck);
 		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new TitledBorder(null, "SWRL", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
 		GroupLayout gl_axiomsPane = new GroupLayout(this);
 		gl_axiomsPane.setHorizontalGroup(
 			gl_axiomsPane.createParallelGroup(Alignment.LEADING)
@@ -87,15 +100,15 @@ public class OwlAxiomPane extends JPanel {
 					.addContainerGap()
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_axiomsPane.createSequentialGroup()
-							.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_axiomsPane.createSequentialGroup()
-									.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(46))
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_axiomsPane.createSequentialGroup()
+							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_axiomsPane.createSequentialGroup()
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -107,22 +120,28 @@ public class OwlAxiomPane extends JPanel {
 				.addGroup(gl_axiomsPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
 						.addComponent(relCheckList, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE)
+						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap(77, Short.MAX_VALUE))
 		);
+		gl_axiomsPane.linkSize(SwingConstants.VERTICAL, new Component[] {relCheckList, panel_1, panel_4});
+		
+		owlReasonerBox = new JComboBox<OwlReasoner>();
+		owlReasonerBox.setModel(new DefaultComboBoxModel<OwlReasoner>(OwlReasoner.values()));
+		panel_1.add(owlReasonerBox);
 		
 		rulesCheck = new JCheckBox("Rules");
+		panel_4.add(rulesCheck);
 		rulesCheck.setSelected(true);
-		panel_1.add(rulesCheck);
 		
 		cardinalityCheck = new JCheckBox("Cardinality");
 		cardinalityCheck.setSelected(true);
@@ -202,6 +221,7 @@ public class OwlAxiomPane extends JPanel {
 		opt.setUfoStructure(ufoStructure.isSelected());
 		opt.setComments(commentsCheck.isSelected());
 		opt.setLabels(labelsCheck.isSelected());
+		opt.setOwlReasoner((OwlReasoner) owlReasonerBox.getSelectedItem());
 		return opt;
 	}
 	
@@ -223,4 +243,6 @@ public class OwlAxiomPane extends JPanel {
 	public boolean isRules() { return rulesCheck.isSelected(); }
 	public boolean isUfoStructure() { return ufoStructure.isSelected(); }
 	public boolean isComplete() { return classCompleteCheck.isSelected(); }
+	
+	public OwlReasoner getOwlReasoner() { return (OwlReasoner) owlReasonerBox.getSelectedItem(); }
 }

@@ -3,6 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.IntegerLiteralExpImpl;
@@ -22,8 +23,8 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class IntegerLiteralExpImplFactory extends NumericLiteralExpImplFactory {
 
-	public IntegerLiteralExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
-		super(mappingProperties, m_NamedElementImpl);
+	public IntegerLiteralExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 	
 	@Override

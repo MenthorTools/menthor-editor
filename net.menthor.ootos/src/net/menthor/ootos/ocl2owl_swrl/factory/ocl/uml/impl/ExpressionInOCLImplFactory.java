@@ -3,6 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.ConsequentVariableNonDeclaredOnAntecedent;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.UnexpectedResultingRule;
@@ -50,8 +51,8 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 		this.element = element;
 	}
 	
-	public ExpressionInOCLImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
-		super(mappingProperties, m_NamedElementImpl);
+	public ExpressionInOCLImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 		OCLExpressionImpl bodyExpression = (OCLExpressionImpl) expressionInOCLImpl.getBodyExpression();
 		
 		//and a factory is created according to the bodyExpression class 
-		bodyExpressionFactory = (OCLExpressionImplFactory) NamedElementImplFactory.constructor(mappingProperties, bodyExpression, this.m_NamedElementImpl);
+		bodyExpressionFactory = (OCLExpressionImplFactory) NamedElementImplFactory.constructor(mappingProperties, owlOptions, bodyExpression, this.m_NamedElementImpl);
 		//bodyExpressionFactory.setIsBodyExpression(true);
 
 		//then, the context variable of the expression is got
@@ -114,7 +115,7 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 				
 			}else if(org.eclipse.ocl.utilities.UMLReflection.DERIVATION.equals(ctStereotype)){
 				//in the derivations case, the context is always considered the unique atom on the consequent
-				this.elementFactory = new PropertyCallExpImplFactory(mappingProperties, m_NamedElementImpl, (Property) element);
+				this.elementFactory = new PropertyCallExpImplFactory(mappingProperties, owlOptions, m_NamedElementImpl, (Property) element);
 				ArrayList<SWRLDArgument> retArgsY = this.elementFactory.solvePropertyAssociation(refParser, nameSpace, manager, factory, ontology, antecedent, consequent, contextVar, operatorNot, 1);
 				
 				if(retArgsX.size() > 0 && retArgsY.size() > 0){

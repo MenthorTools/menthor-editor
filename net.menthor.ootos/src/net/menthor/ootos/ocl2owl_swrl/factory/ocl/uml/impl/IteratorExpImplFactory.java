@@ -3,6 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
@@ -28,8 +29,8 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class IteratorExpImplFactory extends LoopExpImplFactory {
 
-	public IteratorExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
-		super(mappingProperties, m_NamedElementImpl);
+	public IteratorExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+		super(mappingProperties, owlOptions, m_NamedElementImpl);
 		
 		//verifies if the iterator is unsupported
 		if(this.isUnsupported()){
@@ -77,7 +78,7 @@ public class IteratorExpImplFactory extends LoopExpImplFactory {
 		OCLExpressionImpl body = (OCLExpressionImpl) iteratorExpImpl.getBody();
 		
 		//and a factory is created according to the source class 
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, source, this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, owlOptions, source, this.m_NamedElementImpl);
 		//the source is solved and the and the returned arguments from the sourceSolveMethod above are returned 
 		ArrayList<SWRLDArgument> retArgsX = this.sourceFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, null, operatorNot, repeatNumber, leftSideOfImplies);
 		SWRLDArgument varX = null;
@@ -86,7 +87,7 @@ public class IteratorExpImplFactory extends LoopExpImplFactory {
 		}		
 		
 		//and a factory is created according to the body class 
-		this.bodyFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, body, this.m_NamedElementImpl);
+		this.bodyFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, owlOptions, body, this.m_NamedElementImpl);
 		//the body is solved and the and the returned arguments from the bodySolveMethod above are returned 
 		ArrayList<SWRLDArgument> retArgsY = this.bodyFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, varX, operatorNot, repeatNumber, leftSideOfImplies); 
 		SWRLDArgument varY = null;
@@ -140,14 +141,14 @@ public class IteratorExpImplFactory extends LoopExpImplFactory {
 		//to create different individuals, the repeatNumber is used.
 		
 		//and a factory is created according to the source class 
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, source, this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, owlOptions, source, this.m_NamedElementImpl);
 		//the source is solved and the and the returned arguments from the sourceSolveMethod above are returned 
 		ArrayList<SWRLDArgument> retArgsX2 = this.sourceFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, null, operatorNot, repeatNumber, leftSideOfImplies);
 		SWRLDArgument varX2 = retArgsX2.get(retArgsX2.size()-1);//pega o ultimo
 		SWRLDArgument var0_2 = retArgsX2.get(0);
 		
 		//and a factory is created according to the body class 
-		this.bodyFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, body, this.m_NamedElementImpl);
+		this.bodyFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, owlOptions, body, this.m_NamedElementImpl);
 		//the body is solved and the and the returned arguments from the bodySolveMethod above are returned 
 		ArrayList<SWRLDArgument> retArgsY2 = this.bodyFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, varX2, operatorNot, repeatNumber, leftSideOfImplies); 
 		SWRLDArgument varY2 = retArgsY2.get(retArgsY2.size()-1);//pega o ultimo
@@ -231,7 +232,7 @@ public class IteratorExpImplFactory extends LoopExpImplFactory {
 		//then, the source of the iterator is got
 		OCLExpressionImpl source = (OCLExpressionImpl) iteratorExpImpl.getSource();
 		//and a factory is created according to the source class 
-		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, source, this.m_NamedElementImpl);
+		this.sourceFactory = (OCLExpressionImplFactory) Factory.constructor(mappingProperties, owlOptions, source, this.m_NamedElementImpl);
 		
 		return this.sourceFactory.getOWLObjectProperty(oclExpression, nameSpace, refParser, factory);
 		

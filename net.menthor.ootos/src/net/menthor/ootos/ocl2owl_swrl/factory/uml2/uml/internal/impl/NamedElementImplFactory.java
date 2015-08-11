@@ -3,6 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
@@ -28,8 +29,8 @@ public class NamedElementImplFactory extends Factory {
 
 	public NamedElementImpl m_NamedElementImpl;
 	
-	public NamedElementImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
-		super(mappingProperties);
+	public NamedElementImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions);
 		this.m_NamedElementImpl = m_NamedElementImpl;
 	}
 	

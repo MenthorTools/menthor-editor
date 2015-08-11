@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.OwlMappingsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonImplemented;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
@@ -59,9 +62,17 @@ import RefOntoUML.parser.OntoUMLParser;
 
 public class Factory {
 	public MappingProperties mappingProperties;
+	public TransformationOption owlOptions;
+	public OwlAxiomsEnforcement owlAxioms;
+	public OwlMappingsEnforcement owlMappings;
 	
-	public Factory(MappingProperties mappingProperties) {
+	
+	public Factory(MappingProperties mappingProperties, TransformationOption owlOptions) {
 		this.mappingProperties = mappingProperties;
+		this.owlOptions = owlOptions;
+		this.owlAxioms = (OwlAxiomsEnforcement) owlOptions.getAxiomsEnforcement();
+		this.owlMappings = (OwlMappingsEnforcement) owlOptions.getMappingsEnforcement();
+		
 	}
 	
 	Boolean isBodyExpression = false;
@@ -248,32 +259,32 @@ public class Factory {
 	 * @param obj - contains the rule fragment
 	 * @param m_NamedElementImpl - contains the rule
 	 */
-	public static Factory constructor(MappingProperties mappingProperties, Object obj, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+	public static Factory constructor(MappingProperties mappingProperties, TransformationOption owlOptions, Object obj, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
 		Class<? extends Object> c = obj.getClass();
 		if(c.equals(PropertyCallExpImpl.class)){
-			return new PropertyCallExpImplFactory(mappingProperties, (PropertyCallExpImpl) obj);
+			return new PropertyCallExpImplFactory(mappingProperties, owlOptions, (PropertyCallExpImpl) obj);
 		}else if(c.equals(OperationCallExpImpl.class)){
-			return new OperationCallExpImplFactory(mappingProperties, (OperationCallExpImpl) obj);
+			return new OperationCallExpImplFactory(mappingProperties, owlOptions, (OperationCallExpImpl) obj);
 		}else if(c.equals(VariableExpImpl.class)){
-			return new VariableExpImplFactory(mappingProperties, (VariableExpImpl) obj);
+			return new VariableExpImplFactory(mappingProperties, owlOptions, (VariableExpImpl) obj);
 		}else if(c.equals(IntegerLiteralExpImpl.class)){
-			return new IntegerLiteralExpImplFactory(mappingProperties, (IntegerLiteralExpImpl) obj);
+			return new IntegerLiteralExpImplFactory(mappingProperties, owlOptions, (IntegerLiteralExpImpl) obj);
 		}else if(c.equals(TypeExpImpl.class)){
-			return new TypeExpImplFactory(mappingProperties, (TypeExpImpl) obj);
+			return new TypeExpImplFactory(mappingProperties, owlOptions, (TypeExpImpl) obj);
 		}else if(c.equals(IteratorExpImpl.class)){
-			return new IteratorExpImplFactory(mappingProperties, (IteratorExpImpl) obj);
+			return new IteratorExpImplFactory(mappingProperties, owlOptions, (IteratorExpImpl) obj);
 		}else if(c.equals(CollectionLiteralExpImpl.class)){
-			return new CollectionLiteralExpImplFactory(mappingProperties, (CollectionLiteralExpImpl) obj);
+			return new CollectionLiteralExpImplFactory(mappingProperties, owlOptions, (CollectionLiteralExpImpl) obj);
 		}else if(c.equals(CollectionItemImpl.class)){
-			return new CollectionItemImplFactory(mappingProperties, (CollectionItemImpl) obj);
+			return new CollectionItemImplFactory(mappingProperties, owlOptions, (CollectionItemImpl) obj);
 		}else if(c.equals(BooleanLiteralExpImpl.class)){
-			return new BooleanLiteralExpImplFactory(mappingProperties, (BooleanLiteralExpImpl) obj);
+			return new BooleanLiteralExpImplFactory(mappingProperties, owlOptions, (BooleanLiteralExpImpl) obj);
 		}else if(c.equals(EnumLiteralExpImpl.class)){
-			return new EnumLiteralExpImplFactory(mappingProperties, (EnumLiteralExpImpl) obj);
+			return new EnumLiteralExpImplFactory(mappingProperties, owlOptions, (EnumLiteralExpImpl) obj);
 		}else if(c.equals(LetExpImpl.class)){
-			return new LetExpImplFactory(mappingProperties, (LetExpImpl) obj);
+			return new LetExpImplFactory(mappingProperties, owlOptions, (LetExpImpl) obj);
 		}else if(c.equals(VariableImpl.class)){
-			return new VariableImplFactory(mappingProperties, (VariableImpl) obj);
+			return new VariableImplFactory(mappingProperties, owlOptions, (VariableImpl) obj);
 		}else{
 			String rule = Factory.getStrRule(m_NamedElementImpl);
 			throw new NonSupported(c.getName(), rule);

@@ -40,6 +40,8 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	private boolean labels = true;
 	private boolean comments = true;
 	
+	private OwlReasoner owlReasoner = OwlReasoner.Unselected;
+	
 	public boolean isComments() { return comments; }
 	public boolean isLabels() { return labels; }
 	public void setComments(boolean comments) { this.comments = comments; }
@@ -80,4 +82,6 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	public boolean isCardinality() { return cardinality; }
 	public boolean isUfoStructure() { return ufoStructure; }
 	public void setUfoStructure(boolean ufoStructure) { this.ufoStructure = ufoStructure; }	
+	public OwlReasoner getOwlReasoner() { return owlReasoner; }
+	public void setOwlReasoner(OwlReasoner owlReasoner) { this.owlReasoner = owlReasoner; }
 }

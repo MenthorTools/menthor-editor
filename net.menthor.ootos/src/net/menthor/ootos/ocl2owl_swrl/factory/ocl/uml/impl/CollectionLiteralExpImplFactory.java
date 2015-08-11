@@ -3,6 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl.TypedElementImplFactory;
@@ -27,8 +28,8 @@ import RefOntoUML.parser.OntoUMLParser;
 public class CollectionLiteralExpImplFactory extends LiteralExpImplFactory {
 	public TypedElementImplFactory partFactory;
 	
-	public CollectionLiteralExpImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
-		super(mappingProperties, m_NamedElementImpl);		
+	public CollectionLiteralExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions, m_NamedElementImpl);		
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class CollectionLiteralExpImplFactory extends LiteralExpImplFactory {
 		CollectionItemImpl part = (CollectionItemImpl)collectionLiteralExpImpl.getPart().get(0);
 		
 		//and a factory is created according to the part class 
-		this.partFactory = (TypedElementImplFactory) Factory.constructor(mappingProperties, part, this.m_NamedElementImpl);
+		this.partFactory = (TypedElementImplFactory) Factory.constructor(mappingProperties, owlOptions, part, this.m_NamedElementImpl);
 		
 		//the part is solved and the and the returned arguments from the partSolveMethod above are returned 
 		ArrayList<SWRLDArgument> retArgsX = this.partFactory.solve(ctStereotype, refParser, nameSpace, manager, factory, ontology, antecedent, consequent, null, operatorNot, repeatNumber, leftSideOfImplies);
@@ -56,7 +57,7 @@ public class CollectionLiteralExpImplFactory extends LiteralExpImplFactory {
 		CollectionItemImpl part = (CollectionItemImpl)collectionLiteralExpImpl.getPart().get(0);
 		
 		//and a factory is created according to the part class 
-		this.partFactory = (TypedElementImplFactory) Factory.constructor(mappingProperties, part, this.m_NamedElementImpl);
+		this.partFactory = (TypedElementImplFactory) Factory.constructor(mappingProperties, owlOptions, part, this.m_NamedElementImpl);
 		
 		//the factory found the OWL Object Property and return it
 		return this.partFactory.getOWLObjectProperty(oclExpression, nameSpace, refParser, factory);

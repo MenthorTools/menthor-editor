@@ -1,5 +1,6 @@
 package net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
@@ -13,8 +14,8 @@ import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
  */
 public class PackageableElementImplFactory extends NamedElementImplFactory {
 
-	public PackageableElementImplFactory(MappingProperties mappingProperties, NamedElementImpl m_NamedElementImpl){
-		super(mappingProperties, m_NamedElementImpl);
+	public PackageableElementImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 
 }

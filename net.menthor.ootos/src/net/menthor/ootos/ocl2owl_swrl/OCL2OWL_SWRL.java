@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ocl.parser.OCLParser;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonInitialized;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
@@ -13,8 +14,6 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.UnsupportedByReasoner;
 import net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl.ExpressionInOCLImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Counters;
-import net.menthor.ootos.ocl2owl_swrl.util.SelectReasoner;
-import net.menthor.ootos.ocl2owl_swrl.util.SelectedReasoner;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.ExpressionInOCLImpl;
@@ -35,11 +34,11 @@ public class OCL2OWL_SWRL {
 	private OWLDataFactory factory = null;
 	private OWLOntology ontology = null;
 	public String errors = "";
-	public static SelectedReasoner selectedReasoner = null;
 	
 	public Counters logCounting = new Counters();
 	private MappingProperties mappingProperties;
-		
+	private TransformationOption owlOptions;
+	
 	//public OCL2SWRL(OCLParser oclParser, OntoUMLParser refParser, OWLOntologyManager manager, String nameSpace) {
 	/**
 	 * Constructor.
@@ -49,7 +48,7 @@ public class OCL2OWL_SWRL {
 	 * @param manager - contains the OWLOntologyManager, used to get the OWLDataFactory and the OwlOntology
 	 * @param nameSpace
 	 */
-	public OCL2OWL_SWRL(MappingProperties mappingProperties, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
+	public OCL2OWL_SWRL(MappingProperties mappingProperties, TransformationOption owlOptions, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
 		this.nameSpace = nameSpace;
 		//this.oclParser = oclParser;
 		this.oclRules = oclRules;
@@ -59,6 +58,7 @@ public class OCL2OWL_SWRL {
 		this.ontology = manager.getOntology(IRI.create(nameSpace));
 		
 		this.mappingProperties = mappingProperties;
+		this.owlOptions = owlOptions;
 		
 		//verify if all variables were initialized
 		this.verifyVariablesInitialization();
@@ -117,21 +117,6 @@ public class OCL2OWL_SWRL {
 	 */
 	@SuppressWarnings("unchecked")
 	public void Transformation () throws Exception{
-		selectedReasoner = SelectReasoner.selectReasoner();
-		
-		
-		//String problematicRules = "";
-		//String unsuccessfullyTransformedRules = "";
-		/*
-		OCLParser oclParser = null;
-		try {
-			oclParser = new OCLParser(oclRules, this.refParser, "company.uml");
-		} catch (ParserException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
 		//get the begin and the end of the first line (package PackageName) 
 		int iPackage = oclRules.indexOf("package");
 		int endLinePackage = oclRules.indexOf("\n", iPackage);
@@ -254,7 +239,7 @@ public class OCL2OWL_SWRL {
 					ExpressionInOCLImpl expr = (ExpressionInOCLImpl) ct.getSpecification();
 					
 					//create a factory based on the element
-					ExpressionInOCLImplFactory exprFactory = new ExpressionInOCLImplFactory(mappingProperties, expr);
+					ExpressionInOCLImplFactory exprFactory = new ExpressionInOCLImplFactory(mappingProperties, owlOptions, expr);
 					
 					//set the element
 					if(ct.getConstrainedElements().size() > 0){

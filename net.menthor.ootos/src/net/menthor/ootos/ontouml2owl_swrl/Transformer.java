@@ -126,6 +126,7 @@ public class Transformer {
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
 	ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
 	
+	private TransformationOption owlOptions;
 	private OwlAxiomsEnforcement owlAxioms;
 	private OwlMappingsEnforcement owlMappings;
 	private String owlNameSpace;
@@ -154,7 +155,7 @@ public class Transformer {
 	 * @throws OWLOntologyCreationException 
 	 * */
 	public Transformer(OntoUMLParser model, String _oclRules, TransformationOption owlOptions) throws OWLOntologyCreationException {
-		
+		this.owlOptions = owlOptions;
 		this.owlAxioms = (OwlAxiomsEnforcement) owlOptions.getAxiomsEnforcement();
 		this.owlMappings = (OwlMappingsEnforcement) owlOptions.getMappingsEnforcement();
 		this.owlNameSpace = owlAxioms.getOntologyIri()+"#";
@@ -392,7 +393,7 @@ public class Transformer {
 		}
 
 		if(oclRules != null && !oclRules.equals("") && owlAxioms.isSwrlRules()){
-			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, oclRules, ontoParser, manager, owlNameSpace);
+			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, owlOptions, oclRules, ontoParser, manager, owlNameSpace);
 			ocl2owl_swrl.Transformation();
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
