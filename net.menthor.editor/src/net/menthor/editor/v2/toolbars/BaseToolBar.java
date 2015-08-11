@@ -1,6 +1,7 @@
 package net.menthor.editor.v2.toolbars;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,7 @@ import net.menthor.editor.v2.icon.IconType;
  * @author John Guerson
  */
 
+
 import java.awt.Image;
 
 public class BaseToolBar extends JToolBar implements ActionListener {
@@ -66,6 +68,7 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 		this.iconHeight=btnHeight;
 		this.iconWidth=btnWidth;
 		setRollover(true);
+		setMinimumSize(new Dimension(0,0));
 		setMargin(new Insets(5,5,5,5));
 	}
 	

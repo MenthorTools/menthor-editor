@@ -33,7 +33,7 @@ public class BottomViewPane  extends JPanel {
 
 	private static final long serialVersionUID = -4823234075231975784L;
 	
-	public AppFrame frame;
+	public MainFrame frame;
 	public InfoManager infoManager;
 	public UmlProject project;
 	
@@ -41,7 +41,7 @@ public class BottomViewPane  extends JPanel {
 		return infoManager;
 	}
 
-	public AppFrame getFrame(){
+	public MainFrame getFrame(){
 		return frame;
 	}
 	
@@ -57,7 +57,7 @@ public class BottomViewPane  extends JPanel {
 		super.setPreferredSize(preferredSize);
 	};
 	
-	public BottomViewPane (final AppFrame frame, UmlProject project) 
+	public BottomViewPane (final MainFrame frame, UmlProject project) 
 	{
 		//setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(0,0));

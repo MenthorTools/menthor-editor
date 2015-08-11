@@ -57,7 +57,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.dialog.properties.FeatureListDialog;
@@ -77,6 +77,7 @@ import net.menthor.editor.v2.types.DerivedPatternType;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.Util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
@@ -141,7 +142,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	private static final long serialVersionUID = 4210158437374056534L;
 
-	public AppFrame frame;
+	public MainFrame frame;
 	private DiagramManager diagramManager;
 	private DiagramWrapper wrapper;
 		
@@ -224,7 +225,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(AppFrame frame, DiagramManager diagramManager, OntoumlDiagram diagram) 
+	public DiagramEditor(MainFrame frame, DiagramManager diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
 		this.diagramManager = diagramManager;
@@ -809,12 +810,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void fitToWindow()
 	{		
 		double waste = 20;
-		if(frame.isShowBrowser()) waste+=240;
-		if(frame.isShowToolBox()) waste+=240;
-		double offx = (AppFrame.GetScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
-		double offy = (AppFrame.GetScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
-		double diffx = (getUsedCanvasSize().get(1).getX()-(AppFrame.GetScreenWorkingWidth()-waste));
-		double diffy = (getUsedCanvasSize().get(1).getY()-(AppFrame.GetScreenWorkingHeight()-200));
+		if(frame.isShowBrowserPane()) waste+=240;
+		if(frame.isShowPalettePane()) waste+=240;
+		double offx = (Util.getScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
+		double offy = (Util.getScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
+		double diffx = (getUsedCanvasSize().get(1).getX()-(Util.getScreenWorkingWidth()-waste));
+		double diffy = (getUsedCanvasSize().get(1).getY()-(Util.getScreenWorkingHeight()-200));
 		if(diffx < 0)diffx=0;
 		if(diffy < 0)diffy=0;
 		if(diffx > diffy){	

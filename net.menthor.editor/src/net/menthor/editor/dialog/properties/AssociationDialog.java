@@ -38,7 +38,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -79,7 +79,7 @@ public class AssociationDialog extends JDialog{
 		tabbedPane.setSelectedIndex(index);
 	}
 	
-	public AssociationDialog(final AppFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal) 
+	public AssociationDialog(final MainFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal) 
 	{
 		super(parent, modal);
 		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));

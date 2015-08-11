@@ -31,14 +31,14 @@ public class TopViewPane extends JPanel {
 
 	private static final long serialVersionUID = -4823234075231975784L;
 	
-	public AppFrame frame;
+	public MainFrame frame;
 	public DiagramManager diagramManager;
 	
 	public DiagramManager getDiagramManager() {
 		return diagramManager;
 	}
 
-	public AppFrame getFrame(){
+	public MainFrame getFrame(){
 		return frame;
 	}
 	
@@ -54,7 +54,7 @@ public class TopViewPane extends JPanel {
 		super.setPreferredSize(preferredSize);
 	};
 	
-	public TopViewPane (final AppFrame frame) 
+	public TopViewPane (final MainFrame frame) 
 	{
 		//setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(0,0));

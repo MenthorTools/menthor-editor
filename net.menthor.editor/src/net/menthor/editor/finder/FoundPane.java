@@ -48,6 +48,7 @@ import net.menthor.editor.v2.types.EditorType;
 public class FoundPane extends JPanel implements Editor {
 
 	private static final long serialVersionUID = -3183962658000841153L;
+	@SuppressWarnings("unused")
 	private UmlProject project;
 	private FoundScrollTable foundScrollTable;	
 	private JLabel status;

@@ -28,7 +28,7 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.ui.ModelHelper;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -43,7 +43,7 @@ import RefOntoUML.Property;
  */
 public class ElementDialogCaller {
 
-	public static GeneralizationSetDialog callGeneralizationSetDialog(AppFrame frame, GeneralizationSet element, boolean modal)
+	public static GeneralizationSetDialog callGeneralizationSetDialog(MainFrame frame, GeneralizationSet element, boolean modal)
 	{
 		GeneralizationSetDialog dialog = new GeneralizationSetDialog(frame, (GeneralizationSet)element, modal);
 		dialog.setLocationRelativeTo(frame);
@@ -51,7 +51,7 @@ public class ElementDialogCaller {
 		return dialog;
 	}
 	
-	public static GeneralizationDialog callGeneralizationDialog(AppFrame frame, Generalization element, boolean modal)
+	public static GeneralizationDialog callGeneralizationDialog(MainFrame frame, Generalization element, boolean modal)
 	{
 		DiagramElement diagramElement = ModelHelper.getDiagramElementByEditor((RefOntoUML.Element)element,frame.getDiagramManager().getCurrentDiagramEditor());
 		GeneralizationDialog dialog = new GeneralizationDialog(frame, (GeneralizationElement)diagramElement,(RefOntoUML.Generalization)element,true);
@@ -60,7 +60,7 @@ public class ElementDialogCaller {
 		return dialog;
 	}
 	
-	public static ClassDialog callConstraintxDialog(AppFrame frame, Constraintx element, boolean modal)
+	public static ClassDialog callConstraintxDialog(MainFrame frame, Constraintx element, boolean modal)
 	{
 		RefOntoUML.Element context = ((RefOntoUML.Constraintx)element).getConstrainedElement().get(0);
 		if (context instanceof RefOntoUML.Class)
@@ -75,7 +75,7 @@ public class ElementDialogCaller {
 		return null;
 	}
 	
-	public static JDialog callCommentDialog(AppFrame frame, Comment element, boolean modal)
+	public static JDialog callCommentDialog(MainFrame frame, Comment element, boolean modal)
 	{
 		if (element.eContainer() instanceof RefOntoUML.Class){
 			DiagramElement diagramElement = ModelHelper.getDiagramElementByEditor((RefOntoUML.Element)element.eContainer(),frame.getDiagramManager().getCurrentDiagramEditor());
@@ -96,7 +96,7 @@ public class ElementDialogCaller {
 		return null;
 	}
 	
-	public static AssociationDialog callAssociationDialog(AppFrame frame, Association element, boolean modal)
+	public static AssociationDialog callAssociationDialog(MainFrame frame, Association element, boolean modal)
 	{
 		DiagramElement diagramElement = ModelHelper.getDiagramElementByEditor(element,frame.getDiagramManager().getCurrentDiagramEditor());
 		AssociationDialog dialog = new AssociationDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element, true);
@@ -105,7 +105,7 @@ public class ElementDialogCaller {
 		return dialog;
 	}
 	
-	public static JDialog callPropertyDialog(AppFrame frame, Property element, boolean modal)
+	public static JDialog callPropertyDialog(MainFrame frame, Property element, boolean modal)
 	{
 		Property p = (Property)element;
 		if (p.getAssociation()!=null){
@@ -126,7 +126,7 @@ public class ElementDialogCaller {
 		}
 	}
 	
-	public static ClassDialog callClassDialog(AppFrame frame, Classifier element, boolean modal)
+	public static ClassDialog callClassDialog(MainFrame frame, Classifier element, boolean modal)
 	{
 		DiagramElement diagramElement = ModelHelper.getDiagramElementByEditor(element,frame.getDiagramManager().getCurrentDiagramEditor());
 		ClassDialog dialog = new ClassDialog(frame, (ClassElement)diagramElement, (RefOntoUML.Classifier)element, true);
@@ -135,7 +135,7 @@ public class ElementDialogCaller {
 		return dialog;
 	}
 	
-	public static void openDialog(RefOntoUML.Element element, AppFrame frame)
+	public static void openDialog(RefOntoUML.Element element, MainFrame frame)
 	{
 		if (element instanceof RefOntoUML.Class)
 		{

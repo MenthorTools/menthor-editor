@@ -44,7 +44,7 @@ public class InfoManager extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;	
 	public static ConsolePane outputPane;	
-	public AppFrame frame;
+	public MainFrame frame;
 	public UmlProject project;
 		
 	public void setProject(UmlProject project)
@@ -108,7 +108,7 @@ public class InfoManager extends JTabbedPane {
 		}
 	}
 	
-	public InfoManager (final AppFrame frame, final UmlProject project)
+	public InfoManager (final MainFrame frame, final UmlProject project)
 	{
 		this.frame=frame;
 		this.project = project;

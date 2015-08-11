@@ -8,7 +8,7 @@ import java.util.List;
 
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.Main;
 import net.menthor.editor.ui.Models;
@@ -39,10 +39,10 @@ public class DomainPatternTool {
 
 	private static StructureDiagram currentDiagram;
 	private static PaletteGrouping domainPallete;
-	private static AppFrame frame;
+	private static MainFrame frame;
 	private static OntoUMLParser parser;
 	
-	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, CommandListener editorDispatcher, AppFrame appFrame) {
+	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, CommandListener editorDispatcher, MainFrame appFrame) {
 		
 		List<String> names = new ArrayList<String>();
 		for(OntoumlDiagram umlDiagram: patternProject.getDiagrams()){
@@ -65,7 +65,7 @@ public class DomainPatternTool {
 		DomainPatternTool.createDomainPalleteListener(domainPallete, hashDomainPalette,frame);
 	}
 	
-	public static void createDomainPalleteListener(final PaletteGrouping domainPallete,final HashMap<PaletteItem, StructureDiagram> hashDomainPalette, AppFrame frame) {
+	public static void createDomainPalleteListener(final PaletteGrouping domainPallete,final HashMap<PaletteItem, StructureDiagram> hashDomainPalette, MainFrame frame) {
 //		domainPallete.addCommandListener(new AppCommandListener() {
 //
 //			@Override

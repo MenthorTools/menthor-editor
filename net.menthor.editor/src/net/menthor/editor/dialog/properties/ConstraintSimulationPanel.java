@@ -37,7 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.transformation.alloy.AlloyConstraintPanel;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -54,7 +54,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	@SuppressWarnings("unused")
 	private TOCL2AlloyOption oclOptions;
 	
-	private AppFrame frame;	
+	private MainFrame frame;	
 	
 	private JPanel ctpanel;
 	private JScrollPane scrollPane; 
@@ -64,7 +64,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	private JLabel lblChooseWhichConstraints;
 	private JButton btndefault;
 
-	public ConstraintSimulationPanel (TOCL2AlloyOption oclOptions,AppFrame frame)
+	public ConstraintSimulationPanel (TOCL2AlloyOption oclOptions,MainFrame frame)
 	{		
 		this();
 	
@@ -74,7 +74,7 @@ public class ConstraintSimulationPanel extends JPanel {
 		setOCLOptionPane(oclOptions,frame);
 	}
 	
-	public void setOCLOptionPane (TOCL2AlloyOption oclOptions, AppFrame frame)
+	public void setOCLOptionPane (TOCL2AlloyOption oclOptions, MainFrame frame)
 	{
 		this.frame=frame;
 		ctpanel.removeAll();
@@ -283,7 +283,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	 * 
 	 * @return
 	 */
-	public AppFrame getFrame()
+	public MainFrame getFrame()
 	{
 		return frame;
 	}

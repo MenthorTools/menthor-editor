@@ -25,16 +25,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.tree.DefaultMutableTreeNode;
 
-import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.icon.IconMap;
@@ -46,40 +42,40 @@ import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
  */
 public class ProjectBrowser extends RoundedPanel{
 
-	//Keeps track of the trees instantiated in order to not re-instantite them 
-	private static Map<UmlProject, ProjectBrowser> treeMap = new HashMap<UmlProject, ProjectBrowser>();
-	
 	private static final long serialVersionUID = 5598591779372431118L;	
-	public static AppFrame frame;
-	private JScrollPane scroll;
+	
+	public static MainFrame frame;
+	
+	private JScrollPane scroll;	
 	private ProjectTree tree;
+	public ProjectTree getTree() { return tree; }	
 	private ProjectToolBar toolbar;
 			
 	public List<OntoumlDiagram> getAllDiagrams(){
 		return (List<OntoumlDiagram>) Models.getProject().getDiagrams();
 	}
 	
-	public ProjectBrowser(AppFrame appframe, UmlProject project, OclDocument oclDoc){
+	public ProjectBrowser(MainFrame appframe, UmlProject project, OclDocument oclDoc){
 		super();		
-		Models.setProject(project);
+		Models.setProject(project);		
 		frame = appframe;		
 		scroll = new JScrollPane();		
 		scroll.setBorder(null);
-		if (project!=null) setProject(project);		
+		if (project!=null) set(project);		
 		add(scroll, BorderLayout.CENTER);			
 		RoundedPanel emptyTempPanel = new RoundedPanel();
 		emptyTempPanel.setBackground(Color.WHITE);
 		emptyTempPanel.setBorder(new EmptyBorder(0,0, 0, 0));
-		scroll.setViewportView(emptyTempPanel);		
-		emptyTempPanel.setPreferredSize(new Dimension(200,250));
-		scroll.setPreferredSize(new Dimension(200,250));
-		setPreferredSize(new Dimension(216, 317));		
+		scroll.setViewportView(emptyTempPanel);	
+		
+		scroll.setMinimumSize(new Dimension(0,0));
 	}
 	
 	public void refresh(){				
@@ -88,25 +84,27 @@ public class ProjectBrowser extends RoundedPanel{
 	}
 	
 	public void clear(){
+		//clear models
 		Models.clear();
+		
 		RoundedPanel emptyTempPanel = new RoundedPanel();
 		emptyTempPanel.setBackground(Color.WHITE);
 		emptyTempPanel.setBorder(new EmptyBorder(0,0, 0, 0));
-		scroll.setViewportView(emptyTempPanel);		
+		scroll.setViewportView(emptyTempPanel);				
 		emptyTempPanel.setPreferredSize(new Dimension(200,250));		
 		updateUI();
 	}	
-  		
-	public ProjectTree getTree() { return tree; }
-	
-	@SuppressWarnings("unused")
-	public void setProject(UmlProject project)
-	{
-		Models.setProject(project);		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(project);
-		System.out.println("Creating OntoUML parser");
+  	
+	public void set(UmlProject project){
+		//set models
+		Models.setProject(project);				
 		Models.setRefparser(new OntoUMLParser(project.getModel()));				
-		System.out.println("Creating project browser tree");		
+		String name = ((RefOntoUML.Package)project.getResource().getContents().get(0)).getName();
+		if (name==null || name.isEmpty()) name = "model";		
+		Models.setAlloySpec(new AlloySpecification(project.getTempDir()+File.separator+name.toLowerCase()+".als"));		
+		Models.setOclOptions(new TOCL2AlloyOption());		
+		Models.setRefOptions(new OntoUML2AlloyOptions());		
+		Models.setAntipatterns(new AntiPatternList());
 		
 		toolbar = new ProjectToolBar(frame);		
 		tree = ProjectTree.create(frame,
@@ -116,22 +114,17 @@ public class ProjectBrowser extends RoundedPanel{
 			new TreeVisibility(), 
 			false
 		);		
-	    		
-		String name = ((RefOntoUML.Package)project.getResource().getContents().get(0)).getName();
-		if (name==null || name.isEmpty()) name = "model";		
-		Models.setAlloySpec(new AlloySpecification(project.getTempDir()+File.separator+name.toLowerCase()+".als"));				
-		Models.setOclOptions(new TOCL2AlloyOption());		
-		Models.setRefOptions(new OntoUML2AlloyOptions());		
-		Models.setAntipatterns(new AntiPatternList());		
-		System.out.println("Creating modeling assistant");
+		
 		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getSmallIcon(IconType.MENTHOR_TREE));
 		title.setBackground(Color.LIGHT_GRAY);
+		
 		RoundedPanel panel = new RoundedPanel();
 		panel.add(title, BorderLayout.NORTH);
-		panel.add(toolbar, BorderLayout.CENTER);
+		panel.add(toolbar, BorderLayout.CENTER);				
 		add(panel, BorderLayout.NORTH);
-		scroll.setViewportView(tree);		
-		treeMap.put(project, this);		
+				
+		scroll.setViewportView(tree);	
+		scroll.setMinimumSize(new Dimension(0,0));
 		updateUI();
 	}
 }

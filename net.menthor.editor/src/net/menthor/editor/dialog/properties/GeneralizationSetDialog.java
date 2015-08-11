@@ -35,7 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -56,7 +56,7 @@ public class GeneralizationSetDialog extends JDialog{
 	private JButton btnOk; 
 	private JButton btnCancel;
 	
-	public GeneralizationSetDialog(final AppFrame parent, final GeneralizationSet genSet, boolean modal) 
+	public GeneralizationSetDialog(final MainFrame parent, final GeneralizationSet genSet, boolean modal) 
 	{
 		super(parent, modal);
 		
@@ -64,7 +64,7 @@ public class GeneralizationSetDialog extends JDialog{
 		initGUI();
 	}
 	
-	public void initData(final AppFrame parent, final GeneralizationSet genSet)
+	public void initData(final MainFrame parent, final GeneralizationSet genSet)
 	{
 		this.diagramManager = parent.getDiagramManager();
 		this.genSet=genSet;

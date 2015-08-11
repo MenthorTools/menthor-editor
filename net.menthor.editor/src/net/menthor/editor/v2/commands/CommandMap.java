@@ -30,7 +30,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.types.ClassType;
@@ -98,7 +98,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.SAVE_PROJECT,
 				new MethodCall(DiagramManager.class.getMethod("saveProject")));
 		cmdMap.put(CommandType.QUIT_MENTHOR,
-				new MethodCall(AppFrame.class.getMethod("quitApplication")));
+				new MethodCall(MainFrame.class.getMethod("quitApplication")));
 		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
 				new MethodCall(DiagramManager.class.getMethod("openLinkWithBrowser", String.class)));
 	}
@@ -321,11 +321,11 @@ public class CommandMap {
 	
 	private void window() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.PALETTE_OF_ELEMENTS,
-				new MethodCall(AppFrame.class.getMethod("showToolBox")));
+				new MethodCall(MainFrame.class.getMethod("showPalettePane")));
 		cmdMap.put(CommandType.PROJECT_BROWSER,
-				new MethodCall(AppFrame.class.getMethod("showProjectBrowser")));
+				new MethodCall(MainFrame.class.getMethod("showBrowserPane")));
 		cmdMap.put(CommandType.CONSOLE,
-				new MethodCall(AppFrame.class.getMethod("showBottomView")));
+				new MethodCall(MainFrame.class.getMethod("showFooterPane")));
 	}
 	
 	private void help() throws NoSuchMethodException, SecurityException{

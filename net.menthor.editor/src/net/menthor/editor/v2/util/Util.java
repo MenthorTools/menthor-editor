@@ -23,7 +23,7 @@ package net.menthor.editor.v2.util;
  * @author John Guerson
  */
 
-import java.awt.Color;
+import java.awt.Window;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,14 +33,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /** A helper class which provides settings and file management facilities. */
 public class Util {
@@ -75,10 +78,34 @@ public class Util {
         return arch;
 	}
 
+	public static int getScreenWorkingWidth() {
+	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
+	}
+	
     public static int getScreenWorkingHeight() {
 	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 	}
-    
+
+    public static String getCompilationDateMessage(){
+		DateFormat dateFormat = new SimpleDateFormat("d, yyyy");
+		Date date = new Date();
+		Calendar c = Calendar.getInstance();
+		return c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) + " " + dateFormat.format(date);
+	}
+	
+	public static void enableFullScreenMode(Window window) {
+        String className = "com.apple.eawt.FullScreenUtilities";
+        String methodName = "setWindowCanFullScreen"; 
+        try {
+            Class<?> clazz = Class.forName(className);
+            Method method = clazz.getMethod(methodName, new Class<?>[] { Window.class, boolean.class });
+            method.invoke(null, window, true);
+        } catch (Throwable t) {
+            System.err.println("Full screen mode is not supported");
+            t.printStackTrace();
+        }
+    }	
+	
     /** Helper method for constructing an always-on-top modal dialog. */
     public static Object show(String title, int type, Object message, Object[] options, Object initialOption) {
 		if (options == null) { options = new Object[]{"Ok"};  initialOption = "Ok"; }

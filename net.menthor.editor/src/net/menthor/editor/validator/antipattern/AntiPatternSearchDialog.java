@@ -75,8 +75,7 @@ import net.menthor.antipattern.reprel.RepRelAntipattern;
 import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.Main;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectBrowser;
@@ -93,7 +92,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 		
-	private AppFrame frame;	
+	private MainFrame frame;	
 	private final JPanel contentPanel = new JPanel();
 		
 	private AntipatternTask assCycTask, binOverTask, depPhaseTask, freeRoleTask, gsRigTask,
@@ -229,7 +228,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AntiPatternSearchDialog(AppFrame frame) 
+	public AntiPatternSearchDialog(MainFrame frame) 
 	{
 		super(frame);
 		
@@ -822,7 +821,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	/**
 	 * Open the Dialog.
 	 */
-	public static void  open (AppFrame parent)
+	public static void  open (MainFrame parent)
 	{
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -996,7 +995,7 @@ public class AntiPatternSearchDialog extends JDialog {
 				
 				@Override
 				protected void done() {
-					ProjectBrowser modeltree = frame.getBrowserManager().getProjectBrowser();	
+					ProjectBrowser modeltree = frame.getProjectBrowser();	
 					modeltree.getTree().check(checked);			
 					modeltree.getTree().updateUI();
 					preLatch.countDown();

@@ -36,7 +36,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -74,7 +74,7 @@ public class ClassDialog extends JDialog{
 		tabbedPane.setSelectedIndex(index);
 	}
 	
-	public ClassDialog(final AppFrame parent, final ClassElement classElement, Classifier element, boolean modal) 
+	public ClassDialog(final MainFrame parent, final ClassElement classElement, Classifier element, boolean modal) 
 	{
 		super(parent, modal);
 		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));

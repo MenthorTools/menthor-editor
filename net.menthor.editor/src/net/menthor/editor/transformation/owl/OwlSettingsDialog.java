@@ -29,7 +29,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.DiagramManager;
 import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.editor.ui.Models;
@@ -45,7 +45,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 	private OwlQualityMappingPane qualityPane;
 	private OwlGenSetMappingPane gsPane;
 	
-	public OwlSettingsDialog(final AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
+	public OwlSettingsDialog(final MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 		
@@ -89,8 +89,8 @@ public class OwlSettingsDialog extends TransformationDialog {
 				mappings.setQualityMappings(qualityPane.getQualityMap());
 				transOpt.setMappingsEnforcement(mappings);
 				
-				if(owner instanceof AppFrame){
-					DiagramManager manager = ((AppFrame)owner).getDiagramManager();
+				if(owner instanceof MainFrame){
+					DiagramManager manager = ((MainFrame)owner).getDiagramManager();
 					
 					/**generate*/
 					manager.generateOwl(

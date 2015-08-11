@@ -125,6 +125,7 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_UP, "net/menthor/editor/v2/icon/arrowup.png");
 		urlMap.put(IconType.MENTHOR_DOWN, "net/menthor/editor/v2/icon/arrowdown.png");
 		urlMap.put(IconType.MENTHOR_HAND_CURSOR, "net/menthor/editor/v2/icon/handcursor.png");
+		urlMap.put(IconType.MENTHOR_APP_ICON, "net/menthor/editor/v2/icon/appmenthor.png");
 		
 		//OLED
 		urlMap.put(IconType.MOUSE_POINTER, "resources/icons/x16/mousepointer.png");		
@@ -216,6 +217,14 @@ public final class IconMap {
 	
 	public Icon getIcon(String typeName) {
 		return getIcon(iconTypeMap.get(typeName));
+	}
+	
+	public Image getImage(IconType icontype) {
+		try {			
+			return new ImageIcon(getClass().getClassLoader().getResource(urlMap.get(icontype))).getImage();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public Image getImage(String typeName) {

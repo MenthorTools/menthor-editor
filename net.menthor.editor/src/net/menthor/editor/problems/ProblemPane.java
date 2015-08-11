@@ -46,6 +46,7 @@ import net.menthor.editor.v2.types.EditorType;
 public class ProblemPane extends JPanel implements Editor {
 
 	private static final long serialVersionUID = -3183962658000841153L;
+	@SuppressWarnings("unused")
 	private UmlProject project;
 	private ProblemScrollTable problemScrollTable;	
 	private JLabel status;

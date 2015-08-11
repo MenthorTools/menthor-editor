@@ -31,7 +31,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.types.EditorType;
@@ -55,7 +55,7 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 			}			
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {				
-				((AppFrame)parent).getDiagramManager().saveProjectNeeded(true);				
+				((MainFrame)parent).getDiagramManager().saveProjectNeeded(true);				
 			}
 		});
 		
@@ -70,19 +70,19 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 		saveMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((AppFrame)parent).getDiagramManager().exportOCL();
+				((MainFrame)parent).getDiagramManager().exportOCL();
 			}
 		});
 		openMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((AppFrame)parent).getDiagramManager().importOCL();
+				((MainFrame)parent).getDiagramManager().importOCL();
 			}
 		});
 		parserMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((AppFrame)parent).getDiagramManager().parseConstraints(true);
+				((MainFrame)parent).getDiagramManager().parseConstraints(true);
 			}
 		});
 	}

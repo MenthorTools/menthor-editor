@@ -30,6 +30,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 		setModel(treeModel);
 		getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);			
 		checkingModel = getCheckingModel();		
+		setMinimumSize(new Dimension(0,0));
 	}
 	
 	/** Remove all nodes except the root node. */

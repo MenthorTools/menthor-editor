@@ -22,7 +22,7 @@ package net.menthor.editor.validator.antipattern;
  */
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.MainFrame;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
@@ -51,7 +51,7 @@ public class AntiPatternModifDialog extends Dialog {
 	public Fix fix;
 	
 	//GUI
-	public AppFrame frame;
+	public MainFrame frame;
 	public Label statusLabel;	
 	public List modifiedList;			
 	public List addedList;			
@@ -67,7 +67,7 @@ public class AntiPatternModifDialog extends Dialog {
 		super(parentShell);
 	}
 
-	public AntiPatternModifDialog(Shell parentShell, Fix fix, AppFrame frame)
+	public AntiPatternModifDialog(Shell parentShell, Fix fix, MainFrame frame)
 	{
 		super(parentShell);
 		this.fix = fix;
@@ -75,7 +75,7 @@ public class AntiPatternModifDialog extends Dialog {
 		setDefaultImage(new Image(Display.getDefault(),AntiPatternModifDialog.class.getResourceAsStream("/resources/icons/antipattern36.png")));	
 	}
 	
-	public static int openDialog(final Fix fix, final AppFrame frame)
+	public static int openDialog(final Fix fix, final MainFrame frame)
 	{
     	Display display = Display.getDefault();	    	
 		Shell shell = display.getActiveShell();			

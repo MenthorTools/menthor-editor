@@ -40,6 +40,86 @@ public class MainMenuBar extends BaseMenuBar {
 
 	private static Color background = null; //Color.WHITE;
 	
+	private JMenu importation;
+	private JMenu export;
+	private JMenu edit;
+	private JMenu verificate;
+	private JMenu implement;
+	private JMenu verbalize;
+	private JMenu validate;
+	private JMenu rules;
+	private JMenu project; 
+	private JMenu diagram;
+	private JMenu help;
+	private JMenu window;
+	
+	/** constructor */
+	public MainMenuBar(CommandListener listener){
+		super(listener, background);
+		setBackground(background);		
+		createFileMenu();
+		createEditMenu();
+		createDiagramMenu();
+		createRulesMenu();
+		createProjectMenu();
+		createVerificateMenu();
+		createValidateMenu();
+		createVerbalizeMenu();
+		createImplementMenu();
+		createWindowMenu();
+		createHelpMenu();
+		disactivateSomeToBegin();
+	}	
+	
+	public void disactivateSomeToBegin(){
+		//menu items
+		getMenuItem(CommandType.SAVE_PROJECT).setEnabled(false);
+		getMenuItem(CommandType.SAVE_PROJECT).setEnabled(false);
+		getMenuItem(CommandType.CLOSE_PROJECT).setEnabled(false);
+		//menus
+		export.setEnabled(false);		
+		edit.setVisible(false);
+		verificate.setVisible(false);
+		implement.setVisible(false);
+		verbalize.setVisible(false);
+		validate.setVisible(false);
+		rules.setVisible(false);
+		project.setVisible(false); 
+		diagram.setVisible(false);	
+		window.setVisible(false);
+	}
+	
+	public void activateAll(){
+		//menu items
+		visibleAll(true); 
+		enableAll(true);
+		//menus
+		importation.setVisible(true);
+		importation.setEnabled(true);
+		export.setVisible(true);
+		export.setEnabled(true);
+		edit.setVisible(true);
+		edit.setEnabled(true);
+		verificate.setVisible(true);
+		verificate.setEnabled(true);
+		implement.setVisible(true);
+		implement.setEnabled(true);
+		verbalize.setVisible(true);
+		verbalize.setEnabled(true);
+		validate.setVisible(true);
+		validate.setEnabled(true);
+		rules.setVisible(true);
+		rules.setEnabled(true);
+		project.setVisible(true);
+		project.setEnabled(true);
+		diagram.setVisible(true);
+		diagram.setEnabled(true);
+		help.setVisible(true);
+		help.setEnabled(true);
+		window.setVisible(true);
+		window.setEnabled(true);
+	}
+	
 	private void createFileMenu(){
 		KeyStroke stroke;
 		JMenu file = new JMenu("File");
@@ -58,7 +138,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(file, "Save", CommandType.SAVE_PROJECT, background,stroke);		
 		createMenuItem(file, "Save As...", CommandType.SAVE_PROJECT_AS, background);		
 		file.addSeparator();		
-		JMenu export = new JMenu("Export As");
+		export = new JMenu("Export As");
 		file.add(export);		
 		createMenuItem(export, "XMI (.refontouml)", CommandType.EXPORT_TO_XMI, background);
 		createMenuItem(export, "UML2 (.uml)", CommandType.EXPORT_TO_UML, background);
@@ -66,7 +146,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(export, "Ecore (.ecore)", CommandType.EXPORT_TO_ECORE, background);
 		createMenuItem(export, "Pattern (.menthor)", CommandType.EXPORT_AS_PATTERN, background);
 		file.addSeparator();
-		JMenu importation = new JMenu("Import From");
+		importation = new JMenu("Import From");
 		file.add(importation);
 		createMenuItem(importation, "XMI (.refontouml)", CommandType.IMPORT_FROM_XMI_EMF, background);
 		createMenuItem(importation, "EA (.xml)", CommandType.IMPORT_FROM_XMI_EA, background);
@@ -79,7 +159,7 @@ public class MainMenuBar extends BaseMenuBar {
 	
 	private void createEditMenu(){		
 		KeyStroke stroke;
-		JMenu edit = new JMenu("Edit");
+		edit = new JMenu("Edit");
 		add(edit);		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK);
@@ -99,7 +179,7 @@ public class MainMenuBar extends BaseMenuBar {
 	
 	private void createVerificateMenu(){
 		KeyStroke stroke;
-		JMenu verificate = new JMenu("Verificate");
+		verificate = new JMenu("Verificate");
 		add(verificate);
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
@@ -114,7 +194,7 @@ public class MainMenuBar extends BaseMenuBar {
 	}
 	
 	private void createWindowMenu(){
-		JMenu window = new JMenu("Window");
+		window = new JMenu("Window");
 		add(window);
 		createCheckBoxMenuItem(window, "Palette of Elements", CommandType.PALETTE_OF_ELEMENTS, background);
 		createCheckBoxMenuItem(window, "Console", CommandType.CONSOLE, background);
@@ -122,7 +202,7 @@ public class MainMenuBar extends BaseMenuBar {
 	}
 
 	private void createImplementMenu(){
-		JMenu implement = new JMenu("Implement");
+		implement = new JMenu("Implement");
 		add(implement);		
 		createMenuItem(implement, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
 		implement.addSeparator();
@@ -130,14 +210,14 @@ public class MainMenuBar extends BaseMenuBar {
 	}
 	
 	private void createVerbalizeMenu(){
-		JMenu verbalize = new JMenu("Verbalize");
+		verbalize = new JMenu("Verbalize");
 		add(verbalize);		
 		createMenuItem(verbalize, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
 		createMenuItem(verbalize, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
 	}
 	
 	private void createValidateMenu(){		
-		JMenu validate = new JMenu("Validate");
+		validate = new JMenu("Validate");
 		add(validate);		
 		createMenuItem(validate, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);		
 		validate.addSeparator();
@@ -147,17 +227,16 @@ public class MainMenuBar extends BaseMenuBar {
 	
 	private void createProjectMenu(){
 		KeyStroke stroke;
-		JMenu project = new JMenu("Project");
+		project = new JMenu("Project");
 		add(project);		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);
 		createMenuItem(project, "Find", CommandType.FIND_TERM, background,stroke);
 		createMenuItem(project, "Collect Statistics", CommandType.COLLECT_STATISTICS, background);
-	}
-	
+	}	
 
 	private void createRulesMenu(){
-		JMenu rules = new JMenu("Rules");
+		rules = new JMenu("Rules");
 		add(rules);
 		createMenuItem(rules, "New", CommandType.NEW_RULES, background);
 		rules.addSeparator();
@@ -166,7 +245,7 @@ public class MainMenuBar extends BaseMenuBar {
 	
 	private void createDiagramMenu(){
 		KeyStroke stroke;
-		JMenu diagram = new JMenu("Diagram");
+		diagram = new JMenu("Diagram");
 		add(diagram);
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK);
@@ -195,27 +274,9 @@ public class MainMenuBar extends BaseMenuBar {
 	}
 	
 	private void createHelpMenu(){
-		JMenu help = new JMenu("Help");
+		help = new JMenu("Help");
 		add(help);		
 		createMenuItem(help, "About", CommandType.ABOUT, background);
 		createMenuItem(help, "Licenses", CommandType.LICENSES, background);
 	}
-	
-	/** constructor */
-	public MainMenuBar(CommandListener listener){
-		super(listener, background);
-		setBackground(background);		
-		createFileMenu();
-		createEditMenu();
-		createDiagramMenu();
-		createRulesMenu();
-		createProjectMenu();
-		createVerificateMenu();
-		createValidateMenu();
-		createVerbalizeMenu();
-		createImplementMenu();
-		createWindowMenu();
-		createHelpMenu();
-	}	
-
 }

@@ -56,6 +56,7 @@ public class BaseMenuBar extends JMenuBar implements ActionListener{
 	public void enableMenuItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
 	public JMenuItem getMenuItem(CommandType cmdType) { return menuItemsMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setEnabled(value); } }
+	public void visibleAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setVisible(value); } }
 	public boolean isSelected(CommandType cmdType) { return menuItemsMap.get(cmdType).isSelected(); }
 	public void select(CommandType cmdType, boolean value) { menuItemsMap.get(cmdType).setSelected(value); }
 	

@@ -468,8 +468,9 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 				}				
 			}
 		}
-		diagManager.getFrame().forceShowProjectBrowser();
-		diagManager.getFrame().forceShowToolBox();
+		diagManager.getFrame().forceShowBrowserPane();
+		diagManager.getFrame().forceShowPalettePane();
+		diagManager.getFrame().getMainMenu().activateAll();
 		this.dispose();
 	}
 	

@@ -23,7 +23,6 @@ package net.menthor.editor.finder;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JMenuItem;
@@ -36,7 +35,6 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.ui.DiagramListDialog;
 
 import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.ui.diagram.DiagramEditor;
 
 import RefOntoUML.Element;
 
@@ -78,7 +76,7 @@ public class FoundPopupMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {	
 				
-				ProjectBrowser.frame.getDiagramManager().getFrame().getBrowserManager().getProjectBrowser().getTree().checkElement(context.getElement());		
+				ProjectBrowser.frame.getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(context.getElement());		
 			}
 		});
 		

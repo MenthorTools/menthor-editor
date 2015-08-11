@@ -8,7 +8,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.menus.TreePopupMenu;
+import net.menthor.editor.v2.util.Util;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.Comment;
+import RefOntoUML.EnumerationLiteral;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.NamedElement;
+import RefOntoUML.PackageableElement;
+import RefOntoUML.Property;
+import RefOntoUML.parser.OntoUMLParser;
 /*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -31,39 +59,8 @@ import java.awt.event.MouseEvent;
  * 
  * @author John Guerson
  */
-
-
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.Comment;
-import RefOntoUML.EnumerationLiteral;
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.NamedElement;
-import RefOntoUML.PackageableElement;
-import RefOntoUML.Property;
-import RefOntoUML.parser.OntoUMLParser;
-
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.menus.TreePopupMenu;
-import net.menthor.editor.v2.util.Util;
 
 public class ProjectTree extends BaseCheckBoxTree {
 
@@ -172,7 +169,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 		);
 	    new DropTarget(this, new TreeDropTargetListener(this));
 		/* Select Root */
-	    select(getRootNode());
+	    select(getRootNode());	    
 	}	
 	
 	//==========================================================
