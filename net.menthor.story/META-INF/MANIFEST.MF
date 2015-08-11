@@ -13,9 +13,10 @@ Export-Package: stories,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- net.menthor.ontouml;bundle-version="1.0.0",
+ br.ufes.inf.nemo.ontouml.refontouml;visibility:=reexport,
  org.eclipse.swt,
  org.eclipse.core.commands,
- org.eclipse.ui
+ org.eclipse.ui,
+ net.menthor.ontouml;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.jface.action

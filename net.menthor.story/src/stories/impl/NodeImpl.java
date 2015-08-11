@@ -16,7 +16,6 @@ import stories.Node;
 import stories.Classification_statement;
 import stories.StoriesPackage;
 import stories.World;
-import RefOntoUML.*;
 
 /**
  * <!-- begin-user-doc -->
