@@ -27,11 +27,14 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.commands.CommandListener;
@@ -44,9 +47,8 @@ import net.menthor.editor.v2.menus.MainMenuBar;
 import net.menthor.editor.v2.palette.PalettePane;
 import net.menthor.editor.v2.toolbars.MainToolbar;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
+import net.menthor.editor.v2.ui.BaseMultiSplitPane;
 import net.menthor.editor.v2.util.Util;
-
-import org.tinyuml.ui.diagram.DiagramEditor;
 
 public class MainFrame extends JFrame implements CommandListener {
 
@@ -54,7 +56,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	
 	private transient MainMenuBar mainMenu;
 	private transient MainToolbar mainToolBar;	
-	private transient MainSplitPane multiSplitPane;
+	private transient BaseMultiSplitPane multiSplitPane;
 	private transient PalettePane palettePane;
 	private transient ProjectBrowser browserPane;	
 	private transient TopViewPane editorsPane;
@@ -147,7 +149,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		footerPane= new BottomViewPane(this, null);
 		browserPane = new ProjectBrowser(this,null,null);
 		palettePane = new PalettePane(this);
-		multiSplitPane = new MainSplitPane(palettePane, editorsPane, footerPane, browserPane);
+		multiSplitPane = new BaseMultiSplitPane(palettePane, editorsPane, footerPane, browserPane);
 		getContentPane().add(multiSplitPane, BorderLayout.CENTER);
 	}	
 	

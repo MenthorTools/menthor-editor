@@ -52,10 +52,26 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 	private List<CommandListener> listeners = new ArrayList<CommandListener>();
 	public void addCommandListener(CommandListener l) { listeners.add(l); }
 	
+	protected Object context;
+	
 	private Map<CommandType, JButton> jbuttonMap = new HashMap<CommandType, JButton>();		
 	public void enableButton(CommandType cmdType, boolean flag) { jbuttonMap.get(cmdType).setEnabled(flag); }
 	public JButton getButton(CommandType cmdType) { return jbuttonMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JButton btn: jbuttonMap.values()) { btn.setEnabled(value); } }
+	
+	/** some actions are executed in the context of a given element, 
+	 *  called here of 'context' */ 
+	public void setContext(Object context){
+		this.context = context;		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {	
+		for (CommandListener l : listeners) {
+			if(context!=null) l.handleCommand(e.getActionCommand(), context);
+			else l.handleCommand(e.getActionCommand());
+		}		
+	}
 	
 	protected int iconHeight=16;
 	protected int iconWidth=16;
@@ -88,14 +104,7 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 		setBackground(backgroundColor);
 		addCommandListener(listener);
 	}
-	
-	/** handle commands */
-	public void actionPerformed(ActionEvent e) {
-		for (CommandListener l : listeners) {
-			l.handleCommand(e.getActionCommand(), null);
-		}
-	}
-	
+		
 	/** create toolbar button */
 	protected JButton createButton(String name, IconType icontype, CommandType command){
 		Icon icon = IconMap.getInstance().getIcon(icontype);

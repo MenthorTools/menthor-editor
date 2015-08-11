@@ -37,8 +37,7 @@ public class DiagramToolBar extends BaseToolBar {
 	
 	private static Color background = null; //Color.WHITE;
 	private JButton btnZoomStatus;
-	
-	
+		
 	public DiagramToolBar (CommandListener listener, int orientation){
 		this(listener);
 		setOrientation(VERTICAL);

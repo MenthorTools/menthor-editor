@@ -471,28 +471,9 @@ public abstract class MeronymicImpl extends DirectedBinaryAssociationImpl implem
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isShareable: ");
-		result.append(isShareable);
-		result.append(", isEssential: ");
-		result.append(isEssential);
-		result.append(", isInseparable: ");
-		result.append(isInseparable);
-		result.append(", isImmutablePart: ");
-		result.append(isImmutablePart);
-		result.append(", isImmutableWhole: ");
-		result.append(isImmutableWhole);
-		result.append(')');
-		return result.toString();
+			return super.toString();
 	}
 
 	/**

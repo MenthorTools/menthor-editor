@@ -468,6 +468,6 @@ public class SelectionHandler implements EditorMode {
 	 * @param l the AppCommandListener to add
 	 */
 	public void addAppCommandListener(CommandListener l) {
-		contextMenuBuilder.addAppCommandListener(l);
+		//contextMenuBuilder.addAppCommandListener(l);
 	}
 }

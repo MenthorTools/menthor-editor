@@ -111,4 +111,18 @@ public class MenuBuilder {
 		parent.add(styleMenu);
 		return styleMenu;
 	}
+	
+	public static AlignMenu buildAlign(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		AlignMenu styleMenu = new AlignMenu(listener, text);
+		parent.add(styleMenu);
+		return styleMenu;
+	}
+	
+	public static GenSetMenu buildGenSet(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		GenSetMenu genSetMenu = new GenSetMenu(listener, text);
+		parent.add(genSetMenu);
+		return genSetMenu;
+	}
 }

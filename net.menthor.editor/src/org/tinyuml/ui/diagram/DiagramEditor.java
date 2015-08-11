@@ -57,28 +57,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 
-import net.menthor.editor.MainFrame;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.dialog.properties.FeatureListDialog;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.BaseEditor;
-import net.menthor.editor.v2.menus.PalettePopupMenu;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.util.Util;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
@@ -128,6 +106,27 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.DiagramManager;
+import net.menthor.editor.MainFrame;
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.dialog.properties.FeatureListDialog;
+import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.BaseEditor;
+import net.menthor.editor.v2.menus.PalettePopupMenu;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.EditorType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.Util;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -449,29 +448,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		selectionHandler.select(element);
 	}
 	
-	/** Create a generalizations from selected elements in the diagram */
-	public void addGeneralizationSet()
-	{		
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		GeneralizationSet genSet = frame.getDiagramManager().addGeneralizationSet(this,diagramElementsList);		
-		if(genSet!=null){		
-			deselectAll();
-			cancelEditing();
-			ElementDialogCaller.callGeneralizationSetDialog(frame, genSet,true);
-			deselectAll();
-			cancelEditing();
-		}		
-	}
-		
-	/** Delete generalization Set from selected elements in the diagram */
-	public void deleteGeneralizationSet()
-	{
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		frame.getDiagramManager().deleteGeneralizationSet(this,diagramElementsList);		
-		deselectAll();
-		cancelEditing();		
-	}
-	
 	/** Open ToolBox Menu. */
 	public void openToolBoxPopupMenu()
 	{
@@ -529,7 +505,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		}
-		boolean gridVisible = diagram.isGridVisible();
+		//boolean gridVisible = diagram.isGridVisible();
 		Color background = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST);
 		if (toScreen) {
 			scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
@@ -1248,86 +1224,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}			
 		}		
 	}
-	
-	/** Align Center Horizontally */
-	public void alignCenterHorizontally ()
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
-		{
-			ArrayList<Double> coordList = new ArrayList<Double>();
-			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
-			classElements.addAll(getSelectedClassElements());
-			for(DiagramElement de: classElements)
-			{				
-				ClassElement ce = (ClassElement)de;				
-				coordList.add(ce.getAbsCenterY());	
-			}
-			double finalpos = calculateCenterAlignPosition(coordList);
-			ClassElement larger = getClassElementLargestHeight(classElements);			
-			if(finalpos!=-1 && larger !=null)
-			{		
-				double largerHeight= larger.getAbsoluteBounds().getHeight();
-				((ClassElement)larger).setAbsolutePos(larger.getAbsoluteX1(),finalpos-(largerHeight/2));
-				for(DiagramElement de: classElements)
-				{					
-					ClassElement ce = (ClassElement)de;	
-					double ceHeight = ce.getAbsoluteBounds().getHeight();
-					if(!ce.equals(larger)){
-						ce.setAbsolutePos(ce.getAbsoluteX1(),finalpos-(ceHeight/2));
-					}
-				}
-			}			
-		}			
-	}
-	
-	public void executeAlignCenterVertically(){
-		execute(
-			new AlignElementsCommand((DiagramNotification)this,
-			(ArrayList<DiagramElement>) getSelectedElements(),
-			getProject(),Alignment.CENTER_VERTICAL)
-		);
-	}
-	
-	public void executeAlignCenterHorizontally(){
-		execute(
-			new AlignElementsCommand((DiagramNotification)this,
-			(ArrayList<DiagramElement>) getSelectedElements(),
-			getProject(),Alignment.CENTER_HORIZONTAL)
-		);
-	}
-
-	public void executeAlignBottom(){
-		execute(
-			new AlignElementsCommand((DiagramNotification)this,
-			(ArrayList<DiagramElement>) getSelectedElements(),
-			getProject(),Alignment.BOTTOM)
-		);
-	}
-	
-	public void executeAlignTop(){
-		execute(
-			new AlignElementsCommand((DiagramNotification)this,
-			(ArrayList<DiagramElement>) getSelectedElements(),
-			getProject(),Alignment.TOP)
-		);
-	}
-	
-	public void executeAlignRight(){
-		execute(
-			new AlignElementsCommand((DiagramNotification)this,
-			(ArrayList<DiagramElement>) getSelectedElements(),
-			getProject(),Alignment.RIGHT)
-		);
-	}
-	
-	public void executeAlignLeft(){
-		execute(
-			new AlignElementsCommand((DiagramNotification)this,
-			(ArrayList<DiagramElement>) getSelectedElements(),
-			getProject(),Alignment.LEFT)
-		);
-	}
-	
+		
 	/** Align Center Vertically */
 	public void alignCenterVertically()
 	{
@@ -1359,6 +1256,37 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 
+	/** Align Center Horizontally */
+	public void alignCenterHorizontally ()
+	{
+		if (selectionHandler.getSelectedElements().size() > 0) 
+		{
+			ArrayList<Double> coordList = new ArrayList<Double>();
+			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
+			classElements.addAll(getSelectedClassElements());
+			for(DiagramElement de: classElements)
+			{				
+				ClassElement ce = (ClassElement)de;				
+				coordList.add(ce.getAbsCenterY());	
+			}
+			double finalpos = calculateCenterAlignPosition(coordList);
+			ClassElement larger = getClassElementLargestHeight(classElements);			
+			if(finalpos!=-1 && larger !=null)
+			{		
+				double largerHeight= larger.getAbsoluteBounds().getHeight();
+				((ClassElement)larger).setAbsolutePos(larger.getAbsoluteX1(),finalpos-(largerHeight/2));
+				for(DiagramElement de: classElements)
+				{					
+					ClassElement ce = (ClassElement)de;	
+					double ceHeight = ce.getAbsoluteBounds().getHeight();
+					if(!ce.equals(larger)){
+						ce.setAbsolutePos(ce.getAbsoluteX1(),finalpos-(ceHeight/2));
+					}
+				}
+			}			
+		}			
+	}
+	
 	/** Returns all selected class elements */
 	private ArrayList<DiagramElement>getSelectedClassElements()
 	{
@@ -2008,7 +1936,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
 			execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
-		}				
+		}	
+		if(dElem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
+				}
+			}
+		}
 		// we can only tell the selection handler to forget about the selection
 		selectionHandler.deselectAll();		
 	}
@@ -2029,7 +1965,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
 			execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
-		}				
+		}	
+		if(dElem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
+				}
+			}
+		}
 		// we can only tell the selection handler to forget about the selection
 		selectionHandler.deselectAll();
 	}
@@ -2049,15 +1993,32 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
 			execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
-		}				
+		}		
+		if(dElem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
+				}
+			}
+		}
 		// we can only tell the selection handler to forget about the selection
 		selectionHandler.deselectAll();		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void toDirect(Object dElem){
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
 			execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
+		}
+		if(dElem instanceof List<?>){
+			for(Object obj: ((List<Object>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
+				}
+			}
 		}
 		selectionHandler.deselectAll();
 	}
@@ -2087,7 +2048,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void resetConnectionPoints(Object elem){
 		if (elem instanceof Connection) {
 			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
-		}		
+		}
+		if(elem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)elem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ResetConnectionPointsCommand(this, conn));
+				}
+			}
+		}
 	}
 
 	public void findInProjectBrowser(Object element){
@@ -2224,12 +2193,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void deleteSelection(Object element){
 		if(element instanceof DiagramElement){
 			DiagramElement ce = ((DiagramElement)element);
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
 			frame.getDiagramManager().deleteFromMenthor(list,true);
+		}else if (element instanceof Collection<?>){
+			frame.getDiagramManager().deleteFromMenthor((List<DiagramElement>)element,true);
 		}else{
 			frame.getDiagramManager().delete(element);
 		}
@@ -2247,12 +2219,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Removes the elements selected only from the diagram  */
+	@SuppressWarnings("unchecked")
 	public void excludeSelection(Object element){
 		if(element instanceof DiagramElement){
 			DiagramElement ce = ((DiagramElement)element);
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
 			excludeSelection(list);
+		}else if (element instanceof Collection<?>){			
+			excludeSelection((List<DiagramElement>)element);			
 		}
 	}
 	
@@ -2306,6 +2281,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void showEndPointNames(Object con){
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -2315,8 +2291,16 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				!((AssociationElement)con).showRoles())
 			);					
 		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.ENDPOINTS,
+				!someShowEndNames((List<Object>)con))
+			);					
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void showSubsetting(Object con){
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -2326,8 +2310,16 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				!((AssociationElement)con).showSubsetting())
 			);						
 		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.SUBSETS,
+				!someShowSubsetting((List<Object>)con))
+			);					
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void showRedefinitions(Object con){
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -2337,8 +2329,16 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				!((AssociationElement)con).showRedefining())
 			);						
 		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.REDEFINES,
+				!someShowRedefining((List<Object>)con))
+			);					
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void showMultiplicities(Object con){
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -2348,8 +2348,16 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				!((AssociationElement)con).showMultiplicities())
 			);						
 		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.MULTIPLICITY,
+				!someShowMultiplicities((List<Object>)con))
+			);					
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void showStereotype(Object con){
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -2359,8 +2367,63 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				!((AssociationElement)con).showOntoUmlStereotype())
 			);						
 		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.STEREOTYPE,
+				!someShowStereotype((List<Object>)con))
+			);					
+		}
 	}
 	
+	private boolean someShowEndNames(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showRoles()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowMultiplicities(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showMultiplicities()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowName(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showName()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowRedefining(List<Object> objs){
+		for(Object o: objs){
+			if(((AssociationElement)o).showRedefining()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowSubsetting(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showSubsetting()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowStereotype(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showOntoUmlStereotype()) return true;
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void showName(Object con){
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -2370,7 +2433,139 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				!((AssociationElement)con).showName())
 			);						
 		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.NAME,
+				!someShowName((List<Object>)con))
+			);					
+		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignCenterVertically(Object diagramElements){
+		if(diagramElements instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(List<DiagramElement>)diagramElements,
+				getProject(),Alignment.CENTER_VERTICAL)
+			);
+		}
+	}
+	
+	public void executeAlignCenterVertically(){
+		executeAlignCenterVertically(getSelectedElements());
+	}
+	
+	public void executeAlignCenterHorizontally(){
+		executeAlignCenterHorizontally(getSelectedElements());	
+	}
+
+	@SuppressWarnings("unchecked")
+	public void executeAlignCenterHorizontally(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(List<DiagramElement>) diagElems,
+				getProject(),Alignment.CENTER_HORIZONTAL)
+			);
+		}
+	}
+	public void executeAlignBottom(){
+		executeAlignBottom(getSelectedElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignBottom(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(ArrayList<DiagramElement>) diagElems,
+				getProject(),Alignment.BOTTOM)
+			);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignTop(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(List<DiagramElement>) diagElems,
+				getProject(),Alignment.TOP)
+			);
+		}
+	}
+	
+	public void executeAlignTop(){
+		executeAlignTop(getSelectedElements());
+	}
+	
+	public void executeAlignRight(){
+		executeAlignRight(getSelectedElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignRight(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(ArrayList<DiagramElement>) diagElems,
+				getProject(),Alignment.RIGHT)
+			);
+		}
+	}
+	
+	public void executeAlignLeft(){
+		executeAlignLeft(getSelectedElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignLeft(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(ArrayList<DiagramElement>) diagElems,
+				getProject(),Alignment.LEFT)
+			);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addGeneralizationSet(Object genElems){
+		if(genElems instanceof Collection<?>){
+			GeneralizationSet genSet = frame.getDiagramManager().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			if(genSet!=null){		
+				deselectAll();
+				cancelEditing();
+				ElementDialogCaller.callGeneralizationSetDialog(frame, genSet,true);
+				deselectAll();
+				cancelEditing();
+			}	
+		}
+	}
+	
+	/** Create a generalizations from selected elements in the diagram */
+	public void addGeneralizationSet(){		
+		Collection<DiagramElement> diagramElementsList = getSelectedElements();
+		addGeneralizationSet(diagramElementsList);		
+	}
+		
+	/** Delete generalization Set from selected elements in the diagram */
+	public void deleteGeneralizationSet(){
+		Collection<DiagramElement> diagramElementsList = getSelectedElements();
+		deleteGeneralizationSet(diagramElementsList);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void deleteGeneralizationSet(Object genElems){
+		if(genElems instanceof Collection<?>){
+			frame.getDiagramManager().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			deselectAll();
+			cancelEditing();	
+		}
+	}
+	
 	
 	/** {@inheritDoc} */
 	public void moveElements(MoveOperation[] moveOperations) 

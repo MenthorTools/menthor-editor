@@ -63,14 +63,14 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 	/** some actions are executed in the context of a given element, 
 	 *  called here of 'context' */ 
 	public void setContext(Object context){
-		this.context = context;		
+		this.context = context;				
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : listeners) {
 			if(context!=null) l.handleCommand(e.getActionCommand(), context);
-			else l.handleCommand(e.getActionCommand());
+			else l.handleCommand(e.getActionCommand());			
 		}		
 	}
 

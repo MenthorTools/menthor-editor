@@ -26,7 +26,7 @@ package net.menthor.editor.v2.commands;
 /** A simple interface to be implemented by classes that receive application commands strings. */
 public interface CommandListener {
 	
-  /** Handles the specified action command string. */
+  /** Handles the specified action command string. */  
   void handleCommand(String command, Object parameter);
   void handleCommand(String command);
   

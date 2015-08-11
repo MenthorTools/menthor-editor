@@ -225,9 +225,9 @@ public class CommandMap {
 		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
 				new MethodCall(DiagramEditor.class.getMethod("executeSetBackgroundColor")));	
 		cmdMap.put(CommandType.ADD_GEN_SET_DIAGRAM, 
-				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet")));
+				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", Object.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet")));
+				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
 				new MethodCall(DiagramEditor.class.getMethod("showEndPointNames",Object.class)));
 		cmdMap.put(CommandType.SHOW_MULTIPLICITIES,

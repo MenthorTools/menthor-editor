@@ -1814,6 +1814,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}   
 	}	
 	
+	public void delete(List<Object> elems){
+		for(Object o: elems){
+			delete(o);
+		}
+	}
+	
 	public void delete(Object elem)
 	{	
 		if (elem instanceof StructureDiagram)
