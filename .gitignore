@@ -22,3 +22,7 @@ tmp/**/*
 *.launch
 net.menthor.story.edit/
 net.menthor.story.editor/
+
+net.menthor.ea.mdg.ontouml/.project
+
+net.menthor.metamodel.ontouml/.project
