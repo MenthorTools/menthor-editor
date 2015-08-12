@@ -1916,32 +1916,8 @@ public class Transformer {
 				OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
 				manager.applyChange(new AddAxiom(ontology, ax));
 			}
-			if(!owlAxioms.isUfoStructure()) continue; 
 			
-			Set<Classifier> parents = ontoParser.getParents(ontCls);
-			if(parents.size() == 0 ){
-				OWLClass owlSuperCls = null;
-				if(ontoParser.isCollective(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
-				}else if(ontoParser.isKind(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "FunctionalComplex");
-				}else if(ontoParser.isQuantity(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quantity");
-				}else if(ontoParser.isMode(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Mode");
-				}else if(ontoParser.isQuality(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quality");
-				}else if(ontoParser.isRelator(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
-				}else if(!ontoParser.isMoment(ontCls) && !ontoParser.isObject(ontCls)){
-					owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Event");
-				}
-				
-				if(owlSuperCls != null){
-					OWLSubClassOfAxiom sbAx = factory.getOWLSubClassOfAxiom(owlCls, owlSuperCls);
-					manager.applyChange(new AddAxiom(ontology, sbAx));
-				}
-			}
+			putIntoUfoStructure(ontCls);
 		}
 		
 		for (RefOntoUML.Class className : duplicatedClasses) {
@@ -1949,6 +1925,38 @@ public class Transformer {
 		}
 	}
 
+	private void putIntoUfoStructure(Classifier dtcls){
+		if(!owlAxioms.isUfoStructure()) return;
+	
+		String elemStr = dtcls.getName();
+		if(elemStr.equals("Pessoa")){
+			System.out.println();
+		}
+		
+		OWLClass owlSuperCls = null;
+		if(ontoParser.isCollective(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
+		}else if(ontoParser.isKind(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "FunctionalComplex");
+		}else if(ontoParser.isQuantity(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quantity");
+		}else if(ontoParser.isMode(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Mode");
+		}else if(ontoParser.isQuality(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quality");
+		}else if(ontoParser.isRelator(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
+		}else if(!ontoParser.isMoment(dtcls) && !ontoParser.isObject(dtcls)){
+			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Event");
+		}
+		
+		if(owlSuperCls != null){
+			OWLClass owlCls = getOwlClass(dtcls);
+			OWLSubClassOfAxiom sbAx = factory.getOWLSubClassOfAxiom(owlCls, owlSuperCls);
+			manager.applyChange(new AddAxiom(ontology, sbAx));
+		}		
+	}
+	
 	/**
 	 * Create the annotation present in the RefOntoUML.
 	 * Create annotations for the ontology, class and dataproperty
