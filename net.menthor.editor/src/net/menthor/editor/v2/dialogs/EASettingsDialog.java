@@ -1,4 +1,4 @@
-package net.menthor.editor.ui;
+package net.menthor.editor.v2.dialogs;
 
 /**
  * ============================================================================================
@@ -59,6 +59,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+
 import net.menthor.xmi2ontouml.Creator;
 import net.menthor.xmi2ontouml.framework.XMI2RefConstraint;
 import net.menthor.xmi2ontouml.framework.XMI2RefModel;
@@ -74,6 +75,10 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 {
 	private static final long serialVersionUID = 2093867102692070258L;
 	
+	private JFrame owner;
+	private CommandListener listener;
+	
+	
 	private JTextField filePathField;
 	private JButton browseBtn, btnUseDefaultOptions;
 	private JCheckBox chckbxImportConstraints, chckbxImportComments,
@@ -83,18 +88,14 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	private JScrollPane treeScrollPane;
 	private CheckboxTree[] trees;
 	private JRadioButton rdbtnFilterModelBy, rdbtnFilterModelBy_1;
-	private JTextArea objDescription;	
-	CommandListener listener;	
+	private JTextArea objDescription;		
 	private JPanel panel_2;
-	private JPanel panel_3;
-	JFrame owner;
+	private JPanel panel_3;	
 	private JButton btnRun;
 	private JButton btnFilter;
 	private JPanel panel_5;
 	
-	/**
-	 * @wbp.parser.constructor
-	 */
+	/** @wbp.parser.constructor */
 	public EASettingsDialog(JFrame owner, boolean modal, CommandListener listener){
 		super(owner, modal);		
 		this.listener = listener;
@@ -120,9 +121,8 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		setVisible(true);
 	}
 	
-	private void initGUI()
-	{
-		setTitle("Import from EA");
+	private void initGUI(){
+		setTitle("EA Settings");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(537,532));
 		setSize(new Dimension(524, 464));		
@@ -264,8 +264,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		horizontalBox.setBackground(Color.WHITE);
 		horizontalBox.setPreferredSize(new Dimension(50, 40));
 		treePanel.add(horizontalBox, BorderLayout.NORTH);		
-		btnFilter = new JButton("Import to Menthor");
-		
+		btnFilter = new JButton("Import to Menthor");		
 		panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
 		GroupLayout gl_horizontalBox = new GroupLayout(horizontalBox);
@@ -312,8 +311,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == browseBtn)
 		{
 			JFileChooser fileChooser = new JFileChooser();

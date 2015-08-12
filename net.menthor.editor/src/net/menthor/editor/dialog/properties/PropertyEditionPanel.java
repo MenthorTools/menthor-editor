@@ -44,7 +44,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
 
 import org.tinyuml.draw.DiagramElement;
@@ -56,8 +55,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
-
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
  * @author John Guerson
@@ -449,7 +448,7 @@ public class PropertyEditionPanel extends JPanel {
 			if(((String)aggregCombo.getSelectedItem()).compareToIgnoreCase("shared")==0) property.setAggregation(AggregationKind.SHARED);
 			else if (((String)aggregCombo.getSelectedItem()).compareToIgnoreCase("composite")==0) property.setAggregation(AggregationKind.COMPOSITE);
 			else property.setAggregation(AggregationKind.NONE);			
-			ModelHelper.setMultiplicityFromString(property, (String)multCombo.getSelectedItem());
+			RefOntoUMLFactoryUtil.setMultiplicityFromString(property, (String)multCombo.getSelectedItem());
 			RefOntoUML.Type type = (RefOntoUML.Type)typeCombo.getSelectedItem();			
 			if (type!=null && !type.equals(property.getType())) redesign = true;
 			property.setType(type);

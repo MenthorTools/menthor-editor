@@ -93,6 +93,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.dialogs.EASettingsDialog;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -179,6 +180,7 @@ import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLElementCustom;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 
 /**
@@ -2215,7 +2217,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Change multiplicity from string and update the connections in diagrams */
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException
 	{
-		ModelHelper.setMultiplicityFromString(property, multiplicity);
+		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
 		refreshDiagramElement(property.getAssociation());
 		getFrame().getProjectBrowser().refresh();
 	}
@@ -2489,8 +2491,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage)
 		{
-			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram...", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
-			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
+			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
+			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
 			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
 			if(de!=null) d.select(de);
 			return;			
@@ -2517,8 +2519,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage)
 		{
-			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram...", "\""+ModelHelper.getStereotype(element)+" "+((NamedElement)element).getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
-			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+((Generalization)element).getSpecific().getName()+"->"+((Generalization)element).getSpecific().getName()+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
+			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
+			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
 			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
 			if(de!=null) d.select(de);
 			return;			

@@ -21,17 +21,15 @@ package net.menthor.editor.ui;
  * ============================================================================================
  */
 
-import java.text.Normalizer;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
+
+import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
@@ -57,27 +55,13 @@ import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
-import RefOntoUML.LiteralInteger;
-import RefOntoUML.LiteralUnlimitedNatural;
-import RefOntoUML.Meronymic;
-import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.RefOntoUMLFactory;
 import RefOntoUML.Relationship;
-import RefOntoUML.impl.AssociationImpl;
-import RefOntoUML.impl.CharacterizationImpl;
 import RefOntoUML.impl.DataTypeImpl;
-import RefOntoUML.impl.DerivationImpl;
-import RefOntoUML.impl.DirectedBinaryAssociationImpl;
-import RefOntoUML.impl.FormalAssociationImpl;
-import RefOntoUML.impl.GeneralizationImpl;
-import RefOntoUML.impl.MaterialAssociationImpl;
-import RefOntoUML.impl.MediationImpl;
-import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.NamedElementImpl;
 import RefOntoUML.impl.RefOntoUMLPackageImpl;
 import RefOntoUML.parser.OntoUMLNameHelper;
-import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 
 /**
  * @author John Guerson
@@ -201,9 +185,8 @@ public class ModelHelper {
 	public static void printMap()
 	{
 		for(RefOntoUML.Element e: mappings.keySet())
-		{
-			if (e instanceof NamedElement) System.out.println("refonto = "+getStereotype(e)+" "+((NamedElement)e).getName());
-			else if (e instanceof Generalization) System.out.println("refonto = "+getStereotype(e)+" "+((Generalization)e).getGeneral()+"->"+((Generalization)e).getSpecific());
+		{	
+			System.out.println("refonto = "+e);
 			for(DiagramElement de: mappings.get(e)){
 				System.out.println("diagram = "+de);
 			}
@@ -440,134 +423,6 @@ public class ModelHelper {
 		return (Element) model.eResource().getEObject(uuid);
 	}
 	
-	//Pseudo clone
-	public static Classifier clone(Classifier classifier) {
-		Classifier cloned = (Classifier) factory.create(classifier.eClass());
-		// For now, copy only the essential attributes
-		cloned.setName(classifier.getName());
-		cloned.setIsAbstract(classifier.isIsAbstract());
-		cloned.setVisibility(classifier.getVisibility());
-		
-		if(cloned instanceof RefOntoUML.Class)
-		{
-			RefOntoUML.Class clonedClass = (RefOntoUML.Class)cloned;
-			RefOntoUML.Class classifierClass = (RefOntoUML.Class)classifier;
-			
-			for(Property p: classifierClass.getOwnedAttribute())
-			{
-				RefOntoUML.Property clonedAttr = clone(p);
-				clonedClass.getOwnedAttribute().add(clonedAttr);
-			}
-		}
-
-		if(cloned instanceof RefOntoUML.DataType)
-		{
-			RefOntoUML.DataType clonedClass = (RefOntoUML.DataType)cloned;
-			RefOntoUML.DataType classifierClass = (RefOntoUML.DataType)classifier;
-			
-			for(Property p: classifierClass.getOwnedAttribute())
-			{
-				RefOntoUML.Property clonedAttr = clone(p);
-				clonedClass.getOwnedAttribute().add(clonedAttr);
-			}
-		}
-		
-		return cloned;
-	}
-
-	//Pseudo clone
-	public static Relationship clone(Relationship relationship) {
-		Relationship cloned = (Relationship) factory.create(relationship.eClass());
-		
-		if(cloned instanceof GeneralizationImpl)
-		{
-			Generalization generalization = (Generalization) relationship;
-			
-			((Generalization)cloned).getGeneralizationSet().addAll(generalization.getGeneralizationSet());
-			((Generalization)cloned).setGeneral(generalization.getGeneral());
-			((Generalization)cloned).setSpecific(generalization.getSpecific());
-		}
-		
-		if(cloned instanceof AssociationImpl)
-		{
-			Association association = (Association) relationship;
-			Association associationCloned = (Association) cloned;
-			
-			associationCloned.setName(association.getName());
-			associationCloned.setIsAbstract(association.isIsAbstract());
-			associationCloned.setVisibility(association.getVisibility());
-			associationCloned.setIsDerived(association.isIsDerived());
-			
-			if(cloned instanceof MeronymicImpl)
-			{
-				Meronymic meronymic = (Meronymic) relationship; 
-				Meronymic meronymicCloned = (Meronymic) cloned;
-				
-				meronymicCloned.setIsShareable(meronymic.isIsShareable());
-				meronymicCloned.setIsEssential(meronymic.isIsEssential());
-				meronymicCloned.setIsInseparable(meronymic.isIsInseparable());
-				meronymicCloned.setIsImmutableWhole(meronymic.isIsImmutableWhole());
-				meronymicCloned.setIsImmutablePart(meronymic.isIsImmutablePart());				
-			}
-			
-			RefOntoUML.Property p1Cloned = clone(association.getMemberEnd().get(0));
-			RefOntoUML.Property p2Cloned = clone(association.getMemberEnd().get(1));
-			
-			associationCloned.getMemberEnd().add(p1Cloned);
-			associationCloned.getMemberEnd().add(p2Cloned);
-			associationCloned.getOwnedEnd().add(p1Cloned);
-			associationCloned.getOwnedEnd().add(p2Cloned);			
-			if(association instanceof DirectedBinaryAssociationImpl || association instanceof FormalAssociationImpl || association instanceof MaterialAssociationImpl)
-			{
-				associationCloned.getNavigableOwnedEnd().add(p1Cloned);
-				associationCloned.getNavigableOwnedEnd().add(p2Cloned);	    			
-				//If the association is Mediation or Characterization, set target readonly to help in validation
-				if(association instanceof MediationImpl || association instanceof CharacterizationImpl || association instanceof DerivationImpl) p2Cloned.setIsReadOnly(true);
-			} else {
-				if(p1Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p1Cloned);	    		
-				if(p2Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p2Cloned);
-			}	
-		}
-						
-		return cloned;
-	}	  
-	
-	public static Property clone(RefOntoUML.Property property)
-	{
-		RefOntoUML.Property cloned = (RefOntoUML.Property)factory.create(property.eClass());
-		cloned.setAggregation(property.getAggregation());				
-		cloned.setType(property.getType());
-		LiteralInteger lower1Cloned = factory.createLiteralInteger();
-		lower1Cloned.setValue(property.getLower());
-		LiteralUnlimitedNatural upper1Cloned = factory.createLiteralUnlimitedNatural();
-		upper1Cloned.setValue(property.getUpper());		
-		cloned.setLowerValue(lower1Cloned);			
-		cloned.setUpperValue(upper1Cloned);		
-		String node1Name  = new String();		
-		if(property.getType()!=null)
-		{ 
-			node1Name = property.getType().getName();	    		
-			if(node1Name==null || node1Name.trim().isEmpty()) node1Name = "";
-			else node1Name = node1Name.trim().toLowerCase();
-		}
-		cloned.setName(node1Name);
-		return cloned;
-	}
-	  
-//	public static boolean validate(RefOntoUML.Package model, DiagnosticChain diagnostics,
-//			Map<Object, Object> context) {
-//
-//		if (!initialized) {
-//			initializeHelper();
-//		}
-//				
-//		return validator.validate(model, diagnostics, context);
-//	}
-//	
-	/**
-	 * 	TODO Os dois métodos a seguir poderiam estar em um util do Common
-	 */
-	
 	/**
 	 * Handles the objects name when showing the error message
 	 */
@@ -589,124 +444,7 @@ public class ModelHelper {
 				.replace("association", "");
 		return "\u00AB"+ret+"\u00BB";
 	}
-		
-	public static String getStereotype(RefOntoUML.Element element){
-		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
-	    type = type.replaceAll("Impl","");
-	    type = Normalizer.normalize(type, Normalizer.Form.NFD);	    
-	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");	    
-	    return type;
-	}
-    
-	/**
-	 * Helper method which creates a property with default multiplicity 1..1 as a owned end to associations
-	 * of a given classifier
-	 */
-	public static Property createDefaultOwnedEnd(Classifier classifier, int lower, int upper) {
-		if (!initialized) {
-			initializeHelper();
-		}
-		
-		Property property = factory.createProperty();
-		property.setType(classifier);
-
-		LiteralInteger lowerBound = factory.createLiteralInteger();
-		lowerBound.setValue(lower);
-		LiteralUnlimitedNatural upperBound = factory.createLiteralUnlimitedNatural();
-		upperBound.setValue(upper);
-
-		property.setLowerValue(lowerBound);
-		property.setUpperValue(upperBound);
-
-		return property;
-	}
-
-	public static void setMultiplicity(Property property, int lower, int upper)
-	{
-		LiteralInteger lowerBound = factory.createLiteralInteger();
-		lowerBound.setValue(lower);
-		LiteralUnlimitedNatural upperBound = factory.createLiteralUnlimitedNatural();
-		upperBound.setValue(upper);
-		property.setLowerValue(lowerBound);
-		property.setUpperValue(upperBound);	
-	}
 	
-	public static void setMultiplicityFromString(Property property, String str)
-			throws ParseException {
-		if (!initialized) {
-			initializeHelper();
-		}
-		
-		LiteralInteger lowerBound = factory.createLiteralInteger();
-		LiteralUnlimitedNatural upperBound = factory.createLiteralUnlimitedNatural();
-		
-		Pattern pattern = Pattern.compile("\\d+|\\*|\\d+\\.\\.(\\d+|\\*)"); // 1..2, 1, N, *, 4..1, 1..1, 1..*, 0..*
-
-		if (pattern.matcher(str).matches()) { 
-			int lowerValue = 0, upperValue = 0;
-			if (!str.contains("..")) {
-				if(!str.contains("*")) // Multiplicities: 1, N
-				{
-					lowerValue = Integer.valueOf(str);
-					upperValue = lowerValue;
-				}
-				else // Multiplicities: *
-				{
-					lowerValue = 0;
-					upperValue = -1;
-				}
-			}
-			else //1..2, 4..1, 1..1, 1..*, 0..*
-			{
-				String[] comps = str.split("\\.\\.");
-				if(!str.contains("*")) // Multiplicities: 1..3, 0..2, 3..1
-				{
-					if(comps[0] == comps[1])
-					{
-						lowerValue = Integer.valueOf(str);
-						upperValue = lowerValue;
-					}
-					else
-					{
-						lowerValue = Integer.valueOf(comps[0]);
-						upperValue = Integer.valueOf(comps[1]);
-						
-						if(lowerValue > upperValue)
-							throw new ParseException("could not parse '" + str + "'", 0);
-					}
-				}
-				else // Multiplicities: 1..*, 0..*
-				{
-					lowerValue = Integer.valueOf(comps[0]);
-					upperValue = -1;
-				}
-			}
-			lowerBound.setValue(lowerValue);
-			upperBound.setValue(upperValue);
-		}
-		else
-		{
-			throw new ParseException("could not parse multiplicity string: '" + str + "'", 0);
-		}
-
-		if (property != null) {
-			property.setLowerValue(lowerBound);
-			property.setUpperValue(upperBound);
-		}
-	}
-
-	public static void saveXMI(Resource resource) {
-		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-				Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-
-		try {
-			resource.save(saveOptions);
-		} catch (java.io.IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static List<DataType> getModelDataTypes(UmlProject project) {
 		List<DataType> dataTypes = new LinkedList<DataType>();
 		Iterator<?> it = project.getModel().getPackagedElement().iterator();

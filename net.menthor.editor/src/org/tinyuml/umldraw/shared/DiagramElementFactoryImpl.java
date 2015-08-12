@@ -80,6 +80,8 @@ import RefOntoUML.impl.MaterialAssociationImpl;
 import RefOntoUML.impl.MediationImpl;
 import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
+import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -216,10 +218,10 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   {
 		Property node1Property, node2Property;	
 		
-		node1Property = ModelHelper.createDefaultOwnedEnd(null, 1, 1);	    		
+		node1Property = RefOntoUMLFactoryUtil.createProperty(null, 1, 1);	    		
 		//If the association is a ComponentOf, set the default cardinality to 2..*, to help in validation
-		if(association instanceof MeronymicImpl) node2Property = ModelHelper.createDefaultOwnedEnd(null, 2, -1);
-		else node2Property = ModelHelper.createDefaultOwnedEnd(null, 1, 1);
+		if(association instanceof MeronymicImpl) node2Property = RefOntoUMLFactoryUtil.createProperty(null, 2, -1);
+		else node2Property = RefOntoUMLFactoryUtil.createProperty(null, 1, 1);
 		
 		if(association instanceof MeronymicImpl)
 		{
@@ -384,7 +386,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 	  if (elementType.equals(ClassType.NONPERCEIVABLE_QUALITY)) { type = factory.createNonPerceivableQuality();  }
 	  if (elementType.equals(ClassType.NOMINAL_QUALITY)) { type = factory.createNominalQuality();  }
 	  if(type instanceof NamedElement){
-		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)+nextElementCount(elementType)); 
+		  ((NamedElement)type).setName(OntoUMLParser.getStereotype(type)+nextElementCount(elementType)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
 	  }		 
 	  return type;	  
@@ -397,7 +399,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 	  if (elementType.equals(DataType.ENUMERATION)) { type = factory.createEnumeration();  }
 	  if (elementType.equals(DataType.PRIMITIVETYPE)) { type = factory.createPrimitiveType();  }	  
 	  if(type instanceof NamedElement){
-		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)+nextElementCount(elementType)); 
+		  ((NamedElement)type).setName(OntoUMLParser.getStereotype(type)+nextElementCount(elementType)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
 	  }		 
 	  return type;	  
@@ -407,7 +409,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   {
 	  RefOntoUML.Element type = factory.createPackage();
 	  if(type instanceof NamedElement){
-		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)); 
+		  ((NamedElement)type).setName(OntoUMLParser.getStereotype(type)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
 	  }		 
 	  return type;	  
@@ -417,7 +419,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   {
 	  RefOntoUML.Element type = factory.createGeneralizationSet();
 	  if(type instanceof NamedElement){
-		  ((NamedElement)type).setName(ModelHelper.getStereotype(type)); 
+		  ((NamedElement)type).setName(OntoUMLParser.getStereotype(type)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);
 	  }		 
 	  return type;	  
@@ -481,7 +483,7 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
 	  if (RelationshipType.equals(RelationshipType.ASSOCIATION)) rel = factory.createAssociation();	  
 	  if (RelationshipType.equals(RelationshipType.STRUCTURATION)) rel = factory.createStructuration();
 	  if (rel instanceof Classifier){
-		  ((Classifier)rel).setName(ModelHelper.getStereotype(rel)+nextRelationCount(RelationshipType));		  
+		  ((Classifier)rel).setName(OntoUMLParser.getStereotype(rel)+nextRelationCount(RelationshipType));		  
 		  ((Classifier)rel).setVisibility(VisibilityKind.PUBLIC);
 	  }
 	  return rel;			  
@@ -571,7 +573,7 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
    */
   public UmlConnection createConnection(RefOntoUML.Relationship relationship, UmlNode node1, UmlNode node2) 
   {	
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -609,7 +611,7 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
   @Override
   public UmlConnection createConnectionFromCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlNode node2) 
   {
-	  UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));	  
+	  UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));	  
       UmlConnection conn = null;
       if (prototype != null) 
       {
@@ -645,7 +647,7 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
    */
   public UmlConnection createConnectionToCon(RefOntoUML.Relationship relationship, UmlNode node1, UmlConnection c2) 
   {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));    
     UmlConnection conn = null;
     if (prototype != null) 
     {
@@ -681,7 +683,7 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
    */
   public UmlConnection createConnectionBetweenCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlConnection c2) 
   {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase()));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));    
     UmlConnection conn = null;
     if (prototype != null) 
     {

@@ -23,6 +23,9 @@ package org.tinyuml.umldraw;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.RelationshipType;
+
 import org.tinyuml.draw.AbstractCompositeNode;
 import org.tinyuml.draw.Compartment;
 import org.tinyuml.draw.Compartment.Alignment;
@@ -42,8 +45,7 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Property;
 import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.RelationshipType;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
  * This class represents a Class element in the editor. It is responsible for
@@ -108,7 +110,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 			//cloned.classData = RefOntoUMLHelper.clone(classData);
 			//cloned.classData.eAdapters().add(cloned);
 			
-			cloned.setClassifier(ModelHelper.clone(classData));
+			cloned.setClassifier(RefOntoUMLFactoryUtil.clone(classData));
 		}
 		cloned.mainLabel = (Label) mainLabel.clone();
 		cloned.mainLabel.setSource(cloned);
@@ -512,7 +514,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 */
 	@Override
 	public String toString() {
-		return"<<"+ModelHelper.getStereotype(getClassifier())+">> "+getClassifier().getName();
+		return getClassifier().toString();
 	}
 
 	// ************************************************************************

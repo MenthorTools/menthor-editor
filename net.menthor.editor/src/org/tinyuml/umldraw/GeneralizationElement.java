@@ -199,7 +199,7 @@ public final class GeneralizationElement extends BaseConnection {
 	@Override
 	public String toString()
 	{
-		return ModelHelper.getStereotype(getRelationship())+" "+((RefOntoUML.Generalization)getRelationship()).getSpecific().getName()+" -> "+((RefOntoUML.Generalization)getRelationship()).getGeneral().getName();
+		return getRelationship().toString();
 	}
 	
 	/**

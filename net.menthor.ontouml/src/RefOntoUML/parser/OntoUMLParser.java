@@ -1,6 +1,7 @@
 package RefOntoUML.parser;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -453,6 +454,14 @@ public class OntoUMLParser {
 		return result;		
 	}
 	
+	public static String getStereotype(RefOntoUML.Element element){
+		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
+	    type = type.replaceAll("Impl","");
+	    type = Normalizer.normalize(type, Normalizer.Form.NFD);	    
+	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");	    
+	    return type;
+	}
+    		
 	/** Get the stereotype of a given element. */
 	public String getStereotype(EObject elem)
 	{

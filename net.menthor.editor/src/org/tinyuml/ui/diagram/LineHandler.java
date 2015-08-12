@@ -22,6 +22,9 @@ package org.tinyuml.ui.diagram;
 
 import java.awt.geom.Point2D;
 
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.RelationshipType;
+
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
@@ -37,8 +40,7 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.RelationshipType;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * This class is a handler for line shaped allElements.
@@ -154,7 +156,7 @@ public class LineHandler implements EditorMode {
 	  if(target instanceof ClassElement) targetPoint.setLocation(((ClassElement)target).getAbsCenterX(),((ClassElement)target).getAbsCenterY());
 	  if(source instanceof AssociationElement) sourcePoint.setLocation(((AssociationElement)source).getAbsCenterX(),((AssociationElement)source).getAbsCenterY());
 	  if(target instanceof AssociationElement) targetPoint.setLocation(((AssociationElement)target).getAbsCenterX(),((AssociationElement)target).getAbsCenterY());	  
-	  RelationshipType relationType = RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
+	  RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
 	  LineConnectMethod connectMethod = editor.getDiagramManager().getElementFactory().getConnectMethod(relationType);	  
 	  UmlConnection conn = createConnection(editor, connectMethod, relationship, source, target, sourcePoint, targetPoint);	  
 	  addConnection(editor, conn, source, target, eContainer);  	  

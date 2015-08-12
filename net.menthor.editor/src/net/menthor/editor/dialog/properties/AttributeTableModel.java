@@ -23,6 +23,8 @@ package net.menthor.editor.dialog.properties;
 
 import java.text.ParseException;
 
+import net.menthor.editor.ui.ModelHelper;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
@@ -30,7 +32,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Property;
 import RefOntoUML.impl.DataTypeImpl;
-import net.menthor.editor.ui.ModelHelper;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
  * This class implements a BaseTableModel for class RefOntoUML.Proprties
@@ -113,7 +115,7 @@ public class AttributeTableModel extends BaseTableModel {
 		type.setName("");
 		property.setType(type);
 		property.setName("");
-		ModelHelper.setMultiplicity(property, 1, 1);		
+		RefOntoUMLFactoryUtil.setMultiplicity(property, 1, 1);		
 		addEntry(property);
 	}
 
@@ -182,7 +184,7 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 		if(columnIndex == 2){
 			try {
-				ModelHelper.setMultiplicityFromString(property, (String)value);
+				RefOntoUMLFactoryUtil.setMultiplicityFromString(property, (String)value);
 			} catch (ParseException e) {				
 				e.printStackTrace();
 			}

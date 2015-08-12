@@ -1000,7 +1000,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
-		RelationshipType relationType = RelationshipType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
+		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
 		lineHandler.setRelationType(relationType, getDiagramManager().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;		
 		RefOntoUML.Type source = null;
