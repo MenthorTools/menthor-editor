@@ -125,4 +125,11 @@ public class MenuBuilder {
 		parent.add(genSetMenu);
 		return genSetMenu;
 	}
+	
+	public static ColorMenu buildBackground(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		ColorMenu colorMenu = new ColorMenu(listener, text);
+		parent.add(colorMenu);
+		return colorMenu;
+	}
 }

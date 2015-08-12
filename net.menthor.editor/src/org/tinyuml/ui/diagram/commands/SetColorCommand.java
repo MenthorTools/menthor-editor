@@ -49,7 +49,7 @@ public class SetColorCommand extends BaseDiagramCommand {
 	public ArrayList<Color> oldColorList = new ArrayList<Color>();
 	public Color color;
 	
-	public SetColorCommand(DiagramNotification editorNotification, ArrayList<DiagramElement> selected, UmlProject project, Color color)
+	public SetColorCommand(DiagramNotification editorNotification, List<DiagramElement> selected, UmlProject project, Color color)
 	{
 		this.editor = (DiagramEditor)editorNotification;
 		notification = editorNotification;

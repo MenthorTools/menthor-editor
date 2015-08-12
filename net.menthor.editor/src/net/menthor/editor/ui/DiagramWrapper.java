@@ -26,7 +26,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 
 import javax.swing.JScrollPane;
@@ -38,7 +37,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.status.StatusPane;
 import net.menthor.editor.v2.toolbars.DiagramToolBar;
-import net.menthor.editor.v2.trees.TreeDragGestureListener;
+import net.menthor.editor.v2.trees.TreeDragSourceListener;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.RoundedPanel;
 
@@ -61,8 +60,7 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 	private JScrollPane scrollpane;
 	public JScrollPane getScrollPane() { return scrollpane; }
 	
-	public DragSource ds;
-	public DropTarget dt;
+	public DropTarget dndTarget;
 	
 	public DiagramWrapper(final DiagramEditor editor, CommandListener editorDispatcher){
 		super();
@@ -81,11 +79,8 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 		add(diagramToolbar,BorderLayout.NORTH);
 		add(scrollpane,BorderLayout.CENTER);
 		add(diagramStatus,BorderLayout.SOUTH);		
-		/* drag from the tree and drop at the diagram */
-		JTree tree = editor.getDiagramManager().getFrame().getProjectBrowser().getTree();
-		ds = DragSource.getDefaultDragSource();
-	    ds.createDefaultDragGestureRecognizer(tree, DnDConstants.ACTION_MOVE, new TreeDragGestureListener());
-	    dt = new DropTarget(editor, new DiagramDropListener(editor));
+		/* drag from the tree and drop at the diagram */		
+	    dndTarget = new DropTarget(editor, new DiagramDropListener(editor));
 	}	
 	
 	public void setViewportCenter(Point p) {

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.menus;
+package net.menthor.editor.v2.menus.draw;
 
 /*
  * ============================================================================================
@@ -28,6 +28,16 @@ import org.tinyuml.umldraw.AssociationElement;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.menus.BasePopupMenu;
+import net.menthor.editor.v2.menus.ChangeRelationshipMenu;
+import net.menthor.editor.v2.menus.InvertMenu;
+import net.menthor.editor.v2.menus.LineStyleMenu;
+import net.menthor.editor.v2.menus.MenuBuilder;
+import net.menthor.editor.v2.menus.MetaAttributeMenu;
+import net.menthor.editor.v2.menus.ReadingDirectionMenu;
+import net.menthor.editor.v2.menus.SourceMultiplicityMenu;
+import net.menthor.editor.v2.menus.TargetMultiplicityMenu;
+import net.menthor.editor.v2.menus.VisibilityMenu;
 
 public class ConnectionPopupMenu extends BasePopupMenu {
 

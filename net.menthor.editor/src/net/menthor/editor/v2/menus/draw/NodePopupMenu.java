@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.menus;
+package net.menthor.editor.v2.menus.draw;
 
 /*
  * ============================================================================================
@@ -25,18 +25,22 @@ package net.menthor.editor.v2.menus;
 
 import javax.swing.JCheckBoxMenuItem;
 
-import org.tinyuml.umldraw.ClassElement;
-
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.menus.BasePopupMenu;
+import net.menthor.editor.v2.menus.ChangeClassMenu;
+import net.menthor.editor.v2.menus.ColorMenu;
+import net.menthor.editor.v2.menus.MenuBuilder;
+
+import org.tinyuml.umldraw.ClassElement;
 
 public class NodePopupMenu extends BasePopupMenu {
 
 	private static final long serialVersionUID = 6677159632748840951L;
 
 	private ChangeClassMenu changeMenu;
-	private BaseMenu color;	
+	private ColorMenu color;	
 	private JCheckBoxMenuItem attrItem;
 	
 	public NodePopupMenu(CommandListener listener) {
@@ -48,11 +52,7 @@ public class NodePopupMenu extends BasePopupMenu {
 		createMenuItem("Find in Project Browser", IconType.MENTHOR_TREE, CommandType.FIND_IN_PROJECT_BROWSER);
 		createMenuItem("Add All Related Elements", CommandType.ADD_ALL_RELATED_ELEMENTS);
 		addSeparator();
-		color = new BaseMenu(listener,"Background Color");
-		add(color);
-		color.createMenuItem("Set", IconType.MENTHOR_COLOR_CHOOSER, CommandType.SETUP_BACKGROUND_COLOR);
-		color.createMenuItem("Copy", CommandType.COPY_BACKGROUND_COLOR);
-		color.createMenuItem("Paste", CommandType.PASTE_BACKGROUND_COLOR);
+		color = MenuBuilder.buildBackground(listener, this, "Background Color");
 		addSeparator();
 		changeMenu = new ChangeClassMenu(listener);
 		add(changeMenu);

@@ -9,9 +9,9 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
-
 import net.menthor.editor.v2.trees.TransferableTreeNode;
+
+import org.tinyuml.ui.diagram.DiagramEditor;
 
 public class DiagramDropListener implements DropTargetListener{
 	  
@@ -43,15 +43,16 @@ public class DiagramDropListener implements DropTargetListener{
 	  {
 		  location = dtde.getLocation();
 		  dragInProgress = false; 
-		  dtde.acceptDrop(DnDConstants.ACTION_MOVE);
-		  
+		  		  
 		  DropTargetContext dtc = dtde.getDropTargetContext();	    
 		  DiagramEditor editor = (DiagramEditor) dtc.getComponent();	    
-		  if (editor==null) { dtde.rejectDrop(); return; }		  
+		  if (editor==null) { dtde.rejectDrop(); return; }
+		  
 		  try {			 
 			  Transferable tr = dtde.getTransferable();			  
-			  if(tr.isDataFlavorSupported(TransferableTreeNode.DEFAULT_MUTABLE_TREENODE_FLAVOR))
-			  {  
+			  if(tr.isDataFlavorSupported(TransferableTreeNode.TREE_PATH_FLAVOR))
+			  {
+				  dtde.acceptDrop(DnDConstants.ACTION_MOVE);
 				  /** we may try to move the selected item from the tree, this should solve this issue (for now). */
 				  targetEditor.getDiagramManager().moveSelectedToDiagram(targetEditor, location);
 				  dtde.dropComplete(true);

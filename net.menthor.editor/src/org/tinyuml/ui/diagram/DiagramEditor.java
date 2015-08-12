@@ -2079,19 +2079,42 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	private Color copiedColor=Color.WHITE;
 	
-	public void copyColor(Object node){
-		copiedColor = ((ClassElement)node).getBackgroundColor();
+	public void copyColor(Object obj){
+		if(obj instanceof ClassElement){
+			copiedColor = ((ClassElement)obj).getBackgroundColor();	
+		}else if(obj instanceof Collection<?>){			
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					copiedColor = ((ClassElement)obj).getBackgroundColor();
+					return;
+				}
+			}			
+		}			
 	}
 	
-	public void pasteColor(Object node){
-		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-		list.add((DiagramElement)node);				
+	public void pasteColor(List<DiagramElement> classElements){
 		if (copiedColor != null){
-			execute(new SetColorCommand((DiagramNotification)this,list,getProject(),copiedColor));        			
-		} 
+			execute(new SetColorCommand((DiagramNotification)this,classElements,getProject(),copiedColor));        			
+		}
 	}
 	
-	public void executeSetBackgroundColor()
+	public void pasteColor(Object obj){
+		if(obj instanceof ClassElement){
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)obj);		
+			pasteColor(list);			
+		}else if(obj instanceof Collection<?>){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					list.add((DiagramElement)o);
+				}
+			}
+			pasteColor(list);
+		}		
+	}
+	
+	public void setupColorOnSelected()
 	{
 		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
 		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", color);
@@ -2100,25 +2123,53 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}        		   
 	}
 	
-	public void showAttributes(Object node){
-		if (node instanceof ClassElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();			
-			list.add((DiagramElement)node);
-			boolean value = ((ClassElement)node).showAttributes();
-			((ClassElement)node).setShowAttributes(!value);
-			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-		}				
+	public void showAttributes(List<DiagramElement> classList){
+		for(DiagramElement classElem: classList){
+			boolean value = ((ClassElement)classElem).showAttributes();
+			((ClassElement)classElem).setShowAttributes(!value);				
+		}		
+		notifyChange(classList, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
 	}
 	
-	public void setupColor(Object node)
-	{
-		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-		list.add((DiagramElement)node);
+	public void showAttributes(Object obj){
+		if (obj instanceof ClassElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();			
+			list.add((DiagramElement)obj);
+			showAttributes(list);
+		}else if(obj instanceof Collection<?>){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					list.add((DiagramElement)o);
+				}
+			}
+			showAttributes(list);
+		}		
+	}
+	
+	public void setupColor(List<DiagramElement> classList){		
 		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", Color.LIGHT_GRAY);
 		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", color);
 		if (color != null){
-			execute(new SetColorCommand((DiagramNotification)this,list,getProject(),color));        			
-		} 
+			execute(new SetColorCommand((DiagramNotification)this,classList,getProject(),color));        			
+		}
+	}
+	
+	public void setupColor(Object obj)
+	{
+		if(obj instanceof ClassElement){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)obj);
+			setupColor(list);
+		}else if(obj instanceof Collection<?>){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					list.add((DiagramElement)o);
+				}
+			}
+			setupColor(list);
+		}
 	}
 	
 	/** Bring related elements to diagram */
@@ -2566,6 +2617,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 	
+	
+	//============================================================
 	
 	/** {@inheritDoc} */
 	public void moveElements(MoveOperation[] moveOperations) 
