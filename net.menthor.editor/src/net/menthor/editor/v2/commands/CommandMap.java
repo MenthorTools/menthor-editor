@@ -87,8 +87,10 @@ public class CommandMap {
 	private void file() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
 				new MethodCall(DiagramManager.class.getMethod("newProject")));
-		cmdMap.put(CommandType.OPEN_PROJECT,
+		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
 				new MethodCall(DiagramManager.class.getMethod("openProject")));
+		cmdMap.put(CommandType.OPEN_EXISTING_MODEL,
+				new MethodCall(DiagramManager.class.getMethod("openExistingModel", Object.class)));
 		cmdMap.put(CommandType.CLOSE_PROJECT,
 				new MethodCall(DiagramManager.class.getMethod("closeCurrentProject")));
 		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
@@ -149,9 +151,10 @@ public class CommandMap {
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(DiagramManager.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(DiagramEditor.class.getMethod("editProperties", Object.class)));		
+				new MethodCall(DiagramManager.class.getMethod("editProperties", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DiagramEditor.class.getMethod("deleteSelection", Object.class)));		
+				new MethodCall(DiagramManager.class.getMethod("delete", Object.class)));		
+		
 		cmdMap.put(CommandType.ERASE, 
 				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));
 	}
@@ -560,9 +563,9 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("deriveByParticipation")));
 		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(DiagramManager.class.getMethod("newDiagram", Object.class)));
+				new MethodCall(DiagramManager.class.getMethod("newDiagramAt", Object.class)));
 		cmdMap.put(CommandType.ADD_RULES_DOCUMENT, 
-				new MethodCall(DiagramManager.class.getMethod("newRulesDocument", Object.class)));
+				new MethodCall(DiagramManager.class.getMethod("newRulesDocumentAt", Object.class)));
 	}
 	
 	private void changes() throws NoSuchMethodException, SecurityException{

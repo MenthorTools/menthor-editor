@@ -631,15 +631,6 @@ public class ModelHelper {
 		property.setUpperValue(upperBound);	
 	}
 	
-	public static String getMultiplicityString(Property property) {
-		int lowerBound = property.getLower(), upperBound = property.getUpper();
-		if (upperBound == -1)
-			return lowerBound == 0 ? "*" : lowerBound + "..*";
-		if (lowerBound == upperBound)
-			return String.valueOf(lowerBound);
-		return lowerBound + ".." + upperBound;
-	}
-
 	public static void setMultiplicityFromString(Property property, String str)
 			throws ParseException {
 		if (!initialized) {

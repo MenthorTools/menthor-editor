@@ -51,11 +51,8 @@ import RefOntoUML.Generalization;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.ModelHelper;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
-/**
- * @author John Guerson
- */
 public class FeatureListDialog extends JDialog {
 
 	private static final long serialVersionUID = 1805193414767775141L;
@@ -439,11 +436,11 @@ public class FeatureListDialog extends JDialog {
 	    			Property p2 = (Property)p;
 	    			
 	    			if (i==getFeatures().size()-1) { 
-	    				String str = "<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+ModelHelper.getMultiplicityString(p2)+"]";
+	    				String str = "<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+RefOntoUMLFactoryUtil.getMultiplicityAsString(p2)+"]";
 	    				result += str;
 	    				resultList.add(str);
 	    			} else {
-	    				String str ="<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+ModelHelper.getMultiplicityString(p2)+"]"; 
+	    				String str ="<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+RefOntoUMLFactoryUtil.getMultiplicityAsString(p2)+"]"; 
 	    				result += str+", ";
 	    				resultList.add(str);
 	    			}

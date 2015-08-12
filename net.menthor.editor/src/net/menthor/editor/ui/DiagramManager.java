@@ -682,7 +682,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model)
+	public UmlProject createCurrentProject(RefOntoUML.Package model, String oclContent)
 	{		
 		currentProject = new UmlProject(model);
 		saveProjectNeeded(false);
@@ -695,10 +695,36 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(currentProject.getDiagrams().size()==0) 
 			newDiagram(currentProject,null);
 		
-		newRulesDocument(false);
+		newRulesDocument(oclContent);
 		
-		newRulesDocument(false);
 		return currentProject;
+	}
+	
+	/** Create a project */
+	public UmlProject createCurrentProject(RefOntoUML.Package model, List<String> oclContent)
+	{		
+		currentProject = new UmlProject(model);
+		saveProjectNeeded(false);
+		frame.getProjectBrowser().set(currentProject);
+		frame.getInfoManager().setProject(currentProject);
+		
+		for(OntoumlDiagram diagram: currentProject.getDiagrams()) 
+			createDiagramEditor((StructureDiagram)diagram);
+		
+		if(currentProject.getDiagrams().size()==0) 
+			newDiagram(currentProject,null);
+		
+		for(String str: oclContent){
+			newRulesDocument(str);
+		}
+		
+		return currentProject;
+	}
+	
+	/** Create a project */
+	public UmlProject createCurrentProject(RefOntoUML.Package model)
+	{		
+		return createCurrentProject(model,"");
 	}
 
 	/** Create a project */
@@ -753,7 +779,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			currentProject=null;				
 			addStartPanel(this,false);
 			frame.showOnlyStartPage();
-
+			frame.getMainMenu().disactivateSomeToBegin();
 			System.out.println("Current project closed");
 		}
 		repaint();
@@ -784,7 +810,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Creates a new Diagram with in existing Project */
-	public StructureDiagram newDiagram(Object epackage){	
+	public StructureDiagram newDiagramAt(Object epackage){	
 		return newDiagram(getCurrentProject(),epackage);
 	}
 	
@@ -823,9 +849,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return newRulesDocument(null);		
 	}
 	
+	/** Creates a new rules document on the current Project */
+	public OclDocument newRulesDocument(String oclcontent){
+		OclDocument oclDoc = newRulesDocumentAt(null);
+		oclDoc.setContentAsString(oclcontent);
+		return oclDoc;
+	}
+	
 	/** Creates a new rules document with in existing Project */
-	public OclDocument newRulesDocument(Object epackage){
-		OclDocument oclDoc = new OclDocument();
+	public OclDocument newRulesDocumentAt(Object epackage){
+		OclDocument oclDoc = new OclDocument();		
 		oclDoc.setContainer(epackage);
 		ArrayList<OclDocument> docs = Models.getOclDocList();			
 		oclDoc.setName("Rules"+docs.size());			
@@ -1138,6 +1171,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}
 		}
 	}
+		
+	//========================================================================
+	// OPEN PROJECT
+	//========================================================================
 	
 	/** Open an existing project. */
 	public void openProject() 
@@ -1205,6 +1242,30 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		System.out.println("Menthor project successfully opened!");	
 	}
 
+	@SuppressWarnings("unchecked")
+	public void openExistingModel(Object list){
+		if(list instanceof List<?>){
+			List<Object> l = (List<Object>)list;
+			RefOntoUML.Package model=null;
+			if(l.size()>0) model = (RefOntoUML.Package)l.get(0);			
+			if(l.size()>1 && l.get(1) instanceof List<?>){
+				createCurrentProject(model, (List<String>) l.get(1));
+			}
+			else if(l.size()>1 && l.get(1) instanceof String){
+				createCurrentProject(model, (String) l.get(1));
+			} else{
+				createCurrentProject(model, "");
+			}
+			getFrame().forceShowBrowserPane();
+			getFrame().forceShowPalettePane();
+			getFrame().getMainMenu().activateAll();	
+		}		
+	}
+		
+	//========================================================================
+	// OPEN LIST OF FILES
+	//========================================================================
+	
 	/** Open Menthor project from the list of object read from stream as a result of the menthor file serialization */
 	private void openListFiles(ArrayList<Object> listFiles) throws IOException
 	{
@@ -1404,7 +1465,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			File file = fileChooser.getSelectedFile();
 			lastImportEAPath = file.getAbsolutePath();
-			new EASettingsDialog(frame, true, this, lastImportEAPath);
+			new EASettingsDialog(frame, true, frame, lastImportEAPath);
 			Settings.addRecentProject(file.getCanonicalPath());
 		}		
 	}
@@ -1412,7 +1473,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void importFromEARecent() throws IOException
 	{		
 		lastImportEAPath = getStartPage().getSelectedRecentFile();
-		new EASettingsDialog(frame, true, this, lastImportEAPath);
+		new EASettingsDialog(frame, true, frame, lastImportEAPath);
 		Settings.addRecentProject(lastImportEAPath);				
 	}
 	
@@ -1816,6 +1877,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		else if (elem instanceof RefOntoUML.Element){				
 			frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)elem,true);    					    					
 		}				
+		else{ 
+			getCurrentDiagramEditor().deleteSelection(elem);
+		}
 	}
 	
 	/** Delete element from the model and every diagram in each it appears. */
@@ -1857,19 +1921,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	public void editProperties(Object element)
 	{
-    	if (element instanceof StructureDiagram){
-    		StructureDiagram diagram = (StructureDiagram)element;
-    		if (!frame.getDiagramManager().isDiagramOpened(diagram)){
-    			frame.getDiagramManager().createDiagramEditor(diagram);
-    		}
-    	}    	
-    	else if (element instanceof OclDocument){
-    		OclDocument oclDoc = (OclDocument)element;
-    		if (!frame.getDiagramManager().isOclDocumentOpened(oclDoc)) {    		
-    			frame.getDiagramManager().createConstraintEditor(oclDoc);
-    		}
-    	}    	
-    	else if(element instanceof RefOntoUML.Element){
+		if (element instanceof ClassElement) {
+			ClassElement classElement = (ClassElement) element;			
+			ElementDialogCaller.callClassDialog(frame,classElement.getClassifier(),true);			
+		} else if (element instanceof AssociationElement) {
+			AssociationElement association = (AssociationElement) element;
+			ElementDialogCaller.callAssociationDialog(frame,(Association)association.getRelationship(),true);
+		} else if (element instanceof GeneralizationElement) {
+			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
+			ElementDialogCaller.callGeneralizationDialog(frame, generalization, true);			
+		} else if (element instanceof StructureDiagram){    		
+    		openTab(element);
+    	} else if (element instanceof OclDocument){
+    		openTab(element);
+    	} else if(element instanceof RefOntoUML.Element){
     		RefOntoUML.Element e = (RefOntoUML.Element)element;
     		ElementDialogCaller.openDialog(e, frame);
     	}

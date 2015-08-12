@@ -369,6 +369,15 @@ public class RefOntoUMLFactoryUtil {
 		return kind;
 	}
 	
+	/** Get multiplicity string representation from a property */
+	public static String getMultiplicityAsString(Property property) 
+	{
+		int lowerBound = property.getLower(), upperBound = property.getUpper();
+		if (upperBound == -1) return lowerBound == 0 ? "*" : lowerBound + "..*";
+		if (lowerBound == upperBound) return String.valueOf(lowerBound);
+		return lowerBound + ".." + upperBound;
+	}
+	
 	/** Create a subkind type  */
 	public static SubKind createSubKind(String name, RefOntoUML.Package container)
 	{

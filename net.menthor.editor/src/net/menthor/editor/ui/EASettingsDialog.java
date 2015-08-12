@@ -28,11 +28,11 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
@@ -57,7 +57,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.xmi2ontouml.Creator;
 import net.menthor.xmi2ontouml.framework.XMI2RefConstraint;
 import net.menthor.xmi2ontouml.framework.XMI2RefModel;
@@ -69,9 +70,6 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import RefOntoUML.Model;
 
-/**
- * @author Vinicius Sobral
- */
 public class EASettingsDialog extends JDialog implements ActionListener, TreeSelectionListener
 {
 	private static final long serialVersionUID = 2093867102692070258L;
@@ -86,10 +84,10 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	private CheckboxTree[] trees;
 	private JRadioButton rdbtnFilterModelBy, rdbtnFilterModelBy_1;
 	private JTextArea objDescription;	
-	DiagramManager diagManager;	
+	CommandListener listener;	
 	private JPanel panel_2;
 	private JPanel panel_3;
-
+	JFrame owner;
 	private JButton btnRun;
 	private JButton btnFilter;
 	private JPanel panel_5;
@@ -97,21 +95,19 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public EASettingsDialog(JFrame owner, boolean modal, DiagramManager diagManager)
-	{
-		super(owner, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(EASettingsDialog.class.getResource("/resources/icons/x16/ea.jpg")));		
-		this.diagManager = diagManager;		
+	public EASettingsDialog(JFrame owner, boolean modal, CommandListener listener){
+		super(owner, modal);		
+		this.listener = listener;
+		this.owner=owner;
 		initGUI();
 		setLocationRelativeTo(owner);
 		setVisible(true);
 	}
 	
-	public EASettingsDialog(JFrame owner, boolean modal, DiagramManager diagManager, String filePath)
-	{
-		super(owner, modal);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(EASettingsDialog.class.getResource("/resources/icons/x16/ea.jpg")));		
-		this.diagManager = diagManager;		
+	public EASettingsDialog(JFrame owner, boolean modal, CommandListener listener, String filePath){
+		super(owner, modal);				
+		this.listener = listener;
+		this.owner=owner;
 		initGUI();		
 		filePathField.setText(filePath);
 		trees = null;
@@ -388,7 +384,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 				{
 					ErrorInfo info = new ErrorInfo("Error", "Model was not imported",
 		        			null, "category", ex, Level.SEVERE, null);
-		        	JXErrorPane.showDialog(diagManager, info);
+		        	JXErrorPane.showDialog(owner, info);
 					ex.printStackTrace();
 				}
 			}
@@ -443,33 +439,29 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	}
 	
 	private void finalize(Model model)
-	{
-		diagManager.closeCurrentProject();
-		diagManager.createCurrentProject(model);
-		
+	{	
 		if (chckbxShowWarningLog.isSelected())
 		{
 			String inconsistencyLog = RefOntoUMLUtil.verifyInconsistency(model);
 			if (inconsistencyLog != "") {
 	        	ErrorInfo info = new ErrorInfo("Warning", "Model imported with warnings",
 	        			null, "category", new Exception(inconsistencyLog), Level.WARNING, null);
-	        	JXErrorPane.showDialog(diagManager, info);
+	        	JXErrorPane.showDialog(owner, info);
 	    	}
 		}
 		
+		String document = new String();
 		if (chckbxImportConstraints.isSelected())
-		{
-			ArrayList<OclDocument> documents;
+		{	
 			for (XMI2RefConstraint constr : XMI2RefModel.getConstraints()){
-				documents = Models.getOclDocList();
-				if(documents.size() > 0){
-					documents.get(0).addContentAsString(constr.getStringRepresentation());
-				}				
+				document += constr.getStringRepresentation()+"\n";								
 			}
 		}
-		diagManager.getFrame().forceShowBrowserPane();
-		diagManager.getFrame().forceShowPalettePane();
-		diagManager.getFrame().getMainMenu().activateAll();
+		
+		List<Object> result = new ArrayList<Object>();
+		result.add(model);
+		result.add(document);
+		listener.handleCommand(CommandType.OPEN_EXISTING_MODEL.toString(), result);
 		this.dispose();
 	}
 	

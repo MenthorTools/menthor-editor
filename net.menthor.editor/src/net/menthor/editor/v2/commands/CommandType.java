@@ -28,12 +28,13 @@ public enum CommandType {
 	//====================================================
 	
 	NEW_PROJECT("Create new menthor project"),
-	OPEN_PROJECT("Open existing menthor project"), 
+	OPEN_EXISTING_PROJECT("Open existing menthor project"),	
 	OPEN_RECENT_PROJECT("Save current menthor project"), 
 	CLOSE_PROJECT("Close current menthor project"), 
 	SAVE_PROJECT_AS("Save current menthor project"), 
 	SAVE_PROJECT("Save current menthor project as..."), 
 	OPEN_LINK_WITH_BROWSER("Open link with browser"),
+	OPEN_EXISTING_MODEL("Create and open a new project from an existing model in memory"),
 	QUIT_MENTHOR(null),
 	
 	//====================================================

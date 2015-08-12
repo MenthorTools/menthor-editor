@@ -48,6 +48,7 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.v2.types.RelationshipType;
 
@@ -226,7 +227,7 @@ public final class AssociationElement extends BaseConnection {
 			public String getLabelText() 
 			{
 				Association association = (Association) getRelationship();
-				return ModelHelper.getMultiplicityString(association.getMemberEnd().get(0));
+				return RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(0));
 			}
 			
 			/** {@inheritDoc} */
@@ -242,7 +243,7 @@ public final class AssociationElement extends BaseConnection {
 			public String getLabelText() 
 			{
 				Association association = (Association) getRelationship();
-				return ModelHelper.getMultiplicityString(association.getMemberEnd().get(1));
+				return RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(1));
 			}
 			
 			/** {@inheritDoc} */

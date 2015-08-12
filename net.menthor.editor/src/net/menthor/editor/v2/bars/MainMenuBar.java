@@ -47,7 +47,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(file, "New", CommandType.NEW_PROJECT, background, stroke);		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
-		createMenuItem(file, "Open...", CommandType.OPEN_PROJECT, background,stroke);		
+		createMenuItem(file, "Open...", CommandType.OPEN_EXISTING_PROJECT, background,stroke);		
 		file.addSeparator();
 		createMenuItem(file, "Close", CommandType.CLOSE_PROJECT, background);		
 		file.addSeparator();		

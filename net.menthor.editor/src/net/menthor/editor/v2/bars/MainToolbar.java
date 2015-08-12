@@ -38,7 +38,7 @@ public class MainToolbar extends BaseToolBar {
 		super(listener, background, 32, 32);
 		setBackground(background);
 		createButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background);
-		createButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_PROJECT, background);	
+		createButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_EXISTING_PROJECT, background);	
 		createButton(IconType.MENTHOR_SAVE, CommandType.SAVE_PROJECT, background);
 		createButton(IconType.MENTHOR_SEARCH,CommandType.FIND_TERM, background);		
 		createButton(IconType.MENTHOR_CHECK,CommandType.CHECK_MODEL_SYNTAX, background);

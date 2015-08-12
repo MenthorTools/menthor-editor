@@ -7,7 +7,7 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.impl.PropertyImpl;
-import net.menthor.editor.ui.ModelHelper;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
  * @author Wei-ju Wu, John Guerson
@@ -21,7 +21,7 @@ public class UmlLabelFormatter {
 			Property property = (Property) namedElement;
 			String type = new String();
 			if(property.getType()!=null) type = property.getType().getName();
-			return property.getName() + " : " + type+"["+ModelHelper.getMultiplicityString(property)+"]";			
+			return property.getName() + " : " + type+"["+RefOntoUMLFactoryUtil.getMultiplicityAsString(property)+"]";			
 		}
 		if(namedElement instanceof Generalization)
 		{

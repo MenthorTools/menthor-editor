@@ -243,7 +243,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 				//Set click color
 				btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BROWN_DARK));            	
 		       	//Action
-		       	commandListener.handleCommand(CommandType.OPEN_PROJECT.toString(),null);            	
+		       	commandListener.handleCommand(CommandType.OPEN_EXISTING_PROJECT.toString(),null);            	
 		       	//Back to normal
 		       	btnOpenProject.setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_ORANGE));            	
 			}

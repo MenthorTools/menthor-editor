@@ -76,15 +76,15 @@ public class MainMenuBar extends BaseMenuBar {
 		getMenuItem(CommandType.CLOSE_PROJECT).setEnabled(false);
 		//menus
 		export.setEnabled(false);		
-		edit.setVisible(false);
-		verificate.setVisible(false);
-		implement.setVisible(false);
-		verbalize.setVisible(false);
-		validate.setVisible(false);
-		rules.setVisible(false);
-		project.setVisible(false); 
-		diagram.setVisible(false);	
-		window.setVisible(false);
+		edit.setEnabled(false);
+		verificate.setEnabled(false);
+		implement.setEnabled(false);
+		verbalize.setEnabled(false);
+		validate.setEnabled(false);
+		rules.setEnabled(false);
+		project.setEnabled(false); 
+		diagram.setEnabled(false);	
+		window.setEnabled(false);
 	}
 	
 	public void activateAll(){
@@ -92,29 +92,29 @@ public class MainMenuBar extends BaseMenuBar {
 		visibleAll(true); 
 		enableAll(true);
 		//menus
-		importation.setVisible(true);
+//		importation.setVisible(true);
 		importation.setEnabled(true);
-		export.setVisible(true);
+//		export.setVisible(true);
 		export.setEnabled(true);
-		edit.setVisible(true);
+//		edit.setVisible(true);
 		edit.setEnabled(true);
-		verificate.setVisible(true);
+//		verificate.setVisible(true);
 		verificate.setEnabled(true);
-		implement.setVisible(true);
+//		implement.setVisible(true);
 		implement.setEnabled(true);
-		verbalize.setVisible(true);
+//		verbalize.setVisible(true);
 		verbalize.setEnabled(true);
-		validate.setVisible(true);
+//		validate.setVisible(true);
 		validate.setEnabled(true);
-		rules.setVisible(true);
+//		rules.setVisible(true);
 		rules.setEnabled(true);
-		project.setVisible(true);
+//		project.setVisible(true);
 		project.setEnabled(true);
-		diagram.setVisible(true);
+//		diagram.setVisible(true);
 		diagram.setEnabled(true);
-		help.setVisible(true);
+//		help.setVisible(true);
 		help.setEnabled(true);
-		window.setVisible(true);
+//		window.setVisible(true);
 		window.setEnabled(true);
 	}
 	
@@ -127,7 +127,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(file, "New", CommandType.NEW_PROJECT, background, stroke);		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
-		createMenuItem(file, "Open...", CommandType.OPEN_PROJECT, background,stroke);		
+		createMenuItem(file, "Open...", CommandType.OPEN_EXISTING_PROJECT, background,stroke);		
 		file.addSeparator();
 		createMenuItem(file, "Close", CommandType.CLOSE_PROJECT, background);		
 		file.addSeparator();		
@@ -204,7 +204,7 @@ public class MainMenuBar extends BaseMenuBar {
 		add(implement);		
 		createMenuItem(implement, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
 		implement.addSeparator();
-		createMenuItem(implement, "Information Model (UML)", CommandType.DESIGN_AS_INFO_UML, background);		
+		createMenuItem(implement, "Information System (UML) - Experimental*", CommandType.DESIGN_AS_INFO_UML, background);		
 	}
 	
 	private void createVerbalizeMenu(){

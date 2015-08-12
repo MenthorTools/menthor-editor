@@ -58,6 +58,28 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 
+import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.dialog.properties.FeatureListDialog;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.BaseEditor;
+import net.menthor.editor.v2.menus.PalettePopupMenu;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.EditorType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.Util;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
@@ -107,27 +129,6 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.dialog.properties.FeatureListDialog;
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.BaseEditor;
-import net.menthor.editor.v2.menus.PalettePopupMenu;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.util.Util;
 
 /**
  * This class represents the diagram editor. It mainly acts as the

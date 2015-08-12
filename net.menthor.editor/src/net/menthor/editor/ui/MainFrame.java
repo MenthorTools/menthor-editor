@@ -27,14 +27,11 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandMap;
@@ -48,6 +45,8 @@ import net.menthor.editor.v2.toolbars.MainToolbar;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.ui.BaseMultiSplitPane;
 import net.menthor.editor.v2.util.Util;
+
+import org.tinyuml.ui.diagram.DiagramEditor;
 
 public class MainFrame extends JFrame implements CommandListener {
 
