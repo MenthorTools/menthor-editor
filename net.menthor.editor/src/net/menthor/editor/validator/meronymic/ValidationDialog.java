@@ -41,7 +41,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.MainFrame;
+import net.menthor.editor.ui.MainFrame;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**

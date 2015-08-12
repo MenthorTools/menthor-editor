@@ -1,6 +1,6 @@
 package net.menthor.editor.v2.menus;
 
-/*
+/**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -19,10 +19,7 @@ package net.menthor.editor.v2.menus;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
- * 
- * @author John Guerson
  */
-
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -13,7 +13,6 @@ import javax.swing.LayoutStyle;
 import net.menthor.common.transformation.DestinationEnum;
 import net.menthor.common.transformation.MappingType;
 import net.menthor.editor.transformation.DestinationPane;
-import net.menthor.editor.ui.ApplicationResources;
 
 public class OwlApproachPane extends JPanel {
 
@@ -47,17 +46,17 @@ public class OwlApproachPane extends JPanel {
 		GroupLayout GenerateOWLPanelLayout = new GroupLayout((JComponent)this);				
 		setLayout(GenerateOWLPanelLayout);				
 		iriLabel = new JLabel();
-		iriLabel.setText(ApplicationResources.getInstance().getString("dialog.owlsettings.ontologyiri"));
+		iriLabel.setText("Ontology IRI:");
 		iriText = new JTextField();
 		iriText.setFont(new Font(iriText.getFont().getName(),Font.ITALIC,iriText.getFont().getSize()));
 		
 		okButton = new JButton();
 		okButton.setVisible(false);
-		okButton.setText(ApplicationResources.getInstance().getString("stdcaption.ok"));
+		okButton.setText("Ok");
 		
 		cancelButton = new JButton();
 		cancelButton.setVisible(false);
-		cancelButton.setText(ApplicationResources.getInstance().getString("stdcaption.cancel"));
+		cancelButton.setText("Cancel");
 		
 		typePanel = new OwlMappingTypePane();
 		

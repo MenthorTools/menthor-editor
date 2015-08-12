@@ -1,6 +1,6 @@
 package net.menthor.editor.v2.palette;
 
-/*
+/**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -19,10 +19,7 @@ package net.menthor.editor.v2.palette;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
- * 
- * @author John Guerson
  */
-
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

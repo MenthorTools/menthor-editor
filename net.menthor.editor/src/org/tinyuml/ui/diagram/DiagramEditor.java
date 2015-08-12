@@ -55,6 +55,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -106,11 +107,11 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.MainFrame;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.dialog.properties.FeatureListDialog;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
@@ -2170,6 +2171,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}
 			setupColor(list);
 		}
+	}
+	
+	public void bringFromProjectBrowser(Point p){
+		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
+		Object obj = node.getUserObject();				
+		frame.getDiagramManager().moveToDiagram((RefOntoUML.Element)obj, p.x, p.y, this, true);	
 	}
 	
 	/** Bring related elements to diagram */

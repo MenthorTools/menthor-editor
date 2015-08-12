@@ -51,7 +51,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import net.menthor.editor.DiagramManager;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.v2.commands.CommandListener;

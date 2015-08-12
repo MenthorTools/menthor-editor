@@ -31,7 +31,6 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import net.menthor.editor.MainFrame;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.types.EditorType;

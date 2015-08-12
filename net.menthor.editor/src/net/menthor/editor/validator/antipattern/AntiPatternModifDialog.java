@@ -22,7 +22,7 @@ package net.menthor.editor.validator.antipattern;
  */
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.MainFrame;
+import net.menthor.editor.ui.MainFrame;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;

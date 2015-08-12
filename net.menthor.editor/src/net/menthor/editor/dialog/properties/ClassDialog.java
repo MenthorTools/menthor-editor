@@ -36,8 +36,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.MainFrame;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MainFrame;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;

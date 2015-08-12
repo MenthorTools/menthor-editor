@@ -37,7 +37,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import net.menthor.editor.MainFrame;
+import net.menthor.editor.ui.MainFrame;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 
 /**

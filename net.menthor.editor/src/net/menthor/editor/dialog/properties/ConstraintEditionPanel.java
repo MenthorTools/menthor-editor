@@ -43,7 +43,7 @@ import javax.swing.SwingConstants;
 
 import org.tinyuml.draw.DiagramElement;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;

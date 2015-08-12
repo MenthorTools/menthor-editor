@@ -72,7 +72,7 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.common.positioning.ClassPosition;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 

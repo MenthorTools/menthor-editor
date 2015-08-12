@@ -25,11 +25,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
@@ -37,7 +35,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.status.StatusPane;
 import net.menthor.editor.v2.toolbars.DiagramToolBar;
-import net.menthor.editor.v2.trees.TreeDragSourceListener;
+import net.menthor.editor.v2.trees.DiagramDropListener;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.RoundedPanel;
 
@@ -80,7 +78,7 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 		add(scrollpane,BorderLayout.CENTER);
 		add(diagramStatus,BorderLayout.SOUTH);		
 		/* drag from the tree and drop at the diagram */		
-	    dndTarget = new DropTarget(editor, new DiagramDropListener(editor));
+	    dndTarget = new DropTarget(editor, new DiagramDropListener(editor.getListener()));
 	}	
 	
 	public void setViewportCenter(Point p) {

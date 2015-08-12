@@ -51,7 +51,7 @@ import org.tinyuml.umldraw.ClassElement;
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 

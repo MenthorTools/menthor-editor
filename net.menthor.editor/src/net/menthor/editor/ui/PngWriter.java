@@ -93,7 +93,7 @@ public class PngWriter extends FileWriter {
 		}catch(Exception e){
 			System.err.println("Could not generate an intern image for a diagram: "+e.getMessage());	
 			JOptionPane.showMessageDialog(null, "Could not generate an intern image for a diagram:\n"+e.getMessage(), 
-				ApplicationResources.getInstance().getString("error.readfile.title"), JOptionPane.ERROR_MESSAGE
+				"PNG Image", JOptionPane.ERROR_MESSAGE
 			);
 			e.printStackTrace();
 		}

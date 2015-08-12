@@ -39,7 +39,7 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.UmlProject;
 import RefOntoUML.Classifier;
 import RefOntoUML.ObjectClass;

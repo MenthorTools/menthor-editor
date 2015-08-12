@@ -65,7 +65,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Element;
 import RefOntoUML.Property;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.types.ColorMap;

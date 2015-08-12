@@ -35,7 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;

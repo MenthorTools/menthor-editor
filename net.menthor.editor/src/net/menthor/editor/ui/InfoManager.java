@@ -1,4 +1,4 @@
-package net.menthor.editor;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -32,9 +32,6 @@ import net.menthor.editor.problems.ErrorPane;
 import net.menthor.editor.problems.ProblemPane;
 import net.menthor.editor.problems.WarningPane;
 import net.menthor.editor.statistician.StatisticsPane;
-import net.menthor.editor.ui.ApplicationResources;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.ConsolePane;
 
 /**
@@ -128,10 +125,10 @@ public class InfoManager extends JTabbedPane {
 		return outputPane;
 	}
 		
-	@SuppressWarnings("unused")
-	private String getResourceString(String property) {
-	    return ApplicationResources.getInstance().getString(property);
-	}
+//	@SuppressWarnings("unused")
+//	private String getResourceString(String property) {
+//	    return ApplicationResources.getInstance().getString(property);
+//	}
 
 	public void showOutputText(String text, boolean clear, boolean showOutput)
 	{		

@@ -49,7 +49,7 @@ import br.ufes.inf.nemo.derivedtypes.DerivedByIntersection;
 
 import javax.swing.JCheckBox;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 
 /**

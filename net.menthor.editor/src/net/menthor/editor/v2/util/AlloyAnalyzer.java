@@ -1,6 +1,6 @@
 package net.menthor.editor.v2.util;
 
-/*
+/**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -19,8 +19,6 @@ package net.menthor.editor.v2.util;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
- * 
- * @author John Guerson
  */
 
 import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;

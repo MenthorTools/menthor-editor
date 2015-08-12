@@ -39,7 +39,6 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.GeneralizationSetImpl;
-import net.menthor.editor.Main;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.util.Directories;
 

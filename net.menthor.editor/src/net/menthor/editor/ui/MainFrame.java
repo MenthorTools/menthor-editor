@@ -1,4 +1,4 @@
-package net.menthor.editor;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -36,7 +36,6 @@ import javax.swing.JTextArea;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
 
-import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;

@@ -1,12 +1,6 @@
 package net.menthor.editor.v2.trees;
 
-import java.awt.Rectangle;
-import java.awt.dnd.DnDConstants;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-/*
+/**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -25,9 +19,14 @@ import java.awt.event.MouseEvent;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
  * MA  02110-1301  USA
  * ============================================================================================
- * 
- * @author John Guerson
  */
+
+import java.awt.Rectangle;
+import java.awt.dnd.DnDConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;

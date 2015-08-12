@@ -44,7 +44,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;

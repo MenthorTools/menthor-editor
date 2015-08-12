@@ -1,4 +1,4 @@
-package net.menthor.editor;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -89,22 +89,6 @@ import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
 import net.menthor.editor.transformation.owl.OwlSettingsDialog;
-import net.menthor.editor.ui.AlloySpecification;
-import net.menthor.editor.ui.ApplicationResources;
-import net.menthor.editor.ui.ClosableTabPanel;
-import net.menthor.editor.ui.ConstraintEditor;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.EASettingsDialog;
-import net.menthor.editor.ui.LicensesDialog;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.OWLHelper;
-import net.menthor.editor.ui.PngWriter;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.ProjectReader;
-import net.menthor.editor.ui.ProjectWriter;
-import net.menthor.editor.ui.TextEditor;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
@@ -1132,7 +1116,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				System.out.println("New project succesffully created");
 				
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "New Project", JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 		}
@@ -1181,7 +1165,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				
 			} catch (Exception ex) {
 				System.out.println("Failed to open Menthor project!");	
-				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1215,7 +1199,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			
 		} catch (Exception ex) {
 			System.out.println("Failed to open Menthor project!");	
-			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		System.out.println("Menthor project successfully opened!");	
@@ -1269,7 +1253,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		} catch (Exception ex) {
 			System.out.println("Failed to save Menthor project!");
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.savefile.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, ex.getMessage(), "Save Project", JOptionPane.ERROR_MESSAGE);
 		}
 		System.out.println("Menthor project successfully saved!");
 		return result;
@@ -1369,8 +1353,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void importFromXMI() 
 	{
 		JFileChooser fileChooser = new JFileChooser(lastImportEcorePath);
-		fileChooser.setDialogTitle(getResourceString("dialog.saveas.title"));
-		fileChooser.setDialogTitle(getResourceString("dialog.importecore.title"));
+		fileChooser.setDialogTitle("Importation");		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -1401,7 +1384,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				frame.forceShowPalettePane();
 				frame.getMainMenu().activateAll();
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, ex.getMessage(),getResourceString("dialog.importecore.title"),JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, ex.getMessage(),"Importation Error",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1545,7 +1528,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void exportGfx() 
 	{
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle(getResourceString("dialog.exportgfx.title"));
+		fileChooser.setDialogTitle("Exportation");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Portable Network Graphics file (*.png)", "png");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -1555,7 +1538,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				exporter.writePNG(getCurrentDiagramEditor(), fileChooser.getSelectedFile());
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(),
-						getResourceString("error.exportgfx.title"),
+						"Export Image Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -3024,10 +3007,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 * Get Resource as String
 	 * @return
 	 */
-	public static String getResourceString(String property) 
-	{
-		return ApplicationResources.getInstance().getString(property);
-	}
+//	public static String getResourceString(String property) 
+//	{
+//		return ApplicationResources.getInstance().getString(property);
+//	}
 
 	/**
 	 * Imports a Complete OCL document
@@ -3354,7 +3337,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		} catch (Exception ex) {
 			System.out.println("Failed to save Menthor Pattern project!");
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.savefile.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, ex.getMessage(), "Save File Error", JOptionPane.ERROR_MESSAGE);
 		}
 		System.out.println("Menthor Pattern project successfully saved!");
 		return result;
@@ -3385,7 +3368,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				patternProject = (UmlProject) listFiles.get(0);
 			} catch (Exception ex) {
 				System.out.println("Failed to open Menthor project!");	
-				JOptionPane.showMessageDialog(this, ex.getMessage(), getResourceString("error.readfile.title"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Importation Error", JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

@@ -26,8 +26,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -44,7 +43,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
 
@@ -57,9 +56,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
-import RefOntoUML.parser.OntoUMLNameHelper;
+
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLElement;
 
 /**
  * @author John Guerson
@@ -335,11 +333,6 @@ public class PropertyEditionPanel extends JPanel {
 		
 		typeCombo = new JComboBox();
 
-//USELESS: model is set later
-//		if (property.getType()!=null){
-//			typeCombo.setModel(new DefaultComboBoxModel(new String[] {property.getType().getName()}));
-//		}
-		
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -412,7 +405,7 @@ public class PropertyEditionPanel extends JPanel {
     	int i=0;    	
     	for(Property p: property.getSubsettedProperty())
     	{    
-    		str += OntoUMLNameHelper.getNameAndType(p, false);
+    		str += p;
     		if (i<property.getSubsettedProperty().size()-1) 
     			str+=", ";    		
     		i++;
@@ -423,41 +416,23 @@ public class PropertyEditionPanel extends JPanel {
     	i=0;    	
     	for(Property p: property.getRedefinedProperty())
     	{    		
-    		str += OntoUMLNameHelper.getNameAndType(p, false);
+    		str += p;
     		if (i<property.getRedefinedProperty().size()-1) 
     			str+=", ";    		
     		i++;
     	}	
 		redefinedText.setText(str);		
 		
-		ArrayList<RefOntoUMLElement> list = new ArrayList<RefOntoUMLElement>();
-		RefOntoUMLElement value = null;
-		OntoUMLParser refparser = Models.getRefparser();
-		if (property.getType()!=null) value = new RefOntoUMLElement(property.getType(),"");
-		else value = new RefOntoUMLElement(null,"");			    	
-    	for(RefOntoUML.Type t: refparser.getAllInstances(RefOntoUML.Type.class))
-    	{
-			if(t instanceof RefOntoUML.Class || t instanceof RefOntoUML.DataType || t instanceof RefOntoUML.Association)
-			{
-				if (((RefOntoUMLElement) value).getElement()!=null && t.equals(((RefOntoUMLElement) value).getElement())) list.add((RefOntoUMLElement)value);				
-    			else list.add(new RefOntoUMLElement(t,""));	    			
-    		}	    					
-    	}
-    	if (((RefOntoUMLElement) value).getElement()==null) list.add((RefOntoUMLElement)value);
-    	else if (!refparser.getAllInstances(RefOntoUML.Type.class).contains(property.getType())) list.add((RefOntoUMLElement)value);    	
-    	Collections.sort(list,new CustomComparator());	    	
-    	typeCombo.setModel(new DefaultComboBoxModel(list.toArray()));
+		
+		RefOntoUML.PackageableElement value = property.getType();
+		
+		OntoUMLParser refparser = Models.getRefparser();							    	
+		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
+		types.addAll(refparser.getAllInstances(RefOntoUML.Type.class));
+    	typeCombo.setModel(new DefaultComboBoxModel(types.toArray()));
     	typeCombo.setSelectedItem(value);    	
 	}
 	
-	public class CustomComparator implements Comparator<RefOntoUMLElement> 
-    {
-        @Override
-        public int compare(RefOntoUMLElement o1, RefOntoUMLElement o2) {
-            return o1.toString().compareToIgnoreCase(o2.toString());
-        }
-    }
-	 
 	public void transferPropertyData() 
 	{
 		boolean redesign = false;
@@ -475,7 +450,7 @@ public class PropertyEditionPanel extends JPanel {
 			else if (((String)aggregCombo.getSelectedItem()).compareToIgnoreCase("composite")==0) property.setAggregation(AggregationKind.COMPOSITE);
 			else property.setAggregation(AggregationKind.NONE);			
 			ModelHelper.setMultiplicityFromString(property, (String)multCombo.getSelectedItem());
-			RefOntoUML.Type type = (RefOntoUML.Type)((RefOntoUMLElement)typeCombo.getSelectedItem()).getElement();			
+			RefOntoUML.Type type = (RefOntoUML.Type)typeCombo.getSelectedItem();			
 			if (type!=null && !type.equals(property.getType())) redesign = true;
 			property.setType(type);
 

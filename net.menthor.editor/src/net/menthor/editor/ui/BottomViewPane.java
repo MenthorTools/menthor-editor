@@ -1,4 +1,4 @@
-package net.menthor.editor;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -26,8 +26,6 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-
-import net.menthor.editor.ui.UmlProject;
 
 public class BottomViewPane  extends JPanel {
 

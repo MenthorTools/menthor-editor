@@ -29,9 +29,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.MainFrame;
-import net.menthor.editor.DiagramManager;
 import net.menthor.editor.transformation.TransformationDialog;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 
