@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.menthor.common.transformation.GenMappingEnum;
@@ -18,6 +19,7 @@ import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -81,12 +83,14 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
+import RefOntoUML.NamedElement;
 import RefOntoUML.NominalQuality;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Phase;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
+import RefOntoUML.Structuration;
 import RefOntoUML.Type;
 import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
@@ -124,7 +128,9 @@ public class Transformer {
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
-	ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
+	private ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
+	private HashMap<EObject, Object> lstQualityMappings;
+	private Set<EObject> lstMappedQualities;
 	
 	private TransformationOption owlOptions;
 	private OwlAxiomsEnforcement owlAxioms;
@@ -168,6 +174,11 @@ public class Transformer {
 		lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		lstOntClass.removeAll(lstNominalQualities);
+		
+		lstQualityMappings = owlOptions.getMappingsEnforcement().getQualityMappings();
+		lstMappedQualities = lstQualityMappings.keySet();
+		
+		lstOntClass.removeAll(lstMappedQualities);
 		
 		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
 		lstGen = ontoParser.getAllInstances(Generalization.class);
@@ -247,7 +258,7 @@ public class Transformer {
 	 * @return a String with the OWL code
 	 * @throws Exception 
 	 */
-	public String transform() throws Exception {
+	public String transform(String tempDir) throws Exception {
 		if(owlAxioms.isUfoStructure()) createBasicStructure();
 		
 		try{
@@ -258,7 +269,9 @@ public class Transformer {
 		}
 
 		try{
-			processDataType();
+			processClassAttributes();
+			processDataTypes();
+			processSuppressedQualitiesAsAttributes();
 		}catch (Exception e){
 			errors = "";
 			e.printStackTrace();
@@ -394,7 +407,7 @@ public class Transformer {
 
 		if(oclRules != null && !oclRules.equals("") && owlAxioms.isSwrlRules()){
 			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, owlOptions, oclRules, ontoParser, manager, owlNameSpace);
-			ocl2owl_swrl.Transformation();
+			ocl2owl_swrl.Transformation(tempDir);
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
 		
@@ -413,7 +426,7 @@ public class Transformer {
 		}
 		return "";
 	}
-	
+
 	private void processGenSetsMappings() {
 		Object[][] genSetEnumMappings = owlMappings.getGenSetMappings();
 		if(genSetEnumMappings == null) return;
@@ -978,6 +991,17 @@ public class Transformer {
 	private String getPropertyName(RefOntoUML.Property prop){
 		return prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
+	
+	private String getName(RefOntoUML.NamedElement... elements){
+		String name = "";
+		for (NamedElement elem : elements) {
+			name += elem.getName() + ".";
+		}
+		int lastDot = name.lastIndexOf(".");
+		name = name.substring(0, lastDot).replaceAll(" ", "_").replaceAll("\n", "_");
+		
+		return name;		
+	}
 
 	/**
 	 * Return a OWL Classs for the ontCls
@@ -1167,13 +1191,16 @@ public class Transformer {
 
 		//destination class of the relation
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
+		
 		//Set domain and range from the property
-		if(owlAxioms.isDomain() && !lstNominalQualities.contains(src))
+		if(owlAxioms.isDomain() && isMappedAsOwlClass(srcT))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlAxioms.isRange() && !lstNominalQualities.contains(dst))
+		if(owlAxioms.isRange() && isMappedAsOwlClass(srcT))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
-
-		if(!lstNominalQualities.contains(src) || !lstNominalQualities.contains(dst)) return prop;
+		
+		if(!isMappedAsOwlClass(srcT) || !isMappedAsOwlClass(tgtT)){
+			return prop;
+		}
 		
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(sideDst).getUpper();
@@ -1279,7 +1306,7 @@ public class Transformer {
 		for (Association ass : lstAssociation) {
 			RefOntoUML.Classifier srcT = (Classifier) ass.getMemberEnd().get(0).getType();
 			RefOntoUML.Classifier tgtT = (Classifier) ass.getMemberEnd().get(1).getType();
-			if(lstNominalQualities.contains(srcT) || lstNominalQualities.contains(tgtT)){
+			if(!isMappedAsOwlClass(srcT) || !isMappedAsOwlClass(tgtT)){
 				continue;
 			}
 			if(lstGsSetMapChildren.contains(srcT) || lstGsSetMapChildren.contains(tgtT)) continue;
@@ -1361,14 +1388,17 @@ public class Transformer {
 
 		//Process Generalizations
 		for(Generalization gen : lstGen){
-			if(gen.getGeneral() instanceof DataType){
+			Classifier general = gen.getGeneral();
+			Classifier specific = gen.getSpecific();
+			
+			if(!isMappedAsOwlClass(general) || !isMappedAsOwlClass(specific)){
 				continue;
 			}
-			if(lstGsSetMapChildren.contains(gen.getGeneral()) || lstGsSetMapChildren.contains(gen.getSpecific())) continue;
+			if(lstGsSetMapChildren.contains(general) || lstGsSetMapChildren.contains(specific)) continue;
 			
-			OWLClass father = getOwlClass(gen.getGeneral());
+			OWLClass father = getOwlClass(general);
 			
-			OWLClass son = 	getOwlClass(gen.getSpecific());
+			OWLClass son = 	getOwlClass(specific);
 
 			//Set subClassOf 
 			OWLAxiom axiom = factory.getOWLSubClassOfAxiom(son,father);	
@@ -1495,7 +1525,7 @@ public class Transformer {
 	 * Process the simple DataTypes (as class attributes), DataTypes in class (class with
 	 * stereotype DataType) and DataType structured (DataType that has other DataTypes).
 	 * */
-	private void processDataType() {
+	private void processClassAttributes() {
 		ArrayList<String> existentClasses = new ArrayList<String>();
 		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
@@ -1526,9 +1556,11 @@ public class Transformer {
 		for (String className : duplicatedClasses) {
 			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
 		}
-		
-		existentClasses.clear();
-		duplicatedClasses.clear();
+	}
+
+	private void processDataTypes(){
+		ArrayList<String> existentClasses = new ArrayList<String>();
+		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		_RefOntoOwnerClass = null;
 //		for(RefOntoUML.DataType dtcls: lstDataType){
 		for(RefOntoUML.Classifier dtcls: lstDataTypeAndNominalQualities){
@@ -1540,12 +1572,9 @@ public class Transformer {
 			
 			if(dtcls.getAttribute().isEmpty()){
 				//pegar todos os Structuration, setar todos como Owner
-				//lstStructuration = ontoParser.getAllInstances(Characterization.class);
 				ArrayList<Association> assocs = ontoParser.getDirectAssociations(dtcls);
 				for (Association ass : assocs) {
 					EList<Property> mEnds = ass.getMemberEnd();
-//					Type m0 = mEnds.get(0).getType();
-//					Type m1 = mEnds.get(1).getType();
 					_OWLownerClass = null;
 					if(mEnds.get(0).getType().equals(dtcls)){
 						_RefOntoOwnerClass = (Classifier) mEnds.get(1).getType();
@@ -1554,11 +1583,6 @@ public class Transformer {
 					}
 					createAttributeClassifier(dtcls, ass);
 				}
-//				for (Association ass : dtcls.getAssociations()) {
-//					ass.
-//				}
-//				_RefOntoOwnerClass = dtcls;
-//				createAttribute(dtcls);
 			}else{
 				
 				for(Property prop:dtcls.getAttribute()){
@@ -1588,10 +1612,7 @@ public class Transformer {
 		for (String className : duplicatedClasses) {
 			errors += "Warning: Duplicated names were founded for the Datatype: " + className + "\n";
 		}
-		
-		
 	}
-
 	/**
 	 * These are variables used in the context of the process of attributes structured
 	 * */
@@ -1627,6 +1648,73 @@ public class Transformer {
 		int lowerCard = ass.getMemberEnd().get(1).getLower();
 		processCardinality(_OWLownerClass, dataProperty, lowerCard, upperCard);
 
+	}
+		
+	private void processSuppressedQualitiesAsAttributes() {
+		for(Entry<EObject, Object> quaEntry : lstQualityMappings.entrySet()){
+			Classifier qua = (Classifier) quaEntry.getKey();
+			
+			ArrayList<Association> assocs = ontoParser.getIndirectAssociations(qua);
+			assocs.addAll(ontoParser.getDirectAssociations(qua));
+			ArrayList<Association> assocToDataTypes = new ArrayList<Association>();
+			ArrayList<Association> assocToClasses = new ArrayList<Association>();
+			
+			//look for direct and indirect associations...
+			//then, separate the Datatypes that structures this Quality
+			//from the Classes that are characterized by this Quality
+			for (Association assoc : assocs) {
+				if(assoc instanceof Structuration){
+					assocToDataTypes.add(assoc);
+				}else{
+					assocToClasses.add(assoc);
+				}
+			}
+			
+			//for each class, is created a list of DataProperties
+			for (Association assToClass : assocToClasses) {
+				RefOntoUML.Classifier srcT = (Classifier) assToClass.getMemberEnd().get(0).getType();
+				RefOntoUML.Classifier tgtT = (Classifier) assToClass.getMemberEnd().get(1).getType();
+				
+				//look if the related class is in source or target
+				Classifier cls;
+				if(srcT.equals(qua)){
+					cls = tgtT;
+				}else{
+					cls = srcT;
+				}
+				
+				//create the OWL Class
+				OWLClass owlClass = getOwlClass(cls);
+				
+				//look for each DataType
+				for (Association assocToDataType : assocToDataTypes) {
+					RefOntoUML.Classifier srcT2 = (Classifier) assocToDataType.getMemberEnd().get(0).getType();
+					RefOntoUML.Classifier tgtT2 = (Classifier) assocToDataType.getMemberEnd().get(1).getType();
+					
+					//look if the DataType is in the source or target
+					Classifier datatype;
+					int dtTpSide;
+					if(ontoParser.isDatatype(srcT2)){
+						datatype = srcT2;
+						dtTpSide  = 0;
+					}else{
+						datatype = tgtT2;
+						dtTpSide = 1;
+					}
+					
+					//generate the OWL DataProperty
+					String dataPropName = getName(new RefOntoUML.NamedElement[]{cls, qua, datatype});
+					OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(owlNameSpace+dataPropName));
+					
+					//get lower and upper bounds
+					int lowerCard = assocToDataType.getMemberEnd().get(dtTpSide).getLower();
+					int upperCard = assocToDataType.getMemberEnd().get(dtTpSide).getUpper();
+					
+					//create the dataproperty and its cardinality
+					processCardinality(owlClass, dataProperty, lowerCard, upperCard);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -1928,11 +2016,6 @@ public class Transformer {
 	private void putIntoUfoStructure(Classifier dtcls){
 		if(!owlAxioms.isUfoStructure()) return;
 	
-		String elemStr = dtcls.getName();
-		if(elemStr.equals("Pessoa")){
-			System.out.println();
-		}
-		
 		OWLClass owlSuperCls = null;
 		if(ontoParser.isCollective(dtcls)){
 			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
@@ -2045,4 +2128,13 @@ public class Transformer {
 			}
 		}
 	}	
+	
+	private boolean isMappedAsOwlClass(RefOntoUML.Classifier cls){
+		if(		lstNominalQualities.contains(cls) || 
+				lstMappedQualities.contains(cls) ||
+				cls instanceof DataType){
+			return false;
+		}
+		return true;
+	}
 }

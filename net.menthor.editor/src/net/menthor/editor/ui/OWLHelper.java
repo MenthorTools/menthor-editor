@@ -1,8 +1,18 @@
 package net.menthor.editor.ui;
 
+import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.util.Directories;
+import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
+import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
+import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
+import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
+import net.menthor.ontouml2temporalowl.verbose.FileManager;
+import net.menthor.ootos.OntoUML2OWL;
 import RefOntoUML.parser.OntoUMLParser;
 import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -23,18 +33,7 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
  * MA  02110-1301  USA
  * ============================================================================================
  */
-
 import net.menthor.common.transformation.DestinationEnum;
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.v2.types.ResultType;
-import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
-import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
-import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
-import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
-import net.menthor.ontouml2temporalowl.verbose.FileManager;
-import net.menthor.ootos.OntoUML2OWL;
 
 public class OWLHelper {
 
@@ -56,7 +55,7 @@ public class OWLHelper {
     		if(trOpt.getMappingType().getIdentifier().equals("OOTOS"))
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt); //Directories.getTempDir()
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt, Directories.getTempDir());
     			errors = ontoUML2OWL.errors;
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
