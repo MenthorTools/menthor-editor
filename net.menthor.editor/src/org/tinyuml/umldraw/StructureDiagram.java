@@ -39,9 +39,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -88,6 +85,8 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
 
 /**
  * This class implements the effective layout area. It shows the boundaries of
@@ -193,7 +192,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		return container;
 	}
 	
-	public void setContainer(Object conteiner){ this.container = container; }
+	public void setContainer(Object container){ this.container = container; }
 	
 	/**
 	 * Constructor.

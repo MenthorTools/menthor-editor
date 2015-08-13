@@ -1815,4 +1815,12 @@ public class OntoUMLParser {
 		}
 		return true;
 	}
+	
+	public static String getUUIDFromElement(Element element){
+		return element.eResource().getURIFragment(element);
+	}
+	
+	public static Element getElementByUUID(RefOntoUML.Package model, String uuid){
+		return (Element) model.eResource().getEObject(uuid);
+	}
 }

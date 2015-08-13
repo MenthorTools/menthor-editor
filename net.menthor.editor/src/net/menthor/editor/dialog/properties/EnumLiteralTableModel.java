@@ -7,7 +7,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.impl.EnumerationImpl;
-import net.menthor.editor.ui.ModelHelper;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
  * This class implements a BaseTableModel for class RefOntoUML.Proprties
@@ -82,7 +82,7 @@ public class EnumLiteralTableModel extends BaseTableModel {
 	 * {@inheritDoc}
 	 */
 	public void addEmptyEntry() {
-		EnumerationLiteral literal = ModelHelper.getFactory().createEnumerationLiteral();
+		EnumerationLiteral literal = RefOntoUMLFactoryUtil.factory.createEnumerationLiteral();
 		literal.setName("");				
 		addEntry(literal);
 	}

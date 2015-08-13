@@ -31,8 +31,8 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 
 /**
  * This class implements a command to add nodes. It is introduced, because
@@ -83,7 +83,7 @@ public class ChangeNodeCommand extends BaseDiagramCommand {
 				protected void doExecute() {}
 			};
 			
-			ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+			OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 		}
 		
 		if(element instanceof ClassElement)
@@ -116,7 +116,7 @@ public class ChangeNodeCommand extends BaseDiagramCommand {
 				protected void doExecute() {}
 			};
 			
-			ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+			OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 		}
 		
 		if(element instanceof ClassElement)
@@ -143,7 +143,7 @@ public class ChangeNodeCommand extends BaseDiagramCommand {
 				protected void doExecute() {}
 			};
 			
-			ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+			OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 		}
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();

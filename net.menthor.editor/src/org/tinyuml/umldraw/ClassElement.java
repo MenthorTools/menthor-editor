@@ -23,9 +23,6 @@ package org.tinyuml.umldraw;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.RelationshipType;
-
 import org.tinyuml.draw.AbstractCompositeNode;
 import org.tinyuml.draw.Compartment;
 import org.tinyuml.draw.Compartment.Alignment;
@@ -45,7 +42,10 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Property;
 import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
+import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class represents a Class element in the editor. It is responsible for
@@ -275,10 +275,10 @@ public final class ClassElement extends AbstractCompositeNode implements
 		classData = classifier;
 		
 		if(classifier.eResource() != null)
-			classUUID = ModelHelper.getUUIDFromElement(classifier);
+			classUUID = OntoUMLParser.getUUIDFromElement(classifier);
 		
 		if (classData != null) {			
-			ontoUmlStereotype = ModelHelper.getClassAsStereotype(classData);
+			ontoUmlStereotype = OntoUMLNameHelper.getTypeName(classData, true);
 		}
 		reinitMainCompartment();
 		reinitAttributesCompartment();
@@ -293,7 +293,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 		if(classData == null && classUUID != null)
 		{
 			RefOntoUML.Package model = ((StructureDiagram)getDiagram()).getRootPackage();
-			classData = (Classifier) ModelHelper.getElementByUUID(model, classUUID);
+			classData = (Classifier) OntoUMLParser.getElementByUUID(model, classUUID);
 		}
 		
 		return classData;
@@ -304,7 +304,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 */
 	@Override
 	 public void addedToDiagram(Diagram diagram) {
-		 classUUID = ModelHelper.getUUIDFromElement(classData);
+		 classUUID = OntoUMLParser.getUUIDFromElement(classData);
 	 }
 	
 	/**

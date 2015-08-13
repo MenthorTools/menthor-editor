@@ -24,27 +24,12 @@ package net.menthor.editor.ui;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
-
-import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -52,87 +37,25 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
-import RefOntoUML.DataType;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.Property;
-import RefOntoUML.RefOntoUMLFactory;
 import RefOntoUML.Relationship;
-import RefOntoUML.impl.DataTypeImpl;
-import RefOntoUML.impl.NamedElementImpl;
-import RefOntoUML.impl.RefOntoUMLPackageImpl;
-import RefOntoUML.parser.OntoUMLNameHelper;
 
 /**
  * @author John Guerson
  */
 public class ModelHelper {
 
-//	private static Diagnostician validator;
-	private static ResourceSet resourceSet;
-	private static RefOntoUMLFactory factory;
-	private static ComposedAdapterFactory adapterFactory; // TODO Cleanup
-	private static AdapterFactoryEditingDomain editingDomain; // TODO Cleanup
-	private static boolean initialized = false;
-	
 	private static HashMap<Element,ArrayList<DiagramElement>> mappings;
 
 	private ModelHelper() {
 	}
 	
-	public static Resource createResource() {
-		if (!initialized) {
-			initializeHelper();
-		}
-		Resource resource = resourceSet.createResource(URI.createFileURI(""));
-		
-		return resource;
-	}
-	
-	public static void initializeHelper() {
-		try{
-		resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactoryImpl());
-
-		resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
-		
-		RefOntoUMLPackageImpl.init();
-		
-		
-//		validator = Diagnostician.INSTANCE;
-		
-		factory = RefOntoUMLFactory.eINSTANCE;
-		adapterFactory = new ComposedAdapterFactory(
-				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory
-				.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-//		adapterFactory
-//				.addAdapterFactory(new RefOntoUMLItemProviderAdapterFactory());
-		adapterFactory
-				.addAdapterFactory(new EcoreItemProviderAdapterFactory());
-		adapterFactory
-				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-
-		// As the first validation takes long due to initialization process,
-		// we start it here so the user doesn't get the initialization hit
-		//validator.validate(factory.createClass());
-		
-		//validator2 = RefOntoUMLValidator.INSTANCE;
-		
-		mappings = new HashMap<Element, ArrayList<DiagramElement>>();
-		
-		initialized = true;
-		} catch(Exception e ){
-			e.printStackTrace();
-		}
-	}
-	
 	//Adds mapping from RefOntoUMLElement to DiagramElement (metamodel->concretemodel)
 	//Returns true if the element was successfully added;
 	public static boolean addMapping (Element element, DiagramElement diagramElement)
-	{
-		if (!initialized) initializeHelper();
-		
+	{	
 		if (element==null || diagramElement==null) return false;
 		
 		if(mappings.get(element)==null)
@@ -157,8 +80,7 @@ public class ModelHelper {
 	
 	public static boolean removeMapping(DiagramElement diagramElem)
 	{	
-		if (!initialized) initializeHelper();
-		
+			
 		RefOntoUML.Element element = getElement(diagramElem);
 		if (element==null) return false;
 		
@@ -215,34 +137,23 @@ public class ModelHelper {
 		return succeeds;
 	}
 	
-//	public static boolean removeMapping(Element element)
-//	{
-//		ArrayList<DiagramElement> result;
-//		if (!initialized) initializeHelper();		
-//		if (element==null) return false;				
-//		result = mappings.remove(element);		
-//		if (result!=null) return true;
-//		else return false;
-//	}
-//	
 	/**
 	 * If the element is not found in diagram "editor", the method searches for its diagram element without an editor attached to it.
 	 * We need that because the diagram element might be created without a diagram in the first place.
 	 * 
 	 */
-	public static DiagramElement getDiagramElementByEditor (Element element, DiagramEditor editor){
+	public static DiagramElement getDiagramElementByDiagram (Element element, StructureDiagram diagram){
 		
-		if (!initialized) initializeHelper();
 		
 		if(mappings.get(element)==null) return null;
 		
 		ArrayList<DiagramElement> found = new ArrayList<DiagramElement>();		
 		if(mappings.get(element)!=null && mappings.get(element).size()>0)
 		{			
-			if(editor!=null){
+			if(diagram!=null){
 				for(DiagramElement de: mappings.get(element))
 				{					
-					if (editor.getDiagram().getChildren().contains(de)) { found.add(de); }				
+					if (diagram.getChildren().contains(de)) { found.add(de); }				
 				}
 			}
 		}	
@@ -257,8 +168,8 @@ public class ModelHelper {
 			for(DiagramElement de: mappings.get(element))
 			{
 				boolean attachedToDiagram=false;
-				for(DiagramEditor d: ProjectBrowser.frame.getDiagramManager().getDiagramEditors()){
-					if(d.getDiagram().getChildren().contains(de)) attachedToDiagram =true;
+				for(StructureDiagram d: ProjectBrowser.frame.getDiagramManager().getOpenedDiagrams()){
+					if(d.getChildren().contains(de)) attachedToDiagram =true;
 				}	
 				if (!attachedToDiagram) return de;
 			}						
@@ -271,7 +182,7 @@ public class ModelHelper {
 	
 	public static ArrayList<DiagramElement> getDiagramElements (Element element){
 		
-		if (!initialized) initializeHelper();
+	
 		
 		if(mappings.get(element)!=null) return mappings.get(element);
 		
@@ -279,12 +190,7 @@ public class ModelHelper {
 
 	}
 
-//	public static HashMap<Element,ArrayList<DiagramElement>> getMapping()
-//	{
-//		return mappings;
-//	}
-	
-    public static RefOntoUML.Element getElement(DiagramElement value) 
+	public static RefOntoUML.Element getElement(DiagramElement value) 
     {    	
         for (Entry<RefOntoUML.Element,ArrayList<DiagramElement>> entry : mappings.entrySet()) 
         {
@@ -341,12 +247,6 @@ public class ModelHelper {
 		return list;
 	}	
  
-	public static Collection<DiagramElement> getDiagramElementsByEditor(Collection<Element> elements, DiagramEditor editor)
-	{		
-		if(editor==null) return new ArrayList<DiagramElement>();
-		return getDiagramElementsByDiagram(elements, editor.getDiagram());
-	}	
-	
 	public static Collection<DiagramElement> getDiagramElementsByDiagram(Collection<Element> elements, StructureDiagram diagram)
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		
@@ -387,81 +287,5 @@ public class ModelHelper {
 			result += elem.toString()+"\n";
 		}
 		return result;
-	}
-	
-	public static RefOntoUMLFactory getFactory() {
-		if (!initialized) {
-			initializeHelper();
-		}
-		return factory;
-	}
-
-	public AdapterFactoryEditingDomain getEditingDomain() {
-		if(editingDomain == null)
-			editingDomain = ModelHelper.createAdapterEditingDomain();
-		return editingDomain;
-	}
-	
-	public static AdapterFactoryEditingDomain createAdapterEditingDomain() {
-		if (!initialized) {
-			initializeHelper();
-		}
-		
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
-				new BasicCommandStack(), resourceSet);
-		
-		return editingDomain;
-	}
-	
-	public static String getUUIDFromElement(Element element)
-	{
-		return element.eResource().getURIFragment(element);
-	}
-	
-	public static Element getElementByUUID(RefOntoUML.Package model, String uuid)
-	{
-		return (Element) model.eResource().getEObject(uuid);
-	}
-	
-	/**
-	 * Handles the objects name when showing the error message
-	 */
-	public static String handleName(Object element)
-	{
-		String name = "[unnamed]";
-		if(element instanceof NamedElementImpl)
-		{
-			NamedElementImpl namedElement = (NamedElementImpl) element;
-			if (namedElement.getName() != null)
-				name = namedElement.getName();
-		}
-		
-		return OntoUMLNameHelper.getTypeName((EObject) element,true)+" "+name;
-	}
-	
-	public static String getClassAsStereotype(EObject eObject) {
-		String ret = eObject.eClass().getName().toLowerCase()
-				.replace("association", "");
-		return "\u00AB"+ret+"\u00BB";
-	}
-	
-	public static List<DataType> getModelDataTypes(UmlProject project) {
-		List<DataType> dataTypes = new LinkedList<DataType>();
-		Iterator<?> it = project.getModel().getPackagedElement().iterator();
-		while (it.hasNext())
-		{
-			Object element = it.next();
-			if(element instanceof DataTypeImpl)
-				dataTypes.add((DataType) element);
-		}
-		return dataTypes;
-	}
-	
-	public static ChangeRecorder getChangeRecorder()
-	{
-		if (!initialized) {
-			initializeHelper();
-		}
-		return new ChangeRecorder(resourceSet);
-	}
+	}	
 }

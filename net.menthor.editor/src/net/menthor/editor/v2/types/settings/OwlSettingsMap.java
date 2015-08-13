@@ -3,6 +3,8 @@ package net.menthor.editor.v2.types.settings;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
@@ -16,13 +18,40 @@ public final class OwlSettingsMap {
 	private static OwlSettingsMap instance = new OwlSettingsMap();	
 	public static OwlSettingsMap getInstance() { return instance; }
 	
-	private Properties properties=null;
 	private String fileName = "owl-cnf.xml";
-	private String dir = Directories.getTempDir();
+	public String getFileName(){ return fileName; }
 	
+	private Properties properties=null;
+	private String dir = Directories.getTempDir();
+		
 	private OwlSettingsMap() {
-		load();
-		store();
+		setdefault();
+	}
+	
+	private void setdefault(){
+		if(properties==null) properties = new Properties();
+		if(properties!=null && properties.isEmpty()){
+			properties.put(OwlSettingsType.ONTOLOGY_IRI.toString(), "http://www.menthor.net/myontology");
+			properties.put(OwlSettingsType.ASYMMETRIC.toString(),"true");
+			properties.put(OwlSettingsType.CARDINALITIES.toString(),"true");
+			properties.put(OwlSettingsType.COMMENTS.toString(),"true");
+			properties.put(OwlSettingsType.COMPLETENESS_OF_CLASSES.toString(),"true");
+			properties.put(OwlSettingsType.DISJOINTNESS_OF_CLASSES.toString(),"true");
+			properties.put(OwlSettingsType.DISJOINTNESS_OF_ASSOCIATIONS.toString(),"true");		
+			properties.put(OwlSettingsType.DOMAIN.toString(),"true");
+			properties.put(OwlSettingsType.FUNCTIONAL.toString(),"true");
+			properties.put(OwlSettingsType.INVERSE.toString(),"true");
+			properties.put(OwlSettingsType.INVERSE_FUNCTIONAL.toString(),"true");	    
+			properties.put(OwlSettingsType.IRREFLEXIVE.toString(),"true");
+			properties.put(OwlSettingsType.LABELS.toString(),"true");	    
+			properties.put(OwlSettingsType.RANGE.toString(),"true");
+			properties.put(OwlSettingsType.REFLEXIVE.toString(),"true");	    
+			properties.put(OwlSettingsType.SWRL_RULES.toString(),"true");
+			properties.put(OwlSettingsType.SYMMETRIC.toString(),"true");
+			properties.put(OwlSettingsType.TRANSITIVE.toString(),"true");
+			properties.put(OwlSettingsType.UFO_STRUCTURE.toString(),"true");		
+			properties.put(OwlSettingsType.REASONER.toString(), OwlReasonerType.UNSELECTED.toString());
+		}
 	}
 	
 	public void setReasoner(OwlReasonerType reasoner){
@@ -53,6 +82,16 @@ public final class OwlSettingsMap {
 		else return null;
 	}
 			
+	public boolean store(OutputStream out){
+		if(properties != null) {			
+			try {				
+				properties.storeToXML(out, "Owl Settings File", "UTF-8");				
+				return true;
+			} catch (Exception ex) {}
+		}		
+		return false;
+	}
+	
 	public boolean store(){
 		if(properties != null) {
 			File file = new File(Util.getCanonPath(dir, fileName));
@@ -64,6 +103,18 @@ public final class OwlSettingsMap {
 			} catch (Exception ex) {}
 		}		
 		return false;
+	}
+	
+	public Properties load(InputStream in){
+		if(properties!=null) return properties;
+		properties = new Properties();		
+		try {
+			properties.loadFromXML(in);											
+		} catch (Exception ex) {}		
+		if(properties.isEmpty()){
+			setdefault();
+		}
+		return properties;
 	}
 	
 	public Properties load() {
@@ -78,26 +129,7 @@ public final class OwlSettingsMap {
 			} catch (Exception ex) {}
 		}		
 		if(properties.isEmpty()){
-			properties.put(OwlSettingsType.ONTOLOGY_IRI.toString(), "http://www.menthor.net/myontology");
-			properties.put(OwlSettingsType.ASYMMETRIC.toString(),"true");
-			properties.put(OwlSettingsType.CARDINALITIES.toString(),"true");
-			properties.put(OwlSettingsType.COMMENTS.toString(),"true");
-			properties.put(OwlSettingsType.COMPLETENESS_OF_CLASSES.toString(),"true");
-			properties.put(OwlSettingsType.DISJOINTNESS_OF_CLASSES.toString(),"true");
-			properties.put(OwlSettingsType.DISJOINTNESS_OF_ASSOCIATIONS.toString(),"true");		
-			properties.put(OwlSettingsType.DOMAIN.toString(),"true");
-			properties.put(OwlSettingsType.FUNCTIONAL.toString(),"true");
-			properties.put(OwlSettingsType.INVERSE.toString(),"true");
-			properties.put(OwlSettingsType.INVERSE_FUNCTIONAL.toString(),"true");	    
-			properties.put(OwlSettingsType.IRREFLEXIVE.toString(),"true");
-			properties.put(OwlSettingsType.LABELS.toString(),"true");	    
-			properties.put(OwlSettingsType.RANGE.toString(),"true");
-			properties.put(OwlSettingsType.REFLEXIVE.toString(),"true");	    
-			properties.put(OwlSettingsType.SWRL_RULES.toString(),"true");
-			properties.put(OwlSettingsType.SYMMETRIC.toString(),"true");
-			properties.put(OwlSettingsType.TRANSITIVE.toString(),"true");
-			properties.put(OwlSettingsType.UFO_STRUCTURE.toString(),"true");		
-			properties.put(OwlSettingsType.REASONER.toString(), OwlReasonerType.UNSELECTED.toString());
+			setdefault();
 		}
 		return properties;
 	}

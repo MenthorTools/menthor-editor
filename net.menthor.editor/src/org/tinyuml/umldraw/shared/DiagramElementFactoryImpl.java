@@ -23,11 +23,6 @@ package org.tinyuml.umldraw.shared;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.LineConnectMethod;
@@ -93,6 +88,9 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * Implementation of the DiagramElementFactory interface. A
@@ -131,7 +129,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 
   private void setupElementMaps() {
 	
-	factory = ModelHelper.getFactory();
+	factory = RefOntoUMLFactoryUtil.factory;
     
     Kind kind = (RefOntoUML.Kind)createClass(ClassType.KIND);    
     ClassElement kindElement = (ClassElement) ClassElement.getPrototype().clone();
@@ -491,7 +489,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   {
 	  Constraintx c = factory.createConstraintx();
 	  c.setName("");
-	  StringExpression expr = ModelHelper.getFactory().createStringExpression();
+	  StringExpression expr = RefOntoUMLFactoryUtil.factory.createStringExpression();
 	  expr.setSymbol("");
 	  c.setSpecification(expr);
 	  return c;

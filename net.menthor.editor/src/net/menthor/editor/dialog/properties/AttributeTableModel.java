@@ -23,8 +23,6 @@ package net.menthor.editor.dialog.properties;
 
 import java.text.ParseException;
 
-import net.menthor.editor.ui.ModelHelper;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
@@ -108,10 +106,10 @@ public class AttributeTableModel extends BaseTableModel {
 	 * {@inheritDoc}
 	 */
 	public void addEmptyEntry() {
-		Property property = ModelHelper.getFactory().createProperty();
+		Property property = RefOntoUMLFactoryUtil.factory.createProperty();
 		DataType type = null;		
-		if (isPrimitive) type = ModelHelper.getFactory().createPrimitiveType();		
-		else type = ModelHelper.getFactory().createDataType();
+		if (isPrimitive) type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();		
+		else type = RefOntoUMLFactoryUtil.factory.createDataType();
 		type.setName("");
 		property.setType(type);
 		property.setName("");
@@ -176,8 +174,8 @@ public class AttributeTableModel extends BaseTableModel {
 				type.setName((String) value);
 			}else{
 				DataType type = null;	
-				if (isPrimitive) type = ModelHelper.getFactory().createPrimitiveType();		
-				else type = ModelHelper.getFactory().createDataType();
+				if (isPrimitive) type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();		
+				else type = RefOntoUMLFactoryUtil.factory.createDataType();
 				property.setType(type);
 				type.setName((String) value);
 			}

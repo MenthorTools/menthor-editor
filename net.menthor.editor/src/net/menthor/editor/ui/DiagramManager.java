@@ -113,6 +113,7 @@ import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.EcoreWriter;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
@@ -225,7 +226,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		listener = frame;
 		elementFactory = new DiagramElementFactoryImpl(); //doesn't have yet any diagram
 		drawingContext =  new DrawingContextImpl();
-		ModelHelper.initializeHelper();		
+		OntoumlEditingDomain.getInstance().initialize();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
 		setMinimumSize(new Dimension(0,0));			    
@@ -403,6 +404,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ArrayList<DiagramEditor> list = new ArrayList<DiagramEditor>();
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor());
+		}
+		return list;
+	}
+	
+	/** Return all opened diagrams */
+	public ArrayList<StructureDiagram> getOpenedDiagrams()
+	{
+		ArrayList<StructureDiagram> list = new ArrayList<StructureDiagram>();
+		for(Component c: getComponents()){
+			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor().getDiagram());
 		}
 		return list;
 	}
@@ -2295,7 +2306,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ReadingDesign direction = ReadingDesign.UNDEFINED;		
 		if(element instanceof Association)
 		{
-			AssociationElement ae = (AssociationElement) ModelHelper.getDiagramElementByEditor(element, d);
+			AssociationElement ae = (AssociationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(ae!=null)
 			{
 				isRectilinear = ae.isTreeStyle();			
@@ -2310,7 +2321,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}			
 		else if(element instanceof Generalization)
 		{			
-			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByEditor(element, d);
+			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
 			deleteFromDiagram(element, d);
 			moveGeneralizationToDiagram((Generalization) element, d, isRectilinear);
@@ -2405,8 +2416,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			{
 				Classifier general = gen.getGeneral();
 				Classifier specific = gen.getSpecific();
-				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByEditor(general, d);
-				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByEditor(specific, d);
+				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByDiagram(general, d.getDiagram());
+				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByDiagram(specific, d.getDiagram());
 				if (generalElem.getAbsoluteY1() < specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
 				else if (generalElem.getAbsoluteY1() > specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
 				else d.setLineStyle(conn, LineStyle.TREESTYLE_HORIZONTAL);
@@ -2493,7 +2504,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
 			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
+			DiagramElement de = ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(de!=null) d.select(de);
 			return;			
 		}
@@ -2521,7 +2532,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
 			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
+			DiagramElement de = ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(de!=null) d.select(de);
 			return;			
 		}
