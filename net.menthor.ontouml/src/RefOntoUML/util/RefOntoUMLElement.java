@@ -36,7 +36,7 @@ import RefOntoUML.parser.OntoUMLNameHelper;
  * @author John Guerson
  */
 
-public class RefOntoUMLElement implements Serializable{
+public class RefOntoUMLElement implements Serializable, Comparable<RefOntoUMLElement>{
 	
 	private static final long serialVersionUID = 6497601879574303331L;
 	
@@ -221,5 +221,18 @@ public class RefOntoUMLElement implements Serializable{
 	public EObject getElement() 
 	{
 		return element;
+	}
+
+	@Override
+	public int compareTo(RefOntoUMLElement arg0) {
+		int compareNames = this.name.compareTo(arg0.name);
+		int compareTypes = this.type.compareTo(arg0.type);
+		
+		//if names are equals, order by type
+		if(compareNames == 0){
+			return compareTypes;
+		}else{
+			return compareNames;
+		}
 	}
 }

@@ -43,4 +43,5 @@ public class MappingsEnforcement {
 	public Object[][] getGenSetMappings() { return genSetMappings; }	
 	public HashMap<EObject, Object> getAttributeMappings() { return attributeMappings; }
 	public HashMap<EObject, Object> getPrimitiveMappings() { return primitiveMappings; }
+	public HashMap<EObject, Object> getQualityMappings() { return qualityMappings; }
 }

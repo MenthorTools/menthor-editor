@@ -1,11 +1,13 @@
 package net.menthor.editor.transformation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.TableColumn;
 
 import RefOntoUML.Quality;
+import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
 
@@ -23,7 +25,16 @@ public class QualityMappingPane extends BaseMappingPane {
 		for(Quality qua: refparser.getAllInstances(Quality.class))
 		{
 			sourcePrimitiveOptions.add(new RefOntoUMLElement(qua,""));	
-		}		
+		}	
+		for(SubKind sbk: refparser.getAllInstances(SubKind.class))
+		{
+			if(refparser.isQuality(sbk)) {
+				sourcePrimitiveOptions.add(new RefOntoUMLElement(sbk,""));	
+			}
+		}	
+		
+		Collections.sort(sourcePrimitiveOptions);
+		
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 
 		//load target options
