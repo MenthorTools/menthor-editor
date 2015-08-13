@@ -102,7 +102,7 @@ public class OwlAxiomPane extends JPanel {
 						.addGroup(gl_axiomsPane.createSequentialGroup()
 							.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
 						.addGroup(gl_axiomsPane.createSequentialGroup()
 							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -125,15 +125,15 @@ public class OwlAxiomPane extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_axiomsPane.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE)
 						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(77, Short.MAX_VALUE))
+					.addContainerGap(75, Short.MAX_VALUE))
 		);
-		gl_axiomsPane.linkSize(SwingConstants.VERTICAL, new Component[] {relCheckList, panel_1, panel_4});
+		gl_axiomsPane.linkSize(SwingConstants.VERTICAL, new Component[] {relCheckList, panel_4});
 		
 		owlReasonerBox = new JComboBox<OwlReasoner>();
 		owlReasonerBox.setModel(new DefaultComboBoxModel<OwlReasoner>(OwlReasoner.values()));

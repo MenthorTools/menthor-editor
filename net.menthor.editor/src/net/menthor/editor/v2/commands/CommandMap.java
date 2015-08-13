@@ -402,6 +402,22 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.ENUMERATION));
 		cmdMap.put(CommandType.TB_DND_PRIMITIVETYPE, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.PRIMITIVETYPE));
+		cmdMap.put(CommandType.TB_DND_MEASUREMENT_DOMAIN, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.MEASUREMENTDOMAIN));
+		cmdMap.put(CommandType.TB_DND_STRING_NOMINAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.STRINGNOMINALSTRUCTURE));
+		cmdMap.put(CommandType.TB_DND_INTEGER_INTERVAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.INTEGERINTERVALDIMENSION));
+		cmdMap.put(CommandType.TB_DND_INTEGER_RATIONAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.INTEGERRATIONALDIMENSION));
+		cmdMap.put(CommandType.TB_DND_INTEGER_ORDINAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.INTEGERORDINALDIMENSION));
+		cmdMap.put(CommandType.TB_DND_DECIMAL_ORDINAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DECIMALORDINALDIMENSION));
+		cmdMap.put(CommandType.TB_DND_DECIMAL_RATIONAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DECIMALRATIONALDIMENSION));
+		cmdMap.put(CommandType.TB_DND_DECIMAL_INTERVAL_DIMENSION, 
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DECIMALINTERVALDIMENSION));
 		
 		cmdMap.put(CommandType.TB_DND_GENERALIZATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.GENERALIZATION));
@@ -515,6 +531,23 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.PRIMITIVETYPE));
 		cmdMap.put(CommandType.ADD_ENUMERATION, 
 				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.ENUMERATION));
+		cmdMap.put(CommandType.ADD_MEASUREMENT_DOMAIN, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.MEASUREMENTDOMAIN));
+		cmdMap.put(CommandType.ADD_STRING_NOMINAL_STRUCTURE, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.STRINGNOMINALSTRUCTURE));
+		cmdMap.put(CommandType.ADD_INTEGER_INTERVAL_DIMENSION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERINTERVALDIMENSION));
+		cmdMap.put(CommandType.ADD_INTEGER_RATIONAL_DIMENSION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERRATIONALDIMENSION));
+		cmdMap.put(CommandType.ADD_INTEGER_ORDINAL_DIMENSION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERORDINALDIMENSION));
+		cmdMap.put(CommandType.ADD_DECIMAL_ORDINAL_DIMENSION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALORDINALDIMENSION));
+		cmdMap.put(CommandType.ADD_DECIMAL_RATIONAL_DIMENSION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALRATIONALDIMENSION));
+		cmdMap.put(CommandType.ADD_DECIMAL_INTERVAL_DIMENSION, 
+				new MethodCall(DiagramManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALINTERVALDIMENSION));
+		
 		cmdMap.put(CommandType.ADD_MEDIATION, 
 				new MethodCall(DiagramManager.class.getMethod("addRelation", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
 		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 

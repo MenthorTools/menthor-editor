@@ -79,7 +79,7 @@ public final class ProjectReader extends FileHandler {
 		ZipEntry entry;
 		while(entries.hasMoreElements()) {
 			entry = entries.nextElement();			
-			if(entry.getName().equals(Settings.DEFAULT_MODEL_FILE.getValue()) && !modelLoaded)
+			if(entry.getName().equals(Settings.MODEL_FILE.getValue()) && !modelLoaded)
 			{
 				System.out.println("Loading model XMI information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
@@ -95,7 +95,7 @@ public final class ProjectReader extends FileHandler {
 				in.close();
 				modelLoaded = true;
 			}
-			else if (entry.getName().equals(Settings.DEFAULT_PROJECT_FILE.getValue()) && !projectLoaded)
+			else if (entry.getName().equals(Settings.PROJECT_FILE.getValue()) && !projectLoaded)
 			{
 				System.out.println("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);

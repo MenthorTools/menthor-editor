@@ -63,7 +63,7 @@ public final class ProjectWriter extends FileWriter {
 		
 		System.out.println("Saving model XMI information in Menthor file...");
 		//Save the model as a resource inside the file
-		ZipEntry modelEntry = new ZipEntry(Settings.DEFAULT_MODEL_FILE.getValue());			
+		ZipEntry modelEntry = new ZipEntry(Settings.MODEL_FILE.getValue());			
 		out.putNextEntry(modelEntry);
 		Resource resource = project.getResource();
 		resource.save(out, Collections.EMPTY_MAP);
@@ -71,7 +71,7 @@ public final class ProjectWriter extends FileWriter {
 		
 		System.out.println("Saving project DAT information in Menthor file...");
 		//Save the project a.k.a the diagrams inside the file
-		ZipEntry projectEntry = new ZipEntry(Settings.DEFAULT_PROJECT_FILE.getValue());
+		ZipEntry projectEntry = new ZipEntry(Settings.PROJECT_FILE.getValue());
 		out.putNextEntry(projectEntry);
 		ObjectOutputStream oos = new ObjectOutputStream(out);
 		oos.writeObject(project); 

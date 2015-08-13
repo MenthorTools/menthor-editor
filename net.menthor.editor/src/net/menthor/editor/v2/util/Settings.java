@@ -30,12 +30,11 @@ import java.util.Properties;
 public enum Settings {
 	
 	USER_LOCALE("USER_LOCALE", "en-US"),	
-	DEFAULT_SETTINGS_FILE("DEFAULT_SETTINGS_FILE", "settings.xml"),	
-	DEFAULT_MODEL_FILE("DEFAULT_MODEL_FILE", "model.refontouml"),	
-	DEFAULT_OCL_FILE("DEFAULT_OCL_FILE","constraints.ocl"),	
-	DEFAULT_PROJECT_FILE("DEFAULT_PROJECT_FILE","project.dat"),	
-	DEFAULT_OWL_FILE("DEFAULT_OWL_FILE", "model.owl"),	
-	DEFAULT_SBVR_FILE("DEFAULT_SBVR_FILE", "model-sbvr.html"),	
+	SETTINGS_FILE("SETTINGS_FILE", "settings.xml"),
+	
+	MODEL_FILE("MODEL_FILE", "model.refontouml"),
+	PROJECT_FILE("PROJECT_FILE","project.dat"),	
+	
 	RECENT_PROJECT_1("RECENT_PROJECT_1", ""),	
 	RECENT_PROJECT_2("RECENT_PROJECT_2", ""),	
 	RECENT_PROJECT_3("RECENT_PROJECT_3", ""),	
@@ -83,7 +82,7 @@ public enum Settings {
 		
 	public static boolean saveProperties(){
 		if(properties != null) {
-			File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_SETTINGS_FILE.getValue()));
+			File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.SETTINGS_FILE.getValue()));
 			try {
 				FileOutputStream out = new FileOutputStream(file);
 				properties.storeToXML(out, "Menthor Configuration File", "UTF-8");
@@ -97,7 +96,7 @@ public enum Settings {
 	public static Properties getProperties() {
 		if(properties != null) return properties;		
 		properties = new Properties();		
-		File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_SETTINGS_FILE.getValue()));
+		File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.SETTINGS_FILE.getValue()));
 		if(file.exists()) {
 			try {
 				FileInputStream in = new FileInputStream(file);

@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import net.menthor.editor.v2.types.settings.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.UIFontUtil;
@@ -109,6 +110,9 @@ public final class Main {
 					}					
 					frame.setVisible(true);
 					frame.toFront();	
+					
+					OwlSettingsMap.getInstance();
+					
 					splashScreen.close();					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);

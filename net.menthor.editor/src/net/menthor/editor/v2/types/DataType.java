@@ -1,6 +1,5 @@
 package net.menthor.editor.v2.types;
 
-import RefOntoUML.util.RefOntoUMLAdapterFactory;
 
 /**
  * ============================================================================================

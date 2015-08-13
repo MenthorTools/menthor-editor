@@ -113,7 +113,7 @@ public class MainFrame extends JFrame implements CommandListener {
 			"default");		
 		if(response==JOptionPane.YES_OPTION){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			getDiagramManager().saveProject();
+			getDiagramManager().saveProject();			
 			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
 			return true;
 		}

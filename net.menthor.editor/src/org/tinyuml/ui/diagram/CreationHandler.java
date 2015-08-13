@@ -24,18 +24,18 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.PatternType;
+
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.Node;
 import org.tinyuml.umldraw.ClassElement;
-
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.PatternType;
 
 
 /**

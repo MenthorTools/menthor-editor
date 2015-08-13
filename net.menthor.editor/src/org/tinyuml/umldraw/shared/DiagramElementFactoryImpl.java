@@ -23,6 +23,11 @@ package org.tinyuml.umldraw.shared;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.RelationshipType;
+
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.LineConnectMethod;
@@ -39,10 +44,16 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
+import RefOntoUML.DecimalIntervalDimension;
+import RefOntoUML.DecimalOrdinalDimension;
+import RefOntoUML.DecimalRationalDimension;
 import RefOntoUML.Derivation;
 import RefOntoUML.Enumeration;
 import RefOntoUML.FormalAssociation;
 import RefOntoUML.Generalization;
+import RefOntoUML.IntegerIntervalDimension;
+import RefOntoUML.IntegerOrdinalDimension;
+import RefOntoUML.IntegerRationalDimension;
 import RefOntoUML.Kind;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
@@ -82,10 +93,6 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * Implementation of the DiagramElementFactory interface. A
@@ -181,23 +188,6 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
     relatorElement.setClassifier(relator);
     classPrototypes.put(ClassType.RELATOR, relatorElement);
         
-    RefOntoUML.DataType datatype = (RefOntoUML.DataType)createDataType(DataType.DATATYPE);
-    ClassElement datatypeElement = (ClassElement) ClassElement.getPrototype().clone();
-    datatypeElement.setClassifier(datatype);
-    datatypeElement.setShowAttributes(true);
-    datatypesPrototypes.put(DataType.DATATYPE, datatypeElement);
-    
-    Enumeration enumeration = (RefOntoUML.Enumeration)createDataType(DataType.ENUMERATION);
-    ClassElement enumElement = (ClassElement) ClassElement.getPrototype().clone();
-    enumElement.setClassifier(enumeration);
-    enumElement.setShowAttributes(true);
-    datatypesPrototypes.put(DataType.ENUMERATION, enumElement);    
-    
-    PrimitiveType primitive = (RefOntoUML.PrimitiveType)createDataType(DataType.PRIMITIVETYPE);
-    ClassElement primitiveElement = (ClassElement) ClassElement.getPrototype().clone();
-    primitiveElement.setClassifier(primitive);    
-    datatypesPrototypes.put(DataType.PRIMITIVETYPE, primitiveElement);    
-    
     PerceivableQuality perceivableQuality = (RefOntoUML.PerceivableQuality)createClass(ClassType.PERCEIVABLEQUALITY);
     ClassElement pqualityElement = (ClassElement) ClassElement.getPrototype().clone();
     pqualityElement.setClassifier(perceivableQuality);    
@@ -212,6 +202,63 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
     ClassElement nqElement = (ClassElement) ClassElement.getPrototype().clone();
     nqElement.setClassifier(nominalQuality);    
     classPrototypes.put(ClassType.NOMINALQUALITY, nqElement);
+    
+    RefOntoUML.DataType datatype = (RefOntoUML.DataType)createDataType(DataType.DATATYPE);
+    ClassElement datatypeElement = (ClassElement) ClassElement.getPrototype().clone();
+    datatypeElement.setClassifier(datatype);
+    datatypeElement.setShowAttributes(true);
+    datatypesPrototypes.put(DataType.DATATYPE, datatypeElement);
+    
+    RefOntoUML.StringNominalStructure nominal = (RefOntoUML.StringNominalStructure)createDataType(DataType.STRINGNOMINALSTRUCTURE);
+    ClassElement nominalElement = (ClassElement) ClassElement.getPrototype().clone();
+    nominalElement.setClassifier(nominal);
+    datatypesPrototypes.put(DataType.STRINGNOMINALSTRUCTURE, nominalElement);
+    
+    RefOntoUML.MeasurementDomain domain = (RefOntoUML.MeasurementDomain)createDataType(DataType.MEASUREMENTDOMAIN);
+    ClassElement domainElement = (ClassElement) ClassElement.getPrototype().clone();
+    domainElement.setClassifier(domain);
+    datatypesPrototypes.put(DataType.MEASUREMENTDOMAIN, domainElement);
+    
+    IntegerIntervalDimension iid = (IntegerIntervalDimension)createDataType(DataType.INTEGERINTERVALDIMENSION);
+    ClassElement iidElement = (ClassElement) ClassElement.getPrototype().clone();
+    iidElement.setClassifier(iid);
+    datatypesPrototypes.put(DataType.INTEGERINTERVALDIMENSION, iidElement);
+    
+    IntegerRationalDimension ird = (IntegerRationalDimension)createDataType(DataType.INTEGERRATIONALDIMENSION);
+    ClassElement irdElement = (ClassElement) ClassElement.getPrototype().clone();
+    irdElement.setClassifier(ird);
+    datatypesPrototypes.put(DataType.INTEGERRATIONALDIMENSION, irdElement);
+    
+    IntegerOrdinalDimension iod = (IntegerOrdinalDimension)createDataType(DataType.INTEGERORDINALDIMENSION);
+    ClassElement iodElement = (ClassElement) ClassElement.getPrototype().clone();
+    iodElement.setClassifier(iod);
+    datatypesPrototypes.put(DataType.INTEGERORDINALDIMENSION, iodElement);
+        
+    DecimalIntervalDimension did = (DecimalIntervalDimension)createDataType(DataType.DECIMALINTERVALDIMENSION);
+    ClassElement didElement = (ClassElement) ClassElement.getPrototype().clone();
+    didElement.setClassifier(did);
+    datatypesPrototypes.put(DataType.DECIMALINTERVALDIMENSION, didElement);    
+    
+    DecimalRationalDimension drd = (DecimalRationalDimension)createDataType(DataType.DECIMALRATIONALDIMENSION);
+    ClassElement drdElement = (ClassElement) ClassElement.getPrototype().clone();
+    drdElement.setClassifier(drd);
+    datatypesPrototypes.put(DataType.DECIMALRATIONALDIMENSION, drdElement);
+    
+    DecimalOrdinalDimension dod = (DecimalOrdinalDimension)createDataType(DataType.DECIMALORDINALDIMENSION);
+    ClassElement dodElement = (ClassElement) ClassElement.getPrototype().clone();
+    dodElement.setClassifier(dod);
+    datatypesPrototypes.put(DataType.DECIMALORDINALDIMENSION, dodElement);    
+    
+    Enumeration enumeration = (RefOntoUML.Enumeration)createDataType(DataType.ENUMERATION);
+    ClassElement enumElement = (ClassElement) ClassElement.getPrototype().clone();
+    enumElement.setClassifier(enumeration);
+    enumElement.setShowAttributes(true);
+    datatypesPrototypes.put(DataType.ENUMERATION, enumElement);    
+    
+    PrimitiveType primitive = (RefOntoUML.PrimitiveType)createDataType(DataType.PRIMITIVETYPE);
+    ClassElement primitiveElement = (ClassElement) ClassElement.getPrototype().clone();
+    primitiveElement.setClassifier(primitive);    
+    datatypesPrototypes.put(DataType.PRIMITIVETYPE, primitiveElement);
   }
 
   public void createPropertiesByDefault(Association association)
@@ -398,6 +445,14 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 	  if (elementType.equals(DataType.DATATYPE)) { type = factory.createDataType();  }	  
 	  if (elementType.equals(DataType.ENUMERATION)) { type = factory.createEnumeration();  }
 	  if (elementType.equals(DataType.PRIMITIVETYPE)) { type = factory.createPrimitiveType();  }	  
+	  if (elementType.equals(DataType.STRINGNOMINALSTRUCTURE)) { type = factory.createStringNominalStructure();  }
+	  if (elementType.equals(DataType.INTEGERINTERVALDIMENSION)) { type = factory.createIntegerIntervalDimension(); }
+	  if (elementType.equals(DataType.INTEGERORDINALDIMENSION)) { type = factory.createIntegerOrdinalDimension(); }
+	  if (elementType.equals(DataType.INTEGERRATIONALDIMENSION)) { type = factory.createIntegerRationalDimension(); }
+	  if (elementType.equals(DataType.DECIMALINTERVALDIMENSION)) { type = factory.createDecimalIntervalDimension(); }
+	  if (elementType.equals(DataType.DECIMALORDINALDIMENSION)) { type = factory.createDecimalOrdinalDimension(); }
+	  if (elementType.equals(DataType.DECIMALRATIONALDIMENSION)) { type = factory.createDecimalRationalDimension(); }
+	  if (elementType.equals(DataType.MEASUREMENTDOMAIN)) { type = factory.createMeasurementDomain(); }
 	  if(type instanceof NamedElement){
 		  ((NamedElement)type).setName(OntoUMLParser.getStereotype(type)+nextElementCount(elementType)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);

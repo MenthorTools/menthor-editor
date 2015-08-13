@@ -3025,7 +3025,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void generateSbvr(RefOntoUML.Model refpackage) 
 	{
 		ResultType result;
-		String modelFileName = Util.getCanonPath(Directories.getTempDir(), Settings.DEFAULT_MODEL_FILE.getValue());
+		String name = new String();
+		if(refpackage.getName()==null || refpackage.getName().isEmpty()) name = "model";
+		else name = refpackage.getName();
+		String modelFileName = Util.getCanonPath(Directories.getTempDir(), name+".html");
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {			

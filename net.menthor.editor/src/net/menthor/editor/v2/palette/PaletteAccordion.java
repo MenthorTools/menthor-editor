@@ -205,6 +205,46 @@ public class PaletteAccordion extends JPanel{
 			DataType.PRIMITIVETYPE.toString(),
 			CommandType.TB_DND_PRIMITIVETYPE
 		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.MEASUREMENTDOMAIN.toString(),
+			CommandType.TB_DND_MEASUREMENT_DOMAIN
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.STRINGNOMINALSTRUCTURE.toString(),
+			CommandType.TB_DND_STRING_NOMINAL_DIMENSION
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.INTEGERINTERVALDIMENSION.toString(),
+			CommandType.TB_DND_INTEGER_INTERVAL_DIMENSION
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.INTEGERRATIONALDIMENSION.toString(),
+			CommandType.TB_DND_INTEGER_RATIONAL_DIMENSION
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.INTEGERORDINALDIMENSION.toString(),
+			CommandType.TB_DND_INTEGER_ORDINAL_DIMENSION
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.DECIMALORDINALDIMENSION.toString(),
+			CommandType.TB_DND_DECIMAL_ORDINAL_DIMENSION
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.DECIMALRATIONALDIMENSION.toString(),
+			CommandType.TB_DND_DECIMAL_RATIONAL_DIMENSION
+		);
+		datatypeGrouping.createPaletteItem(
+			IconType.MENTHOR_CLASS, 
+			DataType.DECIMALINTERVALDIMENSION.toString(),
+			CommandType.TB_DND_DECIMAL_INTERVAL_DIMENSION
+		);
 		paletteMap.put(paletteName, datatypeGrouping);
 		if(openPalette == null) openPalette = paletteName;		
 		datatypeGrouping.sort();
