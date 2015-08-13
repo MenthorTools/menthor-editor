@@ -435,17 +435,17 @@ public class PaletteAccordion extends JPanel{
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.PERCEIVABLE_QUALITY.toString(),
+			ClassType.PERCEIVABLEQUALITY.toString(),
 			CommandType.TB_DND_PERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.NONPERCEIVABLE_QUALITY.toString(),
+			ClassType.NONPERCEIVABLEQUALITY.toString(),
 			CommandType.TB_DND_NONPERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.NOMINAL_QUALITY.toString(),
+			ClassType.NOMINALQUALITY.toString(),
 			CommandType.TB_DND_NOMINAL_QUALITY
 		);
 		paletteMap.put(paletteName, classGrouping);

@@ -90,9 +90,9 @@ public class PalettePopupMenu extends BasePopupMenu {
 		classes.add(createMenuItem(ClassType.MIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_MIXIN, false));
 		classes.add(createMenuItem(ClassType.RELATOR.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_RELATOR, false));
 		classes.add(createMenuItem(ClassType.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_MODE, false));
-		classes.add(createMenuItem(ClassType.PERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_PERCEIVABLE_QUALITY, false));
-		classes.add(createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_NONPERCEIVABLE_QUALITY, false));
-		classes.add(createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_NOMINAL_QUALITY, false));
+		classes.add(createMenuItem(ClassType.PERCEIVABLEQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_PERCEIVABLE_QUALITY, false));
+		classes.add(createMenuItem(ClassType.NONPERCEIVABLEQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_NONPERCEIVABLE_QUALITY, false));
+		classes.add(createMenuItem(ClassType.NOMINALQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_NOMINAL_QUALITY, false));
 		
 		datatypes.add(createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_DATATYPE, false));
 		datatypes.add(createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_ENUMERATION, false));

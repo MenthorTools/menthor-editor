@@ -26,7 +26,7 @@ public enum ClassType {
 	CLASS("Class"), 
 	KIND("Kind"), QUANTITY("Quantity"), COLLECTIVE("Collective"), 
 	RELATOR("Relator"), MODE("Mode"), 
-	PERCEIVABLE_QUALITY("PerceivableQuality"), NONPERCEIVABLE_QUALITY("NonPerceivableQuality"), NOMINAL_QUALITY("NominalQuality"),
+	PERCEIVABLEQUALITY("PerceivableQuality"), NONPERCEIVABLEQUALITY("NonPerceivableQuality"), NOMINALQUALITY("NominalQuality"),
 	SUBKIND("SubKind"), ROLE("Role"), PHASE("Phase"), 
 	CATEGORY("Category"), MIXIN("Mixin"), ROLEMIXIN("RoleMixin"), PHASEMIXIN("PhaseMixin"),
 	EVENT("Event"), POWERTYPE("PowerType");

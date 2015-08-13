@@ -1,5 +1,7 @@
 package net.menthor.editor.v2.types;
 
+import RefOntoUML.util.RefOntoUMLAdapterFactory;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -23,11 +25,14 @@ package net.menthor.editor.v2.types;
 
 public enum DataType {
 
-	DATATYPE("DataType"), DIMENSION("Dimension"), DOMAIN("Domain"), 
-	ENUMERATION("Enumeration"), PRIMITIVETYPE("PrimitiveType");
+	DATATYPE("DataType"), MEASUREMENTDOMAIN("MeasurementDomain"), 
+	ENUMERATION("Enumeration"), PRIMITIVETYPE("PrimitiveType"), 
+	INTEGERRATIONALDIMENSION("IntegerRationalDimension"), INTEGERORDINALDIMENSION("IntegerOrdinalDimension"), INTEGERINTERVALDIMENSION("IntegerIntervalDimension"), 
+	DECIMALRATIONALDIMENSION("DecimalRationalDimension"), DECIMALORDINALDIMENSION("DecimalOrdinalDimension"), DECIMALINTERVALDIMENSION("DecimalIntervalDimension"),
+	STRINGNOMINALSTRUCTURE("StringNominalStructure");
 	
 	private String name;
-
+	
 	DataType(String name)
 	{
 		this.name = name;

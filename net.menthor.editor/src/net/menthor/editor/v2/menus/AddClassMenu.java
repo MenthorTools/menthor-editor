@@ -52,9 +52,9 @@ public class AddClassMenu extends BaseMenu {
 		createMenuItem(ClassType.MIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_MIXIN);
 		createMenuItem(ClassType.RELATOR.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_RELATOR);
 		createMenuItem(ClassType.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_MODE);
-		createMenuItem(ClassType.PERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_PERCEIVABLE_QUALITY);
-		createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NONPERCEIVABLE_QUALITY);
-		createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NOMINAL_QUALITY);
+		createMenuItem(ClassType.PERCEIVABLEQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_PERCEIVABLE_QUALITY);
+		createMenuItem(ClassType.NONPERCEIVABLEQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NONPERCEIVABLE_QUALITY);
+		createMenuItem(ClassType.NOMINALQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NOMINAL_QUALITY);
         sort();
 	}
 }

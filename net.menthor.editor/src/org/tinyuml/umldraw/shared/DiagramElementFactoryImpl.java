@@ -198,20 +198,20 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
     primitiveElement.setClassifier(primitive);    
     datatypesPrototypes.put(DataType.PRIMITIVETYPE, primitiveElement);    
     
-    PerceivableQuality perceivableQuality = (RefOntoUML.PerceivableQuality)createClass(ClassType.PERCEIVABLE_QUALITY);
+    PerceivableQuality perceivableQuality = (RefOntoUML.PerceivableQuality)createClass(ClassType.PERCEIVABLEQUALITY);
     ClassElement pqualityElement = (ClassElement) ClassElement.getPrototype().clone();
     pqualityElement.setClassifier(perceivableQuality);    
-    classPrototypes.put(ClassType.PERCEIVABLE_QUALITY, pqualityElement);
+    classPrototypes.put(ClassType.PERCEIVABLEQUALITY, pqualityElement);
     
-    NonPerceivableQuality nonperceivableQuality = (RefOntoUML.NonPerceivableQuality)createClass(ClassType.NONPERCEIVABLE_QUALITY);
+    NonPerceivableQuality nonperceivableQuality = (RefOntoUML.NonPerceivableQuality)createClass(ClassType.NONPERCEIVABLEQUALITY);
     ClassElement npqualityElement = (ClassElement) ClassElement.getPrototype().clone();
     npqualityElement.setClassifier(nonperceivableQuality);    
-    classPrototypes.put(ClassType.NONPERCEIVABLE_QUALITY, npqualityElement);
+    classPrototypes.put(ClassType.NONPERCEIVABLEQUALITY, npqualityElement);
     
-    NominalQuality nominalQuality = (RefOntoUML.NominalQuality)createClass(ClassType.NOMINAL_QUALITY);
+    NominalQuality nominalQuality = (RefOntoUML.NominalQuality)createClass(ClassType.NOMINALQUALITY);
     ClassElement nqElement = (ClassElement) ClassElement.getPrototype().clone();
     nqElement.setClassifier(nominalQuality);    
-    classPrototypes.put(ClassType.NOMINAL_QUALITY, nqElement);
+    classPrototypes.put(ClassType.NOMINALQUALITY, nqElement);
   }
 
   public void createPropertiesByDefault(Association association)
@@ -382,9 +382,9 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 	  if (elementType.equals(ClassType.MIXIN)) { type = factory.createMixin(); ((Classifier)type).setIsAbstract(true); }
 	  if (elementType.equals(ClassType.MODE)) { type = factory.createMode();}
 	  if (elementType.equals(ClassType.RELATOR)) { type = factory.createRelator();  }
-	  if (elementType.equals(ClassType.PERCEIVABLE_QUALITY)) { type = factory.createPerceivableQuality();  }
-	  if (elementType.equals(ClassType.NONPERCEIVABLE_QUALITY)) { type = factory.createNonPerceivableQuality();  }
-	  if (elementType.equals(ClassType.NOMINAL_QUALITY)) { type = factory.createNominalQuality();  }
+	  if (elementType.equals(ClassType.PERCEIVABLEQUALITY)) { type = factory.createPerceivableQuality();  }
+	  if (elementType.equals(ClassType.NONPERCEIVABLEQUALITY)) { type = factory.createNonPerceivableQuality();  }
+	  if (elementType.equals(ClassType.NOMINALQUALITY)) { type = factory.createNominalQuality();  }
 	  if(type instanceof NamedElement){
 		  ((NamedElement)type).setName(OntoUMLParser.getStereotype(type)+nextElementCount(elementType)); 
 		  ((NamedElement)type).setVisibility(VisibilityKind.PUBLIC);

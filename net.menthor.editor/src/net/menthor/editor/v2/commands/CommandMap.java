@@ -390,11 +390,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.TB_DND_RELATOR, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.RELATOR));
 		cmdMap.put(CommandType.TB_DND_PERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.PERCEIVABLE_QUALITY));
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.PERCEIVABLEQUALITY));
 		cmdMap.put(CommandType.TB_DND_NOMINAL_QUALITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NOMINAL_QUALITY));
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NOMINALQUALITY));
 		cmdMap.put(CommandType.TB_DND_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NONPERCEIVABLE_QUALITY));
+				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NONPERCEIVABLEQUALITY));
 		
 		cmdMap.put(CommandType.TB_DND_DATATYPE, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DATATYPE));
@@ -498,11 +498,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_MODE, 
 				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
 		cmdMap.put(CommandType.ADD_PERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLEQUALITY));
 		cmdMap.put(CommandType.ADD_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLEQUALITY));
 		cmdMap.put(CommandType.ADD_NOMINAL_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
+				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINALQUALITY));
 		cmdMap.put(CommandType.ADD_CATEGORY, 
 				new MethodCall(DiagramManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
 		cmdMap.put(CommandType.ADD_MIXIN, 
@@ -586,11 +586,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.CHANGE_TO_MODE, 
 				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
 		cmdMap.put(CommandType.CHANGE_TO_PERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLEQUALITY));
 		cmdMap.put(CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLEQUALITY));
 		cmdMap.put(CommandType.CHANGE_TO_NOMINAL_QUALITY, 
-				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
+				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINALQUALITY));
 		cmdMap.put(CommandType.CHANGE_TO_CATEGORY, 
 				new MethodCall(DiagramManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
 		cmdMap.put(CommandType.CHANGE_TO_MIXIN, 
