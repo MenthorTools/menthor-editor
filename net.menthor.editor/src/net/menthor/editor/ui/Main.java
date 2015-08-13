@@ -93,7 +93,10 @@ public final class Main {
 				try {
 					setSystemProperties();					
 					UIFontUtil.setDefault();					
-					SWTConfigurer.execute(Directories.getBinDir());					
+					SWTConfigurer.execute(Directories.getBinDir());
+					
+					OwlSettingsMap.getInstance();
+					
 					File alloyJarFile = Util.extractLib("alloy4.2.jar");
 					System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
 					frame = new MainFrame();					
@@ -111,7 +114,7 @@ public final class Main {
 					frame.setVisible(true);
 					frame.toFront();	
 					
-					OwlSettingsMap.getInstance();
+					
 					
 					splashScreen.close();					
 				} catch (Exception ex) {

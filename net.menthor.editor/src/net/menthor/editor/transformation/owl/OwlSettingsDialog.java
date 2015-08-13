@@ -34,13 +34,15 @@ import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.types.settings.OwlSettingsMap;
+import net.menthor.editor.v2.types.settings.OwlSettingsPane;
 
 public class OwlSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
 	private OwlApproachPane approachPane;
-	private OwlAxiomPane axiomsPane;
+	private OwlSettingsPane axiomsPane;
 	private OwlPrimitiveMappingPane primitivePane;
 	private OwlQualityMappingPane qualityPane;
 	private OwlGenSetMappingPane gsPane;
@@ -49,11 +51,11 @@ public class OwlSettingsDialog extends TransformationDialog {
 	{
 		super(owner, refparser, diagrams, modal);
 		
-		approachPane = new OwlApproachPane(owner.getDiagramManager().getCurrentProject().getName());
+		approachPane = new OwlApproachPane();
 		primitivePane = new OwlPrimitiveMappingPane(Models.getRefparser());
 		qualityPane = new OwlQualityMappingPane(Models.getRefparser());
 		gsPane = new OwlGenSetMappingPane(Models.getRefparser());
-		axiomsPane = new OwlAxiomPane();
+		axiomsPane = new OwlSettingsPane();
 		
 		addNonClosable("Approach", approachPane);
 		addNonClosable("Filter", getFilter());
@@ -69,6 +71,8 @@ public class OwlSettingsDialog extends TransformationDialog {
 		getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {				
 									
+				axiomsPane.storeToXML();
+				
 				/**base options*/
 				TransformationOption transOpt = new TransformationOption(
 					approachPane.getSelectedMapping(), 
@@ -77,8 +81,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 				);
 				
 				/**owl axioms*/
-				OwlAxiomsEnforcement axioms = axiomsPane.getOwlAxiomsEnforcement();
-				axioms.setOntologyIri(approachPane.getURIText());
+				OwlAxiomsEnforcement axioms = OwlSettingsMap.getInstance().getOwlAxiomsEnforcement();				
 				transOpt.setAxiomsEnforcement(axioms);
 				
 				/**owl mappings customizations*/

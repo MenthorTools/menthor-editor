@@ -2,12 +2,10 @@ package net.menthor.editor.v2.types.settings;
 
 import java.io.Serializable;
 
-
 public enum OwlSettingsType implements Serializable {
 
 	ONTOLOGY_IRI(""),
 	DISJOINTNESS_OF_CLASSES(""),
-	DISJOINTNESS_OF_OBJECT_PROPERTIES(""),
 	DISJOINTNESS_OF_ASSOCIATIONS(""),
 	COMPLETENESS_OF_CLASSES(""),
 	DOMAIN(""),

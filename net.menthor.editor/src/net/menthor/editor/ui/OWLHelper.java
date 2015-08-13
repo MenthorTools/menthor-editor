@@ -56,7 +56,7 @@ public class OWLHelper {
     		if(trOpt.getMappingType().getIdentifier().equals("OOTOS"))
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt);
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt); //Directories.getTempDir()
     			errors = ontoUML2OWL.errors;
     		}
     		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
