@@ -61,12 +61,12 @@ public class MappingProperties {
 		String stereotype = "";
 		
 		if(property instanceof Association){
-			EList<Property> memberEnds = ((Association) property).getMemberEnd();
+//			EList<Property> memberEnds = ((Association) property).getMemberEnd();
 //			source = memberEnds.get(0).getName();
 //			target = memberEnds.get(1).getName();
 			source = ((Association) property).getMemberEnd().get(0).getType().getName();
 			target = ((Association) property).getMemberEnd().get(1).getType().getName();
-			stereotype = ontoParser.getStereotype(property);
+//			stereotype = ontoParser.getStereotype(property);
 		}else{
 			source = ((PropertyImpl)property).getClass_().getName();
 			if(((PropertyImpl)property).getType() != null)

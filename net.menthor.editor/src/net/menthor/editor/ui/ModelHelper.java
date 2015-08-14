@@ -47,7 +47,7 @@ import RefOntoUML.Relationship;
  */
 public class ModelHelper {
 
-	private static HashMap<Element,ArrayList<DiagramElement>> mappings;
+	private static HashMap<Element,ArrayList<DiagramElement>> mappings = new HashMap<Element, ArrayList<DiagramElement>>();
 
 	private ModelHelper() {
 	}

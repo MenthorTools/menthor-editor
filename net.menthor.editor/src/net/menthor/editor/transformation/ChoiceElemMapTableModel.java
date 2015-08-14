@@ -122,6 +122,8 @@ public class ChoiceElemMapTableModel extends BaseTableModel{
 	 */
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		if(value instanceof String) value=null; 
+		
 		if(columnIndex == 0) {
 			sourceList.set(rowIndex, (RefOntoUMLElement)value);
 		} 
@@ -168,7 +170,13 @@ public class ChoiceElemMapTableModel extends BaseTableModel{
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRowCount() { return sourceList.size(); }
+	public int getRowCount() { 
+		if(sourceList == null){
+			return 0;
+		}else{
+			return sourceList.size();
+		} 
+	}
 
 	/**
 	 * {@inheritDoc}

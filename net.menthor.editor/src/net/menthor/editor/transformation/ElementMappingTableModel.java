@@ -66,10 +66,18 @@ public class ElementMappingTableModel extends BaseTableModel {
 		addEntry(null, null);
 	}
 	
+//	@Override
+//	public void removeRow(int arg0) {
+//		super.removeRow(arg0);
+//		sourceList.remove(arg0);
+//		targetList.remove(arg0);
+//	}
+	
 	@Override
 	public void removeEntryAt(int index) {
 		sourceList.remove(index);
 		targetList.remove(index);
+		
 		fireTableRowsDeleted(index, index);
 	}
 	
@@ -112,12 +120,15 @@ public class ElementMappingTableModel extends BaseTableModel {
 	 */
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		if(value instanceof String) value=null; 
+		
 		if(columnIndex == 0) {
 			sourceList.set(rowIndex, (RefOntoUMLElement)value);
 		} 
 		if(columnIndex == 1){			 
 			targetList.set(rowIndex, value);
 		}		
+		super.setValueAt(value, rowIndex, columnIndex);
 	}
 	
 	/**
@@ -154,7 +165,13 @@ public class ElementMappingTableModel extends BaseTableModel {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRowCount() { return sourceList.size(); }
+	public int getRowCount() {
+		if(sourceList == null){
+			return 0;
+		}else{
+			return sourceList.size();
+		}		 
+	}
 
 	/**
 	 * {@inheritDoc}

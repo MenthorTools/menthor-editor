@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 
 import RefOntoUML.parser.OntoUMLParser;
@@ -38,7 +39,7 @@ public class BaseMappingPane extends JPanel {
 	private static final long serialVersionUID = -7587547341203464118L;
 
 	protected JScrollPane scrollpane = new JScrollPane();
-	protected JTable table = new JTable();
+	protected JTable table;
 	protected BaseTableModel tableModel;
 	protected JPanel headerPane = new JPanel();
 	protected JButton btnAdd;
@@ -74,10 +75,12 @@ public class BaseMappingPane extends JPanel {
 		scrollpane.setMinimumSize(new Dimension(0, 0));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));				
+		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));			
+		
+		table = new JTable(tableModel);
+		
 		scrollpane.setViewportView(table);
 		
-		table.setModel(tableModel);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
@@ -150,10 +153,14 @@ public class BaseMappingPane extends JPanel {
 	public void deleteMapping(ActionEvent evt) 
 	{
 		int selectedRow = table.getSelectedRow();
+		
+		table.editingStopped(new ChangeEvent(table));
+		
 		if (selectedRow >= 0 && selectedRow < tableModel.getRowCount()) 
 		{
 			tableModel.removeEntryAt(selectedRow);
 		}
+		
 	}
 	
 	public void addMapping(ActionEvent evt) 
