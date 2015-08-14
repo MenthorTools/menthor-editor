@@ -54,8 +54,9 @@ public abstract class BaseTableModel extends AbstractTableModel {
 	/**
 	 * Returns the entries.
 	 * @return the entries
+	 * @throws Exception 
 	 */
-	public abstract Object getEntries();
+	public abstract Object getEntries() throws Exception;
 	
 	/**
 	 * Moves up an entry.

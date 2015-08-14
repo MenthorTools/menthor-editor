@@ -16,7 +16,7 @@ public class OwlQualityMappingPane extends JPanel{
 	
 	protected QualityMappingPane qualityPane;
 	
-	public HashMap<RefOntoUMLElement,Object> getQualityMap()
+	public HashMap<RefOntoUMLElement,Object> getQualityMap() throws Exception
 	{
 		return ((ElementMappingTableModel)qualityPane.getTableModel()).getEntries();
 	}

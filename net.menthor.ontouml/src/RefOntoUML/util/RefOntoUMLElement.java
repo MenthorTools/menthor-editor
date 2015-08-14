@@ -47,7 +47,10 @@ public class RefOntoUMLElement implements Serializable, Comparable<RefOntoUMLEle
 	
 	@Override
 	public boolean equals(Object obj) {
-		return this.element.equals(obj);
+		if(!(obj instanceof RefOntoUMLElement)){
+			return false;
+		}
+		return this.element.equals(((RefOntoUMLElement) obj).getElement());
 	};
 	
 	/** 

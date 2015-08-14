@@ -86,10 +86,15 @@ public class OwlSettingsDialog extends TransformationDialog {
 				
 				/**owl mappings customizations*/
 				OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
-				mappings.setAttributeMappings(primitivePane.getAttributeMap());
-				mappings.setGenSetMappings(gsPane.getGenSetEnumMappingMap());										
-				mappings.setPrimitiveMappings(primitivePane.getPrimitiveMap());										
-				mappings.setQualityMappings(qualityPane.getQualityMap());
+				try {
+					mappings.setAttributeMappings(primitivePane.getAttributeMap());
+					mappings.setGenSetMappings(gsPane.getGenSetEnumMappingMap());										
+					mappings.setPrimitiveMappings(primitivePane.getPrimitiveMap());										
+					mappings.setQualityMappings(qualityPane.getQualityMap());					
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					return;
+				}
 				transOpt.setMappingsEnforcement(mappings);
 				
 				if(owner instanceof MainFrame){

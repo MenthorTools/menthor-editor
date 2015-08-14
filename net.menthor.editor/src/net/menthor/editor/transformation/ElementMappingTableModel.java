@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import net.menthor.editor.dialog.properties.BaseTableModel;
 import RefOntoUML.util.RefOntoUMLElement;
 
@@ -18,14 +20,19 @@ public class ElementMappingTableModel extends BaseTableModel {
 		super(new String[]{elementColumnTitle, targetColumnTitle});
 	}
 
-	public HashMap<RefOntoUMLElement, Object> getEntries()
+	public HashMap<RefOntoUMLElement, Object> getEntries() throws Exception
 	{
 		HashMap<RefOntoUMLElement,Object> map = new HashMap<RefOntoUMLElement,Object>();
-		int i =0;
-		for(RefOntoUMLElement src: sourceList)
+		
+		
+		for(int i =0; i < sourceList.size(); i++)
 		{
-			map.put(src,targetList.get(i));
-			i++;
+			//look if exist null entries 
+			if(sourceList.get(i) == null || targetList.get(i) == null){
+				JOptionPane.showMessageDialog(null,"You need to fill all mapping cells before to move on.","Wait...",JOptionPane.INFORMATION_MESSAGE);
+				throw new Exception("The HashMap is not full filled. You need to fill all mapping cells before to move on.");
+			}
+			map.put(sourceList.get(i),targetList.get(i));
 		}
 		return map;
 	}
@@ -51,6 +58,9 @@ public class ElementMappingTableModel extends BaseTableModel {
 			sourceList.add(sourcePrimitive);
 			targetList.add(targetPrimitive);			
 			fireTableRowsInserted(size, size);
+		}else{
+			//if exist a cell with null (<<no value>>)
+			JOptionPane.showMessageDialog(null,"You need to fill all cells before insert a new row.","Wait...",JOptionPane.INFORMATION_MESSAGE);			
 		}
 	}
 
@@ -65,13 +75,6 @@ public class ElementMappingTableModel extends BaseTableModel {
 	{
 		addEntry(null, null);
 	}
-	
-//	@Override
-//	public void removeRow(int arg0) {
-//		super.removeRow(arg0);
-//		sourceList.remove(arg0);
-//		targetList.remove(arg0);
-//	}
 	
 	@Override
 	public void removeEntryAt(int index) {
@@ -120,9 +123,32 @@ public class ElementMappingTableModel extends BaseTableModel {
 	 */
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		//if value contais a String (<<no value>>), it is replaced by null
 		if(value instanceof String) value=null; 
 		
+		//look for the previous value of the cell
+		Object previousValue;
+		if(columnIndex == 0){
+			previousValue = sourceList.get(rowIndex);
+		}else{
+			previousValue = targetList.get(rowIndex);
+		}
+		
+		//check if the value changed
+		if(previousValue == null && value == null || previousValue != null && value != null && previousValue.equals(value)) return;//no changes
+		
 		if(columnIndex == 0) {
+			//look for all source elements and check if the actual value is already there
+			for (RefOntoUMLElement existentValue : sourceList) {
+				//if one of them is null, they are different
+				if(existentValue == null && value != null || existentValue != null && value == null) continue; //they are different
+				
+				//if both are null or equal
+				if((existentValue == null && value == null) || existentValue.equals(value)){
+					JOptionPane.showMessageDialog(null,"A mapping for {" + value + "} already exist.","Wait...",JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+			}
 			sourceList.set(rowIndex, (RefOntoUMLElement)value);
 		} 
 		if(columnIndex == 1){			 

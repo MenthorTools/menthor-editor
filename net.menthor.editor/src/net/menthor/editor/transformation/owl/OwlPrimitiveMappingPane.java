@@ -60,12 +60,12 @@ public class OwlPrimitiveMappingPane extends JPanel{
 		}
 	}
 	
-	public HashMap<RefOntoUMLElement,Object> getPrimitiveMap()
+	public HashMap<RefOntoUMLElement,Object> getPrimitiveMap() throws Exception
 	{
 		return ((ElementMappingTableModel)primitiveTypePane.getTableModel()).getEntries();
 	}
 	
-	public HashMap<RefOntoUMLElement,Object> getAttributeMap()
+	public HashMap<RefOntoUMLElement,Object> getAttributeMap() throws Exception
 	{
 		return ((ElementMappingTableModel)primitiveAttrPane.getTableModel()).getEntries();
 	}
