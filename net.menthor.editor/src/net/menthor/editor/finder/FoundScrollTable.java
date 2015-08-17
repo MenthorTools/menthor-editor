@@ -36,7 +36,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.v2.tables.BaseTableModel;
-import net.menthor.editor.v2.tables.FoundTableModel;
+import net.menthor.editor.v2.tables.DataTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
@@ -105,7 +105,7 @@ public class FoundScrollTable extends JScrollPane{
 	public void reset()
 	{
 		Object[][] data = {}; String[] columnNames = {};
-		tablemodel = new FoundTableModel(columnNames,data);
+		tablemodel = new DataTableModel(columnNames,data);
 		table.setModel(tablemodel);	
 		table.repaint();
 		table.validate();		
@@ -136,7 +136,7 @@ public class FoundScrollTable extends JScrollPane{
 			i++;
 		}
 		
-		tablemodel = new FoundTableModel(columnNames,data);
+		tablemodel = new DataTableModel(columnNames,data);
 		
 		table.setModel(tablemodel);
 		

@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 
 import net.menthor.common.transformation.QualityMappingType;
-import net.menthor.editor.v2.tables.ElementTableModel;
+import net.menthor.editor.v2.tables.DuoTableModel;
 import net.menthor.editor.v2.tables.QualityTablePane;
 import net.menthor.editor.v2.types.settings.OwlSettingsMap;
 import RefOntoUML.Element;
@@ -44,19 +44,19 @@ public class OwlQualityMappingPane extends JPanel{
 	}
 	
 	public void storeToXML() throws Exception{
-		for(Entry<RefOntoUML.Element, Object> entry: getQualityMap().entrySet()){
+		for(Entry<Object, Object> entry: getQualityMap().entrySet()){
 			OwlSettingsMap.getInstance().setOwlQualityMappingType((RefOntoUML.Element)entry.getKey(),(QualityMappingType)entry.getValue());
 		}
 		OwlSettingsMap.getInstance().store();
 	}
 	
-	public HashMap<RefOntoUML.Element,Object> getQualityMap() throws Exception {
-		return ((ElementTableModel)qualityPane.getTableModel()).getEntries();
+	public HashMap<Object,Object> getQualityMap() throws Exception {
+		return ((DuoTableModel)qualityPane.getTableModel()).getEntries();
 	}
 	
 	private void addUIEntry(RefOntoUML.Element elem, QualityMappingType owlDt){
 		if(elem instanceof RefOntoUML.Quality){
-			((ElementTableModel)qualityPane.getTableModel()).addEntry(elem, owlDt);
+			((DuoTableModel)qualityPane.getTableModel()).addEntry(elem, owlDt);
 		}
 	}
 }

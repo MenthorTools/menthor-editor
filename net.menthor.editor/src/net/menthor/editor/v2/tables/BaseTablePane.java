@@ -56,7 +56,7 @@ public class BaseTablePane extends JPanel {
 	
 	/** @wbp.parser.constructor */
 	public BaseTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle){
-		tableModel = new ElementTableModel(sourceColumnTitle, targetColumnTitle);
+		tableModel = new DuoTableModel(sourceColumnTitle, targetColumnTitle);
 		buildUI(refparser);
 	}	
 	

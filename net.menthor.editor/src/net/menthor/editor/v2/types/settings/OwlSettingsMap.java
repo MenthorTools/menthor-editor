@@ -12,6 +12,7 @@ import java.util.Properties;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlReasoner;
 import net.menthor.common.transformation.QualityMappingType;
+
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
 

@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 
 import net.menthor.editor.v2.tables.AttributeTablePane;
-import net.menthor.editor.v2.tables.ElementTableModel;
+import net.menthor.editor.v2.tables.DuoTableModel;
 import net.menthor.editor.v2.tables.PrimitiveTablePane;
 import net.menthor.editor.v2.types.settings.OwlSettingsMap;
 
@@ -26,12 +26,12 @@ public class OwlPrimitiveMappingPane extends JPanel{
 	private PrimitiveTablePane primitivePane;
 	private AttributeTablePane attributePane;
 	
-	public HashMap<RefOntoUML.Element,Object> getPrimitiveMap() throws Exception {
-		return ((ElementTableModel)primitivePane.getTableModel()).getEntries();
+	public HashMap<Object,Object> getPrimitiveMap() throws Exception {
+		return ((DuoTableModel)primitivePane.getTableModel()).getEntries();
 	}
 	
-	public HashMap<RefOntoUML.Element,Object> getAttributeMap() throws Exception{
-		return ((ElementTableModel)attributePane.getTableModel()).getEntries();
+	public HashMap<Object,Object> getAttributeMap() throws Exception{
+		return ((DuoTableModel)attributePane.getTableModel()).getEntries();
 	}
 	
 	private OntoUMLParser refparser;
@@ -71,10 +71,10 @@ public class OwlPrimitiveMappingPane extends JPanel{
 	}
 	
 	public void storeToXML() throws Exception{
-		for(Entry<RefOntoUML.Element, Object> entry: getPrimitiveMap().entrySet()){
+		for(Entry<Object, Object> entry: getPrimitiveMap().entrySet()){
 			OwlSettingsMap.getInstance().setOwlDatatype((RefOntoUML.Element)entry.getKey(),(OWL2Datatype)entry.getValue());
 		}
-		for(Entry<RefOntoUML.Element, Object> entry: getAttributeMap().entrySet()){
+		for(Entry<Object, Object> entry: getAttributeMap().entrySet()){
 			OwlSettingsMap.getInstance().setOwlDatatype((RefOntoUML.Element)entry.getKey(),(OWL2Datatype)entry.getValue());
 		}
 		OwlSettingsMap.getInstance().store();
@@ -111,10 +111,10 @@ public class OwlPrimitiveMappingPane extends JPanel{
 	
 	private void addUIEntry(RefOntoUML.Element elem, OWL2Datatype owlDt){
 		if(elem instanceof RefOntoUML.PrimitiveType){
-			((ElementTableModel)primitivePane.getTableModel()).addEntry(elem, owlDt);
+			((DuoTableModel)primitivePane.getTableModel()).addEntry(elem, owlDt);
 		}
 		if(elem instanceof RefOntoUML.Property){
-			((ElementTableModel)attributePane.getTableModel()).addEntry(elem, owlDt);
+			((DuoTableModel)attributePane.getTableModel()).addEntry(elem, owlDt);
 		}
 	}
 	

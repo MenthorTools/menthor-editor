@@ -21,7 +21,6 @@ import net.menthor.ootos.util.MappedProperty;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -131,8 +130,8 @@ public class Transformer {
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
 	private ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
-	private HashMap<EObject, Object> lstQualityMappings;
-	private Set<EObject> lstMappedQualities;
+	private HashMap<Object, Object> lstQualityMappings;
+	private Set<Object> lstMappedQualities;
 	
 	private TransformationOption owlOptions;
 	private OwlAxiomsEnforcement owlAxioms;
@@ -1661,7 +1660,7 @@ public class Transformer {
 	}
 		
 	private void processSuppressedQualitiesAsAttributes() {
-		for(Entry<EObject, Object> quaEntry : lstQualityMappings.entrySet()){
+		for(Entry<Object, Object> quaEntry : lstQualityMappings.entrySet()){
 			Classifier qua = (Classifier) quaEntry.getKey();
 			
 			ArrayList<Association> assocs = ontoParser.getIndirectAssociations(qua);

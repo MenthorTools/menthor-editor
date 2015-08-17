@@ -8,7 +8,9 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.util.RefOntoUMLElement;
 
 public class ElementChoiceTableModel extends BaseTableModel{
+	
 	private static final long serialVersionUID = 156864519388945910L;
+	
 	private List<RefOntoUMLElement> sourceList = new ArrayList<RefOntoUMLElement>(); 
 	private List<Object> targetList = new ArrayList<Object>();
 	private List<Boolean> choiceOptions = new ArrayList<Boolean>();
@@ -55,11 +57,6 @@ public class ElementChoiceTableModel extends BaseTableModel{
 		}
 	}
 
-	@Override
-	public void addEntry(Object entry) 
-	{
-		
-	}
 
 	@Override
 	public void addEmptyEntry() 

@@ -84,7 +84,6 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 	}
 
-	@Override
 	public void moveUpEntry(int index) {
 		attributes.move(index-1, index);
 		fireTableRowsUpdated(index-1, index);

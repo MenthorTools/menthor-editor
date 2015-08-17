@@ -33,14 +33,21 @@ public abstract class BaseTableModel extends AbstractTableModel
 		this.columns=columnNames;
 	}
 	
-	public abstract void addEntry(Object entry);	
-	public abstract void addEmptyEntry();	
-	public abstract Object getEntries() throws Exception;	
-	public abstract void moveUpEntry(int index);	
-	public abstract void moveDownEntry(int index);	
-	public abstract void removeEntryAt(int index);
-	public abstract int getRowCount();
-	public abstract Object getValueAt(int row, int col);
+	public void addEmptyEntry(){
+		
+	}
+		
+	public void moveUpEntry(int index) {
+		fireTableRowsUpdated(index-1, index);
+	}
+	
+	public void moveDownEntry(int index) {
+		fireTableRowsUpdated(index+1, index);
+	}
+	
+	public void removeEntryAt(int index) { 
+		fireTableRowsDeleted(index, index);		
+	}
 	
 	public int getColumnCount(){
         return columns.length;
