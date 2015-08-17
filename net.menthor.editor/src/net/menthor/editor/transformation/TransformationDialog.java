@@ -49,10 +49,10 @@ public class TransformationDialog extends javax.swing.JDialog {
 		JPanel footerPane = new JPanel();
 		getContentPane().add(footerPane, BorderLayout.SOUTH);
 		
-		btnOk = new JButton("Ok");
+		btnOk = new JButton("Generate");
 		footerPane.add(btnOk);
 		
-		btnCancel = new JButton("Cancel");
+		btnCancel = new JButton("Close");
 		footerPane.add(btnCancel);
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
