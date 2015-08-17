@@ -5,7 +5,7 @@ import java.io.File;
 
 public abstract class FileReader extends FileHandler {
 
-	protected boolean canRead(Component component, File file) {		
+	public static boolean canRead(Component component, File file) {		
 		return true;
 	}
 }

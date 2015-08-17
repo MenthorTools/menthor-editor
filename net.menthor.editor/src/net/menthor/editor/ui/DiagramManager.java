@@ -1132,24 +1132,46 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** New Menthor Project. */
 	public void newProject() 
 	{				
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser(){
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void approveSelection(){
+		        File f = getSelectedFile();
+		        if(f.exists()){
+		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
+		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    super.approveSelection();
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    cancelSelection();
+		                    return;
+		            }
+		        }
+		        super.approveSelection();
+		    }   
+		};		
 		fileChooser.setDialogTitle("New Project");
 		fileChooser.addChoosableFileFilter(new MenthorFilter());
 		fileChooser.setSelectedFile(new File("*.menthor"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
-			try {			
+			try {	
+				File file = fileChooser.getSelectedFile();
+				
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));				
 				System.out.println("Creating New project");				
-				closeCurrentProject();
-				File file = fileChooser.getSelectedFile();				
-				if (!file.exists()){
-					if(!file.getName().endsWith(".menthor")) {
-						file = new File(file.getCanonicalFile() + ".menthor");
-					}else{
-						file = new File(file.getCanonicalFile()+"");
-					}
-				}				
+				closeCurrentProject();									
+				if(!file.getName().endsWith(".menthor")) {
+					file = new File(file.getCanonicalFile() + ".menthor");
+				}else{
+					file = new File(file.getCanonicalFile()+"");
+				}
 				JRootPane root = frame.getRootPane( );
 				root.putClientProperty( "Window.documentFile", file );
 				setCurrentProjectFile(file);
@@ -1160,7 +1182,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				frame.forceShowPalettePane();				
 				frame.getMainMenu().activateAll();
 				System.out.println("New project succesffully created");
-				
+								
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(), "New Project", JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
@@ -1350,20 +1372,43 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		repaint();
 		revalidate();
 	}
-
+	
 	/** Saves the project with a file chooser. */
 	public int saveProjectAs() 
 	{
-		JFileChooser fileChooser = new JFileChooser(lastSavePath);
+		JFileChooser fileChooser = new JFileChooser(lastSavePath){
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void approveSelection(){
+		        File f = getSelectedFile();
+		        if(f.exists() && getDialogType() == SAVE_DIALOG){
+		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
+		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    super.approveSelection();
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    cancelSelection();
+		                    return;
+		            }
+		        }
+		        super.approveSelection();
+		    }    
+		};
 		fileChooser.setDialogTitle("Save Project");
 		fileChooser.addChoosableFileFilter(new MenthorFilter());
-		fileChooser.setAcceptAllFileFilterUsed(false);
+		fileChooser.setAcceptAllFileFilterUsed(false);			
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
-			setCurrentProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
-			File file = fileChooser.getSelectedFile();
+			File file = fileChooser.getSelectedFile();			
+			setCurrentProjectFile(saveCurrentProjectToFile(file));			
 			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			lastSavePath = file.getAbsolutePath();			
+			lastSavePath = file.getAbsolutePath();		
 		}
 		return option;
 	}
