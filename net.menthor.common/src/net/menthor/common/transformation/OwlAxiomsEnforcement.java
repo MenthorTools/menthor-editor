@@ -1,7 +1,5 @@
 package net.menthor.common.transformation;
 
-
-
 public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	
 	/**ontology IRI*/
@@ -17,6 +15,7 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	private boolean domain = true;
 	private boolean range = true;
 	private boolean inverse = true;
+	private boolean namedByAssocEnds = false;
 	
 	/**association binary association*/
 	private boolean reflexive = true;
@@ -84,4 +83,6 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	public void setUfoStructure(boolean ufoStructure) { this.ufoStructure = ufoStructure; }	
 	public OwlReasoner getOwlReasoner() { return owlReasoner; }
 	public void setOwlReasoner(OwlReasoner owlReasoner) { this.owlReasoner = owlReasoner; }
+	public void setNamedByAssocEnds(boolean namedByAssocEnds) { this.namedByAssocEnds = namedByAssocEnds; }
+	public boolean isNamedByAssocEnds() { return namedByAssocEnds; }
 }

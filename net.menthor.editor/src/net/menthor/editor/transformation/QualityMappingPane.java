@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
+import net.menthor.common.transformation.QualityMappingType;
 import RefOntoUML.Quality;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;

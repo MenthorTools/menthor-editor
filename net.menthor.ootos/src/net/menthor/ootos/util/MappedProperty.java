@@ -5,16 +5,21 @@ import RefOntoUML.NamedElement;
 public class MappedProperty {
 	private NamedElement property;
 	private String generatedName;
+	private String invGeneratedName;
 	private MappedProperty mappedAsSubPropertyOf;
 	private boolean isAbstract = false; 
 	
-	public MappedProperty(NamedElement _property, String _generatedName) {
+	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName) {
 		property = _property;
 		generatedName = _generatedName;
+		invGeneratedName = _invGeneratedName;
+		if(property == null){
+			System.out.println();
+		}			
 	}
 	
-	public MappedProperty(NamedElement _property, String _generatedName, boolean _isAbstract) {
-		this(_property, _generatedName);
+	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName, boolean _isAbstract) {
+		this(_property, _generatedName, _invGeneratedName);
 		isAbstract = _isAbstract;
 	}
 	
@@ -52,5 +57,9 @@ public class MappedProperty {
 	
 	public boolean isAbstract() {
 		return isAbstract;
+	}
+	
+	public String getInvGeneratedName() {
+		return invGeneratedName;
 	}
 }
