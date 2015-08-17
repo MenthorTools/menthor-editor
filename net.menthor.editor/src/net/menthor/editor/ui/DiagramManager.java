@@ -2411,7 +2411,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific()))
 		{	
-			UmlConnection conn = d.dragRelation(gen,gen.eContainer());			
+			UmlConnection conn = d.dragRelation(gen,(EObject)d.getDiagram().getContainer());			
 			if (gen.getGeneralizationSet().size()>0) 
 			{
 				Classifier general = gen.getGeneral();
@@ -2467,7 +2467,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		Type tgt = ((Association)association).getMemberEnd().get(1).getType();				
 		if (d.getDiagram().containsChild(src) && d.getDiagram().containsChild(tgt))	
 		{			
-			AssociationElement conn = (AssociationElement) d.dragRelation(association,association.eContainer());
+			AssociationElement conn = (AssociationElement) d.dragRelation(association,(EObject)d.getDiagram().getContainer());
 			if(isRectilinear) d.setLineStyle(conn, LineStyle.RECTILINEAR);
 			else d.setLineStyle(conn, LineStyle.DIRECT);
 			conn.setShowMultiplicities(showMultiplicities);

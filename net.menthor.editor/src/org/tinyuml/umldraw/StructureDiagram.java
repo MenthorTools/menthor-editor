@@ -85,6 +85,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 
@@ -100,18 +101,22 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	private static final long serialVersionUID = -874538211438595440L;
 	private static final int ADDITIONAL_SPACE_RIGHT = 0;
 	private static final int ADDITIONAL_SPACE_BOTTOM = 0;
+	
 	private transient boolean gridVisible = true, snapToGrid = true, saveNeeded = true;
 	private transient Collection<LabelChangeListener> nameChangeListeners = new ArrayList<LabelChangeListener>();
 	private transient Set<NodeChangeListener> nodeChangeListeners = new HashSet<NodeChangeListener>();
+	private transient boolean generateTheme = true;
+	private transient Object container;
+	
 	private int gridSize = 5;
 	private String name;
 	private List<Connection> connections = new ArrayList<Connection>();
 	private Label nameLabel = new SimpleLabel();
 	private UmlProject project;
 //	private DiagramElementFactory elementFactory;
-	private DrawingContext drawingContext;
-	private transient Object container;
-	private transient boolean generateTheme = true;
+	private DrawingContext drawingContext;	
+	private String uuidContainer = new String();
+	
 	
 	/**
 	 * Writes the instance variables to the stream.
@@ -126,7 +131,9 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		stream.writeUTF(name);
 		stream.writeObject(connections);
 		stream.writeObject(nameLabel);
-		stream.writeObject(project);		
+		stream.writeObject(project);			
+		
+		if(uuidContainer!=null) stream.writeUTF(uuidContainer);
 	}
 
 	/**
@@ -145,14 +152,20 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		name = stream.readUTF();
 		connections = (List<Connection>) stream.readObject();		
 		nameLabel = (Label) stream.readObject();
-		project = (UmlProject) stream.readObject();				
+		project = (UmlProject) stream.readObject();	
+		
+		try{
+			uuidContainer = stream.readUTF();
+		}catch(IOException e){
+			System.err.println("Reading Serialized Diagram: No UUID container found at the diagram: "+name);
+		}
+		
 		gridVisible = true;
 		snapToGrid = true;
 		saveNeeded = false;
 		nameChangeListeners = new ArrayList<LabelChangeListener>();
 		nodeChangeListeners = new HashSet<NodeChangeListener>();
-		generateTheme = true;		
-		
+		generateTheme = true;	
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -188,11 +201,16 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	}
 	
 	@Override
-	public Object getContainer() {		
-		return container;
+	public Object getContainer() {
+		if(container!=null) return container;
+		else if(uuidContainer!=null && !uuidContainer.isEmpty()) return OntoUMLParser.getElementByUUID(getModel(), uuidContainer);
+		else return null;
 	}
 	
-	public void setContainer(Object container){ this.container = container; }
+	public void setContainer(Object container){ 
+		this.container = container;
+		uuidContainer = OntoUMLParser.getUUIDFromElement((RefOntoUML.Element)container);
+	}
 	
 	/**
 	 * Constructor.

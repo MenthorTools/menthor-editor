@@ -68,7 +68,9 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(notification==null) this.addToDiagram = false; else this.addToDiagram=true;
 		this.element = element;		
 		this.eContainer = eContainer;
-		this.diagramElement = ModelHelper.getDiagramElementByDiagram(element,((DiagramEditor)notification).getDiagram());		
+		if(((DiagramEditor)notification)!=null){
+			this.diagramElement = ModelHelper.getDiagramElementByDiagram(element,((DiagramEditor)notification).getDiagram());
+		}
 		if(this.diagramElement==null) {
 			if(element instanceof RefOntoUML.Class || element instanceof RefOntoUML.Association || element instanceof RefOntoUML.DataType || element instanceof RefOntoUML.Generalization)
 			{				

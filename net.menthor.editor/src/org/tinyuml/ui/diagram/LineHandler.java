@@ -120,7 +120,7 @@ public class LineHandler implements EditorMode {
     tmpPos.setLocation(mx, my);
     if(source !=null && target !=null){
     	UmlConnection conn = createConnection(editor, connectMethod, relationType, source, target, anchor, tmpPos); 
-    	addConnection(editor, conn, source, target, null);
+    	addConnection(editor, conn, source, target, (EObject)editor.getDiagram().getContainer());
     }
     isDragging = false;
     editor.redraw();
