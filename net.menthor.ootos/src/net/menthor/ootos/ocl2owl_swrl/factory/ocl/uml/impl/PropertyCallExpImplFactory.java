@@ -9,6 +9,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
+import net.menthor.ootos.util.MappedProperty;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.OCLExpressionImpl;
@@ -401,7 +402,13 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		//get the equivalent ontoUML association
 		RefOntoUML.Association ontoUmlAssociation = getEquivalentOntoUmlAssociation(refParser, association);
 		//get the association name
-		String prop = mappingProperties.getPropertyName(ontoUmlAssociation, isInverse);
+		MappedProperty mappedProperty = mappingProperties.getPropertyName(ontoUmlAssociation);
+		String prop;
+		if(isInverse){
+			prop = mappedProperty.getInvGeneratedName();
+		}else{
+			prop = mappedProperty.getGeneratedName();
+		}
 		return prop;
 	}
 	

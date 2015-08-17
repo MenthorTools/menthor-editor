@@ -34,25 +34,19 @@ public class MappingProperties {
 	@SuppressWarnings("unused")
 	private MappingProperties() {}
 	
-	public String getPropertyName(NamedElement property, boolean isInverse){
-		String propertyName = "";
+	public MappedProperty getPropertyName(NamedElement property){
 		String propertyAlias = ontoParser.getAlias(property);
-		
+		MappedProperty mappedProperty;
 		if(propertyByAlias.containsKey(propertyAlias)){
-			MappedProperty mappedProperty = propertyByAlias.get(propertyAlias);
-			if(isInverse){
-				propertyName = mappedProperty.getInvGeneratedName();
-			}else{
-				propertyName = mappedProperty.getGeneratedName();
-			}
+			mappedProperty = propertyByAlias.get(propertyAlias);
 		}else{
-			propertyName = generatePropertyName(property, null, isInverse);
+			mappedProperty = generatePropertyName(property, null);
 		}
 		
-		return propertyName;
+		return mappedProperty;
 	}
 
-	private String generatePropertyNameByAssocName(NamedElement property, MappedProperty superMappedProperty, boolean isInverse) {
+	private MappedProperty generatePropertyNameByAssocName(NamedElement property, MappedProperty superMappedProperty) {
 		String propertyName = property.getName();
 		String initialName = propertyName;
 
@@ -99,7 +93,7 @@ public class MappingProperties {
 		MappedProperty secondAbstract = null, thirdAbstract = null;
 		if(propertyByName.containsKey(propertyName)){
 			MappedProperty oldMappedProperty = propertyByName.get(propertyName);
-			secondAbstract = refactorProperty(property, oldMappedProperty, isInverse);
+			secondAbstract = refactorProperty(property, oldMappedProperty);
 			
 			//concatena source e target no NOME da nova propriedade
 			if(property instanceof Association){
@@ -109,7 +103,7 @@ public class MappingProperties {
 		
 		if(propertyByName.containsKey(propertyName)){
 			MappedProperty oldMappedProperty = propertyByName.get(propertyName);
-			thirdAbstract = refactorProperty(property, oldMappedProperty, isInverse);
+			thirdAbstract = refactorProperty(property, oldMappedProperty);
 			
 			//concatena source e target no ALIAS da nova propriedade
 			if(property instanceof Association){
@@ -136,29 +130,29 @@ public class MappingProperties {
 		propertyByName.put(propertyName, newMappedProperty);
 		propertyByAlias.put(propertyAlias, newMappedProperty);
 		
-		return propertyName;
+		return newMappedProperty;
 	}
 	
-	private String generatePropertyNameByAssocEnd(NamedElement property, MappedProperty superMappedProperty, boolean isInverse) {
-		return "";
+	private MappedProperty generatePropertyNameByAssocEnd(NamedElement property, MappedProperty superMappedProperty) {
+		return null;
 	}
 	
-	private String generatePropertyName(NamedElement property, MappedProperty superMappedProperty, boolean isInverse) {
+	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
 		if(((OwlAxiomsEnforcement)owlOptions.getAxiomsEnforcement()).isNamedByAssocEnds()){
-			return generatePropertyNameByAssocEnd(property, superMappedProperty, isInverse);
+			return generatePropertyNameByAssocEnd(property, superMappedProperty);
 		}else{
-			return generatePropertyNameByAssocName(property, superMappedProperty, isInverse);
+			return generatePropertyNameByAssocName(property, superMappedProperty);
 		}		
 	}
 	
-	public MappedProperty refactorProperty(NamedElement _property, MappedProperty property, boolean isInverse){
+	public MappedProperty refactorProperty(NamedElement _property, MappedProperty property){
 		//pega a propriedade que ja possui esse nome e gera outro nome para ela
 		MappedProperty existentMappedProperty = propertyByName.get(property.getGeneratedName());
 		MappedProperty abstractMappedProperty = existentMappedProperty;
 		if(existentMappedProperty.isAbstract() == false){
 			abstractMappedProperty = new MappedProperty(_property, property.getGeneratedName(), property.getInvGeneratedName(), true);//////////////////////////////
 			propertyByName.put(property.getGeneratedName(), abstractMappedProperty);
-			generatePropertyName(existentMappedProperty.getProperty(), abstractMappedProperty, isInverse);
+			generatePropertyName(existentMappedProperty.getProperty(), abstractMappedProperty);
 		}		
 		return abstractMappedProperty;
 	}
@@ -168,7 +162,7 @@ public class MappingProperties {
 		Set<Association> allAssociations = ontoParser.getAllInstances(RefOntoUML.Association.class);
 		
 		for (Association association : allAssociations) {
-			generatePropertyName(association, null, true);
+			generatePropertyName(association, null);
 //			generatePropertyName(association, null, false);
 		}
 		
@@ -176,7 +170,7 @@ public class MappingProperties {
 		for (Class ontCls : lstOntClass) {
 			EList<Property> allAttributes = ontCls.getAttribute();
 			for (Property attribute : allAttributes) {
-				generatePropertyName(attribute, null, false);
+				generatePropertyName(attribute, null);
 			}
 		}
 		
@@ -201,5 +195,19 @@ public class MappingProperties {
 		MappedProperty superMappedProperty = mappedProperty.getMappedAsSubPropertyOf();
 		
 		return superMappedProperty;
+	}
+	
+	public MappedProperty getTopSuperProperty(NamedElement property){
+		String alias = ontoParser.getAlias(property).replace("\n", "_");
+		MappedProperty mappedProperty = propertyByAlias.get(alias);
+		
+		MappedProperty superMappedProperty = mappedProperty, topSuperMappedProperty;
+		do {
+			topSuperMappedProperty = superMappedProperty;
+			
+			superMappedProperty = superMappedProperty.getMappedAsSubPropertyOf();
+		} while (superMappedProperty != null);		
+		
+		return topSuperMappedProperty;
 	}
 }
