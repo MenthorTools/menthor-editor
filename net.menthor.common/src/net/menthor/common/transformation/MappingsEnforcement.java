@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 
-import RefOntoUML.util.RefOntoUMLElement;
-
 public class MappingsEnforcement {
 
 	private HashMap<EObject, Object> primitiveMappings = new HashMap<EObject, Object>();
@@ -14,24 +12,24 @@ public class MappingsEnforcement {
 	private HashMap<EObject, Object> qualityMappings = new HashMap<EObject, Object>();	
 	private Object[][] genSetMappings;
 	
-	public void setQualityMappings(HashMap<RefOntoUMLElement, Object> qualityMappings) 
+	public void setQualityMappings(HashMap<RefOntoUML.Element, Object> qualityMappings) 
 	{
-		for (Entry<RefOntoUMLElement, Object> entry : qualityMappings.entrySet()){
-			this.qualityMappings.put(entry.getKey().getElement(),entry.getValue());
+		for (Entry<RefOntoUML.Element, Object> entry : qualityMappings.entrySet()){
+			this.qualityMappings.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setPrimitiveMappings(HashMap<RefOntoUMLElement, Object> primitiveMappings)
+	public void setPrimitiveMappings(HashMap<RefOntoUML.Element, Object> primitiveMappings)
 	{
-		for (Entry<RefOntoUMLElement, Object> entry : primitiveMappings.entrySet()) {
-			this.primitiveMappings.put(entry.getKey().getElement(),entry.getValue());
+		for (Entry<RefOntoUML.Element, Object> entry : primitiveMappings.entrySet()) {
+			this.primitiveMappings.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setAttributeMappings(HashMap<RefOntoUMLElement, Object> attributeMappings) 
+	public void setAttributeMappings(HashMap<RefOntoUML.Element, Object> attributeMappings) 
 	{
-		for (Entry<RefOntoUMLElement, Object> entry : attributeMappings.entrySet()) {
-			this.attributeMappings.put(entry.getKey().getElement(),entry.getValue());
+		for (Entry<RefOntoUML.Element, Object> entry : attributeMappings.entrySet()) {
+			this.attributeMappings.put(entry.getKey(),entry.getValue());
 		}
 	}	
 	

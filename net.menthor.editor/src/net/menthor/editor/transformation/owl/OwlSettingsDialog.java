@@ -35,14 +35,14 @@ import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.types.settings.OwlSettingsMap;
-import net.menthor.editor.v2.types.settings.OwlSettingsPane;
+import net.menthor.editor.v2.types.settings.OwlAxiomsPane;
 
 public class OwlSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
 	private OwlApproachPane approachPane;
-	private OwlSettingsPane axiomsPane;
+	private OwlAxiomsPane axiomsPane;
 	private OwlPrimitiveMappingPane primitivePane;
 	private OwlQualityMappingPane qualityPane;
 	private OwlGenSetMappingPane gsPane;
@@ -55,7 +55,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 		primitivePane = new OwlPrimitiveMappingPane(Models.getRefparser());
 		qualityPane = new OwlQualityMappingPane(Models.getRefparser());
 		gsPane = new OwlGenSetMappingPane(Models.getRefparser());
-		axiomsPane = new OwlSettingsPane();
+		axiomsPane = new OwlAxiomsPane();
 		
 		addNonClosable("Approach", approachPane);
 		addNonClosable("Filter", getFilter());
@@ -70,8 +70,14 @@ public class OwlSettingsDialog extends TransformationDialog {
 				
 		getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {				
-									
-				axiomsPane.storeToXML();
+				
+				try {
+					axiomsPane.storeToXML();
+					primitivePane.storeToXML();
+					qualityPane.storeToXML();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				
 				/**base options*/
 				TransformationOption transOpt = new TransformationOption(

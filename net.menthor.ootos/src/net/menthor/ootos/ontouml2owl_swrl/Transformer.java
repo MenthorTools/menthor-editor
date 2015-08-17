@@ -2165,7 +2165,7 @@ public class Transformer {
 	private boolean isMappedAsOwlClass(RefOntoUML.Classifier cls){
 		Object qualityMappingType = lstQualityMappings.get(cls);
 		if(		lstNominalQualities.contains(cls) || 
-				lstMappedQualities.contains(cls) && qualityMappingType != null && qualityMappingType.equals(QualityMappingType.hideQuality)||
+				lstMappedQualities.contains(cls) && qualityMappingType != null && qualityMappingType.equals(QualityMappingType.HIDE_QUALITY)||
 				cls instanceof DataType){
 			return false;
 		}

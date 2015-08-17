@@ -96,7 +96,7 @@ import net.menthor.editor.ui.UmlProject;
  * @author Wei-ju Wu, John Guerson
  */
 public class StructureDiagram extends AbstractCompositeNode implements
-		NodeChangeListener, LabelSource, Diagram, Comparable<StructureDiagram> {
+		NodeChangeListener, LabelSource, Diagram {
 
 	private static final long serialVersionUID = -874538211438595440L;
 	private static final int ADDITIONAL_SPACE_RIGHT = 0;
@@ -1188,10 +1188,8 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	}
 
 	@Override
-	public int compareTo(StructureDiagram arg0) {
-		int value = arg0.getName().compareTo(this.getName());
+	public int compareTo(Element arg0) {
+		int value = ((StructureDiagram)arg0).getName().compareTo(this.getName());
 		if(value!=0) return -value; else return value;
 	}
-
-
 }

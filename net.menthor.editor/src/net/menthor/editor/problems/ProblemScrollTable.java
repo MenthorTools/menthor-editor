@@ -27,7 +27,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 import net.menthor.editor.finder.FoundScrollTable;
-import net.menthor.editor.finder.FoundTableModel;
+import net.menthor.editor.v2.tables.ProblemTableModel;
 
 public class ProblemScrollTable extends FoundScrollTable {
 
@@ -62,7 +62,7 @@ public class ProblemScrollTable extends FoundScrollTable {
 			i++;
 		}
 		
-		tablemodel = new FoundTableModel(columnNames,data);
+		tablemodel = new ProblemTableModel(columnNames,data);
 		
 		table.setModel(tablemodel);
 		

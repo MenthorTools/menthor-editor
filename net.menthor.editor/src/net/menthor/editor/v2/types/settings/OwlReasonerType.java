@@ -28,7 +28,7 @@ public enum OwlReasonerType implements Serializable {
 
 	public static void main (String args[])
 	{
-		for(OwlSettingsType c: OwlSettingsType.values()){
+		for(OwlAxiomsType c: OwlAxiomsType.values()){
 			System.out.println(c);
 		}
 	}

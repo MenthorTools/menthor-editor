@@ -6,11 +6,12 @@ import java.util.List;
 import javax.swing.table.TableColumn;
 
 import net.menthor.common.transformation.GenMappingEnum;
+import net.menthor.editor.v2.tables.BaseTablePane;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
 
-public class GeneralizationSetMappingPane extends BaseMappingPane {
+public class GeneralizationSetMappingPane extends BaseTablePane {
 	
 	private static final long serialVersionUID = -7587547341203464118L;
 	

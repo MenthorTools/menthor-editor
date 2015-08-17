@@ -1,4 +1,4 @@
-package net.menthor.editor.transformation;
+package net.menthor.editor.v2.tables;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -28,59 +27,62 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 
-import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.AttributesEditionPanel;
-import net.menthor.editor.dialog.properties.BaseTableModel;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
+import RefOntoUML.parser.OntoUMLParser;
 
-public class BaseMappingPane extends JPanel {
+public class BaseTablePane extends JPanel {
 	
 	private static final long serialVersionUID = -7587547341203464118L;
 
-	protected JScrollPane scrollpane = new JScrollPane();
-	protected JTable table;
 	protected BaseTableModel tableModel;
+	protected JScrollPane scrollpane = new JScrollPane();
+	protected JTable table;	
 	protected JPanel headerPane = new JPanel();
 	protected JButton btnAdd;
 	protected JButton btnDelete;
 	protected JTextPane textPane = new JTextPane();
 	
-	public BaseTableModel getTableModel()
-	{
-		return tableModel;
+	public BaseTableModel getTableModel(){ return tableModel; }	
+	public JPanel getHeaderPane() { return headerPane; }
+	public void setText(String text) { textPane.setText(text); }
+	
+	public BaseTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String choiceColumnTitle){
+		tableModel = new ElementChoiceTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
+		buildUI(refparser);
 	}
 	
-	public JPanel getHeaderPane()
-	{
-		return headerPane;
-	}
-	public void setText(String text)
-	{
-		textPane.setText(text);		
-	}
-	
-	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String choiceColumnTitle){
-		tableModel = new ChoiceElemMapTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
-		init(refparser);
-	}
-	
-	public BaseMappingPane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle)
-	{
-		tableModel = new ElementMappingTableModel(sourceColumnTitle, targetColumnTitle);
-		init(refparser);
+	/** @wbp.parser.constructor */
+	public BaseTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle){
+		tableModel = new ElementTableModel(sourceColumnTitle, targetColumnTitle);
+		buildUI(refparser);
 	}	
 	
-	public void init(OntoUMLParser refparser){
+	public void addMapping(ActionEvent evt){
+		tableModel.addEmptyEntry();		
+	}
+	
+	public void refreshData(){
+		tableModel.fireTableDataChanged();
+	}
+	
+	public void deleteMapping(ActionEvent evt){
+		int selectedRow = table.getSelectedRow();		
+		table.editingStopped(new ChangeEvent(table));		
+		if (selectedRow >= 0 && selectedRow < tableModel.getRowCount()){
+			tableModel.removeEntryAt(selectedRow);
+		}		
+	}
+	
+	private void buildUI(OntoUMLParser refparser){
 		scrollpane.setMinimumSize(new Dimension(0, 0));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));			
-		
-		table = new JTable(tableModel);
-		
-		scrollpane.setViewportView(table);
-		
+		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));		
+		table = new JTable(tableModel);		
+		scrollpane.setViewportView(table);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
@@ -88,35 +90,29 @@ public class BaseMappingPane extends JPanel {
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);
-		headerPane.setPreferredSize(new Dimension(10, 60));
-		
+		headerPane.setPreferredSize(new Dimension(10, 60));		
 		setLayout(new BorderLayout(0,0));		
 		add(headerPane, BorderLayout.NORTH);
 		textPane.setEditable(false);
 		textPane.setMargin(new Insets(10, 10, 5, 3));
 		textPane.setPreferredSize(new Dimension(6, 50));
-		textPane.setBackground(UIManager.getColor("Panel.background"));
-		
+		textPane.setBackground(UIManager.getColor("Panel.background"));		
 		btnAdd = new JButton();
 		btnAdd.setPreferredSize(new Dimension(33, 30));
 		btnAdd.setFocusable(false);
-		btnAdd.setToolTipText("Add new primitive type mapping");
-		//btnAdd.setText("Add");
-		btnAdd.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnAdd.setToolTipText("Add new mapping");
+		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				addMapping(arg0);
 			}
-		});
-		
+		});		
 		btnDelete = new JButton();
 		btnDelete.setPreferredSize(new Dimension(33, 30));
 		btnDelete.setFocusable(false);
-		btnDelete.setToolTipText("Delete selected primitive type mapping");
-		//btnDelete.setText("Delete");
-		btnDelete.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
-		
+		btnDelete.setToolTipText("Delete selected mapping");
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));		
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -149,54 +145,24 @@ public class BaseMappingPane extends JPanel {
 		headerPane.setLayout(gl_headerPane);
 		add(scrollpane, BorderLayout.CENTER);
 	}
-	
-	public void deleteMapping(ActionEvent evt) 
-	{
-		int selectedRow = table.getSelectedRow();
 		
-		table.editingStopped(new ChangeEvent(table));
-		
-		if (selectedRow >= 0 && selectedRow < tableModel.getRowCount()) 
-		{
-			tableModel.removeEntryAt(selectedRow);
-		}
-		
-	}
-	
-	public void addMapping(ActionEvent evt) 
-	{
-		tableModel.addEmptyEntry();		
-	}
-	
-	public void refreshData()
-	{
-		tableModel.fireTableDataChanged();
-	}
-	
-	protected TableCellEditor createEditor(Object[] objects) 
-	{
+	protected TableCellEditor createEditor(Object[] objects) {
         @SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox combo = new JComboBox(objects) {
         	private static final long serialVersionUID = 1L;			
 			@Override
-			protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) 
-			{
+			protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed){
 				boolean retValue = super.processKeyBinding(ks, e, condition,pressed);
                 if (!retValue && isStartingCellEdit() && editor != null) {
-                    // this is where the magic happens
-                    // not quite right; sets the value, but doesn't advance the
-                    // cursor position for AC
                     editor.setItem(String.valueOf(ks.getKeyChar()));
                 }
                 return retValue;
 			}			
-            private boolean isStartingCellEdit() 
-            {
+            private boolean isStartingCellEdit(){
                 JTable table = (JTable) SwingUtilities.getAncestorOfClass(JTable.class, this);
                 return table != null && table.isFocusOwner() && !Boolean.FALSE.equals((Boolean)table.getClientProperty("JTable.autoStartsEdit"));
             }
         };        
-        //AutoCompleteDecorator.decorate(combo);
         combo.setEditable(true);
         return new DefaultCellEditor(combo);
     }

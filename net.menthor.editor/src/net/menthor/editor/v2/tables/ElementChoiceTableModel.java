@@ -1,21 +1,19 @@
-package net.menthor.editor.transformation;
+package net.menthor.editor.v2.tables;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import net.menthor.editor.dialog.properties.BaseTableModel;
 
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.util.RefOntoUMLElement;
 
-public class ChoiceElemMapTableModel extends BaseTableModel{
+public class ElementChoiceTableModel extends BaseTableModel{
 	private static final long serialVersionUID = 156864519388945910L;
 	private List<RefOntoUMLElement> sourceList = new ArrayList<RefOntoUMLElement>(); 
 	private List<Object> targetList = new ArrayList<Object>();
 	private List<Boolean> choiceOptions = new ArrayList<Boolean>();
 	
-	public ChoiceElemMapTableModel(String elementColumnTitle, String targetColumnTitle, String choiceColumnTitle) {
+	public ElementChoiceTableModel(String elementColumnTitle, String targetColumnTitle, String choiceColumnTitle) {
 		super(new String[]{elementColumnTitle, targetColumnTitle, choiceColumnTitle});
 	}
 	

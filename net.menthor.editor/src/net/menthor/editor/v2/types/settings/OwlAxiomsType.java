@@ -2,9 +2,9 @@ package net.menthor.editor.v2.types.settings;
 
 import java.io.Serializable;
 
-public enum OwlSettingsType implements Serializable {
+public enum OwlAxiomsType implements Serializable {
 
-	ONTOLOGY_IRI(""),
+	ONTOLOGY_IRI(""),	
 	DISJOINTNESS_OF_CLASSES(""),
 	DISJOINTNESS_OF_ASSOCIATIONS(""),
 	COMPLETENESS_OF_CLASSES(""),
@@ -23,11 +23,11 @@ public enum OwlSettingsType implements Serializable {
 	UFO_STRUCTURE(""),	
 	LABELS(""),
 	COMMENTS(""),
-	REASONER("");
+	REASONER("");	
 	
 	private String description;
 
-	OwlSettingsType(String value)
+	OwlAxiomsType(String value)
 	{
 		this.description = value;
 	}
@@ -36,7 +36,7 @@ public enum OwlSettingsType implements Serializable {
 
 	public static void main (String args[])
 	{
-		for(OwlSettingsType c: OwlSettingsType.values()){
+		for(OwlAxiomsType c: OwlAxiomsType.values()){
 			System.out.println(c);
 		}
 	}

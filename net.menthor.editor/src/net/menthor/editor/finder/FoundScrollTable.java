@@ -35,6 +35,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import net.menthor.editor.v2.tables.BaseTableModel;
+import net.menthor.editor.v2.tables.FoundTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
@@ -45,7 +47,7 @@ public class FoundScrollTable extends JScrollPane{
 
 	protected static final long serialVersionUID = 1732036629191359696L;
 	protected JTable table;
-	protected FoundTableModel tablemodel;
+	protected BaseTableModel tablemodel;
 	protected ArrayList<FoundElement> foundList = new ArrayList<FoundElement>();
 	protected String[] columnNames;
 	

@@ -200,11 +200,11 @@ public class FeatureListDialog extends JDialog {
 		
 		//Title
 		if (element instanceof Property)
-			setTitle(attributeName+" - "+refparser.getStereotype(element)+" "+((NamedElement)element).getName()+": "+((Property)element).getType().getName());
+			setTitle(attributeName+" - "+OntoUMLParser.getStereotype(element)+" "+((NamedElement)element).getName()+": "+((Property)element).getType().getName());
 		else if (element instanceof Generalization) 
-			setTitle(attributeName+" - "+refparser.getStereotype(element)+" "+((Generalization)element).getGeneral().getName()+" -> "+((Generalization)element).getSpecific().getName());			
+			setTitle(attributeName+" - "+OntoUMLParser.getStereotype(element)+" "+((Generalization)element).getGeneral().getName()+" -> "+((Generalization)element).getSpecific().getName());			
 		else
-			setTitle(attributeName+" - "+refparser.getStereotype(element)+" "+((NamedElement)element).getName());
+			setTitle(attributeName+" - "+OntoUMLParser.getStereotype(element)+" "+((NamedElement)element).getName());
 		
 		setBounds(100, 100, 745, 292);
 		

@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import net.menthor.editor.transformation.ChoiceElemMapTableModel;
 import net.menthor.editor.transformation.GeneralizationSetMappingPane;
+import net.menthor.editor.v2.tables.ElementChoiceTableModel;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlGenSetMappingPane extends JPanel{
@@ -16,7 +16,7 @@ public class OwlGenSetMappingPane extends JPanel{
 	
 	public Object[][] getGenSetEnumMappingMap()
 	{
-		return ((ChoiceElemMapTableModel)gsPane.getTableModel()).getEntries();
+		return ((ElementChoiceTableModel)gsPane.getTableModel()).getEntries();
 	}
 	
 	public OwlGenSetMappingPane(OntoUMLParser refparser)
