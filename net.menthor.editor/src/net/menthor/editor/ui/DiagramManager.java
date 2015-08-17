@@ -308,7 +308,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void collectStatistics()
 	{
-		addStatisticsPanel(frame.getInfoManager(),true);
+		addStatisticsPanel(frame.getDiagramManager(),true);
 	}
 	
 	/** Adds a Statistics panel to the manager */

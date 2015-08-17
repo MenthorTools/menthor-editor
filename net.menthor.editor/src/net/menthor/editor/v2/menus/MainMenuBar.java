@@ -230,7 +230,7 @@ public class MainMenuBar extends BaseMenuBar {
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);
 		createMenuItem(project, "Find", CommandType.FIND_TERM, background,stroke);
-		createMenuItem(project, "Collect Statistics", CommandType.COLLECT_STATISTICS, background);
+		createMenuItem(project, "Statistics", CommandType.COLLECT_STATISTICS, background);
 	}	
 
 	private void createRulesMenu(){
