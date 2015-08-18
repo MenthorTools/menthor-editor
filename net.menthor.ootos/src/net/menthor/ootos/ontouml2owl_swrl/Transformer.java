@@ -14,11 +14,13 @@ import java.util.Set;
 import net.menthor.common.transformation.GenMappingEnum;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
+import net.menthor.common.transformation.OwlReasoner;
 import net.menthor.common.transformation.QualityMappingType;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappedProperty;
 import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.StringUtil;
 
 import org.eclipse.emf.common.util.EList;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -420,7 +422,7 @@ public class Transformer {
 			//String s = new String(os.toByteArray(),"ISO-8859-1");
 			String owl = new String(os.toByteArray(),"UTF-8");
 			//Process special characters
-			owl = processSpecialCharacter(owl);
+			owl = StringUtil.processSpecialCharacter(owl);
 			return owl;
 //		} catch (Exception e) {
 //			e.printStackTrace();
@@ -492,11 +494,17 @@ public class Transformer {
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlAxioms.isInverseFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlAxioms.isTransitive()){
+			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && (!owlAxioms.isTransitive() || owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet))){
+				if(owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet)){
+					errors += "The axiom Transitivity was removed because is not supported by Pellet.\n";
+				}
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlAxioms.isSymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlAxioms.isAsymmetric()){
+			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && (!owlAxioms.isAsymmetric() || owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet))){
+				if(owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet)){
+					errors += "The axiom Transitivity was removed because is not supported by Pellet.\n";
+				}
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlAxioms.isReflexive()){
 				manager.removeAxiom(ontology, owlAxiom);
@@ -938,16 +946,6 @@ public class Transformer {
 	}
 
 	/**
-	 * Used to clean up the string with the owl.
-	 * Sometimes wildcards can do a mistake in the code.
-	 * */
-	private String processSpecialCharacter(String owl) {
-		owl = Normalizer.normalize(owl, Normalizer.Form.NFD);
-		owl = owl.replaceAll("[^\\p{ASCII}]", "");
-		return owl;
-	}
-
-	/**
 	 * This method make a unique for to create a string name for an Type
 	 * */
 	private String getName(RefOntoUML.Type ontType){
@@ -1312,6 +1310,7 @@ public class Transformer {
 				String assName = mappedProperty.getGeneratedName();
 				String invAssName = mappedProperty.getInvGeneratedName();
 				prop = getObjectProperty(ass);
+				invProp = getInverseObjectProperty(ass, stereotype);
 				if(prop == null){
 					topProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
 					invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+invAssName));
@@ -1335,9 +1334,25 @@ public class Transformer {
 				}
 	
 				if(this.owlAxioms.isLabels()){
-					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ass.getName()));
+					String label;
+					if(this.owlAxioms.isAssocNamesByAssocEnds()){
+						String tgtEndName = ass.getMemberEnd().get(1).getName();
+						label = tgtEndName;
+					}else{
+						label = ass.getName();
+					}
+					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
 					OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( prop.getIRI(), commentAnno);
 					manager.applyChange(new AddAxiom(ontology, commeAx));
+					
+					if(this.owlAxioms.isAssocNamesByAssocEnds()){
+						String srcEndName = ass.getMemberEnd().get(0).getName();
+						label = srcEndName;
+						
+						commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
+						commeAx = factory.getOWLAnnotationAssertionAxiom( invProp.getIRI(), commentAnno);
+						manager.applyChange(new AddAxiom(ontology, commeAx));
+					}
 				}
 
 				if(mappingProperties.isMappedAsSubRelationOf(ass)){

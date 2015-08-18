@@ -48,6 +48,7 @@ public class MappingProperties {
 
 	private MappedProperty generatePropertyNameByAssocName(NamedElement property, MappedProperty superMappedProperty) {
 		String propertyName = property.getName();
+		propertyName = StringUtil.processSpecialCharacter(propertyName);
 		String initialName = propertyName;
 
 		String propertyAlias = ontoParser.getAlias(property);
@@ -134,11 +135,94 @@ public class MappingProperties {
 	}
 	
 	private MappedProperty generatePropertyNameByAssocEnd(NamedElement property, MappedProperty superMappedProperty) {
-		return null;
+		String origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
+		origSrcEndName = StringUtil.processSpecialCharacter(origSrcEndName);
+		
+		int i = 1;
+		String srcEndName = origSrcEndName;
+		while(propertyByName.containsKey(srcEndName)){
+			if(i == 1){
+				MappedProperty oldMappedProperty = propertyByName.get(srcEndName);
+				boolean isSource;
+				if(oldMappedProperty.getGeneratedName().equals(srcEndName)){
+					isSource = true;
+				}else{
+					isSource = false;
+				}
+				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true);
+				if(isSource){
+					propertyByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
+				}else{
+					propertyByName.put(abstractMappedProperty.getInvGeneratedName(), abstractMappedProperty);
+				}
+				
+				srcEndName = origSrcEndName + i;
+				i++;
+				
+				if(isSource){
+					oldMappedProperty.setGeneratedName(srcEndName);
+					propertyByName.put(oldMappedProperty.getGeneratedName(), oldMappedProperty);
+				}else{
+					oldMappedProperty.setInvGeneratedName(srcEndName);
+					propertyByName.put(oldMappedProperty.getInvGeneratedName(), oldMappedProperty);
+				}
+				
+			}
+			srcEndName = origSrcEndName + i;
+			i++;			
+		}
+		if(i > 1){
+			outputMessages += "Warning: The association end <"+origSrcEndName+"> with repeated name was renamed to <"+srcEndName+">;\n";
+		}
+		
+		String origTgtEndName = ((Association) property).getMemberEnd().get(1).getName();
+		origTgtEndName = StringUtil.processSpecialCharacter(origTgtEndName);
+		int j = 1;
+		String tgtEndName = origTgtEndName;
+		while(propertyByName.containsKey(tgtEndName)){
+			if(j == 1){
+				MappedProperty oldMappedProperty = propertyByName.get(tgtEndName);
+				boolean isSource;
+				if(oldMappedProperty.getGeneratedName().equals(tgtEndName)){
+					isSource = true;
+				}else{
+					isSource = false;
+				}
+				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true);
+				if(isSource){
+					propertyByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
+				}else{
+					propertyByName.put(abstractMappedProperty.getInvGeneratedName(), abstractMappedProperty);
+				}
+				
+				tgtEndName = origTgtEndName + j;
+				j++;
+				if(isSource){
+					oldMappedProperty.setGeneratedName(tgtEndName);
+					propertyByName.put(oldMappedProperty.getGeneratedName(), oldMappedProperty);		
+				}else{
+					oldMappedProperty.setInvGeneratedName(tgtEndName);
+					propertyByName.put(oldMappedProperty.getInvGeneratedName(), oldMappedProperty);		
+				}
+						
+			}
+			tgtEndName = origTgtEndName + j;
+			j++;			
+		}
+		if(j > 1){
+			outputMessages += "Warning: The association end <"+origTgtEndName+"> with repeated name was renamed to <"+tgtEndName+">;\n";
+		}
+		
+		MappedProperty mappedProperty = new MappedProperty(property, tgtEndName, srcEndName);
+		propertyByName.put(srcEndName, mappedProperty);
+		propertyByName.put(tgtEndName, mappedProperty);
+		propertyByAlias.put(ontoParser.getAlias(property), mappedProperty);
+		
+		return mappedProperty;
 	}
 	
 	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
-		if(((OwlAxiomsEnforcement)owlOptions.getAxiomsEnforcement()).isNamedByAssocEnds()){
+		if(((OwlAxiomsEnforcement)owlOptions.getAxiomsEnforcement()).isAssocNamesByAssocEnds()){
 			return generatePropertyNameByAssocEnd(property, superMappedProperty);
 		}else{
 			return generatePropertyNameByAssocName(property, superMappedProperty);

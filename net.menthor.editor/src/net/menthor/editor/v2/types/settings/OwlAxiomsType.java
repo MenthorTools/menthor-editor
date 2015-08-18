@@ -23,7 +23,8 @@ public enum OwlAxiomsType implements Serializable {
 	UFO_STRUCTURE(""),	
 	LABELS(""),
 	COMMENTS(""),
-	REASONER("");	
+	REASONER(""),
+	ASSOC_NAME_BY_ENDS("");	
 	
 	private String description;
 

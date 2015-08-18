@@ -49,6 +49,7 @@ public class OwlAxiomsPane extends JPanel {
 	private JLabel lblBinaryProperties;
 	private JLabel lblDocumentation;
 	private JLabel lblReasoner;
+	private JCheckBox assocNameByEndsCheck;
 	
 	public OwlAxiomsPane(){	
 		buildUI();		
@@ -75,6 +76,7 @@ public class OwlAxiomsPane extends JPanel {
 		symmetryCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.SYMMETRIC));
 		transitivityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.TRANSITIVE));
 		ufoStructure.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.UFO_STRUCTURE));
+		ufoStructure.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.ASSOC_NAME_BY_ENDS));
 		owlReasonerBox.setSelectedItem(OwlSettingsMap.getInstance().getReasoner());
 		iriTextField.setText(OwlSettingsMap.getInstance().getIRI());
 	}
@@ -98,6 +100,7 @@ public class OwlAxiomsPane extends JPanel {
 		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.SYMMETRIC,symmetryCheck.isSelected());
 		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.TRANSITIVE,transitivityCheck.isSelected());
 		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.UFO_STRUCTURE,ufoStructure.isSelected());
+		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.ASSOC_NAME_BY_ENDS,assocNameByEndsCheck.isSelected());
 		OwlSettingsMap.getInstance().setReasoner((OwlReasonerType)owlReasonerBox.getSelectedItem());
 		OwlSettingsMap.getInstance().setIRI((String)iriTextField.getText());
 		OwlSettingsMap.getInstance().store();
@@ -191,26 +194,30 @@ public class OwlAxiomsPane extends JPanel {
 					.addGap(5)
 					.addComponent(classPane, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(assocPane, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+					.addComponent(assocPane, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 138, Short.MAX_VALUE)
+					.addComponent(binPane, GroupLayout.PREFERRED_SIZE, 126, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(docPane, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 					.addGap(114))
 		);
 		gl_midPane.setVerticalGroup(
 			gl_midPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_midPane.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_midPane.createSequentialGroup()
 					.addGap(5)
-					.addGroup(gl_midPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(docPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
-						.addComponent(assocPane, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
-						.addComponent(classPane, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
-						.addComponent(binPane, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
+					.addGroup(gl_midPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(assocPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+						.addComponent(binPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+						.addComponent(docPane, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+						.addComponent(classPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
 					.addContainerGap())
 		);
+		
+		assocNameByEndsCheck = new JCheckBox("Named by Ends");
+		assocNameByEndsCheck.setSelected(true);
+		assocPane.add(assocNameByEndsCheck);
 		rulesCheck = new JCheckBox("Rules");
-		docPane.add(rulesCheck);		
+		docPane.add(rulesCheck);
 		lblReasoner = new JLabel("Reasoner:");
 		docPane.add(lblReasoner);
 		owlReasonerBox = new JComboBox<OwlReasonerType>();

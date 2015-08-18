@@ -36,7 +36,11 @@ public class MappedProperty {
 	
 	@Override
 	public String toString() {
-		return generatedName;
+		String ret = "\n";
+		ret += "association: " + generatedName + "\n";
+		ret += "inverse: " + invGeneratedName + "\n";
+		if(isAbstract) ret += "ABSTRACT\n";
+		return ret;
 	}
 
 	public MappedProperty getMappedAsSubPropertyOf() {
@@ -61,5 +65,13 @@ public class MappedProperty {
 	
 	public String getInvGeneratedName() {
 		return invGeneratedName;
+	}
+	
+	public void setGeneratedName(String generatedName) {
+		this.generatedName = generatedName;
+	}
+	
+	public void setInvGeneratedName(String invGeneratedName) {
+		this.invGeneratedName = invGeneratedName;
 	}
 }

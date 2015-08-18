@@ -66,6 +66,7 @@ public final class OwlSettingsMap {
 			properties.put(OwlAxiomsType.TRANSITIVE.toString(),"true");
 			properties.put(OwlAxiomsType.UFO_STRUCTURE.toString(),"true");		
 			properties.put(OwlAxiomsType.REASONER.toString(), OwlReasonerType.UNSELECTED.toString());
+			properties.put(OwlAxiomsType.ASSOC_NAME_BY_ENDS.toString(),"true");		
 		}
 	}
 	
@@ -239,6 +240,7 @@ public final class OwlSettingsMap {
 		opt.setComments(getValue(OwlAxiomsType.COMMENTS));
 		opt.setLabels(getValue(OwlAxiomsType.LABELS));
 		opt.setOwlReasoner(getOwlReasonerFromType(getReasoner()));
+		opt.setAssocNamesByAssocEnds(getValue(OwlAxiomsType.ASSOC_NAME_BY_ENDS));
 		return opt;
 	}	
 		
