@@ -135,7 +135,13 @@ public class MappingProperties {
 	}
 	
 	private MappedProperty generatePropertyNameByAssocEnd(NamedElement property, MappedProperty superMappedProperty) {
-		String origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
+		String origSrcEndName;
+		if(property instanceof Association){
+			origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
+		}else{
+			origSrcEndName = ((Property) property).getName();
+		}
+		origSrcEndName = origSrcEndName.replaceAll(" ", "_").replaceAll("\n", "_");
 		origSrcEndName = StringUtil.processSpecialCharacter(origSrcEndName);
 		
 		int i = 1;
@@ -175,7 +181,13 @@ public class MappingProperties {
 			outputMessages += "Warning: The association end <"+origSrcEndName+"> with repeated name was renamed to <"+srcEndName+">;\n";
 		}
 		
-		String origTgtEndName = ((Association) property).getMemberEnd().get(1).getName();
+		String origTgtEndName;
+		if(property instanceof Association){
+			origTgtEndName = ((Association) property).getMemberEnd().get(1).getName();
+		}else{
+			origTgtEndName = ((Property) property).getName();
+		}
+		origTgtEndName = origTgtEndName.replaceAll(" ", "_").replaceAll("\n", "_");
 		origTgtEndName = StringUtil.processSpecialCharacter(origTgtEndName);
 		int j = 1;
 		String tgtEndName = origTgtEndName;
