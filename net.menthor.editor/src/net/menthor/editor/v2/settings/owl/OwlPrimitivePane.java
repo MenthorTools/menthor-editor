@@ -102,7 +102,7 @@ public class OwlPrimitivePane extends JPanel{
 		OwlSettingsMap.getInstance().load();
 		if(refparser==null) return;
 		Map<Element, OWL2Datatype> map = OwlSettingsMap.getInstance().getOwl2Datatypes(refparser);		
-		for(HashMap.Entry<Element,OWL2Datatype> entry: map.entrySet()){			
+		for(Map.Entry<Element,OWL2Datatype> entry: map.entrySet()){			
 			addUIEntry(entry.getKey(), entry.getValue());
 		}		
 	}

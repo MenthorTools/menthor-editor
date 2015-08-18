@@ -82,7 +82,7 @@ public class OwlGenSetPane extends JPanel{
 		if(refparser==null) return;
 		Map<Element, OWL2GeneralizationSet> map = OwlSettingsMap.getInstance().getOwl2GenSets(refparser);
 		Map<Element, Boolean> map2 = OwlSettingsMap.getInstance().getOwl2GenSetChoices(refparser);
-		for(HashMap.Entry<Element,OWL2GeneralizationSet> entry: map.entrySet()){			
+		for(Map.Entry<Element,OWL2GeneralizationSet> entry: map.entrySet()){			
 			addUIEntry(entry.getKey(), entry.getValue(), map2.get(entry.getKey()));
 		}		
 	}

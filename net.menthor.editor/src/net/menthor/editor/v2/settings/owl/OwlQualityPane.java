@@ -82,7 +82,7 @@ public class OwlQualityPane extends JPanel{
 		OwlSettingsMap.getInstance().load();
 		if(refparser==null) return;
 		Map<Element, OWL2Quality> map = OwlSettingsMap.getInstance().getOwl2Quality(refparser);		
-		for(HashMap.Entry<Element,OWL2Quality> entry: map.entrySet()){			
+		for(Map.Entry<Element,OWL2Quality> entry: map.entrySet()){			
 			addUIEntry(entry.getKey(), entry.getValue());
 		}		
 	}
