@@ -29,7 +29,6 @@ import java.util.List;
 import javax.swing.JRadioButton;
 
 import net.menthor.common.settings.owl.OWL2Destination;
-
 import net.menthor.editor.v2.settings.BaseDestinationPane;
 
 public class OwlDestinationPane extends BaseDestinationPane {
@@ -103,4 +102,28 @@ public class OwlDestinationPane extends BaseDestinationPane {
 		getRadioButton(dest).setSelected(true);
 	}
 
+	//====================================================
+	//ADd UI Entry
+	//====================================================
+	
+	public void addUIEntry(OWL2Destination dest, String filepath){
+		select(dest);
+		if(filepath!=null) setPath(filepath);
+	}
+	
+	//====================================================
+	//Serializing methods
+	//====================================================
+	
+	public void loadFromXML(){
+		OwlSettingsMap.getInstance().load();
+		OWL2Destination dest = OwlSettingsMap.getInstance().getDestination();
+		String path = OwlSettingsMap.getInstance().getPath();
+		addUIEntry(dest, path);
+	}
+	
+	public void storeToXML(){		
+		OwlSettingsMap.getInstance().setDestination(getOWL2Destination(), getPath());
+		OwlSettingsMap.getInstance().store();
+	}
 }

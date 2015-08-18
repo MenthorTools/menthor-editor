@@ -31,10 +31,10 @@ import javax.swing.JPanel;
 
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
-import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.settings.BaseSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 import RefOntoUML.parser.OntoUMLParser;
@@ -43,7 +43,7 @@ import RefOntoUML.parser.OntoUMLParser;
  * @author John Guerson
  */
 
-public class AlsSettingsDialog extends TransformationDialog {
+public class AlsSettingsDialog extends BaseSettingsDialog {
 	
 	private static final long serialVersionUID = 7877781445149017806L;
 			

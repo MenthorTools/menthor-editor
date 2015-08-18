@@ -30,20 +30,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
+
+import RefOntoUML.Classifier;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Axiom;
+import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OWL2GeneralizationSet;
 import net.menthor.common.settings.owl.OWL2Quality;
 import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
-
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
-
-import RefOntoUML.Classifier;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.parser.OntoUMLParser;
 
 public final class OwlSettingsMap {
 	
@@ -91,7 +91,39 @@ public final class OwlSettingsMap {
 			properties.put(OWL2Axiom.UFO_STRUCTURE.toString(),"true");		
 			properties.put(OWL2Axiom.REASONER.toString(), OWL2Reasoner.UNSELECTED.toString());			
 			properties.put("APPROACH", OWL2Approach.OOTOS.toString());
+			properties.put("DESTINATION", OWL2Destination.TAB.toString());
 		}
+	}
+	
+	//======================================================
+	//ENTRY: {OWL2DESTINATION, VALUE + "@" + "FILE-PATH" (if any) }
+	//======================================================
+	
+	public void setDestination(OWL2Destination dest, String path){		
+		if(properties != null) {
+			if(dest.equals(OWL2Destination.FILE) && path!=null) properties.put("DESTINATION", dest.toString()+"@"+path);
+			else properties.put("DESTINATION", dest.toString());
+		}
+	}
+	
+	public OWL2Destination getDestination(){
+		if(properties != null) {
+			String value = (String)properties.get("DESTINATION");
+			if(value.contains("@")) value = value.split("@")[0];
+			return OWL2Destination.getByName(value);
+		}
+		return null;		
+	}
+
+	public String getPath(){
+		if(properties != null) {
+			String value = (String)properties.get("DESTINATION");
+			if(value.contains("@")) {
+				value = value.split("@")[1];
+				return value;
+			}
+		}
+		return null;		
 	}
 	
 	//======================================================
