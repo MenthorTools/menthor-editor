@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
@@ -39,6 +38,7 @@ import net.menthor.editor.v2.settings.owl.OwlGenSetPane;
 import net.menthor.editor.v2.settings.owl.OwlPrimitivePane;
 import net.menthor.editor.v2.settings.owl.OwlQualityPane;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlSettingsDialog extends TransformationDialog {
 	
@@ -117,7 +117,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 					);
 				}				
 				
-	 			//dispose();
+	 			dispose();
 			}
 		});
 	}	

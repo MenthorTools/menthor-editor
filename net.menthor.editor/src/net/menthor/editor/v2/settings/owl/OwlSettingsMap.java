@@ -164,7 +164,7 @@ public final class OwlSettingsMap {
 	}
 	
 	public QualityMappingType getOwlQualityMappingType(RefOntoUML.Element elem){
-		if(properties != null) return QualityMappingType.valueOf((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
+		if(properties != null) return QualityMappingType.getByName((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
 		return null;
 	}
 	
@@ -182,29 +182,28 @@ public final class OwlSettingsMap {
 	}
 	
 	//==============================================================
-	//ENTRY: {GENSET-UUID, OWL GENSET MAPPING TYPE}
-	//ENTRY: {GENSET-UUID, CHOICE}
+	//ENTRY: {GENSET-UUID, OWL GENSET MAPPING TYPE + "@" + CHOICE}
 	//==============================================================
 		
-	public void setOwlGenSetMappingType(RefOntoUML.Element elem, GenSetMappingType q){
+	public void setOwlGenSetMappingType(RefOntoUML.Element elem, GenSetMappingType q, Boolean choice){
 		if(properties != null) {
-			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString());
+			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString()+"@"+choice);
 		}
 	}
 	
-	public void setOwlGenSetChoice(RefOntoUML.Element elem, Boolean q){
+	public GenSetMappingType getOwlGenSetMappingType(RefOntoUML.Element elem){		
 		if(properties != null) {
-			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString());
+			String value = (String)properties.get(OntoUMLParser.getUUIDFromElement(elem));
+			return GenSetMappingType.getByName(value.split("@")[0]);
 		}
-	}
-	
-	public GenSetMappingType getOwlGenSetMappingType(RefOntoUML.Element elem){
-		if(properties != null) return GenSetMappingType.valueOf((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
 		return null;
 	}
 	
 	public Boolean getOwlGenSetChoice(RefOntoUML.Element elem){
-		if(properties != null) return Boolean.parseBoolean((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
+		if(properties != null) {
+			String value = (String)properties.get(OntoUMLParser.getUUIDFromElement(elem));
+			return Boolean.parseBoolean(value.split("@")[1]);
+		}
 		return null;
 	}
 	
@@ -214,8 +213,11 @@ public final class OwlSettingsMap {
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof GeneralizationSet)) {
-				GenSetMappingType owlDt = GenSetMappingType.getByName((String)properties.get(key));
-				result.put(pt,owlDt);
+				String value = ((String)properties.get(key));
+				if(value.contains("@")){
+					GenSetMappingType owlDt = GenSetMappingType.getByName(value.split("@")[0]);
+					result.put(pt,owlDt);
+				}
 			}
 		}
 		return result;
@@ -227,8 +229,11 @@ public final class OwlSettingsMap {
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof GeneralizationSet)) {
-				Boolean owlDt = Boolean.parseBoolean((String)properties.get(key));
-				result.put(pt,owlDt);
+				String value = ((String)properties.get(key));
+				if(value.contains("@")){
+					Boolean owlDt = Boolean.parseBoolean(value.split("@")[1]);
+					result.put(pt,owlDt);
+				}
 			}
 		}
 		return result;
@@ -243,7 +248,9 @@ public final class OwlSettingsMap {
 			try {				
 				properties.storeToXML(out, "Owl Settings File", "UTF-8");				
 				return true;
-			} catch (Exception ex) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}		
 		return false;
 	}
@@ -256,7 +263,9 @@ public final class OwlSettingsMap {
 				properties.storeToXML(out, "Owl Settings File", "UTF-8");
 				Util.close(out);
 				return true;
-			} catch (Exception ex) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}		
 		return false;
 	}
@@ -265,7 +274,9 @@ public final class OwlSettingsMap {
 		if(properties==null) properties = new Properties();		
 		try {
 			properties.loadFromXML(in);											
-		} catch (Exception ex) {}		
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}		
 		if(properties.isEmpty()){
 			setdefault();
 		}
@@ -280,7 +291,9 @@ public final class OwlSettingsMap {
 				FileInputStream in = new FileInputStream(file);
 				properties.loadFromXML(in);
 				Util.close(in);								
-			} catch (Exception ex) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}		
 		if(properties.isEmpty()){
 			setdefault();

@@ -28,10 +28,8 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import net.menthor.common.transformation.GenSetMappingType;
-
 import net.menthor.editor.v2.tables.DuoChoiceTableModel;
 import net.menthor.editor.v2.tables.GenSetTablePane;
-
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -53,6 +51,7 @@ public class OwlGenSetPane extends JPanel{
 	public OwlGenSetPane(OntoUMLParser refparser){
 		this.refparser = refparser;
 		buildUI();
+		loadFromXML();
 	}
 	
 	private void buildUI(){
@@ -92,8 +91,7 @@ public class OwlGenSetPane extends JPanel{
 			Element genSet = (Element) matrix[i][0];
 			GenSetMappingType genMapping = (GenSetMappingType) matrix[i][1];			
 			Boolean choice = (Boolean) matrix[i][2];
-			OwlSettingsMap.getInstance().setOwlGenSetMappingType(genSet,genMapping);
-			OwlSettingsMap.getInstance().setOwlGenSetChoice(genSet,choice);
+			OwlSettingsMap.getInstance().setOwlGenSetMappingType(genSet,genMapping,choice);			
 		}		
 		OwlSettingsMap.getInstance().store();
 	}	

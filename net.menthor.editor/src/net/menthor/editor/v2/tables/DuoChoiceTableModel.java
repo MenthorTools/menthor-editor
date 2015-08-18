@@ -85,7 +85,7 @@ public class DuoChoiceTableModel extends DuoTableModel{
 			case 2: {
 				if(choiceOptions.size()>0){
 					Boolean choiceOption = choiceOptions.get(rowIndex);
-					if(choiceOption==null) return "false";					
+					if(choiceOption==null) return false;					
 					return choiceOption;
 				}				
 			}
@@ -105,7 +105,7 @@ public class DuoChoiceTableModel extends DuoTableModel{
 				break;
 			}	
 			case 2: {	
-				choiceOptions.set(rowIndex, Boolean.parseBoolean((String)value));
+				choiceOptions.set(rowIndex, (Boolean)value);
 				break;
 			}
 		}
