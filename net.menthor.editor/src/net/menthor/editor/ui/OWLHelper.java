@@ -1,5 +1,7 @@
 package net.menthor.editor.ui;
 
+import net.menthor.common.settings.owl.OWL2Approach;
+import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.v2.types.ResultType;
@@ -33,7 +35,6 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
  * MA  02110-1301  USA
  * ============================================================================================
  */
-import net.menthor.common.transformation.DestinationEnum;
 
 public class OWLHelper {
 
@@ -43,27 +44,28 @@ public class OWLHelper {
 		String owlOutput = new String();
 		OwlAxiomsEnforcement owlOptions = (OwlAxiomsEnforcement) trOpt.getAxiomsEnforcement();
     	try {    		
-    		if(trOpt.getMappingType().getIdentifier().equals("SIMPLE")) 
+    		if(trOpt.getMappingType()==OWL2Approach.SIMPLE) 
     		{    			
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getOntologyIri());
     		}
-    		if(trOpt.getMappingType().getIdentifier().equals("UFO_RDF")) 
+    		if(trOpt.getMappingType()==OWL2Approach.UFO_RDF) 
     		{    			
     			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, owlOptions.getOntologyIri());
     			owlOutput = ontoUml2rdf.transform();
     		}
-    		if(trOpt.getMappingType().getIdentifier().equals("OOTOS"))
+    		if(trOpt.getMappingType()==OWL2Approach.OOTOS)
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
     			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt, Directories.getTempDir());
     			errors = ontoUML2OWL.errors;
     		}
-    		if(trOpt.getMappingType().getIdentifier().equals("REIFICATION") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1") || trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2"))
+    		if(trOpt.getMappingType()==OWL2Approach.REIFICATION || trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A0 || 
+    		trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A1 || trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A2)
     		{
     			OWLMappingTypes mtypes = OWLMappingTypes.REIFICATION;
-    			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A0")) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
-    			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A1")) mtypes = OWLMappingTypes.WORM_VIEW_A1;
-    			if(trOpt.getMappingType().getIdentifier().equals("WORM_VIEW_A2")) mtypes = OWLMappingTypes.WORM_VIEW_A2;
+    			if(trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A0) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
+    			if(trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A1) mtypes = OWLMappingTypes.WORM_VIEW_A1;
+    			if(trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A2) mtypes = OWLMappingTypes.WORM_VIEW_A2;
     			TreeProcessor tp = new TreeProcessor(model);
     			OWLStructure owl = new OWLStructure(mtypes, tp);
     			owl.map(tp);
@@ -71,7 +73,7 @@ public class OWLHelper {
     		}    		
     		if(owlOutput.length()>0)
     		{
-				if(trOpt.getDestination()==DestinationEnum.FILE && trOpt.getPath()!=null && !trOpt.getPath().isEmpty())
+				if(trOpt.getDestination()==OWL2Destination.FILE && trOpt.getPath()!=null && !trOpt.getPath().isEmpty())
 				{
 					String owlFileName = trOpt.getPath();							
 					FileManager fileManager = new FileManager(owlFileName);

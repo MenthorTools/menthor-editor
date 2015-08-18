@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.settings.owl;
+package net.menthor.common.settings.owl;
 
 /**
  * ============================================================================================
@@ -23,7 +23,7 @@ package net.menthor.editor.v2.settings.owl;
 
 import java.io.Serializable;
 
-public enum OwlReasonerType implements Serializable {
+public enum OWL2Reasoner implements Serializable {
 	
 	UNSELECTED("Unselected"), 
 	HERMIT("Hermit"), 
@@ -31,12 +31,12 @@ public enum OwlReasonerType implements Serializable {
 	
 	private String name;
 
-	OwlReasonerType(String name)
+	OWL2Reasoner(String name)
 	{
 		this.name = name;
 	}
 
-	public static OwlReasonerType getByName(String name){
+	public static OWL2Reasoner getByName(String name){
 		if(UNSELECTED.getName().compareToIgnoreCase(name)==0) return UNSELECTED;
 		if(HERMIT.getName().compareToIgnoreCase(name)==0) return HERMIT;
 		if(PELLET.getName().compareToIgnoreCase(name)==0) return PELLET;
@@ -49,7 +49,7 @@ public enum OwlReasonerType implements Serializable {
 
 	public static void main (String args[])
 	{
-		for(OwlAxiomsType c: OwlAxiomsType.values()){
+		for(OWL2Reasoner c: OWL2Reasoner.values()){
 			System.out.println(c);
 		}
 	}

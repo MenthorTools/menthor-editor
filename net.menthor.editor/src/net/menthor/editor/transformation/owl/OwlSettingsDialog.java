@@ -44,7 +44,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
-	private OwlApproachPane approachPane;
+	private OwlMainPane approachPane;
 	private OwlAxiomsPane axiomsPane;
 	private OwlPrimitivePane primitivePane;
 	private OwlQualityPane qualityPane;
@@ -54,7 +54,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 	{
 		super(owner, refparser, diagrams, modal);
 		
-		approachPane = new OwlApproachPane();
+		approachPane = new OwlMainPane();
 		primitivePane = new OwlPrimitivePane(Models.getRefparser());
 		qualityPane = new OwlQualityPane(Models.getRefparser());
 		gsPane = new OwlGenSetPane(Models.getRefparser());
@@ -79,6 +79,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 					primitivePane.storeToXML();
 					qualityPane.storeToXML();
 					gsPane.storeToXML();
+					approachPane.storeToXML();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -86,7 +87,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 				/**base options*/
 				TransformationOption transOpt = new TransformationOption(
 					approachPane.getSelectedMapping(), 
-					approachPane.getDestination(),
+					approachPane.getOWL2Destination(),
 					approachPane.getPathText()
 				);
 				

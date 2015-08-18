@@ -27,9 +27,11 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import net.menthor.common.transformation.GenSetMappingType;
+import net.menthor.common.settings.owl.OWL2GeneralizationSet;
+
 import net.menthor.editor.v2.tables.DuoChoiceTableModel;
 import net.menthor.editor.v2.tables.GenSetTablePane;
+
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -65,7 +67,7 @@ public class OwlGenSetPane extends JPanel{
 	//Add UI Entry 
 	//====================================================
 	
-	private void addUIEntry(RefOntoUML.Element elem, GenSetMappingType owlGs, Boolean choice){
+	private void addUIEntry(RefOntoUML.Element elem, OWL2GeneralizationSet owlGs, Boolean choice){
 		if(elem instanceof RefOntoUML.GeneralizationSet){
 			((DuoChoiceTableModel)gsPane.getTableModel()).addEntry(elem, owlGs, choice);
 		}
@@ -78,9 +80,9 @@ public class OwlGenSetPane extends JPanel{
 	public void loadFromXML(){
 		OwlSettingsMap.getInstance().load();
 		if(refparser==null) return;
-		Map<Element, GenSetMappingType> map = OwlSettingsMap.getInstance().getOwlGenSetMappingTypes(refparser);
-		Map<Element, Boolean> map2 = OwlSettingsMap.getInstance().getOwlGenSetChoices(refparser);
-		for(HashMap.Entry<Element,GenSetMappingType> entry: map.entrySet()){			
+		Map<Element, OWL2GeneralizationSet> map = OwlSettingsMap.getInstance().getOwl2GenSets(refparser);
+		Map<Element, Boolean> map2 = OwlSettingsMap.getInstance().getOwl2GenSetChoices(refparser);
+		for(HashMap.Entry<Element,OWL2GeneralizationSet> entry: map.entrySet()){			
 			addUIEntry(entry.getKey(), entry.getValue(), map2.get(entry.getKey()));
 		}		
 	}
@@ -89,9 +91,9 @@ public class OwlGenSetPane extends JPanel{
 		Object [][] matrix = getGeneralizationSetMap();
 		for(int i=0; i<matrix.length;i++){
 			Element genSet = (Element) matrix[i][0];
-			GenSetMappingType genMapping = (GenSetMappingType) matrix[i][1];			
+			OWL2GeneralizationSet genMapping = (OWL2GeneralizationSet) matrix[i][1];			
 			Boolean choice = (Boolean) matrix[i][2];
-			OwlSettingsMap.getInstance().setOwlGenSetMappingType(genSet,genMapping,choice);			
+			OwlSettingsMap.getInstance().setOwl2GenSet(genSet,genMapping,choice);			
 		}		
 		OwlSettingsMap.getInstance().store();
 	}	

@@ -1,21 +1,21 @@
-package net.menthor.common.transformation;
+package net.menthor.common.settings.als;
 
-import net.menthor.common.settings.owl.OWL2Approach;
-import net.menthor.common.settings.owl.OWL2Destination;
+import net.menthor.common.transformation.AxiomsEnforcement;
+import net.menthor.common.transformation.MappingsEnforcement;
 
-public class TransformationOption {
-
-	private OWL2Destination destination;
+public class ALS4TransformationOption {
+	
+	private ALS4Destination destination;
 	private String outputAbsolutePath;
-	private OWL2Approach mappingType;
+	private ALS4Approach mappingType;
 	private AxiomsEnforcement axiomsEnforcement;
 	private MappingsEnforcement mappingEnforcements;
 	
-	public OWL2Destination getDestination() { return destination; }
+	public ALS4Destination getDestination() { return destination; }
 	public String getPath() { return outputAbsolutePath; }
-	public OWL2Approach getMappingType() { return mappingType; }
+	public ALS4Approach getMappingType() { return mappingType; }
 
-	public TransformationOption(OWL2Approach mapping, OWL2Destination dest, String outputAbsolutePath){
+	public ALS4TransformationOption(ALS4Approach mapping, ALS4Destination dest, String outputAbsolutePath){
 		this.destination = dest;
 		this.outputAbsolutePath = outputAbsolutePath;
 		this.mappingType = mapping;
@@ -26,4 +26,6 @@ public class TransformationOption {
 	
 	public void setMappingsEnforcement(MappingsEnforcement me) { this.mappingEnforcements = me; }
 	public MappingsEnforcement getMappingsEnforcement() { return mappingEnforcements; }
+	
+
 }

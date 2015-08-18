@@ -29,16 +29,15 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
-import net.menthor.editor.transformation.DestinationPane;
 import net.menthor.editor.transformation.TransformationDialog;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -48,8 +47,8 @@ public class AlsSettingsDialog extends TransformationDialog {
 	
 	private static final long serialVersionUID = 7877781445149017806L;
 			
-	private DestinationPane destPane;
-	private AlsMappingTypePane mapPane;
+	private AlsDestinationPane destPane;
+	private AlsApproachPane mapPane;
 	private JPanel axiomPane;
 	
 	private AlloyModelSimulationPanel modelSimulationPanel;
@@ -68,13 +67,10 @@ public class AlsSettingsDialog extends TransformationDialog {
 		principalPane = new JPanel();
 		principalPane.setLayout(new BorderLayout(10,10));
 		
-		destPane = new DestinationPane("Alloy (*.als)","als");
-		destPane.renameAppButton("Alloy Analyzer");
-		destPane.selectApp();
-		destPane.enableFileChooser(false);
+		destPane = new AlsDestinationPane();		
 		principalPane.add(destPane, BorderLayout.NORTH);
 		
-		mapPane = new AlsMappingTypePane();
+		mapPane = new AlsApproachPane();
 		principalPane.add(mapPane,BorderLayout.CENTER);
 		
 		modelSimulationPanel = new AlloyModelSimulationPanel();		
@@ -156,9 +152,9 @@ public class AlsSettingsDialog extends TransformationDialog {
 		
 		if(getOwner() instanceof MainFrame)
 		{		
-			TransformationOption options = new TransformationOption(
-				mapPane.getMappingType(),
-				destPane.getDestination(),				
+			ALS4TransformationOption options = new ALS4TransformationOption(
+				mapPane.getApproach(),
+				destPane.getALS4Destination(),				
 				destPane.getPath()				
 			);			
 			((MainFrame)getOwner()).getDiagramManager().transformToAlloy(

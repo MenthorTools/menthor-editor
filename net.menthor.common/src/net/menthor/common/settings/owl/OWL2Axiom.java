@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.settings.owl;
+package net.menthor.common.settings.owl;
 
 /**
  * ============================================================================================
@@ -23,9 +23,9 @@ package net.menthor.editor.v2.settings.owl;
 
 import java.io.Serializable;
 
-public enum OwlAxiomsType implements Serializable {
+public enum OWL2Axiom implements Serializable {
 
-	ONTOLOGY_IRI(""),	
+	ONTOLOGY_IRI("The IRI of the ontology"),	
 	DISJOINTNESS_OF_CLASSES(""),
 	DISJOINTNESS_OF_ASSOCIATIONS(""),
 	COMPLETENESS_OF_CLASSES(""),
@@ -39,16 +39,16 @@ public enum OwlAxiomsType implements Serializable {
 	TRANSITIVE(""),
 	FUNCTIONAL(""),
 	INVERSE_FUNCTIONAL(""),
-	SWRL_RULES(""),	
+	SWRL_RULES("Rules written in SWRL"),	
 	CARDINALITIES(""),	
 	UFO_STRUCTURE(""),	
 	LABELS(""),
 	COMMENTS(""),
-	REASONER("");	
-	
+	REASONER("The reasoner used to run inferences");
+		
 	private String description;
 
-	OwlAxiomsType(String value)
+	OWL2Axiom(String value)
 	{
 		this.description = value;
 	}
@@ -57,7 +57,7 @@ public enum OwlAxiomsType implements Serializable {
 
 	public static void main (String args[])
 	{
-		for(OwlAxiomsType c: OwlAxiomsType.values()){
+		for(OWL2Axiom c: OWL2Axiom.values()){
 			System.out.println(c);
 		}
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.common.transformation.GenSetMappingType;
+import net.menthor.common.settings.owl.OWL2GeneralizationSet;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -24,7 +24,7 @@ public class GenSetTablePane extends BaseTablePane {
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 		/** Load target options */
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);
-		typeColumn2.setCellEditor(createEditor(GenSetMappingType.values()));		
+		typeColumn2.setCellEditor(createEditor(OWL2GeneralizationSet.values()));		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	
 }

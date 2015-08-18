@@ -30,11 +30,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import net.menthor.common.transformation.GenSetMappingType;
+import net.menthor.common.settings.owl.OWL2Approach;
+import net.menthor.common.settings.owl.OWL2Axiom;
+import net.menthor.common.settings.owl.OWL2GeneralizationSet;
+import net.menthor.common.settings.owl.OWL2Quality;
+import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.OwlReasoner;
-import net.menthor.common.transformation.QualityMappingType;
-
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
 
@@ -69,79 +70,93 @@ public final class OwlSettingsMap {
 	private void setdefault(){
 		if(properties==null) properties = new Properties();
 		if(properties!=null && properties.isEmpty()){
-			properties.put(OwlAxiomsType.ONTOLOGY_IRI.toString(), "http://www.menthor.net/myontology");
-			properties.put(OwlAxiomsType.ASYMMETRIC.toString(),"true");
-			properties.put(OwlAxiomsType.CARDINALITIES.toString(),"true");
-			properties.put(OwlAxiomsType.COMMENTS.toString(),"true");
-			properties.put(OwlAxiomsType.COMPLETENESS_OF_CLASSES.toString(),"true");
-			properties.put(OwlAxiomsType.DISJOINTNESS_OF_CLASSES.toString(),"true");
-			properties.put(OwlAxiomsType.DISJOINTNESS_OF_ASSOCIATIONS.toString(),"true");		
-			properties.put(OwlAxiomsType.DOMAIN.toString(),"true");
-			properties.put(OwlAxiomsType.FUNCTIONAL.toString(),"true");
-			properties.put(OwlAxiomsType.INVERSE.toString(),"true");
-			properties.put(OwlAxiomsType.INVERSE_FUNCTIONAL.toString(),"true");	    
-			properties.put(OwlAxiomsType.IRREFLEXIVE.toString(),"true");
-			properties.put(OwlAxiomsType.LABELS.toString(),"true");	    
-			properties.put(OwlAxiomsType.RANGE.toString(),"true");
-			properties.put(OwlAxiomsType.REFLEXIVE.toString(),"true");	    
-			properties.put(OwlAxiomsType.SWRL_RULES.toString(),"true");
-			properties.put(OwlAxiomsType.SYMMETRIC.toString(),"true");
-			properties.put(OwlAxiomsType.TRANSITIVE.toString(),"true");
-			properties.put(OwlAxiomsType.UFO_STRUCTURE.toString(),"true");		
-			properties.put(OwlAxiomsType.REASONER.toString(), OwlReasonerType.UNSELECTED.toString());
+			properties.put(OWL2Axiom.ONTOLOGY_IRI.toString(), "http://www.menthor.net/myontology");
+			properties.put(OWL2Axiom.ASYMMETRIC.toString(),"true");
+			properties.put(OWL2Axiom.CARDINALITIES.toString(),"true");
+			properties.put(OWL2Axiom.COMMENTS.toString(),"true");
+			properties.put(OWL2Axiom.COMPLETENESS_OF_CLASSES.toString(),"true");
+			properties.put(OWL2Axiom.DISJOINTNESS_OF_CLASSES.toString(),"true");
+			properties.put(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS.toString(),"true");		
+			properties.put(OWL2Axiom.DOMAIN.toString(),"true");
+			properties.put(OWL2Axiom.FUNCTIONAL.toString(),"true");
+			properties.put(OWL2Axiom.INVERSE.toString(),"true");
+			properties.put(OWL2Axiom.INVERSE_FUNCTIONAL.toString(),"true");	    
+			properties.put(OWL2Axiom.IRREFLEXIVE.toString(),"true");
+			properties.put(OWL2Axiom.LABELS.toString(),"true");	    
+			properties.put(OWL2Axiom.RANGE.toString(),"true");
+			properties.put(OWL2Axiom.REFLEXIVE.toString(),"true");	    
+			properties.put(OWL2Axiom.SWRL_RULES.toString(),"true");
+			properties.put(OWL2Axiom.SYMMETRIC.toString(),"true");
+			properties.put(OWL2Axiom.TRANSITIVE.toString(),"true");
+			properties.put(OWL2Axiom.UFO_STRUCTURE.toString(),"true");		
+			properties.put(OWL2Axiom.REASONER.toString(), OWL2Reasoner.UNSELECTED.toString());			
+			properties.put("APPROACH", OWL2Approach.OOTOS.toString());
 		}
 	}
 	
 	//======================================================
-	//ENTRY: {OWL AXIOMS TYPE, VALUE}
+	//ENTRY: {OWL2Approach, VALUE}
 	//======================================================
 	
-	public void setReasoner(OwlReasonerType reasoner){
-		if(properties != null) properties.put(OwlAxiomsType.REASONER.toString(), reasoner.toString());		
+	public void setApproach(OWL2Approach approach){
+		if(properties != null) properties.put("APPROACH", approach.toString());
 	}
 	
-	public void setValue(OwlAxiomsType setting, Boolean value) {
+	public OWL2Approach getApproach(){
+		if(properties != null) return OWL2Approach.getByName(((String)properties.get("APPROACH")));
+		return null;		
+	}
+	
+	//======================================================
+	//ENTRY: {OWL2AXIOM, VALUE}
+	//======================================================
+	
+	public void setReasoner(OWL2Reasoner reasoner){
+		if(properties != null) properties.put(OWL2Axiom.REASONER.toString(), reasoner.toString());		
+	}
+	
+	public void setValue(OWL2Axiom setting, Boolean value) {
 		if(properties != null) properties.put(setting.toString(), value.toString());
 	}
 	
 	public void setIRI(String iri){
-		if(properties != null) properties.put(OwlAxiomsType.ONTOLOGY_IRI.toString(),iri);
+		if(properties != null) properties.put(OWL2Axiom.ONTOLOGY_IRI.toString(),iri);
 	}
 		
-	public OwlReasonerType getReasoner(){
-		if(properties != null) return OwlReasonerType.getByName(((String)properties.get(OwlAxiomsType.REASONER.toString())));
+	public OWL2Reasoner getReasoner(){
+		if(properties != null) return OWL2Reasoner.getByName(((String)properties.get(OWL2Axiom.REASONER.toString())));
 		return null;
 	}
 	
-	public Boolean getValue(OwlAxiomsType setting) {
+	public Boolean getValue(OWL2Axiom setting) {
 		String str = (String)properties.get(setting.toString());
 		if(properties != null) return Boolean.valueOf(str);
 		else return null;
 	}
 	
 	public String getIRI() {
-		if(properties != null) return (String) properties.get(OwlAxiomsType.ONTOLOGY_IRI.toString());
+		if(properties != null) return (String) properties.get(OWL2Axiom.ONTOLOGY_IRI.toString());
 		else return null;
 	}
 	
 	//==============================================================
-	//ENTRY: {PRIMITIVE-UUID, OWL DATA TYPE}
-	//ENTRY: {ATTRIBUTE-UUID, OWL DATA TYPE}
+	//ENTRY: {PRIMITIVE-UUID, OWL2DATATYPE}
+	//ENTRY: {ATTRIBUTE-UUID, OWL2DATATYPE}
 	//==============================================================
 	
-	public void setOwlDatatype(RefOntoUML.Element elem, OWL2Datatype owlDt){
+	public void setOwl2Datatype(RefOntoUML.Element elem, OWL2Datatype owlDt){
 		if(properties != null) {
 			properties.put(OntoUMLParser.getUUIDFromElement(elem), owlDt.toString());
 		}
 	}
 	
-	public OWL2Datatype getOwlDatatype(RefOntoUML.Element elem){
+	public OWL2Datatype getOwl2Datatype(RefOntoUML.Element elem){
 		if(properties != null) return OWL2Datatype.valueOf((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
 		return null;
 	}
 	
 	/** This method returns all (stored) mappings of model primitiveTypes and attributes into owl dataTypes */
-	public Map<RefOntoUML.Element, OWL2Datatype> getOwlDatatypes(OntoUMLParser refparser){
+	public Map<RefOntoUML.Element, OWL2Datatype> getOwl2Datatypes(OntoUMLParser refparser){
 		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
@@ -154,27 +169,27 @@ public final class OwlSettingsMap {
 	}
 	
 	//==============================================================
-	//ENTRY: {QUALITY-UUID. OWL QUALITY MAPPING TYPE}
+	//ENTRY: {QUALITY-UUID. OWL2QUALITY}
 	//==============================================================
 	
-	public void setOwlQualityMappingType(RefOntoUML.Element elem, QualityMappingType q){
+	public void setOwl2Quality(RefOntoUML.Element elem, OWL2Quality q){
 		if(properties != null) {
 			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString());
 		}
 	}
 	
-	public QualityMappingType getOwlQualityMappingType(RefOntoUML.Element elem){
-		if(properties != null) return QualityMappingType.getByName((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
+	public OWL2Quality getOwl2Quality(RefOntoUML.Element elem){
+		if(properties != null) return OWL2Quality.getByName((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
 		return null;
 	}
 	
 	/** This method returns all (stored) mappings of model qualities into owl quality mapping types */
-	public Map<RefOntoUML.Element, QualityMappingType> getOwlQualityMappingTypes(OntoUMLParser refparser){
-		Map<RefOntoUML.Element, QualityMappingType> result = new HashMap<RefOntoUML.Element, QualityMappingType>();
+	public Map<RefOntoUML.Element, OWL2Quality> getOwl2Quality(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, OWL2Quality> result = new HashMap<RefOntoUML.Element, OWL2Quality>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof Classifier) && refparser.isQuality((Classifier)pt)) {
-				QualityMappingType owlDt = QualityMappingType.getByName((String)properties.get(key));
+				OWL2Quality owlDt = OWL2Quality.getByName((String)properties.get(key));
 				result.put(pt,owlDt);
 			}
 		}
@@ -182,24 +197,24 @@ public final class OwlSettingsMap {
 	}
 	
 	//==============================================================
-	//ENTRY: {GENSET-UUID, OWL GENSET MAPPING TYPE + "@" + CHOICE}
+	//ENTRY: {GENSET-UUID, OWL2GENSET + "@" + BOOLEAN-CHOICE}
 	//==============================================================
 		
-	public void setOwlGenSetMappingType(RefOntoUML.Element elem, GenSetMappingType q, Boolean choice){
+	public void setOwl2GenSet(RefOntoUML.Element elem, OWL2GeneralizationSet q, Boolean choice){
 		if(properties != null) {
 			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString()+"@"+choice);
 		}
 	}
 	
-	public GenSetMappingType getOwlGenSetMappingType(RefOntoUML.Element elem){		
+	public OWL2GeneralizationSet getOwl2GenSet(RefOntoUML.Element elem){		
 		if(properties != null) {
 			String value = (String)properties.get(OntoUMLParser.getUUIDFromElement(elem));
-			return GenSetMappingType.getByName(value.split("@")[0]);
+			return OWL2GeneralizationSet.getByName(value.split("@")[0]);
 		}
 		return null;
 	}
 	
-	public Boolean getOwlGenSetChoice(RefOntoUML.Element elem){
+	public Boolean getOwl2GenSetChoice(RefOntoUML.Element elem){
 		if(properties != null) {
 			String value = (String)properties.get(OntoUMLParser.getUUIDFromElement(elem));
 			return Boolean.parseBoolean(value.split("@")[1]);
@@ -208,14 +223,14 @@ public final class OwlSettingsMap {
 	}
 	
 	/** This method returns all (stored) mappings of model genSets into owl genSet mapping types */
-	public Map<RefOntoUML.Element, GenSetMappingType> getOwlGenSetMappingTypes(OntoUMLParser refparser){
-		Map<RefOntoUML.Element, GenSetMappingType> result = new HashMap<RefOntoUML.Element, GenSetMappingType>();
+	public Map<RefOntoUML.Element, OWL2GeneralizationSet> getOwl2GenSets(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, OWL2GeneralizationSet> result = new HashMap<RefOntoUML.Element, OWL2GeneralizationSet>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof GeneralizationSet)) {
 				String value = ((String)properties.get(key));
 				if(value.contains("@")){
-					GenSetMappingType owlDt = GenSetMappingType.getByName(value.split("@")[0]);
+					OWL2GeneralizationSet owlDt = OWL2GeneralizationSet.getByName(value.split("@")[0]);
 					result.put(pt,owlDt);
 				}
 			}
@@ -224,7 +239,7 @@ public final class OwlSettingsMap {
 	}
 	
 	/** This method returns all (stored) mappings of model genSets into boolean choices */
-	public Map<RefOntoUML.Element, Boolean> getOwlGenSetChoices(OntoUMLParser refparser){
+	public Map<RefOntoUML.Element, Boolean> getOwl2GenSetChoices(OntoUMLParser refparser){
 		Map<RefOntoUML.Element, Boolean> result = new HashMap<RefOntoUML.Element, Boolean>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
@@ -310,31 +325,25 @@ public final class OwlSettingsMap {
 	
 	public OwlAxiomsEnforcement getOwlAxiomsEnforcement() {			
 		OwlAxiomsEnforcement opt = new OwlAxiomsEnforcement();
-		opt.setAssociationDisjointness(getValue(OwlAxiomsType.DISJOINTNESS_OF_ASSOCIATIONS));
-		opt.setAsymmetric(getValue(OwlAxiomsType.ASYMMETRIC));
-		opt.setCardinality(getValue(OwlAxiomsType.CARDINALITIES));
-		opt.setClassCompleteness(getValue(OwlAxiomsType.COMPLETENESS_OF_CLASSES));
-		opt.setClassDisjointness(getValue(OwlAxiomsType.DISJOINTNESS_OF_CLASSES));
-		opt.setDomain(getValue(OwlAxiomsType.DOMAIN));
-		opt.setFunctional(getValue(OwlAxiomsType.FUNCTIONAL));
-		opt.setInverse(getValue(OwlAxiomsType.INVERSE));
-		opt.setInverseFunctional(getValue(OwlAxiomsType.INVERSE_FUNCTIONAL));
-		opt.setIrreflexive(getValue(OwlAxiomsType.IRREFLEXIVE));
-		opt.setRange(getValue(OwlAxiomsType.RANGE));
-		opt.setReflexive(getValue(OwlAxiomsType.REFLEXIVE));
-		opt.setSwrlRules(getValue(OwlAxiomsType.SWRL_RULES));
-		opt.setSymmetric(getValue(OwlAxiomsType.SYMMETRIC));
-		opt.setTransitive(getValue(OwlAxiomsType.TRANSITIVE));
-		opt.setUfoStructure(getValue(OwlAxiomsType.UFO_STRUCTURE));
-		opt.setComments(getValue(OwlAxiomsType.COMMENTS));
-		opt.setLabels(getValue(OwlAxiomsType.LABELS));
-		opt.setOwlReasoner(getOwlReasonerFromType(getReasoner()));
+		opt.setAssociationDisjointness(getValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS));
+		opt.setAsymmetric(getValue(OWL2Axiom.ASYMMETRIC));
+		opt.setCardinality(getValue(OWL2Axiom.CARDINALITIES));
+		opt.setClassCompleteness(getValue(OWL2Axiom.COMPLETENESS_OF_CLASSES));
+		opt.setClassDisjointness(getValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES));
+		opt.setDomain(getValue(OWL2Axiom.DOMAIN));
+		opt.setFunctional(getValue(OWL2Axiom.FUNCTIONAL));
+		opt.setInverse(getValue(OWL2Axiom.INVERSE));
+		opt.setInverseFunctional(getValue(OWL2Axiom.INVERSE_FUNCTIONAL));
+		opt.setIrreflexive(getValue(OWL2Axiom.IRREFLEXIVE));
+		opt.setRange(getValue(OWL2Axiom.RANGE));
+		opt.setReflexive(getValue(OWL2Axiom.REFLEXIVE));
+		opt.setSwrlRules(getValue(OWL2Axiom.SWRL_RULES));
+		opt.setSymmetric(getValue(OWL2Axiom.SYMMETRIC));
+		opt.setTransitive(getValue(OWL2Axiom.TRANSITIVE));
+		opt.setUfoStructure(getValue(OWL2Axiom.UFO_STRUCTURE));
+		opt.setComments(getValue(OWL2Axiom.COMMENTS));
+		opt.setLabels(getValue(OWL2Axiom.LABELS));
+		opt.setOwlReasoner(getReasoner());
 		return opt;
-	}	
-		
-	private OwlReasoner getOwlReasonerFromType(OwlReasonerType type){
-		if(type==OwlReasonerType.HERMIT) return OwlReasoner.Hermit;
-		if(type==OwlReasonerType.PELLET) return OwlReasoner.Pellet;
-		return OwlReasoner.Unselected;
 	}
 }

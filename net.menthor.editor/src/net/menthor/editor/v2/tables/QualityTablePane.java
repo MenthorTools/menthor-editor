@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.common.transformation.QualityMappingType;
+import net.menthor.common.settings.owl.OWL2Quality;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class QualityTablePane extends BaseTablePane {
@@ -27,7 +27,7 @@ public class QualityTablePane extends BaseTablePane {
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 		/** Load target options*/
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
-		typeColumn2.setCellEditor(createEditor(QualityMappingType.values()));		
+		typeColumn2.setCellEditor(createEditor(OWL2Quality.values()));		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	
 }

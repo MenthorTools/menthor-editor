@@ -61,7 +61,9 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.DestinationEnum;
+import net.menthor.common.settings.als.ALS4Destination;
+import net.menthor.common.settings.als.ALS4TransformationOption;
+import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
@@ -2977,21 +2979,21 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Run Transformation to Alloy */
-	public void transformToAlloy(OntoUMLParser refparser, TransformationOption to)  
+	public void transformToAlloy(OntoUMLParser refparser, ALS4TransformationOption to)  
 	{			
 		try{
-			if(to.getDestination()==DestinationEnum.FILE){
+			if(to.getDestination()==ALS4Destination.FILE){
 				if(to.getPath()!=null) Models.getAlloySpec().setAlloyPath(to.getPath());
 			}
 			runOntoUML2Alloy(refparser);		
 			runTOCL2Alloy(refparser);			
-			if(to.getDestination()==DestinationEnum.APP) {
+			if(to.getDestination()==ALS4Destination.ANALYZER) {
 				openAnalyzer(Models.getAlloySpec(),true, -1);			
 			}
-			if(to.getDestination()==DestinationEnum.TAB){				
+			if(to.getDestination()==ALS4Destination.TAB){				
 				showInTextEditor(Models.getAlloySpec().getContent());
 			}
-			if(to.getDestination()==DestinationEnum.FILE){
+			if(to.getDestination()==ALS4Destination.FILE){
 				frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to Alloy.\nLocation: "+to.getPath());			
 			}
 		}catch(Exception e){
@@ -3239,8 +3241,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			trOpt
 		);
 		if(result.getResultType() != Result.ERROR)
-		{
-			if(trOpt.getDestination()==DestinationEnum.TAB)
+		{	
+			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
 				frame.getInfoManager().showOutputText(result.toString(), true, false);
 				showInTextEditor((String)result.getData()[0]);

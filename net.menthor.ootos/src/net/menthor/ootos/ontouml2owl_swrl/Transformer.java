@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.menthor.common.transformation.GenSetMappingType;
+import net.menthor.common.settings.owl.OWL2GeneralizationSet;
+import net.menthor.common.settings.owl.OWL2Quality;
+import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
-import net.menthor.common.transformation.OwlReasoner;
-import net.menthor.common.transformation.QualityMappingType;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
 import net.menthor.ootos.util.MappedProperty;
@@ -232,10 +232,10 @@ public class Transformer {
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
 				GeneralizationSet gsElem = (GeneralizationSet)genSetEnumMappings[i][0];				
-				GenSetMappingType mappingType = (GenSetMappingType) genSetEnumMappings[i][1];
-				if(mappingType.equals(GenSetMappingType.ALLCLASSES)){
+				OWL2GeneralizationSet mappingType = (OWL2GeneralizationSet) genSetEnumMappings[i][1];
+				if(mappingType.equals(OWL2GeneralizationSet.ALLCLASSES)){
 					lstGsSetMapChildren = ontoParser.getAllChildren(gsElem);					
-				}else if(mappingType.equals(GenSetMappingType._1STCLASSES)){
+				}else if(mappingType.equals(OWL2GeneralizationSet._1STCLASSES)){
 					lstGsSetMapChildren = ontoParser.getChildren(gsElem);
 				}else{
 					lstGsSetMapChildren = ontoParser.getLeafChildren(gsElem);
@@ -433,11 +433,11 @@ public class Transformer {
 		if(genSetEnumMappings == null) return;
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			GeneralizationSet gs = (GeneralizationSet) genSetEnumMappings[i][0];
-			GenSetMappingType mappingType = (GenSetMappingType) genSetEnumMappings[i][1];
+			OWL2GeneralizationSet mappingType = (OWL2GeneralizationSet) genSetEnumMappings[i][1];
 			Set<Classifier> localGsSetMapChildren;
-			if(mappingType.equals(GenSetMappingType.ALLCLASSES)){
+			if(mappingType.equals(OWL2GeneralizationSet.ALLCLASSES)){
 				localGsSetMapChildren = ontoParser.getAllChildren(gs);					
-			}else if(mappingType.equals(GenSetMappingType._1STCLASSES)){
+			}else if(mappingType.equals(OWL2GeneralizationSet._1STCLASSES)){
 				localGsSetMapChildren = ontoParser.getChildren(gs);
 			}else{
 				localGsSetMapChildren = ontoParser.getLeafChildren(gs);
@@ -491,15 +491,15 @@ public class Transformer {
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlAxioms.isInverseFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && (!owlAxioms.isTransitive() || owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet))){
-				if(owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet)){
+			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && (!owlAxioms.isTransitive() || owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET))){
+				if(owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET)){
 					errors += "The axiom Transitivity was removed because is not supported by Pellet.\n";
 				}
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlAxioms.isSymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && (!owlAxioms.isAsymmetric() || owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet))){
-				if(owlAxioms.getOwlReasoner().equals(OwlReasoner.Pellet)){
+			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && (!owlAxioms.isAsymmetric() || owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET))){
+				if(owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET)){
 					errors += "The axiom Transitivity was removed because is not supported by Pellet.\n";
 				}
 				manager.removeAxiom(ontology, owlAxiom);
@@ -2174,7 +2174,7 @@ public class Transformer {
 	private boolean isMappedAsOwlClass(RefOntoUML.Classifier cls){
 		Object qualityMappingType = lstQualityMappings.get(cls);
 		if(		lstNominalQualities.contains(cls) || 
-				lstMappedQualities.contains(cls) && qualityMappingType != null && qualityMappingType.equals(QualityMappingType.HIDE_QUALITY)||
+				lstMappedQualities.contains(cls) && qualityMappingType != null && qualityMappingType.equals(OWL2Quality.HIDE_QUALITY)||
 				cls instanceof DataType){
 			return false;
 		}

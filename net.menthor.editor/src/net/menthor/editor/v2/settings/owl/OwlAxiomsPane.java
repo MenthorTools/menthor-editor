@@ -37,6 +37,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
+import net.menthor.common.settings.owl.OWL2Axiom;
+import net.menthor.common.settings.owl.OWL2Reasoner;
+
 public class OwlAxiomsPane extends JPanel {
 
 	private static final long serialVersionUID = 8425787008147140307L;
@@ -61,7 +64,7 @@ public class OwlAxiomsPane extends JPanel {
 	private JCheckBox classCompleteCheck;
 	private JCheckBox labelsCheck;
 	private JCheckBox commentsCheck;
-	private JComboBox<OwlReasonerType> owlReasonerBox;
+	private JComboBox<OWL2Reasoner> owlReasonerBox;
 	private JLabel iriLabel;
 	private JTextField iriTextField;
 	private JLabel lblClass;
@@ -71,57 +74,13 @@ public class OwlAxiomsPane extends JPanel {
 	private JLabel lblDocumentation;
 	private JLabel lblReasoner;
 	
+	//====================================================
+	//Constructor and initializer methods 
+	//====================================================
+	
 	public OwlAxiomsPane(){	
 		buildUI();		
 		loadFromXML();
-	}
-	
-	public void loadFromXML(){
-		OwlSettingsMap.getInstance().load();
-		assymetricCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.ASYMMETRIC));
-		cardinalityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.CARDINALITIES));
-		commentsCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.COMMENTS));
-		classCompleteCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.COMPLETENESS_OF_CLASSES));
-		assocDisjCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.DISJOINTNESS_OF_ASSOCIATIONS));
-		classDisjCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.DISJOINTNESS_OF_CLASSES));
-		domainCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.DOMAIN));
-		functionalCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.FUNCTIONAL));
-		inverseCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.INVERSE));
-		inverseFuncCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.INVERSE_FUNCTIONAL));
-		irreflexiveCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.IRREFLEXIVE));
-		labelsCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.LABELS));
-		rangeCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.RANGE));
-		reflexivityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.REFLEXIVE));
-		rulesCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.SWRL_RULES));
-		symmetryCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.SYMMETRIC));
-		transitivityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.TRANSITIVE));
-		ufoStructure.setSelected(OwlSettingsMap.getInstance().getValue(OwlAxiomsType.UFO_STRUCTURE));
-		owlReasonerBox.setSelectedItem(OwlSettingsMap.getInstance().getReasoner());
-		iriTextField.setText(OwlSettingsMap.getInstance().getIRI());
-	}
-	
-	public void storeToXML(){
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.ASYMMETRIC,assymetricCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.CARDINALITIES,cardinalityCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.COMMENTS,commentsCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.COMPLETENESS_OF_CLASSES,classCompleteCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.DISJOINTNESS_OF_ASSOCIATIONS,assocDisjCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.DISJOINTNESS_OF_CLASSES,classDisjCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.DOMAIN,domainCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.FUNCTIONAL,functionalCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.INVERSE,inverseCheck.isSelected());		
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.INVERSE_FUNCTIONAL,inverseFuncCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.IRREFLEXIVE,irreflexiveCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.LABELS,labelsCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.RANGE,rangeCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.REFLEXIVE,reflexivityCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.SWRL_RULES,rulesCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.SYMMETRIC,symmetryCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.TRANSITIVE,transitivityCheck.isSelected());
-		OwlSettingsMap.getInstance().setValue(OwlAxiomsType.UFO_STRUCTURE,ufoStructure.isSelected());
-		OwlSettingsMap.getInstance().setReasoner((OwlReasonerType)owlReasonerBox.getSelectedItem());
-		OwlSettingsMap.getInstance().setIRI((String)iriTextField.getText());
-		OwlSettingsMap.getInstance().store();
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -234,9 +193,9 @@ public class OwlAxiomsPane extends JPanel {
 		docPane.add(rulesCheck);		
 		lblReasoner = new JLabel("Reasoner:");
 		docPane.add(lblReasoner);
-		owlReasonerBox = new JComboBox<OwlReasonerType>();
+		owlReasonerBox = new JComboBox<OWL2Reasoner>();
 		docPane.add(owlReasonerBox);
-		owlReasonerBox.setModel(new DefaultComboBoxModel(OwlReasonerType.values()));
+		owlReasonerBox.setModel(new DefaultComboBoxModel(OWL2Reasoner.values()));
 		midPane.setLayout(gl_midPane);
 		headerPane.setLayout(new BorderLayout(5, 5));
 		iriLabel = new JLabel("Ontology IRI:");
@@ -248,4 +207,57 @@ public class OwlAxiomsPane extends JPanel {
 		iriTextField.setColumns(10);
 		setLayout(gl_axiomsPane);		
 	}
+	
+	//====================================================
+	//Serializing methods
+	//====================================================
+	
+	public void loadFromXML(){
+		OwlSettingsMap.getInstance().load();
+		assymetricCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.ASYMMETRIC));
+		cardinalityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.CARDINALITIES));
+		commentsCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.COMMENTS));
+		classCompleteCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.COMPLETENESS_OF_CLASSES));
+		assocDisjCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS));
+		classDisjCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES));
+		domainCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.DOMAIN));
+		functionalCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.FUNCTIONAL));
+		inverseCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.INVERSE));
+		inverseFuncCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.INVERSE_FUNCTIONAL));
+		irreflexiveCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.IRREFLEXIVE));
+		labelsCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.LABELS));
+		rangeCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.RANGE));
+		reflexivityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.REFLEXIVE));
+		rulesCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.SWRL_RULES));
+		symmetryCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.SYMMETRIC));
+		transitivityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.TRANSITIVE));
+		ufoStructure.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.UFO_STRUCTURE));
+		owlReasonerBox.setSelectedItem(OwlSettingsMap.getInstance().getReasoner());
+		iriTextField.setText(OwlSettingsMap.getInstance().getIRI());
+	}
+	
+	public void storeToXML(){
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.ASYMMETRIC,assymetricCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.CARDINALITIES,cardinalityCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.COMMENTS,commentsCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.COMPLETENESS_OF_CLASSES,classCompleteCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS,assocDisjCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES,classDisjCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.DOMAIN,domainCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.FUNCTIONAL,functionalCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.INVERSE,inverseCheck.isSelected());		
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.INVERSE_FUNCTIONAL,inverseFuncCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.IRREFLEXIVE,irreflexiveCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.LABELS,labelsCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.RANGE,rangeCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.REFLEXIVE,reflexivityCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.SWRL_RULES,rulesCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.SYMMETRIC,symmetryCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.TRANSITIVE,transitivityCheck.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.UFO_STRUCTURE,ufoStructure.isSelected());
+		OwlSettingsMap.getInstance().setReasoner((OWL2Reasoner)owlReasonerBox.getSelectedItem());
+		OwlSettingsMap.getInstance().setIRI((String)iriTextField.getText());
+		OwlSettingsMap.getInstance().store();
+	}
+	
 }

@@ -1,5 +1,7 @@
 package net.menthor.common.transformation;
 
+import net.menthor.common.settings.owl.OWL2Reasoner;
+
 public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	
 	/**ontology IRI*/
@@ -39,7 +41,7 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	private boolean labels = true;
 	private boolean comments = true;
 	
-	private OwlReasoner owlReasoner = OwlReasoner.Unselected;
+	private OWL2Reasoner owlReasoner = OWL2Reasoner.UNSELECTED;
 	
 	public boolean isComments() { return comments; }
 	public boolean isLabels() { return labels; }
@@ -81,8 +83,8 @@ public class OwlAxiomsEnforcement extends AxiomsEnforcement {
 	public boolean isCardinality() { return cardinality; }
 	public boolean isUfoStructure() { return ufoStructure; }
 	public void setUfoStructure(boolean ufoStructure) { this.ufoStructure = ufoStructure; }	
-	public OwlReasoner getOwlReasoner() { return owlReasoner; }
-	public void setOwlReasoner(OwlReasoner owlReasoner) { this.owlReasoner = owlReasoner; }
+	public OWL2Reasoner getOwlReasoner() { return owlReasoner; }
+	public void setOwlReasoner(OWL2Reasoner owlReasoner) { this.owlReasoner = owlReasoner; }
 	public boolean isAssocNamesByAssocEnds() { return assocNamesByAssocEnds; }
 	public void setAssocNamesByAssocEnds(boolean assocNamesByAssocEnds) { this.assocNamesByAssocEnds = assocNamesByAssocEnds; }
 }
