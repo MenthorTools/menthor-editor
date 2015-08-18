@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.menthor.editor.v2.types.settings.OwlSettingsMap;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.UIFontUtil;

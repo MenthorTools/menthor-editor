@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.menthor.common.transformation.GenMappingEnum;
+import net.menthor.common.transformation.GenSetMappingType;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.OwlReasoner;
@@ -100,7 +101,6 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLElement;
 
 public class Transformer {
 	/**
@@ -132,7 +132,7 @@ public class Transformer {
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
 	private ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
-	private HashMap<Object, Object> lstQualityMappings;
+	private Map<Object, Object> lstQualityMappings;
 	private Set<Object> lstMappedQualities;
 	
 	private TransformationOption owlOptions;
@@ -232,22 +232,21 @@ public class Transformer {
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
-				RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
-				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-				GenMappingEnum mappingType = (GenMappingEnum) genSetEnumMappings[i][1];
-				if(mappingType.equals(GenMappingEnum.allClasses)){
-					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
-				}else if(mappingType.equals(GenMappingEnum._1stClasses)){
-					lstGsSetMapChildren = ontoParser.getChildren(gs);
+				GeneralizationSet gsElem = (GeneralizationSet)genSetEnumMappings[i][0];				
+				GenSetMappingType mappingType = (GenSetMappingType) genSetEnumMappings[i][1];
+				if(mappingType.equals(GenSetMappingType.ALLCLASSES)){
+					lstGsSetMapChildren = ontoParser.getAllChildren(gsElem);					
+				}else if(mappingType.equals(GenSetMappingType._1STCLASSES)){
+					lstGsSetMapChildren = ontoParser.getChildren(gsElem);
 				}else{
-					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
+					lstGsSetMapChildren = ontoParser.getLeafChildren(gsElem);
 				}
 				
 				lstOntClass.removeAll(lstGsSetMapChildren);
 				
-				lstGenSets.remove(gs);
+				lstGenSets.remove(gsElem);
 				
-				for (Generalization generalization : gs.getGeneralization()) {
+				for (Generalization generalization : gsElem.getGeneralization()) {
 					lstGen.remove(generalization);
 				}
 			}
@@ -434,13 +433,12 @@ public class Transformer {
 		Object[][] genSetEnumMappings = owlMappings.getGenSetMappings();
 		if(genSetEnumMappings == null) return;
 		for(int i = 0; i < genSetEnumMappings.length; i++){
-			RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
-			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-			GenMappingEnum mappingType = (GenMappingEnum) genSetEnumMappings[i][1];
+			GeneralizationSet gs = (GeneralizationSet) genSetEnumMappings[i][0];
+			GenSetMappingType mappingType = (GenSetMappingType) genSetEnumMappings[i][1];
 			Set<Classifier> localGsSetMapChildren;
-			if(mappingType.equals(GenMappingEnum.allClasses)){
+			if(mappingType.equals(GenSetMappingType.ALLCLASSES)){
 				localGsSetMapChildren = ontoParser.getAllChildren(gs);					
-			}else if(mappingType.equals(GenMappingEnum._1stClasses)){
+			}else if(mappingType.equals(GenSetMappingType._1STCLASSES)){
 				localGsSetMapChildren = ontoParser.getChildren(gs);
 			}else{
 				localGsSetMapChildren = ontoParser.getLeafChildren(gs);

@@ -50,7 +50,7 @@ public class BaseTablePane extends JPanel {
 	public void setText(String text) { textPane.setText(text); }
 	
 	public BaseTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String choiceColumnTitle){
-		tableModel = new ElementChoiceTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
+		tableModel = new DuoChoiceTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
 		buildUI(refparser);
 	}
 	

@@ -35,7 +35,7 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.types.settings.OwlSettingsMap;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.FileWriter;
 import net.menthor.editor.v2.util.Settings;
 

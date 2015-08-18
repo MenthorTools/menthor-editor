@@ -34,8 +34,11 @@ import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.types.settings.OwlSettingsMap;
-import net.menthor.editor.v2.types.settings.OwlAxiomsPane;
+import net.menthor.editor.v2.settings.owl.OwlAxiomsPane;
+import net.menthor.editor.v2.settings.owl.OwlGenSetPane;
+import net.menthor.editor.v2.settings.owl.OwlPrimitivePane;
+import net.menthor.editor.v2.settings.owl.OwlQualityPane;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 
 public class OwlSettingsDialog extends TransformationDialog {
 	
@@ -43,18 +46,18 @@ public class OwlSettingsDialog extends TransformationDialog {
 	
 	private OwlApproachPane approachPane;
 	private OwlAxiomsPane axiomsPane;
-	private OwlPrimitiveMappingPane primitivePane;
-	private OwlQualityMappingPane qualityPane;
-	private OwlGenSetMappingPane gsPane;
+	private OwlPrimitivePane primitivePane;
+	private OwlQualityPane qualityPane;
+	private OwlGenSetPane gsPane;
 	
 	public OwlSettingsDialog(final MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams, modal);
 		
 		approachPane = new OwlApproachPane();
-		primitivePane = new OwlPrimitiveMappingPane(Models.getRefparser());
-		qualityPane = new OwlQualityMappingPane(Models.getRefparser());
-		gsPane = new OwlGenSetMappingPane(Models.getRefparser());
+		primitivePane = new OwlPrimitivePane(Models.getRefparser());
+		qualityPane = new OwlQualityPane(Models.getRefparser());
+		gsPane = new OwlGenSetPane(Models.getRefparser());
 		axiomsPane = new OwlAxiomsPane();
 		
 		addNonClosable("Approach", approachPane);
@@ -75,6 +78,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 					axiomsPane.storeToXML();
 					primitivePane.storeToXML();
 					qualityPane.storeToXML();
+					gsPane.storeToXML();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -94,7 +98,7 @@ public class OwlSettingsDialog extends TransformationDialog {
 				OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
 				try {
 					mappings.setAttributeMappings(primitivePane.getAttributeMap());
-					mappings.setGenSetMappings(gsPane.getGenSetEnumMappingMap());										
+					mappings.setGenSetMappings(gsPane.getGeneralizationSetMap());										
 					mappings.setPrimitiveMappings(primitivePane.getPrimitiveMap());										
 					mappings.setQualityMappings(qualityPane.getQualityMap());					
 				} catch (Exception e) {

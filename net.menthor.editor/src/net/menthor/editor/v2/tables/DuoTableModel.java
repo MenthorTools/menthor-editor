@@ -3,6 +3,7 @@ package net.menthor.editor.v2.tables;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -10,8 +11,8 @@ public class DuoTableModel extends BaseTableModel {
 
 	private static final long serialVersionUID = -8283265869688835740L;
 	
-	private List<Object> sourceList = new ArrayList<Object>(); 
-	private List<Object> targetList = new ArrayList<Object>();
+	protected List<Object> sourceList = new ArrayList<Object>(); 
+	protected List<Object> targetList = new ArrayList<Object>();
 	
 	//==========================================================
 	//CONSTRUCTOR
@@ -21,6 +22,10 @@ public class DuoTableModel extends BaseTableModel {
 		super(new String[]{firstColTitle, secondColTitle});
 	}
 
+	public DuoTableModel(String[] columns) {
+		super(columns);
+	}
+	
 	//==========================================================
 	// GETTERS AND SETTERS
 	//==========================================================
@@ -35,6 +40,21 @@ public class DuoTableModel extends BaseTableModel {
 		int idx = targetList.indexOf(target);
 		if(idx>=0) return sourceList.get(idx);
 		else return null;
+	}
+	
+	public Map<Object, Object> getEntries() throws Exception{
+		Map<Object,Object> map = new HashMap<Object,Object>();		
+		for(int i =0; i < sourceList.size(); i++){
+			//look if exists null entries...
+			if(sourceList.get(i) == null || targetList.get(i) == null){
+				JOptionPane.showMessageDialog(null,"You need to fill the remaining cells before moving on.",
+				"Invalid operation", JOptionPane.INFORMATION_MESSAGE);
+				throw new Exception("The table is not completely filled. You need to fill the remaining cells before moving on.");
+			}else{
+				map.put(sourceList.get(i),targetList.get(i));	
+			}
+		}
+		return map;
 	}
 	
 	//==========================================================
@@ -60,25 +80,10 @@ public class DuoTableModel extends BaseTableModel {
 			sourceList.add(elem);
 			targetList.add(target);			
 			fireTableRowsInserted(size, size);
-		}else{
-			//if exists a cell with null value(<no value>)...
-			JOptionPane.showMessageDialog(null,"You need to fill all cells before insert a new row.",
-			"Wait...", JOptionPane.INFORMATION_MESSAGE);			
+		}else{		
+			JOptionPane.showMessageDialog(null,"Please, fulfill the \"<no value>\" cells in the table \nbefore adding a new entry.",
+			"Empty cells", JOptionPane.INFORMATION_MESSAGE);			
 		}
-	}
-	
-	public HashMap<Object, Object> getEntries() throws Exception{
-		HashMap<Object,Object> map = new HashMap<Object,Object>();		
-		for(int i =0; i < sourceList.size(); i++){
-			//look if exists null entries...
-			if(sourceList.get(i) == null || targetList.get(i) == null){
-				JOptionPane.showMessageDialog(null,"You need to fill the remaining cells before moving on.",
-				"Wait...", JOptionPane.INFORMATION_MESSAGE);
-				throw new Exception("The table is not completely filled. You need to fill the remaining cells before moving on.");
-			}
-			map.put(sourceList.get(i),targetList.get(i));
-		}
-		return map;
 	}
 	
 	//==========================================================
@@ -105,7 +110,7 @@ public class DuoTableModel extends BaseTableModel {
 	}
 
 	@Override
-	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+	public void setValueAt(Object value, int rowIndex, int columnIndex) {		
 		//if value contains a String (<no value>), it is replaced by null
 		if(value instanceof String) value=null; 		
 		//looks for previous value of the cell
@@ -126,8 +131,8 @@ public class DuoTableModel extends BaseTableModel {
 					continue; //they are different				
 				//if both are null or equal
 				if((existentValue == null && value == null) || existentValue.equals(value)){
-					JOptionPane.showMessageDialog(null,"A mapping for {" + value + "} already exists.",
-					"Wait...",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,"{" + value + "} was already mappped. Please, choose a different element.",
+					"Invalid operation",JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 			}

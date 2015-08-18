@@ -32,51 +32,31 @@ import RefOntoUML.Property;
 import RefOntoUML.impl.DataTypeImpl;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
-/**
- * This class implements a BaseTableModel for class RefOntoUML.Proprties
- * 
- * @author Antognoni Albuquerque, John Guerson
- */
 public class AttributeTableModel extends BaseTableModel {
 	
 	private static final long serialVersionUID = 156864519388945910L;
+	
 	private EList<Property> attributes = new BasicEList<Property>();
 	public static boolean isPrimitive = true;
 	
-	public AttributeTableModel(Classifier owner)
-	{
-		super(new String[]{"Name", "Type", "Multiplicity"});
-		
+	public AttributeTableModel(Classifier owner){
+		super(new String[]{"Name", "Type", "Multiplicity"});		
 		if(owner instanceof DataTypeImpl) attributes.addAll(((DataType) owner).getOwnedAttribute());
 		else attributes.addAll(((RefOntoUML.Class) owner).getOwnedAttribute());
 	}
 
-	public EList<Property> getEntries()
-	{
-		return attributes;
-	}
+	public EList<Property> getEntries(){ return attributes; }	
+	public Property getEntry(int index) { return attributes.get(index); }
 	
-	public Property getEntry(int index)
-	{
-		return attributes.get(index);
-	}
-	
-	public Property getEntry(Property property)
-	{
-		for(Property p: attributes)
-		{
+	public Property getEntry(Property property){
+		for(Property p: attributes){
 			if (p.equals(property))
 				return p;
 		}
 		return null;
 	}
 	
-	/**
-	 * Adds an entry (item) to the model.
-	 * @param entry the entry to add
-	 */
-	public void addEntry(Object entry)
-	{
+	public void addEntry(Object entry){
 		int size = attributes.size();
 		if(!attributes.contains((Property)entry)){
 			attributes.add((Property) entry);			
@@ -101,9 +81,6 @@ public class AttributeTableModel extends BaseTableModel {
 		fireTableRowsDeleted(index, index);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	public void addEmptyEntry() {
 		Property property = RefOntoUMLFactoryUtil.factory.createProperty();
 		DataType type = null;		
@@ -116,18 +93,12 @@ public class AttributeTableModel extends BaseTableModel {
 		addEntry(property);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		if(attributes.size() > 0)
-		{
-			Property prp = (Property)attributes.get(rowIndex);		
-						 
+		if(attributes.size() > 0){
+			Property prp = (Property)attributes.get(rowIndex);						 
 			switch(columnIndex) {
 				case 0: return prp.getName();
-				case 1: 
-				{
+				case 1: {
 					String type = new String(); 
 					if(prp.getType()!=null) type = prp.getType().getName();
 					return type;
@@ -143,12 +114,8 @@ public class AttributeTableModel extends BaseTableModel {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Class<?> getColumnClass(int columnIndex) {
-        if(attributes.size() > 0)
-		{
+        if(attributes.size() > 0){
         	switch(columnIndex) {
 				case 0: return String.class;
 				case 1: return String.class;
@@ -157,10 +124,7 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 		return Object.class;
     }
-	
-	/**
-	 * {@inheritDoc}
-	 */
+		
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
 		Property property = (Property) attributes.get(rowIndex);
@@ -188,31 +152,18 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean isCellEditable(int rowIndex, int columnIndex) 
-	{ 
+	public boolean isCellEditable(int rowIndex, int columnIndex){ 
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getColumnName(int columnIndex) {
 		return columns[columnIndex];
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	public int getRowCount() { return attributes.size(); }
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public int getColumnCount() { return columns.length; }
 
 }

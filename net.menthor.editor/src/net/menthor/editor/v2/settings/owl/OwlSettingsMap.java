@@ -1,4 +1,25 @@
-package net.menthor.editor.v2.types.settings;
+package net.menthor.editor.v2.settings.owl;
+
+/**
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ */
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import net.menthor.common.transformation.GenSetMappingType;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlReasoner;
 import net.menthor.common.transformation.QualityMappingType;
@@ -19,6 +41,7 @@ import net.menthor.editor.v2.util.Util;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.Classifier;
+import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 
 public final class OwlSettingsMap {
@@ -66,12 +89,11 @@ public final class OwlSettingsMap {
 			properties.put(OwlAxiomsType.TRANSITIVE.toString(),"true");
 			properties.put(OwlAxiomsType.UFO_STRUCTURE.toString(),"true");		
 			properties.put(OwlAxiomsType.REASONER.toString(), OwlReasonerType.UNSELECTED.toString());
-			properties.put(OwlAxiomsType.ASSOC_NAME_BY_ENDS.toString(),"true");		
 		}
 	}
 	
 	//======================================================
-	//AXIOMS
+	//ENTRY: {OWL AXIOMS TYPE, VALUE}
 	//======================================================
 	
 	public void setReasoner(OwlReasonerType reasoner){
@@ -103,7 +125,8 @@ public final class OwlSettingsMap {
 	}
 	
 	//==============================================================
-	//ELEMENT <-> OWL DATA TYPE
+	//ENTRY: {PRIMITIVE-UUID, OWL DATA TYPE}
+	//ENTRY: {ATTRIBUTE-UUID, OWL DATA TYPE}
 	//==============================================================
 	
 	public void setOwlDatatype(RefOntoUML.Element elem, OWL2Datatype owlDt){
@@ -117,7 +140,7 @@ public final class OwlSettingsMap {
 		return null;
 	}
 	
-	/** This method returns all (stored) mappings of model elements into owl datatypes */
+	/** This method returns all (stored) mappings of model primitiveTypes and attributes into owl dataTypes */
 	public Map<RefOntoUML.Element, OWL2Datatype> getOwlDatatypes(OntoUMLParser refparser){
 		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
 		for(Object key: properties.keySet()){
@@ -131,7 +154,7 @@ public final class OwlSettingsMap {
 	}
 	
 	//==============================================================
-	//ELEMENT <-> OWL QUALITY MAPPING TYPE
+	//ENTRY: {QUALITY-UUID. OWL QUALITY MAPPING TYPE}
 	//==============================================================
 	
 	public void setOwlQualityMappingType(RefOntoUML.Element elem, QualityMappingType q){
@@ -145,13 +168,66 @@ public final class OwlSettingsMap {
 		return null;
 	}
 	
-	/** This method returns all (stored) mappings of model elements into owl quality mapping types */
+	/** This method returns all (stored) mappings of model qualities into owl quality mapping types */
 	public Map<RefOntoUML.Element, QualityMappingType> getOwlQualityMappingTypes(OntoUMLParser refparser){
 		Map<RefOntoUML.Element, QualityMappingType> result = new HashMap<RefOntoUML.Element, QualityMappingType>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof Classifier) && refparser.isQuality((Classifier)pt)) {
 				QualityMappingType owlDt = QualityMappingType.getByName((String)properties.get(key));
+				result.put(pt,owlDt);
+			}
+		}
+		return result;
+	}
+	
+	//==============================================================
+	//ENTRY: {GENSET-UUID, OWL GENSET MAPPING TYPE}
+	//ENTRY: {GENSET-UUID, CHOICE}
+	//==============================================================
+		
+	public void setOwlGenSetMappingType(RefOntoUML.Element elem, GenSetMappingType q){
+		if(properties != null) {
+			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString());
+		}
+	}
+	
+	public void setOwlGenSetChoice(RefOntoUML.Element elem, Boolean q){
+		if(properties != null) {
+			properties.put(OntoUMLParser.getUUIDFromElement(elem), q.toString());
+		}
+	}
+	
+	public GenSetMappingType getOwlGenSetMappingType(RefOntoUML.Element elem){
+		if(properties != null) return GenSetMappingType.valueOf((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
+		return null;
+	}
+	
+	public Boolean getOwlGenSetChoice(RefOntoUML.Element elem){
+		if(properties != null) return Boolean.parseBoolean((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
+		return null;
+	}
+	
+	/** This method returns all (stored) mappings of model genSets into owl genSet mapping types */
+	public Map<RefOntoUML.Element, GenSetMappingType> getOwlGenSetMappingTypes(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, GenSetMappingType> result = new HashMap<RefOntoUML.Element, GenSetMappingType>();
+		for(Object key: properties.keySet()){
+			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
+			if(pt!=null && (pt instanceof GeneralizationSet)) {
+				GenSetMappingType owlDt = GenSetMappingType.getByName((String)properties.get(key));
+				result.put(pt,owlDt);
+			}
+		}
+		return result;
+	}
+	
+	/** This method returns all (stored) mappings of model genSets into boolean choices */
+	public Map<RefOntoUML.Element, Boolean> getOwlGenSetChoices(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, Boolean> result = new HashMap<RefOntoUML.Element, Boolean>();
+		for(Object key: properties.keySet()){
+			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
+			if(pt!=null && (pt instanceof GeneralizationSet)) {
+				Boolean owlDt = Boolean.parseBoolean((String)properties.get(key));
 				result.put(pt,owlDt);
 			}
 		}
@@ -240,7 +316,6 @@ public final class OwlSettingsMap {
 		opt.setComments(getValue(OwlAxiomsType.COMMENTS));
 		opt.setLabels(getValue(OwlAxiomsType.LABELS));
 		opt.setOwlReasoner(getOwlReasonerFromType(getReasoner()));
-		opt.setAssocNamesByAssocEnds(getValue(OwlAxiomsType.ASSOC_NAME_BY_ENDS));
 		return opt;
 	}	
 		

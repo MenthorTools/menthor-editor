@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.types.settings.OwlSettingsMap;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.FileReader;
 import net.menthor.editor.v2.util.OntoumlEditingDomain;
 import net.menthor.editor.v2.util.Settings;
