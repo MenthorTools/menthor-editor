@@ -71,8 +71,7 @@ public class AlsDestinationPane extends BaseDestinationPane {
 		        enableFileChooser(false);
 		    }
 		});
-		select(ALS4Destination.TAB);
-		getRadioButton(ALS4Destination.ANALYZER).setEnabled(false);
+		select(ALS4Destination.ANALYZER);		
 		enableFileChooser(false);	
 	}
 	

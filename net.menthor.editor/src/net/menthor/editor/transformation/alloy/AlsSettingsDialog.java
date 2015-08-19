@@ -87,7 +87,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 		tabbedPane.setSelectedComponent(principalPane);
 		
 		setTitle("Alloy Settings");
-		getOkButton().addActionListener(new ActionListener() 
+		getProgressPane().getStartButton().addActionListener(new ActionListener() 
 		{
        		public void actionPerformed(ActionEvent event) 
        		{

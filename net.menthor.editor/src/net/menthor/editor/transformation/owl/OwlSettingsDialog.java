@@ -71,6 +71,7 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 		addNonClosable("Generalization Sets", gsPane);		
 		tabbedPane.setSelectedComponent(mainPane);				
 		setTitle("OWL Settings");
+		setSize(500, 550);		
 		
 		getProgressPane().getStartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {

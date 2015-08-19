@@ -47,7 +47,6 @@ public class OwlMainPane extends JPanel {
 	private void buildUI(){				
 		approachPane = new OwlApproachPane();		
 		destinationPane = new OwlDestinationPane();		
-		this.setSize(650, 365);		
 		setLayout(new BorderLayout(5, 5));
 		add(destinationPane, BorderLayout.NORTH);
 		add(approachPane, BorderLayout.CENTER);		
