@@ -85,7 +85,7 @@ public class OwlPrimitivePane extends JPanel{
 	//====================================================
 	
 	private void addUIEntry(RefOntoUML.Element elem, OWL2Datatype owlDt){
-		if(elem instanceof RefOntoUML.PrimitiveType){
+		if(elem instanceof RefOntoUML.DataType){
 			((DuoTableModel)primitivePane.getTableModel()).addEntry(elem, owlDt);
 		}
 		if(elem instanceof RefOntoUML.Property){

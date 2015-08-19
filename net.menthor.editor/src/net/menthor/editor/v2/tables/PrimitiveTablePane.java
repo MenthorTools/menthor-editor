@@ -7,7 +7,8 @@ import javax.swing.table.TableColumn;
 
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
-import RefOntoUML.PrimitiveType;
+import RefOntoUML.DataType;
+import RefOntoUML.Enumeration;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class PrimitiveTablePane extends BaseTablePane {
@@ -17,11 +18,11 @@ public class PrimitiveTablePane extends BaseTablePane {
 	public PrimitiveTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle){
 		super(sourceColumnTitle, refparser, targetColumnTitle);		
 		/** Load primitive types as options*/
-		List<RefOntoUML.PrimitiveType> sourcePrimitiveOptions = new ArrayList<RefOntoUML.PrimitiveType>();
+		List<RefOntoUML.DataType> sourcePrimitiveOptions = new ArrayList<RefOntoUML.DataType>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
-		for(PrimitiveType pt: refparser.getAllInstances(PrimitiveType.class)){
-			sourcePrimitiveOptions.add(pt);	
-		}		
+		for(DataType pt: refparser.getAllInstances(DataType.class)){
+			if(!(pt instanceof Enumeration)) sourcePrimitiveOptions.add(pt);	
+		}
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 		/** Load target options*/
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
