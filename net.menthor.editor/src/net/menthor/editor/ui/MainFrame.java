@@ -239,41 +239,46 @@ public class MainFrame extends JFrame implements CommandListener {
 		return methodcall;
 	}
 
-	private void callMethod(MethodCall methodcall){
+	private Object callMethod(MethodCall methodcall){
 		try{
 			if(methodcall.getMethod().getDeclaringClass() == getClass()){
-				methodcall.call(this);
+				return methodcall.call(this);
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
-				methodcall.call(getDiagramManager());
+				return methodcall.call(getDiagramManager());
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
-				methodcall.call(getDiagramManager().getCurrentDiagramEditor());
+				return methodcall.call(getDiagramManager().getCurrentDiagramEditor());
 			}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){
-				methodcall.call(getProjectBrowser().getTree());		
+				return methodcall.call(getProjectBrowser().getTree());		
 			}
 		}catch(java.lang.IllegalArgumentException e){
 			System.err.println("Method not called. Reason: "+e.getLocalizedMessage());
 			System.err.println(methodcall);			
 		}
+		return null;
 	}
 	
 	/** Handles the fired commands. */
 	@Override
-	public void handleCommand(String command, Object parameter) {	
+	public Object handleCommand(String command, Object parameter) {	
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MethodCall methodcall = getMethodCall(command,parameter);
 		System.out.println(methodcall);
-		if(methodcall!=null) callMethod(methodcall);
+		Object result=null;
+		if(methodcall!=null) result = callMethod(methodcall);
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		return result;		
 	}
 	
 	/** Handles the fired commands. */
 	@Override
-	public void handleCommand(String command) {	
+	public Object handleCommand(String command) {	
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MethodCall methodcall = getMethodCall(command,null);
 		System.out.println(methodcall);
-		if(methodcall!=null)callMethod(methodcall);
+		Object result=null;
+		if(methodcall!=null) result = callMethod(methodcall);
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		return result;		
 	}
 	
 	//============

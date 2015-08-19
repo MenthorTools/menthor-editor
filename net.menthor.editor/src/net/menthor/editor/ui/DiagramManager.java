@@ -2891,11 +2891,55 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		openAlloySettings();
 	}
 
-	public void implementInOwl() 
-	{	
-		workingOnlyWithChecked();
-		openOwlSettings();
+	//==============================================================
+	//OWL TRANSFORMATION
+	//==============================================================
+	
+	@SuppressWarnings("unchecked")
+	public String generateOwl(Object context){
+		if(context instanceof List<?>){
+			List<Object> list = (List<Object>)context;
+			OntoUMLParser filteredParser = null;
+			TransformationOption opt = null;
+			if(list.size()>0) filteredParser = (OntoUMLParser)list.get(0);
+			if(list.size()>1) opt = (TransformationOption) list.get(1);
+			if(filteredParser!=null && opt!=null) return generateOwl(filteredParser, opt);			
+		}
+		return "No parameter passed as argument to the transformation. Method could not be called";
 	}
+	
+	public void callOwlSettings(){	
+		workingOnlyWithChecked();
+		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
+			Models.getRefparser(),
+			frame.getProjectBrowser().getAllDiagrams()
+		);
+		dialog.setLocationRelativeTo(frame);
+		dialog.setVisible(true);
+	}
+	
+	private String generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
+	{
+		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
+		ResultType result = OWLHelper.generateOwl(filteredParser, model, getWorkingConstraints(), trOpt);
+		if(result.getResultType() != Result.ERROR){	
+			if(trOpt.getDestination()==OWL2Destination.TAB)
+			{
+				frame.getInfoManager().showOutputText(result.toString(), true, false);
+				showInTextEditor((String)result.getData()[0]);
+			}else{
+				frame.getInfoManager().showOutputText(result.toString(), true, true);
+			}
+			//frame.showSuccessfulMessageDialog("SUCCESS", "Project successfully transformed.");
+			return "SUCCESS. Project successfully transformed.";
+		}else{
+			frame.getInfoManager().showOutputText(result.toString(), true, true); 
+			//frame.showErrorMessageDialog("FAILURE", "Project could not be transformed.");
+			return "FAILURE. Project could not be transformed.";
+		}
+	}
+	
+	//==============================================================
 	
 	/** Open the Alloy simulation settings window */
 	public void openAlloySettings()
@@ -3062,18 +3106,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	/** Open the OWL settings window	 */
-	public void openOwlSettings() 
-	{
-		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
-			Models.getRefparser(),
-			frame.getProjectBrowser().getAllDiagrams(),
-			true
-		);
-		dialog.setLocationRelativeTo(frame);
-		dialog.setVisible(true);
-	}	
-	
 	public void generateInfoUML(RefOntoUML.Package model) 
 	{
 		OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
@@ -3229,33 +3261,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		return list;
 	}
-	
-	/** Generates OWL from the selected model */
-	public void generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
-	{
-		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = OWLHelper.generateOwl(
-			filteredParser, 
-			model, 
-			getWorkingConstraints(),			
-			trOpt
-		);
-		if(result.getResultType() != Result.ERROR)
-		{	
-			if(trOpt.getDestination()==OWL2Destination.TAB)
-			{
-				frame.getInfoManager().showOutputText(result.toString(), true, false);
-				showInTextEditor((String)result.getData()[0]);
-			}else{
-				frame.getInfoManager().showOutputText(result.toString(), true, true);
-			}
-			frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to OWL.");
-		}else{
-			frame.getInfoManager().showOutputText(result.toString(), true, true); 
-			frame.showSuccessfulMessageDialog("Failed", "Project unsuccessfully transformed to OWL.");
-		}
-	}
-	
+		
 	private Editor getEditorForProject(UmlProject project, EditorType nature)
 	{
 		int totalTabs = getTabCount();

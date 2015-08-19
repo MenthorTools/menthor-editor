@@ -180,7 +180,8 @@ public enum CommandType {
 	// VALIDATE
 	//====================================================
 	SIMULATE_AND_CHECK("Simulate and check current project using Alloy"), 
-	IMPLEMENT_IN_OWL("Generate current project implementation in OWL/RDF"),
+	CALL_OWL_SETTINGS("Generate current project implementation in OWL/RDF"),
+	GENERATE_OWL("Generate current project implementation in OWL/RDF"),
 	BUSINESS_VOCABULARY("Transform current project into a SBVR business vocabulary"),
 	TEXTUAL_DESCRIPTION("Transform current project into Natural Language"),	
 	DESIGN_AS_INFO_UML("Transform current project into an information model in UML"),

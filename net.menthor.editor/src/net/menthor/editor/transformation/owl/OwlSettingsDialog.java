@@ -23,18 +23,16 @@ package net.menthor.editor.transformation.owl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
-import RefOntoUML.parser.OntoUMLParser;
+import javax.swing.SwingWorker;
 
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.MainFrame;
-
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
 import net.menthor.editor.v2.settings.owl.OwlAxiomsPane;
 import net.menthor.editor.v2.settings.owl.OwlGenSetPane;
@@ -42,6 +40,7 @@ import net.menthor.editor.v2.settings.owl.OwlMainPane;
 import net.menthor.editor.v2.settings.owl.OwlPrimitivePane;
 import net.menthor.editor.v2.settings.owl.OwlQualityPane;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlSettingsDialog extends BaseSettingsDialog {
 	
@@ -51,10 +50,10 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 	private OwlAxiomsPane axiomsPane;
 	private OwlPrimitivePane primitivePane;
 	private OwlQualityPane qualityPane;
-	private OwlGenSetPane gsPane;
-	
-	public OwlSettingsDialog(final MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal){
-		super(owner, refparser, diagrams, modal);		
+	private OwlGenSetPane gsPane;	
+		
+	public OwlSettingsDialog(CommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
+		super(listener, refparser, diagrams);		
 		buildUI(refparser);
 	}
 	
@@ -72,58 +71,51 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 		addNonClosable("Generalization Sets", gsPane);		
 		tabbedPane.setSelectedComponent(mainPane);				
 		setTitle("OWL Settings");
-		getOkButton().addActionListener(new ActionListener() {
+		
+		getProgressPane().getStartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				okActionPerformed(evt);
+				OwlSettingsDialog.this.getProgressPane().enableUI();
+				Task task = new Task();
+		        task.addPropertyChangeListener(OwlSettingsDialog.this.getProgressPane());
+		        task.execute();
+		        
+				
 			}
 		});
 	}
 		
-	private void okActionPerformed(ActionEvent evt){				
-		try {
-			axiomsPane.storeToXML();
-			primitivePane.storeToXML();
-			qualityPane.storeToXML();
-			gsPane.storeToXML();
-			mainPane.storeToXML();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-		/**base options*/
-		TransformationOption transOpt = new TransformationOption(
-			mainPane.getSelectedMapping(), 
-			mainPane.getOWL2Destination(),
-			mainPane.getPathText()
-		);
-		
-		/**owl axioms*/
-		OwlAxiomsEnforcement axioms = OwlSettingsMap.getInstance().getOwlAxiomsEnforcement();				
-		transOpt.setAxiomsEnforcement(axioms);
-		
-		/**owl mappings customizations*/
-		OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
-		try {
-			mappings.setAttributeMappings(primitivePane.getAttributeMap());
-			mappings.setGenSetMappings(gsPane.getGeneralizationSetMap());										
-			mappings.setPrimitiveMappings(primitivePane.getPrimitiveMap());										
-			mappings.setQualityMappings(qualityPane.getQualityMap());					
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		transOpt.setMappingsEnforcement(mappings);
-		
-		if(frame instanceof MainFrame){
-			DiagramManager manager = ((MainFrame)frame).getDiagramManager();
-			
-			/**generate*/
-			manager.generateOwl(
-				filterPane.getFilteredParser(),							 
-				transOpt
-			);
-		}				
-		
-		dispose();
-	}	
+	class Task extends SwingWorker<Void, Void> {
+        @Override
+        public Void doInBackground() {
+        	
+        	try {
+    			axiomsPane.storeToXML();
+    			primitivePane.storeToXML();
+    			qualityPane.storeToXML();
+    			gsPane.storeToXML();
+    			mainPane.storeToXML();
+    		
+    			List<Object> context = new ArrayList<Object>();
+    			OntoUMLParser refparser = filterPane.getFilteredParser();
+    			TransformationOption transOpt =  OwlSettingsMap.getInstance().getOwlTransformationOption(refparser);		
+				context.add(refparser);
+				context.add(transOpt);
+    			
+    			Object result = listener.handleCommand(CommandType.GENERATE_OWL.toString(), context);
+    			if(result instanceof String){
+    				getProgressPane().writeLine((String)result);
+    			}
+        		
+    			setProgress(100);
+    			
+        	}catch (Exception e1){
+    			e1.printStackTrace();
+    		}        	        	
+            return null;
+        }
+      
+        public void done() {
+        	OwlSettingsDialog.this.getProgressPane().disableUI();
+        }
+    }	
 }

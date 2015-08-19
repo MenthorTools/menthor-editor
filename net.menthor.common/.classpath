@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="lib/eclipse-kepler-sr1/org.eclipse.emf.ecore.xmi_2.9.1.v20130827-0309.jar"/>
 	<classpathentry kind="lib" path="lib/eclipse-kepler-sr1/org.eclipse.ocl_3.3.0.v20130909-1552.jar"/>
 	<classpathentry kind="lib" path="lib/eclipse-kepler-sr1/org.eclipse.ocl.ecore_3.3.0.v20130520-1222.jar"/>
+	<classpathentry kind="lib" path="lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
+	<classpathentry kind="lib" path="lib/owl/owlapi-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

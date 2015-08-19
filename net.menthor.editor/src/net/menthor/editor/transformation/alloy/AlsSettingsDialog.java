@@ -62,7 +62,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 	/** @wbp.parser.constructor */
 	public AlsSettingsDialog(MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
-		super(owner, refparser, diagrams, modal);
+		super(owner, refparser, diagrams);
 				
 		principalPane = new JPanel();
 		principalPane.setLayout(new BorderLayout(10,10));

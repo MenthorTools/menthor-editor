@@ -131,8 +131,8 @@ public class Transformer {
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
 	private ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
-	private Map<Object, Object> lstQualityMappings;
-	private Set<Object> lstMappedQualities;
+	private Map<RefOntoUML.Element, OWL2Quality> lstQualityMappings;
+	private Set<RefOntoUML.Element> lstMappedQualities;
 	
 	private TransformationOption owlOptions;
 	private OwlAxiomsEnforcement owlAxioms;
@@ -1597,7 +1597,7 @@ public class Transformer {
 	}
 		
 	private void processSuppressedQualitiesAsAttributes() {
-		for(Entry<Object, Object> quaEntry : lstQualityMappings.entrySet()){
+		for(Entry<RefOntoUML.Element, OWL2Quality> quaEntry : lstQualityMappings.entrySet()){
 			Classifier qua = (Classifier) quaEntry.getKey();
 			
 			ArrayList<Association> assocs = ontoParser.getIndirectAssociations(qua);

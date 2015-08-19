@@ -42,6 +42,8 @@ import net.menthor.common.settings.owl.OWL2GeneralizationSet;
 import net.menthor.common.settings.owl.OWL2Quality;
 import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
+import net.menthor.common.transformation.OwlMappingsEnforcement;
+import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
 
@@ -200,6 +202,32 @@ public final class OwlSettingsMap {
 		return result;
 	}
 	
+	/** This method returns all (stored) mappings of model primitiveTypes into owl dataTypes */
+	public Map<RefOntoUML.Element, OWL2Datatype> getOwl2Primitive(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
+		for(Object key: properties.keySet()){
+			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
+			if(pt!=null && (pt instanceof RefOntoUML.PrimitiveType)) {
+				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
+				result.put(pt,owlDt);
+			}
+		}
+		return result;
+	}
+	
+	/** This method returns all (stored) mappings of model attributes into owl dataTypes */
+	public Map<RefOntoUML.Element, OWL2Datatype> getOwl2Attribute(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
+		for(Object key: properties.keySet()){
+			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
+			if(pt!=null && (pt instanceof RefOntoUML.Property)) {
+				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
+				result.put(pt,owlDt);
+			}
+		}
+		return result;
+	}
+	
 	//==============================================================
 	//ENTRY: {QUALITY-UUID. OWL2QUALITY}
 	//==============================================================
@@ -286,6 +314,28 @@ public final class OwlSettingsMap {
 		return result;
 	}
 	
+	/** This method returns all (stored) mappings of model genSets in a matrix of 3 columns */
+	public Object[][] getOwl2GenSetsAsMatrix(OntoUMLParser refparser){
+		int size = getOwl2GenSets(refparser).size();
+		Object[][] map = new Object[size][3];
+		int i=0;
+		for(Object key: properties.keySet()){
+			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
+			if(pt!=null && (pt instanceof GeneralizationSet)) {
+				String value = ((String)properties.get(key));
+				if(value.contains("@")){
+					OWL2GeneralizationSet owlDt = OWL2GeneralizationSet.getByName(value.split("@")[0]);
+					Boolean choice = Boolean.parseBoolean(value.split("@")[1]);
+					map[i][0] = pt;
+					map[i][1] = owlDt;
+					map[i][2] = choice;
+					i++;
+				}
+			}
+		}
+		return map;
+	}
+	
 	//======================================================
 	//SERIALIZATION
 	//======================================================
@@ -355,7 +405,7 @@ public final class OwlSettingsMap {
 	//Owl transformation.
 	//====================================================================
 	
-	public OwlAxiomsEnforcement getOwlAxiomsEnforcement() {			
+	private OwlAxiomsEnforcement getOwlAxiomsEnforcement() {			
 		OwlAxiomsEnforcement opt = new OwlAxiomsEnforcement();
 		opt.setAssociationDisjointness(getValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS));
 		opt.setAsymmetric(getValue(OWL2Axiom.ASYMMETRIC));
@@ -377,5 +427,17 @@ public final class OwlSettingsMap {
 		opt.setLabels(getValue(OWL2Axiom.LABELS));
 		opt.setOwlReasoner(getReasoner());
 		return opt;
+	}
+	
+	public TransformationOption getOwlTransformationOption(OntoUMLParser refparser){		
+		TransformationOption transOpt = new TransformationOption(getApproach(),getDestination(),getPath());		    		    		
+		transOpt.setAxiomsEnforcement(getOwlAxiomsEnforcement());		
+		OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
+		mappings.setAttributeMappings(getOwl2Attribute(refparser));
+		mappings.setGenSetMappings(getOwl2GenSetsAsMatrix(refparser));										
+		mappings.setPrimitiveMappings(getOwl2Primitive(refparser));										
+		mappings.setQualityMappings(getOwl2Quality(refparser));		
+		transOpt.setMappingsEnforcement(mappings);
+		return transOpt;
 	}
 }

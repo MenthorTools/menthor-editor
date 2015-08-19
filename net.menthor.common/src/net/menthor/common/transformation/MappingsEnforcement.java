@@ -4,30 +4,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
+
+import net.menthor.common.settings.owl.OWL2Quality;
+import RefOntoUML.Element;
+
 public class MappingsEnforcement {
 
-	private HashMap<Object, Object> primitiveMappings = new HashMap<Object, Object>();
-	private HashMap<Object, Object> attributeMappings = new HashMap<Object, Object>();	
-	private HashMap<Object, Object> qualityMappings = new HashMap<Object, Object>();	
+	private HashMap<Element, OWL2Datatype> primitiveMappings = new HashMap<Element, OWL2Datatype>();
+	private HashMap<Element, OWL2Datatype> attributeMappings = new HashMap<Element, OWL2Datatype>();	
+	private HashMap<Element, OWL2Quality> qualityMappings = new HashMap<Element, OWL2Quality>();	
 	private Object[][] genSetMappings;
 	
-	public void setQualityMappings(Map<Object, Object> qualityMappings) 
+	public void setQualityMappings(Map<Element, OWL2Quality> qualityMappings) 
 	{
-		for (Entry<Object, Object> entry : qualityMappings.entrySet()){
+		for (Entry<Element, OWL2Quality> entry : qualityMappings.entrySet()){
 			this.qualityMappings.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setPrimitiveMappings(Map<Object, Object> primitiveMappings)
+	public void setPrimitiveMappings(Map<Element, OWL2Datatype> primitiveMappings)
 	{
-		for (Entry<Object, Object> entry : primitiveMappings.entrySet()) {
+		for (Entry<Element, OWL2Datatype> entry : primitiveMappings.entrySet()) {
 			this.primitiveMappings.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setAttributeMappings(Map<Object, Object> attributeMappings) 
+	public void setAttributeMappings(Map<Element, OWL2Datatype> attributeMappings) 
 	{
-		for (Entry<Object, Object> entry : attributeMappings.entrySet()) {
+		for (Entry<Element, OWL2Datatype> entry : attributeMappings.entrySet()) {
 			this.attributeMappings.put(entry.getKey(),entry.getValue());
 		}
 	}	
@@ -38,7 +43,7 @@ public class MappingsEnforcement {
 	}
 	
 	public Object[][] getGenSetMappings() { return genSetMappings; }	
-	public HashMap<Object, Object> getAttributeMappings() { return attributeMappings; }
-	public HashMap<Object, Object> getPrimitiveMappings() { return primitiveMappings; }
-	public HashMap<Object, Object> getQualityMappings() { return qualityMappings; }
+	public HashMap<Element, OWL2Datatype> getAttributeMappings() { return attributeMappings; }
+	public HashMap<Element, OWL2Datatype> getPrimitiveMappings() { return primitiveMappings; }
+	public HashMap<Element, OWL2Quality> getQualityMappings() { return qualityMappings; }
 }

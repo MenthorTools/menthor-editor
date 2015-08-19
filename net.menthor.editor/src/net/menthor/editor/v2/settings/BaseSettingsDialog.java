@@ -23,25 +23,24 @@ package net.menthor.editor.v2.settings;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Frame;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.transformation.FilterPane;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.ui.ProgressPane;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class BaseSettingsDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = -4770351584655675698L;
 	
-	protected JFrame frame;
-	public JFrame getFrame() { return frame; }
+	protected CommandListener listener;
 	
 	protected OntoUMLParser refparser;
 	protected List<OntoumlDiagram> diagrams;	
@@ -58,27 +57,20 @@ public class BaseSettingsDialog extends javax.swing.JDialog {
 	protected JTabbedPane tabbedPane = new JTabbedPane();
 	protected JPanel principalPane;	
 	
-	protected BaseSettingsDialog(JFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal){
-		super(owner, modal);		
-		this.frame = owner;				
+	protected ProgressPane progressPane;
+	public ProgressPane getProgressPane() { return progressPane; }
+	
+	protected BaseSettingsDialog(CommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
+		super((Frame)listener, false);		
+		this.listener = listener;
 		this.refparser = refparser;
 		this.diagrams=diagrams;		
+		this.progressPane = new ProgressPane();
 		filterPane.fillContent(refparser, diagrams);				
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);	
-		JPanel footerPane = new JPanel();
-		getContentPane().add(footerPane, BorderLayout.SOUTH);		
-		btnOk = new JButton("Generate");
-		footerPane.add(btnOk);		
-		btnCancel = new JButton("Close");
-		footerPane.add(btnCancel);		
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
-		setTitle("Transformation");	
-		setSize(new java.awt.Dimension(550, 420));			
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				dispose();
-			}
-		});
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);		
+		getContentPane().add(progressPane, BorderLayout.SOUTH);		
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);			
+		setSize(new java.awt.Dimension(550, 420));		
 	}
 
 	/** Add Non Closable Tab */
