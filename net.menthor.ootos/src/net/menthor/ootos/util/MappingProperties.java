@@ -139,7 +139,7 @@ public class MappingProperties {
 		if(property instanceof Association){
 			origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
 		}else{
-			origSrcEndName = ((Property) property).getName();
+			origSrcEndName = property.getName();
 		}
 		origSrcEndName = origSrcEndName.replaceAll(" ", "_").replaceAll("\n", "_");
 		origSrcEndName = StringUtil.processSpecialCharacter(origSrcEndName);
@@ -185,7 +185,7 @@ public class MappingProperties {
 		if(property instanceof Association){
 			origTgtEndName = ((Association) property).getMemberEnd().get(1).getName();
 		}else{
-			origTgtEndName = ((Property) property).getName();
+			origTgtEndName = property.getName();
 		}
 		origTgtEndName = origTgtEndName.replaceAll(" ", "_").replaceAll("\n", "_");
 		origTgtEndName = StringUtil.processSpecialCharacter(origTgtEndName);
