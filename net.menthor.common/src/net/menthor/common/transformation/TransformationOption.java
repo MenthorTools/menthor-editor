@@ -1,18 +1,21 @@
 package net.menthor.common.transformation;
 
+import net.menthor.common.settings.owl.OWL2Approach;
+import net.menthor.common.settings.owl.OWL2Destination;
+
 public class TransformationOption {
 
-	private DestinationEnum destination;
+	private OWL2Destination destination;
 	private String outputAbsolutePath;
-	private MappingType mappingType;
+	private OWL2Approach mappingType;
 	private AxiomsEnforcement axiomsEnforcement;
 	private MappingsEnforcement mappingEnforcements;
 	
-	public DestinationEnum getDestination() { return destination; }
+	public OWL2Destination getDestination() { return destination; }
 	public String getPath() { return outputAbsolutePath; }
-	public MappingType getMappingType() { return mappingType; }
+	public OWL2Approach getMappingType() { return mappingType; }
 
-	public TransformationOption(MappingType mapping, DestinationEnum dest, String outputAbsolutePath){
+	public TransformationOption(OWL2Approach mapping, OWL2Destination dest, String outputAbsolutePath){
 		this.destination = dest;
 		this.outputAbsolutePath = outputAbsolutePath;
 		this.mappingType = mapping;

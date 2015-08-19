@@ -96,7 +96,7 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 	}
 	
 	public boolean contains(RefOntoUML.Element element){
-		return editor.getDiagram().containsChild(ModelHelper.getDiagramElementByEditor(element,editor));
+		return editor.getDiagram().containsChild(ModelHelper.getDiagramElementByDiagram(element,editor.getDiagram()));
 	}
 	
 	@Override

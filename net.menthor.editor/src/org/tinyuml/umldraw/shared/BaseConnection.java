@@ -27,8 +27,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.List;
 
-import net.menthor.editor.ui.ModelHelper;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -46,6 +44,8 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
+import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
@@ -119,11 +119,11 @@ public class BaseConnection implements UmlConnection, Adapter {
 		relationship = aRelationship;
 		
 		if(relationship.eResource() != null)
-			relationshipUUID = ModelHelper.getUUIDFromElement(relationship);
+			relationshipUUID = OntoUMLParser.getUUIDFromElement(relationship);
 		
 		if (relationship != null) {
 			relationship.eAdapters().add(this);
-			ontoUmlStereotype = ModelHelper.getClassAsStereotype(relationship);			
+			ontoUmlStereotype = OntoUMLNameHelper.getTypeName(relationship,true);			
 		}
 	}
 
@@ -137,7 +137,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 		if(relationship == null && relationshipUUID != null)
 		{
 			RefOntoUML.Package model = ((StructureDiagram)getDiagram()).getRootPackage();
-			relationship = (Relationship) ModelHelper.getElementByUUID(model, relationshipUUID);
+			relationship = (Relationship) OntoUMLParser.getElementByUUID(model, relationshipUUID);
 		}
 		
 		return relationship;
@@ -513,7 +513,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 	 */
 	@Override
 	 public void addedToDiagram(Diagram diagram) {
-		 relationshipUUID = ModelHelper.getUUIDFromElement(relationship);
+		 relationshipUUID = OntoUMLParser.getUUIDFromElement(relationship);
 	 }
 
 	public String getRelationshipUUID() {

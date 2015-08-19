@@ -30,16 +30,16 @@ import java.util.List;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.RectilinearConnection;
 import org.tinyuml.draw.SimpleLabel;
-import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlModelElementLabelSource;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
-import net.menthor.editor.ui.ModelHelper;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * An generalization connection.
@@ -85,13 +85,13 @@ public final class GeneralizationElement extends BaseConnection {
 	public Classifier getSpecific()
 	{
 		RefOntoUML.Package model = ((StructureDiagram)getDiagram()).getRootPackage();
-		return (Classifier) ModelHelper.getElementByUUID(model, specificUUID);
+		return (Classifier) OntoUMLParser.getElementByUUID(model, specificUUID);
 	}
 	
 	public Classifier getGeneral()
 	{
 		RefOntoUML.Package model = ((StructureDiagram)getDiagram()).getRootPackage();
-		return (Classifier) ModelHelper.getElementByUUID(model, generalUUID);
+		return (Classifier) OntoUMLParser.getElementByUUID(model, generalUUID);
 	}
 	
 	/**
@@ -209,7 +209,7 @@ public final class GeneralizationElement extends BaseConnection {
 	 public void addedToDiagram(Diagram diagram) {
 		 super.addedToDiagram(diagram);
 		 
-		 generalUUID = ModelHelper.getUUIDFromElement(getGeneralization().getGeneral());
-		 specificUUID = ModelHelper.getUUIDFromElement(getGeneralization().getSpecific());
+		 generalUUID = OntoUMLParser.getUUIDFromElement(getGeneralization().getGeneral());
+		 specificUUID = OntoUMLParser.getUUIDFromElement(getGeneralization().getSpecific());
 	 }
 }

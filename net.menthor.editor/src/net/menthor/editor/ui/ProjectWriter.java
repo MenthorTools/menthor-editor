@@ -35,6 +35,7 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.FileWriter;
 import net.menthor.editor.v2.util.Settings;
 
@@ -67,6 +68,13 @@ public final class ProjectWriter extends FileWriter {
 		out.putNextEntry(modelEntry);
 		Resource resource = project.getResource();
 		resource.save(out, Collections.EMPTY_MAP);
+		out.closeEntry();
+		
+		System.out.println("Saving XMI settings information in Menthor file...");
+		//Save the owl settings as a XML file inside the menthor file
+		ZipEntry owlSettingEntry = new ZipEntry(OwlSettingsMap.getInstance().getFileName());			
+		out.putNextEntry(owlSettingEntry);
+		OwlSettingsMap.getInstance().store(out);		
 		out.closeEntry();
 		
 		System.out.println("Saving project DAT information in Menthor file...");

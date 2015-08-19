@@ -29,6 +29,7 @@ import javax.swing.event.UndoableEditListener;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -78,7 +79,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		diagramElement = ModelHelper.getDiagramElementByEditor(relationship,(DiagramEditor)notification);
+		diagramElement = ModelHelper.getDiagramElementByDiagram(relationship,((DiagramEditor)notification).getDiagram());
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 						
 		if (relationship!=null){
 //			System.out.println("Undoing ="+relationship);
-			ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
+			OntoumlEditingDomain.getInstance().createDomain().getCommandStack().undo();
 			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(relationship);
 		}
 		
@@ -181,11 +182,11 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 			
 			// add to model
 			if(eContainer==null){
-				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), project.getModel().getPackagedElement(), relationship);
-				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+				AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), relationship);
+				OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 			}else{				
-				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), relationship);
-				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+				AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), relationship);
+				OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 			}			
 		}
 		if (relationship instanceof Generalization)
@@ -196,8 +197,8 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 			
 			//add to model
 			if(source!=null){
-				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Classifier)source).getGeneralization(), (RefOntoUML.Generalization)relationship);
-				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);				
+				AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Classifier)source).getGeneralization(), (RefOntoUML.Generalization)relationship);
+				OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
 			}
 						
 		}		

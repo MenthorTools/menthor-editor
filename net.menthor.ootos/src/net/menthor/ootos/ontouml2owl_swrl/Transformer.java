@@ -8,14 +8,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-import net.menthor.common.transformation.GenMappingEnum;
+import net.menthor.common.settings.owl.OWL2GeneralizationSet;
+import net.menthor.common.settings.owl.OWL2Quality;
+import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
+import net.menthor.ootos.util.MappedProperty;
 import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.StringUtil;
 
 import org.eclipse.emf.common.util.EList;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -44,7 +50,6 @@ import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
@@ -81,19 +86,20 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
+import RefOntoUML.NamedElement;
 import RefOntoUML.NominalQuality;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Phase;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
+import RefOntoUML.Structuration;
 import RefOntoUML.Type;
 import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLElement;
 
 public class Transformer {
 	/**
@@ -124,7 +130,9 @@ public class Transformer {
 	private HashMap<String,Set<OWLObjectProperty>> hashAssociations;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
 	private Set<Classifier> lstGsSetMapChildren = new HashSet<Classifier>();
-	ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
+	private ArrayList<RefOntoUML.Classifier> lstDataTypeAndNominalQualities = new ArrayList<RefOntoUML.Classifier>();
+	private Map<Object, Object> lstQualityMappings;
+	private Set<Object> lstMappedQualities;
 	
 	private TransformationOption owlOptions;
 	private OwlAxiomsEnforcement owlAxioms;
@@ -169,6 +177,11 @@ public class Transformer {
 		lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		lstOntClass.removeAll(lstNominalQualities);
 		
+		lstQualityMappings = owlOptions.getMappingsEnforcement().getQualityMappings();
+		lstMappedQualities = lstQualityMappings.keySet();
+		
+		lstOntClass.removeAll(lstMappedQualities);
+		
 		lstGenSets = ontoParser.getAllInstances(GeneralizationSet.class);
 		lstGen = ontoParser.getAllInstances(Generalization.class);
 		
@@ -207,7 +220,7 @@ public class Transformer {
 		
 		oclRules = _oclRules;
 		
-		mappingProperties = new MappingProperties(ontoParser);
+		mappingProperties = new MappingProperties(ontoParser, owlOptions);
 		mappingProperties.generateAllPropertyNames();
 		
 	}
@@ -218,22 +231,21 @@ public class Transformer {
 		for(int i = 0; i < genSetEnumMappings.length; i++){
 			Boolean hide = (Boolean) genSetEnumMappings[i][2];
 			if(hide){
-				RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
-				GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-				GenMappingEnum mappingType = (GenMappingEnum) genSetEnumMappings[i][1];
-				if(mappingType.equals(GenMappingEnum.allClasses)){
-					lstGsSetMapChildren = ontoParser.getAllChildren(gs);					
-				}else if(mappingType.equals(GenMappingEnum._1stClasses)){
-					lstGsSetMapChildren = ontoParser.getChildren(gs);
+				GeneralizationSet gsElem = (GeneralizationSet)genSetEnumMappings[i][0];				
+				OWL2GeneralizationSet mappingType = (OWL2GeneralizationSet) genSetEnumMappings[i][1];
+				if(mappingType.equals(OWL2GeneralizationSet.ALLCLASSES)){
+					lstGsSetMapChildren = ontoParser.getAllChildren(gsElem);					
+				}else if(mappingType.equals(OWL2GeneralizationSet._1STCLASSES)){
+					lstGsSetMapChildren = ontoParser.getChildren(gsElem);
 				}else{
-					lstGsSetMapChildren = ontoParser.getLeafChildren(gs);
+					lstGsSetMapChildren = ontoParser.getLeafChildren(gsElem);
 				}
 				
 				lstOntClass.removeAll(lstGsSetMapChildren);
 				
-				lstGenSets.remove(gs);
+				lstGenSets.remove(gsElem);
 				
-				for (Generalization generalization : gs.getGeneralization()) {
+				for (Generalization generalization : gsElem.getGeneralization()) {
 					lstGen.remove(generalization);
 				}
 			}
@@ -247,108 +259,110 @@ public class Transformer {
 	 * @return a String with the OWL code
 	 * @throws Exception 
 	 */
-	public String transform() throws Exception {
+	public String transform(String tempDir) throws Exception {
 		if(owlAxioms.isUfoStructure()) createBasicStructure();
 		
-		try{
+//		try{
 			processClass();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when creating the OWL classes;\n");			
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when creating the OWL classes;\n");			
+//		}
 
-		try{
-			processDataType();
-		}catch (Exception e){
-			errors = "";
-			e.printStackTrace();
-			throw new Exception("Error: An unexpected exception happened when processing Datatypes;\n");
-		}
+//		try{
+			processClassAttributes();
+			processDataTypes();
+			processSuppressedQualitiesAsAttributes();
+//		}catch (Exception e){
+//			errors = "";
+//			e.printStackTrace();
+//			throw new Exception("Error: An unexpected exception happened when processing Datatypes;\n");
+//		}
 
-		try{
+//		try{
 			processGeneralizations();
-		}catch (Exception e){
-			e.printStackTrace();
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Generalizations;\n");
-		}
+//		}catch (Exception e){
+//			e.printStackTrace();
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Generalizations;\n");
+//		}
 
-		try{
+//		try{
 			processCharacterization();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Characterization Associations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Characterization Associations;\n");
+//		}
 
-		try{
+//		try{
 			processFormal();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Formal Associations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Formal Associations;\n");
+//		}
 
-		try{
+//		try{
 			processMediation();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Mediation Associations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Mediation Associations;\n");
+//		}
 
-		try{
+//		try{
 			processMaterial();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Material Associations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Material Associations;\n");
+//		}
 
-		try{
+//		try{
 			processRelator();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Relators;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Relators;\n");
+//		}
 
-		try{
+//		try{
 			processComponentOf();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing ComponentOf Association;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing ComponentOf Association;\n");
+//		}
 
-		try{
+//		try{
 			processSubCollectionOf();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing SubCollectionOf Association;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing SubCollectionOf Association;\n");
+//		}
 
-		try{
+//		try{
 			processSubQuantityOf();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing SubQuantityOf Association;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing SubQuantityOf Association;\n");
+//		}
 
-		try{
+//		try{
 			processSubQuantityOf();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing SubQuantityOf Association;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing SubQuantityOf Association;\n");
+//		}
 
-		try{
+//		try{
 			processMemberOf();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing MemberOf Association;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing MemberOf Association;\n");
+//		}
 
-		try{
+//		try{
 			processGenericAssociation();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Generic Associations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Generic Associations;\n");
+//		}
 
 //		try{
 //			processDisjointClass();
@@ -357,12 +371,12 @@ public class Transformer {
 //			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Classes;\n");
 //		}
 
-		try{
+//		try{
 			processDisjointAssociation();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Associations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Associations;\n");
+//		}
 
 //		try{
 //			processDisjointDataType();
@@ -371,60 +385,59 @@ public class Transformer {
 //			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Datatypes;\n");
 //		}
 
-		try{
+//		try{
 			processAnnotation();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when creating the Annotations;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when creating the Annotations;\n");
+//		}
 
-		try{
+//		try{
 			processAxiom();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when creating the Axioms;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when creating the Axioms;\n");
+//		}
 
-		try{
+//		try{
 			processGenSetsMappings();
-		}catch (Exception e){
-			errors = "";
-			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
-		}
+//		}catch (Exception e){
+//			errors = "";
+//			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
+//		}
 
 		if(oclRules != null && !oclRules.equals("") && owlAxioms.isSwrlRules()){
 			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, owlOptions, oclRules, ontoParser, manager, owlNameSpace);
-			ocl2owl_swrl.Transformation();
+			ocl2owl_swrl.Transformation(tempDir);
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
 		
 		removeUndesiredAxioms();
 		
-		try {	
+//		try {	
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			manager.saveOntology(ontology, os);
 			//String s = new String(os.toByteArray(),"ISO-8859-1");
 			String owl = new String(os.toByteArray(),"UTF-8");
 			//Process special characters
-			owl = processSpecialCharacter(owl);
+			owl = StringUtil.processSpecialCharacter(owl);
 			return owl;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return "";
 	}
-	
+
 	private void processGenSetsMappings() {
 		Object[][] genSetEnumMappings = owlMappings.getGenSetMappings();
 		if(genSetEnumMappings == null) return;
 		for(int i = 0; i < genSetEnumMappings.length; i++){
-			RefOntoUMLElement gsElem = (RefOntoUMLElement) genSetEnumMappings[i][0];
-			GeneralizationSet gs = (GeneralizationSet) gsElem.getElement();
-			GenMappingEnum mappingType = (GenMappingEnum) genSetEnumMappings[i][1];
+			GeneralizationSet gs = (GeneralizationSet) genSetEnumMappings[i][0];
+			OWL2GeneralizationSet mappingType = (OWL2GeneralizationSet) genSetEnumMappings[i][1];
 			Set<Classifier> localGsSetMapChildren;
-			if(mappingType.equals(GenMappingEnum.allClasses)){
+			if(mappingType.equals(OWL2GeneralizationSet.ALLCLASSES)){
 				localGsSetMapChildren = ontoParser.getAllChildren(gs);					
-			}else if(mappingType.equals(GenMappingEnum._1stClasses)){
+			}else if(mappingType.equals(OWL2GeneralizationSet._1STCLASSES)){
 				localGsSetMapChildren = ontoParser.getChildren(gs);
 			}else{
 				localGsSetMapChildren = ontoParser.getLeafChildren(gs);
@@ -478,11 +491,17 @@ public class Transformer {
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLInverseFunctionalObjectPropertyAxiom && !owlAxioms.isInverseFunctional()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && !owlAxioms.isTransitive()){
+			}else if(owlAxiom instanceof OWLTransitiveObjectPropertyAxiom && (!owlAxioms.isTransitive() || owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET))){
+				if(owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET)){
+					errors += "The axiom Transitivity was removed because is not supported by Pellet.\n";
+				}
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLSymmetricObjectPropertyAxiom && !owlAxioms.isSymmetric()){
 				manager.removeAxiom(ontology, owlAxiom);
-			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && !owlAxioms.isAsymmetric()){
+			}else if(owlAxiom instanceof OWLAsymmetricObjectPropertyAxiom && (!owlAxioms.isAsymmetric() || owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET))){
+				if(owlAxioms.getOwlReasoner().equals(OWL2Reasoner.PELLET)){
+					errors += "The axiom Transitivity was removed because is not supported by Pellet.\n";
+				}
 				manager.removeAxiom(ontology, owlAxiom);
 			}else if(owlAxiom instanceof OWLReflexiveObjectPropertyAxiom && !owlAxioms.isReflexive()){
 				manager.removeAxiom(ontology, owlAxiom);
@@ -552,10 +571,10 @@ public class Transformer {
 			lst.addAll(lstSubCollectionOf);
 			processMeronymic(lst, "subCollectionOf");
 		}
-		if(lstSubCollectionOf.size() > 1 && owlAxioms.isSwrlRules()){
-			//For transitivity
-			createSWRLforTrasitivity("subCollectionOf");
-		}
+//		if(lstSubCollectionOf.size() > 1 && owlAxioms.isSwrlRules()){
+//			//For transitivity
+//			createSWRLforTrasitivity("subCollectionOf");
+//		}
 	}
 
 	private void processSubQuantityOf() {
@@ -565,10 +584,10 @@ public class Transformer {
 			lst.addAll(lstSubQuantityOf);
 			processMeronymic(lst, "subQuantityOf");
 		}
-		if(lstSubQuantityOf.size() > 1 && owlAxioms.isSwrlRules()){
-			//For transitivity
-			createSWRLforTrasitivity("subQuantityOf");
-		}
+//		if(lstSubQuantityOf.size() > 1 && owlAxioms.isSwrlRules()){
+//			//For transitivity
+//			createSWRLforTrasitivity("subQuantityOf");
+//		}
 	}
 
 	private void processComponentOf() {
@@ -578,10 +597,10 @@ public class Transformer {
 			lst.addAll(lstComponentOf);
 			processMeronymic(lst, "componentOf");
 		}
-		if(lstComponentOf.size() > 1 && owlAxioms.isSwrlRules()){
-			//For transitivity
-			createSWRLforTrasitivity("componentOf");
-		}
+//		if(lstComponentOf.size() > 1 && owlAxioms.isSwrlRules()){
+//			//For transitivity
+//			createSWRLforTrasitivity("componentOf");
+//		}
 	}
 
 	private void processMemberOf() {
@@ -591,75 +610,75 @@ public class Transformer {
 			lst.addAll(lstMemberOf);
 			processMeronymic(lst, "memberOf");
 		}
-		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlAxioms.isSwrlRules()){
-			//if has a memberof association and a subcollectionof association
-			createSWRLforMemberOfWithSubCollectionOf();	
-		}
+//		if((lstMemberOf.size() >= 1) && (lstSubCollectionOf.size() >= 1) && owlAxioms.isSwrlRules()){
+//			//if has a memberof association and a subcollectionof association
+//			createSWRLforMemberOfWithSubCollectionOf();	
+//		}
 	}
 
-	private void createSWRLforMemberOfWithSubCollectionOf() {
-		//FALTA PADRONIZAR AQUI
-		OWLObjectProperty memberOf = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"memberOf"));
-		OWLObjectProperty subCollectionOf = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"subCollectionOf"));
+//	private void createSWRLforMemberOfWithSubCollectionOf() {
+//		//FALTA PADRONIZAR AQUI
+//		OWLObjectProperty memberOf = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"memberOf"));
+//		OWLObjectProperty subCollectionOf = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"subCollectionOf"));
+//
+//		//Variables
+//		SWRLVariable varX = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
+//		SWRLVariable varY = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
+//		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
+//
+//		//Make all variables disjoint between they
+//		SWRLAtom diffYX = factory.getSWRLDifferentIndividualsAtom(varY, varX);
+//		SWRLAtom diffXZ = factory.getSWRLDifferentIndividualsAtom(varX, varZ);
+//		SWRLAtom diffYZ = factory.getSWRLDifferentIndividualsAtom(varY, varZ);
+//
+//		//statements
+//		Set<SWRLAtom> antecedent = new HashSet<SWRLAtom>();
+//		antecedent.add(diffXZ); //DifferentFrom(?x,?z)
+//		antecedent.add(diffYZ); //DifferentFrom(?y,?z)
+//		antecedent.add(diffYX); //DifferentFrom(?y,?z)
+//		antecedent.add(factory.getSWRLObjectPropertyAtom(memberOf, varY, varX)); //memberOf(?x,?y)
+//		antecedent.add(factory.getSWRLObjectPropertyAtom(subCollectionOf, varZ, varY)); //subCollectiveOf(?y,?z)
+//
+//		Set<SWRLAtom> consequent = new HashSet<SWRLAtom>();
+//		consequent.add(factory.getSWRLObjectPropertyAtom(memberOf, varZ, varX)); //memberOf(?x,?z)
+//
+//		SWRLRule rule = factory.getSWRLRule(antecedent,consequent);		
+//		manager.applyChange(new AddAxiom(ontology, rule));	
+//	}
 
-		//Variables
-		SWRLVariable varX = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
-		SWRLVariable varY = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
-		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
-
-		//Make all variables disjoint between they
-		SWRLAtom diffYX = factory.getSWRLDifferentIndividualsAtom(varY, varX);
-		SWRLAtom diffXZ = factory.getSWRLDifferentIndividualsAtom(varX, varZ);
-		SWRLAtom diffYZ = factory.getSWRLDifferentIndividualsAtom(varY, varZ);
-
-		//statements
-		Set<SWRLAtom> antecedent = new HashSet<SWRLAtom>();
-		antecedent.add(diffXZ); //DifferentFrom(?x,?z)
-		antecedent.add(diffYZ); //DifferentFrom(?y,?z)
-		antecedent.add(diffYX); //DifferentFrom(?y,?z)
-		antecedent.add(factory.getSWRLObjectPropertyAtom(memberOf, varY, varX)); //memberOf(?x,?y)
-		antecedent.add(factory.getSWRLObjectPropertyAtom(subCollectionOf, varZ, varY)); //subCollectiveOf(?y,?z)
-
-		Set<SWRLAtom> consequent = new HashSet<SWRLAtom>();
-		consequent.add(factory.getSWRLObjectPropertyAtom(memberOf, varZ, varX)); //memberOf(?x,?z)
-
-		SWRLRule rule = factory.getSWRLRule(antecedent,consequent);		
-		manager.applyChange(new AddAxiom(ontology, rule));	
-	}
-
-	/**
-	 * Create a transitivity in SWRL for property with its name.
-	 * Ex.: propName(?x,?y),propName(?y,?z)->propName(?x,?z)
-	 * */
-
-	private void createSWRLforTrasitivity(String propName) {
-		//FALTA PADRONIZAR AQUI
-		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
-
-		//Create the variables
-		SWRLVariable varX = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
-		SWRLVariable varY = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
-		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
-
-		//Set all variables disjoint between they
-		SWRLAtom diffYX = factory.getSWRLDifferentIndividualsAtom(varY, varX);
-		SWRLAtom diffXZ = factory.getSWRLDifferentIndividualsAtom(varX, varZ);
-		SWRLAtom diffYZ = factory.getSWRLDifferentIndividualsAtom(varY, varZ);
-
-		//Create the statements
-		Set<SWRLAtom> antecedent = new HashSet<SWRLAtom>();
-		antecedent.add(diffXZ); //DifferentFrom(?x,?z)
-		antecedent.add(diffYZ); //DifferentFrom(?y,?z)
-		antecedent.add(diffYX); //DifferentFrom(?y,?z)
-		antecedent.add(factory.getSWRLObjectPropertyAtom(prop, varX, varY)); //prop(?x,?Y)
-		antecedent.add(factory.getSWRLObjectPropertyAtom(prop, varY, varZ)); //prop(?y,?z)
-
-		Set<SWRLAtom> consequent = new HashSet<SWRLAtom>();
-		consequent.add(factory.getSWRLObjectPropertyAtom(prop, varX, varZ)); //prop(?x,?z)
-
-		SWRLRule rule = factory.getSWRLRule(antecedent,consequent);		
-		manager.applyChange(new AddAxiom(ontology, rule));
-	}
+//	/**
+//	 * Create a transitivity in SWRL for property with its name.
+//	 * Ex.: propName(?x,?y),propName(?y,?z)->propName(?x,?z)
+//	 * */
+//
+//	private void createSWRLforTrasitivity(String propName) {
+//		//FALTA PADRONIZAR AQUI
+//		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
+//
+//		//Create the variables
+//		SWRLVariable varX = factory.getSWRLVariable(IRI.create(owlNameSpace+"x"));
+//		SWRLVariable varY = factory.getSWRLVariable(IRI.create(owlNameSpace+"y"));
+//		SWRLVariable varZ = factory.getSWRLVariable(IRI.create(owlNameSpace+"z"));
+//
+//		//Set all variables disjoint between they
+//		SWRLAtom diffYX = factory.getSWRLDifferentIndividualsAtom(varY, varX);
+//		SWRLAtom diffXZ = factory.getSWRLDifferentIndividualsAtom(varX, varZ);
+//		SWRLAtom diffYZ = factory.getSWRLDifferentIndividualsAtom(varY, varZ);
+//
+//		//Create the statements
+//		Set<SWRLAtom> antecedent = new HashSet<SWRLAtom>();
+//		antecedent.add(diffXZ); //DifferentFrom(?x,?z)
+//		antecedent.add(diffYZ); //DifferentFrom(?y,?z)
+//		antecedent.add(diffYX); //DifferentFrom(?y,?z)
+//		antecedent.add(factory.getSWRLObjectPropertyAtom(prop, varX, varY)); //prop(?x,?Y)
+//		antecedent.add(factory.getSWRLObjectPropertyAtom(prop, varY, varZ)); //prop(?y,?z)
+//
+//		Set<SWRLAtom> consequent = new HashSet<SWRLAtom>();
+//		consequent.add(factory.getSWRLObjectPropertyAtom(prop, varX, varZ)); //prop(?x,?z)
+//
+//		SWRLRule rule = factory.getSWRLRule(antecedent,consequent);		
+//		manager.applyChange(new AddAxiom(ontology, rule));
+//	}
 
 	/**
 	 * Create a top ObjectProperty called stereotype and add, as a subPropertyOf, all 
@@ -668,64 +687,53 @@ public class Transformer {
 	 * */
 
 	private void processMeronymic(Set<Association> lstAssociation, String stereotype){
-		//Create the top property
-		//FALTA PADRONIZAR AQUI
-		OWLObjectProperty topProp = factory.getOWLObjectProperty(IRI.create(owlNameSpace+stereotype));
-		OWLObjectProperty topInvProp = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+stereotype));
+//		//Create the top property
+//		//FALTA PADRONIZAR AQUI
+//		OWLObjectProperty topProp = factory.getOWLObjectProperty(IRI.create(owlNameSpace+stereotype));
+//		OWLObjectProperty topInvProp = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+stereotype));
+//
+//		//Used after to make associations disjoints
+//		putInHash(stereotype, topProp);
+//		putInHash(stereotype, topInvProp);
+//
+//		if(owlAxioms.isInverse()){
+//			OWLInverseObjectPropertiesAxiom inv = factory.getOWLInverseObjectPropertiesAxiom(topInvProp, topProp);
+//			manager.applyChange(new AddAxiom(ontology, inv));
+//		}
+//		
+//		//Make the inverse top property disjoint of the top property
+//		if(owlAxioms.isAssociationDisjointness())
+//			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProp, topInvProp)));
+//
+//		//Set prop irreflexive
+//		OWLIrreflexiveObjectPropertyAxiom iopa = factory.getOWLIrreflexiveObjectPropertyAxiom(topProp);
+//		manager.applyChange(new AddAxiom(ontology, iopa));
+//
+//		//Set prop asymmetric
+//		OWLAsymmetricObjectPropertyAxiom aopa = factory.getOWLAsymmetricObjectPropertyAxiom(topProp);
+//		manager.applyChange(new AddAxiom(ontology, aopa));
+//
+//		//Set prop irreflexive		
+//		iopa = factory.getOWLIrreflexiveObjectPropertyAxiom(topInvProp);
+//		manager.applyChange(new AddAxiom(ontology, iopa));
+//
+//		//Set prop asymmetric
+//		aopa = factory.getOWLAsymmetricObjectPropertyAxiom(topInvProp);
+//		manager.applyChange(new AddAxiom(ontology, aopa));
 
-		//Used after to make associations disjoints
-		putInHash(stereotype, topProp);
-		putInHash(stereotype, topInvProp);
-
-		if(owlAxioms.isInverse()){
-			OWLInverseObjectPropertiesAxiom inv = factory.getOWLInverseObjectPropertiesAxiom(topInvProp, topProp);
-			manager.applyChange(new AddAxiom(ontology, inv));
-		}
+		processAssociation(lstAssociation, stereotype);
 		
-		//Make the inverse top property disjoint of the top property
-		if(owlAxioms.isAssociationDisjointness())
-			manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(topProp, topInvProp)));
-
-		//Set prop irreflexive
-		OWLIrreflexiveObjectPropertyAxiom iopa = factory.getOWLIrreflexiveObjectPropertyAxiom(topProp);
-		manager.applyChange(new AddAxiom(ontology, iopa));
-
-		//Set prop asymmetric
-		OWLAsymmetricObjectPropertyAxiom aopa = factory.getOWLAsymmetricObjectPropertyAxiom(topProp);
-		manager.applyChange(new AddAxiom(ontology, aopa));
-
-		//Set prop irreflexive		
-		iopa = factory.getOWLIrreflexiveObjectPropertyAxiom(topInvProp);
-		manager.applyChange(new AddAxiom(ontology, iopa));
-
-		//Set prop asymmetric
-		aopa = factory.getOWLAsymmetricObjectPropertyAxiom(topInvProp);
-		manager.applyChange(new AddAxiom(ontology, aopa));
-
-		OWLObjectProperty prop = null;
-		OWLObjectProperty invProp = null;
-		OWLSubObjectPropertyOfAxiom sopa = null;
-
-		for (Association ass : lstAssociation) {
-			//Create the meronymics with its name, whether exist, or stereotype.source.destiny
-			prop = createAssociation(ass,stereotype);
-			invProp = createInverseAssociation(ass,stereotype);
-
-			//Set invProp inverse of prop
-			if(owlAxioms.isInverse())
-				manager.applyChange(new AddAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(invProp, prop)));
-			
-			//Set both property disjoints
-			if(owlAxioms.isAssociationDisjointness())
-				manager.applyChange(new AddAxiom(ontology, factory.getOWLDisjointObjectPropertiesAxiom(prop, invProp)));
-
-			//Set both subPropertyOf its top property
-			sopa = factory.getOWLSubObjectPropertyOfAxiom(prop,topProp);
-			manager.applyChange(new AddAxiom(ontology, sopa));
-
-			sopa = factory.getOWLSubObjectPropertyOfAxiom(invProp,topInvProp);
-			manager.applyChange(new AddAxiom(ontology, sopa));
-		}
+//		for (Association ass : lstAssociation) {
+//			MappedProperty mappedProp = mappingProperties.getTopSuperProperty(ass);
+//			OWLObjectProperty prop = getObjectProperty(mappedProp.getGeneratedName());
+//			OWLObjectProperty invProp = getObjectProperty(mappedProp.getInvGeneratedName());
+//			//Set both subPropertyOf its top property
+//			OWLSubObjectPropertyOfAxiom sopa = factory.getOWLSubObjectPropertyOfAxiom(prop,topProp);
+//			manager.applyChange(new AddAxiom(ontology, sopa));
+//
+//			sopa = factory.getOWLSubObjectPropertyOfAxiom(invProp,topInvProp);
+//			manager.applyChange(new AddAxiom(ontology, sopa));
+//		}
 	}
 
 	/**
@@ -838,25 +846,25 @@ public class Transformer {
 		prop = getObjectProperty(ass);
 		if(prop == null){
 			//Create Association with the name stereotype.Source.Destiny
-			prop = getObjectProperty(ass, stereotype);
+			prop = getObjectProperty(ass);
 			return prop;
 		}else{
 			//Verify if exist other prop with the same name
 			for (Association sameAss : ontoParser.getAllInstances(Association.class)) {
 				//If exist some relations with the same names
-				if(getObjectPropertyName(ass,stereotype).equalsIgnoreCase(getObjectPropertyName(sameAss, stereotype))){
+				if(getObjectPropertyName(ass).equalsIgnoreCase(getObjectPropertyName(sameAss))){
 					match++;
 				}
 				if(match > 1){
 					//If has some associations with the same name
 					//Create the associations with the name assName.Source.Destiny
-					prop = getObjectProperty(ass, getName(ass.getMemberEnd().get(0).getType()), getName(ass.getMemberEnd().get(1).getType()));
+					prop = getObjectProperty(ass);
 					return prop;
 				}
 			}
 		}
 		//If has just one association with this name
-		prop = getObjectProperty(ass, stereotype);
+		prop = getObjectProperty(ass);
 		return prop;
 	}
 
@@ -935,16 +943,6 @@ public class Transformer {
 	}
 
 	/**
-	 * Used to clean up the string with the owl.
-	 * Sometimes wildcards can do a mistake in the code.
-	 * */
-	private String processSpecialCharacter(String owl) {
-		owl = Normalizer.normalize(owl, Normalizer.Form.NFD);
-		owl = owl.replaceAll("[^\\p{ASCII}]", "");
-		return owl;
-	}
-
-	/**
 	 * This method make a unique for to create a string name for an Type
 	 * */
 	private String getName(RefOntoUML.Type ontType){
@@ -954,29 +952,27 @@ public class Transformer {
 		return ontType.getName().replaceAll(" ", "_").replaceAll("\n", "_");
 	}
 
-	private String getAbsoluteName(RefOntoUML.Type type){
-		return type.getName().replaceAll(" ", "_").replaceAll("\n", "_");
-	}
-
 	/**
 	 * Create a unique name for DataProperty
 	 * */
-	private String getDataPropertyName(RefOntoUML.Classifier ontCls, RefOntoUML.Property prop){
-		if(ontCls == null){
-			return owlNameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
-		}
-		return  owlNameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
+	private String getDataPropertyName(RefOntoUML.Property prop){
+		MappedProperty mappedProperty = mappingProperties.getPropertyName(prop);
+		return owlNameSpace + mappedProperty.getGeneratedName();
 	}
-
-	private String getDataPropertyName(RefOntoUML.Classifier ontCls, RefOntoUML.Classifier prop){
-		if(ontCls == null){
-			return owlNameSpace + prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");	
+	
+	private String getName(Object... elements){
+		String name = "";
+		for (Object elem : elements) {
+			if(elem instanceof RefOntoUML.NamedElement){
+				name += ((NamedElement) elem).getName() + ".";
+			}else{
+				name += elem + ".";
+			}
 		}
-		return  owlNameSpace + getAbsoluteName(ontCls)+"."+prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
-	}
-
-	private String getPropertyName(RefOntoUML.Property prop){
-		return prop.getName().replaceAll(" ", "_").replaceAll("\n", "_");
+		int lastDot = name.lastIndexOf(".");
+		name = name.substring(0, lastDot).replaceAll(" ", "_").replaceAll("\n", "_");
+		
+		return name;		
 	}
 
 	/**
@@ -1001,13 +997,17 @@ public class Transformer {
 	 * or null otherwise;
 	 * */
 	private OWLObjectProperty getObjectProperty(RefOntoUML.Association ass){
-		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
-			return null;
-		}else{
-			String assName = mappingProperties.getPropertyName(ass);
-			return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
-			//return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-		}
+		MappedProperty mappedProperty = mappingProperties.getPropertyName(ass);
+		String assName = mappedProperty.getGeneratedName();
+		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
+	}
+
+	/**
+	 * Return an OWLObjectProperty if the Association ass has some name
+	 * or null otherwise;
+	 * */
+	private OWLObjectProperty getObjectProperty(String assocName){
+		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assocName));		
 	}
 	
 
@@ -1015,56 +1015,27 @@ public class Transformer {
 	 * Return an OWLObjectProperty if the Association ass has some name
 	 * or null otherwise;
 	 * */
-	private OWLObjectProperty getObjectProperty(String assocName){
-		if(assocName==null || assocName == "" || assocName == " " || assocName.length() == 0){
-			return null;
-		}else{
-			return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assocName));
-		}
-	}
-
-	/**
-	 * Return an OWLObjectProperty if the Association ass has some name
-	 * or stereotype.source.destiny;
-	 * */
-	private OWLObjectProperty getObjectProperty(RefOntoUML.Association ass, String stereotype){
-		String propName = mappingProperties.getPropertyName(ass);
-		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
-		
-//		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
-//			//String propName = stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
-//			return factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
-//		}else{
-//			return factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//		}
+	private OWLObjectProperty getObjectProperty(String namespace, String assocName){
+		return factory.getOWLObjectProperty(IRI.create(namespace+assocName));		
 	}
 
 	/**
 	 * Return a String with the name of the Association ass
 	 * */
-	private String getObjectPropertyName(Association ass, String stereotype) {
-		return mappingProperties.getPropertyName(ass);
-		
-//		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
-//			return stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
-//		}else{
-//			return ass.getName().replaceAll(" ", "_").replaceAll("\n", "_");
-//		}
+	private String getObjectPropertyName(Association ass) {
+		MappedProperty mappedProperty = mappingProperties.getPropertyName(ass);
+		String propName = mappedProperty.getGeneratedName();
+		return propName;
 	}
 
 	/**
 	 * Return an OWLObjectProperty if the Association ass has some name
 	 * or stereotype.destiny.source;
 	 * */
-	private OWLObjectProperty getInverseObjectProperty(RefOntoUML.Association ass, String stereotype){
-		String propName = mappingProperties.getPropertyName(ass);
-		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+propName));
-//		if(ass.getName()==null || ass.getName() == "" || ass.getName() == " " || ass.getName().length() == 0){
-//			//String propName = "INV."+stereotype+"."+this.getName(ass.getMemberEnd().get(0).getType())+"."+this.getName(ass.getMemberEnd().get(1).getType());
-//			return factory.getOWLObjectProperty(IRI.create(nameSpace+propName));
-//		}else{
-//			return factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+ass.getName().replaceAll(" ", "_").replaceAll("\n", "_")));
-//		}
+	private OWLObjectProperty getInverseObjectProperty(RefOntoUML.Association ass){
+		MappedProperty mappedProperty = mappingProperties.getPropertyName(ass);
+		String propName = mappedProperty.getInvGeneratedName();
+		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
 	}
 
 	/**
@@ -1097,18 +1068,8 @@ public class Transformer {
 	/**
 	 *  Create an Inverse Association and set the cardinality for the destiny
 	 * */
-	private OWLObjectProperty createInverseAssociation(Association ass, String stereotype){
-		OWLObjectProperty prop = getInverseObjectProperty(ass, stereotype);
-		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
-		manager.addAxiom(ontology, declAxiom);
-		return processCreateInverseAssociation(ass, prop);
-	}
-
-	/**
-	 *  Create an Inverse Association and set the cardinality for the destiny
-	 * */
 	private OWLObjectProperty createInverseAssociation(Association ass){
-		OWLObjectProperty prop = getInverseObjectProperty(ass, getName(ass.getMemberEnd().get(0).getType()), getName(ass.getMemberEnd().get(1).getType()));
+		OWLObjectProperty prop = getInverseObjectProperty(ass);
 		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
 		manager.addAxiom(ontology, declAxiom);
 		return processCreateInverseAssociation(ass, prop);
@@ -1117,36 +1078,11 @@ public class Transformer {
 	/**
 	 *  Create an Association and set the cardinality for the destiny
 	 * */
-	private OWLObjectProperty createAssociation(Association ass, String stereotype){
-		OWLObjectProperty prop = getObjectProperty(ass, stereotype);
-		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
-		manager.addAxiom(ontology, declAxiom);
-		return processCreateAssociation(ass, prop);
-	}
-
-	/**
-	 *  Create an Association with the name assName.Source.Destiny and set the cardinality for the destiny
-	 * */
 	private OWLObjectProperty createAssociation(Association ass){
-		//Set the name of the associations with the name of its range and domain
-		OWLObjectProperty prop = getObjectProperty(ass, getName(ass.getMemberEnd().get(0).getType()), getName(ass.getMemberEnd().get(1).getType()));
+		OWLObjectProperty prop = getObjectProperty(ass);
 		OWLDeclarationAxiom declAxiom = factory.getOWLDeclarationAxiom(prop);
 		manager.addAxiom(ontology, declAxiom);
 		return processCreateAssociation(ass, prop);
-	}
-
-	private OWLObjectProperty getObjectProperty(Association ass, String src, String dst) {
-		String assName = mappingProperties.getPropertyName(ass);
-		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
-		//OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+ass.getName().replaceAll(" ","_")+"."+src+"."+dst));
-		return prop;
-	}
-
-	private OWLObjectProperty getInverseObjectProperty(Association ass, String src, String dst) {
-		String assName = mappingProperties.getPropertyName(ass);
-		OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+assName));
-		//OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+ass.getName().replaceAll(" ","_")+"."+src+"."+dst));
-		return prop;
 	}
 
 	/**
@@ -1167,13 +1103,16 @@ public class Transformer {
 
 		//destination class of the relation
 		OWLClass dst = getOwlClass(ass.getMemberEnd().get(sideDst).getType());
+		
 		//Set domain and range from the property
-		if(owlAxioms.isDomain() && !lstNominalQualities.contains(src))
+		if(owlAxioms.isDomain() && isMappedAsOwlClass(srcT))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
-		if(owlAxioms.isRange() && !lstNominalQualities.contains(dst))
+		if(owlAxioms.isRange() && isMappedAsOwlClass(srcT))
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
-
-		if(!lstNominalQualities.contains(src) || !lstNominalQualities.contains(dst)) return prop;
+		
+		if(!isMappedAsOwlClass(srcT) || !isMappedAsOwlClass(tgtT)){
+			return prop;
+		}
 		
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(sideDst).getUpper();
@@ -1279,30 +1218,35 @@ public class Transformer {
 		for (Association ass : lstAssociation) {
 			RefOntoUML.Classifier srcT = (Classifier) ass.getMemberEnd().get(0).getType();
 			RefOntoUML.Classifier tgtT = (Classifier) ass.getMemberEnd().get(1).getType();
-			if(lstNominalQualities.contains(srcT) || lstNominalQualities.contains(tgtT)){
+			if(!isMappedAsOwlClass(srcT) || !isMappedAsOwlClass(tgtT)){
 				continue;
 			}
+			
+			putIntoUfoStructure(ass);
+			
 			if(lstGsSetMapChildren.contains(srcT) || lstGsSetMapChildren.contains(tgtT)) continue;
 			if(!lstDataType.contains(srcT) && !lstDataType.contains(tgtT)){
 				//Verify the name of the property
-				String assName = mappingProperties.getPropertyName(ass);
+				MappedProperty mappedProperty = mappingProperties.getPropertyName(ass);
+				String assName = mappedProperty.getGeneratedName();
+				String invAssName = mappedProperty.getInvGeneratedName();
 				prop = getObjectProperty(ass);
+				invProp = getInverseObjectProperty(ass);
 				if(prop == null){
-					//errors += "Warning: An unnamed Association from <"+getName(ass.getMemberEnd().get(0).getType())+"> (source class) to <"+getName(ass.getMemberEnd().get(1).getType())+"> (target class) was mapped to OWL <"+getObjectPropertyName(ass,stereotype)+">;\n";
-					//errors += "Warning: An unnamed Association from <"+getName(ass.getMemberEnd().get(0).getType())+"> (source class) to <"+getName(ass.getMemberEnd().get(1).getType())+"> (target class) was mapped to OWL <"+assName+">;\n";
-					
-	//				topProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+stereotype));
-	//				invTopProperty = factory.getOWLObjectProperty(IRI.create(nameSpace+"INV."+stereotype));
 					topProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
-					invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+assName));
+					invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+invAssName));
 	
 					//Create Association with the name stereotype.Source.Destiny
-					prop = createAssociation(ass,stereotype);
-					invProp = createInverseAssociation(ass,stereotype);
+					prop = createAssociation(ass);
+					invProp = createInverseAssociation(ass);
 				}else if(mappingProperties.isMappedAsSubRelationOf(ass)){
-						String superPropertyName = mappingProperties.getSuperPropertyName(ass);
+						MappedProperty superMappedProperty = mappingProperties.getSuperProperty(ass);
+//						String superPropertyName = mappingProperties.getPropertyName(superProperty, false);
+//						String invSuperPropertyName = mappingProperties.getPropertyName(superProperty, true);
+						String superPropertyName = superMappedProperty.getGeneratedName();
+						String invSuperPropertyName = superMappedProperty.getInvGeneratedName();
 						topProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+superPropertyName));
-						invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+"INV."+superPropertyName));
+						invTopProperty = factory.getOWLObjectProperty(IRI.create(owlNameSpace+invSuperPropertyName));
 	
 						//Create the associations with the name assName.Source.Destiny
 						prop = createAssociation(ass);
@@ -1311,13 +1255,28 @@ public class Transformer {
 				}
 	
 				if(this.owlAxioms.isLabels()){
-					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(ass.getName()));
+					String label;
+					if(this.owlAxioms.isAssocNamesByAssocEnds()){
+						String tgtEndName = ass.getMemberEnd().get(1).getName();
+						label = tgtEndName;
+					}else{
+						label = ass.getName();
+					}
+					OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
 					OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( prop.getIRI(), commentAnno);
 					manager.applyChange(new AddAxiom(ontology, commeAx));
+					
+					if(this.owlAxioms.isAssocNamesByAssocEnds()){
+						String srcEndName = ass.getMemberEnd().get(0).getName();
+						label = srcEndName;
+						
+						commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
+						commeAx = factory.getOWLAnnotationAssertionAxiom( invProp.getIRI(), commentAnno);
+						manager.applyChange(new AddAxiom(ontology, commeAx));
+					}
 				}
-				//			if(match > 1 || nameNull){
+
 				if(mappingProperties.isMappedAsSubRelationOf(ass)){
-				//if(match > 1){
 					//set same properties subPropertyOf the topProperty
 					sopa = factory.getOWLSubObjectPropertyOfAxiom(prop,topProperty);
 					manager.applyChange(new AddAxiom(ontology, sopa));
@@ -1336,8 +1295,8 @@ public class Transformer {
 					putInHash(stereotype, topProperty);
 					putInHash(stereotype, invTopProperty);
 				}else{
-					prop = createAssociation(ass, stereotype);
-					invProp = createInverseAssociation(ass, stereotype);
+					prop = createAssociation(ass);
+					invProp = createInverseAssociation(ass);
 	
 					//Used after to make associations disjoints
 					putInHash(stereotype, prop);
@@ -1361,14 +1320,17 @@ public class Transformer {
 
 		//Process Generalizations
 		for(Generalization gen : lstGen){
-			if(gen.getGeneral() instanceof DataType){
+			Classifier general = gen.getGeneral();
+			Classifier specific = gen.getSpecific();
+			
+			if(!isMappedAsOwlClass(general) || !isMappedAsOwlClass(specific)){
 				continue;
 			}
-			if(lstGsSetMapChildren.contains(gen.getGeneral()) || lstGsSetMapChildren.contains(gen.getSpecific())) continue;
+			if(lstGsSetMapChildren.contains(general) || lstGsSetMapChildren.contains(specific)) continue;
 			
-			OWLClass father = getOwlClass(gen.getGeneral());
+			OWLClass father = getOwlClass(general);
 			
-			OWLClass son = 	getOwlClass(gen.getSpecific());
+			OWLClass son = 	getOwlClass(specific);
 
 			//Set subClassOf 
 			OWLAxiom axiom = factory.getOWLSubClassOfAxiom(son,father);	
@@ -1495,7 +1457,7 @@ public class Transformer {
 	 * Process the simple DataTypes (as class attributes), DataTypes in class (class with
 	 * stereotype DataType) and DataType structured (DataType that has other DataTypes).
 	 * */
-	private void processDataType() {
+	private void processClassAttributes() {
 		ArrayList<String> existentClasses = new ArrayList<String>();
 		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		for(RefOntoUML.Class ontCls: lstOntClass){
@@ -1517,7 +1479,7 @@ public class Transformer {
 					_lowerCard.add(1);
 					createAttribute(prop);
 					//Clean up variables
-					_attributeName = "";
+//					_attributeName = "";
 					_upperCard = new ArrayList<Integer>();
 					_lowerCard = new ArrayList<Integer>();
 				}
@@ -1526,9 +1488,11 @@ public class Transformer {
 		for (String className : duplicatedClasses) {
 			errors += "Warning: Duplicated names were founded for the class: " + className + "\n";
 		}
-		
-		existentClasses.clear();
-		duplicatedClasses.clear();
+	}
+
+	private void processDataTypes(){
+		ArrayList<String> existentClasses = new ArrayList<String>();
+		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		_RefOntoOwnerClass = null;
 //		for(RefOntoUML.DataType dtcls: lstDataType){
 		for(RefOntoUML.Classifier dtcls: lstDataTypeAndNominalQualities){
@@ -1540,25 +1504,18 @@ public class Transformer {
 			
 			if(dtcls.getAttribute().isEmpty()){
 				//pegar todos os Structuration, setar todos como Owner
-				//lstStructuration = ontoParser.getAllInstances(Characterization.class);
 				ArrayList<Association> assocs = ontoParser.getDirectAssociations(dtcls);
 				for (Association ass : assocs) {
 					EList<Property> mEnds = ass.getMemberEnd();
-//					Type m0 = mEnds.get(0).getType();
-//					Type m1 = mEnds.get(1).getType();
 					_OWLownerClass = null;
 					if(mEnds.get(0).getType().equals(dtcls)){
 						_RefOntoOwnerClass = (Classifier) mEnds.get(1).getType();
 					}else{
 						_RefOntoOwnerClass = (Classifier) mEnds.get(0).getType();
 					}
+					if(!isMappedAsOwlClass(_RefOntoOwnerClass)) continue;
 					createAttributeClassifier(dtcls, ass);
 				}
-//				for (Association ass : dtcls.getAssociations()) {
-//					ass.
-//				}
-//				_RefOntoOwnerClass = dtcls;
-//				createAttribute(dtcls);
 			}else{
 				
 				for(Property prop:dtcls.getAttribute()){
@@ -1579,7 +1536,7 @@ public class Transformer {
 					_lowerCard.add(1);
 					createAttribute(prop);
 					//Clean up variables
-					_attributeName = "";
+//					_attributeName = "";
 					_upperCard = new ArrayList<Integer>();
 					_lowerCard = new ArrayList<Integer>();
 				}
@@ -1588,14 +1545,11 @@ public class Transformer {
 		for (String className : duplicatedClasses) {
 			errors += "Warning: Duplicated names were founded for the Datatype: " + className + "\n";
 		}
-		
-		
 	}
-
 	/**
 	 * These are variables used in the context of the process of attributes structured
 	 * */
-	private String _attributeName = "";
+//	private String _attributeName = "";
 	private OWLClass _OWLownerClass = null;
 	private RefOntoUML.Classifier _RefOntoOwnerClass = null;
 	private Property _prop = null;
@@ -1605,7 +1559,8 @@ public class Transformer {
 	private void createAttributeClassifier(RefOntoUML.Classifier datatype, Association ass) {
 		OWLDataProperty dataProperty = null;
 		
-		_attributeName = getDataPropertyName(_RefOntoOwnerClass, datatype);
+//		_attributeName = getDataPropertyName(_RefOntoOwnerClass, datatype);
+		String _attributeName = mappingProperties.getPropertyName(datatype).getGeneratedName();
 		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
 		if(this.owlAxioms.isLabels()){
 			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + datatype.getName()));
@@ -1619,14 +1574,105 @@ public class Transformer {
 			}
 			hashDataProperty.get(_RefOntoOwnerClass).add(dataProperty);
 		}
-		OWLDataPropertyDomainAxiom axDomain = factory.getOWLDataPropertyDomainAxiom(dataProperty, _OWLownerClass);
-		manager.applyChange(new AddAxiom(ontology, axDomain));
+		
+		if(owlAxioms.isDomain()){
+			OWLDataPropertyDomainAxiom axDomain = factory.getOWLDataPropertyDomainAxiom(dataProperty, _OWLownerClass);
+			manager.applyChange(new AddAxiom(ontology, axDomain));
+		}
+		
+		if(owlAxioms.isRange()){
+			//Set the Range of the DataProperty
+			OWLDatatype tipoAtributo = getDataTypeRange(datatype);
+			if(tipoAtributo != null){
+				OWLDataPropertyRangeAxiom axRange = factory.getOWLDataPropertyRangeAxiom(dataProperty, tipoAtributo);		
+				manager.applyChange(new AddAxiom(ontology, axRange));
+			}
+		}
 		
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(1).getUpper();
 		int lowerCard = ass.getMemberEnd().get(1).getLower();
 		processCardinality(_OWLownerClass, dataProperty, lowerCard, upperCard);
 
+	}
+		
+	private void processSuppressedQualitiesAsAttributes() {
+		for(Entry<Object, Object> quaEntry : lstQualityMappings.entrySet()){
+			Classifier qua = (Classifier) quaEntry.getKey();
+			
+			ArrayList<Association> assocs = ontoParser.getIndirectAssociations(qua);
+			assocs.addAll(ontoParser.getDirectAssociations(qua));
+			ArrayList<Association> assocToDataTypes = new ArrayList<Association>();
+			ArrayList<Association> assocToClasses = new ArrayList<Association>();
+			
+			//look for direct and indirect associations...
+			//then, separate the Datatypes that structures this Quality
+			//from the Classes that are characterized by this Quality
+			for (Association assoc : assocs) {
+				if(assoc instanceof Structuration){
+					assocToDataTypes.add(assoc);
+				}else{
+					assocToClasses.add(assoc);
+				}
+			}
+			
+			//for each class, is created a list of DataProperties
+			for (Association assToClass : assocToClasses) {
+				RefOntoUML.Classifier srcT = (Classifier) assToClass.getMemberEnd().get(0).getType();
+				RefOntoUML.Classifier tgtT = (Classifier) assToClass.getMemberEnd().get(1).getType();
+				
+				//look if the related class is in source or target
+				Classifier cls;
+				if(srcT.equals(qua)){
+					cls = tgtT;
+				}else{
+					cls = srcT;
+				}
+				
+				//create the OWL Class
+				OWLClass owlClass = getOwlClass(cls);
+				
+				//look for each DataType
+				for (Association assocToDataType : assocToDataTypes) {
+					RefOntoUML.Classifier srcT2 = (Classifier) assocToDataType.getMemberEnd().get(0).getType();
+					RefOntoUML.Classifier tgtT2 = (Classifier) assocToDataType.getMemberEnd().get(1).getType();
+					
+					//look if the DataType is in the source or target
+					Classifier datatype;
+					int dtTpSide;
+					if(ontoParser.isDatatype(srcT2)){
+						datatype = srcT2;
+						dtTpSide  = 0;
+					}else{
+						datatype = tgtT2;
+						dtTpSide = 1;
+					}
+					
+					//generate the OWL DataProperty
+					String dataPropName = getName(new Object[]{cls, qua, datatype});
+					OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(owlNameSpace+dataPropName));
+					
+					if(owlAxioms.isDomain()){
+						OWLDataPropertyDomainAxiom axDomain = factory.getOWLDataPropertyDomainAxiom(dataProperty, owlClass);
+						manager.applyChange(new AddAxiom(ontology, axDomain));						
+					}
+					
+					if(owlAxioms.isRange()){
+						//Set the Range of the DataProperty
+						OWLDatatype tipoAtributo = getDataTypeRange(datatype);
+						OWLDataPropertyRangeAxiom axRange = factory.getOWLDataPropertyRangeAxiom(dataProperty, tipoAtributo);
+						manager.applyChange(new AddAxiom(ontology, axRange));
+					}
+					
+					//get lower and upper bounds
+					int lowerCard = assocToDataType.getMemberEnd().get(dtTpSide).getLower();
+					int upperCard = assocToDataType.getMemberEnd().get(dtTpSide).getUpper();
+					
+					//create the dataproperty and its cardinality
+					processCardinality(owlClass, dataProperty, lowerCard, upperCard);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -1636,7 +1682,8 @@ public class Transformer {
 
 		OWLDatatype tipoAtributo = null;
 		OWLDataProperty atributo = null;
-
+		
+		String _attributeName = getDataPropertyName(prop);
 		//If the type of this property isn't in the model.
 		if(prop == null){
 			//Than create a generic type for this property (RDFS_LITERAL)
@@ -1652,22 +1699,12 @@ public class Transformer {
 		}else{
 			dataTypesProcesseds.add(prop);
 			_prop = prop;
-			String _aux = "";
+//			String _aux = "";
 
 			tipoAtributo = getDataTypeRange(prop);
 			if(tipoAtributo == null){
 				//Isn't a simple DataType
-				if(_attributeName.isEmpty()){
-					//add name to attribute variable
-					//OwnerClass.AttributeName
-					_attributeName = getDataPropertyName(_RefOntoOwnerClass, prop);
-				}else{
-					//this is a transitivy property, because that we need to return a level
-					_aux = _attributeName;
-					//concat the name of the current property
-					_attributeName+="."+getPropertyName(prop);
-				}
-
+				
 				//Used for structured datatypes 
 				_lowerCard.add(prop.getLower());
 				_upperCard.add(prop.getUpper());
@@ -1679,24 +1716,20 @@ public class Transformer {
 					_lowerCard.remove(_lowerCard.size()-1);
 					_upperCard.remove(_upperCard.size()-1);
 				}
-				//returning a level of the chain of datatypes
-				_attributeName = _aux;
 				return;
 			}else{
-				if(_attributeName.isEmpty()){
-					//Isn't a simple DataType
-					atributo = factory.getOWLDataProperty(IRI.create(getDataPropertyName(_RefOntoOwnerClass, prop)));
-				}else{
-					//Is a simple DataType
-					_aux = _attributeName;
-					_attributeName+="."+getPropertyName(prop);
-					atributo = factory.getOWLDataProperty(IRI.create(_attributeName));
-					_attributeName = _aux;
-				}
+				atributo = factory.getOWLDataProperty(IRI.create(_attributeName));				
 			}
 		}
 		if(this.owlAxioms.isLabels()){
-			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + prop.getName()));
+			String label;
+			if(this.owlAxioms.isAssocNamesByAssocEnds()){
+				label = prop.getName();
+			}else{
+				label = _RefOntoOwnerClass.getName() + "." + prop.getName();
+			}
+			
+			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
 			OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( atributo.getIRI(), commentAnno);
 			manager.applyChange(new AddAxiom(ontology, commeAx));
 		}
@@ -1806,6 +1839,7 @@ public class Transformer {
 				c++;
 			}
 		}
+		String _attributeName = mappingProperties.getPropertyName(prop).getGeneratedName();
 		errors += "Unknown datatype "+_attributeName.substring(_attributeName.indexOf("#")+1)+" of (class "+getName(_RefOntoOwnerClass)+") mapped to OWL Literal;\n";
 		createAttribute(null);
 	}
@@ -1816,8 +1850,17 @@ public class Transformer {
 	 * double, string, normalized_string, boolean, hex_binary, 
 	 * short, byte, unsigned_long or null if doesn't have some match
 	 * */
+	private OWLDatatype getDataTypeRange(Classifier prop) {
+		String propType = OntoUMLParser.getStereotype(prop);
+		return getDataTypeRange(prop, propType);
+	}
+	
 	private OWLDatatype getDataTypeRange(Property prop) {
-		Type propType = prop.getType();
+		Type propType = prop.getType();		
+		return getDataTypeRange(prop, propType);
+	}
+	
+	private OWLDatatype getDataTypeRange(NamedElement prop, Object propType) {
 		String range = "";
 		OWL2Datatype owlPrimType = null;
 		if(owlMappings.getAttributeMappings().containsKey(prop)){
@@ -1835,13 +1878,13 @@ public class Transformer {
 			return factory.getOWLDatatype(owlPrimType.getIRI());
 		}else if (range.equalsIgnoreCase("unsigned_int") || range.equalsIgnoreCase("unsignedInt")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_INT.getIRI());
-		}else if(range.equalsIgnoreCase("int") || range.equalsIgnoreCase("integer")){
+		}else if(range.equalsIgnoreCase("int") || range.equalsIgnoreCase("integer") || range.equalsIgnoreCase("IntegerIntervalDimension") || range.equalsIgnoreCase("IntegerOrdinalDimension") || range.equalsIgnoreCase("IntegerRationalDimension")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
 		}else if(range.equalsIgnoreCase("unsigned_byte") || range.equalsIgnoreCase("unsignedByte")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_BYTE.getIRI());
 		}else if(range.equalsIgnoreCase("double")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_DOUBLE.getIRI());
-		}else if(range.equalsIgnoreCase("string")){
+		}else if(range.equalsIgnoreCase("string") || range.equalsIgnoreCase("NominalQuality")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_STRING.getIRI());
 		}else if(range.equalsIgnoreCase("normalized_string") || range.equalsIgnoreCase("normalizedString")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_NORMALIZED_STRING.getIRI());
@@ -1863,7 +1906,7 @@ public class Transformer {
 			return factory.getOWLDatatype(OWL2Datatype.XSD_DATE_TIME.getIRI());
 		}else if(range.equalsIgnoreCase("dateTime")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_DATE_TIME_STAMP.getIRI());
-		}else if(range.equalsIgnoreCase("decimal")){
+		}else if(range.equalsIgnoreCase("decimal") || range.equalsIgnoreCase("DecimalIntervalDimension") || range.equalsIgnoreCase("DecimalOrdinalDimension") || range.equalsIgnoreCase("DecimalRationalDimension")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_DECIMAL.getIRI());
 		}else if(range.equalsIgnoreCase("Name")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_NAME.getIRI());
@@ -1925,14 +1968,96 @@ public class Transformer {
 		}
 	}
 
-	private void putIntoUfoStructure(Classifier dtcls){
+	private void putIntoUfoStructure(Association ass) {
 		if(!owlAxioms.isUfoStructure()) return;
-	
-		String elemStr = dtcls.getName();
-		if(elemStr.equals("Pessoa")){
-			System.out.println();
+		
+		OWLObjectProperty topProp = null;
+		OWLObjectProperty topInvProp = null;
+		
+		Property srcMemberEnd = ass.getMemberEnd().get(0);
+		
+		boolean srcIsComposite = srcMemberEnd.isIsComposite();
+//		if(ass instanceof Meronymic){
+//			srcIsComposite = srcMemberEnd.isComposite();
+//		}else{
+//			srcIsComposite = false;
+//		}		
+		
+		RefOntoUML.Classifier srcT = (Classifier) srcMemberEnd.getType();
+		
+		if(ass instanceof subCollectionOf){
+			if(srcIsComposite){
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionWhole");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionPart");
+			}else{
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionPart");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionWhole");
+			}
+		}else if(ass instanceof memberOf){
+			if(srcIsComposite){
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "isMemberOf");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "member");
+			}else{
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "member");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "isMemberOf");
+			}
+		}else if(ass instanceof componentOf){
+			if(srcIsComposite){
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalWhole");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalPart");
+			}else{
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalPart");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalWhole");
+			}
+		}else if(ass instanceof subQuantityOf){
+			if(srcIsComposite){
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityWhole");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityPart");
+			}else{
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityPart");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityWhole");
+			}
+		}else if(ass instanceof MaterialAssociation){
+			topProp = getObjectProperty("http://www.menthor.net/ontouml#", "materialProperty");
+			topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "materialProperty");
+		}else if(ass instanceof FormalAssociation){
+			topProp = getObjectProperty("http://www.menthor.net/ontouml#", "formalProperty");
+			topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "formalProperty");
+		}else if(ass instanceof Mediation){
+			if(ontoParser.isRelator(srcT)){
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediates");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediatedBy");
+			}else{
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediatedBy");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediates");
+			}
+		}else if(ass instanceof Characterization){
+			if(ontoParser.isQuality(srcT)){
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "bearer");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "intrinsicProperty");
+			}else{
+				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "intrinsicProperty");
+				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "bearer");				
+			}
 		}
 		
+		if(topProp != null){
+			MappedProperty mappedProperty = mappingProperties.getPropertyName(ass);
+			OWLObjectProperty owlProp = getObjectProperty(mappedProperty.getGeneratedName());
+			OWLSubObjectPropertyOfAxiom sbAx = factory.getOWLSubObjectPropertyOfAxiom(owlProp, topProp);
+			manager.applyChange(new AddAxiom(ontology, sbAx));
+			
+			OWLObjectProperty owlInvProp = getObjectProperty(mappedProperty.getInvGeneratedName());
+			OWLSubObjectPropertyOfAxiom sbInvAx = factory.getOWLSubObjectPropertyOfAxiom(owlInvProp, topInvProp);
+			manager.applyChange(new AddAxiom(ontology, sbInvAx));
+		}else{
+			errors += "Warning: No UFO element founded for the association " + ass.getName() + " with the stereotype <" + OntoUMLParser.getStereotype(ass) + ">\n";
+		}
+	}
+
+	private void putIntoUfoStructure(RefOntoUML.Class dtcls){
+		if(!owlAxioms.isUfoStructure()) return;
+	
 		OWLClass owlSuperCls = null;
 		if(ontoParser.isCollective(dtcls)){
 			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
@@ -2045,4 +2170,14 @@ public class Transformer {
 			}
 		}
 	}	
+	
+	private boolean isMappedAsOwlClass(RefOntoUML.Classifier cls){
+		Object qualityMappingType = lstQualityMappings.get(cls);
+		if(		lstNominalQualities.contains(cls) || 
+				lstMappedQualities.contains(cls) && qualityMappingType != null && qualityMappingType.equals(OWL2Quality.HIDE_QUALITY)||
+				cls instanceof DataType){
+			return false;
+		}
+		return true;
+	}
 }

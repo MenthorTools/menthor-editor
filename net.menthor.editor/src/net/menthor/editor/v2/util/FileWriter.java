@@ -42,9 +42,9 @@ public abstract class FileWriter extends FileHandler {
    * @return true if the file does not yet exist or if the user confirmed
    * overwriting it, false if the file should not be written
    */
-  protected boolean canWrite(Component component, File file) {
+  public static boolean canWrite(Component component, File file) {
 	if (file.exists()) {      
-	  String message = "The file "+file.getName()+" already exists. Do you want to replace it ?";
+	  String message = "\""+file.getName()+"\" already exists. Do you want to overwrite it?";
 	  message = MessageFormat.format(message, file.getName());
 	  String title = "Confirm replace file";
 	  return JOptionPane.showConfirmDialog(component, message, title, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;

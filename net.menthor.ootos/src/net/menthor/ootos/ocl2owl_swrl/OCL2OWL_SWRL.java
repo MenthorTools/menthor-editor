@@ -116,7 +116,7 @@ public class OCL2OWL_SWRL {
 	 * This main function transform OCL constraints in SWRL rules.
 	 */
 	@SuppressWarnings("unchecked")
-	public void Transformation () throws Exception{
+	public void Transformation (String tempDir) throws Exception{
 		//get the begin and the end of the first line (package PackageName) 
 		int iPackage = oclRules.indexOf("package");
 		int endLinePackage = oclRules.indexOf("\n", iPackage);
@@ -140,7 +140,7 @@ public class OCL2OWL_SWRL {
 		OCLParser oclParser  = null;
 		
 		//create a ocl parser to create a referent uml model based on the ontouml model
-		oclParser = new OCLParser(ontoParser, null, null);
+		oclParser = new OCLParser(ontoParser, tempDir, null);
 		
 		Pattern p = Pattern.compile("(--@(.+)\n)?context");
     	Matcher m = p.matcher(oclRules);

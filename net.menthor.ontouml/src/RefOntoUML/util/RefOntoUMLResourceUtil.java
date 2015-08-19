@@ -18,18 +18,33 @@ public class RefOntoUMLResourceUtil {
 	/** Load reference model to a resource. */
 	public static Resource loadModel (String refontoumlpath) throws IOException
 	{
-		ResourceSet rset = new ResourceSetImpl();			
-		rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("refontouml",new RefOntoUMLResourceFactoryImpl());
-		rset.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI,	RefOntoUML.RefOntoUMLPackage.eINSTANCE);		
-	    File file = new File(refontoumlpath);
-		URI fileURI = URI.createFileURI(file.getAbsolutePath());		
-		Resource resource = rset.createResource(fileURI);		
+		Resource resource = createResource(refontoumlpath);
 		/**Load options that significantly improved the performance of loading EMF Model instances*/
 		Map<Object,Object> loadOptions = ((XMLResourceImpl)resource).getDefaultLoadOptions();
 		loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
 		loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
 		resource.load(loadOptions);		
 		return resource;		
+	}
+	
+	
+	
+	public static Resource createResource(){
+		ResourceSet rset = new ResourceSetImpl();			
+		rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("refontouml",new RefOntoUMLResourceFactoryImpl());
+		rset.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI,	RefOntoUML.RefOntoUMLPackage.eINSTANCE);				
+		Resource resource = rset.createResource(URI.createFileURI(""));
+		return resource;
+	}
+		
+	public static Resource createResource(String refontoumlpath){
+		ResourceSet rset = new ResourceSetImpl();			
+		rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("refontouml",new RefOntoUMLResourceFactoryImpl());
+		rset.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI,	RefOntoUML.RefOntoUMLPackage.eINSTANCE);		
+	    File file = new File(refontoumlpath);
+		URI fileURI = URI.createFileURI(file.getAbsolutePath());		
+		Resource resource = rset.createResource(fileURI);
+		return resource;
 	}
 	
 	/** Save reference model to a resource. */	

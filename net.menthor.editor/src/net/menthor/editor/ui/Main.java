@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.menthor.editor.v2.types.settings.OwlSettingsMap;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.UIFontUtil;
@@ -93,7 +93,10 @@ public final class Main {
 				try {
 					setSystemProperties();					
 					UIFontUtil.setDefault();					
-					SWTConfigurer.execute(Directories.getBinDir());					
+					SWTConfigurer.execute(Directories.getBinDir());
+					
+					OwlSettingsMap.getInstance();
+					
 					File alloyJarFile = Util.extractLib("alloy4.2.jar");
 					System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
 					frame = new MainFrame();					
@@ -111,7 +114,7 @@ public final class Main {
 					frame.setVisible(true);
 					frame.toFront();	
 					
-					OwlSettingsMap.getInstance();
+					
 					
 					splashScreen.close();					
 				} catch (Exception ex) {

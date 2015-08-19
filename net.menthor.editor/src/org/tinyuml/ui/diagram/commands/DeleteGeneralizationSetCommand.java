@@ -28,10 +28,6 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.UmlProject;
-
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
@@ -41,6 +37,9 @@ import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 
 /**
  * @author John Guerson
@@ -150,8 +149,8 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 	private void delete (RefOntoUML.Element elem)
 	{			
 //		System.out.println("Deleting = "+elem);
-		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(ModelHelper.createAdapterEditingDomain(), elem);
-		ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(OntoumlEditingDomain.getInstance().createDomain(), elem);
+		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
 	}
 	
@@ -170,7 +169,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 	private void undo (RefOntoUML.Element elem)
 	{		
 //		System.out.println("Undoing = "+elem);
-		ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
+		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().undo();
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
 	}
 }

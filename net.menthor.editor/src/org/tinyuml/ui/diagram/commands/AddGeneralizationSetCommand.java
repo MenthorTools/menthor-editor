@@ -28,10 +28,6 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.UmlProject;
-
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
@@ -42,6 +38,9 @@ import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 
 /**
  * @author John Guerson
@@ -140,7 +139,7 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 	public void undoFromModel(RefOntoUML.Element genSet,  ArrayList<Generalization> generalizations)
 	{
 //		System.out.println("Undoing = "+genSet);
-		ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
+		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().undo();
 		
 		((GeneralizationSet)genSet).getGeneralization().removeAll(generalizations);
 		for(Generalization gen: generalizations) {
@@ -156,8 +155,8 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 			gen.getGeneralizationSet().add((GeneralizationSet)genSet); 		
 		}
 		
-		AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), genSet);
-		ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+		AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), genSet);
+		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 	}
 
 }

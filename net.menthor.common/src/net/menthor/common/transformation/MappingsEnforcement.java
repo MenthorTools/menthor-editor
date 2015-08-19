@@ -1,37 +1,34 @@
 package net.menthor.common.transformation;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
-
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.util.RefOntoUMLElement;
 
 public class MappingsEnforcement {
 
-	private HashMap<EObject, Object> primitiveMappings = new HashMap<EObject, Object>();
-	private HashMap<EObject, Object> attributeMappings = new HashMap<EObject, Object>();	
-	private HashMap<EObject, Object> qualityMappings = new HashMap<EObject, Object>();	
+	private HashMap<Object, Object> primitiveMappings = new HashMap<Object, Object>();
+	private HashMap<Object, Object> attributeMappings = new HashMap<Object, Object>();	
+	private HashMap<Object, Object> qualityMappings = new HashMap<Object, Object>();	
 	private Object[][] genSetMappings;
 	
-	public void setQualityMappings(HashMap<RefOntoUMLElement, Object> qualityMappings) 
+	public void setQualityMappings(Map<Object, Object> qualityMappings) 
 	{
-		for (Entry<RefOntoUMLElement, Object> entry : qualityMappings.entrySet()){
-			this.qualityMappings.put(entry.getKey().getElement(),entry.getValue());
+		for (Entry<Object, Object> entry : qualityMappings.entrySet()){
+			this.qualityMappings.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setPrimitiveMappings(HashMap<RefOntoUMLElement, Object> primitiveMappings)
+	public void setPrimitiveMappings(Map<Object, Object> primitiveMappings)
 	{
-		for (Entry<RefOntoUMLElement, Object> entry : primitiveMappings.entrySet()) {
-			this.primitiveMappings.put(entry.getKey().getElement(),entry.getValue());
+		for (Entry<Object, Object> entry : primitiveMappings.entrySet()) {
+			this.primitiveMappings.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setAttributeMappings(HashMap<RefOntoUMLElement, Object> attributeMappings) 
+	public void setAttributeMappings(Map<Object, Object> attributeMappings) 
 	{
-		for (Entry<RefOntoUMLElement, Object> entry : attributeMappings.entrySet()) {
-			this.attributeMappings.put(entry.getKey().getElement(),entry.getValue());
+		for (Entry<Object, Object> entry : attributeMappings.entrySet()) {
+			this.attributeMappings.put(entry.getKey(),entry.getValue());
 		}
 	}	
 	
@@ -41,6 +38,7 @@ public class MappingsEnforcement {
 	}
 	
 	public Object[][] getGenSetMappings() { return genSetMappings; }	
-	public HashMap<EObject, Object> getAttributeMappings() { return attributeMappings; }
-	public HashMap<EObject, Object> getPrimitiveMappings() { return primitiveMappings; }
+	public HashMap<Object, Object> getAttributeMappings() { return attributeMappings; }
+	public HashMap<Object, Object> getPrimitiveMappings() { return primitiveMappings; }
+	public HashMap<Object, Object> getQualityMappings() { return qualityMappings; }
 }

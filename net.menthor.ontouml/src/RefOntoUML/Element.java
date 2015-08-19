@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
@@ -38,7 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Element extends EModelElement {
+public interface Element extends EModelElement, Comparable<Element>  {
 	/**
 	 * Returns the value of the '<em><b>Owned Element</b></em>' reference list.
 	 * The list contents are of type {@link RefOntoUML.Element}.

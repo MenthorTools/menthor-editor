@@ -1018,8 +1018,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			if(source==null || target==null) return null;		  
 		}
 		  
-		DiagramElement src = ModelHelper.getDiagramElementByEditor(source,this);
-		DiagramElement tgt = ModelHelper.getDiagramElementByEditor(target,this);		
+		DiagramElement src = ModelHelper.getDiagramElementByDiagram(source,getDiagram());
+		DiagramElement tgt = ModelHelper.getDiagramElementByDiagram(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
 		return lineHandler.createAndAddConnection(this, relationship, src, tgt, eContainer);
@@ -1586,8 +1586,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		for (int i = 0; i < elements.size(); i++) 
 		{
 			DiagramElement element = elements.get(i);			
-			if(element instanceof ClassElement) sb.append(ModelHelper.handleName(((ClassElement)element).getClassifier()) + (i < elements.size()-1 ? ", " : ""));
-			if(element instanceof BaseConnection) sb.append(ModelHelper.handleName(((BaseConnection)element).getRelationship()) + (i < elements.size()-1 ? ", " : ""));			
+			if(element instanceof ClassElement) sb.append(((ClassElement)element).getClassifier() + (i < elements.size()-1 ? ", " : ""));
+			if(element instanceof BaseConnection) sb.append(((BaseConnection)element).getRelationship() + (i < elements.size()-1 ? ", " : ""));			
 //			if(element instanceof RectilinearConnection) sb.append(ModelHelper.handleName(((RectilinearConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));
 //			if(element instanceof SimpleConnection) sb.append(ModelHelper.handleName(((SimpleConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));
 //			if(element instanceof TreeConnection) sb.append(ModelHelper.handleName(((TreeConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));

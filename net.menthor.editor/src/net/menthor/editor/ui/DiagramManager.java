@@ -61,7 +61,9 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.common.transformation.DestinationEnum;
+import net.menthor.common.settings.als.ALS4Destination;
+import net.menthor.common.settings.als.ALS4TransformationOption;
+import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.transformation.TransformationOption;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
@@ -113,6 +115,7 @@ import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.EcoreWriter;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
@@ -225,7 +228,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		listener = frame;
 		elementFactory = new DiagramElementFactoryImpl(); //doesn't have yet any diagram
 		drawingContext =  new DrawingContextImpl();
-		ModelHelper.initializeHelper();		
+		OntoumlEditingDomain.getInstance().initialize();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
 		setMinimumSize(new Dimension(0,0));			    
@@ -307,7 +310,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void collectStatistics()
 	{
-		addStatisticsPanel(frame.getInfoManager(),true);
+		addStatisticsPanel(frame.getDiagramManager(),true);
 	}
 	
 	/** Adds a Statistics panel to the manager */
@@ -403,6 +406,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ArrayList<DiagramEditor> list = new ArrayList<DiagramEditor>();
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor());
+		}
+		return list;
+	}
+	
+	/** Return all opened diagrams */
+	public ArrayList<StructureDiagram> getOpenedDiagrams()
+	{
+		ArrayList<StructureDiagram> list = new ArrayList<StructureDiagram>();
+		for(Component c: getComponents()){
+			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor().getDiagram());
 		}
 		return list;
 	}
@@ -1121,24 +1134,46 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** New Menthor Project. */
 	public void newProject() 
 	{				
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser(){
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void approveSelection(){
+		        File f = getSelectedFile();
+		        if(f.exists()){
+		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
+		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    super.approveSelection();
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    cancelSelection();
+		                    return;
+		            }
+		        }
+		        super.approveSelection();
+		    }   
+		};		
 		fileChooser.setDialogTitle("New Project");
 		fileChooser.addChoosableFileFilter(new MenthorFilter());
 		fileChooser.setSelectedFile(new File("*.menthor"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
-			try {			
+			try {	
+				File file = fileChooser.getSelectedFile();
+				
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));				
 				System.out.println("Creating New project");				
-				closeCurrentProject();
-				File file = fileChooser.getSelectedFile();				
-				if (!file.exists()){
-					if(!file.getName().endsWith(".menthor")) {
-						file = new File(file.getCanonicalFile() + ".menthor");
-					}else{
-						file = new File(file.getCanonicalFile()+"");
-					}
-				}				
+				closeCurrentProject();									
+				if(!file.getName().endsWith(".menthor")) {
+					file = new File(file.getCanonicalFile() + ".menthor");
+				}else{
+					file = new File(file.getCanonicalFile()+"");
+				}
 				JRootPane root = frame.getRootPane( );
 				root.putClientProperty( "Window.documentFile", file );
 				setCurrentProjectFile(file);
@@ -1149,7 +1184,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				frame.forceShowPalettePane();				
 				frame.getMainMenu().activateAll();
 				System.out.println("New project succesffully created");
-				
+								
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(), "New Project", JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
@@ -1339,20 +1374,43 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		repaint();
 		revalidate();
 	}
-
+	
 	/** Saves the project with a file chooser. */
 	public int saveProjectAs() 
 	{
-		JFileChooser fileChooser = new JFileChooser(lastSavePath);
+		JFileChooser fileChooser = new JFileChooser(lastSavePath){
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void approveSelection(){
+		        File f = getSelectedFile();
+		        if(f.exists() && getDialogType() == SAVE_DIALOG){
+		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
+		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    super.approveSelection();
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    cancelSelection();
+		                    return;
+		            }
+		        }
+		        super.approveSelection();
+		    }    
+		};
 		fileChooser.setDialogTitle("Save Project");
 		fileChooser.addChoosableFileFilter(new MenthorFilter());
-		fileChooser.setAcceptAllFileFilterUsed(false);
+		fileChooser.setAcceptAllFileFilterUsed(false);			
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
-			setCurrentProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
-			File file = fileChooser.getSelectedFile();
+			File file = fileChooser.getSelectedFile();			
+			setCurrentProjectFile(saveCurrentProjectToFile(file));			
 			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			lastSavePath = file.getAbsolutePath();			
+			lastSavePath = file.getAbsolutePath();		
 		}
 		return option;
 	}
@@ -2295,7 +2353,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		ReadingDesign direction = ReadingDesign.UNDEFINED;		
 		if(element instanceof Association)
 		{
-			AssociationElement ae = (AssociationElement) ModelHelper.getDiagramElementByEditor(element, d);
+			AssociationElement ae = (AssociationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(ae!=null)
 			{
 				isRectilinear = ae.isTreeStyle();			
@@ -2310,7 +2368,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}			
 		else if(element instanceof Generalization)
 		{			
-			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByEditor(element, d);
+			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
 			deleteFromDiagram(element, d);
 			moveGeneralizationToDiagram((Generalization) element, d, isRectilinear);
@@ -2400,13 +2458,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific()))
 		{	
-			UmlConnection conn = d.dragRelation(gen,gen.eContainer());			
+			UmlConnection conn = d.dragRelation(gen,(EObject)d.getDiagram().getContainer());			
 			if (gen.getGeneralizationSet().size()>0) 
 			{
 				Classifier general = gen.getGeneral();
 				Classifier specific = gen.getSpecific();
-				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByEditor(general, d);
-				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByEditor(specific, d);
+				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByDiagram(general, d.getDiagram());
+				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByDiagram(specific, d.getDiagram());
 				if (generalElem.getAbsoluteY1() < specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
 				else if (generalElem.getAbsoluteY1() > specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
 				else d.setLineStyle(conn, LineStyle.TREESTYLE_HORIZONTAL);
@@ -2456,7 +2514,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		Type tgt = ((Association)association).getMemberEnd().get(1).getType();				
 		if (d.getDiagram().containsChild(src) && d.getDiagram().containsChild(tgt))	
 		{			
-			AssociationElement conn = (AssociationElement) d.dragRelation(association,association.eContainer());
+			AssociationElement conn = (AssociationElement) d.dragRelation(association,(EObject)d.getDiagram().getContainer());
 			if(isRectilinear) d.setLineStyle(conn, LineStyle.RECTILINEAR);
 			else d.setLineStyle(conn, LineStyle.DIRECT);
 			conn.setShowMultiplicities(showMultiplicities);
@@ -2493,7 +2551,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
 			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
+			DiagramElement de = ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(de!=null) d.select(de);
 			return;			
 		}
@@ -2521,7 +2579,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		{
 			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
 			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByEditor(element, d);
+			DiagramElement de = ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(de!=null) d.select(de);
 			return;			
 		}
@@ -2921,21 +2979,21 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Run Transformation to Alloy */
-	public void transformToAlloy(OntoUMLParser refparser, TransformationOption to)  
+	public void transformToAlloy(OntoUMLParser refparser, ALS4TransformationOption to)  
 	{			
 		try{
-			if(to.getDestination()==DestinationEnum.FILE){
+			if(to.getDestination()==ALS4Destination.FILE){
 				if(to.getPath()!=null) Models.getAlloySpec().setAlloyPath(to.getPath());
 			}
 			runOntoUML2Alloy(refparser);		
 			runTOCL2Alloy(refparser);			
-			if(to.getDestination()==DestinationEnum.APP) {
+			if(to.getDestination()==ALS4Destination.ANALYZER) {
 				openAnalyzer(Models.getAlloySpec(),true, -1);			
 			}
-			if(to.getDestination()==DestinationEnum.TAB){				
+			if(to.getDestination()==ALS4Destination.TAB){				
 				showInTextEditor(Models.getAlloySpec().getContent());
 			}
-			if(to.getDestination()==DestinationEnum.FILE){
+			if(to.getDestination()==ALS4Destination.FILE){
 				frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to Alloy.\nLocation: "+to.getPath());			
 			}
 		}catch(Exception e){
@@ -3183,8 +3241,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			trOpt
 		);
 		if(result.getResultType() != Result.ERROR)
-		{
-			if(trOpt.getDestination()==DestinationEnum.TAB)
+		{	
+			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
 				frame.getInfoManager().showOutputText(result.toString(), true, false);
 				showInTextEditor((String)result.getData()[0]);

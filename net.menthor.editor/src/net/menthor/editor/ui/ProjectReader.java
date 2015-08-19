@@ -37,28 +37,18 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.util.FileHandler;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
+import net.menthor.editor.v2.util.FileReader;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 
-/**
- * Reads a model from a file. Models are stored and retrieved using
- * Serialization.
- */
-public final class ProjectReader extends FileHandler {
+/** Reads a model from a file. Models are stored and retrieved using serialization. */
+public final class ProjectReader extends FileReader {
 
 	private static ProjectReader instance = new ProjectReader();
+	public static ProjectReader getInstance() { return instance; }
 
-	/**
-	 * Returns the singleton instance.
-	 */
-	public static ProjectReader getInstance() 
-	{
-		return instance;
-	}
-
-	/**
-	 * Reads a UmlProject object from a file.
-	 */
+	/** Reads a UmlProject object from a file. */
 	@SuppressWarnings("unused")
 	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException 
 	{		
@@ -70,7 +60,7 @@ public final class ProjectReader extends FileHandler {
 		ZipFile inFile = new ZipFile(file);	
 		
 		//Read the model and the project file 
-		Resource resource = ModelHelper.createResource();
+		Resource resource = OntoumlEditingDomain.getInstance().createResource();
 		UmlProject project = null;
 		
 		@SuppressWarnings("unchecked")
@@ -118,6 +108,13 @@ public final class ProjectReader extends FileHandler {
 					
 				is.close();
 				constraintLoaded = true;
+			}
+			else if(entry.getName().equals(OwlSettingsMap.getInstance().getFileName()))
+			{
+				System.out.println("Loading Owl Settings information from Menthor file...");
+				InputStream in = inFile.getInputStream(entry);								
+				OwlSettingsMap.getInstance().load(in);					
+				in.close();				
 			}
 		}
 		

@@ -29,6 +29,7 @@ import javax.swing.event.UndoableEditListener;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.OntoumlEditingDomain;
 
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
@@ -67,7 +68,9 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(notification==null) this.addToDiagram = false; else this.addToDiagram=true;
 		this.element = element;		
 		this.eContainer = eContainer;
-		this.diagramElement = ModelHelper.getDiagramElementByEditor(element,(DiagramEditor)notification);		
+		if(((DiagramEditor)notification)!=null){
+			this.diagramElement = ModelHelper.getDiagramElementByDiagram(element,((DiagramEditor)notification).getDiagram());
+		}
 		if(this.diagramElement==null) {
 			if(element instanceof RefOntoUML.Class || element instanceof RefOntoUML.Association || element instanceof RefOntoUML.DataType || element instanceof RefOntoUML.Generalization)
 			{				
@@ -86,7 +89,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
-			ModelHelper.createAdapterEditingDomain().getCommandStack().undo();
+			OntoumlEditingDomain.getInstance().createDomain().getCommandStack().undo();
 			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(element);
 		}
 		
@@ -166,8 +169,8 @@ public class AddNodeCommand extends BaseDiagramCommand {
 			
 			if (!(project.getModel().getPackagedElement().contains(element)))
 			{
-				AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), project.getModel().getPackagedElement(), element);
-				ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+				AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), element);
+				OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 			}
 			
 		}else{
@@ -175,40 +178,40 @@ public class AddNodeCommand extends BaseDiagramCommand {
 			{
 				if (!(((RefOntoUML.Package)eContainer).getPackagedElement().contains(element)))
 				{					
-					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), element);
-					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), element);
+					OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.Element && element instanceof RefOntoUML.Comment)
 			{
 				if (!(((RefOntoUML.Element)eContainer).getOwnedComment().contains(element)))
 				{
-					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Element)eContainer).getOwnedComment(), element);
-					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Element)eContainer).getOwnedComment(), element);
+					OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.Classifier && element instanceof RefOntoUML.Constraintx)
 			{
 				if (!(((RefOntoUML.Constraintx)element).getConstrainedElement().contains((RefOntoUML.Classifier)eContainer)))						
 				{
-					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Constraintx)element).getConstrainedElement(), (RefOntoUML.Classifier)eContainer);
-					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Constraintx)element).getConstrainedElement(), (RefOntoUML.Classifier)eContainer);
+					OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.Class && element instanceof RefOntoUML.Property)
 			{
 				if (!(((RefOntoUML.Class)eContainer).getOwnedAttribute().contains(element)))
 				{
-					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
-					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
+					OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 				}
 				
 			}else if (eContainer instanceof RefOntoUML.DataType && element instanceof RefOntoUML.Property)
 			{
 				if (!(((RefOntoUML.DataType)eContainer).getOwnedAttribute().contains(element)))
 				{
-					AddCommand cmd = new AddCommand(ModelHelper.createAdapterEditingDomain(), ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
-					ModelHelper.createAdapterEditingDomain().getCommandStack().execute(cmd);
+					AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
+					OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 				}
 			}			
 		}		

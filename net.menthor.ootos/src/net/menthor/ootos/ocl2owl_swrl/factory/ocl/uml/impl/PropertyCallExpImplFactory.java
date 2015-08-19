@@ -9,6 +9,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
+import net.menthor.ootos.util.MappedProperty;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.OCLExpressionImpl;
@@ -166,7 +167,7 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		Association association = referredProperty.getAssociation();
 		
 		//generate the association name and the IRI
-		String iriRelationName = nameSpace + generateAssociationName(mappingProperties, refParser, association);;
+		String iriRelationName = nameSpace + generateAssociationName(mappingProperties, refParser, association, false);
 		IRI iriRelation = IRI.create(iriRelationName);
 		//get the OWL object property
 		OWLObjectProperty relation = factory.getOWLObjectProperty(iriRelation);
@@ -242,7 +243,7 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		
 		Association association = property.getAssociation();
 		
-		String iriRelationName = nameSpace + generateAssociationName(mappingProperties, refParser, association);;
+		String iriRelationName = nameSpace + generateAssociationName(mappingProperties, refParser, association, false);
 		IRI iriRelation = IRI.create(iriRelationName);
 		OWLObjectProperty relation = factory.getOWLObjectProperty(iriRelation);
 		
@@ -397,26 +398,17 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		return null;
 	}
 	
-	public static String generateAssociationName(MappingProperties mappingProperties, OntoUMLParser refParser, Association association){
+	public static String generateAssociationName(MappingProperties mappingProperties, OntoUMLParser refParser, Association association, boolean isInverse){
 		//get the equivalent ontoUML association
 		RefOntoUML.Association ontoUmlAssociation = getEquivalentOntoUmlAssociation(refParser, association);
 		//get the association name
-//		String propName = ontoUmlAssociation.getClass().getName();
-//		propName = propName.replace("Impl", "");
-//		propName = propName.replace("RefOntoUML.impl.", "");
-		
-//		String prop = "";
-		String prop = mappingProperties.getPropertyName(ontoUmlAssociation);
-		//if the association has no name
-//		if(ontoUmlAssociation.getName()==null || ontoUmlAssociation.getName() == "" || ontoUmlAssociation.getName() == " "){
-//			prop += propName;
-//			prop += ".";
-//			prop += ontoUmlAssociation.getMemberEnd().get(0).getType().getName().replaceAll(" ", "_");
-//			prop += ".";
-//			prop += ontoUmlAssociation.getMemberEnd().get(1).getType().getName().replaceAll(" ", "_"); 
-//		}else{
-//			prop = ontoUmlAssociation.getName().replaceAll(" ", "_");
-//		}
+		MappedProperty mappedProperty = mappingProperties.getPropertyName(ontoUmlAssociation);
+		String prop;
+		if(isInverse){
+			prop = mappedProperty.getInvGeneratedName();
+		}else{
+			prop = mappedProperty.getGeneratedName();
+		}
 		return prop;
 	}
 	
@@ -445,10 +437,13 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		
 		//generate the association name and the IRI
 		String iriRelationName = nameSpace;
+		boolean isInverse;
 		if(refPropType != memEnd1Type){
-			iriRelationName += "INV.";
+			isInverse = true;
+		}else{
+			isInverse = false;
 		}
-		iriRelationName += PropertyCallExpImplFactory.generateAssociationName(mappingProperties, refParser, association);
+		iriRelationName += PropertyCallExpImplFactory.generateAssociationName(mappingProperties, refParser, association, isInverse);
 		
 		IRI iriRelation = IRI.create(iriRelationName);
 		//get the OWL object property

@@ -23,11 +23,6 @@ package org.tinyuml.umldraw.shared;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.LineConnectMethod;
@@ -93,6 +88,9 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * Implementation of the DiagramElementFactory interface. A
@@ -131,7 +129,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
 
   private void setupElementMaps() {
 	
-	factory = ModelHelper.getFactory();
+	factory = RefOntoUMLFactoryUtil.factory;
     
     Kind kind = (RefOntoUML.Kind)createClass(ClassType.KIND);    
     ClassElement kindElement = (ClassElement) ClassElement.getPrototype().clone();
@@ -491,7 +489,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   {
 	  Constraintx c = factory.createConstraintx();
 	  c.setName("");
-	  StringExpression expr = ModelHelper.getFactory().createStringExpression();
+	  StringExpression expr = RefOntoUMLFactoryUtil.factory.createStringExpression();
 	  expr.setSymbol("");
 	  c.setSpecification(expr);
 	  return c;
@@ -555,13 +553,22 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
   {
     UmlNode umlnode = (UmlNode) classPrototypes.get(classType).clone();    
     if(umlnode.getClassifier() != null) umlnode.getClassifier().setName(umlnode.getClassifier().getName() + nextElementCount(classType));
+    if(diagram.getContainer()!=null){
+    	if(diagram.getContainer() instanceof RefOntoUML.Package)
+    		((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)umlnode.getClassifier());
+    }
     umlnode.addNodeChangeListener(diagram);    
     return umlnode;
   }
+  
   public UmlNode createNode(DataType dataType, StructureDiagram diagram) 
   {
     UmlNode umlnode = (UmlNode) datatypesPrototypes.get(dataType).clone();    
     if(umlnode.getClassifier() != null) umlnode.getClassifier().setName(umlnode.getClassifier().getName() + nextElementCount(dataType));
+    if(diagram.getContainer()!=null){
+    	if(diagram.getContainer() instanceof RefOntoUML.Package)
+    		((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)umlnode.getClassifier());
+    }
     umlnode.addNodeChangeListener(diagram);    
     return umlnode;
   }
@@ -574,7 +581,11 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
 	  }else{ 
 		  umlnode = (UmlNode) datatypesPrototypes.get(DataType.valueOf(type.eClass().getName().toUpperCase())).clone();
 	  }
-	  ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);        
+	  ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);
+	  if(diagram.getContainer()!=null){
+		  if(diagram.getContainer() instanceof RefOntoUML.Package)
+			  ((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)umlnode.getClassifier());
+	  }
 	  umlnode.addNodeChangeListener(diagram);    
 	  return umlnode;
   }
@@ -618,7 +629,11 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
       {
     	  Association association = (Association) conn.getRelationship();
     	  association.setName(association.getName() + nextRelationCount(RelationshipType));
-      }
+    	  if(node1.getDiagram().getContainer()!=null){
+	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+	      }
+      }      
     }    
     return conn;
   }
@@ -635,6 +650,10 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
 		conn = (UmlConnection) prototype.clone();
 		conn.setRelationship(relationship);
 		bindConnection(conn, node1, node2);
+		if(node1.getDiagram().getContainer()!=null && conn.getRelationship() instanceof AssociationImpl){
+	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+	      }
     }
     return conn;
   }
@@ -655,7 +674,11 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
 	      {
 	    	  Association association = (Association) conn.getRelationship();
 	    	  association.setName(association.getName() + nextRelationCount(relationType));
-	      }
+	    	  if(c1.getDiagram().getContainer()!=null){
+		        	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+		        		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+		        }
+	      }	      
       }	    
       return conn;
   }
@@ -673,6 +696,10 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
 	      conn = (UmlConnection) prototype.clone();
 	      conn.setRelationship(relationship);
 	      bindConnection(conn, c1, node2);
+	      if(c1.getDiagram().getContainer()!=null && conn.getRelationship() instanceof AssociationImpl){
+	        	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+	        		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+	        }
       }
       return conn;
   }
@@ -691,8 +718,12 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
       if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
       {
     	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationCount(RelationshipType));    	 
-      }
+    	  association.setName(association.getName() + nextRelationCount(RelationshipType));
+    	  if(node1.getDiagram().getContainer()!=null){
+    	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+    	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+    	      }
+      }      
     }    
     return conn;
   }
@@ -709,6 +740,10 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
       conn = (UmlConnection) prototype.clone();
       conn.setRelationship(relationship);
       bindConnection(conn, node1, c2);
+      if(node1.getDiagram().getContainer()!=null  && conn.getRelationship() instanceof AssociationImpl){
+        	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+        		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+        }
     }    
     return conn;
   }
@@ -727,8 +762,12 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
       if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
       {
     	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationCount(RelationshipType));    	  
-      }
+    	  association.setName(association.getName() + nextRelationCount(RelationshipType));
+    	  if(c1.getDiagram().getContainer()!=null){
+          	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+          		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+          }
+      }      
     }    
     return conn;
   }
@@ -745,6 +784,10 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
       conn = (UmlConnection) prototype.clone();
       conn.setRelationship(relationship);
       bindConnection(conn, c1, c2);
+      if(c1.getDiagram().getContainer()!=null && conn.getRelationship() instanceof AssociationImpl){
+      	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
+      		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+      }
     }    
     return conn;
   }

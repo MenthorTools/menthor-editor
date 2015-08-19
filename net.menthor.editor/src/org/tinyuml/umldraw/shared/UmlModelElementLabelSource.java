@@ -27,7 +27,7 @@ import org.tinyuml.umldraw.UmlLabelFormatter;
 
 import RefOntoUML.Element;
 import RefOntoUML.NamedElement;
-import net.menthor.editor.ui.ModelHelper;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * This class decorates an UmlProperty with the Label source interface.
@@ -48,7 +48,7 @@ public class UmlModelElementLabelSource implements LabelSource, Serializable {
   public UmlModelElementLabelSource(StructureDiagram diagram, Element aNamedElement) {
     namedElement = aNamedElement;
     this.diagram = diagram;
-    propertyUUID = ModelHelper.getUUIDFromElement(namedElement);
+    propertyUUID = OntoUMLParser.getUUIDFromElement(namedElement);
     
   }
 
@@ -60,7 +60,7 @@ public class UmlModelElementLabelSource implements LabelSource, Serializable {
 	//In case of deserialization, attempts to retrieve the element from model
 	if(namedElement == null && propertyUUID != null)
 	{						
-		if(diagram!=null) namedElement = (Element) ModelHelper.getElementByUUID(diagram.getModel(), propertyUUID);
+		if(diagram!=null) namedElement = (Element) OntoUMLParser.getElementByUUID(diagram.getModel(), propertyUUID);
 	}
 			
 	return namedElement;

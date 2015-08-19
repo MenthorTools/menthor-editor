@@ -26,81 +26,104 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.common.transformation.OwlAxiomsEnforcement;
 import net.menthor.common.transformation.OwlMappingsEnforcement;
 import net.menthor.common.transformation.TransformationOption;
-import net.menthor.editor.transformation.TransformationDialog;
+
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.OntoumlDiagram;
 
-public class OwlSettingsDialog extends TransformationDialog {
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.settings.BaseSettingsDialog;
+import net.menthor.editor.v2.settings.owl.OwlAxiomsPane;
+import net.menthor.editor.v2.settings.owl.OwlGenSetPane;
+import net.menthor.editor.v2.settings.owl.OwlMainPane;
+import net.menthor.editor.v2.settings.owl.OwlPrimitivePane;
+import net.menthor.editor.v2.settings.owl.OwlQualityPane;
+import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
+
+public class OwlSettingsDialog extends BaseSettingsDialog {
 	
 	private static final long serialVersionUID = -6094162448551064500L;
 	
-	private OwlApproachPane approachPane;
-	private OwlAxiomPane axiomsPane;
-	private OwlPrimitiveMappingPane primitivePane;
-	private OwlQualityMappingPane qualityPane;
-	private OwlGenSetMappingPane gsPane;
+	private OwlMainPane mainPane;
+	private OwlAxiomsPane axiomsPane;
+	private OwlPrimitivePane primitivePane;
+	private OwlQualityPane qualityPane;
+	private OwlGenSetPane gsPane;
 	
-	public OwlSettingsDialog(final MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
-	{
-		super(owner, refparser, diagrams, modal);
-		
-		approachPane = new OwlApproachPane(owner.getDiagramManager().getCurrentProject().getName());
-		primitivePane = new OwlPrimitiveMappingPane(Models.getRefparser());
-		qualityPane = new OwlQualityMappingPane(Models.getRefparser());
-		gsPane = new OwlGenSetMappingPane(Models.getRefparser());
-		axiomsPane = new OwlAxiomPane();
-		
-		addNonClosable("Approach", approachPane);
+	public OwlSettingsDialog(final MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal){
+		super(owner, refparser, diagrams, modal);		
+		buildUI(refparser);
+	}
+	
+	private void buildUI(OntoUMLParser refparser){
+		mainPane = new OwlMainPane();
+		primitivePane = new OwlPrimitivePane(refparser);
+		qualityPane = new OwlQualityPane(refparser);
+		gsPane = new OwlGenSetPane(refparser);
+		axiomsPane = new OwlAxiomsPane();		
+		addNonClosable("Main", mainPane);
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomsPane);
 		addNonClosable("Primitive Types", primitivePane);
-//		addNonClosable("Qualities", qualityPane);
-		addNonClosable("Generalization Sets", gsPane);
-		
-		tabbedPane.setSelectedComponent(approachPane);
-				
-		setTitle("OWL Settings");	
-				
+		addNonClosable("Qualities", qualityPane);
+		addNonClosable("Generalization Sets", gsPane);		
+		tabbedPane.setSelectedComponent(mainPane);				
+		setTitle("OWL Settings");
 		getOkButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {				
-									
-				/**base options*/
-				TransformationOption transOpt = new TransformationOption(
-					approachPane.getSelectedMapping(), 
-					approachPane.getDestination(),
-					approachPane.getPathText()
-				);
-				
-				/**owl axioms*/
-				OwlAxiomsEnforcement axioms = axiomsPane.getOwlAxiomsEnforcement();
-				axioms.setOntologyIri(approachPane.getURIText());
-				transOpt.setAxiomsEnforcement(axioms);
-				
-				/**owl mappings customizations*/
-				OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
-				mappings.setAttributeMappings(primitivePane.getAttributeMap());
-				mappings.setGenSetMappings(gsPane.getGenSetEnumMappingMap());										
-				mappings.setPrimitiveMappings(primitivePane.getPrimitiveMap());										
-				mappings.setQualityMappings(qualityPane.getQualityMap());
-				transOpt.setMappingsEnforcement(mappings);
-				
-				if(owner instanceof MainFrame){
-					DiagramManager manager = ((MainFrame)owner).getDiagramManager();
-					
-					/**generate*/
-					manager.generateOwl(
-						filterPane.getFilteredParser(),							 
-						transOpt
-					);
-				}				
-				
-	 			//dispose();
+			public void actionPerformed(ActionEvent evt) {
+				okActionPerformed(evt);
 			}
 		});
+	}
+		
+	private void okActionPerformed(ActionEvent evt){				
+		try {
+			axiomsPane.storeToXML();
+			primitivePane.storeToXML();
+			qualityPane.storeToXML();
+			gsPane.storeToXML();
+			mainPane.storeToXML();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		/**base options*/
+		TransformationOption transOpt = new TransformationOption(
+			mainPane.getSelectedMapping(), 
+			mainPane.getOWL2Destination(),
+			mainPane.getPathText()
+		);
+		
+		/**owl axioms*/
+		OwlAxiomsEnforcement axioms = OwlSettingsMap.getInstance().getOwlAxiomsEnforcement();				
+		transOpt.setAxiomsEnforcement(axioms);
+		
+		/**owl mappings customizations*/
+		OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
+		try {
+			mappings.setAttributeMappings(primitivePane.getAttributeMap());
+			mappings.setGenSetMappings(gsPane.getGeneralizationSetMap());										
+			mappings.setPrimitiveMappings(primitivePane.getPrimitiveMap());										
+			mappings.setQualityMappings(qualityPane.getQualityMap());					
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		transOpt.setMappingsEnforcement(mappings);
+		
+		if(frame instanceof MainFrame){
+			DiagramManager manager = ((MainFrame)frame).getDiagramManager();
+			
+			/**generate*/
+			manager.generateOwl(
+				filterPane.getFilteredParser(),							 
+				transOpt
+			);
+		}				
+		
+		dispose();
 	}	
 }
