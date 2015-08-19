@@ -33,9 +33,9 @@ public abstract class BaseTableModel extends AbstractTableModel
 		this.columns=columnNames;
 	}
 	
-	public void addEmptyEntry(){
-		
-	}
+	public abstract boolean hasNullEntry();
+	
+	public void addEmptyEntry(){}
 		
 	public void moveUpEntry(int index) {
 		fireTableRowsUpdated(index-1, index);
@@ -48,7 +48,7 @@ public abstract class BaseTableModel extends AbstractTableModel
 	public void removeEntryAt(int index) { 
 		fireTableRowsDeleted(index, index);		
 	}
-	
+			
 	public int getColumnCount(){
         return columns.length;
     }

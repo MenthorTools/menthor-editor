@@ -3,8 +3,6 @@ package net.menthor.editor.v2.tables;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 public class DuoChoiceTableModel extends DuoTableModel{
 	
 	private static final long serialVersionUID = 156864519388945910L;
@@ -55,9 +53,6 @@ public class DuoChoiceTableModel extends DuoTableModel{
 			targetList.add(target);		
 			choiceOptions.add(choice);
 			fireTableRowsInserted(size, size);
-		}else{
-			JOptionPane.showMessageDialog(null,"Please, fulfill the \"<no value>\" cells in the table \nbefore adding a new entry.",
-			"Empty cells", JOptionPane.INFORMATION_MESSAGE);			
 		}
 	}
 	

@@ -166,4 +166,12 @@ public class AttributeTableModel extends BaseTableModel {
 
 	public int getColumnCount() { return columns.length; }
 
+	@Override
+	public boolean hasNullEntry() {
+		for(Property p: attributes){
+			if(p==null) return true;
+		}
+		return false;
+	}
+
 }

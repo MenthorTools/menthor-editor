@@ -41,18 +41,11 @@ public class DuoTableModel extends BaseTableModel {
 		if(idx>=0) return sourceList.get(idx);
 		else return null;
 	}
-	
+		
 	public Map<Object, Object> getEntries() throws Exception{
 		Map<Object,Object> map = new HashMap<Object,Object>();		
 		for(int i =0; i < sourceList.size(); i++){
-			//look if exists null entries...
-			if(sourceList.get(i) == null || targetList.get(i) == null){
-				JOptionPane.showMessageDialog(null,"You need to fill the remaining cells before moving on.",
-				"Invalid operation", JOptionPane.INFORMATION_MESSAGE);
-				throw new Exception("The table is not completely filled. You need to fill the remaining cells before moving on.");
-			}else{
-				map.put(sourceList.get(i),targetList.get(i));	
-			}
+			map.put(sourceList.get(i),targetList.get(i));			
 		}
 		return map;
 	}
@@ -74,16 +67,22 @@ public class DuoTableModel extends BaseTableModel {
 		super.removeEntryAt(index);
 	}
 	
-	public void addEntry(Object elem, Object target){
-		int size = sourceList.size();
+	public void addEntry(Object elem, Object target){		
 		if(!sourceList.contains(elem) && !targetList.contains(target)){
+			int size = sourceList.size();
 			sourceList.add(elem);
 			targetList.add(target);			
 			fireTableRowsInserted(size, size);
-		}else{		
-			JOptionPane.showMessageDialog(null,"Please, fulfill the \"<no value>\" cells in the table \nbefore adding a new entry.",
-			"Empty cells", JOptionPane.INFORMATION_MESSAGE);			
 		}
+	}
+	
+	public boolean hasNullEntry(){
+		for(int i =0; i < sourceList.size(); i++){	
+			if(sourceList.get(i) == null || targetList.get(i) == null){
+				return true;
+			}		
+		}		
+		return false;
 	}
 	
 	//==========================================================
@@ -111,33 +110,15 @@ public class DuoTableModel extends BaseTableModel {
 
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {		
-		//if value contains a String (<no value>), it is replaced by null
-		if(value instanceof String) value=null; 		
-		//looks for previous value of the cell
-		Object previousValue;
 		if(columnIndex == 0){
-			previousValue = sourceList.get(rowIndex);
-		}else{
-			previousValue = targetList.get(rowIndex);
-		}		
-		//check if the value has changed
-		if(previousValue == null && value == null || previousValue != null && value != null && previousValue.equals(value)) 
-			return;		
-		if(columnIndex == 0) {
-			//look for all source elements and check if the actual value is already there
-			for (Object existentValue : sourceList) {
-				//if one of them is null, they are different
-				if(existentValue == null && value != null || existentValue != null && value == null) 
-					continue; //they are different				
-				//if both are null or equal
-				if((existentValue == null && value == null) || existentValue.equals(value)){
-					JOptionPane.showMessageDialog(null,"{" + value + "} was already mappped. Please, choose a different element.",
-					"Invalid operation",JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+			if(sourceList.indexOf(value)!= -1){
+				JOptionPane.showMessageDialog(null,"" + value + " was already mappped. \nPlease, choose a different element.",
+				"Invalid Entry",JOptionPane.ERROR_MESSAGE);
+				return;
+			}else{
+				sourceList.set(rowIndex, value);	
 			}
-			sourceList.set(rowIndex, value);
-		} 
+		}
 		if(columnIndex == 1){			 
 			targetList.set(rowIndex, value);
 		}		

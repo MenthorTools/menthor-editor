@@ -23,7 +23,6 @@ package net.menthor.editor.v2.settings.owl;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 

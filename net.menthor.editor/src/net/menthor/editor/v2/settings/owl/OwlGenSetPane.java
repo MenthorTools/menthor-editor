@@ -22,16 +22,13 @@ package net.menthor.editor.v2.settings.owl;
  */
 
 import java.awt.BorderLayout;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.owl.OWL2GeneralizationSet;
-
 import net.menthor.editor.v2.tables.DuoChoiceTableModel;
 import net.menthor.editor.v2.tables.GenSetTablePane;
-
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 

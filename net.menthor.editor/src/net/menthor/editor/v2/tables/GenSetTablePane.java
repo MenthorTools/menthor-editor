@@ -14,7 +14,7 @@ public class GenSetTablePane extends BaseTablePane {
 	private static final long serialVersionUID = -7587547341203464118L;
 	
 	public GenSetTablePane(OntoUMLParser refparser){
-		super("Generalization Sets",refparser, "Mapping classes", "Hide classes?");		
+		super("Generalization Set",refparser, "Which classes", "Hide");		
 		/** Load qualities as options */
 		List<RefOntoUML.Element> sourcePrimitiveOptions = new ArrayList<RefOntoUML.Element>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	

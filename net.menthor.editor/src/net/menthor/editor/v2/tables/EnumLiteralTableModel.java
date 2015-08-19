@@ -168,4 +168,12 @@ public class EnumLiteralTableModel extends BaseTableModel {
 	 */
 	public int getColumnCount() { return columns.length; }
 
+	@Override
+	public boolean hasNullEntry() {
+		for(EnumerationLiteral el: literals){
+			if(el==null) return true;
+		}	
+		return false;
+	}
+
 }

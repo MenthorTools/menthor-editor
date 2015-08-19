@@ -13,6 +13,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -67,7 +68,7 @@ public class BaseTablePane extends JPanel {
 	public void refreshData(){
 		tableModel.fireTableDataChanged();
 	}
-	
+		
 	public void deleteMapping(ActionEvent evt){
 		int selectedRow = table.getSelectedRow();		
 		table.editingStopped(new ChangeEvent(table));		
@@ -105,9 +106,13 @@ public class BaseTablePane extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				addMapping(arg0);
+				if(!tableModel.hasNullEntry()) addMapping(arg0);
+				else{
+					JOptionPane.showMessageDialog(null,"Please, fill the <no value> cells before moving on.",
+					"Invalid Entry", JOptionPane.ERROR_MESSAGE);
+				}
 			}
-		});		
+		});
 		btnDelete = new JButton();
 		btnDelete.setPreferredSize(new Dimension(33, 30));
 		btnDelete.setFocusable(false);

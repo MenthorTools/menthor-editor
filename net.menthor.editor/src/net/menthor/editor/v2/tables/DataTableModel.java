@@ -30,6 +30,18 @@ public class DataTableModel extends BaseTableModel {
 	@Override
 	public void removeEntryAt(int index) { }
 	
+	@Override
+	public boolean hasNullEntry() {
+		int numRows = getRowCount();
+        int numCols = getColumnCount();        
+        for (int i=0; i < numRows; i++){            	
+            for (int j=0; j < numCols; j++){            	                		
+            	if(data[i][j]==null) return true;
+            }
+        }
+		return false;
+	}
+	
 	//==========================================================
 	//OVERRIDE: COLUMNS & ROWS
 	//==========================================================
@@ -73,5 +85,5 @@ public class DataTableModel extends BaseTableModel {
             }                
         }
         return result;
-    }
+    }	
 }
