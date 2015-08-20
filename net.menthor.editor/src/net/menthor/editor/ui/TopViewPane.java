@@ -66,9 +66,5 @@ public class TopViewPane extends JPanel {
 		diagramManager.addStartPanel(diagramManager,true);
 		
 		add(diagramManager,BorderLayout.CENTER);
-		
-		//TitlePane panel = new TitlePane("Editor",null);
-		//panel.title.setIcon(new ImageIcon(TopViewPane.class.getResource("/resources/icons/x16/ui_tab_content.png")));
-		//add(panel, BorderLayout.NORTH);
 	}
 }

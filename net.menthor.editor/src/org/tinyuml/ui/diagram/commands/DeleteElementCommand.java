@@ -97,7 +97,9 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+		if(((DiagramEditor)notification)!=null){
+			diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
 		//System.out.println("Related diagram elements requested for deletion: \n- "+diagramElemList);
@@ -123,8 +125,10 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 				}
 			}			
 		}		
-		diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
-		diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		if(((DiagramEditor)notification)!=null){
+			diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
+			diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
 		//System.out.println("Related diagram elements of dependences level 1 for deletion: \n- "+diagramElemDep1List);

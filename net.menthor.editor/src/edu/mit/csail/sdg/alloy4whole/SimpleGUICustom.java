@@ -1837,8 +1837,6 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
     }
 
     private void finishInit(String[] args, List<Integer> initialAllowedMemorySizes, int width) {
-
-    	frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SimpleGUICustom.class.getResource("/resources/icons/x16/alloy/alloy.png")));
     	
         // Add the listeners
         try {
