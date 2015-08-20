@@ -1,4 +1,4 @@
-package net.menthor.editor.transformation;
+package net.menthor.editor.v2.trees;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,9 +25,8 @@ import RefOntoUML.ReferenceRegion;
 import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.trees.ProjectTree;
 
-public class FilterOptionPane extends JPanel{
+public class ProjectTreeCheckPane extends JPanel{
 	
 	private static final long serialVersionUID = -6393962006647644434L;
 	
@@ -40,16 +39,14 @@ public class FilterOptionPane extends JPanel{
 	
 	private ProjectTree elemTree;
 	
-	public void setFilter(ProjectTree elemTree){
+	public void setTree(ProjectTree elemTree){
 		this.elemTree=elemTree;
 	}
 	
-	public FilterOptionPane()
-	{
+	public ProjectTreeCheckPane(){
 		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check/Uncheck All", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		JPanel selectionPanel = new JPanel();
-		selectionPanel.setPreferredSize(new Dimension(10, 200));
-		
+		selectionPanel.setPreferredSize(new Dimension(10, 200));		
 		genSetCheck = new JCheckBox("Generalization sets");
 		genSetCheck.setPreferredSize(new Dimension(155, 23));
 		genSetCheck.setSelected(true);
@@ -60,8 +57,7 @@ public class FilterOptionPane extends JPanel{
 			}
 		});		
 		selectionPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		selectionPanel.add(genSetCheck);
-		
+		selectionPanel.add(genSetCheck);		
 		attrCheck = new JCheckBox("Attributes");		
 		attrCheck.setPreferredSize(new Dimension(140, 23));
 		attrCheck.setSelected(true);
@@ -71,8 +67,7 @@ public class FilterOptionPane extends JPanel{
 				selectAllAttributes(e);
 			}
 		});
-		selectionPanel.add(attrCheck);
-		
+		selectionPanel.add(attrCheck);		
 		quaCheck = new JCheckBox("Qualities & Structures");
 		quaCheck.setPreferredSize(new Dimension(140, 23));
 		quaCheck.setSelected(true);
@@ -82,8 +77,7 @@ public class FilterOptionPane extends JPanel{
 				selectAllQualities(e);
 			}
 		});
-		selectionPanel.add(quaCheck);		
-				
+		selectionPanel.add(quaCheck);				
 		relCheck = new JCheckBox("Associations");
 		relCheck.setSelected(true);
 		relCheck.addActionListener(new ActionListener() {			
@@ -92,8 +86,7 @@ public class FilterOptionPane extends JPanel{
 				selectAllAssociations(e);
 			}
 		});
-		selectionPanel.add(relCheck);
-		
+		selectionPanel.add(relCheck);		
 		targetCheck = new JCheckBox("Association Target Ends");		
 		targetCheck.setSelected(true);
 		targetCheck.addActionListener(new ActionListener() {			
@@ -103,8 +96,7 @@ public class FilterOptionPane extends JPanel{
 			}
 		});
 		setLayout(new BorderLayout(0, 0));
-		selectionPanel.add(targetCheck);
-		
+		selectionPanel.add(targetCheck);	
 		sourceCheck = new JCheckBox("Association Source Ends");		
 		sourceCheck.setSelected(true);
 		sourceCheck.addActionListener(new ActionListener() {			
@@ -113,13 +105,11 @@ public class FilterOptionPane extends JPanel{
 				selectAllSources(e);
 			}
 		});
-		selectionPanel.add(sourceCheck);
-		
+		selectionPanel.add(sourceCheck);		
 		add(selectionPanel, BorderLayout.NORTH);
 	}
 	
-	public void selectAllQualities(ActionEvent e)
-	{
+	public void selectAllQualities(ActionEvent e){
 		OntoUMLParser refparser = elemTree.getParser();
 		List<Object> result = new ArrayList<Object>();
 		result.addAll(refparser.getAllInstances(RefOntoUML.Quality.class));
@@ -149,8 +139,7 @@ public class FilterOptionPane extends JPanel{
 		}
 	}
 		
-	public void selectAllTargets(ActionEvent e)
-	{
+	public void selectAllTargets(ActionEvent e){
 		List<Object> targets = new ArrayList<Object>();
 		for(Association a: elemTree.getParser().getAllInstances(RefOntoUML.Association.class)){
 			targets.add(a.getMemberEnd().get(1));
@@ -163,8 +152,7 @@ public class FilterOptionPane extends JPanel{
 		}
 	}
 		
-	public void selectAllSources(ActionEvent e)
-	{
+	public void selectAllSources(ActionEvent e){
 		List<Object> sources = new ArrayList<Object>();
 		for(Association a: elemTree.getParser().getAllInstances(RefOntoUML.Association.class)){
 			sources.add(a.getMemberEnd().get(0));
@@ -177,8 +165,7 @@ public class FilterOptionPane extends JPanel{
 		}
 	}
 	
-	public void selectAllAssociations(ActionEvent e)
-	{
+	public void selectAllAssociations(ActionEvent e){
 		List<Object> associations = new ArrayList<Object>();
 		associations.addAll(elemTree.getParser().getAllInstances(RefOntoUML.Association.class));		
 		if(relCheck.isSelected()){			
@@ -189,8 +176,7 @@ public class FilterOptionPane extends JPanel{
 		}
 	}
 	
-	public void selectAllAttributes(ActionEvent e)
-	{
+	public void selectAllAttributes(ActionEvent e){
 		List<Object> attributes = new ArrayList<Object>();
 		for(Property p: elemTree.getParser().getAllInstances(RefOntoUML.Property.class)){
 			if(p.getAssociation()==null){
@@ -205,8 +191,7 @@ public class FilterOptionPane extends JPanel{
 		}
 	}
 
-	public void selectAllGeneralizationSets(ActionEvent e)
-	{
+	public void selectAllGeneralizationSets(ActionEvent e){
 		List<Object> genSets = new ArrayList<Object>();
 		genSets.addAll(elemTree.getParser().getAllInstances(RefOntoUML.GeneralizationSet.class));
 		if(genSetCheck.isSelected()){			

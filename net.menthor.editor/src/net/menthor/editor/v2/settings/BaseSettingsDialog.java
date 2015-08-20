@@ -30,7 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import net.menthor.editor.transformation.FilterPane;
+import net.menthor.editor.ui.FilterPane;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.ui.ProgressPane;

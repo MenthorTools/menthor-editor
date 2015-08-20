@@ -1121,16 +1121,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return false;
 	}
 	
-	class MenthorFilter extends javax.swing.filechooser.FileFilter {
-	    public boolean accept(File file) {
-	        String filename = file.getName();
-	        return filename.endsWith(".menthor");
-	    }
-	    public String getDescription() {
-	        return "Menthor Project (*.menthor)";
-	    }
-	}
-	
 	/** New Menthor Project. */
 	public void newProject() 
 	{				
@@ -1159,7 +1149,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		    }   
 		};		
 		fileChooser.setDialogTitle("New Project");
-		fileChooser.addChoosableFileFilter(new MenthorFilter());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
+		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setSelectedFile(new File("*.menthor"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
@@ -1218,7 +1210,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
 		fileChooser.setDialogTitle("Open Project");
-		fileChooser.addChoosableFileFilter(new MenthorFilter());	
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
+		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);	
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -1403,7 +1397,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		    }    
 		};
 		fileChooser.setDialogTitle("Save Project");
-		fileChooser.addChoosableFileFilter(new MenthorFilter());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
+		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);			
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
@@ -1422,7 +1418,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Export as Menthor Pattern");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthorpattern)", "menthorpattern");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
@@ -1477,6 +1473,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Importation");		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
 		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -1520,6 +1517,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Import from EA");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("XMI, XML (*.xmi, *.xml)", "xmi", "xml");
 		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 		{
@@ -1544,6 +1542,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Ecore (*.ecore)", "ecore");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1571,6 +1570,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML (*.refontouml)", "refontouml");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1599,6 +1599,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1626,6 +1627,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1652,6 +1654,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Exportation");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Portable Network Graphics file (*.png)", "png");
 		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {			
 			try {
@@ -3491,7 +3494,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("Open Menthor Pattern Project");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);		
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {

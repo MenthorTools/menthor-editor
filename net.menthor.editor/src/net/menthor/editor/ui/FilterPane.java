@@ -1,4 +1,4 @@
-package net.menthor.editor.transformation;
+package net.menthor.editor.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,9 +22,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.editor.v2.OntoumlDiagram;
+
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.trees.DiagramStrictTree;
+import net.menthor.editor.v2.trees.ProjectTreeCheckPane;
 import net.menthor.editor.v2.trees.TreeVisibility;
 
 public class FilterPane extends JPanel {
@@ -40,7 +43,7 @@ public class FilterPane extends JPanel {
 	private boolean isExpanded = false;
 	
 	//options
-	private FilterOptionPane optPane = new FilterOptionPane();
+	private ProjectTreeCheckPane optPane = new ProjectTreeCheckPane();
 	
 	//find
 	private JTextField findText;
@@ -104,7 +107,7 @@ public class FilterPane extends JPanel {
 				ProjectTree tree = getActiveTree();		
 				tree.setBorder(new EmptyBorder(2,2,2,2));				
 				scrollTreePane.setViewportView(tree);		
-				optPane.setFilter(tree);				
+				optPane.setTree(tree);				
 				updateUI();
 			}
 		});
@@ -175,7 +178,7 @@ public class FilterPane extends JPanel {
 		ProjectTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
 		scrollTreePane.setViewportView(tree);		
-		optPane.setFilter(tree);
+		optPane.setTree(tree);
 		updateUI();						
 	}	
 	

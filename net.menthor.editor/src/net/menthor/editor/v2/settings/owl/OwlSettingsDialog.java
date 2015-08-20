@@ -29,10 +29,11 @@ import java.util.List;
 import javax.swing.SwingWorker;
 
 import net.menthor.common.settings.owl.OwlOptions;
-
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -64,12 +65,13 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 		addNonClosable("Main", mainPane);
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomsPane);
-		addNonClosable("Primitive Types", primitivePane);
+		addNonClosable("Primitives", primitivePane);
 		addNonClosable("Qualities", qualityPane);
 		addNonClosable("Generalization Sets", gsPane);		
 		tabbedPane.setSelectedComponent(mainPane);				
 		setTitle("OWL Settings");
-		setSize(500, 550);		
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_SEMANTIC_WEB));
+		setSize(500, 550);
 		getProgressPane().getStartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				OwlSettingsDialog.this.getProgressPane().enableUI();
