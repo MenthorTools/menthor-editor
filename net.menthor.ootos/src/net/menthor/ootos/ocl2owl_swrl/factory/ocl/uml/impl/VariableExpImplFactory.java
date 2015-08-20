@@ -3,7 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
 import net.menthor.ootos.util.MappingProperties;
 
@@ -24,7 +24,7 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class VariableExpImplFactory extends OCLExpressionImplFactory {
 
-	public VariableExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+	public VariableExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 	

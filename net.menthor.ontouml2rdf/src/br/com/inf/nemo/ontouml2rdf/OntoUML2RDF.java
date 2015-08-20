@@ -4,19 +4,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Set;
 
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-
 import org.eclipse.emf.common.util.EList;
-
-import RefOntoUML.Association;
-import RefOntoUML.Classifier;
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.Property;
-import RefOntoUML.Type;
-import RefOntoUML.parser.OntoUMLParser;
-import br.ufes.inf.nemo.ufo_rdf.vocabulary.MLT;
-import br.ufes.inf.nemo.ufo_rdf.vocabulary.UFO;
 
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
@@ -30,14 +18,26 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.XSD;
 
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Property;
+import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLParser;
+import br.ufes.inf.nemo.ufo_rdf.vocabulary.MLT;
+import br.ufes.inf.nemo.ufo_rdf.vocabulary.UFO;
+import net.menthor.common.settings.owl.OWL2Axiom;
+import net.menthor.common.settings.owl.OwlAxioms;
+
 public class OntoUML2RDF {
-	OwlAxiomsEnforcement owlOptions;
+	OwlAxioms owlOptions;
 	String ontologyIRI;
 	String ontologyNs;
 	OntoUMLParser ontoParser;
 	OntModel rdfModel;
 	
-	public OntoUML2RDF(OwlAxiomsEnforcement owlOptions, RefOntoUML.Package ontModel, String ontologyIRI) {
+	public OntoUML2RDF(OwlAxioms owlOptions, RefOntoUML.Package ontModel, String ontologyIRI) {
 		this.ontoParser = new OntoUMLParser(ontModel);
 		this.rdfModel = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
 		this.ontologyIRI = ontologyIRI;
@@ -121,7 +121,7 @@ public class OntoUML2RDF {
 			boolean isDisjoint = generalizationSet.isIsDisjoint();
 			
 			if(!isCovering && !isDisjoint) continue;
-			if(isDisjoint && !owlOptions.isClassDisjointness()) continue;
+			if(isDisjoint && !owlOptions.getValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES)) continue;
 			
 			Resource generalRsrc = null;
 			EList<Generalization> generalizations = generalizationSet.getGeneralization();
@@ -195,7 +195,7 @@ public class OntoUML2RDF {
 		if(lstDataTypes.contains(source) || lstDataTypes.contains(range) || lstNominalQualities.contains(source) || lstNominalQualities.contains(range)) return;
 		
 		//create association
-		String stereotype = ontoParser.getStereotype(assoc);
+		String stereotype = OntoUMLParser.getStereotype(assoc);
 		Resource stereotypeRsrc = UFO.resource(stereotype);
 		String assocName = assoc.getName();
 		if(isInverse) assocName = "INV." + assocName ;
@@ -211,18 +211,18 @@ public class OntoUML2RDF {
 	
 	private void createDomainAndRange(Resource propertyRrsc, Resource sourceRsrc, Resource rangeRsrc){
 		//set domain and range
-		if(owlOptions.isDomain()){
+		if(owlOptions.getValue(OWL2Axiom.DOMAIN)){
 			Statement sourceStatement = rdfModel.createStatement(propertyRrsc, RDFS.domain, sourceRsrc);
 			rdfModel.add(sourceStatement);
 		}
-		if(owlOptions.isRange()){
+		if(owlOptions.getValue(OWL2Axiom.RANGE)){
 			Statement rangeStatement = rdfModel.createStatement(propertyRrsc, RDFS.range, rangeRsrc);
 			rdfModel.add(rangeStatement);
 		}
 	}
 	
 	private void createInverse(RefOntoUML.Association assoc, boolean isInverse, Resource stereotypeRsrc, Resource assocRrsc){
-		if(!owlOptions.isInverse()) return;
+		if(!owlOptions.getValue(OWL2Axiom.INVERSE)) return;
 		//set inverse
 		if(isInverse){
 			Resource origAssocRrsc = getResource(assoc.getName(), stereotypeRsrc);
@@ -250,7 +250,7 @@ public class OntoUML2RDF {
 	}
 	
 	private void createCardinality(Resource sourceRsrc, Resource rangeRsrc, Resource propertyRrsc, int rangeLowerCard, int rangeUpperCard){
-		if(!owlOptions.isCardinality()) return;
+		if(!owlOptions.getValue(OWL2Axiom.CARDINALITIES)) return;
 		
 		Resource restriction = rdfModel.createResource();
 		Statement restrStmt = rdfModel.createStatement(restriction, RDF.type, OWL2.Restriction);
@@ -325,7 +325,7 @@ public class OntoUML2RDF {
 		lstClasses.removeAll(lstNominalQualities);
 		
 		for (RefOntoUML.Class cls : lstClasses) {
-			String stereotype = ontoParser.getStereotype(cls);
+			String stereotype = OntoUMLParser.getStereotype(cls);
 			Resource stereotypeRsrc = UFO.resource(stereotype);
 			getResource(cls.getName(), stereotypeRsrc);
 			

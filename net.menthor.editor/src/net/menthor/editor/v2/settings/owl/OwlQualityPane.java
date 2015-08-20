@@ -28,8 +28,10 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.owl.OWL2Quality;
+
 import net.menthor.editor.v2.tables.DuoTableModel;
 import net.menthor.editor.v2.tables.QualityTablePane;
+
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 

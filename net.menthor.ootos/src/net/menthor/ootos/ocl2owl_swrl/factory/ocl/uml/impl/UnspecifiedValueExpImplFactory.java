@@ -1,6 +1,6 @@
 package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
@@ -10,7 +10,7 @@ import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
  */
 public class UnspecifiedValueExpImplFactory extends OCLExpressionImplFactory {
 
-	public UnspecifiedValueExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+	public UnspecifiedValueExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 }

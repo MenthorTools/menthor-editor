@@ -64,7 +64,7 @@ import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.common.settings.owl.OWL2Destination;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
 import net.menthor.editor.derivation.ExclusionPattern;
@@ -90,7 +90,6 @@ import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
-import net.menthor.editor.transformation.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
@@ -100,6 +99,7 @@ import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.menus.MainMenuBar;
+import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -2900,9 +2900,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(context instanceof List<?>){
 			List<Object> list = (List<Object>)context;
 			OntoUMLParser filteredParser = null;
-			TransformationOption opt = null;
+			OwlOptions opt = null;
 			if(list.size()>0) filteredParser = (OntoUMLParser)list.get(0);
-			if(list.size()>1) opt = (TransformationOption) list.get(1);
+			if(list.size()>1) opt = (OwlOptions) list.get(1);
 			if(filteredParser!=null && opt!=null) return generateOwl(filteredParser, opt);			
 		}
 		return "No parameter passed as argument to the transformation. Method could not be called";
@@ -2918,7 +2918,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		dialog.setVisible(true);
 	}
 	
-	private String generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
+	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt) 
 	{
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
 		ResultType result = OWLHelper.generateOwl(filteredParser, model, getWorkingConstraints(), trOpt);

@@ -3,7 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.util.MappingProperties;
@@ -27,7 +27,7 @@ public class CollectionItemImplFactory extends CollectionLiteralPartImplFactory 
 
 	OCLExpressionImplFactory itemFactory;
 	
-	public CollectionItemImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+	public CollectionItemImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);	
 	}
 	

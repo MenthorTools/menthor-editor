@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.OwlMappingsEnforcement;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlAxioms;
+import net.menthor.common.settings.owl.OwlMappings;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonImplemented;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
@@ -62,16 +62,16 @@ import RefOntoUML.parser.OntoUMLParser;
 
 public class Factory {
 	public MappingProperties mappingProperties;
-	public TransformationOption owlOptions;
-	public OwlAxiomsEnforcement owlAxioms;
-	public OwlMappingsEnforcement owlMappings;
+	public OwlOptions owlOptions;
+	public OwlAxioms owlAxioms;
+	public OwlMappings owlMappings;
 	
 	
-	public Factory(MappingProperties mappingProperties, TransformationOption owlOptions) {
+	public Factory(MappingProperties mappingProperties, OwlOptions owlOptions) {
 		this.mappingProperties = mappingProperties;
 		this.owlOptions = owlOptions;
-		this.owlAxioms = (OwlAxiomsEnforcement) owlOptions.getAxiomsEnforcement();
-		this.owlMappings = (OwlMappingsEnforcement) owlOptions.getMappingsEnforcement();
+		this.owlAxioms = (OwlAxioms) owlOptions.getOwlAxioms();
+		this.owlMappings = (OwlMappings) owlOptions.getOwlMappings();
 		
 	}
 	
@@ -259,7 +259,7 @@ public class Factory {
 	 * @param obj - contains the rule fragment
 	 * @param m_NamedElementImpl - contains the rule
 	 */
-	public static Factory constructor(MappingProperties mappingProperties, TransformationOption owlOptions, Object obj, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+	public static Factory constructor(MappingProperties mappingProperties, OwlOptions owlOptions, Object obj, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
 		Class<? extends Object> c = obj.getClass();
 		if(c.equals(PropertyCallExpImpl.class)){
 			return new PropertyCallExpImplFactory(mappingProperties, owlOptions, (PropertyCallExpImpl) obj);

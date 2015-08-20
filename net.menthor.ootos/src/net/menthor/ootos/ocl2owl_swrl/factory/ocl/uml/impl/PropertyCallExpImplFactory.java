@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
@@ -45,11 +45,11 @@ import RefOntoUML.parser.OntoUMLParser;
 public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 	Property property;
 	
-	public PropertyCallExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+	public PropertyCallExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 	
-	public PropertyCallExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl, Property property){
+	public PropertyCallExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl, Property property){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 		this.property =  property;
 	}

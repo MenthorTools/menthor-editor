@@ -21,39 +21,35 @@ package net.menthor.common.settings.owl;
  * ============================================================================================
  */
 
-public enum OWL2Destination {
+public class OwlOptions {
+
+	private OWL2Destination owlDestination;
+	private OWL2Approach owlApproach;
+	private String outputPath;	
+	private OwlAxioms owlAxioms;
+	private OwlMappings owlMappings;
 	
-	PROTEGE("Protégé","Open the result by calling Protégé"), 
-	TAB("Tab", "Visualize the result in an embedded text editor (a new tab in the current application)"),
-	FILE("File","Write the result in a file"); 
+	//====================================
+	//CONSTRUCTOR
+	//====================================
 	
-	private String description;
-	private String name;
-	
-	OWL2Destination(String name, String description)
-	{
-		this.description = description;
-		this.name = name;
+	public OwlOptions(OWL2Approach mapping, OWL2Destination dest, String outputAbsolutePath){
+		this.owlDestination = dest;
+		this.outputPath = outputAbsolutePath;
+		this.owlApproach = mapping;
 	}
 
-	public String getDescription() { return description; }
-	public String getName() { return name; }
+	//====================================
+	//GETTERS & SETTERS
+	//====================================
 	
-	public static OWL2Destination getByName(String name){
-		if(PROTEGE.getName().compareToIgnoreCase(name)==0) return PROTEGE;
-		if(TAB.getName().compareToIgnoreCase(name)==0) return TAB;
-		if(FILE.getName().compareToIgnoreCase(name)==0) return FILE;
-		return null;
-	}
+	public OWL2Destination getDestination() { return owlDestination; }	
+	public OWL2Approach getApproach() { return owlApproach; }
+	public String getPath() { return outputPath; }
 	
-	public String toString(){
-		return getName();
-	}
+	public void setOwlAxioms(OwlAxioms ae) { this.owlAxioms = ae; }
+	public OwlAxioms getOwlAxioms() { return owlAxioms; }
 	
-	public static void main (String args[])
-	{
-		for(OWL2Destination c: OWL2Destination.values()){
-			System.out.println(c);
-		}
-	}
+	public void setOwlMappings(OwlMappings me) { this.owlMappings = me; }
+	public OwlMappings getOwlMappings() { return owlMappings; }
 }

@@ -41,9 +41,9 @@ import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OWL2GeneralizationSet;
 import net.menthor.common.settings.owl.OWL2Quality;
 import net.menthor.common.settings.owl.OWL2Reasoner;
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.OwlMappingsEnforcement;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlAxioms;
+import net.menthor.common.settings.owl.OwlMappings;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
 
@@ -400,44 +400,44 @@ public final class OwlSettingsMap {
 	
 	//====================================================================
 	//Each Owl transformation has different parameters as arguments. They are
-	//based on the OwlAxiomsEnforcement class and the OwlReasoner enum.
-	//That's why we need these methods, to pass the correct parameter to a given
-	//Owl transformation.
+	//based on the OwlOption class.That's why we need these methods below, 
+	//to pass the correct parameter to a given Owl transformation.
 	//====================================================================
 	
-	private OwlAxiomsEnforcement getOwlAxiomsEnforcement() {			
-		OwlAxiomsEnforcement opt = new OwlAxiomsEnforcement();
-		opt.setAssociationDisjointness(getValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS));
-		opt.setAsymmetric(getValue(OWL2Axiom.ASYMMETRIC));
-		opt.setCardinality(getValue(OWL2Axiom.CARDINALITIES));
-		opt.setClassCompleteness(getValue(OWL2Axiom.COMPLETENESS_OF_CLASSES));
-		opt.setClassDisjointness(getValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES));
-		opt.setDomain(getValue(OWL2Axiom.DOMAIN));
-		opt.setFunctional(getValue(OWL2Axiom.FUNCTIONAL));
-		opt.setInverse(getValue(OWL2Axiom.INVERSE));
-		opt.setInverseFunctional(getValue(OWL2Axiom.INVERSE_FUNCTIONAL));
-		opt.setIrreflexive(getValue(OWL2Axiom.IRREFLEXIVE));
-		opt.setRange(getValue(OWL2Axiom.RANGE));
-		opt.setReflexive(getValue(OWL2Axiom.REFLEXIVE));
-		opt.setSwrlRules(getValue(OWL2Axiom.SWRL_RULES));
-		opt.setSymmetric(getValue(OWL2Axiom.SYMMETRIC));
-		opt.setTransitive(getValue(OWL2Axiom.TRANSITIVE));
-		opt.setUfoStructure(getValue(OWL2Axiom.UFO_STRUCTURE));
-		opt.setComments(getValue(OWL2Axiom.COMMENTS));
-		opt.setLabels(getValue(OWL2Axiom.LABELS));
-		opt.setOwlReasoner(getReasoner());
-		return opt;
+	public OwlOptions getOwlOptions(OntoUMLParser refparser){		
+		OwlOptions transOpt = new OwlOptions(getApproach(),getDestination(),getPath());		    		    		
+		transOpt.setOwlAxioms(getOwlAxioms());		
+		OwlMappings mappings = new OwlMappings();
+		mappings.setAttributes(getOwl2Attribute(refparser));
+		mappings.setGeneralizationSets(getOwl2GenSetsAsMatrix(refparser));										
+		mappings.setPrimitives(getOwl2Primitive(refparser));										
+		mappings.setQualities(getOwl2Quality(refparser));		
+		transOpt.setOwlMappings(mappings);
+		return transOpt;
 	}
 	
-	public TransformationOption getOwlTransformationOption(OntoUMLParser refparser){		
-		TransformationOption transOpt = new TransformationOption(getApproach(),getDestination(),getPath());		    		    		
-		transOpt.setAxiomsEnforcement(getOwlAxiomsEnforcement());		
-		OwlMappingsEnforcement mappings = new OwlMappingsEnforcement();
-		mappings.setAttributeMappings(getOwl2Attribute(refparser));
-		mappings.setGenSetMappings(getOwl2GenSetsAsMatrix(refparser));										
-		mappings.setPrimitiveMappings(getOwl2Primitive(refparser));										
-		mappings.setQualityMappings(getOwl2Quality(refparser));		
-		transOpt.setMappingsEnforcement(mappings);
-		return transOpt;
+	private OwlAxioms getOwlAxioms() {			
+		OwlAxioms opt = new OwlAxioms();		
+		opt.setIRI(getIRI());
+		opt.setValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS, getValue(OWL2Axiom.DISJOINTNESS_OF_ASSOCIATIONS));
+		opt.setValue(OWL2Axiom.ASYMMETRIC, getValue(OWL2Axiom.ASYMMETRIC));
+		opt.setValue(OWL2Axiom.CARDINALITIES, getValue(OWL2Axiom.CARDINALITIES));
+		opt.setValue(OWL2Axiom.COMPLETENESS_OF_CLASSES, getValue(OWL2Axiom.COMPLETENESS_OF_CLASSES));
+		opt.setValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES, getValue(OWL2Axiom.DISJOINTNESS_OF_CLASSES));
+		opt.setValue(OWL2Axiom.DOMAIN, getValue(OWL2Axiom.DOMAIN));
+		opt.setValue(OWL2Axiom.FUNCTIONAL, getValue(OWL2Axiom.FUNCTIONAL));
+		opt.setValue(OWL2Axiom.INVERSE, getValue(OWL2Axiom.INVERSE));
+		opt.setValue(OWL2Axiom.INVERSE_FUNCTIONAL, getValue(OWL2Axiom.INVERSE_FUNCTIONAL));
+		opt.setValue(OWL2Axiom.IRREFLEXIVE, getValue(OWL2Axiom.IRREFLEXIVE));
+		opt.setValue(OWL2Axiom.RANGE, getValue(OWL2Axiom.RANGE));
+		opt.setValue(OWL2Axiom.REFLEXIVE, getValue(OWL2Axiom.REFLEXIVE));
+		opt.setValue(OWL2Axiom.SWRL_RULES, getValue(OWL2Axiom.SWRL_RULES));
+		opt.setValue(OWL2Axiom.SYMMETRIC, getValue(OWL2Axiom.SYMMETRIC));
+		opt.setValue(OWL2Axiom.TRANSITIVE, getValue(OWL2Axiom.TRANSITIVE));
+		opt.setValue(OWL2Axiom.UFO_STRUCTURE, getValue(OWL2Axiom.UFO_STRUCTURE));
+		opt.setValue(OWL2Axiom.COMMENTS, getValue(OWL2Axiom.COMMENTS));
+		opt.setValue(OWL2Axiom.LABELS, getValue(OWL2Axiom.LABELS));
+		opt.setReasoner(getReasoner());
+		return opt;
 	}
 }

@@ -1,4 +1,4 @@
-package net.menthor.editor.transformation.owl;
+package net.menthor.editor.v2.settings.owl;
 
 /**
  * ============================================================================================
@@ -28,18 +28,12 @@ import java.util.List;
 
 import javax.swing.SwingWorker;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
-import net.menthor.editor.v2.settings.owl.OwlAxiomsPane;
-import net.menthor.editor.v2.settings.owl.OwlGenSetPane;
-import net.menthor.editor.v2.settings.owl.OwlMainPane;
-import net.menthor.editor.v2.settings.owl.OwlPrimitivePane;
-import net.menthor.editor.v2.settings.owl.OwlQualityPane;
-import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlSettingsDialog extends BaseSettingsDialog {
@@ -51,7 +45,11 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 	private OwlPrimitivePane primitivePane;
 	private OwlQualityPane qualityPane;
 	private OwlGenSetPane gsPane;	
-		
+	
+	//==================================================
+	//CONSTRUCTOR
+	//==================================================
+	
 	public OwlSettingsDialog(CommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
 		super(listener, refparser, diagrams);		
 		buildUI(refparser);
@@ -72,49 +70,50 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 		tabbedPane.setSelectedComponent(mainPane);				
 		setTitle("OWL Settings");
 		setSize(500, 550);		
-		
 		getProgressPane().getStartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				OwlSettingsDialog.this.getProgressPane().enableUI();
 				Task task = new Task();
 		        task.addPropertyChangeListener(OwlSettingsDialog.this.getProgressPane());
 		        task.execute();
-		        
-				
 			}
 		});
 	}
-		
+
+	//==================================================
+	//TASK EXECUTION
+	//==================================================
+	
+	public void storeToXML() throws Exception{
+		axiomsPane.storeToXML();
+		primitivePane.storeToXML();
+		qualityPane.storeToXML();
+		gsPane.storeToXML();
+		mainPane.storeToXML();
+	}
+	
 	class Task extends SwingWorker<Void, Void> {
         @Override
-        public Void doInBackground() {
-        	
-        	try {
-    			axiomsPane.storeToXML();
-    			primitivePane.storeToXML();
-    			qualityPane.storeToXML();
-    			gsPane.storeToXML();
-    			mainPane.storeToXML();
-    		
+        public Void doInBackground() {        	
+        	try {    			
+        		OwlSettingsDialog.this.storeToXML();
     			List<Object> context = new ArrayList<Object>();
     			OntoUMLParser refparser = filterPane.getFilteredParser();
-    			TransformationOption transOpt =  OwlSettingsMap.getInstance().getOwlTransformationOption(refparser);		
+    			OwlOptions opt =  OwlSettingsMap.getInstance().getOwlOptions(refparser);		
 				context.add(refparser);
-				context.add(transOpt);
-    			
+				context.add(opt);
+				/** Execution */
     			Object result = listener.handleCommand(CommandType.GENERATE_OWL.toString(), context);
+    			/** String Result */
     			if(result instanceof String){
     				getProgressPane().writeLine((String)result);
-    			}
-        		
-    			setProgress(100);
-    			
+    			}        		
+    			setProgress(100);    			
         	}catch (Exception e1){
     			e1.printStackTrace();
     		}        	        	
             return null;
-        }
-      
+        }      
         public void done() {
         	OwlSettingsDialog.this.getProgressPane().disableUI();
         }
