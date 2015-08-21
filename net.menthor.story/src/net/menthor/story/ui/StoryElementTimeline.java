@@ -112,7 +112,7 @@ public class StoryElementTimeline {
 		
 		//the sash holds the element tree and the class editor. The sash allows to trade space between the two composites, moving the line that divides them.
 		sashForm = new SashForm(parent,SWT.SMOOTH | SWT.VERTICAL);
-		sashForm.setLayoutData(new GridData(SWT.LEFT,SWT.TOP,true,true,1,1));
+		sashForm.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true,1,1));
 		
 		//this tree holds every story element. The story element is a row and the first column contains the element name. The other columns contain buttons that determine in which worlds the element exists
 		GridData treegrid = new GridData(SWT.FILL,SWT.FILL,true,true);

@@ -18,7 +18,9 @@ public class Example {
 	public static void main(String[] args) throws IOException {
 	    Display display = new Display();
 	    final Shell shell = new Shell(display);
-	    shell.setLayout(new GridLayout(1,false));
+	    final GridLayout gridlayout = new GridLayout(1,false);
+	    
+	    shell.setLayout(gridlayout);
 	    
 	    //adaptar para se integrar melhor ao OLED
 	    Resource res = RefOntoUMLResourceUtil.loadModel("test_data/input/cmo artigo.refontouml");
