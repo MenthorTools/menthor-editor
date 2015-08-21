@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/crawler4j-4.1-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.12.jar"/>
 	<classpathentry kind="lib" path="lib/jsoup-1.8.3.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.io_2.0.1.v201105210651.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
