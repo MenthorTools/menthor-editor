@@ -37,7 +37,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -68,6 +67,8 @@ import RefOntoUML.Property;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.tables.AttributeTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -141,7 +142,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new attribute to this class");
-		btnCreate.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -152,7 +153,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected attribute");
-		btnDelete.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -163,7 +164,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected attribute");
-		btnUp.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/arrow_up.png")));
+		btnUp.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_UP));
 		btnUp.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -174,7 +175,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected attribute");
-		btnDown.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/arrow_down.png")));
+		btnDown.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOWN));
 		btnDown.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -186,7 +187,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnEdit.setEnabled(true);
 		btnEdit.setFocusable(false);
 		btnEdit.setToolTipText("Edit selected attribute");
-		btnEdit.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/pencil.png")));
+		btnEdit.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
 		btnEdit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

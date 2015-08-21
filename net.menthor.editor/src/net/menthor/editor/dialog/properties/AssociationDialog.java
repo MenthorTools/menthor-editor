@@ -40,6 +40,8 @@ import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.AssociationElement;
@@ -82,11 +84,7 @@ public class AssociationDialog extends JDialog{
 	public AssociationDialog(final MainFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal) 
 	{
 		super(parent, modal);
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
-		
-//		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
-//		setIconImage(icon);
-		
+				
 		this.diagramManager = parent.getDiagramManager();
 		this.assocElement = assocElement;
 		this.relationship = relationship;
@@ -94,6 +92,7 @@ public class AssociationDialog extends JDialog{
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(""+""+getStereotype(relationship)+" "+ ((Classifier)relationship).getName());
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(new EmptyBorder(0, 0, 0, 0));

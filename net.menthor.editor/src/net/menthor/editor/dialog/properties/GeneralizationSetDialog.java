@@ -37,6 +37,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -75,8 +77,7 @@ public class GeneralizationSetDialog extends JDialog{
 	{	
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
 		setTitle(""+""+getStereotype(genSet)+" "+ ((GeneralizationSet)genSet).getName());
-				
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));
 		
 		if (parent instanceof JFrame)
 			genSetEdition = new GeneralizationSetEditionPanel((JFrame)parent, diagramManager, genSet);

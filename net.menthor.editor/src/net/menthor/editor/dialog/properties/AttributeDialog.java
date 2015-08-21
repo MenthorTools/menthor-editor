@@ -37,6 +37,8 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
@@ -89,9 +91,8 @@ public class AttributeDialog extends JDialog {
 
 	public void initGUI()
 	{
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
-		
 		setTitle(getStereotype(attribute)+" "+attribute.getName()+": "+attribute.getType().getName());
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));
 		
 		propertyEdition = new PropertyEditionPanel(parent, diagramManager, classElement, element, attribute);
 		

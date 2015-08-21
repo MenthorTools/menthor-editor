@@ -184,7 +184,6 @@ public class WarningTablePanel extends JPanel {
 			}
 		});
 		saveButton.setFocusable(false);
-		//saveButton.setIcon(new ImageIcon(WarningTablePanel.class.getResource("/resources/icon/export-16x16.png")));
 		//toolBar.add(saveButton);
 		
 		warningMessage = new JLabel("    (0 warnings)");

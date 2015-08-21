@@ -32,7 +32,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -42,9 +41,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.Models;
 
 import org.tinyuml.draw.DiagramElement;
 
@@ -57,6 +53,10 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author John Guerson
@@ -202,7 +202,7 @@ public class PropertyEditionPanel extends JPanel {
 		
 		btnSubsetted = new JButton("");
 		btnSubsetted.setPreferredSize(new Dimension(30, 25));
-		btnSubsetted.setIcon(new ImageIcon(PropertyEditionPanel.class.getResource("/resources/icons/x16/pencil.png")));
+		btnSubsetted.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
 		btnSubsetted.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -227,7 +227,7 @@ public class PropertyEditionPanel extends JPanel {
 		
 		btnRedefined = new JButton("");
 		btnRedefined.setPreferredSize(new Dimension(30, 25));
-		btnRedefined.setIcon(new ImageIcon(PropertyEditionPanel.class.getResource("/resources/icons/x16/pencil.png")));
+		btnRedefined.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
 		btnRedefined.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

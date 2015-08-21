@@ -33,6 +33,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+
 /**
  * @author John Guerson
  */
@@ -62,7 +65,7 @@ public class FoundHeadPane extends JPanel {
 		textField.setColumns(10);
 		
 		btnRun = new JButton("");
-		btnRun.setIcon(new ImageIcon(FoundHeadPane.class.getResource("/resources/icons/x16/find.png")));
+		btnRun.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SEARCH));
 		btnRun.setBackground(Color.LIGHT_GRAY);
 		btnRun.setFocusable(false);
 		
