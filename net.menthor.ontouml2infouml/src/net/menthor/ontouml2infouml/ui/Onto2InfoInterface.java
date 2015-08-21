@@ -79,8 +79,12 @@ public class Onto2InfoInterface
 	{
 		this.project = project;
 		
-		Display display = createDisplay();		
+//		Display display = createDisplay();		
+		Display display = Display.getDefault();	  
 		final Shell shell = new Shell(display);
+		  	
+//		Shell shell = display.getActiveShell();		
+		
 		shell.setText("InfoUML Settings");
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
