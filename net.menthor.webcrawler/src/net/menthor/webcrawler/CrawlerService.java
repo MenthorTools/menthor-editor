@@ -65,17 +65,18 @@ public class CrawlerService {
     	  * Be polite: Make sure that we don't send more than 1 request per
     	  * second (1000 milliseconds between requests).
     	  */
-    	 config.setPolitenessDelay(1000);    	 
+    	 config.setPolitenessDelay(500);    	 
     	 /*
     	  * You can set the maximum crawl depth here. The default value is -1 for
     	  * unlimited depth
     	  */
-    	 config.setMaxDepthOfCrawling(2);
+    	 //config.setMaxOutgoingLinksToFollow(-1);
+    	 config.setMaxDepthOfCrawling(-1);
     	 /*
     	  * You can set the maximum number of pages to crawl. The default value
     	  * is -1 for unlimited number of pages
     	  */
-    	 config.setMaxPagesToFetch(1000);
+    	 config.setMaxPagesToFetch(-1);
     	 /*
     	  * Do you want crawler4j to crawl also binary data ?
     	  * example: the contents of pdf, or the metadata of images etc
@@ -98,11 +99,17 @@ public class CrawlerService {
     	  * rootFolder manually.
     	  */
     	 config.setResumableCrawling(false);
+    	 
+    	 config.setMaxDownloadSize(-1);
+    	 
+    	 config.setUserAgentString("menthor");
+    	 
     	 /*
     	  * Instantiate the controller for this crawl.
     	  */
     	 PageFetcher pageFetcher = new PageFetcher(config);
     	 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+    	 robotstxtConfig.setEnabled(false);
     	 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
     	 CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
     	 /*
