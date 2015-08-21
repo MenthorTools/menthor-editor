@@ -29,6 +29,7 @@ import java.util.List;
 import javax.swing.SwingWorker;
 
 import net.menthor.common.settings.owl.OwlOptions;
+
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;

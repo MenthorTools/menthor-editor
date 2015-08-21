@@ -115,7 +115,7 @@ import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.EcoreWriter;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
@@ -228,7 +228,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		listener = frame;
 		elementFactory = new DiagramElementFactoryImpl(); //doesn't have yet any diagram
 		drawingContext =  new DrawingContextImpl();
-		OntoumlEditingDomain.getInstance().initialize();		
+		RefOntoUMLEditingDomain.getInstance().initialize();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
 		setMinimumSize(new Dimension(0,0));			    

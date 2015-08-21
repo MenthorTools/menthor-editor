@@ -39,14 +39,26 @@ public class AttributeTableModel extends BaseTableModel {
 	private EList<Property> attributes = new BasicEList<Property>();
 	public static boolean isPrimitive = true;
 	
+	//==========================================================
+	//CONSTRUCTOR
+	//==========================================================
+	
 	public AttributeTableModel(Classifier owner){
 		super(new String[]{"Name", "Type", "Multiplicity"});		
 		if(owner instanceof DataTypeImpl) attributes.addAll(((DataType) owner).getOwnedAttribute());
 		else attributes.addAll(((RefOntoUML.Class) owner).getOwnedAttribute());
 	}
+	
+	//==========================================================
+	// GETTERS AND SETTERS
+	//==========================================================
 
-	public EList<Property> getEntries(){ return attributes; }	
-	public Property getEntry(int index) { return attributes.get(index); }
+	public EList<Property> getEntries(){ 
+		return attributes; 
+	}	
+	public Property getEntry(int index) { 
+		return attributes.get(index); 
+	}
 	
 	public Property getEntry(Property property){
 		for(Property p: attributes){
@@ -56,6 +68,10 @@ public class AttributeTableModel extends BaseTableModel {
 		return null;
 	}
 	
+	//==========================================================
+	//OVERRIDE: ENTRIES
+	//==========================================================
+	
 	public void addEntry(Object entry){
 		int size = attributes.size();
 		if(!attributes.contains((Property)entry)){
@@ -64,6 +80,15 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 	}
 
+	@Override
+	public boolean hasNullEntry() {
+		for(Property p: attributes){
+			if(p==null) return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public void moveUpEntry(int index) {
 		attributes.move(index-1, index);
 		fireTableRowsUpdated(index-1, index);
@@ -81,6 +106,7 @@ public class AttributeTableModel extends BaseTableModel {
 		fireTableRowsDeleted(index, index);
 	}
 	
+	@Override
 	public void addEmptyEntry() {
 		Property property = RefOntoUMLFactoryUtil.factory.createProperty();
 		DataType type = null;		
@@ -93,6 +119,10 @@ public class AttributeTableModel extends BaseTableModel {
 		addEntry(property);
 	}
 
+	//==========================================================
+	//OVERRIDE: VALUE
+	//==========================================================
+	
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if(attributes.size() > 0){
 			Property prp = (Property)attributes.get(rowIndex);						 
@@ -113,17 +143,6 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 		return null;
 	}
-
-	public Class<?> getColumnClass(int columnIndex) {
-        if(attributes.size() > 0){
-        	switch(columnIndex) {
-				case 0: return String.class;
-				case 1: return String.class;
-				case 2: return String.class;
-			}
-		}
-		return Object.class;
-    }
 		
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
@@ -152,26 +171,25 @@ public class AttributeTableModel extends BaseTableModel {
 		}
 	}
 	
+	//==========================================================
+	//OVERRIDE: COLUMNS & ROWS
+	//==========================================================
+			
+	public Class<?> getColumnClass(int columnIndex) {
+        if(attributes.size() > 0){
+        	switch(columnIndex) {
+				case 0: return String.class;
+				case 1: return String.class;
+				case 2: return String.class;
+			}
+		}
+		return Object.class;
+    }
+	
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex){ 
 		return true;
 	}
-
-	@Override
-	public String getColumnName(int columnIndex) {
-		return columns[columnIndex];
-	}
 	
 	public int getRowCount() { return attributes.size(); }
-
-	public int getColumnCount() { return columns.length; }
-
-	@Override
-	public boolean hasNullEntry() {
-		for(Property p: attributes){
-			if(p==null) return true;
-		}
-		return false;
-	}
-
 }

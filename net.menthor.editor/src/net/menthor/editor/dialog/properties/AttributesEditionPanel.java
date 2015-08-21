@@ -71,7 +71,7 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.tables.AttributeTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * @author John Guerson
@@ -431,8 +431,8 @@ public class AttributesEditionPanel extends JPanel {
 			if(modelDataTypes.keySet().contains(property.getType().getName().trim()) == false)
 			{	
 				UmlProject project = diagramManager.getCurrentProject();				
-				AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), property.getType());
-				OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
+				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), property.getType());
+				RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
 				modelDataTypes.put(property.getType().getName(),(DataType)property.getType());
 				createdList.add((Element) property.getType());
 			}

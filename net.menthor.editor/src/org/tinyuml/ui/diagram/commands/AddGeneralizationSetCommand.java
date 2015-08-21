@@ -40,7 +40,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * @author John Guerson
@@ -139,7 +139,7 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 	public void undoFromModel(RefOntoUML.Element genSet,  ArrayList<Generalization> generalizations)
 	{
 //		System.out.println("Undoing = "+genSet);
-		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
 		
 		((GeneralizationSet)genSet).getGeneralization().removeAll(generalizations);
 		for(Generalization gen: generalizations) {
@@ -155,8 +155,8 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 			gen.getGeneralizationSet().add((GeneralizationSet)genSet); 		
 		}
 		
-		AddCommand cmd = new AddCommand(OntoumlEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), genSet);
-		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
+		AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), genSet);
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 	}
 
 }

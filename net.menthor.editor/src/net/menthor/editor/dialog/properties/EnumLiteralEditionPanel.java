@@ -45,6 +45,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
 
@@ -52,7 +53,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.v2.tables.EnumLiteralTableModel;
+import net.menthor.editor.v2.tables.LiteralTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
@@ -72,7 +73,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 	private JButton btnDown;
 	private JScrollPane scrollpane;
 	private JTable table;
-	private EnumLiteralTableModel enumLiteralTableModel;
+	private LiteralTableModel enumLiteralTableModel;
 	private JPanel panel;
 	private JCheckBox cbxVisible;
 			
@@ -83,7 +84,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		this.element = element;
 		this.parent=parent;
 						
-		enumLiteralTableModel = new EnumLiteralTableModel(element);
+		enumLiteralTableModel = new LiteralTableModel(((RefOntoUML.Enumeration)element));
 		
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder(""));
@@ -269,7 +270,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 	
 	public void transferLiteralData()
 	{
-		List<EnumerationLiteral> enumLiterals = enumLiteralTableModel.getEntries();
+		EList<EnumerationLiteral> enumLiterals = enumLiteralTableModel.getEntries();
 		
 		if(cbxVisible.isSelected()==false){
 			if (enumLiterals.size()>0) {
@@ -303,14 +304,15 @@ public class EnumLiteralEditionPanel extends JPanel{
 	
 	private void transferAddedLiterals(List<EnumerationLiteral> enumLiterals )
 	{
-		for (EnumerationLiteral literal : enumLiterals) 
+		for (Object literal : enumLiterals) 
 		{			
-			if(!literal.getName().isEmpty())
+			EnumerationLiteral l = (EnumerationLiteral)literal;
+			if(!l.getName().isEmpty())
 			{				
 				if(element instanceof Enumeration){
-					((Enumeration)element).getOwnedLiteral().add(literal);
+					((Enumeration)element).getOwnedLiteral().add(l);
 					
-					diagramManager.updateMenthorFromInclusion(literal);
+					diagramManager.updateMenthorFromInclusion(l);
 				}				
 			}
 		}

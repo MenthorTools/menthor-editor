@@ -1,5 +1,26 @@
 package net.menthor.editor.v2.tables;
 
+/**
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,13 +53,15 @@ import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
+
 import RefOntoUML.parser.OntoUMLParser;
 
-public class BaseTablePane extends JPanel {
+public class MappingTablePane extends JPanel {
 	
 	private static final long serialVersionUID = -7587547341203464118L;
 
-	protected BaseTableModel tableModel;
+	protected MappingTableModel tableModel;
+	
 	protected JScrollPane scrollpane = new JScrollPane();
 	protected JTable table;	
 	protected JPanel headerPane = new JPanel();
@@ -46,18 +69,18 @@ public class BaseTablePane extends JPanel {
 	protected JButton btnDelete;
 	protected JTextPane textPane = new JTextPane();
 	
-	public BaseTableModel getTableModel(){ return tableModel; }	
+	public MappingTableModel getTableModel(){ return tableModel; }	
 	public JPanel getHeaderPane() { return headerPane; }
 	public void setText(String text) { textPane.setText(text); }
 	
-	public BaseTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String choiceColumnTitle){
-		tableModel = new DuoChoiceTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
+	public MappingTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle, String choiceColumnTitle){
+		tableModel = new MappingChoiceTableModel(sourceColumnTitle, targetColumnTitle, choiceColumnTitle);
 		buildUI(refparser);
 	}
 	
 	/** @wbp.parser.constructor */
-	public BaseTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle){
-		tableModel = new DuoTableModel(sourceColumnTitle, targetColumnTitle);
+	public MappingTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle){
+		tableModel = new MappingTableModel(sourceColumnTitle, targetColumnTitle);
 		buildUI(refparser);
 	}	
 	
