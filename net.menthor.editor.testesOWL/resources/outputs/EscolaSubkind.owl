@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.menthor.net/testesOWL/EscolaSubkind#"
+     xml:base="http://www.menthor.net/testesOWL/EscolaSubkind"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#enrollment1 -->
+
+    <owl:ObjectProperty rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#enrollment1">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">enrollment</rdfs:label>
+        <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment"/>
+        <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#School"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#enrollment2 -->
+
+    <owl:ObjectProperty rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#enrollment2">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">enrollment</rdfs:label>
+        <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment"/>
+        <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Student"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#school1 -->
+
+    <owl:ObjectProperty rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#school1">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">school</rdfs:label>
+        <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment"/>
+        <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#School"/>
+        <owl:inverseOf rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#enrollment1"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#school2 -->
+
+    <owl:ObjectProperty rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#school2">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">school</rdfs:label>
+        <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#School"/>
+        <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Student"/>
+        <owl:inverseOf rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#student2"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#student1 -->
+
+    <owl:ObjectProperty rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#student1">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">student</rdfs:label>
+        <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment"/>
+        <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Student"/>
+        <owl:inverseOf rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#enrollment2"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#student2 -->
+
+    <owl:ObjectProperty rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#student2">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">student</rdfs:label>
+        <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#School"/>
+        <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Student"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#Company -->
+
+    <owl:Class rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#Company">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment -->
+
+    <owl:Class rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Enrolment</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#school1"/>
+                        <owl:onClass rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#School"/>
+                        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#student1"/>
+                        <owl:onClass rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Student"/>
+                        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#Person -->
+
+    <owl:Class rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#Person">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Person</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#School -->
+
+    <owl:Class rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#School">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">School</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#enrollment1"/>
+                        <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#student2"/>
+                        <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Student"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Company"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.menthor.net/testesOWL/EscolaSubkind#Student -->
+
+    <owl:Class rdf:about="http://www.menthor.net/testesOWL/EscolaSubkind#Student">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Student</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#enrollment2"/>
+                        <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Enrolment"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#school2"/>
+                        <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#School"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.menthor.net/testesOWL/EscolaSubkind#Person"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.4) http://owlapi.sourceforge.net -->
+

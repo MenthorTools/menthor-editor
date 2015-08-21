@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_2RIdYDIAEeWAhOpwEtAtsQ" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="__c-zADIuEeWAhOpwEtAtsQ" name="Person" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_BgqiADIvEeWAhOpwEtAtsQ" name="Student" visibility="public">
+    <generalization xmi:id="_MuRp8DIvEeWAhOpwEtAtsQ" general="__c-zADIuEeWAhOpwEtAtsQ"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_DCPCcDIvEeWAhOpwEtAtsQ" name="Company" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Relator" xmi:id="_Kn7BcDIvEeWAhOpwEtAtsQ" name="Enrolment" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_OxRccDIvEeWAhOpwEtAtsQ" name="Mediation1" visibility="public" memberEnd="_OxRccTIvEeWAhOpwEtAtsQ _OxRcdDIvEeWAhOpwEtAtsQ" navigableOwnedEnd="_OxRccTIvEeWAhOpwEtAtsQ _OxRcdDIvEeWAhOpwEtAtsQ">
+    <ownedEnd xmi:id="_OxRccTIvEeWAhOpwEtAtsQ" name="enrolment" type="_Kn7BcDIvEeWAhOpwEtAtsQ" association="_OxRccDIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_q-x0ATIvEeWAhOpwEtAtsQ" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_q-x0ADIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_OxRcdDIvEeWAhOpwEtAtsQ" name="school" type="_kqn44DIwEeWAhOpwEtAtsQ" isReadOnly="true" association="_OxRccDIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_q-x0AzIvEeWAhOpwEtAtsQ" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_q-x0AjIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_P8vKADIvEeWAhOpwEtAtsQ" name="Mediation2" visibility="public" memberEnd="_P8vKATIvEeWAhOpwEtAtsQ _P8vKBDIvEeWAhOpwEtAtsQ" navigableOwnedEnd="_P8vKATIvEeWAhOpwEtAtsQ _P8vKBDIvEeWAhOpwEtAtsQ">
+    <ownedEnd xmi:id="_P8vKATIvEeWAhOpwEtAtsQ" name="enrollment" type="_Kn7BcDIvEeWAhOpwEtAtsQ" association="_P8vKADIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_sMgycTIvEeWAhOpwEtAtsQ" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_sMgycDIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_P8vKBDIvEeWAhOpwEtAtsQ" name="student" type="_BgqiADIvEeWAhOpwEtAtsQ" isReadOnly="true" association="_P8vKADIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_sMgyczIvEeWAhOpwEtAtsQ" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_sMgycjIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:MaterialAssociation" xmi:id="_Uey_8DIvEeWAhOpwEtAtsQ" name="studies_at" visibility="public" memberEnd="_Uey_8TIvEeWAhOpwEtAtsQ _Uey_9DIvEeWAhOpwEtAtsQ" isDerived="true" navigableOwnedEnd="_Uey_8TIvEeWAhOpwEtAtsQ _Uey_9DIvEeWAhOpwEtAtsQ">
+    <ownedEnd xmi:id="_Uey_8TIvEeWAhOpwEtAtsQ" name="student" type="_BgqiADIvEeWAhOpwEtAtsQ" association="_Uey_8DIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_nYlwcTIvEeWAhOpwEtAtsQ" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_nYlwcDIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Uey_9DIvEeWAhOpwEtAtsQ" name="school" type="_kqn44DIwEeWAhOpwEtAtsQ" association="_Uey_8DIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_nYlwczIvEeWAhOpwEtAtsQ" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_nYlwcjIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Derivation" xmi:id="_Vm8TwDIvEeWAhOpwEtAtsQ" name="Derivation1" visibility="public" memberEnd="_Vm8TwTIvEeWAhOpwEtAtsQ _Vm8TxDIvEeWAhOpwEtAtsQ" navigableOwnedEnd="_Vm8TwTIvEeWAhOpwEtAtsQ _Vm8TxDIvEeWAhOpwEtAtsQ">
+    <ownedEnd xmi:id="_Vm8TwTIvEeWAhOpwEtAtsQ" name="studies_at" type="_Uey_8DIvEeWAhOpwEtAtsQ" association="_Vm8TwDIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_Vm8TwjIvEeWAhOpwEtAtsQ" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_Vm8TwzIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Vm8TxDIvEeWAhOpwEtAtsQ" name="enrolment" type="_Kn7BcDIvEeWAhOpwEtAtsQ" isReadOnly="true" association="_Vm8TwDIvEeWAhOpwEtAtsQ">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_Vm8TxTIvEeWAhOpwEtAtsQ" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_Vm8TxjIvEeWAhOpwEtAtsQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_kqn44DIwEeWAhOpwEtAtsQ" name="School" visibility="public">
+    <generalization xmi:id="_NScG8DIvEeWAhOpwEtAtsQ" general="_DCPCcDIvEeWAhOpwEtAtsQ"/>
+  </packagedElement>
+</RefOntoUML:Model>

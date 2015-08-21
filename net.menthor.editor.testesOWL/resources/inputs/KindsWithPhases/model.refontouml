@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_kNXfsDIxEeWAhOpwEtAtsQ" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_lGVIADIxEeWAhOpwEtAtsQ" name="Person" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_l6XNADIxEeWAhOpwEtAtsQ" name="Company" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_7HDeIDI6EeWsgMqn477nVQ" name="Phase1" visibility="public">
+    <generalization xmi:id="_8qMr4DI6EeWsgMqn477nVQ" general="_lGVIADIxEeWAhOpwEtAtsQ" generalizationSet="__yR3IDI6EeWsgMqn477nVQ"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_7sLkcDI6EeWsgMqn477nVQ" name="Phase2" visibility="public">
+    <generalization xmi:id="_9SBg4DI6EeWsgMqn477nVQ" general="_lGVIADIxEeWAhOpwEtAtsQ" generalizationSet="__yR3IDI6EeWsgMqn477nVQ"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="__yR3IDI6EeWsgMqn477nVQ" name="gs" visibility="public" isCovering="true" isDisjoint="true" generalization="_8qMr4DI6EeWsgMqn477nVQ _9SBg4DI6EeWsgMqn477nVQ"/>
+</RefOntoUML:Model>

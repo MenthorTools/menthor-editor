@@ -1,0 +1,110 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" > 
+  <rdf:Description rdf:nodeID="A0">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="A1"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A2">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    <rdf:first rdf:nodeID="A3"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A3">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#student2"/>
+    <owl:onClass rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Student"/>
+    <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A4">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    <rdf:first rdf:nodeID="A5"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A5">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#student1"/>
+    <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Student"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A1">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    <rdf:first rdf:nodeID="A6"/>
+    <rdf:rest rdf:nodeID="A4"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A6">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#enrolment1"/>
+    <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Enrolment"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A7">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    <rdf:first rdf:nodeID="A8"/>
+    <rdf:rest rdf:nodeID="A9"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A8">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#enrollment"/>
+    <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Enrolment"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A10">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="A7"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A11">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#school2"/>
+    <owl:someValuesFrom rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#School"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.menthor.net/testesOWL/EscolaRole#enrolment1">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">enrolment</rdfs:label>
+    <rdfs:range rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Enrolment"/>
+    <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#School"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.menthor.net/testesOWL/EscolaRole#school2">
+    <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Student"/>
+    <owl:inverseOf rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#student1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.menthor.net/testesOWL/EscolaRole#school1">
+    <rdfs:domain rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#Enrolment"/>
+    <owl:inverseOf rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#enrolment1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.menthor.net/testesOWL/EscolaRole#Enrolment">
+    <owl:equivalentClass rdf:nodeID="A12"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A12">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="A13"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A9">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    <rdf:first rdf:nodeID="A11"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.menthor.net/testesOWL/EscolaRole#School">
+    <owl:equivalentClass rdf:nodeID="A0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.menthor.net/testesOWL/EscolaRole#Student">
+    <owl:equivalentClass rdf:nodeID="A10"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A13">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    <rdf:first rdf:nodeID="A14"/>
+    <rdf:rest rdf:nodeID="A2"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A14">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#school1"/>
+    <owl:onClass rdf:resource="http://www.menthor.net/testesOWL/EscolaRole#School"/>
+    <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+  </rdf:Description>
+</rdf:RDF>
