@@ -35,7 +35,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -59,6 +58,8 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElement;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author John Guerson
@@ -199,7 +200,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		scrollPane = new JScrollPane(genSetList);
 		
 		btnRemove = new JButton("");
-		btnRemove.setIcon(new ImageIcon(GeneralizationEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnRemove.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnRemove.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -215,7 +216,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		});
 		
 		btnAdd = new JButton("");
-		btnAdd.setIcon(new ImageIcon(GeneralizationEditionPanel.class.getResource("/resources/icons/x16/add.png")));
+		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -247,7 +248,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		});
 		
 		btnNew = new JButton("");
-		btnNew.setIcon(new ImageIcon(GeneralizationEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnNew.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD_GREEN));
 		btnNew.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -266,7 +267,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		});
 		
 		btnEdit = new JButton("");
-		btnEdit.setIcon(new ImageIcon(GeneralizationEditionPanel.class.getResource("/resources/icons/x16/pencil.png")));
+		btnEdit.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
 		btnEdit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

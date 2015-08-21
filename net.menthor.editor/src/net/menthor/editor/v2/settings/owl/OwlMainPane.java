@@ -34,7 +34,7 @@ public class OwlMainPane extends JPanel {
 		
 	private OwlApproachPane approachPane;
 	private OwlDestinationPane destinationPane;
-	
+		
 	//====================================================
 	//Constructor and Initializer Methods 
 	//====================================================
@@ -46,11 +46,10 @@ public class OwlMainPane extends JPanel {
 	
 	private void buildUI(){				
 		approachPane = new OwlApproachPane();		
-		destinationPane = new OwlDestinationPane();
-		this.setSize(650, 365);		
+		destinationPane = new OwlDestinationPane();		
 		setLayout(new BorderLayout(5, 5));
 		add(destinationPane, BorderLayout.NORTH);
-		add(approachPane, BorderLayout.CENTER);
+		add(approachPane, BorderLayout.CENTER);		
 	}
 	
 	//====================================================

@@ -28,8 +28,7 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.owl.OWL2Quality;
-import net.menthor.editor.v2.tables.DuoTableModel;
-import net.menthor.editor.v2.tables.QualityTablePane;
+import net.menthor.editor.v2.tables.MappingTableModel;
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -38,10 +37,10 @@ public class OwlQualityPane extends JPanel{
 	private static final long serialVersionUID = -164010334881840365L;
 	
 	protected OntoUMLParser refparser;
-	protected QualityTablePane qualityPane;
+	protected OwlQualityTablePane qualityPane;
 	
 	public Map<Object,Object> getQualityMap() throws Exception {
-		return ((DuoTableModel)qualityPane.getTableModel()).getEntries();
+		return ((MappingTableModel)qualityPane.getTableModel()).getEntries();
 	}
 	
 	//====================================================
@@ -55,7 +54,7 @@ public class OwlQualityPane extends JPanel{
 	}
 	
 	private void buildUI(){
-		qualityPane = new QualityTablePane("Structured Qualities",refparser, "OWL/RDF");		
+		qualityPane = new OwlQualityTablePane("Structured Qualities",refparser, "OWL/RDF");		
 		qualityPane.setText("Hide the quality and map its structures as datatype properties owned by the bearer type or maintain the quality as a Class and map the structures as datatype properties owned by the quality");		
 		setLayout(new BorderLayout(0,0));		
 		add(qualityPane, BorderLayout.CENTER);
@@ -67,7 +66,7 @@ public class OwlQualityPane extends JPanel{
 	
 	private void addUIEntry(RefOntoUML.Element elem, OWL2Quality owlDt){
 		if(elem instanceof RefOntoUML.Quality){
-			((DuoTableModel)qualityPane.getTableModel()).addEntry(elem, owlDt);
+			((MappingTableModel)qualityPane.getTableModel()).addEntry(elem, owlDt);
 		}
 	}
 	

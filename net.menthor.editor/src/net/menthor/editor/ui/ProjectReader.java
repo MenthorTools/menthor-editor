@@ -39,7 +39,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.FileReader;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 
 /** Reads a model from a file. Models are stored and retrieved using serialization. */
@@ -60,7 +60,7 @@ public final class ProjectReader extends FileReader {
 		ZipFile inFile = new ZipFile(file);	
 		
 		//Read the model and the project file 
-		Resource resource = OntoumlEditingDomain.getInstance().createResource();
+		Resource resource = RefOntoUMLEditingDomain.getInstance().createResource();
 		UmlProject project = null;
 		
 		@SuppressWarnings("unchecked")

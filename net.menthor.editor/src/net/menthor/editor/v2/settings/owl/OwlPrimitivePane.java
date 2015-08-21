@@ -28,29 +28,26 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
-import net.menthor.editor.v2.tables.AttributeTablePane;
-import net.menthor.editor.v2.tables.DuoTableModel;
-import net.menthor.editor.v2.tables.PrimitiveTablePane;
-
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.Element;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.tables.MappingTableModel;
 
 public class OwlPrimitivePane extends JPanel{
 
 	private static final long serialVersionUID = -4780878204262573447L;
 	
-	private PrimitiveTablePane primitivePane;
-	private AttributeTablePane attributePane;
+	private OwlPrimitiveTablePane primitivePane;
+	private OwlAttributeTablePane attributePane;
 	
 	public Map<Object,Object> getPrimitiveMap() throws Exception {
-		return ((DuoTableModel)primitivePane.getTableModel()).getEntries();
+		return ((MappingTableModel)primitivePane.getTableModel()).getEntries();
 	}
 	
 	public Map<Object,Object> getAttributeMap() throws Exception{
-		return ((DuoTableModel)attributePane.getTableModel()).getEntries();
+		return ((MappingTableModel)attributePane.getTableModel()).getEntries();
 	}
 	
 	private OntoUMLParser refparser;
@@ -67,11 +64,11 @@ public class OwlPrimitivePane extends JPanel{
 	}
 	
 	private void buildUI(){
-		primitivePane = new PrimitiveTablePane("Primitive Type",refparser, "OWL/RDF");		
+		primitivePane = new OwlPrimitiveTablePane("Primitive Type",refparser, "OWL/RDF");		
 		primitivePane.setText("Map a model primitive type to an OWL/RDF's data type");
 		primitivePane.getHeaderPane().setPreferredSize(new Dimension(10,45));		
 		primitivePane.setPreferredSize(new Dimension(100, 150));
-		attributePane = new AttributeTablePane("Attribute",refparser, "OWL/RDF");
+		attributePane = new OwlAttributeTablePane("Attribute",refparser, "OWL/RDF");
 		attributePane.setPreferredSize(new Dimension(100, 150));
 		attributePane.setText("Map a model attribute's primitive type to an OWL/RDF's data type");
 		attributePane.getHeaderPane().setPreferredSize(new Dimension(10,45));		
@@ -85,11 +82,11 @@ public class OwlPrimitivePane extends JPanel{
 	//====================================================
 	
 	private void addUIEntry(RefOntoUML.Element elem, OWL2Datatype owlDt){
-		if(elem instanceof RefOntoUML.PrimitiveType){
-			((DuoTableModel)primitivePane.getTableModel()).addEntry(elem, owlDt);
+		if(elem instanceof RefOntoUML.DataType){
+			((MappingTableModel)primitivePane.getTableModel()).addEntry(elem, owlDt);
 		}
 		if(elem instanceof RefOntoUML.Property){
-			((DuoTableModel)attributePane.getTableModel()).addEntry(elem, owlDt);
+			((MappingTableModel)attributePane.getTableModel()).addEntry(elem, owlDt);
 		}
 	}
 	

@@ -2,8 +2,8 @@ package net.menthor.editor.ui;
 
 import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Destination;
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlAxioms;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.util.Directories;
@@ -38,38 +38,38 @@ import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 
 public class OWLHelper {
 
-	public static ResultType generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, TransformationOption trOpt)
+	public static ResultType generateOwl(OntoUMLParser filteredParser, RefOntoUML.Package model, String oclRules, OwlOptions trOpt)
 	{
 		String errors = new String();
 		String owlOutput = new String();
-		OwlAxiomsEnforcement owlOptions = (OwlAxiomsEnforcement) trOpt.getAxiomsEnforcement();
+		OwlAxioms owlOptions = (OwlAxioms) trOpt.getOwlAxioms();
     	try {    		
-    		if(trOpt.getMappingType()==OWL2Approach.SIMPLE) 
+    		if(trOpt.getApproach()==OWL2Approach.SIMPLE) 
     		{    			
-    			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getOntologyIri());
+    			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getIRI());
     		}
-    		if(trOpt.getMappingType()==OWL2Approach.UFO_RDF) 
+    		if(trOpt.getApproach()==OWL2Approach.UFO_RDF) 
     		{    			
-    			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, owlOptions.getOntologyIri());
+    			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, owlOptions.getIRI());
     			owlOutput = ontoUml2rdf.transform();
     		}
-    		if(trOpt.getMappingType()==OWL2Approach.OOTOS)
+    		if(trOpt.getApproach()==OWL2Approach.OOTOS)
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
     			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt, Directories.getTempDir());
     			errors = ontoUML2OWL.errors;
     		}
-    		if(trOpt.getMappingType()==OWL2Approach.REIFICATION || trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A0 || 
-    		trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A1 || trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A2)
+    		if(trOpt.getApproach()==OWL2Approach.REIFICATION || trOpt.getApproach()==OWL2Approach.WORM_VIEW_A0 || 
+    		trOpt.getApproach()==OWL2Approach.WORM_VIEW_A1 || trOpt.getApproach()==OWL2Approach.WORM_VIEW_A2)
     		{
     			OWLMappingTypes mtypes = OWLMappingTypes.REIFICATION;
-    			if(trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A0) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
-    			if(trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A1) mtypes = OWLMappingTypes.WORM_VIEW_A1;
-    			if(trOpt.getMappingType()==OWL2Approach.WORM_VIEW_A2) mtypes = OWLMappingTypes.WORM_VIEW_A2;
+    			if(trOpt.getApproach()==OWL2Approach.WORM_VIEW_A0) mtypes = OWLMappingTypes.WORM_VIEW_A0; 
+    			if(trOpt.getApproach()==OWL2Approach.WORM_VIEW_A1) mtypes = OWLMappingTypes.WORM_VIEW_A1;
+    			if(trOpt.getApproach()==OWL2Approach.WORM_VIEW_A2) mtypes = OWLMappingTypes.WORM_VIEW_A2;
     			TreeProcessor tp = new TreeProcessor(model);
     			OWLStructure owl = new OWLStructure(mtypes, tp);
     			owl.map(tp);
-    			owlOutput = owl.verbose(owlOptions.getOntologyIri());
+    			owlOutput = owl.verbose(owlOptions.getIRI());
     		}    		
     		if(owlOutput.length()>0)
     		{

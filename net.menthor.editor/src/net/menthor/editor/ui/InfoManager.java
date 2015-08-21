@@ -24,7 +24,6 @@ package net.menthor.editor.ui;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
@@ -116,9 +115,7 @@ public class InfoManager extends JTabbedPane {
 		setBackground(UIManager.getColor("Panel.background"));
 		setMinimumSize(new Dimension(0,0));
 				
-		addTab(" Console ",outputPane);	
-		setIconAt(indexOfComponent(outputPane),new ImageIcon(DiagramWrapper.class.getResource("/resources/icons/x16/monitor.png")));
-						
+		addTab(" Console ",outputPane);						
 	}
 	
 	public ConsolePane getOutput(){

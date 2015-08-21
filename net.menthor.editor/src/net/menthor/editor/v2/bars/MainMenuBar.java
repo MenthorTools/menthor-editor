@@ -114,7 +114,7 @@ public class MainMenuBar extends BaseMenuBar {
 		JMenu validate = new JMenu("Validate");
 		add(validate);		
 		createMenuItem(validate, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);
-		createMenuItem(validate, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
+		createMenuItem(validate, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);
 		validate.addSeparator();
 		createMenuItem(validate, "Semantic Anti-Patterns", CommandType.SEARCH_FOR_ANTIPATTERNS, background);
 		createMenuItem(validate, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);

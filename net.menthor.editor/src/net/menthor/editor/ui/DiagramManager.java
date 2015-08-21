@@ -64,7 +64,7 @@ import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.common.settings.owl.OWL2Destination;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.derivation.DerivedTypesOperations;
 import net.menthor.editor.derivation.ExclusionDerivationOperations;
 import net.menthor.editor.derivation.ExclusionPattern;
@@ -90,7 +90,6 @@ import net.menthor.editor.problems.WarningVerificator;
 import net.menthor.editor.statistician.StatisticalElement;
 import net.menthor.editor.statistician.StatisticsPane;
 import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
-import net.menthor.editor.transformation.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
@@ -100,6 +99,7 @@ import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.menus.MainMenuBar;
+import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -115,7 +115,7 @@ import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.EcoreWriter;
 import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
@@ -228,7 +228,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		listener = frame;
 		elementFactory = new DiagramElementFactoryImpl(); //doesn't have yet any diagram
 		drawingContext =  new DrawingContextImpl();
-		OntoumlEditingDomain.getInstance().initialize();		
+		RefOntoUMLEditingDomain.getInstance().initialize();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
 		setMinimumSize(new Dimension(0,0));			    
@@ -1121,16 +1121,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return false;
 	}
 	
-	class MenthorFilter extends javax.swing.filechooser.FileFilter {
-	    public boolean accept(File file) {
-	        String filename = file.getName();
-	        return filename.endsWith(".menthor");
-	    }
-	    public String getDescription() {
-	        return "Menthor Project (*.menthor)";
-	    }
-	}
-	
 	/** New Menthor Project. */
 	public void newProject() 
 	{				
@@ -1159,7 +1149,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		    }   
 		};		
 		fileChooser.setDialogTitle("New Project");
-		fileChooser.addChoosableFileFilter(new MenthorFilter());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
+		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setSelectedFile(new File("*.menthor"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
@@ -1218,7 +1210,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
 		fileChooser.setDialogTitle("Open Project");
-		fileChooser.addChoosableFileFilter(new MenthorFilter());	
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
+		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);	
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -1403,7 +1397,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		    }    
 		};
 		fileChooser.setDialogTitle("Save Project");
-		fileChooser.addChoosableFileFilter(new MenthorFilter());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
+		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);			
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
@@ -1422,7 +1418,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Export as Menthor Pattern");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthorpattern)", "menthorpattern");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		int option = fileChooser.showSaveDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
@@ -1477,6 +1473,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Importation");		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
 		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -1520,6 +1517,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Import from EA");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("XMI, XML (*.xmi, *.xml)", "xmi", "xml");
 		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 		{
@@ -1544,6 +1542,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Ecore (*.ecore)", "ecore");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1571,6 +1570,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML (*.refontouml)", "refontouml");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1599,6 +1599,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1626,6 +1627,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
 			fileChooser.addChoosableFileFilter(filter);
+			if(Util.onWindows()) fileChooser.setFileFilter(filter);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				try {
@@ -1652,6 +1654,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		fileChooser.setDialogTitle("Exportation");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Portable Network Graphics file (*.png)", "png");
 		fileChooser.addChoosableFileFilter(filter);
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {			
 			try {
@@ -2891,11 +2894,55 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		openAlloySettings();
 	}
 
-	public void implementInOwl() 
-	{	
-		workingOnlyWithChecked();
-		openOwlSettings();
+	//==============================================================
+	//OWL TRANSFORMATION
+	//==============================================================
+	
+	@SuppressWarnings("unchecked")
+	public String generateOwl(Object context){
+		if(context instanceof List<?>){
+			List<Object> list = (List<Object>)context;
+			OntoUMLParser filteredParser = null;
+			OwlOptions opt = null;
+			if(list.size()>0) filteredParser = (OntoUMLParser)list.get(0);
+			if(list.size()>1) opt = (OwlOptions) list.get(1);
+			if(filteredParser!=null && opt!=null) return generateOwl(filteredParser, opt);			
+		}
+		return "No parameter passed as argument to the transformation. Method could not be called";
 	}
+	
+	public void callOwlSettings(){	
+		workingOnlyWithChecked();
+		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
+			Models.getRefparser(),
+			frame.getProjectBrowser().getAllDiagrams()
+		);
+		dialog.setLocationRelativeTo(frame);
+		dialog.setVisible(true);
+	}
+	
+	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt) 
+	{
+		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
+		ResultType result = OWLHelper.generateOwl(filteredParser, model, getWorkingConstraints(), trOpt);
+		if(result.getResultType() != Result.ERROR){	
+			if(trOpt.getDestination()==OWL2Destination.TAB)
+			{
+				frame.getInfoManager().showOutputText(result.toString(), true, false);
+				showInTextEditor((String)result.getData()[0]);
+			}else{
+				frame.getInfoManager().showOutputText(result.toString(), true, true);
+			}
+			//frame.showSuccessfulMessageDialog("SUCCESS", "Project successfully transformed.");
+			return "SUCCESS. Project successfully transformed.";
+		}else{
+			frame.getInfoManager().showOutputText(result.toString(), true, true); 
+			//frame.showErrorMessageDialog("FAILURE", "Project could not be transformed.");
+			return "FAILURE. Project could not be transformed.";
+		}
+	}
+	
+	//==============================================================
 	
 	/** Open the Alloy simulation settings window */
 	public void openAlloySettings()
@@ -3062,18 +3109,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	/** Open the OWL settings window	 */
-	public void openOwlSettings() 
-	{
-		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
-			Models.getRefparser(),
-			frame.getProjectBrowser().getAllDiagrams(),
-			true
-		);
-		dialog.setLocationRelativeTo(frame);
-		dialog.setVisible(true);
-	}	
-	
 	public void generateInfoUML(RefOntoUML.Package model) 
 	{
 		OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
@@ -3229,33 +3264,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		return list;
 	}
-	
-	/** Generates OWL from the selected model */
-	public void generateOwl(OntoUMLParser filteredParser, TransformationOption trOpt) 
-	{
-		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = OWLHelper.generateOwl(
-			filteredParser, 
-			model, 
-			getWorkingConstraints(),			
-			trOpt
-		);
-		if(result.getResultType() != Result.ERROR)
-		{	
-			if(trOpt.getDestination()==OWL2Destination.TAB)
-			{
-				frame.getInfoManager().showOutputText(result.toString(), true, false);
-				showInTextEditor((String)result.getData()[0]);
-			}else{
-				frame.getInfoManager().showOutputText(result.toString(), true, true);
-			}
-			frame.showSuccessfulMessageDialog("Success", "Project successfully transformed to OWL.");
-		}else{
-			frame.getInfoManager().showOutputText(result.toString(), true, true); 
-			frame.showSuccessfulMessageDialog("Failed", "Project unsuccessfully transformed to OWL.");
-		}
-	}
-	
+		
 	private Editor getEditorForProject(UmlProject project, EditorType nature)
 	{
 		int totalTabs = getTabCount();
@@ -3485,7 +3494,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("Open Menthor Pattern Project");
 		fileChooser.addChoosableFileFilter(filter);
-		fileChooser.setFileFilter(filter);		
+		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {

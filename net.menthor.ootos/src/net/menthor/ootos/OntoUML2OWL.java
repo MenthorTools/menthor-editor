@@ -3,7 +3,7 @@ package net.menthor.ootos;
 import java.io.File;
 
 import net.menthor.common.resource.RefOntoUMLResourceFactoryImpl;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ontouml2owl_swrl.Transformer;
 
 import org.eclipse.emf.common.util.URI;
@@ -27,7 +27,7 @@ public class OntoUML2OWL {
 	 * @throws ParserException 
 	 * @throws OWLOntologyCreationException
 	 */
-	public String Transformation(OntoUMLParser ecoreModel, String oclRules, TransformationOption owlOptions, String tempDir) throws ParserException, Exception {
+	public String Transformation(OntoUMLParser ecoreModel, String oclRules, OwlOptions owlOptions, String tempDir) throws ParserException, Exception {
 		Transformer transformer = new Transformer(ecoreModel, oclRules, owlOptions);
 		String transform = transformer.transform(tempDir);
 		this.errors = transformer.getErrors();
@@ -44,7 +44,7 @@ public class OntoUML2OWL {
 	 * @throws ParserException 
 	 * @throws OWLOntologyCreationException
 	 */
-	public String Transformation(File modelFile, String nameSpace, String oclRules, TransformationOption owlOptions, String tempDir) throws ParserException, Exception {
+	public String Transformation(File modelFile, String nameSpace, String oclRules, OwlOptions owlOptions, String tempDir) throws ParserException, Exception {
 		OntoUMLParser ecoreModel = intialize(modelFile);
 		Transformer transformer = new Transformer(ecoreModel, oclRules, owlOptions);
 		String transform = transformer.transform(tempDir);

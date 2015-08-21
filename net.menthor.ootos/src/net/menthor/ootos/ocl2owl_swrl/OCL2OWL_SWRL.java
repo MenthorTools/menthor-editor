@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ocl.parser.OCLParser;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonInitialized;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
@@ -37,7 +37,7 @@ public class OCL2OWL_SWRL {
 	
 	public Counters logCounting = new Counters();
 	private MappingProperties mappingProperties;
-	private TransformationOption owlOptions;
+	private OwlOptions owlOptions;
 	
 	//public OCL2SWRL(OCLParser oclParser, OntoUMLParser refParser, OWLOntologyManager manager, String nameSpace) {
 	/**
@@ -48,7 +48,7 @@ public class OCL2OWL_SWRL {
 	 * @param manager - contains the OWLOntologyManager, used to get the OWLDataFactory and the OwlOntology
 	 * @param nameSpace
 	 */
-	public OCL2OWL_SWRL(MappingProperties mappingProperties, TransformationOption owlOptions, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
+	public OCL2OWL_SWRL(MappingProperties mappingProperties, OwlOptions owlOptions, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
 		this.nameSpace = nameSpace;
 		//this.oclParser = oclParser;
 		this.oclRules = oclRules;

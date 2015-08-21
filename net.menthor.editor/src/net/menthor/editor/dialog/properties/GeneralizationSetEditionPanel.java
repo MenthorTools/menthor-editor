@@ -31,7 +31,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -44,12 +43,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.Models;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElementCustom;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author John Guerson
@@ -123,7 +124,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		lblParticipatingGeneralizations = new JLabel("Participating generalizations:");
 		
 		btnAdd = new JButton("");		
-		btnAdd.setIcon(new ImageIcon(GeneralizationSetEditionPanel.class.getResource("/resources/icons/x16/add.png")));
+		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -156,7 +157,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		});		
 		
 		btnDelete = new JButton("");
-		btnDelete.setIcon(new ImageIcon(GeneralizationSetEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

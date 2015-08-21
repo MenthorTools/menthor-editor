@@ -32,7 +32,7 @@ import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.CompositeNode;
@@ -97,7 +97,9 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+		if(((DiagramEditor)notification)!=null){
+			diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
 		//System.out.println("Related diagram elements requested for deletion: \n- "+diagramElemList);
@@ -123,8 +125,10 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 				}
 			}			
 		}		
-		diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
-		diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		if(((DiagramEditor)notification)!=null){
+			diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
+			diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
 		//System.out.println("Related diagram elements of dependences level 1 for deletion: \n- "+diagramElemDep1List);
@@ -418,15 +422,15 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 	private void undo (RefOntoUML.Element elem)
 	{		
 //		System.out.println("Undoing from model = "+elem);
-		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
 	}
 	
 	private void delete (RefOntoUML.Element elem)
 	{			
 		//System.out.println("Deleting = "+elem);
-		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(OntoumlEditingDomain.getInstance().createDomain(), elem);
-		OntoumlEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
+		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(RefOntoUMLEditingDomain.getInstance().createDomain(), elem);
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
 	}
 	

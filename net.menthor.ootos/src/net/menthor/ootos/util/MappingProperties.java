@@ -3,9 +3,6 @@ package net.menthor.ootos.util;
 import java.util.HashMap;
 import java.util.Set;
 
-import net.menthor.common.transformation.OwlAxiomsEnforcement;
-import net.menthor.common.transformation.TransformationOption;
-
 import org.eclipse.emf.common.util.EList;
 
 import RefOntoUML.Association;
@@ -14,19 +11,21 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.impl.PropertyImpl;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.common.settings.owl.OwlAxioms;
+import net.menthor.common.settings.owl.OwlOptions;
 
 public class MappingProperties {
 	private OntoUMLParser ontoParser;
 	private HashMap<String, MappedProperty> propertyByAlias = new HashMap<String, MappedProperty>();
 	private HashMap<String, MappedProperty> propertyByName = new HashMap<String, MappedProperty>();
 	private String outputMessages = "";
-	TransformationOption owlOptions;
+	OwlOptions owlOptions;
 	
 	public String getOutputMessages() {
 		return outputMessages;
 	}
 	
-	public MappingProperties(OntoUMLParser _ontoParser, TransformationOption owlOptions) {
+	public MappingProperties(OntoUMLParser _ontoParser, OwlOptions owlOptions) {
 		this.ontoParser = _ontoParser;
 		this.owlOptions = owlOptions;
 	}
@@ -139,7 +138,7 @@ public class MappingProperties {
 		if(property instanceof Association){
 			origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
 		}else{
-			origSrcEndName = ((Property) property).getName();
+			origSrcEndName = property.getName();
 		}
 		origSrcEndName = origSrcEndName.replaceAll(" ", "_").replaceAll("\n", "_");
 		origSrcEndName = StringUtil.processSpecialCharacter(origSrcEndName);
@@ -185,7 +184,7 @@ public class MappingProperties {
 		if(property instanceof Association){
 			origTgtEndName = ((Association) property).getMemberEnd().get(1).getName();
 		}else{
-			origTgtEndName = ((Property) property).getName();
+			origTgtEndName = property.getName();
 		}
 		origTgtEndName = origTgtEndName.replaceAll(" ", "_").replaceAll("\n", "_");
 		origTgtEndName = StringUtil.processSpecialCharacter(origTgtEndName);
@@ -234,7 +233,7 @@ public class MappingProperties {
 	}
 	
 	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
-		if(((OwlAxiomsEnforcement)owlOptions.getAxiomsEnforcement()).isAssocNamesByAssocEnds()){
+		if(((OwlAxioms)owlOptions.getOwlAxioms()).isAssocNamesByAssocEnds()){
 			return generatePropertyNameByAssocEnd(property, superMappedProperty);
 		}else{
 			return generatePropertyNameByAssocName(property, superMappedProperty);

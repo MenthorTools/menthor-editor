@@ -202,7 +202,7 @@ public class MainMenuBar extends BaseMenuBar {
 	private void createImplementMenu(){
 		implement = new JMenu("Implement");
 		add(implement);		
-		createMenuItem(implement, "Semantic Web (OWL/RDF)", CommandType.IMPLEMENT_IN_OWL, background);
+		createMenuItem(implement, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);
 		implement.addSeparator();
 		createMenuItem(implement, "Information System (UML) - Experimental*", CommandType.DESIGN_AS_INFO_UML, background);		
 	}

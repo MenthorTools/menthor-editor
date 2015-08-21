@@ -42,7 +42,7 @@ import RefOntoUML.impl.GeneralizationSetImpl;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.util.Directories;
-import net.menthor.editor.v2.util.OntoumlEditingDomain;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * Class responsable for holding the model instance and its diagrams
@@ -80,12 +80,12 @@ public class UmlProject implements Serializable {
 	public UmlProject() {
 		super();
 		properties = new Properties();
-		resource = OntoumlEditingDomain.getInstance().createResource();
+		resource = RefOntoUMLEditingDomain.getInstance().createResource();
 		version = Main.MENTHOR_VERSION;
 		RefOntoUML.Package model = RefOntoUMLFactoryUtil.factory.createModel();
 		if(model.getName()==null || model.getName()=="") model.setName("Model");
 		resource.getContents().add(model);		
-		OntoumlEditingDomain.getInstance().createDomain();
+		RefOntoUMLEditingDomain.getInstance().createDomain();
 		name = "New Project";		
 	}
 
@@ -144,9 +144,9 @@ public class UmlProject implements Serializable {
 	public UmlProject(RefOntoUML.Package model) {
 		super();
 		properties = new Properties();
-		resource = OntoumlEditingDomain.getInstance().createResource();
+		resource = RefOntoUMLEditingDomain.getInstance().createResource();
 		resource.getContents().add(model);		
-		OntoumlEditingDomain.getInstance().createDomain();
+		RefOntoUMLEditingDomain.getInstance().createDomain();
 		name = "New Project";
 	}
 	

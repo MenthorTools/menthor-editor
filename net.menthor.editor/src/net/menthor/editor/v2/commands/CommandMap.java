@@ -350,8 +350,10 @@ public class CommandMap {
 		
 		cmdMap.put(CommandType.SIMULATE_AND_CHECK,
 				new MethodCall(DiagramManager.class.getMethod("simulate")));
-		cmdMap.put(CommandType.IMPLEMENT_IN_OWL,
-				new MethodCall(DiagramManager.class.getMethod("implementInOwl")));
+		cmdMap.put(CommandType.CALL_OWL_SETTINGS,
+				new MethodCall(DiagramManager.class.getMethod("callOwlSettings")));
+		cmdMap.put(CommandType.GENERATE_OWL,
+				new MethodCall(DiagramManager.class.getMethod("generateOwl", Object.class)));
 		cmdMap.put(CommandType.SEARCH_FOR_ANTIPATTERNS, 
 				new MethodCall(DiagramManager.class.getMethod("manageAntiPatterns")));
 		cmdMap.put(CommandType.BUSINESS_VOCABULARY, 

@@ -28,9 +28,6 @@ import java.awt.Insets;
 
 import javax.swing.JLabel;
 
-/**
- * @author John Guerson
- */
 public class JHyperLinkLabel extends JLabel {
 	
 	private static final long serialVersionUID = -4144795172729779055L;

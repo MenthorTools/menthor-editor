@@ -3,7 +3,7 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.util.MappingProperties;
 
 import org.eclipse.ocl.uml.impl.RealLiteralExpImpl;
@@ -23,7 +23,7 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class RealLiteralExpImplFactory extends NumericLiteralExpImplFactory {
 
-	public RealLiteralExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl){
+	public RealLiteralExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 

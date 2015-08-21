@@ -27,8 +27,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.owl.OWL2GeneralizationSet;
-import net.menthor.editor.v2.tables.DuoChoiceTableModel;
-import net.menthor.editor.v2.tables.GenSetTablePane;
+import net.menthor.editor.v2.tables.MappingChoiceTableModel;
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -37,10 +36,10 @@ public class OwlGenSetPane extends JPanel{
 	private static final long serialVersionUID = -164010334881840365L;
 	
 	protected OntoUMLParser refparser;
-	protected GenSetTablePane gsPane;
+	protected OwlGenSetTablePane gsPane;
 	
 	public Object[][] getGeneralizationSetMap(){
-		return ((DuoChoiceTableModel)gsPane.getTableModel()).getEntriesAsMatrix();
+		return ((MappingChoiceTableModel)gsPane.getTableModel()).getEntriesAsMatrix();
 	}
 	
 	//====================================================
@@ -54,7 +53,7 @@ public class OwlGenSetPane extends JPanel{
 	}
 	
 	private void buildUI(){
-		gsPane = new GenSetTablePane(refparser);		
+		gsPane = new OwlGenSetTablePane(refparser);		
 		gsPane.setText("Map classes of a Generalization Set into an OWL/RDF's Enumeration.");		
 		setLayout(new BorderLayout(0,0));		
 		add(gsPane, BorderLayout.CENTER);
@@ -66,7 +65,7 @@ public class OwlGenSetPane extends JPanel{
 	
 	private void addUIEntry(RefOntoUML.Element elem, OWL2GeneralizationSet owlGs, Boolean choice){
 		if(elem instanceof RefOntoUML.GeneralizationSet){
-			((DuoChoiceTableModel)gsPane.getTableModel()).addEntry(elem, owlGs, choice);
+			((MappingChoiceTableModel)gsPane.getTableModel()).addEntry(elem, owlGs, choice);
 		}
 	}
 	

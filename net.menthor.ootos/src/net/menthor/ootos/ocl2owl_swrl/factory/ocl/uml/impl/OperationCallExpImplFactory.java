@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.menthor.common.settings.owl.OWL2Reasoner;
-import net.menthor.common.transformation.TransformationOption;
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.UnexpectedOperator;
@@ -66,7 +66,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 
 	public OCLExpressionImplFactory argumentFactory;
 	
-	public OperationCallExpImplFactory(MappingProperties mappingProperties, TransformationOption owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+	public OperationCallExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 		
 		//verify if the operator is unsupported and throw a new exception
@@ -836,8 +836,8 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 					oprName.equals("=") ||
 					oprName.equals("<>")
 				){
-				if(owlAxioms.getOwlReasoner().equals(OWL2Reasoner.HERMIT)){
-					throw new UnsupportedByReasoner(owlAxioms.getOwlReasoner().toString(), oprName);
+				if(owlAxioms.getReasoner().equals(OWL2Reasoner.HERMIT)){
+					throw new UnsupportedByReasoner(owlAxioms.getReasoner().toString(), oprName);
 				}
 				return true;
 			}
@@ -861,8 +861,8 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 					oprName.equals("/") ||
 					oprName.equals("*")
 				){
-				if(owlAxioms.getOwlReasoner().equals(OWL2Reasoner.HERMIT)){
-					throw new UnsupportedByReasoner(owlAxioms.getOwlReasoner().toString(), oprName);
+				if(owlAxioms.getReasoner().equals(OWL2Reasoner.HERMIT)){
+					throw new UnsupportedByReasoner(owlAxioms.getReasoner().toString(), oprName);
 				}
 				return true;
 			}

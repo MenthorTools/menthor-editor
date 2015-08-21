@@ -136,8 +136,7 @@ public class AlloyConstraintPanel extends JPanel {
 		ctPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
 		JLabel lblIcon = new JLabel("");
-		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIcon.setIcon(new ImageIcon(AlloyConstraintPanel.class.getResource("/resources/icons/x16/text-editor.png")));
+		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);		
 		lblIcon.setPreferredSize(new Dimension(30, 20));
 		ctPanel.add(lblIcon);
 		

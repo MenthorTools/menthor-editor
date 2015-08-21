@@ -69,16 +69,18 @@ public class MethodCall {
 	  lateParameters.add(parameter);	  
   }
   
-  public void call(Object target){
+  public Object call(Object target){
 	  List<Object> parameters = new ArrayList<Object>();
 	  parameters.addAll(earlyParameters);
 	  parameters.addAll(lateParameters);
     try {
-      method.invoke(target, parameters.toArray());
+     Object result = method.invoke(target, parameters.toArray());
+     return result;
     } catch (InvocationTargetException ex) {
       ex.printStackTrace();
     } catch (IllegalAccessException ex) {
       ex.printStackTrace();
     }
+    return null;
   }
 }
