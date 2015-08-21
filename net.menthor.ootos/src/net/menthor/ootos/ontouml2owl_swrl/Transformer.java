@@ -407,7 +407,7 @@ public class Transformer {
 //			throw new Exception("Error: An unexpected exception happened when processing Generalization Mappings;\n");
 //		}
 
-		if(oclRules != null && !oclRules.equals("") && owlAxioms.getValue(OWL2Axiom.SWRL_RULES)){
+		if(oclRules != null && !oclRules.trim().isEmpty() && owlAxioms.getValue(OWL2Axiom.SWRL_RULES)){
 			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, owlOptions, oclRules, ontoParser, manager, owlNameSpace);
 			ocl2owl_swrl.Transformation(tempDir);
 			this.errors += "\n" + ocl2owl_swrl.errors;
@@ -1823,13 +1823,13 @@ public class Transformer {
 	 * Process the chain of the properties
 	 * @param The actual property of the chain
 	 */
-	@SuppressWarnings("unused")
 	private void processDataTypeProperty(Property prop){
-		int c = 0;
 		boolean f = false;
-		for(DataType dt:lstDataType){	
+		String propTypeName = prop.getType().getName();
+		for(DataType dt:lstDataType){
+			String dtName = dt.getName();
 			//search in all datatypes from the model
-			if(dt.getName().equals(prop.getType().getName())){
+			if(dtName.equals(propTypeName)){
 				for (Property dtProp : dt.getAttribute()) {
 					createAttribute(dtProp);
 					f = true;
@@ -1837,7 +1837,6 @@ public class Transformer {
 				if(f){
 					return;
 				}
-				c++;
 			}
 		}
 		String _attributeName = mappingProperties.getPropertyName(prop).getGeneratedName();
@@ -1935,7 +1934,7 @@ public class Transformer {
 			return factory.getOWLDatatype(OWL2Datatype.XSD_NMTOKEN.getIRI());
 		}
 		
-		return null;
+		return factory.getOWLDatatype(OWL2Datatype.RDFS_LITERAL.getIRI());
 	}
 
 	/**
@@ -2074,6 +2073,13 @@ public class Transformer {
 			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
 		}else if(!ontoParser.isMoment(dtcls) && !ontoParser.isObject(dtcls)){
 			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Event");
+		}else if(!ontoParser.isObject(dtcls)){
+			HashSet<Classifier> identProvs = ontoParser.getIdentityProvider(dtcls);
+			if(identProvs.size() == 0){
+				owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "MixinClassifier");
+			}
+			System.out.println();
+			System.out.println(ontoParser.getStereotype(dtcls));
 		}
 		
 		if(owlSuperCls != null){

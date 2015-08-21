@@ -25,7 +25,7 @@ public class FeatureElement {
 			Property p = (Property)element;
 			String owner = new String();
 			if(p.getAssociation()==null){
-				owner = ""+OntoUMLParser.getStereotype(p.eContainer())+" "+((NamedElement)p.eContainer()).getName();
+				owner = ""+OntoUMLParser.getStereotype((RefOntoUML.Element)p.eContainer())+" "+((NamedElement)p.eContainer()).getName();
 			}else{
 				owner = ""+OntoUMLParser.getStereotype(p.getAssociation())+" "+((NamedElement)p.getAssociation()).getName();
 			}
