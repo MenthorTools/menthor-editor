@@ -38,6 +38,8 @@ import RefOntoUML.Comment;
 import RefOntoUML.DirectedRelationship;
 import RefOntoUML.Element;
 import RefOntoUML.Model;
+import RefOntoUML.NamedElement;
+import RefOntoUML.Property;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLNameHelper;
@@ -577,13 +579,24 @@ public abstract class ElementImpl extends EModelElementImpl implements Element {
 		String type = OntoUMLNameHelper.getTypeName(this);
 		String arg0Name = OntoUMLNameHelper.getName(arg0);
 		String arg0Type = OntoUMLNameHelper.getTypeName(arg0);
+		
+		int compareOwner = 0;
+		if(this instanceof Property && arg0 instanceof Property){
+			NamedElement owner = (NamedElement) this.eContainer();
+			NamedElement arg0Owner = (NamedElement) arg0.eContainer();
+			compareOwner = owner.getName().compareTo(arg0Owner.getName());
+		}
 		int compareNames = name.compareTo(arg0Name);
 		int compareTypes = type.compareTo(arg0Type);		
 		//if names are equals, order by type
-		if(compareNames == 0){
-			return compareTypes;
+		if(compareOwner == 0){
+			if(compareNames == 0){
+				return compareTypes;
+			}else{
+				return compareNames;
+			}
 		}else{
-			return compareNames;
+			return compareOwner;
 		}
 	}
 } //ElementImpl
