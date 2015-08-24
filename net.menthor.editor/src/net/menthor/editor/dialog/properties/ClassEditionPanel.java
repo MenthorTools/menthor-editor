@@ -97,8 +97,8 @@ public class ClassEditionPanel extends JPanel {
 		stereoCombo = new JComboBox();
 		stereoCombo.setModel(new DefaultComboBoxModel(new String[] {
 			"Category", "Collective", "DataType", "Domain", "DecimalIntervalDimension", "DecimalOrdinalDimension", "DecimalRationalDimension", 
-			"Enumeration", "IntegerIntervalDimension", "IntegerOrdinalDimension", "IntegerRationalDimension",						
-			"Kind", "Mode", "Mixin", "NominalQuality", "NonPerceivableQuality", "PerceivableQuality", 
+			"Enumeration", "IntegerIntervalDimension", "IntegerOrdinalDimension", "IntegerRationalDimension", 						
+			"Kind", "MeasurementDomain", "Mode", "Mixin", "NominalQuality", "NonPerceivableQuality", "PerceivableQuality", 
 			"Phase", "PrimitiveType", "Quantity", "Relator", "Role", "RoleMixin", "SubKind", "StringNominalStructure"
 		}));
 		

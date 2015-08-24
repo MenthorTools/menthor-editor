@@ -631,9 +631,9 @@ public class OutcomeFixer{
 			Property attr = iterator.next();
 			iterator.remove();
 			
-			if(source instanceof Class)
+			if(target instanceof Class)
 				((Class) target).getOwnedAttribute().add(attr);
-			if(source instanceof DataType)
+			if(target instanceof DataType)
 				((DataType) target).getOwnedAttribute().add(attr);
 			
 			fix.includeModified(attr);
