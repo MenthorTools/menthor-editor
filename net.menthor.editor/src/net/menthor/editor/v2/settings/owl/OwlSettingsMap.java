@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -174,6 +175,20 @@ public final class OwlSettingsMap {
 	}
 	
 	//==============================================================
+	public void eraseMappings(OntoUMLParser refparser){
+		ArrayList<String> toRemove = new ArrayList<String>();
+		for(Object key: properties.keySet()){
+			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);
+			if(pt != null){
+				toRemove.add((String) key);
+			}
+		}
+		for (String key : toRemove) {
+			properties.remove(key);
+		}
+	}
+	
+	//==============================================================
 	//ENTRY: {PRIMITIVE-UUID, OWL2DATATYPE}
 	//ENTRY: {ATTRIBUTE-UUID, OWL2DATATYPE}
 	//==============================================================
@@ -194,7 +209,7 @@ public final class OwlSettingsMap {
 		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
-			if(pt!=null && (pt instanceof RefOntoUML.PrimitiveType || pt instanceof RefOntoUML.Property)) {
+			if(pt!=null && (pt instanceof RefOntoUML.DataType || pt instanceof RefOntoUML.Property)) {
 				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
 				result.put(pt,owlDt);
 			}
@@ -207,7 +222,7 @@ public final class OwlSettingsMap {
 		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
-			if(pt!=null && (pt instanceof RefOntoUML.PrimitiveType)) {
+			if(pt!=null && (pt instanceof RefOntoUML.DataType)) {
 				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
 				result.put(pt,owlDt);
 			}

@@ -28,12 +28,13 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
+import net.menthor.editor.v2.tables.MappingTableModel;
+
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.Element;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.tables.MappingTableModel;
 
 public class OwlPrimitivePane extends JPanel{
 
@@ -65,12 +66,12 @@ public class OwlPrimitivePane extends JPanel{
 	
 	private void buildUI(){
 		primitivePane = new OwlPrimitiveTablePane("Primitive Type",refparser, "OWL/RDF");		
-		primitivePane.setText("Map a model primitive type to an OWL/RDF's data type");
+		primitivePane.setText("Map a model data type to an OWL/RDF's data type");
 		primitivePane.getHeaderPane().setPreferredSize(new Dimension(10,45));		
 		primitivePane.setPreferredSize(new Dimension(100, 150));
 		attributePane = new OwlAttributeTablePane("Attribute",refparser, "OWL/RDF");
 		attributePane.setPreferredSize(new Dimension(100, 150));
-		attributePane.setText("Map a model attribute's primitive type to an OWL/RDF's data type");
+		attributePane.setText("Map a model attribute's to an OWL/RDF's data type");
 		attributePane.getHeaderPane().setPreferredSize(new Dimension(10,45));		
 		setLayout(new BorderLayout(0,0));		
 		add(primitivePane, BorderLayout.CENTER);
@@ -114,33 +115,28 @@ public class OwlPrimitivePane extends JPanel{
 	}
 	
 	private void setdefault(){
-		for(PrimitiveType pt: refparser.getAllInstances(PrimitiveType.class)){	
+		for(PrimitiveType pt: refparser.getAllInstances(PrimitiveType.class)){
+			OWL2Datatype owlType = null;
 			if(pt.getName().compareToIgnoreCase("Integer")==0 || pt.getName().compareToIgnoreCase("Int")==0){
-				OwlSettingsMap.getInstance().setOwl2Datatype(pt, OWL2Datatype.XSD_INTEGER);
-				addUIEntry(pt, OWL2Datatype.XSD_INTEGER);
+				owlType = OWL2Datatype.XSD_INTEGER;
+				
+			}else if(pt.getName().compareToIgnoreCase("Boolean")==0){
+				owlType = OWL2Datatype.XSD_BOOLEAN;
+			}else if(pt.getName().compareToIgnoreCase("String")==0){
+				owlType = OWL2Datatype.XSD_STRING;
+			}else if(pt.getName().compareToIgnoreCase("Real")==0){
+				owlType = OWL2Datatype.XSD_DOUBLE;
+			}else if(pt.getName().compareToIgnoreCase("DateTime")==0){
+				owlType = OWL2Datatype.XSD_DATE_TIME_STAMP;				
+			}else if(pt.getName().compareToIgnoreCase("Date")==0){
+				owlType = OWL2Datatype.XSD_DATE_TIME;	
+			}else{
+				owlType = OWL2Datatype.RDFS_LITERAL;
 			}
-			if(pt.getName().compareToIgnoreCase("Boolean")==0){
-				OwlSettingsMap.getInstance().setOwl2Datatype(pt, OWL2Datatype.XSD_BOOLEAN);
-				addUIEntry(pt, OWL2Datatype.XSD_BOOLEAN);
-			}
-			if(pt.getName().compareToIgnoreCase("String")==0){
-				OwlSettingsMap.getInstance().setOwl2Datatype(pt, OWL2Datatype.XSD_STRING);
-				addUIEntry(pt, OWL2Datatype.XSD_STRING);
-			}
-			if(pt.getName().compareToIgnoreCase("Real")==0){
-				OwlSettingsMap.getInstance().setOwl2Datatype(pt, OWL2Datatype.XSD_DOUBLE);
-				addUIEntry(pt, OWL2Datatype.XSD_DOUBLE);
-			}
-			if(pt.getName().compareToIgnoreCase("DateTime")==0){
-				OwlSettingsMap.getInstance().setOwl2Datatype(pt, OWL2Datatype.XSD_DATE_TIME_STAMP);
-				addUIEntry(pt, OWL2Datatype.XSD_DATE_TIME_STAMP);				
-			}
-			if(pt.getName().compareToIgnoreCase("Date")==0){
-				OwlSettingsMap.getInstance().setOwl2Datatype(pt, OWL2Datatype.XSD_DATE_TIME);
-				addUIEntry(pt, OWL2Datatype.XSD_DATE_TIME);	
-			}
+			
+			OwlSettingsMap.getInstance().setOwl2Datatype(pt, owlType);
+			addUIEntry(pt, owlType);
 		}
 	}
-	
 	
 }

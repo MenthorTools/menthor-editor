@@ -24,14 +24,13 @@ package net.menthor.editor.v2.tables;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -40,7 +39,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -53,8 +51,8 @@ import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
-
 import RefOntoUML.parser.OntoUMLParser;
+import javax.swing.ListSelectionModel;
 
 public class MappingTablePane extends JPanel {
 	
@@ -68,6 +66,7 @@ public class MappingTablePane extends JPanel {
 	protected JButton btnAdd;
 	protected JButton btnDelete;
 	protected JTextPane textPane = new JTextPane();
+	private JPanel panel;
 	
 	public MappingTableModel getTableModel(){ return tableModel; }	
 	public JPanel getHeaderPane() { return headerPane; }
@@ -106,6 +105,7 @@ public class MappingTablePane extends JPanel {
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));		
 		table = new JTable(tableModel);		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollpane.setViewportView(table);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
@@ -114,6 +114,7 @@ public class MappingTablePane extends JPanel {
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);
+		
 		headerPane.setPreferredSize(new Dimension(10, 60));		
 		setLayout(new BorderLayout(0,0));		
 		add(headerPane, BorderLayout.NORTH);
@@ -121,22 +122,18 @@ public class MappingTablePane extends JPanel {
 		textPane.setMargin(new Insets(10, 10, 5, 3));
 		textPane.setPreferredSize(new Dimension(6, 50));
 		textPane.setBackground(UIManager.getColor("Panel.background"));		
+		
+		panel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
 		btnAdd = new JButton();
+		panel.add(btnAdd);
 		btnAdd.setPreferredSize(new Dimension(33, 30));
 		btnAdd.setFocusable(false);
 		btnAdd.setToolTipText("Add new mapping");
 		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
-		btnAdd.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(!tableModel.hasNullEntry()) addMapping(arg0);
-				else{
-					JOptionPane.showMessageDialog(null,"Please, fill the <no value> cells before moving on.",
-					"Invalid Entry", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		btnDelete = new JButton();
+		panel.add(btnDelete);
 		btnDelete.setPreferredSize(new Dimension(33, 30));
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected mapping");
@@ -147,33 +144,22 @@ public class MappingTablePane extends JPanel {
 				deleteMapping(arg0);
 			}
 		});
-		GroupLayout gl_headerPane = new GroupLayout(headerPane);
-		gl_headerPane.setHorizontalGroup(
-			gl_headerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_headerPane.createSequentialGroup()
-					.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_headerPane.setVerticalGroup(
-			gl_headerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_headerPane.createSequentialGroup()
-					.addGroup(gl_headerPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_headerPane.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_headerPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnDelete, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnAdd, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		headerPane.setLayout(gl_headerPane);
+		btnAdd.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!tableModel.hasNullEntry()) addMapping(arg0);
+				else{
+					JOptionPane.showMessageDialog(null,"Please, fill the <no value> cells before moving on.",
+					"Invalid Entry", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		headerPane.setLayout(new BorderLayout(0, 0));
+		headerPane.add(panel, BorderLayout.EAST);
+		headerPane.add(textPane, BorderLayout.CENTER);
 		add(scrollpane, BorderLayout.CENTER);
 	}
-		
+	
 	protected TableCellEditor createEditor(Object[] objects) {
         @SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox combo = new JComboBox(objects) {
@@ -194,4 +180,15 @@ public class MappingTablePane extends JPanel {
         combo.setEditable(true);
         return new DefaultCellEditor(combo);
     }
+	
+	protected JButton addButton(String toolTipText, IconType iconType) {
+		JButton newBtn = new JButton();
+		panel.add(newBtn);
+		newBtn.setPreferredSize(new Dimension(33, 30));
+		newBtn.setFocusable(false);
+		newBtn.setToolTipText(toolTipText);
+		newBtn.setIcon(IconMap.getInstance().getSmallIcon(iconType));
+		
+		return newBtn;
+	}
 }

@@ -22,15 +22,15 @@ package net.menthor.editor.v2.settings.owl;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
-
-import RefOntoUML.Property;
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.tables.MappingTablePane;
+
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlAttributeTablePane extends MappingTablePane {
 
@@ -41,11 +41,26 @@ public class OwlAttributeTablePane extends MappingTablePane {
 		/** Load attributes in the 1st column*/
 		List<RefOntoUML.Element> sourcePrimitiveOptions = new ArrayList<RefOntoUML.Element>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
-		for(Property pt: refparser.getAllInstances(Property.class)){
+		for(RefOntoUML.Property pt: refparser.getAllInstances(RefOntoUML.Property.class)){
 			if(pt.getAssociation()==null && pt.getType()!=null) {
 				sourcePrimitiveOptions.add(pt);
 			}
 		}
+		
+		for(RefOntoUML.DataType dt : refparser.getAllInstances(RefOntoUML.DataType.class)){
+			System.out.println(dt);
+			if(dt instanceof RefOntoUML.Enumeration || dt instanceof RefOntoUML.PrimitiveType || !dt.getAttribute().isEmpty()) continue;
+			
+			for(RefOntoUML.Association assoc : refparser.getDirectAssociations(dt)){
+				RefOntoUML.Type srcType = assoc.getMemberEnd().get(0).getType();
+				if(srcType.equals(dt)){
+					sourcePrimitiveOptions.add(assoc.getMemberEnd().get(0));
+				}else{
+					sourcePrimitiveOptions.add(assoc.getMemberEnd().get(1));
+				}
+			}
+		}
+		Collections.sort(sourcePrimitiveOptions);
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 		/** Load owl datatypes in the 2nd column */
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	

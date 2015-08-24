@@ -454,7 +454,7 @@ public class OntoUMLParser {
 		return result;		
 	}
 	
-	public static String getStereotype(RefOntoUML.Element element){
+	public static String getStereotype(EObject element){
 		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
 	    type = type.replaceAll("Impl","");
 	    type = Normalizer.normalize(type, Normalizer.Form.NFD);	    
@@ -462,13 +462,13 @@ public class OntoUMLParser {
 	    return type;
 	}
     		
-	/** Get the stereotype of a given element. */
-	public String getStereotype(EObject elem)
-	{
-		ParsingElement parsingElem = elementsHash.get(elem);		
-		if (parsingElem == null) return "Unknown Element";
-		else return parsingElem.getType();
-	}
+//	/** Get the stereotype of a given element. */
+//	public String getType(EObject elem)
+//	{
+//		ParsingElement parsingElem = elementsHash.get(elem);		
+//		if (parsingElem == null) return "Unknown Element";
+//		else return parsingElem.getType();
+//	}
 	
 	/** String representation of the entire parser. */
 	@Override
