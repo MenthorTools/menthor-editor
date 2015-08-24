@@ -5,12 +5,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import stories.Link;
 import stories.Node;
@@ -54,6 +60,37 @@ public class OntoUMLStoryCrafter {
 		return " ";
 	}
 	
+	private static void collectAll(Resource resource){
+		//get the resourceset
+		ResourceSet resourceSet = resource.getResourceSet();
+	 
+		//search for other resources containing referenced objects
+		List<Resource> resources = new ArrayList<Resource>();
+		resources.add(resource);
+        for(Resource r : resources){
+	    	for(Iterator<EObject> j = r.getAllContents(); j.hasNext(); ){
+	    		for(Object object : j.next().eCrossReferences()){
+	    			EObject eObject = (EObject)object;
+	    			Resource otherResource = eObject.eResource();
+	    			//System.out.println(eObject);
+	    			if(otherResource != null && !resources.contains(otherResource)){
+	    				System.out.println(otherResource);
+	    				resources.add(otherResource);
+	    			}
+	    		}
+	    	}
+        }
+      
+        //move all objects into one resource
+        Collection cl = new ArrayList();
+        for(Resource resource2 : resources){
+        	System.out.println(resource2);
+        	cl.addAll(resource2.getContents());
+		}
+        resource.getContents().addAll(EcoreUtil.copyAll(cl));
+	}
+
+	
 	/**
 	 * 
 	 * Returns a xmi resource and saves it on a file
@@ -72,6 +109,8 @@ public class OntoUMLStoryCrafter {
 		URI fileURI = URI.createFileURI(filename);    
 				
 	    final Resource resource = rset.createResource(fileURI);    	
+	    
+	    //collectAll((Resource)container, resource);
 	    
 	    resource.getContents().add(container);    	
 	
@@ -104,13 +143,15 @@ public class OntoUMLStoryCrafter {
 		
 		rset.getPackageRegistry().put(stories.StoriesPackage.eNS_URI,	stories.StoriesPackage.eINSTANCE);
 		
+		
 		//Essa implementação está dando problemas com os URIs. Resolve mal. O problema é que na hora de resolver ele nao sabe o caminho e se o caminho está na URI dá um outro tipo de problema.
-	    File file = new File(filename);
+	   // File file = new File(filename);
 		URI fileURI = URI.createFileURI(filename);		
 		Resource resource = rset.createResource(fileURI);		
 		
 		resource.load(new FileInputStream(path.concat(filename)),Collections.emptyMap());
 		
+		collectAll(resource);
 		return resource;		
 		
 	}
@@ -413,7 +454,6 @@ public class OntoUMLStoryCrafter {
 		container.getElements().add(w2);
 		return container;		
 	}
-	
 	public static Story gama(){
 		StoriesFactory factory = StoriesFactory.eINSTANCE;
 		
@@ -449,10 +489,7 @@ public class OntoUMLStoryCrafter {
 		container.getElements().add(w2);
 		return container;		
 	}		
-	public static void main(String[] args) throws IOException {
-		//teste1();
-		bancoStory();
-	}
+	
 	
 	private static final String getAuxPredicates() {
 		return "";//TODO: gerar os predicados auxiliares em associations.als

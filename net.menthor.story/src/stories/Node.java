@@ -4,6 +4,8 @@ package stories;
 
 import org.eclipse.emf.common.util.EList;
 
+import net.menthor.story.ui.StoryElementTimeline;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Node</b></em>'.
@@ -98,6 +100,6 @@ public interface Node extends Individual {
 
 	String is_referred_to_in();
 
-	
+	public void setSETL(StoryElementTimeline stl);
 
 } // Node

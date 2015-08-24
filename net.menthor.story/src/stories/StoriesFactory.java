@@ -4,6 +4,8 @@ package stories;
 
 import org.eclipse.emf.ecore.EFactory;
 
+import net.menthor.story.ui.StoryElementTimeline;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Factory</b> for the model.
@@ -38,6 +40,7 @@ public interface StoriesFactory extends EFactory {
 	 * @generated
 	 */
 	Node createNode();
+	
 
 	/**
 	 * Returns a new object of class '<em>Link</em>'.

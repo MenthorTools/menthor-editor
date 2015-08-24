@@ -10,13 +10,17 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.junit.Test;
+
 import stories.Action;
 import stories.Node;
 import stories.Classification_statement;
 import stories.StoriesPackage;
 import stories.World;
 import RefOntoUML.*;
+import net.menthor.story.ui.StoryElementTimeline;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,6 +78,7 @@ public class NodeImpl extends IndividualImpl implements Node {
 	 * @ordered
 	 */
 	protected EList<RefOntoUML.Class> not_instance_of;
+	private StoryElementTimeline storyElTl = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -84,6 +89,10 @@ public class NodeImpl extends IndividualImpl implements Node {
 		super();
 	}
 	
+	public void setSETL(StoryElementTimeline stl){
+		this.storyElTl = stl;
+	}
+
 	@Override
 	protected String getDefaultLabel() {
 		
@@ -274,17 +283,36 @@ public class NodeImpl extends IndividualImpl implements Node {
 	public String static_classification(){
 		String rule = "";
 		for(RefOntoUML.Class c : this.getInstance_of()){
+			
+			System.out.println(c);
+			System.out.println(this.storyElTl);
+			System.out.println(c.eResource());
+			
+			testModelNames(this.storyElTl.getModelParser().getAlias(c),c);
+			testModelNames(this.getLabel(),this);
 			rule = rule + '\t'+ this.getLabel() + " in World." +c.getName()+'\n';
 		}
 		return  rule;
 	}
 	
+	
+	  public void testModelNames(String str, Object o) {
+	    if (str==null){
+	    	System.out.println("null detected"+ o); 
+	    }
+	  }
+
+	
 	public String existance(){
 		String exists ="";
 		for(World w : this.getPresent_in()){
+			testModelNames(w.getLabel(),w);
+			testModelNames(this.getLabel(),this);
 			exists = exists+'\t'+this.getLabel()+" in "+w.getLabel()+".exists" +'\n';
 		}
 		for(World w : this.getAbsent_from()){
+			testModelNames(w.getLabel(),w);
+			testModelNames(this.getLabel(),this);
 			exists = exists+'\t'+this.getLabel()+" not in "+w.getLabel()+".exists" +'\n';
 		}
 		return exists;
@@ -297,6 +325,14 @@ public class NodeImpl extends IndividualImpl implements Node {
 			states = states + ns.existance(this);
 		}
 		return states;
+	}
+
+	public StoryElementTimeline getStoryElementTimeline() {
+		return storyElTl;
+	}
+
+	public void getStoryElementTimeline(StoryElementTimeline storyElTl) {
+		this.storyElTl = storyElTl;
 	}
 	
 	

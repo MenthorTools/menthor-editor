@@ -53,7 +53,7 @@ import stories.impl.StoryImpl;
 
 public class StoryElementTimeline {	
 	private final Tree tree;
-	//images for the world buttons (exists, doen't exist and unspecified)
+	//images for the world buttons (exists, doesn't exist and unspecified)
 	private final Image imgYes;
 	private final Image imgNo;
 	private final Image imgUnchecked;
@@ -341,22 +341,28 @@ public class StoryElementTimeline {
 				for(Story_element se : ((Story)st).getElements()){
 					
 					if("Node".equals(se.eClass().getName())){
-						System.out.println("Node "+ ((Node)se).getLabel());
+						//System.out.println("Node "+ ((Node)se).getLabel());
 						TreeItem nodeTreeItem = addIndividual(tree,(Node)se,tree.getItemCount());
+						((Node)se).setSETL(this);
 						//parse through the states and add them
 						for(Classification_statement state : ((Node)se).getIs_referred_to_in()){
 							addState(nodeTreeItem,state,nodeTreeItem.getItemCount());
 						}
+						for(RefOntoUML.Class c: ((Node)se).getInstance_of()){
+							
+							System.out.println("Class "+((RefOntoUML.Class)c).getName());
+						}
 						
 					}
 					if("Link".equals(se.eClass().getName())){
-						System.out.println("Link "+ ((Link)se).getLabel());
-						System.out.println("Link "+ ((Link)se).getSource().getLabel());
+						//System.out.println("Link "+ ((Link)se).getLabel());
+						//System.out.println("Link "+ ((Link)se).getSource().getLabel());
 						addIndividual(tree,(Link)se,tree.getItemCount());
 					}
 					
 				}
 			}
+			
 			
 		}
 		
@@ -420,6 +426,7 @@ public class StoryElementTimeline {
 	public TreeItem createNode(Tree parent, int index){
 		TreeItem item = new TreeItem(parent, SWT.CENTER, index);
 		Node n = storyFactory.createNode();
+		n.setSETL(this);
 		n.setLabel("Node"+parent.getItemCount());
 		item.setData(n);
 		return addNewRowWorldButtons(item,"Node"+parent.getItemCount());

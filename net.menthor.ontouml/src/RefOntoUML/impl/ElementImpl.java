@@ -43,6 +43,7 @@ import RefOntoUML.Property;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLValidator;
 
 /**
@@ -572,6 +573,12 @@ public abstract class ElementImpl extends EModelElementImpl implements Element {
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/ocl/examples/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
+	
+//	@Override
+//	public boolean equals(Object arg){
+//		return OntoUMLParser.getUUIDFromElement((Element)this).equals(OntoUMLParser.getUUIDFromElement((Element)arg));				
+//	}
+	
 	
 	@Override
 	public int compareTo(Element arg0) {

@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import net.menthor.story.ui.StoryElementTimeline;
 import stories.*;
 
 /**
@@ -88,7 +89,7 @@ public class StoriesFactoryImpl extends EFactoryImpl implements StoriesFactory {
 		NodeImpl node = new NodeImpl();
 		return node;
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
