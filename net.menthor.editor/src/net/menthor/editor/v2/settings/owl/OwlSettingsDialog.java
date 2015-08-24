@@ -66,7 +66,7 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 		addNonClosable("Main", mainPane);
 		addNonClosable("Filter", getFilter());
 		addNonClosable("Axioms", axiomsPane);
-		addNonClosable("Primitives", primitivePane);
+		addNonClosable("Data Types", primitivePane);
 		addNonClosable("Qualities", qualityPane);
 		addNonClosable("Generalization Sets", gsPane);		
 		tabbedPane.setSelectedComponent(mainPane);				
@@ -88,6 +88,7 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 	//==================================================
 	
 	public void storeToXML() throws Exception{
+		OwlSettingsMap.getInstance().eraseMappings(refparser);
 		axiomsPane.storeToXML();
 		primitivePane.storeToXML();
 		qualityPane.storeToXML();

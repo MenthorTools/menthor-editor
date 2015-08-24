@@ -69,33 +69,4 @@ public class OntoUML2OWL {
 		return null;
 
 	}
-
-	//	public static void main(String[] args) {
-	//		String oclRules = "";
-	//		String ret = null;
-	//		try {
-	//			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-	//			ret = ontoUML2OWL.Transformation(intialize(new File("TesteWithRoles.refontouml")), "http://abcd/ontology/", oclRules);
-	//			String errors = ontoUML2OWL.errors;
-	//			System.out.println(errors);
-	//			
-	//		} catch (ParserException e1) {
-	//			// TODO Auto-generated catch block
-	//			e1.printStackTrace();
-	//		} catch (Exception e1) {
-	//			// TODO Auto-generated catch block
-	//			e1.printStackTrace();
-	//		}
-	//		File arquivo;   
-	//
-	//		arquivo = new File("arquivo.owl");  // Chamou e nomeou o arquivo txt.  
-	//		try{
-	//			FileOutputStream fos = new FileOutputStream(arquivo);  // Perceba que estamos instanciando uma classe aqui. A FileOutputStream. Pesquise sobre ela!  
-	//			fos.write(ret.getBytes());    
-	//			fos.close();  // Fecha o arquivo. Nunca esquecer disso.  
-	//		}catch(Exception e){
-	//			e.printStackTrace();
-	//		}
-	//		System.out.println("foi");
-	//	}
 }
