@@ -1279,7 +1279,7 @@ public class PropertyImpl extends StructuralFeatureImpl implements Property {
 
 	@Override
 	public String toString() {
-		return OntoUMLNameHelper.getCommonName(this);
+		return OntoUMLNameHelper.getCompleteName(this);
 	}
 
 	/**
