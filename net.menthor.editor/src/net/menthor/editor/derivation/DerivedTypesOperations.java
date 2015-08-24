@@ -116,10 +116,10 @@ public class DerivedTypesOperations {
 				Property p = (Property) element;
 				String owner = new String();
 				if (p.getAssociation() == null) {
-					owner = "" + ref.getStereotype(p.eContainer()) + " "
+					owner = "" + OntoUMLParser.getStereotype(p.eContainer()) + " "
 							+ ((NamedElement) p.eContainer()).getName();
 				} else {
-					owner = "" + ref.getStereotype(p.getAssociation()) + " "
+					owner = "" + OntoUMLParser.getStereotype(p.getAssociation()) + " "
 							+ ((NamedElement) p.getAssociation()).getName();
 				}
 				result += "Property " + p.getType().getName() + ": ("
