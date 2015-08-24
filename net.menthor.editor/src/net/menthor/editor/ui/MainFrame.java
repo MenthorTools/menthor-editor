@@ -145,7 +145,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	private void installMultiSplitPane(){		
 		editorsPane = new TopViewPane(this);		
 		footerPane= new BottomViewPane(this, null);
-		browserPane = new ProjectBrowser(this,null,null);
+		browserPane = new ProjectBrowser(this,null,null,null);
 		palettePane = new PalettePane(this);
 		multiSplitPane = new BaseMultiSplitPane(palettePane, editorsPane, footerPane, browserPane);
 		getContentPane().add(multiSplitPane, BorderLayout.CENTER);

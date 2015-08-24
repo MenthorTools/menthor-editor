@@ -697,22 +697,32 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model, String oclContent)
+	public UmlProject createCurrentProject(RefOntoUML.Package model, String oclContent, boolean createDefaultDiagram, boolean createDefaultRules)
 	{		
 		currentProject = new UmlProject(model);
 		saveProjectNeeded(false);
-		frame.getProjectBrowser().set(currentProject);
+		frame.getProjectBrowser().set(currentProject, model);
 		frame.getInfoManager().setProject(currentProject);
 		
 		for(OntoumlDiagram diagram: currentProject.getDiagrams()) 
 			createDiagramEditor((StructureDiagram)diagram);
 		
-		if(currentProject.getDiagrams().size()==0) 
-			newDiagram(currentProject,null);
+		if(createDefaultDiagram){
+			if(currentProject.getDiagrams().size()==0) 
+				newDiagram(currentProject,null);
+		}
 		
-		newRulesDocument(oclContent);
+		if(createDefaultRules){
+			newRulesDocument(oclContent);
+		}
 		
 		return currentProject;
+	}
+	
+	/** Create a project */
+	public UmlProject createCurrentProject(RefOntoUML.Package model, String oclContent)
+	{		
+		return createCurrentProject(model,oclContent,true,true);
 	}
 	
 	/** Create a project */
@@ -720,7 +730,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{		
 		currentProject = new UmlProject(model);
 		saveProjectNeeded(false);
-		frame.getProjectBrowser().set(currentProject);
+		frame.getProjectBrowser().set(currentProject, model);
 		frame.getInfoManager().setProject(currentProject);
 		
 		for(OntoumlDiagram diagram: currentProject.getDiagrams()) 
@@ -737,20 +747,27 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model)
-	{		
+	public UmlProject createCurrentProject(RefOntoUML.Package model, boolean createDefaultDiagram, boolean createDefaultRules){	
+		return createCurrentProject(model,"", createDefaultDiagram,createDefaultRules);
+	}
+	
+	/** Create a project */
+	public UmlProject createCurrentProject(RefOntoUML.Package model){		
 		return createCurrentProject(model,"");
 	}
 
-	/** Create a project */
-	public void createEmptyCurrentProject()
-	{
+	public void createEmptyCurrentProject(boolean createRulesDocument, boolean createDiagram){
 		currentProject = new UmlProject();
 		saveProjectNeeded(false);
-		frame.getProjectBrowser().set(currentProject);
+		frame.getProjectBrowser().set(currentProject, currentProject.getModel());
 		frame.getInfoManager().setProject(currentProject);
-		newDiagram(currentProject,null);
-		newRulesDocument(null);
+		if(createDiagram) newDiagram(currentProject,null);
+		if(createRulesDocument) newRulesDocument(null);
+	}
+	
+	/** Create a project */
+	public void createEmptyCurrentProject(){
+		createEmptyCurrentProject(true,true);
 	}
 
 	/** Verifies if there is a project opened/loaded. */
@@ -875,9 +892,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public OclDocument newRulesDocumentAt(Object epackage){
 		OclDocument oclDoc = new OclDocument();		
 		oclDoc.setContainer(epackage);
-		ArrayList<OclDocument> docs = Models.getOclDocList();			
-		oclDoc.setName("Rules"+docs.size());			
-		docs.add(oclDoc);
+		oclDoc.setName("Rules"+Models.getOclDocList().size());
+		Models.getOclDocList().add(oclDoc);
 		createConstraintEditor(oclDoc);		
 		//add the rules document from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
@@ -1225,8 +1241,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				setCurrentProjectFile(file);
 				lastOpenPath = file.getAbsolutePath();
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-				currentProject = (UmlProject) listFiles.get(0);
-				openListFiles(listFiles);
+				openListFiles(listFiles);				
 				frame.forceShowBrowserPane();
 				frame.forceShowPalettePane();
 				frame.getMainMenu().activateAll();
@@ -1259,7 +1274,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			root.putClientProperty( "Window.documentFile", file );			
 			setCurrentProjectFile(file);
 			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-			currentProject = (UmlProject) listFiles.get(0);				
 			openListFiles(listFiles);	
 			frame.forceShowBrowserPane();
 			frame.forceShowPalettePane();		
@@ -1268,6 +1282,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		} catch (Exception ex) {
 			System.out.println("Failed to open Menthor project!");	
 			JOptionPane.showMessageDialog(this, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		System.out.println("Menthor project successfully opened!");	
@@ -1292,25 +1307,27 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			getFrame().getMainMenu().activateAll();	
 		}		
 	}
-		
-	//========================================================================
-	// OPEN LIST OF FILES
-	//========================================================================
 	
 	/** Open Menthor project from the list of object read from stream as a result of the menthor file serialization */
 	private void openListFiles(ArrayList<Object> listFiles) throws IOException
 	{
-		currentProject = (UmlProject) listFiles.get(0);
-		ProjectBrowser pb = frame.getProjectBrowser();		
-		for(int i=1; i<listFiles.size();i++)
-		{																
+		List<OclDocument> ocllist = new ArrayList<OclDocument>();
+		for(int i=1; i<listFiles.size();i++){																
 			OclDocument oclDoc = (OclDocument)listFiles.get(i);										
-			Models.getOclDocList().add(oclDoc);
-		}
-		pb.set(currentProject);
-		frame.getInfoManager().setProject(currentProject);	
-		openDiagrams();
-		saveProjectNeeded(false);				
+			ocllist.add(oclDoc);
+		}		
+		Object o = listFiles.get(0);
+		if(o instanceof UmlProject){
+			currentProject = (UmlProject)o;			
+			ProjectBrowser pb = frame.getProjectBrowser();
+			pb.set(currentProject, currentProject.getModel(), ocllist);
+			frame.getInfoManager().setProject(currentProject);
+			openDiagrams();
+			saveProjectNeeded(false);
+		}else if(o instanceof RefOntoUML.Package){			
+			RefOntoUML.Package model = (RefOntoUML.Package)o;
+			createCurrentProject(model,true,false);
+		}			
 		Settings.addRecentProject(projectFile.getCanonicalPath());
 		frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
 	}

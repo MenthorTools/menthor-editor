@@ -61,13 +61,13 @@ public class ProjectBrowser extends RoundedPanel{
 		return (List<OntoumlDiagram>) Models.getProject().getDiagrams();
 	}
 	
-	public ProjectBrowser(MainFrame appframe, UmlProject project, OclDocument oclDoc){
+	public ProjectBrowser(MainFrame appframe, UmlProject project, RefOntoUML.Model model, OclDocument oclDoc){
 		super();		
 		Models.setProject(project);		
 		frame = appframe;		
 		scroll = new JScrollPane();		
-		scroll.setBorder(null);
-		if (project!=null) set(project);		
+		scroll.setBorder(null);		
+		if (project!=null) set(project, model);		
 		add(scroll, BorderLayout.CENTER);			
 		RoundedPanel emptyTempPanel = new RoundedPanel();
 		emptyTempPanel.setBackground(Color.WHITE);
@@ -94,10 +94,26 @@ public class ProjectBrowser extends RoundedPanel{
 		updateUI();
 	}	
   	
-	public void set(UmlProject project){
+	public void set(UmlProject project, RefOntoUML.Package model){
+		set(project,model,null);
+	}
+	
+//	public void set(UmlProject project, RefOntoUML.Package model, OclDocument oclDoc){
+//		//set models
+//		List<OclDocument> list = new ArrayList<OclDocument>();
+//		list.add(oclDoc);
+//		set(project,model,list);
+//	}
+	
+	public void set(UmlProject project, RefOntoUML.Package model, List<OclDocument> oclDocs){
 		//set models
 		Models.setProject(project);				
-		Models.setRefparser(new OntoUMLParser(project.getModel()));				
+		Models.setRefparser(new OntoUMLParser(model));	
+		if(oclDocs!=null){
+			for(OclDocument s: oclDocs){
+				Models.getOclDocList().add(s);
+			}
+		}
 		String name = ((RefOntoUML.Package)project.getResource().getContents().get(0)).getName();
 		if (name==null || name.isEmpty()) name = "model";		
 		Models.setAlloySpec(new AlloySpecification(project.getTempDir()+File.separator+name.toLowerCase()+".als"));		

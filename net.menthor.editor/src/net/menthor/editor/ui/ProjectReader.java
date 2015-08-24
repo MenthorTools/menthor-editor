@@ -31,10 +31,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import javax.swing.JOptionPane;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
@@ -42,20 +39,26 @@ import net.menthor.editor.v2.util.FileReader;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+
 /** Reads a model from a file. Models are stored and retrieved using serialization. */
 public final class ProjectReader extends FileReader {
 
 	private static ProjectReader instance = new ProjectReader();
 	public static ProjectReader getInstance() { return instance; }
 
-	/** Reads a UmlProject object from a file. */
-	@SuppressWarnings("unused")
-	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException 
+	/** Reads a UmlProject object from a file. 
+	 * @throws DATException */
+	@SuppressWarnings({ "unused" })
+	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException, DATException 
 	{		
 		// first element is UmlProject, the second the OCL String content.
 		ArrayList<Object> list = new ArrayList<Object>();
 		
-		boolean modelLoaded = false, projectLoaded = false, constraintLoaded = false;
+		boolean modelLoaded = false, constraintLoaded = false;
 		ArrayList<OclDocument> constraintContent = new ArrayList<OclDocument>();
 		ZipFile inFile = new ZipFile(file);	
 		
@@ -85,14 +88,21 @@ public final class ProjectReader extends FileReader {
 				in.close();
 				modelLoaded = true;
 			}
-			else if (entry.getName().equals(Settings.PROJECT_FILE.getValue()) && !projectLoaded)
+			else if (entry.getName().equals(Settings.PROJECT_FILE.getValue()))
 			{
 				System.out.println("Loading project DAT information from Menthor file...");
 				InputStream in = inFile.getInputStream(entry);
 				ObjectInputStream oin = new ObjectInputStream(in);
-				project = (UmlProject) oin.readObject(); 
-				in.close();
-				projectLoaded = true;
+				try{
+					project = (UmlProject) oin.readObject();
+					project.setResource(resource);
+				}catch(Exception e){				
+					JOptionPane.showMessageDialog(null, 
+							"The DAT information in this project is incompatible with this version of the editor. "
+							+ "\nFor this reason we were not able to retrieve the diagrams...",
+					"Incompatible DAT Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+				in.close();				
 			}
 			else if (entry.getName().contains("ocl"))
 			{
@@ -120,12 +130,11 @@ public final class ProjectReader extends FileReader {
 		
 		inFile.close();
 		
-		if(!projectLoaded || !modelLoaded)
+		if(!modelLoaded)
 			throw new IOException("Failed to load Menthor Project!");
-		
-		project.setResource(resource);
-		
-		list.add(project);
+				
+		if(project==null) list.add(resource.getContents().get(0));
+		else list.add(project);
 		list.addAll(constraintContent);
 		
 		return list;
