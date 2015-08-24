@@ -8,17 +8,17 @@ import java.net.URL;
 
 public class Util {
 
-	public static void downloadFileFromURL(String url, String path) throws IOException{
+	public static void downloadFileFromURL(String url, String dirPath, String fileName) throws IOException{
 		URL url2 = new URL(url);
 		try{
-			InputStream in = url2.openStream();		
-			File file = new File(path);
+			InputStream in = url2.openStream();	
+			createDirectory(dirPath);
+			File file = new File(dirPath+fileName);
 			if(file.exists()) {
-				System.out.println("File already exists: "+path);
+				System.out.println("File already exists: "+file.getAbsolutePath());
 				return;
 			}
-			FileOutputStream fos = new FileOutputStream(file);
-			System.out.println("Reading: "+url);
+			FileOutputStream fos = new FileOutputStream(file);			
 			int length = -1;
 			byte[] buffer = new byte[1024];
 			while ((length = in.read(buffer)) > -1) {
@@ -26,7 +26,7 @@ public class Util {
 			}
 			fos.close();
 			in.close();
-			System.out.println("File downloaded.");
+			System.out.println("File downloaded: "+file.getAbsolutePath());
 		}catch(java.net.ConnectException e){
 			System.out.println("Connection refused: "+url);
 		}
@@ -34,5 +34,23 @@ public class Util {
 	
 	public static String replaceInvalidCharacteres(String title){		
 		return title.replaceAll("[:\\\\/*?|<>]", "_");
+	}
+	
+	public static void createDirectory(String dirPath){
+		File theDir = new File(dirPath);	
+		// if the directory does not exist, create it
+		if (!theDir.exists()) {		    
+		    boolean result = false;	
+		    try{
+		        theDir.mkdir();
+		        result = true;
+		    } 
+		    catch(SecurityException se){
+		        //handle it
+		    }
+		    if(result) {    
+		        System.out.println("DIR created: "+dirPath);  
+		    }
+		}
 	}
 }
