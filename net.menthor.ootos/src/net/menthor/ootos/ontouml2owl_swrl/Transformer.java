@@ -1379,9 +1379,6 @@ public class Transformer {
 			
 			OWLClass _OWLownerClass;
 			if(dtcls.getAttribute().isEmpty()){
-				if(dtcls.getName().contains("metro")){
-					System.out.println();
-				}
 				//pegar todos os Structuration, setar todos como Owner
 				ArrayList<Association> assocs = ontoParser.getDirectAssociations(dtcls);
 				for (Association ass : assocs) {

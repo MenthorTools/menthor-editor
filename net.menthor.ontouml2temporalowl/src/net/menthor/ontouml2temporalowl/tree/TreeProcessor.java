@@ -201,9 +201,6 @@ public class TreeProcessor
 	public NodeClass getNode (Class c)
 	{
 		NodeClass node = class2node.get(c);
-		if(node == null){
-			System.out.println();
-		}
 		return class2node.get(c);
 	}
 

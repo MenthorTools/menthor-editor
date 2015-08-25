@@ -120,7 +120,6 @@ import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.editor.v2.util.XMIWriter;
-import net.menthor.editor.validator.antipattern.AntiPatternResultDialog;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
