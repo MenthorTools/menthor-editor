@@ -29,6 +29,8 @@ import javax.swing.DefaultComboBoxModel;
 import net.menthor.common.settings.owl.OWL2Approach;
 
 import net.menthor.editor.v2.settings.BaseApproachPane;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class OwlApproachPane extends BaseApproachPane {
 
@@ -40,6 +42,8 @@ public class OwlApproachPane extends BaseApproachPane {
 	
 	public OwlApproachPane(){
 		super();
+		descriptionTextPane.setBackground(SystemColor.menu);
+		descriptionTextPane.setEditable(false);
 		buildUI();
 		loadFromXML();
 	}

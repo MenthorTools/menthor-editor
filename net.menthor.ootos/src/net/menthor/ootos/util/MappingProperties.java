@@ -14,17 +14,34 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
 
+/**
+ * Generate and store the mapping of OntoUML properties to OWL properties.
+ * 
+ * @author Freddy Brasileiro
+ *
+ */
 public class MappingProperties {
 	private OntoUMLParser ontoParser;
 	private HashMap<String, MappedProperty> propertyByAlias = new HashMap<String, MappedProperty>();
 	private HashMap<String, MappedProperty> propertyByName = new HashMap<String, MappedProperty>();
 	private String outputMessages = "";
-	OwlOptions owlOptions;
+	private OwlOptions owlOptions;
 	
+	/**
+	 * Return the log messages. 
+	 * 
+	 * @author Freddy Brasileiro
+	 */
 	public String getOutputMessages() {
 		return outputMessages;
 	}
 	
+	/**
+	 * @author Freddy Brasileiro
+	 *
+	 * @param _ontoParser
+	 * @param owlOptions
+	 */
 	public MappingProperties(OntoUMLParser _ontoParser, OwlOptions owlOptions) {
 		this.ontoParser = _ontoParser;
 		this.owlOptions = owlOptions;
@@ -33,7 +50,16 @@ public class MappingProperties {
 	@SuppressWarnings("unused")
 	private MappingProperties() {}
 	
-	public MappedProperty getPropertyName(NamedElement property){
+	/**
+	 * Returns the mapping of a property (see the class MappedProperty).
+	 * If it is not mapped, it will be made.
+	 * 
+	 * @author Freddy Brasileiro
+	 * 
+	 * @param property
+	 * @return
+	 */
+	public MappedProperty getMappedProperty(NamedElement property){
 		String propertyAlias = ontoParser.getAlias(property);
 		MappedProperty mappedProperty;
 		if(propertyByAlias.containsKey(propertyAlias)){
@@ -45,6 +71,16 @@ public class MappingProperties {
 		return mappedProperty;
 	}
 
+	/**
+	 * Maps a property by its association name.
+	 * The inverse association is named by prefixing "INV.".
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param property
+	 * @param superMappedProperty
+	 * @return
+	 */
 	private MappedProperty generatePropertyNameByAssocName(NamedElement property, MappedProperty superMappedProperty) {
 		String propertyName = property.getName();
 		propertyName = StringUtil.processSpecialCharacter(propertyName);
@@ -93,9 +129,8 @@ public class MappingProperties {
 		MappedProperty secondAbstract = null, thirdAbstract = null;
 		if(propertyByName.containsKey(propertyName)){
 			MappedProperty oldMappedProperty = propertyByName.get(propertyName);
-			secondAbstract = refactorProperty(property, oldMappedProperty);
+			secondAbstract = refactorPropertyByName(property, oldMappedProperty);
 			
-			//concatena source e target no NOME da nova propriedade
 			if(property instanceof Association){
 				propertyName = propertyName + "." + source + "." + target;
 			}
@@ -103,9 +138,8 @@ public class MappingProperties {
 		
 		if(propertyByName.containsKey(propertyName)){
 			MappedProperty oldMappedProperty = propertyByName.get(propertyName);
-			thirdAbstract = refactorProperty(property, oldMappedProperty);
+			thirdAbstract = refactorPropertyByName(property, oldMappedProperty);
 			
-			//concatena source e target no ALIAS da nova propriedade
 			if(property instanceof Association){
 				propertyName = propertyAlias + "." + source + "." + target;				
 			}
@@ -127,13 +161,24 @@ public class MappingProperties {
 			outputMessages += "Warning: The association <"+initialName+"> with repeated name was mapped as subPropertyOf <"+superName+"> with the name <"+propertyName+">;\n";
 		}
 		
+		newMappedProperty.setLabel(initialName);
+		
 		propertyByName.put(propertyName, newMappedProperty);
 		propertyByAlias.put(propertyAlias, newMappedProperty);
 		
 		return newMappedProperty;
 	}
 	
-	private MappedProperty generatePropertyNameByAssocEnd(NamedElement property, MappedProperty superMappedProperty) {
+	/**
+	 * Maps a property by the names of its association ends.
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param property
+	 * @param superMappedProperty
+	 * @return
+	 */
+	private MappedProperty generatePropertyNameByAssocEnd(NamedElement property) {
 		String origSrcEndName;
 		if(property instanceof Association){
 			origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
@@ -232,16 +277,16 @@ public class MappingProperties {
 		return mappedProperty;
 	}
 	
-	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
-		if(((OwlAxioms)owlOptions.getOwlAxioms()).isAssocNamesByAssocEnds()){
-			return generatePropertyNameByAssocEnd(property, superMappedProperty);
-		}else{
-			return generatePropertyNameByAssocName(property, superMappedProperty);
-		}		
-	}
-	
-	public MappedProperty refactorProperty(NamedElement _property, MappedProperty property){
-		//pega a propriedade que ja possui esse nome e gera outro nome para ela
+	/**
+	 * Re-maps a property by its name when a repeated name is found.
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param _property
+	 * @param property
+	 * @return
+	 */
+	public MappedProperty refactorPropertyByName(NamedElement _property, MappedProperty property){
 		MappedProperty existentMappedProperty = propertyByName.get(property.getGeneratedName());
 		MappedProperty abstractMappedProperty = existentMappedProperty;
 		if(existentMappedProperty.isAbstract() == false){
@@ -252,13 +297,35 @@ public class MappingProperties {
 		return abstractMappedProperty;
 	}
 	
+	/**
+	 * Maps a property by its name or by the names of its association ends, depending of the parametrization option.
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param property
+	 * @param superMappedProperty
+	 * @return
+	 */
+	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
+		if(((OwlAxioms)owlOptions.getOwlAxioms()).isAssocNamesByAssocEnds()){
+			return generatePropertyNameByAssocEnd(property);
+		}else{
+			return generatePropertyNameByAssocName(property, superMappedProperty);
+		}		
+	}
+	
+	/**
+	 * Maps all properties (associations and attributes).
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 */
 	public void generateAllPropertyNames(){
 		System.out.println("Generating all property names");
 		Set<Association> allAssociations = ontoParser.getAllInstances(RefOntoUML.Association.class);
 		
 		for (Association association : allAssociations) {
 			generatePropertyName(association, null);
-//			generatePropertyName(association, null, false);
 		}
 		
 		Set<Class> lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
@@ -272,8 +339,16 @@ public class MappingProperties {
 		System.out.println(outputMessages);
 	}
 	
-	public boolean isMappedAsSubRelationOf(NamedElement property){
-		String alias = ontoParser.getAlias(property).replace("\n", "_");
+	/**
+	 * Return true if the property is mapped as subPropertyOf another one.
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param property
+	 * @return
+	 */
+	public boolean isMappedAsSubPropertyOf(NamedElement property){
+		String alias = ontoParser.getAlias(property);//.replace("\n", "_");
 		MappedProperty mappedProperty = propertyByAlias.get(alias);
 		
 		if(mappedProperty.isMappedAsSubPropertyOf()){
@@ -283,8 +358,16 @@ public class MappingProperties {
 		return false;
 	}
 	
+	/**
+	 * Get the property mapped as super property of the specific one.  
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param property
+	 * @return
+	 */
 	public MappedProperty getSuperProperty(NamedElement property){
-		String alias = ontoParser.getAlias(property).replace("\n", "_");
+		String alias = ontoParser.getAlias(property);//.replace("\n", "_");
 		MappedProperty mappedProperty = propertyByAlias.get(alias);
 		
 		MappedProperty superMappedProperty = mappedProperty.getMappedAsSubPropertyOf();
@@ -292,6 +375,14 @@ public class MappingProperties {
 		return superMappedProperty;
 	}
 	
+	/**
+	 * Get the top property mapped as super property of the specific one.
+	 * 
+	 * @author Freddy Brasileiro
+	 *
+	 * @param property
+	 * @return
+	 */
 	public MappedProperty getTopSuperProperty(NamedElement property){
 		String alias = ontoParser.getAlias(property).replace("\n", "_");
 		MappedProperty mappedProperty = propertyByAlias.get(alias);

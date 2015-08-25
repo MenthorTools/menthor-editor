@@ -120,6 +120,7 @@ import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.editor.v2.util.XMIWriter;
+import net.menthor.editor.validator.antipattern.AntiPatternResultDialog;
 import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
@@ -3126,9 +3127,19 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	public void generateInfoUML(RefOntoUML.Package model) 
+	public void generateInfoUML(final RefOntoUML.Package model) 
 	{
-		OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
+		if(Util.onMac()){
+			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
+				@Override
+				public void run() {
+					OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
+				}
+			});
+		}else{
+			OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
+		}
+		
 	}	
 	
 	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */

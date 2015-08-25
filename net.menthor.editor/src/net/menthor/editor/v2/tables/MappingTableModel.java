@@ -89,7 +89,7 @@ public class MappingTableModel extends BaseTableModel {
 	}
 	
 	public void addEntry(Object elem, Object target){		
-		if(!sourceList.contains(elem) && !targetList.contains(target)){
+		if(!sourceList.contains(elem)){
 			int size = sourceList.size();
 			sourceList.add(elem);
 			targetList.add(target);			
@@ -132,7 +132,8 @@ public class MappingTableModel extends BaseTableModel {
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {		
 		if(columnIndex == 0){
-			if(sourceList.indexOf(value)!= -1){
+			int indexOf = sourceList.indexOf(value);
+			if(indexOf != -1 && indexOf!= rowIndex){
 				JOptionPane.showMessageDialog(null,"" + value + " was already mappped. \nPlease, choose a different element.",
 				"Invalid Entry",JOptionPane.ERROR_MESSAGE);
 				return;

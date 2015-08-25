@@ -22,6 +22,7 @@ package net.menthor.editor.v2.settings.owl;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.TableColumn;
@@ -42,10 +43,12 @@ public class OwlGenSetTablePane extends MappingTablePane {
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
 		for(GeneralizationSet qua: refparser.getAllInstances(GeneralizationSet.class)){
 			sourcePrimitiveOptions.add(qua);
-		}		
+		}	
+		Collections.sort(sourcePrimitiveOptions);
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
+		
 		/** Load target options */
-		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);
+		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);		
 		typeColumn2.setCellEditor(createEditor(OWL2GeneralizationSet.values()));		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	

@@ -21,34 +21,91 @@ package net.menthor.editor.v2.settings.owl;
  * ============================================================================================
  */
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableColumn;
 
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.DataType;
+import RefOntoUML.DecimalIntervalDimension;
+import RefOntoUML.DecimalOrdinalDimension;
+import RefOntoUML.DecimalRationalDimension;
 import RefOntoUML.Enumeration;
+import RefOntoUML.IntegerIntervalDimension;
+import RefOntoUML.IntegerOrdinalDimension;
+import RefOntoUML.IntegerRationalDimension;
+import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.tables.MappingTableModel;
 import net.menthor.editor.v2.tables.MappingTablePane;
 
 public class OwlPrimitiveTablePane extends MappingTablePane {
 	
 	private static final long serialVersionUID = -7587547341203464118L;
 
+	private OntoUMLParser refparser;
+	
 	public OwlPrimitiveTablePane(String sourceColumnTitle, OntoUMLParser refparser, String targetColumnTitle){
 		super(sourceColumnTitle, refparser, targetColumnTitle);		
+		this.refparser = refparser;
 		/** Load primitive types as options*/
 		List<RefOntoUML.DataType> sourcePrimitiveOptions = new ArrayList<RefOntoUML.DataType>();
 		TableColumn typeColumn = table.getColumnModel().getColumn(0);	
 		for(DataType pt: refparser.getAllInstances(DataType.class)){
-			if(!(pt instanceof Enumeration)) sourcePrimitiveOptions.add(pt);	
+			if(!(pt instanceof Enumeration) && pt.getAttribute().isEmpty()){
+				sourcePrimitiveOptions.add(pt);	
+			}
 		}
+		Collections.sort(sourcePrimitiveOptions);
 		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
 		/** Load target options*/
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
 		typeColumn2.setCellEditor(createEditor(OWL2Datatype.values()));		
 		table.setSurrendersFocusOnKeystroke(true);
+		
+		JButton loadDefaultMapBtn = addButton("Load Default Mappings", IconType.MENTHOR_IMPORT);
+		loadDefaultMapBtn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!tableModel.hasNullEntry()) loadDefaultMappings();
+				else{
+					JOptionPane.showMessageDialog(null,"Please, fill the <no value> cells before move on.",
+					"Invalid Entry", JOptionPane.ERROR_MESSAGE);
+				}
+			}});
 	}	
+	
+	private void loadDefaultMappings(){
+		Set<PrimitiveType> primitiveTypes = refparser.getAllInstances(PrimitiveType.class);
+		Set<DataType> dataTypes = refparser.getAllInstances(DataType.class);
+		dataTypes.removeAll(primitiveTypes);
+		ArrayList<DataType> dataTypesList = new ArrayList<DataType>();
+		dataTypesList.addAll(dataTypes);
+		Collections.sort(dataTypesList);
+		for(DataType dt: dataTypesList){
+			OWL2Datatype owlType;
+			if(dt instanceof IntegerIntervalDimension || dt instanceof IntegerOrdinalDimension || dt instanceof IntegerRationalDimension){
+				owlType = OWL2Datatype.XSD_INTEGER;
+			}else if(dt instanceof DecimalIntervalDimension || dt instanceof DecimalOrdinalDimension || dt instanceof DecimalRationalDimension){
+				owlType = OWL2Datatype.XSD_DECIMAL;
+			}else{
+				owlType = OWL2Datatype.RDFS_LITERAL;
+			}
+			OwlSettingsMap.getInstance().setOwl2Datatype(dt, owlType);
+			((MappingTableModel)this.getTableModel()).addEntry(dt, owlType);
+		}
+		
+	}
+	
+	
 }
