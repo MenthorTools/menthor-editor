@@ -30,6 +30,7 @@ import javax.swing.table.TableColumn;
 import net.menthor.editor.v2.tables.MappingTablePane;
 
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
+
 import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlAttributeTablePane extends MappingTablePane {
@@ -61,10 +62,16 @@ public class OwlAttributeTablePane extends MappingTablePane {
 			}
 		}
 		Collections.sort(sourcePrimitiveOptions);
-		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
+		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray(), false));
+		
 		/** Load owl datatypes in the 2nd column */
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
-		typeColumn2.setCellEditor(createEditor(OWL2Datatype.values()));		
+		ArrayList<String> owl2DataTypeLst = new ArrayList<String>();
+		for(OWL2Datatype owl2DataType : OWL2Datatype.values()){
+			owl2DataTypeLst.add(owl2DataType.toString());
+		}
+		Collections.sort(owl2DataTypeLst);
+		typeColumn2.setCellEditor(createEditor(owl2DataTypeLst.toArray(), true));		
 		table.setSurrendersFocusOnKeystroke(true);
 	}
 }

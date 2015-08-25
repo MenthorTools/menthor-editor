@@ -92,11 +92,21 @@ public class MappingTablePane extends JPanel {
 	}
 		
 	public void deleteMapping(ActionEvent evt){
+		for(int i = table.getSelectedRows().length-1; i >= 0; i--){
+			int selectedRow = table.getSelectedRows()[i];
+			table.editingStopped(new ChangeEvent(table));		
+			if (selectedRow >= 0 && selectedRow < tableModel.getRowCount()){
+				tableModel.removeEntryAt(selectedRow);
+			}
+		}
+	}
+	
+	public void deleteSingleMapping(ActionEvent evt){
 		int selectedRow = table.getSelectedRow();		
 		table.editingStopped(new ChangeEvent(table));		
 		if (selectedRow >= 0 && selectedRow < tableModel.getRowCount()){
 			tableModel.removeEntryAt(selectedRow);
-		}		
+		}
 	}
 	
 	private void buildUI(OntoUMLParser refparser){
@@ -105,7 +115,7 @@ public class MappingTablePane extends JPanel {
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));		
 		table = new JTable(tableModel);		
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollpane.setViewportView(table);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
@@ -160,7 +170,7 @@ public class MappingTablePane extends JPanel {
 		add(scrollpane, BorderLayout.CENTER);
 	}
 	
-	protected TableCellEditor createEditor(Object[] objects) {
+	protected TableCellEditor createEditor(Object[] objects, boolean isEditable) {
         @SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox combo = new JComboBox(objects) {
         	private static final long serialVersionUID = 1L;			
@@ -177,7 +187,7 @@ public class MappingTablePane extends JPanel {
                 return table != null && table.isFocusOwner() && !Boolean.FALSE.equals((Boolean)table.getClientProperty("JTable.autoStartsEdit"));
             }
         };        
-        combo.setEditable(true);
+        combo.setEditable(isEditable);
         return new DefaultCellEditor(combo);
     }
 	

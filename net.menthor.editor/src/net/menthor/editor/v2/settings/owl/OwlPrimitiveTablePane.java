@@ -66,10 +66,15 @@ public class OwlPrimitiveTablePane extends MappingTablePane {
 			}
 		}
 		Collections.sort(sourcePrimitiveOptions);
-		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
+		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray(), false));
 		/** Load target options*/
-		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
-		typeColumn2.setCellEditor(createEditor(OWL2Datatype.values()));		
+		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);
+		ArrayList<String> owl2DataTypeLst = new ArrayList<String>();
+		for(OWL2Datatype owl2DataType : OWL2Datatype.values()){
+			owl2DataTypeLst.add(owl2DataType.toString());
+		}
+		Collections.sort(owl2DataTypeLst);
+		typeColumn2.setCellEditor(createEditor(owl2DataTypeLst.toArray(), true));		
 		table.setSurrendersFocusOnKeystroke(true);
 		
 		JButton loadDefaultMapBtn = addButton("Load Default Mappings", IconType.MENTHOR_IMPORT);
@@ -101,8 +106,8 @@ public class OwlPrimitiveTablePane extends MappingTablePane {
 			}else{
 				owlType = OWL2Datatype.RDFS_LITERAL;
 			}
-			OwlSettingsMap.getInstance().setOwl2Datatype(dt, owlType);
-			((MappingTableModel)this.getTableModel()).addEntry(dt, owlType);
+			OwlSettingsMap.getInstance().setOwl2Datatype(dt, owlType.toString());
+			((MappingTableModel)this.getTableModel()).addEntry(dt, owlType.toString());
 		}
 		
 	}

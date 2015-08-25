@@ -82,7 +82,7 @@ public class OwlPrimitivePane extends JPanel{
 	//Add UI Entry 
 	//====================================================
 	
-	private void addUIEntry(RefOntoUML.Element elem, OWL2Datatype owlDt){
+	private void addUIEntry(RefOntoUML.Element elem, String owlDt){
 		if(elem instanceof RefOntoUML.DataType){
 			((MappingTableModel)primitivePane.getTableModel()).addEntry(elem, owlDt);
 		}
@@ -98,18 +98,18 @@ public class OwlPrimitivePane extends JPanel{
 	public void loadFromXML(){
 		OwlSettingsMap.getInstance().load();
 		if(refparser==null) return;
-		Map<Element, OWL2Datatype> map = OwlSettingsMap.getInstance().getOwl2Datatypes(refparser);		
-		for(Map.Entry<Element,OWL2Datatype> entry: map.entrySet()){			
+		Map<Element, String> map = OwlSettingsMap.getInstance().getOwl2Datatypes(refparser);		
+		for(Map.Entry<Element,String> entry: map.entrySet()){			
 			addUIEntry(entry.getKey(), entry.getValue());
 		}		
 	}
 	
 	public void storeToXML() throws Exception{
 		for(Entry<Object, Object> entry: getPrimitiveMap().entrySet()){
-			OwlSettingsMap.getInstance().setOwl2Datatype((RefOntoUML.Element)entry.getKey(),(OWL2Datatype)entry.getValue());
+			OwlSettingsMap.getInstance().setOwl2Datatype((RefOntoUML.Element)entry.getKey(),entry.getValue().toString());
 		}
 		for(Entry<Object, Object> entry: getAttributeMap().entrySet()){
-			OwlSettingsMap.getInstance().setOwl2Datatype((RefOntoUML.Element)entry.getKey(),(OWL2Datatype)entry.getValue());
+			OwlSettingsMap.getInstance().setOwl2Datatype((RefOntoUML.Element)entry.getKey(),entry.getValue().toString());
 		}
 		OwlSettingsMap.getInstance().store();
 	}
@@ -134,8 +134,8 @@ public class OwlPrimitivePane extends JPanel{
 				owlType = OWL2Datatype.RDFS_LITERAL;
 			}
 			
-			OwlSettingsMap.getInstance().setOwl2Datatype(pt, owlType);
-			addUIEntry(pt, owlType);
+			OwlSettingsMap.getInstance().setOwl2Datatype(pt, owlType.toString());
+			addUIEntry(pt, owlType.toString());
 		}
 	}
 	

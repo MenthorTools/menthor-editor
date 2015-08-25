@@ -71,9 +71,9 @@ public class OwlDestinationPane extends BaseDestinationPane {
 		        enableFileChooser(false);
 		    }
 		});
-		select(OWL2Destination.TAB);
+		select(OWL2Destination.FILE);
 		getRadioButton(OWL2Destination.PROTEGE).setEnabled(false);
-		enableFileChooser(false);	
+		enableFileChooser(true);	
 	}
 	
 	//====================================================

@@ -21,16 +21,14 @@ package net.menthor.editor.v2.settings.owl;
  * ============================================================================================
  */
 
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 
 import net.menthor.common.settings.owl.OWL2Approach;
-
 import net.menthor.editor.v2.settings.BaseApproachPane;
-import javax.swing.UIManager;
-import java.awt.SystemColor;
 
 public class OwlApproachPane extends BaseApproachPane {
 

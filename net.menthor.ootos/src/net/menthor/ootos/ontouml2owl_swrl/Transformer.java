@@ -1371,9 +1371,6 @@ public class Transformer {
 		ArrayList<String> duplicatedClasses = new ArrayList<String>();
 		RefOntoUML.Classifier _RefOntoOwnerClass = null;
 		for(RefOntoUML.Classifier dtcls: lstDataTypeAndNominalQualities){
-			if(dtcls.getName().contains("metro")){
-				System.out.println();
-			}
 			if(existentClasses.contains(dtcls.getName())){
 				duplicatedClasses.add(dtcls.getName());
 			}else{
@@ -1382,6 +1379,9 @@ public class Transformer {
 			
 			OWLClass _OWLownerClass;
 			if(dtcls.getAttribute().isEmpty()){
+				if(dtcls.getName().contains("metro")){
+					System.out.println();
+				}
 				//pegar todos os Structuration, setar todos como Owner
 				ArrayList<Association> assocs = ontoParser.getDirectAssociations(dtcls);
 				for (Association ass : assocs) {
@@ -1443,10 +1443,18 @@ public class Transformer {
 		String _attributeName = mappingProperties.getMappedProperty(datatype).getGeneratedName();
 		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
 		if(this.owlAxioms.getValue(OWL2Axiom.LABELS)){
-			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(_RefOntoOwnerClass.getName() + "." + datatype.getName()));
+			String label;
+			if(this.owlAxioms.isAssocNamesByAssocEnds()){
+				label = datatype.getName();
+			}else{
+				label = _RefOntoOwnerClass.getName() + "." + datatype.getName();
+			}
+			
+			OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
 			OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( dataProperty.getIRI(), commentAnno);
 			manager.applyChange(new AddAxiom(ontology, commeAx));
 		}
+		
 		OWLClass _OWLownerClass = getOwlClass(_RefOntoOwnerClass);
 		if(_RefOntoOwnerClass != null){
 			if(!hashDataProperty.containsKey(_RefOntoOwnerClass)){
@@ -1750,24 +1758,34 @@ public class Transformer {
 	private OWLDatatype getDataTypeRange(NamedElement prop, Object propType, Property mEnd) {
 		String range = "";
 		OWL2Datatype owlPrimType = null;
+		String owlPrimTypeStr = null;
 		if(owlMappings.getAttributes().containsKey(prop)){
-			owlPrimType = (OWL2Datatype) owlMappings.getAttributes().get(prop);
-			range = owlPrimType.toString();
+			owlPrimTypeStr = owlMappings.getAttributes().get(prop);
 		}else if(owlMappings.getAttributes().containsKey(mEnd)){
-			owlPrimType = (OWL2Datatype) owlMappings.getAttributes().get(mEnd);
-			range = owlPrimType.toString();
+			owlPrimTypeStr = owlMappings.getAttributes().get(mEnd);
 		}else if(owlMappings.getPrimitives().containsKey(propType)){
-			owlPrimType = (OWL2Datatype) owlMappings.getPrimitives().get(propType);
-			range = owlPrimType.toString();
+			owlPrimTypeStr = owlMappings.getPrimitives().get(propType);
 		}else if(owlMappings.getPrimitives().containsKey(prop)){
-			owlPrimType = (OWL2Datatype) owlMappings.getPrimitives().get(prop);
-			range = owlPrimType.toString();
+			owlPrimTypeStr = owlMappings.getPrimitives().get(prop);
 		}else{
 			range = getName(propType);
 		}
 		
+		if(owlPrimTypeStr != null){
+			ArrayList<String> owl2DataTypeStrLst = new ArrayList<String>();
+			for (OWL2Datatype owl2DataType : OWL2Datatype.values()) {
+				owl2DataTypeStrLst.add(owl2DataType.toString());
+			}
+			if(owl2DataTypeStrLst.contains(owlPrimTypeStr)){
+				owlPrimType = OWL2Datatype.valueOf(owlPrimTypeStr);
+				range = owlPrimType.toString();
+			}			
+		}
+		
 		if(owlPrimType != null){
 			return factory.getOWLDatatype(owlPrimType.getIRI());
+		}else if(owlPrimType == null && owlPrimTypeStr != null){
+			return factory.getOWLDatatype(IRI.create(this.owlNameSpace+owlPrimTypeStr));
 		}else if (range.equalsIgnoreCase("unsigned_int") || range.equalsIgnoreCase("unsignedInt")){
 			return factory.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_INT.getIRI());
 		}else if(range.equalsIgnoreCase("int") || range.equalsIgnoreCase("integer") || range.equalsIgnoreCase("IntegerIntervalDimension") || range.equalsIgnoreCase("IntegerOrdinalDimension") || range.equalsIgnoreCase("IntegerRationalDimension")){

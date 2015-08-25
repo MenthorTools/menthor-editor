@@ -48,10 +48,10 @@ public class OwlQualityTablePane extends MappingTablePane {
 			}
 		}		
 		Collections.sort(sourcePrimitiveOptions);		
-		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
+		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray(), false));
 		/** Load target options*/
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);	
-		typeColumn2.setCellEditor(createEditor(OWL2Quality.values()));		
+		typeColumn2.setCellEditor(createEditor(OWL2Quality.values(), false));		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	
 }

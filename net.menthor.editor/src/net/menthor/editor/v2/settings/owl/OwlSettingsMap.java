@@ -31,11 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
-
-import RefOntoUML.Classifier;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Axiom;
 import net.menthor.common.settings.owl.OWL2Destination;
@@ -47,6 +42,9 @@ import net.menthor.common.settings.owl.OwlMappings;
 import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.Util;
+import RefOntoUML.Classifier;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.parser.OntoUMLParser;
 
 public final class OwlSettingsMap {
 	
@@ -193,24 +191,24 @@ public final class OwlSettingsMap {
 	//ENTRY: {ATTRIBUTE-UUID, OWL2DATATYPE}
 	//==============================================================
 	
-	public void setOwl2Datatype(RefOntoUML.Element elem, OWL2Datatype owlDt){
+	public void setOwl2Datatype(RefOntoUML.Element elem, String owlDt){
 		if(properties != null) {
-			properties.put(OntoUMLParser.getUUIDFromElement(elem), owlDt.toString());
+			properties.put(OntoUMLParser.getUUIDFromElement(elem), owlDt);
 		}
 	}
 	
-	public OWL2Datatype getOwl2Datatype(RefOntoUML.Element elem){
-		if(properties != null) return OWL2Datatype.valueOf((String)properties.get(OntoUMLParser.getUUIDFromElement(elem)));
+	public String getOwl2Datatype(RefOntoUML.Element elem){
+		if(properties != null) return (String)properties.get(OntoUMLParser.getUUIDFromElement(elem));
 		return null;
 	}
 	
 	/** This method returns all (stored) mappings of model primitiveTypes and attributes into owl dataTypes */
-	public Map<RefOntoUML.Element, OWL2Datatype> getOwl2Datatypes(OntoUMLParser refparser){
-		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
+	public Map<RefOntoUML.Element, String> getOwl2Datatypes(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, String> result = new HashMap<RefOntoUML.Element, String>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof RefOntoUML.DataType || pt instanceof RefOntoUML.Property)) {
-				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
+				String owlDt = (String)properties.get(key);
 				result.put(pt,owlDt);
 			}
 		}
@@ -218,12 +216,12 @@ public final class OwlSettingsMap {
 	}
 	
 	/** This method returns all (stored) mappings of model primitiveTypes into owl dataTypes */
-	public Map<RefOntoUML.Element, OWL2Datatype> getOwl2Primitive(OntoUMLParser refparser){
-		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
+	public Map<RefOntoUML.Element, String> getOwl2Primitive(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, String> result = new HashMap<RefOntoUML.Element, String>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof RefOntoUML.DataType)) {
-				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
+				String owlDt = (String)properties.get(key);
 				result.put(pt,owlDt);
 			}
 		}
@@ -231,12 +229,12 @@ public final class OwlSettingsMap {
 	}
 	
 	/** This method returns all (stored) mappings of model attributes into owl dataTypes */
-	public Map<RefOntoUML.Element, OWL2Datatype> getOwl2Attribute(OntoUMLParser refparser){
-		Map<RefOntoUML.Element, OWL2Datatype> result = new HashMap<RefOntoUML.Element, OWL2Datatype>();
+	public Map<RefOntoUML.Element, String> getOwl2Attribute(OntoUMLParser refparser){
+		Map<RefOntoUML.Element, String> result = new HashMap<RefOntoUML.Element, String>();
 		for(Object key: properties.keySet()){
 			RefOntoUML.Element pt = OntoUMLParser.getElementByUUID(refparser.getModel(), (String)key);			
 			if(pt!=null && (pt instanceof RefOntoUML.Property)) {
-				OWL2Datatype owlDt = OWL2Datatype.valueOf((String)properties.get(key));
+				String owlDt = (String)properties.get(key);
 				result.put(pt,owlDt);
 			}
 		}

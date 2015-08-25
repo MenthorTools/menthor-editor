@@ -45,11 +45,11 @@ public class OwlGenSetTablePane extends MappingTablePane {
 			sourcePrimitiveOptions.add(qua);
 		}	
 		Collections.sort(sourcePrimitiveOptions);
-		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray()));
+		typeColumn.setCellEditor(createEditor(sourcePrimitiveOptions.toArray(), false));
 		
 		/** Load target options */
 		TableColumn typeColumn2 = table.getColumnModel().getColumn(1);		
-		typeColumn2.setCellEditor(createEditor(OWL2GeneralizationSet.values()));		
+		typeColumn2.setCellEditor(createEditor(OWL2GeneralizationSet.values(), false));		
 		table.setSurrendersFocusOnKeystroke(true);
 	}	
 }

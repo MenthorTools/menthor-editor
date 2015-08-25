@@ -25,19 +25,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
-
 import RefOntoUML.Element;
 
 public class OwlMappings {
 
-	private HashMap<Element, OWL2Datatype> primitiveMap = new HashMap<Element, OWL2Datatype>();
-	private HashMap<Element, OWL2Datatype> attributeMap = new HashMap<Element, OWL2Datatype>();	
+	private HashMap<Element, String> primitiveMap = new HashMap<Element, String>();
+	private HashMap<Element, String> attributeMap = new HashMap<Element, String>();	
 	private HashMap<Element, OWL2Quality> qualityMap = new HashMap<Element, OWL2Quality>();	
 	private Object[][] genSetMap;
 	
-	public HashMap<Element, OWL2Datatype> getAttributes() { return attributeMap; }
-	public HashMap<Element, OWL2Datatype> getPrimitives() { return primitiveMap; }
+	public HashMap<Element, String> getAttributes() { return attributeMap; }
+	public HashMap<Element, String> getPrimitives() { return primitiveMap; }
 	public HashMap<Element, OWL2Quality> getQualities() { return qualityMap; }
 	public Object[][] getGeneralizationSets() { return genSetMap; }
 	
@@ -47,14 +45,14 @@ public class OwlMappings {
 		}
 	}
 	
-	public void setPrimitives(Map<Element, OWL2Datatype> primitiveMappings){
-		for (Entry<Element, OWL2Datatype> entry : primitiveMappings.entrySet()) {
+	public void setPrimitives(Map<Element, String> primitiveMappings){
+		for (Entry<Element, String> entry : primitiveMappings.entrySet()) {
 			this.primitiveMap.put(entry.getKey(),entry.getValue());
 		}
 	}
 	
-	public void setAttributes(Map<Element, OWL2Datatype> attributeMappings){
-		for (Entry<Element, OWL2Datatype> entry : attributeMappings.entrySet()) {
+	public void setAttributes(Map<Element, String> attributeMappings){
+		for (Entry<Element, String> entry : attributeMappings.entrySet()) {
 			this.attributeMap.put(entry.getKey(),entry.getValue());
 		}
 	}	
