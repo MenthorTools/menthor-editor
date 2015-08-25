@@ -229,7 +229,7 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 		for(Story_element se : this.getElements()){
 			if("Node".equals(se.eClass().getName())){
 				System.out.println();
-				head = head+'\n'+'\t'+'\t'+'\t'+'\t'+'\t'+ se.getLabel()+":one Object+Property,";
+				head = head+'\n'+'\t'+'\t'+'\t'+'\t'+'\t'+ se.getLabel()+":one univ-World,";
 			}else if("World".equals(se.eClass().getName())){
 				head = head+'\n'+'\t'+'\t'+'\t'+'\t'+'\t'+ se.getLabel()+":one World,";
 			}
