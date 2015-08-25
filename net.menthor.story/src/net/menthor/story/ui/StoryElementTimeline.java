@@ -347,18 +347,10 @@ public class StoryElementTimeline {
 						//parse through the states and add them
 						for(Classification_statement state : ((Node)se).getIs_referred_to_in()){
 							addState(nodeTreeItem,state,nodeTreeItem.getItemCount());
-							//WARNING: this for does nothing but if you remove it, a bug emerges when loading files.
-							//TODO:find out why
-							for(RefOntoUML.Class c :state.getAntiRigidClasses()){
-								//this for does nothing but if you remove it, a bug emerges when loading files.
-								//System.out.println("DClass "+ c.getName());
-							}
-							
 						}
-						//WARNING: this for does nothing but if you remove it, a bug emerges when loading files.
-						//TODO:find out why
 						for(RefOntoUML.Class c: ((Node)se).getInstance_of()){
-							//System.out.println("Class "+((RefOntoUML.Class)c).getName());
+							
+							System.out.println("Class "+((RefOntoUML.Class)c).getName());
 						}
 						
 					}
@@ -542,6 +534,20 @@ public class StoryElementTimeline {
 		return tree;
 	}
 	
+	/*
+	 * I'll try to substitute this method to take only the tree as argument, leaving this implementation behind in case things go wrong
+	public static int getColumn( Point pt, TreeItem item )
+	{
+		if(item!=null){
+		    int columns = item.getParent().getColumnCount();
+		    for (int i=0; i<columns; i++)
+		    {
+		    	Rectangle rect = item.getBounds (i);
+		    	if ( pt.x >= rect.x && pt.x < rect.x + rect.width ) return i;
+		    }
+		}
+	    return -1;
+	}*/
 	
 	public static int getColumn( Point pt, Tree tree )
 	{
