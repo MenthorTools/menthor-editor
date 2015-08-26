@@ -17,11 +17,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ocl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2alloy"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2uml"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="org.eclipse.swt"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2ecore"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.derivedtypes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.validator.meronymic"/>
@@ -71,6 +66,7 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2infouml"/>
 	<classpathentry kind="lib" path="lib/ui.jar"/>
-	<classpathentry kind="var" path="OS_SPECIFC_SWT"/>
+	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.swt"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
