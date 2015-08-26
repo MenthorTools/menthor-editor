@@ -268,6 +268,7 @@ public class Classification_statementImpl extends MinimalEObjectImpl.Container i
 	}
 
 	private String isClassifiedIn(Node n, RefOntoUML.Class c, World w){
+		System.out.println(c);
 		return '\t'+ n.getLabel()+" in "+w.getLabel()+"."+c.getName()+'\n';
 	}
 	@Override

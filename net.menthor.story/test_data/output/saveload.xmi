@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<stories:Story xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stories="http://stories.bernardofbbraga.com.br">
+  <elements xsi:type="stories:World" label="World0" next="World1"/>
+  <elements xsi:type="stories:World" label="World1" next="World2" prev="World0"/>
+  <elements xsi:type="stories:World" label="World2" prev="World1"/>
+  <elements xsi:type="stories:Node" label="Node1" present_in="World0">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jiAozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Node2" present_in="World0">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jhwozEeWTG_6taTTR8g"/>
+    <is_referred_to_in holds_in="World0" label="State1">
+      <antiRigidClasses href="../input/cmo%20artigo.refontouml#_QJ5jjgozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+</stories:Story>

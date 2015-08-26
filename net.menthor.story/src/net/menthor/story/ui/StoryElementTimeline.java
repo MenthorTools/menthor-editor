@@ -351,14 +351,14 @@ public class StoryElementTimeline {
 							//TODO:find out why
 							for(RefOntoUML.Class c :state.getAntiRigidClasses()){
 								//this for does nothing but if you remove it, a bug emerges when loading files.
-								//System.out.println("DClass "+ c.getName());
+								System.out.println("DClass "+ c.getName());
 							}
 							
 						}
 						//WARNING: this for does nothing but if you remove it, a bug emerges when loading files.
 						//TODO:find out why
 						for(RefOntoUML.Class c: ((Node)se).getInstance_of()){
-							//System.out.println("Class "+((RefOntoUML.Class)c).getName());
+							System.out.println("Class "+((RefOntoUML.Class)c).getName());
 						}
 						
 					}

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<stories:Story xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stories="http://stories.bernardofbbraga.com.br">
+  <elements xsi:type="stories:World" label="World0" next="World1"/>
+  <elements xsi:type="stories:World" label="World1" next="World2" prev="World0"/>
+  <elements xsi:type="stories:World" label="World2" next="World3" prev="World1"/>
+  <elements xsi:type="stories:World" label="World3" next="World4" prev="World2"/>
+  <elements xsi:type="stories:World" label="World4" next="World5" prev="World3"/>
+  <elements xsi:type="stories:World" label="World5" next="World6" prev="World4"/>
+  <elements xsi:type="stories:World" label="World6" next="World7" prev="World5"/>
+  <elements xsi:type="stories:World" label="World7" next="World8" prev="World6"/>
+  <elements xsi:type="stories:World" label="World8" prev="World7"/>
+  <elements xsi:type="stories:Node" label="John" present_in="World0 World1 World2 World3 World4 World5 World6">
+    <is_referred_to_in holds_in="World0 World1 World2 World3 World4 World5 World6" label="Developer"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Mary" present_in="World0 World1 World2 World3 World4 World5 World6">
+    <is_referred_to_in holds_in="World0 World1 World2 World3 World4 World5 World6" label="Developer"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Thomas" present_in="World0 World1 World2 World3 World4 World5 World6">
+    <is_referred_to_in holds_in="World0 World1 World2 World3 World4 World5 World6" label="Developer"/>
+    <is_referred_to_in holds_in="World1 World2 World3 World4 World5 World6" label="ConfigurationManager">
+      <antiRigidClasses href="../input/cmo%20artigo.refontouml#_QJ5jkAozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="Fred" present_in="World0 World1 World2 World3 World4 World5 World6">
+    <is_referred_to_in holds_in="World0 World1 World2 World3 World4 World5 World6" label="Developer"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="ProcessDiagramForBakery" present_in="World0 World1 World2 World3 World4 World5 World6"/>
+  <elements xsi:type="stories:Node" label="PdiagVersion1" present_in="World1 World2 World3 World4 World5 World6"/>
+  <elements xsi:type="stories:Node" label="DocumentationForBakerySystem" present_in="World0 World1 World2 World3 World4 World5 World6"/>
+  <elements xsi:type="stories:Node" label="SourceCodeBakery" present_in="World0 World1 World2 World3 World4 World5 World6"/>
+  <elements xsi:type="stories:Node" label="ConfigurationSelection01" present_in="World1 World2 World3 World4 World5 World6" absent_from="World0">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jkgozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="ChangeRequest01" present_in="World2 World3 World4 World5 World6" absent_from="World1 World0">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jiQozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Change01" present_in="World2 World3 World4 World5 World6" absent_from="World1 World0">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jiAozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="RequestEvaluation01" present_in="World3 World4 World5 World6" absent_from="World2">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jrQozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckOutDiag" present_in="World4 World5 World6" absent_from="World3"/>
+  <elements xsi:type="stories:Node" label="Copy01" present_in="World4 World5 World6" absent_from="World3">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jugozEeWTG_6taTTR8g"/>
+    <is_referred_to_in holds_in="World4 World5 World6" label="Copy">
+      <antiRigidClasses href="../input/cmo%20artigo.refontouml#_QJ5jkwozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="ModifcationOfPDiag" present_in="World5 World6" absent_from="World4"/>
+  <elements xsi:type="stories:Node" label="CheckIn01" present_in="World7" absent_from="World6">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jigozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="VerificationofCode" present_in="World8">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ5jtAozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="PDiagVersion2" present_in="World7" absent_from="World6"/>
+  <elements xsi:type="stories:Link" label="checkin-john" present_in="World7" source="John" target="CheckIn01"/>
+  <elements xsi:type="stories:Link" label="verification-mary" present_in="World8" source="Mary" target="VerificationofCode"/>
+  <elements xsi:type="stories:Link" label="verification-change" present_in="World8" source="Change01" target="VerificationofCode"/>
+  <elements xsi:type="stories:Link" label="checkin-change" source="Change01" target="CheckIn01"/>
+  <elements xsi:type="stories:Link" label="checkin-modif" present_in="World7" source="ModifcationOfPDiag" target="CheckIn01"/>
+  <elements xsi:type="stories:Link" label="modif-john" present_in="World5 World6" absent_from="World4" source="John" target="ModifcationOfPDiag"/>
+  <elements xsi:type="stories:Link" label="checkout-john" present_in="World4 World5 World6" source="John" target="CheckOutDiag"/>
+  <elements xsi:type="stories:Link" label="reval-john" present_in="World3 World4 World5 World6" source="John" target="RequestEvaluation01"/>
+  <elements xsi:type="stories:Link" label="cs-thomas" present_in="World1 World2 World3 World4 World5 World6" source="Thomas" target="ConfigurationSelection01"/>
+  <elements xsi:type="stories:Link" label="cr-fred" present_in="World2 World3 World4 World5 World6" source="Fred" target="ChangeRequest01"/>
+  <elements xsi:type="stories:Link" label="versionCHARpdiag" present_in="World1 World2 World3 World4 World5 World6" source="ProcessDiagramForBakery" target="PdiagVersion1"/>
+  <elements xsi:type="stories:Link" label="refers_to01" present_in="World4 World5 World6" source="PdiagVersion1" target="Copy01">
+    <instance_of href="../input/cmo%20artigo.refontouml#_QJ6K4wozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Link" label="checkout-pdiag" present_in="World4 World5 World6" source="ProcessDiagramForBakery" target="CheckOutDiag"/>
+  <elements xsi:type="stories:Link" label="cr-pdiag" present_in="World2 World3 World4 World5 World6" source="ProcessDiagramForBakery" target="ChangeRequest01"/>
+  <elements xsi:type="stories:Link" label="cs-pdiag" present_in="World1 World2 World3 World4 World5 World6" source="ProcessDiagramForBakery" target="ConfigurationSelection01"/>
+  <elements xsi:type="stories:Link" label="cs-doc" present_in="World1 World2 World3 World4 World5 World6" source="DocumentationForBakerySystem" target="ConfigurationSelection01"/>
+  <elements xsi:type="stories:Link" label="cs-sc" present_in="World1 World2 World3 World4 World5 World6" source="SourceCodeBakery" target="ConfigurationSelection01"/>
+  <elements xsi:type="stories:Link" label="cr-requesteval" present_in="World3 World4 World5 World6" source="ChangeRequest01" target="RequestEvaluation01"/>
+  <elements xsi:type="stories:Link" label="cr-change" present_in="World2 World3 World4 World5 World6" source="ChangeRequest01" target="Change01"/>
+  <elements xsi:type="stories:Link" label="modif-copy" present_in="World5 World6" absent_from="World4" source="Copy01" target="ModifcationOfPDiag"/>
+  <elements xsi:type="stories:Link" label="checkin-v2" present_in="World7" source="CheckIn01" target="PDiagVersion2"/>
+</stories:Story>

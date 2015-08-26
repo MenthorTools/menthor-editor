@@ -74,9 +74,17 @@ public class OntoUMLStoryCrafter {
 	{
 		ResourceSet rset = new ResourceSetImpl();					
 		
-		rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi",new StoriesResourceFactoryImpl());
-		
-		rset.getPackageRegistry().put(stories.StoriesPackage.eNS_URI,	stories.StoriesPackage.eINSTANCE);
+		// Register the appropriate resource factory to handle all file extensions.
+		//
+		rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+			(Resource.Factory.Registry.DEFAULT_EXTENSION, 
+			 new XMIResourceFactoryImpl());
+		// Register the package to ensure it is available during loading.
+		//
+		rset.getPackageRegistry().put
+			(StoriesPackage.eNS_URI, 
+			 StoriesPackage.eINSTANCE);
+
 		
 		URI fileURI = URI.createFileURI(filename);    
 				
@@ -123,7 +131,7 @@ public class OntoUMLStoryCrafter {
 			 StoriesPackage.eINSTANCE);
 			
 		
-		//Essa implementação está dando problemas com os URIs. Resolve mal. O problema é que na hora de resolver ele nao sabe o caminho e se o caminho está na URI dá um outro tipo de problema.
+		//Essa implementaï¿½ï¿½o estï¿½ dando problemas com os URIs. Resolve mal. O problema ï¿½ que na hora de resolver ele nao sabe o caminho e se o caminho estï¿½ na URI dï¿½ um outro tipo de problema.
 	   // File file = new File(filename);
 		URI fileURI = URI.createFileURI(filename);		
 		Resource resource = rset.createResource(fileURI);		
