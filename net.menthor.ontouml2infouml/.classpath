@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.swt"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/com.google.guava_11.0.2.v201303041551.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/com.google.inject_3.0.0.v201203062045.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/javax.inject_1.0.0.v20091030.jar"/>
@@ -35,8 +35,8 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.layout.grouplayout_1.6.0.r36x201305212046.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt_1.6.0.r36x201305212024.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.widgets.baseline_1.6.0.r36x201305212028.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ui_3.107.0.v20150507-1945.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.ui.workbench_3.107.0.v20150510-1732.jar"/>
+	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
