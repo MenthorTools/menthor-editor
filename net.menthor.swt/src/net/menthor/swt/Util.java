@@ -1,4 +1,4 @@
-package org.eclipse.swt;
+package net.menthor.swt;
 
 import java.io.File;
 import java.util.Locale;

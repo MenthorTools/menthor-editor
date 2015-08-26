@@ -7,7 +7,7 @@
  * file included in the distribution package.                              *
  * Use of this software is subject to the terms in the LICENSE.txt file    *
  ***************************************************************************/
-package org.eclipse.swt;
+package net.menthor.swt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -178,7 +178,7 @@ public class BinaryLoader {
 	private String getBinWorkingDir() {
 		String dir = System.getProperty("user.dir");
 		if (dir.contains("net.menthor.editor")) 
-			dir = dir.replace("net.menthor.editor","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);
+			dir = dir.replace("net.menthor.editor","net.menthor.swt").concat(File.separator).concat("src"+File.separator);
 		else
 			dir = "";
 		return dir;

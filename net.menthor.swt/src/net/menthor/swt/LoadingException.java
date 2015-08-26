@@ -8,7 +8,7 @@
  * Use of this software is subject to the terms in the LICENSE.txt file    *
  ***************************************************************************/
 
-package org.eclipse.swt;
+package net.menthor.swt;
 
 /**
  * Exception thrown by SWTLoader.

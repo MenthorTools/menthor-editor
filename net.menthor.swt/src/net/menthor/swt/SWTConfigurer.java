@@ -1,4 +1,4 @@
-package org.eclipse.swt;
+package net.menthor.swt;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +80,7 @@ public class SWTConfigurer {
 	private static String getSwtWorkingDir()
 	{
 		String dir = System.getProperty("user.dir");
-		if (dir.contains("net.menthor.editor")) dir = dir.replace("net.menthor.editor","org.eclipse.swt").concat(File.separator).concat("src"+File.separator);			
+		if (dir.contains("net.menthor.editor")) dir = dir.replace("net.menthor.editor","net.menthor.swt").concat(File.separator).concat("src"+File.separator);			
 		else dir = SWTConfigurer.class.getProtectionDomain().getCodeSource().getLocation().getPath();		
 		return dir;
 	}
