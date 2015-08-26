@@ -20,14 +20,14 @@ Step 1. Import Menthor's source code into your machine/Eclipse
 ---------------------------------------------------------------
 Step 2. Configure SWT according to your OS
 
-By default all of our project point to the SWT library of windows x64. 
-We need to change it to the version of SWT that matches with your operating system.
-If you're using windows x64 chances are that we already use this version of SWT.
+Each OS will require a different version of the SWT library. 
+You'll need to set an variable to poitn to the version of SWT that matches with your operating system.
 
-2.1 Go to the following projects (/antipattern, /pattern and /editor) and Right Click -> Build Path-> Configure Build Path for each of them.
-2.2 In the "Libraries" tab search for the "swt.jar" file attached. Note that this library is probably that of winx64.
-2.3 Remove the winx64 SWT entry and add the SWT that matches your operating system (Mac/Linux/Win and x86/x64). They are found in the folder /common/lib/
-2.4 Add the new SWT entry for each of the aforementioned projects (/antipattern, /pattern and /editor)
+2.1 Open Eclipse>Preferences..
+2.2 Select Java>Build Path>Classpath Variables
+2.3 Click on New..
+2.4 Name: OS_SPECIFIC_SWT
+2.5 To set the path, click on File... and find in your net.menthor.common/lib folder the correct .swt for your environment.
 
 ---------------------------------------------------------------
 Step 3. Running Menthor
