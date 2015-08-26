@@ -71,6 +71,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2infouml"/>
 	<classpathentry kind="lib" path="lib/ui.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-mac-x64/swt.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
