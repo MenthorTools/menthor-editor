@@ -283,36 +283,19 @@ public class NodeImpl extends IndividualImpl implements Node {
 	public String static_classification(){
 		String rule = "";
 		for(RefOntoUML.Class c : this.getInstance_of()){
-			
-			System.out.println(c);
-			System.out.println(this.storyElTl);
-			System.out.println(c.eResource());
-			
-			testModelNames(this.storyElTl.getModelParser().getAlias(c),c);
-			testModelNames(this.getLabel(),this);
 			rule = rule + '\t'+ this.getLabel() + " in World." +c.getName()+'\n';
 		}
 		return  rule;
 	}
 	
-	
-	  public void testModelNames(String str, Object o) {
-	    if (str==null){
-	    	System.out.println("null detected"+ o); 
-	    }
-	  }
 
 	
 	public String existance(){
 		String exists ="";
 		for(World w : this.getPresent_in()){
-			testModelNames(w.getLabel(),w);
-			testModelNames(this.getLabel(),this);
 			exists = exists+'\t'+this.getLabel()+" in "+w.getLabel()+".exists" +'\n';
 		}
 		for(World w : this.getAbsent_from()){
-			testModelNames(w.getLabel(),w);
-			testModelNames(this.getLabel(),this);
 			exists = exists+'\t'+this.getLabel()+" not in "+w.getLabel()+".exists" +'\n';
 		}
 		return exists;

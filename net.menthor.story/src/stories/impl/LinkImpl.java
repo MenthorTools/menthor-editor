@@ -301,13 +301,13 @@ public class LinkImpl extends IndividualImpl implements Link {
 		if(this.getSource() != null){
 			sourceName = this.getSource().getLabel();
 		}else{
-			sourceName = "Object+Property";//any Node
+			sourceName = "univ - World";//any Node
 		}
 		
 		if(this.getTarget() != null){
 			targetName = this.getTarget().getLabel();
 		}else{
-			targetName = "Object+Property";//any Node
+			targetName = "univ - World";//any Node
 		}
 		
 		EList<World> world_list = this.getPresent_in();
@@ -318,13 +318,13 @@ public class LinkImpl extends IndividualImpl implements Link {
 			}					
 		}else{
 			for(World w: world_list){
-				predicate = predicate+'\t'+ "direct_rel_in_w[("+sourceName+")->("+targetName+"),"+w.getLabel()+"]"+'\n';
+				predicate = predicate+'\t'+ "direct_rel_in_w[("+sourceName+"),("+targetName+"),"+w.getLabel()+"]"+'\n';
 			}
 			
 		}
 		if(! absent_world_list.isEmpty()){
 			for(World w: absent_world_list){
-				predicate = predicate+'\t'+ "not direct_rel_in_w[("+sourceName+")->("+targetName+"),"+w.getLabel()+"]"+'\n';
+				predicate = predicate+'\t'+ "not direct_rel_in_w[("+sourceName+"),("+targetName+"),"+w.getLabel()+"]"+'\n';
 			}
 		}
 		return predicate;
