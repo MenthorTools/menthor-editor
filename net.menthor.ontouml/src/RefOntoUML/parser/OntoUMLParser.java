@@ -93,7 +93,7 @@ public class OntoUMLParser {
 	 * HashMap containing every element of the model associating with the custom parsing element. 
 	 * The parsing Element contains all the useful information about the OntoUML element. 
 	 */
-	private HashMap<EObject,ParsingElement> elementsHash;
+	private HashMap<String,ParsingElement> elementsHash;
 
 	/** HashMap containing every direct child of a particular OntoUML element.*/
 	public HashMap<Classifier, HashSet<Classifier>> childHash;
@@ -115,7 +115,7 @@ public class OntoUMLParser {
 	{
 		this.model = refmodel;	
 		this.verificator = new SyntacticVerificator();		
-		elementsHash = new HashMap<EObject,ParsingElement>();		
+		elementsHash = new HashMap<String,ParsingElement>();		
 		OntoUMLNameHandler h1 = new OntoUMLNameHandler();
 		this.refmodelname = h1.treatName(model);				
 		initMap(model, nameHandler);
@@ -128,7 +128,7 @@ public class OntoUMLParser {
 		Package refmodel = (Package)resource.getContents().get(0);		
 		this.model = refmodel;		
 		this.verificator = new SyntacticVerificator();		
-		elementsHash = new HashMap<EObject,ParsingElement>();		
+		elementsHash = new HashMap<String,ParsingElement>();		
 		OntoUMLNameHandler h1 = new OntoUMLNameHandler();
 		this.refmodelname = h1.treatName(model);				
 		initMap(model, nameHandler);
@@ -138,7 +138,7 @@ public class OntoUMLParser {
 	private void initMap (PackageableElement rootpack, OntoUMLNameHandler h2) 
 	{
 		ParsingElement e = new ParsingElement(rootpack, true, h2.treatName(rootpack));
-		this.elementsHash.put(rootpack,e);		
+		this.elementsHash.put(getUUIDFromElement(rootpack),e);		
 		for(PackageableElement p : ((Package) rootpack).getPackagedElement())
 		{
 			addToMap(p, h2);			
@@ -157,31 +157,31 @@ public class OntoUMLParser {
 		for (Comment c: pe.getOwnedComment()) 
 		{
 			e = new ParsingElement(c, true, "");
-			this.elementsHash.put(c,e);
+			this.elementsHash.put(getUUIDFromElement(c),e);
 		}		
 		//Constraintx
 		if(pe instanceof Constraintx)
 		{
 			e = new ParsingElement(pe, true, h2.treatName(pe));
-			this.elementsHash.put(pe,e);
+			this.elementsHash.put(getUUIDFromElement(pe),e);
 		}		
 		//Class and DataType
 		if(pe instanceof Class || ((pe instanceof DataType)&&!(pe instanceof PrimitiveType)&&!(pe instanceof Enumeration)) )
 		{
 			e = new ParsingElement(pe, true, h2.treatName(pe));
-			this.elementsHash.put(pe,e);			
+			this.elementsHash.put(getUUIDFromElement(pe),e);			
 			//Generalization
 			for (Generalization g : ((Classifier)pe).getGeneralization()) 
 			{
 				e = new ParsingElement(g, true, "");
-				this.elementsHash.put(g,e);
+				this.elementsHash.put(getUUIDFromElement(g),e);
 			}			
 			if (pe instanceof Class){			
 				//Attributes
 				for(Property p: ((Class)pe).getOwnedAttribute())
 				{				
 					e = new ParsingElement(p, true, h2.treatName(p));
-					this.elementsHash.put(p,e);				
+					this.elementsHash.put(getUUIDFromElement(p),e);				
 				}
 			}
 			if (pe instanceof DataType){			
@@ -189,7 +189,7 @@ public class OntoUMLParser {
 				for(Property p: ((DataType)pe).getOwnedAttribute())
 				{				
 					e = new ParsingElement(p, true, h2.treatName(p));
-					this.elementsHash.put(p,e);				
+					this.elementsHash.put(getUUIDFromElement(p),e);				
 				}
 			}
 		}		
@@ -197,18 +197,18 @@ public class OntoUMLParser {
 		else if(pe instanceof Association)
 		{
 			e = new ParsingElement(pe, true, h2.treatName(pe));
-			this.elementsHash.put(pe,e);			
+			this.elementsHash.put(getUUIDFromElement(pe),e);			
 			//Properties			
 			for(RefOntoUML.Property property: ((Association)pe).getMemberEnd())
 			{											
 				e = new ParsingElement(property, true, h2.treatName(property));
-				this.elementsHash.put(property,e);
+				this.elementsHash.put(getUUIDFromElement(property),e);
 			}									
 			//Generalization
 			for (Generalization g : ((Classifier)pe).getGeneralization()) 
 			{
 				e = new ParsingElement(g, true, "");
-				this.elementsHash.put(g,e);
+				this.elementsHash.put(getUUIDFromElement(g),e);
 			}							
 		}
 		
@@ -216,22 +216,22 @@ public class OntoUMLParser {
 		else if (pe instanceof Enumeration)
 		{
 			e = new ParsingElement(pe, true, h2.treatName(pe));
-			this.elementsHash.put(pe,e);			
+			this.elementsHash.put(getUUIDFromElement(pe),e);			
 			//Enumeration Literals
 			for(EnumerationLiteral p: ((Enumeration)pe).getOwnedLiteral())
 			{			   	
 				e = new ParsingElement(p, true, h2.treatName(p));
-				this.elementsHash.put(p,e);
+				this.elementsHash.put(getUUIDFromElement(p),e);
 			}		
 			//Enumeration can also have attributes
 			for(Property p: ((Enumeration)pe).getOwnedAttribute())
 			{
 				e = new ParsingElement(p, true, h2.treatName(p));
-				this.elementsHash.put(p,e);
+				this.elementsHash.put(getUUIDFromElement(p),e);
 			}			
 		}else {
 			e = new ParsingElement(pe, true, h2.treatName(pe));
-			this.elementsHash.put(pe,e);			
+			this.elementsHash.put(getUUIDFromElement(pe),e);			
 		}		
 	}
 	
@@ -244,19 +244,19 @@ public class OntoUMLParser {
 	public void addElement(EObject obj)
 	{
 		// only add if it is not there already
-		if (this.elementsHash.get(obj)==null)
+		if (this.elementsHash.get(getUUIDFromElement((Element)obj))==null)
 		{			
 			if (obj instanceof RefOntoUML.Comment){
 				ParsingElement e = new ParsingElement(obj,true,"");
-				this.elementsHash.put(obj,e);			
+				this.elementsHash.put(getUUIDFromElement((Element)obj),e);			
 			}else if (obj instanceof RefOntoUML.Generalization)
 			{				
 				ParsingElement e = new ParsingElement(obj,true,"");
-				this.elementsHash.put(obj,e);				
+				this.elementsHash.put(getUUIDFromElement((Element)obj),e);				
 			}else if (obj instanceof RefOntoUML.Property)
 			{
 				ParsingElement e = new ParsingElement(obj,true,nameHandler.treatName((NamedElement)obj));
-				this.elementsHash.put(obj,e);				
+				this.elementsHash.put(getUUIDFromElement((Element)obj),e);				
 			}else if (obj instanceof PackageableElement)
 			{
 				addToMap((PackageableElement)obj, nameHandler);
@@ -337,18 +337,18 @@ public class OntoUMLParser {
 	/** Private method that performs the deletion of an element from the Map */
 	private void removeFromMap(EObject obj)
 	{
-		ParsingElement e = elementsHash.get(obj);
+		ParsingElement e = elementsHash.get(getUUIDFromElement((Element)obj));
 		if (e!=null) 
 		{
 			nameHandler.remove(e.getAlias());
-			this.elementsHash.remove(obj);			
+			this.elementsHash.remove(getUUIDFromElement((Element)obj));			
 		}	
 	}
 	
 	/** Private method that performs the update of an element in the Map */
 	public void updateElement(EObject obj)
 	{
-		ParsingElement e = elementsHash.get(obj);
+		ParsingElement e = elementsHash.get(getUUIDFromElement((Element)obj));
 		if (e!=null && (e.getElement() instanceof NamedElement)) 
 		{
 			nameHandler.remove(e.getAlias());		
@@ -396,10 +396,10 @@ public class OntoUMLParser {
 	/** Get element from its alias name. */
 	public EObject getElement(String alias)
 	{	 
-		for (Entry<EObject,ParsingElement> entry : elementsHash.entrySet()) 
+		for (Entry<String,ParsingElement> entry : elementsHash.entrySet()) 
         {
             String name = ((ParsingElement)entry.getValue()).getAlias(); 
-            if (alias.trim().toLowerCase().equals(name.trim().toLowerCase())) return entry.getKey();            
+            if (alias.trim().toLowerCase().equals(name.trim().toLowerCase())) return getElementByUUID(getModel(), entry.getKey());            
         }
         return null;	    
 	}
@@ -407,7 +407,7 @@ public class OntoUMLParser {
 	/** Get the alias of a given element. */
 	public String getAlias(EObject elem) 
 	{
-		ParsingElement pe = elementsHash.get(elem);
+		ParsingElement pe = elementsHash.get(getUUIDFromElement((Element)elem));
 		if(pe!=null) return pe.getAlias();		
 		else{ 
 			try{
@@ -418,6 +418,7 @@ public class OntoUMLParser {
 		}
 		return "";
 	}
+	
 
 	/** Get respective aliases from a list of elements. */
 	public ArrayList<String> getAlias (ArrayList<EObject> list)
@@ -433,7 +434,7 @@ public class OntoUMLParser {
 	/** Get a string representation of a given element. */
 	public String getStringRepresentation(EObject elem)
 	{
-		ParsingElement parsingElem = elementsHash.get(elem);		
+		ParsingElement parsingElem = elementsHash.get(getUUIDFromElement((Element)elem));		
 		if (parsingElem == null) return "Unknown Element";
 		else return parsingElem.toString();
 	}
@@ -461,14 +462,14 @@ public class OntoUMLParser {
 	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");	    
 	    return type;
 	}
-    		
-//	/** Get the stereotype of a given element. */
-//	public String getType(EObject elem)
-//	{
-//		ParsingElement parsingElem = elementsHash.get(elem);		
-//		if (parsingElem == null) return "Unknown Element";
-//		else return parsingElem.getType();
-//	}
+	/** Get the stereotype of a given element. */
+	public String getStereotype(EObject elem)
+	{
+		ParsingElement parsingElem = elementsHash.get(getUUIDFromElement((Element)elem));		
+		if (parsingElem == null) return "Unknown Element";
+		else return parsingElem.getType();
+	}
+
 	
 	/** String representation of the entire parser. */
 	@Override
@@ -477,7 +478,7 @@ public class OntoUMLParser {
 		String result = new String();		
 		for(EObject obj: getElements())
 		{
-			result += elementsHash.get(obj)+"\n";
+			result += elementsHash.get(getUUIDFromElement((Element)obj))+"\n";
 		}
 		return result;
 	}
@@ -488,7 +489,7 @@ public class OntoUMLParser {
 		ArrayList<ParsingElement> result = new ArrayList<ParsingElement>();
 		for(EObject eobj: list)
 		{
-			if (elementsHash.get(eobj)!=null) result.add(elementsHash.get(eobj));			
+			if (elementsHash.get(getUUIDFromElement((Element)eobj))!=null) result.add(elementsHash.get(getUUIDFromElement((Element)eobj)));			
 		}
 		return result;
 	}
@@ -498,7 +499,7 @@ public class OntoUMLParser {
 	{		
 		if (elem!=null)
 		{
-			if (elementsHash.get(elem)!=null) return elementsHash.get(elem).getSelected();
+			if (elementsHash.get(getUUIDFromElement((Element)elem))!=null) return elementsHash.get(getUUIDFromElement((Element)elem)).getSelected();
 			else{
 				try {
 					throw new Exception("Element not contained in OntoUML parser.");
@@ -1079,7 +1080,7 @@ public class OntoUMLParser {
 				}
 				//ignores association and unselect it.
 				catch (Exception e) {				
-					this.elementsHash.get(a).setSelected(false);
+					this.elementsHash.get(getUUIDFromElement((Element)a)).setSelected(false);
 				}
 			}
 		}		
