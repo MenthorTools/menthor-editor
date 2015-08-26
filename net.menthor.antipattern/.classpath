@@ -31,6 +31,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt_1.6.0.r36x201305212024.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.layout.grouplayout_1.6.0.r36x201305212046.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.widgets.baseline_1.6.0.r36x201305212028.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-mac-x64/swt.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
