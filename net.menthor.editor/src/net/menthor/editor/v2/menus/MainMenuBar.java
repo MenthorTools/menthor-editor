@@ -30,7 +30,7 @@ import javax.swing.KeyStroke;
 
 import com.apple.eawt.Application;
 
-import net.menthor.editor.OSXMenu.MenthorEditorAbout;
+import net.menthor.editor.OSXMenu.MenthorEditorAboutHandler;
 import net.menthor.editor.OSXMenu.MenthorEditorQuitHandler;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
@@ -283,7 +283,7 @@ public class MainMenuBar extends BaseMenuBar {
 		help = new JMenu("Help");
 		add(help);
 		if(Util.onMac()){
-			Application.getApplication().setAboutHandler(new MenthorEditorAbout());
+			Application.getApplication().setAboutHandler(new MenthorEditorAboutHandler());
 		}else{
 			createMenuItem(help, "About", CommandType.ABOUT, background);
 		}	

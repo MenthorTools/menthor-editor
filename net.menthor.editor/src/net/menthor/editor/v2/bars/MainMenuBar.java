@@ -30,9 +30,8 @@ import javax.swing.KeyStroke;
 
 import com.apple.eawt.Application;
 
-import net.menthor.editor.OSXMenu.MenthorEditorAbout;
+import net.menthor.editor.OSXMenu.MenthorEditorAboutHandler;
 import net.menthor.editor.OSXMenu.MenthorEditorQuitHandler;
-import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;
@@ -189,7 +188,7 @@ public class MainMenuBar extends BaseMenuBar {
 		add(help);
 		//On Mac, the about menu is located on a default "Menthor Editor" menu. 
 		if(Util.onMac()){
-			Application.getApplication().setAboutHandler(new MenthorEditorAbout());
+			Application.getApplication().setAboutHandler(new MenthorEditorAboutHandler());
 		}else{
 			createMenuItem(help, "About", CommandType.ABOUT, background);
 		}

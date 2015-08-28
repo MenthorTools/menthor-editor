@@ -1,11 +1,5 @@
 package net.menthor.editor.OSXMenu;
 
-import com.apple.eawt.AppEvent.QuitEvent;
-import com.apple.eawt.QuitHandler;
-import com.apple.eawt.QuitResponse;
-
-import net.menthor.editor.ui.MenthorEditor;;
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -27,13 +21,23 @@ import net.menthor.editor.ui.MenthorEditor;;
  * ============================================================================================
  */
 
-public class MenthorEditorQuitHandler implements QuitHandler {
+import com.apple.eawt.AboutHandler;
+import com.apple.eawt.AppEvent.AboutEvent;
+import net.menthor.editor.ui.MenthorEditor;
+import net.menthor.editor.v2.ui.AboutDialog;
 
-	@Override
-	public void handleQuitRequestWith(QuitEvent arg0, QuitResponse resp) {
-		if(!MenthorEditor.frame.quitApplication()){
-			resp.cancelQuit();
-		}
+public class MenthorEditorAboutHandler implements AboutHandler {
+
+	
+	public MenthorEditorAboutHandler() {
+		
 	}
+	
+	@Override public void handleAbout(AboutEvent evt){
+
+		AboutDialog.open(MenthorEditor.frame,MenthorEditor.MENTHOR_COMPILATION_DATE,MenthorEditor.MENTHOR_VERSION);
+		
+	}
+	
 
 }

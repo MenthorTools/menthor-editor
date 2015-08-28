@@ -28,16 +28,12 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import net.menthor.editor.OSXMenu.MenthorEditorAbout;
-import net.menthor.editor.OSXMenu.MenthorEditorQuitHandler;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.UIFontUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.swt.SWTConfigurer;
-import com.apple.eawt.Application;
 
 public final class MenthorEditor {
 	
