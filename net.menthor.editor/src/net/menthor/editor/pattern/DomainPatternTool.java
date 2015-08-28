@@ -9,7 +9,7 @@ import java.util.List;
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.Main;
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.PngWriter;

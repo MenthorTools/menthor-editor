@@ -1336,7 +1336,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private File saveCurrentProjectToFile(File file) 
 	{
 		System.out.println("Saving Menthor project...");
-		currentProject.setVersion(Main.MENTHOR_VERSION);
+		currentProject.setVersion(MenthorEditor.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
 		File result = null;
@@ -1475,7 +1475,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	public void about()
 	{
-		AboutDialog.open(getFrame(),Main.MENTHOR_COMPILATION_DATE,Main.MENTHOR_VERSION);
+		AboutDialog.open(getFrame(),MenthorEditor.MENTHOR_COMPILATION_DATE,MenthorEditor.MENTHOR_VERSION);
 	}
 	
 	public void licenses()
@@ -3472,7 +3472,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private File exportCurrentProjectToFile(File file) 
 	{
 		System.out.println("Saving Menthor Pattern project...");
-		currentProject.setVersion(Main.MENTHOR_VERSION);
+		currentProject.setVersion(MenthorEditor.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
 		File result = null;

@@ -28,6 +28,11 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
 
+import com.apple.eawt.Application;
+
+import net.menthor.editor.OSXMenu.MenthorEditorAbout;
+import net.menthor.editor.OSXMenu.MenthorEditorQuitHandler;
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;
@@ -71,7 +76,11 @@ public class MainMenuBar extends BaseMenuBar {
 		file.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
-		createMenuItem(file, "Quit", CommandType.QUIT_MENTHOR, background,stroke);
+		if(Util.onMac()){
+			Application.getApplication().setQuitHandler(new MenthorEditorQuitHandler());
+		}else{
+			createMenuItem(file, "Quit", CommandType.QUIT_MENTHOR, background,stroke);
+		}
 	}
 	
 	private void createEditMenu(){		
@@ -177,8 +186,13 @@ public class MainMenuBar extends BaseMenuBar {
 	
 	private void createHelpMenu(){
 		JMenu help = new JMenu("Help");
-		add(help);		
-		createMenuItem(help, "About", CommandType.ABOUT, background);
+		add(help);
+		//On Mac, the about menu is located on a default "Menthor Editor" menu. 
+		if(Util.onMac()){
+			Application.getApplication().setAboutHandler(new MenthorEditorAbout());
+		}else{
+			createMenuItem(help, "About", CommandType.ABOUT, background);
+		}
 		createMenuItem(help, "Licenses", CommandType.LICENSES, background);
 	}
 	

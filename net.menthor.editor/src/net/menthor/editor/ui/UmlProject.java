@@ -81,7 +81,7 @@ public class UmlProject implements Serializable {
 		super();
 		properties = new Properties();
 		resource = RefOntoUMLEditingDomain.getInstance().createResource();
-		version = Main.MENTHOR_VERSION;
+		version = MenthorEditor.MENTHOR_VERSION;
 		RefOntoUML.Package model = RefOntoUMLFactoryUtil.factory.createModel();
 		if(model.getName()==null || model.getName()=="") model.setName("Model");
 		resource.getContents().add(model);		

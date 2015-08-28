@@ -80,13 +80,16 @@ public class MainFrame extends JFrame implements CommandListener {
 		pack();
 	}
 	
-	public void quitApplication() {
+	public boolean quitApplication() {
 		if (canQuit()) {					
 			getDiagramManager().dispose();
 			dispose();
 			Thread.currentThread().interrupt();			
 			System.gc();
 			Runtime.getRuntime().exit(0);
+			return true;
+		}else{
+			return false;
 		}
 	}	
 	

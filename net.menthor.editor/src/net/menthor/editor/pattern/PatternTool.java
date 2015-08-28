@@ -5,7 +5,7 @@ import org.eclipse.swt.widgets.Display;
 import RefOntoUML.Classifier;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.Main;
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.util.Util;

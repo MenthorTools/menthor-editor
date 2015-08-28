@@ -5,8 +5,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="org.eclipse.swt"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/alloy4.2.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2sbvr"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2simpleowl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.xmi2ontouml"/>
@@ -65,8 +63,9 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.apache.commons.lang_2.6.0.v201205030909.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2infouml"/>
-	<classpathentry kind="lib" path="lib/ui.jar"/>
 	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.swt"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/alloy4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

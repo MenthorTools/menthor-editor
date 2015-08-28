@@ -29,14 +29,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import net.menthor.editor.OSXMenu.MenthorEditorAbout;
+import net.menthor.editor.OSXMenu.MenthorEditorQuitHandler;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.UIFontUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.swt.SWTConfigurer;
+import com.apple.eawt.Application;
 
-public final class Main {
+public final class MenthorEditor {
 	
 	public static MainFrame frame; 
 
@@ -57,7 +60,8 @@ public final class Main {
 		System.setProperty("sun.awt.xembedserver", "true");		
 		// Enable better look-and-feel
         if (Util.onMac() || Util.onWindows()) {
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Menthor");
+        	//This sets the name of the application for Mac. However, it also requires a VM argument: -Xdock:name="Menthor Editor"
+        	System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Menthor Editor");
             System.setProperty("com.apple.mrj.application.growbox.intrudes","true");
             System.setProperty("com.apple.mrj.application.live-resize","true");
             System.setProperty("com.apple.macos.useScreenMenuBar","true");

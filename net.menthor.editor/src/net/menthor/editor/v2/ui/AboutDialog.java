@@ -45,7 +45,7 @@ import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JDialog{
 
 	private static final long serialVersionUID = -251319551154959770L;
 	
@@ -64,8 +64,8 @@ public class AboutDialog extends JDialog {
 		try {
 			AboutDialog dialog = new AboutDialog(listener, buildDate, version);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo((Component)listener);
 			dialog.setVisible(true);
-			dialog.setLocationRelativeTo((Component)listener);						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -163,4 +163,5 @@ public class AboutDialog extends JDialog {
 		detailsPanel.setLayout(gl_licensesDetailsPanel);
 		return detailsPanel;
 	}
+
 }
