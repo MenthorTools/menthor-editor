@@ -114,6 +114,7 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
     			}        		
     			setProgress(100);    			
         	}catch (Exception e1){
+        		OwlSettingsDialog.this.getProgressPane().append("Something unsual happepend: "+e1.getLocalizedMessage());
     			e1.printStackTrace();
     		}        	        	
             return null;

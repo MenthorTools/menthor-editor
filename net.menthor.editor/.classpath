@@ -66,6 +66,7 @@
 	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.swt"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/apple/rt.jar"/>
 	<classpathentry kind="lib" path="lib/alloy4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

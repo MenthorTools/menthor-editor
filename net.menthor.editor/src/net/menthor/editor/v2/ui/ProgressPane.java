@@ -49,8 +49,7 @@ public class ProgressPane extends JPanel implements PropertyChangeListener {
     
     public void disableUI(){
     	Toolkit.getDefaultToolkit().beep();
-    	startButton.setEnabled(true);
-        taskOutput.append("Done!\n");
+    	startButton.setEnabled(true);        
     }
     
     public void append(String text){
