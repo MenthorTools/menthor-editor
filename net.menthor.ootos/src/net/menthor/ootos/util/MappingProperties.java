@@ -396,4 +396,19 @@ public class MappingProperties {
 		
 		return topSuperMappedProperty;
 	}
+	
+	public String getName(Object... elements){
+		String name = "";
+		for (Object elem : elements) {
+			if(elem instanceof RefOntoUML.NamedElement){
+				name += ((NamedElement) elem).getName() + ".";
+			}else{
+				name += elem + ".";
+			}
+		}
+		int lastDot = name.lastIndexOf(".");
+		name = name.substring(0, lastDot).replaceAll(" ", "_").replaceAll("\n", "_");
+		
+		return name;		
+	}
 }
