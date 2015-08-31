@@ -14,7 +14,6 @@ import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
 import RefOntoUML.parser.OntoUMLParser;
-import br.com.inf.nemo.ontouml2rdf.OntoUML2RDF;
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -47,11 +46,6 @@ public class OWLHelper {
     		if(trOpt.getApproach()==OWL2Approach.SIMPLE) 
     		{    			
     			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getIRI());
-    		}
-    		if(trOpt.getApproach()==OWL2Approach.UFO_RDF) 
-    		{    			
-    			OntoUML2RDF ontoUml2rdf = new OntoUML2RDF(owlOptions, model, owlOptions.getIRI());
-    			owlOutput = ontoUml2rdf.transform();
     		}
     		if(trOpt.getApproach()==OWL2Approach.OOTOS)
     		{    			
