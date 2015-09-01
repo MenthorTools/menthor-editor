@@ -640,8 +640,14 @@ public class OwlFactoryUtil {
 	}
 	
 	public void createObjectPropertyInverse(OWLObjectProperty property, OWLObjectProperty invProperty){
-		if(owlAxioms.getValue(OWL2Axiom.INVERSE))
-			manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(property, invProperty)));
+		if(!owlAxioms.getValue(OWL2Axiom.INVERSE)) return;
+		manager.applyChange(new AddAxiom(ontology,factory.getOWLInverseObjectPropertiesAxiom(property, invProperty)));		
+	}
+	
+	public void createObjectPropertyInverse(OWLObjectProperty property, OWLObjectProperty invProperty, OWLClass src, OWLClass dst){
+		createObjectPropertyInverse(property, invProperty);
+		createObjectPropertyDomain(dst, invProperty);
+		createObjectPropertyRange(src, invProperty);
 	}
 	
 	public void createDataPropertyDomain(OWLDataProperty dataProperty, OWLClass owlClass){
@@ -818,7 +824,7 @@ public class OwlFactoryUtil {
 		createCardinality(invProp, src, dst, lowerCard, upperCard);
 		putInHash(stereotype, invProp);
 		
-		createObjectPropertyInverse(prop, invProp);
+		createObjectPropertyInverse(prop, invProp, src, dst);
 	}
 	
 	public void createObjectPropertyDomain(OWLClass src, OWLObjectProperty prop){
