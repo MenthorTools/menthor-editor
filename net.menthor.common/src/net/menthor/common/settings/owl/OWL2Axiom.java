@@ -44,7 +44,8 @@ public enum OWL2Axiom implements Serializable {
 	UFO_STRUCTURE(""),	
 	LABELS(""),
 	COMMENTS(""),
-	REASONER("The reasoner used to run inferences");
+	REASONER("The reasoner used to run inferences"),
+	OBJ_PROP_BY_ENDS("");
 		
 	private String description;
 

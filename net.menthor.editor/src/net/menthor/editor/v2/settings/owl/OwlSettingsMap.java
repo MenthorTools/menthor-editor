@@ -450,6 +450,7 @@ public final class OwlSettingsMap {
 		opt.setValue(OWL2Axiom.UFO_STRUCTURE, getValue(OWL2Axiom.UFO_STRUCTURE));
 		opt.setValue(OWL2Axiom.COMMENTS, getValue(OWL2Axiom.COMMENTS));
 		opt.setValue(OWL2Axiom.LABELS, getValue(OWL2Axiom.LABELS));
+		opt.setValue(OWL2Axiom.OBJ_PROP_BY_ENDS, getValue(OWL2Axiom.OBJ_PROP_BY_ENDS));
 		opt.setReasoner(getReasoner());
 		return opt;
 	}

@@ -306,8 +306,6 @@ public class Transformer {
 			if(lstGsSetMapChildren.contains(srcT) || lstGsSetMapChildren.contains(tgtT)) continue;
 			if(lstDataType.contains(srcT) || lstDataType.contains(tgtT)) continue;
 			
-			owlFactoryUtil.createLabel(ass, srcT);
-			
 			owlFactoryUtil.createObjectProperty(ass);
 
 			if(mappingProperties.isMappedAsSubPropertyOf(ass)){

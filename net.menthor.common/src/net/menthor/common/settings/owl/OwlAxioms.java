@@ -30,13 +30,6 @@ public class OwlAxioms {
 	private Map<OWL2Axiom, Boolean> axiomsMap = new HashMap<OWL2Axiom, Boolean>();
 	private OWL2Reasoner owlReasoner = OWL2Reasoner.UNSELECTED;
 	
-	//=========================
-	//We really need this?
-	private boolean assocNamesByAssocEnds = true;
-	public boolean isAssocNamesByAssocEnds() { return assocNamesByAssocEnds; }
-	public void setAssocNamesByAssocEnds(boolean assocNamesByAssocEnds) { this.assocNamesByAssocEnds = assocNamesByAssocEnds; }
-	//=========================
-	
 	public OwlAxioms(){
 		axiomsMap.put(OWL2Axiom.ASYMMETRIC,false);
 		axiomsMap.put(OWL2Axiom.CARDINALITIES,false);
@@ -56,6 +49,7 @@ public class OwlAxioms {
 		axiomsMap.put(OWL2Axiom.SYMMETRIC,false);
 		axiomsMap.put(OWL2Axiom.TRANSITIVE,false);
 		axiomsMap.put(OWL2Axiom.UFO_STRUCTURE,false);
+		axiomsMap.put(OWL2Axiom.OBJ_PROP_BY_ENDS,false);
 	}
 
 	public void setValue(OWL2Axiom axiom, Boolean value) { 

@@ -11,6 +11,7 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.impl.PropertyImpl;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.common.settings.owl.OWL2Axiom;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
 
@@ -147,7 +148,7 @@ public class MappingProperties {
 		
 		String invPropertyName = "INV." + propertyName;
 		
-		MappedProperty newMappedProperty = new MappedProperty(property, propertyName, invPropertyName);
+		MappedProperty newMappedProperty = new MappedProperty(property, propertyName, invPropertyName, initialName, "inverse of " + initialName);
 		if(secondAbstract != null){
 			newMappedProperty.setMappedAsSubPropertyOf(secondAbstract);
 		}else if(superMappedProperty != null){
@@ -199,7 +200,7 @@ public class MappingProperties {
 				}else{
 					isSource = false;
 				}
-				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true);
+				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true, oldMappedProperty.getLabel(), oldMappedProperty.getInvLabel());
 				if(isSource){
 					propertyByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
 				}else{
@@ -244,7 +245,7 @@ public class MappingProperties {
 				}else{
 					isSource = false;
 				}
-				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true);
+				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true, oldMappedProperty.getLabel(), oldMappedProperty.getInvLabel());
 				if(isSource){
 					propertyByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
 				}else{
@@ -269,7 +270,7 @@ public class MappingProperties {
 			outputMessages += "Warning: The association end <"+origTgtEndName+"> with repeated name was renamed to <"+tgtEndName+">;\n";
 		}
 		
-		MappedProperty mappedProperty = new MappedProperty(property, tgtEndName, srcEndName);
+		MappedProperty mappedProperty = new MappedProperty(property, tgtEndName, srcEndName, origTgtEndName, origSrcEndName);
 		propertyByName.put(srcEndName, mappedProperty);
 		propertyByName.put(tgtEndName, mappedProperty);
 		propertyByAlias.put(ontoParser.getAlias(property), mappedProperty);
@@ -290,7 +291,7 @@ public class MappingProperties {
 		MappedProperty existentMappedProperty = propertyByName.get(property.getGeneratedName());
 		MappedProperty abstractMappedProperty = existentMappedProperty;
 		if(existentMappedProperty.isAbstract() == false){
-			abstractMappedProperty = new MappedProperty(_property, property.getGeneratedName(), property.getInvGeneratedName(), true);//////////////////////////////
+			abstractMappedProperty = new MappedProperty(_property, property.getGeneratedName(), property.getInvGeneratedName(), true, property.getLabel(), property.getInvLabel());//////////////////////////////
 			propertyByName.put(property.getGeneratedName(), abstractMappedProperty);
 			generatePropertyName(existentMappedProperty.getProperty(), abstractMappedProperty);
 		}		
@@ -307,7 +308,7 @@ public class MappingProperties {
 	 * @return
 	 */
 	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
-		if(((OwlAxioms)owlOptions.getOwlAxioms()).isAssocNamesByAssocEnds()){
+		if(((OwlAxioms)owlOptions.getOwlAxioms()).getValue(OWL2Axiom.OBJ_PROP_BY_ENDS)){
 			return generatePropertyNameByAssocEnd(property);
 		}else{
 			return generatePropertyNameByAssocName(property, superMappedProperty);
@@ -411,4 +412,6 @@ public class MappingProperties {
 		
 		return name;		
 	}
+	
+	
 }

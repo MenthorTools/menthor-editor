@@ -38,7 +38,6 @@ import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataRange;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
@@ -52,6 +51,7 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNamedObject;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
@@ -59,7 +59,6 @@ import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -259,27 +258,32 @@ public class OwlFactoryUtil {
 	}
 	
 	public void createLabel(NamedElement dtcls){
-		OWLClass owlCls = getOwlClass(dtcls);
 		if(!this.owlAxioms.getValue(OWL2Axiom.LABELS)) return;
-		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(dtcls.getName()));
-		OWLAxiom ax = factory.getOWLAnnotationAssertionAxiom( owlCls.getIRI(), commentAnno);
-		manager.applyChange(new AddAxiom(ontology, ax));
+		OWLClass owlCls = getOwlClass(dtcls);
+		createLabel(owlCls, dtcls.getName());
+	}
+	
+	private void createLabel(OWLNamedObject owlObj, String label){
+		if(!this.owlAxioms.getValue(OWL2Axiom.LABELS)) return;
+		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
+		OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( owlObj.getIRI(), commentAnno);
+		manager.applyChange(new AddAxiom(ontology, commeAx));
 	}
 	
 	public void createLabel(NamedElement ass, NamedElement _RefOntoOwnerClass){
 		if(!this.owlAxioms.getValue(OWL2Axiom.LABELS)) return;
 		String _attributeName = getDataPropertyName(ass);
+		OWLDataProperty owlProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
+		
+		MappedProperty mappedProperty = mappingProperties.getMappedProperty(ass);
 		
 		String label;
-		if(this.owlAxioms.isAssocNamesByAssocEnds()){
-			label = ass.getName();
+		if(this.owlAxioms.getValue(OWL2Axiom.OBJ_PROP_BY_ENDS)){
+			label = mappedProperty.getLabel();			
 		}else{
 			label = _RefOntoOwnerClass.getName() + "." + ass.getName();
 		}
-		OWLDataProperty owlProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
-		OWLAnnotation commentAnno = factory.getOWLAnnotation( factory.getRDFSLabel(),  factory.getOWLLiteral(label));
-		OWLAxiom commeAx = factory.getOWLAnnotationAssertionAxiom( owlProperty.getIRI(), commentAnno);
-		manager.applyChange(new AddAxiom(ontology, commeAx));
+		createLabel(owlProperty, label);
 		
 	}
 	
@@ -787,6 +791,8 @@ public class OwlFactoryUtil {
 		RefOntoUML.Classifier srcT = (Classifier) ass.getMemberEnd().get(sideSrc).getType();
 		RefOntoUML.Classifier tgtT = (Classifier) ass.getMemberEnd().get(sideDst).getType();
 		
+		createLabel(ass, srcT);
+		
 		//source class of the relation
 		OWLClass src = getOwlClass(srcT);		
 
@@ -813,7 +819,8 @@ public class OwlFactoryUtil {
 		
 		OWLObjectProperty invProp = getInverseObjectProperty(ass);
 		createObjectProperty(invProp);
-		
+		if(owlAxioms.getValue(OWL2Axiom.OBJ_PROP_BY_ENDS))
+			createLabel(invProp, mappingProperties.getMappedProperty(ass).getInvLabel());
 		createObjectPropertyDomain(srcT, prop);
 		createObjectPropertyRange(tgtT, prop);
 		

@@ -11,9 +11,10 @@ public class MappedProperty {
 	private NamedElement property;
 	private String generatedName;
 	private String invGeneratedName;
+	private String label;
+	private String invLabel;
 	private MappedProperty mappedAsSubPropertyOf;
 	private boolean isAbstract = false; 
-	private String label;
 	
 	/**
 	 * Represents the 
@@ -24,10 +25,12 @@ public class MappedProperty {
 	 * @param _generatedName
 	 * @param _invGeneratedName
 	 */
-	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName) {
+	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName, String _label, String _invLabel) {
 		property = _property;
 		generatedName = _generatedName;
 		invGeneratedName = _invGeneratedName;
+		label = _label;
+		invLabel = _invLabel;
 	}
 	
 	/**
@@ -38,8 +41,8 @@ public class MappedProperty {
 	 * @param _invGeneratedName
 	 * @param _isAbstract
 	 */
-	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName, boolean _isAbstract) {
-		this(_property, _generatedName, _invGeneratedName);
+	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName, boolean _isAbstract, String _label, String _invLabel) {
+		this(_property, _generatedName, _invGeneratedName, _label, _invLabel);
 		isAbstract = _isAbstract;
 	}
 	
@@ -179,5 +182,9 @@ public class MappedProperty {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public String getInvLabel() {
+		return invLabel;
 	}
 }

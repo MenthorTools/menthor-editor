@@ -65,6 +65,7 @@ public class OwlAxiomsPane extends JPanel {
 	private JCheckBox labelsCheck;
 	private JCheckBox commentsCheck;
 	private JComboBox<OWL2Reasoner> owlReasonerBox;
+	private JCheckBox objPropByEnds;
 	private JLabel iriLabel;
 	private JTextField iriTextField;
 	private JLabel lblClass;
@@ -191,6 +192,10 @@ public class OwlAxiomsPane extends JPanel {
 		);
 		rulesCheck = new JCheckBox("Rules");
 		docPane.add(rulesCheck);		
+		
+		objPropByEnds = new JCheckBox("OP by Ends");
+		objPropByEnds.setToolTipText("Object Properties named by Association Ends");
+		docPane.add(objPropByEnds);
 		lblReasoner = new JLabel("Reasoner:");
 		docPane.add(lblReasoner);
 		owlReasonerBox = new JComboBox<OWL2Reasoner>();
@@ -232,6 +237,7 @@ public class OwlAxiomsPane extends JPanel {
 		symmetryCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.SYMMETRIC));
 		transitivityCheck.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.TRANSITIVE));
 		ufoStructure.setSelected(OwlSettingsMap.getInstance().getValue(OWL2Axiom.UFO_STRUCTURE));
+		objPropByEnds.setSelected(true);
 		owlReasonerBox.setSelectedItem(OwlSettingsMap.getInstance().getReasoner());
 		iriTextField.setText(OwlSettingsMap.getInstance().getIRI());
 	}
@@ -255,9 +261,9 @@ public class OwlAxiomsPane extends JPanel {
 		OwlSettingsMap.getInstance().setValue(OWL2Axiom.SYMMETRIC,symmetryCheck.isSelected());
 		OwlSettingsMap.getInstance().setValue(OWL2Axiom.TRANSITIVE,transitivityCheck.isSelected());
 		OwlSettingsMap.getInstance().setValue(OWL2Axiom.UFO_STRUCTURE,ufoStructure.isSelected());
+		OwlSettingsMap.getInstance().setValue(OWL2Axiom.OBJ_PROP_BY_ENDS,objPropByEnds.isSelected());
 		OwlSettingsMap.getInstance().setReasoner((OWL2Reasoner)owlReasonerBox.getSelectedItem());
 		OwlSettingsMap.getInstance().setIRI((String)iriTextField.getText());
 		OwlSettingsMap.getInstance().store();
 	}
-	
 }
