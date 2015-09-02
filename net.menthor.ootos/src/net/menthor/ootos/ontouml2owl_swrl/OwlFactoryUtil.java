@@ -433,7 +433,7 @@ public class OwlFactoryUtil {
 				Iterator<OWLClassExpression> i = lstSubClassOfExpression.iterator();
 				while(i.hasNext()) {
 					OWLClassExpression ax = i.next();
-					createSubClassOf(currentClass, ax.asOWLClass());
+					createSubClassOf(ax.asOWLClass(), currentClass);
 				}
 			}
 		}
