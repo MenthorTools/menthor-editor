@@ -1,6 +1,6 @@
 package net.menthor.story.ui;
 
-import org.eclipse.jface.action.MenuManager;
+//import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -12,16 +12,16 @@ import org.eclipse.swt.widgets.TreeItem;
 public class StoryElementTimelineMenu extends Menu {
 	final private StoryElementTimeline setml;
 	final private Tree tree;
-	final private MenuManager menuManager;
+	//final private MenuManager menuManager;
 	public StoryElementTimelineMenu(StoryElementTimeline storyElementTimeline) {
 		super(storyElementTimeline.getTree());
 		tree = storyElementTimeline.getTree();
 		setml = storyElementTimeline;
 		this.addMenuOptions();
-		menuManager = new MenuManager(); //http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2Fjface_actions.htm
+		//menuManager = new MenuManager(); //http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2Fjface_actions.htm
 	}
 	
-	//only used at the constructor
+		//only used at the constructor
 		private void addMenuOptions() {
 			final MenuItem addElementMenuItem = new MenuItem(this, SWT.NONE);
 		    addElementMenuItem.addSelectionListener(new SelectionAdapter() {
@@ -50,7 +50,7 @@ public class StoryElementTimelineMenu extends Menu {
 		          System.out.println("Insert Before - nothing selected. Insert at beggining");
 		          item = setml.createNode(tree, 0);
 		      	}
-		        item.setText("abv");  
+		         
 		      }
 		      
 		    });

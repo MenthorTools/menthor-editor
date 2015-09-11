@@ -148,6 +148,11 @@ public abstract class ClassEditor extends Composite {
 		}
 	}
 	protected class CounterHashMap extends java.util.HashMap<CLabel,java.lang.Integer>{
+		/**
+		 * serialVersionUID generated automatically by eclipse
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public void increment(CLabel label){
 			if( this.get(label) != null){
 				this.put(label, (this.get(label)) +1);

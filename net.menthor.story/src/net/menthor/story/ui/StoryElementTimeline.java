@@ -205,7 +205,28 @@ public class StoryElementTimeline {
 	  		public void handleEvent(Event event) {
 	  			Point pt = parent.getDisplay().map(null, tree, new Point(event.x, event.y));
 	  			Rectangle clientArea = tree.getClientArea();
+	  			
+	  			//the default is for windows, we have to calculate differently for mac, but have not tested on all plataforms
 	  			boolean header = clientArea.y <= pt.y && pt.y < (clientArea.y + tree.getHeaderHeight());
+	  			final String OS = System.getProperty("os.name").toLowerCase();
+	  			if (OS.indexOf("mac") >= 0) {
+	  				header = pt.y >= clientArea.y - tree.getHeaderHeight() && pt.y < clientArea.y ;
+	  			}
+	  			/*I leave the structure below behind in case the bug emerges in other plataforms
+	  			 else if (OS.indexOf("win") >= 0) {
+	  				// Windows
+	  				header = clientArea.y - tree.getHeaderHeight() <= pt.y && pt.y < clientArea.y;
+	  			} else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 ) {
+	  				// Unix or Linux
+	  			} else if (OS.indexOf("sunos") >= 0) {
+	  				// Solaris
+	  			} else {
+	  				//some other OS
+	  			}
+	  			*/
+	  			
+	  			
+	  			System.out.println(clientArea.y +" "+ pt.y +" "+ tree.getHeaderHeight() + " "+ (clientArea.y + tree.getHeaderHeight()));
 	  			int selectedColumn = StoryElementTimeline.getColumn(pt, tree);
 	  			mng.setSelectedColumn(selectedColumn);		  					
 	  			mng.setHeader(header);	  			

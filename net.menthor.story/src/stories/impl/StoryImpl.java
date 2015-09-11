@@ -271,8 +271,6 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 	}
 	
 	public Story mergeReferences(){
-		int counter = 0; 
-		
 		//set of all stories. This story plus any nested story
 		Set<Story> all_stories = new HashSet<Story>();
 		all_stories.add(this);

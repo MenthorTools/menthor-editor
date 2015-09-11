@@ -1,14 +1,9 @@
 package net.menthor.story.ui.menu;
 
-import net.menthor.story.ui.StoryElementTimeline;
-
 import org.eclipse.jface.action.Action;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import net.menthor.story.ui.StoryElementTimeline;
 
 public class ActionAddLink extends Action {
 	final private StoryElementTimeline setml;

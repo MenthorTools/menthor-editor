@@ -10,16 +10,14 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.junit.Test;
+
 
 import stories.Action;
 import stories.Node;
 import stories.Classification_statement;
 import stories.StoriesPackage;
 import stories.World;
-import RefOntoUML.*;
 import net.menthor.story.ui.StoryElementTimeline;
 
 /**

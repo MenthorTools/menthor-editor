@@ -6,6 +6,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
+import RefOntoUML.AntiRigidMixinClass;
+import RefOntoUML.AntiRigidSortalClass;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Class;
@@ -27,18 +29,40 @@ public class CheckboxClassListener implements Listener {
 		public void handleEvent (Event event) {
     		CLabel classCheckbox = (CLabel) event.widget;
     		Image img = classCheckbox.getImage();
-    		System.out.println(classCheckbox.getData());
+    		
 			//The images are used as state identifiers
-			if(img == parent.getImgUnchecked()){
-				classCheckbox.setImage(parent.getImgYes());
-				doYes((Classifier)classCheckbox.getData());
+    		//actionType will determine what to do. 
+    		//	1: check the box (with a v)
+    		//  2: mark the box with an X
+    		//  3: uncheck the box
+    		int actionType = 0;
+    		if(img == parent.getImgUnchecked()){
+    			actionType = 1;
 			}else if (img == parent.getImgYes()){
-				classCheckbox.setImage(parent.getImgNo());
-				doNo((Classifier)classCheckbox.getData());
+				actionType = 2;
+				//classification statements will not be set to ImgNo, we will skip to unchecked
+				if(classCheckbox.getData() instanceof AntiRigidSortalClass
+						|| classCheckbox.getData() instanceof AntiRigidMixinClass){
+					actionType = 3;
+				}
 			}else if (img == parent.getImgNo() || img == parent.getImgIndeterminate()){
-				classCheckbox.setImage(parent.getImgUnchecked());
-				doUncheck((Classifier)classCheckbox.getData());						
+				actionType = 3;
 			}
+    		switch(actionType){
+    			case 1:
+    				classCheckbox.setImage(parent.getImgYes());
+    				doYes((Classifier)classCheckbox.getData());
+    				break;
+    			case 2:
+    				classCheckbox.setImage(parent.getImgNo());
+					doNo((Classifier)classCheckbox.getData());
+					break;
+    			case 3:
+    				classCheckbox.setImage(parent.getImgUnchecked());
+    				doUncheck((Classifier)classCheckbox.getData());	
+    				break;
+    		}
+			
 			
 		}
 		private void doYes(Classifier classifier) {
@@ -68,8 +92,9 @@ public class CheckboxClassListener implements Listener {
 	    			l.getInstance_of().remove((Association)classifier);
 	    			l.getNot_instance_of().add((Association)classifier);
 	    		}else if( data.getClass() == Classification_statementImpl.class){
-	    			Classification_statement ns = (Classification_statement)data;
-	    			ns.getAntiRigidClasses().remove((Class)classifier);
+	    			//Classification_statement ns = (Classification_statement)data;
+	    			//ns.getAntiRigidClasses().remove((Class)classifier);
+	    			System.out.println("Classification statementes shouldn't be marked as No");
 	    			
 	    		}
 			}
@@ -85,8 +110,9 @@ public class CheckboxClassListener implements Listener {
 	    			Link l = (Link)data;
 	    			l.getNot_instance_of().remove((Association)classifier);
 	    		}else if( data.getClass() == Classification_statementImpl.class){
+	    			
 	    			Classification_statement ns = (Classification_statement)data;
-	    			//ns.getAntiRigidClasses().add((Class)classifier);
+	    			ns.getAntiRigidClasses().remove((Class)classifier);
 	    		}
 			}
 		}

@@ -1,34 +1,21 @@
 package net.menthor.story;
 
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import stories.Link;
-import stories.Node;
-import stories.Classification_statement;
-import stories.StoriesFactory;
-import stories.StoriesPackage;
-import stories.Story;
-import stories.World;
-import stories.util.StoriesResourceFactoryImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
+import stories.StoriesPackage;
+import stories.Story;
 
 
 public class OntoUMLStoryCrafter {

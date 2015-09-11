@@ -1,19 +1,14 @@
 package net.menthor.story.ui;
 
 import net.menthor.story.WorldList;
-
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import stories.Individual;
-import stories.Link;
-import stories.Node;
 import stories.Classification_statement;
 import stories.World;
 import stories.impl.LinkImpl;

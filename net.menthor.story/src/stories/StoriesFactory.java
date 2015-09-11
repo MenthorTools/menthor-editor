@@ -3,9 +3,6 @@
 package stories;
 
 import org.eclipse.emf.ecore.EFactory;
-
-import net.menthor.story.ui.StoryElementTimeline;
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Factory</b> for the model.
