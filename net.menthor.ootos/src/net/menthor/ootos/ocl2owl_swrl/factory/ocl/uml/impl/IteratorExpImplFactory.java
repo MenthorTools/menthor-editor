@@ -7,7 +7,7 @@ import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.IteratorExpImpl;
 import org.eclipse.ocl.uml.impl.OCLExpressionImpl;
@@ -29,7 +29,7 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class IteratorExpImplFactory extends LoopExpImplFactory {
 
-	public IteratorExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+	public IteratorExpImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 		
 		//verifies if the iterator is unsupported

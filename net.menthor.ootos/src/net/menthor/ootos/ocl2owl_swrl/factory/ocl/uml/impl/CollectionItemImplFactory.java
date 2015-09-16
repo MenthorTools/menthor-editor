@@ -6,7 +6,7 @@ import java.util.Set;
 import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.CollectionItemImpl;
 import org.eclipse.ocl.uml.impl.OCLExpressionImpl;
@@ -27,7 +27,7 @@ public class CollectionItemImplFactory extends CollectionLiteralPartImplFactory 
 
 	OCLExpressionImplFactory itemFactory;
 	
-	public CollectionItemImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
+	public CollectionItemImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);	
 	}
 	

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.BooleanLiteralExpImpl;
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
@@ -23,7 +23,7 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class BooleanLiteralExpImplFactory extends PrimitiveLiteralExpImplFactory {
 
-	public BooleanLiteralExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
+	public BooleanLiteralExpImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 

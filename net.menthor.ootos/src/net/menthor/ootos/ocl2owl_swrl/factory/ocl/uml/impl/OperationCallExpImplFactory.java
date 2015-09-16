@@ -13,7 +13,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.UnsupportedByReasoner;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.expressions.OCLExpression;
@@ -66,7 +66,7 @@ public class OperationCallExpImplFactory extends FeatureCallExpImplFactory {
 
 	public OCLExpressionImplFactory argumentFactory;
 	
-	public OperationCallExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+	public OperationCallExpImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 		
 		//verify if the operator is unsupported and throw a new exception

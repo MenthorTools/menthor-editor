@@ -7,7 +7,7 @@ import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl.TypedElementImplFactory;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.ocl.uml.impl.VariableImpl;
@@ -29,7 +29,7 @@ import RefOntoUML.parser.OntoUMLParser;
 public class VariableImplFactory extends TypedElementImplFactory {
 	OCLExpressionImplFactory initExpressionFactory;
 	
-	public VariableImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
+	public VariableImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 	

@@ -21,10 +21,10 @@ import net.menthor.common.settings.owl.OwlOptions;
  * @author Freddy Brasileiro
  *
  */
-public class MappingProperties {
+public class MappingElements {
 	private OntoUMLParser ontoParser;
-	private HashMap<String, MappedProperty> propertyByAlias = new HashMap<String, MappedProperty>();
-	private HashMap<String, MappedProperty> propertyByName = new HashMap<String, MappedProperty>();
+	private HashMap<String, MappedElement> elementByAlias = new HashMap<String, MappedElement>();
+	private HashMap<String, MappedElement> elementByName = new HashMap<String, MappedElement>();
 	private String outputMessages = "";
 	private OwlOptions owlOptions;
 	
@@ -43,13 +43,13 @@ public class MappingProperties {
 	 * @param _ontoParser
 	 * @param owlOptions
 	 */
-	public MappingProperties(OntoUMLParser _ontoParser, OwlOptions owlOptions) {
+	public MappingElements(OntoUMLParser _ontoParser, OwlOptions owlOptions) {
 		this.ontoParser = _ontoParser;
 		this.owlOptions = owlOptions;
 	}
 	
 	@SuppressWarnings("unused")
-	private MappingProperties() {}
+	private MappingElements() {}
 	
 	/**
 	 * Returns the mapping of a property (see the class MappedProperty).
@@ -60,11 +60,11 @@ public class MappingProperties {
 	 * @param property
 	 * @return
 	 */
-	public MappedProperty getMappedProperty(NamedElement property){
+	public MappedElement getMappedProperty(NamedElement property){
 		String propertyAlias = ontoParser.getAlias(property);
-		MappedProperty mappedProperty;
-		if(propertyByAlias.containsKey(propertyAlias)){
-			mappedProperty = propertyByAlias.get(propertyAlias);
+		MappedElement mappedProperty;
+		if(elementByAlias.containsKey(propertyAlias)){
+			mappedProperty = elementByAlias.get(propertyAlias);
 		}else{
 			mappedProperty = generatePropertyName(property, null);
 		}
@@ -82,7 +82,7 @@ public class MappingProperties {
 	 * @param superMappedProperty
 	 * @return
 	 */
-	private MappedProperty generatePropertyNameByAssocName(NamedElement property, MappedProperty superMappedProperty) {
+	private MappedElement generatePropertyNameByAssocName(NamedElement property, MappedElement superMappedProperty) {
 		String propertyName = property.getName();
 		propertyName = StringUtil.processSpecialCharacter(propertyName);
 		String initialName = propertyName;
@@ -127,9 +127,9 @@ public class MappingProperties {
 			propertyName = source + "." + propertyName;
 		}
 		
-		MappedProperty secondAbstract = null, thirdAbstract = null;
-		if(propertyByName.containsKey(propertyName)){
-			MappedProperty oldMappedProperty = propertyByName.get(propertyName);
+		MappedElement secondAbstract = null, thirdAbstract = null;
+		if(elementByName.containsKey(propertyName)){
+			MappedElement oldMappedProperty = elementByName.get(propertyName);
 			secondAbstract = refactorPropertyByName(property, oldMappedProperty);
 			
 			if(property instanceof Association){
@@ -137,8 +137,8 @@ public class MappingProperties {
 			}
 		}
 		
-		if(propertyByName.containsKey(propertyName)){
-			MappedProperty oldMappedProperty = propertyByName.get(propertyName);
+		if(elementByName.containsKey(propertyName)){
+			MappedElement oldMappedProperty = elementByName.get(propertyName);
 			thirdAbstract = refactorPropertyByName(property, oldMappedProperty);
 			
 			if(property instanceof Association){
@@ -148,7 +148,7 @@ public class MappingProperties {
 		
 		String invPropertyName = "INV." + propertyName;
 		
-		MappedProperty newMappedProperty = new MappedProperty(property, propertyName, invPropertyName, initialName, "inverse of " + initialName);
+		MappedElement newMappedProperty = new MappedElement(property, propertyName, invPropertyName, initialName, "inverse of " + initialName);
 		if(secondAbstract != null){
 			newMappedProperty.setMappedAsSubPropertyOf(secondAbstract);
 		}else if(superMappedProperty != null){
@@ -164,8 +164,8 @@ public class MappingProperties {
 		
 		newMappedProperty.setLabel(initialName);
 		
-		propertyByName.put(propertyName, newMappedProperty);
-		propertyByAlias.put(propertyAlias, newMappedProperty);
+		elementByName.put(propertyName, newMappedProperty);
+		elementByAlias.put(propertyAlias, newMappedProperty);
 		
 		return newMappedProperty;
 	}
@@ -179,10 +179,14 @@ public class MappingProperties {
 	 * @param superMappedProperty
 	 * @return
 	 */
-	private MappedProperty generatePropertyNameByAssocEnd(NamedElement property) {
+	private MappedElement generatePropertyNameByAssocEnd(NamedElement property) {
 		String origSrcEndName;
 		if(property instanceof Association){
 			origSrcEndName = ((Association) property).getMemberEnd().get(0).getName();
+			if(origSrcEndName == null || origSrcEndName.equals("")){
+				origSrcEndName = "_"+((Association) property).getMemberEnd().get(0).getType().getName();
+				outputMessages += "Warning: The source association end of the association <"+origSrcEndName+"> was empty and was renamed to <"+origSrcEndName+">;\n";				
+			}
 		}else{
 			origSrcEndName = property.getName();
 		}
@@ -191,20 +195,20 @@ public class MappingProperties {
 		
 		int i = 1;
 		String srcEndName = origSrcEndName;
-		while(propertyByName.containsKey(srcEndName)){
+		while(elementByName.containsKey(srcEndName)){
 			if(i == 1){
-				MappedProperty oldMappedProperty = propertyByName.get(srcEndName);
+				MappedElement oldMappedProperty = elementByName.get(srcEndName);
 				boolean isSource;
 				if(oldMappedProperty.getGeneratedName().equals(srcEndName)){
 					isSource = true;
 				}else{
 					isSource = false;
 				}
-				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true, oldMappedProperty.getLabel(), oldMappedProperty.getInvLabel());
+				MappedElement abstractMappedProperty = new MappedElement(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true, oldMappedProperty.getLabel(), oldMappedProperty.getInvLabel());
 				if(isSource){
-					propertyByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
+					elementByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
 				}else{
-					propertyByName.put(abstractMappedProperty.getInvGeneratedName(), abstractMappedProperty);
+					elementByName.put(abstractMappedProperty.getInvGeneratedName(), abstractMappedProperty);
 				}
 				
 				srcEndName = origSrcEndName + i;
@@ -212,10 +216,10 @@ public class MappingProperties {
 				
 				if(isSource){
 					oldMappedProperty.setGeneratedName(srcEndName);
-					propertyByName.put(oldMappedProperty.getGeneratedName(), oldMappedProperty);
+					elementByName.put(oldMappedProperty.getGeneratedName(), oldMappedProperty);
 				}else{
 					oldMappedProperty.setInvGeneratedName(srcEndName);
-					propertyByName.put(oldMappedProperty.getInvGeneratedName(), oldMappedProperty);
+					elementByName.put(oldMappedProperty.getInvGeneratedName(), oldMappedProperty);
 				}
 				
 			}
@@ -229,6 +233,10 @@ public class MappingProperties {
 		String origTgtEndName;
 		if(property instanceof Association){
 			origTgtEndName = ((Association) property).getMemberEnd().get(1).getName();
+			if(origTgtEndName == null || origTgtEndName.equals("")){
+				origTgtEndName = "_"+((Association) property).getMemberEnd().get(1).getType().getName();
+				outputMessages += "Warning: The source association end of the association <"+origTgtEndName+"> was empty and was renamed to <"+origTgtEndName+">;\n";
+			}
 		}else{
 			origTgtEndName = property.getName();
 		}
@@ -236,30 +244,30 @@ public class MappingProperties {
 		origTgtEndName = StringUtil.processSpecialCharacter(origTgtEndName);
 		int j = 1;
 		String tgtEndName = origTgtEndName;
-		while(propertyByName.containsKey(tgtEndName)){
+		while(elementByName.containsKey(tgtEndName)){
 			if(j == 1){
-				MappedProperty oldMappedProperty = propertyByName.get(tgtEndName);
+				MappedElement oldMappedProperty = elementByName.get(tgtEndName);
 				boolean isSource;
 				if(oldMappedProperty.getGeneratedName().equals(tgtEndName)){
 					isSource = true;
 				}else{
 					isSource = false;
 				}
-				MappedProperty abstractMappedProperty = new MappedProperty(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true, oldMappedProperty.getLabel(), oldMappedProperty.getInvLabel());
+				MappedElement abstractMappedProperty = new MappedElement(oldMappedProperty.getProperty(), oldMappedProperty.getGeneratedName(), oldMappedProperty.getInvGeneratedName(), true, oldMappedProperty.getLabel(), oldMappedProperty.getInvLabel());
 				if(isSource){
-					propertyByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
+					elementByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
 				}else{
-					propertyByName.put(abstractMappedProperty.getInvGeneratedName(), abstractMappedProperty);
+					elementByName.put(abstractMappedProperty.getInvGeneratedName(), abstractMappedProperty);
 				}
 				
 				tgtEndName = origTgtEndName + j;
 				j++;
 				if(isSource){
 					oldMappedProperty.setGeneratedName(tgtEndName);
-					propertyByName.put(oldMappedProperty.getGeneratedName(), oldMappedProperty);		
+					elementByName.put(oldMappedProperty.getGeneratedName(), oldMappedProperty);		
 				}else{
 					oldMappedProperty.setInvGeneratedName(tgtEndName);
-					propertyByName.put(oldMappedProperty.getInvGeneratedName(), oldMappedProperty);		
+					elementByName.put(oldMappedProperty.getInvGeneratedName(), oldMappedProperty);		
 				}
 						
 			}
@@ -270,10 +278,10 @@ public class MappingProperties {
 			outputMessages += "Warning: The association end <"+origTgtEndName+"> with repeated name was renamed to <"+tgtEndName+">;\n";
 		}
 		
-		MappedProperty mappedProperty = new MappedProperty(property, tgtEndName, srcEndName, origTgtEndName, origSrcEndName);
-		propertyByName.put(srcEndName, mappedProperty);
-		propertyByName.put(tgtEndName, mappedProperty);
-		propertyByAlias.put(ontoParser.getAlias(property), mappedProperty);
+		MappedElement mappedProperty = new MappedElement(property, tgtEndName, srcEndName, origTgtEndName, origSrcEndName);
+		elementByName.put(srcEndName, mappedProperty);
+		elementByName.put(tgtEndName, mappedProperty);
+		elementByAlias.put(ontoParser.getAlias(property), mappedProperty);
 		
 		return mappedProperty;
 	}
@@ -287,12 +295,12 @@ public class MappingProperties {
 	 * @param property
 	 * @return
 	 */
-	public MappedProperty refactorPropertyByName(NamedElement _property, MappedProperty property){
-		MappedProperty existentMappedProperty = propertyByName.get(property.getGeneratedName());
-		MappedProperty abstractMappedProperty = existentMappedProperty;
+	public MappedElement refactorPropertyByName(NamedElement _property, MappedElement property){
+		MappedElement existentMappedProperty = elementByName.get(property.getGeneratedName());
+		MappedElement abstractMappedProperty = existentMappedProperty;
 		if(existentMappedProperty.isAbstract() == false){
-			abstractMappedProperty = new MappedProperty(_property, property.getGeneratedName(), property.getInvGeneratedName(), true, property.getLabel(), property.getInvLabel());//////////////////////////////
-			propertyByName.put(property.getGeneratedName(), abstractMappedProperty);
+			abstractMappedProperty = new MappedElement(_property, property.getGeneratedName(), property.getInvGeneratedName(), true, property.getLabel(), property.getInvLabel());//////////////////////////////
+			elementByName.put(property.getGeneratedName(), abstractMappedProperty);
 			generatePropertyName(existentMappedProperty.getProperty(), abstractMappedProperty);
 		}		
 		return abstractMappedProperty;
@@ -307,7 +315,7 @@ public class MappingProperties {
 	 * @param superMappedProperty
 	 * @return
 	 */
-	private MappedProperty generatePropertyName(NamedElement property, MappedProperty superMappedProperty) {
+	private MappedElement generatePropertyName(NamedElement property, MappedElement superMappedProperty) {
 		if(((OwlAxioms)owlOptions.getOwlAxioms()).getValue(OWL2Axiom.OBJ_PROP_BY_ENDS)){
 			return generatePropertyNameByAssocEnd(property);
 		}else{
@@ -321,7 +329,12 @@ public class MappingProperties {
 	 * @author Freddy Brasileiro
 	 *
 	 */
-	public void generateAllPropertyNames(){
+	public void generateAllElementNames(){
+		Set<RefOntoUML.Class> allClasses = ontoParser.getAllInstances(RefOntoUML.Class.class);
+		for (Class class1 : allClasses) {
+			generateClassName(class1);
+		}
+		
 		System.out.println("Generating all property names");
 		Set<Association> allAssociations = ontoParser.getAllInstances(RefOntoUML.Association.class);
 		
@@ -340,6 +353,11 @@ public class MappingProperties {
 		System.out.println(outputMessages);
 	}
 	
+	private void generateClassName(Class class1) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * Return true if the property is mapped as subPropertyOf another one.
 	 * 
@@ -350,7 +368,7 @@ public class MappingProperties {
 	 */
 	public boolean isMappedAsSubPropertyOf(NamedElement property){
 		String alias = ontoParser.getAlias(property);//.replace("\n", "_");
-		MappedProperty mappedProperty = propertyByAlias.get(alias);
+		MappedElement mappedProperty = elementByAlias.get(alias);
 		
 		if(mappedProperty.isMappedAsSubPropertyOf()){
 			return true;
@@ -367,11 +385,11 @@ public class MappingProperties {
 	 * @param property
 	 * @return
 	 */
-	public MappedProperty getSuperProperty(NamedElement property){
+	public MappedElement getSuperProperty(NamedElement property){
 		String alias = ontoParser.getAlias(property);//.replace("\n", "_");
-		MappedProperty mappedProperty = propertyByAlias.get(alias);
+		MappedElement mappedProperty = elementByAlias.get(alias);
 		
-		MappedProperty superMappedProperty = mappedProperty.getMappedAsSubPropertyOf();
+		MappedElement superMappedProperty = mappedProperty.getMappedAsSubPropertyOf();
 		
 		return superMappedProperty;
 	}
@@ -384,11 +402,11 @@ public class MappingProperties {
 	 * @param property
 	 * @return
 	 */
-	public MappedProperty getTopSuperProperty(NamedElement property){
+	public MappedElement getTopSuperProperty(NamedElement property){
 		String alias = ontoParser.getAlias(property).replace("\n", "_");
-		MappedProperty mappedProperty = propertyByAlias.get(alias);
+		MappedElement mappedProperty = elementByAlias.get(alias);
 		
-		MappedProperty superMappedProperty = mappedProperty, topSuperMappedProperty;
+		MappedElement superMappedProperty = mappedProperty, topSuperMappedProperty;
 		do {
 			topSuperMappedProperty = superMappedProperty;
 			

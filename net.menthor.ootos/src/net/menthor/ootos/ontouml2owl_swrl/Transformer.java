@@ -15,7 +15,7 @@ import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlMappings;
 import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.emf.common.util.EList;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -66,7 +66,7 @@ public class Transformer {
 	String oclRules;
 	
 	//
-	MappingProperties mappingProperties;
+	MappingElements mappingElements;
 	
 	//Editor Application
 	private String errors = "\n";
@@ -76,7 +76,7 @@ public class Transformer {
 	private OwlOptions owlOptions;
 
 	public String getErrors(){
-		errors = mappingProperties.getOutputMessages() + errors;
+		errors = mappingElements.getOutputMessages() + errors;
 		return errors;
 	}
 
@@ -93,13 +93,13 @@ public class Transformer {
 		this.owlAxioms = (OwlAxioms) owlOptions.getOwlAxioms();
 		this.owlMappings = (OwlMappings) owlOptions.getOwlMappings();
 		
-		this.mappingProperties = new MappingProperties(ontoParser, owlOptions);
-		this.mappingProperties.generateAllPropertyNames();
+		this.mappingElements = new MappingElements(ontoParser, owlOptions);
+		this.mappingElements.generateAllElementNames();
 		this.lstQualityMappings = owlOptions.getOwlMappings().getQualities();
 		this.lstMappedQualities = lstQualityMappings.keySet();
 		this.lstNominalQualities = ontoParser.getAllInstances(RefOntoUML.NominalQuality.class);
 		
-		this.owlFactoryUtil = new OwlFactoryUtil(ontoParser, mappingProperties, owlOptions, lstMappedQualities, lstNominalQualities, lstQualityMappings);
+		this.owlFactoryUtil = new OwlFactoryUtil(ontoParser, mappingElements, owlOptions, lstMappedQualities, lstNominalQualities, lstQualityMappings);
 		
 		this.lstOntClass = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		this.lstOntClass.removeAll(lstNominalQualities);
@@ -157,7 +157,7 @@ public class Transformer {
 		this.errors += owlFactoryUtil.getLogMessage();
 		
 		if(oclRules != null && !oclRules.trim().isEmpty() && owlAxioms.getValue(OWL2Axiom.SWRL_RULES)){
-			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingProperties, owlOptions, oclRules, ontoParser, owlFactoryUtil.getManager(), owlNameSpace);
+			OCL2OWL_SWRL ocl2owl_swrl = new OCL2OWL_SWRL(this.mappingElements, owlOptions, oclRules, ontoParser, owlFactoryUtil.getManager(), owlNameSpace);
 			ocl2owl_swrl.Transformation(tempDir);
 			this.errors += "\n" + ocl2owl_swrl.errors;
 		}
@@ -308,7 +308,7 @@ public class Transformer {
 			
 			owlFactoryUtil.createObjectProperty(ass);
 
-			if(mappingProperties.isMappedAsSubPropertyOf(ass)){
+			if(mappingElements.isMappedAsSubPropertyOf(ass)){
 				owlFactoryUtil.createSubPropertyOf(ass);					
 			}			
 		}

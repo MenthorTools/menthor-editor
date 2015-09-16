@@ -10,7 +10,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.UnexpectedResultingRule;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.factory.uml2.uml.internal.impl.NamedElementImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.uml.impl.ExpressionInOCLImpl;
@@ -51,7 +51,7 @@ public class ExpressionInOCLImplFactory extends OpaqueExpressionImplFactory {
 		this.element = element;
 	}
 	
-	public ExpressionInOCLImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
+	public ExpressionInOCLImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 

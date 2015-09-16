@@ -14,7 +14,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.UnsupportedByReasoner;
 import net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl.ExpressionInOCLImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Counters;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.ExpressionInOCLImpl;
 import org.eclipse.uml2.uml.Constraint;
@@ -36,7 +36,7 @@ public class OCL2OWL_SWRL {
 	public String errors = "";
 	
 	public Counters logCounting = new Counters();
-	private MappingProperties mappingProperties;
+	private MappingElements mappingProperties;
 	private OwlOptions owlOptions;
 	
 	//public OCL2SWRL(OCLParser oclParser, OntoUMLParser refParser, OWLOntologyManager manager, String nameSpace) {
@@ -48,7 +48,7 @@ public class OCL2OWL_SWRL {
 	 * @param manager - contains the OWLOntologyManager, used to get the OWLDataFactory and the OwlOntology
 	 * @param nameSpace
 	 */
-	public OCL2OWL_SWRL(MappingProperties mappingProperties, OwlOptions owlOptions, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
+	public OCL2OWL_SWRL(MappingElements mappingProperties, OwlOptions owlOptions, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
 		this.nameSpace = nameSpace;
 		//this.oclParser = oclParser;
 		this.oclRules = oclRules;

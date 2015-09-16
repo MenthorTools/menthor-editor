@@ -9,8 +9,8 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.Ocl2Owl_SwrlException;
 import net.menthor.ootos.ocl2owl_swrl.factory.Factory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Util;
-import net.menthor.ootos.util.MappedProperty;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappedElement;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.OCLExpressionImpl;
 import org.eclipse.ocl.uml.impl.PropertyCallExpImpl;
@@ -45,11 +45,11 @@ import RefOntoUML.parser.OntoUMLParser;
 public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 	Property property;
 	
-	public PropertyCallExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
+	public PropertyCallExpImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 	
-	public PropertyCallExpImplFactory(MappingProperties mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl, Property property){
+	public PropertyCallExpImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl, Property property){
 		super(mappingProperties, owlOptions, m_NamedElementImpl);
 		this.property =  property;
 	}
@@ -398,11 +398,11 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		return null;
 	}
 	
-	public static String generateAssociationName(MappingProperties mappingProperties, OntoUMLParser refParser, Association association, boolean isInverse){
+	public static String generateAssociationName(MappingElements mappingProperties, OntoUMLParser refParser, Association association, boolean isInverse){
 		//get the equivalent ontoUML association
 		RefOntoUML.Association ontoUmlAssociation = getEquivalentOntoUmlAssociation(refParser, association);
 		//get the association name
-		MappedProperty mappedProperty = mappingProperties.getMappedProperty(ontoUmlAssociation);
+		MappedElement mappedProperty = mappingProperties.getMappedProperty(ontoUmlAssociation);
 		String prop;
 		if(isInverse){
 			prop = mappedProperty.getInvGeneratedName();

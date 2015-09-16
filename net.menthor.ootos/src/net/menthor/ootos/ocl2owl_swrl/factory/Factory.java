@@ -26,7 +26,7 @@ import net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl.TypeExpImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl.VariableExpImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl.VariableImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.BooleanLiteralExpImpl;
 import org.eclipse.ocl.uml.impl.CollectionItemImpl;
@@ -61,13 +61,13 @@ import RefOntoUML.parser.OntoUMLParser;
 
 
 public class Factory {
-	public MappingProperties mappingProperties;
+	public MappingElements mappingProperties;
 	public OwlOptions owlOptions;
 	public OwlAxioms owlAxioms;
 	public OwlMappings owlMappings;
 	
 	
-	public Factory(MappingProperties mappingProperties, OwlOptions owlOptions) {
+	public Factory(MappingElements mappingProperties, OwlOptions owlOptions) {
 		this.mappingProperties = mappingProperties;
 		this.owlOptions = owlOptions;
 		this.owlAxioms = (OwlAxioms) owlOptions.getOwlAxioms();
@@ -259,7 +259,7 @@ public class Factory {
 	 * @param obj - contains the rule fragment
 	 * @param m_NamedElementImpl - contains the rule
 	 */
-	public static Factory constructor(MappingProperties mappingProperties, OwlOptions owlOptions, Object obj, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
+	public static Factory constructor(MappingElements mappingProperties, OwlOptions owlOptions, Object obj, NamedElementImpl m_NamedElementImpl) throws Ocl2Owl_SwrlException{
 		Class<? extends Object> c = obj.getClass();
 		if(c.equals(PropertyCallExpImpl.class)){
 			return new PropertyCallExpImplFactory(mappingProperties, owlOptions, (PropertyCallExpImpl) obj);

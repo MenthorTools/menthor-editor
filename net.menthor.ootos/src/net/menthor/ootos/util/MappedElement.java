@@ -7,13 +7,13 @@ import RefOntoUML.NamedElement;
  * 
  * @author Freddy Brasileiro
  */
-public class MappedProperty {
-	private NamedElement property;
+public class MappedElement {
+	private NamedElement element;
 	private String generatedName;
 	private String invGeneratedName;
 	private String label;
 	private String invLabel;
-	private MappedProperty mappedAsSubPropertyOf;
+	private MappedElement mappedAsSubPropertyOf;
 	private boolean isAbstract = false; 
 	
 	/**
@@ -25,8 +25,8 @@ public class MappedProperty {
 	 * @param _generatedName
 	 * @param _invGeneratedName
 	 */
-	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName, String _label, String _invLabel) {
-		property = _property;
+	public MappedElement(NamedElement _property, String _generatedName, String _invGeneratedName, String _label, String _invLabel) {
+		element = _property;
 		generatedName = _generatedName;
 		invGeneratedName = _invGeneratedName;
 		label = _label;
@@ -41,13 +41,13 @@ public class MappedProperty {
 	 * @param _invGeneratedName
 	 * @param _isAbstract
 	 */
-	public MappedProperty(NamedElement _property, String _generatedName, String _invGeneratedName, boolean _isAbstract, String _label, String _invLabel) {
+	public MappedElement(NamedElement _property, String _generatedName, String _invGeneratedName, boolean _isAbstract, String _label, String _invLabel) {
 		this(_property, _generatedName, _invGeneratedName, _label, _invLabel);
 		isAbstract = _isAbstract;
 	}
 	
 	@SuppressWarnings("unused")
-	private MappedProperty() {}
+	private MappedElement() {}
 	
 	/**
 	 * Returns the generated name.
@@ -68,7 +68,7 @@ public class MappedProperty {
 	 * @return
 	 */
 	public NamedElement getProperty() {
-		return property;
+		return element;
 	}
 	
 	@Override
@@ -87,7 +87,7 @@ public class MappedProperty {
 	 *
 	 * @return
 	 */
-	public MappedProperty getMappedAsSubPropertyOf() {
+	public MappedElement getMappedAsSubPropertyOf() {
 		return mappedAsSubPropertyOf;
 	}
 	
@@ -98,7 +98,7 @@ public class MappedProperty {
 	 *
 	 * @param mappedAsSubPropertyOf
 	 */
-	public void setMappedAsSubPropertyOf(MappedProperty mappedAsSubPropertyOf) {
+	public void setMappedAsSubPropertyOf(MappedElement mappedAsSubPropertyOf) {
 		this.mappedAsSubPropertyOf = mappedAsSubPropertyOf;
 	}
 	

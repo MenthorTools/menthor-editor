@@ -17,8 +17,8 @@ import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlMappings;
 import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.ootos.util.MappedProperty;
-import net.menthor.ootos.util.MappingProperties;
+import net.menthor.ootos.util.MappedElement;
+import net.menthor.ootos.util.MappingElements;
 import net.menthor.ootos.util.StringUtil;
 
 import org.eclipse.emf.common.util.EList;
@@ -112,7 +112,7 @@ public class OwlFactoryUtil {
 	
 	private String owlNameSpace;
 	
-	MappingProperties mappingProperties;
+	MappingElements mappingProperties;
 	
 	private OwlAxioms owlAxioms;
 	private OwlMappings owlMappings;
@@ -124,7 +124,7 @@ public class OwlFactoryUtil {
 	private Set<NominalQuality> lstNominalQualities;
 	private Set<RefOntoUML.Element> lstMappedQualities;
 	
-	public OwlFactoryUtil(OntoUMLParser ontoParser, MappingProperties mappingProperties, OwlOptions owlOptions, Set<RefOntoUML.Element> lstMappedQualities, Set<NominalQuality> lstNominalQualities, Map<RefOntoUML.Element, OWL2Quality> lstQualityMappings) throws OWLOntologyCreationException {
+	public OwlFactoryUtil(OntoUMLParser ontoParser, MappingElements mappingProperties, OwlOptions owlOptions, Set<RefOntoUML.Element> lstMappedQualities, Set<NominalQuality> lstNominalQualities, Map<RefOntoUML.Element, OWL2Quality> lstQualityMappings) throws OWLOntologyCreationException {
 		this.ontoParser = ontoParser;
 		
 		this.manager = OWLManager.createOWLOntologyManager();
@@ -192,7 +192,7 @@ public class OwlFactoryUtil {
 	 * or null otherwise;
 	 * */
 	private OWLObjectProperty getObjectProperty(RefOntoUML.Association ass){
-		MappedProperty mappedProperty = mappingProperties.getMappedProperty(ass);
+		MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
 		String assName = mappedProperty.getGeneratedName();
 		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
 	}
@@ -219,7 +219,7 @@ public class OwlFactoryUtil {
 	 * or stereotype.destiny.source;
 	 * */
 	private OWLObjectProperty getInverseObjectProperty(RefOntoUML.Association ass){
-		MappedProperty mappedProperty = mappingProperties.getMappedProperty(ass);
+		MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
 		String propName = mappedProperty.getInvGeneratedName();
 		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
 	}
@@ -244,7 +244,7 @@ public class OwlFactoryUtil {
 	 * Create a unique name for DataProperty
 	 * */
 	private String getDataPropertyName(NamedElement prop){
-		MappedProperty mappedProperty = mappingProperties.getMappedProperty(prop);
+		MappedElement mappedProperty = mappingProperties.getMappedProperty(prop);
 		return owlNameSpace + mappedProperty.getGeneratedName();
 	}
 	
@@ -275,7 +275,7 @@ public class OwlFactoryUtil {
 		String _attributeName = getDataPropertyName(ass);
 		OWLDataProperty owlProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
 		
-		MappedProperty mappedProperty = mappingProperties.getMappedProperty(ass);
+		MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
 		
 		String label;
 		if(this.owlAxioms.getValue(OWL2Axiom.OBJ_PROP_BY_ENDS)){
@@ -382,7 +382,7 @@ public class OwlFactoryUtil {
 		}
 		
 		if(topProp != null){
-			MappedProperty mappedProperty = mappingProperties.getMappedProperty(ass);
+			MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
 			OWLObjectProperty owlProp = getObjectProperty(mappedProperty.getGeneratedName());
 			OWLObjectProperty owlInvProp = getObjectProperty(mappedProperty.getInvGeneratedName());
 			
@@ -623,7 +623,7 @@ public class OwlFactoryUtil {
 	}
 	
 	public void createSubPropertyOf(Association ass){
-		MappedProperty superMappedProperty = mappingProperties.getSuperProperty(ass);
+		MappedElement superMappedProperty = mappingProperties.getSuperProperty(ass);
 		String superPropertyName = superMappedProperty.getGeneratedName();
 		String invSuperPropertyName = superMappedProperty.getInvGeneratedName();
 		OWLObjectProperty topProperty = getObjectProperty(superPropertyName);
