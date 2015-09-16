@@ -402,7 +402,7 @@ public class PropertyCallExpImplFactory extends NavigationCallExpImplFactory {
 		//get the equivalent ontoUML association
 		RefOntoUML.Association ontoUmlAssociation = getEquivalentOntoUmlAssociation(refParser, association);
 		//get the association name
-		MappedElement mappedProperty = mappingProperties.getMappedProperty(ontoUmlAssociation);
+		MappedElement mappedProperty = mappingProperties.getMappedElement(ontoUmlAssociation);
 		String prop;
 		if(isInverse){
 			prop = mappedProperty.getInvGeneratedName();

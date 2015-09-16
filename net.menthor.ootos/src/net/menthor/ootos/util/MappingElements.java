@@ -60,13 +60,13 @@ public class MappingElements {
 	 * @param property
 	 * @return
 	 */
-	public MappedElement getMappedProperty(NamedElement property){
-		String propertyAlias = ontoParser.getAlias(property);
+	public MappedElement getMappedElement(NamedElement element){
+		String propertyAlias = ontoParser.getAlias(element);
 		MappedElement mappedProperty;
 		if(elementByAlias.containsKey(propertyAlias)){
 			mappedProperty = elementByAlias.get(propertyAlias);
 		}else{
-			mappedProperty = generatePropertyName(property, null);
+			mappedProperty = generatePropertyName(element, null);
 		}
 		
 		return mappedProperty;
@@ -353,9 +353,39 @@ public class MappingElements {
 		System.out.println(outputMessages);
 	}
 	
-	private void generateClassName(Class class1) {
-		// TODO Auto-generated method stub
+	private void generateClassName(Class ontCls) {
+		String origClassName = ontCls.getName();
+		String newName = origClassName.replaceAll(" ", "_").replaceAll("\n", "_");
 		
+		newName = refactorClassName(origClassName);
+		MappedElement mappedProperty = new MappedElement(ontCls, newName, newName, origClassName, origClassName);
+		elementByName.put(newName, mappedProperty);
+		elementByAlias.put(ontoParser.getAlias(ontCls), mappedProperty);
+		System.out.println();
+	}
+	
+	private String refactorClassName(String actualName){
+		int i = 1;
+		String newName = actualName;
+		while(elementByName.containsKey(newName)){
+			if(i == 1){
+				MappedElement oldMappedPElement = elementByName.get(newName);
+				
+				MappedElement abstractMappedProperty = new MappedElement(oldMappedPElement.getProperty(), oldMappedPElement.getGeneratedName(), oldMappedPElement.getGeneratedName(), true, oldMappedPElement.getLabel(), oldMappedPElement.getInvLabel());
+				elementByName.put(abstractMappedProperty.getGeneratedName(), abstractMappedProperty);
+				
+				newName = actualName + i;
+				i++;
+				
+				oldMappedPElement.setGeneratedName(newName);
+				oldMappedPElement.setInvGeneratedName(newName);
+				elementByName.put(oldMappedPElement.getGeneratedName(), oldMappedPElement);				
+			}
+			newName = actualName + i;
+			i++;
+		}		
+		
+		return newName;
 	}
 
 	/**

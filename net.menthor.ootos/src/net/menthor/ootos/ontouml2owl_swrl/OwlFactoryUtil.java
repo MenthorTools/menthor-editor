@@ -175,16 +175,17 @@ public class OwlFactoryUtil {
 	 * Return a OWL Classs for the ontCls
 	 * */
 	private OWLClass getOwlClass(String iri, String className){
-		return factory.getOWLClass(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
+		return factory.getOWLClass(IRI.create(iri+className));
 	}	
 	private OWLNamedIndividual getOwlNamedIndividual(String iri, String className){
-		return factory.getOWLNamedIndividual(IRI.create(iri+className.replaceAll(" ", "_").replaceAll("\n", "_")));
+		return factory.getOWLNamedIndividual(IRI.create(iri+className));
 	}	
 	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
 		return getOwlClass(owlNameSpace, ontCls);
 	}	
 	private OWLClass getOwlClass(String iri, RefOntoUML.NamedElement ontCls){
-		return getOwlClass(owlNameSpace, ontCls.getName());
+		MappedElement mappedClass = mappingProperties.getMappedElement(ontCls);
+		return getOwlClass(iri, mappedClass.getGeneratedName());
 	}
 	
 	/**
@@ -192,7 +193,7 @@ public class OwlFactoryUtil {
 	 * or null otherwise;
 	 * */
 	private OWLObjectProperty getObjectProperty(RefOntoUML.Association ass){
-		MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
+		MappedElement mappedProperty = mappingProperties.getMappedElement(ass);
 		String assName = mappedProperty.getGeneratedName();
 		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+assName));
 	}
@@ -219,7 +220,7 @@ public class OwlFactoryUtil {
 	 * or stereotype.destiny.source;
 	 * */
 	private OWLObjectProperty getInverseObjectProperty(RefOntoUML.Association ass){
-		MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
+		MappedElement mappedProperty = mappingProperties.getMappedElement(ass);
 		String propName = mappedProperty.getInvGeneratedName();
 		return factory.getOWLObjectProperty(IRI.create(owlNameSpace+propName));
 	}
@@ -244,7 +245,7 @@ public class OwlFactoryUtil {
 	 * Create a unique name for DataProperty
 	 * */
 	private String getDataPropertyName(NamedElement prop){
-		MappedElement mappedProperty = mappingProperties.getMappedProperty(prop);
+		MappedElement mappedProperty = mappingProperties.getMappedElement(prop);
 		return owlNameSpace + mappedProperty.getGeneratedName();
 	}
 	
@@ -275,7 +276,7 @@ public class OwlFactoryUtil {
 		String _attributeName = getDataPropertyName(ass);
 		OWLDataProperty owlProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
 		
-		MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
+		MappedElement mappedProperty = mappingProperties.getMappedElement(ass);
 		
 		String label;
 		if(this.owlAxioms.getValue(OWL2Axiom.OBJ_PROP_BY_ENDS)){
@@ -382,7 +383,7 @@ public class OwlFactoryUtil {
 		}
 		
 		if(topProp != null){
-			MappedElement mappedProperty = mappingProperties.getMappedProperty(ass);
+			MappedElement mappedProperty = mappingProperties.getMappedElement(ass);
 			OWLObjectProperty owlProp = getObjectProperty(mappedProperty.getGeneratedName());
 			OWLObjectProperty owlInvProp = getObjectProperty(mappedProperty.getInvGeneratedName());
 			
@@ -801,9 +802,9 @@ public class OwlFactoryUtil {
 		
 		//Set domain and range from the property
 		if(owlAxioms.getValue(OWL2Axiom.DOMAIN) && isMappedAsOwlClass(srcT))
-			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyDomainAxiom(prop, src)));
+			createObjectPropertyDomain(srcT, prop);
 		if(owlAxioms.getValue(OWL2Axiom.RANGE) && isMappedAsOwlClass(srcT))
-			manager.applyChange(new AddAxiom(ontology, factory.getOWLObjectPropertyRangeAxiom(prop, dst)));
+			createObjectPropertyRange(tgtT, prop);
 		
 		if(!isMappedAsOwlClass(srcT) || !isMappedAsOwlClass(tgtT)) return;
 		
@@ -820,15 +821,13 @@ public class OwlFactoryUtil {
 		OWLObjectProperty invProp = getInverseObjectProperty(ass);
 		createObjectProperty(invProp);
 		if(owlAxioms.getValue(OWL2Axiom.OBJ_PROP_BY_ENDS))
-			createLabel(invProp, mappingProperties.getMappedProperty(ass).getInvLabel());
-		createObjectPropertyDomain(srcT, prop);
-		createObjectPropertyRange(tgtT, prop);
+			createLabel(invProp, mappingProperties.getMappedElement(ass).getInvLabel());
 		
 		//Processing cardinality to the destiny
 		upperCard = ass.getMemberEnd().get(sideDst).getUpper();
 		lowerCard = ass.getMemberEnd().get(sideDst).getLower();
 
-		createCardinality(invProp, src, dst, lowerCard, upperCard);
+		createCardinality(invProp, dst, src, lowerCard, upperCard);
 		putInHash(stereotype, invProp);
 		
 		createObjectPropertyInverse(prop, invProp, src, dst);
@@ -985,7 +984,7 @@ public class OwlFactoryUtil {
 		}	
 		OWLObjectOneOf oneOf = factory.getOWLObjectOneOf(individuals);
 		
-		OWLClass owlGs = getOwlClass(this.owlNameSpace, gs.getName());
+		OWLClass owlGs = getOwlClass(this.owlNameSpace, gs.getName().replaceAll(" ", "_"));
 		OWLEquivalentClassesAxiom ax = factory.getOWLEquivalentClassesAxiom(owlGs, oneOf);
 		manager.applyChange(new AddAxiom(ontology, ax));
 		
@@ -1019,7 +1018,7 @@ public class OwlFactoryUtil {
 	public void createDataProperty(RefOntoUML.Classifier datatype, Association ass, RefOntoUML.Classifier _RefOntoOwnerClass) {
 		OWLDataProperty dataProperty = null;
 		
-		String _attributeName = mappingProperties.getMappedProperty(datatype).getGeneratedName();
+		String _attributeName = mappingProperties.getMappedElement(datatype).getGeneratedName();
 		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
 		
 		createLabel(datatype);
