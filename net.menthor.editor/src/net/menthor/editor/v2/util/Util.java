@@ -193,7 +193,7 @@ public class Util {
 		File alloyJarFile = new File(alloyPath);
 		if (alloyJarFile.exists()) return alloyJarFile;				
 		InputStream is = Util.class.getClassLoader().getResourceAsStream(fileNameWithExtension);		
-		if(is == null) is = new FileInputStream("lib/"+fileNameWithExtension);
+		if(is == null) is = new FileInputStream(fileNameWithExtension);
 		OutputStream out = new FileOutputStream(alloyJarFile);				
 		// copy data flow -> MB x MB
 		byte[] src = new byte[1024];

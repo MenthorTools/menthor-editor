@@ -18,7 +18,8 @@ public class OntoUMLNameHandler {
     {
 		"World","abstract","all","and","as","assert","but","check","disj","else","exactly","extends","fact",
         "for","fun","iden","iff","implies","in","Int","let","lone","module","no","none","not","one","open",
-        "or","pred","run","set","sig","some","sum","univ","int","Int"
+        "or","pred","run","set","sig","some","sum","univ","int","Int", "Property", "Object", "Datatype"
+        
     };
 		
     public boolean contains(String name)
