@@ -27,9 +27,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import net.menthor.editor.v2.util.Util;
-import net.menthor.ontouml2text.ontoUmlGlossary.OntoUmlGlossary;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.ontouml2text.ontoUmlGlossary.OntoUmlGlossary;
 
 public class GlossaryGeneratorUI extends JFrame {
 	
@@ -263,14 +262,11 @@ public class GlossaryGeneratorUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				  JFileChooser fileChooser = new JFileChooser();
-				  
-				  fileChooser.setDialogTitle("Open Project");
-				  FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File (*.txt)", "txt", "txt"); 
-				  fileChooser.addChoosableFileFilter(filter);
-				  if(onWindows()) fileChooser.setFileFilter(filter);	
+				  JFileChooser fileChooser = new JFileChooser();				  
+				  fileChooser.setDialogTitle("Choose Directory");
 				  fileChooser.setAcceptAllFileFilterUsed(false);
-	
+				  fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				  
 			      try {
 			            int code = fileChooser.showOpenDialog(contentPane);
 			            if (code == JFileChooser.APPROVE_OPTION) {
