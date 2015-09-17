@@ -37,7 +37,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -56,12 +55,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.umldraw.ClassElement;
@@ -71,6 +64,15 @@ import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Element;
 import RefOntoUML.Property;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.tables.AttributeTableModel;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * @author John Guerson
@@ -132,7 +134,7 @@ public class AttributesEditionPanel extends JPanel {
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-		table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
+		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);
@@ -140,7 +142,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new attribute to this class");
-		btnCreate.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -151,7 +153,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected attribute");
-		btnDelete.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -162,7 +164,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected attribute");
-		btnUp.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/arrow_up.png")));
+		btnUp.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_UP));
 		btnUp.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -173,7 +175,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected attribute");
-		btnDown.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/arrow_down.png")));
+		btnDown.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOWN));
 		btnDown.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -185,7 +187,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnEdit.setEnabled(true);
 		btnEdit.setFocusable(false);
 		btnEdit.setToolTipText("Edit selected attribute");
-		btnEdit.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/pencil.png")));
+		btnEdit.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
 		btnEdit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -263,9 +265,8 @@ public class AttributesEditionPanel extends JPanel {
 	
 	private void myPostInit() 
 	{
-		modelDataTypes = new HashMap<String, DataType>();
-		List<DataType> dataTypes = ModelHelper.getModelDataTypes(diagramManager.getCurrentProject());
-		for (DataType item : dataTypes) {			
+		modelDataTypes = new HashMap<String, DataType>();		
+		for (DataType item : Models.getRefparser().getAllInstances(RefOntoUML.DataType.class)) {			
 			modelDataTypes.put(item.getName(), item);
 		}
 		
@@ -373,8 +374,10 @@ public class AttributesEditionPanel extends JPanel {
 		deleteAttributes(classAttributes);
 		transferAddedAttributes(classAttributes);
 		
-		classElement.reinitAttributesCompartment();
-		classElement.invalidate();
+		if(classElement!=null){
+			classElement.reinitAttributesCompartment();
+			classElement.invalidate();
+		}
 	}
 	
 	private void deleteAttributes(List<Property> classAttributes )
@@ -431,8 +434,8 @@ public class AttributesEditionPanel extends JPanel {
 			if(modelDataTypes.keySet().contains(property.getType().getName().trim()) == false)
 			{	
 				UmlProject project = diagramManager.getCurrentProject();				
-				AddCommand cmd = new AddCommand(project.getEditingDomain(), project.getModel().getPackagedElement(), property.getType());
-				project.getEditingDomain().getCommandStack().execute(cmd);				
+				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), property.getType());
+				RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
 				modelDataTypes.put(property.getType().getName(),(DataType)property.getType());
 				createdList.add((Element) property.getType());
 			}

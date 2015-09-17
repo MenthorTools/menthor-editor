@@ -36,8 +36,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
@@ -69,23 +71,17 @@ public class ClassDialog extends JDialog{
 	private ConstraintEditionPanel constraintsEdition;
 	private RelatedElementsPanel relatedElements;
 	
-	public void selectTab (int index)
-	{
+	public void selectTab (int index){
 		tabbedPane.setSelectedIndex(index);
 	}
 	
-	public ClassDialog(final AppFrame parent, final ClassElement classElement, Classifier element, boolean modal) 
-	{
-		super(parent, modal);
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
-		
+	public ClassDialog(final MainFrame parent, final ClassElement classElement, Classifier element, boolean modal){
+		super(parent, modal);		
 		this.diagramManager = parent.getDiagramManager();
 		this.classElement = classElement;		
 		this.element = element;
-		this.parent = parent;
-		
-//		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
-//		setIconImage(icon);
+		this.parent = parent;		
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(""+""+getStereotype(element)+" "+element.getName());

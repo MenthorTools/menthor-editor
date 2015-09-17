@@ -35,8 +35,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -56,7 +58,7 @@ public class GeneralizationSetDialog extends JDialog{
 	private JButton btnOk; 
 	private JButton btnCancel;
 	
-	public GeneralizationSetDialog(final AppFrame parent, final GeneralizationSet genSet, boolean modal) 
+	public GeneralizationSetDialog(final MainFrame parent, final GeneralizationSet genSet, boolean modal) 
 	{
 		super(parent, modal);
 		
@@ -64,7 +66,7 @@ public class GeneralizationSetDialog extends JDialog{
 		initGUI();
 	}
 	
-	public void initData(final AppFrame parent, final GeneralizationSet genSet)
+	public void initData(final MainFrame parent, final GeneralizationSet genSet)
 	{
 		this.diagramManager = parent.getDiagramManager();
 		this.genSet=genSet;
@@ -75,8 +77,7 @@ public class GeneralizationSetDialog extends JDialog{
 	{	
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);		
 		setTitle(""+""+getStereotype(genSet)+" "+ ((GeneralizationSet)genSet).getName());
-				
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));
 		
 		if (parent instanceof JFrame)
 			genSetEdition = new GeneralizationSetEditionPanel((JFrame)parent, diagramManager, genSet);

@@ -44,7 +44,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 
 public class CompositionParticipationPattern extends JDialog {
 

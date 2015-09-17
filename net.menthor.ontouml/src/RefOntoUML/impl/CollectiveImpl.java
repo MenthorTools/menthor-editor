@@ -147,20 +147,9 @@ public class CollectiveImpl extends SubstanceSortalImpl implements Collective {
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isExtensional: ");
-		result.append(isExtensional);
-		result.append(')');
-		return result.toString();
+	public String toString() {		
+		return super.toString();
 	}
 
 } //CollectiveImpl

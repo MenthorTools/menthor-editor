@@ -43,6 +43,7 @@ public class OntoUML2SimpleOWL {
 	 */
 	public static String Transformation(RefOntoUML.Package model, String ontologyIRI) {
 		try {
+			if(!ontologyIRI.endsWith("#")) ontologyIRI += "#";
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			OWLXMLOntologyFormat owlxmlFormat = new OWLXMLOntologyFormat();
 			Transformer transformer = new Transformer(ontologyIRI, model);

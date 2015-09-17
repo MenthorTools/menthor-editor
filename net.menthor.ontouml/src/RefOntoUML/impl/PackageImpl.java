@@ -13,7 +13,7 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.Type;
-
+import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.util.RefOntoUMLValidator;
 
 import java.util.Collection;
@@ -529,4 +529,11 @@ public class PackageImpl extends NamespaceImpl implements RefOntoUML.Package {
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/ocl/examples/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
+	
+	public String toString(){
+		String name = this.getName();
+		String type = OntoUMLNameHelper.getTypeName(this);
+		if (name ==null) name = ""; 
+		return type + " " + name;
+	}
 } //PackageImpl

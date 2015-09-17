@@ -32,24 +32,20 @@ import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.types.EditorType;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
 
-/**
- * @author John Guerson
- */
 public class TextEditor extends JPanel implements Editor {
 
 	private static final long serialVersionUID = -1832428183354138999L;
+	
 	private RSyntaxTextArea textArea = new RSyntaxTextArea();
 	private RTextScrollPane scrollPane;
-	private UmlProject project;
 	
 	public TextEditor(UmlProject project)
 	{		
@@ -76,9 +72,7 @@ public class TextEditor extends JPanel implements Editor {
     	textArea.setMinimumSize(new Dimension(0, 0));
     	scrollPane.setMinimumSize(new Dimension(0, 0));
  	    setMinimumSize(new Dimension(0, 0));
-      	add(scrollPane); 
-				
-		this.project = project;
+      	add(scrollPane);				
 	}
 
 	 public void setTheme(RSyntaxTextArea textArea, String xmlPath)
@@ -119,23 +113,12 @@ public class TextEditor extends JPanel implements Editor {
 	}
 
 	@Override
-	public EditorNature getEditorNature() {
-		return EditorNature.TEXT;
-	}
-
-	@Override
-	public Diagram getDiagram() {
-		return null;
+	public EditorType getEditorType() {
+		return EditorType.TEXT_EDITOR;
 	}
 
 	@Override
 	public void dispose() {
 		
-	}
-
-	@Override
-	public UmlProject getProject() {
-		return project;
-	}
-		
+	}		
 }

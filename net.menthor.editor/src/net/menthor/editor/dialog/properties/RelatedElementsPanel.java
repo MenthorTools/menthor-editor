@@ -37,15 +37,17 @@ import javax.swing.table.AbstractTableModel;
 
 import org.tinyuml.draw.DiagramElement;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.TableColumnAdjuster;
 
 /**
  * @author John Guerson
@@ -194,7 +196,7 @@ public class RelatedElementsPanel extends JPanel {
 		this.diagramManager = diagramManager;
 		this.diagramElement = diagramElement;
 		this.element = element;
-		this.refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+		this.refparser = Models.getRefparser();
 		
 		lblTop = new JLabel("Related associations:");		
 		lblBottom = new JLabel("Related generalizations:");
@@ -209,7 +211,7 @@ public class RelatedElementsPanel extends JPanel {
 		
 		topTable.setBorder(new EmptyBorder(0, 0, 0, 0));		
 		topTable.setGridColor(Color.LIGHT_GRAY);		
-		topTable.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
+		topTable.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		topTable.setSelectionForeground(Color.BLACK);
 		topTable.setFocusable(false);	    
 		topTable.setRowHeight(23);
@@ -232,7 +234,7 @@ public class RelatedElementsPanel extends JPanel {
 		
 		bottomTable.setBorder(new EmptyBorder(0, 0, 0, 0));		
 		bottomTable.setGridColor(Color.LIGHT_GRAY);		
-		bottomTable.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.GREEN_MEDIUM));
+		bottomTable.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_GREEN_MEDIUM));
 		bottomTable.setSelectionForeground(Color.BLACK);
 		bottomTable.setFocusable(false);	    
 		bottomTable.setRowHeight(23);

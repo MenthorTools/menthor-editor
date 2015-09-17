@@ -39,8 +39,8 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.UmlProject;
 import RefOntoUML.Classifier;
 import RefOntoUML.ObjectClass;
 import RefOntoUML.SortalClass;
@@ -128,6 +128,7 @@ public class ParticipationDerivationOperations {
 		return point;
 	}
 
+	@SuppressWarnings("unused")
 	public static JPanel selectTypesWithDerivation(List<DiagramElement> list) {
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));

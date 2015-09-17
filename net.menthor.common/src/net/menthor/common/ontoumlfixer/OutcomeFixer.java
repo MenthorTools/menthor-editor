@@ -52,6 +52,7 @@ import RefOntoUML.RigidSortalClass;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.SortalClass;
+import RefOntoUML.Structuration;
 import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.Type;
@@ -524,13 +525,13 @@ public class OutcomeFixer{
 		if (!(relation instanceof Association)) return fixes;
 		Property src = ((Association) relation).getMemberEnd().get(0);
 		Property tgt = ((Association) relation).getMemberEnd().get(1);
-		if (src.getType().equals(type)) {
+		if (src.getType()!=null && src.getType().equals(type)) {
 			src.setType((Type) newtype);
 			fixes.includeModified(src);
 			if (src.getName() == null || src.getName().isEmpty()) 
 				src.setName(newtype.getName().toLowerCase().trim());
 		}
-		if (tgt.getType().equals(type)) {
+		if (tgt.getType()!=null && tgt.getType().equals(type)) {
 			tgt.setType((Type) newtype);
 			fixes.includeModified(tgt);
 			if (tgt.getName() == null || tgt.getName().isEmpty()) 
@@ -630,9 +631,9 @@ public class OutcomeFixer{
 			Property attr = iterator.next();
 			iterator.remove();
 			
-			if(source instanceof Class)
+			if(target instanceof Class)
 				((Class) target).getOwnedAttribute().add(attr);
-			if(source instanceof DataType)
+			if(target instanceof DataType)
 				((DataType) target).getOwnedAttribute().add(attr);
 			
 			fix.includeModified(attr);
@@ -1134,6 +1135,7 @@ public class OutcomeFixer{
 		if (object instanceof MaterialAssociation) return RelationStereotype.MATERIAL;
 		if (object instanceof Derivation) return RelationStereotype.DERIVATION;		
 		if (object instanceof Generalization) return RelationStereotype.GENERALIZATION;
+		if (object instanceof Structuration) return RelationStereotype.STRUCTURATION;
 		if (object instanceof Association) return RelationStereotype.ASSOCIATION;
 		return RelationStereotype.ASSOCIATION;
 	}

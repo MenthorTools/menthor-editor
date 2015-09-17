@@ -1,6 +1,7 @@
 package RefOntoUML.parser;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -44,12 +46,14 @@ import RefOntoUML.MomentClass;
 import RefOntoUML.NamedElement;
 import RefOntoUML.NominalQuality;
 import RefOntoUML.NonPerceivableQuality;
+import RefOntoUML.ObjectClass;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.PerceivableQuality;
 import RefOntoUML.Phase;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
+import RefOntoUML.Quality;
 import RefOntoUML.Quantity;
 import RefOntoUML.Relationship;
 import RefOntoUML.Relator;
@@ -450,13 +454,21 @@ public class OntoUMLParser {
 		return result;		
 	}
 	
-	/** Get the stereotype of a given element. */
-	public String getStereotype(EObject elem)
-	{
-		ParsingElement parsingElem = elementsHash.get(elem);		
-		if (parsingElem == null) return "Unknown Element";
-		else return parsingElem.getType();
+	public static String getStereotype(EObject element){
+		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
+	    type = type.replaceAll("Impl","");
+	    type = Normalizer.normalize(type, Normalizer.Form.NFD);	    
+	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");	    
+	    return type;
 	}
+    		
+//	/** Get the stereotype of a given element. */
+//	public String getType(EObject elem)
+//	{
+//		ParsingElement parsingElem = elementsHash.get(elem);		
+//		if (parsingElem == null) return "Unknown Element";
+//		else return parsingElem.getType();
+//	}
 	
 	/** String representation of the entire parser. */
 	@Override
@@ -515,7 +527,7 @@ public class OntoUMLParser {
 	 * Select this elements in the model. If 'unselectOthers' is true, the other elements will be unselected (i.e. selected=false). 
 	 * Otherwise, if 'unselectOther' is false, nothing is made with the others elements, they maybe selected or not. i.e. selected = true or false.
 	 */
-	public void select(ArrayList<EObject> elements, boolean unselectOthers)
+	public void select(List<EObject> elements, boolean unselectOthers)
 	{
 		for (ParsingElement pe : elementsHash.values()) 
 		{
@@ -613,6 +625,61 @@ public class OntoUMLParser {
 		for (Classifier classifier : c.allChildren()) 
 		{
 			if(isSelected(classifier)) result.add(classifier);
+		}		
+		return result;
+	}
+	
+	/** Return all selected descendants (direct or indirect) of an element. */
+	public Set<Classifier> getAllChildren(GeneralizationSet gs)
+	{
+		Set<Classifier> result = new HashSet<Classifier>();
+		EList<Generalization> gen = gs.getGeneralization();
+		for (Generalization generalization : gen) {
+			Classifier specific = generalization.getSpecific();
+			if(isSelected(specific)){
+				result.add(specific);
+				
+				result.addAll(getAllChildren(specific));
+			}
+		}		
+		return result;
+	}
+	
+	/** Return all selected descendants (direct or indirect) of an element. */
+	public Set<Classifier> getLeafChildren(GeneralizationSet gs)
+	{
+		Set<Classifier> result = new HashSet<Classifier>();
+		EList<Generalization> gen = gs.getGeneralization();
+		for (Generalization generalization : gen) {
+			Classifier specific = generalization.getSpecific();
+			System.out.println(specific.getName());
+			if(!isSelected(generalization)) continue;
+			if(isSelected(specific)){
+				if(getAllChildren(specific).size() == 0){
+					result.add(specific);
+				}else{
+					Set<Classifier> allChildren = getAllChildren(specific);
+					for (Classifier classifier : allChildren) {
+						if(classifier.getGeneralization().size() == 0){
+							result.add(classifier);
+						}
+					}					
+				}				
+			}
+		}		
+		return result;
+	}
+	
+	/** Return all selected descendants (direct or indirect) of an element. */
+	public Set<Classifier> getChildren(GeneralizationSet gs)
+	{
+		Set<Classifier> result = new HashSet<Classifier>();
+		EList<Generalization> gen = gs.getGeneralization();
+		for (Generalization generalization : gen) {
+			Classifier specific = generalization.getSpecific();
+			if(isSelected(specific)){
+				result.add(specific);				
+			}
 		}		
 		return result;
 	}
@@ -1358,7 +1425,118 @@ public class OntoUMLParser {
 		}		
 		return false;
 	}
-		
+	
+	/** 
+	 * Check if a particular element is a mode i.e.
+	 * i) if it is a mode element, or, ii) if it is a subkind or anti-rigid sortal with exactly one identity provider of the type mode, or,
+	 * iii) if it is a mixin class in which all their children are modes.
+	 */
+	public boolean isMode(Classifier c)
+	{
+		if(c instanceof Mode) return true;		
+		if(c instanceof SubKind || c instanceof AntiRigidSortalClass)
+		{
+			HashSet<Classifier> identityProviders = getIdentityProvider(c);
+			if(identityProviders.size()==1 && identityProviders.toArray()[0] instanceof Mode) return true;
+		}		
+		if(c instanceof MixinClass)
+		{
+			if(getChildren(c).size()==0) return false;			
+			for (Classifier child : getChildren(c)) 
+			{
+				if(!isMode(child)) return false;
+			}
+			return true;
+		}		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a quality i.e.
+	 * i) if it is a quality element, or, ii) if it is a subkind or anti-rigid sortal with exactly one identity provider of the type quality, or,
+	 * iii) if it is a mixin class in which all their children are qualities.
+	 */
+	public boolean isQuality(Classifier c)
+	{
+		if(c instanceof Quality) return true;		
+		if(c instanceof SubKind || c instanceof AntiRigidSortalClass)
+		{
+			HashSet<Classifier> identityProviders = getIdentityProvider(c);
+			if(identityProviders.size()==1 && identityProviders.toArray()[0] instanceof Quality) return true;
+		}		
+		if(c instanceof MixinClass)
+		{
+			if(getChildren(c).size()==0) return false;			
+			for (Classifier child : getChildren(c)) 
+			{
+				if(!isQuality(child)) return false;
+			}
+			return true;
+		}		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a relator i.e.
+	 * i) if it is a relator element, or, ii) if it is a subkind or anti-rigid sortal with exactly one identity provider of the type relator, or,
+	 * iii) if it is a mixin class in which all their children are relators.
+	 */
+	public boolean isRelator(Classifier c)
+	{
+		if(c instanceof Relator) return true;		
+		if(c instanceof SubKind || c instanceof AntiRigidSortalClass)
+		{
+			HashSet<Classifier> identityProviders = getIdentityProvider(c);
+			if(identityProviders.size()==1 && identityProviders.toArray()[0] instanceof Relator) return true;
+		}		
+		if(c instanceof MixinClass)
+		{
+			if(getChildren(c).size()==0) return false;			
+			for (Classifier child : getChildren(c)) 
+			{
+				if(!isRelator(child)) return false;
+			}
+			return true;
+		}		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a datatype i.e.
+	 */
+	public boolean isDatatype(Classifier c)
+	{
+		if(c instanceof DataType) return true;		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a kind i.e.
+	 */
+	public boolean isKind(Classifier c)
+	{
+		if(c instanceof Kind) return true;		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a kind i.e.
+	 */
+	public boolean isMoment(Classifier c)
+	{
+		if(c instanceof MomentClass) return true;		
+		return false;
+	}
+	
+	/** 
+	 * Check if a particular element is a kind i.e.
+	 */
+	public boolean isObject(Classifier c)
+	{
+		if(c instanceof ObjectClass) return true;		
+		return false;
+	}
+	
 	/** Check if this mixin class as children at least one functional complex */
 	public boolean hasFunctionalComplexChild(MixinClass mixin)
 	{
@@ -1393,31 +1571,31 @@ public class OntoUMLParser {
 	
 	/** 
 	 * Return the identity provider for a given class i.e.
-	 * i) If it is a kind, quantity or collective, or, ii)
+	 * i) If it is a kind, quantity, collective, mode, relator and quality, or, ii)
 	 * If it is anti-rigid sortal, search for the identity provider in all parents, or , iii)
 	 * If it is a mixin class search in children and parents for the identity providers.  
 	 */
 	public HashSet<Classifier> getIdentityProvider(Classifier c)
 	{
 		HashSet<Classifier> result = new HashSet<Classifier>();
-		if (c instanceof SubstanceSortal) result.add(c);		
+		if (c instanceof SubstanceSortal || c instanceof MomentClass) result.add(c);		
 		if (c instanceof AntiRigidSortalClass || c instanceof SubKind)
 		{
 			for(Classifier p: getAllParents(c))
 			{
-				if(p instanceof SubstanceSortal) result.add(p);
+				if(p instanceof SubstanceSortal || p instanceof MomentClass) result.add(p);
 			}
 		}		
 		if (c instanceof MixinClass)
 		{
 			for(Classifier child: getAllChildren(c))
 			{
-				if(child instanceof SubstanceSortal) result.add(child);
+				if(child instanceof SubstanceSortal || child instanceof MomentClass) result.add(child);
 				if(child instanceof AntiRigidSortalClass || child instanceof SubKind)
 				{
 					for(Classifier childParent: child.allParents())
 					{
-						if (childParent instanceof SubstanceSortal) result.add(childParent);
+						if (childParent instanceof SubstanceSortal || childParent instanceof MomentClass) result.add(childParent);
 					}
 				}
 			}
@@ -1425,12 +1603,12 @@ public class OntoUMLParser {
 			{
 				for(Classifier parentChild: getAllChildren(parent))
 				{
-					if (parentChild instanceof SubstanceSortal) result.add(parentChild);
+					if (parentChild instanceof SubstanceSortal || parentChild instanceof MomentClass) result.add(parentChild);
 					if (parentChild instanceof AntiRigidSortalClass || parentChild instanceof SubKind) 
 					{
 						for(Classifier p: parentChild.allParents())
 						{
-							if (p instanceof SubstanceSortal) result.add(p);
+							if (p instanceof SubstanceSortal || p instanceof MomentClass) result.add(p);
 						}
 					}
 				}
@@ -1636,5 +1814,13 @@ public class OntoUMLParser {
 			}		
 		}
 		return true;
+	}
+	
+	public static String getUUIDFromElement(Element element){
+		return element.eResource().getURIFragment(element);
+	}
+	
+	public static Element getElementByUUID(RefOntoUML.Package model, String uuid){
+		return (Element) model.eResource().getEObject(uuid);
 	}
 }

@@ -1,7 +1,6 @@
 package net.menthor.pattern.impl;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Arrays;
 
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
@@ -17,51 +16,39 @@ import RefOntoUML.parser.OntoUMLParser;
 public class PhasePartition extends AbstractPattern{
 
 	public PhasePartition(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/PhasePartition.png", "Phase Partition");
+		super(parser, x, y, "/resources/patterns/PhasePartition.png", "Phase Partition");
 	}
 
+	private Classifier c;
+	public PhasePartition(OntoUMLParser parser, Classifier c, double x, double y) {
+		super(parser, x, y, "/resources/patterns/PhasePartition.png", "Phase Partition");
+		this.c = c;
+	}
+	
 	@Override
 	public void runPattern() {
-		HashMap<String, String[]> hashTree = new HashMap<>();
-		Set<? extends Classifier> set;
-
-		set = parser.getAllInstances(Kind.class);
-		if(!set.isEmpty())
-			hashTree.put("Kind", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Collective.class);
-		if(!set.isEmpty())
-			hashTree.put("Collective", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Quantity.class);
-		if(!set.isEmpty())
-			hashTree.put("Quantity", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(SubKind.class);
-		if(!set.isEmpty())
-			hashTree.put("Subkind", UtilAssistant.getStringRepresentationClass(set));
+		if(dym==null || dm==null) return;
+		dym.addHashTree(fillouthashTree(Arrays.asList(new Class[]{Kind.class, Collective.class, Quantity.class, SubKind.class, Phase.class, Role.class})));
 		
-		set = parser.getAllInstances(Phase.class);
-		if(!set.isEmpty())
-			hashTree.put("Phase", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Role.class);
-		if(!set.isEmpty())
-			hashTree.put("Role", UtilAssistant.getStringRepresentationClass(set));
-
-		dym.addHashTree(hashTree);
 		dym.addTableLine("general", "Sortal", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
-		dym.addTableLine("specific", "Specific 1", new String[] {"Phase"});
+		
+		if(c instanceof Phase){
+			dym.addTableRigidLine("specific", UtilAssistant.getStringRepresentationClass(c), new String[] {"Phase"});
+		}else{
+			dym.addTableLine("specific", "Specific 1", new String[] {"Phase"});	
+		}
+		
 		dym.addTableLine("specific", "Specific 2", new String[] {"Phase"});
+		
 		dym.setInitialItemCount(3);
 		dym.setAddLineButtonAction("specific", "Specific N", new String[] {"Phase"});
 		
+		isPartitionPattern(Arrays.asList(new Class[]{Kind.class, Collective.class, Quantity.class, SubKind.class, Phase.class, Role.class}), Arrays.asList(new Class[]{Phase.class}));
 		dm.open();
-		
 	}
 
 	@Override
-	public Fix getFix(){
+	public Fix getSpecificFix(){
 		getPartitionFix();
 		return fix;
 	}

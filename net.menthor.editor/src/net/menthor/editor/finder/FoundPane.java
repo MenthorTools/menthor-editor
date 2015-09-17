@@ -37,11 +37,10 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
-
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.types.EditorType;
 
 /**
  * @author John Guerson
@@ -49,6 +48,7 @@ import net.menthor.editor.model.UmlProject;
 public class FoundPane extends JPanel implements Editor {
 
 	private static final long serialVersionUID = -3183962658000841153L;
+	@SuppressWarnings("unused")
 	private UmlProject project;
 	private FoundScrollTable foundScrollTable;	
 	private JLabel status;
@@ -191,13 +191,8 @@ public class FoundPane extends JPanel implements Editor {
 	}
 
 	@Override
-	public EditorNature getEditorNature() {
-		return EditorNature.FINDER;
-	}
-
-	@Override
-	public Diagram getDiagram() {
-		return null;
+	public EditorType getEditorType() {
+		return EditorType.FINDER_EDITOR;
 	}
 
 	@Override
@@ -205,8 +200,4 @@ public class FoundPane extends JPanel implements Editor {
 		
 	}
 
-	@Override
-	public UmlProject getProject() {
-		return project;
-	}
 }

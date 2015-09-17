@@ -1,10 +1,8 @@
 package net.menthor.xmi2ontouml.xmiparser.impl;
 
 import java.io.File;
-import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -137,11 +135,15 @@ public class EAXMIParser implements XMIParser {
 			if (element.hasAttribute("base_Class"))
 			{
 				stereotypes.put(element.getAttribute("base_Class"), element);
+			}			
+			if (element.hasAttribute("base_DataType"))
+			{
+				stereotypes.put(element.getAttribute("base_DataType"), element);
 			}
 			if (element.hasAttribute("base_Association"))
 			{
 				stereotypes.put(element.getAttribute("base_Association"), element);
-			}
+			}				
 		}
 		else
 		{
@@ -289,8 +291,12 @@ public class EAXMIParser implements XMIParser {
 		
 		Element stereotypeElem = stereotypes.get(elem.getAttributeNS(XMINS, "id"));
     	if (stereotypeElem != null) {
-    		stereotype = stereotypeElem.getNodeName().replace("OntoUML:", "");
-    		
+    		if(stereotypeElem.getNodeName().contains("OntoUML__")){
+    			stereotype = stereotypeElem.getNodeName().replace("OntoUML__", "");
+    		}else{
+    			stereotype = stereotypeElem.getNodeName().replace("OntoUML:", "");
+    		}
+
     	} else {
 			String type = elem.getAttributeNS(XMINS, "type").replace("uml:", "");
 			if (ElementType.get(type) == ElementType.CLASS ||
@@ -304,6 +310,74 @@ public class EAXMIParser implements XMIParser {
 		return stereotype;
 	}
 
+	public String getNature(Object element) {
+		Element elem = (Element) element;
+		String nature = new String();
+		
+		Element stereotypeElem = stereotypes.get(elem.getAttributeNS(XMINS, "id"));
+    	if (stereotypeElem != null) {    		
+    		if (stereotypeElem.hasAttribute("nature"))
+			{
+    			nature = stereotypeElem.getAttribute("nature");    			
+			}
+    	} else {
+			String type = elem.getAttributeNS(XMINS, "type").replace("uml:", "");
+			if (ElementType.get(type) == ElementType.CLASS || ElementType.get(type) == ElementType.ASSOCIATION || ElementType.get(type) == ElementType.DATATYPE) {
+				nature = "";	
+			} else {
+				nature = type;
+			}
+		}
+		
+		return nature;
+	}
+	
+	@Override
+	public String getBasicType(Object element) {
+		Element elem = (Element) element;
+		String basicType = new String();
+		
+		Element stereotypeElem = stereotypes.get(elem.getAttributeNS(XMINS, "id"));
+    	if (stereotypeElem != null) {    		
+    		if (stereotypeElem.hasAttribute("basicType"))
+			{
+    			basicType = stereotypeElem.getAttribute("basicType");    			
+			}
+    	} else {
+			String type = elem.getAttributeNS(XMINS, "type").replace("uml:", "");
+			if (ElementType.get(type) == ElementType.CLASS || ElementType.get(type) == ElementType.ASSOCIATION || ElementType.get(type) == ElementType.DATATYPE) {
+				basicType = "";	
+			} else {
+				basicType = type;
+			}
+		}
+		
+		return basicType;
+	}
+
+	@Override
+	public String getScaleType(Object element) {
+		Element elem = (Element) element;
+		String scale = new String();
+		
+		Element stereotypeElem = stereotypes.get(elem.getAttributeNS(XMINS, "id"));
+    	if (stereotypeElem != null) {    		
+    		if (stereotypeElem.hasAttribute("scale"))
+			{
+    			scale = stereotypeElem.getAttribute("scale");    			
+			}
+    	} else {
+			String type = elem.getAttributeNS(XMINS, "type").replace("uml:", "");
+			if (ElementType.get(type) == ElementType.CLASS || ElementType.get(type) == ElementType.ASSOCIATION || ElementType.get(type) == ElementType.DATATYPE) {
+				scale = "";	
+			} else {
+				scale = type;
+			}
+		}
+		
+		return scale;
+	}	
+	
 	public List<Object> getAllElements(Object root, ElementType type){
 		List<Object> result = new ArrayList<Object>();
 		for (ElementType elemType : ElementType.values()) {
@@ -649,8 +723,12 @@ public class EAXMIParser implements XMIParser {
 
 	public Map<String, Element> getModel2diagram() {
 		return model2diagram;
-	}	
-	
+	}
+
+	public Object getElementById(String id){
+		return doc.getElementById(id);
+	}
+		
 //	private void reverseComposition(HashMap<String, Object> hashProp, Element elem) {
 //	String aggregation = elem.getAttribute("aggregation");
 //	if (aggregation.equals("composite") || aggregation.equals("shared")) {

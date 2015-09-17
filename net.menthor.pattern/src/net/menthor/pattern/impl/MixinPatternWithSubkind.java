@@ -1,10 +1,8 @@
 package net.menthor.pattern.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Arrays;
 
-import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import RefOntoUML.Classifier;
@@ -22,104 +20,73 @@ import RefOntoUML.parser.OntoUMLParser;
 public class MixinPatternWithSubkind extends AbstractPattern{
 
 	public MixinPatternWithSubkind(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/MixinPatternWithSubkind.png", "Mixin Pattern With Subkind");
+		super(parser, x, y, "/resources/patterns/MixinPatternWithSubkind.png", "Mixin Pattern With Subkind");
 	}
 
 	@Override
 	public void runPattern() {
-		HashMap<String, String[]> hashTree = new HashMap<>();
-		Set<? extends Classifier> set;
-
-		set = parser.getAllInstances(Kind.class);
-		if(!set.isEmpty())
-			hashTree.put("Kind", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Collective.class);
-		if(!set.isEmpty())
-			hashTree.put("Collective", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Quantity.class);
-		if(!set.isEmpty())
-			hashTree.put("Quantity", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(SubKind.class);
-		if(!set.isEmpty())
-			hashTree.put("Subkind", UtilAssistant.getStringRepresentationClass(set));
+		if(dym==null || dm==null) return;
+		dym.addHashTree(fillouthashTree(Arrays.asList(new Class[]{Kind.class, Quantity.class, Collective.class, SubKind.class, Mixin.class, Role.class, Phase.class})));
 		
-		set = parser.getAllInstances(Phase.class);
-		if(!set.isEmpty())
-			hashTree.put("Phase", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Role.class);
-		if(!set.isEmpty())
-			hashTree.put("Role", UtilAssistant.getStringRepresentationClass(set));
-		
-		set = parser.getAllInstances(Mixin.class);
-		if(!set.isEmpty())
-			hashTree.put("Mixin", UtilAssistant.getStringRepresentationClass(set));
-
-
-		dym.addHashTree(hashTree);
-
 		dym.addTableLine("mixin", "Mixin", new String[] {"Mixin"});
-		
+
 		dym.addTableLine("sortal", "Sortal", new String[] {"Kind","Collective", "Quantity"});
 
 		dym.addTableLine("subkind", "Subkind", new String[] {"Subkind"});
 		dym.addTableLine("antirigidsortal", "Anti Rigid Sortal", new String[] {"Role","Phase"});
 
 		dm.open();
-		
 	}
 
 	@Override
-	public Fix getFix(){
-		try{
-			Package root = parser.getModel();
-			outcomeFixer = new OutcomeFixer(root);
-			fix = new Fix();
-			Fix _fix = new Fix();
+	public Fix getSpecificFix(){
+		Package root = parser.getModel();
+		outcomeFixer = new OutcomeFixer(root);
+		fix = new Fix();
+		Fix _fix = new Fix();
 
-			ArrayList<Generalization> generalizationList = new ArrayList<>();
-			
-			ArrayList<Object[]> mixins = dym.getRowsOf("mixin");
-			ArrayList<Object[]> sortals = dym.getRowsOf("sortal");
-			ArrayList<Object[]> subkinds = dym.getRowsOf("subkind");
-			ArrayList<Object[]> antirigids = dym.getRowsOf("antirigidsortal");
+		ArrayList<Generalization> generalizationList = new ArrayList<>();
 
-			Classifier mixin 	= getClassifier(mixins.get(0), x, y);
-			Classifier sortal 	= getClassifier(sortals.get(0), x-verticalDistance/2, y);
-			Classifier subkind 	= getClassifier(subkinds.get(0),x+(0*verticalDistance)/3, y+horizontalDistance);
-			Classifier antirigid 	= getClassifier(antirigids.get(0),x+(1*verticalDistance)/3, y+horizontalDistance);
+		ArrayList<Object[]> mixins = dym.getRowsOf("mixin");
+		ArrayList<Object[]> sortals = dym.getRowsOf("sortal");
+		ArrayList<Object[]> subkinds = dym.getRowsOf("subkind");
+		ArrayList<Object[]> antirigids = dym.getRowsOf("antirigidsortal");
+		
+		if(mixins == null || sortals == null || subkinds == null || antirigids == null)
+			return null;
 
-			
-			if(mixin != null){
-				if(subkind != null){
-					_fix.addAll(outcomeFixer.createGeneralization(subkind, mixin));
-					Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
-					generalizationList.add(generalization);
-					fix.addAll(_fix);
-				}
+		Classifier mixin 	= getClassifier(mixins.get(0), x, y);
+		Classifier sortal 	= getClassifier(sortals.get(0), x-verticalDistance/2, y);
+		Classifier subkind 	= getClassifier(subkinds.get(0),x+(0*verticalDistance)/3, y+horizontalDistance);
+		Classifier antirigid 	= getClassifier(antirigids.get(0),x+(1*verticalDistance)/3, y+horizontalDistance);
 
-				if(antirigid != null){
-					_fix.addAll(outcomeFixer.createGeneralization(antirigid, mixin));
-					Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
-					generalizationList.add(generalization);
-					fix.addAll(_fix);
-				}
-				
-				if(subkind != null && antirigid != null){
-					fix.addAll(outcomeFixer.createGeneralizationSet(generalizationList, true, true, "partition"+UtilAssistant.getCont()));
-				}
+
+		if(mixin != null){
+			if(subkind != null){
+				_fix.addAll(outcomeFixer.createGeneralization(subkind, mixin));
+				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
+				generalizationList.add(generalization);
+				fix.addAll(_fix);
 			}
-			
-			if(sortal != null){
-				if(subkind != null){
-					fix.addAll(outcomeFixer.createGeneralization(subkind,sortal));
-				}
+
+			if(antirigid != null){
+				_fix.addAll(outcomeFixer.createGeneralization(antirigid, mixin));
+				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
+				generalizationList.add(generalization);
+				fix.addAll(_fix);
 			}
-			
-		}catch(Exception e){}
+
+			if(subkind != null && antirigid != null){
+				fix.addAll(createGeneralizationSet(generalizationList, true, true, dym.getGeneralizationSetName()));
+			}
+		}
+
+		if(sortal != null){
+			if(subkind != null){
+				fix.addAll(outcomeFixer.createGeneralization(subkind,sortal));
+			}
+		}
+
 		return fix;
 	}
 

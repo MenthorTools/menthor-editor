@@ -42,8 +42,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.util.ModelHelper;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Classifier;
@@ -53,10 +51,13 @@ import RefOntoUML.Generalization;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
-/**
- * @author John Guerson
- */
+import net.menthor.editor.finder.FeatureElement;
+
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+
 public class FeatureListDialog extends JDialog {
 
 	private static final long serialVersionUID = 1805193414767775141L;
@@ -85,142 +86,76 @@ public class FeatureListDialog extends JDialog {
 	private static String result = new String();	
 	public static String getResult() { return result; }
 	
-	/**
-	 * Launch the Dialog.
-	 */
-	public static void open(JFrame parent, Component componentToUpdate, String featureName, Element element, OntoUMLParser refparser) 
-	{
-		try {
-			
+	public static void open(JFrame parent, Component componentToUpdate, String featureName, Element element, OntoUMLParser refparser){
+		try {			
 			FeatureListDialog dialog = new FeatureListDialog(parent, componentToUpdate, element, refparser, featureName);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.setLocationRelativeTo(parent);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Launch the Dialog.
-	 */
-	public static void open(JDialog parent, Component componentToUpdate, String featureName, Element element, OntoUMLParser refparser) 
-	{
-		try {
-			
-			FeatureListDialog dialog = new FeatureListDialog(parent, componentToUpdate, element, refparser, featureName);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-			dialog.setLocationRelativeTo(parent);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/** Constructor */
-	public FeatureListDialog(JFrame owner, Component componentToUpdate, Element element, OntoUMLParser refparser, String featureName)
-	{
+	public static void open(JDialog parent, Component componentToUpdate, String featureName, Element element, OntoUMLParser refparser){
+		try {			
+			FeatureListDialog dialog = new FeatureListDialog(parent, componentToUpdate, element, refparser, featureName);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+			dialog.setLocationRelativeTo(parent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public FeatureListDialog(JFrame owner, Component componentToUpdate, Element element, OntoUMLParser refparser, String featureName){
 		super(owner);
 		initData(componentToUpdate, element,refparser,featureName);
 		initGUI();		
 	}
 	
-	/** Constructor */
-	public FeatureListDialog(JDialog owner, Component componentToUpdate, Element element, OntoUMLParser refparser, String featureName) 
-	{		
+	public FeatureListDialog(JDialog owner, Component componentToUpdate, Element element, OntoUMLParser refparser, String featureName){		
 		super(owner);
 		initData(componentToUpdate, element,refparser,featureName);
 		initGUI();		
 	}
 	
-	public FeatureListDialog()
-	{		
+	public FeatureListDialog(){		
 		initGUI();
 	}
-	
-	/** Feature Element class */
-	private class FeatureElement {
-		RefOntoUML.Element element;
 		
-		public FeatureElement(RefOntoUML.Element element) 
-		{
-			this.element = element;
-		}
-		
-		public Element getElement() { return element; }
-		
-		@Override
-		public String toString(){
-			String result = new String();
-			
-			if (element instanceof RefOntoUML.Property)
-			{
-				Property p = (Property)element;
-				String owner = new String();
-				if(p.getAssociation()==null){
-					owner = ""+getStereotype(p.eContainer())+" "+((NamedElement)p.eContainer()).getName();
-				}else{
-					owner = ""+getStereotype(p.getAssociation())+" "+((NamedElement)p.getAssociation()).getName();
-				}
-				result += "Property "+p.getType().getName()+": ("+p.getName()+") ["+p.getLower()+","+p.getUpper()+"] "+" (owner: "+owner+")";						  				
-			}
-			
-			return result;
-		}
-	}
-		
-	public void initData(Component componentToUpdate, Element element, OntoUMLParser refparser, String featureName) 
-	{
+	public void initData(Component componentToUpdate, Element element, OntoUMLParser refparser, String featureName){
 		this.refparser = refparser;
 		this.componentToUpdate = componentToUpdate;
 		this.element = element;
-		this.attributeName = featureName;
-		
-		if(element instanceof RefOntoUML.Property)
-		{
-			if(attributeName.trim().compareToIgnoreCase("Redefined")==0)
-			{
+		this.attributeName = featureName;		
+		if(element instanceof RefOntoUML.Property){
+			if(attributeName.trim().compareToIgnoreCase("Redefined")==0){
 				this.featureList.addAll(((RefOntoUML.Property)element).getRedefinedProperty());				
 			}
-			if(attributeName.trim().compareToIgnoreCase("Subsetted")==0)
-			{
+			if(attributeName.trim().compareToIgnoreCase("Subsetted")==0){
 				this.featureList.addAll(((RefOntoUML.Property)element).getSubsettedProperty());				
 			}
 		}
 	}
 	
-	/**
-	 * Create the dialog.
-	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initGUI() 
 	{
-//		Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
-//		setIconImage(icon);
-		
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(FeatureListDialog.class.getResource("/resources/icons/x16/pencil.png")));
-		
-		//Title
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));		
 		if (element instanceof Property)
-			setTitle(attributeName+" - "+refparser.getStereotype(element)+" "+((NamedElement)element).getName()+": "+((Property)element).getType().getName());
+			setTitle(attributeName+" - "+OntoUMLParser.getStereotype(element)+" "+((NamedElement)element).getName()+": "+((Property)element).getType().getName());
 		else if (element instanceof Generalization) 
-			setTitle(attributeName+" - "+refparser.getStereotype(element)+" "+((Generalization)element).getGeneral().getName()+" -> "+((Generalization)element).getSpecific().getName());			
+			setTitle(attributeName+" - "+OntoUMLParser.getStereotype(element)+" "+((Generalization)element).getGeneral().getName()+" -> "+((Generalization)element).getSpecific().getName());			
 		else
-			setTitle(attributeName+" - "+refparser.getStereotype(element)+" "+((NamedElement)element).getName());
-		
-		setBounds(100, 100, 745, 292);
-		
+			setTitle(attributeName+" - "+OntoUMLParser.getStereotype(element)+" "+((NamedElement)element).getName());		
+		setBounds(100, 100, 745, 292);		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-					
+		getContentPane().add(contentPanel, BorderLayout.CENTER);					
 		leftListModel = new DefaultListModel();  
-		rightListModel = new DefaultListModel();
-		 
-		for(RefOntoUML.Property p : refparser.getAllInstances(RefOntoUML.Property.class)) 
-		{
+		rightListModel = new DefaultListModel();		 
+		for(RefOntoUML.Property p : refparser.getAllInstances(RefOntoUML.Property.class)){
 			if(!featureList.contains(p) && !p.equals(element)){
 				Property baseProperty = (Property) element;
 				Classifier baseType = (Classifier) baseProperty.getType();
@@ -440,11 +375,11 @@ public class FeatureListDialog extends JDialog {
 	    			Property p2 = (Property)p;
 	    			
 	    			if (i==getFeatures().size()-1) { 
-	    				String str = "<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+ModelHelper.getMultiplicityString(p2)+"]";
+	    				String str = "<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+RefOntoUMLFactoryUtil.getMultiplicityAsString(p2)+"]";
 	    				result += str;
 	    				resultList.add(str);
 	    			} else {
-	    				String str ="<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+ModelHelper.getMultiplicityString(p2)+"]"; 
+	    				String str ="<"+getStereotype(p2)+"> "+p2.getName()+": "+p2.getType().getName()+" ["+RefOntoUMLFactoryUtil.getMultiplicityAsString(p2)+"]"; 
 	    				result += str+", ";
 	    				resultList.add(str);
 	    			}

@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link stories.Node#getPerformed <em>Performed</em>}</li>
  *   <li>{@link stories.Node#getInstance_of <em>Instance of</em>}</li>
- *   <li>{@link stories.Node#getStates <em>States</em>}</li>
+ *   <li>{@link stories.Node#getIs_referred_to_in <em>Is referred to in</em>}</li>
  *   <li>{@link stories.Node#getNot_instance_of <em>Not instance of</em>}</li>
  * </ul>
  * </p>
@@ -61,20 +61,20 @@ public interface Node extends Individual {
 	
 
 	/**
-	 * Returns the value of the '<em><b>States</b></em>' containment reference list.
-	 * The list contents are of type {@link stories.Node_state}.
+	 * Returns the value of the '<em><b>Is referred to in</b></em>' containment reference list.
+	 * The list contents are of type {@link stories.Classification_statement}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>States</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Is referred to in</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>States</em>' containment reference list.
-	 * @see stories.StoriesPackage#getNode_States()
+	 * @return the value of the '<em>Is referred to in</em>' containment reference list.
+	 * @see stories.StoriesPackage#getNode_Is_referred_to_in()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Node_state> getStates();
+	EList<Classification_statement> getIs_referred_to_in();
 
 	/**
 	 * Returns the value of the '<em><b>Not instance of</b></em>' reference list.
@@ -96,7 +96,7 @@ public interface Node extends Individual {
 
 	public String existance();
 
-	String states();
+	String is_referred_to_in();
 
 	
 

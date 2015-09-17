@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_-XeuYRC2EeSYucQ-emqBug" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_jQaTQSlIEeSxv-PWpOjq5w" name="Person" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_o9-6EClIEeSxv-PWpOjq5w" name="Man" visibility="public">
+    <generalization xmi:id="_sbQ5QClIEeSxv-PWpOjq5w" general="_jQaTQSlIEeSxv-PWpOjq5w" generalizationSet="_t_fsIClIEeSxv-PWpOjq5w"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_rH7pIClIEeSxv-PWpOjq5w" name="Woman" visibility="public">
+    <generalization xmi:id="_tYNCoClIEeSxv-PWpOjq5w" general="_jQaTQSlIEeSxv-PWpOjq5w" generalizationSet="_t_fsIClIEeSxv-PWpOjq5w"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_t_fsIClIEeSxv-PWpOjq5w" name="Gender" visibility="public" isCovering="true" isDisjoint="true" generalization="_sbQ5QClIEeSxv-PWpOjq5w _tYNCoClIEeSxv-PWpOjq5w"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_vY_1sClIEeSxv-PWpOjq5w" name="ProperMan" visibility="public">
+    <generalization xmi:id="_3aJBoClIEeSxv-PWpOjq5w" general="_o9-6EClIEeSxv-PWpOjq5w" generalizationSet="_5pbjsClIEeSxv-PWpOjq5w"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_yM-ZMClIEeSxv-PWpOjq5w" name="Quaquaraqua" visibility="public">
+    <generalization xmi:id="_4l0KkClIEeSxv-PWpOjq5w" general="_o9-6EClIEeSxv-PWpOjq5w" generalizationSet="_5pbjsClIEeSxv-PWpOjq5w"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_5pbjsClIEeSxv-PWpOjq5w" name="SubMan" visibility="public" isCovering="true" isDisjoint="true" generalization="_3aJBoClIEeSxv-PWpOjq5w _4l0KkClIEeSxv-PWpOjq5w"/>
+</RefOntoUML:Model>

@@ -4,14 +4,15 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -24,9 +25,10 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import net.menthor.ontouml2text.ontoUmlGlossary.OntoUmlGlossary;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.ontouml2text.ontoUmlGlossary.OntoUmlGlossary;
 
 public class GlossaryGeneratorUI extends JFrame {
 	
@@ -57,7 +59,11 @@ public class GlossaryGeneratorUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GlossaryGeneratorUI() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GlossaryGeneratorUI.class.getResource("/resources/icon/glossary.png")));
+		
+		//setIconImage(Toolkit.getDefaultToolkit().getImage(GlossaryGeneratorUI.class.getResource("/resources/icon/glossary.png")));
+		ImageIcon icon = new ImageIcon("/resources/icon/glossary.png");
+		setIconImage(icon.getImage());
+		
 		setPreferredSize(new Dimension(390, 387));
 		setSize(new Dimension(390, 387));
 		
@@ -256,13 +262,15 @@ public class GlossaryGeneratorUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				  JFileChooser chooser = new JFileChooser();
-			      chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-	
+				  JFileChooser fileChooser = new JFileChooser();				  
+				  fileChooser.setDialogTitle("Choose Directory");
+				  fileChooser.setAcceptAllFileFilterUsed(false);
+				  fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				  
 			      try {
-			            int code = chooser.showOpenDialog(contentPane);
+			            int code = fileChooser.showOpenDialog(contentPane);
 			            if (code == JFileChooser.APPROVE_OPTION) {
-			               File selectedFile = chooser.getSelectedFile();
+			               File selectedFile = fileChooser.getSelectedFile();
 			               edtOutputDirectory.setText(selectedFile.getAbsolutePath());
 			            }
 			      } catch (Exception f) {
@@ -274,6 +282,10 @@ public class GlossaryGeneratorUI extends JFrame {
 		
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
+	
+	public static boolean onWindows() {
+		return System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
+	};
 	
 	public String getOutputDirectory(){
 		return edtOutputDirectory.getText();

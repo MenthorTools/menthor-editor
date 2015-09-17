@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.menthor.ontouml2temporalowl.tree.NodeBinAssociation;
+import net.menthor.ontouml2temporalowl.tree.NodeBinAssociation.Restriction;
 import net.menthor.ontouml2temporalowl.tree.NodeClass;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
-import net.menthor.ontouml2temporalowl.tree.NodeBinAssociation.Restriction;
 import net.menthor.ontouml2temporalowl.verbose.MainVerbose;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Property;
@@ -23,15 +23,17 @@ import RefOntoUML.Property;
 
 public class OWLStructure
 {
-	public MappingType mappingType = null;
+	public OWLMappingTypes mappingType = null;
 	private List<OWLClass> OWLClasses;
 	private List<OWLObjectProperty> OWLObjectProperties;
 	private List<OWLDataTypeProperty> OWLDataTypeProperties;
+	TreeProcessor treeProc;
 
 	/*************************************************************
 	 * Procedures for creating an OWLElements object	         */
-	public OWLStructure (MappingType mt)
+	public OWLStructure (OWLMappingTypes mt, TreeProcessor treeProc)
 	{
+		this.treeProc = treeProc;
 		this.OWLClasses = new LinkedList<OWLClass>();
 		this.OWLObjectProperties = new LinkedList<OWLObjectProperty>();
 		this.OWLDataTypeProperties = new LinkedList<OWLDataTypeProperty>();
@@ -41,14 +43,14 @@ public class OWLStructure
 
 	public Boolean is4DView()
 	{
-		return ((mappingType == MappingType.WORM_VIEW_A0) ||
-				(mappingType == MappingType.WORM_VIEW_A1) ||
-				(mappingType == MappingType.WORM_VIEW_A2));
+		return ((mappingType == OWLMappingTypes.WORM_VIEW_A0) ||
+				(mappingType == OWLMappingTypes.WORM_VIEW_A1) ||
+				(mappingType == OWLMappingTypes.WORM_VIEW_A2));
 	}
 	
 	public Boolean isReificationView()
 	{
-		return (mappingType == MappingType.REIFICATION);
+		return (mappingType == OWLMappingTypes.REIFICATION);
 	}
 	
 	public Boolean isDynamicView()
@@ -208,12 +210,12 @@ public class OWLStructure
 			relts.addRestriction("equivalentClass", "none", "some", null, "timeSliceOf", "Relator", false, null, null, null);
 
 			//restrictions over the ic- or ts-level classes depending on the type of 4D view
-			if (mappingType == MappingType.WORM_VIEW_A0)
+			if (mappingType == OWLMappingTypes.WORM_VIEW_A0)
 			{
 				relts.addRestriction("equivalentClass", "none", "some", null, "mediates", "TimeSlice", false, null, null, null);
 				relts.addRestriction("min/max", "mediates", "TimeSlice", false, "2", "-1");
 			}
-			else if (mappingType == MappingType.WORM_VIEW_A2)
+			else if (mappingType == OWLMappingTypes.WORM_VIEW_A2)
 			{ //TODO
 				rel.addRestriction("equivalentClass", "none", "some", null, "mediates", "IndividualConcept", false, null, null, null);
 				rel.addRestriction("min/max", "mediates", "IndividualConcept", false, "2", "-1");
@@ -323,9 +325,9 @@ public class OWLStructure
 			//this relation holds in different levels according to the type of 4D view
 			partOf = addObjProp("partOf", null, null, null, null);
 			List<String> ls = new LinkedList<String>();
-			if ((mappingType == MappingType.WORM_VIEW_A0) || ((mappingType == MappingType.WORM_VIEW_A1)))
+			if ((mappingType == OWLMappingTypes.WORM_VIEW_A0) || ((mappingType == OWLMappingTypes.WORM_VIEW_A1)))
 				ls.add("TimeSlice");
-			if ((mappingType == MappingType.WORM_VIEW_A2) || ((mappingType == MappingType.WORM_VIEW_A1)))
+			if ((mappingType == OWLMappingTypes.WORM_VIEW_A2) || ((mappingType == OWLMappingTypes.WORM_VIEW_A1)))
 				ls.add("IndividualConcept");
 			partOf.addDomain(ls);
 			partOf.addRange(ls);
@@ -353,7 +355,7 @@ public class OWLStructure
 				
 			// OBJECT PROPERTY BETWEEN INDIVIDUAL CONCEPTS
 			OWLObjectProperty opic = null;
-			if (mappingType != MappingType.WORM_VIEW_A0)
+			if (mappingType != OWLMappingTypes.WORM_VIEW_A0)
 			{
 				opic = addObjProp("objPropertyIC", "IndividualConcept", "IndividualConcept", null, null);
 				opic.setSymmetric();
@@ -363,7 +365,7 @@ public class OWLStructure
 			OWLObjectProperty opts = addObjProp("objPropertyTS", "TimeSlice", "TimeSlice", null, null);
 			opts.setSymmetric(); 
 			
-			if (mappingType == MappingType.WORM_VIEW_A0)
+			if (mappingType == OWLMappingTypes.WORM_VIEW_A0)
 			// all properties are represented at the TS level
 			{
 				//all the main properties specializes the obj prop ts
@@ -371,14 +373,14 @@ public class OWLStructure
 				iedo.addSuperProperty("objPropertyTS");
 				partOf.addSuperProperty("objPropertyTS");
 			}
-			else if (mappingType == MappingType.WORM_VIEW_A1)
+			else if (mappingType == OWLMappingTypes.WORM_VIEW_A1)
 			// just the mutual existential dependence relations are represented at the IC level
 			{
 				//the obj prop between ic's specializes both existencialDependentOf and its inverse properties.
 				opic.addSuperProperty("existentiallyDependentOf");
 				opic.addSuperProperty("invExistentiallyDependentOf");
 			}
-			else if (mappingType == MappingType.WORM_VIEW_A2)
+			else if (mappingType == OWLMappingTypes.WORM_VIEW_A2)
 			// just the existential dependence relations are represented at the IC level
 			{
 				//both existencialDependentOf and its inverse properties specialize the obj prop between ic's 
@@ -397,10 +399,10 @@ public class OWLStructure
 		if (is4DView())
 		{
 			//this relation holds in different levels according to the type of 4D view
-			if (mappingType == MappingType.WORM_VIEW_A0)
+			if (mappingType == OWLMappingTypes.WORM_VIEW_A0)
 				//ts-level
 				i = addObjProp("inheresIn", "ModeTS", "TimeSlice", "existentiallyDependentOf", null);
-			else if (mappingType == MappingType.WORM_VIEW_A1)
+			else if (mappingType == OWLMappingTypes.WORM_VIEW_A1)
 			{
 				//TODO
 				//ic- or ts-level
@@ -425,10 +427,10 @@ public class OWLStructure
 		if (is4DView())
 		{
 			//this relation holds in different levels according to the type of 4D view
-			if (mappingType == MappingType.WORM_VIEW_A0)
+			if (mappingType == OWLMappingTypes.WORM_VIEW_A0)
 				//ts-level
 				m = addObjProp("mediates", "RelatorTS", "TimeSlice", "existentiallyDependentOf", null);
-			else if (mappingType == MappingType.WORM_VIEW_A1)
+			else if (mappingType == OWLMappingTypes.WORM_VIEW_A1)
 			{
 				//ic- or ts-level
 				m = addObjProp("mediates", null, null, "existentiallyDependentOf", null);
@@ -665,13 +667,13 @@ public class OWLStructure
     {
 		completeOWLStructuralClasses();
 		
-		for (NodeClass nc : tp.nodes)
+		for (NodeClass nc : tp.getNodes())
 		{
 			mapNodeClass2OWL(nc);
 			mapAttributes2OWL(nc);
 		}
 		
-		for (NodeBinAssociation na : tp.assocNodes)
+		for (NodeBinAssociation na : tp.getAssocNodes())
 			mapNodeAssociation2OWL(na);
     }
     
@@ -680,38 +682,38 @@ public class OWLStructure
 		OWLClass oc;
 
 		oc = getOWLClass("FunctionalComplex");
-		oc.addCompleteClasses(TreeProcessor.kindsNames);
+		oc.addCompleteClasses(treeProc.getKindsNames());
 
 		oc = getOWLClass("Collective");
-		oc.addCompleteClasses(TreeProcessor.collectivesNames);
+		oc.addCompleteClasses(treeProc.getCollectivesNames());
 
 		oc = getOWLClass("Quantity");
-		oc.addCompleteClasses(TreeProcessor.quantitiesNames);
+		oc.addCompleteClasses(treeProc.getQuantitiesNames());
 
 		oc = getOWLClass("Relator");
-		oc.addCompleteClasses(TreeProcessor.relatorsNames);
+		oc.addCompleteClasses(treeProc.getRelatorsNames());
 
 		if (isReificationView())
 		{
-			if (TreeProcessor.modesNames == null)
-				TreeProcessor.modesNames = new LinkedList<String>();
-			TreeProcessor.modesNames.add("QuaIndividual");
+			if (treeProc.getModesNames() == null)
+				treeProc.setModesNames(new LinkedList<String>());
+			treeProc.getModesNames().add("QuaIndividual");
 		}
 		oc = getOWLClass("Mode");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.modesNames);
+			oc.addCompleteClasses(treeProc.getModesNames());
 		
 		oc = getOWLClass("RelationalQuaIndividual");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.relationalquasNames);
+			oc.addCompleteClasses(treeProc.getRelationalquasNames());
 
 		oc = getOWLClass("PhasedQuaIndividual");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.phasedquasNames);
+			oc.addCompleteClasses(treeProc.getPhasedquasNames());
 
 		oc = getOWLClass("Quality");
 		if (oc != null)
-			oc.addCompleteClasses(TreeProcessor.qualitiesNames);    	
+			oc.addCompleteClasses(treeProc.getQualitiesNames());    	
     }
     
     public void mapNodeClass2OWL(NodeClass n)
@@ -804,9 +806,9 @@ public class OWLStructure
 	
 					qlt.addRestriction("some", "inheresIn", n.getName(), false, null, null);
 					qlt.addRestriction("some", "hasValue", range, false, null, null);
-					if (TreeProcessor.qualitiesNames == null)
-						TreeProcessor.qualitiesNames = new LinkedList<String>();
-					TreeProcessor.qualitiesNames.add(name);
+					if (treeProc.getQualitiesNames() == null)
+						treeProc.setQualitiesNames(new LinkedList<String>());
+					treeProc.getQualitiesNames().add(name);
 						
 					//adding an owl cardinality restriction for the class
 					//if it is not an immutable attribute, thus the individual
@@ -827,7 +829,7 @@ public class OWLStructure
 				else
 				{
 					
-					Boolean addTS = (is4DView()) && ((mappingType == MappingType.WORM_VIEW_A0) 
+					Boolean addTS = (is4DView()) && ((mappingType == OWLMappingTypes.WORM_VIEW_A0) 
 							                         || !(p.isIsReadOnly() && n.isRigid() && (min > 0)));
 					domain = n.getName(addTS);
 	

@@ -1,49 +1,34 @@
 package net.menthor.editor.pattern;
 
-/**
- * ============================================================================================
- * Menthor Editor -- Copyright (c) 2015 
- *
- * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
- * distributed under the same license terms.
- *
- * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation; either 
- * version 2 of the License, or (at your option) any later version.
- *
- * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Menthor Editor; 
- * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
- * MA  02110-1301  USA
- * ============================================================================================
- */
-
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MenthorEditor;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.PngWriter;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.palette.PaletteAccordion;
+import net.menthor.editor.v2.palette.PaletteGrouping;
+import net.menthor.editor.v2.palette.PaletteItem;
+import net.menthor.editor.v2.util.Util;
+import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
+import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.commands.AppCommandListener;
-import org.tinyuml.ui.commands.AppCommandDispatcher;
-import org.tinyuml.ui.commands.PngWriter;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.assistant.util.UtilAssistant;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.Palette;
-import net.menthor.editor.palette.PaletteAccordion;
-import net.menthor.editor.palette.PaletteElement;
-import net.menthor.pattern.dynamic.ui.DynamicWindowForDomainPattern;
-import net.menthor.pattern.ui.manager.DynamicManagerWindowForDomainPattern;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
@@ -53,29 +38,42 @@ import RefOntoUML.parser.OntoUMLParser;
 public class DomainPatternTool {
 
 	private static StructureDiagram currentDiagram;
-	private static Palette domainPallete;
-	private static AppFrame frame;
+	private static PaletteGrouping domainPallete;
+	private static MainFrame frame;
 	private static OntoUMLParser parser;
 	
-	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, AppCommandDispatcher editorDispatcher, AppFrame appFrame) {
-		//Creating Palettes
-		HashMap<PaletteElement, StructureDiagram> hashDomainPalette = new HashMap<>();
-		domainPallete = palleteAccordion.createDomainPalette(patternProject, hashDomainPalette,editorDispatcher);
+	public static void initializeDomainPatternPalette(PaletteAccordion palleteAccordion, UmlProject patternProject, CommandListener editorDispatcher, MainFrame appFrame) {
+		
+		List<String> names = new ArrayList<String>();
+		for(OntoumlDiagram umlDiagram: patternProject.getDiagrams()){
+			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
+			names.add(diagram.getName());
+		}
+			
+		domainPallete = palleteAccordion.createDomainGrouping(names);
 		
 		frame = appFrame;
-		parser = frame.getBrowserManager().getProjectBrowser().getParser();
+		parser = Models.getRefparser();
+		
+		HashMap<PaletteItem, StructureDiagram> hashDomainPalette = new HashMap<>();
+		for(OntoumlDiagram umlDiagram: patternProject.getDiagrams()){
+			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
+			PaletteItem item = domainPallete.getItemMap().get(diagram.getName());
+			if(item!=null) hashDomainPalette.put(item, diagram);
+		}
 		
 		DomainPatternTool.createDomainPalleteListener(domainPallete, hashDomainPalette,frame);
 	}
-
-	public static void createDomainPalleteListener(final Palette domainPallete,final HashMap<PaletteElement, StructureDiagram> hashDomainPalette, AppFrame frame) {
-		domainPallete.addCommandListener(new AppCommandListener() {
-
-			@Override
-			public void handleCommand(String command) {
-				currentDiagram = hashDomainPalette.get(domainPallete.getSelectedElement());
-			}
-		});
+	
+	public static void createDomainPalleteListener(final PaletteGrouping domainPallete,final HashMap<PaletteItem, StructureDiagram> hashDomainPalette, MainFrame frame) {
+//		domainPallete.addCommandListener(new AppCommandListener() {
+//
+//			@Override
+//			public void handleCommand(String command) {
+//				currentDiagram = hashDomainPalette.get(domainPallete.getSelected());
+//			}
+//
+//		});
 	}
 
 	//Falta pegar os GeneralizationSets	
@@ -140,7 +138,7 @@ public class DomainPatternTool {
 			}
 		}
 		dynwin.open();
-		domainPallete.getSelectedElement().setSelected(false);
+		domainPallete.getSelected().setSelected(false);
 		HashMap<String, ArrayList<Object[]>> hash = dynwin.getHashTable();
 		Fix fix = null;
 		if(hash != null){
@@ -148,6 +146,21 @@ public class DomainPatternTool {
 		}
 		
 		return fix;
+	}
+	
+	public static void runPattern(final DiagramManager diagramManager,final double x, final double y) {
+		if(Util.onMac()){
+			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
+				@Override
+				public void run() {
+					Fix fix = DomainPatternTool.run(x, y);
+					diagramManager.updateMenthor(fix);
+				}
+			});
+		}else{
+			Fix fix = DomainPatternTool.run(x, y);
+			diagramManager.updateMenthor(fix);
+		}
 	}
 
 }

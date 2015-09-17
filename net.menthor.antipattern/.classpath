@@ -7,7 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.common"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml"/>
 	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
@@ -32,6 +31,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt_1.6.0.r36x201305212024.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.layout.grouplayout_1.6.0.r36x201305212046.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.eclipse.wb.swt.widgets.baseline_1.6.0.r36x201305212028.jar"/>
-	<classpathentry kind="lib" path="/net.menthor.common/lib/swt-win-x64/swt.jar"/>
+	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

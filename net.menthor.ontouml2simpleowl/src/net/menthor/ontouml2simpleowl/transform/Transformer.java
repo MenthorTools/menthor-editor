@@ -65,9 +65,11 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
+import RefOntoUML.Type;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
+import RefOntoUML.impl.DerivationImpl;
 import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.impl.GeneralizationSetImpl;
 import RefOntoUML.impl.MomentClassImpl;
@@ -105,11 +107,14 @@ public class Transformer {
 		owlMappings = new HashMap<Element, Object>();
 		owlAnnotations = new HashMap<Element, Set<String>>();
 		
+		if(ontologyIRI.endsWith("#")){
+			ontologyIRI = ontologyIRI.substring(0, ontologyIRI.length()-1);
+		}
 		//Simple validate the informed IRI. If it isn't good, we get a new one.
-		if(ontologyIRI.toLowerCase().startsWith("http://") && ontologyIRI.toLowerCase().endsWith(".owl"))
+//		if(ontologyIRI.toLowerCase().startsWith("http://") && ontologyIRI.toLowerCase().endsWith(".owl"))
 			this.ontologyIRI = IRI.create(ontologyIRI.replace(" ", ""));
-		else
-			this.ontologyIRI = IRI.create(getDefaultIRI("ontology"));
+//		else
+//			this.ontologyIRI = IRI.create(getDefaultIRI("ontology"));
 		
 		//This manager is needed in order to work with OWLAPI
 		manager = OWLManager.createOWLOntologyManager();
@@ -291,13 +296,14 @@ public class Transformer {
 	 */
 	private Object process(EObject src)
 	{			
+		System.out.println(src);
 		Object trg = owlMappings.get(src);
 		
 		if(trg == null)
 		{
 			if(src instanceof ClassImpl)
 				trg = processClass((Class) src);
-			else if(src instanceof AssociationImpl)
+			else if(src instanceof AssociationImpl && !(src instanceof DerivationImpl))
 				trg = processAssociation((Association) src);
 			else if(src instanceof GeneralizationImpl)
 				trg = processGeneralization((Generalization) src);
@@ -519,8 +525,19 @@ public class Transformer {
 			}
 			propIRI = IRI.create(ontologyIRI + "#" + getOWLName(name));
 			
-			//Find the domain and range OWLClasses
-			dcls = (OWLClass) process(prp.getType());
+			Object dclsObj = process(prp.getOpposite().getType());
+			if(dclsObj instanceof OWLClass){
+				//Find the domain and range OWLClasses
+				dcls = (OWLClass) dclsObj;
+			}else if(dclsObj instanceof HashSet){
+				Property x = prp.getOpposite();
+				Type y = prp.getOpposite().getType();
+				process(y);
+				Object[] memberEnds = ((HashSet<OWLProperty>) dclsObj).toArray();
+				OWLProperty owlProp = (OWLProperty) memberEnds[0];
+				IRI dclsIri = owlProp.getIRI();
+				dcls = manager.getOWLDataFactory().getOWLClass(dclsIri);
+			}			
 			
 			//Check if the range is a DataType
 			rdty = getBuiltinType(prp.getOpposite().getType().getName());				
@@ -563,16 +580,26 @@ public class Transformer {
 			OWLObjectPropertyDomainAxiom daxPrp = manager.getOWLDataFactory().getOWLObjectPropertyDomainAxiom(oprp, dcls);
 			addToOntology(daxPrp);
 			
-			rcls = (OWLClass) process(prp.getOpposite().getType());
-			OWLObjectPropertyRangeAxiom raxPrp = manager.getOWLDataFactory().getOWLObjectPropertyRangeAxiom(oprp, rcls);
-			addToOntology(raxPrp);
+			if(prp.getOpposite() != null){
+				Object rclsObj = process(prp.getType());
+				if(rclsObj instanceof OWLClass){
+					rcls = (OWLClass) rclsObj;
+				}else if(rclsObj instanceof HashSet){
+					Object[] memberEnds = ((HashSet<OWLProperty>) rclsObj).toArray();
+					OWLProperty owlProp = (OWLProperty) memberEnds[memberEnds.length-1];
+					IRI dclsIri = owlProp.getIRI();
+					rcls = manager.getOWLDataFactory().getOWLClass(dclsIri);
+				}	
+				
+				OWLObjectPropertyRangeAxiom raxPrp = manager.getOWLDataFactory().getOWLObjectPropertyRangeAxiom(oprp, rcls);
+				addToOntology(raxPrp);
 						
-			//Deal with cardinality
-			OWLClassExpression expr = getCardinalityRestriction(prp.getOpposite().getLower(), prp.getOpposite().getUpper(), oprp, dcls, rcls);
-			
-			//Create an anonymous superclass for the Object Property
-			OWLAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(dcls, expr); 			
-			addToOntology(subAxm);
+				//Deal with cardinality
+				OWLClassExpression expr = getCardinalityRestriction(prp.getOpposite().getLower(), prp.getOpposite().getUpper(), oprp, dcls, rcls);
+				//Create an anonymous superclass for the Object Property
+				OWLAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(dcls, expr); 			
+				addToOntology(subAxm);
+			}
 			
 			owlMappings.put(prp, oprp);
 			

@@ -1,0 +1,7 @@
+you'll need to add these jars to the classpath
+
+org.eclipse.core.commands_<version info>.jar
+org.eclipse.equinox.common_<version info>.jar
+org.eclipse.jface_<version info>.jar
+org.eclipse.osgi_<version info>.jar
+org.eclipse.ui.workbench_<version info>.jar

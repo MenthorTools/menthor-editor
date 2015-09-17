@@ -25,26 +25,27 @@ import java.awt.geom.Dimension2D;
 
 import org.tinyuml.draw.AbstractCompositeNode;
 import org.tinyuml.draw.Compartment;
+import org.tinyuml.draw.Compartment.Alignment;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LabelSource;
 import org.tinyuml.draw.SimpleLabel;
-import org.tinyuml.draw.Compartment.Alignment;
-import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.umldraw.shared.UmlModelElementLabelSource;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Property;
 import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
+import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class represents a Class element in the editor. It is responsible for
@@ -109,7 +110,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 			//cloned.classData = RefOntoUMLHelper.clone(classData);
 			//cloned.classData.eAdapters().add(cloned);
 			
-			cloned.setClassifier(ModelHelper.clone(classData));
+			cloned.setClassifier(RefOntoUMLFactoryUtil.clone(classData));
 		}
 		cloned.mainLabel = (Label) mainLabel.clone();
 		cloned.mainLabel.setSource(cloned);
@@ -274,10 +275,10 @@ public final class ClassElement extends AbstractCompositeNode implements
 		classData = classifier;
 		
 		if(classifier.eResource() != null)
-			classUUID = ModelHelper.getUUIDFromElement(classifier);
+			classUUID = OntoUMLParser.getUUIDFromElement(classifier);
 		
 		if (classData != null) {			
-			ontoUmlStereotype = ModelHelper.getClassAsStereotype(classData);
+			ontoUmlStereotype = OntoUMLNameHelper.getTypeName(classData, true);
 		}
 		reinitMainCompartment();
 		reinitAttributesCompartment();
@@ -292,7 +293,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 		if(classData == null && classUUID != null)
 		{
 			RefOntoUML.Package model = ((StructureDiagram)getDiagram()).getRootPackage();
-			classData = (Classifier) ModelHelper.getElementByUUID(model, classUUID);
+			classData = (Classifier) OntoUMLParser.getElementByUUID(model, classUUID);
 		}
 		
 		return classData;
@@ -303,7 +304,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 */
 	@Override
 	 public void addedToDiagram(Diagram diagram) {
-		 classUUID = ModelHelper.getUUIDFromElement(classData);
+		 classUUID = OntoUMLParser.getUUIDFromElement(classData);
 	 }
 	
 	/**
@@ -466,8 +467,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean acceptsConnection(RelationType associationType,
-			RelationEndType as, UmlNode with) {
+	public boolean acceptsConnection(RelationshipType associationType, UmlNode with) {
 		return true;
 	}
 
@@ -514,7 +514,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 */
 	@Override
 	public String toString() {
-		return"<<"+ModelHelper.getStereotype(getClassifier())+">> "+getClassifier().getName();
+		return getClassifier().toString();
 	}
 
 	// ************************************************************************

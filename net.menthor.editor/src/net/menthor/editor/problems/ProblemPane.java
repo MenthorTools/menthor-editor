@@ -35,11 +35,10 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
-
 import net.menthor.editor.finder.FoundElement;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.types.EditorType;
 
 /**
  * @author John Guerson
@@ -47,6 +46,7 @@ import net.menthor.editor.model.UmlProject;
 public class ProblemPane extends JPanel implements Editor {
 
 	private static final long serialVersionUID = -3183962658000841153L;
+	@SuppressWarnings("unused")
 	private UmlProject project;
 	private ProblemScrollTable problemScrollTable;	
 	private JLabel status;
@@ -189,13 +189,8 @@ public class ProblemPane extends JPanel implements Editor {
 	}
 
 	@Override
-	public EditorNature getEditorNature() {
-		return EditorNature.PROBLEMS;
-	}
-
-	@Override
-	public Diagram getDiagram() {
-		return null;
+	public EditorType getEditorType() {
+		return EditorType.PROBLEMS_EDITOR;
 	}
 
 	@Override
@@ -203,8 +198,4 @@ public class ProblemPane extends JPanel implements Editor {
 		
 	}
 
-	@Override
-	public UmlProject getProject() {
-		return project;
-	}
 }

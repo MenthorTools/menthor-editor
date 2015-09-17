@@ -1,14 +1,11 @@
 package net.menthor.pattern.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Arrays;
 
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Generalization;
@@ -16,7 +13,6 @@ import RefOntoUML.Kind;
 import RefOntoUML.Package;
 import RefOntoUML.Phase;
 import RefOntoUML.Quantity;
-import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.SubKind;
@@ -25,146 +21,83 @@ import RefOntoUML.parser.OntoUMLParser;
 public class RoleMixinPattern extends AbstractPattern{
 
 	public RoleMixinPattern(OntoUMLParser parser, double x, double y) {
-		super(parser, x, y, "/resource/RoleMixin.png", "RoleMixin Pattern");
+		super(parser, x, y, "/resources/patterns/RoleMixin.png", "RoleMixin Pattern");
+	}
+
+	Classifier c;
+	public RoleMixinPattern(OntoUMLParser parser, Classifier c, double x, double y) {
+		super(parser, x, y, "/resources/patterns/RoleMixin.png", "RoleMixin Pattern");
+		this.c = c;
 	}
 
 	@Override
 	public void runPattern() {
-		HashMap<String, String[]> hashTree = new HashMap<>();
-		Set<? extends Classifier> set;
+		if(dym==null || dm==null) return;
+		dym.addHashTree(fillouthashTree(Arrays.asList(new Class[]{Kind.class, Quantity.class, Collective.class, SubKind.class, RoleMixin.class, Role.class, Phase.class})));
 
-		set = parser.getAllInstances(Kind.class);
-		if(!set.isEmpty())
-			hashTree.put("Kind", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Collective.class);
-		if(!set.isEmpty())
-			hashTree.put("Collective", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Quantity.class);
-		if(!set.isEmpty())
-			hashTree.put("Quantity", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(SubKind.class);
-		if(!set.isEmpty())
-			hashTree.put("Subkind", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Phase.class);
-		if(!set.isEmpty())
-			hashTree.put("Phase", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Role.class);
-		if(!set.isEmpty())
-			hashTree.put("Role", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(RoleMixin.class);
-		if(!set.isEmpty())
-			hashTree.put("RoleMixin", UtilAssistant.getStringRepresentationClass(set));
-
-		set = parser.getAllInstances(Relator.class);
-		if(!set.isEmpty())
-			hashTree.put("Relator", UtilAssistant.getStringRepresentationClass(set));
-
-		dym.addHashTree(hashTree);
-
+		if(c instanceof RoleMixin){
+			dym.addTableRigidLine("rolemixin", UtilAssistant.getStringRepresentationClass(c), new String[] {"RoleMixin"});	
+		}else{
+			dym.addTableLine("rolemixin", "RoleMixin", new String[] {"RoleMixin"});
+		}
+		
 		dym.addTableLine("sortal", "Sortal 1", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
-		dym.addTableLine("sortal", "Sortal 2", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
-		dym.addTableLine("sortal", "Sortal 3", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
-
 		dym.addTableLine("role", "Role 1", new String[] {"Role"});
+		
+		dym.addTableLine("sortal", "Sortal 2", new String[] {"Kind","Collective", "Quantity", "Subkind", "Phase", "Role"});
 		dym.addTableLine("role", "Role 2", new String[] {"Role"});
-		dym.addTableLine("role", "Role 3", new String[] {"Role"});
+		
+		dym.setInitialItemCount(5);
 
-		dym.addTableLine("rolemixin", "RoleMixin", new String[] {"RoleMixin"});
+		dym.setAddLineButtonAction("role", "Role N", new String[] {"Role"});
 
-		dym.addTableLine("relator", "Relator", new String[] {"Relator"});
-
+		reuseGeneralizationSet(Arrays.asList(new Class[]{RoleMixin.class}), Arrays.asList(new Class[]{Kind.class, Quantity.class, Collective.class, SubKind.class, Role.class, Phase.class}));
 		dm.open();
 	}
 
 	@Override
-	public Fix getFix(){
-		try{
-			Package root = parser.getModel();
-			outcomeFixer = new OutcomeFixer(root);
-			fix = new Fix();
-			Fix _fix = new Fix();
-			ArrayList<Generalization> generalizationList = new ArrayList<>();
+	public Fix getSpecificFix(){
+		Package root = parser.getModel();
+		outcomeFixer = new OutcomeFixer(root);
+		fix = new Fix();
+		Fix _fix = new Fix();
+		ArrayList<Generalization> generalizationList = new ArrayList<>();
 
-			ArrayList<Object[]> sortals = dym.getRowsOf("sortal");
-			ArrayList<Object[]> roles = dym.getRowsOf("role");
-			ArrayList<Object[]> rolemixins = dym.getRowsOf("rolemixin");
-			ArrayList<Object[]> relators = dym.getRowsOf("relator");
+		ArrayList<Object[]> sortals = dym.getRowsOf("sortal");
+		ArrayList<Object[]> roles = dym.getRowsOf("role");
+		ArrayList<Object[]> rolemixins = dym.getRowsOf("rolemixin");
 
-			Classifier sortal1 		= getClassifier(sortals.get(0), x-120, y-157);
-			Classifier sortal2 		= getClassifier(sortals.get(1), x-23, y-157);
-			Classifier sortal3 		= getClassifier(sortals.get(2), x+150, y-70);
+		if(sortals == null || roles == null || rolemixins == null)
+			return null;
+		
+		Classifier sortal1 		= getClassifier(sortals.get(0), x, y-157);
+		Classifier sortal2 		= getClassifier(sortals.get(1), x-97, y-157);
 
-			Classifier role1 		= getClassifier(roles.get(0),x-120,y-70);
-			Classifier role2 		= getClassifier(roles.get(1),x-23,y-70);
-			Classifier role3 		= getClassifier(roles.get(2),x+150, y+28);
-
-			Classifier rolemixin 	= getClassifier(rolemixins.get(0),x-71, y+28);
-
-			Classifier relator 		= getClassifier(relators.get(0), x+40, y+170);
-
-			Association leftMediation = null;
-			Association rightMediation = null;
-			Association material = null;
-			Association derivation = null;
-
-			if(sortal1 != null && role1 != null){
-				fix.addAll(outcomeFixer.createGeneralization(role1,sortal1));
-			}
-
-			if(sortal2 != null && role2 != null){
-				fix.addAll(outcomeFixer.createGeneralization(role2,sortal2));	
-			}
-
+		Classifier rolemixin 	= getClassifier(rolemixins.get(0),x-71, y+28);
+		
+		for(int i = 0; i < roles.size(); i++){
+			Classifier rolen = getClassifier(roles.get(i),x-(97*i),y-70);
 			if(rolemixin != null){
-				if(role1 != null){
-					_fix.addAll(outcomeFixer.createGeneralization(role1, rolemixin));
-					Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
-					generalizationList.add(generalization);		
-					fix.addAll(_fix);
-				}
-				if(role2 != null){
-					_fix = outcomeFixer.createGeneralization(role2, rolemixin);
-					Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
-					generalizationList.add(generalization);
-					fix.addAll(_fix);
-				}
-				if(generalizationList.size() == 2){
-					fix.addAll(outcomeFixer.createGeneralizationSet(generalizationList, true, true, "partition"+UtilAssistant.getCont()));
-				}
+				_fix.addAll(outcomeFixer.createGeneralization(rolen, rolemixin));
+				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
+				generalizationList.add(generalization);		
+				fix.addAll(_fix);
 			}
-
-			if(sortal3 != null && role3 != null){
-				fix.addAll(outcomeFixer.createGeneralization(role3,sortal3));	
+			
+			if(i == 0 && sortal1 != null && rolen != null){
+				fix.addAll(outcomeFixer.createGeneralization(rolen,sortal1));
 			}
-
-			if(rolemixin != null && role3 != null){
-				material = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MATERIAL, "", rolemixin, role3).getAdded().get(0);
-				fix.includeAdded(material);
+			
+			if(i == 1 && sortal2 != null && rolen != null){
+				fix.addAll(outcomeFixer.createGeneralization(rolen,sortal2));
 			}
-
-			if(relator != null){
-				if(rolemixin != null){
-					leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, rolemixin).getAdded().get(0);
-					fix.includeAdded(leftMediation);
-				}
-
-				if(role3 != null){
-					rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, role3).getAdded().get(0);
-					fix.includeAdded(rightMediation);
-				}
-
-				if(material != null){
-					derivation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.DERIVATION, "", relator, material).getAdded().get(0);
-					fix.includeAdded(derivation);
-				}
+		}
+		
+		if(rolemixin != null){
+			if(generalizationList.size() >= 2){
+				fix.addAll(createGeneralizationSet(generalizationList, true, true, dym.getGeneralizationSetName()));
 			}
-		}catch(Exception e){}
+		}
 
 		return fix;
 	}

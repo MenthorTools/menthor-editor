@@ -29,9 +29,11 @@ public class NodeClass
 	
 	LinkedList<ChildPartition> childPartitions;
 	HashMap<GeneralizationSet, ChildPartition> gs2partition;
+	TreeProcessor treeProc;
 	
-	public NodeClass (Class c)
+	public NodeClass (Class c, TreeProcessor treeProc)
 	{
+		this.treeProc = treeProc;
 		myclass = c;
 		
 		children = new LinkedList<NodeClass>();
@@ -157,7 +159,7 @@ public class NodeClass
 					for (Generalization bg : gs.getGeneralization())
 						if (bg != g)
 						{
-							NodeClass n = TreeProcessor.getNode((Class) bg.getSpecific());
+							NodeClass n = treeProc.getNode((Class) bg.getSpecific());
 							if (reification)
 								disjointClasses.add(n.getReifiedName());
 							else
@@ -253,7 +255,7 @@ public class NodeClass
 			{
 				for (Classifier cp : classifierList)
 				{
-					NodeClass n = TreeProcessor.getNode((Class) cp);
+					NodeClass n = treeProc.getNode((Class) cp);
 					if (!justRigid || n.isRigid())
 						lparents.add(n.getName(addTS));
 					auxList.addAll(cp.parents());
@@ -303,7 +305,7 @@ public class NodeClass
 			{
 				for (Classifier cp : classifierList)
 				{
-					NodeClass n = TreeProcessor.getNode((Class) cp);
+					NodeClass n = treeProc.getNode((Class) cp);
 					if (!n.isRigid())
 						lparents.add(n.getReifiedName());
 					auxList.addAll(cp.parents());

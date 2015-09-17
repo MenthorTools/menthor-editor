@@ -1,6 +1,6 @@
 package net.menthor.editor.ui;
 
-/**
+/*
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *
@@ -41,7 +41,6 @@ import java.awt.event.MouseListener;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -52,15 +51,17 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.popupmenu.TabPopupMenu;
+import org.tinyuml.ui.diagram.DiagramEditor;
+
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.menus.TabPopupMenu;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 import org.eclipse.emf.edit.provider.IDisposable;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.Editor;
-
 
 /**
  * Internal class used to create closable tabs
@@ -72,8 +73,10 @@ public class ClosableTabPanel extends JPanel {
 	public JLabel label;
 	public TabButton button;
 	public boolean isTitleEditable = true;
+	private CommandListener listener;
 	
 	public JLabel getLabel() { return label; }
+	public CommandListener getListener() { return listener; }
 	
 	public void setIcon()
 	{
@@ -81,23 +84,23 @@ public class ClosableTabPanel extends JPanel {
 		int i = pane.indexOfTabComponent(ClosableTabPanel.this);
 		if (i != -1) {
 			Component obj = (pane.getComponentAt(i));			
-			if(obj instanceof DiagramEditorWrapper)
+			if(obj instanceof DiagramWrapper)
 			{
-				Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/tree/diagram.png"));
+				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			}
 			else if(obj instanceof ConstraintEditor)
 			{
-				Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/text-editor.png"));
+				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			}
 			else if(obj instanceof TextEditor)
 			{
-				Icon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/x16/editor.png"));
+				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -105,9 +108,15 @@ public class ClosableTabPanel extends JPanel {
 		}
 	}
 	
-	public ClosableTabPanel(final JTabbedPane pane, boolean isTitleEditable) {
+	public ClosableTabPanel(final JTabbedPane pane, boolean isTitleEditable, CommandListener listener) {
 		this(pane);
 		this.isTitleEditable = isTitleEditable;
+		this.listener=listener;
+	}
+	
+	public ClosableTabPanel(final JTabbedPane pane,CommandListener listener) {
+		this(pane);
+		this.listener=listener;
 	}
 	
 	/**
@@ -152,12 +161,14 @@ public class ClosableTabPanel extends JPanel {
                 		if (editor.getPreferredSize().width < 100) editor.setPreferredSize(new Dimension(100, editor.getPreferredSize().height));
                 	}
                 } else if (SwingUtilities.isRightMouseButton(e)){
-                	if(pane instanceof DiagramManager){                		
-                		int index = pane.indexOfTabComponent(ClosableTabPanel.this);
-                		Component comp = pane.getComponentAt(index);                		
-                		TabPopupMenu popup = new TabPopupMenu(pane,comp);
-                		popup.show(e.getComponent(),e.getX(),e.getY());
-                	}
+                	             		
+            		int index = pane.indexOfTabComponent(ClosableTabPanel.this);
+            		Component comp = pane.getComponentAt(index);
+            		
+            		TabPopupMenu popup = new TabPopupMenu(listener);
+            		popup.setContext(comp);
+            		popup.show(e.getComponent(),e.getX(),e.getY());
+                	
                 } else { 
                     if (pane.getSelectedIndex() != pane.indexOfTabComponent(ClosableTabPanel.this)) pane.setSelectedIndex(pane.indexOfTabComponent(ClosableTabPanel.this)); 
                     pane.requestFocus(); 
@@ -192,8 +203,8 @@ public class ClosableTabPanel extends JPanel {
                     pane.setTabComponentAt(index, ClosableTabPanel.this);
                     Editor currentEditor = ((DiagramManager)pane).getCurrentEditor();
                     if(currentEditor instanceof DiagramEditor) ((DiagramEditor)currentEditor).getDiagram().setName(editor.getText());
-                    if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOCLDocument().setName(editor.getText());
-                    ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+                    if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOclDocument().setName(editor.getText());
+                    ((DiagramManager)pane).getFrame().getProjectBrowser().refresh();
                 } 
             } 
         }); 
@@ -205,8 +216,8 @@ public class ClosableTabPanel extends JPanel {
             	pane.setTabComponentAt(index, ClosableTabPanel.this); 
             	Editor currentEditor = ((DiagramManager)pane).getCurrentEditor();
                 if(currentEditor instanceof DiagramEditor) ((DiagramEditor)currentEditor).getDiagram().setName(editor.getText());
-                if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOCLDocument().setName(editor.getText());
-                ((DiagramManager)pane).getFrame().getBrowserManager().getProjectBrowser().refreshTree();
+                if(currentEditor instanceof ConstraintEditor)((ConstraintEditor)currentEditor).getOclDocument().setName(editor.getText());
+                ((DiagramManager)pane).getFrame().getProjectBrowser().refresh();
             } 
         }); 
         return editor; 
@@ -252,8 +263,8 @@ public class ClosableTabPanel extends JPanel {
 			if(tabbedpane instanceof DiagramManager){
 				Editor editor = ((DiagramManager)tabbedpane).getCurrentEditor();
 				if(editor!=null){
-					if(editor instanceof DiagramEditorWrapper){
-						if(((DiagramEditorWrapper) editor).getDiagramEditor().isSaveNeeded()) 
+					if(editor instanceof DiagramWrapper){
+						if(((DiagramWrapper) editor).getDiagramEditor().isSaveNeeded()) 
 						{				
 							int option = JOptionPane.showConfirmDialog(((DiagramManager)tabbedpane).getFrame(), "Your diagram has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
 							if (option== JOptionPane.YES_OPTION) {((DiagramManager)tabbedpane).saveProject(); }
@@ -309,7 +320,7 @@ public class ClosableTabPanel extends JPanel {
 			g2.setStroke(new BasicStroke(1,BasicStroke.JOIN_ROUND,BasicStroke.CAP_ROUND));
 			g2.setColor(Color.BLACK);
 			if (getModel().isRollover()) {
-				g2.setColor(ColorPalette.getInstance().getColor(ThemeColor.BLUE_DARK));
+				g2.setColor(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_DARK));
 			}
 			int delta = 5;
 

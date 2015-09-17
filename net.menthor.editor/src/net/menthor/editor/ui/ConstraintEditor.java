@@ -31,18 +31,15 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.model.OCLDocument;
-import net.menthor.editor.model.UmlProject;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.types.EditorType;
 import net.menthor.tocl.editor.TOCLEditorPanel;
-
-import org.tinyuml.draw.Diagram;
-import org.tinyuml.ui.diagram.Editor;
 
 public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 
 	private static final long serialVersionUID = 7380862047111803466L;
-	public OCLDocument oclDoc;
+	public OclDocument oclDoc;
 	public JMenuItem parserMenuItem = new JMenuItem("Parse");
 	
 	public ConstraintEditor(final Component parent) {
@@ -57,7 +54,7 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 			}			
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {				
-				((AppFrame)parent).getDiagramManager().saveProjectNeeded(true);				
+				((MainFrame)parent).getDiagramManager().saveProjectNeeded(true);				
 			}
 		});
 		
@@ -72,29 +69,29 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 		saveMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((AppFrame)parent).getDiagramManager().exportOCL();
+				((MainFrame)parent).getDiagramManager().exportOCL();
 			}
 		});
 		openMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((AppFrame)parent).getDiagramManager().importOCL();
+				((MainFrame)parent).getDiagramManager().importOCL();
 			}
 		});
 		parserMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((AppFrame)parent).getDiagramManager().parseConstraints(true);
+				((MainFrame)parent).getDiagramManager().parseConstraints(true);
 			}
 		});
 	}
 		
-	public OCLDocument getOCLDocument() { return oclDoc; }
+	public OclDocument getOclDocument() { return oclDoc; }
 	
-	public ConstraintEditor(Component parent, OCLDocument oclDoc) {
+	public ConstraintEditor(Component parent, OclDocument oclDoc) {
 		this(parent);
 		this.oclDoc = oclDoc;
-		setText(oclDoc.getContent());
+		setText(oclDoc.getContentAsString());
 	}
 	
 	@Override
@@ -108,17 +105,7 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 	}
 
 	@Override
-	public EditorNature getEditorNature() {
-		return EditorNature.OCL;
-	}
-
-	@Override
-	public Diagram getDiagram() {
-		return null;
-	}
-
-	@Override
-	public UmlProject getProject() {
-		return null;
+	public EditorType getEditorType() {
+		return EditorType.OCL_EDITOR;
 	}
 }

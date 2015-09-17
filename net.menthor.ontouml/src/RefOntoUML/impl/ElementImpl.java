@@ -6,26 +6,15 @@
  */
 package RefOntoUML.impl;
 
-import RefOntoUML.Comment;
-import RefOntoUML.DirectedRelationship;
-import RefOntoUML.Element;
-import RefOntoUML.Model;
-import RefOntoUML.RefOntoUMLPackage;
-import RefOntoUML.Relationship;
-
-import RefOntoUML.util.RefOntoUMLValidator;
-
 import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -33,24 +22,28 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.EModelElementImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
-
 import org.eclipse.ocl.ecore.OCL;
-
 import org.eclipse.ocl.ecore.OCL.Helper;
-
 import org.eclipse.ocl.expressions.OCLExpression;
+
+import RefOntoUML.Comment;
+import RefOntoUML.DirectedRelationship;
+import RefOntoUML.Element;
+import RefOntoUML.Model;
+import RefOntoUML.NamedElement;
+import RefOntoUML.Property;
+import RefOntoUML.RefOntoUMLPackage;
+import RefOntoUML.Relationship;
+import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.util.RefOntoUMLValidator;
 
 /**
  * <!-- begin-user-doc -->
@@ -579,4 +572,31 @@ public abstract class ElementImpl extends EModelElementImpl implements Element {
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/ocl/examples/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
+	
+	@Override
+	public int compareTo(Element arg0) {
+		String name = OntoUMLNameHelper.getName(this);
+		String type = OntoUMLNameHelper.getTypeName(this);
+		String arg0Name = OntoUMLNameHelper.getName(arg0);
+		String arg0Type = OntoUMLNameHelper.getTypeName(arg0);
+		
+		int compareOwner = 0;
+		if(this instanceof Property && arg0 instanceof Property){
+			NamedElement owner = (NamedElement) this.eContainer();
+			NamedElement arg0Owner = (NamedElement) arg0.eContainer();
+			compareOwner = owner.getName().compareTo(arg0Owner.getName());
+		}
+		int compareNames = name.compareTo(arg0Name);
+		int compareTypes = type.compareTo(arg0Type);		
+		//if names are equals, order by type
+		if(compareOwner == 0){
+			if(compareNames == 0){
+				return compareTypes;
+			}else{
+				return compareNames;
+			}
+		}else{
+			return compareOwner;
+		}
+	}
 } //ElementImpl

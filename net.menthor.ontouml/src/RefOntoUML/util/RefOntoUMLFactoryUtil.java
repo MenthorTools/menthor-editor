@@ -1,8 +1,10 @@
 package RefOntoUML.util;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import RefOntoUML.AggregationKind;
 import RefOntoUML.Association;
@@ -35,6 +37,7 @@ import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.Quantity;
 import RefOntoUML.RefOntoUMLFactory;
+import RefOntoUML.Relationship;
 import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
@@ -45,6 +48,16 @@ import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
+import RefOntoUML.impl.AssociationImpl;
+import RefOntoUML.impl.CharacterizationImpl;
+import RefOntoUML.impl.DataTypeImpl;
+import RefOntoUML.impl.DerivationImpl;
+import RefOntoUML.impl.DirectedBinaryAssociationImpl;
+import RefOntoUML.impl.FormalAssociationImpl;
+import RefOntoUML.impl.GeneralizationImpl;
+import RefOntoUML.impl.MaterialAssociationImpl;
+import RefOntoUML.impl.MediationImpl;
+import RefOntoUML.impl.MeronymicImpl;
 
 public class RefOntoUMLFactoryUtil {
 
@@ -584,7 +597,7 @@ public class RefOntoUMLFactoryUtil {
 	 * Create a property i.e. an attribute or association end-point. 
 	 * with a default name which is the classifier name in lower case 
 	 */
-	private static Property createProperty(Classifier classifier, int lower, int upper) 
+	public static Property createProperty(Classifier classifier, int lower, int upper) 
 	{
 		Property property = factory.createProperty();
 		property.setType(classifier);
@@ -600,7 +613,7 @@ public class RefOntoUMLFactoryUtil {
 	}
 
 	/** Create a property i.e. an attribute or association end-point. */
-	private static Property createProperty(Classifier classifier, int lower, int upper, String name) 
+	public static Property createProperty(Classifier classifier, int lower, int upper, String name) 
 	{
 		Property p = createProperty(classifier, lower, upper);
 		if(classifier !=null && classifier.getName()!=null && name==null) p.setName(classifier.getName().trim().toLowerCase());
@@ -609,7 +622,7 @@ public class RefOntoUMLFactoryUtil {
 	}
 	
 	/** Create a property i.e. an attribute or association end-point. */
-	private static Property createProperty(Classifier classifier, int lower, int upper, String name, boolean isDerived, boolean isReadOnly, AggregationKind aggregation)
+	public static Property createProperty(Classifier classifier, int lower, int upper, String name, boolean isDerived, boolean isReadOnly, AggregationKind aggregation)
 	{
 		Property p = createProperty(classifier, lower, upper, name);
 		p.setIsDerived(isDerived);
@@ -722,4 +735,155 @@ public class RefOntoUMLFactoryUtil {
 		property.setLowerValue(lowerBound);
 		property.setUpperValue(upperBound);	
 	}
+		
+	
+	/** Get multiplicity string representation from a property */
+	public static String getMultiplicityAsString(Property property) 
+	{
+		int lowerBound = property.getLower(), upperBound = property.getUpper();
+		if (upperBound == -1) return lowerBound == 0 ? "*" : lowerBound + "..*";
+		if (lowerBound == upperBound) return String.valueOf(lowerBound);
+		return lowerBound + ".." + upperBound;
+	}
+	
+	public static void setMultiplicityFromString(Property property, String str) throws ParseException 
+	{		
+		LiteralInteger lowerBound = factory.createLiteralInteger();
+		LiteralUnlimitedNatural upperBound = factory.createLiteralUnlimitedNatural();
+		// 1..2, 1, N, *, 4..1, 1..1, 1..*, 0..*
+		Pattern pattern = Pattern.compile("\\d+|\\*|\\d+\\.\\.(\\d+|\\*)");
+		if (pattern.matcher(str).matches()) { 
+			int lowerValue = 0, upperValue = 0;
+			if (!str.contains("..")) {
+				// Multiplicities: 1, N
+				if(!str.contains("*")){
+					lowerValue = Integer.valueOf(str);
+					upperValue = lowerValue;
+				}
+				// Multiplicities: *
+				else{
+					lowerValue = 0;
+					upperValue = -1;
+				}
+			}
+			//1..2, 4..1, 1..1, 1..*, 0..*
+			else{
+				String[] comps = str.split("\\.\\.");
+				 // Multiplicities: 1..3, 0..2, 3..1
+				if(!str.contains("*")){
+					if(comps[0] == comps[1]){
+						lowerValue = Integer.valueOf(str);
+						upperValue = lowerValue;
+					}else{
+						lowerValue = Integer.valueOf(comps[0]);
+						upperValue = Integer.valueOf(comps[1]);						
+						if(lowerValue > upperValue)
+							throw new ParseException("could not parse '" + str + "'", 0);
+					}
+				}
+				// Multiplicities: 1..*, 0..*
+				else {
+					lowerValue = Integer.valueOf(comps[0]);
+					upperValue = -1;
+				}
+			}
+			lowerBound.setValue(lowerValue);
+			upperBound.setValue(upperValue);
+		}else{
+			throw new ParseException("could not parse multiplicity string: '" + str + "'", 0);
+		}
+		if (property != null) {
+			property.setLowerValue(lowerBound);
+			property.setUpperValue(upperBound);
+		}
+	}
+	
+	public static Classifier clone(Classifier classifier) 
+	{
+		Classifier cloned = (Classifier) factory.create(classifier.eClass());
+		cloned.setName(classifier.getName());
+		cloned.setIsAbstract(classifier.isIsAbstract());
+		cloned.setVisibility(classifier.getVisibility());		
+		if(cloned instanceof RefOntoUML.Class){
+			RefOntoUML.Class clonedClass = (RefOntoUML.Class)cloned;
+			RefOntoUML.Class classifierClass = (RefOntoUML.Class)classifier;			
+			for(Property p: classifierClass.getOwnedAttribute()){
+				RefOntoUML.Property clonedAttr = RefOntoUMLFactoryUtil.clone(p);
+				clonedClass.getOwnedAttribute().add(clonedAttr);
+			}
+		}
+		if(cloned instanceof RefOntoUML.DataType){
+			RefOntoUML.DataType clonedClass = (RefOntoUML.DataType)cloned;
+			RefOntoUML.DataType classifierClass = (RefOntoUML.DataType)classifier;			
+			for(Property p: classifierClass.getOwnedAttribute()){
+				RefOntoUML.Property clonedAttr = RefOntoUMLFactoryUtil.clone(p);
+				clonedClass.getOwnedAttribute().add(clonedAttr);
+			}
+		}		
+		return cloned;
+	}
+		
+	public static Property clone(RefOntoUML.Property property)
+	{
+		RefOntoUML.Property cloned = (RefOntoUML.Property)factory.create(property.eClass());
+		cloned.setAggregation(property.getAggregation());				
+		cloned.setType(property.getType());
+		LiteralInteger lower1Cloned = factory.createLiteralInteger();
+		lower1Cloned.setValue(property.getLower());
+		LiteralUnlimitedNatural upper1Cloned = factory.createLiteralUnlimitedNatural();
+		upper1Cloned.setValue(property.getUpper());		
+		cloned.setLowerValue(lower1Cloned);			
+		cloned.setUpperValue(upper1Cloned);		
+		String node1Name  = new String();		
+		if(property.getType()!=null){ 
+			node1Name = property.getType().getName();	    		
+			if(node1Name==null || node1Name.trim().isEmpty()) node1Name = "";
+			else node1Name = node1Name.trim().toLowerCase();
+		}
+		cloned.setName(node1Name);
+		return cloned;
+	}
+	
+	public static Relationship clone(Relationship relationship) 
+	{
+		Relationship cloned = (Relationship) factory.create(relationship.eClass());		
+		if(cloned instanceof GeneralizationImpl){
+			Generalization generalization = (Generalization) relationship;			
+			((Generalization)cloned).getGeneralizationSet().addAll(generalization.getGeneralizationSet());
+			((Generalization)cloned).setGeneral(generalization.getGeneral());
+			((Generalization)cloned).setSpecific(generalization.getSpecific());
+		}		
+		if(cloned instanceof AssociationImpl){
+			Association association = (Association) relationship;
+			Association associationCloned = (Association) cloned;			
+			associationCloned.setName(association.getName());
+			associationCloned.setIsAbstract(association.isIsAbstract());
+			associationCloned.setVisibility(association.getVisibility());
+			associationCloned.setIsDerived(association.isIsDerived());			
+			if(cloned instanceof MeronymicImpl){
+				Meronymic meronymic = (Meronymic) relationship; 
+				Meronymic meronymicCloned = (Meronymic) cloned;				
+				meronymicCloned.setIsShareable(meronymic.isIsShareable());
+				meronymicCloned.setIsEssential(meronymic.isIsEssential());
+				meronymicCloned.setIsInseparable(meronymic.isIsInseparable());
+				meronymicCloned.setIsImmutableWhole(meronymic.isIsImmutableWhole());
+				meronymicCloned.setIsImmutablePart(meronymic.isIsImmutablePart());				
+			}			
+			RefOntoUML.Property p1Cloned = RefOntoUMLFactoryUtil.clone(association.getMemberEnd().get(0));
+			RefOntoUML.Property p2Cloned = RefOntoUMLFactoryUtil.clone(association.getMemberEnd().get(1));			
+			associationCloned.getMemberEnd().add(p1Cloned);
+			associationCloned.getMemberEnd().add(p2Cloned);
+			associationCloned.getOwnedEnd().add(p1Cloned);
+			associationCloned.getOwnedEnd().add(p2Cloned);			
+			if(association instanceof DirectedBinaryAssociationImpl || association instanceof FormalAssociationImpl || association instanceof MaterialAssociationImpl){
+				associationCloned.getNavigableOwnedEnd().add(p1Cloned);
+				associationCloned.getNavigableOwnedEnd().add(p2Cloned);	    			
+				if(association instanceof MediationImpl || association instanceof CharacterizationImpl || association instanceof DerivationImpl) p2Cloned.setIsReadOnly(true);
+			} else {
+				if(p1Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p1Cloned);	    		
+				if(p2Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p2Cloned);
+			}	
+		}						
+		return cloned;
+	}	  
 }

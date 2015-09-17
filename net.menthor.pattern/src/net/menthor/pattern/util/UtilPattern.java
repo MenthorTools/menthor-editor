@@ -1,6 +1,7 @@
 package net.menthor.pattern.util;
 
 
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.DirectColorModel;

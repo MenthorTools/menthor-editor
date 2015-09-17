@@ -41,7 +41,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.AppFrame;
+import net.menthor.editor.ui.MainFrame;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -65,7 +65,7 @@ public class ValidationDialog extends JDialog {
 	private JButton closeButton;
 	private JButton applyButton;
 
-	private AppFrame appFrame;
+	private MainFrame appFrame;
 
 
 	/**
@@ -148,7 +148,7 @@ public class ValidationDialog extends JDialog {
 		contentPane.setLayout(gl_contentPane);
 	}
 
-	public ValidationDialog(OntoUMLParser parser, AppFrame parent) {
+	public ValidationDialog(OntoUMLParser parser, MainFrame parent) {
 		this(parser);
 		this.appFrame = parent;
 	}
@@ -193,7 +193,7 @@ public class ValidationDialog extends JDialog {
 	
 	 /** Open the Dialog.
 	 */
-	public static void open(OntoUMLParser parser, AppFrame parent)
+	public static void open(OntoUMLParser parser, MainFrame parent)
 	{
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

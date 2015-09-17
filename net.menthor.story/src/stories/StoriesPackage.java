@@ -286,13 +286,13 @@ public interface StoriesPackage extends EPackage {
 	int NODE__INSTANCE_OF = INDIVIDUAL_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Is referred to in</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__STATES = INDIVIDUAL_FEATURE_COUNT + 2;
+	int NODE__IS_REFERRED_TO_IN = INDIVIDUAL_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Not instance of</b></em>' reference list.
@@ -816,32 +816,32 @@ public interface StoriesPackage extends EPackage {
 
 
 	/**
-	 * The meta object id for the '{@link stories.impl.Node_stateImpl <em>Node state</em>}' class.
+	 * The meta object id for the '{@link stories.impl.Classification_statementImpl <em>Classification statement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see stories.impl.Node_stateImpl
-	 * @see stories.impl.StoriesPackageImpl#getNode_state()
+	 * @see stories.impl.Classification_statementImpl
+	 * @see stories.impl.StoriesPackageImpl#getClassification_statement()
 	 * @generated
 	 */
-	int NODE_STATE = 10;
+	int CLASSIFICATION_STATEMENT = 10;
 
 	/**
-	 * The feature id for the '<em><b>Classified in</b></em>' reference list.
+	 * The feature id for the '<em><b>Holds in</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_STATE__CLASSIFIED_IN = 0;
+	int CLASSIFICATION_STATEMENT__HOLDS_IN = 0;
 
 	/**
-	 * The feature id for the '<em><b>Not classified in</b></em>' reference list.
+	 * The feature id for the '<em><b>Not holds in</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_STATE__NOT_CLASSIFIED_IN = 1;
+	int CLASSIFICATION_STATEMENT__NOT_HOLDS_IN = 1;
 
 	/**
 	 * The feature id for the '<em><b>Anti Rigid Classes</b></em>' reference list.
@@ -850,7 +850,7 @@ public interface StoriesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_STATE__ANTI_RIGID_CLASSES = 2;
+	int CLASSIFICATION_STATEMENT__ANTI_RIGID_CLASSES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' attribute.
@@ -859,25 +859,25 @@ public interface StoriesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_STATE__LABEL = 3;
+	int CLASSIFICATION_STATEMENT__LABEL = 3;
 
 	/**
-	 * The number of structural features of the '<em>Node state</em>' class.
+	 * The number of structural features of the '<em>Classification statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_STATE_FEATURE_COUNT = 4;
+	int CLASSIFICATION_STATEMENT_FEATURE_COUNT = 4;
 
 	/**
-	 * The number of operations of the '<em>Node state</em>' class.
+	 * The number of operations of the '<em>Classification statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_STATE_OPERATION_COUNT = 0;
+	int CLASSIFICATION_STATEMENT_OPERATION_COUNT = 0;
 
 	/**
 	 * Returns the meta object for class '{@link stories.Story <em>Story</em>}'.
@@ -998,15 +998,15 @@ public interface StoriesPackage extends EPackage {
 	EReference getNode_Instance_of();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link stories.Node#getStates <em>States</em>}'.
+	 * Returns the meta object for the containment reference list '{@link stories.Node#getIs_referred_to_in <em>Is referred to in</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>States</em>'.
-	 * @see stories.Node#getStates()
+	 * @return the meta object for the containment reference list '<em>Is referred to in</em>'.
+	 * @see stories.Node#getIs_referred_to_in()
 	 * @see #getNode()
 	 * @generated
 	 */
-	EReference getNode_States();
+	EReference getNode_Is_referred_to_in();
 
 	/**
 	 * Returns the meta object for the reference list '{@link stories.Node#getNot_instance_of <em>Not instance of</em>}'.
@@ -1277,58 +1277,58 @@ public interface StoriesPackage extends EPackage {
 	EReference getAllDifferent_Distinct_members();
 
 	/**
-	 * Returns the meta object for class '{@link stories.Node_state <em>Node state</em>}'.
+	 * Returns the meta object for class '{@link stories.Classification_statement <em>Classification statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Node state</em>'.
-	 * @see stories.Node_state
+	 * @return the meta object for class '<em>Classification statement</em>'.
+	 * @see stories.Classification_statement
 	 * @generated
 	 */
-	EClass getNode_state();
+	EClass getClassification_statement();
 
 	/**
-	 * Returns the meta object for the reference list '{@link stories.Node_state#getClassified_in <em>Classified in</em>}'.
+	 * Returns the meta object for the reference list '{@link stories.Classification_statement#getHolds_in <em>Holds in</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Classified in</em>'.
-	 * @see stories.Node_state#getClassified_in()
-	 * @see #getNode_state()
+	 * @return the meta object for the reference list '<em>Holds in</em>'.
+	 * @see stories.Classification_statement#getHolds_in()
+	 * @see #getClassification_statement()
 	 * @generated
 	 */
-	EReference getNode_state_Classified_in();
+	EReference getClassification_statement_Holds_in();
 
 	/**
-	 * Returns the meta object for the reference list '{@link stories.Node_state#getNot_classified_in <em>Not classified in</em>}'.
+	 * Returns the meta object for the reference list '{@link stories.Classification_statement#getNot_holds_in <em>Not holds in</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Not classified in</em>'.
-	 * @see stories.Node_state#getNot_classified_in()
-	 * @see #getNode_state()
+	 * @return the meta object for the reference list '<em>Not holds in</em>'.
+	 * @see stories.Classification_statement#getNot_holds_in()
+	 * @see #getClassification_statement()
 	 * @generated
 	 */
-	EReference getNode_state_Not_classified_in();
+	EReference getClassification_statement_Not_holds_in();
 
 	/**
-	 * Returns the meta object for the reference list '{@link stories.Node_state#getAntiRigidClasses <em>Anti Rigid Classes</em>}'.
+	 * Returns the meta object for the reference list '{@link stories.Classification_statement#getAntiRigidClasses <em>Anti Rigid Classes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Anti Rigid Classes</em>'.
-	 * @see stories.Node_state#getAntiRigidClasses()
-	 * @see #getNode_state()
+	 * @see stories.Classification_statement#getAntiRigidClasses()
+	 * @see #getClassification_statement()
 	 * @generated
 	 */
-	EReference getNode_state_AntiRigidClasses();
+	EReference getClassification_statement_AntiRigidClasses();
 
 	/**
-	 * Returns the meta object for the attribute '{@link stories.Node_state#getLabel <em>Label</em>}'.
+	 * Returns the meta object for the attribute '{@link stories.Classification_statement#getLabel <em>Label</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Label</em>'.
-	 * @see stories.Node_state#getLabel()
-	 * @see #getNode_state()
+	 * @see stories.Classification_statement#getLabel()
+	 * @see #getClassification_statement()
 	 * @generated
 	 */
-	EAttribute getNode_state_Label();
+	EAttribute getClassification_statement_Label();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1448,12 +1448,12 @@ public interface StoriesPackage extends EPackage {
 		EReference NODE__INSTANCE_OF = eINSTANCE.getNode_Instance_of();
 
 		/**
-		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Is referred to in</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE__STATES = eINSTANCE.getNode_States();
+		EReference NODE__IS_REFERRED_TO_IN = eINSTANCE.getNode_Is_referred_to_in();
 
 		/**
 		 * The meta object literal for the '<em><b>Not instance of</b></em>' reference list feature.
@@ -1670,30 +1670,30 @@ public interface StoriesPackage extends EPackage {
 		EReference ALL_DIFFERENT__DISTINCT_MEMBERS = eINSTANCE.getAllDifferent_Distinct_members();
 
 		/**
-		 * The meta object literal for the '{@link stories.impl.Node_stateImpl <em>Node state</em>}' class.
+		 * The meta object literal for the '{@link stories.impl.Classification_statementImpl <em>Classification statement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see stories.impl.Node_stateImpl
-		 * @see stories.impl.StoriesPackageImpl#getNode_state()
+		 * @see stories.impl.Classification_statementImpl
+		 * @see stories.impl.StoriesPackageImpl#getClassification_statement()
 		 * @generated
 		 */
-		EClass NODE_STATE = eINSTANCE.getNode_state();
+		EClass CLASSIFICATION_STATEMENT = eINSTANCE.getClassification_statement();
 
 		/**
-		 * The meta object literal for the '<em><b>Classified in</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Holds in</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE_STATE__CLASSIFIED_IN = eINSTANCE.getNode_state_Classified_in();
+		EReference CLASSIFICATION_STATEMENT__HOLDS_IN = eINSTANCE.getClassification_statement_Holds_in();
 
 		/**
-		 * The meta object literal for the '<em><b>Not classified in</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Not holds in</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE_STATE__NOT_CLASSIFIED_IN = eINSTANCE.getNode_state_Not_classified_in();
+		EReference CLASSIFICATION_STATEMENT__NOT_HOLDS_IN = eINSTANCE.getClassification_statement_Not_holds_in();
 
 		/**
 		 * The meta object literal for the '<em><b>Anti Rigid Classes</b></em>' reference list feature.
@@ -1701,7 +1701,7 @@ public interface StoriesPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE_STATE__ANTI_RIGID_CLASSES = eINSTANCE.getNode_state_AntiRigidClasses();
+		EReference CLASSIFICATION_STATEMENT__ANTI_RIGID_CLASSES = eINSTANCE.getClassification_statement_AntiRigidClasses();
 
 		/**
 		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
@@ -1709,7 +1709,7 @@ public interface StoriesPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute NODE_STATE__LABEL = eINSTANCE.getNode_state_Label();
+		EAttribute CLASSIFICATION_STATEMENT__LABEL = eINSTANCE.getClassification_statement_Label();
 
 	}
 

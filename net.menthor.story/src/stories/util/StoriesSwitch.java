@@ -138,9 +138,9 @@ public class StoriesSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StoriesPackage.NODE_STATE: {
-				Node_state node_state = (Node_state)theEObject;
-				T result = caseNode_state(node_state);
+			case StoriesPackage.CLASSIFICATION_STATEMENT: {
+				Classification_statement classification_statement = (Classification_statement)theEObject;
+				T result = caseClassification_statement(classification_statement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -299,17 +299,17 @@ public class StoriesSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Node state</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Classification statement</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Node state</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Classification statement</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNode_state(Node_state object) {
+	public T caseClassification_statement(Classification_statement object) {
 		return null;
 	}
 

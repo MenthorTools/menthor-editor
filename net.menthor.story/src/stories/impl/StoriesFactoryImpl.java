@@ -63,7 +63,7 @@ public class StoriesFactoryImpl extends EFactoryImpl implements StoriesFactory {
 			case StoriesPackage.HAPPENING: return createHappening();
 			case StoriesPackage.ACTION: return createAction();
 			case StoriesPackage.ALL_DIFFERENT: return createAllDifferent();
-			case StoriesPackage.NODE_STATE: return createNode_state();
+			case StoriesPackage.CLASSIFICATION_STATEMENT: return createClassification_statement();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -144,9 +144,9 @@ public class StoriesFactoryImpl extends EFactoryImpl implements StoriesFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Node_state createNode_state() {
-		Node_stateImpl node_state = new Node_stateImpl();
-		return node_state;
+	public Classification_statement createClassification_statement() {
+		Classification_statementImpl classification_statement = new Classification_statementImpl();
+		return classification_statement;
 	}
 
 	/**

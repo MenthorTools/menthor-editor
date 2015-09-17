@@ -33,7 +33,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -45,16 +44,19 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.tables.LiteralTableModel;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
 
 public class EnumLiteralEditionPanel extends JPanel{
 
@@ -72,7 +74,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 	private JButton btnDown;
 	private JScrollPane scrollpane;
 	private JTable table;
-	private EnumLiteralTableModel enumLiteralTableModel;
+	private LiteralTableModel enumLiteralTableModel;
 	private JPanel panel;
 	private JCheckBox cbxVisible;
 			
@@ -83,7 +85,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		this.element = element;
 		this.parent=parent;
 						
-		enumLiteralTableModel = new EnumLiteralTableModel(element);
+		enumLiteralTableModel = new LiteralTableModel(((RefOntoUML.Enumeration)element));
 		
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder(""));
@@ -111,7 +113,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
-		table.setSelectionBackground(ColorPalette.getInstance().getColor(ThemeColor.BLUE_MEDIUM));
+		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
 		table.setRowHeight(23);
@@ -119,7 +121,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new value to this enumeration");
-		btnCreate.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -130,7 +132,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected values");
-		btnDelete.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -141,7 +143,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected value");
-		btnUp.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/arrow_up.png")));
+		btnUp.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_UP));
 		btnUp.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -152,7 +154,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected value");
-		btnDown.setIcon(new ImageIcon(AttributesEditionPanel.class.getResource("/resources/icons/x16/arrow_down.png")));
+		btnDown.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOWN));
 		btnDown.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -269,7 +271,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 	
 	public void transferLiteralData()
 	{
-		List<EnumerationLiteral> enumLiterals = enumLiteralTableModel.getEntries();
+		EList<EnumerationLiteral> enumLiterals = enumLiteralTableModel.getEntries();
 		
 		if(cbxVisible.isSelected()==false){
 			if (enumLiterals.size()>0) {
@@ -303,14 +305,15 @@ public class EnumLiteralEditionPanel extends JPanel{
 	
 	private void transferAddedLiterals(List<EnumerationLiteral> enumLiterals )
 	{
-		for (EnumerationLiteral literal : enumLiterals) 
+		for (Object literal : enumLiterals) 
 		{			
-			if(!literal.getName().isEmpty())
+			EnumerationLiteral l = (EnumerationLiteral)literal;
+			if(!l.getName().isEmpty())
 			{				
 				if(element instanceof Enumeration){
-					((Enumeration)element).getOwnedLiteral().add(literal);
+					((Enumeration)element).getOwnedLiteral().add(l);
 					
-					diagramManager.updateMenthorFromInclusion(literal);
+					diagramManager.updateMenthorFromInclusion(l);
 				}				
 			}
 		}

@@ -75,13 +75,11 @@ import net.menthor.antipattern.reprel.RepRelAntipattern;
 import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.Main;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.AntiPatternList;
-
-import org.eclipse.emf.ecore.EObject;
-
+import net.menthor.editor.ui.AntiPatternList;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.v2.util.Util;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -94,7 +92,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 		
-	private AppFrame frame;	
+	private MainFrame frame;	
 	private final JPanel contentPanel = new JPanel();
 		
 	private AntipatternTask assCycTask, binOverTask, depPhaseTask, freeRoleTask, gsRigTask,
@@ -230,7 +228,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AntiPatternSearchDialog(AppFrame frame) 
+	public AntiPatternSearchDialog(MainFrame frame) 
 	{
 		super(frame);
 		
@@ -823,7 +821,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	/**
 	 * Open the Dialog.
 	 */
-	public static void  open (AppFrame parent)
+	public static void  open (MainFrame parent)
 	{
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -843,16 +841,16 @@ public class AntiPatternSearchDialog extends JDialog {
 	 */
 	public void showResult()
 	{
-		if(Main.onMac()){
+		if(Util.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {
-			    	AntiPatternList apList = frame.getProjectBrowser().getAntiPatternList();
+			    	AntiPatternList apList = Models.getAntipatterns();
 			    	AntiPatternResultDialog.openDialog(apList,frame);
 				}
 			});
 		}else{
-			AntiPatternList apList = frame.getProjectBrowser().getAntiPatternList();
+			AntiPatternList apList = Models.getAntipatterns();
 	    	AntiPatternResultDialog.openDialog(apList,frame);
 		}
 	}
@@ -912,7 +910,7 @@ public class AntiPatternSearchDialog extends JDialog {
 	
 	private void updateStatus(String s) {
 		progressBarDescr.setText(s);
-		Main.printOutLine(s);
+		System.out.println(s);
 	}
 	
 	private void executeAntipattern(AntipatternTask task, Antipattern<?> antipattern, AntipatternInfo info, JLabel label, JCheckBox checkBox, 
@@ -987,7 +985,7 @@ public class AntiPatternSearchDialog extends JDialog {
   			
 			preTask = new SwingWorker<Void, Void>() {
 				
-				private List<EObject> checked;
+				private List<Object> checked;
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -997,15 +995,15 @@ public class AntiPatternSearchDialog extends JDialog {
 				
 				@Override
 				protected void done() {
-					ProjectBrowser modeltree = frame.getBrowserManager().getProjectBrowser();	
-					modeltree.getTree().checkModelElements(checked, true);			
+					ProjectBrowser modeltree = frame.getProjectBrowser();	
+					modeltree.getTree().check(checked);			
 					modeltree.getTree().updateUI();
 					preLatch.countDown();
 				}
 			};
 			preTask.execute();
 			
-			OntoUMLParser parser = frame.getBrowserManager().getProjectBrowser().getParser();
+			OntoUMLParser parser =  Models.getRefparser();
 			
 			if (parser.getElements() == null) 
 				return;
@@ -1108,7 +1106,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 			antipatternList = new AntiPatternList (assCyc, binOver, depPhase, freeRole, gsRig, hetColl, homoFunc, impAbs, mixIden,
 					   mixRig, multiDep, relComp, relOver, relRig, relSpec, repRel, undefFormal, undefPhase, wholeOver, partOver, decInt);
-			frame.getProjectBrowser().setAntiPatternList(antipatternList);
+			Models.setAntipatterns(antipatternList);
 			
 			new Supervisor(latch).execute();
 				

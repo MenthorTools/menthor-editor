@@ -44,7 +44,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
 
 /**
  * @author Cássio Reginato
@@ -64,9 +64,13 @@ public class PastSpecializationPattern extends JDialog {
 	DiagramManager dman;
 	@SuppressWarnings("rawtypes")
 	JComboBox cmb_super = new JComboBox();
+	@SuppressWarnings("rawtypes")
 	Vector comboBoxItems=new Vector();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	final DefaultComboBoxModel model = new DefaultComboBoxModel(comboBoxItems);
+	@SuppressWarnings("rawtypes")
 	Vector comboBoxItems2=new Vector();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	final DefaultComboBoxModel model2 = new DefaultComboBoxModel(comboBoxItems2);
 	/**
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_BxrL8QEiEeST4q_RH2O98w" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_C0mBgAEiEeST4q_RH2O98w" name="SuperKind" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_J_C2AAEiEeST4q_RH2O98w" name="OneSubKind" visibility="public">
+    <generalization xmi:id="_LxFbYAEiEeST4q_RH2O98w" general="_C0mBgAEiEeST4q_RH2O98w"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_yW_TEQjWEeSFrPLf0JGHTA" name="AnotherSubKind" visibility="public">
+    <generalization xmi:id="_0B9nIAjWEeSFrPLf0JGHTA" general="_C0mBgAEiEeST4q_RH2O98w"/>
+  </packagedElement>
+</RefOntoUML:Model>

@@ -108,8 +108,8 @@ public class StoriesAdapterFactory extends AdapterFactoryImpl {
 				return createAllDifferentAdapter();
 			}
 			@Override
-			public Adapter caseNode_state(Node_state object) {
-				return createNode_stateAdapter();
+			public Adapter caseClassification_statement(Classification_statement object) {
+				return createClassification_statementAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -272,16 +272,16 @@ public class StoriesAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link stories.Node_state <em>Node state</em>}'.
+	 * Creates a new adapter for an object of class '{@link stories.Classification_statement <em>Classification statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see stories.Node_state
+	 * @see stories.Classification_statement
 	 * @generated
 	 */
-	public Adapter createNode_stateAdapter() {
+	public Adapter createClassification_statementAdapter() {
 		return null;
 	}
 

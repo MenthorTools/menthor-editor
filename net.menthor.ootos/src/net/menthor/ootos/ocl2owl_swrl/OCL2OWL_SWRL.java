@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.ocl.parser.OCLParser;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonInitialized;
 import net.menthor.ootos.ocl2owl_swrl.exceptions.NonSupported;
@@ -13,8 +14,7 @@ import net.menthor.ootos.ocl2owl_swrl.exceptions.UnsupportedByReasoner;
 import net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl.ExpressionInOCLImplFactory;
 import net.menthor.ootos.ocl2owl_swrl.tags.Tag;
 import net.menthor.ootos.ocl2owl_swrl.util.Counters;
-import net.menthor.ootos.ocl2owl_swrl.util.SelectReasoner;
-import net.menthor.ootos.ocl2owl_swrl.util.SelectedReasoner;
+import net.menthor.ootos.util.MappingElements;
 
 import org.eclipse.ocl.uml.impl.ExpressionInOCLImpl;
 import org.eclipse.uml2.uml.Constraint;
@@ -34,10 +34,11 @@ public class OCL2OWL_SWRL {
 	private OWLDataFactory factory = null;
 	private OWLOntology ontology = null;
 	public String errors = "";
-	public static SelectedReasoner selectedReasoner = null;
 	
 	public Counters logCounting = new Counters();
-		
+	private MappingElements mappingProperties;
+	private OwlOptions owlOptions;
+	
 	//public OCL2SWRL(OCLParser oclParser, OntoUMLParser refParser, OWLOntologyManager manager, String nameSpace) {
 	/**
 	 * Constructor.
@@ -47,14 +48,17 @@ public class OCL2OWL_SWRL {
 	 * @param manager - contains the OWLOntologyManager, used to get the OWLDataFactory and the OwlOntology
 	 * @param nameSpace
 	 */
-	public OCL2OWL_SWRL(String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
+	public OCL2OWL_SWRL(MappingElements mappingProperties, OwlOptions owlOptions, String oclRules, OntoUMLParser ontoParser, OWLOntologyManager manager, String nameSpace) throws NonInitialized {	
 		this.nameSpace = nameSpace;
 		//this.oclParser = oclParser;
 		this.oclRules = oclRules;
 		this.ontoParser = ontoParser;
 		this.manager = manager;
-		this.factory = manager.getOWLDataFactory();
-		this.ontology = manager.getOntology(IRI.create(nameSpace.substring(0, nameSpace.length()-1)));
+		this.factory = manager.getOWLDataFactory();		
+		this.ontology = manager.getOntology(IRI.create(nameSpace));
+		
+		this.mappingProperties = mappingProperties;
+		this.owlOptions = owlOptions;
 		
 		//verify if all variables were initialized
 		this.verifyVariablesInitialization();
@@ -112,22 +116,7 @@ public class OCL2OWL_SWRL {
 	 * This main function transform OCL constraints in SWRL rules.
 	 */
 	@SuppressWarnings("unchecked")
-	public void Transformation () throws Exception{
-		selectedReasoner = SelectReasoner.selectReasoner();
-		
-		
-		//String problematicRules = "";
-		//String unsuccessfullyTransformedRules = "";
-		/*
-		OCLParser oclParser = null;
-		try {
-			oclParser = new OCLParser(oclRules, this.refParser, "company.uml");
-		} catch (ParserException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+	public void Transformation (String tempDir) throws Exception{
 		//get the begin and the end of the first line (package PackageName) 
 		int iPackage = oclRules.indexOf("package");
 		int endLinePackage = oclRules.indexOf("\n", iPackage);
@@ -139,21 +128,10 @@ public class OCL2OWL_SWRL {
 		String strPackage = oclRules.substring(iPackage, endLinePackage);
 		//and remove the string from oclRules
 		oclRules = oclRules.replace(strPackage, "");
-		/*		
-		int iEndPackage = oclRules.indexOf("endpackage");
-		int endLineEndPackage = iEndPackage+10;//oclRules.indexOf("\n", iEndPackage);
 		
-		String strEndPackage = oclRules.substring(iEndPackage, endLineEndPackage);
-		*/
 		//remove the string "endpackage" from oclRules
 		oclRules = oclRules.replace("endpackage", "");
-		/*
-		int firstTag = oclRules.indexOf("--@");
-		int i = oclRules.indexOf("--@");
-		int j = oclRules.indexOf("\n", i);
-		String tag = oclRules.substring(i+3, j);
-		System.out.println();
-		*/
+		
 		//Now, the rules are treated by blocks.
 		//Is expected that rules without tags comes first and then blocks of rules with the same tag
 		//the first block is considered from the position zero to the first occurrence of a tag (--@)
@@ -162,7 +140,7 @@ public class OCL2OWL_SWRL {
 		OCLParser oclParser  = null;
 		
 		//create a ocl parser to create a referent uml model based on the ontouml model
-		oclParser = new OCLParser(ontoParser, null, null);
+		oclParser = new OCLParser(ontoParser, tempDir, null);
 		
 		Pattern p = Pattern.compile("(--@(.+)\n)?context");
     	Matcher m = p.matcher(oclRules);
@@ -261,7 +239,7 @@ public class OCL2OWL_SWRL {
 					ExpressionInOCLImpl expr = (ExpressionInOCLImpl) ct.getSpecification();
 					
 					//create a factory based on the element
-					ExpressionInOCLImplFactory exprFactory = new ExpressionInOCLImplFactory(expr);
+					ExpressionInOCLImplFactory exprFactory = new ExpressionInOCLImplFactory(mappingProperties, owlOptions, expr);
 					
 					//set the element
 					if(ct.getConstrainedElements().size() > 0){
@@ -333,14 +311,10 @@ public class OCL2OWL_SWRL {
 				    	
 					}
 				}
-				//System.out.println(this.errors);	
 			}
 		}
     	
-		//System.out.println(problematicRules);
-    	//this.errors += unsuccessfullyTransformedRules;
-		//String successMessage = "\n\n" + successfullyTransformedRules + " rule(s) successfully transformed.\n" + unsuccessfullyTransformedRules + " rule(s) unsuccessfully transformed.\n";
-    	String successMessage = this.logCounting.getReturnMessage();
+		String successMessage = this.logCounting.getReturnMessage();
 		this.errors += successMessage;
 		
 	}

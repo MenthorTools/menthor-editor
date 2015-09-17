@@ -9,6 +9,7 @@ package RefOntoUML.impl;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.RefOntoUMLPackage;
+import RefOntoUML.parser.OntoUMLNameHelper;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -195,5 +196,11 @@ public class EnumerationLiteralImpl extends InstanceSpecificationImpl implements
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	@Override
+	public String toString(){
+		return OntoUMLNameHelper.getCommonName(this);
+	}
+
 
 } //EnumerationLiteralImpl

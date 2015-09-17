@@ -37,18 +37,18 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
 import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.SortalClass;
 import RefOntoUML.parser.OntoUMLParser;
 import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
 
 public class ExclusionDerivationOperations {
 	static OutcomeFixer of;
@@ -114,8 +114,7 @@ public class ExclusionDerivationOperations {
 		Classifier general=null;
 		Classifier exclusion;
 		boolean has_sortal_superclass = false;
-		OntoUMLParser parser = ProjectBrowser.frame.getProjectBrowser()
-				.getParser();
+		OntoUMLParser parser = Models.getRefparser();
 		
 		/*
 		 * verify if it already have a exclusion
@@ -176,7 +175,7 @@ public class ExclusionDerivationOperations {
 		createGeneralizations(exclusion, general, c);
 		
 		String rule="\ncontext: _'"+general.getName().toString()+"'\n"+"inv: not oclIsTypeOf(_'"+c.getName().toString()+"') implies oclIsTypeOf(_'"+exclusion.getName().toString()+"')";
-		dman.getFrame().getBrowserManager().getProjectBrowser().getOCLDocuments().get(0).addContent(rule);
+		Models.getOclDocList().get(0).addContentAsString(rule);
 		exclusionDerivationList.add(c);
 		exclusionDerivationList.add(exclusion);
 	
@@ -185,8 +184,7 @@ public class ExclusionDerivationOperations {
 	}
 	
 	private static void deriveByMultipleSelection(List<DiagramElement> elements,DiagramEditor activeEditor, UmlProject project, DiagramManager dm){
-		OntoUMLParser parser = ProjectBrowser.frame.getProjectBrowser()
-				.getParser();
+		OntoUMLParser parser = Models.getRefparser();
 		boolean common_super=false;
 		Classifier common_father= null;
 		
@@ -262,6 +260,7 @@ public class ExclusionDerivationOperations {
 		
 	}
 	
+	@SuppressWarnings({ "static-access", "rawtypes" })
 	private static Classifier createGeneralElement(boolean has_sortal_superclass, Classifier c, Point2D.Double point){
 		ArrayList<String> stereotypes = DerivedByExclusion.getInstance()
 				.getPossibleGeneralization(c.eClass().getName());
@@ -292,6 +291,7 @@ public class ExclusionDerivationOperations {
 		return pai;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private static Classifier createDerivedElement(boolean has_sortal_superclass, Classifier c, Point2D.Double point, Classifier general){
 		ArrayList<String> stereotypes2 = DerivedByExclusion.getInstance()
 				.inferStereotype(general.eClass().getName(), c.eClass().getName());

@@ -28,7 +28,9 @@ public class MainVerbose
 		modelName = iri.getFragment();
 		
 		int lastDot = modelName.lastIndexOf(".");
-		modelName = modelName.substring(0, lastDot);
+		if(lastDot >= 0){
+			modelName = modelName.substring(0, lastDot);
+		}		
 		
 		modelId = name;
 		// FIXME: What if the model name has spaces in it? Replace " " by "_"?

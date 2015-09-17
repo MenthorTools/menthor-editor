@@ -22,8 +22,7 @@ package org.tinyuml.umldraw.shared;
 
 import org.tinyuml.draw.Node;
 
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.RelationType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * A specialized interface that is used for Node allElements that have an
@@ -42,6 +41,6 @@ public interface UmlNode extends Node, UmlDiagramElement {
    * @param with the other end node if available
    * @return true if connection is accepted, false otherwise
    */
-  boolean acceptsConnection(RelationType associationType,
-                            RelationEndType as, UmlNode with);
+  boolean acceptsConnection(RelationshipType associationType,
+                            UmlNode with);
 }

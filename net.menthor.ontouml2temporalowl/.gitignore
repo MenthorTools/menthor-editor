@@ -20,3 +20,4 @@ tmp/**/*
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+/bin/

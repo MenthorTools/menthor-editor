@@ -30,7 +30,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -45,29 +44,41 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.AbstractAction;
+import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
 import net.menthor.editor.dialog.properties.ElementDialogCaller;
-import net.menthor.editor.model.ElementType;
-import net.menthor.editor.model.RelationEndType;
-import net.menthor.editor.model.RelationType;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.palette.ColorPalette;
-import net.menthor.editor.palette.ColorPalette.ThemeColor;
-import net.menthor.editor.popupmenu.DiagramPopupMenu;
-import net.menthor.editor.popupmenu.ToolboxPopupMenu;
-import net.menthor.editor.ui.DiagramEditorWrapper;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.dialog.properties.FeatureListDialog;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.BaseEditor;
+import net.menthor.editor.v2.menus.PalettePopupMenu;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.EditorType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.Util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
@@ -88,7 +99,8 @@ import org.tinyuml.draw.Scaling;
 import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.draw.TreeConnection;
-import org.tinyuml.ui.commands.AppCommandListener;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
+import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.ui.diagram.commands.Command;
 import org.tinyuml.ui.diagram.commands.ConvertConnectionTypeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
@@ -97,9 +109,12 @@ import org.tinyuml.ui.diagram.commands.EditConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.MoveElementCommand;
 import org.tinyuml.ui.diagram.commands.ResetConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.ResizeElementCommand;
-import org.tinyuml.ui.diagram.commands.SetConnectionNavigabilityCommand;
+import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand;
+import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -107,8 +122,13 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
+import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Meronymic;
+import RefOntoUML.Relationship;
+import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -123,9 +143,9 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	private static final long serialVersionUID = 4210158437374056534L;
 
-	private AppFrame frame;
+	public MainFrame frame;
 	private DiagramManager diagramManager;
-	private DiagramEditorWrapper wrapper;
+	private DiagramWrapper wrapper;
 		
 	private transient EditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
@@ -135,11 +155,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	private transient Scaling scaling = Scaling.SCALING_100;		
 	private static final double MARGIN_TOP=0;
 	private static final double MARGIN_LEFT=0;
-	private static final double MARGIN_RIGHT=AppFrame.GetScreenWorkingWidth();
-	private static final double MARGIN_BOTTOM=AppFrame.GetScreenWorkingHeight();
+	private static final double MARGIN_RIGHT=0;//AppFrame.GetScreenWorkingWidth();
+	private static final double MARGIN_BOTTOM=0;//AppFrame.GetScreenWorkingHeight();
 	private static final double ADDSCROLL_HORIZONTAL=0;
 	private static final double ADDSCROLL_VERTICAL=0;
 		
+	private Color color;
+	
+	PalettePopupMenu popupmenu;
+	
 	// It is nice to report the mapped coordinates to listeners, so it can be used for debug output. 
 	private List<EditorStateListener> editorListeners = new ArrayList<EditorStateListener>();
 	
@@ -158,7 +182,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	// The command processor to hold this diagram's operations.
 	private UndoManager undoManager = new UndoManager();
-	
+	public CommandListener getListener() { return frame; }
 	public DrawingContext getDrawingContext() { return diagramManager.getDrawingContext(); }
 	
 	/**
@@ -186,12 +210,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		scaling = Scaling.SCALING_100;
 	}
 	
-	public void setWrapper(DiagramEditorWrapper wrapper)
+	public void setWrapper(DiagramWrapper wrapper)
 	{
 		this.wrapper = wrapper;
 	}
 	
-	public DiagramEditorWrapper getWrapper() { return wrapper; }
+	public DiagramWrapper getWrapper() { return wrapper; }
 	
 	/** Empty constructor for testing. Do not use !  */
 	public DiagramEditor() { }
@@ -202,13 +226,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(AppFrame frame, DiagramManager diagramManager, StructureDiagram diagram) 
+	public DiagramEditor(MainFrame frame, DiagramManager diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
 		this.diagramManager = diagramManager;
-		this.diagram = diagram;
+		this.diagram = (StructureDiagram)diagram;
 		this.diagram.addNodeChangeListener(this);
 		initEditorMembers();
+		
+		popupmenu = new PalettePopupMenu(frame);
 		
 		setToolTipText("Press SPACE to see the elements you may draw");
 		
@@ -223,12 +249,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		editListeners.add(undoManager);
 		captionEditor.getDocument().addUndoableEditListener(undoManager);
 		multilineEditor.getDocument().addUndoableEditListener(undoManager);
-		diagram.setOrigin(MARGIN_LEFT, MARGIN_TOP);
+		this.diagram.setOrigin(MARGIN_LEFT, MARGIN_TOP);
 
 		installHandlers();
 		
-		double width = diagram.getSize().getWidth()+MARGIN_RIGHT + MARGIN_LEFT + ADDSCROLL_HORIZONTAL;
-		double height = diagram.getSize().getHeight()+MARGIN_BOTTOM + MARGIN_TOP + ADDSCROLL_VERTICAL;		
+		double width = this.diagram.getSize().getWidth()+MARGIN_RIGHT + MARGIN_LEFT + ADDSCROLL_HORIZONTAL;
+		double height = this.diagram.getSize().getHeight()+MARGIN_BOTTOM + MARGIN_TOP + ADDSCROLL_VERTICAL;		
 		setPreferredSize(new Dimension((int)width,(int)height));		
 		setSize(new Dimension((int)width,(int)height));		
 	}
@@ -265,6 +291,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}		
 	}
 
+	/** Returns true iff running on Mac OS X. **/
+	public static boolean onMac() {
+      return System.getProperty("mrj.version")!=null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");                                     
+	}	
+	
 	/** Adds the event handlers. */
 	private void installHandlers() 
 	{
@@ -278,12 +309,22 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		addMouseListener(new MouseAdapter()
 	    {
 			@Override
+			public void mousePressed(MouseEvent e) {
+				if(e.isPopupTrigger()){
+					
+				}
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(e.isPopupTrigger()){
+					
+				}
+			}
+			
+			@Override
 			public void mouseClicked(MouseEvent e) 
 			{			
-			    if (SwingUtilities.isRightMouseButton(e))
-	            {	            	     	
-			    	openDiagramPopupMenu(e);
-	            }
 			    if (SwingUtilities.isLeftMouseButton(e))
 	            {	            	  
 			    	if(e.getClickCount()==2){
@@ -294,7 +335,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}	       
 	    });					
 				
-		// install Scape KeyBinding
+		// install Space KeyBinding
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(' '),"openToolBoxMenu");
 		getActionMap().put("openToolBoxMenu", new AbstractAction() {
 
@@ -304,7 +345,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			public void actionPerformed(ActionEvent e) { openToolBoxPopupMenu(); }
 		});
 		
-		// install Escape KeyBinding
+		// install Escape (ESC) KeyBinding
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"),"cancelEditing");
 		getActionMap().put("cancelEditing", new AbstractAction() {
 
@@ -315,40 +356,46 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		});
 
 		// install Erase KeyBinding
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"),"excludeSelection");		
-		getActionMap().put("excludeSelection", new AbstractAction() {
-
-			private static final long serialVersionUID = -6375878624042384546L;
+		if(onMac()){
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("BACK_SPACE"),"excludeSelection");
+			getActionMap().put("excludeSelection", new AbstractAction() {
+						
+				private static final long serialVersionUID = -6375878624042384546L;
 			
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { excludeSelection(); }
-		});				
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.META_MASK),"excludeSelection");
-		getActionMap().put("excludeSelection", new AbstractAction() {
-					
-			private static final long serialVersionUID = -6375878624042384546L;
-		
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { excludeSelection(); }
-		});
-		
-		// install Delete KeyBinding
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK),"deleteSelection");		
-		getActionMap().put("deleteSelection", new AbstractAction() {
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { excludeSelection(); }
+			});	
+		}else{
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"),"excludeSelection");		
+			getActionMap().put("excludeSelection", new AbstractAction() {
 
-			private static final long serialVersionUID = -6375878624042384546L;
+				private static final long serialVersionUID = -6375878624042384546L;
+				
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { excludeSelection(); }
+			});				
+		}
+				
+		if(onMac()){
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK),"deleteSelection");
+			getActionMap().put("deleteSelection", new AbstractAction() {
+						
+				private static final long serialVersionUID = -6375878624042384546L;
 			
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { deleteSelection(); }
-		});				
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.CTRL_MASK),"deleteSelection");
-		getActionMap().put("deleteSelection", new AbstractAction() {
-					
-			private static final long serialVersionUID = -6375878624042384546L;
-		
-			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { deleteSelection(); }
-		});
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { deleteSelection(); }
+			});
+		}else{
+			// install Delete KeyBinding
+			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK),"deleteSelection");		
+			getActionMap().put("deleteSelection", new AbstractAction() {
+
+				private static final long serialVersionUID = -6375878624042384546L;
+				
+				/** {@inheritDoc} */
+				public void actionPerformed(ActionEvent e) { deleteSelection(); }
+			});					
+		}
 	}
 
 	@Override
@@ -373,11 +420,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}else{	
 			if (e.getWheelRotation() < 0)
             {
-				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()-60);
+				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()-50);
             }
 			if (e.getWheelRotation() > 0)
             {
-				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()+60);
+				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()+50);
             }
 		}
 	}
@@ -391,7 +438,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 		editorMode.cancel();
 		selectionHandler.deselectAll();
-		frame.getToolManager().getElementsPalette().getPalleteElement("select").setSelected(true);
+		frame.getToolManager().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
 		requestFocusInEditor();
@@ -401,56 +448,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	{
 		selectionHandler.deselectAll();
 		selectionHandler.select(element);
-	}
-	
-	/**
-	 * Removes the elements selected. From the diagram and the model.
-	 */
-	public void deleteSelection() {
-				
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);		
-	}
-	
-	/** Create a generalizations from selected elements in the diagram */
-	public void addGeneralizationSet()
-	{		
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		GeneralizationSet genSet = frame.getDiagramManager().addGeneralizationSet(this,diagramElementsList);		
-		if(genSet!=null){		
-			deselectAll();
-			cancelEditing();
-			ElementDialogCaller.callGeneralizationSetDialog(frame, genSet,true);
-			deselectAll();
-			cancelEditing();
-		}		
-	}
-		
-	/** Delete generalization Set from selected elements in the diagram */
-	public void deleteGeneralizationSet()
-	{
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		frame.getDiagramManager().deleteGeneralizationSet(this,diagramElementsList);		
-		deselectAll();
-		cancelEditing();		
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection() 
-	{
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-		if(response==Window.OK)
-		{
-			execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
-		}
-	}
-	
-	/** Open Diagram PopupMenu */
-	public void openDiagramPopupMenu(MouseEvent e)
-	{
-		DiagramPopupMenu popup = new DiagramPopupMenu(frame.getDiagramManager().getCurrentDiagramEditor());
-		popup.show(e.getComponent(),e.getX(),e.getY());
 	}
 	
 	/** Open ToolBox Menu. */
@@ -464,8 +461,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		DiagramElement elem = diagram.getChildAt(currentPointerPosition.getX(), currentPointerPosition.getY());		
 		if (elem instanceof NullElement)
 		{
-			ToolboxPopupMenu menu = new ToolboxPopupMenu(frame,currentPointerPosition.getX(),currentPointerPosition.getY());
-			menu.show(this, (int)currentPointerPosition.getX(), (int) currentPointerPosition.getY());				
+			popupmenu.show(this, (int)currentPointerPosition.getX(), (int) currentPointerPosition.getY());				
 		}
 	}
 
@@ -511,14 +507,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		}
-		boolean gridVisible = diagram.isGridVisible();
-		Color background = ColorPalette.getInstance().getColor(ThemeColor.BLUE_LIGHTEST);
+		//boolean gridVisible = diagram.isGridVisible();
+		Color background = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST);
 		if (toScreen) {
 			scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
-		} else {
-			diagram.setGridVisible(false);
-			background = Color.WHITE;
-		}
+		} 
+//		else {
+//			diagram.setGridVisible(gridVisible);
+//			background = Color.WHITE;
+//		}
 		int width = (int)(diagram.getSize().getWidth()+ MARGIN_RIGHT + MARGIN_RIGHT + ADDSCROLL_HORIZONTAL);
 		int height = (int)(diagram.getSize().getHeight() + MARGIN_BOTTOM + MARGIN_TOP + ADDSCROLL_VERTICAL);		
 		bounds = new Rectangle((int)width,(int)height);
@@ -530,7 +527,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			editorMode.draw(getDrawingContext());
 		}
 		restoreRenderingHints(g2d);
-		diagram.setGridVisible(gridVisible);
+		//diagram.setGridVisible(gridVisible);
 	}
 
 	/** Get the width of the diagram considering the zoom */
@@ -766,10 +763,18 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	// ************************************************************************
 
 	/** Undoes the last operation. */
-	public void undo() { if (canUndo()) undoManager.undo(); }
+	public void undo() { 
+		if (canUndo()) undoManager.undo(); else{
+			frame.showInformationMessageDialog("Cannot Undo", "No other action to be undone.\n\n");
+		}
+	}
 
 	/** Redoes the last operation. */
-	public void redo() { if (canRedo()) undoManager.redo(); }
+	public void redo() {
+		if (canRedo()) undoManager.redo(); else {
+			frame.showInformationMessageDialog("Cannot Redo", "No other action to be redone.\n\n");
+		}
+	}
 
 	/**
 	 * Rescales the view.
@@ -784,20 +789,20 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void fitToWindow()
 	{		
 		double waste = 20;
-		if(frame.isShowBrowser()) waste+=240;
-		if(frame.isShowToolBox()) waste+=240;
-		double offx = (AppFrame.GetScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
-		double offy = (AppFrame.GetScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
-		double diffx = (getUsedCanvasSize().get(1).getX()-(AppFrame.GetScreenWorkingWidth()-waste));
-		double diffy = (getUsedCanvasSize().get(1).getY()-(AppFrame.GetScreenWorkingHeight()-200));
+		if(frame.isShowBrowserPane()) waste+=240;
+		if(frame.isShowPalettePane()) waste+=240;
+		double offx = (Util.getScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
+		double offy = (Util.getScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
+		double diffx = (getUsedCanvasSize().get(1).getX()-(Util.getScreenWorkingWidth()-waste));
+		double diffy = (getUsedCanvasSize().get(1).getY()-(Util.getScreenWorkingHeight()-200));
 		if(diffx < 0)diffx=0;
 		if(diffy < 0)diffy=0;
 		if(diffx > diffy){	
 			setScaling(getScaling(offx));			
-			wrapper.getToolBar().update();
+			wrapper.getToolBar().update(getZoomPercentualValue());
 		}else if (diffx < diffy){
 			setScaling(getScaling(offy));			
-			wrapper.getToolBar().update();
+			wrapper.getToolBar().update(getZoomPercentualValue());
 		}
 	}
 	
@@ -809,7 +814,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void zoom100()
 	{
 		setScaling(Scaling.SCALING_100);	
-		wrapper.getToolBar().update();
+		wrapper.getToolBar().update(getZoomPercentualValue());
 	}
 	
 	public Scaling getScaling(double value)
@@ -860,7 +865,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		else if (scaling.equals(Scaling.SCALING_65)) setScaling(Scaling.SCALING_60);
 		else if (scaling.equals(Scaling.SCALING_60)) setScaling(Scaling.SCALING_55);
 		else if (scaling.equals(Scaling.SCALING_55)) setScaling(Scaling.SCALING_50);
-		wrapper.getToolBar().update();
+		wrapper.getToolBar().update(getZoomPercentualValue());
 	}
 
 //	public void centeredZoomOut(Point point) {
@@ -908,7 +913,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		else if (scaling.equals(Scaling.SCALING_135)) setScaling(Scaling.SCALING_140);
 		else if (scaling.equals(Scaling.SCALING_140)) setScaling(Scaling.SCALING_145);
 		else if (scaling.equals(Scaling.SCALING_145)) setScaling(Scaling.SCALING_150);	
-		wrapper.getToolBar().update();
+		wrapper.getToolBar().update(getZoomPercentualValue());
 	}
 	
 	/** Sets the editor into selection mode. */
@@ -921,12 +926,22 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Switches the editor into creation mode.
 	 * @param elementType the ElementType that indicates what to create
 	 */
-	public void setCreationMode(ElementType elementType) 
+	public void setCreationMode(ClassType elementType) 
 	{
 		creationHandler.createNode(elementType);
 		editorMode = creationHandler;
 	}
 
+	/**
+	 * Switches the editor into creation mode.
+	 * @param elementType the ElementType that indicates what to create
+	 */
+	public void setCreationMode(DataType elementType) 
+	{
+		creationHandler.createNode(elementType);
+		editorMode = creationHandler;
+	}
+	
 	public void setDragElementMode(RefOntoUML.Type type, EObject eContainer)
 	{		
 		creationHandler.createNode(type,eContainer);
@@ -935,41 +950,41 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		
 	public void setPatternCreationMode()
 	{
-		creationHandler.setPattern(ElementType.UNION);
+		creationHandler.setPattern(DerivedPatternType.UNION);
 		editorMode = creationHandler;
 	}
 	
-	public void setPatternMode(ElementType elemType)
+	public void setPatternMode(PatternType elemType)
 	{
 		creationHandler.setPattern(elemType);
 		editorMode = creationHandler;
 	}
 	public void setPatternCreationModeEx()
 	{
-		creationHandler.setPattern(ElementType.EXCLUSION);
+		creationHandler.setPattern(DerivedPatternType.EXCLUSION);
 		editorMode = creationHandler;
 	}
 	public void setPatternCreationModeIntersection()
 	{
-		creationHandler.setPattern(ElementType.INTERSECTION);
+		creationHandler.setPattern(DerivedPatternType.INTERSECTION);
 		editorMode = creationHandler;
 	}
 	
 	public void setPatternCreationModeSpecialization()
 	{
-		creationHandler.setPattern(ElementType.SPECIALIZATION);
+		creationHandler.setPattern(DerivedPatternType.SPECIALIZATION);
 		editorMode = creationHandler;
 	}
 	
 	public void setPatternCreationModePastSpecialization()
 	{
-		creationHandler.setPattern(ElementType.PASTSPECIALIZATION);
+		creationHandler.setPattern(DerivedPatternType.PASTSPECIALIZATION);
 		editorMode = creationHandler;
 	}
 	
 	public void setPatternCreationModeParticipation()
 	{
-		creationHandler.setPattern(ElementType.PARTICIPATION);
+		creationHandler.setPattern(DerivedPatternType.PARTICIPATION);
 		editorMode = creationHandler;
 	}
 	
@@ -977,7 +992,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Switches the editor into connection creation mode.
 	 * @param relationType the RelationType to create
 	 */
-	public void setCreateConnectionMode(RelationType relationType) 
+	public void setCreateConnectionMode(RelationshipType relationType) 
 	{
 		lineHandler.setRelationType(relationType,getDiagramManager().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;
@@ -985,7 +1000,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
-		RelationType relationType = RelationType.valueOf(ModelHelper.getStereotype(relationship).toUpperCase());
+		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
 		lineHandler.setRelationType(relationType, getDiagramManager().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;		
 		RefOntoUML.Type source = null;
@@ -1003,8 +1018,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			if(source==null || target==null) return null;		  
 		}
 		  
-		DiagramElement src = ModelHelper.getDiagramElementByEditor(source,this);
-		DiagramElement tgt = ModelHelper.getDiagramElementByEditor(target,this);		
+		DiagramElement src = ModelHelper.getDiagramElementByDiagram(source,getDiagram());
+		DiagramElement tgt = ModelHelper.getDiagramElementByDiagram(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
 		return lineHandler.createAndAddConnection(this, relationship, src, tgt, eContainer);
@@ -1021,13 +1036,23 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Sets the grid to visible.
 	 * @param flag true for visible grid, false otherwise
 	 */
-	public void showGrid(boolean flag) 
+	public void showGrid(Boolean flag) 
 	{
-		diagram.setGridVisible(flag);
+		diagram.setGridVisible(flag);		
+		updateUI();
 		if(wrapper!=null)wrapper.getScrollPane().updateUI();
 	}
 
-	public boolean showGrid()
+	public void showGrid()
+	{
+		if(isShownGrid()){
+			showGrid(false);
+		}else{
+			showGrid(true);
+		}
+	}
+	
+	public boolean isShownGrid()
 	{
 		return diagram.isGridVisible();
 	}
@@ -1040,27 +1065,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	{
 		diagram.setSnapToGrid(flag);
 	}
-
-	/**
-	 * Resets the current connection's points.
-	 */
-	public void resetConnectionPoints() 
-	{
-		DiagramElement elem = selectionHandler.getSelectedElements().get(0);
-		if (elem instanceof Connection) 
-		{
-			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
-		}
-	}
-
-	public void resetConnectionPoints(DiagramElement elem)
-	{
-		if (elem instanceof Connection) 
-		{
-			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
-		}		
-	}
-	
+		
 	/** Brings the current selection to the front. */
 	public void bringToFront() 
 	{
@@ -1221,38 +1226,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}			
 		}		
 	}
-	
-	/** Align Center Horizontally */
-	public void alignCenterHorizontally ()
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
-		{
-			ArrayList<Double> coordList = new ArrayList<Double>();
-			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
-			classElements.addAll(getSelectedClassElements());
-			for(DiagramElement de: classElements)
-			{				
-				ClassElement ce = (ClassElement)de;				
-				coordList.add(ce.getAbsCenterY());	
-			}
-			double finalpos = calculateCenterAlignPosition(coordList);
-			ClassElement larger = getClassElementLargestHeight(classElements);			
-			if(finalpos!=-1 && larger !=null)
-			{		
-				double largerHeight= larger.getAbsoluteBounds().getHeight();
-				((ClassElement)larger).setAbsolutePos(larger.getAbsoluteX1(),finalpos-(largerHeight/2));
-				for(DiagramElement de: classElements)
-				{					
-					ClassElement ce = (ClassElement)de;	
-					double ceHeight = ce.getAbsoluteBounds().getHeight();
-					if(!ce.equals(larger)){
-						ce.setAbsolutePos(ce.getAbsoluteX1(),finalpos-(ceHeight/2));
-					}
-				}
-			}			
-		}			
-	}
-	
+		
 	/** Align Center Vertically */
 	public void alignCenterVertically()
 	{
@@ -1282,6 +1256,37 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				}
 			}			
 		}
+	}
+
+	/** Align Center Horizontally */
+	public void alignCenterHorizontally ()
+	{
+		if (selectionHandler.getSelectedElements().size() > 0) 
+		{
+			ArrayList<Double> coordList = new ArrayList<Double>();
+			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
+			classElements.addAll(getSelectedClassElements());
+			for(DiagramElement de: classElements)
+			{				
+				ClassElement ce = (ClassElement)de;				
+				coordList.add(ce.getAbsCenterY());	
+			}
+			double finalpos = calculateCenterAlignPosition(coordList);
+			ClassElement larger = getClassElementLargestHeight(classElements);			
+			if(finalpos!=-1 && larger !=null)
+			{		
+				double largerHeight= larger.getAbsoluteBounds().getHeight();
+				((ClassElement)larger).setAbsolutePos(larger.getAbsoluteX1(),finalpos-(largerHeight/2));
+				for(DiagramElement de: classElements)
+				{					
+					ClassElement ce = (ClassElement)de;	
+					double ceHeight = ce.getAbsoluteBounds().getHeight();
+					if(!ce.equals(larger)){
+						ce.setAbsolutePos(ce.getAbsoluteX1(),finalpos-(ceHeight/2));
+					}
+				}
+			}			
+		}			
 	}
 	
 	/** Returns all selected class elements */
@@ -1384,7 +1389,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		int size = coordList.size();
 		double offset = 1000;
 		double finalpos = -1;			
-		if(coordList.get(0)==coordList.get(size-1)) return finalpos;			
+		if(coordList.size()>0 && coordList.get(0)==coordList.get(size-1)) return finalpos;			
 		for(int i =size-1; i>=0;i--){
 			for(int j=i-1; j>=0;j--){
 				double diff = coordList.get(i)-coordList.get(j);
@@ -1416,43 +1421,31 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		selectionHandler.selectAll();
 	}
 	
-	public void showAttribute()
-	{
-		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
-		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);
-	}
+//	public void showAttribute()
+//	{
+//		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);
+//	}
 	
-	public void showOperation()
-	{
-		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
-		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);
-	}
+//	public void showOperation()
+//	{
+//		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);
+//	}
+//	
+//	public void showOperationsOnSelected()
+//	{
+//		DiagramElement element = selectionHandler.getSelection().getElement();
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);		
+//	}
 	
-	public void showOperationsOnSelected()
-	{
-		DiagramElement element = selectionHandler.getSelection().getElement();
-		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);		
-	}
-	
-	public void showAttributesOnSelected()
-	{
-		DiagramElement element = selectionHandler.getSelection().getElement();
-		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);	
-	}
+//	public void showAttributesOnSelected()
+//	{
+//		DiagramElement element = selectionHandler.getSelection().getElement();
+//		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);	
+//	}
 
-	/** Switches a rectilinear connection to a direct one. */
-	public void toDirect() 
-	{
-		for(DiagramElement dElem: getSelectedElements())
-		{
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();		
-	}
+	
 	
 	public void setLineStyle(UmlConnection connection, LineStyle style)
 	{
@@ -1467,70 +1460,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 
-	/** Switches a direct connection into a rectilinear one. */
-	public void toRectilinear() 
-	{
-		for(DiagramElement dElem: getSelectedElements())
-		{
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();		
-	}
-
-	/** Switches a direct connection into a tree vertical one. */
-	public void toTreeStyleVertical() 
-	{
-		for(DiagramElement dElem: getSelectedElements())
-		{
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();
-	}
-	
-	/** Switches a direct connection into a tree horizontal one. */
-	public void toTreeStyleHorizontal() 
-	{
-		for(DiagramElement dElem: getSelectedElements())
-		{
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();		
-	}
-	
-	/**
-	 * Sets the end type navigability of the current selected connection.
-	 * @param endType the RelationEndType
-	 */
-	@Deprecated
-	public void setNavigability(RelationEndType endType) 
-	{
-		if (getSelectedElements().size() > 0 && getSelectedElements().get(0) instanceof UmlConnection) 
-		{
-			UmlConnection conn = (UmlConnection) getSelectedElements().get(0);
-					
-			// Setup a toggle
-			if (endType == RelationEndType.SOURCE) {
-				execute(new SetConnectionNavigabilityCommand(this, conn, endType, true)); //FIXME Improve this = !relationship.isNavigableToElement1()
-			}
-			if (endType == RelationEndType.TARGET) {
-				execute(new SetConnectionNavigabilityCommand(this, conn, endType, true));
-			}
-		}
-	}
-		
-	/**
+		/**
 	 * Runs the specified command by this editor's CommandProcessor, which makes
 	 * the operation reversible.
 	 * @param command the command to run
@@ -1567,7 +1497,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * Adds the specified AppCommandListener.
 	 * @param l the AppCommandListener to add
 	 */
-	public void addAppCommandListener(AppCommandListener l) 
+	public void addAppCommandListener(CommandListener l) 
 	{
 		selectionHandler.addAppCommandListener(l);
 	}
@@ -1584,7 +1514,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			l.stateChanged(this, changeType);
 		}
 		
-		wrapper.getScrollPane().updateUI();
+		if(wrapper!=null) wrapper.getScrollPane().updateUI();
 		
 		if(changeType == ChangeType.ELEMENTS_REMOVED || (changeType == ChangeType.ELEMENTS_ADDED && notificationType == NotificationType.UNDO))
 		{
@@ -1656,8 +1586,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		for (int i = 0; i < elements.size(); i++) 
 		{
 			DiagramElement element = elements.get(i);			
-			if(element instanceof ClassElement) sb.append(ModelHelper.handleName(((ClassElement)element).getClassifier()) + (i < elements.size()-1 ? ", " : ""));
-			if(element instanceof BaseConnection) sb.append(ModelHelper.handleName(((BaseConnection)element).getRelationship()) + (i < elements.size()-1 ? ", " : ""));			
+			if(element instanceof ClassElement) sb.append(((ClassElement)element).getClassifier() + (i < elements.size()-1 ? ", " : ""));
+			if(element instanceof BaseConnection) sb.append(((BaseConnection)element).getRelationship() + (i < elements.size()-1 ? ", " : ""));			
 //			if(element instanceof RectilinearConnection) sb.append(ModelHelper.handleName(((RectilinearConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));
 //			if(element instanceof SimpleConnection) sb.append(ModelHelper.handleName(((SimpleConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));
 //			if(element instanceof TreeConnection) sb.append(ModelHelper.handleName(((TreeConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));
@@ -1681,14 +1611,717 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	// ***** Diagram Editor Operations
 	// *************************************************************************
 
-	/** Edits the current selection's properties. */
-	public void editProperties() 
+	public void endPointNameOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			setEndPointName(con,endpoint);
+		}
+	}
+
+	public void endPointNameOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			setEndPointName(con,endpoint);
+		}
+	}
+	
+	public void setEndPointName(DiagramElement con, RefOntoUML.Property endpoint){
+		String name = (String)JOptionPane.showInputDialog(getDiagramManager().getFrame(), 
+		     "Specify the end-point name: ",
+		     "Set end-point name",
+			 JOptionPane.PLAIN_MESSAGE,
+			 null,
+			 null,
+			 endpoint.getType().getName().toLowerCase().trim()
+		 );
+		 if(name!=null){
+			 endpoint.setName(name);
+			 ((AssociationElement)con).setShowRoles(true);
+			 getDiagramManager().refreshDiagramElement(endpoint.getAssociation());
+		 }
+	}
+			
+	public void otherOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			setMultiplicity(endpoint);
+		}
+	}
+	
+	public void otherOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			setMultiplicity(endpoint);
+		}
+	}
+	
+	public void setMultiplicity(RefOntoUML.Property endpoint){
+		//
+		String multiplicity = (String)JOptionPane.showInputDialog(getDiagramManager().getFrame(), 
+		     "Specify the new multiplicity: ",
+		     "Set multiplicity",
+			 JOptionPane.PLAIN_MESSAGE,
+			 null,
+			 null,
+			 "0..2"
+		);
+		 if(multiplicity!=null){
+			 try{
+				 getDiagramManager().changeMultiplicity(endpoint, multiplicity);
+			 }catch(Exception e){
+				 getDiagramManager().getFrame().showErrorMessageDialog("Parsing multiplicity string", e.getLocalizedMessage());
+			 }
+		 }	
+	}
+	
+	public void twoAtLeastOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			getDiagramManager().changeMultiplicity(endpoint, 2, -1);
+		}
+	}
+
+	public void twoAtLeastOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			getDiagramManager().changeMultiplicity(endpoint, 2, -1);
+		}
+	}
+	
+	public void twoOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			getDiagramManager().changeMultiplicity(endpoint, 2, 2);
+		}
+	}
+
+	public void twoOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			getDiagramManager().changeMultiplicity(endpoint, 2, 2);
+		}
+	}
+	
+	public void anyOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			getDiagramManager().changeMultiplicity(endpoint, 0, -1);
+		}
+	}
+
+	public void anyOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			getDiagramManager().changeMultiplicity(endpoint, 0, -1);
+		}
+	}
+	
+	public void someOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			getDiagramManager().changeMultiplicity(endpoint, 1, -1);
+		}
+	}
+
+	public void someOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			getDiagramManager().changeMultiplicity(endpoint, 1, -1);
+		}
+	}
+	
+	public void optionalOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			getDiagramManager().changeMultiplicity(endpoint, 0, 1);
+		}
+	}
+
+	public void optionalOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			getDiagramManager().changeMultiplicity(endpoint, 0, 1);
+		}
+	}
+	
+	public void singularOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			getDiagramManager().changeMultiplicity(endpoint, 1, 1);
+		}
+	}
+	
+	public void singularOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			getDiagramManager().changeMultiplicity(endpoint, 1, 1);
+		}
+	}
+	
+	public void essential(Object con){
+		if (con instanceof AssociationElement) {	 
+			((Meronymic)((AssociationElement) con).getRelationship()).setIsEssential(
+				((Meronymic)((AssociationElement) con).getRelationship()).isIsEssential()				
+			);
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setShowMetaProperties(true);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	
+	public void shareable(Object con){
+		if (con instanceof AssociationElement) {	 
+			((Meronymic)((AssociationElement) con).getRelationship()).setIsShareable(
+				((Meronymic)((AssociationElement) con).getRelationship()).isIsShareable()				
+			);
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setShowMetaProperties(true);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	
+	public void immutablePart(Object con){
+		if (con instanceof AssociationElement) {	 
+			((Meronymic)((AssociationElement) con).getRelationship()).setIsImmutablePart(
+				((Meronymic)((AssociationElement) con).getRelationship()).isIsImmutablePart()				
+			);
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setShowMetaProperties(true);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	
+	public void immutableWhole(Object con){
+		if (con instanceof AssociationElement) {	 
+			((Meronymic)((AssociationElement) con).getRelationship()).setIsImmutableWhole(
+				((Meronymic)((AssociationElement) con).getRelationship()).isIsImmutableWhole()				
+			);
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setShowMetaProperties(true);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	
+	public void inseparable(Object con){
+		if (con instanceof AssociationElement) {	 
+			((Meronymic)((AssociationElement) con).getRelationship()).setIsInseparable(
+				((Meronymic)((AssociationElement) con).getRelationship()).isIsInseparable()				
+			);
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setShowMetaProperties(true);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	public void subsetsSource(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			subsets(con, endpoint);
+		}
+	}
+
+	public void subsetsTarget(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			subsets(con, endpoint);
+		}
+	}
+	
+	public void subsets(final DiagramElement connection, RefOntoUML.Property endpoint){
+		FeatureListDialog.open(
+			getDiagramManager().getFrame(),null, "Subsetted", endpoint, 
+			Models.getRefparser()
+		);		
+		SwingUtilities.invokeLater(new Runnable() {						
+			@Override
+			public void run() {
+				ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+				list.add((DiagramElement)connection);					
+				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,getProject(),Visibility.SUBSETS,true));
+				notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+			}
+		});
+	}
+	
+	public void redefinesSource(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			redefines(con, endpoint);
+		}
+	}
+
+	public void redefinesTarget(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			redefines(con, endpoint);
+		}
+	}
+	
+	public void redefines(final DiagramElement connection, RefOntoUML.Property endpoint){
+		FeatureListDialog.open(
+			getDiagramManager().getFrame(),null, "Redefined", endpoint, 
+			Models.getRefparser()
+		);		
+		SwingUtilities.invokeLater(new Runnable() {						
+			@Override
+			public void run() {
+				ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+				list.add((DiagramElement)connection);					
+				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,getProject(),Visibility.REDEFINES,true));
+			}
+		});
+	}
+	
+	public void readingDesignToTarget(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setReadingDesign(ReadingDesign.DESTINATION);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	
+	public void readingDesignUnspecified(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setReadingDesign(ReadingDesign.UNDEFINED);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+		
+	public void readingDesignToSource(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			((AssociationElement)con).setReadingDesign(ReadingDesign.SOURCE);
+			list.add((DiagramElement)con);
+			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+		}
+	}
+	
+	/** Switches a direct connection into a rectilinear one. */
+	public void toRectilinear() {
+		for(DiagramElement dElem: getSelectedElements()){
+			if(dElem instanceof UmlConnection){
+				UmlConnection conn = (UmlConnection) dElem;
+				execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
+			}
+		}		
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();		
+	}
+	public void toRectilinear(Object dElem) {		
+		if(dElem instanceof UmlConnection){
+			UmlConnection conn = (UmlConnection) dElem;
+			execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
+		}	
+		if(dElem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
+				}
+			}
+		}
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();		
+	}
+
+	
+	/** Switches a direct connection into a tree vertical one. */
+	public void toTreeStyleVertical(){
+		for(DiagramElement dElem: getSelectedElements()){
+			if(dElem instanceof UmlConnection){
+				UmlConnection conn = (UmlConnection) dElem;
+				execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
+			}
+		}		
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();
+	}
+	public void toTreeStyleVertical(Object dElem){		
+		if(dElem instanceof UmlConnection){
+			UmlConnection conn = (UmlConnection) dElem;
+			execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
+		}	
+		if(dElem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
+				}
+			}
+		}
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();
+	}
+	
+	/** Switches a direct connection into a tree horizontal one. */
+	public void toTreeStyleHorizontal(){
+		for(DiagramElement dElem: getSelectedElements()){
+			if(dElem instanceof UmlConnection){
+				UmlConnection conn = (UmlConnection) dElem;
+				execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
+			}
+		}		
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();		
+	}
+	public void toTreeStyleHorizontal(Object dElem){		
+		if(dElem instanceof UmlConnection){
+			UmlConnection conn = (UmlConnection) dElem;
+			execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
+		}		
+		if(dElem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
+				}
+			}
+		}
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void toDirect(Object dElem){
+		if(dElem instanceof UmlConnection){
+			UmlConnection conn = (UmlConnection) dElem;
+			execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
+		}
+		if(dElem instanceof List<?>){
+			for(Object obj: ((List<Object>)dElem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
+				}
+			}
+		}
+		selectionHandler.deselectAll();
+	}
+	
+	/** Switches a rectilinear connection to a direct one. */
+	public void toDirect(){
+		for(DiagramElement dElem: getSelectedElements()){
+			if(dElem instanceof UmlConnection){
+				UmlConnection conn = (UmlConnection) dElem;
+				execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
+			}
+		}		
+		// we can only tell the selection handler to forget about the selection
+		selectionHandler.deselectAll();		
+	}
+	
+	/**
+	 * Resets the current connection's points.
+	 */
+	public void resetConnectionPoints(){
+		DiagramElement elem = selectionHandler.getSelectedElements().get(0);
+		if (elem instanceof Connection) {
+			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
+		}
+	}
+
+	public void resetConnectionPoints(Object elem){
+		if (elem instanceof Connection) {
+			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
+		}
+		if(elem instanceof Collection<?>){
+			for(Object obj: ((Collection<?>)elem)){
+				if(obj instanceof UmlConnection){
+					UmlConnection conn = (UmlConnection) obj;
+					execute(new ResetConnectionPointsCommand(this, conn));
+				}
+			}
+		}
+	}
+
+	public void findInProjectBrowser(Object element){
+		if (element instanceof ClassElement) {
+			ClassElement classElement = (ClassElement) element;		
+			Classifier c = classElement.getClassifier();
+			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+		}
+		if (element instanceof AssociationElement) {
+			AssociationElement classElement = (AssociationElement) element;		
+			Relationship c = classElement.getRelationship();
+			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+		}
+		if (element instanceof GeneralizationElement) {
+			GeneralizationElement classElement = (GeneralizationElement) element;		
+			Relationship c = classElement.getRelationship();
+			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+		}
+	}
+	
+	private Color copiedColor=Color.WHITE;
+	
+	public void copyColor(Object obj){
+		if(obj instanceof ClassElement){
+			copiedColor = ((ClassElement)obj).getBackgroundColor();	
+		}else if(obj instanceof Collection<?>){			
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					copiedColor = ((ClassElement)obj).getBackgroundColor();
+					return;
+				}
+			}			
+		}			
+	}
+	
+	public void pasteColor(List<DiagramElement> classElements){
+		if (copiedColor != null){
+			execute(new SetColorCommand((DiagramNotification)this,classElements,getProject(),copiedColor));        			
+		}
+	}
+	
+	public void pasteColor(Object obj){
+		if(obj instanceof ClassElement){
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)obj);		
+			pasteColor(list);			
+		}else if(obj instanceof Collection<?>){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					list.add((DiagramElement)o);
+				}
+			}
+			pasteColor(list);
+		}		
+	}
+	
+	public void setupColorOnSelected()
 	{
+		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", color);
+		if (color != null){
+			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),getProject(),color));        			
+		}        		   
+	}
+	
+	public void showAttributes(List<DiagramElement> classList){
+		for(DiagramElement classElem: classList){
+			boolean value = ((ClassElement)classElem).showAttributes();
+			((ClassElement)classElem).setShowAttributes(!value);				
+		}		
+		notifyChange(classList, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+	}
+	
+	public void showAttributes(Object obj){
+		if (obj instanceof ClassElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();			
+			list.add((DiagramElement)obj);
+			showAttributes(list);
+		}else if(obj instanceof Collection<?>){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					list.add((DiagramElement)o);
+				}
+			}
+			showAttributes(list);
+		}		
+	}
+	
+	public void setupColor(List<DiagramElement> classList){		
+		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", color);
+		if (color != null){
+			execute(new SetColorCommand((DiagramNotification)this,classList,getProject(),color));        			
+		}
+	}
+	
+	public void setupColor(Object obj)
+	{
+		if(obj instanceof ClassElement){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)obj);
+			setupColor(list);
+		}else if(obj instanceof Collection<?>){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			for(Object o: ((Collection<?>)obj)){
+				if(o instanceof ClassElement){
+					list.add((DiagramElement)o);
+				}
+			}
+			setupColor(list);
+		}
+	}
+	
+	public void bringFromProjectBrowser(Point p){
+		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
+		Object obj = node.getUserObject();				
+		frame.getDiagramManager().moveToDiagram((RefOntoUML.Element)obj, p.x, p.y, this, true);	
+	}
+	
+	/** Bring related elements to diagram */
+	public void addAllRelatedElements(Object diagramElement)
+	{
+		if(diagramElement instanceof Node){
+			ClassElement ce = (ClassElement)diagramElement;
+			Classifier element = ce.getClassifier();
+			double x = ce.getAbsoluteX2()+30;
+			double y = ce.getAbsoluteY1()-30;
+			int row = 0;
+			int column = 0;
+			OntoUMLParser refparser = Models.getRefparser();			
+			HashSet<Type> addedTypes = new HashSet<Type>();			
+			ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
+			relatedAssociations.addAll(refparser.getDirectAssociations(element));
+			relatedAssociations.addAll(refparser.getDirectGeneralizations(element));		
+			for(Relationship rel: relatedAssociations){
+				try{
+					if(getDiagram().containsChild(rel)) continue;					
+					Classifier source = null, target = null;					
+					if(rel instanceof Association){
+						source = (Classifier)((Association)rel).getMemberEnd().get(0).getType();
+						target = (Classifier)((Association)rel).getMemberEnd().get(1).getType();
+						addedTypes.add((Association)rel);
+					}					
+					if(rel instanceof Generalization){
+						source = (Classifier)((Generalization)rel).getGeneral();
+						target = (Classifier)((Generalization)rel).getSpecific();
+					}					
+					if(source!=null && !getDiagram().containsChild(source)) { 
+						getDiagramManager().moveToDiagram(source,x+100*column,y+75*row,this,false); 
+						row++; 						
+						if(row>2) {
+							row=0; column++;
+						} 
+						addedTypes.add(source);
+					}						
+					if(target!=null && !getDiagram().containsChild(target)) {  
+						getDiagramManager().moveToDiagram(target,x+100*column,y+75*row,this,false); 
+						row++;						
+						if(row>2) {
+							row=0; 
+							column++;
+						}
+						addedTypes.add(target);
+					}					
+					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
+						getDiagramManager().moveToDiagram(rel, this, false);					
+				}catch(Exception e){
+					e.printStackTrace();
+					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
+				}
+			}			
+			HashSet<Type> typesInDiagram = new HashSet<Type>();
+			for (DiagramElement de : getDiagram().getChildren()) {
+				if(de instanceof ClassElement)
+					typesInDiagram.add(((ClassElement) de).getClassifier());
+			}			
+			for (Association a : refparser.getAssociationsBetween(typesInDiagram)) {
+				Type source = a.getMemberEnd().get(0).getType();
+				Type target = a.getMemberEnd().get(1).getType();				
+				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
+					getDiagramManager().moveToDiagram(a,this, false);
+			}			
+			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
+				RefOntoUML.Type specific = g.getSpecific();
+				RefOntoUML.Type general = g.getGeneral();			
+				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
+					getDiagramManager().moveToDiagram(g,this, false);
+			}			
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void deleteSelection(Object element){
+		if(element instanceof DiagramElement){
+			DiagramElement ce = ((DiagramElement)element);
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add(ce);
+			frame.getDiagramManager().deleteFromMenthor(list,true);
+		}else if (element instanceof Collection<?>){
+			frame.getDiagramManager().deleteFromMenthor((List<DiagramElement>)element,true);
+		}else{
+			frame.getDiagramManager().delete(element);
+		}
+	}
+	
+	/**
+	 * Removes the elements selected. From the diagram and the model.
+	 */
+	public void deleteSelection() {
+				
+		if(this.isFocusable()){
+			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	@SuppressWarnings("unchecked")
+	public void excludeSelection(Object element){
+		if(element instanceof DiagramElement){
+			DiagramElement ce = ((DiagramElement)element);
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add(ce);
+			excludeSelection(list);
+		}else if (element instanceof Collection<?>){			
+			excludeSelection((List<DiagramElement>)element);			
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection(Collection<DiagramElement> diagramElementsList){
+		//no diagram in the list...
+		List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
+		for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
+		diagramElementsList.removeAll(diagrams);
+		if(diagramElementsList.size()>0){
+			
+			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+			if(response==Window.OK)
+			{
+				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
+			}
+		}
+	}
+	
+	/** Removes the elements selected only from the diagram  */
+	public void excludeSelection() 
+	{
+		if(this.isFocusable()){
+			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			excludeSelection(diagramElementsList);
+		}
+	}
+
+	/** Edits the current selection's properties. */
+	public void editProperties(){
 		if (getSelectedElements().size() > 0) editProperties(getSelectedElements().get(0));		
 	}
 	
 	/** {@inheritDoc} */
-	public void editProperties(DiagramElement element) 
+	public void editProperties(Object element) 
 	{
 		if (element instanceof ClassElement) {
 			ClassElement classElement = (ClassElement) element;			
@@ -1702,9 +2335,299 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
 			ElementDialogCaller.callGeneralizationDialog(frame, generalization, true);			
 			redraw();
+		}else{
+			frame.getDiagramManager().editProperties(element);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public void showEndPointNames(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)con);			
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+				Visibility.ENDPOINTS,
+				!((AssociationElement)con).showRoles())
+			);					
+		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.ENDPOINTS,
+				!someShowEndNames((List<Object>)con))
+			);					
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void showSubsetting(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)con);			
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+				Visibility.SUBSETS,
+				!((AssociationElement)con).showSubsetting())
+			);						
+		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.SUBSETS,
+				!someShowSubsetting((List<Object>)con))
+			);					
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void showRedefinitions(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)con);			
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+				Visibility.REDEFINES,
+				!((AssociationElement)con).showRedefining())
+			);						
+		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.REDEFINES,
+				!someShowRedefining((List<Object>)con))
+			);					
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void showMultiplicities(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)con);			
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+				Visibility.MULTIPLICITY,
+				!((AssociationElement)con).showMultiplicities())
+			);						
+		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.MULTIPLICITY,
+				!someShowMultiplicities((List<Object>)con))
+			);					
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void showStereotype(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)con);			
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+				Visibility.STEREOTYPE,
+				!((AssociationElement)con).showOntoUmlStereotype())
+			);						
+		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.STEREOTYPE,
+				!someShowStereotype((List<Object>)con))
+			);					
+		}
+	}
+	
+	private boolean someShowEndNames(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showRoles()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowMultiplicities(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showMultiplicities()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowName(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showName()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowRedefining(List<Object> objs){
+		for(Object o: objs){
+			if(((AssociationElement)o).showRedefining()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowSubsetting(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showSubsetting()) return true;
+		}
+		return false;
+	}
+	
+	private boolean someShowStereotype(List<Object> objs){
+		for(Object o: objs){
+			if(o instanceof AssociationElement)
+				if(((AssociationElement)o).showOntoUmlStereotype()) return true;
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void showName(Object con){
+		if (con instanceof AssociationElement) {	
+			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+			list.add((DiagramElement)con);			
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+				Visibility.NAME,
+				!((AssociationElement)con).showName())
+			);						
+		}
+		else if (con instanceof Collection<?>){			
+			execute(new SetVisibilityCommand((DiagramNotification)this,
+				(List<DiagramElement>)con, getProject(),
+				Visibility.NAME,
+				!someShowName((List<Object>)con))
+			);					
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignCenterVertically(Object diagramElements){
+		if(diagramElements instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(List<DiagramElement>)diagramElements,
+				getProject(),Alignment.CENTER_VERTICAL)
+			);
+		}
+	}
+	
+	public void executeAlignCenterVertically(){
+		executeAlignCenterVertically(getSelectedElements());
+	}
+	
+	public void executeAlignCenterHorizontally(){
+		executeAlignCenterHorizontally(getSelectedElements());	
+	}
+
+	@SuppressWarnings("unchecked")
+	public void executeAlignCenterHorizontally(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(List<DiagramElement>) diagElems,
+				getProject(),Alignment.CENTER_HORIZONTAL)
+			);
+		}
+	}
+	public void executeAlignBottom(){
+		executeAlignBottom(getSelectedElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignBottom(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(ArrayList<DiagramElement>) diagElems,
+				getProject(),Alignment.BOTTOM)
+			);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignTop(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(List<DiagramElement>) diagElems,
+				getProject(),Alignment.TOP)
+			);
+		}
+	}
+	
+	public void executeAlignTop(){
+		executeAlignTop(getSelectedElements());
+	}
+	
+	public void executeAlignRight(){
+		executeAlignRight(getSelectedElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignRight(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(ArrayList<DiagramElement>) diagElems,
+				getProject(),Alignment.RIGHT)
+			);
+		}
+	}
+	
+	public void executeAlignLeft(){
+		executeAlignLeft(getSelectedElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeAlignLeft(Object diagElems){
+		if(diagElems instanceof List<?>){
+			execute(
+				new AlignElementsCommand((DiagramNotification)this,
+				(ArrayList<DiagramElement>) diagElems,
+				getProject(),Alignment.LEFT)
+			);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addGeneralizationSet(Object genElems){
+		if(genElems instanceof Collection<?>){
+			GeneralizationSet genSet = frame.getDiagramManager().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			if(genSet!=null){		
+				deselectAll();
+				cancelEditing();
+				ElementDialogCaller.callGeneralizationSetDialog(frame, genSet,true);
+				deselectAll();
+				cancelEditing();
+			}	
+		}
+	}
+	
+	/** Create a generalizations from selected elements in the diagram */
+	public void addGeneralizationSet(){		
+		Collection<DiagramElement> diagramElementsList = getSelectedElements();
+		addGeneralizationSet(diagramElementsList);		
+	}
+		
+	/** Delete generalization Set from selected elements in the diagram */
+	public void deleteGeneralizationSet(){
+		Collection<DiagramElement> diagramElementsList = getSelectedElements();
+		deleteGeneralizationSet(diagramElementsList);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void deleteGeneralizationSet(Object genElems){
+		if(genElems instanceof Collection<?>){
+			frame.getDiagramManager().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			deselectAll();
+			cancelEditing();	
+		}
+	}
+	
+	
+	//============================================================
+	
 	/** {@inheritDoc} */
 	public void moveElements(MoveOperation[] moveOperations) 
 	{		
@@ -1752,7 +2675,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void requestFocusInEditor() { diagramManager.requestFocus(); }
 
 	/** {@inheritDoc} */
-	public EditorNature getEditorNature() {	return EditorNature.ONTOUML; }
+	public EditorType getEditorType() {	return EditorType.ONTOUML_DIAGRAM; }
 
 	/** {@inheritDoc} */
 	@Override
@@ -1760,84 +2683,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	@Override
 	public void dispose() { }
-
-	//===================================================================
-	// Drop
-	//===================================================================
-	
-//	/*
-//	   * Drop Event Handlers
-//	   */
-//	private TreeNode getNodeForEvent(DropTargetDragEvent dtde) 
-//	{
-//	    Point p = dtde.getLocation();
-//	    DropTargetContext dtc = dtde.getDropTargetContext();
-//	    JTree tree = (JTree) dtc.getComponent();
-//	    TreePath path = tree.getClosestPathForLocation(p.x, p.y);
-//	    return (TreeNode) path.getLastPathComponent();
-//	}
-//	  
-//	@Override
-//	public void dragEnter(DropTargetDragEvent dtde) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void dragExit(DropTargetEvent dte) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void dragOver(DropTargetDragEvent dtde) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void drop(DropTargetDropEvent dtde) {
-//		
-//	      1 void drop(DropTargetDropEvent dtde) {
-//	      2        Transferable transferable = dtde.getTransferable();
-//	      3
-//	      4        //flavor not supported, reject drop
-//	      5        if (!transferable.isDataFlavorSupported( <DATA FLAVOR> )) {
-//	      6           e.rejectDrop();
-//	      7           return;
-//	      8        }
-//	      9
-//	     10        DefaultMutableTreeNode oldParent =
-//	getSelectedNode().getParent();
-//	     11
-//	     12        Point loc = dtde.getLocation();
-//	     13        TreePath destinationPath = getPathForLocation(loc.x, loc.y);
-//	     14        DefaultMutableTreeNode newParent =
-//	     15          (DefaultMutableTreeNode)
-//	destinationPath.getLastPathComponent();
-//	     16
-//	     17        DefaultMutableTreeNode newChild = null;
-//	     18        if (dtde.getDropAction() == DnDConstants.ACTION_COPY) {
-//	//make a new child
-//	     19          Object data = tranferable.getTransferData( <DATA FLAVOR> );
-//	     20          DefaultMutableTreeNode newChild = new
-//	DefaultMutableTreeNode(data.clone());
-//	     21        }
-//	     22        else { //move
-//	     23          newChild = getSelectedNode();
-//	     24          oldParent.remove(newChild);
-//	     25        }
-//	     26
-//	     27        newParent.add(child);
-//	     28      }
-//		
-//	}
-//
-//	@Override
-//	public void dropActionChanged(DropTargetDragEvent dtde) {
-//		// TODO Auto-generated method stub
-//		
-//	}
 
 }
 

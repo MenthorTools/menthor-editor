@@ -35,8 +35,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -60,7 +62,7 @@ public class GeneralizationDialog extends JDialog{
 	private JButton btnOk; 
 	private JButton btnCancel;
 	
-	public GeneralizationDialog(final AppFrame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship, boolean modal) 
+	public GeneralizationDialog(final MainFrame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship, boolean modal) 
 	{
 		super(parent, modal);
 		
@@ -68,7 +70,7 @@ public class GeneralizationDialog extends JDialog{
 		initGUI();
 	}
 	
-	public void initData(final AppFrame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship)
+	public void initData(final MainFrame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship)
 	{
 		this.diagramManager = parent.getDiagramManager();
 		this.genElement=genElement;
@@ -79,12 +81,12 @@ public class GeneralizationDialog extends JDialog{
 	public void  initGUI() 
 	{	
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_EDIT));
+		
 		if (((Generalization)relationship).getGeneral()!=null)
 			setTitle(""+""+getStereotype(relationship)+" "+ ((Generalization)relationship).getSpecific().getName()+" -> "+((Generalization)relationship).getGeneral().getName());
 		else
 			setTitle(""+""+getStereotype(relationship)+" "+ ((Generalization)relationship).getSpecific().getName()+" -> null");
-		
-		//setIconImage(Toolkit.getDefaultToolkit().getImage(ClassDialog.class.getResource("/resources/icons/x16/cog.png")));
 		
 		if (parent instanceof JFrame)
 			genEdition = new GeneralizationEditionPanel((JFrame)parent, diagramManager, genElement, (Generalization)relationship);

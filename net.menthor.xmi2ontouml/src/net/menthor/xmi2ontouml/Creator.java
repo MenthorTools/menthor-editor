@@ -81,14 +81,10 @@ public class Creator
     
     public CheckboxTree[] generateModelTrees(Model model, TreeSelectionListener tsl) throws Exception
     {
-    	CheckboxTree modelTree = RefOntoUMLUtil.createSelectionTreeFromModel(model);
-    	modelTree.getCheckingModel().setCheckingMode(
-    			TreeCheckingModel.CheckingMode.PROPAGATE_PRESERVING_UNCHECK);
+    	CheckboxTree modelTree = RefOntoUMLUtil.createSelectionTreeFromModel(model);    	
     	modelTree.addTreeSelectionListener(tsl);
     	
-    	CheckboxTree diagramTree = RefOntoUMLUtil.createSelectionTreeByDiagram(parser, model);
-    	diagramTree.getCheckingModel().setCheckingMode(
-    			TreeCheckingModel.CheckingMode.PROPAGATE_PRESERVING_UNCHECK);
+    	CheckboxTree diagramTree = RefOntoUMLUtil.createSelectionTreeByDiagram(parser, model);    	
     	diagramTree.addTreeSelectionListener(tsl);
     	
     	return new CheckboxTree[]{modelTree, diagramTree};

@@ -13,7 +13,7 @@ import RefOntoUML.Property;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.Type;
 import RefOntoUML.ValueSpecification;
-
+import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.util.RefOntoUMLValidator;
 
 import java.util.Collection;
@@ -1277,26 +1277,9 @@ public class PropertyImpl extends StructuralFeatureImpl implements Property {
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (isDerived: ");
-		result.append(isDerived);
-		result.append(", isDerivedUnion: ");
-		result.append(isDerivedUnion);
-		result.append(", default: ");
-		if (defaultESet) result.append(default_); else result.append("<unset>");
-		result.append(", aggregation: ");
-		result.append(aggregation);
-		result.append(')');
-		return result.toString();
+		return OntoUMLNameHelper.getCompleteName(this);
 	}
 
 	/**

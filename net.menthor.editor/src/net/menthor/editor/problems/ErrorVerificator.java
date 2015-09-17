@@ -23,6 +23,7 @@ package net.menthor.editor.problems;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.menthor.editor.problems.ProblemElement.TypeProblem;
 
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.AggregationKind;
 import RefOntoUML.Association;
+import RefOntoUML.DataType;
 import RefOntoUML.Meronymic;
 import RefOntoUML.MixinClass;
 import RefOntoUML.NamedElement;
@@ -58,6 +60,7 @@ public class ErrorVerificator {
 	public void run()
 	{	
 		start = System.currentTimeMillis();
+		List<String> names = new ArrayList<String>();
 		for(EObject c: refparser.getElements())
 		{			
 			if(c instanceof RefOntoUML.Class || c instanceof RefOntoUML.Relationship || c instanceof RefOntoUML.DataType)
@@ -119,7 +122,17 @@ public class ErrorVerificator {
 					errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
 				}
 			}
-
+			// # Error : Duplicated names
+			if(c instanceof RefOntoUML.Class || c instanceof DataType){
+				String name = ((NamedElement)c).getName();
+				if(!names.contains(name)){
+					names.add(name);	
+				}else{
+					String message = new String();
+					message = "Duplicated Name. There is more than one type with that same name.";					
+					errors.add(new ErrorElement(c,0,message,TypeProblem.APP));
+				}				
+			}
 		}
 		end = System.currentTimeMillis();
 	}

@@ -28,9 +28,11 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.explorer.ProjectBrowser;
-import net.menthor.editor.model.UmlProject;
-import net.menthor.editor.util.ModelHelper;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.CompositeNode;
@@ -95,7 +97,9 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		diagramElemList.addAll(ModelHelper.getDiagramElementsByEditor((elemList),(DiagramEditor)notification));
+		if(((DiagramEditor)notification)!=null){
+			diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
 		//System.out.println("Related diagram elements requested for deletion: \n- "+diagramElemList);
@@ -104,7 +108,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		for (Element elem : theElements) 
 		{
 			// level 1 of dependency
-			ArrayList<Relationship> depList = ProjectBrowser.frame.getBrowserManager().getProjectBrowser().getParser().getDirectRelationships(elem);			
+			ArrayList<Relationship> depList = Models.getRefparser().getDirectRelationships(elem);			
 			depList.removeAll(elemList);
 			for(Element e: depList) { if(!elemDep1List.contains(e)) elemDep1List.add(e); }			
 			
@@ -114,15 +118,17 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 			{ 
 				if (r instanceof MaterialAssociation) 
 				{ 
-					Derivation d = ProjectBrowser.frame.getBrowserManager().getProjectBrowser().getParser().getDerivation((MaterialAssociation)r);
+					Derivation d =  Models.getRefparser().getDerivation((MaterialAssociation)r);
 					if(d!=null) {
 						if(!elemDep2List.contains(d)) elemDep2List.add(d);						
 					}
 				}
 			}			
 		}		
-		diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByEditor(elemDep1List,(DiagramEditor)notification));		
-		diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByEditor(elemDep2List,(DiagramEditor)notification));
+		if(((DiagramEditor)notification)!=null){
+			diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
+			diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
 		//System.out.println("Related diagram elements of dependences level 1 for deletion: \n- "+diagramElemDep1List);
@@ -416,15 +422,15 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 	private void undo (RefOntoUML.Element elem)
 	{		
 //		System.out.println("Undoing from model = "+elem);
-		project.getEditingDomain().getCommandStack().undo();
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
 	}
 	
 	private void delete (RefOntoUML.Element elem)
 	{			
 		//System.out.println("Deleting = "+elem);
-		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(project.getEditingDomain(), elem);
-		project.getEditingDomain().getCommandStack().execute(cmd);
+		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(RefOntoUMLEditingDomain.getInstance().createDomain(), elem);
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
 	}
 	

@@ -31,7 +31,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -44,11 +43,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.DiagramManager;
-import net.menthor.editor.explorer.CustomOntoUMLElement;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLElementCustom;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author John Guerson
@@ -70,7 +72,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 	private JLabel lblName;
 	@SuppressWarnings("rawtypes")
 	private DefaultListModel genModel;
-	private JList<CustomOntoUMLElement> genList;
+	private JList<RefOntoUMLElementCustom> genList;
 	private JLabel lblParticipatingGeneralizations;
 	
 	public GeneralizationSetEditionPanel(JDialog parent, final DiagramManager diagramManager, final GeneralizationSet genSet) 
@@ -113,29 +115,29 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		genModel = new DefaultListModel();
 		for(Generalization gen: genSet.getGeneralization())
 		{
-			genModel.addElement(new CustomOntoUMLElement(gen,""));
+			genModel.addElement(new RefOntoUMLElementCustom(gen,""));
 		}		
-		genList = new JList<CustomOntoUMLElement>(genModel);
+		genList = new JList<RefOntoUMLElementCustom>(genModel);
 		
 		scrollPane = new JScrollPane(genList);
 		
 		lblParticipatingGeneralizations = new JLabel("Participating generalizations:");
 		
 		btnAdd = new JButton("");		
-		btnAdd.setIcon(new ImageIcon(GeneralizationSetEditionPanel.class.getResource("/resources/icons/x16/add.png")));
+		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
-				ArrayList<CustomOntoUMLElement> list = new ArrayList<CustomOntoUMLElement>();
+				OntoUMLParser refparser = Models.getRefparser();
+				ArrayList<RefOntoUMLElementCustom> list = new ArrayList<RefOntoUMLElementCustom>();
 				for(Generalization g: refparser.getAllInstances(Generalization.class))
 				{
-					if (!(genSet.getGeneralization().contains(g))) list.add(new CustomOntoUMLElement(g,""));
+					if (!(genSet.getGeneralization().contains(g))) list.add(new RefOntoUMLElementCustom(g,""));
 				}				
 				if (list.size()==0) {
 					JOptionPane.showMessageDialog(GeneralizationSetEditionPanel.this, "No generalization left in the model.", "Add", JOptionPane.INFORMATION_MESSAGE);
 				}else{
-					CustomOntoUMLElement selected = (CustomOntoUMLElement) JOptionPane.showInputDialog(GeneralizationSetEditionPanel.this, 
+					RefOntoUMLElementCustom selected = (RefOntoUMLElementCustom) JOptionPane.showInputDialog(GeneralizationSetEditionPanel.this, 
 					        "Which generalization do you want to include in Generalization Set"+genSet.getName(),
 					        "Add",
 					        JOptionPane.QUESTION_MESSAGE, 
@@ -155,12 +157,12 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		});		
 		
 		btnDelete = new JButton("");
-		btnDelete.setIcon(new ImageIcon(GeneralizationSetEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				CustomOntoUMLElement gen = (CustomOntoUMLElement)genList.getSelectedValue();
+				RefOntoUMLElementCustom gen = (RefOntoUMLElementCustom)genList.getSelectedValue();
 				
 				//remove
 				genSet.getGeneralization().remove(((Generalization)gen.getElement()));
@@ -264,10 +266,10 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		setInitialData();
 	}
 	
-	public class CustomComparator implements Comparator<CustomOntoUMLElement> 
+	public class CustomComparator implements Comparator<RefOntoUMLElementCustom> 
     {
         @Override
-        public int compare(CustomOntoUMLElement o1, CustomOntoUMLElement o2) {
+        public int compare(RefOntoUMLElementCustom o1, RefOntoUMLElementCustom o2) {
             return o1.toString().compareToIgnoreCase(o2.toString());
         }
     }

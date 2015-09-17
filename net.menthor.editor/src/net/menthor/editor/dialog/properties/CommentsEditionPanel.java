@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -39,13 +38,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.menthor.editor.DiagramManager;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author John Guerson
@@ -100,7 +100,7 @@ public class CommentsEditionPanel extends JPanel {
 		
 		btnCreate = new JButton("");
 		btnCreate.setToolTipText("Add a new comment to this class");
-		btnCreate.setIcon(new ImageIcon(CommentsEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnCreate.setFocusable(false);
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
@@ -112,7 +112,7 @@ public class CommentsEditionPanel extends JPanel {
 		btnSave = new JButton("");
 		btnSave.setFocusable(false);
 		btnSave.setToolTipText("Save selected comment");
-		btnSave.setIcon(new ImageIcon(CommentsEditionPanel.class.getResource("/resources/icons/x16/disk.png")));
+		btnSave.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SAVE));
 		btnSave.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -123,7 +123,7 @@ public class CommentsEditionPanel extends JPanel {
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete seletected comment");
-		btnDelete.setIcon(new ImageIcon(CommentsEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

@@ -130,8 +130,8 @@ public class ForbiddenPanel extends ValidationPanel<ForbiddenMeronymic<?>> {
 		btnHelp1.setBorderPainted(false);
 		btnHelp1.setContentAreaFilled(false);
 		btnHelp1.setOpaque(false);
-		btnHelp1.setRolloverIcon(new ImageIcon(ForbiddenPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help-rollover.png")));
-		btnHelp1.setIcon(new ImageIcon(ForbiddenPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		btnHelp1.setRolloverIcon(new ImageIcon(ForbiddenPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help-rollover.png")));
+		btnHelp1.setIcon(new ImageIcon(ForbiddenPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		
 		checkMemberOf = new JCheckBox("Forbidden MemberOf");
 		GridBagConstraints gbc_checkHierarchyCycle = new GridBagConstraints();
@@ -147,7 +147,7 @@ public class ForbiddenPanel extends ValidationPanel<ForbiddenMeronymic<?>> {
 		gbc_button.gridx = 0;
 		gbc_button.gridy = 1;
 		panel.add(button, gbc_button);
-		button.setIcon(new ImageIcon(ForbiddenPanel.class.getResource("/br/ufes/inf/nemo/validator/meronymic/resources/help.png")));
+		button.setIcon(new ImageIcon(ForbiddenPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
 		button.setPreferredSize(new Dimension(20, 20));
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);

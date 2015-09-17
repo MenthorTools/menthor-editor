@@ -9,6 +9,7 @@ package RefOntoUML.impl;
 import RefOntoUML.Comment;
 import RefOntoUML.Element;
 import RefOntoUML.RefOntoUMLPackage;
+import RefOntoUML.parser.OntoUMLNameHelper;
 
 import java.util.Collection;
 
@@ -223,20 +224,9 @@ public class CommentImpl extends ElementImpl implements Comment {
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (body: ");
-		if (bodyESet) result.append(body); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+		return OntoUMLNameHelper.getCommonName(this);
 	}
 
 } //CommentImpl

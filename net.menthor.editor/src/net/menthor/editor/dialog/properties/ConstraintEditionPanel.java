@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -43,11 +42,14 @@ import javax.swing.SwingConstants;
 
 import org.tinyuml.draw.DiagramElement;
 
-import net.menthor.editor.DiagramManager;
 import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author John Guerson
@@ -103,7 +105,7 @@ public class ConstraintEditionPanel extends JPanel {
 		
 		btnSave = new JButton("");
 		btnSave.setFocusable(false);
-		btnSave.setIcon(new ImageIcon(ConstraintEditionPanel.class.getResource("/resources/icons/x16/disk.png")));
+		btnSave.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SAVE));
 		btnSave.setToolTipText("Save selected constraint");
 		btnSave.addActionListener(new ActionListener() {			
 			@Override
@@ -114,7 +116,7 @@ public class ConstraintEditionPanel extends JPanel {
 		
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
-		btnDelete.setIcon(new ImageIcon(ConstraintEditionPanel.class.getResource("/resources/icons/x16/cross.png")));
+		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
 		btnDelete.setToolTipText("Delete seletected constraint");
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
@@ -130,7 +132,7 @@ public class ConstraintEditionPanel extends JPanel {
 		
 		btnAdd = new JButton("");
 		btnAdd.setFocusable(false);
-		btnAdd.setIcon(new ImageIcon(ConstraintEditionPanel.class.getResource("/resources/icons/x16/new.png")));
+		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
 		btnAdd.setToolTipText("Add a new constraint to this class");
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
@@ -244,7 +246,7 @@ public class ConstraintEditionPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	public void setInitialData()
 	{		
-		OntoUMLParser refparser = diagramManager.getFrame().getBrowserManager().getProjectBrowser().getParser();
+		OntoUMLParser refparser = Models.getRefparser();
 		for(Constraintx c: refparser.getAllInstances(RefOntoUML.Constraintx.class)){		
 			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
 				if (elem.equals(element)) comboConstraint.addItem(new ConstraintElement(c));

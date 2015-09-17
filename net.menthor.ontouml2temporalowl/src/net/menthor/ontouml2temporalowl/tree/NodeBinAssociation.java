@@ -3,7 +3,7 @@ package net.menthor.ontouml2temporalowl.tree;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.menthor.ontouml2temporalowl.auxiliary.MappingType;
+import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
 import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.Class;
@@ -20,9 +20,11 @@ public class NodeBinAssociation {
 	public List<String> listSuperAssociations = null;
 	public List<Restriction> listRestrictions = null;
 	Property sourceEnd, targetEnd;
+	TreeProcessor treeProc;
 	
-	public NodeBinAssociation (Association a)
+	public NodeBinAssociation (Association a, TreeProcessor treeProc)
 	{
+		this.treeProc = treeProc;
 		myAssociation = a;
 		if (a instanceof Meronymic)
 		{
@@ -44,12 +46,12 @@ public class NodeBinAssociation {
 
 	public NodeClass getDomain()
 	{
-		return TreeProcessor.getNode((Class) sourceEnd.getType());
+		return treeProc.getNode((Class) sourceEnd.getType());
 	}
 	
 	public NodeClass getRange()
 	{
-		return TreeProcessor.getNode((Class) targetEnd.getType());
+		return treeProc.getNode((Class) targetEnd.getType());
 	}
 
 	private Boolean hasRigidDomain()
@@ -77,7 +79,7 @@ public class NodeBinAssociation {
 	}
 	
 
-	public void setRestrictions(MappingType mtype)
+	public void setRestrictions(OWLMappingTypes mtype)
 	{
 		Integer tmin = targetEnd.lowerBound(),
 				tmax = targetEnd.upperBound(),
@@ -95,8 +97,8 @@ public class NodeBinAssociation {
 		else if (myAssociation instanceof Mediation)
 			restrictedProperty = "mediates";
 		
-		if ((mtype == MappingType.REIFICATION) ||
-		   ((mtype == MappingType.WORM_VIEW_A2) && (existDep || invExistDep) ))
+		if ((mtype == OWLMappingTypes.REIFICATION) ||
+		   ((mtype == OWLMappingTypes.WORM_VIEW_A2) && (existDep || invExistDep) ))
 		{
 			if (!targetEnd.isIsReadOnly())
 				tmax = -1;
@@ -104,16 +106,16 @@ public class NodeBinAssociation {
 				smax = -1;
 		}
 
-		addTS = ((mtype == MappingType.WORM_VIEW_A0) ||
-				((mtype == MappingType.WORM_VIEW_A1) && !(existDep && invExistDep) ) ||
-				((mtype == MappingType.WORM_VIEW_A2) && !(existDep || invExistDep) ) );
+		addTS = ((mtype == OWLMappingTypes.WORM_VIEW_A0) ||
+				((mtype == OWLMappingTypes.WORM_VIEW_A1) && !(existDep && invExistDep) ) ||
+				((mtype == OWLMappingTypes.WORM_VIEW_A2) && !(existDep || invExistDep) ) );
 
 		// if both classes are rigid or 
 		// if it is neither the case of an ic-level property of 4D-A2 nor reification
 		// then the restriction are imposed over the original domain and range
 		if ( (ndomain.isRigid() && nrange.isRigid()) ||
-			 !(((mtype == MappingType.WORM_VIEW_A2) && (existDep || invExistDep)) ||
-			   (mtype == MappingType.REIFICATION) ) ) 
+			 !(((mtype == OWLMappingTypes.WORM_VIEW_A2) && (existDep || invExistDep)) ||
+			   (mtype == OWLMappingTypes.REIFICATION) ) ) 
 		{
 			//adding cardinality restriction over the domain class
 			if ((tmin > 0) || (tmax > 0))
@@ -167,7 +169,7 @@ public class NodeBinAssociation {
 					addRestriction(restrictedDomain, restrictedProperty, restrictedList, equivRestr, inverseProp, tmin, tmax);
 				}
 			}
-			if (mtype == MappingType.REIFICATION) 
+			if (mtype == OWLMappingTypes.REIFICATION) 
 			{
 				tmax = targetEnd.upperBound();
 				smax = sourceEnd.upperBound();
@@ -258,17 +260,17 @@ public class NodeBinAssociation {
 		}
 	}
 
-	public List<String> getDomainList(MappingType mtype)
+	public List<String> getDomainList(OWLMappingTypes mtype)
 	{
 		List<String> domainList = new LinkedList<String>();
 		NodeClass domain = getDomain();
-		if (mtype == MappingType.REIFICATION)
+		if (mtype == OWLMappingTypes.REIFICATION)
 			domainList.add(domain.getReifiedName());
 		else
 		{
-			Boolean addTS = ((mtype == MappingType.WORM_VIEW_A0) ||
-					((mtype == MappingType.WORM_VIEW_A1) && !(existDep && invExistDep) ) ||
-					((mtype == MappingType.WORM_VIEW_A2) && !(existDep || invExistDep) ) );
+			Boolean addTS = ((mtype == OWLMappingTypes.WORM_VIEW_A0) ||
+					((mtype == OWLMappingTypes.WORM_VIEW_A1) && !(existDep && invExistDep) ) ||
+					((mtype == OWLMappingTypes.WORM_VIEW_A2) && !(existDep || invExistDep) ) );
 			domainList.add(domain.getName(addTS));
 		}
 		if (!domainList.isEmpty())
@@ -277,17 +279,17 @@ public class NodeBinAssociation {
 			return null;
 	}
 	
-	public List<String> getRangeList(MappingType mtype)
+	public List<String> getRangeList(OWLMappingTypes mtype)
 	{
 		List<String> rangeList = new LinkedList<String>();
 		NodeClass range = getRange();
-		if (mtype == MappingType.REIFICATION)
+		if (mtype == OWLMappingTypes.REIFICATION)
 			rangeList.add(range.getReifiedName());
 		else
 		{
-			Boolean addTS = ((mtype == MappingType.WORM_VIEW_A0) ||
-					((mtype == MappingType.WORM_VIEW_A1) && !(existDep && invExistDep) ) ||
-					((mtype == MappingType.WORM_VIEW_A2) && !(existDep || invExistDep) ) );
+			Boolean addTS = ((mtype == OWLMappingTypes.WORM_VIEW_A0) ||
+					((mtype == OWLMappingTypes.WORM_VIEW_A1) && !(existDep && invExistDep) ) ||
+					((mtype == OWLMappingTypes.WORM_VIEW_A2) && !(existDep || invExistDep) ) );
 			rangeList.add(range.getName(addTS));
 		}
 			
@@ -297,16 +299,16 @@ public class NodeBinAssociation {
 			return null;
 	}
 	
-	public List<String> getSuperAssocList(MappingType mtype)
+	public List<String> getSuperAssocList(OWLMappingTypes mtype)
 	{
 		if (existDep)
 			addSuperAssociation("existentiallyDependentOf");
 		if (invExistDep)
 			addSuperAssociation("invExistentiallyDependentOf");
-		if ( (existDep && invExistDep && (mtype == MappingType.WORM_VIEW_A1)) ||
-			((existDep || invExistDep) && (mtype == MappingType.WORM_VIEW_A2)))
+		if ( (existDep && invExistDep && (mtype == OWLMappingTypes.WORM_VIEW_A1)) ||
+			((existDep || invExistDep) && (mtype == OWLMappingTypes.WORM_VIEW_A2)))
 			addSuperAssociation("objPropertyIC");
-		else if ((mtype != null) && (mtype != MappingType.REIFICATION))
+		else if ((mtype != null) && (mtype != OWLMappingTypes.REIFICATION))
 			addSuperAssociation("objPropertyTS");
 		return listSuperAssociations;
 	}

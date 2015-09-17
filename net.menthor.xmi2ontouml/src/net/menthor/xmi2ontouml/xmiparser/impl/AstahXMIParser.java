@@ -602,4 +602,19 @@ public class AstahXMIParser implements XMIParser {
 		}
 		
 	}
+
+	@Override
+	public String getNature(Object element) {
+		return "";
+	}
+
+	@Override
+	public String getBasicType(Object element) {
+		return "";
+	}
+
+	@Override
+	public String getScaleType(Object element) {
+		return "";
+	}
 }

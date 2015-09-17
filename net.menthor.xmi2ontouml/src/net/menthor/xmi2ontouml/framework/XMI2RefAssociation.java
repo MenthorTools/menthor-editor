@@ -16,6 +16,7 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
+import RefOntoUML.Type;
 import RefOntoUML.subQuantityOf;
 
 public class XMI2RefAssociation extends XMI2RefClassifier
@@ -28,11 +29,11 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 	{
 		super(XMIElement, mapper);
 		
-		this.RefOntoUMLElement = solveStereotype(mapper.getStereotype(XMIElement));
+		this.RefOntoUMLElement = solveStereotype(mapper.getStereotype(XMIElement), mapper.getNature(XMIElement));
 		deal();
 	}
 	
-	private Association solveStereotype(String stereotype) throws Exception
+	private Association solveStereotype(String stereotype, String nature) throws Exception
 	{
 		if (stereotype.equalsIgnoreCase("characterization"))
 			return factory.createCharacterization();
@@ -58,6 +59,9 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 		else if (stereotype.equalsIgnoreCase("subcollectionof"))
 			return factory.createsubCollectionOf();
 			
+		else if (stereotype.equalsIgnoreCase("structuration"))
+			return factory.createStructuration();
+		
 		else if (stereotype.equalsIgnoreCase("subquantityof"))
 			return factory.createsubQuantityOf();
 			
@@ -87,9 +91,9 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 		
     	if (relatorObj != null)
     	{
-    		derivation = (Derivation) solveStereotype("derivation");
-    		Relator relator = (Relator) elemMap.getElement(relatorObj);
-        	
+    		derivation = (Derivation) solveStereotype("derivation", "");
+    		Object relator  = elemMap.getElement(relatorObj);
+    		    		
         	Property prop1 = factory.createProperty();
         	prop1.setType((MaterialAssociation) RefOntoUMLElement);
         	LiteralUnlimitedNatural upper1 = factory.createLiteralUnlimitedNatural();
@@ -101,7 +105,7 @@ public class XMI2RefAssociation extends XMI2RefClassifier
 			prop1.setLowerValue(lower1);
         	
         	Property prop2 = factory.createProperty();
-        	prop2.setType((Relator) relator);
+        	prop2.setType((Type)relator);
         	LiteralUnlimitedNatural upper2 = factory.createLiteralUnlimitedNatural();
 			upper2.setValue(1);
 			prop2.setUpperValue(upper2);

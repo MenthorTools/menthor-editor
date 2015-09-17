@@ -11,7 +11,7 @@ import RefOntoUML.Element;
 import RefOntoUML.Namespace;
 import RefOntoUML.RefOntoUMLPackage;
 import RefOntoUML.ValueSpecification;
-
+import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.util.RefOntoUMLValidator;
 
 import java.util.Collection;
@@ -443,4 +443,8 @@ public class ConstraintxImpl extends PackageableElementImpl implements Constrain
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public String toString(){
+		return OntoUMLNameHelper.getCommonName(this);
+	}
 } //ConstraintxImpl

@@ -85,8 +85,8 @@ import net.menthor.antipattern.wizard.relspec.RelSpecWizard;
 import net.menthor.antipattern.wizard.reprel.RepRelWizard;
 import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard;
 import net.menthor.antipattern.wizard.undefphase.UndefPhaseWizard;
-import net.menthor.editor.AppFrame;
-import net.menthor.editor.model.AntiPatternList;
+import net.menthor.editor.ui.AntiPatternList;
+import net.menthor.editor.ui.MainFrame;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -125,7 +125,7 @@ import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
  */
 public class AntiPatternResultDialog extends Dialog {
 
-	private AppFrame frame;
+	private MainFrame frame;
 	private ArrayList<AntipatternOccurrence> allOccurrences;
 	private ArrayList<AntipatternOccurrence> result;
 	private static TableViewer viewer;
@@ -143,7 +143,7 @@ public class AntiPatternResultDialog extends Dialog {
 	 * Create the dialog.
 	 * @param parentShell
 	 */
-	public AntiPatternResultDialog(Shell parentShell, ArrayList<AntipatternOccurrence> result, AppFrame frame) 
+	public AntiPatternResultDialog(Shell parentShell, ArrayList<AntipatternOccurrence> result, MainFrame frame) 
 	{
 		super(parentShell);		
 		this.result = new ArrayList<AntipatternOccurrence>(result);
@@ -221,7 +221,7 @@ public class AntiPatternResultDialog extends Dialog {
 		return container;
 	}
 
-	public static void openDialog(final AntiPatternList apList, final AppFrame frame)
+	public static void openDialog(final AntiPatternList apList, final MainFrame frame)
 	{			
 		if (apList!=null &&  !apList.getAll().isEmpty())
 		{
@@ -297,7 +297,7 @@ public class AntiPatternResultDialog extends Dialog {
 				}
 				else {
 					feedBackLabel.setVisible(false);
-					feedBackLabel.setText("Anti-pattern Wizard Opened!");
+					feedBackLabel.setText("Anti-pattern Wizard Open!");
 					feedBackLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 					feedBackLabel.setVisible(true);
 					showWizard((AntipatternOccurrence) viewer.getElementAt(table.getSelectionIndex()));
@@ -462,7 +462,7 @@ public class AntiPatternResultDialog extends Dialog {
 	      public String getText(Object element) {
 	        String value = new Boolean(((AntipatternOccurrence) element).isFixed()).toString();
 	        if (value.equals("true")) return "Fixed";
-	        else return "Opened";
+	        else return "Open";
 	      }
 	      @Override
 	    	public Color getForeground(Object element) {

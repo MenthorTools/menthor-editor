@@ -45,7 +45,7 @@ Source: "..\icons\{#MyIconFile}"; DestDir: "{app}"
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: startmenuicon 
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon\common 
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: desktopicon\user 
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Menthor Editor"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: quicklaunchicon 
+;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Menthor Editor"; Filename: "{app}\{#MyAppExeName}.exe"; IconFilename:"{app}\{#MyIcon}"; Tasks: quicklaunchicon 
 
 [Tasks]
 Name: startmenuicon; Description: "Create a &Start Menu icon"; GroupDescription: "Additional icons:"; 

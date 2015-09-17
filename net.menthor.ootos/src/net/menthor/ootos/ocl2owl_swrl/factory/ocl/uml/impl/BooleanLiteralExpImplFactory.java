@@ -3,6 +3,9 @@ package net.menthor.ootos.ocl2owl_swrl.factory.ocl.uml.impl;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.common.settings.owl.OwlOptions;
+import net.menthor.ootos.util.MappingElements;
+
 import org.eclipse.ocl.uml.impl.BooleanLiteralExpImpl;
 import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -20,8 +23,8 @@ import RefOntoUML.parser.OntoUMLParser;
  */
 public class BooleanLiteralExpImplFactory extends PrimitiveLiteralExpImplFactory {
 
-	public BooleanLiteralExpImplFactory(NamedElementImpl m_NamedElementImpl){
-		super(m_NamedElementImpl);
+	public BooleanLiteralExpImplFactory(MappingElements mappingProperties, OwlOptions owlOptions, NamedElementImpl m_NamedElementImpl){
+		super(mappingProperties, owlOptions, m_NamedElementImpl);
 	}
 
 	/**

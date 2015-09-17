@@ -45,7 +45,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.DiagramManager;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.Models;
 import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 
 /**
@@ -281,7 +282,7 @@ public class ExclusionPattern extends JDialog {
 								{
 									if(!((txtSupertype.getText().equals("") || txtBase.getText().equals("") || txtDerived.getText().equals("")))){
 										String rule="\ncontext: _'"+txtSupertype.getText()+"'\n"+"inv: not oclIsTypeOf(_'"+txtBase.getText()+"') implies oclIsTypeOf(_'"+txtDerived.getText()+"')";
-										dman.getFrame().getBrowserManager().getProjectBrowser().getOCLDocuments().get(0).addContent(rule);
+										Models.getOclDocList().get(0).addContentAsString(rule);
 										DerivedTypesOperations.exclusionPattern(dman,values,location);
 										dispose();
 									}
