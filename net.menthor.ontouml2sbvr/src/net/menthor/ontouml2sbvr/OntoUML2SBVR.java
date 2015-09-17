@@ -16,9 +16,13 @@ import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Package;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class OntoUML2SBVR
 {
+	
+	protected static OntoUMLParser parser;
+	
 	public static void main (String args[])
 	{
 		OntoUML2SBVR.Transformation(args[0]);
@@ -52,6 +56,7 @@ public class OntoUML2SBVR
 				return;
 			
 			Package p = (Package)eObj;
+			parser = new OntoUMLParser(p);
 			
 			FileManager myfile = new FileManager(sourceFile);
 			myfile.serial = false;

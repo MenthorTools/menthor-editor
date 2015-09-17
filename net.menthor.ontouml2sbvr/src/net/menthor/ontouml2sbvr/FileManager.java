@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -38,6 +39,7 @@ import RefOntoUML.componentOf;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
+import RefOntoUML.parser.OntoUMLParser;
 
 public class FileManager
 {
@@ -596,14 +598,25 @@ public class FileManager
 			descriptionBuilder.append(myhelper.lineBreak());
 			
 			if (child instanceof RefOntoUML.Role) {
-				RefOntoUML.Relator relator = ((RefOntoUML.Role)child).relator();
-				descriptionBuilder.append(myhelper.Text("A "));
-				descriptionBuilder.append(myhelper.Term(superClassName));
-				descriptionBuilder.append(myhelper.Text(" may partecipate in a relation of type "));
-				descriptionBuilder.append(myhelper.Term(relator.getName()));
-				descriptionBuilder.append(myhelper.Text(" in the role of a "));
-				descriptionBuilder.append(myhelper.Term(child.getName()));
-				descriptionBuilder.append(myhelper.lineBreak());
+				
+				List<Association> directAssociations = OntoUML2SBVR.parser.getDirectAssociations(child);
+				Classifier relator = null;
+				
+				//FIXME: adicionado para evitar problemas ao acessar os modelos. 
+				for (Association a : directAssociations) {
+					if(a instanceof Mediation && OntoUMLParser.getRelator((Mediation) a) instanceof Classifier)
+						relator = OntoUMLParser.getRelator((Mediation) a);
+				}
+				
+				if(relator != null) {
+					descriptionBuilder.append(myhelper.Text("A "));
+					descriptionBuilder.append(myhelper.Term(superClassName));
+					descriptionBuilder.append(myhelper.Text(" may partecipate in a relation of type "));
+					descriptionBuilder.append(myhelper.Term(relator.getName()));
+					descriptionBuilder.append(myhelper.Text(" in the role of a "));
+					descriptionBuilder.append(myhelper.Term(child.getName()));
+					descriptionBuilder.append(myhelper.lineBreak());
+				}
 			}
 		}
 		
