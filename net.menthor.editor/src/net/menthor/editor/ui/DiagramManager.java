@@ -3173,7 +3173,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		String name = new String();
 		if(refpackage.getName()==null || refpackage.getName().isEmpty()) name = "model";
 		else name = refpackage.getName();
-		String modelFileName = Util.getCanonPath(Directories.getTempDir(), name+".html");
+		String modelFileName = Util.getCanonPath(Directories.getTempDir(), name+".refontouml");
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {			
