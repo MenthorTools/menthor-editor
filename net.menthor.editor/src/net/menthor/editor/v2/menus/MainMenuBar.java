@@ -147,7 +147,7 @@ public class MainMenuBar extends BaseMenuBar {
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
 		if(Util.onMac()){
-			Application.getApplication().setQuitHandler(new MenthorEditorQuitHandler());
+//			Application.getApplication().setQuitHandler(new MenthorEditorQuitHandler());
 		}else{
 			createMenuItem(file, "Quit", CommandType.QUIT_MENTHOR, background,stroke);
 		}
@@ -265,7 +265,7 @@ public class MainMenuBar extends BaseMenuBar {
 		help = new JMenu("Help");
 		add(help);
 		if(Util.onMac()){
-			Application.getApplication().setAboutHandler(new MenthorEditorAboutHandler());
+//			Application.getApplication().setAboutHandler(new MenthorEditorAboutHandler());
 		}else{
 			createMenuItem(help, "About", CommandType.ABOUT, background);
 		}	

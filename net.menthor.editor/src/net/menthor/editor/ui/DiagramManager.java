@@ -257,7 +257,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		workingOnlyWithChecked();
 		OntoUMLParser refparser = Models.getRefparser();
-		generateSbvr((RefOntoUML.Model)refparser.getModel());
+		RefOntoUML.Package model = refparser.createModelFromSelections(new Copier());
+		generateSbvr(model);
 	}
 		
 	public void generateInfoUML()
@@ -3167,7 +3168,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}	
 	
 	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */
-	public void generateSbvr(RefOntoUML.Model refpackage) 
+	public void generateSbvr(RefOntoUML.Package refpackage) 
 	{
 		ResultType result;
 		String name = new String();

@@ -56,6 +56,8 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
+import edu.mit.csail.sdg.alloy4.A4Preferences.IntPref;
+import edu.mit.csail.sdg.alloy4.A4Preferences.StringPref;
 import edu.mit.csail.sdg.alloy4.Computer;
 import edu.mit.csail.sdg.alloy4.ConstList;
 import edu.mit.csail.sdg.alloy4.OurBorder;
@@ -65,8 +67,6 @@ import edu.mit.csail.sdg.alloy4.OurDialog;
 import edu.mit.csail.sdg.alloy4.OurUtil;
 import edu.mit.csail.sdg.alloy4.Runner;
 import edu.mit.csail.sdg.alloy4.Util;
-import edu.mit.csail.sdg.alloy4.Util.IntPref;
-import edu.mit.csail.sdg.alloy4.Util.StringPref;
 import edu.mit.csail.sdg.alloy4.Version;
 import edu.mit.csail.sdg.alloy4graph.GraphViewer;
 
