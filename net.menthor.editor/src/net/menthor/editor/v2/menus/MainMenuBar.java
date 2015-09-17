@@ -45,10 +45,8 @@ public class MainMenuBar extends BaseMenuBar {
 	private JMenu importation;
 	private JMenu export;
 	private JMenu edit;
-	private JMenu verificate;
-	private JMenu implement;
-	private JMenu verbalize;
-	private JMenu validate;
+	private JMenu evaluation;
+	private JMenu transformation;	
 	private JMenu rules;
 	private JMenu project; 
 	private JMenu diagram;
@@ -64,10 +62,8 @@ public class MainMenuBar extends BaseMenuBar {
 		createDiagramMenu();
 		createRulesMenu();
 		createProjectMenu();
-		createVerificateMenu();
-		createValidateMenu();
-		createVerbalizeMenu();
-		createImplementMenu();
+		createEvaluationMenu();
+		createTransformationMenu();		
 		createWindowMenu();
 		createHelpMenu();
 		disactivateSomeToBegin();
@@ -81,10 +77,8 @@ public class MainMenuBar extends BaseMenuBar {
 		//menus
 		export.setEnabled(false);		
 		edit.setEnabled(false);
-		verificate.setEnabled(false);
-		implement.setEnabled(false);
-		verbalize.setEnabled(false);
-		validate.setEnabled(false);
+		evaluation.setEnabled(false);
+		transformation.setEnabled(false);
 		rules.setEnabled(false);
 		project.setEnabled(false); 
 		diagram.setEnabled(false);	
@@ -102,14 +96,10 @@ public class MainMenuBar extends BaseMenuBar {
 		export.setEnabled(true);
 //		edit.setVisible(true);
 		edit.setEnabled(true);
-//		verificate.setVisible(true);
-		verificate.setEnabled(true);
-//		implement.setVisible(true);
-		implement.setEnabled(true);
-//		verbalize.setVisible(true);
-		verbalize.setEnabled(true);
-//		validate.setVisible(true);
-		validate.setEnabled(true);
+//		evaluation.setVisible(true);
+		evaluation.setEnabled(true);
+//		transformation.setVisible(true);
+		transformation.setEnabled(true);
 //		rules.setVisible(true);
 		rules.setEnabled(true);
 //		project.setVisible(true);
@@ -183,14 +173,19 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(edit, "Delete", CommandType.DELETE, background,stroke);	
 	}
 	
-	private void createVerificateMenu(){
+	private void createEvaluationMenu(){
 		KeyStroke stroke;
-		verificate = new JMenu("Verificate");
-		add(verificate);
+		evaluation = new JMenu("Evaluate");
+		add(evaluation);
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
-		createMenuItem(verificate, "Parse All Rules", CommandType.PARSE_RULES, background,stroke);
-		createMenuItem(verificate, "Check All Model Syntax", CommandType.CHECK_MODEL_SYNTAX, background);
+		createMenuItem(evaluation, "Check Rules", CommandType.PARSE_RULES, background,stroke);
+		createMenuItem(evaluation, "Check Model", CommandType.CHECK_MODEL_SYNTAX, background);
+		evaluation.addSeparator();
+		createMenuItem(evaluation, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);		
+		evaluation.addSeparator();
+		createMenuItem(evaluation, "Semantic Anti-Patterns", CommandType.SEARCH_FOR_ANTIPATTERNS, background);
+		createMenuItem(evaluation, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);
 	}
 	
 	public void selectWindowMenu(boolean projectBrowser, boolean palette, boolean console) {
@@ -207,30 +202,17 @@ public class MainMenuBar extends BaseMenuBar {
 		createCheckBoxMenuItem(window, "Project Browser", CommandType.PROJECT_BROWSER, background);		
 	}
 
-	private void createImplementMenu(){
-		implement = new JMenu("Implement");
-		add(implement);		
-		createMenuItem(implement, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);
-		implement.addSeparator();
-		createMenuItem(implement, "Information System (UML) - Experimental*", CommandType.DESIGN_AS_INFO_UML, background);		
+	private void createTransformationMenu(){
+		transformation = new JMenu("Transform");
+		add(transformation);		
+		createMenuItem(transformation, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);
+		transformation.addSeparator();
+		createMenuItem(transformation, "Information System (UML) - Beta!", CommandType.DESIGN_AS_INFO_UML, background);
+		transformation.addSeparator();
+		createMenuItem(transformation, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
+		createMenuItem(transformation, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
 	}
-	
-	private void createVerbalizeMenu(){
-		verbalize = new JMenu("Verbalize");
-		add(verbalize);		
-		createMenuItem(verbalize, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
-		createMenuItem(verbalize, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
-	}
-	
-	private void createValidateMenu(){		
-		validate = new JMenu("Validate");
-		add(validate);		
-		createMenuItem(validate, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);		
-		validate.addSeparator();
-		createMenuItem(validate, "Semantic Anti-Patterns", CommandType.SEARCH_FOR_ANTIPATTERNS, background);
-		createMenuItem(validate, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);		
-	}
-	
+		
 	private void createProjectMenu(){
 		KeyStroke stroke;
 		project = new JMenu("Project");

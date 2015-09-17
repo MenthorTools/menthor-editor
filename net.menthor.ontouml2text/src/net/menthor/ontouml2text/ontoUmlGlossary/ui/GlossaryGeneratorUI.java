@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -24,7 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2text.ontoUmlGlossary.OntoUmlGlossary;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -260,13 +263,18 @@ public class GlossaryGeneratorUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				  JFileChooser chooser = new JFileChooser();
-			      chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				  JFileChooser fileChooser = new JFileChooser();
+				  
+				  fileChooser.setDialogTitle("Open Project");
+				  FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File (*.txt)", "txt", "txt"); 
+				  fileChooser.addChoosableFileFilter(filter);
+				  if(onWindows()) fileChooser.setFileFilter(filter);	
+				  fileChooser.setAcceptAllFileFilterUsed(false);
 	
 			      try {
-			            int code = chooser.showOpenDialog(contentPane);
+			            int code = fileChooser.showOpenDialog(contentPane);
 			            if (code == JFileChooser.APPROVE_OPTION) {
-			               File selectedFile = chooser.getSelectedFile();
+			               File selectedFile = fileChooser.getSelectedFile();
 			               edtOutputDirectory.setText(selectedFile.getAbsolutePath());
 			            }
 			      } catch (Exception f) {
@@ -278,6 +286,10 @@ public class GlossaryGeneratorUI extends JFrame {
 		
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
+	
+	public static boolean onWindows() {
+		return System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
+	};
 	
 	public String getOutputDirectory(){
 		return edtOutputDirectory.getText();

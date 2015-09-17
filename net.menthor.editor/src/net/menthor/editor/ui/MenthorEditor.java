@@ -45,7 +45,7 @@ public final class MenthorEditor {
 	 * 		b: compilation with new features
 	 * 		c: compilation with bug fixes
 	 */	
-	public static String MENTHOR_VERSION = "1.1.0 test";	
+	public static String MENTHOR_VERSION = "1.1.1";	
 	public static String MENTHOR_COMPILATION_DATE = Util.getCompilationDateMessage();	
 	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
 	

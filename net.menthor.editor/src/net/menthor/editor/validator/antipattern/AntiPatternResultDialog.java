@@ -297,7 +297,7 @@ public class AntiPatternResultDialog extends Dialog {
 				}
 				else {
 					feedBackLabel.setVisible(false);
-					feedBackLabel.setText("Anti-pattern Wizard Opened!");
+					feedBackLabel.setText("Anti-pattern Wizard Open!");
 					feedBackLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 					feedBackLabel.setVisible(true);
 					showWizard((AntipatternOccurrence) viewer.getElementAt(table.getSelectionIndex()));
@@ -462,7 +462,7 @@ public class AntiPatternResultDialog extends Dialog {
 	      public String getText(Object element) {
 	        String value = new Boolean(((AntipatternOccurrence) element).isFixed()).toString();
 	        if (value.equals("true")) return "Fixed";
-	        else return "Opened";
+	        else return "Open";
 	      }
 	      @Override
 	    	public Color getForeground(Object element) {

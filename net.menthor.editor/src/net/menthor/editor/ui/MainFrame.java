@@ -164,6 +164,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	public void selectConsole() { footerPane.getInfoManager().selectConsole(); }		
 	public void selectWarnings() { footerPane.getInfoManager().selectWarnings(); }	
 	public void selectProblems() { footerPane.getInfoManager().selectProblems(); }	
+	public void selectErrors() { footerPane.getInfoManager().selectErrors(); }
 	public void selectStatistic() { footerPane.getInfoManager().selectStatistic(); }
 	
 	public void forceShowBrowserPane(){

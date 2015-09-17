@@ -400,7 +400,7 @@ public class RelSpecOccurrence extends AntipatternOccurrence{
 	////////////////FIX OUTCOMES//////////////
 	
 
-	public void generateOCL(OperationType type){
+	public void generateDisjOCLRule(OperationType type){
 		
 		String invRule = "self.";
 		String invName = specific.getName()+"_";
@@ -470,45 +470,39 @@ public class RelSpecOccurrence extends AntipatternOccurrence{
 		}
 	}
 	
-	public void subsetRelations(){
-		generateOCL(OperationType.SUBSET);
+	public void subsetRelations(){		
 		fix.addAll(fixer.subsetProperty(generalTargetEnd, specificTargetEnd, SpecializationType.SUBSET, true));
 	}
 	
-	public void redefineRelations(){
-		generateOCL(OperationType.REDEFINE);
+	public void redefineRelations(){		
 		fix.addAll(fixer.subsetProperty(generalTargetEnd, specificTargetEnd, SpecializationType.REDEFINE, true));
 	}
 	
 	public void createSpecificSourceSubTypeAndRedefine(ClassStereotype stereotype)
 	{
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(specificSource, stereotype, specific));
-		setProperties(specific, general);
-		generateOCL(OperationType.REDEFINE);
+		setProperties(specific, general);		
 		fix.addAll(fixer.subsetProperty(generalTargetEnd, specificTargetEnd, SpecializationType.REDEFINE, true));
 	}
 	
 	public void createSpecificTargetSubTypeAndRedefine(ClassStereotype stereotype)
 	{
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(specificTarget, stereotype, specific));
-		setProperties(specific, general);
-		generateOCL(OperationType.REDEFINE);
+		setProperties(specific, general);		
 		fix.addAll(fixer.subsetProperty(generalSourceEnd, specificSourceEnd, SpecializationType.REDEFINE, true));
 	}
 	
 	public void createGeneralSourceSubTypeAndRedefine(ClassStereotype stereotype)
 	{
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(generalSource, stereotype, general));
-		setProperties(specific, general);
-		generateOCL(OperationType.REDEFINE);
+		setProperties(specific, general);		
 		fix.addAll(fixer.subsetProperty(specificTargetEnd, generalTargetEnd, SpecializationType.REDEFINE, true));
 	}
 	
 	public void createGeneralTargetSubTypeAndRedefine(ClassStereotype stereotype)
 	{
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(generalTarget, stereotype, general));
-		setProperties(specific, general);
-		generateOCL(OperationType.REDEFINE);
+		setProperties(specific, general);		
 		fix.addAll(fixer.subsetProperty(specificSourceEnd, generalSourceEnd, SpecializationType.REDEFINE, true));
 	}
 	
@@ -516,8 +510,7 @@ public class RelSpecOccurrence extends AntipatternOccurrence{
 	{
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(generalSource, sourceStereotype, general));
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(generalTarget, targetStereotype, general));
-		setProperties(specific, general);
-		generateOCL(OperationType.REDEFINE);
+		setProperties(specific, general);	
 		fix.addAll(fixer.subsetProperty(specificTargetEnd, generalTargetEnd, SpecializationType.REDEFINE, true));
 	}
 	
@@ -525,8 +518,7 @@ public class RelSpecOccurrence extends AntipatternOccurrence{
 	{
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(specificSource, sourceStereotype, general));
 		this.fix.addAll(fixer.createSubTypeAsInvolvingLink(specificTarget, targetStereotype, general));
-		setProperties(specific, general);
-		generateOCL(OperationType.REDEFINE);
+		setProperties(specific, general);		
 		fix.addAll(fixer.subsetProperty(generalTargetEnd, specificTargetEnd, SpecializationType.REDEFINE, true));
 	}
 	

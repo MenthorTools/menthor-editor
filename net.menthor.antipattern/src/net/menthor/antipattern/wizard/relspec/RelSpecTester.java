@@ -115,56 +115,56 @@ public class RelSpecTester {
 		}*/
 		if(var1.size()>0) {
 			System.out.println("VAR 1");
-			var1.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-			var1.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-			var1.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+			var1.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+			var1.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+			var1.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 			System.out.println(var1.get(0).getFix().getRulesString());
 		} 
 		
 		if(var2.size()>0) {
 			System.out.println("VAR 2");
-		var2.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-		var2.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-		var2.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+		var2.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+		var2.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+		var2.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 		System.out.println(var2.get(0).getFix().getRulesString());
 		}
 		
 		if(var3.size()>0) {
 			System.out.println("VAR 3");
-		var3.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-		var3.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-		var3.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+		var3.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+		var3.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+		var3.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 		System.out.println(var3.get(0).getFix().getRulesString());
 		}
 		
 		if(var4.size()>0) {
 			System.out.println("VAR 4");
-		var4.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-		var4.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-		var4.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+		var4.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+		var4.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+		var4.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 		System.out.println(var4.get(0).getFix().getRulesString());
 		}
 		
 		if(var5.size()>0) {
 			System.out.println("VAR 5");
-		var5.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-		var5.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-		var5.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+		var5.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+		var5.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+		var5.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 		System.out.println(var5.get(0).getFix().getRulesString());
 		}
 		
 		if(var6.size()>0) {
 			System.out.println("VAR 6");
-		var6.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-		var6.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-		var6.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+		var6.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+		var6.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+		var6.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 		}
 		
 		if(var7.size()>0) {
 			System.out.println("VAR 7");
-		var7.get(0).generateOCL(RelSpecOccurrence.OperationType.SUBSET);
-		var7.get(0).generateOCL(RelSpecOccurrence.OperationType.REDEFINE);
-		var7.get(0).generateOCL(RelSpecOccurrence.OperationType.DISJOINT);
+		var7.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.SUBSET);
+		var7.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.REDEFINE);
+		var7.get(0).generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);
 		}
 		WizardDialog wizardDialog = new WizardDialog(new Shell(SWT.ON_TOP),
 			    new RelSpecWizard(var1.get(5)));

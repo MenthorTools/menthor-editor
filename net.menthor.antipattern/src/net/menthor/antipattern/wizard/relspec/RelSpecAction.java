@@ -28,7 +28,7 @@ public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 		else if(code==Action.REDEFINE)
 			ap.redefineRelations();
 		else if(code==Action.DISJOINT)
-			ap.generateOCL(RelSpecOccurrence.OperationType.DISJOINT);		
+			ap.generateDisjOCLRule(RelSpecOccurrence.OperationType.DISJOINT);		
 		else if(code==Action.DELETE_GENERAL)
 			ap.deleteGeneral();
 		else if(code==Action.DELETE_SPECIFIC)		
@@ -99,9 +99,9 @@ public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 	public String toString(){
 		String result = new String();
 		if(code==Action.SUBSET)
-			result="Create OCL constraint: Subsetting";		
+			result="Set subsetting property";		
 		if(code==Action.REDEFINE)
-			result="Create OCL constraint: Redefinition";
+			result="Set redefining property";
 		if(code==Action.DISJOINT)
 			result="Create OCL constraint: Disjointness";		
 		if(code==Action.DELETE_GENERAL)
@@ -109,25 +109,19 @@ public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 		if(code==Action.DELETE_SPECIFIC)		
 			result="Delete Association: "+ap.getParser().getStringRepresentation(ap.getSpecific());
 		if(code==Action.SPEC_GENERAL_SOURCE_REDEFINE)		
-			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralSource())+
-				   "\nCreate OCL constraint: Redefinition";
+			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralSource());
 		if(code==Action.SPEC_GENERAL_TARGET_REDEFINE)
-			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralTarget())+
-				   "\nCreate OCL constraint: Redefinition";
+			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralTarget());
 		if(code==Action.SPEC_GENERAL_BOTH_REDEFINE)
 			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralSource())+
-				   "\nCreate Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralTarget())+
-			       "\nCreate OCL constraint: Redefinition";
+				   "\nCreate Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getGeneralTarget());
 		if(code==Action.SPEC_SPECIFIC_SOURCE_REDEFINE)
-			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificSource())+
-			   	   "\nCreate OCL constraint: Redefinition";
+			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificSource());
 		if(code==Action.SPEC_SPECIFIC_TARGET_REDEFINE)
-			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificTarget())+
-			       "\nCreate OCL constraint: Redefinition";
+			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificTarget());
 		if(code==Action.SPEC_SPECIFIC_BOTH_REDEFINE)
 			result="Create Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificSource())+
-			   	   "\nCreate Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificTarget())+
-		       	   "\nCreate OCL constraint: Redefinition";
+			   	   "\nCreate Class: Subtype of "+ap.getParser().getStringRepresentation(ap.getSpecificTarget());
 		return result; 
 	}
 }

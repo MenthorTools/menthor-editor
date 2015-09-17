@@ -257,7 +257,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		workingOnlyWithChecked();
 		OntoUMLParser refparser = Models.getRefparser();
-		generateSbvr((RefOntoUML.Model)refparser.createModelFromSelections(new Copier()));
+		generateSbvr((RefOntoUML.Model)refparser.getModel());
 	}
 		
 	public void generateInfoUML()
@@ -713,7 +713,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		
 		if(createDefaultRules){
-			newRulesDocument(oclContent);
+			newRulesDocument(oclContent,false);
 		}
 		
 		return currentProject;
@@ -740,7 +740,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			newDiagram(currentProject,null);
 		
 		for(String str: oclContent){
-			newRulesDocument(str);
+			newRulesDocument(str,false);
 		}
 		
 		return currentProject;
@@ -762,7 +762,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		frame.getProjectBrowser().set(currentProject, currentProject.getModel());
 		frame.getInfoManager().setProject(currentProject);
 		if(createDiagram) newDiagram(currentProject,null);
-		if(createRulesDocument) newRulesDocument(null);
+		if(createRulesDocument) newRulesDocument(null,false);
 	}
 	
 	/** Create a project */
@@ -877,24 +877,36 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	//====================================================
 	
 	/** Creates a new rules document on the current Project */
+	public OclDocument newRulesDocument(boolean createTab){
+		return newRulesDocument(null, createTab);		
+	}
+	
 	public OclDocument newRulesDocument(){
-		return newRulesDocument(null);		
+		return newRulesDocument(null, false);		
 	}
 	
 	/** Creates a new rules document on the current Project */
-	public OclDocument newRulesDocument(String oclcontent){
-		OclDocument oclDoc = newRulesDocumentAt(null);
-		oclDoc.setContentAsString(oclcontent);
+	public OclDocument newRulesDocument(String oclcontent, boolean createTab){
+		OclDocument oclDoc = newRulesDocumentAt(null,oclcontent, createTab);		
 		return oclDoc;
 	}
 	
-	/** Creates a new rules document with in existing Project */
+	public OclDocument newRulesDocumentAt(Object epackage, String oclContent){
+		return newRulesDocumentAt(epackage,oclContent,true);
+	}
+	
 	public OclDocument newRulesDocumentAt(Object epackage){
+		return newRulesDocumentAt(epackage,"",false);
+	}
+	
+	/** Creates a new rules document with in existing Project */
+	public OclDocument newRulesDocumentAt(Object epackage, String oclContent, boolean createTab){
 		OclDocument oclDoc = new OclDocument();		
 		oclDoc.setContainer(epackage);
+		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
 		oclDoc.setName("Rules"+Models.getOclDocList().size());
 		Models.getOclDocList().add(oclDoc);
-		createConstraintEditor(oclDoc);		
+		if(createTab)createConstraintEditor(oclDoc);		
 		//add the rules document from the browser
 		ProjectBrowser browser = frame.getProjectBrowser();
 		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
@@ -1185,7 +1197,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				JRootPane root = frame.getRootPane( );
 				root.putClientProperty( "Window.documentFile", file );
 				setCurrentProjectFile(file);
-				createEmptyCurrentProject();				
+				createEmptyCurrentProject(false,true);				
 				saveCurrentProjectToFile(file);
 				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
 				frame.forceShowBrowserPane();
@@ -1298,9 +1310,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				createCurrentProject(model, (List<String>) l.get(1));
 			}
 			else if(l.size()>1 && l.get(1) instanceof String){
-				createCurrentProject(model, (String) l.get(1));
+				createCurrentProject(model, (String) l.get(1), true, true);
 			} else{
-				createCurrentProject(model, "");
+				createCurrentProject(model, "",true,true);
 			}
 			getFrame().forceShowBrowserPane();
 			getFrame().forceShowPalettePane();
@@ -1315,7 +1327,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(int i=1; i<listFiles.size();i++){																
 			OclDocument oclDoc = (OclDocument)listFiles.get(i);										
 			ocllist.add(oclDoc);
-		}		
+		}
 		Object o = listFiles.get(0);
 		if(o instanceof UmlProject){
 			currentProject = (UmlProject)o;			
@@ -2236,13 +2248,26 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if(currentProject!=null)
 		{
-			ArrayList<ProblemElement> problems = verifyProblems();
+			ArrayList<ProblemElement> errors = verifyProblems();
 			ArrayList<ProblemElement> warnings = verifyWarnings();
 			
 			showBottomView();
 			
-			if(problems.size()>0) frame.selectProblems();
-			if(warnings.size()>0) frame.selectWarnings();
+			if(errors.size()>0 && warnings.size()>0) {
+				frame.selectErrors();
+				frame.showErrorMessageDialog("Problem", "Model verified with errors.\n"+errors.size()+" problem(s) and "+warnings.size()+" warning(s) found.");				
+			}
+			else if(errors.size()>0 && warnings.size()==0) {
+				frame.selectErrors();
+				frame.showErrorMessageDialog("Problem", "Model verified with errors.\n"+errors.size()+" problem(s) found.");				
+			}
+			else if(errors.size()==0 && warnings.size()>0) {
+				frame.selectWarnings();
+				frame.showErrorMessageDialog("Warning", "Model verified with warnings.\n"+warnings.size()+" warning(s) found.");				
+			}
+			else {
+				frame.showSuccessfulMessageDialog("Success", "Model is syntactically correct");
+			}			
 		}
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}

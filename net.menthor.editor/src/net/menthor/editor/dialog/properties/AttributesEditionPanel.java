@@ -374,8 +374,10 @@ public class AttributesEditionPanel extends JPanel {
 		deleteAttributes(classAttributes);
 		transferAddedAttributes(classAttributes);
 		
-		classElement.reinitAttributesCompartment();
-		classElement.invalidate();
+		if(classElement!=null){
+			classElement.reinitAttributesCompartment();
+			classElement.invalidate();
+		}
 	}
 	
 	private void deleteAttributes(List<Property> classAttributes )

@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -428,6 +429,7 @@ public class PropertyEditionPanel extends JPanel {
 		OntoUMLParser refparser = Models.getRefparser();							    	
 		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
 		types.addAll(refparser.getAllInstances(RefOntoUML.Type.class));
+		Collections.sort(types);
     	typeCombo.setModel(new DefaultComboBoxModel(types.toArray()));
     	typeCombo.setSelectedItem(value);    	
 	}
