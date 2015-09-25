@@ -174,11 +174,11 @@ public class OwlFactoryUtil {
 	/**
 	 * Return a OWL Classs for the ontCls
 	 * */
-	private OWLClass getOwlClass(String iri, String className){
-		return factory.getOWLClass(IRI.create(iri+className));
-	}	
 	private OWLNamedIndividual getOwlNamedIndividual(String iri, String className){
 		return factory.getOWLNamedIndividual(IRI.create(iri+className));
+	}	
+	private OWLClass getOwlClass(String iri, String className){
+		return factory.getOWLClass(IRI.create(iri+className));
 	}	
 	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
 		return getOwlClass(owlNameSpace, ontCls);
@@ -434,7 +434,11 @@ public class OwlFactoryUtil {
 				Iterator<OWLClassExpression> i = lstSubClassOfExpression.iterator();
 				while(i.hasNext()) {
 					OWLClassExpression ax = i.next();
-					createSubClassOf(ax.asOWLClass(), currentClass);
+					try{
+						createSubClassOf(ax.asOWLClass(), currentClass);
+					}catch(Exception e){
+						
+					}
 				}
 			}
 		}
@@ -569,6 +573,9 @@ public class OwlFactoryUtil {
 		
 		tipoAtributo = getDataTypeRange(prop, null);
 		atributo = factory.getOWLDataProperty(IRI.create(_attributeName));
+		if(atributo.toString().contains("Hora_Completa")){
+			System.out.println();
+		}
 		OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(atributo);
 		manager.addAxiom(ontology, declarationAxiom);
 		
@@ -1019,7 +1026,7 @@ public class OwlFactoryUtil {
 		OWLDataProperty dataProperty = null;
 		
 		String _attributeName = mappingProperties.getMappedElement(datatype).getGeneratedName();
-		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
+		dataProperty = factory.getOWLDataProperty(IRI.create(owlNameSpace+_attributeName));
 		
 		createLabel(datatype);
 		
