@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-
+import RefOntoUML.parser.OntoUMLParser;
 import stories.Action;
 import stories.Node;
 import stories.Classification_statement;
@@ -278,10 +278,10 @@ public class NodeImpl extends IndividualImpl implements Node {
 		return super.eIsSet(featureID);
 	}
 	
-	public String static_classification(){
+	public String static_classification(OntoUMLParser modelParser){
 		String rule = "";
 		for(RefOntoUML.Class c : this.getInstance_of()){
-			rule = rule + '\t'+ this.getLabel() + " in World." +c.getName()+'\n';
+			rule = rule + '\t'+ this.getLabel() + " in World." +modelParser.getAlias(c)+'\n';
 		}
 		return  rule;
 	}

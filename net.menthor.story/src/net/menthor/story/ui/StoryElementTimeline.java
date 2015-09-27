@@ -104,7 +104,9 @@ public class StoryElementTimeline {
 			public void widgetSelected(SelectionEvent arg0) {
 				TextTransfer textTransfer = TextTransfer.getInstance();
 				//
-				String story = getStory().generatePredicates();
+				
+				String story = getStory().generatePredicates(modelParser,world_sequence);
+				
 				clipboard.setContents(new Object[]{story},  new Transfer[]{textTransfer});
 			}
 		});

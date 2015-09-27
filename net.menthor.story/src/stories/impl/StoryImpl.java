@@ -18,12 +18,17 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EcoreUtil.ExternalCrossReferencer;
+
+import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.story.OntoUMLStoryCrafter;
+import net.menthor.story.WorldList;
 import stories.Link;
 import stories.Node;
 import stories.StoriesFactory;
 import stories.StoriesPackage;
 import stories.Story;
 import stories.Story_element;
+import stories.World;
 
 /**
  * <!-- begin-user-doc -->
@@ -247,16 +252,16 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 	 * <!-- end-user-doc -->
 	 * 
 	 */
-	public String generatePredicates(){
+	public String generatePredicates(OntoUMLParser modelParser, WorldList world_sequence){
 		//OntoUMLNameHandler n = new OntoUMLNameHandler();
-		
+		String aux_predicates = OntoUMLStoryCrafter.getAuxPredicates(modelParser);
 		String predicate = this.predicateHead();
 		for(Story_element se : this.getElements()){
 				//predicate = predicate + '\t'+ this.getLabel() + " in World." +c.getName()+'\n';
 			//if("Individual".equals(se.eClass().getName())){
 				//((Individual)se).;
 			if("Node".equals(se.eClass().getName())){
-				predicate = predicate+((Node)se).static_classification();
+				predicate = predicate+((Node)se).static_classification(modelParser);
 				predicate = predicate+((Node)se).existance();
 				predicate = predicate+((Node)se).identity();
 				predicate = predicate+((Node)se).is_referred_to_in();
@@ -267,7 +272,17 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 			}
 			//}
 		}
-		return predicate+"}";
+		String world_order = new String(); 
+		World prev_w = null;
+		for(World w : world_sequence){
+			if(prev_w==null){
+				world_order+="\t"+w.getLabel()+" in CurrentWorld\n";
+			}else{
+				world_order+="\t"+prev_w.getLabel()+".next = "+w.getLabel()+'\n';
+			}
+			prev_w = w;
+		}
+		return aux_predicates+predicate+world_order+"}";
 	}
 	
 	public Story mergeReferences(){

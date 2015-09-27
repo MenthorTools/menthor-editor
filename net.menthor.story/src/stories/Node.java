@@ -4,6 +4,7 @@ package stories;
 
 import org.eclipse.emf.common.util.EList;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.story.ui.StoryElementTimeline;
 
 /**
@@ -94,7 +95,7 @@ public interface Node extends Individual {
 	 */
 	EList<RefOntoUML.Class> getNot_instance_of();
 
-	public String static_classification();
+	public String static_classification(OntoUMLParser modelParser);
 
 	public String existance();
 

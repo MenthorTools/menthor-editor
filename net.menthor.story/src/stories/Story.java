@@ -5,6 +5,9 @@ package stories;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.story.WorldList;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Story</b></em>'.
@@ -66,7 +69,7 @@ public interface Story extends EObject {
 	 */
 	void setLabel(String value);
 	
-	public String generatePredicates();
+	public String generatePredicates(OntoUMLParser modelParser, WorldList world_sequence);
 	
 	public Story mergeReferences();
 
