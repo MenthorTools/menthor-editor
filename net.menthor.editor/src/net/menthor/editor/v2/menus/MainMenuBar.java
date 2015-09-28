@@ -27,11 +27,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
-
-import com.apple.eawt.Application;
-
-import net.menthor.editor.OSXMenu.MenthorEditorAboutHandler;
-import net.menthor.editor.OSXMenu.MenthorEditorQuitHandler;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;
@@ -147,7 +142,19 @@ public class MainMenuBar extends BaseMenuBar {
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
 		if(Util.onMac()){
-//			Application.getApplication().setQuitHandler(new MenthorEditorQuitHandler());
+			/*
+			 Application.getApplication().setQuitHandler(new QuitHandler(){
+				@Override
+				public void handleQuitRequestWith(QuitEvent arg0, QuitResponse resp) {
+					Object o = listener.handleCommand(CommandType.QUIT_MENTHOR.toString());
+					if(o instanceof Boolean){
+						if((Boolean)o){
+							resp.cancelQuit();
+						}
+					}
+				}
+			});
+			 */
 		}else{
 			createMenuItem(file, "Quit", CommandType.QUIT_MENTHOR, background,stroke);
 		}
@@ -265,7 +272,14 @@ public class MainMenuBar extends BaseMenuBar {
 		help = new JMenu("Help");
 		add(help);
 		if(Util.onMac()){
-//			Application.getApplication().setAboutHandler(new MenthorEditorAboutHandler());
+			/*
+			Application.getApplication().setAboutHandler(new AboutHandler(){
+				@Override
+				public void handleAbout(AboutEvent arg0) {
+					listener.handleCommand(CommandType.ABOUT.toString());
+				}		
+			});
+			*/
 		}else{
 			createMenuItem(help, "About", CommandType.ABOUT, background);
 		}	
