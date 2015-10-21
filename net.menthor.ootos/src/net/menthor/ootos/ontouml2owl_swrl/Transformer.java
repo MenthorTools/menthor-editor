@@ -8,15 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.menthor.common.settings.owl.OWL2Axiom;
-import net.menthor.common.settings.owl.OWL2GeneralizationSet;
-import net.menthor.common.settings.owl.OWL2Quality;
-import net.menthor.common.settings.owl.OwlAxioms;
-import net.menthor.common.settings.owl.OwlMappings;
-import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
-import net.menthor.ootos.util.MappingElements;
-
 import org.eclipse.emf.common.util.EList;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
@@ -36,6 +27,14 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.common.settings.owl.OWL2Axiom;
+import net.menthor.common.settings.owl.OWL2GeneralizationSet;
+import net.menthor.common.settings.owl.OWL2Quality;
+import net.menthor.common.settings.owl.OwlAxioms;
+import net.menthor.common.settings.owl.OwlMappings;
+import net.menthor.common.settings.owl.OwlOptions;
+import net.menthor.ootos.ocl2owl_swrl.OCL2OWL_SWRL;
+import net.menthor.ootos.util.MappingElements;
 
 public class Transformer {
 	/**
@@ -468,8 +467,7 @@ public class Transformer {
 						datatype = tgtT2;
 						dtTpSide = 1;
 					}
-					
-					
+										
 					owlFactoryUtil.createDataPropertyDomain(datatype, qua, cls);
 					owlFactoryUtil.createDataPropertyRange(datatype, qua, cls, assocToDataType.getMemberEnd().get(dtTpSide));
 					
@@ -478,7 +476,7 @@ public class Transformer {
 					int upperCard = assocToDataType.getMemberEnd().get(dtTpSide).getUpper();
 					
 					//create the dataproperty and its cardinality
-					owlFactoryUtil.createCardinality(datatype, qua, cls, lowerCard, upperCard);
+					owlFactoryUtil.createCardinality(datatype, assocToDataType.getMemberEnd().get(dtTpSide), qua, cls, lowerCard, upperCard);
 				}
 			}
 		}
