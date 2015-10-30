@@ -434,7 +434,9 @@ public class OwlFactoryUtil {
 				Iterator<OWLClassExpression> i = lstSubClassOfExpression.iterator();
 				while(i.hasNext()) {
 					OWLClassExpression ax = i.next();
-					createSubClassOf(ax.asOWLClass(), currentClass);
+					if(!ax.isAnonymous()){					
+						createSubClassOf(ax.asOWLClass(), currentClass);
+					}
 				}
 			}
 		}
