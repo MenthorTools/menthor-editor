@@ -78,13 +78,12 @@ public class DomainPatternTool {
 
 	//Falta pegar os GeneralizationSets	
 	public static void exportModelAsPattern(UmlProject currentProject) {
-//		for(UmlDiagram umlDiagram: currentProject.getDiagrams()){
+//		for(OntoumlDiagram umlDiagram: currentProject.getDiagrams()){
 //			StructureDiagram diagram =  (StructureDiagram)umlDiagram;
 //			System.out.println(diagram.getName()+"{ ");
 //			for (DiagramElement dm : diagram.getChildren()) {
 //				System.out.println(dm.getClass().toString()+" - "+dm.toString());
 //			}
-//
 //			System.out.println("}");
 //		}
 	}
