@@ -192,8 +192,9 @@ public class LineHandler implements EditorMode {
 	  {
 		  //invert sides if characterization is pushed from a UmlNode that is not a Mode. It should be from a Mode.
 		  if( ((relationship instanceof RefOntoUML.Characterization) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
-		      ((relationship instanceof RefOntoUML.Mediation) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
-		      ((relationship instanceof RefOntoUML.Structuration) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))
+			  ((relationship instanceof RefOntoUML.Characterization) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Quality)) ||
+			  ((relationship instanceof RefOntoUML.Mediation) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
+		      ((relationship instanceof RefOntoUML.Structuration) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))		      
 		  ){
 			  conn = editor.getDiagramManager().getElementFactory().createConnection(relationship, (UmlNode) target, (UmlNode) source);
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) target, (UmlNode)source, anchor, tmpPos);
@@ -236,7 +237,8 @@ public class LineHandler implements EditorMode {
 	  {
 		  //invert sides if characterization is pushed from a UmlNode that is not a Mode. It should be from a Mode.
 		  if( (relationType == RelationshipType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
-		      (relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
+			  (relationType == RelationshipType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Quality)) ||
+			  (relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
 		      (relationType == RelationshipType.STRUCTURATION && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))
 		  ){
 			  conn = editor.getDiagramManager().getElementFactory().createConnection(relationType, (UmlNode) target, (UmlNode) source);
@@ -297,7 +299,8 @@ public class LineHandler implements EditorMode {
 	    {
 		    //invert sides if characterization, mediations and structurations are pushed from the wrong side.
 		    if( (relationType == RelationshipType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
-		        (relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
+		    	(relationType == RelationshipType.CHARACTERIZATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Quality)) ||
+	    		(relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
 		        (relationType == RelationshipType.STRUCTURATION && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))
 		    ){				  
 		    	aSource =  (Classifier) ((UmlNode)target).getClassifier(); 
