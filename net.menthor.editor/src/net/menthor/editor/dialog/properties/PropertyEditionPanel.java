@@ -52,6 +52,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
+import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.DiagramManager;
@@ -378,7 +379,7 @@ public class PropertyEditionPanel extends JPanel {
 		cbxUnique.setSelected(property.isIsUnique());
 		aggregCombo.setSelectedItem(property.getAggregation().getName());
 		
-		if (ownerElement instanceof Mediation || ownerElement instanceof Characterization){
+		if (ownerElement instanceof Mediation || ownerElement instanceof Characterization || ownerElement instanceof Structuration){
 			if (property.equals(((Association)ownerElement).getMemberEnd().get(0))) cbxReadOnly.setEnabled(true);
 			else cbxReadOnly.setEnabled(false);
 		}		

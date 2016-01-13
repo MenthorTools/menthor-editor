@@ -58,6 +58,7 @@ import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.impl.MaterialAssociationImpl;
 import RefOntoUML.impl.MediationImpl;
 import RefOntoUML.impl.MeronymicImpl;
+import RefOntoUML.impl.StructurationImpl;
 
 public class RefOntoUMLFactoryUtil {
 
@@ -878,7 +879,8 @@ public class RefOntoUMLFactoryUtil {
 			if(association instanceof DirectedBinaryAssociationImpl || association instanceof FormalAssociationImpl || association instanceof MaterialAssociationImpl){
 				associationCloned.getNavigableOwnedEnd().add(p1Cloned);
 				associationCloned.getNavigableOwnedEnd().add(p2Cloned);	    			
-				if(association instanceof MediationImpl || association instanceof CharacterizationImpl || association instanceof DerivationImpl) p2Cloned.setIsReadOnly(true);
+				if(association instanceof MediationImpl || association instanceof CharacterizationImpl || 
+				association instanceof DerivationImpl || association instanceof StructurationImpl) p2Cloned.setIsReadOnly(true);
 			} else {
 				if(p1Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p1Cloned);	    		
 				if(p2Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p2Cloned);

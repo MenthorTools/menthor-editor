@@ -395,12 +395,12 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
     createPropertiesByDefault(derivation); 
 
     Structuration structuration = (RefOntoUML.Structuration)createRelationship(RelationshipType.STRUCTURATION);
+    createPropertiesByDefault(structuration);
     AssociationElement structurationElement = (AssociationElement) AssociationElement.getPrototype().clone();
     structurationElement.setRelationship(structuration);
     structurationElement.setShowOntoUmlStereotype(true);
     structurationElement.setAssociationType(RelationshipType.STRUCTURATION);
-    relationPrototypes.put(RelationshipType.STRUCTURATION, structurationElement);     
-    createPropertiesByDefault(structuration); 
+    relationPrototypes.put(RelationshipType.STRUCTURATION, structurationElement);
     
     Association datatyperelationship = (RefOntoUML.Association)createRelationship(RelationshipType.ASSOCIATION);
     AssociationElement datatyperelationshipElement = (AssociationElement) AssociationElement.getPrototype().clone();

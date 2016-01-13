@@ -251,15 +251,15 @@ public class ValidationMessage
 		//===============================================
 		else if (constraintid.compareTo("StructurationConstraint1") == 0)
 		{
-			description = "A The source must be a ReferenceStructure";
+			description = "The source type must be a Domain or a Dimension";
 		}
 		else if (constraintid.compareTo("StructurationConstraint2") == 0)
 		{
-			description = "The structured end cardinality is exactly one";
+			description = "The structured end cardinality should be exactly 1";
 		}
 		else if (constraintid.compareTo("StructurationConstraint3") == 0)
 		{
-			description = "The target must be a Quality";
+			description = "The target type must be a Quality";
 		}
 		else if (constraintid.compareTo("OrdinalEnumerationConstraint1") == 0)
 		{
