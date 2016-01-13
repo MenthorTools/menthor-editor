@@ -69,7 +69,7 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.BaseEditor;
-import net.menthor.editor.v2.menus.PalettePopupMenu;
+import net.menthor.editor.v2.menu.PalettePopupMenu;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;

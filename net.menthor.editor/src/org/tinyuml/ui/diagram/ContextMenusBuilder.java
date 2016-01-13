@@ -8,9 +8,9 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.v2.menus.draw.ConnectionPopupMenu;
-import net.menthor.editor.v2.menus.draw.MultiElementPopupMenu;
-import net.menthor.editor.v2.menus.draw.NodePopupMenu;
+import net.menthor.editor.v2.menu.draw.ConnectionPopupMenu;
+import net.menthor.editor.v2.menu.draw.MultiElementPopupMenu;
+import net.menthor.editor.v2.menu.draw.NodePopupMenu;
 
 /**
  * This class creates context menus, depending on the specified parameters.

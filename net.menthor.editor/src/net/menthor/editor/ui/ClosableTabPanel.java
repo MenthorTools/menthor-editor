@@ -57,7 +57,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.menus.TabPopupMenu;
+import net.menthor.editor.v2.menu.TabPopupMenu;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 

@@ -34,7 +34,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.toolbars.ProjectToolBar;
+import net.menthor.editor.v2.toolbar.ProjectToolBar;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.trees.TreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;

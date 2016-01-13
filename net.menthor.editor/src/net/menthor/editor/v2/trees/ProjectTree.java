@@ -44,7 +44,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.menus.TreePopupMenu;
+import net.menthor.editor.v2.menu.TreePopupMenu;
 import net.menthor.editor.v2.util.Util;
 
 import org.eclipse.emf.common.util.EList;

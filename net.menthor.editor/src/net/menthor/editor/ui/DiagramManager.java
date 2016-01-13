@@ -153,7 +153,7 @@ import net.menthor.editor.v2.dialogs.EASettingsDialog;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.menus.MainMenuBar;
+import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
