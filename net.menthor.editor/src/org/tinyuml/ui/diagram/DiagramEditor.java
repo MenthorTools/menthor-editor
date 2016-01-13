@@ -129,6 +129,7 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -1667,7 +1668,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			 JOptionPane.PLAIN_MESSAGE,
 			 null,
 			 null,
-			 "0..2"
+			 RefOntoUMLFactoryUtil.getMultiplicityAsString(endpoint)
 		);
 		 if(multiplicity!=null){
 			 try{
