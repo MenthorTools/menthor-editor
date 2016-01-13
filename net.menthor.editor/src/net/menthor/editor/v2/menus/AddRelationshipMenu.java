@@ -41,18 +41,18 @@ public class AddRelationshipMenu extends BaseMenu {
 	}
 	
 	public void build(){
-		createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GEN_WHITE, CommandType.ADD_GENERALIZATION);
-		createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_LINE, CommandType.ADD_CHARACTERIZATION);
-		createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_LINE, CommandType.ADD_MEDIATION);
-		createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_LINE, CommandType.ADD_FORMAL);
-		createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_LINE, CommandType.ADD_MATERIAL);
+		createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.ADD_GENERALIZATION);
+		createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_CHARACTERIZATION);
+		createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_MEDIATION);
+		createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_FORMAL);
+		createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_MATERIAL);
 		createMenuItem(RelationshipType.DERIVATION.getName(), IconType.MENTHOR_DERIVATION, CommandType.ADD_DERIVATION);
-		createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_PARTHOOD_BLACK, CommandType.ADD_COMPONENTOF);
-		createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_PARTHOOD_M, CommandType.ADD_MEMBEROF);
-		createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_PARTHOOD_C, CommandType.ADD_SUBCOLLECTIONOF);
-		createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_PARTHOOD_Q, CommandType.ADD_SUBQUANTITYOF);
-		createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_LINE, CommandType.ADD_STRUCTURATION);
-		createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_LINE, CommandType.ADD_ASSOCIATION);
+		createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_COMPONENTOF, CommandType.ADD_COMPONENTOF);
+		createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_MEMBEROF, CommandType.ADD_MEMBEROF);
+		createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.ADD_SUBCOLLECTIONOF);
+		createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.ADD_SUBQUANTITYOF);
+		createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_STRUCTURATION);
+		createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_ASSOCIATION);
 		sort();
 	}
 }

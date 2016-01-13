@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -41,8 +40,6 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-
-import java.awt.Image;
 
 public class BaseToolBar extends JToolBar implements ActionListener {
 
@@ -56,49 +53,29 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 	public JButton getButton(CommandType cmdType) { return jbuttonMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JButton btn: jbuttonMap.values()) { btn.setEnabled(value); } }
 	
-	protected int iconHeight=16;
-	protected int iconWidth=16;
-	
 	/** constructor */
-	public BaseToolBar(Color backgroundColor, int btnHeight, int btnWidth){		
+	public BaseToolBar(Color backgroundColor){		
 		setBackground(backgroundColor);
-		this.iconHeight=btnHeight;
-		this.iconWidth=btnWidth;
 		setRollover(true);
 		setMinimumSize(new Dimension(0,0));
 		setMargin(new Insets(5,5,5,5));
 	}
 	
 	/** constructor */
-	public BaseToolBar(CommandListener listener, Color backgroundColor, int btnHeight, int btnWidth){		
-		addCommandListener(listener);
-		setBackground(backgroundColor);
-		this.iconHeight=btnHeight;
-		this.iconWidth=btnWidth;
-		setRollover(true);
-		setMargin(new Insets(5,5,5,5));
-	}
-	
-	/** constructor */
-	public BaseToolBar(CommandListener listener,int btnHeight, int btnWidth){		
-		addCommandListener(listener);
-		this.iconHeight=btnHeight;
-		this.iconWidth=btnWidth;
-		setRollover(true);
-		setMargin(new Insets(5,5,5,5));
-	}
-	
-	
-	/** constructor */
-	public BaseToolBar(Color backgroundColor){		
-		setBackground(backgroundColor);
-	}
-	
 	public BaseToolBar(CommandListener listener, Color backgroundColor){		
-		setBackground(backgroundColor);
 		addCommandListener(listener);
+		setBackground(backgroundColor);
+		setRollover(true);
+		setMargin(new Insets(5,5,5,5));
 	}
 	
+	/** constructor */
+	public BaseToolBar(CommandListener listener){		
+		addCommandListener(listener);
+		setRollover(true);
+		setMargin(new Insets(5,5,5,5));
+	}
+		
 	/** handle commands */
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : listeners) {
@@ -120,11 +97,8 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 	}
 	
 	/** create toolbar button */
-	protected JButton createButton(String name, Icon icon, CommandType command){
-		Image img = ((ImageIcon)icon).getImage();  
-		Image newimg = img.getScaledInstance(iconWidth, iconWidth, java.awt.Image.SCALE_SMOOTH);  
-		Icon newIcon = new ImageIcon(newimg);
-		JButton button = new JButton(newIcon);
+	protected JButton createButton(String name, Icon icon, CommandType command){		
+		JButton button = new JButton(icon);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 	    button.setHorizontalTextPosition(SwingConstants.CENTER);
 		if(name!=null) {

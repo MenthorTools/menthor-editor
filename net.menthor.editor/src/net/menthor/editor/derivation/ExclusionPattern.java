@@ -47,6 +47,8 @@ import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 
 /**
@@ -106,7 +108,7 @@ public class ExclusionPattern extends JDialog {
 		setBackground(Color.WHITE);
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Derivation by Exclusion");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ExclusionPattern.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 
 		dman = dm;
 		getContentPane().setLayout(new BorderLayout());

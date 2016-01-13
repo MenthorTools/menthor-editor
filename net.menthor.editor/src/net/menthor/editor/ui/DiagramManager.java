@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -57,6 +56,62 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.provider.IDisposable;
+import org.eclipse.jface.window.Window;
+import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.SemanticException;
+import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContextImpl;
+import org.tinyuml.draw.LineStyle;
+import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.EditorMouseEvent;
+import org.tinyuml.ui.diagram.EditorStateListener;
+import org.tinyuml.ui.diagram.SelectionListener;
+import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
+import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
+import org.tinyuml.ui.diagram.commands.AddNodeCommand;
+import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
+import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
+import org.tinyuml.ui.diagram.commands.DiagramNotification;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
+import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
+import org.tinyuml.umldraw.shared.UmlConnection;
+
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
+import RefOntoUML.Comment;
+import RefOntoUML.Constraintx;
+import RefOntoUML.Derivation;
+import RefOntoUML.EnumerationLiteral;
+import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.LiteralInteger;
+import RefOntoUML.LiteralUnlimitedNatural;
+import RefOntoUML.MaterialAssociation;
+import RefOntoUML.NamedElement;
+import RefOntoUML.Property;
+import RefOntoUML.Relationship;
+import RefOntoUML.StringExpression;
+import RefOntoUML.Type;
+import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.parser.SyntacticVerificator;
+import RefOntoUML.util.RefOntoUMLElementCustom;
+import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
@@ -128,63 +183,6 @@ import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.edit.provider.IDisposable;
-import org.eclipse.jface.window.Window;
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.SemanticException;
-import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.draw.DrawingContext;
-import org.tinyuml.draw.DrawingContextImpl;
-import org.tinyuml.draw.LineStyle;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.EditorMouseEvent;
-import org.tinyuml.ui.diagram.EditorStateListener;
-import org.tinyuml.ui.diagram.SelectionListener;
-import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
-import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
-import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.DiagramNotification;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
-import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
-import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
-import org.tinyuml.umldraw.StructureDiagram;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
-import org.tinyuml.umldraw.shared.UmlConnection;
-
-import RefOntoUML.Association;
-import RefOntoUML.Classifier;
-import RefOntoUML.Comment;
-import RefOntoUML.Constraintx;
-import RefOntoUML.Derivation;
-import RefOntoUML.EnumerationLiteral;
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.LiteralInteger;
-import RefOntoUML.LiteralUnlimitedNatural;
-import RefOntoUML.MaterialAssociation;
-import RefOntoUML.NamedElement;
-import RefOntoUML.Property;
-import RefOntoUML.Relationship;
-import RefOntoUML.StringExpression;
-import RefOntoUML.Type;
-import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.parser.SyntacticVerificator;
-import RefOntoUML.util.RefOntoUMLElementCustom;
-import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import RefOntoUML.util.RefOntoUMLResourceUtil;
 
 /**
  * Class responsible for managing and organizing the editors in tabs.
@@ -578,7 +576,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		pane.addTab(text, component);		
 		if(component instanceof DiagramWrapper){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -586,7 +584,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof ConstraintEditor){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -594,7 +592,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof TextEditor){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DOC);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -602,7 +600,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof FoundPane){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SEARCH);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_SEARCH);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -610,7 +608,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 		if(component instanceof ProblemPane){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ERROR);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -618,7 +616,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof StatisticsPane){
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_STATS);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_STATS);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -626,7 +624,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 		if(component instanceof WarningPane) {
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_WARNING);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_WARNING);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -634,7 +632,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		if(component instanceof ErrorPane) {
 			ClosableTabPanel tab = new ClosableTabPanel(pane,false,frame);
-			Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ERROR);
+			Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR);
 			tab.getLabel().setIcon(icon);
 			tab.getLabel().setIconTextGap(5);
 			tab.getLabel().setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -649,13 +647,41 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	{
 		if (component==null) component = new JPanel();
 		pane.addTab(text, component);
-		if(component instanceof ProblemPane) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/spellcheck.png")));		
-		if(component instanceof StatisticsPane) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/diagnostic.png")));
-		if(component instanceof FoundPane) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/find.png")));
-		if(component instanceof ConstraintEditor) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/text-editor.png")));
-		if(component instanceof DiagramWrapper) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/diagram.png")));
-		if(component instanceof WarningPane) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/exclamation_octagon_fram.png")));
-		if(component instanceof ErrorPane) pane.setIconAt(pane.indexOfComponent(component),new ImageIcon(pane.getClass().getResource("/resources/icons/x16/cross_octagon.png")));
+		if(component instanceof ProblemPane) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_CHECK)
+			);		
+		}
+		if(component instanceof StatisticsPane) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_STATS)
+			);
+		}
+		if(component instanceof FoundPane) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_SEARCH)
+			);
+		}
+		if(component instanceof ConstraintEditor) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC)
+			);
+		}
+		if(component instanceof DiagramWrapper) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM)
+			);
+		}
+		if(component instanceof WarningPane) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_WARNING)
+			);
+		}
+		if(component instanceof ErrorPane) {
+			pane.setIconAt(pane.indexOfComponent(component),
+			IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR)
+			);
+		}
 		//setTabComponentAt(indexOfComponent(component),null);
 		pane.setSelectedComponent(component);
 		return component;

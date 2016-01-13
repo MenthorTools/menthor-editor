@@ -73,23 +73,23 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 	{
 		Object obj = ((DefaultMutableTreeNode)value).getUserObject();
 	
-		if(obj instanceof RefOntoUML.Class) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS));
-		else if(obj instanceof RefOntoUML.PrimitiveType) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS));
-		else if(obj instanceof RefOntoUML.Enumeration) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS));
-		else if(obj instanceof RefOntoUML.DataType) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_CLASS));
-		else if(obj instanceof RefOntoUML.componentOf) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_BLACK));
-		else if(obj instanceof RefOntoUML.memberOf) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_M));
-		else if(obj instanceof RefOntoUML.subCollectionOf) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_C));
-		else if(obj instanceof RefOntoUML.subQuantityOf) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_PARTHOOD_Q));
-		else if(obj instanceof RefOntoUML.Derivation) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DERIVATION));
-		else if(obj instanceof RefOntoUML.Association) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_LINE));
-		else if(obj instanceof RefOntoUML.Generalization) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_GEN_WHITE));
-		else if(obj instanceof RefOntoUML.GeneralizationSet) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_GEN_SET));
-		else if(obj instanceof RefOntoUML.Package) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_RED_BOX));
-		else if(obj instanceof RefOntoUML.Comment) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_COMMENT));
-		else if(obj instanceof RefOntoUML.Constraintx) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_NOTE));			
-		else if(obj instanceof OntoumlDiagram) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM));		
-		else if(obj instanceof OclDocument) label.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL));
+		if(obj instanceof RefOntoUML.Class) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_CLASS));
+		else if(obj instanceof RefOntoUML.PrimitiveType) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_CLASS));
+		else if(obj instanceof RefOntoUML.Enumeration) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_CLASS));
+		else if(obj instanceof RefOntoUML.DataType) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_CLASS));
+		else if(obj instanceof RefOntoUML.componentOf) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_COMPONENTOF));
+		else if(obj instanceof RefOntoUML.memberOf) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_MEMBEROF));
+		else if(obj instanceof RefOntoUML.subCollectionOf) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SUBCOLLECTIONOF));
+		else if(obj instanceof RefOntoUML.subQuantityOf) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SUBQUANTITYOF));
+		else if(obj instanceof RefOntoUML.Derivation) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DERIVATION));
+		else if(obj instanceof RefOntoUML.Association) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ASSOCIATION));
+		else if(obj instanceof RefOntoUML.Generalization) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_GENERALIZATION));
+		else if(obj instanceof RefOntoUML.GeneralizationSet) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_GENERALIZATIONSET));
+		else if(obj instanceof RefOntoUML.Package) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_PACKAGE));
+		else if(obj instanceof RefOntoUML.Comment) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_COMMENT));
+		else if(obj instanceof RefOntoUML.Constraintx) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_NOTE));			
+		else if(obj instanceof OntoumlDiagram) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM));		
+		else if(obj instanceof OclDocument) label.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC));
 		else label.setIcon(null);
 		
 		label.setText(value.toString());		

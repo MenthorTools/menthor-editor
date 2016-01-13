@@ -41,6 +41,9 @@ import javax.swing.border.EmptyBorder;
 
 import org.tinyuml.umldraw.ClassElement;
 
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
+
 public class PastSpecializationDiagram extends JDialog {
 
 	/**
@@ -64,7 +67,7 @@ public class PastSpecializationDiagram extends JDialog {
 	@SuppressWarnings({ "rawtypes", "unchecked", "static-access" })
 	public PastSpecializationDiagram(ClassElement ce) {
 		this.ce= ce;
-		setIconImage(Toolkit.getDefaultToolkit().getImage(PastSpecializationDiagram.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		setBounds(100, 100, 362, 214);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

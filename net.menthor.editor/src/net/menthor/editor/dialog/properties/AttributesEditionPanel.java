@@ -142,7 +142,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new attribute to this class");
-		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnCreate.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -153,7 +153,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected attribute");
-		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
+		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -164,7 +164,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected attribute");
-		btnUp.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_UP));
+		btnUp.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_UP));
 		btnUp.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -175,7 +175,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected attribute");
-		btnDown.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOWN));
+		btnDown.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DOWN));
 		btnDown.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -187,7 +187,7 @@ public class AttributesEditionPanel extends JPanel {
 		btnEdit.setEnabled(true);
 		btnEdit.setFocusable(false);
 		btnEdit.setToolTipText("Edit selected attribute");
-		btnEdit.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
+		btnEdit.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_EDIT));
 		btnEdit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

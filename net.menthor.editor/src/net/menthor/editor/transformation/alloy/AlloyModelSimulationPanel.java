@@ -38,6 +38,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 
 /**
@@ -97,8 +99,7 @@ public class AlloyModelSimulationPanel extends JPanel {
 				
 		this.cbxIdentity.setSelected(refOptions.identityPrinciple);
 		if (refOptions.identityPrincipleInvalid) {
-			lblStateIdentity.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/error.png")));
-			lblStateIdentity.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/error-rollover.png")));
+			lblStateIdentity.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR));			
 			lblStateIdentity.setToolTipText("<html>"+refOptions.identityPrincipleInvalidMsg.replace("\n", "<br>")+"</html>");
 		}else{
 			lblStateIdentity.setIcon(null);
@@ -106,8 +107,7 @@ public class AlloyModelSimulationPanel extends JPanel {
 		
 		this.cbxRelator.setSelected(refOptions.relatorConstraint);
 		if (refOptions.relatorConstraintInvalid) {
-			lblSateRelator.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/error.png")));
-			lblSateRelator.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/error-rollover.png")));
+			lblSateRelator.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR));			
 			lblSateRelator.setToolTipText("<html>"+refOptions.relatorConstraintInvalidMsg.replace("\n", "<br>")+"</html>");
 		}else{
 			lblSateRelator.setIcon(null);
@@ -115,8 +115,7 @@ public class AlloyModelSimulationPanel extends JPanel {
 		
 		this.cbxWeak.setSelected(refOptions.weakSupplementation);
 		if (refOptions.weakSupplementationInvalid) {
-			lblStateWeak.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/error.png")));
-			lblStateWeak.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/error-rollover.png")));
+			lblStateWeak.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR));			
 			lblStateWeak.setToolTipText("<html>"+refOptions.weakSupplementationInvalidMsg.replace("\n", "<br>")+"</html>");
 		}else{
 			lblStateWeak.setIcon(null);
@@ -233,8 +232,8 @@ public class AlloyModelSimulationPanel extends JPanel {
 		
 		weakInfoButton = new JButton("");
 		weakInfoButton.setToolTipText("<html>\r\nMark this option if in your model all wholes have two or more parts. <br>\r\nIf this is not true, leave this option unchecked. </html>");
-		weakInfoButton.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help.png")));
-		weakInfoButton.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help-rollover.png")));
+		weakInfoButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		weakInfoButton.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		weakInfoButton.setPreferredSize(new Dimension(30, 20));
 		weakInfoButton.setFocusable(false);
 		weakInfoButton.setOpaque(false);
@@ -251,8 +250,8 @@ public class AlloyModelSimulationPanel extends JPanel {
 		
 		relatorInfoButton = new JButton("");
 		relatorInfoButton.setToolTipText("<html>\r\nMark this option if in your model all relators mediate at least two distinct objects. <br>\r\nIf this is not true, leave this option unchecked. </html>\r\n\r\n");
-		relatorInfoButton.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help.png")));
-		relatorInfoButton.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help-rollover.png")));
+		relatorInfoButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		relatorInfoButton.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		relatorInfoButton.setPreferredSize(new Dimension(30, 20));
 		relatorInfoButton.setFocusable(false);
 		relatorInfoButton.setOpaque(false);
@@ -269,8 +268,8 @@ public class AlloyModelSimulationPanel extends JPanel {
 		
 		identityInfoButton = new JButton("");
 		identityInfoButton.setToolTipText("<html>\r\nMark this option if you want to visualize objects that does not have identity principle.<br>\r\nIf not, leave this option unchecked. </html>");
-		identityInfoButton.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help.png")));
-		identityInfoButton.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help-rollover.png")));
+		identityInfoButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		identityInfoButton.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		identityInfoButton.setFocusable(false);
 		identityInfoButton.setOpaque(false);
 		identityInfoButton.setContentAreaFilled(false);
@@ -291,10 +290,10 @@ public class AlloyModelSimulationPanel extends JPanel {
 		
 		AntiRigidInfoButton = new JButton("");
 		AntiRigidInfoButton.setToolTipText("<html>\r\nMark this option if you want to enforce the visualization of anti-rigid objects.<br>\r\nIf not, leave this option unchecked. </html>\r\n");
-		AntiRigidInfoButton.setIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help.png")));
+		AntiRigidInfoButton.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		AntiRigidInfoButton.setFocusable(false);
 		AntiRigidInfoButton.setOpaque(false);
-		AntiRigidInfoButton.setRolloverIcon(new ImageIcon(AlloyModelSimulationPanel.class.getResource("/resources/icons/x16/help-rollover.png")));
+		AntiRigidInfoButton.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		AntiRigidInfoButton.setContentAreaFilled(false);
 		AntiRigidInfoButton.setBorderPainted(false);
 		AntiRigidInfoButton.setPreferredSize(new Dimension(30, 20));

@@ -45,6 +45,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author Cássio Reginato
@@ -82,7 +84,7 @@ public class PastSpecializationPattern extends JDialog {
 	public PastSpecializationPattern(DiagramManager dm) {
 		dman=dm;
 		setTitle("Derivation By Past Specialization");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(PastSpecializationPattern.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		setResizable(false);
 		setBounds(100, 100, 449, 495);
 		getContentPane().setLayout(new BorderLayout());

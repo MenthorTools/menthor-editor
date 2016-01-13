@@ -70,7 +70,7 @@ public class TreePopupMenu extends BasePopupMenu {
     	changerel = MenuBuilder.buildChangeRelationshipTo(listener, this, "Change Relationship to");
     	invert = MenuBuilder.buildInvert(listener,this, "Invert");
     	addSeparator();
-    	createMenuItem("Delete", IconType.DELETE, CommandType.DELETE);
+    	createMenuItem("Delete", IconType.MENTHOR_DELETE, CommandType.DELETE);
     }
     
 	@Override

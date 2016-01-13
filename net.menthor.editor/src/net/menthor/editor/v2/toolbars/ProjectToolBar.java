@@ -36,7 +36,7 @@ public class ProjectToolBar extends BaseToolBar {
 	private static Color background = UIManager.getColor("Panel.background"); //Color.WHITE;
 	
 	public ProjectToolBar(CommandListener listener){
-		super(listener, background, 16, 16);
+		super(listener, background);
 		setFloatable(false);		
 		setBackground(background);
 		createButton(IconType.MENTHOR_UP, CommandType.MOVE_UP_TREE, background);

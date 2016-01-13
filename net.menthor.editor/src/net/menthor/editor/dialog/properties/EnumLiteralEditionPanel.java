@@ -121,7 +121,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new value to this enumeration");
-		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnCreate.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -132,7 +132,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected values");
-		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
+		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -143,7 +143,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected value");
-		btnUp.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_UP));
+		btnUp.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_UP));
 		btnUp.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -154,7 +154,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected value");
-		btnDown.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOWN));
+		btnDown.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DOWN));
 		btnDown.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

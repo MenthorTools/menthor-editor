@@ -41,6 +41,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 public class ParticipationPatternTypeChoice extends JDialog {
 
@@ -64,7 +66,7 @@ public class ParticipationPatternTypeChoice extends JDialog {
 	public ParticipationPatternTypeChoice(DiagramManager dm) {
 		dman=dm;
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ParticipationPatternTypeChoice.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		setTitle("Participation Options");
 		setBounds(100, 100, 486, 200);
 		getContentPane().setLayout(new BorderLayout());

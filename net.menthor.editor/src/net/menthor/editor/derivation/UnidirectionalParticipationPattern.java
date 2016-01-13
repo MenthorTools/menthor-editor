@@ -43,6 +43,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 public class UnidirectionalParticipationPattern extends JDialog {
 
@@ -75,7 +77,7 @@ public class UnidirectionalParticipationPattern extends JDialog {
 	public UnidirectionalParticipationPattern(DiagramManager dm) {
 		
 		dman=dm;
-		setIconImage(Toolkit.getDefaultToolkit().getImage(UnidirectionalParticipationPattern.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		setTitle("Derivation By Participation: Unidirectional");
 		setBounds(100, 100, 381, 493);
 		getContentPane().setLayout(new BorderLayout());

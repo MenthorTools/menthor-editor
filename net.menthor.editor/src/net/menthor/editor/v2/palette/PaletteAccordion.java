@@ -349,27 +349,27 @@ public class PaletteAccordion extends JPanel{
 		String paletteName = "Relationship";
 		PaletteGrouping relationshipGrouping = new PaletteGrouping(this, paletteName);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_GEN_WHITE, 
+			IconType.MENTHOR_GENERALIZATION, 
 			RelationshipType.GENERALIZATION.toString(),
 			CommandType.TB_DND_GENERALIZATION
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_LINE, 
+			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.MATERIAL.toString(),
 			CommandType.TB_DND_MATERIAL
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_LINE, 
+			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.FORMAL.toString(),
 			CommandType.TB_DND_FORMAL
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_LINE, 
+			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.CHARACTERIZATION.toString(),
 			CommandType.TB_DND_CHARACTERIZATION
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_LINE, 
+			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.MEDIATION.toString(),
 			CommandType.TB_DND_MEDIATION
 		);
@@ -379,32 +379,32 @@ public class PaletteAccordion extends JPanel{
 			CommandType.TB_DND_DERIVATION
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_LINE, 
+			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.STRUCTURATION.toString(),
 			CommandType.TB_DND_STRUCTURATION
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_LINE, 
+			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.ASSOCIATION.toString(),
 			CommandType.TB_DND_ASSOCIATION
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_PARTHOOD_BLACK, 
+			IconType.MENTHOR_COMPONENTOF, 
 			RelationshipType.COMPONENTOF.toString(),
 			CommandType.TB_DND_COMPONENTOF
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_PARTHOOD_C, 
+			IconType.MENTHOR_SUBCOLLECTIONOF, 
 			RelationshipType.SUBCOLLECTIONOF.toString(),
 			CommandType.TB_DND_SUBCOLLECTIONOF
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_PARTHOOD_Q, 
+			IconType.MENTHOR_SUBQUANTITYOF, 
 			RelationshipType.SUBQUANTITYOF.toString(),
 			CommandType.TB_DND_SUBQUANTITYOF
 		);
 		relationshipGrouping.createPaletteItem(
-			IconType.MENTHOR_PARTHOOD_M, 
+			IconType.MENTHOR_MEMBEROF, 
 			RelationshipType.MEMBEROF.toString(),
 			CommandType.TB_DND_MEMBEROF
 		);

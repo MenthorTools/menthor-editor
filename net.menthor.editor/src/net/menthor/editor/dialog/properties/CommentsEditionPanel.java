@@ -100,7 +100,7 @@ public class CommentsEditionPanel extends JPanel {
 		
 		btnCreate = new JButton("");
 		btnCreate.setToolTipText("Add a new comment to this class");
-		btnCreate.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnCreate.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnCreate.setFocusable(false);
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
@@ -112,7 +112,7 @@ public class CommentsEditionPanel extends JPanel {
 		btnSave = new JButton("");
 		btnSave.setFocusable(false);
 		btnSave.setToolTipText("Save selected comment");
-		btnSave.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SAVE));
+		btnSave.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SAVE));
 		btnSave.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -123,7 +123,7 @@ public class CommentsEditionPanel extends JPanel {
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete seletected comment");
-		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
+		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

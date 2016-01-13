@@ -86,21 +86,21 @@ public class ClosableTabPanel extends JPanel {
 			Component obj = (pane.getComponentAt(i));			
 			if(obj instanceof DiagramWrapper)
 			{
-				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DIAGRAM);
+				Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			}
 			else if(obj instanceof ConstraintEditor)
 			{
-				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC_OCL);
+				Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			}
 			else if(obj instanceof TextEditor)
 			{
-				Icon icon = IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DOC);
+				Icon icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DOC);
 				label.setIcon(icon);
 				label.setIconTextGap(5);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);

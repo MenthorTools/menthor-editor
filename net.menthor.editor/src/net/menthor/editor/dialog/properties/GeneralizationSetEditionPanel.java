@@ -124,7 +124,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		lblParticipatingGeneralizations = new JLabel("Participating generalizations:");
 		
 		btnAdd = new JButton("");		
-		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnAdd.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -157,7 +157,7 @@ public class GeneralizationSetEditionPanel extends JPanel {
 		});		
 		
 		btnDelete = new JButton("");
-		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
+		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

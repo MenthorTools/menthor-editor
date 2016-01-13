@@ -98,18 +98,18 @@ public class PalettePopupMenu extends BasePopupMenu {
 		datatypes.add(createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_ENUMERATION, false));
 		datatypes.add(createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_PRIMITIVETYPE, false));
 		
-		relationships.add(createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GEN_WHITE, CommandType.TB_DND_GENERALIZATION, false));
-		relationships.add(createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_LINE, CommandType.TB_DND_CHARACTERIZATION, false));
-		relationships.add(createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_LINE, CommandType.TB_DND_MEDIATION, false));
-		relationships.add(createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_LINE, CommandType.TB_DND_FORMAL, false));
-		relationships.add(createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_LINE, CommandType.TB_DND_MATERIAL, false));
+		relationships.add(createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.TB_DND_GENERALIZATION, false));
+		relationships.add(createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_CHARACTERIZATION, false));
+		relationships.add(createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_MEDIATION, false));
+		relationships.add(createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_FORMAL, false));
+		relationships.add(createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_MATERIAL, false));
 		relationships.add(createMenuItem(RelationshipType.DERIVATION.getName(), IconType.MENTHOR_DERIVATION, CommandType.TB_DND_DERIVATION, false));
-		relationships.add(createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_PARTHOOD_BLACK, CommandType.TB_DND_COMPONENTOF, false));
-		relationships.add(createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_PARTHOOD_M, CommandType.TB_DND_MEMBEROF, false));
-		relationships.add(createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_PARTHOOD_C, CommandType.TB_DND_SUBCOLLECTIONOF, false));
-		relationships.add(createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_PARTHOOD_Q, CommandType.TB_DND_SUBQUANTITYOF, false));
-		relationships.add(createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_LINE, CommandType.TB_DND_STRUCTURATION, false));
-		relationships.add(createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_LINE, CommandType.TB_DND_ASSOCIATION, false));
+		relationships.add(createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_COMPONENTOF, CommandType.TB_DND_COMPONENTOF, false));
+		relationships.add(createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_MEMBEROF, CommandType.TB_DND_MEMBEROF, false));
+		relationships.add(createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.TB_DND_SUBCOLLECTIONOF, false));
+		relationships.add(createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.TB_DND_SUBQUANTITYOF, false));
+		relationships.add(createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_STRUCTURATION, false));
+		relationships.add(createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_ASSOCIATION, false));
 		
 		sort();
 	}

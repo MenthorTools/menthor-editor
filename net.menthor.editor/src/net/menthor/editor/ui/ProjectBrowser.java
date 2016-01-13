@@ -130,7 +130,7 @@ public class ProjectBrowser extends RoundedPanel{
 			false
 		);		
 		
-		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getSmallIcon(IconType.MENTHOR_TREE));
+		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getIcon(IconType.MENTHOR_TREE));
 		title.setBackground(Color.LIGHT_GRAY);
 		
 		RoundedPanel panel = new RoundedPanel();

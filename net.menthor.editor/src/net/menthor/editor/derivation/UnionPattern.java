@@ -46,6 +46,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import br.ufes.inf.nemo.derivedtypes.DerivedByUnion;
 
 /**
@@ -114,7 +116,7 @@ public class UnionPattern extends JDialog {
 		setResizable(false);
 		setModal(true);
 		setTitle("Derivation by Union");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(UnionPattern.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Category"}));
 		this.diagramMan= diagramManager;
 		setBounds(100, 100, 413, 487);

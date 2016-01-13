@@ -65,7 +65,7 @@ public class FoundHeadPane extends JPanel {
 		textField.setColumns(10);
 		
 		btnRun = new JButton("");
-		btnRun.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SEARCH));
+		btnRun.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SEARCH));
 		btnRun.setBackground(Color.LIGHT_GRAY);
 		btnRun.setFocusable(false);
 		

@@ -51,6 +51,8 @@ import javax.swing.JCheckBox;
 
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 /**
  * @author Cássio Reginato
@@ -86,7 +88,7 @@ public class IntersectionPattern extends JDialog {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public IntersectionPattern(final DiagramManager dm) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(IntersectionPattern.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		setTitle("Derivation by Intersection");
 		setResizable(false);
 	

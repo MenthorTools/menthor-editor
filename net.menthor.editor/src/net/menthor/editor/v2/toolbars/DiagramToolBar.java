@@ -42,7 +42,7 @@ public class DiagramToolBar extends BaseToolBar {
 	}
 	
 	public DiagramToolBar (CommandListener listener){		
-		super(listener, background,20,20);	
+		super(listener, background);	
 		setBackground(background);
 		createButton(IconType.MENTHOR_GRID, CommandType.SHOW_GRID, background);
 		createButton(IconType.MENTHOR_ALIGN_BOTTOM,CommandType.ALIGN_BOTTOM,background);

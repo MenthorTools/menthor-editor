@@ -79,6 +79,8 @@ import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.util.Util;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -234,8 +236,6 @@ public class AntiPatternSearchDialog extends JDialog {
 		
 		this.frame = frame;
 		
-		//Image icon = new BufferedImage(1, 1,BufferedImage.TYPE_INT_ARGB_PRE);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AntiPatternSearchDialog.class.getResource("/resources/icons/antipattern16.png")));
 		setTitle("Anti-Pattern Identification");
 		setBounds(100, 100, 854, 511);
 		 
@@ -365,8 +365,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblMultiDepIco.setOpaque(false);
 		lblMultiDepIco.setContentAreaFilled(false);
 		lblMultiDepIco.setBorderPainted(false);
-		lblMultiDepIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblMultiDepIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblMultiDepIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblMultiDepIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblMultiDepIco);
 		rightPanel.add(cbxMultiDep);
 		rightPanel.add(lblMultiDepRes);
@@ -382,8 +382,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblPartOverIco.setOpaque(false);
 		lblPartOverIco.setContentAreaFilled(false);
 		lblPartOverIco.setBorderPainted(false);
-		lblPartOverIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblPartOverIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblPartOverIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblPartOverIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblPartOverIco);
 		
 		cbxPartOver = new JCheckBox(PartOverAntipattern.getAntipatternInfo().getAcronym()+": "+PartOverAntipattern.getAntipatternInfo().getName());
@@ -399,8 +399,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblRelCompIco.setOpaque(false);
 		lblRelCompIco.setContentAreaFilled(false);
 		lblRelCompIco.setBorderPainted(false);
-		lblRelCompIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblRelCompIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblRelCompIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblRelCompIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblRelCompIco);
 		rightPanel.add(cbxRelComp);
 		rightPanel.add(lblRelCompRes);
@@ -416,8 +416,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblRelOverIco.setOpaque(false);
 		lblRelOverIco.setContentAreaFilled(false);
 		lblRelOverIco.setBorderPainted(false);
-		lblRelOverIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblRelOverIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblRelOverIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblRelOverIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblRelOverIco);
 		rightPanel.add(cbxRelOver);
 		rightPanel.add(lblRelOverRes);
@@ -426,8 +426,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblRelRigIco.setOpaque(false);
 		lblRelRigIco.setContentAreaFilled(false);
 		lblRelRigIco.setBorderPainted(false);
-		lblRelRigIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblRelRigIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblRelRigIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblRelRigIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblRelRigIco);
 		
 		cbxRelRig = new JCheckBox(RelRigAntipattern.getAntipatternInfo().getAcronym()+": "+RelRigAntipattern.getAntipatternInfo().getName());
@@ -450,8 +450,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblRelSpecIco.setOpaque(false);
 		lblRelSpecIco.setContentAreaFilled(false);
 		lblRelSpecIco.setBorderPainted(false);
-		lblRelSpecIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblRelSpecIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblRelSpecIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblRelSpecIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblRelSpecIco);
 		rightPanel.add(cbxRelSpec);
 		rightPanel.add(lblRelSpecRes);
@@ -467,8 +467,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblRepRelIco.setOpaque(false);
 		lblRepRelIco.setContentAreaFilled(false);
 		lblRepRelIco.setBorderPainted(false);
-		lblRepRelIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblRepRelIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblRepRelIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblRepRelIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblRepRelIco);
 		rightPanel.add(cbxRepRel);
 		rightPanel.add(lblRepRelRes);
@@ -484,8 +484,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblUndefFormalIco.setOpaque(false);
 		lblUndefFormalIco.setContentAreaFilled(false);
 		lblUndefFormalIco.setBorderPainted(false);
-		lblUndefFormalIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblUndefFormalIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblUndefFormalIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblUndefFormalIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblUndefFormalIco);
 		rightPanel.add(cbxUndefFormal);
 		rightPanel.add(lblUndefFormalRes);
@@ -502,8 +502,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblUndefPhaseIco.setOpaque(false);
 		lblUndefPhaseIco.setContentAreaFilled(false);
 		lblUndefPhaseIco.setBorderPainted(false);
-		lblUndefPhaseIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblUndefPhaseIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblUndefPhaseIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblUndefPhaseIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblUndefPhaseIco);
 		rightPanel.add(cbxUndefPhase);
 		rightPanel.add(lblUndefPhaseRes);
@@ -512,8 +512,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblWholeOverIco.setOpaque(false);
 		lblWholeOverIco.setContentAreaFilled(false);
 		lblWholeOverIco.setBorderPainted(false);
-		lblWholeOverIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblWholeOverIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblWholeOverIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblWholeOverIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		rightPanel.add(lblWholeOverIco);
 		
 		cbxWholeOver = new JCheckBox(WholeOverAntipattern.getAntipatternInfo().getAcronym()+": "+WholeOverAntipattern.getAntipatternInfo().getName());
@@ -531,8 +531,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblAssCycIco.setOpaque(false);
 		lblAssCycIco.setContentAreaFilled(false);
 		lblAssCycIco.setBorderPainted(false);
-		lblAssCycIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblAssCycIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblAssCycIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblAssCycIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblAssCycIco);
 		
 		cbxAssCyc = new JCheckBox(AssCycAntipattern.getAntipatternInfo().getAcronym()+": "+AssCycAntipattern.getAntipatternInfo().getName());
@@ -545,11 +545,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblAssCycRes);
 		lblBinOverIco = new JButton();
 		lblBinOverIco.setPreferredSize(new Dimension(20, 20));
-		lblBinOverIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblBinOverIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblBinOverIco.setOpaque(false);
 		lblBinOverIco.setContentAreaFilled(false);
 		lblBinOverIco.setBorderPainted(false);
-		lblBinOverIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblBinOverIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblBinOverIco);
 		
 		cbxBinOver = new JCheckBox(BinOverAntipattern.getAntipatternInfo().getAcronym()+": "+BinOverAntipattern.getAntipatternInfo().getName());	
@@ -563,11 +563,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		
 		lblDecIntIco = new JButton();
 		lblDecIntIco.setPreferredSize(new Dimension(20, 20));
-		lblDecIntIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblDecIntIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblDecIntIco.setOpaque(false);
 		lblDecIntIco.setContentAreaFilled(false);
 		lblDecIntIco.setBorderPainted(false);
-		lblDecIntIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblDecIntIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblDecIntIco);
 		
 		cbxDecInt = new JCheckBox(DecIntAntipattern.getAntipatternInfo().getAcronym()+": "+DecIntAntipattern.getAntipatternInfo().getName());		
@@ -581,11 +581,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		
 		lblDepPhaseIco = new JButton();
 		lblDepPhaseIco.setPreferredSize(new Dimension(20, 20));
-		lblDepPhaseIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblDepPhaseIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblDepPhaseIco.setOpaque(false);
 		lblDepPhaseIco.setContentAreaFilled(false);
 		lblDepPhaseIco.setBorderPainted(false);
-		lblDepPhaseIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblDepPhaseIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblDepPhaseIco);
 		
 		cbxDepPhase = new JCheckBox(DepPhaseAntipattern.getAntipatternInfo().getAcronym()+": "+DepPhaseAntipattern.getAntipatternInfo().getName());
@@ -598,11 +598,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblDepPhaseRes);
 		lblFreeRoleIco = new JButton();
 		lblFreeRoleIco.setPreferredSize(new Dimension(20, 20));
-		lblFreeRoleIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblFreeRoleIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblFreeRoleIco.setOpaque(false);
 		lblFreeRoleIco.setContentAreaFilled(false);
 		lblFreeRoleIco.setBorderPainted(false);
-		lblFreeRoleIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblFreeRoleIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblFreeRoleIco);
 		
 		cbxFreeRole = new JCheckBox(FreeRoleAntipattern.getAntipatternInfo().getAcronym()+": "+FreeRoleAntipattern.getAntipatternInfo().getName());	
@@ -615,11 +615,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblFreeRoleRes);
 		lblGSRigIco = new JButton();
 		lblGSRigIco.setPreferredSize(new Dimension(20, 20));
-		lblGSRigIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblGSRigIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblGSRigIco.setOpaque(false);
 		lblGSRigIco.setContentAreaFilled(false);
 		lblGSRigIco.setBorderPainted(false);
-		lblGSRigIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblGSRigIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblGSRigIco);
 		
 		cbxGSRig = new JCheckBox("GSRig: Generalization Set with Mixed Rigidity");		
@@ -632,11 +632,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblGSRigRes);
 		lblHetCollIco = new JButton();
 		lblHetCollIco.setPreferredSize(new Dimension(20, 20));
-		lblHetCollIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblHetCollIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblHetCollIco.setOpaque(false);
 		lblHetCollIco.setContentAreaFilled(false);
 		lblHetCollIco.setBorderPainted(false);
-		lblHetCollIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblHetCollIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblHetCollIco);
 		
 		cbxHetColl = new JCheckBox(HetCollAntipattern.getAntipatternInfo().getAcronym()+": "+HetCollAntipattern.getAntipatternInfo().getName());		
@@ -649,11 +649,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblHetCollRes);
 		lblHomoFuncIco = new JButton();
 		lblHomoFuncIco.setPreferredSize(new Dimension(20, 20));
-		lblHomoFuncIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblHomoFuncIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblHomoFuncIco.setOpaque(false);
 		lblHomoFuncIco.setContentAreaFilled(false);
 		lblHomoFuncIco.setBorderPainted(false);
-		lblHomoFuncIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblHomoFuncIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblHomoFuncIco);
 		
 		cbxHomoFunc = new JCheckBox(HomoFuncAntipattern.getAntipatternInfo().getAcronym()+": "+HomoFuncAntipattern.getAntipatternInfo().getName());	
@@ -666,11 +666,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblHomoFuncRes);
 		lblImpAbsIco  = new JButton();
 		lblImpAbsIco.setPreferredSize(new Dimension(20, 20));
-		lblImpAbsIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblImpAbsIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblImpAbsIco.setOpaque(false);
 		lblImpAbsIco.setContentAreaFilled(false);
 		lblImpAbsIco.setBorderPainted(false);
-		lblImpAbsIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblImpAbsIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblImpAbsIco);
 		
 		cbxImpAbs = new JCheckBox(ImpAbsAntipattern.getAntipatternInfo().getAcronym()+": "+ImpAbsAntipattern.getAntipatternInfo().getName());		
@@ -683,11 +683,11 @@ public class AntiPatternSearchDialog extends JDialog {
 		leftPanel.add(lblImpAbsRes);
 		lblMixIdenIco = new JButton();
 		lblMixIdenIco.setPreferredSize(new Dimension(20, 20));
-		lblMixIdenIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
+		lblMixIdenIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		lblMixIdenIco.setOpaque(false);
 		lblMixIdenIco.setContentAreaFilled(false);
 		lblMixIdenIco.setBorderPainted(false);
-		lblMixIdenIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblMixIdenIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		leftPanel.add(lblMixIdenIco);
 		
 		cbxMixIden = new JCheckBox(MixIdenAntipattern.getAntipatternInfo().getAcronym()+": "+MixIdenAntipattern.getAntipatternInfo().getName());	
@@ -704,8 +704,8 @@ public class AntiPatternSearchDialog extends JDialog {
 		lblMixRigIco.setOpaque(false);
 		lblMixRigIco.setContentAreaFilled(false);
 		lblMixRigIco.setBorderPainted(false);
-		lblMixRigIco.setIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help.png")));
-		lblMixRigIco.setRolloverIcon(new ImageIcon(AntiPatternSearchDialog.class.getResource("/resources/icons/x16/help-rollover.png")));
+		lblMixRigIco.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		lblMixRigIco.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
 		
 		cbxMixRig = new JCheckBox(MixRigAntipattern.getAntipatternInfo().getAcronym()+": "+MixRigAntipattern.getAntipatternInfo().getName());		
 		leftPanel.add(cbxMixRig);

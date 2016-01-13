@@ -60,7 +60,7 @@ public class PaletteItem extends JPanel implements MouseListener, MouseMotionLis
 		this.setBorder(PaletteColors.getResetBorder());
 		this.setBackground(PaletteColors.getResetBackground());
 		this.setLayout(new BorderLayout());
-		Icon icon = IconMap.getInstance().getSmallIcon(icontype);
+		Icon icon = IconMap.getInstance().getIcon(icontype);
 		JLabel label = new JLabel(name, icon, JLabel.LEFT);
 		label.setIconTextGap(10);
 		label.setBorder(BorderFactory.createEmptyBorder(1, 10, 1, 1));		

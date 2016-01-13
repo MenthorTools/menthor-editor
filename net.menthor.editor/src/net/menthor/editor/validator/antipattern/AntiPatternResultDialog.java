@@ -148,8 +148,7 @@ public class AntiPatternResultDialog extends Dialog {
 		super(parentShell);		
 		this.result = new ArrayList<AntipatternOccurrence>(result);
 		this.allOccurrences = new ArrayList<AntipatternOccurrence>(result);
-		this.frame = frame;
-		setDefaultImage(new Image(Display.getDefault(),AntiPatternResultDialog.class.getResourceAsStream("/resources/icons/antipattern36.png")));		
+		this.frame = frame;				
 	}
 	
 	@Override

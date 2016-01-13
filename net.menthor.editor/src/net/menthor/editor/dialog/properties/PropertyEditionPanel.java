@@ -203,7 +203,7 @@ public class PropertyEditionPanel extends JPanel {
 		
 		btnSubsetted = new JButton("");
 		btnSubsetted.setPreferredSize(new Dimension(30, 25));
-		btnSubsetted.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
+		btnSubsetted.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_EDIT));
 		btnSubsetted.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -228,7 +228,7 @@ public class PropertyEditionPanel extends JPanel {
 		
 		btnRedefined = new JButton("");
 		btnRedefined.setPreferredSize(new Dimension(30, 25));
-		btnRedefined.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
+		btnRedefined.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_EDIT));
 		btnRedefined.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

@@ -35,7 +35,7 @@ public class MainToolbar extends BaseToolBar {
 	
 	/** constructor */
 	public MainToolbar(CommandListener listener){
-		super(listener, background, 32, 32);
+		super(listener, background);
 		setBackground(background);
 		createButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background);
 		createButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_EXISTING_PROJECT, background);	

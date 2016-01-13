@@ -141,13 +141,13 @@ public class MappingTablePane extends JPanel {
 		btnAdd.setPreferredSize(new Dimension(33, 30));
 		btnAdd.setFocusable(false);
 		btnAdd.setToolTipText("Add new mapping");
-		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnAdd.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnDelete = new JButton();
 		panel.add(btnDelete);
 		btnDelete.setPreferredSize(new Dimension(33, 30));
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected mapping");
-		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));		
+		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));		
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -197,7 +197,7 @@ public class MappingTablePane extends JPanel {
 		newBtn.setPreferredSize(new Dimension(33, 30));
 		newBtn.setFocusable(false);
 		newBtn.setToolTipText(toolTipText);
-		newBtn.setIcon(IconMap.getInstance().getSmallIcon(iconType));
+		newBtn.setIcon(IconMap.getInstance().getIcon(iconType));
 		
 		return newBtn;
 	}

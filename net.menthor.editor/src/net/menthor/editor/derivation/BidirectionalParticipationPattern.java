@@ -43,6 +43,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 
 public class BidirectionalParticipationPattern extends JDialog {
 
@@ -75,7 +77,7 @@ public class BidirectionalParticipationPattern extends JDialog {
 		setResizable(false);
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Derivation by Participation: Bidirectional");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(BidirectionalParticipationPattern.class.getResource("/resources/icons/x16/sitemap.png")));
+		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_PATTERN));
 		setBounds(100, 100, 429, 510);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);

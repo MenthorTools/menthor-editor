@@ -53,6 +53,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.v2.icon.IconMap;
+import net.menthor.editor.v2.icon.IconType;
 import net.menthor.validator.meronymic.forbidden.ForbiddenComponentOfTask;
 import net.menthor.validator.meronymic.forbidden.ForbiddenMemberOfTask;
 import net.menthor.validator.meronymic.forbidden.ForbiddenMeronymic;
@@ -130,8 +132,8 @@ public class ForbiddenPanel extends ValidationPanel<ForbiddenMeronymic<?>> {
 		btnHelp1.setBorderPainted(false);
 		btnHelp1.setContentAreaFilled(false);
 		btnHelp1.setOpaque(false);
-		btnHelp1.setRolloverIcon(new ImageIcon(ForbiddenPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help-rollover.png")));
-		btnHelp1.setIcon(new ImageIcon(ForbiddenPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
+		btnHelp1.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
+		btnHelp1.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		
 		checkMemberOf = new JCheckBox("Forbidden MemberOf");
 		GridBagConstraints gbc_checkHierarchyCycle = new GridBagConstraints();
@@ -147,7 +149,7 @@ public class ForbiddenPanel extends ValidationPanel<ForbiddenMeronymic<?>> {
 		gbc_button.gridx = 0;
 		gbc_button.gridy = 1;
 		panel.add(button, gbc_button);
-		button.setIcon(new ImageIcon(ForbiddenPanel.class.getResource("/net/menthor/editor/validator/meronymic/resources/help.png")));
+		button.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		button.setPreferredSize(new Dimension(20, 20));
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);

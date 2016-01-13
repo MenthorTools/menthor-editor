@@ -105,7 +105,7 @@ public class ConstraintEditionPanel extends JPanel {
 		
 		btnSave = new JButton("");
 		btnSave.setFocusable(false);
-		btnSave.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_SAVE));
+		btnSave.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SAVE));
 		btnSave.setToolTipText("Save selected constraint");
 		btnSave.addActionListener(new ActionListener() {			
 			@Override
@@ -116,7 +116,7 @@ public class ConstraintEditionPanel extends JPanel {
 		
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
-		btnDelete.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
+		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
 		btnDelete.setToolTipText("Delete seletected constraint");
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
@@ -132,7 +132,7 @@ public class ConstraintEditionPanel extends JPanel {
 		
 		btnAdd = new JButton("");
 		btnAdd.setFocusable(false);
-		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnAdd.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnAdd.setToolTipText("Add a new constraint to this class");
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override

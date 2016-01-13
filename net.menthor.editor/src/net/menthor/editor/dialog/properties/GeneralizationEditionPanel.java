@@ -200,7 +200,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		scrollPane = new JScrollPane(genSetList);
 		
 		btnRemove = new JButton("");
-		btnRemove.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_DELETE));
+		btnRemove.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
 		btnRemove.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -216,7 +216,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		});
 		
 		btnAdd = new JButton("");
-		btnAdd.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD));
+		btnAdd.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -248,7 +248,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		});
 		
 		btnNew = new JButton("");
-		btnNew.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_ADD_GREEN));
+		btnNew.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD_GREEN));
 		btnNew.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -267,7 +267,7 @@ public class GeneralizationEditionPanel extends JPanel {
 		});
 		
 		btnEdit = new JButton("");
-		btnEdit.setIcon(IconMap.getInstance().getSmallIcon(IconType.MENTHOR_EDIT));
+		btnEdit.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_EDIT));
 		btnEdit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
