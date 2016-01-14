@@ -38,9 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.v2.commands.CommandListener;
+import javax.swing.border.EmptyBorder;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.AssociationElement;
@@ -53,6 +51,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
+
+import net.menthor.editor.ui.DiagramManager;
 
 /**
  * @author John Guerson
@@ -96,7 +96,7 @@ public class AssociationEditionPanel extends JPanel {
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public AssociationEditionPanel(final DiagramManager diagramManager, final AssociationElement assocElement, Classifier relationship, boolean modal) 
 	{
-		setBorder(null);
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
 		this.assocElement = assocElement;
 		this.element = (Classifier)relationship;
@@ -117,15 +117,13 @@ public class AssociationEditionPanel extends JPanel {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(meronymicPanel, 0, 0, Short.MAX_VALUE)
-							.addGap(12))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 							.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(directionPanel, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-						.addComponent(assocPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
+						.addComponent(assocPanel, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+						.addComponent(meronymicPanel, GroupLayout.PREFERRED_SIZE, 431, Short.MAX_VALUE))
 					.addGap(0))
 		);
 		groupLayout.setVerticalGroup(
@@ -137,7 +135,7 @@ public class AssociationEditionPanel extends JPanel {
 						.addComponent(directionPanel, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(meronymicPanel, GroupLayout.PREFERRED_SIZE, 102, Short.MAX_VALUE)
+					.addComponent(meronymicPanel, GroupLayout.PREFERRED_SIZE, 104, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		

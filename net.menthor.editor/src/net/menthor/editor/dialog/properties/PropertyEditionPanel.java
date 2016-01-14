@@ -59,6 +59,7 @@ import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import javax.swing.border.EmptyBorder;
 
 /**
  * @author John Guerson
@@ -100,6 +101,7 @@ public class PropertyEditionPanel extends JPanel {
 	
 	public PropertyEditionPanel(Component parent, final DiagramManager diagramManager, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property)
 	{
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parent=parent;
 		initData(diagramManager,ownerDiagramElement,ownerElem,property);
 		initGUI();		
@@ -366,7 +368,7 @@ public class PropertyEditionPanel extends JPanel {
 		
 		setInitialData();
 		
-		setPreferredSize(new Dimension(456, 241));
+		setPreferredSize(new Dimension(456, 268));
 	}
 			
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -50,6 +50,7 @@ import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import javax.swing.border.EmptyBorder;
 
 /**
  * @author John Guerson
@@ -83,7 +84,7 @@ public class ConstraintEditionPanel extends JPanel {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ConstraintEditionPanel(DiagramManager diagramManager, DiagramElement diagramElement, Classifier element) 
 	{
-		setBorder(null);
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
 		this.diagramElement = diagramElement;
 		this.element = element;

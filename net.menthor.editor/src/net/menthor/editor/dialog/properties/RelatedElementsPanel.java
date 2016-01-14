@@ -192,7 +192,8 @@ public class RelatedElementsPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public RelatedElementsPanel(final DiagramManager diagramManager, final DiagramElement diagramElement, Classifier element)  
-	{			
+	{
+		setBorder(new EmptyBorder(10, 10, 10, 10));			
 		this.diagramManager = diagramManager;
 		this.diagramElement = diagramElement;
 		this.element = element;

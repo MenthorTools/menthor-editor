@@ -46,6 +46,7 @@ import RefOntoUML.Comment;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import javax.swing.border.EmptyBorder;
 
 /**
  * @author John Guerson
@@ -70,7 +71,7 @@ public class CommentsEditionPanel extends JPanel {
 	@SuppressWarnings({ "rawtypes" })
 	public CommentsEditionPanel(DiagramManager diagramManager, DiagramElement diagramElement, Classifier element) 
 	{
-		setBorder(null);
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
 		this.diagramElement =diagramElement;
 		this.element = element;
@@ -185,7 +186,7 @@ public class CommentsEditionPanel extends JPanel {
 		
 		setInitialData();
 		
-		setSize(new Dimension(400, 218));
+		setSize(new Dimension(400, 233));
 	}
 	
 	/** Private Class: Comment Element */
