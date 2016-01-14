@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -13,6 +14,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import RefOntoUML.Association;
+import RefOntoUML.Derivation;
+import RefOntoUML.MaterialAssociation;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import stories.StoriesPackage;
@@ -137,10 +140,20 @@ public class OntoUMLStoryCrafter {
 		result+="pred direct_rel_in_w[x1,x2: univ , w:World]{\n";
 		result+="	some (x1->x2 + x2->x1)\n"; 
 		result+="				& (\n";
+		Set<Association> instances = modelParser.getAllInstances(Association.class);
+		int tamanho = instances.size(); 
+		int i = 0;
 		for(Association a : modelParser.getAllInstances(Association.class)){
-			result+="	w."+modelParser.getAlias(a)+"+\n";
+			i++;
+			if(! (a instanceof Derivation) ){
+				
+				if(a instanceof MaterialAssociation)result+="	select13[w."+modelParser.getAlias(a)+']';
+				else result+="	w."+modelParser.getAlias(a);
+				if(i<tamanho)result+='+';
+				result+='\n';
+			}
 		}
-		result+=")\n\n//Association exists \n";
+		result+="\t)\n}\n//Association exists \n";
 		result+="pred direct_rel[x1,x2: univ-World]{\n";
 		result+="	 direct_rel_in_w[x1,x2,World]\n}\n\n";
 		return result;

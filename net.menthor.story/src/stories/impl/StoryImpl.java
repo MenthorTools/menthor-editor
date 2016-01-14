@@ -264,12 +264,13 @@ public class StoryImpl extends MinimalEObjectImpl.Container implements Story {
 				predicate = predicate+((Node)se).static_classification(modelParser);
 				predicate = predicate+((Node)se).existance();
 				predicate = predicate+((Node)se).identity();
-				predicate = predicate+((Node)se).is_referred_to_in();
+				predicate = predicate+((Node)se).is_referred_to_in(modelParser);
 			}
 			if("Link".equals(se.eClass().getName())){
 				Link l = ((Link)se);
 				predicate = predicate + l.existance();
 			}
+			//TODO: All different. não está na interface.........
 			//}
 		}
 		String world_order = new String(); 

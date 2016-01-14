@@ -301,7 +301,7 @@ public class LinkImpl extends IndividualImpl implements Link {
 		if(this.getSource() != null){
 			sourceName = this.getSource().getLabel();
 		}else{
-			sourceName = "univ - World";//any Node
+			sourceName = "univ - World";//any Node //TODO:remove datatypes too?
 		}
 		
 		if(this.getTarget() != null){
@@ -315,6 +315,7 @@ public class LinkImpl extends IndividualImpl implements Link {
 		if(world_list.isEmpty()){
 			if(absent_world_list.isEmpty()){
 				predicate = predicate+'\t'+"direct_rel["+sourceName+","+targetName+"]"+'\n';//no definition, just setting it to happen, no constrains
+				//TODO: this predicate is not added to the aux predicates
 			}					
 		}else{
 			for(World w: world_list){
@@ -327,6 +328,7 @@ public class LinkImpl extends IndividualImpl implements Link {
 				predicate = predicate+'\t'+ "not direct_rel_in_w[("+sourceName+"),("+targetName+"),"+w.getLabel()+"]"+'\n';
 			}
 		}
+		//TODO: association class instantiation is not implemented
 		return predicate;
 	}
 /*

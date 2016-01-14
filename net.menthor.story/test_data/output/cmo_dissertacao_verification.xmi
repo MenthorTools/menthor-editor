@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<stories:Story xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stories="http://stories.bernardofbbraga.com.br">
+  <elements xsi:type="stories:World" label="World0" next="World1"/>
+  <elements xsi:type="stories:World" label="World1" next="World2" prev="World0"/>
+  <elements xsi:type="stories:World" label="World2" next="World3" prev="World1"/>
+  <elements xsi:type="stories:World" label="World3" prev="World2"/>
+  <elements xsi:type="stories:Node" label="ProcessDiagram" present_in="World0 World1 World2 World3">
+    <instance_of href="../input/cmo_mod3.refontouml#_SWqggGVNEeWRILEhu3JsDQ"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Thomas" present_in="World0 World1 World2 World3">
+    <instance_of href="../input/cmo_mod3.refontouml#_KtZlEGV5EeWzUsZxnPNkPQ"/>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Developer">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_57mqYGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Configuration Manager">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_zBh0MGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="John" present_in="World0 World1 World2 World3">
+    <instance_of href="../input/cmo_mod3.refontouml#_KtZlEGV5EeWzUsZxnPNkPQ"/>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Developer">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_57mqYGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in not_holds_in="World0 World1 World2" label="Configuration Manager">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_zBh0MGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckOutByJohn" present_in="World1 World3 World2" absent_from="World0">
+    <instance_of href="../input/cmo_mod3.refontouml#_4nYpcGVNEeWRILEhu3JsDQ"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckInByJohn" present_in="World2 World3" absent_from="World1 World0">
+    <instance_of href="../input/cmo_mod3.refontouml#_e20OYGVNEeWRILEhu3JsDQ"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Mary" present_in="World0 World2 World1 World3">
+    <instance_of href="../input/cmo_mod3.refontouml#_KtZlEGV5EeWzUsZxnPNkPQ"/>
+    <is_referred_to_in holds_in="World0 World1 World2 World3" label="Developer">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_57mqYGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in holds_in="World3" not_holds_in="World0 World1 World2" label="Verifier">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_B47GQGVOEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in holds_in="World1 World2 World3" not_holds_in="World0" label="Evaluator">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_uXE3QGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="Fred" present_in="World0 World2 World3 World1">
+    <instance_of href="../input/cmo_mod3.refontouml#_KtZlEGV5EeWzUsZxnPNkPQ"/>
+    <is_referred_to_in holds_in="World0 World1 World2 World3" label="Developer">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_57mqYGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in holds_in="World1 World2 World3" not_holds_in="World0" label="Requester">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_qTnB0GVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+  </elements>
+</stories:Story>

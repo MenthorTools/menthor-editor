@@ -181,7 +181,7 @@ public class AlloyAPI {
 		exists.setDeclaration(declaration);
 		UnaryOperation uOp = factory.createUnaryOperation();
 		uOp.setOperator(UnaryOperator.SOME);	
-		uOp.setExpression( createDefaultSignaturesUnionExpression(factory,defaultSignatures) );	
+		uOp.setExpression( createUnivSignaturesDifferenceExpression(factory,defaultSignatures) );	
 		declaration.setExpression(uOp);
 		return exists;
 	}
@@ -217,6 +217,52 @@ public class AlloyAPI {
 					sr.setSignature(sigElement);
 					bo.setRightExpression(factory.createBinaryOperation());
 					((BinaryOperation)bo.getRightExpression()).setOperator(BinaryOperator.UNION);
+					((BinaryOperation)bo.getRightExpression()).setLeftExpression(sr);
+					bo = ((BinaryOperation)bo.getRightExpression());
+				}
+				if(cont == defaultSignatures.size())
+				{
+					SignatureReference sr = factory.createSignatureReference();
+					sr.setSignature(sigElement);
+					bo.setRightExpression(sr);
+				}
+			}
+			cont = cont + 1;
+		}
+		return exp;
+	}
+	
+	/**
+	 * Creates an union expression between default signatures. e.g. Object - Property - ... .
+	 */
+	public static Expression createUnivSignaturesDifferenceExpression(AlloyFactory factory, ArrayList<String> defaultSignatures) 
+	{
+		int cont = 1;		
+		BinaryOperation bo = null;
+		Expression exp = null;
+		for(String sigElement : defaultSignatures)
+		{
+			if(defaultSignatures.size() == 1)
+			{
+				SignatureReference sr = factory.createSignatureReference();
+				sr.setSignature(sigElement);
+				exp = sr;
+			} else {
+				if(cont == 1)
+				{
+					SignatureReference sr = factory.createSignatureReference();
+					sr.setSignature(sigElement);
+					bo = factory.createBinaryOperation();
+					bo.setOperator(BinaryOperator.DIFFERENCE);
+					bo.setLeftExpression(sr);
+					exp = bo;
+				}
+				if(cont > 1 && cont != defaultSignatures.size())
+				{
+					SignatureReference sr = factory.createSignatureReference();
+					sr.setSignature(sigElement);
+					bo.setRightExpression(factory.createBinaryOperation());
+					((BinaryOperation)bo.getRightExpression()).setOperator(BinaryOperator.DIFFERENCE);
 					((BinaryOperation)bo.getRightExpression()).setLeftExpression(sr);
 					bo = ((BinaryOperation)bo.getRightExpression());
 				}

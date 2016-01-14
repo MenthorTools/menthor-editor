@@ -25,6 +25,13 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>org.eclipse.swt</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/org.eclipse.swt</locationURI>
+		</link>
+	</linkedResources>
 	<variableList>
 		<variable>
 			<name>copy_PARENT</name>

@@ -5,6 +5,8 @@ package stories;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import RefOntoUML.parser.OntoUMLParser;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Node state</b></em>'.
@@ -99,6 +101,6 @@ public interface Classification_statement extends EObject {
 	 */
 	void setLabel(String value);
 
-	String existance(Node target);
+	String existance(Node target, OntoUMLParser modelParser);
 
 } // Classification_statement

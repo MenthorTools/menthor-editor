@@ -26,6 +26,7 @@ public class AlloyLibraryFiles {
 		lib1File.deleteOnExit();
 		lib2File.deleteOnExit();				
 		FileUtil.copyStringToFile(world_structure, dirPath + "world_structure.als");
+		FileUtil.copyStringToFile(continuous_existance, dirPath + "continuous_existance.als");
 		FileUtil.copyStringToFile(ontological_properties, dirPath + "ontological_properties.als");
 	}
 	
@@ -145,6 +146,14 @@ public class AlloyLibraryFiles {
 			"check no_joining_histories for 10\n" +
 			"check every_world_reach_the_current_world for 10\n" +
 			"check future_worlds_cannot_reach_the_current_world_by_the_future for 10\n";	
+	
+	/** Content of the continuous_existance library */
+	public static String continuous_existance = "/*Objects can't die and come to life later*/\n" +
+			"module continuous_existance[World]\n\n" +
+			"open util/ordering[World]\n\n" +
+			"pred continuous_existence [exists: World->univ] {\n" +
+			"\tall w : World, x: (@next.w).exists | (x not in w.exists) => (x not in (( w. ^next).exists))\n" +
+			"}\n\n";
 }
 			
 	

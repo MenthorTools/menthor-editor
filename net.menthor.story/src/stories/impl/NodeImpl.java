@@ -283,6 +283,7 @@ public class NodeImpl extends IndividualImpl implements Node {
 		for(RefOntoUML.Class c : this.getInstance_of()){
 			rule = rule + '\t'+ this.getLabel() + " in World." +modelParser.getAlias(c)+'\n';
 		}
+		//TODO: implementar not_instance_of
 		return  rule;
 	}
 	
@@ -300,10 +301,10 @@ public class NodeImpl extends IndividualImpl implements Node {
 	}
 
 	@Override
-	public String is_referred_to_in() {
+	public String is_referred_to_in(OntoUMLParser modelParser) {
 		String states ="";
 		for(Classification_statement ns: this.getIs_referred_to_in()){
-			states = states + ns.existance(this);
+			states = states + ns.existance(this, modelParser);
 		}
 		return states;
 	}

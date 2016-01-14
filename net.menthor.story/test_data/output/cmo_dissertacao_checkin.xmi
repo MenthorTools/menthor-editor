@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ASCII"?>
+<stories:Story xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stories="http://stories.bernardofbbraga.com.br">
+  <elements xsi:type="stories:World" label="World0" next="World1"/>
+  <elements xsi:type="stories:World" label="World1" next="World2" prev="World0"/>
+  <elements xsi:type="stories:World" label="World2" prev="World1"/>
+  <elements xsi:type="stories:Node" label="ProcessDiagram" present_in="World0 World1 World2">
+    <instance_of href="../input/cmo_mod3.refontouml#_SWqggGVNEeWRILEhu3JsDQ"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Thomas" present_in="World0 World1 World2">
+    <instance_of href="../input/cmo_mod3.refontouml#_KtZlEGV5EeWzUsZxnPNkPQ"/>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Developer">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_57mqYGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Configuration Manager">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_zBh0MGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="John" present_in="World0 World1 World2">
+    <instance_of href="../input/cmo_mod3.refontouml#_KtZlEGV5EeWzUsZxnPNkPQ"/>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Developer">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_57mqYGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+    <is_referred_to_in not_holds_in="World0 World1 World2" label="Configuration Manager">
+      <antiRigidClasses href="../input/cmo_mod3.refontouml#_zBh0MGVNEeWRILEhu3JsDQ"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckOutByJohn" present_in="World1" absent_from="World0">
+    <instance_of href="../input/cmo_mod3.refontouml#_4nYpcGVNEeWRILEhu3JsDQ"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckInByJohn" present_in="World2" absent_from="World1 World0">
+    <instance_of href="../input/cmo_mod3.refontouml#_e20OYGVNEeWRILEhu3JsDQ"/>
+  </elements>
+</stories:Story>

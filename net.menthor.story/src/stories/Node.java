@@ -99,7 +99,7 @@ public interface Node extends Individual {
 
 	public String existance();
 
-	String is_referred_to_in();
+	String is_referred_to_in(OntoUMLParser modelParser);
 
 	public void setSETL(StoryElementTimeline stl);
 

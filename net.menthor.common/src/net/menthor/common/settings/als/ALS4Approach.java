@@ -3,10 +3,13 @@ package net.menthor.common.settings.als;
 
 public enum ALS4Approach {
 	
+	
 	BRANCHING("Branching World","Branching scenario where worlds states are ordered as a tree with branches towards the future "+
 	"capturing that the future may unfold in different ways, where no joining branches are allowed. "+
 	"In this approach, classes are Alloy binary relations between worlds and objects whilst relationships "+
 	"are Alloy ternary/4-ary relations indexed by worlds.");
+
+
 	
 	private String description;
 	private String name;

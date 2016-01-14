@@ -21,6 +21,7 @@ import net.menthor.alloy.EnumDeclaration;
 import net.menthor.alloy.FactDeclaration;
 import net.menthor.alloy.FunctionDeclaration;
 import net.menthor.alloy.ModuleImportation;
+import net.menthor.alloy.PredicateDeclaration;
 import net.menthor.alloy.PredicateInvocation;
 import net.menthor.alloy.QuantificationExpression;
 import net.menthor.alloy.Quantificator;
@@ -51,6 +52,7 @@ import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Kind;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
@@ -129,17 +131,24 @@ public class Transformer {
 	{	
 		world = AlloyAPI.createSigWorld(factory);
 				
-		ModuleImportation mi1 = AlloyAPI.createModuleImport(factory,"world_structure","", world);		
+		ModuleImportation mi1 = AlloyAPI.createModuleImport(factory,"ordering","util", world);
+		
 		ModuleImportation mi2 = AlloyAPI.createModuleImport(factory,"ontological_properties","", world);
 		ModuleImportation mi3 = AlloyAPI.createModuleImport(factory,"relation","util", null);
 		ModuleImportation mi4 = AlloyAPI.createModuleImport(factory,"ternary","util", null);
 		ModuleImportation mi5 = AlloyAPI.createModuleImport(factory,"boolean","util", null);
+		ModuleImportation mi6 = AlloyAPI.createModuleImport(factory,"continuous_existance","", world);
 		module.getImports().add(mi1);
 		module.getImports().add(mi2);
 		module.getImports().add(mi3);		
 		module.getImports().add(mi4);
 		module.getImports().add(mi5);
-			
+		module.getImports().add(mi6);
+		
+		//this arraylist will fetch every signature created that shouldn't be in the exists declaration. Exists will be defined as some univ - datatype...
+		ArrayList<String> existsSignatures = new ArrayList<String>();
+		existsSignatures.add("univ");
+		
 		sigObject = factory.createSignatureDeclaration();
 		sigObject.setName("Object");
 		module.getParagraph().add(sigObject);
@@ -151,6 +160,8 @@ public class Transformer {
 		sigDatatype = factory.createSignatureDeclaration();
 		sigDatatype.setName("DataType");			
 		module.getParagraph().add(sigDatatype);
+		existsSignatures.add("DataType");
+		createsClassesSigs(module);
 				
 		if (ontoparser.getAllInstances(PrimitiveType.class).size()>0)
 		{
@@ -160,19 +171,22 @@ public class Transformer {
 				{
 					sigString = factory.createSignatureDeclaration();
 					sigString.setName("String_");					
-					module.getParagraph().add(sigString);					
+					module.getParagraph().add(sigString);	
+					existsSignatures.add("String__");
 				}			
 				if (p.getName().compareToIgnoreCase("char")==0)
 				{
 					sigChar = factory.createSignatureDeclaration();
 					sigChar.setName("Char");					
-					module.getParagraph().add(sigChar);					
+					module.getParagraph().add(sigChar);
+					existsSignatures.add("Char");
 				}
 				if (p.getName().compareToIgnoreCase("real")==0)
 				{
 					sigReal = factory.createSignatureDeclaration();
 					sigReal.setName("Real");					
-					module.getParagraph().add(sigReal);					
+					module.getParagraph().add(sigReal);
+					existsSignatures.add("Real");
 				}
 			}
 		}
@@ -203,16 +217,15 @@ public class Transformer {
 			enumerationSignatures.add(sigEnumeration);
 		}			
 		
-		{
-			ArrayList<String> existsSignatures = new ArrayList<String>();						
-			if(ontoparser.getAllInstances(ObjectClass.class).size()>0) existsSignatures.add(sigObject.getName());
-			if(ontoparser.getAllInstances(MomentClass.class).size()>0) existsSignatures.add(sigProperty.getName());			
-			if (existsSignatures.size() > 0)
-			{
-				exists = AlloyAPI.createExistsDeclaration(factory,existsSignatures);			
-				world.getRelation().add(exists.getDeclaration());
-			}
-		}
+		
+		//exists is defined by univ - datatypes
+		existsSignatures.add("World");
+		existsSignatures.add("Int");
+		existsSignatures.add("String");
+		exists = AlloyAPI.createExistsDeclaration(factory,existsSignatures);			
+		world.getRelation().add(exists.getDeclaration());
+		
+		
 		module.getParagraph().add(world);		
 		
 		// ======================================================================================================
@@ -223,6 +236,7 @@ public class Transformer {
 		return;
 		
 		if(ontoparser.getAllInstances(RefOntoUML.Class.class).size()>0) populatesWihAdditionalFact();
+		
 		
 		populatesWithClasses();
 		populatesWithAttributes();
@@ -249,6 +263,9 @@ public class Transformer {
 		
 		populatesWithTopLevelClassDisjointness();
 		
+		
+		
+		
 		CommandDeclaration cmd = AlloyAPI.createDefaultRunComand(factory, module);	
 		module.getParagraph().add(cmd);				
 	}
@@ -260,6 +277,40 @@ public class Transformer {
 	      return o1.toString().compareToIgnoreCase(o2.toString());
 	   }
 	}
+	/** 
+	 * Creates the sigs for the Kinds and Relators and Mixins that don't have identity
+	 * @param  
+	 */
+	protected void createsClassesSigs(AlloyModule module)
+	{
+		
+		for(RefOntoUML.Class c: ontoparser.getAllInstances(RefOntoUML.Class.class))		
+		{			
+			
+			if(c instanceof ObjectClass)
+			{
+				
+				if (c instanceof Kind)
+				{
+					SignatureDeclaration kindSig = factory.createSignatureDeclaration();
+					kindSig.setName(ontoparser.getAlias(c));
+					module.getParagraph().add(kindSig);
+				}
+			}
+			
+						 
+			if(c instanceof MomentClass)
+			{			
+				SignatureDeclaration momentSig = factory.createSignatureDeclaration();
+				momentSig.setName(ontoparser.getAlias(c));
+				module.getParagraph().add(momentSig);
+			}
+							
+						
+		}
+		
+	}
+	
 	/** 
 	 * Populates With Classes 
 	 */
@@ -314,6 +365,7 @@ public class Transformer {
 		
 		world.getRelation().addAll(classesDeclaration);
 	}
+	
 	
 	/**
 	 * Populates With Attributes.

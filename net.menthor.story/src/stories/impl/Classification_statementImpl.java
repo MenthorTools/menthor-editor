@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
+import RefOntoUML.parser.OntoUMLParser;
 import stories.Node;
 import stories.Classification_statement;
 import stories.StoriesPackage;
@@ -267,21 +268,21 @@ public class Classification_statementImpl extends MinimalEObjectImpl.Container i
 		return result.toString();
 	}
 
-	private String isClassifiedIn(Node n, RefOntoUML.Class c, World w){
+	private String isClassifiedIn(Node n, RefOntoUML.Class c, World w, OntoUMLParser modelParser){
 		System.out.println(c);
-		return '\t'+ n.getLabel()+" in "+w.getLabel()+"."+c.getName()+'\n';
+		return '\t'+ n.getLabel()+" in "+w.getLabel()+"."+modelParser.getAlias(c)+'\n';
 	}
 	@Override
-	public String existance(Node target) {
+	public String existance(Node target,OntoUMLParser modelParser) {
 		String existance = "";
 		for( World w: this.getHolds_in()){
 			for(RefOntoUML.Class c : this.getAntiRigidClasses()){
-				existance = existance+ this.isClassifiedIn(target,c,w);
+				existance = existance+ this.isClassifiedIn(target,c,w, modelParser);
 			}
 		}
 		for( World w: this.getNot_holds_in()){
 			for(RefOntoUML.Class c : this.getAntiRigidClasses()){
-				existance = existance+ "not "+this.isClassifiedIn(target,c,w);
+				existance = existance+ "not "+this.isClassifiedIn(target,c,w, modelParser);
 			}
 		}
 		return existance;

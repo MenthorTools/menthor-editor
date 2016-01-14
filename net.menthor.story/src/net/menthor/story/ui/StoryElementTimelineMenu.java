@@ -28,7 +28,7 @@ public class StoryElementTimelineMenu extends Menu {
 		      public void widgetSelected(final SelectionEvent e)
 		      {
 		        TreeItem [] selected = tree.getSelection();
-		        TreeItem item ;
+		        
 		        if (selected.length > 0)
 		        {
 		          TreeItem parent = selected[0].getParentItem();
@@ -37,18 +37,18 @@ public class StoryElementTimelineMenu extends Menu {
 		          if (parent == null)
 		          {	        	  
 			          int index = tree.indexOf(selected[0]);
-			          item = setml.createNode(tree, index+1);
+			          setml.createNode(tree, index+1);
 			           
 		          }else{	        	  
 			          int index = parent.indexOf(selected[0]);
-			          item = setml.createNode_state(parent, index+1);
+			          setml.createNode_state(parent, index+1);
 			          
 		          }
 		          
 		        }
 		        else{
 		          System.out.println("Insert Before - nothing selected. Insert at beggining");
-		          item = setml.createNode(tree, 0);
+		          setml.createNode(tree, 0);
 		      	}
 		         
 		      }

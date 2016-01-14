@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<stories:Story xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stories="http://stories.bernardofbbraga.com.br">
+  <elements xsi:type="stories:World" label="World0" next="World1"/>
+  <elements xsi:type="stories:World" label="World1" next="World2" prev="World0"/>
+  <elements xsi:type="stories:World" label="World2" prev="World1"/>
+  <elements xsi:type="stories:Node" label="John" present_in="World0 World1 World2">
+    <instance_of href="../input/bank-remake.refontouml#_odhoILiKEeWRaboDyOENUA"/>
+    <is_referred_to_in holds_in="World0 World1 World2" label="Client">
+      <antiRigidClasses href="../input/bank-remake.refontouml#_hn8QYLiKEeWRaboDyOENUA"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="SantanderBank" present_in="World0 World1 World2">
+    <instance_of href="../input/bank-remake.refontouml#_jFE8wLiKEeWRaboDyOENUA"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="JohnsMobilePhone" present_in="World0 World1 World2">
+    <instance_of href="../input/bank-remake.refontouml#_knh44LiIEeWRaboDyOENUA"/>
+    <is_referred_to_in holds_in="World1 World2" not_holds_in="World0" label="AccessingDevice">
+      <antiRigidClasses href="../input/bank-remake.refontouml#_nBvRgLiIEeWRaboDyOENUA"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="SandanterUniversityATM" present_in="World0 World1 World2">
+    <instance_of href="../input/bank-remake.refontouml#_lrG1wLiIEeWRaboDyOENUA"/>
+    <is_referred_to_in holds_in="World2" not_holds_in="World0 World1" label="WithdrawingATm">
+      <antiRigidClasses href="../input/bank-remake.refontouml#_p2M9MLiIEeWRaboDyOENUA"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="JohnsAccessToAccount" present_in="World1 World2" absent_from="World0">
+    <instance_of href="../input/bank-remake.refontouml#_Fe6wMLiKEeWRaboDyOENUA"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="JohnsAccount" present_in="World0 World1 World2">
+    <instance_of href="../input/bank-remake.refontouml#_UcxPkLiKEeWRaboDyOENUA"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="JohnsWithdraw" present_in="World2" absent_from="World1 World0">
+    <instance_of href="../input/bank-remake.refontouml#_JaYVoLiJEeWRaboDyOENUA"/>
+  </elements>
+</stories:Story>
