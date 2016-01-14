@@ -129,7 +129,6 @@ import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
 import net.menthor.editor.derivation.PastSpecializationPattern;
 import net.menthor.editor.derivation.SpecializationPattern;
 import net.menthor.editor.derivation.UnionPattern;
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.finder.FoundPane;
 import net.menthor.editor.pattern.DomainPatternTool;
@@ -149,11 +148,11 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.dialogs.EASettingsDialog;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.menubar.MainMenuBar;
+import net.menthor.editor.v2.settings.ea.EASettingsDialog;
 import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
@@ -2351,7 +2350,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		refreshDiagramElement(property.getAssociation());
 		getFrame().getProjectBrowser().refresh();
 	}
-	
+		
 	/** Change a class stereotype */ 
 	public void changeClassStereotype(ClassType type, RefOntoUML.Element element) 
 	{ 

@@ -55,7 +55,7 @@ public class SplashScreen extends JDialog {
 		setSize(600, 316);
 		splash_img.setBounds(SwingConstants.CENTER, SwingConstants.CENTER, imgWidth, imgHeigth);
 		layeredPane.add(splash_img);
-		rightsLabel = new JLabel("Copyright © 2015 Menthor. All rights reserved.");
+		rightsLabel = new JLabel("Copyright © 2016 Menthor. All rights reserved.");
 		rightsLabel.setFont(new Font(rightsLabel.getFont().getFontName(), Font.BOLD, 11));
 		rightsLabel.setForeground(Color.WHITE);
 		rightsLabel.setBounds(10, 291, 446, 24);		

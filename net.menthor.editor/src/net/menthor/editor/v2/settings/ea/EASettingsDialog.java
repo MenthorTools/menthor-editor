@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.dialogs;
+package net.menthor.editor.v2.settings.ea;
 
 /**
  * ============================================================================================

@@ -66,9 +66,9 @@ public final class IconMap {
 		urlMap.put(IconType.MENTHOR_SUBCOLLECTIONOF, "net/menthor/editor/v2/icon/ontouml/subcollectionof.png");
 		urlMap.put(IconType.MENTHOR_SUBQUANTITYOF, "net/menthor/editor/v2/icon/ontouml/subquantityof.png");
 		urlMap.put(IconType.MENTHOR_MEMBEROF, "net/menthor/editor/v2/icon/ontouml/memberof.png");						
-		urlMap.put(IconType.MENTHOR_CONSTRAINTDOC, "net/menthor/editor/v2/icon/ontouml/constraintdoc.png");	
 				
 		//app
+		urlMap.put(IconType.MENTHOR_CONSTRAINTDOC, "net/menthor/editor/v2/icon/constraintdoc.png");
 		urlMap.put(IconType.MENTHOR_APP_ICON, "net/menthor/editor/v2/icon/appmenthor.png");
 		urlMap.put(IconType.MENTHOR_DIAGRAM, "net/menthor/editor/v2/icon/diagram.png");
 		urlMap.put(IconType.MENTHOR_PATTERN, "net/menthor/editor/v2/icon/pattern.png");

@@ -43,6 +43,7 @@ import org.tinyuml.umldraw.ClassElement;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.MixinClass;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -63,6 +64,9 @@ public class ClassEditionPanel extends JPanel {
 	private JLabel lblStereo;
 	@SuppressWarnings("rawtypes")
 	protected JComboBox stereoCombo;
+	
+	@SuppressWarnings("rawtypes")
+	public JComboBox getStereotypeComboBox() { return stereoCombo; }
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ClassEditionPanel(final DiagramManager diagramManager, final ClassElement classElement, RefOntoUML.Classifier element) 
@@ -177,6 +181,10 @@ public class ClassEditionPanel extends JPanel {
 		if (element instanceof Collective) ((Collective) element).setIsExtensional(btnExtensional.isSelected());
 		element.setIsAbstract(btnAbstract.isSelected());
 		
-		diagramManager.updateMenthorFromModification(element,false);	
+		diagramManager.updateMenthorFromModification(element,false);
+		
+		if(OntoUMLParser.getStereotype(element).compareTo((String) getStereotypeComboBox().getSelectedItem())!=0)	{
+			diagramManager.changeClassStereotype(element, (String) getStereotypeComboBox().getSelectedItem());
+		}
 	}
 }

@@ -40,6 +40,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.commands.CommandListener;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.AssociationElement;
@@ -51,6 +52,7 @@ import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.subQuantityOf;
+import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -63,9 +65,12 @@ public class AssociationEditionPanel extends JPanel {
 	private Classifier element;
 	private DiagramManager diagramManager;
 	
+	@SuppressWarnings("rawtypes")
+	public JComboBox getStereotypeComboBox(){ return stereoCombo; }
+	
 	private JTextField nameField;
-	@SuppressWarnings("rawtypes") 
-	protected JComboBox stereoCombo;
+	@SuppressWarnings("rawtypes")
+	private JComboBox stereoCombo;
 	private JCheckBox cbxAbstract;
 	private JCheckBox cbxDerived;
 	private JPanel assocPanel;
@@ -439,6 +444,11 @@ public class AssociationEditionPanel extends JPanel {
 		}
 		
 		diagramManager.updateMenthorFromModification(element,false);
+		
+		String newstereo = (String) getStereotypeComboBox().getSelectedItem();
+		if(OntoUMLParser.getStereotype(element).compareTo(newstereo)!=0){
+			diagramManager.getCommandListener().handleCommand("CHANGE_TO_"+newstereo.toUpperCase(), element);			
+		}
 	}
 }
 

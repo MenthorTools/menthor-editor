@@ -100,7 +100,7 @@ public class AboutDialog extends JDialog{
 		detailsPanel = new JPanel();
 		detailsTextPane = new JTextPane();
 		detailsTextPane.setBackground(UIManager.getColor("Panel.background"));
-		detailsTextPane.setText("Menthor Editor \r\nCopyright © 2015 All rights reserved. \r\n\r\nVersion: "+version+"\r\nBuild Date: "+buildDate+"\r\n\r\nThis product includes software developed by other open source projects including TinyUML (GNU GPL license), Alloy (MIT license), Eclipse Foundation (EPL license), and NEMO Infrastructure (MIT license). Menthor Editor itself is distributed under GNU GPL license because its drawing core is still built upon TinyUML's drawing infrastructure.");
+		detailsTextPane.setText("Menthor Editor \r\nCopyright © 2016 All rights reserved. \r\n\r\nVersion: "+version+"\r\nBuild Date: "+buildDate+"\r\n\r\nThis product includes software developed by other open source projects including TinyUML (GNU GPL license), Alloy (MIT license), Eclipse Foundation (EPL license), and NEMO Infrastructure (MIT license).");
 		tinyUMLLink = new JHyperLinkLabel("");
 		tinyUMLLink.setText("http://sourceforge.net/projects/tinyuml/");
 		tinyUMLLink.addMouseListener(new MouseAdapter() {			

@@ -25,6 +25,9 @@ import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
 
+import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.ClassElement;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
@@ -35,9 +38,6 @@ import net.menthor.editor.v2.menu.GenSetMenu;
 import net.menthor.editor.v2.menu.LineStyleMenu;
 import net.menthor.editor.v2.menu.MenuBuilder;
 import net.menthor.editor.v2.menu.VisibilityMenu;
-
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.ClassElement;
 
 public class MultiElementPopupMenu extends BasePopupMenu {
 
@@ -68,7 +68,7 @@ public class MultiElementPopupMenu extends BasePopupMenu {
 			if(containsClass(list)) {
 				attrItem.setSelected(someShowAttributes(list));
 				attrItem.setVisible(true);
-			} else attrItem.setVisible(false);
+			} else attrItem.setVisible(false);			
 			visMenu.getMenuItem(CommandType.SHOW_END_POINT_NAMES).setSelected(someShowEndNames(list));
 			visMenu.getMenuItem(CommandType.SHOW_MULTIPLICITIES).setSelected(someShowMultiplicities(list));
 			visMenu.getMenuItem(CommandType.SHOW_NAME).setSelected(someShowName(list));
@@ -85,7 +85,7 @@ public class MultiElementPopupMenu extends BasePopupMenu {
 		addSeparator();
 		createMenuItem("Reset Points", CommandType.RESET_POINTS);
 		styleMenu = MenuBuilder.buildLineStyle(listener, this, "Line Style");
-		visMenu = MenuBuilder.buildVisibility(listener, this, "Visibility");
+		visMenu = MenuBuilder.buildVisibility(listener, this, "Visibility");		
 		alignMenu = MenuBuilder.buildAlign(listener, this, "Align");	
 		colorMenu = MenuBuilder.buildBackground(listener, this, "Background Color");
 		attrItem = createCheckBoxMenuItem("Show Class Attributes", CommandType.SHOW_ATTRIBUTES);
@@ -113,6 +113,14 @@ public class MultiElementPopupMenu extends BasePopupMenu {
 				return true;
 		}
 		return false;
+	}
+	
+	private boolean areAllClasses(List<Object> objs){
+		for(Object o: objs){
+			if(!(o instanceof ClassElement))
+				return false;
+		}
+		return true;
 	}
 	
 	private boolean someShowEndNames(List<Object> objs){

@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -30,8 +30,10 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.edit.AssociationEditDialog;
+import net.menthor.editor.v2.edit.ClassEditDialog;
+import net.menthor.editor.v2.edit.GeneralizationEditDialog;
+import net.menthor.editor.v2.edit.GeneralizationSetEditDialog;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
@@ -45,15 +47,15 @@ import RefOntoUML.Property;
  */
 public class ElementDialogCaller {
 
-	public static GeneralizationSetDialog callGeneralizationSetDialog(MainFrame frame, GeneralizationSet element, boolean modal)
+	public static GeneralizationSetEditDialog callGeneralizationSetDialog(MainFrame frame, GeneralizationSet element, boolean modal)
 	{
-		GeneralizationSetDialog dialog = new GeneralizationSetDialog(frame, (GeneralizationSet)element, modal);
+		GeneralizationSetEditDialog dialog = new GeneralizationSetEditDialog(frame, (GeneralizationSet)element, modal);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 		return dialog;
 	}
 	
-	public static GeneralizationDialog callGeneralizationDialog(MainFrame frame, Generalization element, boolean modal)
+	public static GeneralizationEditDialog callGeneralizationDialog(MainFrame frame, Generalization element, boolean modal)
 	{
 		DiagramEditor diagEditor = frame.getDiagramManager().getCurrentDiagramEditor();
 		StructureDiagram diagram;
@@ -63,13 +65,13 @@ public class ElementDialogCaller {
 			diagram = diagEditor.getDiagram();
 		}
 		DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram((RefOntoUML.Element)element,diagram);
-		GeneralizationDialog dialog = new GeneralizationDialog(frame, (GeneralizationElement)diagramElement,(RefOntoUML.Generalization)element,true);
+		GeneralizationEditDialog dialog = new GeneralizationEditDialog(frame, (GeneralizationElement)diagramElement,(RefOntoUML.Generalization)element,true);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 		return dialog;
 	}
 	
-	public static ClassDialog callConstraintxDialog(MainFrame frame, Constraintx element, boolean modal)
+	public static ClassEditDialog callConstraintxDialog(MainFrame frame, Constraintx element, boolean modal)
 	{
 		RefOntoUML.Element context = ((RefOntoUML.Constraintx)element).getConstrainedElement().get(0);
 		if (context instanceof RefOntoUML.Class)
@@ -82,7 +84,7 @@ public class ElementDialogCaller {
 				diagram = diagEditor.getDiagram();
 			}	
 			DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram(context,diagram);
-			ClassDialog dialog = new ClassDialog(frame,(ClassElement)diagramElement,(RefOntoUML.Classifier)context,true);
+			ClassEditDialog dialog = new ClassEditDialog(frame,(ClassElement)diagramElement,(RefOntoUML.Classifier)context,true);
 			dialog.setLocationRelativeTo(frame);			
 			dialog.selectTab(2); 
 			dialog.setVisible(true);
@@ -102,7 +104,7 @@ public class ElementDialogCaller {
 		}	
 		if (element.eContainer() instanceof RefOntoUML.Class){
 			DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram((RefOntoUML.Element)element.eContainer(),diagram);
-			ClassDialog dialog = new ClassDialog(frame,(ClassElement)diagramElement, (RefOntoUML.Classifier)element.eContainer(), true);
+			ClassEditDialog dialog = new ClassEditDialog(frame,(ClassElement)diagramElement, (RefOntoUML.Classifier)element.eContainer(), true);
 			dialog.setLocationRelativeTo(frame);			
 			if (element instanceof RefOntoUML.Comment) dialog.selectTab(1);
 			dialog.setVisible(true);
@@ -110,7 +112,7 @@ public class ElementDialogCaller {
 		}
 		if (element.eContainer() instanceof RefOntoUML.Association){
 			DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram((RefOntoUML.Element)element.eContainer(),diagram);
-			AssociationDialog dialog = new AssociationDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element.eContainer(), true);
+			AssociationEditDialog dialog = new AssociationEditDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element.eContainer(), true);
 			dialog.setLocationRelativeTo(frame);			                			 
 			if (element instanceof RefOntoUML.Comment) dialog.selectTab(3);
 			dialog.setVisible(true);
@@ -119,7 +121,7 @@ public class ElementDialogCaller {
 		return null;
 	}
 	
-	public static AssociationDialog callAssociationDialog(MainFrame frame, Association element, boolean modal)
+	public static AssociationEditDialog callAssociationDialog(MainFrame frame, Association element, boolean modal)
 	{
 		DiagramEditor diagEditor = frame.getDiagramManager().getCurrentDiagramEditor();
 		StructureDiagram diagram;
@@ -129,7 +131,7 @@ public class ElementDialogCaller {
 			diagram = diagEditor.getDiagram();
 		}		
 		DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram(element,diagram);
-		AssociationDialog dialog = new AssociationDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element, true);
+		AssociationEditDialog dialog = new AssociationEditDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element, true);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 		return dialog;
@@ -147,7 +149,7 @@ public class ElementDialogCaller {
 		}
 		if (p.getAssociation()!=null){
 			DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram(p.getAssociation(),diagram);
-			AssociationDialog dialog = new AssociationDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)p.getAssociation(), true);
+			AssociationEditDialog dialog = new AssociationEditDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)p.getAssociation(), true);
 			dialog.setLocationRelativeTo(frame);			
 			if(p.getAssociation().getMemberEnd().get(0).equals(p)) dialog.selectTab(1);
 			else dialog.selectTab(2);
@@ -155,7 +157,7 @@ public class ElementDialogCaller {
 			return dialog;
 		}else{
 			DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram((RefOntoUML.Element)p.eContainer(),diagram);
-			ClassDialog dialog = new ClassDialog(frame, (ClassElement)diagramElement,(RefOntoUML.Classifier)p.eContainer(),true);
+			ClassEditDialog dialog = new ClassEditDialog(frame, (ClassElement)diagramElement,(RefOntoUML.Classifier)p.eContainer(),true);
 			dialog.setLocationRelativeTo(frame);			
 			dialog.selectTab(0);
 			dialog.setVisible(true);
@@ -163,7 +165,7 @@ public class ElementDialogCaller {
 		}
 	}
 	
-	public static ClassDialog callClassDialog(MainFrame frame, Classifier element, boolean modal)
+	public static ClassEditDialog callClassDialog(MainFrame frame, Classifier element, boolean modal)
 	{
 		DiagramEditor diagEditor = frame.getDiagramManager().getCurrentDiagramEditor();
 		StructureDiagram diagram;
@@ -173,7 +175,7 @@ public class ElementDialogCaller {
 			diagram = diagEditor.getDiagram();
 		}
 		DiagramElement diagramElement = ModelHelper.getDiagramElementByDiagram(element,diagram);
-		ClassDialog dialog = new ClassDialog(frame, (ClassElement)diagramElement, (RefOntoUML.Classifier)element, true);
+		ClassEditDialog dialog = new ClassEditDialog(frame, (ClassElement)diagramElement, (RefOntoUML.Classifier)element, true);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 		return dialog;

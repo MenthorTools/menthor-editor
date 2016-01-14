@@ -67,6 +67,7 @@ import RefOntoUML.Property;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.edit.AttributeEditDialog;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.tables.AttributeTableModel;
@@ -74,6 +75,7 @@ import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
+import net.menthor.editor.ui.MainFrame;
 /**
  * @author John Guerson
  */
@@ -195,11 +197,11 @@ public class AttributesEditionPanel extends JPanel {
 				if(row>=0){
 					Property p = attributesTableModel.getEntry(row);
 					if (parent instanceof JFrame){
-						AttributeDialog dialog = new AttributeDialog((JFrame)parent,diagramManager,	classElement, element, p, false);
+						AttributeEditDialog dialog = new AttributeEditDialog((MainFrame)parent,diagramManager,	classElement, element, p, false);
 		    			dialog.setLocationRelativeTo(parent);
 		    			dialog.setVisible(true);	
 					}else if (parent instanceof JDialog) {
-						AttributeDialog dialog = new AttributeDialog((JDialog)parent,diagramManager, classElement, element, p, false);
+						AttributeEditDialog dialog = new AttributeEditDialog((JDialog)parent,diagramManager, classElement, element, p, false);
 		    			dialog.setLocationRelativeTo(parent);
 		    			dialog.setVisible(true);
 					}

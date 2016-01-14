@@ -28,7 +28,7 @@ import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
+import net.menthor.editor.ui.ElementDialogCaller;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;

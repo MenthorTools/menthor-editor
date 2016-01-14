@@ -57,7 +57,7 @@ public class CommandMap {
 	/** constructor */
 	private CommandMap(){
 		try {
-			
+			//menu's commands
 			file();					
 			exportation();
 			importation();
@@ -74,8 +74,7 @@ public class CommandMap {
 			dnd(); //palette's drag and drop
 			additions(); //tree's additions			
 			changes(); //stereotype change
-			basetree(); 
-			projecttree();
+			movetree(); //move up and down, move to diagram, find in diagrams
 			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -98,11 +97,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.SAVE_PROJECT_AS,
 				new MethodCall(DiagramManager.class.getMethod("saveProjectAs")));
 		cmdMap.put(CommandType.SAVE_PROJECT,
-				new MethodCall(DiagramManager.class.getMethod("saveProject")));
-		cmdMap.put(CommandType.QUIT_MENTHOR,
-				new MethodCall(MainFrame.class.getMethod("quitApplication")));
+				new MethodCall(DiagramManager.class.getMethod("saveProject")));		
 		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
 				new MethodCall(DiagramManager.class.getMethod("openLinkWithBrowser", String.class)));
+		cmdMap.put(CommandType.QUIT_MENTHOR,
+				new MethodCall(MainFrame.class.getMethod("quitApplication")));
 	}
 	
 	private void exportation() throws NoSuchMethodException, SecurityException{
@@ -129,14 +128,11 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("importFromEARecent")));
 	}
 
-	private void basetree() throws NoSuchMethodException, SecurityException{
+	private void movetree() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.MOVE_UP_TREE,
 				new MethodCall(BaseCheckBoxTree.class.getMethod("moveUp")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
-				new MethodCall(BaseCheckBoxTree.class.getMethod("moveDown")));		
-	}
-
-	private void projecttree() throws NoSuchMethodException, SecurityException{		
+				new MethodCall(BaseCheckBoxTree.class.getMethod("moveDown")));
 		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
 				new MethodCall(DiagramManager.class.getMethod("moveToDiagram", Object.class)));
 		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
@@ -154,7 +150,6 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("editProperties", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
 				new MethodCall(DiagramManager.class.getMethod("delete", Object.class)));		
-		
 		cmdMap.put(CommandType.ERASE, 
 				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));
 	}

@@ -67,7 +67,7 @@ public class DecimalMeasurementRegionImpl extends BasicMeasurementRegionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DecimalMeasurementRegionImpl() {
+	public DecimalMeasurementRegionImpl() {
 		super();
 	}
 

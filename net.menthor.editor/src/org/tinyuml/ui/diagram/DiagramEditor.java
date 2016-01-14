@@ -58,10 +58,10 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 
-import net.menthor.editor.dialog.properties.ElementDialogCaller;
 import net.menthor.editor.dialog.properties.FeatureListDialog;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.ElementDialogCaller;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
