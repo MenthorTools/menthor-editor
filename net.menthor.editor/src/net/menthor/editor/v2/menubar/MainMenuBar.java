@@ -141,8 +141,8 @@ public class MainMenuBar extends BaseMenuBar {
 		file.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
-		if(Util.onMac()){
-			/* Application.getApplication().setQuitHandler(new QuitHandler(){
+		/*if(Util.onMac()){
+			 Application.getApplication().setQuitHandler(new QuitHandler(){
 				@Override
 				public void handleQuitRequestWith(QuitEvent arg0, QuitResponse resp) {
 					if(!MenthorEditor.frame.quitApplication()){
@@ -150,11 +150,12 @@ public class MainMenuBar extends BaseMenuBar {
 					 }
 				}
 			});
-			*/
+			
 			 
 		}else{
+		*/
 			createMenuItem(file, "Quit", CommandType.QUIT_MENTHOR, background,stroke);
-		}
+		//}
 	}
 	
 	private void createEditMenu(){		
@@ -268,17 +269,18 @@ public class MainMenuBar extends BaseMenuBar {
 	private void createHelpMenu(){
 		help = new JMenu("Help");
 		add(help);
-		if(Util.onMac()){
-		/*	Application.getApplication().setAboutHandler(new AboutHandler(){
+		/*if(Util.onMac()){
+			Application.getApplication().setAboutHandler(new AboutHandler(){
 				@Override
 				public void handleAbout(AboutEvent arg0) {
 					AboutDialog.open(MenthorEditor.frame,MenthorEditor.MENTHOR_COMPILATION_DATE,MenthorEditor.MENTHOR_VERSION);
 				}		
 			});
-		 */
+		 
 		}else{
+		*/
 			createMenuItem(help, "About", CommandType.ABOUT, background);
-		}	
+		//}	
 		createMenuItem(help, "Licenses", CommandType.LICENSES, background);
 	}
 }
