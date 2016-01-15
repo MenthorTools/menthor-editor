@@ -65,7 +65,7 @@ public class DimensionEditionPanel extends JPanel {
 	
 	@SuppressWarnings("unused")
 	private ClassElement classElement;
-	private Classifier dimension;
+	private Classifier structure;
 	private DiagramManager diagramManager;
 	private JTextField unitField;
 	private JPanel pane;
@@ -83,7 +83,7 @@ public class DimensionEditionPanel extends JPanel {
 	{	
 		this.diagramManager = diagramManager;
 		this.classElement = classElement;
-		this.dimension = element;
+		this.structure = element;
 							
 		pane = new JPanel();
 		pane.setBounds(0, 0, 468, 80);
@@ -155,67 +155,61 @@ public class DimensionEditionPanel extends JPanel {
 		Collections.sort(types);
     	domainCombo.setModel(new DefaultComboBoxModel(types.toArray()));
     	
-		setInitialData();
-		
+    	if(structure instanceof MeasurementDimension) setDimensionInitialData();
+	
 		setPreferredSize(new Dimension(468, 80));
 		setLayout(null);
 		add(pane);
 	}
 	
-	public void setInitialData()
-	{
-		if (dimension instanceof MeasurementDimension) {
-			unitField.setText(((MeasurementDimension)dimension).getUnitOfMeasure());
-			domainCombo.setSelectedItem(((MeasurementDimension)dimension).getDomain());
-			
-			BasicMeasurementRegion upper = ((MeasurementDimension)dimension).getUpperBound();		
-			if(upper!=null) {
-				if(upper instanceof IntegerMeasurementRegion) {
-					String txt = Integer.toString(((IntegerMeasurementRegion)upper).getValue());
-					upperField.setText(txt);
-				}
-				if(upper instanceof DecimalMeasurementRegion) {
-					String txt = Double.toString(((DecimalMeasurementRegion)upper).getValue().doubleValue());
-					upperField.setText(txt);				
-				}
+	public void setDimensionInitialData(){		
+		unitField.setText(((MeasurementDimension)structure).getUnitOfMeasure());
+		domainCombo.setSelectedItem(((MeasurementDimension)structure).getDomain());		
+		BasicMeasurementRegion upper = ((MeasurementDimension)structure).getUpperBound();		
+		if(upper!=null) {
+			if(upper instanceof IntegerMeasurementRegion) {
+				String txt = Integer.toString(((IntegerMeasurementRegion)upper).getValue());
+				upperField.setText(txt);
 			}
-			
-			BasicMeasurementRegion lower = ((MeasurementDimension)dimension).getLowerBound();			
-			if(lower!=null) {
-				if(lower instanceof IntegerMeasurementRegion) {
-					String txt = Integer.toString(((IntegerMeasurementRegion)lower).getValue());				
-					lowerField.setText(txt);
-				}
-				if(lower instanceof DecimalMeasurementRegion) {
-					String txt = Double.toString(((DecimalMeasurementRegion)lower).getValue().doubleValue());
-					lowerField.setText(txt);				
-				}
+			if(upper instanceof DecimalMeasurementRegion) {
+				String txt = Double.toString(((DecimalMeasurementRegion)upper).getValue().doubleValue());
+				upperField.setText(txt);				
 			}
-		}
+		}		
+		BasicMeasurementRegion lower = ((MeasurementDimension)structure).getLowerBound();			
+		if(lower!=null) {
+			if(lower instanceof IntegerMeasurementRegion) {
+				String txt = Integer.toString(((IntegerMeasurementRegion)lower).getValue());				
+				lowerField.setText(txt);
+			}
+			if(lower instanceof DecimalMeasurementRegion) {
+				String txt = Double.toString(((DecimalMeasurementRegion)lower).getValue().doubleValue());
+				lowerField.setText(txt);				
+			}
+		}	
 	}
 		
-	public void selectUnitText()
-	{
+	public void selectUnitText(){
 		unitField.selectAll();
 	}
 	
 	public void transferUpperRegion(){
-		if(dimension instanceof IntegerOrdinalDimensionImpl || dimension instanceof IntegerRationalDimensionImpl || dimension instanceof IntegerIntervalDimensionImpl){
+		if(structure instanceof IntegerOrdinalDimensionImpl || structure instanceof IntegerRationalDimensionImpl || structure instanceof IntegerIntervalDimensionImpl){
 			IntegerMeasurementRegion upper = new IntegerMeasurementRegionImpl();
 			try{ 
 				int value = Integer.parseInt(upperField.getText()); 
 				upper.setValue(value);
-				((MeasurementDimension)dimension).setUpperBound(upper);				
+				((MeasurementDimension)structure).setUpperBound(upper);				
 			} catch(NumberFormatException e){ 
 				System.err.println(e.getLocalizedMessage());
 			}							
 		}
-		if(dimension instanceof DecimalOrdinalDimensionImpl || dimension instanceof DecimalRationalDimensionImpl || dimension instanceof DecimalIntervalDimensionImpl){
+		if(structure instanceof DecimalOrdinalDimensionImpl || structure instanceof DecimalRationalDimensionImpl || structure instanceof DecimalIntervalDimensionImpl){
 			DecimalMeasurementRegion upper = new DecimalMeasurementRegionImpl();
 			try{ 
 				double value = Double.parseDouble(upperField.getText()); 
 				upper.setValue(new BigDecimal(value));
-				((MeasurementDimension)dimension).setUpperBound(upper);				
+				((MeasurementDimension)structure).setUpperBound(upper);				
 			} catch(NumberFormatException e){ 
 				System.err.println(e.getLocalizedMessage());
 			}							
@@ -223,22 +217,22 @@ public class DimensionEditionPanel extends JPanel {
 	}
 	
 	public void transferLowerRegion(){
-		if(dimension instanceof IntegerOrdinalDimensionImpl || dimension instanceof IntegerRationalDimensionImpl || dimension instanceof IntegerIntervalDimensionImpl){
+		if(structure instanceof IntegerOrdinalDimensionImpl || structure instanceof IntegerRationalDimensionImpl || structure instanceof IntegerIntervalDimensionImpl){
 			IntegerMeasurementRegion lower = new IntegerMeasurementRegionImpl();
 			try{ 
 				int value = Integer.parseInt(lowerField.getText()); 
 				lower.setValue(value);
-				((MeasurementDimension)dimension).setLowerBound(lower);
+				((MeasurementDimension)structure).setLowerBound(lower);
 			} catch(NumberFormatException e){ 
 				System.err.println(e.getLocalizedMessage());
 			}							
 		}
-		if(dimension instanceof DecimalOrdinalDimensionImpl || dimension instanceof DecimalRationalDimensionImpl || dimension instanceof DecimalIntervalDimensionImpl){
+		if(structure instanceof DecimalOrdinalDimensionImpl || structure instanceof DecimalRationalDimensionImpl || structure instanceof DecimalIntervalDimensionImpl){
 			DecimalMeasurementRegion lower = new DecimalMeasurementRegionImpl();
 			try{ 
 				double value = Double.parseDouble(lowerField.getText()); 
 				lower.setValue(new BigDecimal(value));
-				((MeasurementDimension)dimension).setLowerBound(lower);
+				((MeasurementDimension)structure).setLowerBound(lower);
 			} catch(NumberFormatException e){ 
 				System.err.println(e.getLocalizedMessage());
 			}							
@@ -247,13 +241,13 @@ public class DimensionEditionPanel extends JPanel {
 	
 	public void transferDimensionData()
 	{
-		if (dimension instanceof MeasurementDimension) {
-			((MeasurementDimension)dimension).setUnitOfMeasure(unitField.getText());
-			((MeasurementDimension)dimension).setDomain((MeasurementDomain)domainCombo.getSelectedItem());
+		if (structure instanceof MeasurementDimension) {
+			((MeasurementDimension)structure).setUnitOfMeasure(unitField.getText());
+			((MeasurementDimension)structure).setDomain((MeasurementDomain)domainCombo.getSelectedItem());
 			transferUpperRegion();		
 			transferLowerRegion();
 		}
 		
-		diagramManager.updateMenthorFromModification(dimension,false);	
+		diagramManager.updateMenthorFromModification(structure,false);	
 	}
 }

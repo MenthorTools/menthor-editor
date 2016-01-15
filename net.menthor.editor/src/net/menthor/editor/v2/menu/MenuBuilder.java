@@ -1,5 +1,7 @@
 package net.menthor.editor.v2.menu;
 
+import javax.swing.JMenu;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -76,13 +78,38 @@ public class MenuBuilder {
 		return directionMenu;
 	}
 	
-	public static SourceMultiplicityMenu buildSourceMultiplicity(CommandListener listener, JPopupMenu parent, String text)
-	{	
+	public static SourceMultiplicityMenu buildSourceMultiplicity(CommandListener listener, JPopupMenu parent, String text){	
 		SourceMultiplicityMenu srcMenu = new SourceMultiplicityMenu(listener, text);
 		parent.add(srcMenu);
 		return srcMenu;
 	}
+	
+	public static SourceMultiplicityMenu buildSourceMultiplicity(CommandListener listener, JMenu parent, String text){	
+		SourceMultiplicityMenu srcMenu = new SourceMultiplicityMenu(listener, text);
+		parent.add(srcMenu);
+		return srcMenu;
+	}
+	
+	public static SourceEndPointMenu buildSourceEndPoint(CommandListener listener, JPopupMenu parent, String text){	
+		SourceEndPointMenu srcMenu = new SourceEndPointMenu(listener, text);
+		parent.add(srcMenu);
+		return srcMenu;
+	}
+	
+	public static TargetEndPointMenu buildTargetEndPoint(CommandListener listener, JPopupMenu parent, String text){	
+		TargetEndPointMenu tgtMenu = new TargetEndPointMenu(listener, text);
+		parent.add(tgtMenu);
+		return tgtMenu;
+	}
+	
 	public static TargetMultiplicityMenu buildTargetMultiplicity(CommandListener listener, JPopupMenu parent, String text)
+	{	
+		TargetMultiplicityMenu tgtMenu = new TargetMultiplicityMenu(listener, text);
+		parent.add(tgtMenu);
+		return tgtMenu;
+	}
+	
+	public static TargetMultiplicityMenu buildTargetMultiplicity(CommandListener listener, JMenu parent, String text)
 	{	
 		TargetMultiplicityMenu tgtMenu = new TargetMultiplicityMenu(listener, text);
 		parent.add(tgtMenu);

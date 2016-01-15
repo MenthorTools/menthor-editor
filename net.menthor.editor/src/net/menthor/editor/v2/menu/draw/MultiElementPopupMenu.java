@@ -115,6 +115,7 @@ public class MultiElementPopupMenu extends BasePopupMenu {
 		return false;
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean areAllClasses(List<Object> objs){
 		for(Object o: objs){
 			if(!(o instanceof ClassElement))
