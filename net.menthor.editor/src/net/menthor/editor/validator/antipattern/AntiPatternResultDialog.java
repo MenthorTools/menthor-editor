@@ -87,6 +87,7 @@ import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard;
 import net.menthor.antipattern.wizard.undefphase.UndefPhaseWizard;
 import net.menthor.editor.ui.AntiPatternList;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.managers.UpdateManager;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -574,7 +575,7 @@ public class AntiPatternResultDialog extends Dialog {
 		if(wizardDialog!=null && wizardDialog.open()==Window.OK){			
 			if(!apOccur.getFix().isEmpty()){
 				if(AntiPatternModifDialog.openDialog(apOccur.getFix(), frame)==Window.OK){					
-					frame.getDiagramManager().updateMenthor(apOccur.getFix());					
+					UpdateManager.update(apOccur.getFix());					
 				}
 			}
 			refresh();

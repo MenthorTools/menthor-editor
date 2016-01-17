@@ -7,6 +7,7 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.pattern.dynamic.ui.ModelCompleter;
@@ -93,7 +94,7 @@ public class PatternTool {
 			pm.runPattern();
 			if(pm.canGetFix()){
 				fix = pm.getFix();
-				diagramManager.updateMenthor(fix);
+				UpdateManager.update(fix);
 				_runModelCompleter(diagramManager, x, y,false);
 			}
 		}else{
@@ -124,7 +125,7 @@ public class PatternTool {
 				return;
 
 			Fix fix = mcw.getFix();
-			diagramManager.updateMenthor(fix);
+			UpdateManager.update(fix);
 
 			_runModelCompleter(diagramManager, x, y);
 		}catch(Exception e){
@@ -148,7 +149,7 @@ public class PatternTool {
 				return;
 
 			Fix fix = mcw.getFix();
-			diagramManager.updateMenthor(fix);
+			UpdateManager.update(fix);
 
 			_runModelCompleter(diagramManager, x, y, showCompleteMessage);
 		}catch(Exception e){

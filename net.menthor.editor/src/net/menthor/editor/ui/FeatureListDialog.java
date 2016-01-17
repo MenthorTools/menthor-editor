@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================

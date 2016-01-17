@@ -38,8 +38,8 @@ import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
@@ -85,13 +85,13 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		
 		if(genSet!=null){
 			undoFromModel(genSet,generalizations);
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(genSet);
+			UpdateManager.updateFromDeletion(genSet);
 		}
 		
 		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen,false);
+				UpdateManager.updateFromChange(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -115,13 +115,13 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		
 		if(genSet!=null){
 			addToModel(genSet, generalizations);
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(genSet);			
+			UpdateManager.updateFromAddition(genSet);			
 		}
 		
 		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen,false);
+				UpdateManager.updateFromChange(gen,false);
 				list.add(genElem);
 			}
 		}		

@@ -1,3 +1,4 @@
+
 package net.menthor.editor.ui;
 
 /**
@@ -33,13 +34,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -63,54 +61,34 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.provider.IDisposable;
-import org.eclipse.jface.window.Window;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.SemanticException;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContextImpl;
-import org.tinyuml.draw.LineStyle;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.SelectionListener;
-import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
-import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
-import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
 import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
-import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
-import RefOntoUML.Comment;
-import RefOntoUML.Constraintx;
-import RefOntoUML.Derivation;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import RefOntoUML.LiteralInteger;
-import RefOntoUML.LiteralUnlimitedNatural;
-import RefOntoUML.MaterialAssociation;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
-import RefOntoUML.Relationship;
-import RefOntoUML.StringExpression;
-import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLElementCustom;
-import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
@@ -151,15 +129,18 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.FilterManager;
+import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.RemakeManager;
+import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.settings.ea.EASettingsDialog;
 import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
-import net.menthor.editor.v2.trees.ProjectTree;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.ui.AboutDialog;
@@ -228,7 +209,22 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		RefOntoUMLEditingDomain.getInstance().initialize();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
-		setMinimumSize(new Dimension(0,0));			    
+		setMinimumSize(new Dimension(0,0));	
+		
+		//setup all kinds of deletions of elements
+		DeletionManager.setup(this, frame.getProjectBrowser());
+		//setup all kinds of drags and drops on diagram
+		MoveManager.setup(this, frame.getProjectBrowser());
+		//setup all kinds of additions of elements
+		AdditionManager.setup(this, frame.getProjectBrowser());
+		//setup all kinds of updates of elements
+		UpdateManager.setup(this, frame.getProjectBrowser());
+		//setup all kinds of changes on elements
+		ChangeManager.setup(this,  frame.getProjectBrowser());
+		//setup the re-creation of elements on diagrams
+		RemakeManager.setup(this,  frame.getProjectBrowser());
+		
+		FilterManager.setup(this, frame.getProjectBrowser());
 	}
 
 	public StartPage getStartPage()
@@ -252,17 +248,18 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	public void generateSbvr()
 	{
-		workingOnlyWithChecked();
+		//workingOnlyWithChecked();
 		OntoUMLParser refparser = Models.getRefparser();
-		RefOntoUML.Package model = refparser.createModelFromSelections(new Copier());
-		generateSbvr(model);
+		//RefOntoUML.Package model = refparser.createModelFromSelections(new Copier());
+		generateSbvr(refparser.getModel());
 	}
 		
 	public void generateInfoUML()
 	{	
-		workingOnlyWithChecked();
+		//workingOnlyWithChecked();
 		OntoUMLParser refparser = Models.getRefparser();
-		generateInfoUML((RefOntoUML.Model)refparser.createModelFromSelections(new Copier()));
+		//RefOntoUML.Package model = refparser.createModelFromSelections(new Copier())
+		generateInfoUML(refparser.getModel());
 	}
 	
 	public void searchInProject()
@@ -1025,66 +1022,20 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		DiagramListDialog.open(ProjectBrowser.frame, diagrams);		
 	}
 	
-	/** Delete Diagram */
-	public void deleteDiagram(StructureDiagram diagram, boolean showwarning)
-	{
-		int response = -1;
-		if (showwarning){
-			response = JOptionPane.showConfirmDialog(
-				frame, 
-				"Are you sure that you want to delete this diagram?\nThis action CANNOT be undone.", 
-				"Delete diagram", 
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null
-			);
-		}else{
-			response = Window.OK;
-		}
-		if(response==Window.OK)
-		{	
-			//first remove all the elements in the diagram
-			for(DiagramElement dElem: diagram.getChildren()) {
-				if(dElem instanceof ClassElement) deleteFromDiagram(((ClassElement)dElem).getClassifier(), getDiagramEditor(diagram));
-				if(dElem instanceof AssociationElement) deleteFromDiagram(((AssociationElement)dElem).getRelationship(), getDiagramEditor(diagram));
-				if(dElem instanceof GeneralizationElement) deleteFromDiagram(((GeneralizationElement)dElem).getRelationship(), getDiagramEditor(diagram));
+	public void removeDiagramFromTab(StructureDiagram diagram){
+		for(Component c: getComponents()){
+			if (c instanceof DiagramWrapper){
+				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) remove(c);
 			}
-			//second deletes the diagram
-			getCurrentProject().getDiagrams().remove(diagram);
-			for(Component c: getComponents()){
-				if (c instanceof DiagramWrapper){
-					if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) remove(c);
-				}
-			}		
-			//remove the diagram from the browser
-			ProjectBrowser browser = frame.getProjectBrowser();
-			browser.getTree().removeCurrentNode();
-		}
+		}		
 	}
-
-	/** Delete OCL Document */
-	public void deleteOclDocument(OclDocument doc, boolean showwarning)
-	{		
-		int response = -1;
-		if (showwarning){
-			response = JOptionPane.showConfirmDialog(
-				frame, 
-				"Are you sure that you want to delete this document?\nThis action CANNOT be undone.", 
-				"Delete document", 
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null
-			);
-		}else{
-			response = Window.OK;
-		}
-		if(response==Window.OK)
-		{	
-			ProjectBrowser pb = frame.getProjectBrowser();
-			Models.getOclDocList().remove(doc);
-			for(Component c: getComponents()){
-				if (c instanceof ConstraintEditor){
-					if (((ConstraintEditor)c).getOclDocument().equals(doc)) remove(c);
-				}
-			}		
-			pb.getTree().removeCurrentNode();
-		}
+	
+	public void removeOclDocTab(OclDocument doc){		
+		for(Component c: getComponents()){
+			if (c instanceof ConstraintEditor){
+				if (((ConstraintEditor)c).getOclDocument().equals(doc)) remove(c);
+			}
+		}	
 	}
 	
 	/** Get the names of all diagrams */
@@ -1722,233 +1673,30 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}
 		}
 	}
-	
-	/** 
-	 *  Tell the application to work only with the set of elements contained in the diagram.
-	 *  
-	 *  This method check in the tree all the elements contained in the diagram.
-	 *  If something is missing it completes the checking with the missing elements.
-	 *  The elements checked  in the tree are then properly selected in the OntoUML parser.
-	 *  This then enables all the application to work only with the selected/checked elements in the parser. 
-	 */
-	public void workingOnlyWith(StructureDiagram diagram)
-	{
-		// get elements from the diagram
-		List<EObject> elements = ModelHelper.getElements(diagram);
-		//complete missing/mandatory dependencies on the parser
-		OntoUMLParser refparser = Models.getRefparser();				
-		refparser.select((ArrayList<EObject>)elements,true);
-		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
-		elements.removeAll(added);
-		elements.addAll(added);
-		//check in the tree the selected elements of the parser
-		ProjectBrowser pb = frame.getProjectBrowser();
-		//pb.getTree().check(elements, true);					
-		pb.getTree().updateUI();		
-		Models.setRefparser(refparser);
-	}
-	
-	/** Tell the application to work only with the elements contained in these diagrams. */
-	public void workingOnlyWith(ArrayList<StructureDiagram> diagrams)
-	{
-		ArrayList<EObject> elements = new ArrayList<EObject>();
-		for(StructureDiagram sd: diagrams) {
-			for(DiagramElement de: sd.getChildren()){
-				if(de instanceof ClassElement) {
-					Classifier c = ((ClassElement)de).getClassifier();
-					elements.add(c);
-					if(c instanceof RefOntoUML.Class) {
-						for(Property attr: ((RefOntoUML.Class)c).getOwnedAttribute()) {
-							elements.add(attr);
-							if(!elements.contains(attr.getType())) elements.add(attr.getType());
-						}
-					}
-					if(c instanceof RefOntoUML.DataType) {
-						for(Property attr: ((RefOntoUML.DataType)c).getOwnedAttribute()) {
-							elements.add(attr);
-							if(!elements.contains(attr.getType())) elements.add(attr.getType());
-						}
-					}
-				}
-				if(de instanceof AssociationElement) { 
-					Association r = (Association)((AssociationElement)de).getRelationship();
-					elements.add(r.getMemberEnd().get(0));
-					elements.add(r.getMemberEnd().get(1));
-					elements.add(r);								
-				}
-				if(de instanceof GeneralizationElement) {
-					Relationship rel = ((GeneralizationElement)de).getRelationship();
-					elements.add(rel);
-					elements.addAll(((Generalization)rel).getGeneralizationSet());				 
-				}
-			}		
-		}			
-		//complete missing/mandatory dependencies on the parser
-		OntoUMLParser refparser = Models.getRefparser();				
-		refparser.select((ArrayList<EObject>)elements,true);
-		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
-		elements.removeAll(added);
-		elements.addAll(added);
-		//check in the tree the selected elements of the parser
-		ProjectBrowser modeltree = frame.getProjectBrowser();
-		//modeltree.getTree().check(elements, true);					
-		modeltree.getTree().updateUI();		
-		Models.setRefparser(refparser);
-	}
-	
-	/** 
-	 * Tell the application to work only with the checked elements in the tree.
-	 * 
-	 * This method check if some dependence is missing in the checking, completing it with the missing elements.
-	 * The elements checked  in the tree are then properly selected in the OntoUML parser.
-	 * This  enables all the application to work only with the checked elements in the parser/tree.
-	 * @return 
-	 */
-	public List<Object> workingOnlyWithChecked()
-	{	
-		// This method does a lot of processing and updates the UI -- 
-		//This causes lag and frozen ui because they take a lot of time on big models.
-		//Suggestion: Call this method from a "doInBackground" of a SwingWorker and the commented ones from "done".
-		OntoUMLParser refparser = Models.getRefparser();
-		ProjectBrowser modeltree = frame.getProjectBrowser();			
-		List<Object> selected = modeltree.getTree().getCheckedElements();
-		List<EObject> result = new ArrayList<EObject>();
-		for(Object c: selected){
-			result.add((EObject)c);
-		}
-		refparser.select(result,true);		
-		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);		
-		selected.removeAll(added);
-		selected.addAll(added);	
-		
-//		modeltree.getTree().checkModelElements(selected, true);			
-		modeltree.getTree().updateUI();
-	
-		Models.setRefparser(refparser);
-		
-		return selected;
-	}
-	
-	/** 
-	 * Tell the application to work with all elements in the model.
-	 * 
-	 * This method check all the elements of the model in the tree. Then properly select them in the OntoUML parser.
-	 * This  enables all the application to work with all the elements in the parser/tree.
-	 */
-	public void workingWithAll()
-	{
-		OntoUMLParser refparser = Models.getRefparser();
-		ProjectBrowser pb = frame.getProjectBrowser();			
-		//pb.getTree().checkModelElement(currentProject.getModel());
-		refparser.selectAll();		
-		pb.getTree().updateUI();		
-		Models.setRefparser(refparser);
-	}
-	
-	/** Add relationship to the model instance (not to diagram). */
-	public RefOntoUML.Relationship addRelation(RelationshipType stereotype, EObject eContainer)
-	{
-		RefOntoUML.Relationship relationship = elementFactory.createRelationship(stereotype);
-		// add default properties
-		if(relationship instanceof RefOntoUML.Association) elementFactory.createPropertiesByDefault((RefOntoUML.Association)relationship);
-		//to add only in the model do exactly as follow				
-		if (stereotype==RelationshipType.GENERALIZATION) {
-			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,(RefOntoUML.Classifier)eContainer,null,getCurrentProject(),null);
-			cmd.run();
-		}else{
-			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,null,null,getCurrentProject(),eContainer);
-			cmd.run();
-		}
-		return relationship;
-	}
-
-	/** Add comment to the model instance (not to diagram) */
-	public RefOntoUML.Comment addComment(RefOntoUML.Element eContainer)
-	{
-		RefOntoUML.Comment comment = elementFactory.createComment();
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,getCurrentProject(),eContainer);		
-		cmd.run();
-		return comment;
-	}
-
-	/** Add comment to the model instance (not to diagram) */
-	public RefOntoUML.Element addPackage(RefOntoUML.Element eContainer)
-	{
-		RefOntoUML.Element comment = elementFactory.createPackage();
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,getCurrentProject(),eContainer);		
-		cmd.run();
-		return comment;
-	}
-	
-	/** Add constraintx to the model instance (not to diagram) */
-	public void addConstraintx(Constraintx cmt, RefOntoUML.Element eContainer) 
-	{
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,cmt,0,0,getCurrentProject(),eContainer);		
-		cmd.run();
-	}
-	
-
-	/** Add constraintx to the model instance (not to diagram) */
-	public void addConstraintx(RefOntoUML.Element eContainer) 
-	{
-		addConstraintx("",eContainer);
-	}
-	
-	/** Add constraintx to the model instance (not to diagram) */
-	public void addConstraintx(String text, RefOntoUML.Element eContainer) 
-	{
-		RefOntoUML.Constraintx element = elementFactory.createConstraintx();
-		((StringExpression)element.getSpecification()).setSymbol(text);
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
-		cmd.run();				
-	}
-	
+			
 	public void manageAntiPatterns()
 	{			
 		System.out.println("Opening anti-pattern dialog...");
 		AntiPatternSearchDialog.open(getFrame());		
 	}
-	
-	/** Add comment to the model instance (not to diagram) */
-	public void addComment(RefOntoUML.Comment c, RefOntoUML.Element eContainer)
-	{
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,c,0,0,getCurrentProject(),eContainer);		
-		cmd.run();
-	}
-		
-	/** Add element to the model instance (not to diagram).  */
-	public RefOntoUML.Element addGeneralizationSet(RefOntoUML.Element eContainer)
-	{
-		RefOntoUML.Element element = elementFactory.createGeneralizationSet();		
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
-		cmd.run();		
-		return element;
-	}
 
-	/** Add element to the model instance (not to diagram).  */
-	public RefOntoUML.Element addClass(ClassType stereotype, RefOntoUML.Element eContainer)
-	{	
-		RefOntoUML.Element element = elementFactory.createClass(stereotype);		
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
-		cmd.run();		
-		return element;
+	public boolean haveGeneralizationSet(List<Generalization> gens){
+		boolean result = false;
+		for(Generalization g: gens){
+			if (g.getGeneralizationSet()!=null && !g.getGeneralizationSet().isEmpty()) result=true;
+		}
+		return result;
 	}
 	
-	/** Add element to the model instance (not to diagram).  */
-	public RefOntoUML.Element addDataType(DataType stereotype, RefOntoUML.Element eContainer)
-	{
-		RefOntoUML.Element element = elementFactory.createDataType(stereotype);		
-		//to add only in the model do exactly as follow		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,getCurrentProject(),eContainer);		
-		cmd.run();		
-		return element;
+	public List<Generalization> getGeneralizations(List<DiagramElement> diagramElements){
+		List<Generalization> gens = new ArrayList<Generalization>();		
+		for(DiagramElement dElem: diagramElements){
+			if (dElem instanceof GeneralizationElement){
+				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();				
+				if(gen!=null) gens.add(gen);
+			}
+		}
+		return gens;
 	}
 	
 	/** Rename an element. It updates the application accordingly (including the diagrams in which the element appears). It also shows a input dialog for text entry. */
@@ -1971,72 +1719,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 						cmd.run();
 					}
 				}
-				frame.getDiagramManager().updateMenthorFromModification(element, false);
+				UpdateManager.updateFromChange(element, false);
 			}
 		}   
 	}	
-	
-	public void delete(List<Object> elems){
-		for(Object o: elems){
-			delete(o);
-		}
-	}
-	
-	public void delete(Object elem)
-	{	
-		if (elem instanceof StructureDiagram)
-		{
-			frame.getDiagramManager().deleteDiagram((StructureDiagram)elem,true);    					
-		}
-		else if (elem instanceof OclDocument)
-		{
-			frame.getDiagramManager().deleteOclDocument((OclDocument)elem,true);    					
-		}
-		else if (elem instanceof RefOntoUML.Element){				
-			frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)elem,true);    					    					
-		}				
-		else{ 
-			getCurrentDiagramEditor().deleteSelection(elem);
-		}
-	}
-	
-	/** Delete element from the model and every diagram in each it appears. */
-	public void deleteFromMenthor(RefOntoUML.Element element, boolean showwarning)
-	{	
-		int response = -1;
-		if (showwarning){
-			response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the selected items from the model \nand all the diagrams they might appear? This action can still be undone.\n", "Delete from Menthor Editor", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-		}else{
-			response = Window.OK;
-		}
-		if(response==Window.OK)
-		{		
-			ArrayList<RefOntoUML.Element> deletionList = new ArrayList<RefOntoUML.Element>();
-			deletionList.add(element);
-			ArrayList<DiagramEditor> editors = getDiagramEditors(element);
-			//from diagrams & model
-			for(DiagramEditor diagramEditor: editors)
-			{
-				if(element instanceof GeneralizationSet){	
-					diagramEditor.execute(new DeleteGeneralizationSetCommand(diagramEditor, element, getCurrentProject()));
-				}else{
-					diagramEditor.execute(new DeleteElementCommand(diagramEditor,deletionList, diagramEditor.getProject(),true,true));
-				}
-			}
-			// only from model
-			if(editors==null || editors.size()==0)
-			{		
-				if(element instanceof GeneralizationSet){	
-					DeleteGeneralizationSetCommand cmd = new DeleteGeneralizationSetCommand(null, element,getCurrentProject());
-					cmd.run();
-				}else{
-					DeleteElementCommand cmd = new DeleteElementCommand(null,deletionList, getCurrentProject(),true,false);
-					cmd.run();	
-				}				
-			}
-		}
-	}
-
+			
 	public void editProperties(Object element)
 	{
 		if (element instanceof ClassElement) {
@@ -2058,128 +1745,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
     	}
 	}
 	
-	/** Delete elements from the model and every diagram in each they appear. It shows a message before deletion. */
-	public void deleteFromMenthor(Collection<DiagramElement> diagramElementList, boolean showmessage)
-	{
-		int response =-1;	
-		ArrayList<RefOntoUML.Element> deletionList = (ArrayList<RefOntoUML.Element>)ModelHelper.getElements(diagramElementList);			
-		if(deletionList.size()>0){		
-			if(showmessage) response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the selected items from the model \nand all the diagrams they might appear? This action can still be undone.\n", "Delete from Menthor Editor", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-			if(response==Window.OK)
-			{							
-				if(deletionList.size()>0){
-					ArrayList<DiagramEditor> editors = getDiagramEditors(deletionList.get(0));
-					//from diagrams & model
-					for(DiagramEditor diagramEditor: editors)
-					{
-						DeleteElementCommand cmd = new DeleteElementCommand(diagramEditor,deletionList, diagramEditor.getProject(),true,true);
-						cmd.run();
-					}	
-					// only from model
-					if(editors.size()==0)
-					{		
-						DeleteElementCommand cmd = new DeleteElementCommand(null,deletionList, getCurrentProject(),true,false);
-						cmd.run();
-					}
-				}else{
-					System.err.println("There is a diagram element without a corresponding model instance. Wrong behaviour.");
-				}
-			}
-		}
-	}
-
-	/** Create a generalization set from selected diagram elements */
-	public GeneralizationSet addGeneralizationSet(DiagramEditor d, Collection<DiagramElement> diagramElementsList) 
-	{		
-		// retain only generalizations from selected
-		ArrayList<Generalization> gens = new ArrayList<Generalization>();
-		boolean genSetAlreadyExists = false;
-		for(DiagramElement dElem: diagramElementsList){
-			if (dElem instanceof GeneralizationElement){
-				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
-				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) genSetAlreadyExists=true;
-				if(gen!=null) gens.add(gen);
-			}
-		}
-		if(gens.size()<=1) return null; 
-		if(genSetAlreadyExists){
-			int response = JOptionPane.showConfirmDialog(getFrame(), "There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?", "Adding Generalization Set", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
-			if(response!=JOptionPane.OK_OPTION) return null;
-		}
-		//create default gen set
-		EObject eContainer = null;
-		if(gens.size()>1) eContainer = gens.get(0).getSpecific().eContainer();	
-		else eContainer = getCurrentProject().getModel();
-		RefOntoUML.GeneralizationSet newgenset = (GeneralizationSet)elementFactory.createGeneralizationSet();
-		((RefOntoUML.Package)eContainer).getPackagedElement().add(newgenset);
-		// init data of generalization set
-		((GeneralizationSet)newgenset).setIsCovering(true);
-		((GeneralizationSet)newgenset).setIsDisjoint(true);
-		((GeneralizationSet)newgenset).setName("gs");
-		
-		d.execute(new AddGeneralizationSetCommand(d, d.getDiagram(), newgenset, gens, getCurrentProject(), getCurrentProject().getModel()));
-				
-		return (GeneralizationSet)newgenset;
-	}
 	
-	/** Delete a generalization set from a list of selected diagram elements */
-	public void deleteGeneralizationSet(DiagramEditor d, Collection<DiagramElement> diagramElementsList) 
-	{	
-		// retain only generalization sets from selected
-		ArrayList<RefOntoUMLElementCustom> genSets = new ArrayList<RefOntoUMLElementCustom>();		
-		for(DiagramElement dElem: diagramElementsList){
-			if (dElem instanceof GeneralizationElement){
-				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
-				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) {
-					for(GeneralizationSet gs: gen.getGeneralizationSet()) {
-						if (!contains(genSets,(RefOntoUML.Element)gs)) genSets.add(new RefOntoUMLElementCustom(gs,""));				
-					}
-				}
-			}
-		}
-		if(genSets.size()==0) return;
-		if(genSets.size()==1){			
-			frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)genSets.get(0).getElement(),true);
-		}else{
-			RefOntoUMLElementCustom chosen = (RefOntoUMLElementCustom) JOptionPane.showInputDialog(getFrame(), 
-					"Which generalization set do you want to delete?",
-					"Deleting Generalization Set",
-					JOptionPane.QUESTION_MESSAGE, 
-					null, 
-					genSets.toArray(), 
-					genSets.toArray()[0]);
-			if(chosen!=null){
-				frame.getDiagramManager().deleteFromMenthor((RefOntoUML.Element)chosen.getElement(),true);
-			}		
-		}			
-	}
-	
-	/** Delete element from all diagrams in the project. (not from the model) */
-	public void deleteFromAllDiagrams(RefOntoUML.Element element)
-	{	
-		if(element instanceof GeneralizationSet) return;
-		if(element instanceof Constraintx) return;
-		if(element instanceof Comment) return;
-		ArrayList<RefOntoUML.Element> deletionList = new ArrayList<RefOntoUML.Element>();
-		deletionList.add(element);
-		for(DiagramEditor diagramEditor: getDiagramEditors(element))
-		{			
-			DeleteElementCommand cmd = new DeleteElementCommand(diagramEditor,deletionList, diagramEditor.getProject(),false,true);
-			cmd.run();
-		}		
-	}
 
-	/** Delete element from a particular diagram (do not delete it from the model). */
-	public void deleteFromDiagram(RefOntoUML.Element element, DiagramEditor diagramEditor)
-	{		
-		if(element instanceof GeneralizationSet) return;
-		if(element instanceof Constraintx) return;
-		if(element instanceof Comment) return;
-		ArrayList<RefOntoUML.Element> deletionList = new ArrayList<RefOntoUML.Element>();
-		deletionList.add(element);		
-		DeleteElementCommand cmd = new DeleteElementCommand(diagramEditor,deletionList, getCurrentProject(),false,true);
-		cmd.run();		
-	}
+
+	
+	
 	
 	/** Strictly find by name */
 	public ArrayList<FoundElement> strictlyFindByName(String text)
@@ -2202,6 +1772,22 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}
 		}		
 		return result;
+	}
+	
+	public List<GeneralizationSet> getGeneralizationSets(List<DiagramElement> diagramElements){
+		// retain only generalization sets from selected
+		List<GeneralizationSet> genSets = new ArrayList<GeneralizationSet>();		
+		for(DiagramElement dElem: diagramElements){
+			if (dElem instanceof GeneralizationElement){
+				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
+				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) {
+					for(GeneralizationSet gs: gen.getGeneralizationSet()) {
+						if (!genSets.contains(gs)) genSets.add(gs);				
+					}
+				}
+			}
+		}
+		return genSets;
 	}
 	
 	private class DescriptionComparator implements Comparator<ProblemElement> 
@@ -2330,63 +1916,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	//======================================================================
 	//======================================================================
 	
-	/** Change multiplicity and update the connections in diagram */
-	public void changeMultiplicity(RefOntoUML.Property property, int lowerValue, int upperValue)
-	{
-		LiteralInteger lower = getElementFactory().getFactory().createLiteralInteger();
-		lower.setValue(lowerValue);
-		LiteralUnlimitedNatural upper =  getElementFactory().getFactory().createLiteralUnlimitedNatural();
-		upper.setValue(upperValue);				
-		property.setLowerValue(lower);			
-		property.setUpperValue(upper);
-		refreshDiagramElement(property.getAssociation());
-		getFrame().getProjectBrowser().refresh();
-	}
-	
-	/** Change multiplicity from string and update the connections in diagrams */
-	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException
-	{
-		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		refreshDiagramElement(property.getAssociation());
-		getFrame().getProjectBrowser().refresh();
-	}
-		
-	/** Change a class stereotype */ 
-	public void changeClassStereotype(ClassType type, RefOntoUML.Element element) 
-	{ 
-		changeClassStereotype((RefOntoUML.Type)element, type.getName());
-	}
-	
-	/** Change a class stereotype */ 
-	public void changeClassStereotype(Type type, String stereo) 
-	{   
-		ArrayList<DiagramElement> diagramElemList = ModelHelper.getDiagramElements(type);		
-   		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
-   		Fix fix = fixer.changeClassStereotypeTo(type, fixer.getClassStereotype(stereo));   	
-   		for(DiagramElement diagramElem: diagramElemList){
-	   		if (diagramElem !=null && diagramElem instanceof ClassElement) {
-	   			double x = ((ClassElement)diagramElem).getAbsoluteX1();
-	   			double y = ((ClassElement)diagramElem).getAbsoluteY1();   	   		
-	   	   		fix.setAddedPosition(fix.getAdded().get(0),x,y);
-	   		}
-   		}
-   		updateMenthor(fix);
-	}
-	
-	/** Change relation stereotype */ 
-	public void changeRelationStereotype(RelationshipType type, RefOntoUML.Relationship element) 
-	{	
-		changeRelationStereotype(element, type.getName());
-	}
-	
-	/** Change relation stereotype */ 
-	public void changeRelationStereotype(Relationship type, String stereo) 
-	{	
-   		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
-   		Fix fix = fixer.changeRelationStereotypeTo(type, fixer.getRelationshipStereotype(stereo));   		
-   		updateMenthor(fix);   		   		
-   	}
-
 	public void undo()
 	{		
 		if (isProjectLoaded()==false) return;
@@ -2412,538 +1941,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	/** Re-make element in the diagram . 
-	 *  This actually deletes the current diagramElement and creates another diagramElement, including it in the diagram.*/
-	public void remakeDiagramElement(RefOntoUML.Element element, DiagramEditor d)
-	{
-		boolean isRectilinear = false;
-		boolean showName = false;
-		boolean showOntoUMLStereotype = false;
-		boolean showMultiplicities = false;
-		boolean showRoles = false;
-		ReadingDesign direction = ReadingDesign.UNDEFINED;		
-		if(element instanceof Association)
-		{
-			AssociationElement ae = (AssociationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
-			if(ae!=null)
-			{
-				isRectilinear = ae.isTreeStyle();			
-				showName = ae.showName();
-				showOntoUMLStereotype = ae.showOntoUmlStereotype();
-				showRoles = false;//ae.showRoles();
-				showMultiplicities = ae.showMultiplicities();				
-				direction = ae.getReadingDesign();
-			}
-			deleteFromDiagram(element, d);
-			moveAssociationToDiagram((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
-		}			
-		else if(element instanceof Generalization)
-		{			
-			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
-			if (ge!=null) isRectilinear = ge.isTreeStyle();			
-			deleteFromDiagram(element, d);
-			moveGeneralizationToDiagram((Generalization) element, d, isRectilinear);
-		}		
-	}
-
-	/** Re-make all association in all diagrams they appear.
-	 *  This actually deletes all the diagramElements and creates other diagramElements, including them in their specific diagrams.
-	 */
-	public void remakeAllAssociationElements()
-	{
-		Set<Association> assocList = Models.getRefparser().getAllInstances(Association.class);
-		for(Association assoc: assocList){
-			remakeDiagramElement(assoc);
-		}
-	}
-	
-	/** Re-make element in all diagrams it appears. 
-	 *  This actually deletes all the diagramElements and creates other diagramElements, including them in their specific diagrams. */
-	public void remakeDiagramElement(RefOntoUML.Element element)
-	{
-		for(DiagramEditor diagramEditor: getDiagramEditors(element))
-		{
-			remakeDiagramElement(element,diagramEditor);
-		}
-		// if the element is not in any diagram, redesign it in the diagrams of its types.
-		if(getDiagramEditors(element).size()==0)
-		{
-			if (element instanceof RefOntoUML.Association)
-			{
-				Type source = ((Association)element).getMemberEnd().get(0).getType();
-				Type target = ((Association)element).getMemberEnd().get(1).getType();				
-				for(DiagramEditor diagramEditor: getDiagramEditors(source))
-				{
-					if (getDiagramEditors(target).contains(diagramEditor))
-					{						
-						remakeDiagramElement(element, diagramEditor);
-					}
-				}				
-			}
-			if (element instanceof RefOntoUML.Generalization){
-				Type general = ((Generalization)element).getGeneral();
-				Type specific = ((Generalization)element).getSpecific();
-				for(DiagramEditor diagramEditor: getDiagramEditors(general))
-				{
-					if (getDiagramEditors(specific).contains(diagramEditor))
-					{
-						remakeDiagramElement(element, diagramEditor);
-					}
-				}	
-			}			
-		}
-	}
-
-	/** Refresh element in all diagrams it appears. Just "redraw" the diagramElements. 
-	 *  If the element is an association and the end-points are changed, call the remakeDiagramElement() method instead. */
-	public void refreshDiagramElement(RefOntoUML.Element element)
-	{
-		for(DiagramEditor diagramEditor: getDiagramEditors(element))
-		{
-			refreshDiagramElement(element,diagramEditor);
-		}
-	}
-
-	/** Refresh a diagram element. Just "redraw" it. 
-	 *  If the element is an association and the end-points are changed, call the remakeDiagramElement() method instead. */
-	public void refreshDiagramElement (RefOntoUML.Element element, DiagramEditor d)
-	{		
-		if (d!=null && !d.getDiagram().containsChild(element)) return;
-		if (d!=null) 
-		{
-			ArrayList<DiagramElement> diagramElemList = ModelHelper.getDiagramElements(element);
-			for(DiagramElement diagramElem: diagramElemList)
-			{
-				if(diagramElem!=null)
-				{				
-					ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-					list.add(diagramElem);
-					d.notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-				}			
-			}
-		}		
-	}
-		
-	/** Move generalization to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */
-	public void moveGeneralizationToDiagram(Generalization gen, DiagramEditor d, boolean isRectilinear)
-	{		
-		if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific()))
-		{	
-			UmlConnection conn = d.dragRelation(gen,(EObject)d.getDiagram().getContainer());			
-			if (gen.getGeneralizationSet().size()>0) 
-			{
-				Classifier general = gen.getGeneral();
-				Classifier specific = gen.getSpecific();
-				ClassElement generalElem = (ClassElement)ModelHelper.getDiagramElementByDiagram(general, d.getDiagram());
-				ClassElement specificElem = (ClassElement)ModelHelper.getDiagramElementByDiagram(specific, d.getDiagram());
-				if (generalElem.getAbsoluteY1() < specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
-				else if (generalElem.getAbsoluteY1() > specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
-				else d.setLineStyle(conn, LineStyle.TREESTYLE_HORIZONTAL);
-			}
-			else if (isRectilinear) d.setLineStyle(conn,  LineStyle.RECTILINEAR);
-			else d.setLineStyle(conn,  LineStyle.DIRECT);
-			((GeneralizationElement)conn).setShowName(false);
-		}
-	}
-	
-	/** Move generalizations of an element to the diagram. 
-	 *  It will only move the generalizations in which the general and specific classifiers are contained in the diagram.
-	 */
-	public void moveGeneralizationsToDiagram(RefOntoUML.Element element, EObject eContainer, DiagramEditor d)
-	{
-		OntoUMLParser refparser = Models.getRefparser();
-		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element))
-		{
-			if(!d.getDiagram().containsChild(gen)) moveGeneralizationToDiagram(gen, d, false);
-		}
-	}
-	
-	/**
-	 *  Move associations of an element to the diagram. 
-	 *  It will only move the association whose other end appears in the diagram
-	 */
-	public void moveAssociationsToDiagram(RefOntoUML.Element element, EObject eContainer, DiagramEditor d)
-	{
-		OntoUMLParser refparser = Models.getRefparser();
-		
-		for(RefOntoUML.Association a: refparser.getDirectAssociations((RefOntoUML.Classifier)element))
-		{
-			//bring derivation
-			if(a instanceof MaterialAssociation)
-			{						
-				Derivation deriv = refparser.getDerivation((MaterialAssociation)a);
-				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, ReadingDesign.UNDEFINED);
-			}			
-			if(!d.getDiagram().containsChild(a)) moveAssociationToDiagram(a, d, false, true, true, true, false, ReadingDesign.UNDEFINED);		
-		}
-	}
-	
-	/** Move association to a diagram. It creates a diagram element for that refonto instance adding it to the application map. */
-	public void moveAssociationToDiagram(Association association, DiagramEditor d, boolean isRectilinear, boolean showName, boolean showOntoUMLStereotype, boolean showMultiplicities, boolean showRoles, ReadingDesign direction)
-	{		
-		Type src = ((Association)association).getMemberEnd().get(0).getType();
-		Type tgt = ((Association)association).getMemberEnd().get(1).getType();				
-		if (d.getDiagram().containsChild(src) && d.getDiagram().containsChild(tgt))	
-		{			
-			AssociationElement conn = (AssociationElement) d.dragRelation(association,(EObject)d.getDiagram().getContainer());
-			if(isRectilinear) d.setLineStyle(conn, LineStyle.RECTILINEAR);
-			else d.setLineStyle(conn, LineStyle.DIRECT);
-			conn.setShowMultiplicities(showMultiplicities);
-			conn.setShowName(showName);
-			conn.setShowOntoUmlStereotype(showOntoUMLStereotype);
-			conn.setShowRoles(showRoles);
-			conn.setReadingDesign(direction);
-			
-			//bring derivation
-			if(association instanceof MaterialAssociation){				
-				OntoUMLParser refparser = Models.getRefparser();
-				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
-				if(deriv!=null) moveAssociationToDiagram(deriv, d, false, false, false, true, false, direction);
-			}
-		}
-	}
-	
-	/** Move class to a diagram. It creates a diagram element for that refonto instance adding it to the application map. 
-	 *  It also add related generalizations and associations */
-	public void moveClassToDiagram(RefOntoUML.Element element, double x, double y, DiagramEditor d)
-	{
-		AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),element,x,y,getCurrentProject(),(RefOntoUML.Element)element.eContainer());		
-		cmd.run();	
-		 
-		moveGeneralizationsToDiagram(element, element.eContainer(), d);
-		   
-		moveAssociationsToDiagram(element, element.eContainer(),d);
-	}
-		
-	/** Move element to a Diagram */
-	public void moveToDiagram(RefOntoUML.Element element, double x, double y, DiagramEditor d, boolean showmessage)
-	{
-		if (d!=null && d.getDiagram().containsChild(element) && showmessage)
-		{
-			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
-			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
-			if(de!=null) d.select(de);
-			return;			
-		}
-		if((element instanceof RefOntoUML.Class) || (element instanceof RefOntoUML.DataType)){			
-			moveClassToDiagram(element, x, y, d);	
-			//d.setDragElementMode(oClass,oClass.eContainer());
-		}
-		if((element instanceof RefOntoUML.Generalization)){			
-			moveGeneralizationToDiagram((RefOntoUML.Generalization)element, d, false);
-		}
-		if((element instanceof RefOntoUML.Association)){			
-			moveAssociationToDiagram((RefOntoUML.Association)element, d, false , true, true, true, false, ReadingDesign.UNDEFINED);
-		}
-	}
-	
-	public void moveToDiagram(Object element)
-	{
-		moveToDiagram((RefOntoUML.Element)element,getCurrentDiagramEditor(),true);
-	}
-	
-	/** Move element to a Diagram */
-	public void moveToDiagram(RefOntoUML.Element element, DiagramEditor d, boolean showmessage)
-	{
-		if (d!=null && d.getDiagram().containsChild(element) && showmessage)
-		{
-			if (element instanceof NamedElement) frame.showInformationMessageDialog("Moving to Diagram... ", "\""+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");			
-			else if (element instanceof Generalization) frame.showInformationMessageDialog("Moving to Diagram...", "\"Generalization "+element+"\" already exists in diagram \""+d.getDiagram().getName()+"\"");
-			DiagramElement de = ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
-			if(de!=null) d.select(de);
-			return;			
-		}
-		if((element instanceof RefOntoUML.Class) || (element instanceof RefOntoUML.DataType)){				
-			d.setDragElementMode((RefOntoUML.Type)element,element.eContainer());
-			//moveClassToDiagram(element, x, y, d);	
-		}
-		if((element instanceof RefOntoUML.Generalization)){			
-			moveGeneralizationToDiagram((RefOntoUML.Generalization)element, d, false);
-		}
-		if((element instanceof RefOntoUML.Association)){			
-			moveAssociationToDiagram((RefOntoUML.Association)element, d, false , true, true, true, false, ReadingDesign.UNDEFINED);
-		}
-	}
-	
-	
-	/** Mode tree selected element to a Diagram */
-	public void moveSelectedToDiagram(DiagramEditor editor, Point location) 
-	{
-		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
-		Object obj = node.getUserObject();				
-		moveToDiagram((RefOntoUML.Element)obj, location.x, location.y, editor, true);			
-	}
-	
-	/** Invert end points of an association. This method switch the current properties of an association. 
-	 *  The source becomes the target and vice-versa. */
-	public void invertEndPoints(RefOntoUML.Association association)
-	{
-		Property source = association.getMemberEnd().get(0);
-   		Property target = association.getMemberEnd().get(1);
-   		association.getMemberEnd().clear();	
-   		association.getOwnedEnd().clear();
-   		association.getNavigableOwnedEnd().clear();
-   		association.getMemberEnd().add(target);
-   		association.getMemberEnd().add(source);   	
-   		association.getOwnedEnd().add(target);
-   		association.getOwnedEnd().add(source);
-   		association.getNavigableOwnedEnd().add(target);
-   		association.getNavigableOwnedEnd().add(source);
-   		ProjectTree tree = frame.getProjectBrowser().getTree();
-   		tree.checkElement(source);
-   		tree.removeCurrentNode();   		
-   		tree.checkElement(association);
-   		tree.addElement(source);  
-   		tree.updateUI();
-   		frame.getDiagramManager().updateMenthorFromModification(association, true);
-	}
-	
-	/** Invert names of end points of an association. This method switch the current end names of an association. 
-	 *  The source end name becomes the target end name and vice-versa. */
-	public void invertEndNames(RefOntoUML.Association association)
-	{
-		Property source = association.getMemberEnd().get(0);
-   		Property target = association.getMemberEnd().get(1);
-   		String sourceName = source.getName();
-   		String targetName = target.getName();
-   		source.setName(targetName);
-   		target.setName(sourceName);
-   		frame.getDiagramManager().updateMenthorFromModification(association, false);
-	}
-	
-	/** Invert multiplicities of end points of an association. This method switch the current multiplicities of an association. 
-	 *  The source end multiplicity becomes the target end multiplicity and vice-versa. */
-	public void invertEndMultiplicities(RefOntoUML.Association association)
-	{
-		Property source = association.getMemberEnd().get(0);
-   		Property target = association.getMemberEnd().get(1);
-   		LiteralInteger sourceLower = getElementFactory().getFactory().createLiteralInteger();
-   		LiteralUnlimitedNatural sourceUpper = getElementFactory().getFactory().createLiteralUnlimitedNatural();
-   		sourceLower.setValue(target.getLower());
-   		sourceUpper.setValue(target.getUpper());   		
-   		LiteralInteger targetLower = getElementFactory().getFactory().createLiteralInteger();
-   		LiteralUnlimitedNatural targetUpper = getElementFactory().getFactory().createLiteralUnlimitedNatural();
-   		targetUpper.setValue(source.getUpper());
-   		targetLower.setValue(source.getLower());  	
-   		source.setUpperValue(sourceUpper);
-   		source.setLowerValue(sourceLower);
-   		target.setUpperValue(targetUpper);
-   		target.setLowerValue(targetLower);
-   		frame.getDiagramManager().updateMenthorFromModification(association, false);
-	}
-	
-	/** Invert types of end points of an association. This method switch the current types of an association. 
-	 *  The source end type becomes the target end type and vice-versa. */
-	public void invertEndTypes(RefOntoUML.Association association)
-	{
-		Property source = association.getMemberEnd().get(0);
-   		Property target = association.getMemberEnd().get(1);
-   		Type sourceType = source.getType();
-   		Type targetType = target.getType();
-   		source.setType(targetType);
-   		target.setType(sourceType);
-   		frame.getDiagramManager().updateMenthorFromModification(association, true);
-	}
-		
-	/** 
-	 * Update the application accordingly to the refontouml instance created. This instance must be already be inserted in its container.
-	 *  
-	 * @param element: added element on refontouml root instance.
-	 */
-	public void updateMenthorFromInclusion(final RefOntoUML.Element addedElement)
-	{		
-		// add to the parser
-		Models.getRefparser().addElement(addedElement);	
-		
-		SwingUtilities.invokeLater(new Runnable() {			
-			@Override
-			public void run() {
-				UmlProject project = ProjectBrowser.frame.getDiagramManager().getCurrentProject();
-				// add to the tree
-				ProjectTree tree = frame.getProjectBrowser().getTree();
-				boolean found = tree.checkElement((EObject)addedElement);
-				if(!found) {
-					if(addedElement.eContainer()!=null) tree.checkElement(addedElement.eContainer());
-					else if(addedElement instanceof EnumerationLiteral) tree.checkElement(((EnumerationLiteral)addedElement).getEnumeration());
-					else tree.checkElement(project.getModel());					
-					tree.addElement(addedElement);					
-				} else {
-					if(addedElement instanceof Generalization){
-						tree.checkElement(addedElement);
-						tree.removeCurrentNode();
-						tree.checkElement(addedElement.eContainer());
-						tree.addElement(addedElement);
-					}
-				}
-				tree.updateUI();						
-			}
-		});		
-	}
-		
-	/**
-	 * Update the application accordingly to the list of refontouml elements added into the root model instance.
-	 *  
-	 * @param fix
-	 */
-	public void updateMenthorFromInclusion(Fix fix)
-	{
-		//classes and datatypes
-		for(Object obj: fix.getAdded()){			
-			if (obj instanceof RefOntoUML.Class||obj instanceof RefOntoUML.DataType) {	
-				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1) 
-				{						
-					AddNodeCommand cmd = new AddNodeCommand((DiagramNotification)getCurrentDiagramEditor(),getCurrentDiagramEditor().getDiagram(),(RefOntoUML.Element)obj,
-					fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y, getCurrentProject(),(RefOntoUML.Element)((EObject)obj).eContainer());		
-					cmd.run();
-				}
-				else {
-					AddNodeCommand cmd = new AddNodeCommand(null,null,(RefOntoUML.Element)obj,0,0,getCurrentProject(),(RefOntoUML.Element)((EObject)obj).eContainer());		
-					cmd.run();									
-				}
-			}			
-		}
-		//relationships and attributes
-		for(Object obj: fix.getAdded()) {
-			if (obj instanceof RefOntoUML.Relationship && !(obj instanceof RefOntoUML.Derivation)) {
-				updateMenthorFromInclusion((RefOntoUML.Element)obj);
-				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor(),false);
-			}
-			if(obj instanceof RefOntoUML.Property){		
-				updateMenthorFromInclusion((RefOntoUML.Element)obj);
-			}
-		}	
-		//derivations
-		for(Object obj: fix.getAdded()) {
-			if (obj instanceof RefOntoUML.Derivation) {
-				updateMenthorFromInclusion((RefOntoUML.Element)obj);
-				moveToDiagram((RefOntoUML.Element)obj, getCurrentDiagramEditor(),false);
-			}
-		}	
-		//generalization sets
-		for(Object obj: fix.getAdded()) {
-			if (obj instanceof RefOntoUML.GeneralizationSet) 
-			{
-				AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand((DiagramNotification)getCurrentDiagramEditor(),getCurrentDiagramEditor().getDiagram(),(RefOntoUML.Element)obj,
-				((GeneralizationSet)obj).getGeneralization(),getCurrentProject(),(RefOntoUML.Element)((EObject)obj).eContainer());
-				cmd.run(); 
-			}
-		}
-	}	
-		
-	/**
-	 * Update the application accordingly to the refontouml instance that were modified.
-	 * 
-	 * @param element: modified element on the refontouml root instance
-	 */
-	public void updateMenthorFromModification(final RefOntoUML.Element element, final boolean redesign)
-	{
-		updateMenthorFromInclusion(element);
-		
-		SwingUtilities.invokeLater(new Runnable() {			
-			@Override
-			public void run() {
-				// update the diagrams
-				if (element instanceof RefOntoUML.Class || element instanceof RefOntoUML.DataType)
-				{
-					refreshDiagramElement((Classifier)element);			
-				}
-				if (element instanceof RefOntoUML.Association)
-				{
-					if (redesign) remakeDiagramElement((RefOntoUML.Element)element);
-					else refreshDiagramElement((RefOntoUML.Element)element);
-				}
-				if (element instanceof RefOntoUML.Property)
-				{
-					Association assoc= ((RefOntoUML.Property)element).getAssociation();								
-					if (assoc!=null){
-						if(redesign) remakeDiagramElement((RefOntoUML.Element)assoc);
-						else refreshDiagramElement((RefOntoUML.Element)assoc);
-					}else{
-						refreshDiagramElement((RefOntoUML.Element)(element).eContainer());
-					}
-				}		
-				if (element instanceof RefOntoUML.Generalization)
-				{
-					if (redesign) remakeDiagramElement((RefOntoUML.Element)element); 
-					else refreshDiagramElement((RefOntoUML.Element)element);
-				}
-				if(element instanceof RefOntoUML.GeneralizationSet)
-				{
-					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) updateMenthorFromModification(gen,false);
-				}
-			}
-		});
-	}
-	
-	/**
-	 * Update the application accordingly to the list of refontouml elements modified into the root model instance.  
-	 * 
-	 * @param fix
-	 */
-	public void updateMenthorFromModification(Fix fix)
-	{
-		for(Object obj: fix.getModified())
-		{
-			boolean redesign=false;
-						
-			if (obj instanceof RefOntoUML.Property) {												
-				if (((RefOntoUML.Property)obj).getAssociation()!=null) redesign=true;	else redesign=false;		
-			}							
-			else if (obj instanceof RefOntoUML.Association) {
-				redesign=true;
-			}
-			else if (obj instanceof Generalization) {
-				redesign=true;
-			}
-			else {
-				redesign=false;
-			}
-			updateMenthorFromModification((RefOntoUML.Element)obj,redesign);
-		}
-	}
-	
-	/**
-	 * Update the application accordingly to the refontouml instance that were deleted from the root refontouml instance
-	 * 
-	 * @param element: deleted element on the refontouml root instance
-	 */
-	@SuppressWarnings("unused")
-	public void updateMenthorFromDeletion(final RefOntoUML.Element deletedElement)
-	{		
-		// delete from the parser
-		Models.getRefparser().removeElement(deletedElement);
-		
-		SwingUtilities.invokeLater(new Runnable() {			
-			@Override
-			public void run() {
-				UmlProject project = frame.getDiagramManager().getCurrentProject();
-											
-				// delete from the tree
-				ProjectBrowser browser = frame.getProjectBrowser();		
-				browser.getTree().remove(deletedElement);
-			}
-		});
-	}
-	
-	/** Update Menthor according to a Fix.  */
-	public void updateMenthor (final Fix fix)
-	{
-		if (fix==null) return;	
-		
-		updateMenthorFromInclusion(fix);
-				
-		updateMenthorFromModification(fix);
-		
-		for(Object obj: fix.getDeleted()) {
-			deleteFromMenthor((RefOntoUML.Element)obj,false);				
-		}
-		for(String str: fix.getAddedRules()){
-			Models.getOclDocList().get(0).addContentAsString(str);		
-		}
-		return ;
-	}
-	
 	/** Open the Text Description settings window */
 	public void callGlossary() 
 	{
@@ -2957,8 +1954,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	public void simulate()
-	{	
-		workingOnlyWithChecked();		
+	{					
 		openAlloySettings();
 	}
 
@@ -2979,8 +1975,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return "No parameter passed as argument to the transformation. Method could not be called";
 	}
 	
-	public void callOwlSettings(){	
-		workingOnlyWithChecked();
+	public void callOwlSettings(){		
 		OwlSettingsDialog dialog = new OwlSettingsDialog(frame, 
 			Models.getRefparser(),
 			frame.getProjectBrowser().getAllDiagrams()
@@ -3413,7 +2408,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
 		UmlProject project = getCurrentProject();
 		Fix fix = DerivedTypesOperations.createUnionDerivation(activeEditor, project,this);
-		if(fix!=null) updateMenthor(fix);		
+		if(fix!=null) UpdateManager.update(fix);		
 	}
 	
 	public void openDerivedTypePatternUnion(Double x, Double y) {
@@ -3467,7 +2462,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		UmlProject project = getCurrentProject();
 		Fix fix = DerivedTypesOperations.createIntersectionDerivation(activeEditor, project,this);
 		if(fix!=null)
-			updateMenthor(fix);
+			UpdateManager.update(fix);
 		
 	}
 	
@@ -3487,7 +2482,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
 		UmlProject project = getCurrentProject();
 		Fix fix = DerivedTypesOperations.createSpecializationDerivation(activeEditor, project,this);
-		if(fix!=null) updateMenthor(fix);
+		if(fix!=null) UpdateManager.update(fix);
 	}
 	public void openDerivedTypePatternPastSpecialization(double x, double y) {
 		JDialog dialog = new PastSpecializationPattern(this);
@@ -3579,6 +2574,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				System.out.println("Opening Menthor project...");				
 				File file = fileChooser.getSelectedFile();
+	
 				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 				patternProject = (UmlProject) listFiles.get(0);
 			} catch (Exception ex) {

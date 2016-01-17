@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.v2.edit;
 
 /**
  * ============================================================================================
@@ -27,7 +27,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,92 +54,171 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
-import RefOntoUML.Element;
 import RefOntoUML.Property;
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.edit.AttributeEditDialog;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.tables.AttributeTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
-import net.menthor.editor.ui.MainFrame;
-/**
- * @author John Guerson
- */
-public class AttributesEditionPanel extends JPanel {
+public class AttributesEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ClassElement classElement;	
-	private Classifier element;
 	private DiagramManager diagramManager;
-	@SuppressWarnings("unused")
 	private Component parent;
-		
-	private Map<String, DataType> modelDataTypes; 
+
+	private ClassElement classElement;	
+	private Classifier element;	
+	private Map<String, DataType> datatypes;
+	
 	private JButton btnDelete;
 	private JButton btnCreate;
 	private JButton btnUp;
 	private JButton btnDown;
 	private JScrollPane scrollpane;
 	private JTable table;
-	private AttributeTableModel attributesTableModel;
+	private AttributeTableModel tablemodel;
 	private JPanel panel;
 	private JButton btnEdit;
 	private JCheckBox cbxVisible;
 			
-	public AttributesEditionPanel(final Component parent, final DiagramManager diagramManager, final ClassElement classElement, final Classifier element) 
-	{
+	public AttributesEditPane(final Component parent, final DiagramManager diagramManager, final ClassElement classElement, final Classifier element){
 		this.diagramManager = diagramManager;
 		this.classElement = classElement;
 		this.element = element;
 		this.parent=parent;
-						
-		attributesTableModel = new AttributeTableModel(element);
+		initUI();
+	}
+	
+	public void initMap(){
+		datatypes = new HashMap<String, DataType>();		
+		for (DataType item : Models.getRefparser().getAllInstances(RefOntoUML.DataType.class)) {			
+			datatypes.put(item.getName(), item);
+		}
+	}
+	
+	public void transferData(){
+		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
+		TransferManager.transferNewDataTypes(getNewDataTypes());	
+		TransferManager.transferAttributes(element, tablemodel.getEntries());
+		if(classElement!=null){
+			classElement.reinitAttributesCompartment();
+			classElement.invalidate();
+		}
+	}
+	
+	public void setData(){
+		initMap();		
+		table.setSurrendersFocusOnKeystroke(true);
+		TableColumn dtColumn = table.getColumnModel().getColumn(1);	
+		dtColumn.setCellEditor(createEditor(datatypes.keySet().toArray()));
+		TableColumn multColumn = table.getColumnModel().getColumn(2);	
+		multColumn.setCellEditor(createEditor(new String[]{"1","0..1","0..*","1..*"}));		
+		if(element instanceof DataType){
+			for (Property attribute : ((DataType)element).getOwnedAttribute()) {
+				tablemodel.addEntry(attribute);
+			}
+		}
+		if(element instanceof Class){
+			for (Property attribute : ((Class)element).getOwnedAttribute()) {
+				tablemodel.addEntry(attribute);
+			}
+		}		
+		if (classElement !=null) { 
+			cbxVisible.setSelected(classElement.showAttributes());
+			cbxVisible.setEnabled(true); 
+		}else{ 
+			cbxVisible.setSelected(false); 
+			cbxVisible.setEnabled(false); 
+		}
+	}
 		
+	public List<RefOntoUML.Type> getNewDataTypes(){		
+		List<RefOntoUML.Type> result = new ArrayList<RefOntoUML.Type>();
+		for (Property property : tablemodel.getEntries()){			
+			if(datatypes.keySet().contains(property.getType().getName().trim()) == false)
+				result.add(property.getType());
+		}
+		return result;
+	}
+	
+	public void moveUpAttribute(){
+		int row = table.getSelectedRow();
+		if (row >=0  && row < table.getRowCount()){
+			tablemodel.moveUpEntry(row);
+			table.setRowSelectionInterval(row - 1, row - 1);
+		}
+	}
+
+	public void moveDownAttribute(){
+		int row = table.getSelectedRow();
+		if (row >=0  && row < table.getRowCount()){
+			tablemodel.moveDownEntry(row);
+			table.setRowSelectionInterval(row + 1, row + 1);
+		}
+	}
+	
+	public void addAttribute(ActionEvent evt){
+		tablemodel.addEmptyEntry();		
+	}
+	
+	public void deleteAttribute(ActionEvent evt){
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow >= 0 && selectedRow < tablemodel.getRowCount()){
+			tablemodel.removeEntryAt(selectedRow);
+		}
+	}
+	
+	public void editAttribute(){
+		int row = table.getSelectedRow();
+		if(row>=0){
+			Property p = tablemodel.getEntry(row);
+			AttributeEditDialog dialog = null;
+			if (parent instanceof JFrame){
+				dialog = new AttributeEditDialog((MainFrame)parent,classElement, element, p, false);    				
+			}else if (parent instanceof JDialog) {
+				dialog = new AttributeEditDialog((JDialog)parent, classElement, element, p, false);    			
+			}
+			dialog.setLocationRelativeTo(parent);
+			dialog.setVisible(true);
+		}
+	}
+	
+	public void refreshData(){
+		tablemodel.fireTableDataChanged();
+	}
+	
+	public void initUI(){
+		setSize(450,221);
+		tablemodel = new AttributeTableModel(element);		
 		panel = new JPanel();
+		panel.setBounds(0, 0, 450, 221);
 		panel.setBorder(BorderFactory.createTitledBorder(""));
-		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-		);
-		
 		scrollpane = new JScrollPane();		
 		scrollpane.setMinimumSize(new Dimension(0, 0));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		
+		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));		
 		table = new JTable();		
 		scrollpane.setViewportView(table);
-		table.setModel(attributesTableModel);
-		
+		table.setModel(tablemodel);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
 		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
-		table.setRowHeight(23);
-		
+		table.setRowHeight(23);		
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new attribute to this class");
@@ -150,8 +228,7 @@ public class AttributesEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				addAttribute(arg0);
 			}
-		});
-		
+		});		
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected attribute");
@@ -161,8 +238,7 @@ public class AttributesEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				deleteAttribute(arg0);
 			}
-		});
-		
+		});		
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected attribute");
@@ -172,8 +248,7 @@ public class AttributesEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				moveUpAttribute();
 			}
-		});
-		
+		});		
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected attribute");
@@ -183,8 +258,7 @@ public class AttributesEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				moveDownAttribute();
 			}
-		});
-		
+		});		
 		btnEdit = new JButton("");
 		btnEdit.setEnabled(true);
 		btnEdit.setFocusable(false);
@@ -193,26 +267,13 @@ public class AttributesEditionPanel extends JPanel {
 		btnEdit.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-				if(row>=0){
-					Property p = attributesTableModel.getEntry(row);
-					if (parent instanceof JFrame){
-						AttributeEditDialog dialog = new AttributeEditDialog((MainFrame)parent,diagramManager,	classElement, element, p, false);
-		    			dialog.setLocationRelativeTo(parent);
-		    			dialog.setVisible(true);	
-					}else if (parent instanceof JDialog) {
-						AttributeEditDialog dialog = new AttributeEditDialog((JDialog)parent,diagramManager, classElement, element, p, false);
-		    			dialog.setLocationRelativeTo(parent);
-		    			dialog.setVisible(true);
-					}
-				}
+				editAttribute();
 			}
-		});
-		
+		});		
+		setLayout(null);
 		cbxVisible = new JCheckBox("Turn attributes visible");
 		cbxVisible.setPreferredSize(new Dimension(140, 20));
-		cbxVisible.setHorizontalAlignment(SwingConstants.LEFT);
-		
+		cbxVisible.setHorizontalAlignment(SwingConstants.LEFT);		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -250,58 +311,17 @@ public class AttributesEditionPanel extends JPanel {
 					.addGap(10))
 		);
 		panel.setLayout(gl_panel);
-		this.setLayout(groupLayout);
+		add(panel);
 		
-		setSize(450,221);
-		
-		if (classElement !=null) { cbxVisible.setSelected(classElement.showAttributes());cbxVisible.setEnabled(true); }
-		else { cbxVisible.setSelected(false); cbxVisible.setEnabled(false); }
-		
-		myPostInit();
+		setData();
 	}	
-
-	public void refreshData()
-	{
-		attributesTableModel.fireTableDataChanged();
-	}
 	
-	private void myPostInit() 
-	{
-		modelDataTypes = new HashMap<String, DataType>();		
-		for (DataType item : Models.getRefparser().getAllInstances(RefOntoUML.DataType.class)) {			
-			modelDataTypes.put(item.getName(), item);
-		}
-		
-		TableColumn typeColumn = table.getColumnModel().getColumn(1);	
-		typeColumn.setCellEditor(createEditor(modelDataTypes.keySet().toArray()));
-
-		TableColumn typeColumn2 = table.getColumnModel().getColumn(2);	
-		typeColumn2.setCellEditor(createEditor(new String[]{"1","0..1","0..*","1..*"}));
-		
-		table.setSurrendersFocusOnKeystroke(true);
-		
-		if(element instanceof DataType)
-		{
-			DataType dataType = (DataType)element;			
-			for (Property attribute : dataType.getAttribute()) {
-				attributesTableModel.addEntry(attribute);
-			}
-		} else {
-			Class umlclass = (Class) element;
-			for (Property attribute : umlclass.getAttribute()) {
-				attributesTableModel.addEntry(attribute);
-			}			
-		}
-	}
-	
-	private TableCellEditor createEditor(Object[] objects) 
-	{
+	private TableCellEditor createEditor(Object[] objects){
         @SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox combo = new JComboBox(objects) {
         	private static final long serialVersionUID = 1L;			
 			@Override
-			protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) 
-			{
+			protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed){
 				boolean retValue = super.processKeyBinding(ks, e, condition,pressed);
                 if (!retValue && isStartingCellEdit() && editor != null) {
                     // this is where the magic happens
@@ -311,138 +331,12 @@ public class AttributesEditionPanel extends JPanel {
                 }
                 return retValue;
 			}			
-            private boolean isStartingCellEdit() 
-            {
+            private boolean isStartingCellEdit(){
                 JTable table = (JTable) SwingUtilities.getAncestorOfClass(JTable.class, this);
                 return table != null && table.isFocusOwner() && !Boolean.FALSE.equals((Boolean)table.getClientProperty("JTable.autoStartsEdit"));
             }
         };        
-        //AutoCompleteDecorator.decorate(combo);
         combo.setEditable(true);
         return new DefaultCellEditor(combo);
     }
-	
-	private void moveUpAttribute() 
-	{
-		int row = table.getSelectedRow();
-		if (row >=0  && row < table.getRowCount()) 
-		{
-			attributesTableModel.moveUpEntry(row);
-			table.setRowSelectionInterval(row - 1, row - 1);
-		}
-	}
-
-	private void moveDownAttribute() 
-	{
-		int row = table.getSelectedRow();
-		if (row >=0  && row < table.getRowCount()) 
-		{
-			attributesTableModel.moveDownEntry(row);
-			table.setRowSelectionInterval(row + 1, row + 1);
-		}
-	}
-	
-	protected void deleteAttribute(ActionEvent evt) 
-	{
-		int selectedRow = table.getSelectedRow();
-		if (selectedRow >= 0 && selectedRow < attributesTableModel.getRowCount()) 
-		{
-			attributesTableModel.removeEntryAt(selectedRow);
-		}
-	}
-	
-	protected void addAttribute(ActionEvent evt) 
-	{
-		attributesTableModel.addEmptyEntry();		
-	}
-	
-	public static String getStereotype(EObject element)
-	{
-		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
-	    type = type.replaceAll("Impl","");
-	    type = Normalizer.normalize(type, Normalizer.Form.NFD);
-	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");
-	    return type;
-	}
-	
-	public void transferAttributesData()
-	{
-		List<Property> classAttributes = attributesTableModel.getEntries();
-		
-		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
-		diagramManager.updateMenthorFromInclusion(element);
-		
-		transferDataTypes();	
-		deleteAttributes(classAttributes);
-		transferAddedAttributes(classAttributes);
-		
-		if(classElement!=null){
-			classElement.reinitAttributesCompartment();
-			classElement.invalidate();
-		}
-	}
-	
-	private void deleteAttributes(List<Property> classAttributes )
-	{
-		ArrayList<Property> attributes = new ArrayList<Property>();
-		
-		if(element instanceof DataType){
-			attributes.addAll(((DataType)element).getOwnedAttribute());
-			for(Property p: attributes){
-				if(!classAttributes.contains(p)) {					
-					((DataType)element).getOwnedAttribute().remove(p);
-					diagramManager.updateMenthorFromDeletion(p);
-				}
-			}
-		}
-		if(element instanceof RefOntoUML.Class){
-			attributes.addAll(((RefOntoUML.Class)element).getOwnedAttribute());
-			for(Property p: attributes){
-				if(!classAttributes.contains(p)) {
-					((RefOntoUML.Class)element).getOwnedAttribute().remove(p);
-					diagramManager.updateMenthorFromDeletion(p);
-				}
-			}
-		}
-	}
-	
-	private void transferAddedAttributes(List<Property> classAttributes )
-	{
-		for (Property property : classAttributes) 
-		{			
-			if(!property.getName().isEmpty() || !property.getType().getName().isEmpty())
-			{				
-				DataType existingType = modelDataTypes.get(property.getType().getName().trim());
-				if(existingType != null){ 
-					property.setType(existingType); 
-				}				
-				if(element instanceof DataType){
-					((DataType)element).getOwnedAttribute().add(property);					
-				}else{				
-					((Class)element).getOwnedAttribute().add(property);
-				}
-				diagramManager.updateMenthorFromInclusion(property);
-			}
-		}
-	}
-	
-	private void transferDataTypes() 
-	{
-		List<Property> classAttributes = attributesTableModel.getEntries();
-		ArrayList<Element> createdList = new ArrayList<Element>();
-		for (Property property : classAttributes) 
-		{
-			//Avoid the creation of duplicated types			
-			if(modelDataTypes.keySet().contains(property.getType().getName().trim()) == false)
-			{	
-				UmlProject project = diagramManager.getCurrentProject();				
-				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), property.getType());
-				RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
-				modelDataTypes.put(property.getType().getName(),(DataType)property.getType());
-				createdList.add((Element) property.getType());
-			}
-		}		
-		
-		for(Element element: createdList) diagramManager.updateMenthorFromInclusion(element);		
-	}
 }

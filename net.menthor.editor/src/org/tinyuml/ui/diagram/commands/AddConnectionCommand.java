@@ -26,11 +26,6 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
@@ -48,6 +43,10 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.impl.GeneralizationImpl;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * This is an undoable creation command for a Connection.
@@ -79,7 +78,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		diagramElement = ModelHelper.getDiagramElementByDiagram(relationship,((DiagramEditor)notification).getDiagram());
+		if (notification!=null) diagramElement = ModelHelper.getDiagramElementByDiagram(relationship,((DiagramEditor)notification).getDiagram());
 	}
 
 	@Override
@@ -90,7 +89,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		if (relationship!=null){
 //			System.out.println("Undoing ="+relationship);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(relationship);
+			UpdateManager.updateFromDeletion(relationship);
 		}
 		
 		if(addToDiagram && diagramElement!=null){				
@@ -116,7 +115,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 		addToModel();		
-		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(relationship);
+		UpdateManager.updateFromAddition(relationship);
 		
 		if(addToDiagram && diagramElement != null)
 		{			

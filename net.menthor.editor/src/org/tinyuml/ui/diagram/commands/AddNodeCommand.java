@@ -26,11 +26,6 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
-
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
@@ -41,6 +36,10 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * This class implements a command to add nodes. It is introduced, because
@@ -90,7 +89,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(element);
+			UpdateManager.updateFromDeletion(element);
 		}
 		
 		if(addToDiagram && diagramElement != null){
@@ -120,7 +119,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 			addToModel(element);
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(element);
+			UpdateManager.updateFromAddition(element);
 		}
 		
 		if(addToDiagram && diagramElement !=null){			

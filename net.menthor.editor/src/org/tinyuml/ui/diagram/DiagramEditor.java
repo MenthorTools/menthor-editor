@@ -1,3 +1,4 @@
+
 package org.tinyuml.ui.diagram;
 
 /**
@@ -58,28 +59,6 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 
-import net.menthor.editor.dialog.properties.FeatureListDialog;
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.ElementDialogCaller;
-import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.BaseEditor;
-import net.menthor.editor.v2.menu.PalettePopupMenu;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.types.PatternType;
-import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.util.Util;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
@@ -130,6 +109,32 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.DiagramWrapper;
+import net.menthor.editor.ui.ElementDialogCaller;
+import net.menthor.editor.ui.FeatureListDialog;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.editors.BaseEditor;
+import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.menu.PalettePopupMenu;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.ColorMap;
+import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.DerivedPatternType;
+import net.menthor.editor.v2.types.EditorType;
+import net.menthor.editor.v2.types.PatternType;
+import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.Util;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -1640,7 +1645,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		 if(name!=null){
 			 endpoint.setName(name);
 			 ((AssociationElement)con).setShowRoles(true);
-			 getDiagramManager().refreshDiagramElement(endpoint.getAssociation());
+			 UpdateManager.notifyChange(endpoint.getAssociation());
 		 }
 	}
 			
@@ -1672,7 +1677,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		);
 		 if(multiplicity!=null){
 			 try{
-				 getDiagramManager().changeMultiplicity(endpoint, multiplicity);
+				ChangeManager.changeMultiplicity(endpoint, multiplicity);
 			 }catch(Exception e){
 				 getDiagramManager().getFrame().showErrorMessageDialog("Parsing multiplicity string", e.getLocalizedMessage());
 			 }
@@ -1683,7 +1688,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			getDiagramManager().changeMultiplicity(endpoint, 2, -1);
+			ChangeManager.changeMultiplicity(endpoint, 2, -1);
 		}
 	}
 
@@ -1691,7 +1696,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			getDiagramManager().changeMultiplicity(endpoint, 2, -1);
+			ChangeManager.changeMultiplicity(endpoint, 2, -1);
 		}
 	}
 	
@@ -1699,7 +1704,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			getDiagramManager().changeMultiplicity(endpoint, 2, 2);
+			ChangeManager.changeMultiplicity(endpoint, 2, 2);
 		}
 	}
 
@@ -1707,7 +1712,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			getDiagramManager().changeMultiplicity(endpoint, 2, 2);
+			ChangeManager.changeMultiplicity(endpoint, 2, 2);
 		}
 	}
 	
@@ -1715,7 +1720,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			getDiagramManager().changeMultiplicity(endpoint, 0, -1);
+			ChangeManager.changeMultiplicity(endpoint, 0, -1);
 		}
 	}
 
@@ -1723,7 +1728,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			getDiagramManager().changeMultiplicity(endpoint, 0, -1);
+			ChangeManager.changeMultiplicity(endpoint, 0, -1);
 		}
 	}
 	
@@ -1731,7 +1736,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			getDiagramManager().changeMultiplicity(endpoint, 1, -1);
+			ChangeManager.changeMultiplicity(endpoint, 1, -1);
 		}
 	}
 
@@ -1739,7 +1744,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			getDiagramManager().changeMultiplicity(endpoint, 1, -1);
+			ChangeManager.changeMultiplicity(endpoint, 1, -1);
 		}
 	}
 	
@@ -1747,7 +1752,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			getDiagramManager().changeMultiplicity(endpoint, 0, 1);
+			ChangeManager.changeMultiplicity(endpoint, 0, 1);
 		}
 	}
 
@@ -1755,7 +1760,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			getDiagramManager().changeMultiplicity(endpoint, 0, 1);
+			ChangeManager.changeMultiplicity(endpoint, 0, 1);
 		}
 	}
 	
@@ -1763,7 +1768,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			getDiagramManager().changeMultiplicity(endpoint, 1, 1);
+			ChangeManager.changeMultiplicity(endpoint, 1, 1);
 		}
 	}
 	
@@ -1771,7 +1776,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			getDiagramManager().changeMultiplicity(endpoint, 1, 1);
+			ChangeManager.changeMultiplicity(endpoint, 1, 1);
 		}
 	}
 	
@@ -2178,7 +2183,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void bringFromProjectBrowser(Point p){
 		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
 		Object obj = node.getUserObject();				
-		frame.getDiagramManager().moveToDiagram((RefOntoUML.Element)obj, p.x, p.y, this, true);	
+		MoveManager.move((RefOntoUML.Element)obj, p.x, p.y, this, true);	
 	}
 	
 	/** Bring related elements to diagram */
@@ -2210,7 +2215,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						target = (Classifier)((Generalization)rel).getSpecific();
 					}					
 					if(source!=null && !getDiagram().containsChild(source)) { 
-						getDiagramManager().moveToDiagram(source,x+100*column,y+75*row,this,false); 
+						MoveManager.move(source,x+100*column,y+75*row,this,false); 
 						row++; 						
 						if(row>2) {
 							row=0; column++;
@@ -2218,7 +2223,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						addedTypes.add(source);
 					}						
 					if(target!=null && !getDiagram().containsChild(target)) {  
-						getDiagramManager().moveToDiagram(target,x+100*column,y+75*row,this,false); 
+						MoveManager.move(target,x+100*column,y+75*row,this,false); 
 						row++;						
 						if(row>2) {
 							row=0; 
@@ -2227,7 +2232,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						addedTypes.add(target);
 					}					
 					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
-						getDiagramManager().moveToDiagram(rel, this, false);					
+						MoveManager.move(rel, -1, -1, this, false);					
 				}catch(Exception e){
 					e.printStackTrace();
 					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
@@ -2242,13 +2247,13 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				Type source = a.getMemberEnd().get(0).getType();
 				Type target = a.getMemberEnd().get(1).getType();				
 				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
-					getDiagramManager().moveToDiagram(a,this, false);
+					MoveManager.move(a, -1, -1,this, false);
 			}			
 			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
 				RefOntoUML.Type specific = g.getSpecific();
 				RefOntoUML.Type general = g.getGeneral();			
 				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
-					getDiagramManager().moveToDiagram(g,this, false);
+					MoveManager.move(g,-1,-1,this, false);
 			}			
 		}
 	}
@@ -2259,11 +2264,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			DiagramElement ce = ((DiagramElement)element);
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
-			frame.getDiagramManager().deleteFromMenthor(list,true);
+			DeletionManager.deleteElements(list,true);
 		}else if (element instanceof Collection<?>){
-			frame.getDiagramManager().deleteFromMenthor((List<DiagramElement>)element,true);
+			DeletionManager.deleteElements((List<DiagramElement>)element,true);
 		}else{
-			frame.getDiagramManager().delete(element);
+			DeletionManager.delete(element);
 		}
 	}
 	
@@ -2274,7 +2279,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				
 		if(this.isFocusable()){
 			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			frame.getDiagramManager().deleteFromMenthor(diagramElementsList,true);
+			DeletionManager.deleteElements(diagramElementsList,true);
 		}
 	}
 	
@@ -2594,7 +2599,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	@SuppressWarnings("unchecked")
 	public void addGeneralizationSet(Object genElems){
 		if(genElems instanceof Collection<?>){
-			GeneralizationSet genSet = frame.getDiagramManager().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			GeneralizationSet genSet = AdditionManager.addGeneralizationSet(this,(List<DiagramElement>)genElems);		
 			if(genSet!=null){		
 				deselectAll();
 				cancelEditing();
@@ -2620,7 +2625,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	@SuppressWarnings("unchecked")
 	public void deleteGeneralizationSet(Object genElems){
 		if(genElems instanceof Collection<?>){
-			frame.getDiagramManager().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			DeletionManager.deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
 			deselectAll();
 			cancelEditing();	
 		}

@@ -29,9 +29,6 @@ import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.AssociationEditionPanel;
-import net.menthor.editor.dialog.properties.CommentsEditionPanel;
-import net.menthor.editor.dialog.properties.PropertyEditionPanel;
 import net.menthor.editor.ui.MainFrame;
 
 public class AssociationEditDialog extends BaseEditDialog {
@@ -40,18 +37,18 @@ public class AssociationEditDialog extends BaseEditDialog {
 
 	private AssociationElement assocElement;
 	private Relationship relationship;	
-	private AssociationEditionPanel assocEdition;
-	private PropertyEditionPanel end1Edition;
-	private PropertyEditionPanel end2Edition;
-	private CommentsEditionPanel commentsEdition;
+	private AssociationEditPane assocEdition;
+	private PropertyEditPane end1Edition;
+	private PropertyEditPane end2Edition;
+	private CommentsEditPane commentsEdition;
 	
 	@Override
 	public void confirm(ActionEvent arg0){		
-		end1Edition.transferPropertyData();
-		end2Edition.transferPropertyData();
-		commentsEdition.transferCommentsData();
+		end1Edition.transferData();
+		end2Edition.transferData();
+		commentsEdition.transferData();
 		//constraintsEdition.transferConstraintsData();
-		assocEdition.transferAssocData();
+		assocEdition.transferData();
 	}	
 	
 	public AssociationEditDialog(final MainFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal){
@@ -60,16 +57,16 @@ public class AssociationEditDialog extends BaseEditDialog {
 		this.relationship = relationship;		
 		setTitle(""+""+OntoUMLParser.getStereotype(this.relationship)+" "+ ((Classifier)relationship).getName());		
 		
-		assocEdition = new AssociationEditionPanel (diagramManager,this.assocElement,(Classifier)relationship,modal);
+		assocEdition = new AssociationEditPane (diagramManager,this.assocElement,(Classifier)relationship,modal);
 		tabbedPane.addTab("Association", assocEdition);				
 		
-		end1Edition = new PropertyEditionPanel(this,diagramManager,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(0));
+		end1Edition = new PropertyEditPane(this,diagramManager,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(0));
 		tabbedPane.addTab("Source End",end1Edition);		
 		
-		end2Edition = new PropertyEditionPanel(this,diagramManager,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(1));
+		end2Edition = new PropertyEditPane(this,diagramManager,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(1));
 		tabbedPane.addTab("Target End", end2Edition);		
 		
-		commentsEdition = new CommentsEditionPanel (diagramManager,this.assocElement,(Classifier)relationship);
+		commentsEdition = new CommentsEditPane (diagramManager,(Classifier)relationship);
 		tabbedPane.addTab("Comments", commentsEdition);
 	}
 }

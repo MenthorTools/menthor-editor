@@ -35,43 +35,35 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.AttributesEditionPanel;
-import net.menthor.editor.dialog.properties.ClassEditionPanel;
-import net.menthor.editor.dialog.properties.CommentsEditionPanel;
-import net.menthor.editor.dialog.properties.ConstraintEditionPanel;
-import net.menthor.editor.dialog.properties.DimensionEditionPanel;
-import net.menthor.editor.dialog.properties.EnumLiteralEditionPanel;
-import net.menthor.editor.dialog.properties.RelatedElementsPanel;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.RelatedElementsPanel;
 
 public class ClassEditDialog extends BaseEditDialog {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ClassElement classElement;
 	private Classifier element;
 	
-	private ClassEditionPanel classEdition;
-	private CommentsEditionPanel commentsEdition;
-	private AttributesEditionPanel attributesEdition;
-	private EnumLiteralEditionPanel literalsEdition;
-	private DimensionEditionPanel dimensionEdition;
-	private ConstraintEditionPanel constraintsEdition;
+	private ClassEditPane classEdition;
+	private CommentsEditPane commentsEdition;
+	private AttributesEditPane attributesEdition;
+	private LiteralEditPane literalsEdition;
+	private DimensionEditPane dimensionEdition;
+	private ConstraintEditPane constraintsEdition;
 	private RelatedElementsPanel relatedElements;
 	
 	@Override
 	public void confirm(ActionEvent arg0){
-		commentsEdition.transferCommentsData();
-		if(attributesEdition!=null) attributesEdition.transferAttributesData();		
-		if(literalsEdition!=null) literalsEdition.transferLiteralData();
-		if(dimensionEdition!=null) dimensionEdition.transferDimensionData();
-		constraintsEdition.transferConstraintsData();
-		classEdition.transferClassData();
+		commentsEdition.transferData();
+		if(attributesEdition!=null) attributesEdition.transferData();		
+		if(literalsEdition!=null) literalsEdition.transferData();
+		if(dimensionEdition!=null) dimensionEdition.transferData();
+		constraintsEdition.transferData();
+		classEdition.transferData();
 	}
 	
 	public ClassEditDialog(final MainFrame parent, final ClassElement classElement, Classifier element, boolean modal){
-		super(parent, modal);		
-		this.classElement = classElement;		
+		super(parent, modal);				
 		this.element = element;
 		setTitle(""+""+OntoUMLParser.getStereotype(element)+" "+element.getName());
 		setSize(new Dimension(500, 452));
@@ -81,25 +73,25 @@ public class ClassEditDialog extends BaseEditDialog {
 		classTab.setLayout(new BorderLayout(4,4));
 		tabbedPane.addTab("Class",classTab);
 		
-		classEdition = new ClassEditionPanel (diagramManager,this.classElement,this.element);
+		classEdition = new ClassEditPane (diagramManager, this.element);
 		if(element instanceof Enumeration){
-			literalsEdition = new EnumLiteralEditionPanel(this,diagramManager,classElement,element);			
+			literalsEdition = new LiteralEditPane(diagramManager,classElement,element);			
 			classTab.add(classEdition, BorderLayout.NORTH);
 			classTab.add(literalsEdition, BorderLayout.CENTER);
 		}else if(element instanceof MeasurementDimension){
-			dimensionEdition = new DimensionEditionPanel(diagramManager,classElement,element);			
+			dimensionEdition = new DimensionEditPane(diagramManager,element);			
 			classTab.add(classEdition, BorderLayout.NORTH);
 			classTab.add(dimensionEdition, BorderLayout.CENTER);
 		}else{
-			attributesEdition = new AttributesEditionPanel(this,diagramManager,classElement,element);
+			attributesEdition = new AttributesEditPane(this,diagramManager,classElement,element);
 			classTab.add(classEdition, BorderLayout.NORTH);
 			classTab.add(attributesEdition, BorderLayout.CENTER);
 		}	
 		
-		commentsEdition = new CommentsEditionPanel (diagramManager,classElement,element);
+		commentsEdition = new CommentsEditPane (diagramManager,element);
 		tabbedPane.addTab("Comments", commentsEdition);
 		
-		constraintsEdition = new ConstraintEditionPanel(diagramManager,classElement,element);
+		constraintsEdition = new ConstraintEditPane(diagramManager,element);
 		tabbedPane.addTab("Constraints", constraintsEdition);
 		
 		relatedElements = new RelatedElementsPanel(diagramManager,classElement,element);

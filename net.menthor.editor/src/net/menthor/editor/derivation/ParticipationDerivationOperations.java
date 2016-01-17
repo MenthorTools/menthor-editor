@@ -41,6 +41,7 @@ import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
 import RefOntoUML.Classifier;
 import RefOntoUML.ObjectClass;
 import RefOntoUML.SortalClass;
@@ -94,7 +95,7 @@ public class ParticipationDerivationOperations {
 		}
 	
 		
-		diagramManager.updateMenthor(mainFix);
+		UpdateManager.update(mainFix);
 	}
 
 	private Double findPointtoRelator(List<DiagramElement> selectedElements) {

@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.v2.edit;
 
 /**
  * ============================================================================================
@@ -25,8 +25,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -42,10 +40,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 import org.tinyuml.draw.DiagramElement;
 
-import RefOntoUML.AggregationKind;
 import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.Classifier;
@@ -54,26 +52,23 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import javax.swing.border.EmptyBorder;
+import net.menthor.editor.v2.managers.TransferManager;
 
-/**
- * @author John Guerson
- */
-public class PropertyEditionPanel extends JPanel {
+public class PropertyEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Component parent;
 	
-	@SuppressWarnings("unused")
-	private DiagramElement ownerDiagramElement;	
-	private Classifier ownerElement;
-	private Property property;
 	private DiagramManager diagramManager;
+	private Component parent;
+		
+	private OntoUMLParser refparser;
+	private Classifier ownerElement;
+	private Property property;	
 	
 	private JTextField nameField;
 	private JLabel lblMultiplicity;
@@ -92,61 +87,106 @@ public class PropertyEditionPanel extends JPanel {
 	private JComboBox typeCombo;
 	private JLabel lblName;
 	private JLabel lblType;
-	JPanel mainPanel;
-	JPanel optionsPanel;
-	JPanel listPanel;
-	JPanel multPanel;
+	private JLabel lblSubsetted;
+	private JLabel lblRedefined;
+	private JPanel mainPanel;
+	private JPanel optionsPanel;
+	private JPanel listPanel;
+	private JPanel multPanel;
 	private JTextField subsettedText;
 	private JTextField redefinedText;
 	
-	public PropertyEditionPanel(Component parent, final DiagramManager diagramManager, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property)
-	{
+	public PropertyEditPane(Component parent, final DiagramManager diagramManager, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parent=parent;
-		initData(diagramManager,ownerDiagramElement,ownerElem,property);
+		this.diagramManager = diagramManager;
+		this.refparser = Models.getRefparser();
+		this.property = property;		
+		this.ownerElement = ownerElem;	
 		initGUI();		
 	}
 	
-//	/**
-//	 * @wbp.parser.constructor 
-//	 */
-//	public PropertyEditionPanel(JFrame parent, final DiagramManager diagramManager, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property)
-//	{
-//		this.parent=parent;
-//		initData(diagramManager,ownerDiagramElement,ownerElem,property);
-//		initGUI();		
-//	}
-		
-	public void initData(final DiagramManager diagramManager, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property)
-	{
-		this.diagramManager = diagramManager;
-		this.property = property;
-		this.ownerDiagramElement = ownerDiagramElement;
-		this.ownerElement = ownerElem;		
+	/** Transfer data from GUI to model/Menthor */
+	public void transferData(){
+		if(cbxDerived.isSelected()) {
+			nameField.setText(nameField.getText().replace("/",""));
+		}		
+		TransferManager.transferProperty(property,
+			nameField.getText(),
+			cbxDerived.isSelected(),
+			cbxOrdered.isSelected(),
+			cbxReadOnly.isSelected(),
+			cbxUnique.isSelected(),
+			(String)aggregCombo.getSelectedItem(),			
+			(String)multCombo.getSelectedItem(),
+			(RefOntoUML.Type)typeCombo.getSelectedItem()
+		);
 	}
 	
+	/** Set GUI data from the model element*/
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void setData(){
+		nameField.setText(property.getName());
+		cbxDerived.setSelected(property.isIsDerived());
+		cbxOrdered.setSelected(property.isIsOrdered());
+		cbxReadOnly.setSelected(property.isIsReadOnly());
+		cbxUnique.setSelected(property.isIsUnique());
+		aggregCombo.setSelectedItem(property.getAggregation().getName());		
+		if (ownerElement instanceof Mediation || ownerElement instanceof Characterization || ownerElement instanceof Structuration){
+			if (property.equals(((Association)ownerElement).getMemberEnd().get(0))) cbxReadOnly.setEnabled(true);
+			else cbxReadOnly.setEnabled(false);
+		}				
+		if (ownerElement instanceof Meronymic) aggregCombo.setEnabled(true);
+		else aggregCombo.setEnabled(false);
+		String multiplicity = new String();
+		if (property.getLower()==property.getUpper() && property.getUpper()!=-1) multiplicity = Integer.toString(property.getLower());
+		else if (property.getLower()==property.getUpper() && property.getUpper()==-1) multiplicity = "*";
+		else if (property.getUpper()==-1) multiplicity = property.getLower()+".."+"*";
+		else multiplicity = property.getLower()+".."+property.getUpper();		
+		if(multiplicity.compareToIgnoreCase("1")==0) multCombo.setSelectedIndex(0);
+		else if(multiplicity.compareToIgnoreCase("0..1")==0)multCombo.setSelectedIndex(1);
+		else if(multiplicity.compareToIgnoreCase("0..*")==0)multCombo.setSelectedIndex(2);
+		else if(multiplicity.compareToIgnoreCase("1..*")==0) multCombo.setSelectedIndex(3);
+		else { multCombo.setSelectedItem(multiplicity); }		
+		String subsettedStr = OntoUMLParser.getSubsettedAsString(property);
+		subsettedText.setText(subsettedStr);		
+		String redefinedStr = OntoUMLParser.getRedefinedAsString(property);
+		redefinedText.setText(redefinedStr);		
+		RefOntoUML.PackageableElement value = property.getType();									    	
+		List<RefOntoUML.PackageableElement> types = refparser.getAllTypesSorted();
+    	typeCombo.setModel(new DefaultComboBoxModel(types.toArray()));
+    	typeCombo.setSelectedItem(value);    	
+	}
+	
+	public void editRedefined(){
+		if (parent instanceof JFrame) FeatureListDialog.open((JFrame)parent,redefinedText, "Redefined", property, refparser);
+		else FeatureListDialog.open((JDialog)parent,redefinedText, "Redefined", property, refparser);
+	}
+	
+	public void editSubsetted(){
+		if (parent instanceof JFrame) FeatureListDialog.open((JFrame)parent,subsettedText, "Subsetted", property, refparser);
+		else FeatureListDialog.open((JDialog)parent,subsettedText, "Subsetted", property, refparser);
+	}
+	
+	/** 
+	 * Made with Windows Builder on Eclipse 
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void initGUI () 
-	{	
+	public void initGUI (){	
+		setPreferredSize(new Dimension(456, 268));
 		mainPanel = new JPanel();
-		mainPanel.setBorder(BorderFactory.createTitledBorder(""));
-		
+		mainPanel.setBorder(BorderFactory.createTitledBorder(""));		
 		optionsPanel = new JPanel();
-		optionsPanel.setBorder(BorderFactory.createTitledBorder(""));
-		
+		optionsPanel.setBorder(BorderFactory.createTitledBorder(""));		
 		listPanel = new JPanel();
-		listPanel.setBorder(BorderFactory.createTitledBorder(""));
-		
+		listPanel.setBorder(BorderFactory.createTitledBorder(""));		
 		multPanel = new JPanel();
-		multPanel.setBorder(BorderFactory.createTitledBorder(""));
-		
-		lblMultiplicity = new JLabel("Multiplicity:");
-		
+		multPanel.setBorder(BorderFactory.createTitledBorder(""));		
+		lblMultiplicity = new JLabel("Multiplicity:");		
 		multCombo = new JComboBox();
 		multCombo.setModel(new DefaultComboBoxModel(new String[] {"1", "0..1", "0..*", "1..*"}));
 		multCombo.setPreferredSize(new Dimension(80, 20));
-		multCombo.setEditable(true);
-		
+		multCombo.setEditable(true);		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -168,10 +208,8 @@ public class PropertyEditionPanel extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(listPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(2))
-		);
-		
-		lblAggregationKind = new JLabel("Aggregation Kind:");
-		
+		);		
+		lblAggregationKind = new JLabel("Aggregation Kind:");		
 		aggregCombo = new JComboBox();
 		aggregCombo.setModel(new DefaultComboBoxModel(new String[] {"none", "shared", "composite"}));
 		aggregCombo.setPreferredSize(new Dimension(80, 20));
@@ -202,52 +240,35 @@ public class PropertyEditionPanel extends JPanel {
 						.addComponent(lblAggregationKind))
 					.addContainerGap())
 		);
-		multPanel.setLayout(gl_multPanel);
-		
+		multPanel.setLayout(gl_multPanel);		
 		btnSubsetted = new JButton("");
 		btnSubsetted.setPreferredSize(new Dimension(30, 25));
 		btnSubsetted.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_EDIT));
 		btnSubsetted.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (parent instanceof JFrame)
-					FeatureListDialog.open((JFrame)parent,subsettedText, "Subsetted", property, 
-							Models.getRefparser());
-				else
-					FeatureListDialog.open((JDialog)parent,subsettedText, "Subsetted", property, 
-							Models.getRefparser());
+				editSubsetted();
 			}
-		});
-		
+		});		
 		subsettedText = new JTextField();
 		subsettedText.setEditable(false);
 		subsettedText.setColumns(10);
-		subsettedText.setPreferredSize(new Dimension(300, 20));
-		
+		subsettedText.setPreferredSize(new Dimension(300, 20));		
 		redefinedText = new JTextField();
 		redefinedText.setEditable(false);
 		redefinedText.setColumns(10);
-		redefinedText.setSize(new Dimension(100, 50));
-		
+		redefinedText.setSize(new Dimension(100, 50));		
 		btnRedefined = new JButton("");
 		btnRedefined.setPreferredSize(new Dimension(30, 25));
 		btnRedefined.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_EDIT));
 		btnRedefined.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (parent instanceof JFrame)
-					FeatureListDialog.open((JFrame)parent,redefinedText, "Redefined", property, 
-							Models.getRefparser());
-				else
-					FeatureListDialog.open((JDialog)parent,redefinedText, "Redefined", property,
-							Models.getRefparser());
+				editRedefined();
 			}
-		});
-		
-		JLabel lblSubsetted = new JLabel("Subsetted:");
-		
-		JLabel lblRedefined = new JLabel("Redefined:");
-		
+		});		
+		lblSubsetted = new JLabel("Subsetted:");		
+		lblRedefined = new JLabel("Redefined:");		
 		GroupLayout gl_listPanel = new GroupLayout(listPanel);
 		gl_listPanel.setHorizontalGroup(
 			gl_listPanel.createParallelGroup(Alignment.LEADING)
@@ -285,17 +306,13 @@ public class PropertyEditionPanel extends JPanel {
 						.addComponent(btnRedefined, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
-		listPanel.setLayout(gl_listPanel);
-		
+		listPanel.setLayout(gl_listPanel);		
 		cbxDerived = new JCheckBox("Derived");
-		cbxDerived.setPreferredSize(new Dimension(70, 20));
-		
+		cbxDerived.setPreferredSize(new Dimension(70, 20));		
 		cbxUnique = new JCheckBox("Unique");
-		cbxUnique.setPreferredSize(new Dimension(95, 20));
-		
+		cbxUnique.setPreferredSize(new Dimension(95, 20));		
 		cbxOrdered = new JCheckBox("Ordered");
-		cbxOrdered.setPreferredSize(new Dimension(75, 20));
-		
+		cbxOrdered.setPreferredSize(new Dimension(75, 20));		
 		cbxReadOnly = new JCheckBox("Read Only");
 		cbxReadOnly.setPreferredSize(new Dimension(100, 20));
 		GroupLayout gl_optionsPanel = new GroupLayout(optionsPanel);
@@ -325,17 +342,12 @@ public class PropertyEditionPanel extends JPanel {
 						.addComponent(cbxReadOnly, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cbxOrdered, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
-		optionsPanel.setLayout(gl_optionsPanel);
-		
-		lblName = new JLabel("Name:");
-		
+		optionsPanel.setLayout(gl_optionsPanel);		
+		lblName = new JLabel("Name:");		
 		nameField = new JTextField();
-		nameField.setColumns(10);
-		
-		lblType = new JLabel("Type:");
-		
+		nameField.setColumns(10);		
+		lblType = new JLabel("Type:");		
 		typeCombo = new JComboBox();
-
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -366,103 +378,6 @@ public class PropertyEditionPanel extends JPanel {
 		mainPanel.setLayout(gl_mainPanel);
 		setLayout(groupLayout);
 		
-		setInitialData();
-		
-		setPreferredSize(new Dimension(456, 268));
-	}
-			
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void setInitialData()
-	{
-		nameField.setText(property.getName());
-		cbxDerived.setSelected(property.isIsDerived());
-		cbxOrdered.setSelected(property.isIsOrdered());
-		cbxReadOnly.setSelected(property.isIsReadOnly());
-		cbxUnique.setSelected(property.isIsUnique());
-		aggregCombo.setSelectedItem(property.getAggregation().getName());
-		
-		if (ownerElement instanceof Mediation || ownerElement instanceof Characterization || ownerElement instanceof Structuration){
-			if (property.equals(((Association)ownerElement).getMemberEnd().get(0))) cbxReadOnly.setEnabled(true);
-			else cbxReadOnly.setEnabled(false);
-		}		
-		
-		if (ownerElement instanceof Meronymic){
-			aggregCombo.setEnabled(true);
-		}else{
-			aggregCombo.setEnabled(false);			
-		}
-		
-		String multiplicity = new String();
-		if (property.getLower()==property.getUpper() && property.getUpper()!=-1) multiplicity = Integer.toString(property.getLower());
-		else if (property.getLower()==property.getUpper() && property.getUpper()==-1) multiplicity = "*";
-		else if (property.getUpper()==-1) multiplicity = property.getLower()+".."+"*";
-		else multiplicity = property.getLower()+".."+property.getUpper();
-		
-		if(multiplicity.compareToIgnoreCase("1")==0) multCombo.setSelectedIndex(0);
-		else if(multiplicity.compareToIgnoreCase("0..1")==0)multCombo.setSelectedIndex(1);
-		else if(multiplicity.compareToIgnoreCase("0..*")==0)multCombo.setSelectedIndex(2);
-		else if(multiplicity.compareToIgnoreCase("1..*")==0) multCombo.setSelectedIndex(3);
-		else { multCombo.setSelectedItem(multiplicity); }
-		
-		String str = new String();
-    	int i=0;    	
-    	for(Property p: property.getSubsettedProperty())
-    	{    
-    		str += p;
-    		if (i<property.getSubsettedProperty().size()-1) 
-    			str+=", ";    		
-    		i++;
-    	}	
-		subsettedText.setText(str);
-		
-		str = new String();
-    	i=0;    	
-    	for(Property p: property.getRedefinedProperty())
-    	{    		
-    		str += p;
-    		if (i<property.getRedefinedProperty().size()-1) 
-    			str+=", ";    		
-    		i++;
-    	}	
-		redefinedText.setText(str);		
-		
-		
-		RefOntoUML.PackageableElement value = property.getType();
-		
-		OntoUMLParser refparser = Models.getRefparser();							    	
-		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
-		types.addAll(refparser.getAllInstances(RefOntoUML.Type.class));
-		Collections.sort(types);
-    	typeCombo.setModel(new DefaultComboBoxModel(types.toArray()));
-    	typeCombo.setSelectedItem(value);    	
-	}
-	
-	public void transferPropertyData() 
-	{
-		boolean redesign = false;
-		
-		try{			
-			property.setName(nameField.getText());
-			property.setIsDerived(cbxDerived.isSelected());
-			if(cbxDerived.isSelected()) nameField.setText(nameField.getText().replace("/",""));
-			nameField.repaint();
-			nameField.validate();
-			property.setIsOrdered(cbxOrdered.isSelected());
-			property.setIsReadOnly(cbxReadOnly.isSelected());
-			property.setIsUnique(cbxUnique.isSelected());
-			if(((String)aggregCombo.getSelectedItem()).compareToIgnoreCase("shared")==0) property.setAggregation(AggregationKind.SHARED);
-			else if (((String)aggregCombo.getSelectedItem()).compareToIgnoreCase("composite")==0) property.setAggregation(AggregationKind.COMPOSITE);
-			else property.setAggregation(AggregationKind.NONE);			
-			RefOntoUMLFactoryUtil.setMultiplicityFromString(property, (String)multCombo.getSelectedItem());
-			RefOntoUML.Type type = (RefOntoUML.Type)typeCombo.getSelectedItem();			
-			if (type!=null && !type.equals(property.getType())) redesign = true;
-			property.setType(type);
-
-		}catch(Exception e){
-			diagramManager.getFrame().showErrorMessageDialog("Transfering data to property", e.getLocalizedMessage());
-		}
-					
-		diagramManager.updateMenthorFromModification(ownerElement, redesign);
-		diagramManager.updateMenthorFromModification(property, redesign);
+		setData();
 	}
 }

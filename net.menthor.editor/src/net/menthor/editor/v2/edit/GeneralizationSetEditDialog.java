@@ -26,7 +26,6 @@ import java.awt.event.ActionEvent;
 
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.GeneralizationSetEditionPanel;
 import net.menthor.editor.ui.MainFrame;
 
 public class GeneralizationSetEditDialog extends BaseEditDialog {
@@ -34,7 +33,7 @@ public class GeneralizationSetEditDialog extends BaseEditDialog {
 	private static final long serialVersionUID = 1L;
 		
 	private GeneralizationSet genSet;
-	private GeneralizationSetEditionPanel genSetEdition;
+	private GeneralizationSetEditPane genSetEdition;
 	
 	public GeneralizationSetEditDialog(final MainFrame parent, final GeneralizationSet genSet, boolean modal){
 		super(parent, modal);
@@ -44,13 +43,13 @@ public class GeneralizationSetEditDialog extends BaseEditDialog {
 	
 	@Override
 	public void confirm(ActionEvent arg0){
-		genSetEdition.transferGenSetData();				
+		genSetEdition.transferData();				
 		dispose();
 	}
 	
 	public void  initUI(){				
 		setTitle(""+""+OntoUMLParser.getStereotype(genSet)+" "+ ((GeneralizationSet)genSet).getName());
-		genSetEdition = new GeneralizationSetEditionPanel(this.getParent(), diagramManager, genSet);
+		genSetEdition = new GeneralizationSetEditPane(this.getParent(), diagramManager, genSet);
 		tabbedPane.add("Generalization Set", genSetEdition);		
 		setSize(new Dimension(470, 410));
 	}	

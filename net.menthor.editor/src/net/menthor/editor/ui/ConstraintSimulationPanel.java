@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -38,7 +38,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 
 import net.menthor.editor.transformation.alloy.AlloyConstraintPanel;
-import net.menthor.editor.ui.MainFrame;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 import org.eclipse.uml2.uml.Constraint;

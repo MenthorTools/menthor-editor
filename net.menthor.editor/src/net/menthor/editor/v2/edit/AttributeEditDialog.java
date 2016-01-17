@@ -31,8 +31,7 @@ import org.tinyuml.umldraw.ClassElement;
 import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.PropertyEditionPanel;
-import net.menthor.editor.ui.DiagramManager;
+
 import net.menthor.editor.ui.MainFrame;
 
 public class AttributeEditDialog extends BaseEditDialog {
@@ -43,9 +42,9 @@ public class AttributeEditDialog extends BaseEditDialog {
 	private Classifier element;	
 	private Property attribute;
 	
-	private PropertyEditionPanel propertyEdition;
+	private PropertyEditPane propertyEdition;
 	
-	public AttributeEditDialog(final MainFrame parent, final DiagramManager diagramManager, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
+	public AttributeEditDialog(final MainFrame parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
 		super(parent, modal);				
 		this.classElement = classElement;		
 		this.element = element;		
@@ -56,7 +55,7 @@ public class AttributeEditDialog extends BaseEditDialog {
 	/**
 	 * @wbp.parser.constructor 
 	 */
-	public AttributeEditDialog(final JDialog parent, final DiagramManager diagramManager, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
+	public AttributeEditDialog(final JDialog parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
 		super(parent, modal);				
 		this.classElement = classElement;		
 		this.element = element;		
@@ -66,7 +65,7 @@ public class AttributeEditDialog extends BaseEditDialog {
 	
 	@Override 
 	public void confirm(ActionEvent arg0){
-		propertyEdition.transferPropertyData();
+		propertyEdition.transferData();
 		if (this.getParent() instanceof ClassEditDialog){
 			ClassEditDialog parentDialog = (ClassEditDialog)this.getParent();
 			parentDialog.refreshAttributesData();
@@ -76,7 +75,7 @@ public class AttributeEditDialog extends BaseEditDialog {
 	
 	public void initUI(){
 		setTitle(OntoUMLParser.getStereotype(attribute)+" "+attribute.getName()+": "+attribute.getType().getName());		
-		propertyEdition = new PropertyEditionPanel(this.getParent(), diagramManager, classElement, element, attribute);		
+		propertyEdition = new PropertyEditPane(this.getParent(), diagramManager, classElement, element, attribute);		
 		tabbedPane.addTab("Attribute", null, propertyEdition, null);	
 		setSize(new Dimension(450, 380));
 	}

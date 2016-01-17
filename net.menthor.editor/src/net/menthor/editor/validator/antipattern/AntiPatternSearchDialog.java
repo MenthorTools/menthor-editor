@@ -27,7 +27,6 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ import java.util.concurrent.Executors;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -52,6 +50,7 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
 import net.menthor.antipattern.GSRig.GSRigAntipattern;
@@ -81,8 +80,8 @@ import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.FilterManager;
 import net.menthor.editor.v2.util.Util;
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author Tiago Sales
@@ -989,7 +988,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					checked = frame.getDiagramManager().workingOnlyWithChecked();
+					checked = FilterManager.workingOnlyWithChecked();
 					return null;
 				}
 				

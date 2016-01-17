@@ -49,6 +49,7 @@ import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
 
 public class ExclusionDerivationOperations {
 	static OutcomeFixer of;
@@ -179,7 +180,7 @@ public class ExclusionDerivationOperations {
 		exclusionDerivationList.add(c);
 		exclusionDerivationList.add(exclusion);
 	
-		dman.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 		
 	}
 	
@@ -232,7 +233,7 @@ public class ExclusionDerivationOperations {
 			StereotypeAndNameSelection.wrongSelection("The derivation by exclusion of n types is actually the exclusion of the union of the types selected, you need to create the derivation by union");
 			Fix fix=DerivedTypesOperations.createUnionDerivation(activeEditor, project, dm);
 			common_father=DerivedTypesOperations.getUnionDerived();
-			dm.updateMenthor(fix);
+			UpdateManager.update(fix);
 			father= getClassElementFromClassifier(common_father, activeEditor);
 			deriveBySingleSelection(common_father, new Point2D.Double(((ClassElement) father).getAbsoluteX1(), ((ClassElement) father).getAbsoluteY1()));
 			

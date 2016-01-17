@@ -3,6 +3,7 @@ package RefOntoUML.parser;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -454,6 +455,38 @@ public class OntoUMLParser {
 		return result;		
 	}
 	
+	public static String getRedefinedAsString(RefOntoUML.Property property){
+		String str = new String();
+    	int i=0;    	
+    	for(Property p: property.getRedefinedProperty()){    
+    		str += p;
+    		if (i<property.getRedefinedProperty().size()-1) 
+    			str+=", ";    		
+    		i++;
+    	}
+    	return str;
+	}
+	
+	public static String getSubsettedAsString(RefOntoUML.Property property){
+		String str = new String();
+    	int i=0;    	
+    	for(Property p: property.getSubsettedProperty()){    
+    		str += p;
+    		if (i<property.getSubsettedProperty().size()-1) 
+    			str+=", ";    		
+    		i++;
+    	}
+    	return str;
+	}
+	
+	public static String[] getStereotypes(){
+		return new String[] {
+				"Category", "Collective", "DataType", "Domain", "DecimalIntervalDimension", "DecimalOrdinalDimension", "DecimalRationalDimension", 
+				"Enumeration", "IntegerIntervalDimension", "IntegerOrdinalDimension", "IntegerRationalDimension", 						
+				"Kind", "MeasurementDomain", "Mode", "Mixin", "NominalQuality", "NonPerceivableQuality", "PerceivableQuality", 
+				"Phase", "PrimitiveType", "Quantity", "Relator", "Role", "RoleMixin", "SubKind", "StringNominalStructure" };
+	}
+	
 	public static String getStereotype(EObject element){
 		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
 	    type = type.replaceAll("Impl","");
@@ -618,6 +651,14 @@ public class OntoUMLParser {
 		return list;
 	}
 		
+	public List<Constraintx> getConstraints(RefOntoUML.Element element){
+		List<Constraintx> result = new ArrayList<Constraintx>();
+		for(Constraintx obj: getAllInstances(RefOntoUML.Constraintx.class)){
+			if(obj.getConstrainedElement().equals(element)) result.add(obj);
+		}
+		return result;
+	}
+	
 	/** Return all selected descendants (direct or indirect) of an element. */
 	public Set<Classifier> getAllChildren(Classifier c)
 	{
@@ -775,6 +816,20 @@ public class OntoUMLParser {
 			if(isSelected(o) && type.isInstance(o)) result.add((T) o);
 		}
 		return result;
+	}
+	
+	public List<RefOntoUML.PackageableElement> getAllTypesSorted(){
+		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
+		types.addAll(getAllInstances(RefOntoUML.Type.class));
+		Collections.sort(types);
+		return types;
+	}
+	
+	public List<RefOntoUML.PackageableElement> getAllDomainsSorted(){
+		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
+		types.addAll(getAllInstances(RefOntoUML.MeasurementDomain.class));
+		Collections.sort(types);
+		return types;
 	}
 	
 	/**

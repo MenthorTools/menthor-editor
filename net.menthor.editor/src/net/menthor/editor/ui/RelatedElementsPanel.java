@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.ui;
 
 /**
  * ============================================================================================
@@ -43,15 +43,10 @@ import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.ui.TableColumnAdjuster;
 
-/**
- * @author John Guerson
- */
 public class RelatedElementsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;

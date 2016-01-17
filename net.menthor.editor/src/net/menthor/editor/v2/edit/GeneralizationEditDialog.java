@@ -30,28 +30,25 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.dialog.properties.GeneralizationEditionPanel;
 import net.menthor.editor.ui.MainFrame;
 
 public class GeneralizationEditDialog extends BaseEditDialog {
 
 	private static final long serialVersionUID = 1L;
 	
-	private GeneralizationElement genElement;
 	private Relationship relationship;
 			
-	private GeneralizationEditionPanel genEdition;
+	private GeneralizationEditPane genEdition;
 	
 	public GeneralizationEditDialog(final MainFrame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship, boolean modal){
 		super(parent, modal);		
-		this.genElement=genElement;
 		this.relationship = relationship;
 		initUI();
 	}
 	
 	@Override
 	public void confirm(ActionEvent arg0){
-		genEdition.transferGenData();				
+		genEdition.transferData();				
 		dispose();
 	}
 	
@@ -62,7 +59,7 @@ public class GeneralizationEditDialog extends BaseEditDialog {
 		if (general!=null) setTitle(""+""+stereo+" "+ specific.getName()+" -> "+general.getName());
 		else setTitle(""+""+stereo+" "+ specific.getName()+" -> null");
 		setSize(new Dimension(470, 370));		
-		genEdition = new GeneralizationEditionPanel(this.getParent(), diagramManager, genElement, (Generalization)relationship);
+		genEdition = new GeneralizationEditPane(this.getParent(), diagramManager, (Generalization)relationship);
 		tabbedPane.add("Generalization", genEdition);
 	}
 }

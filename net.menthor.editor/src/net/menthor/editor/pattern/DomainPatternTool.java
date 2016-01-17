@@ -16,6 +16,7 @@ import net.menthor.editor.ui.PngWriter;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.palette.PaletteAccordion;
 import net.menthor.editor.v2.palette.PaletteGrouping;
 import net.menthor.editor.v2.palette.PaletteItem;
@@ -153,12 +154,12 @@ public class DomainPatternTool {
 				@Override
 				public void run() {
 					Fix fix = DomainPatternTool.run(x, y);
-					diagramManager.updateMenthor(fix);
+					UpdateManager.update(fix);
 				}
 			});
 		}else{
 			Fix fix = DomainPatternTool.run(x, y);
-			diagramManager.updateMenthor(fix);
+			UpdateManager.update(fix);
 		}
 	}
 

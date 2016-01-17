@@ -25,6 +25,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.DerivedPatternType;
@@ -214,7 +215,7 @@ public void mousePressed(EditorMouseEvent event) {
     
     if(element!=null){
 	    
-	    editor.getDiagramManager().moveToDiagram(((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor,true);
+	    MoveManager.move(((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor,true);
 	    	    	    
 //	    if (!isDragging) {
 //	    	editor.getDiagramManager().openModellingAssistant(elem);

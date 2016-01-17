@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.v2.edit;
 
 /**
  * ============================================================================================
@@ -22,13 +22,9 @@ package net.menthor.editor.dialog.properties;
  */
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -45,7 +41,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
@@ -54,70 +49,115 @@ import RefOntoUML.EnumerationLiteral;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.tables.LiteralTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
-public class EnumLiteralEditionPanel extends JPanel{
+public class LiteralEditPane extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
+	private DiagramManager diagramManager;
+		
 	private ClassElement classElement;	
 	private Classifier element;
-	private DiagramManager diagramManager;
-	@SuppressWarnings("unused")
-	private Component parent;
-		 
+			 
 	private JButton btnDelete;
 	private JButton btnCreate;
 	private JButton btnUp;
 	private JButton btnDown;
 	private JScrollPane scrollpane;
 	private JTable table;
-	private LiteralTableModel enumLiteralTableModel;
+	private LiteralTableModel tablemodel;
 	private JPanel panel;
 	private JCheckBox cbxVisible;
 			
-	public EnumLiteralEditionPanel(final Component parent, final DiagramManager diagramManager, final ClassElement classElement, final Classifier element) 
-	{
+	public LiteralEditPane(final DiagramManager diagramManager, final ClassElement classElement, final Classifier element){
 		this.diagramManager = diagramManager;
 		this.classElement = classElement;
 		this.element = element;
-		this.parent=parent;
-						
-		enumLiteralTableModel = new LiteralTableModel(((RefOntoUML.Enumeration)element));
-		
+		initUI();
+	}
+	
+	public void setData(){				
+		if (classElement !=null) { 
+			cbxVisible.setSelected(classElement.showAttributes());
+			cbxVisible.setEnabled(true); 
+		}else{ 
+			cbxVisible.setSelected(false); 
+			cbxVisible.setEnabled(false); 
+		}
+		if(element instanceof Enumeration){
+			Enumeration enumeration = (Enumeration)element;			
+			for (EnumerationLiteral literal : enumeration.getOwnedLiteral()) {
+				tablemodel.addEntry(literal);
+			}
+		}
+	}
+	
+	public void transferData(){
+		EList<EnumerationLiteral> enumLiterals = tablemodel.getEntries();		
+		if(!cbxVisible.isSelected() && enumLiterals.size()>0) cbxVisible.setSelected(true);
+		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());				
+		TransferManager.transferLiterals(element, enumLiterals);			
+		classElement.reinitAttributesCompartment();
+		classElement.invalidate();
+	}
+	
+	public void moveUpLiteral(){
+		int row = table.getSelectedRow();
+		if (row >=0  && row < table.getRowCount()){
+			tablemodel.moveUpEntry(row);
+			table.setRowSelectionInterval(row - 1, row - 1);
+		}
+	}
+
+	public void moveDownLiteral(){
+		int row = table.getSelectedRow();
+		if (row >=0  && row < table.getRowCount()){
+			tablemodel.moveDownEntry(row);
+			table.setRowSelectionInterval(row + 1, row + 1);
+		}
+	}
+	
+	public void addLiteral(ActionEvent evt){
+		tablemodel.addEmptyEntry();		
+	}
+	
+	public void deleteLiteral(ActionEvent evt){
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow >= 0 && selectedRow < tablemodel.getRowCount()){
+			tablemodel.removeEntryAt(selectedRow);
+		}
+	}
+	
+	public void refreshData(){
+		tablemodel.fireTableDataChanged();
+	}
+	
+	public void initUI(){
+		setSize(450,221);
+		setLayout(null);
+		tablemodel = new LiteralTableModel(((RefOntoUML.Enumeration)element));		
 		panel = new JPanel();
+		panel.setBounds(0, 0, 450, 221);
 		panel.setBorder(BorderFactory.createTitledBorder(""));
-		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-		);
-		
 		scrollpane = new JScrollPane();		
 		scrollpane.setMinimumSize(new Dimension(0, 0));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		
+		scrollpane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));		
 		table = new JTable();		
 		scrollpane.setViewportView(table);
-		table.setModel(enumLiteralTableModel);
-		
+		table.setModel(tablemodel);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
 		table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 		table.setSelectionForeground(Color.BLACK);
 		table.setFocusable(false);	    
-		table.setRowHeight(23);
-		
+		table.setRowHeight(23);		
 		btnCreate = new JButton("");
 		btnCreate.setFocusable(false);
 		btnCreate.setToolTipText("Add new value to this enumeration");
@@ -128,7 +168,6 @@ public class EnumLiteralEditionPanel extends JPanel{
 				addLiteral(arg0);
 			}
 		});
-		
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete selected values");
@@ -138,8 +177,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				deleteLiteral(arg0);
 			}
-		});
-		
+		});		
 		btnUp = new JButton("");
 		btnUp.setFocusable(false);
 		btnUp.setToolTipText("Move up selected value");
@@ -149,8 +187,7 @@ public class EnumLiteralEditionPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				moveUpLiteral();
 			}
-		});
-		
+		});		
 		btnDown = new JButton("");
 		btnDown.setFocusable(false);
 		btnDown.setToolTipText("Move down selected value");
@@ -160,12 +197,10 @@ public class EnumLiteralEditionPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				moveDownLiteral();
 			}
-		});
-		
+		});		
 		cbxVisible = new JCheckBox("Turn literals visible");
 		cbxVisible.setPreferredSize(new Dimension(140, 20));
-		cbxVisible.setHorizontalAlignment(SwingConstants.LEFT);
-		
+		cbxVisible.setHorizontalAlignment(SwingConstants.LEFT);		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -199,124 +234,10 @@ public class EnumLiteralEditionPanel extends JPanel{
 					.addComponent(scrollpane, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
 					.addGap(10))
 		);
-		panel.setLayout(gl_panel);
-		this.setLayout(groupLayout);
+		panel.setLayout(gl_panel);		
+		add(panel);
 		
-		setSize(450,221);
-		
-		if (classElement !=null) { cbxVisible.setSelected(classElement.showAttributes());cbxVisible.setEnabled(true); }
-		else { cbxVisible.setSelected(false); cbxVisible.setEnabled(false); }
-		
-		myPostInit();
-	}	
-
-	public void refreshData()
-	{
-		enumLiteralTableModel.fireTableDataChanged();
+		setData();
 	}
-	
-	private void myPostInit() 
-	{				
-		if(element instanceof Enumeration)
-		{
-			Enumeration enumeration = (Enumeration)element;			
-			for (EnumerationLiteral literal : enumeration.getOwnedLiteral()) {
-				enumLiteralTableModel.addEntry(literal);
-			}
-		}
-	}
-	
-	private void moveUpLiteral() 
-	{
-		int row = table.getSelectedRow();
-		if (row >=0  && row < table.getRowCount()) 
-		{
-			enumLiteralTableModel.moveUpEntry(row);
-			table.setRowSelectionInterval(row - 1, row - 1);
-		}
-	}
-
-	private void moveDownLiteral() 
-	{
-		int row = table.getSelectedRow();
-		if (row >=0  && row < table.getRowCount()) 
-		{
-			enumLiteralTableModel.moveDownEntry(row);
-			table.setRowSelectionInterval(row + 1, row + 1);
-		}
-	}
-	
-	protected void deleteLiteral(ActionEvent evt) 
-	{
-		int selectedRow = table.getSelectedRow();
-		if (selectedRow >= 0 && selectedRow < enumLiteralTableModel.getRowCount()) 
-		{
-			enumLiteralTableModel.removeEntryAt(selectedRow);
-		}
-	}
-	
-	protected void addLiteral(ActionEvent evt) 
-	{
-		enumLiteralTableModel.addEmptyEntry();		
-	}
-	
-	public static String getStereotype(EObject element)
-	{
-		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
-	    type = type.replaceAll("Impl","");
-	    type = Normalizer.normalize(type, Normalizer.Form.NFD);
-	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");
-	    return type;
-	}
-	
-	public void transferLiteralData()
-	{
-		EList<EnumerationLiteral> enumLiterals = enumLiteralTableModel.getEntries();
-		
-		if(cbxVisible.isSelected()==false){
-			if (enumLiterals.size()>0) {
-				cbxVisible.setSelected(true);
-			}
-		}
-		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
-		diagramManager.updateMenthorFromInclusion(element);
-		
-		deleteLiterals(enumLiterals);
-		transferAddedLiterals(enumLiterals);
-		
-		classElement.reinitAttributesCompartment();
-		classElement.invalidate();
-	}
-	
-	private void deleteLiterals(List<EnumerationLiteral> enumLiterals )
-	{
-		ArrayList<EnumerationLiteral> literals = new ArrayList<EnumerationLiteral>();
-		
-		if(element instanceof Enumeration){
-			literals.addAll(((Enumeration)element).getOwnedLiteral());
-			for(EnumerationLiteral p: literals){
-				if(!enumLiterals.contains(p)) {					
-					((Enumeration)element).getOwnedLiteral().remove(p);
-					diagramManager.updateMenthorFromDeletion(p);
-				}
-			}
-		}		
-	}
-	
-	private void transferAddedLiterals(List<EnumerationLiteral> enumLiterals )
-	{
-		for (Object literal : enumLiterals) 
-		{			
-			EnumerationLiteral l = (EnumerationLiteral)literal;
-			if(!l.getName().isEmpty())
-			{				
-				if(element instanceof Enumeration){
-					((Enumeration)element).getOwnedLiteral().add(l);
-					
-					diagramManager.updateMenthorFromInclusion(l);
-				}				
-			}
-		}
-	}	
 }
 

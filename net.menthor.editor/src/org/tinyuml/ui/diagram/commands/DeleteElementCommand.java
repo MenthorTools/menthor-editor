@@ -28,12 +28,6 @@ import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
-
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Connection;
@@ -52,6 +46,11 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Relationship;
+import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
  * A command class to remove allElements from a diagram.
@@ -401,7 +400,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		((GeneralizationSet)elem).getGeneralization().removeAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().remove(elem);
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen, false);
+			UpdateManager.updateFromChange(gen, false);
 		}
 		
 		delete(elem);		
@@ -415,7 +414,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		((GeneralizationSet)elem).getGeneralization().addAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().add(elem);
-			ProjectBrowser.frame.getDiagramManager().updateMenthorFromModification(gen, false);
+			UpdateManager.updateFromChange(gen, false);
 		}
 	}
 	
@@ -423,7 +422,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 	{		
 //		System.out.println("Undoing from model = "+elem);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		ProjectBrowser.frame.getDiagramManager().updateMenthorFromInclusion(elem);
+		UpdateManager.updateFromAddition(elem);
 	}
 	
 	private void delete (RefOntoUML.Element elem)
@@ -431,7 +430,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		//System.out.println("Deleting = "+elem);
 		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(RefOntoUMLEditingDomain.getInstance().createDomain(), elem);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
-		ProjectBrowser.frame.getDiagramManager().updateMenthorFromDeletion(elem);
+		UpdateManager.updateFromDeletion(elem);
 	}
 	
 	public Collection<DiagramElement> getDiagramElements() 

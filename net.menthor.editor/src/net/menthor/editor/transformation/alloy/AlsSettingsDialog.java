@@ -30,7 +30,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.dialog.properties.ConstraintSimulationPanel;
+import net.menthor.editor.ui.ConstraintSimulationPanel;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;

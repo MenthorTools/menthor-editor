@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.v2.edit;
 
 /**
  * ============================================================================================
@@ -39,8 +39,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-
-import org.tinyuml.draw.DiagramElement;
+import javax.swing.border.EmptyBorder;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;
@@ -50,19 +49,16 @@ import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import javax.swing.border.EmptyBorder;
+import net.menthor.editor.v2.managers.TransferManager;
 
-/**
- * @author John Guerson
- */
-public class ConstraintEditionPanel extends JPanel {
+public class ConstraintEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	@SuppressWarnings("unused")
-	private DiagramElement diagramElement;
+	private DiagramManager diagramManager;	
+
 	private Classifier element;
-	private DiagramManager diagramManager;
+	private ArrayList<Constraintx> constraintList = new ArrayList<Constraintx>();
 	
 	@SuppressWarnings("rawtypes")
 	private JComboBox comboConstraintType;
@@ -72,23 +68,100 @@ public class ConstraintEditionPanel extends JPanel {
 	@SuppressWarnings("rawtypes")
 	private JComboBox comboConstraint;
 	private JScrollPane scrollPaneText;
-	private JTextArea constraintTextArea;
-	
-	private ArrayList<Constraintx> constraintList = new ArrayList<Constraintx>();
+	private JTextArea constraintTextArea;	
 	private JTextField textFieldName;
-
 	private JLabel lblName;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
+	private JLabel lblConstraint;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ConstraintEditionPanel(DiagramManager diagramManager, DiagramElement diagramElement, Classifier element) 
-	{
+	public ConstraintEditPane(DiagramManager diagramManager, Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
-		this.diagramElement = diagramElement;
 		this.element = element;
-		
+		initUI();
+	}
+	
+	public void transferData(){
+		TransferManager.transferConstraints(element, getConstraints());		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setData(){		
+		OntoUMLParser refparser = Models.getRefparser();
+		for(Constraintx c: refparser.getAllInstances(RefOntoUML.Constraintx.class)){		
+			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
+				if (elem.equals(element)) comboConstraint.addItem(new ConstraintElement(c));
+			}
+			constraintList.add(c);
+		}		
+		if (comboConstraint.getItemCount()>0) {
+			comboConstraint.setSelectedIndex(0);
+			Constraintx c= ((ConstraintElement)comboConstraint.getSelectedItem()).getConstraint();
+			constraintTextArea.setText(((StringExpression)c.getSpecification()).getSymbol()+"\n\n");
+		}else{
+			enableConstraintArea(false);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void createConstraint(){
+		Constraintx c = diagramManager.getElementFactory().createConstraintx();		
+		c.getConstrainedElement().add(element);
+		String selectedItem = ((String)comboConstraintType.getSelectedItem());
+		if(selectedItem.compareToIgnoreCase("invariant")==0) c.setName("Invariant");
+		else c.setName("Derivation");
+		ConstraintElement ce = new ConstraintElement(c);		
+		comboConstraint.addItem(ce);				
+		comboConstraint.setSelectedIndex(comboConstraint.getItemCount()-1);		
+		if(selectedItem.compareToIgnoreCase("invariant")==0){
+			constraintTextArea.setText("context <Type> \ninv: true");
+			((StringExpression)c.getSpecification()).setSymbol("context <Type> \ninv: true");
+		}else{
+			constraintTextArea.setText("context <Type>::<Property>::<propertyType> \nderive: true");
+			((StringExpression)c.getSpecification()).setSymbol("context <Type>::<Property>::<propertyType> \nderive: true");
+		}
+		enableConstraintArea(true);
+	}
+
+	public void saveConstraint(){
+		if((ConstraintElement)comboConstraint.getSelectedItem()!=null){
+			Constraintx c = ((ConstraintElement)comboConstraint.getSelectedItem()).getConstraint();
+			((StringExpression)c.getSpecification()).setSymbol(constraintTextArea.getText());
+			c.setName(textFieldName.getText());
+			comboConstraint.repaint();
+			comboConstraint.validate();
+		}		
+	}
+
+	public void deleteConstraint(){
+		if((ConstraintElement)comboConstraint.getSelectedItem()!=null){
+			comboConstraint.removeItem(comboConstraint.getSelectedItem());
+			comboConstraint.invalidate();	
+			constraintTextArea.setText("");
+			textFieldName.setText("");
+		}			
+		if (comboConstraint.getItemCount()>0) enableConstraintArea(true);
+		else enableConstraintArea(false);
+	}
+	
+	private void enableConstraintArea(boolean value){
+		comboConstraint.setEnabled(value);
+		btnSave.setEnabled(value);
+		btnDelete.setEnabled(value);
+	}
+	
+	public ArrayList<Constraintx> getConstraints(){
+		ArrayList<Constraintx> result = new ArrayList<Constraintx>();
+		for(int i=0; i<comboConstraint.getItemCount();i++){
+			ConstraintElement ce = (ConstraintElement)comboConstraint.getItemAt(i);
+			if (ce!=null) result.add(ce.getConstraint());
+		}
+		return result;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void initUI(){
 		comboConstraint = new JComboBox();
 		comboConstraint.setFocusable(false);
 		comboConstraint.setToolTipText("This is the name of your constraint");
@@ -102,8 +175,7 @@ public class ConstraintEditionPanel extends JPanel {
 					textFieldName.setText(ce.getConstraint().getName());
 				}
 			}
-		});
-		
+		});		
 		btnSave = new JButton("");
 		btnSave.setFocusable(false);
 		btnSave.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_SAVE));
@@ -111,10 +183,9 @@ public class ConstraintEditionPanel extends JPanel {
 		btnSave.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				saveConstraintActionPerformed();				
+				saveConstraint();				
 			}
-		});
-		
+		});		
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_DELETE));
@@ -122,15 +193,12 @@ public class ConstraintEditionPanel extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				deleteConstraintActionPerformed();				
+				deleteConstraint();				
 			}
-		});
-		
+		});		
 		comboConstraintType = new JComboBox();
 		comboConstraintType.setToolTipText("The type of constraint to be created");
-		comboConstraintType.setModel(new DefaultComboBoxModel(new String[] {"invariant", "derivation"}));
-		
-		
+		comboConstraintType.setModel(new DefaultComboBoxModel(new String[] {"invariant", "derivation"}));		
 		btnAdd = new JButton("");
 		btnAdd.setFocusable(false);
 		btnAdd.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
@@ -138,28 +206,20 @@ public class ConstraintEditionPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				createConstraintActionPerformed();				
+				createConstraint();				
 			}
-		});
-		
-		JLabel lblConstraint = new JLabel("Constraint:");
-		
-		lblName = new JLabel("Name:");
-		
+		});		
+		lblConstraint = new JLabel("Constraint:");		
+		lblName = new JLabel("Name:");		
 		textFieldName = new JTextField();
-		textFieldName.setColumns(10);
-		
+		textFieldName.setColumns(10);		
 		constraintTextArea = new JTextArea();	
-		constraintTextArea.setToolTipText("Click here to start writing constraints");
-		
+		constraintTextArea.setToolTipText("Click here to start writing constraints");		
 		scrollPaneText = new JScrollPane();
 		scrollPaneText.setToolTipText("Click here to start writing constraints");
-		scrollPaneText.setViewportView(constraintTextArea);
-		
-		lblNewLabel = new JLabel("Type:");
-		
-		lblNewLabel_1 = new JLabel("Content:");
-		
+		scrollPaneText.setViewportView(constraintTextArea);		
+		lblNewLabel = new JLabel("Type:");		
+		lblNewLabel_1 = new JLabel("Content:");		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -211,12 +271,11 @@ public class ConstraintEditionPanel extends JPanel {
 		groupLayout.linkSize(SwingConstants.VERTICAL, new Component[] {comboConstraint, comboConstraintType, textFieldName});
 		setLayout(groupLayout);
 		
-		setInitialData();
+		setData();
 	}
 	
 	/** Private Class: Constraint Element */
-	private class ConstraintElement 
-	{
+	private class ConstraintElement{
 		RefOntoUML.Constraintx c;
 		public ConstraintElement(RefOntoUML.Constraintx c){
 			this.c = c;
@@ -230,126 +289,5 @@ public class ConstraintEditionPanel extends JPanel {
 		public RefOntoUML.Constraintx getConstraint(){
 			return c;
 		}
-	}
-		
-	private void enableConstraintArea(boolean value)
-	{
-		//constraintTextArea.setEnabled(value);
-		//scrollPaneText.setEnabled(value);
-		comboConstraint.setEnabled(value);
-		//lblSelected.setEnabled(value);
-		//if (!value) constraintTextArea.setBackground(UIManager.getColor("Panel.background"));
-		//else constraintTextArea.setBackground(Color.WHITE);
-		btnSave.setEnabled(value);
-		btnDelete.setEnabled(value);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void setInitialData()
-	{		
-		OntoUMLParser refparser = Models.getRefparser();
-		for(Constraintx c: refparser.getAllInstances(RefOntoUML.Constraintx.class)){		
-			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
-				if (elem.equals(element)) comboConstraint.addItem(new ConstraintElement(c));
-			}
-			constraintList.add(c);
-		}		
-		if (comboConstraint.getItemCount()>0) {
-			comboConstraint.setSelectedIndex(0);
-			Constraintx c= ((ConstraintElement)comboConstraint.getSelectedItem()).getConstraint();
-			constraintTextArea.setText(((StringExpression)c.getSpecification()).getSymbol()+"\n\n");
-		}else{
-			enableConstraintArea(false);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void createConstraintActionPerformed()
-	{
-		Constraintx c = diagramManager.getElementFactory().createConstraintx();		
-		c.getConstrainedElement().add(element);
-		String selectedItem = ((String)comboConstraintType.getSelectedItem());
-		if(selectedItem.compareToIgnoreCase("invariant")==0) c.setName("Invariant");
-		else c.setName("Derivation");
-		ConstraintElement ce = new ConstraintElement(c);		
-		comboConstraint.addItem(ce);				
-		comboConstraint.setSelectedIndex(comboConstraint.getItemCount()-1);		
-		if(selectedItem.compareToIgnoreCase("invariant")==0){
-			constraintTextArea.setText("context <Type> \ninv: true");
-			((StringExpression)c.getSpecification()).setSymbol("context <Type> \ninv: true");
-		}else{
-			constraintTextArea.setText("context <Type>::<Property>::<propertyType> \nderive: true");
-			((StringExpression)c.getSpecification()).setSymbol("context <Type>::<Property>::<propertyType> \nderive: true");
-		}
-		enableConstraintArea(true);
-	}
-
-	public void saveConstraintActionPerformed()
-	{
-		if((ConstraintElement)comboConstraint.getSelectedItem()!=null){
-			Constraintx c = ((ConstraintElement)comboConstraint.getSelectedItem()).getConstraint();
-			((StringExpression)c.getSpecification()).setSymbol(constraintTextArea.getText());
-			c.setName(textFieldName.getText());
-			comboConstraint.repaint();
-			comboConstraint.validate();
-		}		
-	}
-
-	public void deleteConstraintActionPerformed()
-	{
-		if((ConstraintElement)comboConstraint.getSelectedItem()!=null){
-			comboConstraint.removeItem(comboConstraint.getSelectedItem());
-			comboConstraint.invalidate();	
-			constraintTextArea.setText("");
-			textFieldName.setText("");
-		}			
-		if (comboConstraint.getItemCount()>0) {
-			enableConstraintArea(true);
-		}else{
-			enableConstraintArea(false);
-		}
-	}
-	
-	public ArrayList<Constraintx> getConstraints()
-	{
-		ArrayList<Constraintx> result = new ArrayList<Constraintx>();
-		for(int i=0; i<comboConstraint.getItemCount();i++){
-			ConstraintElement ce = (ConstraintElement)comboConstraint.getItemAt(i);
-			if (ce!=null) result.add(ce.getConstraint());
-		}
-		return result;
-	}
-	
-	public ArrayList<Constraintx> getConstraintx(RefOntoUML.Element element)
-	{
-		ArrayList<Constraintx> result = new ArrayList<Constraintx>();
-		for(Constraintx c: constraintList){
-			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
-				if (elem.equals(element)) result.add(c);
-			}							
-		}
-		return result;
-	}
-	
-	public void transferConstraintsData()
-	{
-		// added
-		ArrayList<Constraintx> toBeAdded = new ArrayList<Constraintx>();
-		for(Constraintx c: getConstraints()){			
-			if (!getConstraintx(element).contains(c)){				
-				toBeAdded.add(c);
-			}
-		}
-		for(Constraintx cmt: toBeAdded) { diagramManager.addConstraintx(cmt, (RefOntoUML.Element)element); } 
-			
-		//removed
-		ArrayList<Constraintx> toBeDeleted = new ArrayList<Constraintx>();
-		for(Constraintx c: getConstraintx(element)){
-			if (!getConstraints().contains(c)){
-				toBeDeleted.add(c);
-			}
-		}
-		for(Constraintx cmt: toBeDeleted) { diagramManager.deleteFromMenthor(cmt,false); }	
-		
 	}
 }

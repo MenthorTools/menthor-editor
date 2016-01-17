@@ -75,6 +75,7 @@ import net.menthor.common.positioning.ClassPosition;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.UpdateManager;
 
 /**
  * @author Cássio Reginato
@@ -614,7 +615,7 @@ public class DerivedTypesOperations {
 						stereotypes.get(0));
 			}
 			createGeneralization(newElement3, newElement2, newElement);
-			dm.updateMenthor(mainfix);
+			UpdateManager.update(mainfix);
 		}
 	}
 
@@ -700,7 +701,7 @@ public class DerivedTypesOperations {
 		Classifier newElement3 = includeElement(positions[1], values.get(5),
 				values.get(2));
 		createGeneralization(newElement, newElement2, newElement3);
-		dman2.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 
 	}
 
@@ -722,7 +723,7 @@ public class DerivedTypesOperations {
 				derived_stereo);
 		createGeneralizationSingle(newElement, newElement3);
 		createGeneralizationSingle(newElement2, newElement3);
-		dm.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	@SuppressWarnings("unused")
@@ -955,7 +956,7 @@ public class DerivedTypesOperations {
 		mainfix.addAll(of.createAttribute(newElement_2, attribute,
 				ClassStereotype.PRIMITIVETYPE, typeAttribute));
 		// newElement_2.getAllAttributes().add(e)
-		dm.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unused" })
@@ -1003,7 +1004,7 @@ public class DerivedTypesOperations {
 						((JComboBox) panel.getComponents()[1])
 								.getSelectedItem().toString());
 				createGeneralizationSingle(element.getClassifier(), newElement);
-				dman.updateMenthor(mainfix);
+				UpdateManager.update(mainfix);
 			} else if (selected.get(0) instanceof AssociationElement) {
 				ArrayList<Property> featureList = new ArrayList<Property>();
 				ArrayList<Property> properties = new ArrayList<Property>();
@@ -1072,7 +1073,7 @@ public class DerivedTypesOperations {
 		createGeneralizationSingle(newElement_2, newElement);
 		RefOntoUML.Class classe = (Class) newElement_2;
 
-		dm.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	public static void createPastSpecializationPattern(DiagramManager dman2,
@@ -1105,7 +1106,7 @@ public class DerivedTypesOperations {
 			Models.getOclDocList().get(0).addContentAsString(rule_ocl);
 		}
 
-		dman2.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	public static void createParticipationUni(DiagramManager dm,
@@ -1138,7 +1139,7 @@ public class DerivedTypesOperations {
 				"", newElement_3, newElement_4);
 		mainfix.addAll(fix);
 		mainfix.addAll(fix2);
-		dman.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	public static void createParticipationComp(DiagramManager dm,
@@ -1171,7 +1172,7 @@ public class DerivedTypesOperations {
 					"", newElement_3, newElement_2);
 		}
 		mainfix.addAll(fix);
-		dman.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	public static void createParticipationBi(DiagramManager dm,
@@ -1222,7 +1223,7 @@ public class DerivedTypesOperations {
 		mainfix.addAll(fix);
 		mainfix.addAll(fix2);
 		createGeneralizationSingle(newElement_4, newElement_5);
-		dman.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 	}
 
 	public static Fix createPastSpecializationDerivation(
@@ -1264,7 +1265,7 @@ public class DerivedTypesOperations {
 			}
 		}
 
-		dman.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 		return mainfix;
 	}
 
@@ -1290,7 +1291,7 @@ public class DerivedTypesOperations {
 				+ "',w)) and not wk.oclIsKindOf("
 				+ ce.getClassifier().eClass().getName() + ",self))";
 		Models.getOclDocList().get(0).addContentAsString(rule_ocl);
-		dman.updateMenthor(mainfix);
+		UpdateManager.update(mainfix);
 
 	}
 	

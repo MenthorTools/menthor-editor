@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.v2.edit;
 
 /**
  * ============================================================================================
@@ -24,42 +24,36 @@ package net.menthor.editor.dialog.properties;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.Normalizer;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.draw.DiagramElement;
+import javax.swing.border.EmptyBorder;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import javax.swing.border.EmptyBorder;
+import net.menthor.editor.v2.managers.TransferManager;
 
 /**
  * @author John Guerson
  */
-public class CommentsEditionPanel extends JPanel {
+public class CommentsEditPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	@SuppressWarnings("unused")
-	private DiagramElement diagramElement;
-	private Classifier element;
 	private DiagramManager diagramManager;
-	@SuppressWarnings("unused")
-	private JFrame parent;
+		
+	private Classifier element;
+	
 	private JTextArea descriptionText;
 	private JScrollPane scrollPaneText;
 	@SuppressWarnings("rawtypes")
@@ -67,38 +61,87 @@ public class CommentsEditionPanel extends JPanel {
 	private JButton btnCreate;		
 	private JButton btnDelete;
 	private JButton btnSave;
+	private JLabel lblComment;
+	private JLabel lblNewLabel;
 	
-	@SuppressWarnings({ "rawtypes" })
-	public CommentsEditionPanel(DiagramManager diagramManager, DiagramElement diagramElement, Classifier element) 
-	{
+	public CommentsEditPane(DiagramManager diagramManager, Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
-		this.diagramElement =diagramElement;
 		this.element = element;
-		
+		initUI();
+	}
+	
+	public void transferData(){
+		TransferManager.transferComments(element, getComments());	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setData(){		
+		if (commentCombo.getItemCount()>0) commentCombo.removeAllItems();		
+		for(Comment c: element.getOwnedComment()){			
+			commentCombo.addItem(new CommentElement(c));			
+		}		
+		if (commentCombo.getItemCount()>0) {
+			commentCombo.setSelectedIndex(0);
+			descriptionText.setText(((CommentElement)commentCombo.getSelectedItem()).getComment().getBody()+"\n\n");			
+		}else{
+			enableCommentArea(false);
+		}
+	}
+
+	private void enableCommentArea(boolean value){
+		commentCombo.setEnabled(value);
+		btnSave.setEnabled(value);
+		btnDelete.setEnabled(value);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void createComment(){
+		Comment c = diagramManager.getElementFactory().createComment();
+		c.setBody("This is an empty comment...");
+		CommentElement ce = new CommentElement(c);		
+		commentCombo.addItem(ce);
+		descriptionText.setText(c.getBody());
+		commentCombo.setSelectedIndex(commentCombo.getItemCount()-1);
+		enableCommentArea(true);
+	}
+
+	public void saveComment(){
+		Comment c = ((CommentElement)commentCombo.getSelectedItem()).getComment();
+		c.setBody(descriptionText.getText());	
+		commentCombo.repaint();
+		commentCombo.validate();
+	}
+
+	public void deleteComment(){		
+		commentCombo.removeItem(commentCombo.getSelectedItem());
+		commentCombo.invalidate();	
+		descriptionText.setText("");
+		if (commentCombo.getItemCount()>0) enableCommentArea(true);
+		else enableCommentArea(false);
+	}
+
+	public ArrayList<Comment> getComments(){
+		ArrayList<Comment> result = new ArrayList<Comment>();
+		for(int i=0; i<commentCombo.getItemCount();i++){
+			CommentElement ce = (CommentElement)commentCombo.getItemAt(i);
+			if (ce!=null) result.add(ce.getComment());
+		}
+		return result;
+	}	
+	
+	@SuppressWarnings({ "rawtypes" })
+	public void initUI(){
+		setSize(new Dimension(400, 233));
 		commentCombo = new JComboBox();
-		commentCombo.setFocusable(false);
-		//		((JLabel)commentCombo.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
-		//		commentCombo.addItemListener(new ItemListener(){
-		//		    @Override
-		//		    public void itemStateChanged(ItemEvent event) {
-		//		       if (event.getStateChange() == ItemEvent.SELECTED) {		          
-		//		    	   Object item = event.getItem();
-		//		          		          
-		//		           // do something with object
-		//		    	   
-		//		       }
-		//		    }
-		//		});
-						
+		commentCombo.setFocusable(false);						
 		commentCombo.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
 				CommentElement ce = (CommentElement) commentCombo.getSelectedItem();
 				if(ce!=null) descriptionText.setText(ce.getComment().getBody());
 			}
-		});
-		
+		});		
 		btnCreate = new JButton("");
 		btnCreate.setToolTipText("Add a new comment to this class");
 		btnCreate.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_ADD));
@@ -106,10 +149,9 @@ public class CommentsEditionPanel extends JPanel {
 		btnCreate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				createCommentActionPerformed();				
+				createComment();				
 			}
-		});
-		
+		});		
 		btnSave = new JButton("");
 		btnSave.setFocusable(false);
 		btnSave.setToolTipText("Save selected comment");
@@ -117,10 +159,9 @@ public class CommentsEditionPanel extends JPanel {
 		btnSave.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				saveCommentActionPerformed();
+				saveComment();
 			}
-		});
-		
+		});		
 		btnDelete = new JButton("");
 		btnDelete.setFocusable(false);
 		btnDelete.setToolTipText("Delete seletected comment");
@@ -128,21 +169,16 @@ public class CommentsEditionPanel extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				deleteCommentActionPerformed();
+				deleteComment();
 			}
-		});
-		
-		JLabel lblComment = new JLabel("Comment:");
-		
+		});		
+		lblComment = new JLabel("Comment:");		
 		descriptionText = new JTextArea();	
-		descriptionText.setToolTipText("Click here to start writing your comment");
-		
+		descriptionText.setToolTipText("Click here to start writing your comment");		
 		scrollPaneText = new JScrollPane();
 		scrollPaneText.setToolTipText("Click here to start writing your comment");
-		scrollPaneText.setViewportView(descriptionText);
-		
-		JLabel lblNewLabel = new JLabel("Description:");
-		
+		scrollPaneText.setViewportView(descriptionText);		
+		lblNewLabel = new JLabel("Description:");		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -184,14 +220,10 @@ public class CommentsEditionPanel extends JPanel {
 		);
 		this.setLayout(groupLayout);		
 		
-		setInitialData();
-		
-		setSize(new Dimension(400, 233));
+		setData();
 	}
 	
-	/** Private Class: Comment Element */
-	private class CommentElement 
-	{
+	private class CommentElement{
 		RefOntoUML.Comment c;
 		public CommentElement(RefOntoUML.Comment c){
 			this.c = c;
@@ -208,105 +240,5 @@ public class CommentsEditionPanel extends JPanel {
 		public Comment getComment(){
 			return c;
 		}
-	}
-	
-	private void enableCommentArea(boolean value)
-	{
-		//descriptionText.setEnabled(value);
-		//scrollPaneText.setEnabled(value);
-		commentCombo.setEnabled(value);
-		//lblSelectedComment.setEnabled(value);
-		//if (!value) descriptionText.setBackground(UIManager.getColor("Panel.background"));
-		//else descriptionText.setBackground(Color.WHITE);
-		btnSave.setEnabled(value);
-		btnDelete.setEnabled(value);
-	}
-
-	@SuppressWarnings("unchecked")
-	public void setInitialData()
-	{		
-		if (commentCombo.getItemCount()>0) commentCombo.removeAllItems();
-		
-		for(Comment c: element.getOwnedComment()){			
-			commentCombo.addItem(new CommentElement(c));			
-		}		
-		if (commentCombo.getItemCount()>0) {
-			commentCombo.setSelectedIndex(0);
-			descriptionText.setText(((CommentElement)commentCombo.getSelectedItem()).getComment().getBody()+"\n\n");			
-		}else{
-			enableCommentArea(false);
-		}
-	}
-
-	public static String getStereotype(EObject element)
-	{
-		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
-	    type = type.replaceAll("Impl","");
-	    type = Normalizer.normalize(type, Normalizer.Form.NFD);
-	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");
-	    return type;
-	}
-
-	@SuppressWarnings("unchecked")
-	public void createCommentActionPerformed()
-	{
-		Comment c = diagramManager.getElementFactory().createComment();
-		c.setBody("This is an empty comment...");
-		CommentElement ce = new CommentElement(c);		
-		commentCombo.addItem(ce);
-		descriptionText.setText(c.getBody());
-		commentCombo.setSelectedIndex(commentCombo.getItemCount()-1);
-		enableCommentArea(true);
-	}
-
-	public void saveCommentActionPerformed()
-	{
-		Comment c = ((CommentElement)commentCombo.getSelectedItem()).getComment();
-		c.setBody(descriptionText.getText());	
-		commentCombo.repaint();
-		commentCombo.validate();
-	}
-
-	public void deleteCommentActionPerformed()
-	{		
-		commentCombo.removeItem(commentCombo.getSelectedItem());
-		commentCombo.invalidate();	
-		descriptionText.setText("");
-		if (commentCombo.getItemCount()>0) {
-			enableCommentArea(true);
-		}else{
-			enableCommentArea(false);
-		}
-	}
-
-	public ArrayList<Comment> getComments()
-	{
-		ArrayList<Comment> result = new ArrayList<Comment>();
-		for(int i=0; i<commentCombo.getItemCount();i++){
-			CommentElement ce = (CommentElement)commentCombo.getItemAt(i);
-			if (ce!=null) result.add(ce.getComment());
-		}
-		return result;
-	}
-
-	public void transferCommentsData()
-	{
-		// added
-		ArrayList<Comment> toBeAdded = new ArrayList<Comment>();
-		for(Comment c: getComments()){
-			if (!element.getOwnedComment().contains(c)){				
-				toBeAdded.add(c);
-			}
-		}
-		for(Comment cmt: toBeAdded) { diagramManager.addComment(cmt, element); } 
-			
-		//removed
-		ArrayList<Comment> toBeDeleted = new ArrayList<Comment>();
-		for(Comment c: element.getOwnedComment()){
-			if (!getComments().contains(c)){
-				toBeDeleted.add(c);
-			}
-		}
-		for(Comment cmt: toBeDeleted) { diagramManager.deleteFromMenthor(cmt,false); }	
 	}
 }

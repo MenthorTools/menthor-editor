@@ -1,4 +1,4 @@
-package net.menthor.editor.dialog.properties;
+package net.menthor.editor.v2.edit;
 
 /**
  * ============================================================================================
@@ -24,7 +24,6 @@ package net.menthor.editor.dialog.properties;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.Normalizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -40,7 +39,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 
@@ -51,23 +49,18 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
-
 import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.v2.managers.TransferManager;
 
-/**
- * @author John Guerson
- */
-public class AssociationEditionPanel extends JPanel {
+public class AssociationEditPane extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private AssociationElement assocElement;
-	private Classifier element;
 	private DiagramManager diagramManager;
 	
-	@SuppressWarnings("rawtypes")
-	public JComboBox getStereotypeComboBox(){ return stereoCombo; }
-	
+	private AssociationElement assocElement;
+	private Classifier element;
+			
 	private JTextField nameField;
 	@SuppressWarnings("rawtypes")
 	private JComboBox stereoCombo;
@@ -89,30 +82,99 @@ public class AssociationEditionPanel extends JPanel {
 	private JCheckBox btnEndNames;
 	private JCheckBox btnMultiplicity;
 	private JCheckBox btnName;
+	private JLabel lblName;
+	private JLabel lblStereo;
 	
-	/**
-	 * Create the panel.
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public AssociationEditionPanel(final DiagramManager diagramManager, final AssociationElement assocElement, Classifier relationship, boolean modal) 
-	{
-		setBorder(new EmptyBorder(10, 10, 10, 10));
+	public AssociationEditPane(final DiagramManager diagramManager, final AssociationElement assocElement, Classifier relationship, boolean modal){		
 		this.diagramManager = diagramManager;
 		this.assocElement = assocElement;
 		this.element = (Classifier)relationship;
-		
+		initUI();
+	}
+	
+	public void transferData(){
+		TransferManager.transferAssociation((RefOntoUML.Association)element, 
+			nameField.getText(),
+			cbxAbstract.isSelected(), 
+			cbxDerived.isSelected(), 
+			cbxEssential.isSelected(), 
+			cbxInseparable.isSelected(), 
+			cbxImmutablepart.isSelected(), 
+			cbxImmutablewhole.isSelected(), 
+			cbxShareable.isSelected(), 
+			(String) getStereotypeComboBox().getSelectedItem()
+		);	
+		if (assocElement!=null) {
+			assocElement.setShowMultiplicities(btnMultiplicity.isSelected());
+			assocElement.setShowRoles(btnEndNames.isSelected());
+			assocElement.setShowOntoUmlStereotype(btnStereotype.isSelected());
+			assocElement.setShowName(btnName.isSelected());			
+			if (btnToDestination.isSelected()) assocElement.setReadingDesign(ReadingDesign.DESTINATION);
+			else if (btnToSource.isSelected()) assocElement.setReadingDesign(ReadingDesign.SOURCE);
+			else assocElement.setReadingDesign(ReadingDesign.UNDEFINED);
+		}		
+	}
+	
+	public void setMeronymicPanelVisible(boolean value){ meronymicPanel.setVisible(value); }
+	
+	@SuppressWarnings("rawtypes")
+	public JComboBox getStereotypeComboBox(){ return stereoCombo; }
+	
+	public void setData(){		
+		nameField.setText(element.getName());		
+		cbxAbstract.setSelected(element.isIsAbstract());
+		if (element instanceof Association) { cbxDerived.setSelected(((Association)element).isIsDerived()); cbxDerived.setEnabled(true); }
+		else { cbxDerived.setSelected(false); cbxDerived.setEnabled(false); }
+		stereoCombo.setSelectedItem(OntoUMLParser.getStereotype(element).trim());
+		stereoCombo.setEnabled(true);		
+		if (element instanceof Meronymic){
+			Meronymic m = (Meronymic)element;
+			cbxEssential.setSelected(m.isIsEssential());
+			cbxInseparable.setSelected(m.isIsInseparable());
+			cbxImmutablepart.setSelected(m.isIsImmutablePart());
+			cbxImmutablewhole.setSelected(m.isIsImmutableWhole());
+			cbxShareable.setSelected(m.isIsShareable());
+			setMeronymicPanelVisible(true);			
+		}else{
+			cbxEssential.setSelected(false);
+			cbxInseparable.setSelected(false);
+			cbxImmutablepart.setSelected(false);
+			cbxImmutablewhole.setSelected(false);
+			cbxShareable.setSelected(false);
+			setMeronymicPanelVisible(false);			
+		}
+		repaint();
+		validate();
+		if (element instanceof subQuantityOf){
+			cbxShareable.setEnabled(false);
+		}
+		if (assocElement!=null) {
+			ReadingDesign direction = assocElement.getReadingDesign();
+			if(direction!=null){
+				if (direction.equals(ReadingDesign.DESTINATION)) btnToDestination.setSelected(true);
+				else if (direction.equals(ReadingDesign.SOURCE)) btnToSource.setSelected(true);
+				else btnUndefined.setSelected(true);
+			}else{
+				btnUndefined.setSelected(true);			
+			}			
+			btnName.setSelected(assocElement.showName());
+			btnMultiplicity.setSelected(assocElement.showMultiplicities());
+			btnEndNames.setSelected(assocElement.showRoles());
+			btnStereotype.setSelected(assocElement.showOntoUmlStereotype());
+		}		
+	}	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked"})
+	public void initUI(){
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		assocPanel = new JPanel();
-		assocPanel.setBorder(BorderFactory.createTitledBorder(""));
-		
+		assocPanel.setBorder(BorderFactory.createTitledBorder(""));		
 		meronymicPanel = new JPanel();
-		meronymicPanel.setBorder(BorderFactory.createTitledBorder("Meronymic"));
-		
+		meronymicPanel.setBorder(BorderFactory.createTitledBorder("Meronymic"));		
 		directionPanel = new JPanel();
-		directionPanel.setBorder(BorderFactory.createTitledBorder("Reading Direction"));
-		
+		directionPanel.setBorder(BorderFactory.createTitledBorder("Reading Direction"));		
 		panel = new JPanel();
-		panel.setBorder(BorderFactory.createTitledBorder("Visibility"));
-		
+		panel.setBorder(BorderFactory.createTitledBorder("Visibility"));		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -137,17 +199,13 @@ public class AssociationEditionPanel extends JPanel {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(meronymicPanel, GroupLayout.PREFERRED_SIZE, 104, Short.MAX_VALUE)
 					.addContainerGap())
-		);
-		
+		);		
 		btnName = new JCheckBox("Name");
-		btnName.setPreferredSize(new Dimension(90, 25));
-		
+		btnName.setPreferredSize(new Dimension(90, 25));		
 		btnStereotype = new JCheckBox("Stereotype");
-		btnStereotype.setPreferredSize(new Dimension(110, 25));
-		
+		btnStereotype.setPreferredSize(new Dimension(110, 25));		
 		btnEndNames = new JCheckBox("End names");
-		btnEndNames.setPreferredSize(new Dimension(80, 25));
-		
+		btnEndNames.setPreferredSize(new Dimension(80, 25));		
 		btnMultiplicity = new JCheckBox("Multiplicity");
 		btnMultiplicity.setPreferredSize(new Dimension(110, 25));
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -181,18 +239,14 @@ public class AssociationEditionPanel extends JPanel {
 						.addComponent(btnMultiplicity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
-		panel.setLayout(gl_panel);
-		
-		ButtonGroup group = new ButtonGroup();
-		
+		panel.setLayout(gl_panel);		
+		ButtonGroup group = new ButtonGroup();		
 		btnToSource = new JRadioButton("To source");
 		group.add(btnToSource);
-		btnToSource.setPreferredSize(new Dimension(95, 25));
-		
+		btnToSource.setPreferredSize(new Dimension(95, 25));		
 		btnUndefined = new JRadioButton("Undefined");
 		group.add(btnUndefined);
-		btnUndefined.setPreferredSize(new Dimension(90, 25));
-		
+		btnUndefined.setPreferredSize(new Dimension(90, 25));		
 		btnToDestination = new JRadioButton("To destination");
 		group.add(btnToDestination);
 		btnToDestination.setPreferredSize(new Dimension(180, 25));
@@ -222,13 +276,11 @@ public class AssociationEditionPanel extends JPanel {
 					.addComponent(btnToDestination, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
-		directionPanel.setLayout(gl_directionPanel);
-		
+		directionPanel.setLayout(gl_directionPanel);		
 		cbxEssential = new JCheckBox("Essential");		
 		cbxEssential.setPreferredSize(new Dimension(85, 20));
 		cbxImmutablepart = new JCheckBox("ImmutablePart");
-		cbxImmutablepart.setPreferredSize(new Dimension(120, 20));
-		
+		cbxImmutablepart.setPreferredSize(new Dimension(120, 20));		
 		cbxInseparable = new JCheckBox("Inseparable");
 		cbxInseparable.setPreferredSize(new Dimension(95, 20));
 		cbxImmutablewhole = new JCheckBox("ImmutableWhole");
@@ -273,18 +325,15 @@ public class AssociationEditionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if(cbxInseparable.isSelected()) cbxImmutablewhole.setSelected(true);								
 			}
-		});
-		
+		});		
 		// Essential implies in Immutable Part...
 		cbxEssential.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(cbxEssential.isSelected()) cbxImmutablepart.setSelected(true);								
 			}
-		});
-		
-		JLabel lblName = new JLabel("Name:");
-		
+		});		
+		lblName = new JLabel("Name:");		
 		nameField = new JTextField();
 		nameField.setColumns(10);
 				
@@ -303,14 +352,11 @@ public class AssociationEditionPanel extends JPanel {
 			}
 		}
 		
-		JLabel lblStereo = new JLabel("Classifier:");
-		
+		lblStereo = new JLabel("Classifier:");		
 		stereoCombo = new JComboBox();
-		stereoCombo.setModel(new DefaultComboBoxModel(new String[] {"Mediation", "componentOf", "memberOf", "subCollectionOf", "subQuantityOf", "Material", "Characterization", "Formal", "Structuration","Association", "Derivation"}));
-		
+		stereoCombo.setModel(new DefaultComboBoxModel(new String[] {"Mediation", "componentOf", "memberOf", "subCollectionOf", "subQuantityOf", "Material", "Characterization", "Formal", "Structuration","Association", "Derivation"}));		
 		cbxAbstract = new JCheckBox("Abstract");		
-		cbxDerived = new JCheckBox("Derived");
-				
+		cbxDerived = new JCheckBox("Derived");				
 		GroupLayout gl_assocPanel = new GroupLayout(assocPanel);
 		gl_assocPanel.setHorizontalGroup(
 			gl_assocPanel.createParallelGroup(Alignment.LEADING)
@@ -349,104 +395,7 @@ public class AssociationEditionPanel extends JPanel {
 		assocPanel.setLayout(gl_assocPanel);
 		setLayout(groupLayout);
 		
-		setInitialData();
-			
-	}
-	
-	public void setMeronymicPanelVisible(boolean value)
-	{		
-		meronymicPanel.setVisible(value);
-	}
-	
-	public static String getStereotype(EObject element)
-	{
-		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
-	    type = type.replaceAll("Impl","");
-	    type = Normalizer.normalize(type, Normalizer.Form.NFD);
-	    if (!type.equalsIgnoreCase("association")) type = type.replace("Association","");
-	    return type;
-	}
-	
-	public void setInitialData()
-	{		
-		nameField.setText(element.getName());		
-		cbxAbstract.setSelected(element.isIsAbstract());
-		if (element instanceof Association) { cbxDerived.setSelected(((Association)element).isIsDerived()); cbxDerived.setEnabled(true); }
-		else { cbxDerived.setSelected(false); cbxDerived.setEnabled(false); }
-		stereoCombo.setSelectedItem(getStereotype(element).trim());
-		stereoCombo.setEnabled(true);
-		
-		if (element instanceof Meronymic){
-			Meronymic m = (Meronymic)element;
-			cbxEssential.setSelected(m.isIsEssential());
-			cbxInseparable.setSelected(m.isIsInseparable());
-			cbxImmutablepart.setSelected(m.isIsImmutablePart());
-			cbxImmutablewhole.setSelected(m.isIsImmutableWhole());
-			cbxShareable.setSelected(m.isIsShareable());
-			setMeronymicPanelVisible(true);		
-			repaint();
-			validate();
-		}else{
-			cbxEssential.setSelected(false);
-			cbxInseparable.setSelected(false);
-			cbxImmutablepart.setSelected(false);
-			cbxImmutablewhole.setSelected(false);
-			cbxShareable.setSelected(false);
-			setMeronymicPanelVisible(false);
-			repaint();
-			validate();
-		}
-		
-		if (element instanceof subQuantityOf){
-			cbxShareable.setEnabled(false);
-		}
-		if (assocElement!=null) {
-			ReadingDesign direction = assocElement.getReadingDesign();
-			if(direction!=null){
-				if (direction.equals(ReadingDesign.DESTINATION)) btnToDestination.setSelected(true);
-				else if (direction.equals(ReadingDesign.SOURCE)) btnToSource.setSelected(true);
-				else btnUndefined.setSelected(true);
-			}else{
-				btnUndefined.setSelected(true);			
-			}
-			
-			btnName.setSelected(assocElement.showName());
-			btnMultiplicity.setSelected(assocElement.showMultiplicities());
-			btnEndNames.setSelected(assocElement.showRoles());
-			btnStereotype.setSelected(assocElement.showOntoUmlStereotype());
-		}		
+		setData();			
 	}	
-	
-	public void transferAssocData()
-	{
-		element.setName(nameField.getText());
-		element.setIsAbstract(cbxAbstract.isSelected());
-		((Association)element).setIsDerived(cbxDerived.isSelected());
-				
-		if(element instanceof Meronymic){
-			((Meronymic)element).setIsEssential(cbxEssential.isSelected());
-			((Meronymic)element).setIsInseparable(cbxInseparable.isSelected());
-			((Meronymic)element).setIsImmutablePart(cbxImmutablepart.isSelected());
-			((Meronymic)element).setIsImmutableWhole(cbxImmutablewhole.isSelected());
-			((Meronymic)element).setIsShareable(cbxShareable.isSelected());
-		}
-		if (assocElement!=null) {
-			assocElement.setShowMultiplicities(btnMultiplicity.isSelected());
-			assocElement.setShowRoles(btnEndNames.isSelected());
-			assocElement.setShowOntoUmlStereotype(btnStereotype.isSelected());
-			assocElement.setShowName(btnName.isSelected());
-			
-			if (btnToDestination.isSelected()) assocElement.setReadingDesign(ReadingDesign.DESTINATION);
-			else if (btnToSource.isSelected()) assocElement.setReadingDesign(ReadingDesign.SOURCE);
-			else assocElement.setReadingDesign(ReadingDesign.UNDEFINED);
-		}
-		
-		diagramManager.updateMenthorFromModification(element,false);
-		
-		String newstereo = (String) getStereotypeComboBox().getSelectedItem();
-		if(OntoUMLParser.getStereotype(element).compareTo(newstereo)!=0){
-			diagramManager.getCommandListener().handleCommand("CHANGE_TO_"+newstereo.toUpperCase(), element);			
-		}
-	}
 }
 

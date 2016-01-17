@@ -42,6 +42,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.managers.UpdateManager;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -157,7 +158,7 @@ public class ValidationDialog extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Fix fix = fixAllPanels();
-			appFrame.getDiagramManager().updateMenthor(fix);
+			UpdateManager.update(fix);
 			clearAllTables();
 			saveButton.setEnabled(false);
 			applyButton.setEnabled(false);
@@ -169,7 +170,7 @@ public class ValidationDialog extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Fix fix = fixAllPanels();
-			appFrame.getDiagramManager().updateMenthor(fix);
+			UpdateManager.update(fix);
 			dispose();
 		}
 	};
