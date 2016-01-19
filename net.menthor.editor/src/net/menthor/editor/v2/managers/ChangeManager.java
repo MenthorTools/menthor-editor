@@ -1,7 +1,7 @@
 package net.menthor.editor.v2.managers;
 
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.ClassElement;
@@ -12,13 +12,10 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
-
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -47,7 +44,7 @@ public class ChangeManager extends BaseManager {
 	
 	/** Change a class stereotype */ 
 	public void changeClassStereotype(Type type, String stereo){   
-		ArrayList<DiagramElement> diagramElements = ModelHelper.getDiagramElements(type);		
+		List<DiagramElement> diagramElements = ElementMapper.getDiagramElements(type);		
    		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
    		Fix fix = fixer.changeClassStereotypeTo(type, fixer.getClassStereotype(stereo));   	
    		for(DiagramElement de: diagramElements){

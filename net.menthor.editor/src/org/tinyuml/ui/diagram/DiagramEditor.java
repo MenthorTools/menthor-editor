@@ -114,7 +114,7 @@ import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.ElementDialogCaller;
 import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -1024,8 +1024,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			if(source==null || target==null) return null;		  
 		}
 		  
-		DiagramElement src = ModelHelper.getDiagramElementByDiagram(source,getDiagram());
-		DiagramElement tgt = ModelHelper.getDiagramElementByDiagram(target,getDiagram());		
+		DiagramElement src = ElementMapper.getDiagramElementByDiagram(source,getDiagram());
+		DiagramElement tgt = ElementMapper.getDiagramElementByDiagram(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
 		return lineHandler.createAndAddConnection(this, relationship, src, tgt, eContainer);
@@ -2307,7 +2307,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 			if(response==Window.OK)
 			{
-				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), false,true));
+				execute(new DeleteElementCommand(this, ElementMapper.getElements(diagramElementsList), false,true));
 			}
 		}
 	}

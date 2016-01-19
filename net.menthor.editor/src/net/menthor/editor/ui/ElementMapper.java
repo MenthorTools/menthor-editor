@@ -44,29 +44,21 @@ import RefOntoUML.Relationship;
 
 public class ElementMapper {
 
-	private static HashMap<Element,ArrayList<DiagramElement>> map = new HashMap<Element, ArrayList<DiagramElement>>();
+	private static HashMap<Element,List<DiagramElement>> map = new HashMap<Element, List<DiagramElement>>();
 
 	private ElementMapper() {}
 	
-	//Adds mapping from RefOntoUMLElement to DiagramElement (metamodel->concretemodel)
-	//Returns true if the element was successfully added;
-	public static boolean addMapping (Element element, DiagramElement diagramElement)
-	{	
-		if (element==null || diagramElement==null) return false;
-		
-		if(map.get(element)==null)
-		{
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+	public static boolean add(Element element, DiagramElement diagramElement){	
+		if (element==null || diagramElement==null) return false;		
+		if(map.get(element)==null){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(diagramElement);
-//			System.out.println("Add #0 to Map = "+diagramElement);
+			//System.out.println("Add #0 to Map = "+diagramElement);
 			map.put(element, list);
-			return true;
-			
-		}else if(map.get(element)!=null)
-		{
-			if(!map.get(element).contains(diagramElement))
-			{
-//				System.out.println("Add #"+mappings.get(element).size()+" to Map = "+diagramElement);
+			return true;			
+		}else if(map.get(element)!=null){
+			if(!map.get(element).contains(diagramElement)){
+				//System.out.println("Add #"+mappings.get(element).size()+" to Map = "+diagramElement);
 				map.get(element).add(diagramElement);
 				return true;
 			}			
@@ -74,8 +66,7 @@ public class ElementMapper {
 		return false;
 	}
 	
-	public static boolean removeMapping(DiagramElement diagramElem)
-	{	
+	public static boolean remove(DiagramElement diagramElem){
 			
 		RefOntoUML.Element element = getElement(diagramElem);
 		if (element==null) return false;
@@ -118,15 +109,15 @@ public class ElementMapper {
 		for(DiagramElement dElem: diagram.getChildren())
 		{
 			if (dElem instanceof ClassElement) {
-				ElementMapper.addMapping(((ClassElement)dElem).getClassifier(), dElem);
+				ElementMapper.add(((ClassElement)dElem).getClassifier(), dElem);
 				succeeds=true;
 			}
 			if (dElem instanceof AssociationElement) {
-				ElementMapper.addMapping(((AssociationElement)dElem).getRelationship(), dElem);
+				ElementMapper.add(((AssociationElement)dElem).getRelationship(), dElem);
 				succeeds=true;
 			}
 			if (dElem instanceof GeneralizationElement) {
-				ElementMapper.addMapping(((GeneralizationElement)dElem).getRelationship(), dElem);
+				ElementMapper.add(((GeneralizationElement)dElem).getRelationship(), dElem);
 				succeeds=true;
 			}
 		}
@@ -176,7 +167,7 @@ public class ElementMapper {
 		}	
 	}
 	
-	public static ArrayList<DiagramElement> getDiagramElements (Element element){
+	public static List<DiagramElement> getDiagramElements (Element element){
 		
 	
 		
@@ -188,7 +179,7 @@ public class ElementMapper {
 
 	public static RefOntoUML.Element getElement(DiagramElement value) 
     {    	
-        for (Entry<RefOntoUML.Element,ArrayList<DiagramElement>> entry : map.entrySet()) 
+        for (Entry<RefOntoUML.Element,List<DiagramElement>> entry : map.entrySet()) 
         {
             if (entry.getValue().contains(value)) 
             {
@@ -237,7 +228,7 @@ public class ElementMapper {
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){
-			ArrayList<DiagramElement> dElem =map.get(elem);
+			List<DiagramElement> dElem =map.get(elem);
 			if(dElem!=null) list.addAll(dElem);
 		}
 		return list;
@@ -247,7 +238,7 @@ public class ElementMapper {
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){
-			ArrayList<DiagramElement> dElem = map.get(elem);
+			List<DiagramElement> dElem = map.get(elem);
 			if(dElem!=null){
 				for(DiagramElement de: dElem){
 					if (diagram.containsChild(de)) list.add(de);
@@ -269,8 +260,8 @@ public class ElementMapper {
 	
 	public static Collection<DiagramElement> getAllDiagramElements()
 	{
-		ArrayList<DiagramElement> result = new ArrayList<DiagramElement>();	
-		for(ArrayList<DiagramElement> l: map.values()){
+		List<DiagramElement> result = new ArrayList<DiagramElement>();	
+		for(List<DiagramElement> l: map.values()){
 			result.addAll(l);
 		}
 		return result;

@@ -23,7 +23,7 @@ import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
 
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 
 import net.menthor.editor.v2.OclDocument;
@@ -132,7 +132,7 @@ public class DeletionManager extends BaseManager {
 	/** Delete elements from the model and from every diagram they might appear. 
 	 *  It shows a message before deletion. */
 	public void deleteElements(Collection<DiagramElement> diagramElements, boolean showmessage){	
-		List<RefOntoUML.Element> list = (List<Element>) ModelHelper.getElements(diagramElements);
+		List<RefOntoUML.Element> list = (List<Element>) ElementMapper.getElements(diagramElements);
 		int response = Window.OK;
 		if(showmessage) response = confirmElementDeletion(diagramManager);
 		if(response==Window.OK) deleteElements(list);		

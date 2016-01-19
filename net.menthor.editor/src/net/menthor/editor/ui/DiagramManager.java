@@ -1010,7 +1010,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		editor.addAppCommandListener(listener);
 		// Add all the diagram elements of 'diagram' to the ModelHelper mapping.
 		// Keeps trace of mappings between DiagramElement <-> Element.
-		ModelHelper.addMapping(editor.getDiagram());
+		ElementMapper.addMapping(editor.getDiagram());
 		//Add the diagram to the tabbed pane (this), through the wrapper
 		DiagramWrapper wrapper = new DiagramWrapper(editor, listener);
 		editor.setWrapper(wrapper);
@@ -1231,7 +1231,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			{
 				((NamedElement)element).setName(value);
 				ArrayList<DiagramEditor> editors = ProjectBrowser.frame.getDiagramManager().getDiagramEditors(element);
-				ArrayList<DiagramElement> dElemList = ModelHelper.getDiagramElements(element);
+				List<DiagramElement> dElemList = ElementMapper.getDiagramElements(element);
 				for(DiagramElement dElem: dElemList)
 				{
 					if (dElem instanceof ClassElement)
@@ -1799,17 +1799,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			if(d instanceof StructureDiagram)
 			{
 				StructureDiagram diagram = (StructureDiagram)d;
-				ArrayList<DiagramElement> elemList=new ArrayList<DiagramElement>();
+				List<DiagramElement> elemList=new ArrayList<DiagramElement>();
 				if(element instanceof Property){
-					elemList = ModelHelper.getDiagramElements((RefOntoUML.Element)element.eContainer());
+					elemList = ElementMapper.getDiagramElements((RefOntoUML.Element)element.eContainer());
 				}else if(element instanceof EnumerationLiteral){
-					elemList = ModelHelper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
+					elemList = ElementMapper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
 				}else if (element instanceof GeneralizationSet){
 					for(Generalization gen: ((RefOntoUML.GeneralizationSet)element).getGeneralization()){
-						elemList = ModelHelper.getDiagramElements(gen);
+						elemList = ElementMapper.getDiagramElements(gen);
 					}
 				}else{
-					elemList = ModelHelper.getDiagramElements(element);
+					elemList = ElementMapper.getDiagramElements(element);
 				}
 				for(DiagramElement elem: elemList){
 					if (diagram.containsChild(elem)) {
@@ -1837,17 +1837,17 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			if(d instanceof StructureDiagram)
 			{
 				StructureDiagram diagram = (StructureDiagram)d;
-				ArrayList<DiagramElement> elemList=new ArrayList<DiagramElement>();
+				List<DiagramElement> elemList=new ArrayList<DiagramElement>();
 				if(element instanceof Property){
-					elemList = ModelHelper.getDiagramElements((RefOntoUML.Element)element.eContainer());
+					elemList = ElementMapper.getDiagramElements((RefOntoUML.Element)element.eContainer());
 				}else if(element instanceof EnumerationLiteral){
-					elemList = ModelHelper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
+					elemList = ElementMapper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
 				}else if (element instanceof GeneralizationSet){
 					for(Generalization gen: ((RefOntoUML.GeneralizationSet)element).getGeneralization()){
-						elemList = ModelHelper.getDiagramElements(gen);
+						elemList = ElementMapper.getDiagramElements(gen);
 					}
 				}else{
-					elemList = ModelHelper.getDiagramElements(element);
+					elemList = ElementMapper.getDiagramElements(element);
 				}
 				for(DiagramElement elem: elemList){
 					if (diagram.containsChild(elem)) {											

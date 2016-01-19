@@ -46,7 +46,7 @@ import br.ufes.inf.nemo.derivedtypes.DerivedByExclusion;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.UpdateManager;
@@ -104,7 +104,7 @@ public class ExclusionDerivationOperations {
 		}
 		ArrayList<Element> elements = new ArrayList<Element>();
 		elements.addAll(exclusionDerivationList);
-		Collection<DiagramElement> col= ModelHelper.getDiagramElements(elements);
+		Collection<DiagramElement> col= ElementMapper.getDiagramElements(elements);
 		if(col!=null){
 			project.setExclusionDerivationList(col);
 		}

@@ -46,7 +46,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Relationship;
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
@@ -95,7 +95,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		// requested element for deletion
 		elemList.addAll(theElements);		
 		if(((DiagramEditor)notification)!=null){
-			diagramElemList.addAll(ModelHelper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
+			diagramElemList.addAll(ElementMapper.getDiagramElementsByDiagram(elemList,((DiagramEditor)notification).getDiagram()));
 		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
@@ -123,8 +123,8 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 			}			
 		}		
 		if(((DiagramEditor)notification)!=null){
-			diagramElemDep1List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
-			diagramElemDep2List.addAll(ModelHelper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
+			diagramElemDep1List.addAll(ElementMapper.getDiagramElementsByDiagram(elemDep1List,((DiagramEditor)notification).getDiagram()));		
+			diagramElemDep2List.addAll(ElementMapper.getDiagramElementsByDiagram(elemDep2List,((DiagramEditor)notification).getDiagram()));
 		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
@@ -234,7 +234,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		for (DiagramElement element : diagramElemList) 
 		{
 			deleteFromDiagram(element);	
-			ModelHelper.removeMapping(element);
+			ElementMapper.remove(element);
 		}
 	}
 	
@@ -244,7 +244,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		for (ParentChildRelation relation : parentChildList) 
 		{
 			undoFromDiagram(relation);	
-			ModelHelper.addMapping(((ArrayList<Element>)elemList).get(i),relation.element);
+			ElementMapper.add(((ArrayList<Element>)elemList).get(i),relation.element);
 			i++;
 		}
 	}

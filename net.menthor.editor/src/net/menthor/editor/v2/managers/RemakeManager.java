@@ -11,7 +11,7 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 
 public class RemakeManager extends BaseManager {
@@ -65,7 +65,7 @@ public class RemakeManager extends BaseManager {
 		boolean showRoles = false;
 		ReadingDesign direction = ReadingDesign.UNDEFINED;		
 		if(element instanceof Association){
-			AssociationElement ae = (AssociationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
+			AssociationElement ae = (AssociationElement) ElementMapper.getDiagramElementByDiagram(element, d.getDiagram());
 			if(ae!=null){
 				isRectilinear = ae.isTreeStyle();			
 				showName = ae.showName();
@@ -78,7 +78,7 @@ public class RemakeManager extends BaseManager {
 			MoveManager.get().moveAssociation((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
 		}
 		if(element instanceof Generalization){			
-			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
+			GeneralizationElement ge = (GeneralizationElement) ElementMapper.getDiagramElementByDiagram(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
 			DeletionManager.get().eraseElement(d, element);
 			MoveManager.get().moveGeneralization(d,(Generalization) element, isRectilinear);

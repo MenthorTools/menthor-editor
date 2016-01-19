@@ -17,7 +17,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
 
-import net.menthor.editor.ui.ModelHelper;
+import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 
 public class FilterManager extends BaseManager {
@@ -27,7 +27,7 @@ public class FilterManager extends BaseManager {
 	
 	/** Tell the application to work only with the set of elements contained in the diagram. */
 	public void workingOnlyWith(StructureDiagram diagram){
-		List<EObject> elements = ModelHelper.getElements(diagram);
+		List<EObject> elements = ElementMapper.getElements(diagram);
 		OntoUMLParser refparser = Models.getRefparser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
