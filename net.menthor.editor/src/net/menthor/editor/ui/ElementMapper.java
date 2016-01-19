@@ -42,11 +42,11 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 
-public class ModelHelper {
+public class ElementMapper {
 
 	private static HashMap<Element,ArrayList<DiagramElement>> map = new HashMap<Element, ArrayList<DiagramElement>>();
 
-	private ModelHelper() {}
+	private ElementMapper() {}
 	
 	//Adds mapping from RefOntoUMLElement to DiagramElement (metamodel->concretemodel)
 	//Returns true if the element was successfully added;
@@ -118,15 +118,15 @@ public class ModelHelper {
 		for(DiagramElement dElem: diagram.getChildren())
 		{
 			if (dElem instanceof ClassElement) {
-				ModelHelper.addMapping(((ClassElement)dElem).getClassifier(), dElem);
+				ElementMapper.addMapping(((ClassElement)dElem).getClassifier(), dElem);
 				succeeds=true;
 			}
 			if (dElem instanceof AssociationElement) {
-				ModelHelper.addMapping(((AssociationElement)dElem).getRelationship(), dElem);
+				ElementMapper.addMapping(((AssociationElement)dElem).getRelationship(), dElem);
 				succeeds=true;
 			}
 			if (dElem instanceof GeneralizationElement) {
-				ModelHelper.addMapping(((GeneralizationElement)dElem).getRelationship(), dElem);
+				ElementMapper.addMapping(((GeneralizationElement)dElem).getRelationship(), dElem);
 				succeeds=true;
 			}
 		}
