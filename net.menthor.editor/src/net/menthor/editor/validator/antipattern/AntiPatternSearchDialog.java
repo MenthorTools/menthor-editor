@@ -988,7 +988,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					checked = FilterManager.workingOnlyWithChecked();
+					checked = FilterManager.get().workingOnlyWithChecked();
 					return null;
 				}
 				

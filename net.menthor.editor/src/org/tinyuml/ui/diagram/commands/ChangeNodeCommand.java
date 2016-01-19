@@ -31,7 +31,6 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 /**
@@ -58,8 +57,7 @@ public class ChangeNodeCommand extends BaseDiagramCommand {
 	 * @param x the absolute x position
 	 * @param y the absolute y position
 	 */
-	public ChangeNodeCommand(DiagramNotification editorNotification, Node node, Node snapshot, UmlProject project, ChangeDescription desc) {
-		this.project = project;
+	public ChangeNodeCommand(DiagramNotification editorNotification, Node node, Node snapshot, ChangeDescription desc) {
 		this.notification = editorNotification;
 		this.desc = desc;
 		element = node;

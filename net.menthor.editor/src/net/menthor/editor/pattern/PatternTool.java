@@ -94,7 +94,7 @@ public class PatternTool {
 			pm.runPattern();
 			if(pm.canGetFix()){
 				fix = pm.getFix();
-				UpdateManager.update(fix);
+				UpdateManager.get().update(fix);
 				_runModelCompleter(diagramManager, x, y,false);
 			}
 		}else{
@@ -125,7 +125,7 @@ public class PatternTool {
 				return;
 
 			Fix fix = mcw.getFix();
-			UpdateManager.update(fix);
+			UpdateManager.get().update(fix);
 
 			_runModelCompleter(diagramManager, x, y);
 		}catch(Exception e){
@@ -149,7 +149,7 @@ public class PatternTool {
 				return;
 
 			Fix fix = mcw.getFix();
-			UpdateManager.update(fix);
+			UpdateManager.get().update(fix);
 
 			_runModelCompleter(diagramManager, x, y, showCompleteMessage);
 		}catch(Exception e){

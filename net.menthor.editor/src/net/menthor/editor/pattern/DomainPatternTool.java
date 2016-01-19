@@ -154,12 +154,12 @@ public class DomainPatternTool {
 				@Override
 				public void run() {
 					Fix fix = DomainPatternTool.run(x, y);
-					UpdateManager.update(fix);
+					UpdateManager.get().update(fix);
 				}
 			});
 		}else{
 			Fix fix = DomainPatternTool.run(x, y);
-			UpdateManager.update(fix);
+			UpdateManager.get().update(fix);
 		}
 	}
 

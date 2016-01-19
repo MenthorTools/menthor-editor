@@ -41,6 +41,7 @@ import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import RefOntoUML.Classifier;
 import RefOntoUML.ObjectClass;
@@ -54,14 +55,14 @@ public class ParticipationDerivationOperations {
 		
 		Fix mainFix = new Fix();
 		
-		OutcomeFixer of = new OutcomeFixer(diagramManager.getCurrentProject().getModel());
+		OutcomeFixer of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		DerivedTypesOperations.setOf(of);
 		DerivedTypesOperations.setDman(diagramManager);
 		DerivedTypesOperations.setMainfix(mainFix);
 		
 		JPanel panel= selectTypesWithDerivation(activeEditor.getSelectedElements());
 		List<DiagramElement> classes = activeEditor.getSelectedElements();
-		of = new OutcomeFixer(diagramManager.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		Point2D.Double relator_point= findPointtoRelator(activeEditor.getSelectedElements());
 		Classifier relator=DerivedTypesOperations.includeElement(relator_point, "", "Relator");
 		ArrayList<Fix> fixs= new ArrayList<Fix>();
@@ -95,7 +96,7 @@ public class ParticipationDerivationOperations {
 		}
 	
 		
-		UpdateManager.update(mainFix);
+		UpdateManager.get().update(mainFix);
 	}
 
 	private Double findPointtoRelator(List<DiagramElement> selectedElements) {

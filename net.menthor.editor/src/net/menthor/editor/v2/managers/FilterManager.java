@@ -17,23 +17,16 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
 
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectBrowser;
 
-public class FilterManager {
+public class FilterManager extends BaseManager {
 
-	public static ProjectBrowser browser;
-	public static DiagramManager diagramManager;
-	
-	public static void setup(DiagramManager mg, ProjectBrowser pb){
-		browser = pb;
-		diagramManager = mg;
-	}
+	private static FilterManager instance = new FilterManager();
+	public static FilterManager get() { return instance; }
 	
 	/** Tell the application to work only with the set of elements contained in the diagram. */
-	public static void workingOnlyWith(StructureDiagram diagram){
+	public void workingOnlyWith(StructureDiagram diagram){
 		List<EObject> elements = ModelHelper.getElements(diagram);
 		OntoUMLParser refparser = Models.getRefparser();				
 		refparser.select((ArrayList<EObject>)elements,true);
@@ -46,7 +39,7 @@ public class FilterManager {
 	}
 	
 	/** Tell the application to work with all elements in the model. */
-	public static void workingWithAll(){
+	public void workingWithAll(){
 		OntoUMLParser refparser = Models.getRefparser();					
 		//pb.getTree().checkModelElement(currentProject.getModel()); //no checkbox on the browser
 		refparser.selectAll();		
@@ -55,7 +48,7 @@ public class FilterManager {
 	}
 	
 	/** Tell the application to work only with the checked elements in the tree. */
-	public static List<Object> workingOnlyWithChecked(){ //takes too long
+	public List<Object> workingOnlyWithChecked(){ //takes too long
 		OntoUMLParser refparser = Models.getRefparser();
 		List<Object> selected = browser.getTree().getCheckedElements();
 		List<EObject> result = new ArrayList<EObject>();
@@ -71,7 +64,7 @@ public class FilterManager {
 	}
 	
 	/** Tell the application to work only with the elements contained in these diagrams. */
-	public static void workingOnlyWith(ArrayList<StructureDiagram> diagrams){
+	public void workingOnlyWith(ArrayList<StructureDiagram> diagrams){
 		ArrayList<EObject> elements = new ArrayList<EObject>();
 		for(StructureDiagram sd: diagrams) {
 			for(DiagramElement de: sd.getChildren()){

@@ -23,6 +23,7 @@ package org.tinyuml.ui.diagram.commands;
 import javax.swing.undo.AbstractUndoableEdit;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.ProjectManager;
 
 /**
  * Base class for all diagram commands
@@ -30,17 +31,14 @@ import net.menthor.editor.ui.UmlProject;
  * @author Antognoni Albuquerque
  */
 public abstract class BaseDiagramCommand extends AbstractUndoableEdit implements Command {
+	
 	private static final long serialVersionUID = 733613330226013575L;
+	
+	protected UmlProject project = ProjectManager.get().getProject();
 	protected DiagramNotification notification;
 	protected boolean redo = false;
-	protected UmlProject project;
 	
 	public DiagramNotification getNotification() {
 		return notification;
 	}
-	
-	public UmlProject getProject() {
-		return project;
-	}
-	
 }

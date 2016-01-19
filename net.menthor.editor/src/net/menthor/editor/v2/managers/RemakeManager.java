@@ -11,35 +11,28 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectBrowser;
 
-public class RemakeManager {
+public class RemakeManager extends BaseManager {
 
-	public static ProjectBrowser browser;
-	public static DiagramManager diagramManager;
-	
-	public static void setup(DiagramManager mg, ProjectBrowser pb){
-		browser = pb;
-		diagramManager = mg;
-	}
-
+	private static RemakeManager instance = new RemakeManager();
+	public static RemakeManager get() { return instance; }
+		
 	/** Re-make all associations in all diagrams they appear. */
 	public void remakeAllAssociations(){
 		Set<Association> list = Models.getRefparser().getAllInstances(Association.class);
 		for(Association a: list){
-			RemakeManager.remakeRelationship(a);
+			remakeRelationship(a);
 		}
 	}
 		
 	
 	/** Re-make element in all diagrams they appear */
-	public static void remakeRelationship(RefOntoUML.Element element){
+	public void remakeRelationship(RefOntoUML.Element element){
 		List<DiagramEditor> editors = diagramManager.getDiagramEditors(element);
 		for(DiagramEditor diagramEditor: editors ){
-			RemakeManager.remakeRelationship(element,diagramEditor);
+			remakeRelationship(element,diagramEditor);
 		}
 		if(editors==null || editors.size()==0){
 			if (element instanceof RefOntoUML.Association){
@@ -47,7 +40,7 @@ public class RemakeManager {
 				Type target = ((Association)element).getMemberEnd().get(1).getType();				
 				for(DiagramEditor ed: diagramManager.getDiagramEditors(source)){
 					if (diagramManager.getDiagramEditors(target).contains(ed)){						
-						RemakeManager.remakeRelationship(element, ed);
+						remakeRelationship(element, ed);
 					}
 				}				
 			}
@@ -56,7 +49,7 @@ public class RemakeManager {
 				Type specific = ((Generalization)element).getSpecific();
 				for(DiagramEditor ed: diagramManager.getDiagramEditors(general)){
 					if (diagramManager.getDiagramEditors(specific).contains(ed)){
-						RemakeManager.remakeRelationship(element, ed);
+						remakeRelationship(element, ed);
 					}
 				}	
 			}			
@@ -64,7 +57,7 @@ public class RemakeManager {
 	}
 	
 	/** Re-make element in the diagram */
-	public static void remakeRelationship(RefOntoUML.Element element, DiagramEditor d){
+	public void remakeRelationship(RefOntoUML.Element element, DiagramEditor d){
 		boolean isRectilinear = false;
 		boolean showName = false;
 		boolean showOntoUMLStereotype = false;
@@ -81,14 +74,14 @@ public class RemakeManager {
 				showMultiplicities = ae.showMultiplicities();				
 				direction = ae.getReadingDesign();
 			}
-			DeletionManager.eraseElement(d, element);
-			MoveManager.moveAssociation((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
+			DeletionManager.get().eraseElement(d, element);
+			MoveManager.get().moveAssociation((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
 		}
 		if(element instanceof Generalization){			
 			GeneralizationElement ge = (GeneralizationElement) ModelHelper.getDiagramElementByDiagram(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
-			DeletionManager.eraseElement(d, element);
-			MoveManager.moveGeneralization(d,(Generalization) element, isRectilinear);
+			DeletionManager.get().eraseElement(d, element);
+			MoveManager.get().moveGeneralization(d,(Generalization) element, isRectilinear);
 		}		
 	}
 }

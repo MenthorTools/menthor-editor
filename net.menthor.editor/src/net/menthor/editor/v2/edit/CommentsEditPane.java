@@ -72,7 +72,7 @@ public class CommentsEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		TransferManager.transferComments(element, getComments());	
+		TransferManager.get().transferComments(element, getComments());	
 	}
 	
 	@SuppressWarnings("unchecked")

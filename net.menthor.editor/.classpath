@@ -67,5 +67,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.swt"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/apple/rt.jar"/>
+	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.apache.commons.io_2.2.0.v201405211200.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

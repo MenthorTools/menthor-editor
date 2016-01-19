@@ -69,7 +69,7 @@ public class DimensionEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		TransferManager.transferDimension(
+		TransferManager.get().transferDimension(
 			structure, 
 			unitField.getText(),
 			(MeasurementDomain)domainCombo.getSelectedItem(),

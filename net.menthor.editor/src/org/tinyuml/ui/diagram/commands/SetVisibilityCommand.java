@@ -51,11 +51,10 @@ public class SetVisibilityCommand extends BaseDiagramCommand{
 	public Visibility visibility;
 	public boolean value;
 	
-	public SetVisibilityCommand(DiagramNotification editorNotification, List<DiagramElement> selected, UmlProject project, Visibility visibility, boolean show) 
+	public SetVisibilityCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Visibility visibility, boolean show) 
 	{
 		this.editor = (DiagramEditor)editorNotification;
 		notification = editorNotification;
-		this.project = project;		
 		this.visibility = visibility;
 		this.value = show;
 		

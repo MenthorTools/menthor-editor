@@ -75,6 +75,7 @@ import net.menthor.common.positioning.ClassPosition;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 
 /**
@@ -598,7 +599,7 @@ public class DerivedTypesOperations {
 	public static void UnionPattern(DiagramManager dm,
 			ArrayList<String> values, Point2D.Double location) {
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 		Point2D.Double[] positions = ClassPosition.GSpositioning(2, location);
 		Classifier newElement = includeElement(positions[1], values.get(2),
@@ -615,7 +616,7 @@ public class DerivedTypesOperations {
 						stereotypes.get(0));
 			}
 			createGeneralization(newElement3, newElement2, newElement);
-			UpdateManager.update(mainfix);
+			UpdateManager.get().update(mainfix);
 		}
 	}
 
@@ -626,7 +627,7 @@ public class DerivedTypesOperations {
 				.getClassStereotype(stereotype));
 		// Classifier newElement= (Classifier)
 		// of.createClassWithoutStereotype();
-		dman.getCurrentProject().getModel().getPackagedElement()
+		ProjectManager.get().getProject().getModel().getPackagedElement()
 				.add(newElement);
 		newElement.setName(name);
 		mainfix.includeAdded(newElement, position.getX(), position.getY());
@@ -639,7 +640,7 @@ public class DerivedTypesOperations {
 				.getClassStereotype(stereotype));
 		// Classifier newElement= (Classifier)
 		// of.createClassWithoutStereotype();
-		dman.getCurrentProject().getModel().getPackagedElement()
+		ProjectManager.get().getProject().getModel().getPackagedElement()
 				.add(newElement);
 		newElement.setName(name);
 		mainfix.includeAdded(newElement, position.getX(), position.getY());
@@ -691,7 +692,7 @@ public class DerivedTypesOperations {
 	public static void exclusionPattern(DiagramManager dman2,
 			ArrayList<String> values, Double location) {
 		dman = dman2;
-		of = new OutcomeFixer(dman2.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 		Point2D.Double[] positions = ClassPosition.GSpositioning(2, location);
 		Classifier newElement = includeElement(location, values.get(3),
@@ -701,7 +702,7 @@ public class DerivedTypesOperations {
 		Classifier newElement3 = includeElement(positions[1], values.get(5),
 				values.get(2));
 		createGeneralization(newElement, newElement2, newElement3);
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 
 	}
 
@@ -711,7 +712,7 @@ public class DerivedTypesOperations {
 			String derived_stereo) {
 		// TODO Auto-generated method stub
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 		Point2D.Double[] positions = ClassPosition.GSpositioningDown(2,
 				location);
@@ -723,7 +724,7 @@ public class DerivedTypesOperations {
 				derived_stereo);
 		createGeneralizationSingle(newElement, newElement3);
 		createGeneralizationSingle(newElement2, newElement3);
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	@SuppressWarnings("unused")
@@ -944,7 +945,7 @@ public class DerivedTypesOperations {
 			String stereotypeDerived, String attribute, String typeAttribute,
 			DiagramManager dm, Double location) {
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 		Classifier newElement_2 = includeElement(location, nameBase,
 				stereotypeBase);
@@ -956,7 +957,7 @@ public class DerivedTypesOperations {
 		mainfix.addAll(of.createAttribute(newElement_2, attribute,
 				ClassStereotype.PRIMITIVETYPE, typeAttribute));
 		// newElement_2.getAllAttributes().add(e)
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unused" })
@@ -993,7 +994,7 @@ public class DerivedTypesOperations {
 					return null;
 				}
 				dman = diagramManager;
-				of = new OutcomeFixer(dman.getCurrentProject().getModel());
+				of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 				mainfix = new Fix();
 				Point2D.Double location = new Point2D.Double();
 				location.x = element.getAbsoluteX1();
@@ -1004,7 +1005,7 @@ public class DerivedTypesOperations {
 						((JComboBox) panel.getComponents()[1])
 								.getSelectedItem().toString());
 				createGeneralizationSingle(element.getClassifier(), newElement);
-				UpdateManager.update(mainfix);
+				UpdateManager.get().update(mainfix);
 			} else if (selected.get(0) instanceof AssociationElement) {
 				ArrayList<Property> featureList = new ArrayList<Property>();
 				ArrayList<Property> properties = new ArrayList<Property>();
@@ -1061,9 +1062,8 @@ public class DerivedTypesOperations {
 	public static void createDerivedTypeBySpecialization(String nameBase,
 			String nameDerived, String stereotypeBase,
 			String stereotypeDerived, DiagramManager dm, Double location) {
-		// TODO Auto-generated method stub
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 		Classifier newElement_2 = includeElement(location, nameBase,
 				stereotypeBase);
@@ -1073,7 +1073,7 @@ public class DerivedTypesOperations {
 		createGeneralizationSingle(newElement_2, newElement);
 		RefOntoUML.Class classe = (Class) newElement_2;
 
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	public static void createPastSpecializationPattern(DiagramManager dman2,
@@ -1082,7 +1082,7 @@ public class DerivedTypesOperations {
 			String stereoderived, boolean rule) {
 		// TODO Auto-generated method stub
 		dman = dman2;
-		of = new OutcomeFixer(dman2.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 		Point2D.Double[] positions = ClassPosition.GSpositioning(2, location);
 
@@ -1106,7 +1106,7 @@ public class DerivedTypesOperations {
 			Models.getOclDocList().get(0).addContentAsString(rule_ocl);
 		}
 
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	public static void createParticipationUni(DiagramManager dm,
@@ -1114,7 +1114,7 @@ public class DerivedTypesOperations {
 			String name_target, String stereo_base, String stereo_target,
 			Double location) {
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 
 		Classifier newElement = includeElement(location, name_base, stereo_base);
@@ -1139,7 +1139,7 @@ public class DerivedTypesOperations {
 				"", newElement_3, newElement_4);
 		mainfix.addAll(fix);
 		mainfix.addAll(fix2);
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	public static void createParticipationComp(DiagramManager dm,
@@ -1147,7 +1147,7 @@ public class DerivedTypesOperations {
 			String stereo_base, String stereo_whole, Point2D.Double location) {
 		// TODO Auto-generated method stub
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 
 		Classifier newElement = includeElement(location, name_base, stereo_base);
@@ -1172,7 +1172,7 @@ public class DerivedTypesOperations {
 					"", newElement_3, newElement_2);
 		}
 		mainfix.addAll(fix);
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	public static void createParticipationBi(DiagramManager dm,
@@ -1180,9 +1180,8 @@ public class DerivedTypesOperations {
 			String name_derived_base, String name_derived_right,
 			String stereo_base_left, String stereo_base_right,
 			Point2D.Double location) {
-		// TODO Auto-generated method stub
 		dman = dm;
-		of = new OutcomeFixer(dm.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		mainfix = new Fix();
 
 		Classifier newElement = includeElement(location, name_base_left,
@@ -1223,7 +1222,7 @@ public class DerivedTypesOperations {
 		mainfix.addAll(fix);
 		mainfix.addAll(fix2);
 		createGeneralizationSingle(newElement_4, newElement_5);
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 	}
 
 	public static Fix createPastSpecializationDerivation(
@@ -1231,7 +1230,7 @@ public class DerivedTypesOperations {
 			DiagramManager diagramManager) {
 		mainfix = new Fix();
 		dman = diagramManager;
-		of = new OutcomeFixer(diagramManager.getCurrentProject().getModel());
+		of = new OutcomeFixer(ProjectManager.get().getProject().getModel());
 		/*
 		 * if the element selected it is neither a role or phase it is a wrong
 		 * selection
@@ -1265,7 +1264,7 @@ public class DerivedTypesOperations {
 			}
 		}
 
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 		return mainfix;
 	}
 
@@ -1291,7 +1290,7 @@ public class DerivedTypesOperations {
 				+ "',w)) and not wk.oclIsKindOf("
 				+ ce.getClassifier().eClass().getName() + ",self))";
 		Models.getOclDocList().get(0).addContentAsString(rule_ocl);
-		UpdateManager.update(mainfix);
+		UpdateManager.get().update(mainfix);
 
 	}
 	

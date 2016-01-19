@@ -109,8 +109,8 @@ public class AttributesEditPane extends JPanel {
 	
 	public void transferData(){
 		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
-		TransferManager.transferNewDataTypes(getNewDataTypes());	
-		TransferManager.transferAttributes(element, tablemodel.getEntries());
+		TransferManager.get().transferNewDataTypes(getNewDataTypes());	
+		TransferManager.get().transferAttributes(element, tablemodel.getEntries());
 		if(classElement!=null){
 			classElement.reinitAttributesCompartment();
 			classElement.invalidate();

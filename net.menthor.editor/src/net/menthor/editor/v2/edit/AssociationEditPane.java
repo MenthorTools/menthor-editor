@@ -93,7 +93,7 @@ public class AssociationEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		TransferManager.transferAssociation((RefOntoUML.Association)element, 
+		TransferManager.get().transferAssociation((RefOntoUML.Association)element, 
 			nameField.getText(),
 			cbxAbstract.isSelected(), 
 			cbxDerived.isSelected(), 

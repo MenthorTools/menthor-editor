@@ -22,19 +22,24 @@ package net.menthor.editor.v2.util;
  */
 
 import java.awt.Window;
+import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -42,6 +47,9 @@ import java.util.regex.Pattern;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 /** A helper class which provides settings and file management facilities. */
 public class Util {
@@ -76,6 +84,24 @@ public class Util {
         return arch;
 	}
 
+	/** Read the object from Base64 string. */
+	public static Object fromBase64String( String s ) throws IOException ,  ClassNotFoundException {
+        byte [] data = Base64.getDecoder().decode( s );
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream( data));
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
+	}
+
+    /** Write the object to a Base64 string. */
+    public static String toBase64String( Serializable o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        oos.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray()); 
+    }
+	
 	public static int getScreenWorkingWidth() {
 	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	}
@@ -84,6 +110,14 @@ public class Util {
 	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 	}
 
+	public static String convertStreamToString(java.io.InputStream is) throws IOException {
+    	return IOUtils.toString(is); 
+    }
+    
+    public static InputStream convertStringToInputStream(String str) throws IOException{
+    	return IOUtils.toInputStream(str);
+    }
+    
     public static String getCompilationDateMessage(){
 		DateFormat dateFormat = new SimpleDateFormat("d, yyyy");
 		Date date = new Date();
@@ -116,9 +150,7 @@ public class Util {
 		d.dispose();
 		return p.getValue();
 	}
-	
-    
-    
+	    
 	/** 
 	 * This returns the constant prefix to denote whether Util.readAll() should read from a JAR or read from the file system.
 	 * (The reason we made this into a "method" rather than a constant String is that it is used

@@ -42,15 +42,11 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 
-/**
- * @author John Guerson
- */
 public class ModelHelper {
 
-	private static HashMap<Element,ArrayList<DiagramElement>> mappings = new HashMap<Element, ArrayList<DiagramElement>>();
+	private static HashMap<Element,ArrayList<DiagramElement>> map = new HashMap<Element, ArrayList<DiagramElement>>();
 
-	private ModelHelper() {
-	}
+	private ModelHelper() {}
 	
 	//Adds mapping from RefOntoUMLElement to DiagramElement (metamodel->concretemodel)
 	//Returns true if the element was successfully added;
@@ -58,20 +54,20 @@ public class ModelHelper {
 	{	
 		if (element==null || diagramElement==null) return false;
 		
-		if(mappings.get(element)==null)
+		if(map.get(element)==null)
 		{
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(diagramElement);
 //			System.out.println("Add #0 to Map = "+diagramElement);
-			mappings.put(element, list);
+			map.put(element, list);
 			return true;
 			
-		}else if(mappings.get(element)!=null)
+		}else if(map.get(element)!=null)
 		{
-			if(!mappings.get(element).contains(diagramElement))
+			if(!map.get(element).contains(diagramElement))
 			{
 //				System.out.println("Add #"+mappings.get(element).size()+" to Map = "+diagramElement);
-				mappings.get(element).add(diagramElement);
+				map.get(element).add(diagramElement);
 				return true;
 			}			
 		}
@@ -86,16 +82,16 @@ public class ModelHelper {
 		
 		if(element!=null)
 		{
-			if(mappings.get(element).indexOf(diagramElem)!=-1){
+			if(map.get(element).indexOf(diagramElem)!=-1){
 //				System.out.println("Remove #"+mappings.get(element).indexOf(diagramElem)+" to Map = "+diagramElem);
-				mappings.get(element).remove(diagramElem);	
+				map.get(element).remove(diagramElem);	
 				return true;
 			}
 			
-			if (mappings.get(element).size()==0)
+			if (map.get(element).size()==0)
 			{
 				System.err.println("Trying to remove the diagram element {"+diagramElem+"} of the Map but the list is empty. We then will remove that entry.");
-				mappings.remove(element);
+				map.remove(element);
 				return false;
 			}			
 		}		
@@ -106,10 +102,10 @@ public class ModelHelper {
 	/** For test */
 	public static void printMap()
 	{
-		for(RefOntoUML.Element e: mappings.keySet())
+		for(RefOntoUML.Element e: map.keySet())
 		{	
 			System.out.println("refonto = "+e);
-			for(DiagramElement de: mappings.get(e)){
+			for(DiagramElement de: map.get(e)){
 				System.out.println("diagram = "+de);
 			}
 			System.out.println("======================");
@@ -145,13 +141,13 @@ public class ModelHelper {
 	public static DiagramElement getDiagramElementByDiagram (Element element, StructureDiagram diagram){
 		
 		
-		if(mappings.get(element)==null) return null;
+		if(map.get(element)==null) return null;
 		
 		ArrayList<DiagramElement> found = new ArrayList<DiagramElement>();		
-		if(mappings.get(element)!=null && mappings.get(element).size()>0)
+		if(map.get(element)!=null && map.get(element).size()>0)
 		{			
 			if(diagram!=null){
-				for(DiagramElement de: mappings.get(element))
+				for(DiagramElement de: map.get(element))
 				{					
 					if (diagram.getChildren().contains(de)) { found.add(de); }				
 				}
@@ -165,7 +161,7 @@ public class ModelHelper {
 		}
 		if(found.size()==0)
 		{		
-			for(DiagramElement de: mappings.get(element))
+			for(DiagramElement de: map.get(element))
 			{
 				boolean attachedToDiagram=false;
 				for(StructureDiagram d: ProjectBrowser.frame.getDiagramManager().getOpenedDiagrams()){
@@ -184,7 +180,7 @@ public class ModelHelper {
 		
 	
 		
-		if(mappings.get(element)!=null) return mappings.get(element);
+		if(map.get(element)!=null) return map.get(element);
 		
 		return new ArrayList<DiagramElement>();
 
@@ -192,7 +188,7 @@ public class ModelHelper {
 
 	public static RefOntoUML.Element getElement(DiagramElement value) 
     {    	
-        for (Entry<RefOntoUML.Element,ArrayList<DiagramElement>> entry : mappings.entrySet()) 
+        for (Entry<RefOntoUML.Element,ArrayList<DiagramElement>> entry : map.entrySet()) 
         {
             if (entry.getValue().contains(value)) 
             {
@@ -241,7 +237,7 @@ public class ModelHelper {
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){
-			ArrayList<DiagramElement> dElem =mappings.get(elem);
+			ArrayList<DiagramElement> dElem =map.get(elem);
 			if(dElem!=null) list.addAll(dElem);
 		}
 		return list;
@@ -251,7 +247,7 @@ public class ModelHelper {
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){
-			ArrayList<DiagramElement> dElem = mappings.get(elem);
+			ArrayList<DiagramElement> dElem = map.get(elem);
 			if(dElem!=null){
 				for(DiagramElement de: dElem){
 					if (diagram.containsChild(de)) list.add(de);
@@ -274,7 +270,7 @@ public class ModelHelper {
 	public static Collection<DiagramElement> getAllDiagramElements()
 	{
 		ArrayList<DiagramElement> result = new ArrayList<DiagramElement>();	
-		for(ArrayList<DiagramElement> l: mappings.values()){
+		for(ArrayList<DiagramElement> l: map.values()){
 			result.addAll(l);
 		}
 		return result;

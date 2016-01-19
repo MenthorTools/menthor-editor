@@ -1018,7 +1018,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
         opt.coreMinimization = CoreMinimization.get();
         opt.coreGranularity = CoreGranularity.get();
         opt.originalFilename = Util.canon(text.get().getFilename());
-        opt.solver = SatSolver.MiniSatJNI;//get();
+        opt.solver = SatSolver.SAT4J;//get();
         task.bundleIndex = i;
         task.bundleWarningNonFatal = WarningNonfatal.get();
         task.map = text.takeSnapshot();
@@ -1206,7 +1206,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
             optmenu.removeAll();
             menuItem(optmenu, "Welcome Message at Start Up: "+(Welcome.get() < welcomeLevel ? "Yes" : "No"), doOptWelcome());
             //
-            final SatSolver now = SatSolver.MiniSatJNI;//get();
+            final SatSolver now = SatSolver.SAT4J;//get();
             final JMenu sat = new JMenu("SAT Solver: "+now);
             for(SatSolver sc:satChoices) { menuItem(sat, ""+sc, doOptSolver(sc), sc==now?iconYes:iconNo); }
             optmenu.add(sat);
@@ -1983,7 +1983,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
             }
             if (!loadLibrary("minisatprover")) satChoices.remove(SatSolver.MiniSatProverJNI);
             if (!loadLibrary("zchaff"))        satChoices.remove(SatSolver.MiniSatProverJNI);
-            SatSolver now = SatSolver.MiniSatJNI;
+            SatSolver now = SatSolver.SAT4J;
             if (!satChoices.contains(now)) {
                 now=SatSolver.MiniSatJNI;
                 if (!satChoices.contains(now)) now=SatSolver.SAT4J;

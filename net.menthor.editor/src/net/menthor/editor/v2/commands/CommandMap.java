@@ -36,6 +36,7 @@ import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -89,19 +90,22 @@ public class CommandMap {
 
 	private void file() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
-				new MethodCall(DiagramManager.class.getMethod("newProject")));
+				new MethodCall(ProjectManager.class.getMethod("newProject")));
 		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
-				new MethodCall(DiagramManager.class.getMethod("openProject")));
+				new MethodCall(ProjectManager.class.getMethod("openProject")));
 		cmdMap.put(CommandType.OPEN_EXISTING_MODEL,
-				new MethodCall(DiagramManager.class.getMethod("openExistingModel", Object.class)));
+				new MethodCall(ProjectManager.class.getMethod("openExistingModel", Object.class)));
 		cmdMap.put(CommandType.CLOSE_PROJECT,
-				new MethodCall(DiagramManager.class.getMethod("closeCurrentProject")));
+				new MethodCall(ProjectManager.class.getMethod("closeProject")));
 		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
-				new MethodCall(DiagramManager.class.getMethod("openRecentProject")));			
+				new MethodCall(ProjectManager.class.getMethod("openRecentProject")));			
 		cmdMap.put(CommandType.SAVE_PROJECT_AS,
-				new MethodCall(DiagramManager.class.getMethod("saveProjectAs")));
+				new MethodCall(ProjectManager.class.getMethod("saveProjectAs")));
 		cmdMap.put(CommandType.SAVE_PROJECT,
-				new MethodCall(DiagramManager.class.getMethod("saveProject")));		
+				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
+		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
+				new MethodCall(ProjectManager.class.getMethod("importFromXMI")));
+		
 		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
 				new MethodCall(DiagramManager.class.getMethod("openLinkWithBrowser", String.class)));
 		cmdMap.put(CommandType.QUIT_MENTHOR,
@@ -122,8 +126,7 @@ public class CommandMap {
 	}
 	
 	private void importation() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
-				new MethodCall(DiagramManager.class.getMethod("importFromXMI")));
+	
 		cmdMap.put(CommandType.IMPORT_FROM_PATTERN,
 				new MethodCall(DiagramManager.class.getMethod("importFromPattern")));
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,

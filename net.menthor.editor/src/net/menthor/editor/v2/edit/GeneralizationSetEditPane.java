@@ -107,7 +107,7 @@ public class GeneralizationSetEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		TransferManager.transferGeneralizationSet(genSet,
+		TransferManager.get().transferGeneralizationSet(genSet,
 			textField.getText(),
 			cbxDisjoint.isSelected(),
 			cbxCovering.isSelected()

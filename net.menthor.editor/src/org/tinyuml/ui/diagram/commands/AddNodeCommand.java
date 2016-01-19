@@ -37,7 +37,6 @@ import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
 import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
@@ -59,10 +58,9 @@ public class AddNodeCommand extends BaseDiagramCommand {
 	private RefOntoUML.Element eContainer;	
 	private boolean addToDiagram;
 
-	public AddNodeCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element element, double x, double y, UmlProject project, RefOntoUML.Element eContainer) 
+	public AddNodeCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element element, double x, double y, RefOntoUML.Element eContainer) 
 	{
-		this.parent = parent;
-		this.project = project;
+		this.parent = parent;		
 		this.notification = editorNotification;		
 		if(notification==null) this.addToDiagram = false; else this.addToDiagram=true;
 		this.element = element;		
@@ -89,7 +87,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			UpdateManager.updateFromDeletion(element);
+			UpdateManager.get().updateFromDeletion(element);
 		}
 		
 		if(addToDiagram && diagramElement != null){
@@ -119,7 +117,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 			addToModel(element);
-			UpdateManager.updateFromAddition(element);
+			UpdateManager.get().updateFromAddition(element);
 		}
 		
 		if(addToDiagram && diagramElement !=null){			

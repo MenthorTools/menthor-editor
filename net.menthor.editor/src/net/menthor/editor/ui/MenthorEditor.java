@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
@@ -108,7 +110,7 @@ public final class MenthorEditor {
 						}
 					}
 					if(!menthorFileName.equals("")){						
-						frame.getDiagramManager().openProject(menthorFileName);
+						ProjectManager.get().openProject(menthorFileName);
 					}					
 					frame.setVisible(true);
 					frame.toFront();	
@@ -117,6 +119,7 @@ public final class MenthorEditor {
 					
 					splashScreen.close();					
 				} catch (Exception ex) {
+					splashScreen.close();
 					JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
 					ex.printStackTrace();
 				}					

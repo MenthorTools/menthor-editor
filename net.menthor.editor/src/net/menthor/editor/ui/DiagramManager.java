@@ -45,7 +45,6 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -56,9 +55,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.ocl.ParserException;
@@ -129,12 +125,7 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.managers.AdditionManager;
-import net.menthor.editor.v2.managers.ChangeManager;
-import net.menthor.editor.v2.managers.DeletionManager;
-import net.menthor.editor.v2.managers.FilterManager;
-import net.menthor.editor.v2.managers.MoveManager;
-import net.menthor.editor.v2.managers.RemakeManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.settings.ea.EASettingsDialog;
@@ -149,7 +140,6 @@ import net.menthor.editor.v2.ui.StartPage;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.EcoreWriter;
-import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
@@ -176,17 +166,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	private CommandListener listener;
 	private DiagramElementFactoryImpl elementFactory;
-	private DrawingContext drawingContext;
-	
-	private UmlProject currentProject;
-	private File projectFile;
-	public String lastOpenPath = new String();
-	public String lastSavePath = new String();
-	public String lastImportEAPath = new String();
-	public String lastImportEcorePath = new String();
-	public String lastExportEcorePath = new String();
-	public String lastExportUMLPath = new String();
+	private DrawingContext drawingContext;	
 	public StartPage start;
+	
+	public static String lastImportEAPath = new String();	
+	public static String lastExportEcorePath = new String();
+	public static String lastExportUMLPath = new String();
 	
 	/** Get Frame */
 	public MainFrame getFrame() { return frame; }
@@ -209,22 +194,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		RefOntoUMLEditingDomain.getInstance().initialize();		
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
-		setMinimumSize(new Dimension(0,0));	
-		
-		//setup all kinds of deletions of elements
-		DeletionManager.setup(this, frame.getProjectBrowser());
-		//setup all kinds of drags and drops on diagram
-		MoveManager.setup(this, frame.getProjectBrowser());
-		//setup all kinds of additions of elements
-		AdditionManager.setup(this, frame.getProjectBrowser());
-		//setup all kinds of updates of elements
-		UpdateManager.setup(this, frame.getProjectBrowser());
-		//setup all kinds of changes on elements
-		ChangeManager.setup(this,  frame.getProjectBrowser());
-		//setup the re-creation of elements on diagrams
-		RemakeManager.setup(this,  frame.getProjectBrowser());
-		
-		FilterManager.setup(this, frame.getProjectBrowser());
+		setMinimumSize(new Dimension(0,0));
 	}
 
 	public StartPage getStartPage()
@@ -273,7 +243,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Component c: pane.getComponents()) {
 			if(c instanceof FoundPane) { pane.setSelectedComponent(c); return (FoundPane)c; }
 		}		
-		FoundPane finder = new FoundPane(frame.getDiagramManager().getCurrentProject(),true);
+		FoundPane finder = new FoundPane(ProjectManager.get().getProject(),true);
 		if(closable)addClosable(pane,"Find", finder);
 		else addNonClosable(pane,"Find", finder);
 		return finder;
@@ -285,7 +255,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Component c: pane.getComponents()) {
 			if(c instanceof WarningPane) { pane.setSelectedComponent(c); return (WarningPane)c; }
 		}		
-		WarningPane warningPane = new WarningPane(frame.getDiagramManager().getCurrentProject());
+		WarningPane warningPane = new WarningPane(ProjectManager.get().getProject());
 		if(closable) addClosable(pane,"Warnings", warningPane);
 		else addNonClosable(pane,"Warnings", warningPane);
 		return warningPane;
@@ -297,7 +267,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Component c: pane.getComponents()) {
 			if(c instanceof ErrorPane) { pane.setSelectedComponent(c); return (ErrorPane)c; }
 		}		
-		ErrorPane problemsPane = new ErrorPane(frame.getDiagramManager().getCurrentProject());
+		ErrorPane problemsPane = new ErrorPane(ProjectManager.get().getProject());
 		if(closable) addClosable(pane,"Errors", problemsPane);
 		else addNonClosable(pane,"Errors", problemsPane);
 		return problemsPane;
@@ -314,7 +284,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(Component c: pane.getComponents()) {
 			if(c instanceof StatisticsPane) { pane.setSelectedComponent(c); return (StatisticsPane)c; }
 		}		
-		StatisticsPane statPanel = new StatisticsPane(frame.getDiagramManager().getCurrentProject());
+		StatisticsPane statPanel = new StatisticsPane(ProjectManager.get().getProject());
 		if(closable) addClosable(pane,"Statistics", statPanel);
 		else addNonClosable(pane,"Statistics", statPanel);
 		return statPanel;
@@ -340,12 +310,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			if(obj instanceof Editor) return (Editor) obj;	
 		}
 		return null;
-	}
-
-	/** Gets the project being edited */
-	public UmlProject getCurrentProject() 
-	{
-		return currentProject;
 	}
 
 	/** Gets the wrapper for the selected DiagramEditor */
@@ -546,17 +510,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Gets the file associated with the model. */
 	public File getCurrentProjectFile()
 	{
-		return projectFile;
-	}
-
-	/** Sets the file associated with the model. */
-	public void setCurrentProjectFile(File modelFile)
-	{
-		projectFile = modelFile;
-		if((this.getSelectedIndex() != -1)&& !(this.getSelectedComponent() instanceof StartPage))
-		{
-//			((DiagramEditorWrapper) this.getSelectedComponent()).setModelFile(modelFile);
-		}
+		return ProjectManager.get().getProjectFile();
 	}
 
 	/** Gets the MainMenu from the application frame */
@@ -693,110 +647,26 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	/** Tell the application that we need to save the project i.e. the project was modified */
-	public void saveProjectNeeded(boolean value)
-	{
-		currentProject.setSaveModelNeeded(value);		
-		//frame.getMainToolBar().enableButton(CommandType.SAVE_PROJECT, value);
-	}
-	
-	public boolean isSaveProjectNeeded()
-	{
-		return currentProject.isSaveModelNeeded();		
-	}
-	
 	/** Tell the application that we need to save the diagram i.e. the diagram was modified */
 	public void saveDiagramNeeded(StructureDiagram diagram, boolean value)
 	{
 		diagram.setSaveNeeded(value);
-		saveProjectNeeded(value);
+		ProjectManager.get().getProject().setSaveModelNeeded(value);
 	}
 	
 	/** Tell the application that we need to save all diagrams i.e. the diagrams were all modified */
 	public void saveAllDiagramNeeded(boolean value)
 	{
-		for(OntoumlDiagram d: getCurrentProject().getDiagrams()) ((StructureDiagram)d).setSaveNeeded(value);
-		saveProjectNeeded(value);	
-	}
-	
-	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model, String oclContent, boolean createDefaultDiagram, boolean createDefaultRules)
-	{		
-		currentProject = new UmlProject(model);
-		saveProjectNeeded(false);
-		frame.getProjectBrowser().set(currentProject, model);
-		frame.getInfoManager().setProject(currentProject);
-		
-		for(OntoumlDiagram diagram: currentProject.getDiagrams()) 
-			createDiagramEditor((StructureDiagram)diagram);
-		
-		if(createDefaultDiagram){
-			if(currentProject.getDiagrams().size()==0) 
-				newDiagram(currentProject,null);
+		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams()) {
+			((StructureDiagram)d).setSaveNeeded(value);
 		}
+		ProjectManager.get().getProject().setSaveModelNeeded(value);
+	}
 		
-		if(createDefaultRules){
-			newRulesDocument(oclContent,false);
-		}
-		
-		return currentProject;
-	}
-	
-	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model, String oclContent)
-	{		
-		return createCurrentProject(model,oclContent,true,true);
-	}
-	
-	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model, List<String> oclContent)
-	{		
-		currentProject = new UmlProject(model);
-		saveProjectNeeded(false);
-		frame.getProjectBrowser().set(currentProject, model);
-		frame.getInfoManager().setProject(currentProject);
-		
-		for(OntoumlDiagram diagram: currentProject.getDiagrams()) 
-			createDiagramEditor((StructureDiagram)diagram);
-		
-		if(currentProject.getDiagrams().size()==0) 
-			newDiagram(currentProject,null);
-		
-		for(String str: oclContent){
-			newRulesDocument(str,false);
-		}
-		
-		return currentProject;
-	}
-	
-	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model, boolean createDefaultDiagram, boolean createDefaultRules){	
-		return createCurrentProject(model,"", createDefaultDiagram,createDefaultRules);
-	}
-	
-	/** Create a project */
-	public UmlProject createCurrentProject(RefOntoUML.Package model){		
-		return createCurrentProject(model,"");
-	}
-
-	public void createEmptyCurrentProject(boolean createRulesDocument, boolean createDiagram){
-		currentProject = new UmlProject();
-		saveProjectNeeded(false);
-		frame.getProjectBrowser().set(currentProject, currentProject.getModel());
-		frame.getInfoManager().setProject(currentProject);
-		if(createDiagram) newDiagram(currentProject,null);
-		if(createRulesDocument) newRulesDocument(null,false);
-	}
-	
-	/** Create a project */
-	public void createEmptyCurrentProject(){
-		createEmptyCurrentProject(true,true);
-	}
-
 	/** Verifies if there is a project opened/loaded. */
 	public boolean isProjectLoaded()
 	{
-		if (getCurrentProject()==null) {
+		if (ProjectManager.get().getProject()==null) {
 			frame.showInformationMessageDialog("Menthor Project", "There is no Menthor Project opened");
 			return false;
 		}else{
@@ -804,42 +674,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 
-	/** Close Project */
-	public void closeCurrentProject()
-	{
-		if (currentProject!=null){
-			
-			if(isSaveProjectNeeded()){
-				int response = JOptionPane.showOptionDialog(
-						this,
-						"Do you really want to close the current project?",
-						"Close project?", 
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						new String[]{"Save and Close", "Close", "Cancel"},
-						"default");
-				
-				if(response==JOptionPane.YES_OPTION){
-					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					saveProject();
-					setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
-				}
-			}			
-			System.out.println("Closing current project");
-			removeAll();
-			frame.setTitle("Menthor Editor");	
-			frame.getProjectBrowser().clear();
-			frame.getInfoManager().eraseProject();										
-			currentProject=null;				
-			addStartPanel(this,false);
-			frame.showOnlyStartPage();
-			frame.getMainMenu().disactivateSomeToBegin();
-			System.out.println("Current project closed");
-		}
-		repaint();
-		revalidate();
-	}
+	
 
 	public void setDefaultDiagramSize(StructureDiagram diagram)
 	{
@@ -855,7 +690,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	/** Creates a new diagram on the current Project */
 	public void newDiagram(){
-		StructureDiagram diagram = newDiagram(getCurrentProject(),null);
+		StructureDiagram diagram = newDiagram(ProjectManager.get().getProject(),null);
 		saveDiagramNeeded(diagram,false);
 	}
 	
@@ -866,7 +701,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	/** Creates a new Diagram with in existing Project */
 	public StructureDiagram newDiagramAt(Object epackage){	
-		return newDiagram(getCurrentProject(),epackage);
+		return newDiagram(ProjectManager.get().getProject(),epackage);
 	}
 	
 	/** Creates a new Diagram with in existing Project */
@@ -874,8 +709,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		StructureDiagram diagram = new StructureDiagram(project,elementFactory,drawingContext);
 		if(epackage!=null)diagram.setContainer(epackage);
 		setDefaultDiagramSize(diagram);
-		diagram.setLabelText("Diagram"+getCurrentProject().getDiagrams().size());
-		getCurrentProject().addDiagram(diagram);
+		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
+		ProjectManager.get().getProject().addDiagram(diagram);
 		saveDiagramNeeded(diagram,false);
 		createDiagramEditor(diagram);			
 		//add the diagram from the browser
@@ -946,7 +781,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(editor!=null){
 			if(editor.isSaveNeeded()){
 				int option = JOptionPane.showConfirmDialog(getFrame(), "Your diagram has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
-				if (option== JOptionPane.YES_OPTION) {saveProject(); }
+				if (option== JOptionPane.YES_OPTION) { ProjectManager.get().saveProject(); }
 				else if (option==JOptionPane.CANCEL_OPTION) { return; }
 			}			
 			DiagramManager.closeTab(getTabIndex(getCurrentDiagramEditor().getDiagram()),this);
@@ -960,7 +795,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(editor!=null){
 			if(editor.isSaveNeeded()){
 				int option = JOptionPane.showConfirmDialog(getFrame(), "Your rules document has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
-				if (option== JOptionPane.YES_OPTION) {saveProject(); }
+				if (option== JOptionPane.YES_OPTION) { ProjectManager.get().saveProject(); }
 				else if (option==JOptionPane.CANCEL_OPTION) { return; }
 			}			
 			DiagramManager.closeTab(getTabIndex(((ConstraintEditor)editor).getOclDocument()),this);
@@ -1042,7 +877,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public ArrayList<String> getDiagramNames()
 	{
 		ArrayList<String> result = new ArrayList<String>();
-		for(OntoumlDiagram d: currentProject.getDiagrams()){
+		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams()){
 			result.add(d.getName());			
 		}
 		return result;
@@ -1126,79 +961,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return false;
 	}
 	
-	/** New Menthor Project. */
-	public void newProject() 
-	{				
-		JFileChooser fileChooser = new JFileChooser(){
-			private static final long serialVersionUID = 1L;
-			@Override
-		    public void approveSelection(){
-		        File f = getSelectedFile();
-		        if(f.exists()){
-		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
-		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
-		            switch(result){
-		                case JOptionPane.YES_OPTION:
-		                    super.approveSelection();
-		                    return;
-		                case JOptionPane.NO_OPTION:
-		                    return;
-		                case JOptionPane.CLOSED_OPTION:
-		                    return;
-		                case JOptionPane.CANCEL_OPTION:
-		                    cancelSelection();
-		                    return;
-		            }
-		        }
-		        super.approveSelection();
-		    }   
-		};		
-		fileChooser.setDialogTitle("New Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setSelectedFile(new File("*.menthor"));
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showDialog(this,"OK") == JFileChooser.APPROVE_OPTION) {
-			try {	
-				File file = fileChooser.getSelectedFile();
-				
-				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));				
-				System.out.println("Creating New project");				
-				closeCurrentProject();									
-				if(!file.getName().endsWith(".menthor")) {
-					file = new File(file.getCanonicalFile() + ".menthor");
-				}else{
-					file = new File(file.getCanonicalFile()+"");
-				}
-				JRootPane root = frame.getRootPane( );
-				root.putClientProperty( "Window.documentFile", file );
-				setCurrentProjectFile(file);
-				createEmptyCurrentProject(false,true);				
-				saveCurrentProjectToFile(file);
-				frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-				frame.forceShowBrowserPane();
-				frame.forceShowPalettePane();				
-				frame.getMainMenu().activateAll();
-				System.out.println("New project succesffully created");
-								
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, ex.getMessage(), "New Project", JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
-			}
-		}
-		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}	
-
 	/** Open diagrams loaded from the project. It only opens those diagrams saved as opened. */
 	public void openDiagrams()
-	{
-		if(currentProject.isAllClosed() && currentProject.getDiagrams().size()>0){
-			System.out.println("Loading diagram \""+currentProject.getDiagrams().get(0).getName()+"\"");	
-			createDiagramEditor((StructureDiagram)currentProject.getDiagrams().get(0));
+	{		
+		if(ProjectManager.get().getProject().isAllClosed() && ProjectManager.get().getProject().getDiagrams().size()>0){
+			System.out.println("Loading diagram \""+ProjectManager.get().getProject().getDiagrams().get(0).getName()+"\"");	
+			createDiagramEditor((StructureDiagram)ProjectManager.get().getProject().getDiagrams().get(0));
 		}else{
-			for(OntoumlDiagram diagram: currentProject.getDiagrams()) {
-				if(currentProject.isOpened(diagram)){
+			for(OntoumlDiagram diagram: ProjectManager.get().getProject().getDiagrams()) {
+				if(ProjectManager.get().getProject().isOpened(diagram)){
 					System.out.println("Loading diagram \""+diagram.getName()+"\"");	
 					createDiagramEditor((StructureDiagram)diagram);
 				}
@@ -1210,215 +981,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	// OPEN PROJECT
 	//========================================================================
 	
-	/** Open an existing project. */
-	public void openProject() 
-	{		
-		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
-		fileChooser.setDialogTitle("Open Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);	
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			try {
-				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				closeCurrentProject();				
-				System.out.println("Opening Menthor project...");				
-				File file = fileChooser.getSelectedFile();
-				JRootPane root = frame.getRootPane( );
-				root.putClientProperty( "Window.documentFile", file );
-				setCurrentProjectFile(file);
-				lastOpenPath = file.getAbsolutePath();
-				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-				openListFiles(listFiles);				
-				frame.forceShowBrowserPane();
-				frame.forceShowPalettePane();
-				frame.getMainMenu().activateAll();
-				
-			} catch (Exception ex) {
-				System.out.println("Failed to open Menthor project!");	
-				JOptionPane.showMessageDialog(this, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
-			}
-			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			System.out.println("Menthor project successfully opened!");	
-		}		
-	}
-	
-	/** Open an existing project. */
-	public void openRecentProject(){
-		StartPage startPanel = (StartPage) getCurrentEditor();
-		if(startPanel != null){
-			openProject(startPanel.getSelectedRecentFile());
-		}
-	}
-	public void openProject(String filePath) 
-	{
-		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		try {
-			closeCurrentProject();
-			System.out.println("Opening recent project");				
-			File file = new File(filePath);
-			JRootPane root = frame.getRootPane( );
-			root.putClientProperty( "Window.documentFile", file );			
-			setCurrentProjectFile(file);
-			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-			openListFiles(listFiles);	
-			frame.forceShowBrowserPane();
-			frame.forceShowPalettePane();		
-			frame.getMainMenu().activateAll();
-			
-		} catch (Exception ex) {
-			System.out.println("Failed to open Menthor project!");	
-			JOptionPane.showMessageDialog(this, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
-			ex.printStackTrace();
-		}
-		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		System.out.println("Menthor project successfully opened!");	
-	}
-
-	@SuppressWarnings("unchecked")
-	public void openExistingModel(Object list){
-		if(list instanceof List<?>){
-			List<Object> l = (List<Object>)list;
-			RefOntoUML.Package model=null;
-			if(l.size()>0) model = (RefOntoUML.Package)l.get(0);			
-			if(l.size()>1 && l.get(1) instanceof List<?>){
-				createCurrentProject(model, (List<String>) l.get(1));
-			}
-			else if(l.size()>1 && l.get(1) instanceof String){
-				createCurrentProject(model, (String) l.get(1), true, true);
-			} else{
-				createCurrentProject(model, "",true,true);
-			}
-			getFrame().forceShowBrowserPane();
-			getFrame().forceShowPalettePane();
-			getFrame().getMainMenu().activateAll();	
-		}		
-	}
-	
-	/** Open Menthor project from the list of object read from stream as a result of the menthor file serialization */
-	private void openListFiles(ArrayList<Object> listFiles) throws IOException
-	{
-		List<OclDocument> ocllist = new ArrayList<OclDocument>();
-		for(int i=1; i<listFiles.size();i++){																
-			OclDocument oclDoc = (OclDocument)listFiles.get(i);										
-			ocllist.add(oclDoc);
-		}
-		Object o = listFiles.get(0);
-		if(o instanceof UmlProject){
-			currentProject = (UmlProject)o;			
-			ProjectBrowser pb = frame.getProjectBrowser();
-			pb.set(currentProject, currentProject.getModel(), ocllist);
-			frame.getInfoManager().setProject(currentProject);
-			openDiagrams();
-			saveProjectNeeded(false);
-		}else if(o instanceof RefOntoUML.Package){			
-			RefOntoUML.Package model = (RefOntoUML.Package)o;
-			createCurrentProject(model,true,false);
-		}			
-		Settings.addRecentProject(projectFile.getCanonicalPath());
-		frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
-	}
-	
-	/** Save current Project to a file *.menthor */
-	private File saveCurrentProjectToFile(File file) 
-	{
-		System.out.println("Saving Menthor project...");
-		currentProject.setVersion(MenthorEditor.MENTHOR_VERSION);
-		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if (file.exists()) file.delete();
-		File result = null;
-		try {
-			if(!file.getName().endsWith(".menthor")) {
-				file = new File(file.getCanonicalFile() + ".menthor");
-			}						
-			for(ConstraintEditor ce: getConstraintEditors()){				
-				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
-			}
-			currentProject.clearOpenedDiagrams();
-			for(DiagramEditor editor: getDiagramEditors()){
-				currentProject.saveAsOpened(editor.getDiagram());
-			}			
-			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
-			Settings.addRecentProject(file.getCanonicalPath());
-			getCurrentProject().setName(file.getName().replace(".menthor",""));
-			getFrame().getProjectBrowser().refresh();
-			saveAllDiagramNeeded(false);
-			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			invalidate();
-			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		} catch (Exception ex) {
-			System.out.println("Failed to save Menthor project!");
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(this, ex.getMessage(), "Save Project", JOptionPane.ERROR_MESSAGE);
-		}
-		System.out.println("Menthor project successfully saved!");
-		return result;
-	}
-
-	/** Saves immediately if possible. */
-	public void saveProject() 
-	{
-		if (getCurrentProjectFile() == null) 
-		{
-			int option = saveProjectAs();
-			if (option!=JFileChooser.APPROVE_OPTION){
-				repaint();
-				revalidate();				
-				return;
-			}
-		}else{
-			saveCurrentProjectToFile(getCurrentProjectFile());
-		}
-		repaint();
-		revalidate();
-	}
-	
-	/** Saves the project with a file chooser. */
-	public int saveProjectAs() 
-	{
-		JFileChooser fileChooser = new JFileChooser(lastSavePath){
-			private static final long serialVersionUID = 1L;
-			@Override
-		    public void approveSelection(){
-		        File f = getSelectedFile();
-		        if(f.exists() && getDialogType() == SAVE_DIALOG){
-		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
-		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
-		            switch(result){
-		                case JOptionPane.YES_OPTION:
-		                    super.approveSelection();
-		                    return;
-		                case JOptionPane.NO_OPTION:
-		                    return;
-		                case JOptionPane.CLOSED_OPTION:
-		                    return;
-		                case JOptionPane.CANCEL_OPTION:
-		                    cancelSelection();
-		                    return;
-		            }
-		        }
-		        super.approveSelection();
-		    }    
-		};
-		fileChooser.setDialogTitle("Save Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setAcceptAllFileFilterUsed(false);			
-		int option = fileChooser.showSaveDialog(this);
-		if (option == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();			
-			setCurrentProjectFile(saveCurrentProjectToFile(file));			
-			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			lastSavePath = file.getAbsolutePath();		
-		}
-		return option;
-	}
-	
 	/** Export Model as a Menthor Pattern **/
-	public int exportAsMenthorPattern() 
+	/*public int exportAsMenthorPattern() 
 	{
 		JFileChooser fileChooser = new JFileChooser(lastSavePath);
 		fileChooser.setDialogTitle("Export as Menthor Pattern");
@@ -1434,7 +998,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			lastSavePath = file.getAbsolutePath();			
 		}
 		return option;
-	}
+	}*/
 	
 	
 	/** Creates an editor for a given Diagram. */
@@ -1472,49 +1036,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		LicensesDialog.open(getFrame());
 	}
 
-	/** Import a Reference OntoUML model instance. */
-	public void importFromXMI() 
-	{
-		JFileChooser fileChooser = new JFileChooser(lastImportEcorePath);
-		fileChooser.setDialogTitle("Importation");		
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			try {
-				closeCurrentProject();
-				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactoryImpl());
-				resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
-				File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
-				org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
-				Resource resource = resourceSet.createResource(fileURI);		
-				resource.load(Collections.emptyMap());
-				File projectFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".menthor"));
-				JRootPane root = frame.getRootPane( );
-				root.putClientProperty( "Window.documentFile", projectFile );
-				setCurrentProjectFile(projectFile);
-				lastOpenPath = projectFile.getAbsolutePath();
-				createCurrentProject((RefOntoUML.Package)resource.getContents().get(0));
-				saveCurrentProjectToFile(projectFile);
-				lastImportEcorePath = fileChooser.getSelectedFile().getAbsolutePath();
-				Settings.addRecentProject(projectFile.getCanonicalPath());
-				newDiagram();
-				frame.setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
-				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				frame.forceShowBrowserPane();
-				frame.forceShowPalettePane();
-				frame.getMainMenu().activateAll();
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, ex.getMessage(),"Importation Error",JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}
-	
-
 	/** Import a model from a XMI file (from Enterprise Architect). 
 	 * @throws IOException */
 	public void importFromEA() throws IOException
@@ -1543,7 +1064,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void exportToEcore() 
 	{
-		if(getCurrentProject() != null) {
+		if(ProjectManager.get().getProject() != null) {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Ecore (*.ecore)", "ecore");
@@ -1600,7 +1121,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	 *  This exporting loses all the UML stereotypes that distinguishes OntoUML from UML*/
 	public void exportToProfileUML() 
 	{
-		if(getCurrentProject() != null) {
+		if(ProjectManager.get().getProject() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportUMLPath);
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
@@ -1628,7 +1149,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void exportToUML() 
 	{
-		if(getCurrentProject() != null) {
+		if(ProjectManager.get().getProject() != null) {
 			JFileChooser fileChooser = new JFileChooser(lastExportUMLPath);
 			fileChooser.setDialogTitle("Exportation");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("UML2 (*.uml)", "uml");
@@ -1715,11 +1236,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				{
 					if (dElem instanceof ClassElement)
 					{
-						SetLabelTextCommand cmd = new SetLabelTextCommand((DiagramNotification)editors.get(0),((ClassElement)dElem).getMainLabel(),value,ProjectBrowser.frame.getDiagramManager().getCurrentProject());
+						SetLabelTextCommand cmd = new SetLabelTextCommand((DiagramNotification)editors.get(0),((ClassElement)dElem).getMainLabel(),value);
 						cmd.run();
 					}
 				}
-				UpdateManager.updateFromChange(element, false);
+				UpdateManager.get().updateFromChange(element, false);
 			}
 		}   
 	}	
@@ -1808,7 +1329,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		
 		//loading syntactical problems...			
 		SyntacticVerificator verificator = new SyntacticVerificator();
-		verificator.run(currentProject.getModel());			
+		verificator.run(ProjectManager.get().getProject().getModel());			
 		for(RefOntoUML.Element elem: verificator.getMap().keySet()){
 			for(String message: verificator.getMap().get(elem)){					
 				problems.add(new ErrorElement(elem,0,message,TypeProblem.SYNTACTIC));
@@ -1858,7 +1379,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void verifyModelSyntactically() 
 	{
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if(currentProject!=null)
+		if(ProjectManager.get().getProject()!=null)
 		{
 			ArrayList<ProblemElement> errors = verifyProblems();
 			ArrayList<ProblemElement> warnings = verifyWarnings();
@@ -2054,9 +1575,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		OntoUMLParser refparser = Models.getRefparser();		
 		if (refparser==null) { frame.showErrorMessageDialog("Error","Inexistent model. You need to create an Menthor project first."); return; }		
 		try { 
-			String name = ((RefOntoUML.Package)getCurrentProject().getResource().getContents().get(0)).getName();
+			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
-			TOCLParser toclparser = new TOCLParser(refparser,getCurrentProject().getTempDir()+File.separator,name.toLowerCase());
+			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
 			toclparser.parseTemporalOCL(getWorkingConstraints());			
 			Models.setOclOptions(new TOCL2AlloyOption(toclparser));
 			String msg =  "Constraints are syntactically correct.\n";
@@ -2078,9 +1599,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void showInTextEditor(String content)
 	{
-		TextEditor textViz = (TextEditor) getEditorForProject(getCurrentProject(), EditorType.TEXT_EDITOR);
+		TextEditor textViz = (TextEditor) getEditorForProject(ProjectManager.get().getProject(), EditorType.TEXT_EDITOR);
 		if(textViz == null){
-			textViz = new TextEditor(getCurrentProject());
+			textViz = new TextEditor(ProjectManager.get().getProject());
 			addClosable(this,"Text Editor", textViz);
 		}else{
 			setSelectedComponent(textViz);
@@ -2178,11 +1699,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {
-					OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
+					OntoUML2InfoUML.transformation(model, ProjectManager.get().getProject().getTempDir()+File.separator+model.getName()+".uml");
 				}
 			});
 		}else{
-			OntoUML2InfoUML.transformation(model, getCurrentProject().getTempDir()+File.separator+model.getName()+".uml");
+			OntoUML2InfoUML.transformation(model, ProjectManager.get().getProject().getTempDir()+File.separator+model.getName()+".uml");
 		}
 		
 	}	
@@ -2273,7 +1794,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public ArrayList<DiagramEditor> getDiagramEditors(RefOntoUML.Element element)
 	{
 		ArrayList<DiagramEditor> list = new ArrayList<DiagramEditor>();
-		for(OntoumlDiagram d: currentProject.getDiagrams())
+		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams())
 		{
 			if(d instanceof StructureDiagram)
 			{
@@ -2311,7 +1832,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public List<OntoumlDiagram> getDiagrams(RefOntoUML.Element element)
 	{
 		ArrayList<OntoumlDiagram> list = new ArrayList<OntoumlDiagram>();
-		for(OntoumlDiagram d: currentProject.getDiagrams())
+		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams())
 		{
 			if(d instanceof StructureDiagram)
 			{
@@ -2344,7 +1865,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		for(int i = 0; i < totalTabs; i++)
 		{
 			Editor editor = (Editor)getComponentAt(i);
-			if(editor.getEditorType() == nature && getCurrentProject() == project)
+			if(editor.getEditorType() == nature && ProjectManager.get().getProject() == project)
 			{
 				return editor;
 			}
@@ -2397,8 +1918,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void deriveByExclusion() 
 	{
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = getCurrentProject();
-		ExclusionDerivationOperations.createExclusionDerivation(activeEditor, project, this, activeEditor.getSelectedElements(), new OutcomeFixer(this.getCurrentProject().getModel()));
+		UmlProject project = ProjectManager.get().getProject();
+		ExclusionDerivationOperations.createExclusionDerivation(activeEditor, project, this, activeEditor.getSelectedElements(), new OutcomeFixer(ProjectManager.get().getProject().getModel()));
 		
 	}
 	
@@ -2406,9 +1927,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void deriveByUnion() 
 	{
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = getCurrentProject();
+		UmlProject project = ProjectManager.get().getProject();
 		Fix fix = DerivedTypesOperations.createUnionDerivation(activeEditor, project,this);
-		if(fix!=null) UpdateManager.update(fix);		
+		if(fix!=null) UpdateManager.get().update(fix);		
 	}
 	
 	public void openDerivedTypePatternUnion(Double x, Double y) {
@@ -2459,10 +1980,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	public void deriveByIntersection() {
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = getCurrentProject();
+		UmlProject project = ProjectManager.get().getProject();
 		Fix fix = DerivedTypesOperations.createIntersectionDerivation(activeEditor, project,this);
 		if(fix!=null)
-			UpdateManager.update(fix);
+			UpdateManager.get().update(fix);
 		
 	}
 	
@@ -2480,9 +2001,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	public void deriveBySpecialization() {
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = getCurrentProject();
+		UmlProject project = ProjectManager.get().getProject();
 		Fix fix = DerivedTypesOperations.createSpecializationDerivation(activeEditor, project,this);
-		if(fix!=null) UpdateManager.update(fix);
+		if(fix!=null) UpdateManager.get().update(fix);
 	}
 	public void openDerivedTypePatternPastSpecialization(double x, double y) {
 		JDialog dialog = new PastSpecializationPattern(this);
@@ -2503,12 +2024,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	public void deriveByPastSpecialization() {
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = getCurrentProject();
+		UmlProject project = ProjectManager.get().getProject();
 		DerivedTypesOperations.createPastSpecializationDerivation(activeEditor, project,this);
 	}
 	public void deriveByParticipation() {
 		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = getCurrentProject();
+		UmlProject project = ProjectManager.get().getProject();
 		ParticipationDerivationOperations participation_derivation = new ParticipationDerivationOperations();
 		participation_derivation.createDerivedType(activeEditor, project,this);
 	}
@@ -2518,7 +2039,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private File exportCurrentProjectToFile(File file) 
 	{
 		System.out.println("Saving Menthor Pattern project...");
-		currentProject.setVersion(MenthorEditor.MENTHOR_VERSION);
+		ProjectManager.get().getProject().setVersion(MenthorEditor.MENTHOR_VERSION);
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		if (file.exists()) file.delete();
 		File result = null;
@@ -2532,13 +2053,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			for(ConstraintEditor ce: getConstraintEditors()){				
 				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
 			}
-			currentProject.clearOpenedDiagrams();
+			ProjectManager.get().getProject().clearOpenedDiagrams();
 			for(DiagramEditor editor: getDiagramEditors()){
-				currentProject.saveAsOpened(editor.getDiagram());
+				ProjectManager.get().getProject().saveAsOpened(editor.getDiagram());
 			}			
-			result = ProjectWriter.getInstance().writeProject(this, file, currentProject, Models.getOclDocList());		
+			result = ProjectWriter.getInstance().writeProject(this, file, ProjectManager.get().getProject(), Models.getOclDocList());		
 			Settings.addRecentProject(file.getCanonicalPath());
-			getCurrentProject().setName(file.getName().replace(".menthorpattern",""));
+			ProjectManager.get().getProject().setName(file.getName().replace(".menthorpattern",""));
 			getFrame().getProjectBrowser().refresh();
 			saveAllDiagramNeeded(false);
 			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
@@ -2555,7 +2076,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	//Export as .menthorpattern	
 	public void exportAsPattern(){
-		DomainPatternTool.exportModelAsPattern(currentProject);
+		DomainPatternTool.exportModelAsPattern(ProjectManager.get().getProject());
 		//call exportCurrentProject
 		//call exportAsMenthorPattern
 	}
@@ -2563,7 +2084,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	private UmlProject importPatternProjectFile(){
 		UmlProject patternProject = null;
 		
-		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
+		JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
 		fileChooser.setDialogTitle("Open Menthor Pattern Project");
 		fileChooser.addChoosableFileFilter(filter);

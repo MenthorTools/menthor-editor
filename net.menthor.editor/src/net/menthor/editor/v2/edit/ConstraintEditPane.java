@@ -83,7 +83,7 @@ public class ConstraintEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		TransferManager.transferConstraints(element, getConstraints());		
+		TransferManager.get().transferConstraints(element, getConstraints());		
 	}
 	
 	@SuppressWarnings("unchecked")

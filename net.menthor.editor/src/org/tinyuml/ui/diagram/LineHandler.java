@@ -328,7 +328,7 @@ public class LineHandler implements EditorMode {
 	    
 	    if(aSource !=null && aTarget != null)
 	    {
-	    	AddConnectionCommand command = new AddConnectionCommand(editor, editor.getDiagram(), conn.getRelationship(), aSource, aTarget, editor.getDiagram().getProject(),eContainer);
+	    	AddConnectionCommand command = new AddConnectionCommand(editor, editor.getDiagram(), conn.getRelationship(), aSource, aTarget, eContainer);
 	    	command.run();
 	    }
   }

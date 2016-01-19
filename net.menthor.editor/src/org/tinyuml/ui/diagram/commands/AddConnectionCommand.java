@@ -44,7 +44,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.impl.GeneralizationImpl;
 import net.menthor.editor.ui.ModelHelper;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
@@ -64,9 +63,8 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 	private EObject eContainer;	
 	private boolean addToDiagram;
 
-	public AddConnectionCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, UmlProject project, EObject eContainer) {
-		this.parent = parent;
-		this.project = project;
+	public AddConnectionCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
+		this.parent = parent;		
 		this.notification = editorNotification;
 		
 		if (notification==null) this.addToDiagram = false; 
@@ -89,7 +87,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		if (relationship!=null){
 //			System.out.println("Undoing ="+relationship);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			UpdateManager.updateFromDeletion(relationship);
+			UpdateManager.get().updateFromDeletion(relationship);
 		}
 		
 		if(addToDiagram && diagramElement!=null){				
@@ -115,7 +113,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 		addToModel();		
-		UpdateManager.updateFromAddition(relationship);
+		UpdateManager.get().updateFromAddition(relationship);
 		
 		if(addToDiagram && diagramElement != null)
 		{			

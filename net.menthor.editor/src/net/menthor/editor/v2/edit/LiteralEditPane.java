@@ -100,7 +100,7 @@ public class LiteralEditPane extends JPanel{
 		EList<EnumerationLiteral> enumLiterals = tablemodel.getEntries();		
 		if(!cbxVisible.isSelected() && enumLiterals.size()>0) cbxVisible.setSelected(true);
 		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());				
-		TransferManager.transferLiterals(element, enumLiterals);			
+		TransferManager.get().transferLiterals(element, enumLiterals);			
 		classElement.reinitAttributesCompartment();
 		classElement.invalidate();
 	}

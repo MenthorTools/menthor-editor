@@ -63,7 +63,7 @@ public class ClassEditPane extends JPanel {
 	
 	/** Transfer data from GUI to the model/Menthor */
 	public void transferData(){
-		TransferManager.transferClass(element, 
+		TransferManager.get().transferClass(element, 
 			nameField.getText(), 
 			btnExtensional.isSelected(), 
 			btnAbstract.isSelected(), 

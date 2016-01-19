@@ -38,7 +38,6 @@ import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
@@ -56,9 +55,8 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 	private ArrayList<DiagramElement> diagramGenList = new ArrayList<DiagramElement>();
 	private ArrayList<Generalization> generalizations = new ArrayList<Generalization>();
 	
-	public AddGeneralizationSetCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element genSet, Collection<Generalization> generalizations, UmlProject project, RefOntoUML.Element eContainer) {
-		this.parent = parent;
-		this.project = project;
+	public AddGeneralizationSetCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element genSet, Collection<Generalization> generalizations, RefOntoUML.Element eContainer) {
+		this.parent = parent;		
 		this.eContainer = eContainer;
 		this.notification = editorNotification;		
 		if (notification==null) this.addToDiagram = false; else this.addToDiagram=true;		
@@ -85,13 +83,13 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		
 		if(genSet!=null){
 			undoFromModel(genSet,generalizations);
-			UpdateManager.updateFromDeletion(genSet);
+			UpdateManager.get().updateFromDeletion(genSet);
 		}
 		
 		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				UpdateManager.updateFromChange(gen,false);
+				UpdateManager.get().updateFromChange(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -115,13 +113,13 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		
 		if(genSet!=null){
 			addToModel(genSet, generalizations);
-			UpdateManager.updateFromAddition(genSet);			
+			UpdateManager.get().updateFromAddition(genSet);			
 		}
 		
 		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				UpdateManager.updateFromChange(gen,false);
+				UpdateManager.get().updateFromChange(gen,false);
 				list.add(genElem);
 			}
 		}		

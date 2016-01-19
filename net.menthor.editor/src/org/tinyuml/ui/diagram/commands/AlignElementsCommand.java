@@ -50,11 +50,10 @@ public class AlignElementsCommand extends BaseDiagramCommand {
 	public ArrayList<Double> oldPosXList = new ArrayList<Double>();
 	public ArrayList<Double> oldPosYList = new ArrayList<Double>();
 	
-	public AlignElementsCommand(DiagramNotification editorNotification, List<DiagramElement> selected, UmlProject project, Alignment direction) 
+	public AlignElementsCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Alignment direction) 
 	{
 		this.editor = (DiagramEditor)editorNotification;
 		notification = editorNotification;
-		this.project = project;		
 		this.direction = direction;
 		
 		for(DiagramElement dElem: selected)

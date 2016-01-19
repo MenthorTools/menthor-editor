@@ -48,7 +48,6 @@ import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Relationship;
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
@@ -87,9 +86,8 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		}
 	}
 
-	public DeleteElementCommand(DiagramNotification aNotification, Collection<Element> theElements, UmlProject project, boolean deleteFromModel, boolean deleteFromDiagram) 
+	public DeleteElementCommand(DiagramNotification aNotification, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
 	{
-		this.project = project;
 		this.notification = aNotification;	
 		this.deleteFromDiagram = deleteFromDiagram;
 		this.deleteFromModel = deleteFromModel;
@@ -400,7 +398,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		((GeneralizationSet)elem).getGeneralization().removeAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().remove(elem);
-			UpdateManager.updateFromChange(gen, false);
+			UpdateManager.get().updateFromChange(gen, false);
 		}
 		
 		delete(elem);		
@@ -414,7 +412,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		((GeneralizationSet)elem).getGeneralization().addAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().add(elem);
-			UpdateManager.updateFromChange(gen, false);
+			UpdateManager.get().updateFromChange(gen, false);
 		}
 	}
 	
@@ -422,7 +420,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 	{		
 //		System.out.println("Undoing from model = "+elem);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		UpdateManager.updateFromAddition(elem);
+		UpdateManager.get().updateFromAddition(elem);
 	}
 	
 	private void delete (RefOntoUML.Element elem)
@@ -430,7 +428,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		//System.out.println("Deleting = "+elem);
 		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(RefOntoUMLEditingDomain.getInstance().createDomain(), elem);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
-		UpdateManager.updateFromDeletion(elem);
+		UpdateManager.get().updateFromDeletion(elem);
 	}
 	
 	public Collection<DiagramElement> getDiagramElements() 

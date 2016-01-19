@@ -51,17 +51,17 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.menu.TabPopupMenu;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
-
-import org.eclipse.emf.edit.provider.IDisposable;
 
 /**
  * Internal class used to create closable tabs
@@ -267,7 +267,7 @@ public class ClosableTabPanel extends JPanel {
 						if(((DiagramWrapper) editor).getDiagramEditor().isSaveNeeded()) 
 						{				
 							int option = JOptionPane.showConfirmDialog(((DiagramManager)tabbedpane).getFrame(), "Your diagram has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
-							if (option== JOptionPane.YES_OPTION) {((DiagramManager)tabbedpane).saveProject(); }
+							if (option== JOptionPane.YES_OPTION) { ProjectManager.get().saveProject(); }
 							else if (option==JOptionPane.CANCEL_OPTION) { return; }
 						}
 					}
@@ -275,7 +275,7 @@ public class ClosableTabPanel extends JPanel {
 						if(((ConstraintEditor) editor).isSaveNeeded()) 
 						{
 							int option = JOptionPane.showConfirmDialog(((DiagramManager)tabbedpane).getFrame(), "Your constraints has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
-							if (option== JOptionPane.YES_OPTION) {((DiagramManager)tabbedpane).saveProject(); }
+							if (option== JOptionPane.YES_OPTION) { ProjectManager.get().saveProject(); }
 							else if (option==JOptionPane.CANCEL_OPTION) { return; }
 						}
 					}

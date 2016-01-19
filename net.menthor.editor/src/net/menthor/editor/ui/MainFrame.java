@@ -33,20 +33,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import org.tinyuml.ui.diagram.DiagramEditor;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.FilterManager;
+import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.RemakeManager;
+import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.palette.PalettePane;
 import net.menthor.editor.v2.toolbar.MainToolbar;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.ui.BaseMultiSplitPane;
 import net.menthor.editor.v2.util.Util;
-
-import org.tinyuml.ui.diagram.DiagramEditor;
 
 public class MainFrame extends JFrame implements CommandListener {
 
@@ -69,7 +78,8 @@ public class MainFrame extends JFrame implements CommandListener {
 		if(Util.onMac()) Util.enableFullScreenMode(this);		
 		installMainMenu();
 //		installMainToolBar();
-		installMultiSplitPane();		
+		installMultiSplitPane();
+		installManagers();
 		showOnlyStartPage();		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -103,7 +113,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	}
 			
 	private boolean canQuit() {		
-		if(getDiagramManager().getCurrentProject()==null)
+		if(ProjectManager.get().getProject()==null)
 			return true;		
 		int response = JOptionPane.showOptionDialog(
 			this,
@@ -116,7 +126,7 @@ public class MainFrame extends JFrame implements CommandListener {
 			"default");		
 		if(response==JOptionPane.YES_OPTION){
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			getDiagramManager().saveProject();			
+			ProjectManager.get().saveProject();			
 			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
 			return true;
 		}
@@ -145,11 +155,22 @@ public class MainFrame extends JFrame implements CommandListener {
 		this.getContentPane().add(panel, BorderLayout.NORTH);
 	}
 
+	private void installManagers(){
+		DeletionManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		MoveManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		AdditionManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		UpdateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		ChangeManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		RemakeManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		ProjectManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		FilterManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+	}
+	
 	private void installMultiSplitPane(){		
-		editorsPane = new TopViewPane(this);		
 		footerPane= new BottomViewPane(this, null);
 		browserPane = new ProjectBrowser(this,null,null,null);
 		palettePane = new PalettePane(this);
+		editorsPane = new TopViewPane(this);		
 		multiSplitPane = new BaseMultiSplitPane(palettePane, editorsPane, footerPane, browserPane);
 		getContentPane().add(multiSplitPane, BorderLayout.CENTER);
 	}	
@@ -248,6 +269,24 @@ public class MainFrame extends JFrame implements CommandListener {
 			if(methodcall.getMethod().getDeclaringClass() == getClass()){
 				return methodcall.call(this);
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
+				return methodcall.call(getDiagramManager());
+			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){
+				return methodcall.call(AdditionManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ChangeManager.class){
+				return methodcall.call(ChangeManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == DeletionManager.class){
+				return methodcall.call(DeletionManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == FilterManager.class){
+				return methodcall.call(FilterManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == MoveManager.class){
+				return methodcall.call(MoveManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ProjectManager.class){
+				return methodcall.call(ProjectManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
+				return methodcall.call(RemakeManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
+				return methodcall.call(TransferManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == UpdateManager.class){
 				return methodcall.call(getDiagramManager());
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(getDiagramManager().getCurrentDiagramEditor());

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
 import RefOntoUML.LiteralInteger;
 import RefOntoUML.LiteralUnlimitedNatural;
@@ -13,47 +12,41 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.editor.ui.DiagramManager;
+
 import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectBrowser;
+
 import net.menthor.editor.v2.trees.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 
-public class ChangeManager {
-
-	public static ProjectBrowser browser;
-	public static DiagramManager diagramManager;
-	public static DiagramElementFactoryImpl factory;
+public class ChangeManager extends BaseManager {
 	
-	public static void setup(DiagramManager mg, ProjectBrowser pb){
-		browser = pb;
-		diagramManager = mg;
-		factory = mg.getElementFactory();
-	}
-	
+	private static ChangeManager instance = new ChangeManager();
+	public static ChangeManager get() { return instance; }
+		
 	/** Change relation stereotype */ 
-	public static void changeRelationStereotype(RelationshipType type, RefOntoUML.Relationship element){	
+	public void changeRelationStereotype(RelationshipType type, RefOntoUML.Relationship element){	
 		changeRelationStereotype(element, type.getName());
 	}	
 	
 	/** Change relation stereotype */ 
-	public static void changeRelationStereotype(Relationship type, String stereo){	
+	public void changeRelationStereotype(Relationship type, String stereo){	
    		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
    		Fix fix = fixer.changeRelationStereotypeTo(type, fixer.getRelationshipStereotype(stereo));   		
-   		UpdateManager.update(fix);   		   		
+   		UpdateManager.get().update(fix);   		   		
    	}
 	
 	/** Change a class stereotype */ 
-	public static void changeClassStereotype(ClassType type, RefOntoUML.Element element){ 
-		ChangeManager.changeClassStereotype((RefOntoUML.Type)element, type.getName());
+	public void changeClassStereotype(ClassType type, RefOntoUML.Element element){ 
+		changeClassStereotype((RefOntoUML.Type)element, type.getName());
 	}
 	
 	/** Change a class stereotype */ 
-	public static void changeClassStereotype(Type type, String stereo){   
+	public void changeClassStereotype(Type type, String stereo){   
 		ArrayList<DiagramElement> diagramElements = ModelHelper.getDiagramElements(type);		
    		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
    		Fix fix = fixer.changeClassStereotypeTo(type, fixer.getClassStereotype(stereo));   	
@@ -64,30 +57,30 @@ public class ChangeManager {
 	   	   		fix.setAddedPosition(fix.getAdded().get(0),x,y);
 	   		}
    		}
-  		UpdateManager.update(fix);
+  		UpdateManager.get().update(fix);
 	}
 	
 	/** Change multiplicity from string */
-	public static void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
+	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		UpdateManager.notifyChange(property.getAssociation());
+		UpdateManager.get().notifyChange(property.getAssociation());
 		browser.refresh();
 	}
 	
 	/** Change multiplicity from integer values */
-	public static void changeMultiplicity(RefOntoUML.Property property, int lowerValue, int upperValue){
+	public void changeMultiplicity(RefOntoUML.Property property, int lowerValue, int upperValue){
 		LiteralInteger lower = factory.getFactory().createLiteralInteger();
 		lower.setValue(lowerValue);
 		LiteralUnlimitedNatural upper =  factory.getFactory().createLiteralUnlimitedNatural();
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
-		UpdateManager.notifyChange(property.getAssociation());
+		UpdateManager.get().notifyChange(property.getAssociation());
 		browser.refresh();
 	}
 	
 	/** Invert end points of an association. */
-	public static void invertEndPoints(RefOntoUML.Association association){
+	public void invertEndPoints(RefOntoUML.Association association){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		association.getMemberEnd().clear();	
@@ -105,22 +98,22 @@ public class ChangeManager {
    		tree.checkElement(association);
    		tree.addElement(source);  
    		tree.updateUI();
-   		UpdateManager.updateFromChange(association, true);
+   		UpdateManager.get().updateFromChange(association, true);
 	}
 	
 	/** Invert names of end points of an association. */
-	public static void invertEndNames(RefOntoUML.Association association){
+	public void invertEndNames(RefOntoUML.Association association){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		String sourceName = source.getName();
    		String targetName = target.getName();
    		source.setName(targetName);
    		target.setName(sourceName);
-   		UpdateManager.updateFromChange(association, false);
+   		UpdateManager.get().updateFromChange(association, false);
 	}
 	
 	/** Invert multiplicities of end points of an association. */
-	public static void invertEndMultiplicities(RefOntoUML.Association association){
+	public void invertEndMultiplicities(RefOntoUML.Association association){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		LiteralInteger sourceLower = factory.getFactory().createLiteralInteger();
@@ -135,17 +128,17 @@ public class ChangeManager {
    		source.setLowerValue(sourceLower);
    		target.setUpperValue(targetUpper);
    		target.setLowerValue(targetLower);
-   		UpdateManager.updateFromChange(association, false);
+   		UpdateManager.get().updateFromChange(association, false);
 	}
 	
 	/** Invert types of end points of an association. */
-	public static void invertEndTypes(RefOntoUML.Association association){
+	public void invertEndTypes(RefOntoUML.Association association){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		Type sourceType = source.getType();
    		Type targetType = target.getType();
    		source.setType(targetType);
    		target.setType(sourceType);
-   		UpdateManager.updateFromChange(association, true);
+   		UpdateManager.get().updateFromChange(association, true);
 	}
 }

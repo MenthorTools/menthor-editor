@@ -33,6 +33,7 @@ import javax.swing.event.DocumentListener;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.tocl.editor.TOCLEditorPanel;
 
@@ -54,7 +55,7 @@ public class ConstraintEditor extends TOCLEditorPanel implements Editor {
 			}			
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {				
-				((MainFrame)parent).getDiagramManager().saveProjectNeeded(true);				
+				ProjectManager.get().getProject().setSaveModelNeeded(true);				
 			}
 		});
 		

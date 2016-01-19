@@ -30,23 +30,16 @@ import RefOntoUML.impl.IntegerOrdinalDimensionImpl;
 import RefOntoUML.impl.IntegerRationalDimensionImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
-public class TransferManager {
+public class TransferManager extends BaseManager {
 	
-	public static ProjectBrowser browser;
-	public static DiagramManager diagramManager;
-	
-	public static void setup(DiagramManager mg, ProjectBrowser pb){
-		browser = pb;
-		diagramManager = mg;
-	}
-	
-	public static void transferLiterals(RefOntoUML.Element element, List<EnumerationLiteral> enumLiterals){
+	private static TransferManager instance = new TransferManager();
+	public static TransferManager get() { return instance; }
+		
+	public void transferLiterals(RefOntoUML.Element element, List<EnumerationLiteral> enumLiterals){
 		//to be deleted
 		ArrayList<EnumerationLiteral> literals = new ArrayList<EnumerationLiteral>();		
 		if(element instanceof Enumeration){
@@ -54,7 +47,7 @@ public class TransferManager {
 			for(EnumerationLiteral p: literals){
 				if(!enumLiterals.contains(p)) {					
 					((Enumeration)element).getOwnedLiteral().remove(p);
-					UpdateManager.updateFromDeletion(p);
+					UpdateManager.get().updateFromDeletion(p);
 				}
 			}
 		}
@@ -64,13 +57,13 @@ public class TransferManager {
 			if(!l.getName().isEmpty()){				
 				if(element instanceof Enumeration){
 					((Enumeration)element).getOwnedLiteral().add(l);					
-					UpdateManager.updateFromAddition(l);
+					UpdateManager.get().updateFromAddition(l);
 				}				
 			}
 		}
 	}
 	
-	public static void transferAssociation(RefOntoUML.Association element, String name, boolean isAbstract, boolean isDerived, boolean isEssential, boolean isInseparable,
+	public void transferAssociation(RefOntoUML.Association element, String name, boolean isAbstract, boolean isDerived, boolean isEssential, boolean isInseparable,
 		boolean isImmutablePart, boolean isImmutableWhole, boolean isShareable, String newStereotype){
 		element.setName(name);
 		element.setIsAbstract(isAbstract);
@@ -82,41 +75,41 @@ public class TransferManager {
 			((Meronymic)element).setIsImmutableWhole(isImmutableWhole);
 			((Meronymic)element).setIsShareable(isShareable);
 		}			
-		UpdateManager.updateFromChange(element,false);		
+		UpdateManager.get().updateFromChange(element,false);		
 		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0){
 			diagramManager.getCommandListener().handleCommand("CHANGE_TO_"+newStereotype.toUpperCase(), element);			
 		}
 	}
 	
-	public static void transferNewDataTypes(List<RefOntoUML.Type> newDataTypes){
+	public void transferNewDataTypes(List<RefOntoUML.Type> newDataTypes){
 		for(Element dt: newDataTypes) {
-			UmlProject project = diagramManager.getCurrentProject();				
+			UmlProject project = ProjectManager.get().getProject();				
 			AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), dt);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
-			UpdateManager.updateFromAddition(dt);		
+			UpdateManager.get().updateFromAddition(dt);		
 		}
 	}
 	
-	public static void transferGeneralization(RefOntoUML.Generalization element, RefOntoUML.Type general, RefOntoUML.Type specific){
+	public void transferGeneralization(RefOntoUML.Generalization element, RefOntoUML.Type general, RefOntoUML.Type specific){
 		boolean redesign = false;					
 		if (general!=null && !general.equals(element.getGeneral())) redesign = true;
 		element.setGeneral((Classifier)general);					
 		if (specific!=null && !specific.equals(element.getSpecific())) redesign = true;
 		element.setSpecific((Classifier)specific);		
-		UpdateManager.updateFromChange(element, redesign);
+		UpdateManager.get().updateFromChange(element, redesign);
 	}
 	
-	public static void transferDimension(RefOntoUML.Element structure, String unitOfMeasure, RefOntoUML.MeasurementDomain domain, String upperBound, String lowerBound){
+	public void transferDimension(RefOntoUML.Element structure, String unitOfMeasure, RefOntoUML.MeasurementDomain domain, String upperBound, String lowerBound){
 		if (structure instanceof MeasurementDimension) {
 			((MeasurementDimension)structure).setUnitOfMeasure(unitOfMeasure);
 			((MeasurementDimension)structure).setDomain(domain);
 			transferUpperRegion(structure, upperBound);		
 			transferLowerRegion(structure, lowerBound);
 		}		
-		UpdateManager.updateFromChange(structure,false);
+		UpdateManager.get().updateFromChange(structure,false);
 	}
 	
-	public static void transferUpperRegion(RefOntoUML.Element structure, String upperBound){
+	public void transferUpperRegion(RefOntoUML.Element structure, String upperBound){
 		if(structure instanceof IntegerOrdinalDimensionImpl || structure instanceof IntegerRationalDimensionImpl || structure instanceof IntegerIntervalDimensionImpl){
 			IntegerMeasurementRegion upper = new IntegerMeasurementRegionImpl();
 			try{ 
@@ -139,7 +132,7 @@ public class TransferManager {
 		}			
 	}
 	
-	public static void transferLowerRegion(RefOntoUML.Element structure, String lowerBound){
+	public void transferLowerRegion(RefOntoUML.Element structure, String lowerBound){
 		if(structure instanceof IntegerOrdinalDimensionImpl || structure instanceof IntegerRationalDimensionImpl || structure instanceof IntegerIntervalDimensionImpl){
 			IntegerMeasurementRegion lower = new IntegerMeasurementRegionImpl();
 			try{ 
@@ -162,7 +155,7 @@ public class TransferManager {
 		}			
 	}	
 
-	public static void transferAttributes(RefOntoUML.Element element, List<Property> attributes){
+	public void transferAttributes(RefOntoUML.Element element, List<Property> attributes){
 		//attributes to be deleted (owner: datatypes)
 		ArrayList<Property> currentAttrs = new ArrayList<Property>();		
 		if(element instanceof RefOntoUML.DataType){
@@ -170,7 +163,7 @@ public class TransferManager {
 			for(Property p: currentAttrs){
 				if(!attributes.contains(p)) {					
 					((RefOntoUML.DataType)element).getOwnedAttribute().remove(p);
-					UpdateManager.updateFromDeletion(p);
+					UpdateManager.get().updateFromDeletion(p);
 				}
 			}
 		}
@@ -181,7 +174,7 @@ public class TransferManager {
 			for(Property p: currentAttrs){
 				if(!attributes.contains(p)) {					
 					((RefOntoUML.Class)element).getOwnedAttribute().remove(p);
-					UpdateManager.updateFromDeletion(p);
+					UpdateManager.get().updateFromDeletion(p);
 				}
 			}
 		}
@@ -190,12 +183,12 @@ public class TransferManager {
 			if(!property.getName().isEmpty() || !property.getType().getName().isEmpty()){								
 				if(element instanceof RefOntoUML.DataType) ((RefOntoUML.DataType)element).getOwnedAttribute().add(property);					
 				if(element instanceof RefOntoUML.Class) ((RefOntoUML.Class)element).getOwnedAttribute().add(property);
-				UpdateManager.updateFromAddition(property);
+				UpdateManager.get().updateFromAddition(property);
 			}
 		}
 	}
 	
-	public static void transferConstraints(RefOntoUML.Element element, List<Constraintx> constraints){
+	public void transferConstraints(RefOntoUML.Element element, List<Constraintx> constraints){
 		// added
 		ArrayList<Constraintx> toBeAdded = new ArrayList<Constraintx>();
 		for(Constraintx c: constraints){			
@@ -203,7 +196,7 @@ public class TransferManager {
 				toBeAdded.add(c);
 			}
 		}
-		for(Constraintx cmt: toBeAdded) { AdditionManager.addConstraintx(cmt, (RefOntoUML.Element)element); }			
+		for(Constraintx cmt: toBeAdded) { AdditionManager.get().addConstraintx(cmt, (RefOntoUML.Element)element); }			
 		//deleted
 		ArrayList<Constraintx> toBeDeleted = new ArrayList<Constraintx>();
 		for(Constraintx c: Models.getRefparser().getConstraints(element)){
@@ -211,10 +204,10 @@ public class TransferManager {
 				toBeDeleted.add(c);
 			}
 		}
-		for(Constraintx cmt: toBeDeleted) { DeletionManager.deleteElement(cmt,false); }	
+		for(Constraintx cmt: toBeDeleted) { DeletionManager.get().deleteElement(cmt,false); }	
 	}
 	
-	public static void transferComments(RefOntoUML.Element element, List<Comment> comments){
+	public void transferComments(RefOntoUML.Element element, List<Comment> comments){
 		// added
 		ArrayList<Comment> toBeAdded = new ArrayList<Comment>();
 		for(Comment c: comments){
@@ -222,7 +215,7 @@ public class TransferManager {
 				toBeAdded.add(c);
 			}
 		}
-		for(Comment cmt: toBeAdded) { AdditionManager.addComment(cmt, element); }			
+		for(Comment cmt: toBeAdded) { AdditionManager.get().addComment(cmt, element); }			
 		//deleted
 		ArrayList<Comment> toBeDeleted = new ArrayList<Comment>();
 		for(Comment c: element.getOwnedComment()){
@@ -230,29 +223,29 @@ public class TransferManager {
 				toBeDeleted.add(c);
 			}
 		}
-		for(Comment cmt: toBeDeleted) { DeletionManager.deleteElement(cmt,false); }
+		for(Comment cmt: toBeDeleted) { DeletionManager.get().deleteElement(cmt,false); }
 	}
 	
-	public static void transferGeneralizationSet(RefOntoUML.GeneralizationSet genSet, String name, boolean isDisjoint, boolean isComplete){
+	public void transferGeneralizationSet(RefOntoUML.GeneralizationSet genSet, String name, boolean isDisjoint, boolean isComplete){
 		boolean redesign = false;		
 		genSet.setIsCovering(isComplete);
 		genSet.setIsDisjoint(isDisjoint);
 		genSet.setName(name);		
-		UpdateManager.updateFromChange(genSet, redesign);
+		UpdateManager.get().updateFromChange(genSet, redesign);
 	}
 	
-	public static void transferClass(RefOntoUML.Classifier element, String name, boolean isExtensional, boolean isAbstract, String newStereotype){
+	public void transferClass(RefOntoUML.Classifier element, String name, boolean isExtensional, boolean isAbstract, String newStereotype){
 		element.setName(name);
 		if (element instanceof Collective) ((Collective) element).setIsExtensional(isExtensional);
 		element.setIsAbstract(isAbstract);		
-		UpdateManager.updateFromChange(element,false);		
+		UpdateManager.get().updateFromChange(element,false);		
 		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0)	{
-			ChangeManager.changeClassStereotype(element, newStereotype);
+			ChangeManager.get().changeClassStereotype(element, newStereotype);
 		}
 	}
 	
 	/** Edit/Update Property Data */
-	public static void transferProperty(RefOntoUML.Property property, String name, boolean isDerived, boolean isOrdered,
+	public void transferProperty(RefOntoUML.Property property, String name, boolean isDerived, boolean isOrdered,
 		boolean isReadOnly, boolean isUnique, String aggregationKind, String multiplicity, RefOntoUML.Type type){
 		boolean redesign = false;		
 		try{			
@@ -271,8 +264,8 @@ public class TransferManager {
 		}catch(Exception e){
 			System.out.println("Transfering data to property - "+ e.getLocalizedMessage());
 		}
-		UpdateManager.updateFromChange((RefOntoUML.Element)property.eContainer(), redesign);
-		UpdateManager.updateFromChange(property, redesign);
+		UpdateManager.get().updateFromChange((RefOntoUML.Element)property.eContainer(), redesign);
+		UpdateManager.get().updateFromChange(property, redesign);
 	}
 	
 }

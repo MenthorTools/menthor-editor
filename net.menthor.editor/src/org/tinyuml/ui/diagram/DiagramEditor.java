@@ -621,7 +621,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		{			
 			String text = currentEditor.getText();
 			Label label = currentEditor.getLabel();
-			SetLabelTextCommand command = new SetLabelTextCommand(this, label, text,diagramManager.getCurrentProject());
+			SetLabelTextCommand command = new SetLabelTextCommand(this, label, text);
 			execute(command);
 			currentEditor.hideEditor();				
 //			repaint();
@@ -1645,7 +1645,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		 if(name!=null){
 			 endpoint.setName(name);
 			 ((AssociationElement)con).setShowRoles(true);
-			 UpdateManager.notifyChange(endpoint.getAssociation());
+			 UpdateManager.get().notifyChange(endpoint.getAssociation());
 		 }
 	}
 			
@@ -1677,7 +1677,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		);
 		 if(multiplicity!=null){
 			 try{
-				ChangeManager.changeMultiplicity(endpoint, multiplicity);
+				ChangeManager.get().changeMultiplicity(endpoint, multiplicity);
 			 }catch(Exception e){
 				 getDiagramManager().getFrame().showErrorMessageDialog("Parsing multiplicity string", e.getLocalizedMessage());
 			 }
@@ -1688,7 +1688,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.changeMultiplicity(endpoint, 2, -1);
+			ChangeManager.get().changeMultiplicity(endpoint, 2, -1);
 		}
 	}
 
@@ -1696,7 +1696,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.changeMultiplicity(endpoint, 2, -1);
+			ChangeManager.get().changeMultiplicity(endpoint, 2, -1);
 		}
 	}
 	
@@ -1704,7 +1704,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.changeMultiplicity(endpoint, 2, 2);
+			ChangeManager.get().changeMultiplicity(endpoint, 2, 2);
 		}
 	}
 
@@ -1712,7 +1712,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.changeMultiplicity(endpoint, 2, 2);
+			ChangeManager.get().changeMultiplicity(endpoint, 2, 2);
 		}
 	}
 	
@@ -1720,7 +1720,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.changeMultiplicity(endpoint, 0, -1);
+			ChangeManager.get().changeMultiplicity(endpoint, 0, -1);
 		}
 	}
 
@@ -1728,7 +1728,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.changeMultiplicity(endpoint, 0, -1);
+			ChangeManager.get().changeMultiplicity(endpoint, 0, -1);
 		}
 	}
 	
@@ -1736,7 +1736,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.changeMultiplicity(endpoint, 1, -1);
+			ChangeManager.get().changeMultiplicity(endpoint, 1, -1);
 		}
 	}
 
@@ -1744,7 +1744,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.changeMultiplicity(endpoint, 1, -1);
+			ChangeManager.get().changeMultiplicity(endpoint, 1, -1);
 		}
 	}
 	
@@ -1752,7 +1752,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.changeMultiplicity(endpoint, 0, 1);
+			ChangeManager.get().changeMultiplicity(endpoint, 0, 1);
 		}
 	}
 
@@ -1760,7 +1760,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.changeMultiplicity(endpoint, 0, 1);
+			ChangeManager.get().changeMultiplicity(endpoint, 0, 1);
 		}
 	}
 	
@@ -1768,7 +1768,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.changeMultiplicity(endpoint, 1, 1);
+			ChangeManager.get().changeMultiplicity(endpoint, 1, 1);
 		}
 	}
 	
@@ -1776,7 +1776,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.changeMultiplicity(endpoint, 1, 1);
+			ChangeManager.get().changeMultiplicity(endpoint, 1, 1);
 		}
 	}
 	
@@ -1865,7 +1865,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			public void run() {
 				ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 				list.add((DiagramElement)connection);					
-				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,getProject(),Visibility.SUBSETS,true));
+				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,Visibility.SUBSETS,true));
 				notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
 			}
 		});
@@ -1897,7 +1897,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			public void run() {
 				ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 				list.add((DiagramElement)connection);					
-				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,getProject(),Visibility.REDEFINES,true));
+				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,Visibility.REDEFINES,true));
 			}
 		});
 	}
@@ -2102,7 +2102,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	public void pasteColor(List<DiagramElement> classElements){
 		if (copiedColor != null){
-			execute(new SetColorCommand((DiagramNotification)this,classElements,getProject(),copiedColor));        			
+			execute(new SetColorCommand((DiagramNotification)this,classElements,copiedColor));        			
 		}
 	}
 	
@@ -2127,7 +2127,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
 		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", color);
 		if (color != null){
-			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),getProject(),color));        			
+			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),color));        			
 		}        		   
 	}
 	
@@ -2159,7 +2159,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", Color.LIGHT_GRAY);
 		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", color);
 		if (color != null){
-			execute(new SetColorCommand((DiagramNotification)this,classList,getProject(),color));        			
+			execute(new SetColorCommand((DiagramNotification)this,classList,color));        			
 		}
 	}
 	
@@ -2183,7 +2183,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void bringFromProjectBrowser(Point p){
 		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
 		Object obj = node.getUserObject();				
-		MoveManager.move((RefOntoUML.Element)obj, p.x, p.y, this, true);	
+		MoveManager.get().move((RefOntoUML.Element)obj, p.x, p.y, this, true);	
 	}
 	
 	/** Bring related elements to diagram */
@@ -2215,7 +2215,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						target = (Classifier)((Generalization)rel).getSpecific();
 					}					
 					if(source!=null && !getDiagram().containsChild(source)) { 
-						MoveManager.move(source,x+100*column,y+75*row,this,false); 
+						MoveManager.get().move(source,x+100*column,y+75*row,this,false); 
 						row++; 						
 						if(row>2) {
 							row=0; column++;
@@ -2223,7 +2223,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						addedTypes.add(source);
 					}						
 					if(target!=null && !getDiagram().containsChild(target)) {  
-						MoveManager.move(target,x+100*column,y+75*row,this,false); 
+						MoveManager.get().move(target,x+100*column,y+75*row,this,false); 
 						row++;						
 						if(row>2) {
 							row=0; 
@@ -2232,7 +2232,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 						addedTypes.add(target);
 					}					
 					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
-						MoveManager.move(rel, -1, -1, this, false);					
+						MoveManager.get().move(rel, -1, -1, this, false);					
 				}catch(Exception e){
 					e.printStackTrace();
 					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
@@ -2247,13 +2247,13 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				Type source = a.getMemberEnd().get(0).getType();
 				Type target = a.getMemberEnd().get(1).getType();				
 				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
-					MoveManager.move(a, -1, -1,this, false);
+					MoveManager.get().move(a, -1, -1,this, false);
 			}			
 			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
 				RefOntoUML.Type specific = g.getSpecific();
 				RefOntoUML.Type general = g.getGeneral();			
 				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
-					MoveManager.move(g,-1,-1,this, false);
+					MoveManager.get().move(g,-1,-1,this, false);
 			}			
 		}
 	}
@@ -2264,11 +2264,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			DiagramElement ce = ((DiagramElement)element);
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
-			DeletionManager.deleteElements(list,true);
+			DeletionManager.get().deleteElements(list,true);
 		}else if (element instanceof Collection<?>){
-			DeletionManager.deleteElements((List<DiagramElement>)element,true);
+			DeletionManager.get().deleteElements((List<DiagramElement>)element,true);
 		}else{
-			DeletionManager.delete(element);
+			DeletionManager.get().delete(element);
 		}
 	}
 	
@@ -2279,7 +2279,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 				
 		if(this.isFocusable()){
 			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			DeletionManager.deleteElements(diagramElementsList,true);
+			DeletionManager.get().deleteElements(diagramElementsList,true);
 		}
 	}
 	
@@ -2307,7 +2307,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 			if(response==Window.OK)
 			{
-				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), diagram.getProject(),false,true));
+				execute(new DeleteElementCommand(this, ModelHelper.getElements(diagramElementsList), false,true));
 			}
 		}
 	}
@@ -2351,14 +2351,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,
 				Visibility.ENDPOINTS,
 				!((AssociationElement)con).showRoles())
 			);					
 		}
 		else if (con instanceof Collection<?>){			
 			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, getProject(),
+				(List<DiagramElement>)con, 
 				Visibility.ENDPOINTS,
 				!someShowEndNames((List<Object>)con))
 			);					
@@ -2370,14 +2370,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,
 				Visibility.SUBSETS,
 				!((AssociationElement)con).showSubsetting())
 			);						
 		}
 		else if (con instanceof Collection<?>){			
 			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, getProject(),
+				(List<DiagramElement>)con, 
 				Visibility.SUBSETS,
 				!someShowSubsetting((List<Object>)con))
 			);					
@@ -2389,14 +2389,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,
 				Visibility.REDEFINES,
 				!((AssociationElement)con).showRedefining())
 			);						
 		}
 		else if (con instanceof Collection<?>){			
 			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, getProject(),
+				(List<DiagramElement>)con, 
 				Visibility.REDEFINES,
 				!someShowRedefining((List<Object>)con))
 			);					
@@ -2408,14 +2408,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,
 				Visibility.MULTIPLICITY,
 				!((AssociationElement)con).showMultiplicities())
 			);						
 		}
 		else if (con instanceof Collection<?>){			
 			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, getProject(),
+				(List<DiagramElement>)con, 
 				Visibility.MULTIPLICITY,
 				!someShowMultiplicities((List<Object>)con))
 			);					
@@ -2427,14 +2427,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,
 				Visibility.STEREOTYPE,
 				!((AssociationElement)con).showOntoUmlStereotype())
 			);						
 		}
 		else if (con instanceof Collection<?>){			
 			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, getProject(),
+				(List<DiagramElement>)con, 
 				Visibility.STEREOTYPE,
 				!someShowStereotype((List<Object>)con))
 			);					
@@ -2493,14 +2493,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (con instanceof AssociationElement) {	
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,getProject(),
+			execute(new SetVisibilityCommand((DiagramNotification)this,list,
 				Visibility.NAME,
 				!((AssociationElement)con).showName())
 			);						
 		}
 		else if (con instanceof Collection<?>){			
 			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, getProject(),
+				(List<DiagramElement>)con, 
 				Visibility.NAME,
 				!someShowName((List<Object>)con))
 			);					
@@ -2513,7 +2513,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			execute(
 				new AlignElementsCommand((DiagramNotification)this,
 				(List<DiagramElement>)diagramElements,
-				getProject(),Alignment.CENTER_VERTICAL)
+				Alignment.CENTER_VERTICAL)
 			);
 		}
 	}
@@ -2532,7 +2532,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			execute(
 				new AlignElementsCommand((DiagramNotification)this,
 				(List<DiagramElement>) diagElems,
-				getProject(),Alignment.CENTER_HORIZONTAL)
+				Alignment.CENTER_HORIZONTAL)
 			);
 		}
 	}
@@ -2546,7 +2546,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			execute(
 				new AlignElementsCommand((DiagramNotification)this,
 				(ArrayList<DiagramElement>) diagElems,
-				getProject(),Alignment.BOTTOM)
+				Alignment.BOTTOM)
 			);
 		}
 	}
@@ -2557,7 +2557,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			execute(
 				new AlignElementsCommand((DiagramNotification)this,
 				(List<DiagramElement>) diagElems,
-				getProject(),Alignment.TOP)
+				Alignment.TOP)
 			);
 		}
 	}
@@ -2576,7 +2576,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			execute(
 				new AlignElementsCommand((DiagramNotification)this,
 				(ArrayList<DiagramElement>) diagElems,
-				getProject(),Alignment.RIGHT)
+				Alignment.RIGHT)
 			);
 		}
 	}
@@ -2591,7 +2591,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			execute(
 				new AlignElementsCommand((DiagramNotification)this,
 				(ArrayList<DiagramElement>) diagElems,
-				getProject(),Alignment.LEFT)
+				Alignment.LEFT)
 			);
 		}
 	}
@@ -2599,7 +2599,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	@SuppressWarnings("unchecked")
 	public void addGeneralizationSet(Object genElems){
 		if(genElems instanceof Collection<?>){
-			GeneralizationSet genSet = AdditionManager.addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			GeneralizationSet genSet = AdditionManager.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
 			if(genSet!=null){		
 				deselectAll();
 				cancelEditing();
@@ -2625,7 +2625,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	@SuppressWarnings("unchecked")
 	public void deleteGeneralizationSet(Object genElems){
 		if(genElems instanceof Collection<?>){
-			DeletionManager.deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			DeletionManager.get().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
 			deselectAll();
 			cancelEditing();	
 		}

@@ -24,7 +24,6 @@ package net.menthor.editor.ui;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Map;
@@ -33,16 +32,17 @@ import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang.SerializationUtils;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.FileReader;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
-
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 /** Reads a model from a file. Models are stored and retrieved using serialization. */
 public final class ProjectReader extends FileReader {
@@ -91,12 +91,15 @@ public final class ProjectReader extends FileReader {
 			else if (entry.getName().equals(Settings.PROJECT_FILE.getValue()))
 			{
 				System.out.println("Loading project DAT information from Menthor file...");
-				InputStream in = inFile.getInputStream(entry);
-				ObjectInputStream oin = new ObjectInputStream(in);
+				InputStream in = inFile.getInputStream(entry);				
+				byte[] bytes = new byte[in.available()];
+				in.read(bytes);	
+				
 				try{
-					project = (UmlProject) oin.readObject();
+					project = (UmlProject) SerializationUtils.deserialize(bytes);			        
 					project.setResource(resource);
-				}catch(Exception e){				
+				}catch(Exception e){			
+					System.err.println(e.getLocalizedMessage());
 					JOptionPane.showMessageDialog(null, 
 							"The DAT information in this project is incompatible with this version of the editor. "
 							+ "\nFor this reason we were not able to retrieve the diagrams...",

@@ -122,7 +122,7 @@ public class GeneralizationEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		TransferManager.transferGeneralization(element, 
+		TransferManager.get().transferGeneralization(element, 
 			(RefOntoUML.Type)generalCombo.getSelectedItem(), 
 			(RefOntoUML.Type)specificCombo.getSelectedItem()
 		);		
@@ -148,7 +148,7 @@ public class GeneralizationEditPane extends JPanel {
 	public void newGenSet(){
 		int response = JOptionPane.showConfirmDialog(GeneralizationEditPane.this, "Are you sure you want to create a new generalization set?", "Creating Generalization Set", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if(response==JOptionPane.OK_OPTION){
-			PackageableElement genSet = (PackageableElement)AdditionManager.addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
+			PackageableElement genSet = (PackageableElement)AdditionManager.get().addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
 			genSet.setName("gs");
 			((GeneralizationSet)genSet).setIsCovering(true);
 			((GeneralizationSet)genSet).setIsDisjoint(true);

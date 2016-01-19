@@ -37,7 +37,6 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.UpdateManager;
 
@@ -59,11 +58,10 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 	 * @param aLabel the Label
 	 * @param aText the new text
 	 */
-	public SetLabelTextCommand(DiagramNotification aNotification, Label aLabel, String aText,  UmlProject project) {
+	public SetLabelTextCommand(DiagramNotification aNotification, Label aLabel, String aText) {
 		this.notification = aNotification;
 		label = aLabel;
 		text = aText;
-		this.project = project;
 		oldText = aLabel.getNameLabelText();
 		if (aLabel.getParent()!=null) { parent = aLabel.getParent().getParent();} 
 	}
@@ -92,7 +90,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			}
 			
 			// update application accordingly
-			UpdateManager.updateFromChange(element, false);
+			UpdateManager.get().updateFromChange(element, false);
 						
 		}else if (parent instanceof BaseConnection){
 			
@@ -141,7 +139,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			}
 			
 			// update application accordingly
-			UpdateManager.updateFromChange(element, false);
+			UpdateManager.get().updateFromChange(element, false);
 						
 		}else if (parent instanceof BaseConnection){
 			

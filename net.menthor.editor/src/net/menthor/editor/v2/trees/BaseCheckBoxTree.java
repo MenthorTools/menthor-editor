@@ -1,5 +1,20 @@
 package net.menthor.editor.v2.trees;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreePath;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -26,21 +41,6 @@ import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;
-
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreePath;
 
 public class BaseCheckBoxTree extends CheckboxTree {
 
@@ -359,7 +359,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	    return result;	    
 	}
 	
-	 /** Remove the currently selected node. */
+	/** Remove the currently selected node. */
     public void removeCurrentNode(){
         TreePath currentSelection = getSelectionPath();
         if (currentSelection != null){

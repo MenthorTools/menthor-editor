@@ -111,7 +111,7 @@ public class PropertyEditPane extends JPanel {
 		if(cbxDerived.isSelected()) {
 			nameField.setText(nameField.getText().replace("/",""));
 		}		
-		TransferManager.transferProperty(property,
+		TransferManager.get().transferProperty(property,
 			nameField.getText(),
 			cbxDerived.isSelected(),
 			cbxOrdered.isSelected(),
