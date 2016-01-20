@@ -3,7 +3,7 @@ package net.menthor.antipattern.relcomp;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.common.ontoumlfixer.Fix;
 
 import org.eclipse.emf.ecore.EObject;

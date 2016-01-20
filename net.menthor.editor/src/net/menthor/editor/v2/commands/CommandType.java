@@ -23,10 +23,6 @@ package net.menthor.editor.v2.commands;
 
 public enum CommandType {		
 	
-	//====================================================
-	// FILE
-	//====================================================
-	
 	NEW_PROJECT("Create new menthor project"),
 	OPEN_EXISTING_PROJECT("Open existing menthor project"),	
 	OPEN_RECENT_PROJECT("Save current menthor project"), 
@@ -36,10 +32,7 @@ public enum CommandType {
 	OPEN_LINK_WITH_BROWSER("Open link with browser"),
 	OPEN_EXISTING_MODEL("Create and open a new project from an existing model in memory"),
 	QUIT_MENTHOR(null),
-	
-	//====================================================
-	// EDIT
-	//====================================================
+
 	REDO("Redo action"),	
 	UNDO("Undo action"),
 	EDIT("Edit selected element(s)"),
@@ -47,16 +40,10 @@ public enum CommandType {
 	DELETE("Delete selected element(s)"),
 	ERASE("Erase selected element(s)"),
 	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
-	
-	//====================================================
-	// DIAGRAM
-	//====================================================
+		
 	NEW_RULES("Createa a new rules document"),
 	CLOSE_RULES("Createa a new rules document"),
-	
-	//====================================================
-	// DIAGRAM
-	//====================================================
+		
 	NEW_DIAGRAM("Create a new class diagram"), 
 	CLOSE_DIAGRAM("Close current class diagram"),	
 	REDRAW_DIAGRAM("Redraw the current class diagram"),
@@ -125,81 +112,50 @@ public enum CommandType {
 	SET_TARGET_END_POINT_NAME(null),
 	BRING_FROM_PROJECT_BROWSER(null),
 	
-	//====================================================
-	// EXPORT
-	//====================================================
 	EXPORT_AS_PATTERN("Export current project as a pattern"),	
 	EXPORT_TO_UML("Export current project to UML (UML2)"), 
 	EXPORT_TO_PROFILE_UML("Export current project to Profile UML (UML2)"),
 	EXPORT_TO_ECORE("Export current project to Ecore (EMF)"),
 	EXPORT_TO_XMI("Export current project to XMI (EMF)"),
 		
-	//====================================================
-	// IMPORT
-	//====================================================	
 	IMPORT_FROM_XMI_EMF(null), 
 	IMPORT_FROM_XMI_EA(null), 
 	IMPORT_FROM_XMI_EA_FILE(null), 
 	IMPORT_FROM_PATTERN(null),
-
-	//====================================================
-	// WINDOW
-	//====================================================
+	
 	PALETTE_OF_ELEMENTS(null), 
 	PROJECT_BROWSER(null), 
 	CONSOLE(null),
 		
-	//====================================================
-	// HELP
-	//====================================================
 	ABOUT(null), 
 	LICENSES(null), 
 
-	//====================================================
-	// PROJECT
-	//====================================================
 	FIND_TERM("Find a term in current project"),
 	FIND_IN_PROJECT_BROWSER("Find a term in project browser"),
 	COLLECT_STATISTICS("Collect statistics of current project"),
 	
-	//====================================================
-	// TREE
-	//====================================================
 	MOVE_DOWN_TREE(null),
 	MOVE_UP_TREE(null),
 	MOVE_TO_DIAGRAM(null),
 	FIND_IN_DIAGRAMS(null),
 	
-	//====================================================
-	// VERIFICATE
-	//====================================================
 	CHECK_MODEL_SYNTAX("Check syntax of the entire model"), 
 	PARSE_RULES("Check syntax of all rules at the current project"),
 	 
-	//====================================================
-	// VALIDATE
-	//====================================================
 	SIMULATE_AND_CHECK("Simulate and check current project using Alloy"), 
 	CALL_OWL_SETTINGS("Generate current project implementation in OWL/RDF"),
 	GENERATE_OWL("Generate current project implementation in OWL/RDF"),
 	BUSINESS_VOCABULARY("Transform current project into a SBVR business vocabulary"),
 	TEXTUAL_DESCRIPTION("Transform current project into Natural Language"),	
-	DESIGN_AS_INFO_UML("Transform current project into an information model in UML"),
 	SEARCH_FOR_ANTIPATTERNS("Search for semantic anti-patterns in current project"),
 	VALIDATE_PARTHOOD_TRANSITIVITY("Validate the transitivity of parthood relationships"),
 	
-	//====================================================
-	// TABS
-	//====================================================
 	CLOSE_THIS_TAB("Close this tab"),
 	CLOSE_OTHER_TABS("Close all other tabs except this one"),
 	CLOSE_ALL_TABS("Close all tabs"),
 	SELECT_TAB("Select tab"),
 	OPEN_TAB("Select tab"),
 	
-	//====================================================
-	// TOOLBOX DRAG AND DROP: CLASS
-	//====================================================
 	TB_DND_POINTER_MODE(null),
 	TB_DND_KIND(null), 
 	TB_DND_QUANTITY(null), 
@@ -220,9 +176,6 @@ public enum CommandType {
 	TB_DND_POWERTYPE(null), 
 	TB_DND_CLASS(null),
 	
-	//====================================================
-	// TOOLBOX DRAG AND DROP: DATATYPE
-	//====================================================
 	TB_DND_DATATYPE(null), 
 	TB_DND_ENUMERATION(null),
 	TB_DND_STRING_NOMINAL_DIMENSION(null), 
@@ -235,9 +188,6 @@ public enum CommandType {
 	TB_DND_DECIMAL_ORDINAL_DIMENSION(null),
 	TB_DND_PRIMITIVETYPE(null),
 
-	//====================================================
-	// TOOLBOX DRAG AND DROP: RELATIONSHIP
-	//====================================================
 	TB_DND_GENERALIZATION(null),
 	TB_DND_GENERALIZATIONSET(null), 
 	TB_DND_MEDIATION(null), 
@@ -251,67 +201,14 @@ public enum CommandType {
 	TB_DND_SUBCOLLECTIONOF(null), 
 	TB_DND_SUBQUANTITYOF(null), 
 	TB_DND_ASSOCIATION(null),
-
-	//====================================================
-	// TOOLBOX DRAG AND DROP: PATTERN
-	//====================================================
-	TB_DND_COMPLETER_PATTERN(null), 
-	TB_DND_MIXIN_PATTERN(null), 
-	TB_DND_MIXIN_WITH_SUBKIND_PATTERN(null),
-	TB_DND_PHASE_PARTITION_PATTERN(null), 
-	TB_DND_SUBKIND_PARTITION_PATTERN(null),
-	TB_DND_ROLE_PARTITION_PATTERN(null),
-	TB_DND_ROLEMIXIN_PATTERN(null), 
-	TB_DND_RELATOR_PATTERN(null), 
-	TB_DND_DEPENDENT_ROLEMIXIN_PATTERN(null),
-	TB_DND_GENERIC_RELATOR_PATTERN(null), 
-	TB_DND_CHARACTERIZATION_PATTERN(null), 
-	TB_DND_RIGID_WS_PATTERN(null),
-	TB_DND_ANTIRIGID_WS_PATTERN(null), 
-	TB_DND_KIND_PARTITION_PATTERN(null), 
-	TB_DND_QUANTITY_PARTITION_PATTERN(null),
-	TB_DND_COLLECTIVE_PARTITION_PATTERN(null), 
-	TB_DND_CATEGORY_PATTERN(null),
 	
-	//====================================================
-	// TOOLBOX DRAG AND DROP: DOMAIN PATTERN
-	//====================================================
-	TB_DND_DOMAIN_PATTERN(null),
-
-	//====================================================
-	// TOOLBOX DRAG AND DROP: DERIVED PATTERN
-	//====================================================	
-	TB_DND_UNION_PATTERN(null), 
-	TB_DND_EXCLUSION_PATTERN(null), 
-	TB_DND_INTERSECTION_PATTERN(null), 
-	TB_DND_SPECIALIZATION_PATTERN(null), 
-	TB_DND_PASTSPECIALIZATION_PATTERN(null), 
-	TB_DND_PARTICIPATION_PATTERN(null),
-	
-	//====================================================
-	// ADD PACKAGE
-	//====================================================
 	ADD_PACKAGE(null),
-
-	//====================================================
-	// ADD OTHERS
-	//====================================================
 	ADD_COMMENT(null),
 	ADD_CONSTRAINT(null),
-	
-	//====================================================
-	// ADD DIAGRAM
-	//====================================================
+
 	ADD_DIAGRAM(null),
-	
-	//====================================================
-	// ADD RULES DOCUMENT
-	//====================================================
 	ADD_RULES_DOCUMENT(null),
-	
-	//====================================================
-	// ADD CLASS
-	//====================================================	
+		
 	ADD_CLASS(null),
 	ADD_KIND(null),
 	ADD_COLLECTIVE(null),
@@ -327,10 +224,7 @@ public enum CommandType {
 	ADD_PERCEIVABLE_QUALITY(null),
 	ADD_NONPERCEIVABLE_QUALITY(null),
 	ADD_NOMINAL_QUALITY(null),
-	
-	//====================================================
-	// ADD DATATYPE
-	//====================================================	
+		
 	ADD_DATATYPE(null),
 	ADD_ENUMERATION(null),
 	ADD_PRIMITIVETYPE(null),
@@ -343,9 +237,6 @@ public enum CommandType {
 	ADD_STRING_NOMINAL_STRUCTURE(null),
 	ADD_MEASUREMENT_DOMAIN(null),
 	
-	//====================================================
-	// ADD RELATIONSHIP
-	//====================================================
 	ADD_GENERALIZATION(null),
 	ADD_GENERALIZATIONSET(null),
 	ADD_MEDIATION(null),
@@ -359,20 +250,7 @@ public enum CommandType {
 	ADD_DERIVATION(null),
 	ADD_STRUCTURATION(null),
 	ADD_ASSOCIATION(null),
-
-	//====================================================
-	// ADD DERIVED PATTERN
-	//====================================================
-	ADD_DERIVATION_BY_UNION(null),
-	ADD_DERIVATION_BY_EXCLUSION(null),
-	ADD_DERIVATION_BY_SPECIALIZATION(null),
-	ADD_DERIVATION_BY_INTERSECTION(null),
-	ADD_DERIVATION_BY_PAST_SPECIALIZATION(null),
-	ADD_DERIVATION_BY_PARTICIPATION(null),
-
-	//====================================================
-	// CHANGE STEREOTYPE OF RELATIONSHIP
-	//====================================================
+	
 	CHANGE_TO_GENERALIZATION(null),
 	CHANGE_TO_GENERALIZATIONSET(null),
 	CHANGE_TO_MEDIATION(null),
@@ -387,9 +265,6 @@ public enum CommandType {
 	CHANGE_TO_STRUCTURATION(null),
 	CHANGE_TO_ASSOCIATION(null),
 	
-	//====================================================
-	// CHANGE STEREOTYPE OF CLASS
-	//====================================================
 	CHANGE_TO_KIND(null),
 	CHANGE_TO_SUBKIND(null),
 	CHANGE_TO_COLLECTIVE(null),
@@ -405,9 +280,6 @@ public enum CommandType {
 	CHANGE_TO_NONPERCEIVABLE_QUALITY(null),
 	CHANGE_TO_NOMINAL_QUALITY(null),
 	
-	//====================================================
-	// INVERT
-	//====================================================
 	INVERT_END_NAMES(null),
 	INVERT_END_POINTS(null),
 	INVERT_END_MULTIPLICITIES(null),

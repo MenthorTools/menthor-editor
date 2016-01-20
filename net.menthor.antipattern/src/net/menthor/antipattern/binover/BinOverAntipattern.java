@@ -2,8 +2,8 @@ package net.menthor.antipattern.binover;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
+import net.menthor.antipattern.application.Antipattern;
 import RefOntoUML.Association;
 import RefOntoUML.parser.OntoUMLParser;
 

@@ -30,6 +30,7 @@ import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import net.menthor.antipattern.application.AntiPatternList;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.icon.IconMap;

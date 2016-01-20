@@ -4,7 +4,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.RelationStereotype;
 

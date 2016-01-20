@@ -25,7 +25,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -39,8 +38,6 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 /**
@@ -102,9 +99,7 @@ public class PaletteAccordion extends JPanel{
 	{
 		createClassesGrouping();
 		createDataTypesGrouping();
-		createRelationshipsGrouping();		
-		createPatternGrouping();
-		createDerivedGrouping();		
+		createRelationshipsGrouping();	
 		render();
 	}
 	
@@ -147,45 +142,6 @@ public class PaletteAccordion extends JPanel{
 	public PaletteGrouping getDerivationPatternsPalette() { return paletteMap.get("Derived Pattern"); }
 	public PaletteGrouping getRelationshipPalette() { return paletteMap.get("Relationship"); }	
 	public PaletteGrouping getDataTypePalette() { return paletteMap.get("DataType"); }
-	
-	private PaletteGrouping createDerivedGrouping() {
-		String paletteName = "Derived Pattern";
-		PaletteGrouping derivedGrouping = new PaletteGrouping(this, paletteName);
-		derivedGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			DerivedPatternType.UNION.toString(),
-			CommandType.TB_DND_UNION_PATTERN
-		);
-		derivedGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			DerivedPatternType.EXCLUSION.toString(),
-			CommandType.TB_DND_EXCLUSION_PATTERN
-		);
-		derivedGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			DerivedPatternType.INTERSECTION.toString(),
-			CommandType.TB_DND_INTERSECTION_PATTERN
-		);
-		derivedGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			DerivedPatternType.SPECIALIZATION.toString(),
-			CommandType.TB_DND_SPECIALIZATION_PATTERN
-		);
-		derivedGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			DerivedPatternType.PASTSPECIALIZATION.toString(),
-			CommandType.TB_DND_PASTSPECIALIZATION_PATTERN
-		);
-		derivedGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			DerivedPatternType.PARTICIPATION.toString(),
-			CommandType.TB_DND_PARTICIPATION_PATTERN
-		);		
-		paletteMap.put(paletteName, derivedGrouping);
-		if(openPalette == null) openPalette = paletteName;		
-		derivedGrouping.sort();
-		return derivedGrouping;
-	}
 	
 	private PaletteGrouping createDataTypesGrouping() {
 		String paletteName = "DataType";
@@ -249,100 +205,6 @@ public class PaletteAccordion extends JPanel{
 		if(openPalette == null) openPalette = paletteName;		
 		datatypeGrouping.sort();
 		return datatypeGrouping;
-	}
-	
-	public PaletteGrouping createPatternGrouping() {
-		String name = "Pattern";				
-		PaletteGrouping patternGrouping = new PaletteGrouping(this, name);		
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.COMPLETER.toString(),
-			CommandType.TB_DND_COMPLETER_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.MIXIN.toString(),
-			CommandType.TB_DND_MIXIN_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.MIXIN_WITH_SUBKIND.toString(),
-			CommandType.TB_DND_MIXIN_WITH_SUBKIND_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.PHASE_PARTITION.toString(),
-			CommandType.TB_DND_PHASE_PARTITION_PATTERN
-		);		
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.SUBKIND_PARTITION.toString(),
-			CommandType.TB_DND_SUBKIND_PARTITION_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.ROLE_PARTITION.toString(),
-			CommandType.TB_DND_ROLE_PARTITION_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.ROLEMIXIN.toString(),
-			CommandType.TB_DND_ROLEMIXIN_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.RELATOR.toString(),
-			CommandType.TB_DND_RELATOR_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.DEPENDENT_ROLEMIXIN.toString(),
-			CommandType.TB_DND_DEPENDENT_ROLEMIXIN_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.GENERIC_RELATOR.toString(),
-			CommandType.TB_DND_GENERIC_RELATOR_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.CHARACTERIZATION.toString(),
-			CommandType.TB_DND_CHARACTERIZATION_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.RIGID_WEAK_SUPPLEMENTATION.toString(),
-			CommandType.TB_DND_RIGID_WS_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.ANTIRIGID_WEAK_SUPPLEMENTATION.toString(),
-			CommandType.TB_DND_ANTIRIGID_WS_PATTERN
-		);		
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.KIND_PARTITION.toString(),
-			CommandType.TB_DND_KIND_PARTITION_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.COLLECTIVE_PARTITION.toString(),
-			CommandType.TB_DND_COLLECTIVE_PARTITION_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.QUANTITY_PARTITION.toString(),
-			CommandType.TB_DND_QUANTITY_PARTITION_PATTERN
-		);
-		patternGrouping.createPaletteItem(
-			IconType.MENTHOR_PATTERN, 
-			PatternType.CATEGORY.toString(),
-			CommandType.TB_DND_CATEGORY_PATTERN
-		);		
-		paletteMap.put(name, patternGrouping);
-		if(openPalette == null) openPalette = name;
-		patternGrouping.sort();
-		return patternGrouping;
 	}
 	
 	private PaletteGrouping createRelationshipsGrouping() {
@@ -493,22 +355,4 @@ public class PaletteAccordion extends JPanel{
 		classGrouping.sort();
 		return classGrouping;
 	}
-
-	public PaletteGrouping createDomainGrouping(List<String> itemNamesList){				
-		String paletteName = "Domain Pattern";
-		PaletteGrouping domainGrouping = new PaletteGrouping(this, paletteName);		
-		for(String name: itemNamesList)
-		{
-			domainGrouping.createPaletteItem(
-				IconType.MENTHOR_CLASS,
-				name, 
-				CommandType.TB_DND_DOMAIN_PATTERN
-			);			
-		}
-		paletteMap.put(paletteName, domainGrouping);
-		if(openPalette == null) openPalette = paletteName;		
-		domainGrouping.sort();
-		this.render();
-		return domainGrouping;
-	}	
 }

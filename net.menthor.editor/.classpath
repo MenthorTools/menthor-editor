@@ -16,10 +16,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2alloy"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2uml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2ecore"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.derivedtypes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.validator.meronymic"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2temporalowl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.pattern"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ootos"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/jar-in-jar-loader.zip"/>
@@ -62,7 +60,6 @@
 	<classpathentry kind="lib" path="/net.menthor.common/lib/eclipse-kepler-sr1/org.apache.commons.lang_2.6.0.v201205030909.jar"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/owl/owlapi-distribution-3.4.4-bin.jar"/>
 	<classpathentry kind="lib" path="alloy4.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.ontouml2infouml"/>
 	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.menthor.swt"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

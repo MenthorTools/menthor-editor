@@ -3,8 +3,8 @@ package net.menthor.antipattern.mixiden;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntiPatternIdentifier;
-import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
+import net.menthor.antipattern.application.Antipattern;
 import RefOntoUML.MixinClass;
 import RefOntoUML.Package;
 import RefOntoUML.parser.OntoUMLParser;

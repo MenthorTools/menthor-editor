@@ -3,8 +3,8 @@ package net.menthor.antipattern.overlapping;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.menthor.antipattern.Antipattern;
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.Antipattern;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.antipattern.wizard.overlapping.CommonMixinSupertypeComposite;
 
 import org.eclipse.swt.widgets.Composite;

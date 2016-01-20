@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.menthor.antipattern.Antipattern;
+import net.menthor.antipattern.application.Antipattern;
 import net.menthor.antipattern.relspec.RelSpecAntipattern;
 import net.menthor.antipattern.relspec.RelSpecOccurrence;
 

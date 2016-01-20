@@ -27,7 +27,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,7 +73,6 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
 import RefOntoUML.Association;
-import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
@@ -82,27 +80,15 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLElementCustom;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.antipattern.application.AntiPatternSearchDialog;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.editor.derivation.DerivedTypesOperations;
-import net.menthor.editor.derivation.ExclusionDerivationOperations;
-import net.menthor.editor.derivation.ExclusionPattern;
-import net.menthor.editor.derivation.IntersectionPattern;
-import net.menthor.editor.derivation.ParticipationDerivationOperations;
-import net.menthor.editor.derivation.ParticipationPatternTypeChoice;
-import net.menthor.editor.derivation.PastSpecializationPattern;
-import net.menthor.editor.derivation.SpecializationPattern;
-import net.menthor.editor.derivation.UnionPattern;
 import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.finder.FoundPane;
-import net.menthor.editor.pattern.DomainPatternTool;
-import net.menthor.editor.pattern.PatternTool;
 import net.menthor.editor.problems.ErrorElement;
 import net.menthor.editor.problems.ErrorPane;
 import net.menthor.editor.problems.ErrorVerificator;
@@ -124,12 +110,10 @@ import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.settings.ea.EASettingsDialog;
 import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.ui.AboutDialog;
@@ -143,10 +127,8 @@ import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.editor.v2.util.XMIWriter;
-import net.menthor.editor.validator.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-import net.menthor.ontouml2infouml.OntoUML2InfoUML;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
@@ -209,11 +191,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return start;
 	}
 	
-	public void runPatternByMenu(PatternType type)
-	{
-		runPattern(type, 0, 0);
-	}
-
 	public void generateSbvr()
 	{
 		//workingOnlyWithChecked();
@@ -221,15 +198,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		//RefOntoUML.Package model = refparser.createModelFromSelections(new Copier());
 		generateSbvr(refparser.getModel());
 	}
-		
-	public void generateInfoUML()
-	{	
-		//workingOnlyWithChecked();
-		OntoUMLParser refparser = Models.getRefparser();
-		//RefOntoUML.Package model = refparser.createModelFromSelections(new Copier())
-		generateInfoUML(refparser.getModel());
-	}
-	
+			
 	public void searchInProject()
 	{
 		addFinderPanel(this,true);
@@ -1152,7 +1121,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public void manageAntiPatterns()
 	{			
 		System.out.println("Opening anti-pattern dialog...");
-		AntiPatternSearchDialog.open(getFrame());		
+		AntiPatternSearchDialog.open(getFrame(), Models.getRefparser());		
 	}
 
 	public boolean haveGeneralizationSet(List<Generalization> gens){
@@ -1617,22 +1586,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			else frame.showErrorMessageDialog("Opening alloy file", e.getLocalizedMessage());					
 		}
 	}
-	
-	public void generateInfoUML(final RefOntoUML.Package model) 
-	{
-		if(Util.onMac()){
-			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
-				@Override
-				public void run() {
-					OntoUML2InfoUML.transformation(model, ProjectManager.get().getProject().getTempDir()+File.separator+model.getName()+".uml");
-				}
-			});
-		}else{
-			OntoUML2InfoUML.transformation(model, ProjectManager.get().getProject().getTempDir()+File.separator+model.getName()+".uml");
-		}
 		
-	}	
-	
 	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */
 	public void generateSbvr(RefOntoUML.Package refpackage) 
 	{
@@ -1768,42 +1722,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 //		}
 //		return null;
 //	}
-
-	@SuppressWarnings({ })
-	public void deriveByExclusion() 
-	{
-		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = ProjectManager.get().getProject();
-		ExclusionDerivationOperations.createExclusionDerivation(activeEditor, project, this, activeEditor.getSelectedElements(), new OutcomeFixer(ProjectManager.get().getProject().getModel()));
-		
-	}
-	
-	@SuppressWarnings({ })
-	public void deriveByUnion() 
-	{
-		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = ProjectManager.get().getProject();
-		Fix fix = DerivedTypesOperations.createUnionDerivation(activeEditor, project,this);
-		if(fix!=null) UpdateManager.get().update(fix);		
-	}
-	
-	public void openDerivedTypePatternUnion(Double x, Double y) {
-			
-		JDialog dialog = new UnionPattern(this);
-		this.setCenterDialog(dialog);
-		((UnionPattern) dialog).setPosition(x, y);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-	}
-	
-	public void openDerivedTypePatternExclusion(Double x, Double y) {
-		JDialog dialog = new ExclusionPattern(this);
-		this.setCenterDialog(dialog);
-		((ExclusionPattern) dialog).setPosition(x, y);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-	
-	}
 	
 	public void setCenterDialog(JDialog dialog){
 		final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -1813,80 +1731,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		dialog.setLocation(x_1, y_2);
 	}
 	
-	public void runPattern(final PatternType elementType, final double x, final double y) {
-		PatternTool.runPattern(this, elementType, x, y);
-	}
-
-	public void runDomainPattern(final double x, final double y) {
-		DomainPatternTool.runPattern(this, x, y);
-	}
-
-	public void openDerivedTypePatternIntersection(Double x, Double y) {
-		JDialog dialog = new IntersectionPattern(this);
-		this.setCenterDialog(dialog);
-		((IntersectionPattern) dialog).setPosition(x, y);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-	}
-	
-	public void openDerivedTypePatternIntersection(Point p) {
-		openDerivedTypePatternIntersection(p.getX(),p.getY());
-	}
-	
-	public void deriveByIntersection() {
-		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = ProjectManager.get().getProject();
-		Fix fix = DerivedTypesOperations.createIntersectionDerivation(activeEditor, project,this);
-		if(fix!=null)
-			UpdateManager.get().update(fix);
-		
-	}
-	
 	public void validatesParthood() {
 		ValidationDialog.open(Models.getRefparser(), frame);
 		
-	}
-	public void openDerivedTypePatternSpecialization(double x, double y) {
-		
-		JDialog dialog = new SpecializationPattern(this);
-		this.setCenterDialog(dialog);
-		((SpecializationPattern) dialog).setPosition(x, y);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-	}
-	public void deriveBySpecialization() {
-		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = ProjectManager.get().getProject();
-		Fix fix = DerivedTypesOperations.createSpecializationDerivation(activeEditor, project,this);
-		if(fix!=null) UpdateManager.get().update(fix);
-	}
-	public void openDerivedTypePatternPastSpecialization(double x, double y) {
-		JDialog dialog = new PastSpecializationPattern(this);
-		this.setCenterDialog(dialog);
-		((PastSpecializationPattern) dialog).setPosition(x, y);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-		
-	}
-	public void openDerivedTypePatternParticipation(double x, double y) {
-		
-		JDialog dialog = new ParticipationPatternTypeChoice(this);
-		this.setCenterDialog(dialog);
-		((ParticipationPatternTypeChoice) dialog).setPosition(x, y);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-		
-	}
-	public void deriveByPastSpecialization() {
-		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = ProjectManager.get().getProject();
-		DerivedTypesOperations.createPastSpecializationDerivation(activeEditor, project,this);
-	}
-	public void deriveByParticipation() {
-		DiagramEditor activeEditor = getCurrentDiagramEditor();
-		UmlProject project = ProjectManager.get().getProject();
-		ParticipationDerivationOperations participation_derivation = new ParticipationDerivationOperations();
-		participation_derivation.createDerivedType(activeEditor, project,this);
 	}
 	
 	/** Save current Pattern Project to a file *.menthorpattern */
@@ -1928,59 +1775,4 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		System.out.println("Menthor Pattern project successfully saved!");
 		return result;
 	}
-
-	//Export as .menthorpattern	
-	public void exportAsPattern(){
-		DomainPatternTool.exportModelAsPattern(ProjectManager.get().getProject());
-		//call exportCurrentProject
-		//call exportAsMenthorPattern
-	}
-	
-	private UmlProject importPatternProjectFile(){
-		UmlProject patternProject = null;
-		
-		JFileChooser fileChooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor");
-		fileChooser.setDialogTitle("Open Menthor Pattern Project");
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			try {
-				getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				System.out.println("Opening Menthor project...");				
-				File file = fileChooser.getSelectedFile();
-	
-				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-				patternProject = (UmlProject) listFiles.get(0);
-			} catch (Exception ex) {
-				System.out.println("Failed to open Menthor project!");	
-				JOptionPane.showMessageDialog(this, ex.getMessage(), "Importation Error", JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
-			}
-			getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			System.out.println("Menthor project successfully opened!");	
-		}
-		
-		return patternProject;
-	}
-	
-	public void importFromPattern(){
-		//opening .menthorpattern
-		UmlProject patternProject = importPatternProjectFile();
-		if(patternProject != null){		
-			DomainPatternTool.initializeDomainPatternPalette(frame.getToolManager().getPalleteAccordion(), patternProject, listener, frame);
-		}
-	}
-
-	private boolean isModelCompleter = false;
-	
-	public void setModelCompleter(boolean bool) {
-		isModelCompleter = bool;
-	}
-	
-	public void runModelCompleter(Classifier elem, double x, double y) {
-		if(isModelCompleter)	
-			PatternTool.runModelCompleter(this,elem, x, y);
-	}	
 }

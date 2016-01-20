@@ -25,19 +25,17 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.MoveManager;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.PatternType;
-
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.Node;
 import org.tinyuml.umldraw.ClassElement;
+
+import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
 
 
 /**
@@ -55,38 +53,18 @@ public class CreationHandler implements EditorMode {
   
   private ClassType classType;
   private DataType dataType;
-  private DerivedPatternType derivedType;
-  private PatternType patternType;
   
   private Node element;
   private Point2D tmpPos = new Point2D.Double();
   private Rectangle2D cachedBounds;
   
   public boolean isDragging =false;
-
-  public void setPattern(DerivedPatternType elementType) 
-  {
-	this.derivedType = elementType;	
-	element = null;
-	tmpPos = new Point2D.Double();
-	cachedBounds = null;
-  }
-  
-  public void setPattern(PatternType elementType) 
-  {
-	this.patternType = elementType;	
-	element = null;
-	tmpPos = new Point2D.Double();
-	cachedBounds = null;
-  }
   
   public void clear()
   {
 	  element = null;
 	  classType=null;
 	  dataType=null;
-	  derivedType=null;
-	  patternType=null;
 	  tmpPos = new Point2D.Double();
 	  cachedBounds = null;
   }
@@ -215,35 +193,9 @@ public void mousePressed(EditorMouseEvent event) {
     }
     
     if(element!=null){
-	    
 	    MoveManager.get().move(((ClassElement)element).getClassifier(), tmpPos.getX(), tmpPos.getY(), editor,true);
-	    	    	    
-//	    if (!isDragging) {
-//	    	editor.getDiagramManager().openModellingAssistant(elem);
-//	    }
-	    
     }else{	   
-    	// CASSIO : DERIVED TYPES PATTERNS
-    	editor.cancelEditing();
-    	if(derivedType == DerivedPatternType.UNION){
-    		editor.getDiagramManager().openDerivedTypePatternUnion(tmpPos.getX(),tmpPos.getY());
-    	}else if(derivedType == DerivedPatternType.EXCLUSION){
-    		editor.getDiagramManager().openDerivedTypePatternExclusion(tmpPos.getX(),tmpPos.getY());
-    	}else if(derivedType == DerivedPatternType.INTERSECTION){
-    		editor.getDiagramManager().openDerivedTypePatternIntersection(tmpPos.getX(),tmpPos.getY());
-    	}else if (derivedType == DerivedPatternType.SPECIALIZATION){
-    		editor.getDiagramManager().openDerivedTypePatternSpecialization(tmpPos.getX(),tmpPos.getY());
-    	}else if (derivedType == DerivedPatternType.PASTSPECIALIZATION){
-    		editor.getDiagramManager().openDerivedTypePatternPastSpecialization(tmpPos.getX(),tmpPos.getY());
-    	}else if (derivedType == DerivedPatternType.PARTICIPATION){
-    		editor.getDiagramManager().openDerivedTypePatternParticipation(tmpPos.getX(),tmpPos.getY());
-    	}else if(patternType == PatternType.DOMAIN_PATTERN){
-    		//Victor and Fabiano Domain Patterns
-    		editor.getDiagramManager().runDomainPattern(tmpPos.getX(),tmpPos.getY());
-    	}else{
-	    	//Victor trying to run some pattern
-	    	editor.getDiagramManager().runPattern(patternType, tmpPos.getX(),tmpPos.getY());
-    	}
+    	editor.cancelEditing();    	
     }
   }
 

@@ -2,7 +2,7 @@ package net.menthor.antipattern.wizard.freerole;
 
 import java.util.HashSet;
 
-import net.menthor.antipattern.Antipattern;
+import net.menthor.antipattern.application.Antipattern;
 import net.menthor.antipattern.freerole.FreeRoleOccurrence;
 
 import org.eclipse.jface.wizard.IWizardPage;

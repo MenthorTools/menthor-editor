@@ -337,7 +337,6 @@ public class ProjectManager extends BaseManager {
 	
 	public void openProject(String filePath) 
 	{
-		System.out.println("HEREEEEEE");
 		diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		try {
 			closeProject();

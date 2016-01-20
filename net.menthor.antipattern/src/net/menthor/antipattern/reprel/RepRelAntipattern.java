@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.menthor.antipattern.AntiPatternIdentifier;
-import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
+import net.menthor.antipattern.application.Antipattern;
 import net.menthor.antipattern.relspec.RelSpecAntipattern;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;

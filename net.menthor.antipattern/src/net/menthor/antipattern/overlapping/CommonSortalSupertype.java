@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import net.menthor.antipattern.Antipattern;
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.Antipattern;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.antipattern.wizard.overlapping.CommonSortalSupertypeComposite;
 
 import org.eclipse.swt.widgets.Composite;

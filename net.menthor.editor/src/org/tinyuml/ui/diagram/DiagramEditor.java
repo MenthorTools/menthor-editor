@@ -122,17 +122,15 @@ import net.menthor.editor.v2.editors.BaseEditor;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
-import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menu.PalettePopupMenu;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
 import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.util.Util;
 
@@ -951,46 +949,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void setDragElementMode(RefOntoUML.Type type, EObject eContainer)
 	{		
 		creationHandler.createNode(type,eContainer);
-		editorMode = creationHandler;
-	}
-		
-	public void setPatternCreationMode()
-	{
-		creationHandler.setPattern(DerivedPatternType.UNION);
-		editorMode = creationHandler;
-	}
-	
-	public void setPatternMode(PatternType elemType)
-	{
-		creationHandler.setPattern(elemType);
-		editorMode = creationHandler;
-	}
-	public void setPatternCreationModeEx()
-	{
-		creationHandler.setPattern(DerivedPatternType.EXCLUSION);
-		editorMode = creationHandler;
-	}
-	public void setPatternCreationModeIntersection()
-	{
-		creationHandler.setPattern(DerivedPatternType.INTERSECTION);
-		editorMode = creationHandler;
-	}
-	
-	public void setPatternCreationModeSpecialization()
-	{
-		creationHandler.setPattern(DerivedPatternType.SPECIALIZATION);
-		editorMode = creationHandler;
-	}
-	
-	public void setPatternCreationModePastSpecialization()
-	{
-		creationHandler.setPattern(DerivedPatternType.PASTSPECIALIZATION);
-		editorMode = creationHandler;
-	}
-	
-	public void setPatternCreationModeParticipation()
-	{
-		creationHandler.setPattern(DerivedPatternType.PARTICIPATION);
 		editorMode = creationHandler;
 	}
 	

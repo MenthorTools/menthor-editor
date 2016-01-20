@@ -3,8 +3,8 @@ package net.menthor.antipattern.asscyc;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
+import net.menthor.antipattern.application.Antipattern;
 import net.menthor.common.ontouml2directedgraph.EdgePath;
 import net.menthor.common.ontouml2directedgraph.Graph;
 import net.menthor.common.ontouml2graph.GraphAlgo;

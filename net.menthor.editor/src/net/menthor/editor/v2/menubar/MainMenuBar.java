@@ -130,14 +130,12 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(export, "XMI (.refontouml)", CommandType.EXPORT_TO_XMI, background);
 		createMenuItem(export, "UML2 (.uml)", CommandType.EXPORT_TO_UML, background);
 		createMenuItem(export, "Profile UML2 (.uml)", CommandType.EXPORT_TO_PROFILE_UML, background);
-		createMenuItem(export, "Ecore (.ecore)", CommandType.EXPORT_TO_ECORE, background);
-		createMenuItem(export, "Pattern (.menthor)", CommandType.EXPORT_AS_PATTERN, background);
+		createMenuItem(export, "Ecore (.ecore)", CommandType.EXPORT_TO_ECORE, background);		
 		file.addSeparator();
 		importation = new JMenu("Import From");
 		file.add(importation);
 		createMenuItem(importation, "XMI (.refontouml)", CommandType.IMPORT_FROM_XMI_EMF, background);
-		createMenuItem(importation, "EA (.xml)", CommandType.IMPORT_FROM_XMI_EA, background);
-		createMenuItem(importation, "Pattern (.menthor)", CommandType.IMPORT_FROM_PATTERN, background);		
+		createMenuItem(importation, "EA (.xml)", CommandType.IMPORT_FROM_XMI_EA, background);				
 		file.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
@@ -210,9 +208,7 @@ public class MainMenuBar extends BaseMenuBar {
 	private void createTransformationMenu(){
 		transformation = new JMenu("Transform");
 		add(transformation);		
-		createMenuItem(transformation, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);
-		transformation.addSeparator();
-		createMenuItem(transformation, "Information System (UML) - Beta!", CommandType.DESIGN_AS_INFO_UML, background);
+		createMenuItem(transformation, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);		
 		transformation.addSeparator();
 		createMenuItem(transformation, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
 		createMenuItem(transformation, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);

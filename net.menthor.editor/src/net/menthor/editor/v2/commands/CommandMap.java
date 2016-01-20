@@ -40,7 +40,6 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 public class CommandMap {
@@ -120,15 +119,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.EXPORT_TO_PROFILE_UML,
 				new MethodCall(DiagramManager.class.getMethod("exportToProfileUML")));		
 		cmdMap.put(CommandType.EXPORT_TO_XMI,
-				new MethodCall(DiagramManager.class.getMethod("exportToXMI")));
-		cmdMap.put(CommandType.EXPORT_AS_PATTERN,
-				new MethodCall(DiagramManager.class.getMethod("exportAsPattern")));
+				new MethodCall(DiagramManager.class.getMethod("exportToXMI")));		
 	}
 	
 	private void importation() throws NoSuchMethodException, SecurityException{
-	
-		cmdMap.put(CommandType.IMPORT_FROM_PATTERN,
-				new MethodCall(DiagramManager.class.getMethod("importFromPattern")));
+		
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
 				new MethodCall(DiagramManager.class.getMethod("importFromEA")));
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
@@ -362,8 +357,6 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("generateSbvr")));
 		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
 				new MethodCall(DiagramManager.class.getMethod("callGlossary")));		
-		cmdMap.put(CommandType.DESIGN_AS_INFO_UML, 
-				new MethodCall(DiagramManager.class.getMethod("generateInfoUML")));
 		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
 				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
 	}
@@ -447,57 +440,6 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.ASSOCIATION));
 		cmdMap.put(CommandType.TB_DND_STRUCTURATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.STRUCTURATION));
-		
-		cmdMap.put(CommandType.TB_DND_MIXIN_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.MIXIN));		
-		cmdMap.put(CommandType.TB_DND_MIXIN_WITH_SUBKIND_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.MIXIN_WITH_SUBKIND));		
-		cmdMap.put(CommandType.TB_DND_PHASE_PARTITION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.PHASE_PARTITION));
-		cmdMap.put(CommandType.TB_DND_SUBKIND_PARTITION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.SUBKIND_PARTITION));		
-		cmdMap.put(CommandType.TB_DND_ROLE_PARTITION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.ROLE_PARTITION));		
-		cmdMap.put(CommandType.TB_DND_GENERIC_RELATOR_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.GENERIC_RELATOR));		
-		cmdMap.put(CommandType.TB_DND_DEPENDENT_ROLEMIXIN_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.DEPENDENT_ROLEMIXIN));		
-		cmdMap.put(CommandType.TB_DND_KIND_PARTITION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.KIND_PARTITION));		
-		cmdMap.put(CommandType.TB_DND_COLLECTIVE_PARTITION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.COLLECTIVE_PARTITION));		
-		cmdMap.put(CommandType.TB_DND_QUANTITY_PARTITION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.QUANTITY_PARTITION));		
-		cmdMap.put(CommandType.TB_DND_CATEGORY_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.CATEGORY));		
-		cmdMap.put(CommandType.TB_DND_COMPLETER_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.COMPLETER));		
-		cmdMap.put(CommandType.TB_DND_ROLEMIXIN_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.ROLEMIXIN));		
-		cmdMap.put(CommandType.TB_DND_CHARACTERIZATION_PATTERN,
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.CHARACTERIZATION));		
-		cmdMap.put(CommandType.TB_DND_RIGID_WS_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.RIGID_WEAK_SUPPLEMENTATION));		
-		cmdMap.put(CommandType.TB_DND_ANTIRIGID_WS_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.ANTIRIGID_WEAK_SUPPLEMENTATION));		
-		cmdMap.put(CommandType.TB_DND_RELATOR_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.RELATOR));
-		
-		cmdMap.put(CommandType.TB_DND_DOMAIN_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternMode",PatternType.class),PatternType.DOMAIN_PATTERN));
-		
-		cmdMap.put(CommandType.TB_DND_UNION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationMode")));
-		cmdMap.put(CommandType.TB_DND_EXCLUSION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModeEx")));				
-		cmdMap.put(CommandType.TB_DND_SPECIALIZATION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModeSpecialization")));				
-		cmdMap.put(CommandType.TB_DND_INTERSECTION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModeIntersection")));				
-		cmdMap.put(CommandType.TB_DND_PASTSPECIALIZATION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModePastSpecialization")));				
-		cmdMap.put(CommandType.TB_DND_PARTICIPATION_PATTERN, 
-				new MethodCall(DiagramEditor.class.getMethod("setPatternCreationModeParticipation")));
 	}
 	
 	private void additions() throws NoSuchMethodException, SecurityException{
@@ -584,19 +526,6 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_CONSTRAINT, 
 				new MethodCall(AdditionManager.class.getMethod("addConstraintx",RefOntoUML.Element.class)));
 		
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_UNION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByUnion")));				
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_EXCLUSION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByExclusion")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_SPECIALIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveBySpecialization")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_INTERSECTION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByIntersection")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_PAST_SPECIALIZATION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByPastSpecialization")));
-		cmdMap.put(CommandType.ADD_DERIVATION_BY_PARTICIPATION, 
-				new MethodCall(DiagramManager.class.getMethod("deriveByParticipation")));
-		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
 				new MethodCall(DiagramManager.class.getMethod("newDiagramAt", Object.class)));
 		cmdMap.put(CommandType.ADD_RULES_DOCUMENT, 
@@ -665,23 +594,4 @@ public class CommandMap {
 		cmdMap.put(CommandType.INVERT_END_TYPES, 
 				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",RefOntoUML.Association.class)));
 	}
-	
-//		selectorMap.put("LANGUAGE_GENERALIZATION_SPECIALIZATION", new MethodCall(
-//				getClass().getMethod("runPatternByMenu",ElementType.class),ElementType.GENERALIZATIONSPECIALIZATION));
-//
-//		selectorMap.put("LANGUAGE_PARTITION_PATTERN", new MethodCall(
-//				getClass().getMethod("runPatternByMenu",ElementType.class),ElementType.PARTITIONPATTERN));
-//		
-//		selectorMap.put("ADD_SUPERTYPE", new MethodCall(
-//				getClass().getMethod("runPatternByMenu",ElementType.class),ElementType.ADDSUPERTYPE));
-//		
-//		selectorMap.put("ADD_SUBTYPE", new MethodCall(
-//				getClass().getMethod("runPatternByMenu",ElementType.class),ElementType.ADDSUBTYPE));
-//			
-//		public void runPatternByMenu(PatternType type)
-//		{
-//			if (manager.isProjectLoaded()==false) return;
-//			manager.runPattern(type, 0, 0);
-//		}		
-
 }

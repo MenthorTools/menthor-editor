@@ -2,8 +2,8 @@ package net.menthor.antipattern.binover;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.Antipattern;
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.Antipattern;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.antipattern.overlapping.CommonMixinSubtype;
 import net.menthor.antipattern.overlapping.CommonMixinSupertype;
 import net.menthor.antipattern.overlapping.CommonSortalSupertype;

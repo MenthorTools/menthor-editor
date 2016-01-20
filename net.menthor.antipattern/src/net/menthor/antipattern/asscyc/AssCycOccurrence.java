@@ -3,7 +3,7 @@ package net.menthor.antipattern.asscyc;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.antipattern.util.AlloyConstructor;
 import net.menthor.antipattern.util.SourceTargetAssociation;
 

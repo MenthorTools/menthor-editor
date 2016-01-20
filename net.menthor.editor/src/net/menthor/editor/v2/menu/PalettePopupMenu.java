@@ -31,8 +31,6 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.DerivedPatternType;
-import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 public class PalettePopupMenu extends BasePopupMenu {
@@ -45,40 +43,7 @@ public class PalettePopupMenu extends BasePopupMenu {
 	
 	public PalettePopupMenu(CommandListener listener){
 		super(listener);
-	
-		BaseMenu derived = new BaseMenu(listener,"Derived Pattern");
-		add(derived);		
-		derived.createMenuItem(DerivedPatternType.UNION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_UNION_PATTERN);
-		derived.createMenuItem(DerivedPatternType.EXCLUSION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_EXCLUSION_PATTERN);
-		derived.createMenuItem(DerivedPatternType.INTERSECTION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_INTERSECTION_PATTERN);
-		derived.createMenuItem(DerivedPatternType.SPECIALIZATION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_SPECIALIZATION_PATTERN);
-		derived.createMenuItem(DerivedPatternType.PASTSPECIALIZATION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_PASTSPECIALIZATION_PATTERN);
-		derived.createMenuItem(DerivedPatternType.PARTICIPATION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_PARTICIPATION_PATTERN);
-		derived.sort();
-		
-		addSeparator();
-		
-		BaseMenu pattern = new BaseMenu(listener,"Pattern");
-		add(pattern);		
-		pattern.createMenuItem(PatternType.ANTIRIGID_WEAK_SUPPLEMENTATION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_ANTIRIGID_WS_PATTERN);
-		pattern.createMenuItem(PatternType.CATEGORY.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_CATEGORY_PATTERN);
-		pattern.createMenuItem(PatternType.CHARACTERIZATION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_CHARACTERIZATION_PATTERN);
-		pattern.createMenuItem(PatternType.COLLECTIVE_PARTITION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_COLLECTIVE_PARTITION_PATTERN);
-		pattern.createMenuItem(PatternType.COMPLETER.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_COMPLETER_PATTERN);
-		pattern.createMenuItem(PatternType.DEPENDENT_ROLEMIXIN.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_DEPENDENT_ROLEMIXIN_PATTERN);
-		pattern.createMenuItem(PatternType.GENERIC_RELATOR.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_GENERIC_RELATOR_PATTERN);
-		pattern.createMenuItem(PatternType.KIND_PARTITION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_KIND_PARTITION_PATTERN);
-		pattern.createMenuItem(PatternType.MIXIN.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_MIXIN_PATTERN);
-		pattern.createMenuItem(PatternType.MIXIN_WITH_SUBKIND.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_MIXIN_WITH_SUBKIND_PATTERN);
-		pattern.createMenuItem(PatternType.PHASE_PARTITION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_PHASE_PARTITION_PATTERN);		
-		pattern.createMenuItem(PatternType.QUANTITY_PARTITION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_QUANTITY_PARTITION_PATTERN);
-		pattern.createMenuItem(PatternType.RELATOR.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_RELATOR_PATTERN);
-		pattern.createMenuItem(PatternType.RIGID_WEAK_SUPPLEMENTATION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_RIGID_WS_PATTERN);
-		pattern.createMenuItem(PatternType.ROLE_PARTITION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_ROLE_PARTITION_PATTERN);
-		pattern.createMenuItem(PatternType.ROLEMIXIN.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_ROLEMIXIN_PATTERN);
-		pattern.createMenuItem(PatternType.SUBKIND_PARTITION.getName(), IconType.MENTHOR_PATTERN, CommandType.TB_DND_SUBKIND_PARTITION_PATTERN);
-		pattern.sort();
-		
+				
 		classes.add(createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_KIND, false));
 		classes.add(createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_SUBKIND, false));
 		classes.add(createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_COLLECTIVE, false));

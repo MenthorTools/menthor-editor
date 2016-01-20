@@ -3,6 +3,7 @@ package net.menthor.editor.ui;
 import java.util.ArrayList;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.antipattern.application.AntiPatternList;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;

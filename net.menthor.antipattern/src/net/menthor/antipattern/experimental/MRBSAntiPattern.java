@@ -3,11 +3,10 @@ package net.menthor.antipattern.experimental;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.AntipatternOccurrence;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 
 public class MRBSAntiPattern extends AntipatternOccurrence {
 		

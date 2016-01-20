@@ -2,8 +2,8 @@ package net.menthor.antipattern.overlapping;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.Antipattern;
-import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.application.Antipattern;
+import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.antipattern.partover.PartOverOccurrence;
 import net.menthor.antipattern.relover.RelOverOccurrence;
 import net.menthor.antipattern.wholeover.WholeOverOccurrence;

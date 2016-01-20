@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import net.menthor.antipattern.AntipatternOccurrence;
-
 import org.eclipse.jface.wizard.Wizard;
+
+import net.menthor.antipattern.application.AntipatternOccurrence;
 
 /**
  * @author Tiago Sales
