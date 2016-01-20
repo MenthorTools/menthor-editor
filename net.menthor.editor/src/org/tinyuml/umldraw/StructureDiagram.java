@@ -86,8 +86,8 @@ import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.OccurenceManager;
 
 /**
  * This class implements the effective layout area. It shows the boundaries of
@@ -181,7 +181,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 				if (assocElem.getRelationship() ==null) {
 					System.err.println("Draw Exception: Association Element "+assocElem+" cannot be drawed! Cause: null relationship. ");
 					System.err.print("Fixing the problem... ");
-					if(ElementMapper.remove(assocElem)) System.err.print("Association Element "+assocElem+" removed. ");
+					if(OccurenceManager.get().remove(assocElem)) System.err.print("Association Element "+assocElem+" removed. ");
 					else System.err.print("Association Element "+assocElem+" ignored. ");
 					iter.remove();
 				} 
@@ -192,7 +192,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 				if (genElem.getRelationship() ==null) {
 					System.err.println("Draw Exception: Generalization Element "+genElem+" cannot be drawed! Cause: null generalization. ");
 					System.err.print("Fixing the problem... ");
-					if(ElementMapper.remove(genElem)) System.err.print("Generalization Element "+genElem+" removed. ");
+					if(OccurenceManager.get().remove(genElem)) System.err.print("Generalization Element "+genElem+" removed. ");
 					else System.err.print("Generalization Element "+genElem+" ignored. ");
 					iter.remove();
 				}

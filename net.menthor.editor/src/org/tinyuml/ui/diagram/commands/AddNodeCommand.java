@@ -36,7 +36,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
-import net.menthor.editor.ui.ElementMapper;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
@@ -66,7 +66,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		this.element = element;		
 		this.eContainer = eContainer;
 		if(((DiagramEditor)notification)!=null){
-			this.diagramElement = ElementMapper.getDiagramElementByDiagram(element,((DiagramEditor)notification).getDiagram());
+			this.diagramElement = OccurenceManager.get().getDiagramElement(element,((DiagramEditor)notification).getDiagram());
 		}
 		if(this.diagramElement==null) {
 			if(element instanceof RefOntoUML.Class || element instanceof RefOntoUML.Association || element instanceof RefOntoUML.DataType || element instanceof RefOntoUML.Generalization)
@@ -92,7 +92,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		
 		if(addToDiagram && diagramElement != null){
 			parent.removeChild(diagramElement);			
-			ElementMapper.remove(diagramElement);
+			OccurenceManager.get().remove(diagramElement);
 		}		
 		
 		if(notification!=null){
@@ -122,7 +122,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		
 		if(addToDiagram && diagramElement !=null){			
 			addToDiagram(diagramElement,redo);
-			ElementMapper.add(element, ((ClassElement)diagramElement));
+			OccurenceManager.get().add(element, ((ClassElement)diagramElement));
 			list.add(diagramElement);
 		}		
 		

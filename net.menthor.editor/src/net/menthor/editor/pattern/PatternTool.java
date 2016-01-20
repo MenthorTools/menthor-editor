@@ -5,8 +5,8 @@ import org.eclipse.swt.widgets.Display;
 import RefOntoUML.Classifier;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.types.PatternType;
 import net.menthor.editor.v2.util.Util;
@@ -181,7 +181,7 @@ public class PatternTool {
 	 * */
 	public static void runModelCompleter(final DiagramManager diagramManager, final Classifier elem, final double x, final double y) {
 		//Needs to rename the class
-		diagramManager.renameElement(elem);
+		ChangeManager.get().renameElement(elem);
 
 		if(Util.onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	

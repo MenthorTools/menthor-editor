@@ -66,9 +66,7 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.SelectionListener;
-import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -77,11 +75,9 @@ import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
-import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
-import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLElementCustom;
@@ -125,6 +121,8 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
@@ -457,7 +455,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 					return ((DiagramWrapper)c).getDiagramEditor();
 			}
 		}
-		return new DiagramEditor(getFrame(),this,diagram);
+		DiagramEditor editor = new DiagramEditor(getFrame(),this,diagram);
+		editor.addEditorStateListener(this);
+		editor.addSelectionListener(this);
+		editor.addAppCommandListener(this.getCommandListener());	
+		return editor;
 	}
 	
 	/** Get the diagram editor which encapsulates this ocl document */
@@ -725,9 +727,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	//====================================================
 	
 	public void rename(Object obj){		
-		if (obj instanceof StructureDiagram) renameDiagram((StructureDiagram)obj);		
-		else if (obj instanceof OclDocument) renameOclDocument((OclDocument)obj);							
-		else if (obj instanceof RefOntoUML.Element) renameElement((RefOntoUML.Element)obj);		
+		if (obj instanceof StructureDiagram) ChangeManager.get().renameDiagram((StructureDiagram)obj);		
+		else if (obj instanceof OclDocument) ChangeManager.get().renameOclDocument((OclDocument)obj);							
+		else if (obj instanceof RefOntoUML.Element) ChangeManager.get().renameElement((RefOntoUML.Element)obj);		
 	}
 	
 	//====================================================
@@ -853,7 +855,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	public void findInDiagrams(Object element){
-		List<OntoumlDiagram> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagrams((RefOntoUML.Element)element);
+		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams((RefOntoUML.Element)element);
 		DiagramListDialog.open(ProjectBrowser.frame, diagrams);		
 	}
 	
@@ -893,55 +895,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return result;
 	}
 	
-	/** Rename diagram */
-	public void renameDiagram(final StructureDiagram diagram)
-	{
-		String text = new String();    						
-		text = (String)JOptionPane.showInputDialog(ProjectBrowser.frame,"Please, enter the new name:","Rename Diagram",JOptionPane.INFORMATION_MESSAGE,null,null,diagram.getName());    						
-		final String newtext = text;		
-		if(text!=null)
-		{
-			if(getDiagramNames().contains(text)){
-				//diagram name must be unique
-			}else{
-				SwingUtilities.invokeLater(new Runnable() {				
-					@Override
-					public void run() {
-						diagram.setName(newtext);
-						int index = getTabIndex(diagram);					
-						if(index>=0) setTitleAt(index, newtext);			        
-						updateUI();
-						getFrame().getProjectBrowser().refresh();				        
-					}
-				});				
-			}
-		}		
-	}
 	
-	/** Rename OCL document */
-	public void renameOclDocument(final OclDocument oclDoc)
-	{
-		String text = new String();    						
-		text = (String)JOptionPane.showInputDialog(ProjectBrowser.frame,"Please, enter the new name:","Rename OCL Document",JOptionPane.INFORMATION_MESSAGE,null,null,oclDoc.getName());    						
-		final String newtext = text;
-		if(text!=null)
-		{
-			if(getOclDocumentNames().contains(text)){
-				// ocl document name must be unique
-			}else{
-				SwingUtilities.invokeLater(new Runnable() {				
-					@Override
-					public void run() {
-						oclDoc.setName(newtext);
-						int index = getTabIndex(oclDoc);					
-						if(index>=0) setTitleAt(index, newtext);			        
-				        getFrame().getProjectBrowser().refresh();	
-				        updateUI();
-					}
-				});
-			}
-		}		
-	}
 	
 	/** Verifies if this diagram is already opened in a tab. */
 	public boolean isDiagramOpened (StructureDiagram diagram)
@@ -1010,7 +964,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		editor.addAppCommandListener(listener);
 		// Add all the diagram elements of 'diagram' to the ModelHelper mapping.
 		// Keeps trace of mappings between DiagramElement <-> Element.
-		ElementMapper.addMapping(editor.getDiagram());
+		OccurenceManager.get().add(editor.getDiagram());
 		//Add the diagram to the tabbed pane (this), through the wrapper
 		DiagramWrapper wrapper = new DiagramWrapper(editor, listener);
 		editor.setWrapper(wrapper);
@@ -1220,30 +1174,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return gens;
 	}
 	
-	/** Rename an element. It updates the application accordingly (including the diagrams in which the element appears). It also shows a input dialog for text entry. */
-	public void renameElement(RefOntoUML.Element element)
-	{
-		if (element instanceof NamedElement) 
-		{
-			String value = new String();    						
-			value = (String)JOptionPane.showInputDialog(ProjectBrowser.frame,"Please, enter the new name:","Rename Element ",JOptionPane.INFORMATION_MESSAGE,null,null,((NamedElement)element).getName());    						
-			if(value!=null)
-			{
-				((NamedElement)element).setName(value);
-				ArrayList<DiagramEditor> editors = ProjectBrowser.frame.getDiagramManager().getDiagramEditors(element);
-				List<DiagramElement> dElemList = ElementMapper.getDiagramElements(element);
-				for(DiagramElement dElem: dElemList)
-				{
-					if (dElem instanceof ClassElement)
-					{
-						SetLabelTextCommand cmd = new SetLabelTextCommand((DiagramNotification)editors.get(0),((ClassElement)dElem).getMainLabel(),value);
-						cmd.run();
-					}
-				}
-				UpdateManager.get().updateFromChange(element, false);
-			}
-		}   
-	}	
+	
 			
 	public void editProperties(Object element)
 	{
@@ -1265,12 +1196,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
     		ElementDialogCaller.openDialog(e, frame);
     	}
 	}
-	
-	
-
-
-	
-	
 	
 	/** Strictly find by name */
 	public ArrayList<FoundElement> strictlyFindByName(String text)
@@ -1787,77 +1712,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 //		}				
 	}
 
-	/**
-	 * Gets all DiagramEditors that contains a given element. 
-	 * Some of them might appear opened in the Tab but others don't.
-	 */
-	public ArrayList<DiagramEditor> getDiagramEditors(RefOntoUML.Element element)
-	{
-		ArrayList<DiagramEditor> list = new ArrayList<DiagramEditor>();
-		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams())
-		{
-			if(d instanceof StructureDiagram)
-			{
-				StructureDiagram diagram = (StructureDiagram)d;
-				List<DiagramElement> elemList=new ArrayList<DiagramElement>();
-				if(element instanceof Property){
-					elemList = ElementMapper.getDiagramElements((RefOntoUML.Element)element.eContainer());
-				}else if(element instanceof EnumerationLiteral){
-					elemList = ElementMapper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
-				}else if (element instanceof GeneralizationSet){
-					for(Generalization gen: ((RefOntoUML.GeneralizationSet)element).getGeneralization()){
-						elemList = ElementMapper.getDiagramElements(gen);
-					}
-				}else{
-					elemList = ElementMapper.getDiagramElements(element);
-				}
-				for(DiagramElement elem: elemList){
-					if (diagram.containsChild(elem)) {
-						DiagramEditor editor = getDiagramEditor(diagram);						
-						editor.addEditorStateListener(this);
-						editor.addSelectionListener(this);
-						editor.addAppCommandListener(listener);						
-						list.add(editor);
-					}	
-				}				
-			}
-		}
-		return list;
-	}
 	
-	/**
-	 * Gets all Diagrams that contains a given element. 
-	 * Some of them might appear opened in the Tab but others don't.
-	 */
-	public List<OntoumlDiagram> getDiagrams(RefOntoUML.Element element)
-	{
-		ArrayList<OntoumlDiagram> list = new ArrayList<OntoumlDiagram>();
-		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams())
-		{
-			if(d instanceof StructureDiagram)
-			{
-				StructureDiagram diagram = (StructureDiagram)d;
-				List<DiagramElement> elemList=new ArrayList<DiagramElement>();
-				if(element instanceof Property){
-					elemList = ElementMapper.getDiagramElements((RefOntoUML.Element)element.eContainer());
-				}else if(element instanceof EnumerationLiteral){
-					elemList = ElementMapper.getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
-				}else if (element instanceof GeneralizationSet){
-					for(Generalization gen: ((RefOntoUML.GeneralizationSet)element).getGeneralization()){
-						elemList = ElementMapper.getDiagramElements(gen);
-					}
-				}else{
-					elemList = ElementMapper.getDiagramElements(element);
-				}
-				for(DiagramElement elem: elemList){
-					if (diagram.containsChild(elem)) {											
-						list.add(diagram);
-					}	
-				}				
-			}
-		}
-		return list;
-	}
 		
 	private Editor getEditorForProject(UmlProject project, EditorType nature)
 	{

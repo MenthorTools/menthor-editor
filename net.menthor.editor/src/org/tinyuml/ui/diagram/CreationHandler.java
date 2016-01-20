@@ -1,3 +1,4 @@
+
 package org.tinyuml.ui.diagram;
 
 /**
@@ -24,7 +25,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import net.menthor.editor.ui.ElementMapper;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -112,7 +113,7 @@ public class CreationHandler implements EditorMode {
     classType = stereotype;
     element = editor.getDiagramManager().getElementFactory().createNode(classType,editor.getDiagram());
     //Add mapping from the refontouml element to the diagram element
-    ElementMapper.add(((ClassElement)element).getClassifier(), element);    
+    OccurenceManager.get().add(((ClassElement)element).getClassifier(), element);    
     element.setParent(editor.getDiagram());    
     cachedBounds = null;    
     return element;
@@ -123,7 +124,7 @@ public class CreationHandler implements EditorMode {
     dataType = stereotype;
     element = editor.getDiagramManager().getElementFactory().createNode(dataType,editor.getDiagram());
     //Add mapping from the refontouml element to the diagram element
-    ElementMapper.add(((ClassElement)element).getClassifier(), element);	    
+    OccurenceManager.get().add(((ClassElement)element).getClassifier(), element);	    
     element.setParent(editor.getDiagram());	    
     cachedBounds = null;	    
     return element;
@@ -138,7 +139,7 @@ public class CreationHandler implements EditorMode {
 	}
     element = editor.getDiagramManager().getElementFactory().createNode(type,eContainer,editor.getDiagram());    
     //Add mapping from the refontouml element to the diagram element
-    ElementMapper.add(((ClassElement)element).getClassifier(), element);    
+    OccurenceManager.get().add(((ClassElement)element).getClassifier(), element);    
     element.setParent(editor.getDiagram());
     cachedBounds = null;
     
@@ -149,7 +150,7 @@ public class CreationHandler implements EditorMode {
     classType = stereotype;
     element = editor.getDiagramManager().getElementFactory().createNode(classType,editor.getDiagram());
     //Add mapping from the refontouml element to the diagram element
-    ElementMapper.add(((ClassElement)element).getClassifier(), element);    
+    OccurenceManager.get().add(((ClassElement)element).getClassifier(), element);    
     if(((ClassElement)element).getClassifier() != null){
 		  RefOntoUML.Classifier classifier = (RefOntoUML.Classifier)((ClassElement)element).getClassifier();
 		  classifier.setName(((RefOntoUML.Classifier)type).getName());
@@ -164,7 +165,7 @@ public class CreationHandler implements EditorMode {
 	  dataType = stereotype;
     element = editor.getDiagramManager().getElementFactory().createNode(dataType,editor.getDiagram());
     //Add mapping from the refontouml element to the diagram element
-    ElementMapper.add(((ClassElement)element).getClassifier(), element);    
+    OccurenceManager.get().add(((ClassElement)element).getClassifier(), element);    
     if(((ClassElement)element).getClassifier() != null){
 		  RefOntoUML.Classifier classifier = (RefOntoUML.Classifier)((ClassElement)element).getClassifier();
 		  classifier.setName(((RefOntoUML.Classifier)type).getName());

@@ -43,7 +43,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.impl.GeneralizationImpl;
-import net.menthor.editor.ui.ElementMapper;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
@@ -76,7 +76,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		if (notification!=null) diagramElement = ElementMapper.getDiagramElementByDiagram(relationship,((DiagramEditor)notification).getDiagram());
+		if (notification!=null) diagramElement = OccurenceManager.get().getDiagramElement(relationship,((DiagramEditor)notification).getDiagram());
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		
 		if(addToDiagram && diagramElement!=null){				
 			parent.removeChild(diagramElement);
-			ElementMapper.remove(diagramElement);
+			OccurenceManager.get().remove(diagramElement);
 			
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
@@ -118,7 +118,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		if(addToDiagram && diagramElement != null)
 		{			
 			addToDiagram(redo);
-			ElementMapper.add(relationship, diagramElement);	
+			OccurenceManager.get().add(relationship, diagramElement);	
 			list.add(diagramElement);
 		}
 		

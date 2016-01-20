@@ -34,6 +34,8 @@ import net.menthor.editor.v2.edit.AssociationEditDialog;
 import net.menthor.editor.v2.edit.ClassEditDialog;
 import net.menthor.editor.v2.edit.GeneralizationEditDialog;
 import net.menthor.editor.v2.edit.GeneralizationSetEditDialog;
+import net.menthor.editor.v2.managers.OccurenceManager;
+
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
@@ -64,7 +66,7 @@ public class ElementDialogCaller {
 		}else{
 			diagram = diagEditor.getDiagram();
 		}
-		DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram((RefOntoUML.Element)element,diagram);
+		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element,diagram);
 		GeneralizationEditDialog dialog = new GeneralizationEditDialog(frame, (GeneralizationElement)diagramElement,(RefOntoUML.Generalization)element,true);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
@@ -83,7 +85,7 @@ public class ElementDialogCaller {
 			}else{
 				diagram = diagEditor.getDiagram();
 			}	
-			DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram(context,diagram);
+			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(context,diagram);
 			ClassEditDialog dialog = new ClassEditDialog(frame,(ClassElement)diagramElement,(RefOntoUML.Classifier)context,true);
 			dialog.setLocationRelativeTo(frame);			
 			dialog.selectTab(2); 
@@ -103,7 +105,7 @@ public class ElementDialogCaller {
 			diagram = diagEditor.getDiagram();
 		}	
 		if (element.eContainer() instanceof RefOntoUML.Class){
-			DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram((RefOntoUML.Element)element.eContainer(),diagram);
+			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element.eContainer(),diagram);
 			ClassEditDialog dialog = new ClassEditDialog(frame,(ClassElement)diagramElement, (RefOntoUML.Classifier)element.eContainer(), true);
 			dialog.setLocationRelativeTo(frame);			
 			if (element instanceof RefOntoUML.Comment) dialog.selectTab(1);
@@ -111,7 +113,7 @@ public class ElementDialogCaller {
 			return dialog;
 		}
 		if (element.eContainer() instanceof RefOntoUML.Association){
-			DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram((RefOntoUML.Element)element.eContainer(),diagram);
+			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element.eContainer(),diagram);
 			AssociationEditDialog dialog = new AssociationEditDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element.eContainer(), true);
 			dialog.setLocationRelativeTo(frame);			                			 
 			if (element instanceof RefOntoUML.Comment) dialog.selectTab(3);
@@ -130,7 +132,7 @@ public class ElementDialogCaller {
 		}else{
 			diagram = diagEditor.getDiagram();
 		}		
-		DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram(element,diagram);
+		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);
 		AssociationEditDialog dialog = new AssociationEditDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)element, true);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
@@ -148,7 +150,7 @@ public class ElementDialogCaller {
 			diagram = diagEditor.getDiagram();
 		}
 		if (p.getAssociation()!=null){
-			DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram(p.getAssociation(),diagram);
+			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(p.getAssociation(),diagram);
 			AssociationEditDialog dialog = new AssociationEditDialog(frame, (AssociationElement)diagramElement, (RefOntoUML.Relationship)p.getAssociation(), true);
 			dialog.setLocationRelativeTo(frame);			
 			if(p.getAssociation().getMemberEnd().get(0).equals(p)) dialog.selectTab(1);
@@ -156,7 +158,7 @@ public class ElementDialogCaller {
 			dialog.setVisible(true);
 			return dialog;
 		}else{
-			DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram((RefOntoUML.Element)p.eContainer(),diagram);
+			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)p.eContainer(),diagram);
 			ClassEditDialog dialog = new ClassEditDialog(frame, (ClassElement)diagramElement,(RefOntoUML.Classifier)p.eContainer(),true);
 			dialog.setLocationRelativeTo(frame);			
 			dialog.selectTab(0);
@@ -174,7 +176,7 @@ public class ElementDialogCaller {
 		}else{
 			diagram = diagEditor.getDiagram();
 		}
-		DiagramElement diagramElement = ElementMapper.getDiagramElementByDiagram(element,diagram);
+		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);
 		ClassEditDialog dialog = new ClassEditDialog(frame, (ClassElement)diagramElement, (RefOntoUML.Classifier)element, true);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);

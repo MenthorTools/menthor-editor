@@ -16,6 +16,8 @@ public class BaseManager {
 	protected DiagramElementFactoryImpl factory;
 	protected InfoManager infoManager;
 	
+	public DiagramManager getDiagramManager() { return diagramManager; }
+	
 	public void setup(DiagramManager mg, ProjectBrowser pb, InfoManager im){
 		browser = pb;
 		diagramManager = mg;

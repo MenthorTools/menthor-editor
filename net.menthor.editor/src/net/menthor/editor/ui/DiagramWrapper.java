@@ -33,6 +33,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.status.StatusPane;
 import net.menthor.editor.v2.toolbar.DiagramToolBar;
 import net.menthor.editor.v2.trees.DiagramDropListener;
@@ -96,7 +97,7 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 	}
 	
 	public boolean contains(RefOntoUML.Element element){
-		return editor.getDiagram().containsChild(ElementMapper.getDiagramElementByDiagram(element,editor.getDiagram()));
+		return editor.getDiagram().containsChild(OccurenceManager.get().getDiagramElement(element,editor.getDiagram()));
 	}
 	
 	@Override

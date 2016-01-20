@@ -23,7 +23,6 @@ import RefOntoUML.MaterialAssociation;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 
 public class MoveManager extends BaseManager {
@@ -54,7 +53,7 @@ public class MoveManager extends BaseManager {
 				diagramManager.getFrame().showInformationMessageDialog(
 					"Move Manager", element+" already exists in diagram "+d.getDiagram().getName());
 			}
-			DiagramElement de = ElementMapper.getDiagramElementByDiagram(element, d.getDiagram());
+			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if(de!=null) d.select(de);
 			return;			
 		}
@@ -76,8 +75,8 @@ public class MoveManager extends BaseManager {
 			if (gen.getGeneralizationSet().size()>0){
 				Classifier general = gen.getGeneral();
 				Classifier specific = gen.getSpecific();
-				ClassElement generalElem = (ClassElement)ElementMapper.getDiagramElementByDiagram(general, d.getDiagram());
-				ClassElement specificElem = (ClassElement)ElementMapper.getDiagramElementByDiagram(specific, d.getDiagram());
+				ClassElement generalElem = (ClassElement)OccurenceManager.get().getDiagramElement(general, d.getDiagram());
+				ClassElement specificElem = (ClassElement)OccurenceManager.get().getDiagramElement(specific, d.getDiagram());
 				if (generalElem.getAbsoluteY1() < specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
 				else if (generalElem.getAbsoluteY1() > specificElem.getAbsoluteY1()) d.setLineStyle(conn, LineStyle.TREESTYLE_VERTICAL);
 				else d.setLineStyle(conn, LineStyle.TREESTYLE_HORIZONTAL);

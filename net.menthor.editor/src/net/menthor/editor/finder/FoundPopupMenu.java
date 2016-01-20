@@ -32,6 +32,7 @@ import net.menthor.editor.ui.ElementDialogCaller;
 import net.menthor.editor.ui.ProjectBrowser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.ui.DiagramListDialog;
 
 import org.eclipse.emf.ecore.EObject;
@@ -83,7 +84,7 @@ public class FoundPopupMenu extends JPopupMenu {
 		findInDiagramMenuItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {	
-				List<OntoumlDiagram> diagrams = ProjectBrowser.frame.getDiagramManager().getDiagrams((Element)context.getElement());
+				List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams((Element)context.getElement());
 				DiagramListDialog.open((CommandListener)ProjectBrowser.frame, diagrams);
 			}
 		});

@@ -23,9 +23,7 @@ import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
 
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
-
 import net.menthor.editor.v2.OclDocument;
 
 public class DeletionManager extends BaseManager {
@@ -132,7 +130,7 @@ public class DeletionManager extends BaseManager {
 	/** Delete elements from the model and from every diagram they might appear. 
 	 *  It shows a message before deletion. */
 	public void deleteElements(Collection<DiagramElement> diagramElements, boolean showmessage){	
-		List<RefOntoUML.Element> list = (List<Element>) ElementMapper.getElements(diagramElements);
+		List<RefOntoUML.Element> list = (List<Element>) OccurenceManager.get().getElements(diagramElements);
 		int response = Window.OK;
 		if(showmessage) response = confirmElementDeletion(diagramManager);
 		if(response==Window.OK) deleteElements(list);		
@@ -140,7 +138,7 @@ public class DeletionManager extends BaseManager {
 	
 	/** Delete element from the model and from every diagram they might appear. **/
 	public void deleteElements(List<RefOntoUML.Element> elements){
-		List<DiagramEditor> editors = diagramManager.getDiagramEditors(elements.get(0));		
+		List<DiagramEditor> editors = OccurenceManager.get().getDiagramEditors(elements.get(0));		
 		for(DiagramEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
 				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();

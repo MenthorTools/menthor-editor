@@ -22,7 +22,7 @@ package org.tinyuml.ui.diagram;
 
 import java.awt.geom.Point2D;
 
-import net.menthor.editor.ui.ElementMapper;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.types.RelationshipType;
 
 import org.eclipse.emf.ecore.EObject;
@@ -205,7 +205,7 @@ public class LineHandler implements EditorMode {
 	  }
 	  if (conn!=null){
 		  //Add mapping from the refontouml element to the diagram element		  
-		  ElementMapper.add(((UmlConnection)conn).getRelationship(), conn);
+		  OccurenceManager.get().add(((UmlConnection)conn).getRelationship(), conn);
 	  }
 	  return conn;
   }
@@ -256,7 +256,7 @@ public class LineHandler implements EditorMode {
 	  }
 	  if (conn!=null){
 		  //Add mapping from the refontouml element to the diagram element		  
-		  ElementMapper.add(((UmlConnection)conn).getRelationship(), conn);		  
+		  OccurenceManager.get().add(((UmlConnection)conn).getRelationship(), conn);		  
 	  }
 	  return conn;
   }
@@ -351,8 +351,8 @@ public class LineHandler implements EditorMode {
 	  
 	  if(sourceType!=null && targetType!=null){
 		  
-		  DiagramElement source = ElementMapper.getDiagramElementByDiagram(sourceType,editor.getDiagram());
-		  DiagramElement target = ElementMapper.getDiagramElementByDiagram(targetType,editor.getDiagram());
+		  DiagramElement source = OccurenceManager.get().getDiagramElement(sourceType,editor.getDiagram());
+		  DiagramElement target = OccurenceManager.get().getDiagramElement(targetType,editor.getDiagram());
 	    
 		  if(source!=null && target !=null)
 		  {

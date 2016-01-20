@@ -46,6 +46,7 @@ import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.FilterManager;
 import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.TransferManager;
@@ -156,6 +157,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	}
 
 	private void installManagers(){
+		OccurenceManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		DeletionManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		MoveManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		AdditionManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());

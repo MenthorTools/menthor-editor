@@ -25,6 +25,7 @@ import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectReader;
 import net.menthor.editor.ui.ProjectWriter;
 import net.menthor.editor.ui.UmlProject;
+
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.ui.StartPage;

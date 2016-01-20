@@ -21,7 +21,7 @@ Step 1. Import Menthor's source code into your machine/Eclipse
 Step 2. Configure SWT according to your OS
 
 Each OS will require a different version of the SWT library. 
-You'll need to set an variable to poitn to the version of SWT that matches with your operating system.
+You'll need to set a variable to point to the version of SWT that matches with your operating system.
 
 2.1 Open Eclipse>Preferences..
 2.2 Select Java>Build Path>Classpath Variables

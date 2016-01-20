@@ -20,7 +20,6 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.ui.ElementMapper;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.trees.ProjectTree;
 
@@ -31,7 +30,7 @@ public class UpdateManager extends BaseManager {
 	
 	/** Causes redraw of the corresponding diagram element */
 	public void notifyChange(RefOntoUML.Element element){
-		for(DiagramEditor diagramEditor: diagramManager.getDiagramEditors(element)){
+		for(DiagramEditor diagramEditor: OccurenceManager.get().getDiagramEditors(element)){
 			notifyChange(element,diagramEditor);
 		}
 	}
@@ -40,7 +39,7 @@ public class UpdateManager extends BaseManager {
 	public void notifyChange(RefOntoUML.Element element, DiagramEditor d)	{		
 		if (d!=null && !d.getDiagram().containsChild(element)) return;
 		if (d!=null) {
-			List<DiagramElement> diagramElements = ElementMapper.getDiagramElements(element);
+			List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
 			for(DiagramElement de: diagramElements){
 				if(de!=null){				
 					List<DiagramElement> list = new ArrayList<DiagramElement>();
