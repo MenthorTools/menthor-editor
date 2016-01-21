@@ -40,8 +40,7 @@ public class SplashScreen extends JDialog {
 	private JLabel splash_img;
 	private JLabel rightsLabel;
 	
-	public SplashScreen(String MENTHOR_VERSION, String MENTHOR_COMPILATION_DATE) {		
-		setAlwaysOnTop(true);
+	public SplashScreen(String MENTHOR_VERSION, String MENTHOR_COMPILATION_DATE) {	
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setUndecorated(true);
 		setResizable(false);		

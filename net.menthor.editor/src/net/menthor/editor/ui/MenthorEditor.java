@@ -22,10 +22,8 @@ package net.menthor.editor.ui;
  */
 
 import java.awt.Color;
-import java.io.File;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -83,47 +81,51 @@ public final class MenthorEditor {
 		UIManager.put("OptionPane.titleText","Title");
 	}
 	
+	/**
+	 * Check args if there is a Menthor project to open
+	 * If true, open it
+	 * 
+	 * @param args
+	 */
+	public static void checkAndOpenProject(final String[] args){
+		String menthorFileName = "";
+		for (String arg : args) {
+			if(arg.endsWith(".menthor")){
+				menthorFileName  = arg;
+				break;
+			}
+		}
+		if(!menthorFileName.equals("")){						
+			ProjectManager.get().openProject(menthorFileName);
+		}	
+	}
+	
 	/**  
 	 * The start method for this application.
 	 * @param args the command line parameters
 	 */
 	public static void main(final String[] args) 
 	{	
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {				
-				try {
-					setSystemProperties();					
-					UIFontUtil.setDefault();					
-					SWTConfigurer.execute(Directories.getBinDir());
-					
-					OwlSettingsMap.getInstance();
-					
-					//File alloyJarFile = Util.extractLib("alloy4.2.jar");
-					//System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
-					frame = new MainFrame();					
-					frame.setLocationByPlatform(true);					
-					String menthorFileName = "";
-					for (String arg : args) {
-						if(arg.endsWith(".menthor")){
-							menthorFileName  = arg;
-							break;
-						}
-					}
-					if(!menthorFileName.equals("")){						
-						ProjectManager.get().openProject(menthorFileName);
-					}					
-					frame.setVisible(true);
-					frame.toFront();	
-					
-					
-					
-					splashScreen.close();					
-				} catch (Exception ex) {
-					splashScreen.close();
-					JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
-					ex.printStackTrace();
-				}					
-			}			
-		});				
+		try {
+			setSystemProperties();					
+			UIFontUtil.setDefault();					
+			SWTConfigurer.execute(Directories.getBinDir());
+			
+			OwlSettingsMap.getInstance();
+			
+			//File alloyJarFile = Util.extractLib("alloy4.2.jar");
+			//System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
+			frame = new MainFrame();					
+			frame.setLocationByPlatform(true);					
+			checkAndOpenProject(args);					
+			frame.setVisible(true);
+			frame.toFront();	
+			
+			splashScreen.close();					
+		} catch (Exception ex) {
+			splashScreen.close();
+			JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
+		}		
 	}
 }
