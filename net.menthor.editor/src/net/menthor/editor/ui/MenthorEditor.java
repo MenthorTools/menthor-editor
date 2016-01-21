@@ -98,8 +98,8 @@ public final class MenthorEditor {
 					
 					OwlSettingsMap.getInstance();
 					
-					File alloyJarFile = Util.extractLib("alloy4.2.jar");
-					System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
+					//File alloyJarFile = Util.extractLib("alloy4.2.jar");
+					//System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
 					frame = new MainFrame();					
 					frame.setLocationByPlatform(true);					
 					String menthorFileName = "";
