@@ -1,4 +1,5 @@
 
+
 package net.menthor.editor.ui;
 
 /**
@@ -25,7 +26,6 @@ package net.menthor.editor.ui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -50,7 +50,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.emf.ecore.EObject;
@@ -66,20 +65,16 @@ import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.SelectionListener;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
-import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import RefOntoUML.util.RefOntoUMLElementCustom;
-import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.antipattern.application.AntiPatternSearchDialog;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
@@ -107,7 +102,6 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
@@ -116,11 +110,9 @@ import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.AboutDialog;
 import net.menthor.editor.v2.ui.DiagramListDialog;
 import net.menthor.editor.v2.ui.StartPage;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
-import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.EcoreWriter;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
@@ -129,7 +121,6 @@ import net.menthor.editor.v2.util.Util;
 import net.menthor.editor.v2.util.XMIWriter;
 import net.menthor.editor.validator.meronymic.ValidationDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -189,14 +180,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(closable)addClosable(pane,"Welcome", start);
 		else addNonClosable(pane,"Welcome", start);
 		return start;
-	}
-	
-	public void generateSbvr()
-	{
-		//workingOnlyWithChecked();
-		OntoUMLParser refparser = Models.getRefparser();
-		//RefOntoUML.Package model = refparser.createModelFromSelections(new Copier());
-		generateSbvr(refparser.getModel());
 	}
 			
 	public void searchInProject()
@@ -300,23 +283,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(this.getSelectedComponent() instanceof ConstraintEditor) return ((ConstraintEditor) this.getSelectedComponent());
 		return null;
 	}
-	
-	/** Open Link With Browser */
-	public void openLinkWithBrowser(String link)
-	{
-		Desktop desktop = Desktop.getDesktop();
-		if( !desktop.isSupported(Desktop.Action.BROWSE)){
-			System.err.println( "Desktop doesn't support the browse action (fatal)" );
-			return;
-		}
-		try {
-			java.net.URI uri = new java.net.URI(link);
-			desktop.browse(uri);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	
+		
 	/** Useful method: Verifies if the element is contained in the list */
 	public boolean contains (ArrayList<RefOntoUMLElementCustom> list, RefOntoUML.Element elem)
 	{
@@ -478,12 +445,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return -1;		
 	}
 	
-	/** Gets the file associated with the model. */
-	public File getCurrentProjectFile()
-	{
-		return ProjectManager.get().getProjectFile();
-	}
-
 	/** Gets the MainMenu from the application frame */
 	public MainMenuBar getMainMenu() 
 	{
@@ -635,18 +596,8 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 		
 	/** Verifies if there is a project opened/loaded. */
-	public boolean isProjectLoaded()
-	{
-		if (ProjectManager.get().getProject()==null) {
-			frame.showInformationMessageDialog("Menthor Project", "There is no Menthor Project opened");
-			return false;
-		}else{
-			return true;
-		}
-	}
-
 	
-
+	
 	public void setDefaultDiagramSize(StructureDiagram diagram)
 	{
 		double waste = 0;
@@ -657,92 +608,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	
 	//====================================================
 	// NEW DIAGRAM
-	//====================================================
-	
-	/** Creates a new diagram on the current Project */
-	public void newDiagram(){
-		StructureDiagram diagram = newDiagram(ProjectManager.get().getProject(),null);
-		saveDiagramNeeded(diagram,false);
-	}
-	
-	/** Creates a new Diagram with in existing Project */
-	public StructureDiagram newDiagram(UmlProject project){	
-		return newDiagram(project,null);
-	}
-	
-	/** Creates a new Diagram with in existing Project */
-	public StructureDiagram newDiagramAt(Object epackage){	
-		return newDiagram(ProjectManager.get().getProject(),epackage);
-	}
-	
-	/** Creates a new Diagram with in existing Project */
-	public StructureDiagram newDiagram(UmlProject project, Object epackage){	
-		StructureDiagram diagram = new StructureDiagram(project,elementFactory,drawingContext);
-		if(epackage!=null)diagram.setContainer(epackage);
-		setDefaultDiagramSize(diagram);
-		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
-		ProjectManager.get().getProject().addDiagram(diagram);
-		saveDiagramNeeded(diagram,false);
-		createDiagramEditor(diagram);			
-		//add the diagram from the browser
-		ProjectBrowser browser = frame.getProjectBrowser();
-		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
-		browser.getTree().addElement(container,diagram);
-		return diagram;
-	}
-
-	//====================================================
-	// RENAME
-	//====================================================
-	
-	public void rename(Object obj){		
-		if (obj instanceof StructureDiagram) ChangeManager.get().renameDiagram((StructureDiagram)obj);		
-		else if (obj instanceof OclDocument) ChangeManager.get().renameOclDocument((OclDocument)obj);							
-		else if (obj instanceof RefOntoUML.Element) ChangeManager.get().renameElement((RefOntoUML.Element)obj);		
-	}
-	
-	//====================================================
-	// NEW RULES DOCUMENT
-	//====================================================
-	
-	/** Creates a new rules document on the current Project */
-	public OclDocument newRulesDocument(boolean createTab){
-		return newRulesDocument(null, createTab);		
-	}
-	
-	public OclDocument newRulesDocument(){
-		return newRulesDocument(null, false);		
-	}
-	
-	/** Creates a new rules document on the current Project */
-	public OclDocument newRulesDocument(String oclcontent, boolean createTab){
-		OclDocument oclDoc = newRulesDocumentAt(null,oclcontent, createTab);		
-		return oclDoc;
-	}
-	
-	public OclDocument newRulesDocumentAt(Object epackage, String oclContent){
-		return newRulesDocumentAt(epackage,oclContent,true);
-	}
-	
-	public OclDocument newRulesDocumentAt(Object epackage){
-		return newRulesDocumentAt(epackage,"",false);
-	}
-	
-	/** Creates a new rules document with in existing Project */
-	public OclDocument newRulesDocumentAt(Object epackage, String oclContent, boolean createTab){
-		OclDocument oclDoc = new OclDocument();		
-		oclDoc.setContainer(epackage);
-		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
-		oclDoc.setName("Rules"+Models.getOclDocList().size());
-		Models.getOclDocList().add(oclDoc);
-		if(createTab)createConstraintEditor(oclDoc);		
-		//add the rules document from the browser
-		ProjectBrowser browser = frame.getProjectBrowser();
-		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
-		browser.getTree().addElement(container,oclDoc);
-		return oclDoc;
-	}
-	
 	//====================================================
 	
 	/** Close current diagram editor */
@@ -903,27 +768,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	//========================================================================
 	// OPEN PROJECT
 	//========================================================================
-	
-	/** Export Model as a Menthor Pattern **/
-	/*public int exportAsMenthorPattern() 
-	{
-		JFileChooser fileChooser = new JFileChooser(lastSavePath);
-		fileChooser.setDialogTitle("Export as Menthor Pattern");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthorpattern)", "menthorpattern");
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		int option = fileChooser.showSaveDialog(this);
-		if (option == JFileChooser.APPROVE_OPTION) {
-			setCurrentProjectFile(saveCurrentProjectToFile(fileChooser.getSelectedFile()));
-			File file = fileChooser.getSelectedFile();
-			frame.setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			lastSavePath = file.getAbsolutePath();			
-		}
-		return option;
-	}*/
-	
-	
+		
 	/** Creates an editor for a given Diagram. */
 	public DiagramEditor createDiagramEditor(OntoumlDiagram diagram)
 	{		
@@ -948,17 +793,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		addClosable(this,oclDoc.getName(), editor);		
 		return editor;
 	}
-
-	public void about()
-	{
-		AboutDialog.open(getFrame(),MenthorEditor.MENTHOR_COMPILATION_DATE,MenthorEditor.MENTHOR_VERSION);
-	}
 	
-	public void licenses()
-	{
-		LicensesDialog.open(getFrame());
-	}
-
 	/** Import a model from a XMI file (from Enterprise Architect). 
 	 * @throws IOException */
 	public void importFromEA() throws IOException
@@ -1143,29 +978,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return gens;
 	}
 	
-	
-			
-	public void editProperties(Object element)
-	{
-		if (element instanceof ClassElement) {
-			ClassElement classElement = (ClassElement) element;			
-			ElementDialogCaller.callClassDialog(frame,classElement.getClassifier(),true);			
-		} else if (element instanceof AssociationElement) {
-			AssociationElement association = (AssociationElement) element;
-			ElementDialogCaller.callAssociationDialog(frame,(Association)association.getRelationship(),true);
-		} else if (element instanceof GeneralizationElement) {
-			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
-			ElementDialogCaller.callGeneralizationDialog(frame, generalization, true);			
-		} else if (element instanceof StructureDiagram){    		
-    		openTab(element);
-    	} else if (element instanceof OclDocument){
-    		openTab(element);
-    	} else if(element instanceof RefOntoUML.Element){
-    		RefOntoUML.Element e = (RefOntoUML.Element)element;
-    		ElementDialogCaller.openDialog(e, frame);
-    	}
-	}
-	
 	/** Strictly find by name */
 	public ArrayList<FoundElement> strictlyFindByName(String text)
 	{		
@@ -1323,17 +1135,10 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		showBottomView();		
 		frame.selectStatistic();		
 	}
-	
-	//======================================================================
-	//
-	//             THE CODE ABOVE WAS REVIWED BY JOHN
-	//              NOW, I NEED TO REVIEW THESE ONES BELOW....
-	//======================================================================
-	//======================================================================
-	
+		
 	public void undo()
 	{		
-		if (isProjectLoaded()==false) return;
+		if (ProjectManager.get().getProject()==null) return;
 		if(getCurrentDiagramEditor()!=null){
 			if(getCurrentDiagramEditor().canUndo()){
 				getCurrentDiagramEditor().undo();
@@ -1345,7 +1150,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 
 	public void redo()
 	{
-		if (isProjectLoaded()==false) return;
+		if (ProjectManager.get().getProject()==null) return;
 		if(getCurrentDiagramEditor()!=null) 
 		{			
 			if(getCurrentDiagramEditor().canRedo()){
@@ -1425,7 +1230,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	/** Open the Alloy simulation settings window */
 	public void openAlloySettings()
 	{
-		if (isProjectLoaded()==false) return;		
+		if (ProjectManager.get().getProject()==null) return;		
 		getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//parse TOCL
 		parseConstraints(false);
@@ -1587,36 +1392,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 		
-	/**  Generate SBVR. In order to use the plug-in, we need to store the model into a file before. */
-	public void generateSbvr(RefOntoUML.Package refpackage) 
-	{
-		ResultType result;
-		String name = new String();
-		if(refpackage.getName()==null || refpackage.getName().isEmpty()) name = "model";
-		else name = refpackage.getName();
-		String modelFileName = Util.getCanonPath(Directories.getTempDir(), name+".refontouml");
-		File modelFile = new File(modelFileName);  	
-    	modelFile.deleteOnExit();    	
-		try {			
-			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
-			OntoUML2SBVR.Transformation(modelFileName);			
-			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			frame.getInfoManager().showOutputText("SBVR generated successfully", true, true); 
-			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			result = new ResultType(Result.ERROR, "Error while generating the SBVR representaion. Details: " + ex.getMessage(), null);
-		}		
-		if(result.getResultType() != Result.ERROR)
-		{
-			frame.getInfoManager().showOutputText(result.toString(), true, true);			
-			String htmlFilePath = (String) result.getData()[0];
-			File file = new File(htmlFilePath);
-			openLinkWithBrowser(file.toURI().toString());
-		}else{
-			frame.getInfoManager().showOutputText(result.toString(), true, true); 
-		}
-	}
+	
 	
 	/**
 	 * Exports a Complete OCL document

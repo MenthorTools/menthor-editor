@@ -55,12 +55,6 @@ public interface DiagramOperations {
   void setNewConnectionPoints(Connection conn, List<Point2D> points);
 
   /**
-   * Tells the editor to show the properties of the element.
-   * @param element the element
-   */
-  void editProperties(Object element);
-
-  /**
    * Returns the diagram that belongs to this object.
    * @return the diagram
    */

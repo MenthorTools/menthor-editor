@@ -44,11 +44,15 @@ import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FilterManager;
+import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
+import net.menthor.editor.v2.managers.RenameManager;
+import net.menthor.editor.v2.managers.SBVRManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
@@ -166,6 +170,10 @@ public class MainFrame extends JFrame implements CommandListener {
 		RemakeManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		ProjectManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		FilterManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		HelpManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		RenameManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		EditManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		SBVRManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 	}
 	
 	private void installMultiSplitPane(){		
@@ -272,16 +280,23 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(this);
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
 				return methodcall.call(getDiagramManager());
+				
 			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){
 				return methodcall.call(AdditionManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ChangeManager.class){
 				return methodcall.call(ChangeManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DeletionManager.class){
 				return methodcall.call(DeletionManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == EditManager.class){
+				return methodcall.call(EditManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == FilterManager.class){
 				return methodcall.call(FilterManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == HelpManager.class){
+				return methodcall.call(HelpManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MoveManager.class){
 				return methodcall.call(MoveManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
+				return methodcall.call(OccurenceManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ProjectManager.class){
 				return methodcall.call(ProjectManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
@@ -289,7 +304,12 @@ public class MainFrame extends JFrame implements CommandListener {
 			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
 				return methodcall.call(TransferManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == UpdateManager.class){
-				return methodcall.call(getDiagramManager());
+				return methodcall.call(UpdateManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == RenameManager.class){
+				return methodcall.call(RenameManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == SBVRManager.class){
+				return methodcall.call(SBVRManager.get());
+			
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(getDiagramManager().getCurrentDiagramEditor());
 			}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){

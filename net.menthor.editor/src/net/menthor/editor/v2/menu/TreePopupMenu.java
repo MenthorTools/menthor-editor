@@ -55,7 +55,7 @@ public class TreePopupMenu extends BasePopupMenu {
     	movetodiag = createMenuItem("Move To Diagram", IconType.MENTHOR_HAND_CURSOR, CommandType.MOVE_TO_DIAGRAM);    	
     	findindiag = createMenuItem("Find In Diagrams", IconType.MENTHOR_SEARCH, CommandType.FIND_IN_DIAGRAMS);
     	adddiag = createMenuItem("Add Diagram", CommandType.ADD_DIAGRAM);
-    	adddoc = createMenuItem("Add Rules Document", CommandType.ADD_RULES_DOCUMENT);    	
+    	adddoc = createMenuItem("Add Rules Document", CommandType.ADD_OCLDOCUMENT);    	
     	addpack = createMenuItem("Add Package", CommandType.ADD_PACKAGE);    	
     	addclass = MenuBuilder.buildAddClass(listener, this, "Add Class");				
 		addrel = MenuBuilder.buildAddRelationship(listener, this, "Add Relationship");    	

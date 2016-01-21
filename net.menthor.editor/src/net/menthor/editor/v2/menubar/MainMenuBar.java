@@ -227,7 +227,7 @@ public class MainMenuBar extends BaseMenuBar {
 	private void createRulesMenu(){
 		rules = new JMenu("Rules");
 		add(rules);
-		createMenuItem(rules, "New", CommandType.NEW_RULES, background);
+		createMenuItem(rules, "New", CommandType.NEW_OCLDOCUMENT, background);
 		rules.addSeparator();
 		createMenuItem(rules, "Close", CommandType.CLOSE_RULES, background);
 	}

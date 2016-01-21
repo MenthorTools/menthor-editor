@@ -52,11 +52,11 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.ElementDialogCaller;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.TransferManager;
 
 /**
@@ -140,7 +140,7 @@ public class GeneralizationEditPane extends JPanel {
 	public void editGenSet(){
 		if(genSetModel.size()>0){
 			GeneralizationSet genSet = (GeneralizationSet)genSetList.getSelectedValue();
-			ElementDialogCaller.callGeneralizationSetDialog(diagramManager.getFrame(), genSet,true);
+			EditManager.get().callGeneralizationSetDialog(genSet,true);
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class GeneralizationEditPane extends JPanel {
 			((GeneralizationSet)genSet).setIsDisjoint(true);
 			((GeneralizationSet)genSet).getGeneralization().add(element);
 			element.getGeneralizationSet().add((GeneralizationSet)genSet);					
-			ElementDialogCaller.callGeneralizationSetDialog(diagramManager.getFrame(), (GeneralizationSet)genSet,true);
+			EditManager.get().callGeneralizationSetDialog((GeneralizationSet)genSet,true);
 			genSetModel.addElement(genSet);				
 		}
 	}

@@ -28,16 +28,15 @@ import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.menthor.editor.ui.ElementDialogCaller;
-import net.menthor.editor.ui.ProjectBrowser;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.ui.DiagramListDialog;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Element;
+import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.ui.DiagramListDialog;
 
 /**
  * @author John Guerson
@@ -62,7 +61,7 @@ public class FoundPopupMenu extends JPopupMenu {
 			propertiesMenuItem.addActionListener(new ActionListener() {			
 				@Override
 				public void actionPerformed(ActionEvent arg0) {				
-					ElementDialogCaller.openDialog((RefOntoUML.Element)context.getElement(), ProjectBrowser.frame);		
+					EditManager.get().edit((RefOntoUML.Element)context.getElement());		
 				}
 			});
 		}

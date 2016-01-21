@@ -35,8 +35,12 @@ import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.RenameManager;
+import net.menthor.editor.v2.managers.SBVRManager;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -62,22 +66,20 @@ public class CommandMap {
 	private CommandMap(){
 		try {
 			//menu's commands
-			file();					
+			projectManager();					
 			exportation();
 			importation();
 			edit();
-			tabs();
+			diagramManager();
 			diagram();
-			rules();
 			project();
-			verificate();
-			validate();
-			window();
-			help();
+			sbvr();
+			mainFrame();
+			helpManager();
 						
 			dnd(); //palette's drag and drop
-			additions(); //tree's additions			
-			changes(); //stereotype change
+			additionManager(); //tree's additions			
+			changeManager(); //stereotype change
 			movetree(); //move up and down, move to diagram, find in diagrams
 			
 		} catch (NoSuchMethodException e) {
@@ -87,7 +89,7 @@ public class CommandMap {
 		}
 	}
 
-	private void file() throws NoSuchMethodException, SecurityException{
+	private void projectManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
 				new MethodCall(ProjectManager.class.getMethod("newProject")));
 		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
@@ -103,12 +105,8 @@ public class CommandMap {
 		cmdMap.put(CommandType.SAVE_PROJECT,
 				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
-				new MethodCall(ProjectManager.class.getMethod("importFromXMI")));
+				new MethodCall(ProjectManager.class.getMethod("importFromXMI")));		
 		
-		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
-				new MethodCall(DiagramManager.class.getMethod("openLinkWithBrowser", String.class)));
-		cmdMap.put(CommandType.QUIT_MENTHOR,
-				new MethodCall(MainFrame.class.getMethod("quitApplication")));
 	}
 	
 	private void exportation() throws NoSuchMethodException, SecurityException{
@@ -123,7 +121,6 @@ public class CommandMap {
 	}
 	
 	private void importation() throws NoSuchMethodException, SecurityException{
-		
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
 				new MethodCall(DiagramManager.class.getMethod("importFromEA")));
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
@@ -147,25 +144,18 @@ public class CommandMap {
 		cmdMap.put(CommandType.UNDO,
 				new MethodCall(DiagramManager.class.getMethod("undo")));
 		cmdMap.put(CommandType.RENAME,
-				new MethodCall(DiagramManager.class.getMethod("rename", Object.class)));
+				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(DiagramManager.class.getMethod("editProperties", Object.class)));		
+				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
 				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));		
 		cmdMap.put(CommandType.ERASE, 
 				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));
 	}
-	
-	private void rules() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.NEW_RULES,
-				new MethodCall(DiagramManager.class.getMethod("newRulesDocument")));
-		cmdMap.put(CommandType.CLOSE_RULES,
-				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
-	}
 
 	private void diagram() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.NEW_DIAGRAM,
-				new MethodCall(DiagramManager.class.getMethod("newDiagram")));
+		cmdMap.put(CommandType.CLOSE_RULES,
+				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM,
 				new MethodCall(DiagramManager.class.getMethod("closeDiagram")));
 		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
@@ -307,60 +297,6 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));		
 	}
 	
-	private void tabs() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CLOSE_THIS_TAB,
-				new MethodCall(DiagramManager.class.getMethod("closeTab", Component.class)));
-		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
-				new MethodCall(DiagramManager.class.getMethod("closeOthers", Component.class)));
-		cmdMap.put(CommandType.CLOSE_ALL_TABS,
-				new MethodCall(DiagramManager.class.getMethod("closeAll", Component.class)));
-		cmdMap.put(CommandType.SELECT_TAB,
-				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
-		cmdMap.put(CommandType.OPEN_TAB,
-				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));
-	}
-	
-	private void window() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.PALETTE_OF_ELEMENTS,
-				new MethodCall(MainFrame.class.getMethod("showPalettePane")));
-		cmdMap.put(CommandType.PROJECT_BROWSER,
-				new MethodCall(MainFrame.class.getMethod("showBrowserPane")));
-		cmdMap.put(CommandType.CONSOLE,
-				new MethodCall(MainFrame.class.getMethod("showFooterPane")));
-	}
-	
-	private void help() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.ABOUT,
-				new MethodCall(DiagramManager.class.getMethod("about")));			
-		cmdMap.put(CommandType.LICENSES, 
-				new MethodCall(DiagramManager.class.getMethod("licenses")));
-	}
-	
-	private void verificate() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CHECK_MODEL_SYNTAX,
-				new MethodCall(DiagramManager.class.getMethod("verifyModelSyntactically")));
-		cmdMap.put(CommandType.PARSE_RULES, 
-				new MethodCall(DiagramManager.class.getMethod("parseConstraints")));
-	}
-	
-	private void validate() throws NoSuchMethodException, SecurityException{
-		
-		cmdMap.put(CommandType.SIMULATE_AND_CHECK,
-				new MethodCall(DiagramManager.class.getMethod("simulate")));
-		cmdMap.put(CommandType.CALL_OWL_SETTINGS,
-				new MethodCall(DiagramManager.class.getMethod("callOwlSettings")));
-		cmdMap.put(CommandType.GENERATE_OWL,
-				new MethodCall(DiagramManager.class.getMethod("generateOwl", Object.class)));
-		cmdMap.put(CommandType.SEARCH_FOR_ANTIPATTERNS, 
-				new MethodCall(DiagramManager.class.getMethod("manageAntiPatterns")));
-		cmdMap.put(CommandType.BUSINESS_VOCABULARY, 
-				new MethodCall(DiagramManager.class.getMethod("generateSbvr")));
-		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
-				new MethodCall(DiagramManager.class.getMethod("callGlossary")));		
-		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
-				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
-	}
-	
 	private void dnd() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.TB_DND_POINTER_MODE, 
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));		
@@ -442,7 +378,61 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.STRUCTURATION));
 	}
 	
-	private void additions() throws NoSuchMethodException, SecurityException{
+	private void diagramManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.CLOSE_THIS_TAB,
+				new MethodCall(DiagramManager.class.getMethod("closeTab", Component.class)));
+		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
+				new MethodCall(DiagramManager.class.getMethod("closeOthers", Component.class)));
+		cmdMap.put(CommandType.CLOSE_ALL_TABS,
+				new MethodCall(DiagramManager.class.getMethod("closeAll", Component.class)));
+		cmdMap.put(CommandType.SELECT_TAB,
+				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
+		cmdMap.put(CommandType.OPEN_TAB,
+				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));
+		cmdMap.put(CommandType.CHECK_MODEL_SYNTAX,
+				new MethodCall(DiagramManager.class.getMethod("verifyModelSyntactically")));
+		cmdMap.put(CommandType.PARSE_RULES, 
+				new MethodCall(DiagramManager.class.getMethod("parseConstraints")));
+		cmdMap.put(CommandType.SIMULATE_AND_CHECK,
+				new MethodCall(DiagramManager.class.getMethod("simulate")));
+		cmdMap.put(CommandType.CALL_OWL_SETTINGS,
+				new MethodCall(DiagramManager.class.getMethod("callOwlSettings")));
+		cmdMap.put(CommandType.GENERATE_OWL,
+				new MethodCall(DiagramManager.class.getMethod("generateOwl", Object.class)));
+		cmdMap.put(CommandType.SEARCH_FOR_ANTIPATTERNS, 
+				new MethodCall(DiagramManager.class.getMethod("manageAntiPatterns")));
+		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
+				new MethodCall(DiagramManager.class.getMethod("callGlossary")));		
+		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
+				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
+	}
+	
+	private void mainFrame() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.PALETTE_OF_ELEMENTS,
+				new MethodCall(MainFrame.class.getMethod("showPalettePane")));
+		cmdMap.put(CommandType.PROJECT_BROWSER,
+				new MethodCall(MainFrame.class.getMethod("showBrowserPane")));
+		cmdMap.put(CommandType.CONSOLE,
+				new MethodCall(MainFrame.class.getMethod("showFooterPane")));
+		cmdMap.put(CommandType.QUIT_MENTHOR,
+				new MethodCall(MainFrame.class.getMethod("quitApplication")));
+	}
+	
+	private void sbvr() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.BUSINESS_VOCABULARY, 
+				new MethodCall(SBVRManager.class.getMethod("generateSbvr")));
+		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
+				new MethodCall(SBVRManager.class.getMethod("openLinkWithBrowser", String.class)));		
+	}
+	
+	private void helpManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ABOUT,
+				new MethodCall(HelpManager.class.getMethod("about")));			
+		cmdMap.put(CommandType.LICENSES, 
+				new MethodCall(HelpManager.class.getMethod("licenses")));
+	}
+	
+	private void additionManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ADD_KIND, 
 				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ClassType.KIND));
 		cmdMap.put(CommandType.ADD_SUBKIND, 
@@ -524,15 +514,19 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_COMMENT, 
 				new MethodCall(AdditionManager.class.getMethod("addComment",RefOntoUML.Element.class)));
 		cmdMap.put(CommandType.ADD_CONSTRAINT, 
-				new MethodCall(AdditionManager.class.getMethod("addConstraintx",RefOntoUML.Element.class)));
-		
+				new MethodCall(AdditionManager.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
+		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
+				new MethodCall(AdditionManager.class.getMethod("addOclDocument", Object.class)));		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(DiagramManager.class.getMethod("newDiagramAt", Object.class)));
-		cmdMap.put(CommandType.ADD_RULES_DOCUMENT, 
-				new MethodCall(DiagramManager.class.getMethod("newRulesDocumentAt", Object.class)));
+				new MethodCall(AdditionManager.class.getMethod("addDiagram", Object.class)));
+		
+		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
+				new MethodCall(AdditionManager.class.getMethod("newOclDocument")));
+		cmdMap.put(CommandType.NEW_DIAGRAM,
+				new MethodCall(AdditionManager.class.getMethod("newDiagram")));
 	}
 	
-	private void changes() throws NoSuchMethodException, SecurityException{
+	private void changeManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CHANGE_TO_KIND, 
 				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.KIND));
 		cmdMap.put(CommandType.CHANGE_TO_SUBKIND, 

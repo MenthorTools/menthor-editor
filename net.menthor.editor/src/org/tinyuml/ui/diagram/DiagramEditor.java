@@ -111,7 +111,6 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.ElementDialogCaller;
 import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
@@ -122,6 +121,7 @@ import net.menthor.editor.v2.editors.BaseEditor;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
@@ -2281,29 +2281,9 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	/** Edits the current selection's properties. */
 	public void editProperties(){
-		if (getSelectedElements().size() > 0) editProperties(getSelectedElements().get(0));		
+		if (getSelectedElements().size() > 0) EditManager.get().edit(getSelectedElements().get(0));		
 	}
 	
-	/** {@inheritDoc} */
-	public void editProperties(Object element) 
-	{
-		if (element instanceof ClassElement) {
-			ClassElement classElement = (ClassElement) element;			
-			ElementDialogCaller.callClassDialog(frame,classElement.getClassifier(),true);			
-			redraw();
-		} else if (element instanceof AssociationElement) {
-			AssociationElement association = (AssociationElement) element;
-			ElementDialogCaller.callAssociationDialog(frame,(Association)association.getRelationship(),true);
-			redraw();
-		} else if (element instanceof GeneralizationElement) {
-			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
-			ElementDialogCaller.callGeneralizationDialog(frame, generalization, true);			
-			redraw();
-		}else{
-			frame.getDiagramManager().editProperties(element);
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	public void showEndPointNames(Object con){
 		if (con instanceof AssociationElement) {	
@@ -2561,7 +2541,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			if(genSet!=null){		
 				deselectAll();
 				cancelEditing();
-				ElementDialogCaller.callGeneralizationSetDialog(frame, genSet,true);
+				EditManager.get().callGeneralizationSetDialog(genSet,true);
 				deselectAll();
 				cancelEditing();
 			}	

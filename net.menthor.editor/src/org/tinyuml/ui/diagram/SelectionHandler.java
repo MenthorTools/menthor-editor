@@ -44,6 +44,7 @@ import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.managers.EditManager;
 
 /**
  * This class handles selections of diagram allElements, this includes all
@@ -126,7 +127,7 @@ public class SelectionHandler implements EditorMode {
 				focusEditor = false;
 				editor.editLabel(label);				
 			} else if (e.getClickCount() >= 2) {
-				editor.editProperties(element);
+				EditManager.get().edit(element);
 			}
 		}
 						

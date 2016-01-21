@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
@@ -11,14 +12,15 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
 import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
+import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.StringExpression;
-
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
-
+import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -139,5 +141,54 @@ public class AdditionManager extends BaseManager {
 		((GeneralizationSet)newgenset).setName("gs");
 		new AddGeneralizationSetCommand(d, d.getDiagram(), newgenset, gens, project.getModel()).run();
 		return (GeneralizationSet)newgenset;
+	}
+	
+	/** New ocl document */
+	public OclDocument newOclDocument(){
+		return newOclDocument(null, false);		
+	}
+	
+	/** New ocl document */
+	public OclDocument newOclDocument(String oclcontent, boolean createTab){
+		return addOclDocument(null,oclcontent, createTab);		
+	}
+	
+	/** Add ocl document to a container */
+	public OclDocument addOclDocument(Object eContainer){
+		return addOclDocument(eContainer, "", false);
+	}
+	
+	/** Add ocl document to a container */
+	public OclDocument addOclDocument(Object eContainer, String oclContent, boolean createTab){		
+		OclDocument oclDoc = new OclDocument();		
+		oclDoc.setContainer(eContainer);
+		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
+		oclDoc.setName("Rules"+Models.getOclDocList().size());		
+		Models.getOclDocList().add(oclDoc);				
+		DefaultMutableTreeNode container = browser.getTree().getNode(eContainer);
+		browser.getTree().addElement(container, oclDoc);
+		if(createTab) diagramManager.createConstraintEditor(oclDoc);
+		return oclDoc;
+	}
+	
+	public void newDiagram(){
+		addDiagram(null);
+	}
+
+	public StructureDiagram addDiagram(Object epackage){	
+		StructureDiagram diagram = new StructureDiagram(
+			ProjectManager.get().getProject(),
+			diagramManager.getElementFactory(),
+			diagramManager.getDrawingContext()
+		);
+		if(epackage!=null) diagram.setContainer(epackage);
+		diagramManager.setDefaultDiagramSize(diagram);
+		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
+		ProjectManager.get().getProject().addDiagram(diagram);
+		diagramManager.saveDiagramNeeded(diagram,false);
+		diagramManager.createDiagramEditor(diagram);		
+		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
+		browser.getTree().addElement(container,diagram);
+		return diagram;
 	}
 }

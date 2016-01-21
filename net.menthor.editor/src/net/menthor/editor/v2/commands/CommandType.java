@@ -41,7 +41,7 @@ public enum CommandType {
 	ERASE("Erase selected element(s)"),
 	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
 		
-	NEW_RULES("Createa a new rules document"),
+	NEW_OCLDOCUMENT("Createa a new rules document"),
 	CLOSE_RULES("Createa a new rules document"),
 		
 	NEW_DIAGRAM("Create a new class diagram"), 
@@ -207,7 +207,7 @@ public enum CommandType {
 	ADD_CONSTRAINT(null),
 
 	ADD_DIAGRAM(null),
-	ADD_RULES_DOCUMENT(null),
+	ADD_OCLDOCUMENT(null),
 		
 	ADD_CLASS(null),
 	ADD_KIND(null),

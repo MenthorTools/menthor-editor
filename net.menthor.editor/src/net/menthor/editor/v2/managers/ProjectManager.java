@@ -25,7 +25,6 @@ import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectReader;
 import net.menthor.editor.ui.ProjectWriter;
 import net.menthor.editor.ui.UmlProject;
-
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.ui.StartPage;
@@ -68,8 +67,8 @@ public class ProjectManager extends BaseManager {
 		project.setSaveModelNeeded(false);
 		browser.set(project, project.getModel());
 		infoManager.setProject(project);
-		if(createDiagram) diagramManager.newDiagram(project,null);
-		if(createRulesDocument) diagramManager.newRulesDocument(null,false);
+		if(createDiagram) AdditionManager.get().newDiagram();
+		if(createRulesDocument) AdditionManager.get().newOclDocument();
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, String oclContent){		
@@ -100,10 +99,10 @@ public class ProjectManager extends BaseManager {
 			diagramManager.createDiagramEditor((StructureDiagram)diagram);
 		}		
 		if(createDefaultDiagram){
-			if(project.getDiagrams().size()==0)  diagramManager.newDiagram(project,null);
-		}		
+			if(project.getDiagrams().size()==0)  AdditionManager.get().newDiagram();
+		}
 		if(createDefaultRules){
-			diagramManager.newRulesDocument(oclContent,false);
+			AdditionManager.get().newOclDocument(oclContent,false);
 		}		
 		return project;
 	}
@@ -117,10 +116,10 @@ public class ProjectManager extends BaseManager {
 			diagramManager.createDiagramEditor((StructureDiagram)diagram);
 		}
 		if(project.getDiagrams().size()==0){ 
-			diagramManager.newDiagram(project,null);
+			AdditionManager.get().newDiagram();
 		}
 		for(String str: oclContent){
-			diagramManager.newRulesDocument(str,false);
+			AdditionManager.get().newOclDocument(str,false);
 		}		
 		return project;
 	}
@@ -431,7 +430,7 @@ public class ProjectManager extends BaseManager {
 				saveProjectToFile(projectFile);
 				lastImportPath = fileChooser.getSelectedFile().getAbsolutePath();
 				Settings.addRecentProject(projectFile.getCanonicalPath());
-				diagramManager.newDiagram();
+				AdditionManager.get().newDiagram();
 				diagramManager.getFrame().setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 				diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				diagramManager.getFrame().forceShowBrowserPane();
