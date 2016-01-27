@@ -188,6 +188,12 @@ public class OccurenceManager extends BaseManager {
 		}
 		return new ArrayList<DiagramElement>();
 	}
+	/** get diagram elements */
+	public DiagramElement getDiagramElement (Element element){
+		List<DiagramElement> list = getDiagramElements(element);
+		if(list.size()>0) return list.get(0);
+		else return null;
+	}
 	public List<DiagramElement> getDiagramElements(Collection<Element> elements)	{
 		List<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){

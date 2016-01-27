@@ -105,11 +105,10 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 */
 	@Override
 	public Object clone() {
-		ClassElement cloned = (ClassElement) super.clone();
+		ClassElement cloned = (ClassElement) super.clone();		
 		if (classData != null) {
-			//cloned.classData = RefOntoUMLHelper.clone(classData);
-			//cloned.classData.eAdapters().add(cloned);			
-			cloned.setClassifier(RefOntoUMLFactoryUtil.clone(classData));			
+			RefOntoUML.Classifier classifier = RefOntoUMLFactoryUtil.clone(classData);
+			cloned.setClassifier(classifier);
 		}
 		cloned.mainLabel = (Label) mainLabel.clone();
 		cloned.mainLabel.setSource(cloned);
@@ -124,10 +123,9 @@ public final class ClassElement extends AbstractCompositeNode implements
 		cloned.attributesCompartment = (Compartment) attributesCompartment.clone();
 		cloned.attributesCompartment.setParent(cloned);
 		cloned.operationsCompartment = (Compartment) operationsCompartment.clone();
-		cloned.operationsCompartment.setParent(cloned);
-		
+		cloned.operationsCompartment.setParent(cloned);		
 		cloned.setupOntoUmlLabelSource();
-		cloned.setBackgroundColor(this.getBackgroundColor());
+		cloned.setBackgroundColor(this.getBackgroundColor());		
 		return cloned;
 	}
  
@@ -270,8 +268,13 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 * @param aModelElement
 	 *            the model element
 	 */
-	public void setClassifier(Classifier classifier) {
+	
+	public void setClassData(Classifier classifier){
 		classData = classifier;
+	}
+	
+	public void setClassifier(Classifier classifier) {
+		setClassData(classifier);
 		
 		if(classifier.eResource() != null)
 			classUUID = OntoUMLParser.getUUIDFromElement(classifier);

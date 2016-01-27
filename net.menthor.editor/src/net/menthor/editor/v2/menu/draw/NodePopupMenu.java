@@ -23,6 +23,8 @@ package net.menthor.editor.v2.menu.draw;
 
 import javax.swing.JCheckBoxMenuItem;
 
+import org.tinyuml.umldraw.ClassElement;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
@@ -30,8 +32,6 @@ import net.menthor.editor.v2.menu.BasePopupMenu;
 import net.menthor.editor.v2.menu.ChangeClassMenu;
 import net.menthor.editor.v2.menu.ColorMenu;
 import net.menthor.editor.v2.menu.MenuBuilder;
-
-import org.tinyuml.umldraw.ClassElement;
 
 public class NodePopupMenu extends BasePopupMenu {
 
@@ -44,7 +44,8 @@ public class NodePopupMenu extends BasePopupMenu {
 	public NodePopupMenu(CommandListener listener) {
 		super(listener);
 		createMenuItem("Edit Properties", IconType.MENTHOR_EDIT, CommandType.EDIT);
-		createMenuItem("Duplicate", null, CommandType.DUPLICATE);
+		createMenuItem("Duplicate", CommandType.DUPLICATE);
+		createMenuItem("Copy", CommandType.COPY);
 		addSeparator();
 		attrItem = createCheckBoxMenuItem("Show Attributes", CommandType.SHOW_ATTRIBUTES);
 		addSeparator();

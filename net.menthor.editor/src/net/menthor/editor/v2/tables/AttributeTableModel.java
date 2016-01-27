@@ -117,11 +117,6 @@ public class AttributeTableModel extends BaseTableModel {
 	@Override
 	public void addEmptyEntry() {
 		Property property = RefOntoUMLFactoryUtil.factory.createProperty();
-//		DataType type = null;		
-//		if (isPrimitive) type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();		
-//		else type = RefOntoUMLFactoryUtil.factory.createDataType();
-//		type.setName("");
-//		property.setType(type);
 		property.setType(null);
 		property.setName("");
 		RefOntoUMLFactoryUtil.setMultiplicity(property, 1, 1);		

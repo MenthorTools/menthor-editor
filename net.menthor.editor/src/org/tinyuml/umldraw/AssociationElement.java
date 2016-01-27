@@ -30,8 +30,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.menthor.editor.v2.types.RelationshipType;
-
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DrawingContext;
@@ -51,6 +49,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class implements an association connection. The association connection
@@ -138,7 +137,7 @@ public final class AssociationElement extends BaseConnection {
 		cloned.redefine2Label.setParent(redefine2Label.getParent());				
 		cloned.localNameLabel.setParent(localNameLabel.getParent());
 		cloned.typeLabel.setParent(typeLabel.getParent());
-		cloned.metapropertyLabel.setParent(metapropertyLabel.getParent());
+		cloned.metapropertyLabel.setParent(metapropertyLabel.getParent());	
 		return cloned;
 	}
 	

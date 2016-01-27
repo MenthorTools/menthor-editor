@@ -36,7 +36,6 @@ public interface DiagramElement extends Serializable, Cloneable {
    * @return the cloned object
    */
   Object clone();
-
   /**
    * Returns the element's bounding box in absolute coordinates.
    * @return the bounding box

@@ -101,7 +101,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 			cloned = (BaseConnection) super.clone();
 			if (relationship != null) {
 				cloned.relationship = RefOntoUMLFactoryUtil.clone(relationship);
-				cloned.relationship.eAdapters().add(cloned);
+				//cloned.relationship.eAdapters().add(cloned);
 			}
 			if (connection != null) {
 				cloned.connection = (Connection) connection.clone();				
@@ -112,6 +112,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 		return cloned;
 	}
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -165,7 +166,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public NamedElement getClassifier() {
+	public NamedElement getClassifier() {		
 		return null;
 	}
 

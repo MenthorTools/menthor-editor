@@ -38,10 +38,12 @@ public final class RefOntoUMLEditingDomain {
 	public static RefOntoUMLEditingDomain getInstance() { return refEditDomain; }
 	
 	private ResourceSet resourceSet;
+	private MenthorResourceFactoryImpl refFactory;
 	private ComposedAdapterFactory adapterFactory; 
 	private AdapterFactoryEditingDomain editingDomain;
 	private boolean initialized = false;
 	
+	public MenthorResourceFactoryImpl getFactory(){ return refFactory; }
 	public boolean isInitialized() { return initialized; }
 	
 	private RefOntoUMLEditingDomain(){
@@ -67,7 +69,8 @@ public final class RefOntoUMLEditingDomain {
 	public void initialize() {
 		try{
 			resourceSet = new ResourceSetImpl();
-			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new MenthorResourceFactoryImpl());	
+			refFactory = new MenthorResourceFactoryImpl();
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, refFactory );	
 			resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);			
 			adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 			adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());

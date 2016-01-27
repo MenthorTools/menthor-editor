@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class MenthorResourceFactoryImpl extends XMIResourceFactoryImpl{
-
+	
 	public MenthorResourceFactoryImpl(){
 		 super();
 	}

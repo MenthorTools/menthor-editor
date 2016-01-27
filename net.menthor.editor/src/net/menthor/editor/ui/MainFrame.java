@@ -48,6 +48,7 @@ import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.ClipboardManager;
 import net.menthor.editor.v2.managers.CursorManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
@@ -218,6 +219,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		RedoManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		OwlManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		DuplicateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		ClipboardManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 	}
 	
 	private void installMultiSplitPane(){		
@@ -306,6 +308,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	
 	private MethodCall getMethodCall(String command, Object parameter){
 		MethodCall methodcall=null;
+		System.out.println("Parameters: "+parameter);
 		CommandType cmdType = CommandType.valueOf(command);
 		if(CommandType.isValueOf(command)){
 			if(parameter!=null) CommandMap.getInstance().addParameter(cmdType, parameter);
@@ -370,7 +373,9 @@ public class MainFrame extends JFrame implements CommandListener {
 			}else if(methodcall.getMethod().getDeclaringClass() == OwlManager.class){
 				return methodcall.call(OwlManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateManager.class){
-				return methodcall.call(DuplicateManager.get());				
+				return methodcall.call(DuplicateManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ClipboardManager.class){
+				return methodcall.call(ClipboardManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
 				return methodcall.call(OccurenceManager.get());
 				
@@ -389,7 +394,7 @@ public class MainFrame extends JFrame implements CommandListener {
 	/** Handles the fired commands. */
 	@Override
 	public Object handleCommand(String command, Object parameter) {	
-		CursorManager.get().waitCursor();
+		CursorManager.get().waitCursor();		
 		MethodCall methodcall = getMethodCall(command,parameter);
 		System.out.println(methodcall);
 		Object result=null;

@@ -36,6 +36,8 @@ public enum CommandType {
 	REDO("Redo action"),	
 	UNDO("Undo action"),
 	DUPLICATE("Duplicate selected element"),
+	COPY("Copy element to clipboard"),
+	PASTE("Paste clipboard elements"),
 	EDIT("Edit selected element(s)"),
 	RENAME("Rename selected element"),
 	DELETE("Delete selected element(s)"),

@@ -36,6 +36,7 @@ import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.ClipboardManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
@@ -124,6 +125,10 @@ public class CommandMap {
 				new MethodCall(UndoManager.class.getMethod("undo")));
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
+		cmdMap.put(CommandType.COPY,
+				new MethodCall(ClipboardManager.class.getMethod("copySelectedToClipboard")));
+		cmdMap.put(CommandType.PASTE,
+				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 

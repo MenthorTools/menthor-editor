@@ -83,6 +83,10 @@ public class SelectionHandler implements EditorMode {
 		editor.requestFocusInEditor();
 	}
 	 
+	public void select(List<DiagramElement> elements){
+		selection = new MultiSelection(editor, elements);
+	}
+	
 	/**
 	 * Constructor.
 	 * @param anEditor the editor

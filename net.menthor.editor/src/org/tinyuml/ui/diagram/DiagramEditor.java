@@ -40,6 +40,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -120,6 +121,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.BaseEditor;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.ClipboardManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.MessageManager;
@@ -155,7 +157,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		
 	private transient EditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
-	private transient CreationHandler creationHandler;
 	private transient LineHandler lineHandler;
 	public transient List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
 	private transient Scaling scaling = Scaling.SCALING_100;		
@@ -209,7 +210,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	private void initEditorMembers() 
 	{		
 		selectionHandler = new SelectionHandler(this);
-		creationHandler = new CreationHandler(this);
 		lineHandler = new LineHandler(this);
 		editorMode = selectionHandler;
 		mouseEvent = new EditorMouseEvent();
@@ -267,7 +267,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	public DiagramManager getManager() { return diagramManager; }
 	public DiagramManager getDiagramManager() { return diagramManager; }
-	public CreationHandler getCreationHandler() { return creationHandler; }	
 	public LineHandler getLineHandler() { return lineHandler; }
 	public UmlProject getProject() { return diagram.getProject(); }
 	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }	
@@ -450,12 +449,19 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		requestFocusInEditor();
 	}
 
+
+	public void select(List<DiagramElement> elements)
+	{
+		selectionHandler.deselectAll();
+		selectionHandler.select(elements);
+	}
+	
 	public void select(DiagramElement element)
 	{
 		selectionHandler.deselectAll();
 		selectionHandler.select(element);
 	}
-	
+		
 	/** Open ToolBox Menu. */
 	public void openToolBoxPopupMenu()
 	{
@@ -934,24 +940,28 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreationMode(ClassType elementType) 
 	{
-		creationHandler.createNode(elementType);
-		editorMode = creationHandler;
+		ClipboardManager.get().createNode(elementType);
+		editorMode = ClipboardManager.get();
 	}
-
+	
+	public void setEditorMode(EditorMode mode){		
+		editorMode = mode;
+	}
+	
 	/**
 	 * Switches the editor into creation mode.
 	 * @param elementType the ElementType that indicates what to create
 	 */
 	public void setCreationMode(DataType elementType) 
 	{
-		creationHandler.createNode(elementType);
-		editorMode = creationHandler;
+		ClipboardManager.get().createNode(elementType);
+		editorMode = ClipboardManager.get();
 	}
 	
 	public void setDragElementMode(RefOntoUML.Type type, EObject eContainer)
 	{		
-		creationHandler.createNode(type,eContainer);
-		editorMode = creationHandler;
+		ClipboardManager.get().createNode(type,eContainer);
+		editorMode = ClipboardManager.get();
 	}
 	
 	/**
@@ -959,7 +969,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param relationType the RelationType to create
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
-	{
+	{	
 		lineHandler.setRelationType(relationType,getDiagramManager().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;
 	}
@@ -1122,7 +1132,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Align Bottom */
 	public void alignBottom()
 	{
-		ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
+		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
 		classElements.addAll(getSelectedClassElements());
 		ClassElement atbottom = getClassElementAtBottom(classElements);				
 		if(atbottom!=null){
@@ -1141,7 +1151,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Align Top */
 	public void alignTop()
 	{
-		ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
+		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
 		classElements.addAll(getSelectedClassElements());
 		ClassElement attop = getClassElementAtTop(classElements);				
 		if(attop!=null){
@@ -1159,7 +1169,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Align Left */
 	public void alignLeft()
 	{
-		ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
+		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
 		classElements.addAll(getSelectedClassElements());
 		ClassElement atleft = getClassElementAtLeft(classElements);				
 		if(atleft!=null){
@@ -1177,7 +1187,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Align Right */
 	public void alignRight()
 	{		
-		ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
+		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
 		classElements.addAll(getSelectedClassElements());
 		ClassElement atright = getClassElementAtRight(classElements);				
 		if(atright!=null){
@@ -1256,20 +1266,56 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Returns all selected class elements */
-	private ArrayList<DiagramElement>getSelectedClassElements()
+	public List<ClassElement>getSelectedClassElements()
 	{
-		ArrayList<DiagramElement> result = new ArrayList<DiagramElement>();
+		List<ClassElement> result = new ArrayList<ClassElement>();
 		for(DiagramElement de: selectionHandler.getSelectedElements())
 		{
 			if(de instanceof ClassElement){
-				result.add(de);
+				result.add((ClassElement)de);
 			}
 		}	
 		return result;
 	}
 	
+	/** Return the center point of these selected elements */
+	public Point2D.Double getCenterPointOnSelected(){
+		double y = 0; double x = 0;
+		List<ClassElement> list = getSelectedClassElements();
+		Point2D.Double centerPoint = new Point2D.Double();
+		if(list.size()==1) {
+			centerPoint.x = list.get(0).getAbsCenterX();
+			centerPoint.y = list.get(0).getAbsCenterY();
+			return centerPoint;
+		}				
+		ClassElement top = getClassElementAtTop(list);
+		ClassElement right = getClassElementAtRight(list);
+		ClassElement left = getClassElementAtLeft(list);
+		ClassElement bottom = getClassElementAtBottom(list);
+		if(top!=null && bottom !=null) y = top.getAbsCenterY()+((bottom.getAbsCenterY()-top.getAbsCenterY())/2);
+		if(left!=null && right !=null) x = right.getAbsCenterX()-((right.getAbsCenterX()-left.getAbsCenterX())/2);
+		centerPoint.x = x; 
+		centerPoint.y = y;
+		return centerPoint;
+	}
+	
+	/** Return the center point of these selected elements */
+	public Rectangle2D getSelectedBounds(){
+		List<ClassElement> list = getSelectedClassElements();		
+		ClassElement top = getClassElementAtTop(list);
+		ClassElement right = getClassElementAtRight(list);
+		ClassElement left = getClassElementAtLeft(list);
+		ClassElement bottom = getClassElementAtBottom(list);
+		Rectangle2D bounds = top.getAbsoluteBounds();
+		bounds.setRect(left.getAbsoluteX1(), top.getAbsoluteY1(),
+			right.getAbsoluteX2() - left.getAbsoluteX1(), 
+			bottom.getAbsoluteY2() - top.getAbsoluteY1()
+		);		
+		return bounds;
+	}
+	
 	/** Return the class element most located at the bottom of the diagram */
-	private ClassElement getClassElementAtBottom(ArrayList<DiagramElement> list){
+	public ClassElement getClassElementAtBottom(List<ClassElement> list){
 		double maxY2 = 0;
 		ClassElement atBottomElement = null;
 		for(DiagramElement de: list){
@@ -1282,7 +1328,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Return the class element most located at the top of the diagram */
-	private ClassElement getClassElementAtTop(ArrayList<DiagramElement> list){
+	public ClassElement getClassElementAtTop(List<ClassElement> list){
 		double maxY1 = getSize().getWidth();
 		ClassElement atTopElement = null;
 		for(DiagramElement de: list){
@@ -1295,10 +1341,10 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Return the class element most located at the left of the diagram */
-	private ClassElement getClassElementAtLeft(ArrayList<DiagramElement> list){
+	public ClassElement getClassElementAtLeft(List<ClassElement> list){
 		double maxX1 = getSize().getWidth();
 		ClassElement atLeftElement = null;
-		for(DiagramElement de: list){
+		for(ClassElement de: list){
 			if(((ClassElement)de).getAbsoluteX1()<maxX1) {
 				maxX1 = ((ClassElement)de).getAbsoluteX1();
 				atLeftElement = (ClassElement)de;				
@@ -1308,7 +1354,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Return the class element most located at the right of the diagram */
-	private ClassElement getClassElementAtRight(ArrayList<DiagramElement> list){
+	public ClassElement getClassElementAtRight(List<ClassElement> list){
 		double maxX2 = 0;
 		ClassElement atRightElement = null;
 		for(DiagramElement de: list){
@@ -1321,7 +1367,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Returns the class element with the largest height */
-	private ClassElement getClassElementLargestHeight(ArrayList<DiagramElement> list)
+	public ClassElement getClassElementLargestHeight(ArrayList<DiagramElement> list)
 	{
 		double maxheight = 0;
 		ClassElement largerHeightElement = null;
@@ -1335,7 +1381,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Returns the class element with the largest width */
-	private ClassElement getClassElementLargestWidth(ArrayList<DiagramElement> list)
+	public ClassElement getClassElementLargestWidth(ArrayList<DiagramElement> list)
 	{
 		double maxwidth = 0;
 		ClassElement largerWidthElement = null;
@@ -1349,7 +1395,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	/** Algorithm to calculate the center alignment position */
-	private double calculateCenterAlignPosition(ArrayList<Double> coordList)
+	public double calculateCenterAlignPosition(ArrayList<Double> coordList)
 	{
 		Collections.sort(coordList);
 		int size = coordList.size();

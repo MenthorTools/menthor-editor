@@ -44,4 +44,18 @@ public class CursorManager extends BaseManager {
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
+	
+	public void handCursor(){
+		int cursorType = Cursor.HAND_CURSOR;
+		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
+		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
+	}
+	
+	public void crossHairCursor(){
+		int cursorType = Cursor.CROSSHAIR_CURSOR;
+		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
+		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
+	}
 }

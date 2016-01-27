@@ -166,7 +166,15 @@ public class MainMenuBar extends BaseMenuBar {
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Redo", CommandType.REDO, background,stroke);
-		edit.addSeparator();		
+		edit.addSeparator();
+		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK);
+		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK);
+		createMenuItem(edit, "Copy", CommandType.COPY, background, stroke);
+		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK);
+		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK);
+		createMenuItem(edit, "Paste", CommandType.PASTE, background, stroke);
+		createMenuItem(edit, "Duplicate", CommandType.DUPLICATE, background);
+		edit.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke("BACK_SPACE");
 		else stroke = KeyStroke.getKeyStroke("DELETE");
 		createMenuItem(edit, "Erase", CommandType.ERASE, background, stroke);	

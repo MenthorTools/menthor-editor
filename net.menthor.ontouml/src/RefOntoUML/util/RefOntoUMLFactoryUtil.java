@@ -806,12 +806,13 @@ public class RefOntoUMLFactoryUtil {
 		cloned.setIsAbstract(classifier.isIsAbstract());
 		cloned.setVisibility(classifier.getVisibility());		
 		if(cloned instanceof RefOntoUML.Class){
-			RefOntoUML.Class clonedClass = (RefOntoUML.Class)cloned;
+			RefOntoUML.Class clonedClass = (RefOntoUML.Class)cloned;			
 			RefOntoUML.Class classifierClass = (RefOntoUML.Class)classifier;			
 			for(Property p: classifierClass.getOwnedAttribute()){
 				RefOntoUML.Property clonedAttr = RefOntoUMLFactoryUtil.clone(p);
 				clonedClass.getOwnedAttribute().add(clonedAttr);
 			}
+			return clonedClass;
 		}
 		if(cloned instanceof RefOntoUML.DataType){
 			RefOntoUML.DataType clonedClass = (RefOntoUML.DataType)cloned;
@@ -820,7 +821,8 @@ public class RefOntoUMLFactoryUtil {
 				RefOntoUML.Property clonedAttr = RefOntoUMLFactoryUtil.clone(p);
 				clonedClass.getOwnedAttribute().add(clonedAttr);
 			}
-		}		
+			return clonedClass;
+		}			
 		return cloned;
 	}
 		
@@ -835,11 +837,13 @@ public class RefOntoUMLFactoryUtil {
 		upper1Cloned.setValue(property.getUpper());		
 		cloned.setLowerValue(lower1Cloned);			
 		cloned.setUpperValue(upper1Cloned);		
-		String node1Name  = new String();		
-		if(property.getType()!=null){ 
-			node1Name = property.getType().getName();	    		
-			if(node1Name==null || node1Name.trim().isEmpty()) node1Name = "";
-			else node1Name = node1Name.trim().toLowerCase();
+		String node1Name  = property.getName();		
+		if(node1Name==null || node1Name.isEmpty()){
+			if(property.getType()!=null){
+				node1Name = property.getType().getName();	    		
+				if(node1Name==null || node1Name.trim().isEmpty()) node1Name = "";
+				else node1Name = node1Name.trim().toLowerCase();
+			}
 		}
 		cloned.setName(node1Name);
 		return cloned;

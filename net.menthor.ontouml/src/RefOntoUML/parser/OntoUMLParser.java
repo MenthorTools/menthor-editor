@@ -1117,6 +1117,52 @@ public class OntoUMLParser {
 		return objectsToAdd;
 	}
 	
+	public static void setTargetType(Element relationship, Classifier type){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			gen.setGeneral(type);
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			gen.getMemberEnd().get(1).setType(type);
+		}		
+	}
+	
+	public static Classifier getTargetType(Element relationship){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			return gen.getGeneral();
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			return (Classifier) gen.getMemberEnd().get(1).getType();
+		}
+		return null;
+	}
+	
+	public static void setSourceType(Element relationship, Classifier type){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			gen.setSpecific(type);
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			gen.getMemberEnd().get(0).setType(type);
+		}		
+	}
+	
+	public static Classifier getSourceType(Element relationship){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			return gen.getSpecific();
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			return (Classifier) gen.getMemberEnd().get(0).getType();
+		}
+		return null;
+	}
+	
 	/** Auto select associations connected to the given elements. */
 	public ArrayList<EObject> autoSelectRelatedElements(ArrayList<Classifier> classifiers)
 	{
@@ -1873,6 +1919,10 @@ public class OntoUMLParser {
 	
 	public static String getUUIDFromElement(Element element){
 		return element.eResource().getURIFragment(element);
+	}
+	
+	public static String getUUIDFromModel(RefOntoUML.Package model, Element element){
+		return model.eResource().getURIFragment(element);
 	}
 	
 	public static Element getElementByUUID(RefOntoUML.Package model, String uuid){

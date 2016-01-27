@@ -34,8 +34,10 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Classifier;
+import net.menthor.editor.v2.managers.ClipboardManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
@@ -58,6 +60,11 @@ public class AddNodeCommand extends BaseDiagramCommand {
 	private RefOntoUML.Element eContainer;	
 	private boolean addToDiagram;
 
+	public AddNodeCommand(DiagramNotification editorNotification, UmlNode node, double x, double y){
+		this(editorNotification, (CompositeElement)((DiagramEditor)editorNotification).getDiagram(), 
+		(RefOntoUML.Element)node.getClassifier(), x, y, (RefOntoUML.Element)node.getClassifier().eContainer());
+	}
+	
 	public AddNodeCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element element, double x, double y, RefOntoUML.Element eContainer) 
 	{
 		this.parent = parent;		
@@ -66,13 +73,13 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		this.element = element;		
 		this.eContainer = eContainer;
 		if(((DiagramEditor)notification)!=null){
-			this.diagramElement = OccurenceManager.get().getDiagramElement(element,((DiagramEditor)notification).getDiagram());
+			this.diagramElement = OccurenceManager.get().getDiagramElement(element);
 		}
 		if(this.diagramElement==null) {
 			if(element instanceof RefOntoUML.Class || element instanceof RefOntoUML.Association || element instanceof RefOntoUML.DataType || element instanceof RefOntoUML.Generalization)
 			{				
 				if(notification!=null)
-					this.diagramElement = ((DiagramEditor)this.notification).getCreationHandler().createNode((RefOntoUML.Type)element, eContainer);				
+					this.diagramElement = ClipboardManager.get().createNode((RefOntoUML.Type)element, eContainer);				
 			}
 		}
 		absx = x;
@@ -87,7 +94,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			UpdateManager.get().updateFromDeletion(element);
+			UpdateManager.get().updateFromDeletion(element);			
 		}
 		
 		if(addToDiagram && diagramElement != null){
@@ -117,7 +124,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 			addToModel(element);
-			UpdateManager.get().updateFromAddition(element);
+			UpdateManager.get().updateFromAddition(element);			
 		}
 		
 		if(addToDiagram && diagramElement !=null){			

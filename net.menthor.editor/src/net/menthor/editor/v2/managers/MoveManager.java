@@ -56,6 +56,10 @@ public class MoveManager extends BaseManager {
 		move((RefOntoUML.Element)element,-1, -1, diagramManager.getCurrentDiagramEditor(),true);
 	}
 	
+	public void move(Object element, DiagramEditor editor){
+		move((RefOntoUML.Element)element,-1, -1, editor,true);
+	}
+	
 	/** Mode selected element on the brwoser to a Diagram */
 	public void moveBrowserSelected(DiagramEditor editor, Point location){
 		DefaultMutableTreeNode node = browser.getTree().getSelectedNode();

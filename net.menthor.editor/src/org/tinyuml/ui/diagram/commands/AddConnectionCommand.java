@@ -43,6 +43,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.impl.GeneralizationImpl;
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
@@ -70,13 +71,15 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		if (notification==null) this.addToDiagram = false; 
 		else this.addToDiagram=true;
 		
-		this.relationship = relationship;		
-		source = aSource;
-		target = aTarget;
+		this.relationship = relationship;
+		if(aSource==null) source = OntoUMLParser.getSourceType(relationship);
+		else source = aSource;
+		if(aTarget==null) target = OntoUMLParser.getTargetType(relationship);
+		else target = aTarget;
 		
 		this.eContainer = eContainer;
 		
-		if (notification!=null) diagramElement = OccurenceManager.get().getDiagramElement(relationship,((DiagramEditor)notification).getDiagram());
+		if (notification!=null) diagramElement = OccurenceManager.get().getDiagramElement(relationship);
 	}
 
 	@Override

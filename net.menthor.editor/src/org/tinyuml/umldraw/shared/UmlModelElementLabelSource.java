@@ -48,7 +48,8 @@ public class UmlModelElementLabelSource implements LabelSource, Serializable {
   public UmlModelElementLabelSource(StructureDiagram diagram, Element aNamedElement) {
     namedElement = aNamedElement;
     this.diagram = diagram;
-    propertyUUID = OntoUMLParser.getUUIDFromElement(namedElement);
+    if(namedElement.eResource() != null)
+    	propertyUUID = OntoUMLParser.getUUIDFromElement(namedElement);
     
   }
 
