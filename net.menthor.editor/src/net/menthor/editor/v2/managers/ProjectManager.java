@@ -1,34 +1,45 @@
 package net.menthor.editor.v2.managers;
 
+/**
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ */
+
 import java.awt.Component;
-import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.umldraw.StructureDiagram;
 
+import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.ConstraintEditor;
+import net.menthor.editor.ui.DATException;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectReader;
 import net.menthor.editor.ui.ProjectWriter;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.ui.StartPage;
-import net.menthor.editor.v2.util.MenthorResourceFactoryImpl;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
@@ -38,24 +49,46 @@ public class ProjectManager extends BaseManager {
 	public static ProjectManager get() { return instance; }
 		
 	private UmlProject project;
-	private File projectFile;	
+	private File projectFile;
+	
 	private String lastOpenPath = new String();
 	private String lastSavePath = new String();
 	private String lastImportPath = new String();
 	
 	public UmlProject getProject(){ return project; }
+	
+	public void setProject(UmlProject project){
+		this.project = project;
+		this.project.setSaveModelNeeded(false);		
+		browser.set(this.project, project.getModel());
+		infoManager.set(this.project);
+		diagramManager.set();
+	}
+	
 	public File getProjectFile(){ return projectFile; }
 	
-	public int confirmProjectClose(Component parentWindow){
-		 return JOptionPane.showOptionDialog(parentWindow,
+	public File chooseNewFile() throws IOException{
+		return Util.chooseFile(diagramManager, null, "New Project", "Menthor Project (*.menthor)", "menthor");
+	}
+	
+	public File chooseOpenFile()throws IOException{
+		return Util.chooseFile(diagramManager, lastOpenPath, "Open Project", "Menthor Project (*.menthor)", "menthor");
+	}
+	
+	public File chooseSaveAsFile()throws IOException{
+		return Util.chooseFile(diagramManager, lastSavePath, "Save Project As", "Menthor Project (*.menthor)", "menthor");
+	}
+	
+	public File chooseImportFile()throws IOException{
+		return Util.chooseFile(diagramManager, lastImportPath, "Import Model Content", "Reference Ontouml (*.refontouml)", "refontouml");
+	}
+	
+	public boolean confirmClose(Component parentWindow){
+		 return MessageManager.get().option(parentWindow,
+			"Close Project",
 			"Do you really want to close the current project?",
-			"Project Manager - Close", 
-			JOptionPane.YES_NO_CANCEL_OPTION,
-			JOptionPane.QUESTION_MESSAGE,
-			null,
-			new String[]{"Save and Close", "Close", "Cancel"},
-			"default"
-		);	
+			new String[]{"Save and Close", "Close", "Cancel"}
+		);
 	}
 	
 	public void createEmptyProject(){
@@ -64,9 +97,7 @@ public class ProjectManager extends BaseManager {
 
 	public void createEmptyProject(boolean createRulesDocument, boolean createDiagram){
 		project = new UmlProject();
-		project.setSaveModelNeeded(false);
-		browser.set(project, project.getModel());
-		infoManager.setProject(project);
+		setProject(project);		
 		if(createDiagram) AdditionManager.get().newDiagram();
 		if(createRulesDocument) AdditionManager.get().newOclDocument();
 	}
@@ -76,101 +107,151 @@ public class ProjectManager extends BaseManager {
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, boolean createDefaultDiagram, boolean createDefaultRules){	
-		return createProject(model,"", createDefaultDiagram,createDefaultRules);
+		return createProject(model,"", createDefaultDiagram, createDefaultRules);
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model){		
 		return createProject(model,"");
 	}
 	
-	public void openRecentProject(){
-		StartPage startPanel = (StartPage) diagramManager.getCurrentEditor();
-		if(startPanel != null){
-			openProject(startPanel.getSelectedRecentFile());
-		}
-	}
-	
 	public UmlProject createProject(RefOntoUML.Package model, String oclContent, boolean createDefaultDiagram, boolean createDefaultRules){		
-		project = new UmlProject(model);		
-		project.setSaveModelNeeded(false);		
-		browser.set(project, model);
-		infoManager.setProject(project);			
-		for(OntoumlDiagram diagram: project.getDiagrams()) {
-			diagramManager.createDiagramEditor((StructureDiagram)diagram);
-		}		
-		if(createDefaultDiagram){
-			if(project.getDiagrams().size()==0)  AdditionManager.get().newDiagram();
-		}
-		if(createDefaultRules){
-			AdditionManager.get().newOclDocument(oclContent,false);
-		}		
+		project = new UmlProject(model);
+		setProject(project);
+		if(createDefaultDiagram && project.getDiagrams().size()==0) AdditionManager.get().newDiagram();		
+		if(createDefaultRules) AdditionManager.get().newOclDocument(oclContent,false);		
 		return project;
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, List<String> oclContent){		
-		project = new UmlProject(model);		
-		project.setSaveModelNeeded(false);		
-		browser.set(project, model);
-		infoManager.setProject(project);		
-		for(OntoumlDiagram diagram: project.getDiagrams()){ 
-			diagramManager.createDiagramEditor((StructureDiagram)diagram);
-		}
-		if(project.getDiagrams().size()==0){ 
-			AdditionManager.get().newDiagram();
-		}
-		for(String str: oclContent){
-			AdditionManager.get().newOclDocument(str,false);
-		}		
+		project = new UmlProject(model);
+		setProject(project);
+		if(project.getDiagrams().size()==0) AdditionManager.get().newDiagram();
+		for(String str: oclContent) AdditionManager.get().newOclDocument(str,false);		
 		return project;
 	}
 	
-	public void closeProject(){
-		if (project==null) return;			
-		if(project.isSaveModelNeeded()){
-			int response = confirmProjectClose(diagramManager);
-			if(response==JOptionPane.YES_OPTION){
-				diagramManager.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				saveProject();
-				diagramManager.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
-			}
+	public void closeProject(){					
+		if(project!=null && project.isSaveModelNeeded()){ 
+			if(confirmClose(diagramManager)) saveProject();							
 		}		
-		diagramManager.removeAll();
-		diagramManager.getFrame().setTitle("Menthor Editor");	
-		browser.clear();
-		infoManager.eraseProject();										
-		project=null;				
-		diagramManager.addStartPanel(diagramManager,false);
-		diagramManager.getFrame().showOnlyStartPage();
-		diagramManager.getFrame().getMainMenu().disactivateSomeToBegin();			
-		diagramManager.repaint();
-		diagramManager.revalidate();
+		project=null;		
+		browser.empty();
+		infoManager.empty();		
+		diagramManager.empty();
 	}
 	
-	public void saveProject(){
-		if (projectFile == null){
-			int option = saveProjectAs();
-			if (option!=JFileChooser.APPROVE_OPTION){
-				diagramManager.repaint();
-				diagramManager.revalidate();				
-				return;
-			}
-		}else{
-			saveProjectToFile(projectFile);
+	public void openRecentProject(){
+		StartPage startPanel = (StartPage) diagramManager.getCurrentEditor();
+		if(startPanel != null){
+			openProjectFromFile(startPanel.getSelectedRecentFile());
 		}
-		diagramManager.repaint();
-		diagramManager.revalidate();
 	}
 	
-	/** Save current Project to a file *.menthor */
-	public File saveProjectToFile(File file){		
-		project.setVersion(MenthorEditor.MENTHOR_VERSION);
-		diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if (file.exists()) file.delete();
+	public void saveProject() {
+		if (projectFile == null) saveProjectAs();			
+		else writeProject(projectFile);
+	}
+	
+	public void newProject(){		
+		try {
+			File file = chooseNewFile();
+			if(file==null) return;
+			projectFile = file;
+			CursorManager.get().waitCursor();
+			closeProject();
+			createEmptyProject(false,true);				
+			writeProject(file);			
+			diagramManager.getFrame().set(file);														
+		} catch (Exception ex) {
+			MessageManager.get().showError(ex, "New Project", "Could not create new project");
+		}		
+		CursorManager.get().defaultCursor();
+	}	
+
+	@SuppressWarnings("unchecked")
+	public void newProject(Object object){
+		if(!(object instanceof List<?>)) return;
+		List<Object> list = (List<Object>)object;
+		RefOntoUML.Package model=null;
+		if(list.size()>0) model = (RefOntoUML.Package)list.get(0);		
+		if(list.size()>1 && list.get(1) instanceof List<?>){
+			createProject(model, (List<String>) list.get(1));
+		}
+		else if(list.size()>1 && list.get(1) instanceof String){
+			createProject(model, (String) list.get(1), true, true);
+		} else{
+			createProject(model, "",true,true);
+		}		
+	}
+	
+	public void openProject(){
+		try {
+			File file = chooseOpenFile();
+			if(file==null) return;
+			projectFile = file;
+			lastOpenPath = file.getAbsolutePath();
+			CursorManager.get().waitCursor();			
+			closeProject();
+			readProject(projectFile);
+			diagramManager.getFrame().set(file);			
+		} catch (Exception ex) {
+			MessageManager.get().showError(ex, "Open Project", "Could not open existing project");
+		}
+		CursorManager.get().defaultCursor();
+	}
+	
+	public void openProjectFromFile(String filePath){
+		CursorManager.get().waitCursor();
+		try {
+			closeProject();
+			File file = new File(filePath);
+			projectFile = file;						
+			readProject(projectFile);	
+			diagramManager.getFrame().set(file);
+		} catch (Exception ex) {
+			MessageManager.get().showError(ex, "Open Project", "Could not open existing project from a file path");
+		}
+		CursorManager.get().defaultCursor();		
+	}
+	
+	public void saveProjectAs(){
+		try{
+			File file = chooseSaveAsFile();
+			if(file==null) return;	
+			CursorManager.get().waitCursor();
+			projectFile = writeProject(file);			
+			lastSavePath = file.getAbsolutePath();
+			diagramManager.getFrame().set(projectFile, false);			
+		}catch (Exception ex) {
+			MessageManager.get().showError(ex, "Save Project As", "Could not save project");
+		}		
+		CursorManager.get().defaultCursor();
+	}
+	
+	public void importModelContent() {
+		try {
+			File file = chooseImportFile();		
+			if(file==null) return;				
+			projectFile = new File(file.getAbsolutePath().replace(".refontouml", ".menthor"));
+			lastImportPath = projectFile.getAbsolutePath();
+			CursorManager.get().waitCursor();
+			closeProject();
+			Resource resource = RefOntoUMLResourceUtil.loadModel(file.getAbsolutePath());
+			RefOntoUML.Package model = (RefOntoUML.Package)resource.getContents().get(0);
+			createProject(model, true, false);
+			writeProject(projectFile);
+			diagramManager.getFrame().set(projectFile);			
+		} catch (Exception ex) {
+			MessageManager.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
+		}		
+		CursorManager.get().defaultCursor();
+	}
+
+	public File writeProject(File file){
 		File result = null;
 		try {
-			if(!file.getName().endsWith(".menthor")) {
-				file = new File(file.getCanonicalFile() + ".menthor");
-			}						
+			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
+			if (file.exists()) file.delete();
 			for(ConstraintEditor ce: diagramManager.getConstraintEditors()){				
 				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
 			}
@@ -178,269 +259,30 @@ public class ProjectManager extends BaseManager {
 			for(DiagramEditor editor: diagramManager.getDiagramEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
-			result = ProjectWriter.getInstance().writeProject(diagramManager, file, project, Models.getOclDocList());		
-			Settings.addRecentProject(file.getCanonicalPath());
+			result = ProjectWriter.getInstance().writeProject(diagramManager, file, project, Models.getOclDocList());
 			project.setName(file.getName().replace(".menthor",""));
 			browser.refresh();
-			diagramManager.saveAllDiagramNeeded(false);
-			diagramManager.getFrame().setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			diagramManager.invalidate();
-			diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			project.saveAllDiagramNeeded(false);
+			diagramManager.getFrame().set(file, false);			
+			Settings.addRecentProject(file.getCanonicalPath());
 		} catch (Exception ex) {
-			System.out.println("Failed to save Menthor project!");
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(diagramManager, ex.getMessage(), "Save Project", JOptionPane.ERROR_MESSAGE);
-		}
-		System.out.println("Menthor project successfully saved!");
+			MessageManager.get().showError(ex, "Write Project", "Could not serialize current project to a file");
+		}				
 		return result;
 	}
 	
-	public int saveProjectAs(){
-		JFileChooser fileChooser = new JFileChooser(lastSavePath){
-			private static final long serialVersionUID = 1L;
-			@Override
-		    public void approveSelection(){
-		        File f = getSelectedFile();
-		        if(f.exists() && getDialogType() == SAVE_DIALOG){
-		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
-		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
-		            switch(result){
-		                case JOptionPane.YES_OPTION:
-		                    super.approveSelection();
-		                    return;
-		                case JOptionPane.NO_OPTION:
-		                    return;
-		                case JOptionPane.CLOSED_OPTION:
-		                    return;
-		                case JOptionPane.CANCEL_OPTION:
-		                    cancelSelection();
-		                    return;
-		            }
-		        }
-		        super.approveSelection();
-		    }    
-		};
-		fileChooser.setDialogTitle("Save Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setAcceptAllFileFilterUsed(false);			
-		int option = fileChooser.showSaveDialog(diagramManager);
-		if (option == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();			
-			projectFile = saveProjectToFile(file);			
-			diagramManager.getFrame().setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-			lastSavePath = file.getAbsolutePath();		
-		}
-		return option;
-	}
-	
-	/** New Menthor Project. */
-	public void newProject() 
-	{				
-		JFileChooser fileChooser = new JFileChooser(){
-			private static final long serialVersionUID = 1L;
-			@Override
-		    public void approveSelection(){
-		        File f = getSelectedFile();
-		        if(f.exists()){
-		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
-		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
-		            switch(result){
-		                case JOptionPane.YES_OPTION:
-		                    super.approveSelection();
-		                    return;
-		                case JOptionPane.NO_OPTION:
-		                    return;
-		                case JOptionPane.CLOSED_OPTION:
-		                    return;
-		                case JOptionPane.CANCEL_OPTION:
-		                    cancelSelection();
-		                    return;
-		            }
-		        }
-		        super.approveSelection();
-		    }   
-		};		
-		fileChooser.setDialogTitle("New Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setSelectedFile(new File("*.menthor"));
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showDialog(diagramManager,"OK") == JFileChooser.APPROVE_OPTION) {
-			try {	
-				File file = fileChooser.getSelectedFile();
-				
-				diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));				
-				System.out.println("Creating New project");				
-				closeProject();									
-				if(!file.getName().endsWith(".menthor")) {
-					file = new File(file.getCanonicalFile() + ".menthor");
-				}else{
-					file = new File(file.getCanonicalFile()+"");
-				}
-				JRootPane root = diagramManager.getFrame().getRootPane( );
-				root.putClientProperty( "Window.documentFile", file );
-				projectFile = file;
-				createEmptyProject(false,true);				
-				saveProjectToFile(file);
-				diagramManager.getFrame().setTitle(file.getName().replace(".menthor","")+" - Menthor Editor");
-				diagramManager.getFrame().forceShowBrowserPane();
-				diagramManager.getFrame().forceShowPalettePane();				
-				diagramManager.getFrame().getMainMenu().activateAll();
-				System.out.println("New project succesffully created");
-								
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(diagramManager, ex.getMessage(), "New Project", JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
-			}
-		}
-		diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}	
-
-	/** Open an existing project. */
-	public void openProject() 
-	{		
-		JFileChooser fileChooser = new JFileChooser(lastOpenPath);
-		fileChooser.setDialogTitle("Open Project");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Menthor Project (*.menthor)", "menthor", "menthor"); 
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);	
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showOpenDialog(diagramManager) == JFileChooser.APPROVE_OPTION) {
-			try {
-				diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				closeProject();				
-				System.out.println("Opening Menthor project...");				
-				File file = fileChooser.getSelectedFile();
-				JRootPane root = diagramManager.getFrame().getRootPane( );
-				root.putClientProperty( "Window.documentFile", file );
-				projectFile = file;
-				lastOpenPath = file.getAbsolutePath();
-				ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-				openListFiles(listFiles);				
-				diagramManager.getFrame().forceShowBrowserPane();
-				diagramManager.getFrame().forceShowPalettePane();
-				diagramManager.getFrame().getMainMenu().activateAll();
-				
-			} catch (Exception ex) {
-				System.out.println("Failed to open Menthor project!");	
-				JOptionPane.showMessageDialog(diagramManager, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
-			}
-			diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			System.out.println("Menthor project successfully opened!");	
-		}		
-	}
-	
-	public void openProject(String filePath) 
-	{
-		diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		try {
-			closeProject();
-			System.out.println("Opening recent project");				
-			File file = new File(filePath);
-			JRootPane root = diagramManager.getFrame().getRootPane( );
-			root.putClientProperty( "Window.documentFile", file );			
-			projectFile = file;
-			ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
-			openListFiles(listFiles);	
-			diagramManager.getFrame().forceShowBrowserPane();
-			diagramManager.getFrame().forceShowPalettePane();		
-			diagramManager.getFrame().getMainMenu().activateAll();
-			
-		} catch (Exception ex) {
-			System.out.println("Failed to open Menthor project!");	
-			JOptionPane.showMessageDialog(diagramManager, ex.getMessage(), "Open Project", JOptionPane.ERROR_MESSAGE);
-			ex.printStackTrace();
-		}
-		diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		System.out.println("Menthor project successfully opened!");	
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void openExistingModel(Object list){
-		if(list instanceof List<?>){
-			List<Object> l = (List<Object>)list;
-			RefOntoUML.Package model=null;
-			if(l.size()>0) model = (RefOntoUML.Package)l.get(0);			
-			if(l.size()>1 && l.get(1) instanceof List<?>){
-				createProject(model, (List<String>) l.get(1));
-			}
-			else if(l.size()>1 && l.get(1) instanceof String){
-				createProject(model, (String) l.get(1), true, true);
-			} else{
-				createProject(model, "",true,true);
-			}
-			diagramManager.getFrame().forceShowBrowserPane();
-			diagramManager.getFrame().forceShowPalettePane();
-			diagramManager.getFrame().getMainMenu().activateAll();	
-		}		
-	}
-	
-	/** Open Menthor project from the list of object read from stream as a result of the menthor file serialization */
-	private void openListFiles(ArrayList<Object> listFiles) throws IOException {
+	private void readProject(File file) throws IOException, ClassNotFoundException, DATException {
+		CursorManager.get().waitCursor();
+		ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 		List<OclDocument> ocllist = new ArrayList<OclDocument>();
 		for(int i=1; i<listFiles.size();i++){																
-			OclDocument oclDoc = (OclDocument)listFiles.get(i);										
-			ocllist.add(oclDoc);
+			ocllist.add((OclDocument)listFiles.get(i));
 		}
 		Object o = listFiles.get(0);
-		if(o instanceof UmlProject){
-			project = (UmlProject)o;			
-			browser.set(project, project.getModel(), ocllist);
-			diagramManager.getFrame().getInfoManager().setProject(project);
-			diagramManager.openDiagrams();
-			project.setSaveModelNeeded(false);
-		}else if(o instanceof RefOntoUML.Package){			
-			RefOntoUML.Package model = (RefOntoUML.Package)o;
-			createProject(model,true,false);
-		}			
-		Settings.addRecentProject(projectFile.getCanonicalPath());
-		diagramManager.getFrame().setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");				
+		if(o instanceof UmlProject) setProject((UmlProject)o);
+		if(o instanceof RefOntoUML.Package) createProject((RefOntoUML.Package)o,true,false);
+		diagramManager.getFrame().set(file, false);
+		CursorManager.get().defaultCursor();
+		Settings.addRecentProject(file.getCanonicalPath());
 	}
-	
-	/** Import a Reference OntoUML model instance. */
-	public void importFromXMI() 
-	{
-		JFileChooser fileChooser = new JFileChooser(lastImportPath);
-		fileChooser.setDialogTitle("Importation");		
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Reference OntoUML Model (*.refontouml)", "refontouml");
-		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showOpenDialog(diagramManager) == JFileChooser.APPROVE_OPTION) {
-			try {
-				closeProject();
-				diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,new MenthorResourceFactoryImpl());
-				resourceSet.getPackageRegistry().put(RefOntoUML.RefOntoUMLPackage.eNS_URI, RefOntoUML.RefOntoUMLPackage.eINSTANCE);
-				File ecoreFile = new File(fileChooser.getSelectedFile().getPath());					
-				org.eclipse.emf.common.util.URI fileURI = org.eclipse.emf.common.util.URI.createFileURI(ecoreFile.getAbsolutePath());		
-				Resource resource = resourceSet.createResource(fileURI);		
-				resource.load(Collections.emptyMap());
-				File pFile = new File(ecoreFile.getAbsolutePath().replace(".refontouml", ".menthor"));
-				JRootPane root = diagramManager.getFrame().getRootPane( );
-				root.putClientProperty( "Window.documentFile", pFile );
-				projectFile = pFile;
-				lastOpenPath = projectFile.getAbsolutePath();
-				createProject((RefOntoUML.Package)resource.getContents().get(0));
-				saveProjectToFile(projectFile);
-				lastImportPath = fileChooser.getSelectedFile().getAbsolutePath();
-				Settings.addRecentProject(projectFile.getCanonicalPath());
-				AdditionManager.get().newDiagram();
-				diagramManager.getFrame().setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
-				diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				diagramManager.getFrame().forceShowBrowserPane();
-				diagramManager.getFrame().forceShowPalettePane();
-				diagramManager.getFrame().getMainMenu().activateAll();
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(diagramManager, ex.getMessage(),"Importation Error",JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		diagramManager.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}
-	
 }

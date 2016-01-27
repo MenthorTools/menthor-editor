@@ -22,6 +22,9 @@ package net.menthor.editor.v2.tables;
  */
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -37,7 +40,7 @@ public class AttributeTableModel extends BaseTableModel {
 	private static final long serialVersionUID = 156864519388945910L;
 	
 	private EList<Property> attributes = new BasicEList<Property>();
-	public static boolean isPrimitive = true;
+	private List<DataType> datatypes = new ArrayList<DataType>();
 	
 	//==========================================================
 	//CONSTRUCTOR
@@ -53,6 +56,11 @@ public class AttributeTableModel extends BaseTableModel {
 	// GETTERS AND SETTERS
 	//==========================================================
 
+	public void setDataTypes(Collection<DataType> dataTypes){
+		this.datatypes.clear();
+		this.datatypes.addAll(dataTypes);
+	}
+	
 	public EList<Property> getEntries(){ 
 		return attributes; 
 	}	
@@ -109,11 +117,12 @@ public class AttributeTableModel extends BaseTableModel {
 	@Override
 	public void addEmptyEntry() {
 		Property property = RefOntoUMLFactoryUtil.factory.createProperty();
-		DataType type = null;		
-		if (isPrimitive) type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();		
-		else type = RefOntoUMLFactoryUtil.factory.createDataType();
-		type.setName("");
-		property.setType(type);
+//		DataType type = null;		
+//		if (isPrimitive) type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();		
+//		else type = RefOntoUMLFactoryUtil.factory.createDataType();
+//		type.setName("");
+//		property.setType(type);
+		property.setType(null);
 		property.setName("");
 		RefOntoUMLFactoryUtil.setMultiplicity(property, 1, 1);		
 		addEntry(property);
@@ -129,9 +138,9 @@ public class AttributeTableModel extends BaseTableModel {
 			switch(columnIndex) {
 				case 0: return prp.getName();
 				case 1: {
-					String type = new String(); 
-					if(prp.getType()!=null) type = prp.getType().getName();
-					return type;
+					String typeName = new String();
+					if(prp.getType()!=null) typeName = prp.getType().getName();
+					return typeName;
 				}
 				case 2: {
 					if (prp.getLower()==prp.getUpper() && prp.getUpper()!=-1) return Integer.toString(prp.getLower());
@@ -150,16 +159,14 @@ public class AttributeTableModel extends BaseTableModel {
 		if(columnIndex == 0) {
 			property.setName((String) value);
 		} 
-		if(columnIndex == 1){			 
-			if(property.getType()!=null){
-				DataType type = (DataType) property.getType();
+		if(columnIndex == 1){
+			for(DataType dt: datatypes){
+				if(dt.getName().equals((String)value)) property.setType(dt);
+			}			
+			if(property.getType()==null){
+				DataType type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();
 				type.setName((String) value);
-			}else{
-				DataType type = null;	
-				if (isPrimitive) type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();		
-				else type = RefOntoUMLFactoryUtil.factory.createDataType();
 				property.setType(type);
-				type.setName((String) value);
 			}
 		}
 		if(columnIndex == 2){

@@ -22,6 +22,7 @@ package net.menthor.editor.problems;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
@@ -32,18 +33,18 @@ import net.menthor.editor.v2.tables.DataTableModel;
 public class ProblemScrollTable extends FoundScrollTable {
 
 	private static final long serialVersionUID = -7920882969650069279L;
-	protected ArrayList<ProblemElement> problemList = new ArrayList<ProblemElement>();
+	protected List<ProblemElement> problemList = new ArrayList<ProblemElement>();
 	
 	protected ProblemScrollTable(String[] columns) 
 	{
 		super(columns);
 	}
 	 
-	public ArrayList<ProblemElement>  getProblems() {
+	public List<ProblemElement>  getProblems() {
 		return problemList;
 	};
 	
-	public void setProblems(ArrayList<ProblemElement> problemList)
+	public void setProblems(List<ProblemElement> problemList)
 	{
 		this.foundList.clear();
 		this.foundList.addAll(problemList);

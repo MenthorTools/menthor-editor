@@ -43,7 +43,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -58,6 +57,7 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.menu.TabPopupMenu;
 import net.menthor.editor.v2.types.ColorMap;
@@ -266,17 +266,17 @@ public class ClosableTabPanel extends JPanel {
 					if(editor instanceof DiagramWrapper){
 						if(((DiagramWrapper) editor).getDiagramEditor().isSaveNeeded()) 
 						{				
-							int option = JOptionPane.showConfirmDialog(((DiagramManager)tabbedpane).getFrame(), "Your diagram has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
-							if (option== JOptionPane.YES_OPTION) { ProjectManager.get().saveProject(); }
-							else if (option==JOptionPane.CANCEL_OPTION) { return; }
+							boolean response = MessageManager.get().confirm("Save", "Your diagram has been modified. Save changes?");
+							if(response) { ProjectManager.get().saveProject(); }
+							else { return; }
 						}
 					}
 					if(editor instanceof ConstraintEditor){
 						if(((ConstraintEditor) editor).isSaveNeeded()) 
 						{
-							int option = JOptionPane.showConfirmDialog(((DiagramManager)tabbedpane).getFrame(), "Your constraints has been modified. Save changes?","Save Project", JOptionPane.YES_NO_CANCEL_OPTION);
-							if (option== JOptionPane.YES_OPTION) { ProjectManager.get().saveProject(); }
-							else if (option==JOptionPane.CANCEL_OPTION) { return; }
+							boolean response = MessageManager.get().confirm("Save", "Your constraints has been modified. Save changes?");
+							if(response) { ProjectManager.get().saveProject(); }
+							else { return; }							
 						}
 					}
 				}

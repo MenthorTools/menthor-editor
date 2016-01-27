@@ -1,9 +1,5 @@
 package net.menthor.editor.v2.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -24,6 +20,10 @@ import java.io.FileOutputStream;
  * MA  02110-1301  USA
  * ============================================================================================
  */
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import java.util.Properties;
 

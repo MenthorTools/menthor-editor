@@ -49,15 +49,12 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class AssociationEditPane extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	
-	private DiagramManager diagramManager;
-	
+		
 	private AssociationElement assocElement;
 	private Classifier element;
 			
@@ -85,8 +82,7 @@ public class AssociationEditPane extends JPanel {
 	private JLabel lblName;
 	private JLabel lblStereo;
 	
-	public AssociationEditPane(final DiagramManager diagramManager, final AssociationElement assocElement, Classifier relationship, boolean modal){		
-		this.diagramManager = diagramManager;
+	public AssociationEditPane(final AssociationElement assocElement, Classifier relationship, boolean modal){		
 		this.assocElement = assocElement;
 		this.element = (Classifier)relationship;
 		initUI();

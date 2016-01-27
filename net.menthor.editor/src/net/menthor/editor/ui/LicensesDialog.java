@@ -38,15 +38,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import net.menthor.editor.v2.managers.MessageManager;
 
 public class LicensesDialog extends JDialog {
 
 	private static final long serialVersionUID = 3853224908119790266L;
 	
+	@SuppressWarnings("unused")
 	private Component parent;
 	@SuppressWarnings("rawtypes")
 	private JComboBox choices;
@@ -127,7 +129,7 @@ public class LicensesDialog extends JDialog {
 			textArea.setText(text);
 			textArea.setCaretPosition(0);			
 		}catch(IOException e){
-			JOptionPane.showMessageDialog(parent, e.getLocalizedMessage(),"License Error",JOptionPane.ERROR_MESSAGE);
+			MessageManager.get().showError(e, "Reading License", "Could not display any license due to an internal error.");
 		}
 	}
 }

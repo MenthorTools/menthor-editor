@@ -21,8 +21,6 @@ package net.menthor.editor.v2.settings.ea;
  * ============================================================================================
  */
 
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -57,19 +55,19 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
+import RefOntoUML.Model;
+import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.xmi2ontouml.Creator;
 import net.menthor.xmi2ontouml.framework.XMI2RefConstraint;
 import net.menthor.xmi2ontouml.framework.XMI2RefModel;
 import net.menthor.xmi2ontouml.util.ChckBoxTreeNodeElem;
 import net.menthor.xmi2ontouml.util.RefOntoUMLUtil;
-
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
-
-import RefOntoUML.Model;
 
 public class EASettingsDialog extends JDialog implements ActionListener, TreeSelectionListener
 {
@@ -348,7 +346,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		{
 			if (filePathField.getText().length() == 0)
 			{
-				JOptionPane.showMessageDialog(this, "Please select a file");
+				MessageManager.get().showInfo(this, "EA Settings", "Please select a file");
 			}
 			else if (trees == null)
 			{
@@ -459,7 +457,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		List<Object> result = new ArrayList<Object>();
 		result.add(model);
 		result.add(document);
-		listener.handleCommand(CommandType.OPEN_EXISTING_MODEL.toString(), result);
+		listener.handleCommand(CommandType.NEW_PROJECT_FROM_MODEL.toString(), result);
 		this.dispose();
 	}
 	

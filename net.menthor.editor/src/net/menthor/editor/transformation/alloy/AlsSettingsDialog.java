@@ -29,15 +29,16 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.ui.ConstraintSimulationPanel;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -157,7 +158,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 				destPane.getALS4Destination(),				
 				destPane.getPath()				
 			);			
-			((MainFrame)getOwner()).getDiagramManager().transformToAlloy(
+			AlloyManager.get().generateAlloy(
 				filterPane.getFilteredParser(), options				
 			);
 		}

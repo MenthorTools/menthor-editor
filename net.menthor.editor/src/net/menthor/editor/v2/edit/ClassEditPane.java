@@ -38,14 +38,12 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.MixinClass;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class ClassEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private DiagramManager diagramManager;
 	private Classifier element;
 	
 	private JCheckBox btnAbstract;		
@@ -84,8 +82,7 @@ public class ClassEditPane extends JPanel {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ClassEditPane(DiagramManager diagramManager, RefOntoUML.Classifier element){	
-		this.diagramManager = diagramManager;
+	public ClassEditPane(RefOntoUML.Classifier element){
 		this.element = element;
 		
 		setPreferredSize(new Dimension(451, 80));

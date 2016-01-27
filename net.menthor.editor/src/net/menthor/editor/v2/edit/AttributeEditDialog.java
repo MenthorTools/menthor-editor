@@ -75,7 +75,7 @@ public class AttributeEditDialog extends BaseEditDialog {
 	
 	public void initUI(){
 		setTitle(OntoUMLParser.getStereotype(attribute)+" "+attribute.getName()+": "+attribute.getType().getName());		
-		propertyEdition = new PropertyEditPane(this.getParent(), diagramManager, classElement, element, attribute);		
+		propertyEdition = new PropertyEditPane(this.getParent(), classElement, element, attribute);		
 		tabbedPane.addTab("Attribute", null, propertyEdition, null);	
 		setSize(new Dimension(450, 380));
 	}

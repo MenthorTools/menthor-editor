@@ -27,10 +27,13 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTextArea;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
@@ -42,18 +45,29 @@ import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.AlloyManager;
+import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
+import net.menthor.editor.v2.managers.CursorManager;
 import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FilterManager;
 import net.menthor.editor.v2.managers.HelpManager;
+import net.menthor.editor.v2.managers.ImportManager;
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.OwlManager;
 import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.RenameManager;
-import net.menthor.editor.v2.managers.SBVRManager;
+import net.menthor.editor.v2.managers.SbvrManager;
+import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.palette.PalettePane;
@@ -88,14 +102,18 @@ public class MainFrame extends JFrame implements CommandListener {
 		showOnlyStartPage();		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				quitApplication();
+				try {
+					quitApplication();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
 		pack();
 	}
 	
-	public boolean quitApplication() {
+	public boolean quitApplication() throws IOException {
 		if (canQuit()) {					
 			getDiagramManager().dispose();
 			dispose();
@@ -117,7 +135,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 			
-	private boolean canQuit() {		
+	private boolean canQuit() throws IOException {		
 		if(ProjectManager.get().getProject()==null)
 			return true;		
 		int response = JOptionPane.showOptionDialog(
@@ -149,6 +167,21 @@ public class MainFrame extends JFrame implements CommandListener {
 		setJMenuBar(mainMenu);
 	}
 	
+	public void set(File projectFile){
+		set(projectFile,true);
+	}
+	
+	public void set(File projectFile, boolean forceDefaultUI){
+		JRootPane root = getRootPane( );
+		root.putClientProperty("Window.documentFile", projectFile);
+		setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
+		if(forceDefaultUI){
+			forceShowBrowserPane();
+			forceShowPalettePane();				
+			getMainMenu().activateAll();
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	private void installMainToolBar(){		
 		mainToolBar = new MainToolbar(this);		
@@ -173,7 +206,18 @@ public class MainFrame extends JFrame implements CommandListener {
 		HelpManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		RenameManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		EditManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		SBVRManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		SbvrManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		ImportManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		ExportManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		AlloyManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		MessageManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		SyntaxManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		CursorManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		AntiPatternManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		UndoManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		RedoManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		OwlManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		DuplicateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 	}
 	
 	private void installMultiSplitPane(){		
@@ -257,7 +301,7 @@ public class MainFrame extends JFrame implements CommandListener {
 			getMainMenu().select(CommandType.PALETTE_OF_ELEMENTS,false);
 		}		
 	}
-	
+		
 	//=========================================================================
 	
 	private MethodCall getMethodCall(String command, Object parameter){
@@ -307,9 +351,29 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(UpdateManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RenameManager.class){
 				return methodcall.call(RenameManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == SBVRManager.class){
-				return methodcall.call(SBVRManager.get());
-			
+			}else if(methodcall.getMethod().getDeclaringClass() == SbvrManager.class){
+				return methodcall.call(SbvrManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ExportManager.class){
+				return methodcall.call(ExportManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ImportManager.class){
+				return methodcall.call(ImportManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AlloyManager.class){
+				return methodcall.call(AlloyManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){
+				return methodcall.call(SyntaxManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AntiPatternManager.class){
+				return methodcall.call(AntiPatternManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == UndoManager.class){
+				return methodcall.call(UndoManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == RedoManager.class){
+				return methodcall.call(RedoManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == OwlManager.class){
+				return methodcall.call(OwlManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateManager.class){
+				return methodcall.call(DuplicateManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
+				return methodcall.call(OccurenceManager.get());
+				
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(getDiagramManager().getCurrentDiagramEditor());
 			}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){
@@ -325,24 +389,24 @@ public class MainFrame extends JFrame implements CommandListener {
 	/** Handles the fired commands. */
 	@Override
 	public Object handleCommand(String command, Object parameter) {	
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		CursorManager.get().waitCursor();
 		MethodCall methodcall = getMethodCall(command,parameter);
 		System.out.println(methodcall);
 		Object result=null;
 		if(methodcall!=null) result = callMethod(methodcall);
-		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		CursorManager.get().defaultCursor();
 		return result;		
 	}
 	
 	/** Handles the fired commands. */
 	@Override
 	public Object handleCommand(String command) {	
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		CursorManager.get().waitCursor();
 		MethodCall methodcall = getMethodCall(command,null);
 		System.out.println(methodcall);
 		Object result=null;
 		if(methodcall!=null) result = callMethod(methodcall);
-		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		CursorManager.get().defaultCursor();
 		return result;		
 	}
 	
@@ -354,24 +418,6 @@ public class MainFrame extends JFrame implements CommandListener {
 	 * */
 	public void selectPaletteDefaultElement() {
 		palettePane.getClassPalette().selectDefault();
-	}
-
-	public void showErrorMessageDialog(String title, String message){
-		JOptionPane.showMessageDialog(
-			this,message,title,JOptionPane.ERROR_MESSAGE			
-		);	
-	}
-	
-	public void showWarningMessageDialog(String title, String message){
-		JOptionPane.showMessageDialog(
-			this,message,title,JOptionPane.WARNING_MESSAGE			
-		);	
-	}
-		
-	public void showSuccessfulMessageDialog(String title, String message){
-		JOptionPane.showMessageDialog(
-			this,message,title,JOptionPane.INFORMATION_MESSAGE			
-		);
 	}
 	
 	public void showInformationMessageDialog(String title, String message){

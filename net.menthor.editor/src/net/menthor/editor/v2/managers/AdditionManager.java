@@ -1,9 +1,29 @@
 package net.menthor.editor.v2.managers;
 
+/**
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ */
+
 import java.awt.Component;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
@@ -18,6 +38,7 @@ import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.StringExpression;
+
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
@@ -30,13 +51,9 @@ public class AdditionManager extends BaseManager {
 	private static AdditionManager instance = new AdditionManager();
 	public static AdditionManager get() { return instance; }
 		
-	public int confirmGenSetAddition(Component parentWindow){
-		return JOptionPane.showConfirmDialog(parentWindow, 
-			"There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?", 
-			"Addition Manager - Generalization Set", 
-			JOptionPane.YES_NO_OPTION, 
-			JOptionPane.QUESTION_MESSAGE, 
-			null
+	public boolean confirmGenSetAddition(Component parentWindow){
+		return MessageManager.get().confirm(parentWindow, "Add Generalization Set",
+			"There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?"
 		);
 	}
 	
@@ -71,7 +88,6 @@ public class AdditionManager extends BaseManager {
 	/** Add package to the model.  */
 	public RefOntoUML.Element addPackage(RefOntoUML.Element eContainer){
 		RefOntoUML.Element comment = factory.createPackage();
-		//to add only in the model do exactly as follow		
 		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,eContainer);		
 		cmd.run();
 		return comment;
@@ -79,7 +95,6 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add constraint to the model */
 	public void addConstraintx(Constraintx cmt, RefOntoUML.Element eContainer){
-		//to add only in the model do exactly as follow		
 		AddNodeCommand cmd = new AddNodeCommand(null,null,cmt,0,0,eContainer);		
 		cmd.run();
 	}
@@ -128,8 +143,7 @@ public class AdditionManager extends BaseManager {
 		boolean haveGenSet = diagramManager.haveGeneralizationSet(gens);
 		if(gens.size()<=1) return null; 
 		if(haveGenSet){
-			int response = confirmGenSetAddition(diagramManager);
-			if(response!=JOptionPane.OK_OPTION) return null;
+			if(!confirmGenSetAddition(diagramManager)) return null;
 		}
 		EObject eContainer = null;
 		if(gens.size()>1) eContainer = gens.get(0).getSpecific().eContainer();	
@@ -185,7 +199,7 @@ public class AdditionManager extends BaseManager {
 		diagramManager.setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
-		diagramManager.saveDiagramNeeded(diagram,false);
+		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
 		diagramManager.createDiagramEditor(diagram);		
 		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
 		browser.getTree().addElement(container,diagram);

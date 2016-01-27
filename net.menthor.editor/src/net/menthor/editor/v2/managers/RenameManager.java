@@ -1,9 +1,29 @@
 package net.menthor.editor.v2.managers;
 
+/**
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
+ *
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
+ *
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
+ */
+
 import java.awt.Component;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.tinyuml.draw.DiagramElement;
@@ -22,33 +42,27 @@ public class RenameManager extends BaseManager {
 	public static RenameManager get() { return instance; }
 	
 	public String askForElementName(Component parentWindow, RefOntoUML.Element element){
-		return (String)JOptionPane.showInputDialog(parentWindow,
-			"Please, enter the new name:",
-			"Rename Manager - Element",
-			JOptionPane.INFORMATION_MESSAGE,
-			null,
+		return (String)MessageManager.get().input(parentWindow,
+			"Please, enter a new name for the model element:",
+			"Rename Manager",			
 			null,
 			((NamedElement)element).getName()
 		);
 	}
 	
 	public String askForOCLDocName(Component parentWindow, OclDocument doc){
-		return (String)JOptionPane.showInputDialog(parentWindow,
-			"Please, enter the new name:",
-			"Rename Manager - OCL Document",
-			JOptionPane.INFORMATION_MESSAGE,
-			null,
+		return (String)MessageManager.get().input(parentWindow,
+			"Please, enter a new name for the OCL document:",
+			"Rename Manager",			
 			null,
 			doc.getName()
 		);
 	}
 	
 	public String askForDiagramName(Component parentWindow, StructureDiagram diagram){
-		return (String)JOptionPane.showInputDialog(parentWindow,
-			"Please, enter the new name:",
-			"Rename Manager - Diagram",
-			JOptionPane.INFORMATION_MESSAGE,
-			null,
+		return (String)MessageManager.get().input(parentWindow,			
+			"Rename Manager",
+			"Please, enter a new name for the diagram:",			
 			null,
 			diagram.getName()
 		);

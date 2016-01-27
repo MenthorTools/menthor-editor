@@ -56,7 +56,7 @@ public class DiagramToolBar extends BaseToolBar {
 		createButton(IconType.MENTHOR_UNDO,CommandType.UNDO,background);
 		createButton(IconType.MENTHOR_REDO,CommandType.REDO,background);
 		createButton(IconType.MENTHOR_COLOR_CHOOSER,CommandType.SET_BACKGROUND_COLOR,background);		
-		createButton(IconType.MENTHOR_EXPORT,CommandType.SAVE_DIAGRAM_AS_IMAGE,background);
+		createButton(IconType.MENTHOR_EXPORT,CommandType.EXPORT_TO_PNG,background);
 		createButton(IconType.MENTHOR_ZOOM_IN,CommandType.ZOOM_IN,background);
 		createButton(IconType.MENTHOR_ZOOM_OUT,CommandType.ZOOM_OUT,background);
 		createButton(IconType.MENTHOR_FIT,CommandType.FIT_TO_WINDOW,background);	

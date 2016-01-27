@@ -52,7 +52,6 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
@@ -63,7 +62,6 @@ public class PropertyEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private DiagramManager diagramManager;
 	private Component parent;
 		
 	private OntoUMLParser refparser;
@@ -96,10 +94,9 @@ public class PropertyEditPane extends JPanel {
 	private JTextField subsettedText;
 	private JTextField redefinedText;
 	
-	public PropertyEditPane(Component parent, final DiagramManager diagramManager, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property){
+	public PropertyEditPane(Component parent, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
-		this.parent=parent;
-		this.diagramManager = diagramManager;
+		this.parent=parent;		
 		this.refparser = Models.getRefparser();
 		this.property = property;		
 		this.ownerElement = ownerElem;	

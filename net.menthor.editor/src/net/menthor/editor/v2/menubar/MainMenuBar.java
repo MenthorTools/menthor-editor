@@ -127,7 +127,7 @@ public class MainMenuBar extends BaseMenuBar {
 		file.addSeparator();		
 		export = new JMenu("Export As");
 		file.add(export);		
-		createMenuItem(export, "XMI (.refontouml)", CommandType.EXPORT_TO_XMI, background);
+		createMenuItem(export, "XMI (.refontouml)", CommandType.EXPORT_TO_REFERENCE_ONTOUML, background);
 		createMenuItem(export, "UML2 (.uml)", CommandType.EXPORT_TO_UML, background);
 		createMenuItem(export, "Profile UML2 (.uml)", CommandType.EXPORT_TO_PROFILE_UML, background);
 		createMenuItem(export, "Ecore (.ecore)", CommandType.EXPORT_TO_ECORE, background);		
@@ -182,10 +182,10 @@ public class MainMenuBar extends BaseMenuBar {
 		add(evaluation);
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
-		createMenuItem(evaluation, "Check Rules", CommandType.PARSE_RULES, background,stroke);
-		createMenuItem(evaluation, "Check Model", CommandType.CHECK_MODEL_SYNTAX, background);
+		createMenuItem(evaluation, "Check Rules", CommandType.VERIFY_CONSTRAINTS, background,stroke);
+		createMenuItem(evaluation, "Check Model", CommandType.VERIFY_MODEL, background);
 		evaluation.addSeparator();
-		createMenuItem(evaluation, "Visual Simulation (Alloy)", CommandType.SIMULATE_AND_CHECK, background);		
+		createMenuItem(evaluation, "Visual Simulation (Alloy)", CommandType.ALLOY_SETTINGS, background);		
 		evaluation.addSeparator();
 		createMenuItem(evaluation, "Semantic Anti-Patterns", CommandType.SEARCH_FOR_ANTIPATTERNS, background);
 		createMenuItem(evaluation, "Parthood Transitivities", CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, background);
@@ -210,7 +210,7 @@ public class MainMenuBar extends BaseMenuBar {
 		add(transformation);		
 		createMenuItem(transformation, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);		
 		transformation.addSeparator();
-		createMenuItem(transformation, "Business Vocabulary (SBVR)", CommandType.BUSINESS_VOCABULARY, background);
+		createMenuItem(transformation, "Business Vocabulary (SBVR)", CommandType.GENERATE_SBVR, background);
 		createMenuItem(transformation, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
 	}
 		
@@ -259,7 +259,7 @@ public class MainMenuBar extends BaseMenuBar {
 		createMenuItem(diagram, "Zoom Out", CommandType.ZOOM_OUT, background);
 		createMenuItem(diagram, "Zoom at 100%", CommandType.ZOOM_AT_100, background);	
 		diagram.addSeparator();
-		createMenuItem(diagram, "Save As Image", CommandType.SAVE_DIAGRAM_AS_IMAGE, background);
+		createMenuItem(diagram, "Save As Image", CommandType.EXPORT_TO_PNG, background);
 	}
 	
 	private void createHelpMenu(){

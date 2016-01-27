@@ -83,7 +83,9 @@ public class MultiElementPopupMenu extends BasePopupMenu {
 		super(listener);				
 		genSetMenu = MenuBuilder.buildGenSet(listener, this, "Generalization Set");
 		addSeparator();
-		createMenuItem("Reset Points", CommandType.RESET_POINTS);
+		createMenuItem("Duplicate", CommandType.DUPLICATE);
+		addSeparator();
+		createMenuItem("Reset Points", CommandType.RESET_POINTS);		
 		styleMenu = MenuBuilder.buildLineStyle(listener, this, "Line Style");
 		visMenu = MenuBuilder.buildVisibility(listener, this, "Visibility");		
 		alignMenu = MenuBuilder.buildAlign(listener, this, "Align");	

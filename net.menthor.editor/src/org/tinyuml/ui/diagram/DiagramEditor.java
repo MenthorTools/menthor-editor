@@ -122,8 +122,10 @@ import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menu.PalettePopupMenu;
 import net.menthor.editor.v2.types.ClassType;
@@ -1489,7 +1491,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		|| changeType == ChangeType.ELEMENTS_MOVED || changeType == ChangeType.ELEMENTS_DRAGGED || changeType == ChangeType.ELEMENTS_MODIFIED || changeType == ChangeType.ELEMENTS_ALIGNED
 		|| changeType == ChangeType.ELEMENTS_COLORED || changeType == ChangeType.VISIBILITY_CHANGED)				 
 		{
-			frame.getDiagramManager().saveDiagramNeeded(this.getDiagram(),true);	
+			ProjectManager.get().getProject().saveDiagramNeeded(this.getDiagram(),true);	
 		}
 		
 		showStatus(elements, changeType, notificationType);
@@ -1637,7 +1639,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			 try{
 				ChangeManager.get().changeMultiplicity(endpoint, multiplicity);
 			 }catch(Exception e){
-				 getDiagramManager().getFrame().showErrorMessageDialog("Parsing multiplicity string", e.getLocalizedMessage());
+				 MessageManager.get().showError(e, "Multiplicity","Could not change the multiplicity");
 			 }
 		 }	
 	}
@@ -2191,9 +2193,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 					}					
 					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
 						MoveManager.get().move(rel, -1, -1, this, false);					
-				}catch(Exception e){
-					e.printStackTrace();
-					frame.showErrorMessageDialog("Error", e.getLocalizedMessage());
+				}catch(Exception e){					
+					MessageManager.get().showError(e, "Related Elements", "Could not add all related elements.");
 				}
 			}			
 			HashSet<Type> typesInDiagram = new HashSet<Type>();

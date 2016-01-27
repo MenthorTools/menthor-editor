@@ -44,6 +44,7 @@ public class NodePopupMenu extends BasePopupMenu {
 	public NodePopupMenu(CommandListener listener) {
 		super(listener);
 		createMenuItem("Edit Properties", IconType.MENTHOR_EDIT, CommandType.EDIT);
+		createMenuItem("Duplicate", null, CommandType.DUPLICATE);
 		addSeparator();
 		attrItem = createCheckBoxMenuItem("Show Attributes", CommandType.SHOW_ATTRIBUTES);
 		addSeparator();

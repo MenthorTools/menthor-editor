@@ -21,28 +21,27 @@ package net.menthor.editor.v2.managers;
  * ============================================================================================
  */
 
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
+import java.awt.Component;
+import java.awt.Cursor;
 
-import net.menthor.editor.ui.DiagramManager;
-import net.menthor.editor.ui.InfoManager;
-import net.menthor.editor.ui.ProjectBrowser;
+import javax.swing.RootPaneContainer;
 
-public class BaseManager {
+public class CursorManager extends BaseManager {
 
-	private static BaseManager instance = new BaseManager();
-	public static BaseManager get() { return instance; }
+	private static CursorManager instance = new CursorManager();
+	public static CursorManager get() { return instance; }
 		
-	protected ProjectBrowser browser;
-	protected DiagramManager diagramManager;
-	protected DiagramElementFactoryImpl factory;
-	protected InfoManager infoManager;
+	public void waitCursor(){
+		int cursorType = Cursor.WAIT_CURSOR;
+		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
+		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
+	}
 	
-	public DiagramManager getDiagramManager() { return diagramManager; }
-	
-	public void setup(DiagramManager mg, ProjectBrowser pb, InfoManager im){
-		browser = pb;
-		diagramManager = mg;
-		factory = mg.getElementFactory();
-		infoManager = im;
+	public void defaultCursor(){
+		int cursorType = Cursor.DEFAULT_CURSOR;
+		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
+		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 }

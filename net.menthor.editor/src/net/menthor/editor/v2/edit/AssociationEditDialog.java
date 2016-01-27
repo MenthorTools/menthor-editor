@@ -57,13 +57,13 @@ public class AssociationEditDialog extends BaseEditDialog {
 		this.relationship = relationship;		
 		setTitle(""+""+OntoUMLParser.getStereotype(this.relationship)+" "+ ((Classifier)relationship).getName());		
 		
-		assocEdition = new AssociationEditPane (diagramManager,this.assocElement,(Classifier)relationship,modal);
+		assocEdition = new AssociationEditPane (this.assocElement,(Classifier)relationship,modal);
 		tabbedPane.addTab("Association", assocEdition);				
 		
-		end1Edition = new PropertyEditPane(this,diagramManager,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(0));
+		end1Edition = new PropertyEditPane(this,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(0));
 		tabbedPane.addTab("Source End",end1Edition);		
 		
-		end2Edition = new PropertyEditPane(this,diagramManager,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(1));
+		end2Edition = new PropertyEditPane(this,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(1));
 		tabbedPane.addTab("Target End", end2Edition);		
 		
 		commentsEdition = new CommentsEditPane (diagramManager,(Classifier)relationship);

@@ -33,14 +33,24 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.AlloyManager;
+import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.DeletionManager;
+import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.HelpManager;
+import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MoveManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.OwlManager;
 import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RenameManager;
-import net.menthor.editor.v2.managers.SBVRManager;
+import net.menthor.editor.v2.managers.SbvrManager;
+import net.menthor.editor.v2.managers.SyntaxManager;
+import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -64,22 +74,26 @@ public class CommandMap {
 	
 	/** constructor */
 	private CommandMap(){
-		try {
-			//menu's commands
-			projectManager();					
-			exportation();
-			importation();
-			edit();
-			diagramManager();
-			diagram();
-			project();
-			sbvr();
+		try {		
+			projectManager();	
 			mainFrame();
 			helpManager();
-						
-			dnd(); //palette's drag and drop
-			additionManager(); //tree's additions			
-			changeManager(); //stereotype change
+			additionManager();			
+			changeManager(); 
+			occurenceManager();
+			baseActionManagers();
+			
+			exportManager();
+			importManager();
+			syntaxManager();
+			antiPatternManager();
+			owlManager();
+			sbvrManager();
+			alloyManager();
+			
+			diagramManager();
+			diagramEditor();
+			dnd(); //palette's drag and drop			
 			movetree(); //move up and down, move to diagram, find in diagrams
 			
 		} catch (NoSuchMethodException e) {
@@ -88,80 +102,41 @@ public class CommandMap {
 			e.printStackTrace();
 		}
 	}
-
-	private void projectManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.NEW_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("newProject")));
-		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("openProject")));
-		cmdMap.put(CommandType.OPEN_EXISTING_MODEL,
-				new MethodCall(ProjectManager.class.getMethod("openExistingModel", Object.class)));
-		cmdMap.put(CommandType.CLOSE_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("closeProject")));
-		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("openRecentProject")));			
-		cmdMap.put(CommandType.SAVE_PROJECT_AS,
-				new MethodCall(ProjectManager.class.getMethod("saveProjectAs")));
-		cmdMap.put(CommandType.SAVE_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
-		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
-				new MethodCall(ProjectManager.class.getMethod("importFromXMI")));		
-		
-	}
 	
-	private void exportation() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.EXPORT_TO_ECORE,
-				new MethodCall(DiagramManager.class.getMethod("exportToEcore")));
-		cmdMap.put(CommandType.EXPORT_TO_UML,
-				new MethodCall(DiagramManager.class.getMethod("exportToUML")));
-		cmdMap.put(CommandType.EXPORT_TO_PROFILE_UML,
-				new MethodCall(DiagramManager.class.getMethod("exportToProfileUML")));		
-		cmdMap.put(CommandType.EXPORT_TO_XMI,
-				new MethodCall(DiagramManager.class.getMethod("exportToXMI")));		
-	}
-	
-	private void importation() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
-				new MethodCall(DiagramManager.class.getMethod("importFromEA")));
-		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
-				new MethodCall(DiagramManager.class.getMethod("importFromEARecent")));
-	}
-
 	private void movetree() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.MOVE_UP_TREE,
 				new MethodCall(BaseCheckBoxTree.class.getMethod("moveUp")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
 				new MethodCall(BaseCheckBoxTree.class.getMethod("moveDown")));
 		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("move", Object.class)));
-		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
-				new MethodCall(DiagramManager.class.getMethod("findInDiagrams", Object.class)));
+				new MethodCall(MoveManager.class.getMethod("move", Object.class)));		
 	}
 	
-	private void edit() throws NoSuchMethodException, SecurityException{
+	private void occurenceManager()throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
+				new MethodCall(OccurenceManager.class.getMethod("findInDiagrams", Object.class)));
+	}
+	
+	private void baseActionManagers() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.REDO,
-				new MethodCall(DiagramManager.class.getMethod("redo")));
+				new MethodCall(RedoManager.class.getMethod("redo")));
 		cmdMap.put(CommandType.UNDO,
-				new MethodCall(DiagramManager.class.getMethod("undo")));
+				new MethodCall(UndoManager.class.getMethod("undo")));
+		cmdMap.put(CommandType.DUPLICATE,
+				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));		
-		cmdMap.put(CommandType.ERASE, 
-				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));
+				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));
 	}
 
-	private void diagram() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CLOSE_RULES,
-				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
-		cmdMap.put(CommandType.CLOSE_DIAGRAM,
-				new MethodCall(DiagramManager.class.getMethod("closeDiagram")));
+	private void diagramEditor() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ERASE, 
+				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));		
 		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("selectAll")));
-		cmdMap.put(CommandType.SAVE_DIAGRAM_AS_IMAGE,
-				new MethodCall(DiagramManager.class.getMethod("exportGfx")));
+				new MethodCall(DiagramEditor.class.getMethod("selectAll")));		
 		cmdMap.put(CommandType.SHOW_GRID,
 				new MethodCall(DiagramEditor.class.getMethod("showGrid")));		
 		cmdMap.put(CommandType.REDRAW_DIAGRAM,
@@ -290,13 +265,6 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("bringFromProjectBrowser", Point.class)));		
 	}
 	
-	private void project() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.FIND_TERM,
-				new MethodCall(DiagramManager.class.getMethod("searchInProject")));		
-		cmdMap.put(CommandType.COLLECT_STATISTICS,
-				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));		
-	}
-	
 	private void dnd() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.TB_DND_POINTER_MODE, 
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));		
@@ -388,23 +356,38 @@ public class CommandMap {
 		cmdMap.put(CommandType.SELECT_TAB,
 				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
 		cmdMap.put(CommandType.OPEN_TAB,
-				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));
-		cmdMap.put(CommandType.CHECK_MODEL_SYNTAX,
-				new MethodCall(DiagramManager.class.getMethod("verifyModelSyntactically")));
-		cmdMap.put(CommandType.PARSE_RULES, 
-				new MethodCall(DiagramManager.class.getMethod("parseConstraints")));
-		cmdMap.put(CommandType.SIMULATE_AND_CHECK,
-				new MethodCall(DiagramManager.class.getMethod("simulate")));
-		cmdMap.put(CommandType.CALL_OWL_SETTINGS,
-				new MethodCall(DiagramManager.class.getMethod("callOwlSettings")));
-		cmdMap.put(CommandType.GENERATE_OWL,
-				new MethodCall(DiagramManager.class.getMethod("generateOwl", Object.class)));
-		cmdMap.put(CommandType.SEARCH_FOR_ANTIPATTERNS, 
-				new MethodCall(DiagramManager.class.getMethod("manageAntiPatterns")));
+				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));		
 		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
 				new MethodCall(DiagramManager.class.getMethod("callGlossary")));		
 		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
 				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
+		cmdMap.put(CommandType.FIND_TERM,
+				new MethodCall(DiagramManager.class.getMethod("searchInProject")));		
+		cmdMap.put(CommandType.COLLECT_STATISTICS,
+				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));
+		cmdMap.put(CommandType.CLOSE_RULES,
+				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
+		cmdMap.put(CommandType.CLOSE_DIAGRAM,
+				new MethodCall(DiagramManager.class.getMethod("closeDiagram")));
+	}
+	
+	private void owlManager()throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.CALL_OWL_SETTINGS,
+				new MethodCall(OwlManager.class.getMethod("callOwlSettings")));
+		cmdMap.put(CommandType.GENERATE_OWL,
+				new MethodCall(OwlManager.class.getMethod("generateOwl", Object.class)));
+	}
+	
+	private void antiPatternManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.SEARCH_FOR_ANTIPATTERNS, 
+				new MethodCall(AntiPatternManager.class.getMethod("detectAntiPatterns")));
+	}
+	
+	private void syntaxManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.VERIFY_CONSTRAINTS, 
+			new MethodCall(SyntaxManager.class.getMethod("verifyConstraints")));
+		cmdMap.put(CommandType.VERIFY_MODEL,
+				new MethodCall(SyntaxManager.class.getMethod("verifyModel")));		
 	}
 	
 	private void mainFrame() throws NoSuchMethodException, SecurityException{
@@ -418,11 +401,55 @@ public class CommandMap {
 				new MethodCall(MainFrame.class.getMethod("quitApplication")));
 	}
 	
-	private void sbvr() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.BUSINESS_VOCABULARY, 
-				new MethodCall(SBVRManager.class.getMethod("generateSbvr")));
+	private void exportManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.EXPORT_TO_ECORE,
+				new MethodCall(ExportManager.class.getMethod("exportToEcore")));
+		cmdMap.put(CommandType.EXPORT_TO_UML,
+				new MethodCall(ExportManager.class.getMethod("exportToUML")));
+		cmdMap.put(CommandType.EXPORT_TO_PROFILE_UML,
+				new MethodCall(ExportManager.class.getMethod("exportToProfileUML")));		
+		cmdMap.put(CommandType.EXPORT_TO_REFERENCE_ONTOUML,
+				new MethodCall(ExportManager.class.getMethod("exportToReferenceOntouml")));		
+		cmdMap.put(CommandType.EXPORT_TO_PNG,
+				new MethodCall(ExportManager.class.getMethod("exportToPng")));
+	}
+	
+	private void projectManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.NEW_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("newProject")));
+		cmdMap.put(CommandType.NEW_PROJECT_FROM_MODEL,
+				new MethodCall(ProjectManager.class.getMethod("newProject", Object.class)));
+		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("openProject")));		
+		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("openRecentProject")));
+		cmdMap.put(CommandType.CLOSE_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("closeProject")));
+		cmdMap.put(CommandType.SAVE_PROJECT_AS,
+				new MethodCall(ProjectManager.class.getMethod("saveProjectAs")));
+		cmdMap.put(CommandType.SAVE_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
+		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
+				new MethodCall(ProjectManager.class.getMethod("importModelContent")));
+	}
+	
+	private void importManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
+				new MethodCall(ImportManager.class.getMethod("importFromEA")));
+		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
+				new MethodCall(ImportManager.class.getMethod("importFromEARecent")));
+	}
+	
+	private void sbvrManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.GENERATE_SBVR, 
+				new MethodCall(SbvrManager.class.getMethod("generateSbvr")));
 		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
-				new MethodCall(SBVRManager.class.getMethod("openLinkWithBrowser", String.class)));		
+				new MethodCall(SbvrManager.class.getMethod("openLinkWithBrowser", String.class)));		
+	}
+	
+	private void alloyManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ALLOY_SETTINGS,
+			new MethodCall(AlloyManager.class.getMethod("openAlloySettings")));
 	}
 	
 	private void helpManager() throws NoSuchMethodException, SecurityException{

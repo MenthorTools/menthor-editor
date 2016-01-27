@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.table.TableColumn;
 
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
@@ -45,6 +44,7 @@ import RefOntoUML.IntegerRationalDimension;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.tables.MappingTableModel;
 import net.menthor.editor.v2.tables.MappingTablePane;
 
@@ -84,8 +84,7 @@ public class OwlPrimitiveTablePane extends MappingTablePane {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!tableModel.hasNullEntry()) loadDefaultMappings();
 				else{
-					JOptionPane.showMessageDialog(null,"Please, fill the <no value> cells before move on.",
-					"Invalid Entry", JOptionPane.ERROR_MESSAGE);
+					MessageManager.get().showError(OwlPrimitiveTablePane.this,"Table Entry","Please, fill the <no value> cells before move on.");
 				}
 			}});
 	}	

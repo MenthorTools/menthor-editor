@@ -49,7 +49,7 @@ public class GeneralizationSetEditDialog extends BaseEditDialog {
 	
 	public void  initUI(){				
 		setTitle(""+""+OntoUMLParser.getStereotype(genSet)+" "+ ((GeneralizationSet)genSet).getName());
-		genSetEdition = new GeneralizationSetEditPane(this.getParent(), diagramManager, genSet);
+		genSetEdition = new GeneralizationSetEditPane(genSet);
 		tabbedPane.add("Generalization Set", genSetEdition);		
 		setSize(new Dimension(470, 410));
 	}	

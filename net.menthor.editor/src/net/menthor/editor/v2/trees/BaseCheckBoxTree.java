@@ -1,20 +1,5 @@
 package net.menthor.editor.v2.trees;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreePath;
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -36,6 +21,20 @@ import javax.swing.tree.TreePath;
  * ============================================================================================
  */
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreePath;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
 import net.menthor.editor.v2.commands.CommandListener;

@@ -1,13 +1,5 @@
 package net.menthor.editor.v2.util;
 
-import java.awt.Component;
-import java.io.File;
-
-import net.menthor.ontouml2ecore.OntoUML2Ecore;
-import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
-
-import RefOntoUML.parser.OntoUMLParser;
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -28,6 +20,14 @@ import RefOntoUML.parser.OntoUMLParser;
  * MA  02110-1301  USA
  * ============================================================================================
  */
+
+import java.awt.Component;
+import java.io.File;
+
+import net.menthor.ontouml2ecore.OntoUML2Ecore;
+import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
+
+import RefOntoUML.parser.OntoUMLParser;
 
 public class EcoreWriter extends FileWriter {
 

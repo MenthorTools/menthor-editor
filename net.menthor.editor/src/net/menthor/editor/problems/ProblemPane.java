@@ -26,9 +26,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -65,7 +65,7 @@ public class ProblemPane extends JPanel implements Editor {
 		validate();
 	}
 		
-	public void setData(ArrayList<ProblemElement> list)
+	public void setData(List<ProblemElement> list)
 	{
 		if(problemScrollTable!=null) problemScrollTable.setProblems(list);		
 	}

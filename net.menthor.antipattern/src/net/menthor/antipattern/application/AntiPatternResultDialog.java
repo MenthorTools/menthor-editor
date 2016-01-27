@@ -22,6 +22,7 @@ package net.menthor.antipattern.application;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -155,7 +156,7 @@ public class AntiPatternResultDialog extends Dialog {
 		}
 	}	
 	
-	public AntiPatternResultDialog(Shell parentShell, ArrayList<AntipatternOccurrence> result, JFrame frame){
+	public AntiPatternResultDialog(Shell parentShell, List<AntipatternOccurrence> result, JFrame frame){
 		super(parentShell);		
 		this.result = new ArrayList<AntipatternOccurrence>(result);
 		this.allOccurrences = new ArrayList<AntipatternOccurrence>(result);

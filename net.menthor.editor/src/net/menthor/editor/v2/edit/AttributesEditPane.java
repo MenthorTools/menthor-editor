@@ -60,7 +60,6 @@ import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Property;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
@@ -74,37 +73,36 @@ public class AttributesEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private DiagramManager diagramManager;
 	private Component parent;
 
 	private ClassElement classElement;	
 	private Classifier element;	
 	private Map<String, DataType> datatypes;
+	private AttributeTableModel tablemodel;
 	
 	private JButton btnDelete;
 	private JButton btnCreate;
 	private JButton btnUp;
 	private JButton btnDown;
 	private JScrollPane scrollpane;
-	private JTable table;
-	private AttributeTableModel tablemodel;
+	private JTable table;	
 	private JPanel panel;
 	private JButton btnEdit;
 	private JCheckBox cbxVisible;
 			
-	public AttributesEditPane(final Component parent, final DiagramManager diagramManager, final ClassElement classElement, final Classifier element){
-		this.diagramManager = diagramManager;
+	public AttributesEditPane(final Component parent, final ClassElement classElement, final Classifier element){
 		this.classElement = classElement;
 		this.element = element;
 		this.parent=parent;
 		initUI();
 	}
 	
-	public void initMap(){
+	public void initDataTypesMap(){
 		datatypes = new HashMap<String, DataType>();		
 		for (DataType item : Models.getRefparser().getAllInstances(RefOntoUML.DataType.class)) {			
 			datatypes.put(item.getName(), item);
 		}
+		tablemodel.setDataTypes(datatypes.values());
 	}
 	
 	public void transferData(){
@@ -118,7 +116,7 @@ public class AttributesEditPane extends JPanel {
 	}
 	
 	public void setData(){
-		initMap();		
+		initDataTypesMap();		
 		table.setSurrendersFocusOnKeystroke(true);
 		TableColumn dtColumn = table.getColumnModel().getColumn(1);	
 		dtColumn.setCellEditor(createEditor(datatypes.keySet().toArray()));

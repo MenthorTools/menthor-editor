@@ -83,7 +83,7 @@ public class ProjectBrowser extends RoundedPanel{
 		updateUI();
 	}
 	
-	public void clear(){
+	public void empty(){
 		//clear models
 		Models.clear();
 		
@@ -109,7 +109,7 @@ public class ProjectBrowser extends RoundedPanel{
 	public void set(UmlProject project, RefOntoUML.Package model, List<OclDocument> oclDocs){
 		//set models
 		Models.setProject(project);				
-		Models.setRefparser(new OntoUMLParser(model));	
+		Models.setRefparser(new OntoUMLParser(project.getModel()));	
 		if(oclDocs!=null){
 			for(OclDocument s: oclDocs){
 				Models.getOclDocList().add(s);

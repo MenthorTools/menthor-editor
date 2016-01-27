@@ -39,15 +39,12 @@ import RefOntoUML.IntegerMeasurementRegion;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.MeasurementDomain;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class DimensionEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	private DiagramManager diagramManager;
 	
 	private Classifier structure;
 	
@@ -62,8 +59,7 @@ public class DimensionEditPane extends JPanel {
 	private JComboBox domainCombo;
 	private JLabel label;
 		
-	public DimensionEditPane(final DiagramManager diagramManager, RefOntoUML.Classifier element){	
-		this.diagramManager = diagramManager;
+	public DimensionEditPane(RefOntoUML.Classifier element){	
 		this.structure = element;
 		initUI();
 	}

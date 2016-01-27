@@ -193,7 +193,10 @@ public class AntiPatternSearchDialog extends JDialog {
 	private SwingWorker<Void,Void> preTask;
 
 	/** transfer result of search to an application */
-	public void transferSearchResult(AntiPatternList list){}
+	public void transferResult(AntiPatternList list){}
+	
+	/** open the result which in turn can call the wizards */
+	public void openResult(AntiPatternList list){ AntiPatternResultDialog.openDialog(list,frame); }
 	
 	/** 
 	 * Check if AntiPattern is selected.
@@ -851,11 +854,11 @@ public class AntiPatternSearchDialog extends JDialog {
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {			    	
-			    	AntiPatternResultDialog.openDialog(apList,frame);
+			    	openResult(apList);
 				}
 			});
 		}else{			
-	    	AntiPatternResultDialog.openDialog(apList,frame);
+	    	openResult(apList);
 		}
 	}
 	
@@ -1110,7 +1113,7 @@ public class AntiPatternSearchDialog extends JDialog {
 			antipatternList = new AntiPatternList (assCyc, binOver, depPhase, freeRole, gsRig, hetColl, homoFunc, impAbs, mixIden,
 					   mixRig, multiDep, relComp, relOver, relRig, relSpec, repRel, undefFormal, undefPhase, wholeOver, partOver, decInt);
 			
-			transferSearchResult(antipatternList);
+			transferResult(antipatternList);
 			
 			new Supervisor(latch).execute();
 				

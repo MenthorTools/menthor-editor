@@ -73,17 +73,17 @@ public class ClassEditDialog extends BaseEditDialog {
 		classTab.setLayout(new BorderLayout(4,4));
 		tabbedPane.addTab("Class",classTab);
 		
-		classEdition = new ClassEditPane (diagramManager, this.element);
+		classEdition = new ClassEditPane (this.element);
 		if(element instanceof Enumeration){
-			literalsEdition = new LiteralEditPane(diagramManager,classElement,element);			
+			literalsEdition = new LiteralEditPane(classElement,element);			
 			classTab.add(classEdition, BorderLayout.NORTH);
 			classTab.add(literalsEdition, BorderLayout.CENTER);
 		}else if(element instanceof MeasurementDimension){
-			dimensionEdition = new DimensionEditPane(diagramManager,element);			
+			dimensionEdition = new DimensionEditPane(element);			
 			classTab.add(classEdition, BorderLayout.NORTH);
 			classTab.add(dimensionEdition, BorderLayout.CENTER);
 		}else{
-			attributesEdition = new AttributesEditPane(this,diagramManager,classElement,element);
+			attributesEdition = new AttributesEditPane(this,classElement,element);
 			classTab.add(classEdition, BorderLayout.NORTH);
 			classTab.add(attributesEdition, BorderLayout.CENTER);
 		}	

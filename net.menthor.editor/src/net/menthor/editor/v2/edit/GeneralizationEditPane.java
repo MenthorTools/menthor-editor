@@ -37,11 +37,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -51,12 +48,12 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.TransferManager;
 
 /**
@@ -65,11 +62,7 @@ import net.menthor.editor.v2.managers.TransferManager;
 public class GeneralizationEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	@SuppressWarnings("unused")
-	private Component parent;
-	private DiagramManager diagramManager;
-	
+		
 	private Generalization element;
 		
 	@SuppressWarnings("rawtypes")
@@ -89,27 +82,15 @@ public class GeneralizationEditPane extends JPanel {
 	private JLabel lblGs;
 	private JPanel gsPane;
 	private JPanel genPane;
-	
-	public GeneralizationEditPane(JDialog parent, final DiagramManager diagramManager, final Generalization element){		
-		initData(parent,diagramManager,element);
-		initGUI();		
-	}
-	
-	public GeneralizationEditPane(final Component parent, final DiagramManager diagramManager, final Generalization element){
-		initData(parent,diagramManager,element);
-		initGUI();
-	}
-	
+		
 	/** @wbp.parser.constructor */
-	public GeneralizationEditPane(JFrame parent, final DiagramManager diagramManager, final Generalization element){		
-		initData(parent,diagramManager,element);
+	public GeneralizationEditPane(final Generalization element){		
+		initData(element);
 		initGUI();		
 	}	
 	
-	public void initData(final Component parent, final DiagramManager diagramManager, final Generalization element){
-		this.diagramManager = diagramManager;
+	public void initData(final Generalization element){
 		this.element = element;
-		this.parent=parent;
 	}
 	
 	public void initGUI(){	
@@ -127,7 +108,7 @@ public class GeneralizationEditPane extends JPanel {
 			(RefOntoUML.Type)specificCombo.getSelectedItem()
 		);		
 	}
-		
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setData(){
 		List<RefOntoUML.PackageableElement> types = Models.getRefparser().getAllTypesSorted();				
@@ -146,8 +127,8 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void newGenSet(){
-		int response = JOptionPane.showConfirmDialog(GeneralizationEditPane.this, "Are you sure you want to create a new generalization set?", "Creating Generalization Set", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if(response==JOptionPane.OK_OPTION){
+		boolean response = MessageManager.get().confirm(GeneralizationEditPane.this, "Add", "Are you sure you want to create a new generalization set?");
+		if(response){
 			PackageableElement genSet = (PackageableElement)AdditionManager.get().addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
 			genSet.setName("gs");
 			((GeneralizationSet)genSet).setIsCovering(true);
@@ -176,13 +157,12 @@ public class GeneralizationEditPane extends JPanel {
 			if (!(element.getGeneralizationSet().contains(gs))) genSetList.add(gs);
 		}				
 		if (genSetList.size()==0) {
-			JOptionPane.showMessageDialog(GeneralizationEditPane.this, "No generalization set left in the model.", "Add", JOptionPane.INFORMATION_MESSAGE);
+			MessageManager.get().showInfo(GeneralizationEditPane.this, "Generalization Set", "No generalization set left in the model.");
 		}else{
-			RefOntoUML.GeneralizationSet genSet = (RefOntoUML.GeneralizationSet) JOptionPane.showInputDialog(GeneralizationEditPane.this, 
-		        "To which generalization set do you want to include "+element,
-		        "Add",
-		        JOptionPane.QUESTION_MESSAGE, 
-		        null, 
+			RefOntoUML.GeneralizationSet genSet = (RefOntoUML.GeneralizationSet) MessageManager.get().input(
+				GeneralizationEditPane.this,
+				"Generalization Set",
+		        "To which generalization set do you want to include "+element,		         
 		        genSetList.toArray(), 
 		        genSetList.toArray()[0]
 			);

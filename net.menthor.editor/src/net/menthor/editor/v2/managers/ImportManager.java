@@ -21,25 +21,35 @@ package net.menthor.editor.v2.managers;
  * ============================================================================================
  */
 
-import net.menthor.editor.ui.LicensesDialog;
-import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.ui.AboutDialog;
+import java.io.File;
+import java.io.IOException;
 
-public class HelpManager extends BaseManager {
+import net.menthor.editor.v2.settings.ea.EASettingsDialog;
+import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.Util;
 
-	private static HelpManager instance = new HelpManager();
-	public static HelpManager get() { return instance; }
+public class ImportManager extends BaseManager {
+
+	private static ImportManager instance = new ImportManager();
+	public static ImportManager get() { return instance; }
 	
-	public void about(){
-		AboutDialog.open(
-			diagramManager.getCommandListener(),
-			MenthorEditor.MENTHOR_COMPILATION_DATE,
-			MenthorEditor.MENTHOR_VERSION
-		);
+	public String lastImportEAPath = new String();	
+	
+	public File chooseEAFile() throws IOException{
+		return Util.chooseFile(diagramManager, lastImportEAPath, 
+		"Import Manager - EA", "XMI, XML (*.xmi, *.xml)", "xmi", "xml");
 	}
 	
-	public void licenses(){
-		LicensesDialog.open(diagramManager);
+	public void importFromEARecent() throws IOException {		
+		lastImportEAPath = diagramManager.getStartPage().getSelectedRecentFile();
+		new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
+		Settings.addRecentProject(lastImportEAPath);				
 	}
 
+	public void importFromEA() throws IOException{		
+		File file = chooseEAFile();
+		lastImportEAPath = file.getAbsolutePath();
+		new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
+		Settings.addRecentProject(file.getCanonicalPath());				
+	}
 }

@@ -108,9 +108,8 @@ public final class ClassElement extends AbstractCompositeNode implements
 		ClassElement cloned = (ClassElement) super.clone();
 		if (classData != null) {
 			//cloned.classData = RefOntoUMLHelper.clone(classData);
-			//cloned.classData.eAdapters().add(cloned);
-			
-			cloned.setClassifier(RefOntoUMLFactoryUtil.clone(classData));
+			//cloned.classData.eAdapters().add(cloned);			
+			cloned.setClassifier(RefOntoUMLFactoryUtil.clone(classData));			
 		}
 		cloned.mainLabel = (Label) mainLabel.clone();
 		cloned.mainLabel.setSource(cloned);
@@ -128,7 +127,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 		cloned.operationsCompartment.setParent(cloned);
 		
 		cloned.setupOntoUmlLabelSource();
-		
+		cloned.setBackgroundColor(this.getBackgroundColor());
 		return cloned;
 	}
  

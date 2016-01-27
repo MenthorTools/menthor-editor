@@ -46,7 +46,6 @@ import org.tinyuml.umldraw.ClassElement;
 import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.EnumerationLiteral;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.TransferManager;
@@ -57,8 +56,6 @@ import net.menthor.editor.v2.types.ColorType;
 public class LiteralEditPane extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	
-	private DiagramManager diagramManager;
 		
 	private ClassElement classElement;	
 	private Classifier element;
@@ -73,8 +70,7 @@ public class LiteralEditPane extends JPanel{
 	private JPanel panel;
 	private JCheckBox cbxVisible;
 			
-	public LiteralEditPane(final DiagramManager diagramManager, final ClassElement classElement, final Classifier element){
-		this.diagramManager = diagramManager;
+	public LiteralEditPane(final ClassElement classElement, final Classifier element){
 		this.classElement = classElement;
 		this.element = element;
 		initUI();

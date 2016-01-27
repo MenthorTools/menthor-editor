@@ -43,12 +43,12 @@ public class InfoManager extends JTabbedPane {
 	public MainFrame frame;
 	public UmlProject project;
 		
-	public void setProject(UmlProject project)
+	public void set(UmlProject project)
 	{
 		this.project = project;		
 	}
 	
-	public void eraseProject()
+	public void empty()
 	{
 		this.project = null;
 		

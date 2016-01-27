@@ -59,7 +59,7 @@ public class GeneralizationEditDialog extends BaseEditDialog {
 		if (general!=null) setTitle(""+""+stereo+" "+ specific.getName()+" -> "+general.getName());
 		else setTitle(""+""+stereo+" "+ specific.getName()+" -> null");
 		setSize(new Dimension(470, 370));		
-		genEdition = new GeneralizationEditPane(this.getParent(), diagramManager, (Generalization)relationship);
+		genEdition = new GeneralizationEditPane((Generalization)relationship);
 		tabbedPane.add("Generalization", genEdition);
 	}
 }

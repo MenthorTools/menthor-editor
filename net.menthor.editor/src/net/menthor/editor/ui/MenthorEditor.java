@@ -23,10 +23,10 @@ package net.menthor.editor.ui;
 
 import java.awt.Color;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.SplashScreen;
@@ -96,7 +96,7 @@ public final class MenthorEditor {
 			}
 		}
 		if(!menthorFileName.equals("")){						
-			ProjectManager.get().openProject(menthorFileName);
+			ProjectManager.get().openProjectFromFile(menthorFileName);
 		}	
 	}
 	
@@ -121,11 +121,10 @@ public final class MenthorEditor {
 			frame.setVisible(true);
 			frame.toFront();	
 			
-			splashScreen.close();					
+								
 		} catch (Exception ex) {
-			splashScreen.close();
-			JOptionPane.showMessageDialog(null, "An unexpected error has ocurred.\n" + ex.getMessage(), "Sorry", JOptionPane.ERROR_MESSAGE);
-			ex.printStackTrace();
-		}		
+			MessageManager.get().showError(ex, "Menthor Editor", "Could not start Menthor Editor application due to an internal error.");
+		}	
+		splashScreen.close();
 	}
 }

@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.AssociationElement;
@@ -44,8 +43,8 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
-
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.ui.DiagramListDialog;
 
 public class OccurenceManager extends BaseManager {
 
@@ -251,5 +250,11 @@ public class OccurenceManager extends BaseManager {
 			list.add(editor);			
 		}
 		return list;
+	}
+	
+	/** show dialog with diagram occurence of this element */
+	public void findInDiagrams(Object element){
+		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams((RefOntoUML.Element)element);
+		DiagramListDialog.open(diagramManager.getFrame(), diagrams);		
 	}
 }

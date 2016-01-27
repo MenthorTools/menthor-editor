@@ -32,6 +32,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
 import RefOntoUML.Class;
@@ -122,6 +123,18 @@ public class UmlProject implements Serializable {
 		RefOntoUMLEditingDomain.getInstance().createDomain();
 		name = "New Project";		
 		version = MenthorEditor.MENTHOR_VERSION;
+	}
+	
+	public void saveAllDiagramNeeded(boolean value){
+		for(OntoumlDiagram d: getDiagrams()) {
+			((StructureDiagram)d).setSaveNeeded(value);
+		}
+		setSaveModelNeeded(value);
+	}
+
+	public void saveDiagramNeeded(StructureDiagram diagram, boolean value){
+		diagram.setSaveNeeded(value);
+		setSaveModelNeeded(value);
 	}
 	
 	public void clearOpenedDiagrams(){

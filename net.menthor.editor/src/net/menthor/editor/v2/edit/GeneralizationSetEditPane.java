@@ -1,7 +1,5 @@
 package net.menthor.editor.v2.edit;
 
-import java.awt.BorderLayout;
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -23,7 +21,7 @@ import java.awt.BorderLayout;
  * ============================================================================================
  */
 
-import java.awt.Component;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -34,11 +32,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -48,20 +43,16 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElementCustom;
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class GeneralizationSetEditPane extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	
-	private DiagramManager diagramManager;
-	@SuppressWarnings("unused")
-	private Component parent;
-	
+		
 	private GeneralizationSet genSet;
 	
 	private JTextField textField;		
@@ -77,29 +68,13 @@ public class GeneralizationSetEditPane extends JPanel {
 	private JLabel lblParticipatingGeneralizations;
 	private JPanel gsPane;
 	private JPanel gensPane;
-	
-	public GeneralizationSetEditPane(JDialog parent, final DiagramManager diagramManager, final GeneralizationSet genSet){		
-		initData(parent,diagramManager,genSet);
-		initGUI();		
-	}
-	
+		
 	/** @wbp.parser.constructor */
-	public GeneralizationSetEditPane(JFrame parent, final DiagramManager diagramManager, final GeneralizationSet genSet){		
-		initData(parent,diagramManager,genSet);
+	public GeneralizationSetEditPane(final GeneralizationSet genSet){		
+		this.genSet = genSet;
 		initGUI();		
 	}		
-	
-	public GeneralizationSetEditPane(final Component parent, final DiagramManager diagramManager, final GeneralizationSet genSet){
-		initData(parent,diagramManager,genSet);
-		initGUI();
-	}
-	
-	public void initData(final Component parent,final DiagramManager diagramManager, GeneralizationSet genSet){
-		this.parent = parent;
-		this.diagramManager = diagramManager;
-		this.genSet = genSet;
-	}
-	
+			
 	public void setData(){
 		cbxCovering.setSelected(genSet.isIsCovering());
 		cbxDisjoint.setSelected(genSet.isIsDisjoint());
@@ -138,13 +113,12 @@ public class GeneralizationSetEditPane extends JPanel {
 			if (!(genSet.getGeneralization().contains(g))) list.add(new RefOntoUMLElementCustom(g,""));
 		}				
 		if (list.size()==0) {
-			JOptionPane.showMessageDialog(GeneralizationSetEditPane.this, "No generalization left in the model.", "Add", JOptionPane.INFORMATION_MESSAGE);
+			MessageManager.get().showInfo(GeneralizationSetEditPane.this, "Generalization Set", "No generalization left in the model.");
 		}else{
-			RefOntoUMLElementCustom selected = (RefOntoUMLElementCustom) JOptionPane.showInputDialog(GeneralizationSetEditPane.this, 
-		        "Which generalization do you want to include in Generalization Set"+genSet.getName(),
-		        "Add",
-		        JOptionPane.QUESTION_MESSAGE, 
-		        null, 
+			RefOntoUMLElementCustom selected = (RefOntoUMLElementCustom) MessageManager.get().input(
+				GeneralizationSetEditPane.this, 
+				"Generalization Set",
+		        "Which generalization do you want to include in Generalization Set"+genSet.getName(),		         
 		        list.toArray(), 
 		        list.toArray()[0]
 			);
