@@ -96,13 +96,13 @@ public class Util {
         return arch;
 	}
 
-	public static JFileChooser createChooser(String lastPath){
+	public static JFileChooser createChooser(String lastPath, final boolean checkOverrideFile){
 		return new JFileChooser(lastPath){
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void approveSelection(){
 		        File f = getSelectedFile();
-		        if(f.exists() && getDialogType() == SAVE_DIALOG){
+		        if(f.exists() && checkOverrideFile && getDialogType() == SAVE_DIALOG){
 		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
 		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
 		            switch(result){
@@ -123,14 +123,14 @@ public class Util {
 		};
 	}
 	
-	public static File chooseFile(Component parent, String lastPath, String dialogTitle, String fileDescription, String fileExtension, String fileExtension2) throws IOException{
-		JFileChooser fileChooser = createChooser(lastPath);
+	public static File chooseFile(Component parent, String lastPath, String dialogTitle, String fileDescription, String fileExtension, String fileExtension2, boolean checkOverrideFile) throws IOException{
+		JFileChooser fileChooser = createChooser(lastPath, checkOverrideFile);
 		fileChooser.setDialogTitle(dialogTitle);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension, fileExtension2);
 		fileChooser.addChoosableFileFilter(filter);
 		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
+		if (fileChooser.showDialog(parent,"Ok") == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			if(!file.getName().endsWith("."+fileExtension)) {
 				file = new File(file.getCanonicalFile() + "."+fileExtension);
@@ -143,14 +143,14 @@ public class Util {
 		}	
 	}
 	
-	public static File chooseFile(Component parent, String lastPath, String dialogTitle, String fileDescription, String fileExtension) throws IOException{
-		JFileChooser fileChooser = createChooser(lastPath);
+	public static File chooseFile(Component parent, String lastPath, String dialogTitle, String fileDescription, String fileExtension, boolean checkOverrideFile) throws IOException{
+		JFileChooser fileChooser = createChooser(lastPath, checkOverrideFile);
 		fileChooser.setDialogTitle(dialogTitle);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension);
 		fileChooser.addChoosableFileFilter(filter);
 		if(Util.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
-		if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
+		if (fileChooser.showDialog(parent, "Ok") == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			if(!file.getName().endsWith("."+fileExtension)) {
 				file = new File(file.getCanonicalFile() + "."+fileExtension);

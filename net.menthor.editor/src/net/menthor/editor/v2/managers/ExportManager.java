@@ -42,19 +42,19 @@ public class ExportManager extends BaseManager {
 	public String lastPngPath = new String();
 	
 	public File chooseRefOntoumlFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastRefOntoPath, "Export Manager - RefOntouml", "Reference OntoUML (*.refontouml)", "refontouml");
+		return Util.chooseFile(diagramManager, lastRefOntoPath, "Export Manager - RefOntouml", "Reference OntoUML (*.refontouml)", "refontouml",true);
 	}
 	
 	public File chooseEcoreFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastEcorePath, "Export Manager - Ecore", "Ecore (*.ecore)", "ecore");
+		return Util.chooseFile(diagramManager, lastEcorePath, "Export Manager - Ecore", "Ecore (*.ecore)", "ecore",true);
 	}
 	
 	public File chooseUMLFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastUmlPath, "Export Manager - UML", "UML2 (*.uml)", "uml");
+		return Util.chooseFile(diagramManager, lastUmlPath, "Export Manager - UML", "UML2 (*.uml)", "uml",true);
 	}
 	
 	public File choosePNGFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastPngPath, "Export Manager - PNG", "Portable Network Graphics (*.png)", "png");
+		return Util.chooseFile(diagramManager, lastPngPath, "Export Manager - PNG", "Portable Network Graphics (*.png)", "png",true);
 	}
 	
 	public void exportToReferenceOntouml(){				

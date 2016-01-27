@@ -68,19 +68,19 @@ public class ProjectManager extends BaseManager {
 	public File getProjectFile(){ return projectFile; }
 	
 	public File chooseNewFile() throws IOException{
-		return Util.chooseFile(diagramManager, null, "New Project", "Menthor Project (*.menthor)", "menthor");
+		return Util.chooseFile(diagramManager, null, "New Project", "Menthor Project (*.menthor)", "menthor",true);
 	}
 	
 	public File chooseOpenFile()throws IOException{
-		return Util.chooseFile(diagramManager, lastOpenPath, "Open Project", "Menthor Project (*.menthor)", "menthor");
+		return Util.chooseFile(diagramManager, lastOpenPath, "Open Project", "Menthor Project (*.menthor)", "menthor",false);
 	}
 	
 	public File chooseSaveAsFile()throws IOException{
-		return Util.chooseFile(diagramManager, lastSavePath, "Save Project As", "Menthor Project (*.menthor)", "menthor");
+		return Util.chooseFile(diagramManager, lastSavePath, "Save Project As", "Menthor Project (*.menthor)", "menthor",true);
 	}
 	
 	public File chooseImportFile()throws IOException{
-		return Util.chooseFile(diagramManager, lastImportPath, "Import Model Content", "Reference Ontouml (*.refontouml)", "refontouml");
+		return Util.chooseFile(diagramManager, lastImportPath, "Import Model Content", "Reference Ontouml (*.refontouml)", "refontouml",false);
 	}
 	
 	public boolean confirmClose(Component parentWindow){

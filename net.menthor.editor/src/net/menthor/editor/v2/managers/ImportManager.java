@@ -37,7 +37,7 @@ public class ImportManager extends BaseManager {
 	
 	public File chooseEAFile() throws IOException{
 		return Util.chooseFile(diagramManager, lastImportEAPath, 
-		"Import Manager - EA", "XMI, XML (*.xmi, *.xml)", "xmi", "xml");
+		"Import From EA", "XMI, XML (*.xmi, *.xml)", "xmi", "xml",true);
 	}
 	
 	public void importFromEARecent() throws IOException {		
@@ -48,8 +48,10 @@ public class ImportManager extends BaseManager {
 
 	public void importFromEA() throws IOException{		
 		File file = chooseEAFile();
-		lastImportEAPath = file.getAbsolutePath();
-		new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
-		Settings.addRecentProject(file.getCanonicalPath());				
+		if(file!=null){
+			lastImportEAPath = file.getAbsolutePath();
+			new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
+			Settings.addRecentProject(file.getCanonicalPath());
+		}
 	}
 }
