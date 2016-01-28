@@ -36,6 +36,8 @@ public class MethodCall {
   private List<Object> earlyParameters = new ArrayList<Object>();
   private List<Object> lateParameters = new ArrayList<Object>();
   
+  public Method getMethod() { return method; }
+  
   public MethodCall(final Method theMethod, final Object... parameters){
     method = theMethod;
     earlyParameters.clear();
@@ -43,7 +45,37 @@ public class MethodCall {
     	earlyParameters.add(parameters[i]);
     }
   }
-
+  
+  public void addParameters(final Object[] parameters){ 
+	  lateParameters.clear();
+	  for(Object p: parameters){
+		  lateParameters.add(p);
+	  }
+  }
+  
+  public void addParameter(final Object parameter){ 
+	  lateParameters.clear();
+	  lateParameters.add(parameter);	  
+  }
+  
+  public Object call(Object target){
+	  List<Object> parameters = new ArrayList<Object>();
+	  parameters.addAll(earlyParameters);
+	  parameters.addAll(lateParameters);
+	  Object[] params = parameters.toArray();	
+	  try {
+		  Object result = null;
+		  if(params==null || params.length==0) result = method.invoke(target);
+		  else result = method.invoke(target, params);		  
+		  return result;
+	  } catch (InvocationTargetException ex) {
+		  ex.printStackTrace();
+	  } catch (IllegalAccessException ex) {
+	      ex.printStackTrace();
+	  }
+	  return null;
+  }
+  
   public String toString(){
 	  String result = new String();
 	  result+=""+getMethod()+"";			
@@ -54,33 +86,11 @@ public class MethodCall {
   public String parametersAsString() {
       String result = new String();
       for(Object obj: earlyParameters){
-    	  result += "Parameter:'"+obj+"';";
+    	  result += "Early Parameter:'"+obj+"';";
       }
       for(Object obj: lateParameters){
-    	  result += "Parameter:'"+obj+"';";
+    	  result += "Late Parameter:'"+obj+"';";
       }
       return result;
-  }
-  
-  public Method getMethod() { return method; }
- 
-  public void set(final Object parameter){  
-	  lateParameters.clear();
-	  lateParameters.add(parameter);	  
-  }
-  
-  public Object call(Object target){
-	  List<Object> parameters = new ArrayList<Object>();
-	  parameters.addAll(earlyParameters);
-	  parameters.addAll(lateParameters);
-    try {
-     Object result = method.invoke(target, parameters.toArray());
-     return result;
-    } catch (InvocationTargetException ex) {
-      ex.printStackTrace();
-    } catch (IllegalAccessException ex) {
-      ex.printStackTrace();
-    }
-    return null;
   }
 }

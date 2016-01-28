@@ -91,7 +91,7 @@ public class DiagramListDialog extends JDialog {
 	}
 	
 	public void callOpenTab(OntoumlDiagram de){
-		listener.handleCommand(CommandType.OPEN_TAB.toString(),de);
+		listener.handleCommand(CommandType.OPEN_TAB.toString(), new Object[]{de});
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

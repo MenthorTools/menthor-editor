@@ -152,7 +152,9 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	private Rectangle2D initClipBounds() {
 		double minx = Double.MAX_VALUE, miny = Double.MAX_VALUE;
 	    double maxy = Double.MIN_VALUE, maxx = Double.MIN_VALUE;
-	    if(clipBounds==null) clipBounds = clipboard.get(0).getAbsoluteBounds();
+	    if(clipBounds==null) {
+	    	clipBounds = clipboard.get(0).getAbsoluteBounds();
+	    }
 		for (DiagramElement element : clipboard) {
 	      Rectangle2D elemBounds = element.getAbsoluteBounds();
 	      minx = Math.min(minx, elemBounds.getX());
@@ -160,7 +162,9 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	      maxx = Math.max(maxx, elemBounds.getX() + elemBounds.getWidth());
 	      maxy = Math.max(maxy, elemBounds.getY() + elemBounds.getHeight());
 	    }
-		if(clipBounds!=null) clipBounds.setRect(minx, miny, maxx - minx, maxy - miny);		
+		if(clipBounds!=null) {
+			clipBounds.setRect(minx, miny, maxx - minx, maxy - miny);		
+		}
 		return clipBounds; 
 	}
 	

@@ -51,7 +51,6 @@ import RefOntoUML.impl.IntegerOrdinalDimensionImpl;
 import RefOntoUML.impl.IntegerRationalDimensionImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
@@ -97,9 +96,9 @@ public class TransferManager extends BaseManager {
 			((Meronymic)element).setIsImmutableWhole(isImmutableWhole);
 			((Meronymic)element).setIsShareable(isShareable);
 		}			
-		UpdateManager.get().updateFromChange(element,false);		
-		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0){
-			diagramManager.getCommandListener().handleCommand("CHANGE_TO_"+newStereotype.toUpperCase(), element);			
+		UpdateManager.get().updateFromChange(element,false);
+		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0){			
+			diagramManager.getCommandListener().handleCommand("CHANGE_TO_"+newStereotype.toUpperCase(), new Object[]{element});			
 		}
 	}
 	

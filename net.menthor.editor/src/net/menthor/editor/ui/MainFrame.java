@@ -220,6 +220,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		OwlManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		DuplicateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		ClipboardManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		TransferManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 	}
 	
 	private void installMultiSplitPane(){		
@@ -306,13 +307,12 @@ public class MainFrame extends JFrame implements CommandListener {
 		
 	//=========================================================================
 	
-	private MethodCall getMethodCall(String command, Object parameter){
-		MethodCall methodcall=null;
-		System.out.println("Parameters: "+parameter);
+	private MethodCall getMethodCall(String command, Object[] parameters){
+		MethodCall methodcall=null;		
 		CommandType cmdType = CommandType.valueOf(command);
 		if(CommandType.isValueOf(command)){
-			if(parameter!=null) CommandMap.getInstance().addParameter(cmdType, parameter);
-			methodcall = CommandMap.getInstance().getMethodCall(cmdType);			
+			if(parameters!=null) CommandMap.getInstance().addParameters(cmdType, parameters);			
+			methodcall = CommandMap.getInstance().getMethodCall(cmdType);
 		}
 		if(methodcall==null){
 			System.err.println("A method call could not be found for command type: "+cmdType);
@@ -393,9 +393,9 @@ public class MainFrame extends JFrame implements CommandListener {
 	
 	/** Handles the fired commands. */
 	@Override
-	public Object handleCommand(String command, Object parameter) {	
+	public Object handleCommand(String command, Object[] parameters) {	
 		CursorManager.get().waitCursor();		
-		MethodCall methodcall = getMethodCall(command,parameter);
+		MethodCall methodcall = getMethodCall(command,parameters);
 		System.out.println(methodcall);
 		Object result=null;
 		if(methodcall!=null) result = callMethod(methodcall);

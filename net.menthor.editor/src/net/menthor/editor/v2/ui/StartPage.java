@@ -335,7 +335,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			 @Override
 			    public void mouseClicked(MouseEvent e) {
 				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(), 
-					"http://www.menthor.net/tutorial-how-to-use-ontouml-in-enterprise-architect.html"
+					new Object[]{"http://www.menthor.net/tutorial-how-to-use-ontouml-in-enterprise-architect.html"}
 				 );
 			 }
 		});	
@@ -346,7 +346,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			 @Override
 			    public void mouseClicked(MouseEvent e) {			     
 				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
-					 "http://www.menthor.net/faq.html"
+					 new Object[]{"http://www.menthor.net/faq.html"}
 				 );
 			 }
 		});
@@ -357,7 +357,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			 @Override
 			    public void mouseClicked(MouseEvent e) {			     
 				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
-					 "http://www.menthor.net/user-community.html"
+					 new Object[]{"http://www.menthor.net/user-community.html"}
 				 );
 			 }
 		});
@@ -368,7 +368,7 @@ public class StartPage extends BackgroundPanel implements Editor {
 			 @Override
 			    public void mouseClicked(MouseEvent e) {			     
 				 commandListener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
-					 "http://www.menthor.net/ontouml-study-guide.html"
+					 new Object[]{"http://www.menthor.net/ontouml-study-guide.html"}
 				 );
 			 }
 		});

@@ -45,7 +45,7 @@ public abstract class AbstractNode implements Node {
 
 	private static final long serialVersionUID = -8643725646833660531L;
 	protected Point2D origin = new Point2D.Double(0, 0);
-	private Dimension2D size = new DoubleDimension(40, 40);
+	private Dimension2D size = new DoubleDimension(90, 40);
 	private Dimension2D minimumSize = new DoubleDimension(40, 40);
 	private CompositeNode parent;
 	private Collection<NodeChangeListener> changeListeners =

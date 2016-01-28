@@ -102,7 +102,7 @@ public class Util {
 			@Override
 		    public void approveSelection(){
 		        File f = getSelectedFile();
-		        if(f.exists() && checkOverrideFile && getDialogType() == SAVE_DIALOG){
+		        if(f.exists() && checkOverrideFile){
 		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
 		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
 		            switch(result){

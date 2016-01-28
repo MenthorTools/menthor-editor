@@ -107,7 +107,7 @@ public class AboutDialog extends JDialog{
 			 @Override
 			    public void mouseClicked(MouseEvent e) {				 
 				 listener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
-				 	"http://sourceforge.net/projects/tinyuml/"
+				 	new Object[]{"http://sourceforge.net/projects/tinyuml/"}
 				 );
 			 }
 		});
@@ -117,7 +117,7 @@ public class AboutDialog extends JDialog{
 			 @Override
 			    public void mouseClicked(MouseEvent e) {				 
 				 listener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
-					"http://alloy.mit.edu/alloy/"
+					new Object[]{"http://alloy.mit.edu/alloy/"}
 				 );
 			 }
 		});		
@@ -127,7 +127,7 @@ public class AboutDialog extends JDialog{
 			 @Override
 			    public void mouseClicked(MouseEvent e) {				 
 				 listener.handleCommand(CommandType.OPEN_LINK_WITH_BROWSER.toString(),
-					"https://eclipse.org/"
+					new Object[]{"https://eclipse.org/"}
 				 );
 			 }
 		});		

@@ -107,7 +107,7 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 				context.add(refparser);
 				context.add(opt);
 				/** Execution */
-    			Object result = listener.handleCommand(CommandType.GENERATE_OWL.toString(), context);
+    			Object result = listener.handleCommand(CommandType.GENERATE_OWL.toString(), new Object[]{context});
     			/** String Result */
     			if(result instanceof String){
     				getProgressPane().writeLine((String)result);

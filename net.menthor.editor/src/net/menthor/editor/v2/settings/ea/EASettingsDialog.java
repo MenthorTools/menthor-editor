@@ -457,7 +457,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		List<Object> result = new ArrayList<Object>();
 		result.add(model);
 		result.add(document);
-		listener.handleCommand(CommandType.NEW_PROJECT_FROM_MODEL.toString(), result);
+		listener.handleCommand(CommandType.NEW_PROJECT_FROM_MODEL.toString(), new Object[]{result});
 		this.dispose();
 	}
 	

@@ -130,7 +130,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 			public void valueChanged(TreeSelectionEvent e) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
 				if(node!=null && node.getUserObject()!=null && (node.getUserObject() instanceof OntoumlDiagram || node.getUserObject() instanceof OclDocument)){
-					listener.handleCommand(CommandType.SELECT_TAB.toString(),node.getUserObject());		
+					listener.handleCommand(CommandType.SELECT_TAB.toString(), new Object[]{node.getUserObject()});		
 				}
 			}			
 		});
@@ -144,7 +144,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 			private static final long serialVersionUID = -340479571291150368L;			
 			@Override
 		    public void actionPerformed(ActionEvent e) {				
-		       listener.handleCommand(CommandType.DELETE.toString(), getSelectedNode().getUserObject());
+		       listener.handleCommand(CommandType.DELETE.toString(), new Object[]{getSelectedNode().getUserObject()});
 		    }
 		});				
 		popupmenu = new TreePopupMenu(listener);
@@ -158,7 +158,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 	            	TreePath path = getPathForLocation(e.getX(),e.getY());
 	            	if (path!=null){
 	                	DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());
-	                	if(currentNode!=null) listener.handleCommand(CommandType.EDIT.toString(), currentNode.getUserObject());
+	                	if(currentNode!=null) listener.handleCommand(CommandType.EDIT.toString(), new Object[]{currentNode.getUserObject()});
 	            	}
 	            }
 	        }

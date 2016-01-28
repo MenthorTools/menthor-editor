@@ -25,7 +25,7 @@ package net.menthor.editor.v2.commands;
 public interface CommandListener {
 	
   /** Handles the specified action command string. */  
-  Object handleCommand(String command, Object parameter);
+  Object handleCommand(String command, Object[] parameters);
   Object handleCommand(String command);
   
  }

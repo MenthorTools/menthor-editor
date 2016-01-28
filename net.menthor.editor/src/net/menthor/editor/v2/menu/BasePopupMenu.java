@@ -67,7 +67,7 @@ public class BasePopupMenu extends JPopupMenu implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for (CommandListener l : listeners) {
-			if(context!=null) l.handleCommand(e.getActionCommand(), context);
+			if(context!=null) l.handleCommand(e.getActionCommand(), new Object[]{context});
 			else l.handleCommand(e.getActionCommand());			
 		}		
 	}

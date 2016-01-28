@@ -70,7 +70,15 @@ public class CommandMap {
 	public static CommandMap getInstance() { return instance; }
 	
 	public void addParameter(CommandType cmdType, Object parameter){
-		if(getMap().get(cmdType)!=null) getMap().get(cmdType).set(parameter);
+		if(getMap().get(cmdType)!=null) {
+			getMap().get(cmdType).addParameter(parameter);
+		}
+	}
+	
+	public void addParameters(CommandType cmdType, Object[] parameters){
+		if(getMap().get(cmdType)!=null) {			
+			getMap().get(cmdType).addParameters(parameters);
+		}
 	}
 	
 	/** constructor */
