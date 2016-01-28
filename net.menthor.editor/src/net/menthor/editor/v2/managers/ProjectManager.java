@@ -247,6 +247,7 @@ public class ProjectManager extends BaseManager {
 		CursorManager.get().defaultCursor();
 	}
 
+	/**serialize project */
 	public File writeProject(File file){
 		File result = null;
 		try {
@@ -271,7 +272,8 @@ public class ProjectManager extends BaseManager {
 		return result;
 	}
 	
-	private void readProject(File file) throws IOException, ClassNotFoundException, DATException {
+	/**deserialize project */
+	public void readProject(File file) throws IOException, ClassNotFoundException, DATException {
 		CursorManager.get().waitCursor();
 		ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 		List<OclDocument> ocllist = new ArrayList<OclDocument>();

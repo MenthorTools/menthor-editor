@@ -626,7 +626,15 @@ public class OntoUMLParser {
 		}
 		return list;
 	}
-			
+	
+	public static boolean haveGeneralizationSet(List<Generalization> gens){
+		boolean result = false;
+		for(Generalization g: gens){
+			if (g.getGeneralizationSet()!=null && !g.getGeneralizationSet().isEmpty()) result=true;
+		}
+		return result;
+	}
+	
 	/** Return all anti-rigid, selected classes of the model. */
 	public Set<Classifier> getAntiRigidClasses()
 	{

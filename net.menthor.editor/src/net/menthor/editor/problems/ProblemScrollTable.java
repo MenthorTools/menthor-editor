@@ -27,7 +27,6 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
-import net.menthor.editor.finder.FoundScrollTable;
 import net.menthor.editor.v2.tables.DataTableModel;
 
 public class ProblemScrollTable extends FoundScrollTable {

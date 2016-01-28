@@ -52,9 +52,7 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
-import net.menthor.editor.finder.FeatureElement;
-
+import net.menthor.editor.problems.FeatureElement;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 

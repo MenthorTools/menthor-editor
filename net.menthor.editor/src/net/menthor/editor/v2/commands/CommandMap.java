@@ -41,18 +41,19 @@ import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
+import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.OwlManager;
+import net.menthor.editor.v2.managers.ParthoodManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.UndoManager;
-import net.menthor.editor.v2.trees.BaseCheckBoxTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -91,6 +92,11 @@ public class CommandMap {
 			changeManager(); 
 			occurenceManager();
 			baseActionManagers();
+			moveManager();
+			tabManager();
+			
+			diagramEditor();
+			dragAndDrop();
 			
 			exportManager();
 			importManager();
@@ -99,11 +105,8 @@ public class CommandMap {
 			owlManager();
 			sbvrManager();
 			alloyManager();
-			
-			diagramManager();
-			diagramEditor();
-			dnd(); //palette's drag and drop			
-			movetree(); //move up and down, move to diagram, find in diagrams
+			parthoodManager();
+			glossaryManager();
 			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -112,39 +115,6 @@ public class CommandMap {
 		}
 	}
 	
-	private void movetree() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.MOVE_UP_TREE,
-				new MethodCall(BaseCheckBoxTree.class.getMethod("moveUp")));
-		cmdMap.put(CommandType.MOVE_DOWN_TREE,
-				new MethodCall(BaseCheckBoxTree.class.getMethod("moveDown")));
-		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("move", Object.class)));		
-	}
-	
-	private void occurenceManager()throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
-				new MethodCall(OccurenceManager.class.getMethod("findInDiagrams", Object.class)));
-	}
-	
-	private void baseActionManagers() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.REDO,
-				new MethodCall(RedoManager.class.getMethod("redo")));
-		cmdMap.put(CommandType.UNDO,
-				new MethodCall(UndoManager.class.getMethod("undo")));
-		cmdMap.put(CommandType.DUPLICATE,
-				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
-		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("copySelectedToClipboard")));
-		cmdMap.put(CommandType.PASTE,
-				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
-		cmdMap.put(CommandType.RENAME,
-				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
-		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
-		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));
-	}
-
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ERASE, 
 				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));		
@@ -278,7 +248,7 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("bringFromProjectBrowser", Point.class)));		
 	}
 	
-	private void dnd() throws NoSuchMethodException, SecurityException{
+	private void dragAndDrop() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.TB_DND_POINTER_MODE, 
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));		
 		cmdMap.put(CommandType.TB_DND_KIND, 
@@ -359,7 +329,7 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.STRUCTURATION));
 	}
 	
-	private void diagramManager() throws NoSuchMethodException, SecurityException{
+	private void tabManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS_TAB,
 				new MethodCall(DiagramManager.class.getMethod("closeTab", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
@@ -370,18 +340,60 @@ public class CommandMap {
 				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
 		cmdMap.put(CommandType.OPEN_TAB,
 				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));		
-		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
-				new MethodCall(DiagramManager.class.getMethod("callGlossary")));		
-		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
-				new MethodCall(DiagramManager.class.getMethod("validatesParthood")));
-		cmdMap.put(CommandType.FIND_TERM,
-				new MethodCall(DiagramManager.class.getMethod("searchInProject")));		
-		cmdMap.put(CommandType.COLLECT_STATISTICS,
-				new MethodCall(DiagramManager.class.getMethod("collectStatistics")));
-		cmdMap.put(CommandType.CLOSE_RULES,
-				new MethodCall(DiagramManager.class.getMethod("closeOclDocument")));
-		cmdMap.put(CommandType.CLOSE_DIAGRAM,
-				new MethodCall(DiagramManager.class.getMethod("closeDiagram")));
+		cmdMap.put(CommandType.CLOSE_RULES_TAB,
+				new MethodCall(DiagramManager.class.getMethod("closeCurrentOclDocument")));
+		cmdMap.put(CommandType.CLOSE_DIAGRAM_TAB,
+				new MethodCall(DiagramManager.class.getMethod("closeCurrentDiagram")));		
+		cmdMap.put(CommandType.ADD_FINDER_TAB,
+				new MethodCall(DiagramManager.class.getMethod("addFinderTab")));		
+		cmdMap.put(CommandType.ADD_STATISTICS_TAB,
+				new MethodCall(DiagramManager.class.getMethod("addStatisticsTab")));
+	}
+	
+	private void moveManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.MOVE_UP_TREE,
+				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
+		cmdMap.put(CommandType.MOVE_DOWN_TREE,
+				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
+		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
+				new MethodCall(MoveManager.class.getMethod("move", Object.class)));		
+	}
+	
+	
+	private void occurenceManager()throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
+				new MethodCall(OccurenceManager.class.getMethod("findInDiagrams", Object.class)));
+	}
+	
+	private void baseActionManagers() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.REDO,
+				new MethodCall(RedoManager.class.getMethod("redo")));
+		cmdMap.put(CommandType.UNDO,
+				new MethodCall(UndoManager.class.getMethod("undo")));
+		cmdMap.put(CommandType.DUPLICATE,
+				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
+		cmdMap.put(CommandType.COPY,
+				new MethodCall(ClipboardManager.class.getMethod("copySelectedToClipboard")));
+		cmdMap.put(CommandType.PASTE,
+				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
+		cmdMap.put(CommandType.RENAME,
+				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
+		cmdMap.put(CommandType.EDIT, 
+				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
+		cmdMap.put(CommandType.DELETE, 
+				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));
+	}
+
+	private void sbvrManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.GENERATE_SBVR, 
+				new MethodCall(SbvrManager.class.getMethod("generateSbvr")));
+		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
+				new MethodCall(SbvrManager.class.getMethod("openLinkWithBrowser", String.class)));		
+	}
+	
+	private void alloyManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ALLOY_SETTINGS,
+			new MethodCall(AlloyManager.class.getMethod("openAlloySettings")));
 	}
 	
 	private void owlManager()throws NoSuchMethodException, SecurityException{
@@ -391,9 +403,19 @@ public class CommandMap {
 				new MethodCall(OwlManager.class.getMethod("generateOwl", Object.class)));
 	}
 	
+	private void glossaryManager()throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
+			new MethodCall(GlossaryManager.class.getMethod("openGlossarySettings")));
+	}
+	
 	private void antiPatternManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SEARCH_FOR_ANTIPATTERNS, 
 				new MethodCall(AntiPatternManager.class.getMethod("detectAntiPatterns")));
+	}
+	
+	private void parthoodManager()throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
+				new MethodCall(ParthoodManager.class.getMethod("evaluateParthoods")));
 	}
 	
 	private void syntaxManager() throws NoSuchMethodException, SecurityException{
@@ -451,18 +473,6 @@ public class CommandMap {
 				new MethodCall(ImportManager.class.getMethod("importFromEA")));
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
 				new MethodCall(ImportManager.class.getMethod("importFromEARecent")));
-	}
-	
-	private void sbvrManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.GENERATE_SBVR, 
-				new MethodCall(SbvrManager.class.getMethod("generateSbvr")));
-		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
-				new MethodCall(SbvrManager.class.getMethod("openLinkWithBrowser", String.class)));		
-	}
-	
-	private void alloyManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.ALLOY_SETTINGS,
-			new MethodCall(AlloyManager.class.getMethod("openAlloySettings")));
 	}
 	
 	private void helpManager() throws NoSuchMethodException, SecurityException{

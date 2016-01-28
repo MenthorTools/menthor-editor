@@ -45,10 +45,10 @@ public enum CommandType {
 	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
 		
 	NEW_OCLDOCUMENT("Createa a new rules document"),
-	CLOSE_RULES("Createa a new rules document"),
+	CLOSE_RULES_TAB("Createa a new rules document"),
 		
 	NEW_DIAGRAM("Create a new class diagram"), 
-	CLOSE_DIAGRAM("Close current class diagram"),	
+	CLOSE_DIAGRAM_TAB("Close current class diagram"),	
 	REDRAW_DIAGRAM("Redraw the current class diagram"),
 	SELECT_ALL_DIAGRAM("Select all elements on current diagram"),
 	EXPORT_TO_PNG("<html>Save diagram as PNG<br><br>TIP: Move your diagram as close as possible <br>to the upper left side of the grid.</hmtl>"),
@@ -133,9 +133,9 @@ public enum CommandType {
 	ABOUT(null), 
 	LICENSES(null), 
 
-	FIND_TERM("Find a term in current project"),
+	ADD_FINDER_TAB("Find a term in current project"),
 	FIND_IN_PROJECT_BROWSER("Find a term in project browser"),
-	COLLECT_STATISTICS("Collect statistics of current project"),
+	ADD_STATISTICS_TAB("Collect statistics of current project"),
 	
 	MOVE_DOWN_TREE(null),
 	MOVE_UP_TREE(null),

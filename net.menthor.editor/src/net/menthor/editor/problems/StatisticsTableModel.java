@@ -1,4 +1,4 @@
-package net.menthor.editor.statistician;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================
@@ -26,17 +26,17 @@ import javax.swing.table.AbstractTableModel;
 /**
  * @author John Guerson
  */
-public class WarningTableModel extends AbstractTableModel 
+public class StatisticsTableModel extends AbstractTableModel 
 {
 	private static final long serialVersionUID = 1L;
 	
-	public WarningTableModel(String[] columnNames, Object[][] data)
+	public StatisticsTableModel(String[] columnNames, Object[][] data)
 	{
 		this.columnNames=columnNames;
 		this.data=data;
 	}
 	
-	private String[] columnNames = {"Description","Element","Path"};
+	private String[] columnNames = {"Measure", "Count", "Type Percentage", "Total Percentage"};
     private Object[][] data = {};
 
     public int getColumnCount() {
@@ -73,7 +73,7 @@ public class WarningTableModel extends AbstractTableModel
     public boolean isCellEditable(int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-        if (col < 2) {
+        if (col < 5) {
             return false;
         } else {
             return true;

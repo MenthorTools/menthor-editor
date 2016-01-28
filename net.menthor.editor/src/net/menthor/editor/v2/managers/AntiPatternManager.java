@@ -24,28 +24,25 @@ public class AntiPatternManager extends BaseManager {
 	}	
 	
 	class APSearchDialog extends AntiPatternSearchDialog {
-		
 		private static final long serialVersionUID = 4409086494848787626L;
-		
-		/** constructor */
 		public APSearchDialog(JFrame frame, OntoUMLParser refparser){ super(frame, refparser); }		
 		
-		@Override /** open the result */
+		/** open the result */
+		@Override 
 		public void openResult(AntiPatternList list){ 
 			APResultDialog.openDialog(list,diagramManager.getFrame()); 
 		}
 		
-		@Override /** transfer the result to Menthor */
+		/** transfer the result to Menthor */
+		@Override 
 		public void transferResult(AntiPatternList list){ Models.setAntipatterns(list); }
 	}
 	
 	class APResultDialog extends AntiPatternResultDialog {
-		
-		/** constructor */
 		public APResultDialog(Shell parent, List<AntipatternOccurrence> result, JFrame frame) { super(parent, result, frame); }		
 		
-		/** transfer the modifications to Menthor */
+		/** transfer fix to Menthor */
+		@Override
 		public void transferFix(Fix fix){ UpdateManager.get().update(fix); }		
 	}
-
 }

@@ -34,6 +34,7 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
 
 public class RenameManager extends BaseManager {
@@ -91,7 +92,7 @@ public class RenameManager extends BaseManager {
 		String text = askForOCLDocName(diagramManager, oclDoc);					
 		final String newtext = text;
 		if(text!=null){
-			if(diagramManager.getOclDocumentNames().contains(text)){
+			if(Models.getOclDocumentNames().contains(text)){
 				//name must be unique
 			}else{
 				//update ocl tab
@@ -114,7 +115,7 @@ public class RenameManager extends BaseManager {
 		String text = askForDiagramName(diagramManager, diagram);
 		final String newtext = text;		
 		if(text!=null){
-			if(diagramManager.getDiagramNames().contains(text)){
+			if(Models.getDiagramNames().contains(text)){
 				//diagram name must be unique
 			}else{
 				SwingUtilities.invokeLater(new Runnable() {				

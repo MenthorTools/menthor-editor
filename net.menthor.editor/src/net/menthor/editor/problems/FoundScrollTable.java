@@ -1,4 +1,4 @@
-package net.menthor.editor.statistician;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================
@@ -35,29 +35,30 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import net.menthor.editor.v2.tables.BaseTableModel;
+import net.menthor.editor.v2.tables.DataTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
 /**
  * @author John Guerson
  */
-public class StatisticsScrollTable extends JScrollPane{
+public class FoundScrollTable extends JScrollPane{
 
-	private static final long serialVersionUID = 1732036629191359696L;
-	private JTable table;
-	private StatisticsTableModel tablemodel;
-	private ArrayList<StatisticalElement> resultList = new ArrayList<StatisticalElement>();
+	protected static final long serialVersionUID = 1732036629191359696L;
+	protected JTable table;
+	protected BaseTableModel tablemodel;
+	protected ArrayList<FoundElement> foundList = new ArrayList<FoundElement>();
+	protected String[] columnNames;
 	
 	public JTable getTable() { return table; }
-	public ArrayList<StatisticalElement> getResult() { return resultList; }
 	
-	public StatisticsScrollTable()
+	public FoundScrollTable(String[] columns)
 	{				
-		String[] columnNames = {"Measure", "Count", "Type Percentage", "Total Percentage"};
+		columnNames = columns;
         Object[][] data = {};
         
-	    setMinimumSize(new Dimension(0, 0));
-	    setMinimumSize(new Dimension(0, 0));
+	    setMinimumSize(new Dimension(0, 0));	    
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		setBorder(new EmptyBorder(0,0,0,0));
@@ -93,6 +94,9 @@ public class StatisticsScrollTable extends JScrollPane{
 	    			// set the selected interval of rows. Using the "rowNumber"
 	    			// variable for the beginning and end selects only that one row.
 	    			model.setSelectionInterval( rowNumber, rowNumber );
+	    			
+	    			FoundPopupMenu menu = new FoundPopupMenu(foundList.get(rowNumber));
+	    			menu.show(e.getComponent(),e.getX(),e.getY());
 	    		}
 	    	}
 	    });
@@ -100,8 +104,8 @@ public class StatisticsScrollTable extends JScrollPane{
 	
 	public void reset()
 	{
-		Object[][] data = {};String[] columnNames = {};
-		tablemodel = new StatisticsTableModel(columnNames,data);
+		Object[][] data = {}; String[] columnNames = {};
+		tablemodel = new DataTableModel(columnNames,data);
 		table.setModel(tablemodel);	
 		table.repaint();
 		table.validate();		
@@ -112,24 +116,27 @@ public class StatisticsScrollTable extends JScrollPane{
 		table.setRowSelectionInterval(row, row);
 	}
 	
-	public void setData(ArrayList<StatisticalElement> foundList)
+	public ArrayList<FoundElement> getFound() 
 	{
-		this.resultList = foundList;
+		return foundList;
+	};
+	
+	public void setFound(ArrayList<FoundElement> foundList)
+	{
+		this.foundList = foundList;		
 		int rows=foundList.size();
 				
-		String[][] data = new String[rows][4];
+		String[][] data = new String[rows][columnNames.length];
 		
 		int i=0;		
-		for(StatisticalElement elem: this.resultList){						
-			data[i][0]="    "+elem.getMeasure();
-			data[i][1]=" "+elem.getCount();							
-			data[i][2]=" "+elem.getTypePercentage();
-			data[i][3]=" "+elem.getAllPercentage();
+		for(FoundElement elem: this.foundList){						
+			data[i][0]="    "+elem.getName();
+			data[i][1]=" "+elem.getType();
+			data[i][2]=" "+elem.getPath();				
 			i++;
 		}
 		
-		String[] columnNames = {"Measure", "Count", "Type Percentage", "Total Percentage"};
-		tablemodel = new StatisticsTableModel(columnNames,data);
+		tablemodel = new DataTableModel(columnNames,data);
 		
 		table.setModel(tablemodel);
 		
@@ -141,20 +148,6 @@ public class StatisticsScrollTable extends JScrollPane{
 		table.validate();		
 		repaint();
 		validate();
-	}
-	
-	public String getTableText(){
-		String s = new String();
-		int rows = table.getModel().getRowCount();
-		
-		for (int i = 0; i < rows; i++) {
-			s +=table.getValueAt(i, 0).toString().replaceAll("    ", "")+"\t"+table.getValueAt(i, 1)+"\t"+
-				table.getValueAt(i, 2)+"\t"+table.getValueAt(i, 3);
-			if(i<rows-1)
-				s+="\n";
-		}
-		
-		return s;
-	}
+	}	
 
 }

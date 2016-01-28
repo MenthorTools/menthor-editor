@@ -1,4 +1,4 @@
-package net.menthor.editor.statistician;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================

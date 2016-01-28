@@ -1,4 +1,4 @@
-package net.menthor.editor.statistician;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================
@@ -40,7 +40,10 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.ui.ProjectBrowser;
+import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
+import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.types.EditorType;
@@ -186,10 +189,27 @@ public class StatisticsPane extends JPanel implements Editor {
 	{
 		resetResult();		
 		// collect statistics
-		ArrayList<StatisticalElement> result = ProjectBrowser.frame.getDiagramManager().collectStatistic();
+		ArrayList<StatisticalElement> result = collectStatistic();
 		Collections.sort(result,new MeasureComparator());
 		statScrollTable.setData(result);
 		//status.setText("  "+result.size()+"  found.");
+	}
+	
+	/** Collect Statistics */
+	public ArrayList<StatisticalElement> collectStatistic()
+	{
+		ArrayList<StatisticalElement> result = new ArrayList<StatisticalElement>();
+		OntoUMLParser refparser = Models.getRefparser();
+		if(refparser!=null){
+			OntoUMLModelStatistic diagnostic = new OntoUMLModelStatistic(refparser);
+			diagnostic.run();
+			
+			for (TypeDetail detail : diagnostic.getDetails()) {
+				result.add(new StatisticalElement(detail));
+			}
+
+		}
+		return result;
 	}
 	
 	public void resetResult() { statScrollTable.reset(); repaint(); validate(); }

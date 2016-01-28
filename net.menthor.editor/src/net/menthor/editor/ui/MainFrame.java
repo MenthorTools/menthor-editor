@@ -55,12 +55,14 @@ import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FilterManager;
+import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.OwlManager;
+import net.menthor.editor.v2.managers.ParthoodManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
@@ -221,6 +223,8 @@ public class MainFrame extends JFrame implements CommandListener {
 		DuplicateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		ClipboardManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		TransferManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		ParthoodManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		GlossaryManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 	}
 	
 	private void installMultiSplitPane(){		
@@ -255,6 +259,13 @@ public class MainFrame extends JFrame implements CommandListener {
 		getMainMenu().select(CommandType.PALETTE_OF_ELEMENTS,true);
 	}
 	
+	public void forceShowFooterPane(){
+		if(!isShowFooterPane()) { 
+			getMainMenu().select(CommandType.CONSOLE,true); 
+		}
+		showFooterPane();
+	}
+	
 	public void showOnlyStartPage(){
 		multiSplitPane.forceShowOnlyTopPane();
 		getMainMenu().select(CommandType.PALETTE_OF_ELEMENTS,false);
@@ -274,7 +285,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		return multiSplitPane.isShowBottomPane();
 	}
 	
-	public void showFooterPane(){
+	public void showFooterPane(){		
 		if(getMainMenu().isSelected(CommandType.CONSOLE)){			
 			multiSplitPane.showBottomPane();
 			getMainMenu().select(CommandType.CONSOLE,true);			
@@ -378,6 +389,10 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(ClipboardManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
 				return methodcall.call(OccurenceManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ParthoodManager.class){
+				return methodcall.call(ParthoodManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == GlossaryManager.class){
+				return methodcall.call(GlossaryManager.get());
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(getDiagramManager().getCurrentDiagramEditor());

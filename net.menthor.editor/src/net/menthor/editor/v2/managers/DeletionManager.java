@@ -179,7 +179,7 @@ public class DeletionManager extends BaseManager {
 	
 	/** Delete a generalization set from a list of selected diagram elements */
 	public void deleteGeneralizationSet(DiagramEditor d, List<DiagramElement> selectedElements){	
-		List<GeneralizationSet> genSets = diagramManager.getGeneralizationSets(selectedElements);
+		List<GeneralizationSet> genSets = d.getGeneralizationSets(selectedElements);
 		if(genSets.size()==0) return;
 		if(genSets.size()==1){
 			deleteElement(genSets.get(0),true);

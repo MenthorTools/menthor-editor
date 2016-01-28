@@ -51,6 +51,14 @@ public class MoveManager extends BaseManager {
 	private static MoveManager instance = new MoveManager();
 	public static MoveManager get() { return instance; }
 		
+	public void moveDownSelectedOnTree(){
+		browser.getTree().moveDown();
+	}
+	
+	public void moveUpSelectedOnTree(){
+		browser.getTree().moveUp();
+	}
+	
 	/** Move element to current diagram */
 	public void move(Object element){
 		move((RefOntoUML.Element)element,-1, -1, diagramManager.getCurrentDiagramEditor(),true);

@@ -40,9 +40,9 @@ public class MainToolbar extends BaseToolBar {
 		createButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background);
 		createButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_EXISTING_PROJECT, background);	
 		createButton(IconType.MENTHOR_SAVE, CommandType.SAVE_PROJECT, background);
-		createButton(IconType.MENTHOR_SEARCH,CommandType.FIND_TERM, background);		
+		createButton(IconType.MENTHOR_SEARCH,CommandType.ADD_FINDER_TAB, background);		
 		createButton(IconType.MENTHOR_CHECK,CommandType.VERIFY_MODEL, background);
-		createButton(IconType.MENTHOR_STATS,CommandType.COLLECT_STATISTICS, background);
+		createButton(IconType.MENTHOR_STATS,CommandType.ADD_STATISTICS_TAB, background);
 		createButton(IconType.MENTHOR_PLAY, CommandType.ALLOY_SETTINGS, background);
 		createButton(IconType.MENTHOR_SEMANTIC_WEB, CommandType.CALL_OWL_SETTINGS, background);				
 		enableAll(false);

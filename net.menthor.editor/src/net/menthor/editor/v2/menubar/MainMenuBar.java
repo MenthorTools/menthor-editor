@@ -228,8 +228,8 @@ public class MainMenuBar extends BaseMenuBar {
 		add(project);		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);
-		createMenuItem(project, "Find", CommandType.FIND_TERM, background,stroke);
-		createMenuItem(project, "Statistics", CommandType.COLLECT_STATISTICS, background);
+		createMenuItem(project, "Find", CommandType.ADD_FINDER_TAB, background,stroke);
+		createMenuItem(project, "Statistics", CommandType.ADD_STATISTICS_TAB, background);
 	}	
 
 	private void createRulesMenu(){
@@ -237,7 +237,7 @@ public class MainMenuBar extends BaseMenuBar {
 		add(rules);
 		createMenuItem(rules, "New", CommandType.NEW_OCLDOCUMENT, background);
 		rules.addSeparator();
-		createMenuItem(rules, "Close", CommandType.CLOSE_RULES, background);
+		createMenuItem(rules, "Close", CommandType.CLOSE_RULES_TAB, background);
 	}
 	
 	private void createDiagramMenu(){
@@ -250,7 +250,7 @@ public class MainMenuBar extends BaseMenuBar {
 		diagram.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);
-		createMenuItem(diagram, "Close", CommandType.CLOSE_DIAGRAM, background,stroke);
+		createMenuItem(diagram, "Close", CommandType.CLOSE_DIAGRAM_TAB, background,stroke);
 		diagram.addSeparator();		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);

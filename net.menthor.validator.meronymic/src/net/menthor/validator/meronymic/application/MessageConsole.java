@@ -1,4 +1,4 @@
-package net.menthor.editor.validator.meronymic;
+package net.menthor.validator.meronymic.application;
 
 /**
  * ============================================================================================

@@ -1,4 +1,4 @@
-package net.menthor.editor.finder;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================
@@ -37,7 +37,11 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.ui.ProjectBrowser;
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.NamedElement;
+import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.types.EditorType;
@@ -88,10 +92,34 @@ public class FoundPane extends JPanel implements Editor {
 	{
 		resetResult();		
 		// find
-		ArrayList<FoundElement> result = ProjectBrowser.frame.getDiagramManager().strictlyFindByName(foundHeadPane.getText());
+		ArrayList<FoundElement> result = strictlyFindByName(foundHeadPane.getText());
 		Collections.sort(result,new StereotypeComparator());
 		foundScrollTable.setFound(result);
 		status.setText("  "+result.size()+" items found.");
+	}
+	
+
+	/** Strictly find by name */
+	public ArrayList<FoundElement> strictlyFindByName(String text)
+	{		
+		ArrayList<FoundElement> result = new ArrayList<FoundElement>();
+		OntoUMLParser refparser = Models.getRefparser();
+		if(refparser!=null && text!=null /*&& !text.isEmpty()*/){
+			for(EObject eobj: refparser.getAllInstances(EObject.class)){
+				if (eobj instanceof NamedElement){
+					String name = ((NamedElement)eobj).getName();
+					if(name!=null){
+						if(text.trim().isEmpty()) result.add(new FoundElement(eobj));
+						else {
+							if(name.trim().toLowerCase().compareToIgnoreCase(text)==0) result.add(new FoundElement(eobj));
+							else if(name.trim().toLowerCase().contains(text.toLowerCase().trim())) result.add(new FoundElement(eobj));
+						}
+						
+					}
+				}
+			}
+		}		
+		return result;
 	}
 	
 	public FoundPane(UmlProject project, boolean header)

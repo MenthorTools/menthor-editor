@@ -1,4 +1,4 @@
-package net.menthor.editor.validator.meronymic;
+package net.menthor.validator.meronymic.application;
 
 /**
  * ============================================================================================
@@ -22,7 +22,7 @@ package net.menthor.editor.validator.meronymic;
  */
 
 import java.awt.Color;
-import java.awt.Toolkit;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,10 +40,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.v2.managers.UpdateManager;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.common.ontoumlfixer.Fix;
 
 /**
  * @author Tiago Sales
@@ -65,9 +63,6 @@ public class ValidationDialog extends JDialog {
 
 	private JButton closeButton;
 	private JButton applyButton;
-
-	private MainFrame appFrame;
-
 
 	/**
 	 * Create the frame.
@@ -147,30 +142,29 @@ public class ValidationDialog extends JDialog {
 		scrollPane.setViewportView(consoleTextPane);
 		contentPane.setLayout(gl_contentPane);
 	}
-
-	public ValidationDialog(OntoUMLParser parser, MainFrame parent) {
-		this(parser);
-		this.appFrame = parent;
-	}
-
+	
 	private ActionListener applyAction = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Fix fix = fixAllPanels();
-			UpdateManager.get().update(fix);
+			Fix fix = fixAllPanels();	
+			transferFix(fix);
 			clearAllTables();
 			saveButton.setEnabled(false);
 			applyButton.setEnabled(false);
 		}
 	};
 	
+	protected void transferFix(Fix fix){
+		
+	}
+	
 	private ActionListener saveAction = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Fix fix = fixAllPanels();
-			UpdateManager.get().update(fix);
+			transferFix(fix);
 			dispose();
 		}
 	};
@@ -193,12 +187,12 @@ public class ValidationDialog extends JDialog {
 	
 	 /** Open the Dialog.
 	 */
-	public static void open(OntoUMLParser parser, MainFrame parent)
+	public static void open(OntoUMLParser parser, Component parent)
 	{
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			
-			ValidationDialog frame = new ValidationDialog( parser, parent);
+			ValidationDialog frame = new ValidationDialog(parser);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 			frame.setModalityType(ModalityType.APPLICATION_MODAL);

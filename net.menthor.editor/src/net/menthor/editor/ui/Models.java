@@ -1,15 +1,13 @@
 package net.menthor.editor.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import RefOntoUML.parser.OntoUMLParser;
-
 import net.menthor.antipattern.application.AntiPatternList;
-
 import net.menthor.editor.v2.OclDocument;
-
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 public class Models {
@@ -46,5 +44,21 @@ public class Models {
 		Models.setProject(null);
 		Models.setRefparser(null);
 		Models.getOclDocList().clear();
+	}
+	
+	public static List<String> getDiagramNames(){
+		List<String> result = new ArrayList<String>();
+		for(OntoumlDiagram d: project.getDiagrams()){
+			result.add(d.getName());			
+		}
+		return result;
+	}
+	
+	public static List<String> getOclDocumentNames(){
+		List<String> result = new ArrayList<String>();
+		for(OclDocument d: oclDocList){
+			result.add(d.getName());			
+		}
+		return result;
 	}
 }

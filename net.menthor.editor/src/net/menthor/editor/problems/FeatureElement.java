@@ -1,4 +1,4 @@
-package net.menthor.editor.finder;
+package net.menthor.editor.problems;
 
 import RefOntoUML.Element;
 import RefOntoUML.NamedElement;

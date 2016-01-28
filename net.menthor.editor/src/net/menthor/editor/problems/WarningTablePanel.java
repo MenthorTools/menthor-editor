@@ -1,4 +1,4 @@
-package net.menthor.editor.statistician;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================
@@ -50,7 +50,7 @@ import net.menthor.editor.v2.types.ColorType;
  * @author John Guerson
  */
 
-public class ErrorTablePanel extends JPanel {
+public class WarningTablePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -60,11 +60,11 @@ public class ErrorTablePanel extends JPanel {
 	private JScrollPane scrollpane;
 	private JTable table;
 	private WarningTableModel tablemodel;
-	private JLabel errorMessage;
+	private JLabel warningMessage;
 	private JButton saveButton;
 	private String content;
 	
-	public ErrorTablePanel(UmlProject project)
+	public WarningTablePanel(UmlProject project)
 	{
 		this();
 		this.project = project;
@@ -94,13 +94,13 @@ public class ErrorTablePanel extends JPanel {
 	 * 
 	 * @param elem
 	 */
-	public void setData(ArrayList<ArrayList<String>> matrix, int errors)
+	public void setData(ArrayList<ArrayList<String>> matrix, int warnings)
 	{
 		int rows=matrix.size();
 		
-		errorMessage.setText("    ("+errors+" errors)");
-		errorMessage.repaint();
-		errorMessage.validate();
+		warningMessage.setText("    ("+warnings+" warnings)");
+		warningMessage.repaint();
+		warningMessage.validate();
 		
 		String[][] data = new String[rows][3];
 		
@@ -129,8 +129,6 @@ public class ErrorTablePanel extends JPanel {
 		
 		content = tablemodel.getData();
 		
-		repaint();
-		validate();
 	}	
 	
 	public String getContent()
@@ -141,7 +139,7 @@ public class ErrorTablePanel extends JPanel {
 	/**
 	 * Constructor.
 	 */
-	public ErrorTablePanel() 
+	public WarningTablePanel() 
 	{
 		setBackground(Color.WHITE);
 		setBackground(Color.WHITE);
@@ -153,7 +151,7 @@ public class ErrorTablePanel extends JPanel {
         Object[][] data = {};
         
         scrollpane = new JScrollPane();		
-        scrollpane.setMinimumSize(new Dimension(0, 0));
+	    scrollpane.setMinimumSize(new Dimension(0, 0));
 	    setMinimumSize(new Dimension(0, 0));
 		scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -168,7 +166,8 @@ public class ErrorTablePanel extends JPanel {
 		table.setGridColor(Color.LIGHT_GRAY);		
 	    table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHT));
 	    table.setSelectionForeground(Color.BLACK);
-	    table.setFocusable(false);	    
+	    table.setFocusable(false);
+	    					
 		add(scrollpane,BorderLayout.CENTER);
 		
 		JToolBar toolBar = new JToolBar();
@@ -187,9 +186,9 @@ public class ErrorTablePanel extends JPanel {
 		saveButton.setFocusable(false);
 		//toolBar.add(saveButton);
 		
-		errorMessage = new JLabel("    (0 errors)");
-		errorMessage.setPreferredSize(new Dimension(100, 25));
-		//toolBar.add(errorMessage);		
+		warningMessage = new JLabel("    (0 warnings)");
+		warningMessage.setPreferredSize(new Dimension(100, 25));
+		//toolBar.add(warningMessage);		
 	}
 	
 	public static String saveTxtLocation(Component frame, String lastLocation)
@@ -216,13 +215,13 @@ public class ErrorTablePanel extends JPanel {
 	
 	public void saveContentToTxtFile (Component parent)
     {    	
-    	String path = saveTxtLocation(parent, null);
+    	String path = saveTxtLocation(parent,null);
     	
     	if(path!=null)
 		try {
 			
 			FileUtil.writeToFile(
-				errorMessage.getText().trim()+"\n"+
+				warningMessage.getText().trim()+"\n"+
 				"------------------------------------------------------------"+"\n"+
 				content, 
 				path
@@ -231,5 +230,5 @@ public class ErrorTablePanel extends JPanel {
 		} catch (IOException e) {			
 			e.printStackTrace();
 		}    	
-    }
+    }	
 }

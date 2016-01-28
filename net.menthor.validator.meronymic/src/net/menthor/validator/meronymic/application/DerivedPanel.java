@@ -1,4 +1,4 @@
-package net.menthor.editor.validator.meronymic;
+package net.menthor.validator.meronymic.application;
 
 /**
  * ============================================================================================
@@ -36,7 +36,6 @@ import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -51,15 +50,13 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
 import net.menthor.validator.meronymic.derivation.DerivedMeronymic;
 import net.menthor.validator.meronymic.derivation.FunctionalParthoodDerivationTask;
 import net.menthor.validator.meronymic.derivation.MembershipDerivationTask;
 import net.menthor.validator.meronymic.derivation.SubQuantityDerivationTask;
 import net.menthor.validator.meronymic.derivation.ui.DerivedTable;
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author Tiago Sales
@@ -85,6 +82,13 @@ public class DerivedPanel extends ValidationPanel<DerivedMeronymic> {
 	private FunctionalParthoodDerivationTask functionalTask;
 	private MembershipDerivationTask membershipTask;
 	private SubQuantityDerivationTask quantityTask;
+	
+	public void setHelpIcons(){
+		//btnHelp1.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
+		//btnHelp1.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));		
+		//button.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		//button_1.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+	}
 	
 	/**
 	 * Create the panel.
@@ -133,8 +137,6 @@ public class DerivedPanel extends ValidationPanel<DerivedMeronymic> {
 		btnHelp1.setBorderPainted(false);
 		btnHelp1.setContentAreaFilled(false);
 		btnHelp1.setOpaque(false);
-		btnHelp1.setRolloverIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELPROLLOVER));
-		btnHelp1.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
 		
 		functionalCheck = new JCheckBox("Derive Functional Parthood");
 		GridBagConstraints gbc_functionalCheck = new GridBagConstraints();
@@ -149,8 +151,7 @@ public class DerivedPanel extends ValidationPanel<DerivedMeronymic> {
 		gbc_button.insets = new Insets(0, 0, 5, 5);
 		gbc_button.gridx = 0;
 		gbc_button.gridy = 1;
-		panel.add(button, gbc_button);
-		button.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		panel.add(button, gbc_button);		
 		button.setPreferredSize(new Dimension(20, 20));
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);
@@ -169,8 +170,7 @@ public class DerivedPanel extends ValidationPanel<DerivedMeronymic> {
 		gbc_button_1.insets = new Insets(0, 0, 0, 5);
 		gbc_button_1.gridx = 0;
 		gbc_button_1.gridy = 2;
-		panel.add(button_1, gbc_button_1);
-		button_1.setIcon(IconMap.getInstance().getIcon(IconType.MENTHOR_HELP));
+		panel.add(button_1, gbc_button_1);		
 		button_1.setPreferredSize(new Dimension(20, 20));
 		button_1.setOpaque(false);
 		button_1.setContentAreaFilled(false);
@@ -250,6 +250,8 @@ public class DerivedPanel extends ValidationPanel<DerivedMeronymic> {
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
+		
+		setHelpIcons();
 	}
 	
 	private ActionListener actionFix = new ActionListener() {

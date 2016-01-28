@@ -7,7 +7,6 @@ import java.util.List;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
-import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlNode;
@@ -17,13 +16,13 @@ public class DuplicateManager extends BaseManager {
 	private static DuplicateManager instance = new DuplicateManager();
 	public static DuplicateManager get() { return instance; }
 	
-	public HashMap<UmlNode, UmlNode> classDuplicateMap = new HashMap<UmlNode, UmlNode>();
+	public HashMap<UmlNode, UmlNode> duplicateMap = new HashMap<UmlNode, UmlNode>();
 	
 	@SuppressWarnings("unchecked")
 	public void duplicate(Object obj){
-		classDuplicateMap.clear();
+		duplicateMap.clear();
 		if(obj instanceof List<?>) duplicate((List<DiagramElement>)obj);
-		if(obj instanceof ClassElement) duplicateNode((ClassElement)obj);
+		if(obj instanceof UmlNode) duplicateNode((UmlNode)obj);
 	}
 	
 	public List<DiagramElement> duplicate(List<DiagramElement> diagramElements){		
@@ -45,10 +44,10 @@ public class DuplicateManager extends BaseManager {
 	}
 	
 	public UmlConnection duplicateConnection(UmlConnection conn){
-		DiagramEditor editor = diagramManager.getDiagramEditor((StructureDiagram)conn.getDiagram());
-		UmlNode node1 = classDuplicateMap.get(conn.getNode1());
-		UmlNode node2 = classDuplicateMap.get(conn.getNode2());
-		UmlConnection newConn = (UmlConnection)conn.clone();
+//		DiagramEditor editor = diagramManager.getDiagramEditor((StructureDiagram)conn.getDiagram());
+//		UmlNode node1 = duplicateMap.get(conn.getNode1());
+//		UmlNode node2 = duplicateMap.get(conn.getNode2());
+//		UmlConnection newConn = (UmlConnection)conn.clone();
 		
 		//change newConn ends
 		/*OntoUMLParser.setSourceType(newConn.getRelationship(), (Classifier)node1.getClassifier());
@@ -59,7 +58,8 @@ public class DuplicateManager extends BaseManager {
 		AddConnectionCommand cmd = new AddConnectionCommand(editor, conn.getDiagram(), newConn.getRelationship(), (Classifier)node1.getClassifier(), (Classifier)node2.getClassifier(), (RefOntoUML.Element)conn.getRelationship().eContainer());		
 		cmd.run(); */
 		
-		return newConn;
+//		return newConn;
+		return null;
 	}
 	
 	public List<UmlNode> duplicateNodes(List<DiagramElement> diagramElements){
@@ -67,7 +67,7 @@ public class DuplicateManager extends BaseManager {
 		for(DiagramElement ce: diagramElements){
 			if(ce instanceof UmlNode) {
 				UmlNode duplicate = duplicateNode((UmlNode)ce);
-				classDuplicateMap.put((ClassElement)ce, duplicate);
+				duplicateMap.put((UmlNode)ce, duplicate);
 				newOnes.add(duplicate);
 			}
 		}
@@ -80,8 +80,7 @@ public class DuplicateManager extends BaseManager {
 		DiagramEditor editor = diagramManager.getDiagramEditor((StructureDiagram)classElement.getDiagram());
 		double x = classElement.getAbsoluteX2()+15;
 		double y = classElement.getAbsoluteY2()+15;
-		AddNodeCommand cmd = new AddNodeCommand(editor,editor.getDiagram(),newClass.getClassifier(), 
-		x, y, (RefOntoUML.Element)newClass.getClassifier().eContainer());		
+		AddNodeCommand cmd = new AddNodeCommand(editor,newClass, x, y);		
 		cmd.run();		
 		return newClass;
 	}

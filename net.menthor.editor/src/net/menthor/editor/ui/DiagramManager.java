@@ -33,42 +33,32 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IDisposable;
-import org.tinyuml.draw.DiagramElement;
+
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContextImpl;
+
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.SelectionListener;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.umldraw.GeneralizationElement;
+
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
-import RefOntoUML.NamedElement;
-import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLElementCustom;
-import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
-import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
-import net.menthor.editor.finder.FoundElement;
-import net.menthor.editor.finder.FoundPane;
 import net.menthor.editor.problems.ErrorPane;
+import net.menthor.editor.problems.FoundPane;
 import net.menthor.editor.problems.ProblemElement;
 import net.menthor.editor.problems.ProblemPane;
+import net.menthor.editor.problems.StatisticsPane;
 import net.menthor.editor.problems.WarningPane;
-import net.menthor.editor.statistician.StatisticalElement;
-import net.menthor.editor.statistician.StatisticsPane;
+
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -79,15 +69,7 @@ import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.StartPage;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
-import net.menthor.editor.v2.util.Util;
-import net.menthor.editor.validator.meronymic.ValidationDialog;
-import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 
-/**
- * Class responsible for managing and organizing the editors in tabs.
- * 
- * @author John Guerson
- */
 public class DiagramManager extends JTabbedPane implements SelectionListener, EditorStateListener, IDisposable {
 
 	private static final long serialVersionUID = 5019191384767258996L;
@@ -95,16 +77,16 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	public final MainFrame frame;	
 	private CommandListener listener;
 	private DiagramElementFactoryImpl elementFactory;
-	private DrawingContext drawingContext;	
+	private DrawingContext drawingContext;		
+	public MainFrame getFrame() { return frame; }
+	public DiagramElementFactoryImpl getElementFactory() { return elementFactory; }
+	public DrawingContext getDrawingContext() { return drawingContext; }
+	public MainMenuBar getMainMenu() { return frame.getMainMenu(); }
+	public void setCommandListener(CommandListener listener){ this.listener = listener; }
+	public CommandListener getCommandListener(){ return listener; }
 	
 	public StartPage start;
-	
-	/** Get Frame */
-	public MainFrame getFrame() { return frame; }
-	/** Get Factory */
-	public DiagramElementFactoryImpl getElementFactory() { return elementFactory; }
-	/** Get drawing context */
-	public DrawingContext getDrawingContext() { return drawingContext; }
+	public StartPage getStartPage() { return start; }
 	
 	/**
 	 * Constructor for the DiagramManager class.
@@ -123,11 +105,31 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		setMinimumSize(new Dimension(0,0));
 	}
 	
-	public StartPage getStartPage()
-	{
-		return start;
+	/** Open diagrams loaded from the project. It only opens those diagrams saved as opened. */
+	public void set(){
+		if(ProjectManager.get().getProject().isAllClosed() && ProjectManager.get().getProject().getDiagrams().size()>0){
+			System.out.println("Loading diagram \""+ProjectManager.get().getProject().getDiagrams().get(0).getName()+"\"");	
+			createDiagramEditor((StructureDiagram)ProjectManager.get().getProject().getDiagrams().get(0));
+		}else{
+			for(OntoumlDiagram diagram: ProjectManager.get().getProject().getDiagrams()) {
+				if(ProjectManager.get().getProject().isOpened(diagram)){
+					System.out.println("Loading diagram \""+diagram.getName()+"\"");	
+					createDiagramEditor((StructureDiagram)diagram);
+				}
+			}
+		}
 	}
 	
+	public void empty(){
+		removeAll();
+		getFrame().setTitle("Menthor Editor");
+		addStartPanel(this,false);
+		getFrame().showOnlyStartPage();
+		getFrame().getMainMenu().disactivateSomeToBegin();			
+		repaint();
+		revalidate();
+	}
+		
 	/** Adds a start panel to the manager */
 	public JComponent addStartPanel(JTabbedPane pane, boolean closable)
 	{
@@ -135,12 +137,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		if(closable)addClosable(pane,"Welcome", start);
 		else addNonClosable(pane,"Welcome", start);
 		return start;
-	}
-			
-	public void searchInProject()
-	{
-		addFinderPanel(this,true);
-	}
+	}		
 	
 	/** Adds a Finder panel to the manager */
 	public FoundPane addFinderPanel(JTabbedPane pane, boolean closable)
@@ -177,12 +174,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		else addNonClosable(pane,"Errors", problemsPane);
 		return problemsPane;
 	}
-	
-	public void collectStatistics()
-	{
-		addStatisticsPanel(frame.getDiagramManager(),true);
-	}
-	
+		
 	/** Adds a Statistics panel to the manager */
 	public StatisticsPane addStatisticsPanel(JTabbedPane pane, boolean closable)
 	{
@@ -194,22 +186,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		else addNonClosable(pane,"Statistics", statPanel);
 		return statPanel;
 	}
-	
-	/** Sets the dispatcher responsible for routing events of the editor */
-	public void setCommandListener(CommandListener listener) 
-	{
-		this.listener = listener;
-	}
-
-	/** Gets the dispatcher responsible for routing events of the editor */
-	public CommandListener getCommandListener() 
-	{
-		return listener;
-	}
-
+			
 	/** Gets the current DiagramEditor (the editor displayed in the focused tab). If there's no suitable editor, returns null. */
-	public Editor getCurrentEditor() 
-	{
+	public Editor getCurrentEditor(){
 		if(this.getSelectedIndex() != -1){
 			Object obj = this.getSelectedComponent();
 			if(obj instanceof Editor) return (Editor) obj;	
@@ -218,39 +197,26 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Gets the wrapper for the selected DiagramEditor */
-	public DiagramWrapper getCurrentWrapper()
-	{
+	public DiagramWrapper getCurrentWrapper(){
 		if(this.getSelectedComponent() instanceof DiagramWrapper) return ((DiagramWrapper) this.getSelectedComponent());
 		return null;
 	}	
 
 	/** Gets the selected DiagramEditor */
-	public DiagramEditor getCurrentDiagramEditor() 
-	{		
+	public DiagramEditor getCurrentDiagramEditor(){		
 		if(this.getSelectedComponent() instanceof DiagramWrapper){			
 			return ((DiagramWrapper) this.getSelectedComponent()).getDiagramEditor();
 		}
 		return null;
 	}
 	
-	public ConstraintEditor getCurrentConstraintEditor()
-	{
+	public ConstraintEditor getCurrentConstraintEditor(){
 		if(this.getSelectedComponent() instanceof ConstraintEditor) return ((ConstraintEditor) this.getSelectedComponent());
 		return null;
 	}
-		
-	/** Useful method: Verifies if the element is contained in the list */
-	public boolean contains (ArrayList<RefOntoUMLElementCustom> list, RefOntoUML.Element elem)
-	{
-		for(RefOntoUMLElementCustom coe: list){
-			if(coe.getElement().equals(elem)) return true;
-		}
-		return false;
-	}
 	
 	/** Return all opened diagram editors */
-	public ArrayList<DiagramEditor> getDiagramEditors()
-	{
+	public ArrayList<DiagramEditor> getDiagramEditors(){
 		ArrayList<DiagramEditor> list = new ArrayList<DiagramEditor>();
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor());
@@ -259,8 +225,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Return all opened diagrams */
-	public ArrayList<StructureDiagram> getOpenedDiagrams()
-	{
+	public ArrayList<StructureDiagram> getOpenedDiagrams(){
 		ArrayList<StructureDiagram> list = new ArrayList<StructureDiagram>();
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor().getDiagram());
@@ -269,8 +234,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Return all opened constraint editors */
-	public ArrayList<ConstraintEditor> getConstraintEditors()
-	{
+	public ArrayList<ConstraintEditor> getConstraintEditors(){
 		ArrayList<ConstraintEditor> list = new ArrayList<ConstraintEditor>();
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) list.add((ConstraintEditor)c);
@@ -279,8 +243,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Select the tab which contains this editor */
-	public void select(Editor editor)
-	{		
+	public void select(Editor editor){		
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if(((DiagramWrapper) c).getDiagramEditor().equals(editor)) setSelectedComponent(c);
@@ -290,8 +253,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}		
 	}
 	
-	public void openTab(Object obj)
-	{
+	public void openTab(Object obj){
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if(((DiagramWrapper) c).getDiagramEditor().getDiagram().equals(obj)) { setSelectedComponent(c); return; }				
@@ -305,8 +267,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		
 	}
 	
-	public void selectTab(Object obj)
-	{
+	public void selectTab(Object obj){
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if(((DiagramWrapper) c).getDiagramEditor().getDiagram().equals(obj)) setSelectedComponent(c);				
@@ -318,8 +279,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Select the tab which constains this diagram */
-	public void select(StructureDiagram diagram)
-	{		
+	public void select(StructureDiagram diagram){		
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if(((DiagramWrapper) c).getDiagramEditor().getDiagram().equals(diagram)) setSelectedComponent(c);
@@ -328,8 +288,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Select the tab which contains this ocl document */
-	public void select(OclDocument oclDoc)
-	{		
+	public void select(OclDocument oclDoc){		
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) {
 				if(((ConstraintEditor) c).getOclDocument().equals(oclDoc)) setSelectedComponent(c);
@@ -338,8 +297,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Get the diagram editor which encapsulates this diagram */
-	public DiagramEditor getDiagramEditor(StructureDiagram diagram)
-	{		
+	public DiagramEditor getDiagramEditor(StructureDiagram diagram){		
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
@@ -354,8 +312,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Get the diagram editor which encapsulates this ocl document */
-	public ConstraintEditor getConstraintEditor(OclDocument oclDoc)
-	{		
+	public ConstraintEditor getConstraintEditor(OclDocument oclDoc){		
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) {
 				if (((ConstraintEditor)c).getOclDocument().equals(oclDoc))
@@ -366,8 +323,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 	
 	/** Report message to the status bar on the respective diagram */
-	public void showStatus(DiagramEditor diagramEditor, String status) 
-	{
+	public void showStatus(DiagramEditor diagramEditor, String status){
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if(((DiagramWrapper) c).getDiagramEditor().equals(diagramEditor)){
@@ -378,8 +334,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 	}
 
 	/** Get the tab index of this particular diagram */
-	public int getTabIndex(StructureDiagram diagram)
-	{		
+	public int getTabIndex(StructureDiagram diagram){		
 		for(Component c: getComponents()){
 			if(c instanceof DiagramWrapper) {
 				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
@@ -389,8 +344,7 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return -1;
 	}
 	
-	public int getTabIndex(OclDocument oclDoc)
-	{
+	public int getTabIndex(OclDocument oclDoc){
 		for(Component c: getComponents()){
 			if(c instanceof ConstraintEditor) {
 				if (((ConstraintEditor)c).getOclDocument().equals(oclDoc))
@@ -398,12 +352,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 			}
 		}
 		return -1;		
-	}
-	
-	/** Gets the MainMenu from the application frame */
-	public MainMenuBar getMainMenu() 
-	{
-		return frame.getMainMenu();
 	}
 	
 	/** Adds a new tab. */
@@ -534,49 +482,12 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 	}
 	
-	public void setDefaultDiagramSize(StructureDiagram diagram)
-	{
-		double waste = 0;
-		if(frame.isShowBrowserPane()) waste+=240;
-		if(frame.isShowPalettePane()) waste+=240;
-		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
-	}
-	
-	/** Close current diagram editor */
-	public void closeDiagram()
-	{
-		Editor editor = getCurrentDiagramEditor();
-		if(editor!=null){
-			if(editor.isSaveNeeded()){
-				boolean response = MessageManager.get().confirm("Save", "Your diagram has been modified. Save changes?");
-				if(response) { ProjectManager.get().saveProject(); }
-				else { return; }				
-			}			
-			DiagramManager.closeTab(getTabIndex(getCurrentDiagramEditor().getDiagram()),this);
-		}
-	}
-
-	/** Close current diagram editor */
-	public void closeOclDocument()
-	{
-		Editor editor = getCurrentConstraintEditor();
-		if(editor!=null){
-			if(editor.isSaveNeeded()){
-				boolean response = MessageManager.get().confirm("Save", "Your rules document has been modified. Save changes?");
-				if(response) { ProjectManager.get().saveProject(); }
-				else { return; }
-			}			
-			DiagramManager.closeTab(getTabIndex(((ConstraintEditor)editor).getOclDocument()),this);
-		}
-	}
-	
 	public void closeAll(Component c){
 		closeAll(this);
 	}
 	
 	public static void closeAll(JTabbedPane pane){
-		 int tabCount = pane.getTabCount();
-         
+		 int tabCount = pane.getTabCount();         
          for (int i = 1; i < tabCount; i++) {
              closeTab(1, pane);
          }
@@ -586,19 +497,15 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		closeOthers(this,component);
 	}
 	
-	public static void closeOthers(JTabbedPane pane,Component component)
-	{	
-		int selectedTabIndex = pane.indexOfComponent(component);
-		
+	public static void closeOthers(JTabbedPane pane,Component component)	{	
+		int selectedTabIndex = pane.indexOfComponent(component);		
 		 // First remove higher indexes 
-        int tabCount = pane.getTabCount();
-         
+        int tabCount = pane.getTabCount();         
         if (selectedTabIndex < tabCount - 1) {
             for (int i = selectedTabIndex + 1; i < tabCount; i++) {
                 closeTab(selectedTabIndex + 1,pane);
             }
-        }
-         
+        }         
         if (selectedTabIndex > 0) {
             for (int i = 1; i < selectedTabIndex; i++) {
                 closeTab(1,pane);
@@ -606,13 +513,11 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
         }
 	}
 	
-	public void closeTab(Component c)
-	{
+	public void closeTab(Component c)	{
 		closeTab(indexOfComponent(c),this);
 	}
 	
-	public static void closeTab(int i, JTabbedPane pane)
-	{		
+	public static void closeTab(int i, JTabbedPane pane){		
 		if (i != -1) {
 			IDisposable disposable = (IDisposable) pane.getComponentAt(i);
 			if(disposable != null) disposable.dispose();			
@@ -636,27 +541,13 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}	
 	}
 	
-	/** Get the names of all diagrams */
-	public ArrayList<String> getDiagramNames()
-	{
-		ArrayList<String> result = new ArrayList<String>();
-		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams()){
-			result.add(d.getName());			
-		}
-		return result;
+	public void addFinderTab(){ 
+		addFinderPanel(this,true); 
 	}
 	
-	/**Get the names of all ocl documents */
-	public ArrayList<String> getOclDocumentNames()
-	{
-		ArrayList<String> result = new ArrayList<String>();
-		for(OclDocument d: Models.getOclDocList()){
-			result.add(d.getName());			
-		}
-		return result;
+	public void addStatisticsTab() { 
+		addStatisticsPanel(frame.getDiagramManager(),true); 
 	}
-	
-	
 	
 	/** Verifies if this diagram is already opened in a tab. */
 	public boolean isDiagramOpened (StructureDiagram diagram)
@@ -675,48 +566,9 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 				if (((ConstraintEditor)c).getOclDocument().equals(oclDoc)) return true;
 		return false;
 	}
-	
-	/** Open diagrams loaded from the project. It only opens those diagrams saved as opened. */
-	public void openDiagrams()
-	{		
-		if(ProjectManager.get().getProject().isAllClosed() && ProjectManager.get().getProject().getDiagrams().size()>0){
-			System.out.println("Loading diagram \""+ProjectManager.get().getProject().getDiagrams().get(0).getName()+"\"");	
-			createDiagramEditor((StructureDiagram)ProjectManager.get().getProject().getDiagrams().get(0));
-		}else{
-			for(OntoumlDiagram diagram: ProjectManager.get().getProject().getDiagrams()) {
-				if(ProjectManager.get().getProject().isOpened(diagram)){
-					System.out.println("Loading diagram \""+diagram.getName()+"\"");	
-					createDiagramEditor((StructureDiagram)diagram);
-				}
-			}
-		}
-	}	
-	
-	public void set(){
-		openDiagrams();
-	}
-	
-	public void empty(){
-		removeAll();
-		getFrame().setTitle("Menthor Editor");
-		addStartPanel(this,false);
-		getFrame().showOnlyStartPage();
-		getFrame().getMainMenu().disactivateSomeToBegin();			
-		repaint();
-		revalidate();
-	}
-	
-	public List<DiagramEditor> createDiagramEditors(List<OntoumlDiagram> diagrams){
-		List<DiagramEditor> result = new ArrayList<DiagramEditor>();
-		for(OntoumlDiagram diagram: diagrams) {
-			result.add(createDiagramEditor((StructureDiagram)diagram));
-		}
-		return result;
-	}
-	
+
 	/** Creates an editor for a given Diagram. */
-	public DiagramEditor createDiagramEditor(OntoumlDiagram diagram)
-	{		
+	public DiagramEditor createDiagramEditor(OntoumlDiagram diagram){		
 		DiagramEditor editor = new DiagramEditor(frame, this, diagram);			
 		editor.addEditorStateListener(this);
 		editor.addSelectionListener(this);
@@ -731,74 +583,47 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		return editor;
 	}
 	
+	/** Close current diagram editor */
+	public void closeCurrentDiagram()
+	{
+		Editor editor = getCurrentDiagramEditor();
+		if(editor!=null){
+			if(editor.isSaveNeeded()){
+				boolean response = MessageManager.get().confirm("Save", "Your diagram has been modified. Save changes?");
+				if(response) { ProjectManager.get().saveProject(); }
+				else { return; }				
+			}			
+			closeTab(getTabIndex(getCurrentDiagramEditor().getDiagram()),this);
+		}
+	}
+
+	/** Close current diagram editor */
+	public void closeCurrentOclDocument()
+	{
+		Editor editor = getCurrentConstraintEditor();
+		if(editor!=null){
+			if(editor.isSaveNeeded()){
+				boolean response = MessageManager.get().confirm("Save", "Your rules document has been modified. Save changes?");
+				if(response) { ProjectManager.get().saveProject(); }
+				else { return; }
+			}			
+			closeTab(getTabIndex(((ConstraintEditor)editor).getOclDocument()),this);
+		}
+	}
+	
+	public List<DiagramEditor> createDiagramEditors(List<OntoumlDiagram> diagrams){
+		List<DiagramEditor> result = new ArrayList<DiagramEditor>();
+		for(OntoumlDiagram diagram: diagrams) {
+			result.add(createDiagramEditor((StructureDiagram)diagram));
+		}
+		return result;
+	}
+	
 	/** Creates an editor for a given OCL document. */
-	public ConstraintEditor createConstraintEditor(OclDocument oclDoc)
-	{		
+	public ConstraintEditor createConstraintEditor(OclDocument oclDoc){		
 		ConstraintEditor editor = new ConstraintEditor(frame, oclDoc);
 		addClosable(this,oclDoc.getName(), editor);		
 		return editor;
-	}
-	
-		
-	
-	
-	
-	public boolean haveGeneralizationSet(List<Generalization> gens){
-		boolean result = false;
-		for(Generalization g: gens){
-			if (g.getGeneralizationSet()!=null && !g.getGeneralizationSet().isEmpty()) result=true;
-		}
-		return result;
-	}
-	
-	public List<Generalization> getGeneralizations(List<DiagramElement> diagramElements){
-		List<Generalization> gens = new ArrayList<Generalization>();		
-		for(DiagramElement dElem: diagramElements){
-			if (dElem instanceof GeneralizationElement){
-				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();				
-				if(gen!=null) gens.add(gen);
-			}
-		}
-		return gens;
-	}
-	
-	/** Strictly find by name */
-	public ArrayList<FoundElement> strictlyFindByName(String text)
-	{		
-		ArrayList<FoundElement> result = new ArrayList<FoundElement>();
-		OntoUMLParser refparser = Models.getRefparser();
-		if(refparser!=null && text!=null /*&& !text.isEmpty()*/){
-			for(EObject eobj: refparser.getAllInstances(EObject.class)){
-				if (eobj instanceof NamedElement){
-					String name = ((NamedElement)eobj).getName();
-					if(name!=null){
-						if(text.trim().isEmpty()) result.add(new FoundElement(eobj));
-						else {
-							if(name.trim().toLowerCase().compareToIgnoreCase(text)==0) result.add(new FoundElement(eobj));
-							else if(name.trim().toLowerCase().contains(text.toLowerCase().trim())) result.add(new FoundElement(eobj));
-						}
-						
-					}
-				}
-			}
-		}		
-		return result;
-	}
-	
-	public List<GeneralizationSet> getGeneralizationSets(List<DiagramElement> diagramElements){
-		// retain only generalization sets from selected
-		List<GeneralizationSet> genSets = new ArrayList<GeneralizationSet>();		
-		for(DiagramElement dElem: diagramElements){
-			if (dElem instanceof GeneralizationElement){
-				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
-				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) {
-					for(GeneralizationSet gs: gen.getGeneralizationSet()) {
-						if (!genSets.contains(gs)) genSets.add(gs);				
-					}
-				}
-			}
-		}
-		return genSets;
 	}
 	
 	public void setErrorsOnTab(double startTime, double endTime, List<ProblemElement> errors){
@@ -813,61 +638,6 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		warningsPane.setStatus(message);
 	}
 	
-	public void showBottomView()
-	{
-		if(!frame.isShowFooterPane()) { getMainMenu().select(CommandType.CONSOLE,true); frame.showFooterPane(); }
-	}
-	
-	/** Collect Statistics */
-	public ArrayList<StatisticalElement> collectStatistic()
-	{
-		ArrayList<StatisticalElement> result = new ArrayList<StatisticalElement>();
-		OntoUMLParser refparser = Models.getRefparser();
-		if(refparser!=null){
-			OntoUMLModelStatistic diagnostic = new OntoUMLModelStatistic(refparser);
-			diagnostic.run();
-			
-			for (TypeDetail detail : diagnostic.getDetails()) {
-				result.add(new StatisticalElement(detail));
-			}
-
-		}
-		return result;
-	}
-	
-	/** Open Statistics Panel */
-	public void openStatisticPanel()
-	{			
-		addStatisticsPanel(frame.getInfoManager(),true);
-		showBottomView();		
-		frame.selectStatistic();		
-	}
-		
-	/** Open the Text Description settings window */
-	public void callGlossary() 
-	{
-		SwingUtilities.invokeLater(new Runnable() {			
-			@Override
-			public void run() {								
-				GlossaryGeneratorUI settings = new GlossaryGeneratorUI(Models.getRefparser());
-				settings.setVisible(true);
-			}
-		});
-	}
-	
-	/** Get working constraints */
-	public String getWorkingConstraints()
-	{
-		String result = new String();
-		for(OclDocument oclmodel: Models.getOclDocList())
-		{				
-			ConstraintEditor ce = getConstraintEditor(oclmodel);
-			if(ce!=null) result+=ce.getText();
-			else result+=oclmodel.getContentAsString();
-		}
-		return result;
-	}
-		
 	public void showInTextEditor(String content)
 	{
 		TextEditor textViz = (TextEditor) getEditorForProject(EditorType.TEXT_EDITOR);
@@ -890,33 +660,33 @@ public class DiagramManager extends JTabbedPane implements SelectionListener, Ed
 		}
 		return null;
 	}
-
-	//===================================== @Inherited =======================================
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void stateChanged(DiagramEditor editor, ChangeType changeType) 
+	
+	/** Get working constraints */
+	public String getWorkingConstraints()
 	{
-		if(changeType == ChangeType.ELEMENTS_ADDED) frame.selectPaletteDefaultElement();
-		//frame.updateMenuAndToolbars(editor);
+		String result = new String();
+		for(OclDocument oclmodel: Models.getOclDocList())
+		{				
+			ConstraintEditor ce = getConstraintEditor(oclmodel);
+			if(ce!=null) result+=ce.getText();
+			else result+=oclmodel.getContentAsString();
+		}
+		return result;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void selectionStateChanged() {}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseMoved(EditorMouseEvent event) {}
-
-	public void validatesParthood() {
-		ValidationDialog.open(Models.getRefparser(), frame);
 		
+	// ------------ Editor State Listener --------------
+	
+	@Override
+	public void stateChanged(DiagramEditor editor, ChangeType changeType){
+		if(changeType == ChangeType.ELEMENTS_ADDED) frame.selectPaletteDefaultElement();
 	}
+	
+	@Override
+	public void mouseMoved(EditorMouseEvent event){}
+	
+	// ------------ Selection Listener --------------
+	
+	@Override
+	public void selectionStateChanged(){}
+		
 }

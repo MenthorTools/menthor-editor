@@ -35,7 +35,6 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.finder.FoundElement;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.types.EditorType;

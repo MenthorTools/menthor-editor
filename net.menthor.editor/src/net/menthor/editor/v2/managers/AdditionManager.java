@@ -38,13 +38,14 @@ import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.StringExpression;
-
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.Util;
 
 public class AdditionManager extends BaseManager {
 
@@ -139,8 +140,8 @@ public class AdditionManager extends BaseManager {
 	/** Add generalization set to generalization diagram elements */
 	public GeneralizationSet addGeneralizationSet(DiagramEditor d, List<DiagramElement> diagramElements){		
 		UmlProject project = ProjectManager.get().getProject();
-		List<Generalization> gens = diagramManager.getGeneralizations(diagramElements);
-		boolean haveGenSet = diagramManager.haveGeneralizationSet(gens);
+		List<Generalization> gens = d.getGeneralizations(diagramElements);
+		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);
 		if(gens.size()<=1) return null; 
 		if(haveGenSet){
 			if(!confirmGenSetAddition(diagramManager)) return null;
@@ -196,7 +197,7 @@ public class AdditionManager extends BaseManager {
 			diagramManager.getDrawingContext()
 		);
 		if(epackage!=null) diagram.setContainer(epackage);
-		diagramManager.setDefaultDiagramSize(diagram);
+		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
@@ -204,5 +205,12 @@ public class AdditionManager extends BaseManager {
 		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
 		browser.getTree().addElement(container,diagram);
 		return diagram;
+	}
+	
+	public void setDefaultDiagramSize(StructureDiagram diagram){
+		double waste = 0;
+		if(diagramManager.getFrame().isShowBrowserPane()) waste+=240;
+		if(diagramManager.getFrame().isShowPalettePane()) waste+=240;
+		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 }

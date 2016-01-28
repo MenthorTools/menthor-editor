@@ -32,13 +32,11 @@ import org.eclipse.ocl.SemanticException;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-
 import net.menthor.editor.problems.ErrorElement;
 import net.menthor.editor.problems.ErrorVerificator;
 import net.menthor.editor.problems.ProblemElement;
 import net.menthor.editor.problems.ProblemElement.TypeProblem;
 import net.menthor.editor.problems.WarningVerificator;
-
 import net.menthor.editor.ui.Models;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -74,8 +72,8 @@ public class SyntaxManager extends BaseManager{
 	public void verifyModel(){
 		CursorManager.get().waitCursor();		
 		List<ProblemElement> errors = verifyErrors();
-		List<ProblemElement> warnings = verifyWarnings();			
-		diagramManager.showBottomView();			
+		List<ProblemElement> warnings = verifyWarnings();
+		diagramManager.getFrame().forceShowFooterPane();
 		if(errors.size()>0 && warnings.size()>0) {
 			diagramManager.getFrame().selectErrors();
 			MessageManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				

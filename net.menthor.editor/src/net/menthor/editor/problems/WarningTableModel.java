@@ -1,4 +1,4 @@
-package net.menthor.editor.statistician;
+package net.menthor.editor.problems;
 
 /**
  * ============================================================================================
@@ -26,11 +26,11 @@ import javax.swing.table.AbstractTableModel;
 /**
  * @author John Guerson
  */
-public class ErrorTableModel extends AbstractTableModel 
+public class WarningTableModel extends AbstractTableModel 
 {
 	private static final long serialVersionUID = 1L;
 	
-	public ErrorTableModel(String[] columnNames, Object[][] data)
+	public WarningTableModel(String[] columnNames, Object[][] data)
 	{
 		this.columnNames=columnNames;
 		this.data=data;
