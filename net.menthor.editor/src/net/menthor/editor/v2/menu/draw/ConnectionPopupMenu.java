@@ -75,7 +75,7 @@ public class ConnectionPopupMenu extends BasePopupMenu {
 	public void setContext(Object context){
 		visibilityMenu.setContext(context);
 		styleMenu.setContext(context);
-		
+		changeMenu.setContext(context);
 		invertMenu.setContext(context);
 		directionMenu.setContext(context);
 		attrMenu.setContext(context);
@@ -89,7 +89,6 @@ public class ConnectionPopupMenu extends BasePopupMenu {
 			visibilityMenu.getMenuItem(CommandType.SHOW_SUBSETTING).setSelected(((AssociationElement)context).showSubsetting());
 			visibilityMenu.getMenuItem(CommandType.SHOW_STEREOTYPE).setSelected(((AssociationElement)context).showOntoUmlStereotype());
 			RefOntoUML.Relationship rel = ((AssociationElement)context).getRelationship();
-			changeMenu.setContext(rel);
 			if(rel instanceof RefOntoUML.Meronymic) attrMenu.setVisible(true);
 			else attrMenu.setVisible(false);
 			RefOntoUML.Property srcEnd = ((RefOntoUML.Association)rel).getMemberEnd().get(0);
