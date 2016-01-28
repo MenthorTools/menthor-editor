@@ -132,9 +132,10 @@ public class UpdateManager extends BaseManager {
 				}
 			}			
 		}
+		
 		//relationships and attributes
-		for(Object obj: fix.getAdded()) {
-			if (obj instanceof RefOntoUML.Relationship && !(obj instanceof RefOntoUML.Derivation)) {
+		for(Object obj: fix.getAdded()) { 
+			if (obj instanceof RefOntoUML.Relationship) {
 				UpdateManager.get().updateFromAddition((RefOntoUML.Element)obj);
 				MoveManager.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
 			}
@@ -142,13 +143,7 @@ public class UpdateManager extends BaseManager {
 				UpdateManager.get().updateFromAddition((RefOntoUML.Element)obj);
 			}
 		}	
-		//derivations
-		for(Object obj: fix.getAdded()) {
-			if (obj instanceof RefOntoUML.Derivation) {
-				UpdateManager.get().updateFromAddition((RefOntoUML.Element)obj);
-				MoveManager.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
-			}
-		}	
+
 		//generalization sets
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.GeneralizationSet){

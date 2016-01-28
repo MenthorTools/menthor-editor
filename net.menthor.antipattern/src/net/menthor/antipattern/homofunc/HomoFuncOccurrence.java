@@ -168,8 +168,8 @@ public class HomoFuncOccurrence extends AntipatternOccurrence {
 			
 			fix.includeAdded(idenProv);
 			fix.includeAdded(role);
-			fix.addAll(fixer.createGeneralization(role, idenProv));
-			fix.addAll(fixer.createGeneralization(role, c));
+			fix.addAll(fixer.createGeneralizationWithFix(role, idenProv));
+			fix.addAll(fixer.createGeneralizationWithFix(role, c));
 		}
 	}
 

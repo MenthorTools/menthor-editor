@@ -52,6 +52,7 @@ public class ChangeManager extends BaseManager {
 		changeRelationStereotype(element, type.getName());
 	}	
 	
+	
 	/** Change relation stereotype */ 
 	public void changeRelationStereotype(Relationship type, String stereo){	
    		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());

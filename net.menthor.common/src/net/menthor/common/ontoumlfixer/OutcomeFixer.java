@@ -795,39 +795,79 @@ public class OutcomeFixer{
 	public Fix changeRelationStereotypeTo(EObject relationship, RelationStereotype newStereo) 
 	{
 		Fix fixes = new Fix();		
-		// create new relationship
-		RefOntoUML.Relationship newRelationship = createAssociationWithProperties(newStereo);		
-		copyPropertiesDatas(relationship, newRelationship,true);
-		fixes.includeAdded(newRelationship);
-		// the same container as
-		copyContainer(relationship, newRelationship);
-		fixes.includeModified(relationship.eContainer());
+		
+		RefOntoUML.Relationship newRelationship = null;
+		Type source, target = null;
+		
+		//from association
+		if(relationship instanceof Association){
+			source = ((Association) relationship).getMemberEnd().get(0).getType();
+			target = ((Association) relationship).getMemberEnd().get(1).getType();
+			
+			//to association
+			if (newStereo!=RelationStereotype.GENERALIZATION){
+				newRelationship = createAssociationWithProperties(newStereo);
+				// copies name
+				((Association) newRelationship).setName(((Association) relationship).getName());
+				copyPropertiesDatas(relationship, newRelationship,true);
+				normalizeAggregationKind(newStereo, newRelationship);
+				// the same container as
+				copyContainer(relationship, newRelationship);
+				fixes.includeModified(relationship.eContainer());
+			}
+			//to generalization
+			else{
+				newRelationship = createGeneralization((Classifier)source, (Classifier)target);
+			}
+		}
+		//from generalization
+		else{
+			source = ((Generalization) relationship).getSpecific();
+			target = ((Generalization) relationship).getGeneral();
+			
+			//to association
+			if (newStereo!=RelationStereotype.GENERALIZATION){
+				newRelationship = createAssociationWithProperties(newStereo);
+				((Association)newRelationship).getMemberEnd().get(0).setType((Type)source);
+				((Association)newRelationship).getMemberEnd().get(1).setType((Type)target);
+				normalizeAggregationKind(newStereo, newRelationship);
+				copyContainer(source, newRelationship);
+				fixes.includeModified(relationship.eContainer());
+			}
+			//to generalization
+			else{
+				newRelationship = createGeneralization((Classifier)source, (Classifier)target);
+			}
+		}
+				
+		// delete old element
+		fixes.addAll(deleteElement(relationship));	
+		// add new element 
+		fixes.includeAdded(newRelationship);	
+			
 		// change references
 		Fix references = changeModelReferences(relationship, newRelationship);
 		fixes.includeAllModified(references.getModified());		
-		// copies name if associations
-		if(relationship instanceof Association && newRelationship instanceof Association){
-			((Association) newRelationship).setName(((Association) relationship).getName());	
-		}		
-		// delete element
-		fixes.addAll(deleteElement(relationship));		
 		
+		return fixes;
+	}
+
+	//sets meronymic properties when required
+	private void normalizeAggregationKind(RelationStereotype newStereo, RefOntoUML.Relationship newRelationship) {
 		if(newStereo==RelationStereotype.COMPONENTOF || newStereo==RelationStereotype.MEMBEROF || newStereo==RelationStereotype.SUBCOLLECTIONOF || newStereo==RelationStereotype.SUBQUANTITYOF){
-			Property source = ((Association) newRelationship).getMemberEnd().get(0), target = ((Association) newRelationship).getMemberEnd().get(1);
+			Property sourceEnd = ((Association) newRelationship).getMemberEnd().get(0), targetEnd = ((Association) newRelationship).getMemberEnd().get(1);
 			
-			if(source.getAggregation()==AggregationKind.NONE){
-				if(target.getAggregation()==AggregationKind.NONE || target.getAggregation()==null){
-					source.setAggregation(AggregationKind.COMPOSITE);
+			if(sourceEnd.getAggregation()==AggregationKind.NONE){
+				if(targetEnd.getAggregation()==AggregationKind.NONE || targetEnd.getAggregation()==null){
+					sourceEnd.setAggregation(AggregationKind.COMPOSITE);
 				}			
 				else{
-					source.setAggregation(target.getAggregation());
+					sourceEnd.setAggregation(targetEnd.getAggregation());
 				}
 			}
 			
-			target.setAggregation(AggregationKind.NONE);
+			targetEnd.setAggregation(AggregationKind.NONE);
 		}
-		
-		return fixes;
 	}
 
 	/** Change a relationship stereotype */
@@ -1111,15 +1151,19 @@ public class OutcomeFixer{
 	}
 
 	/** Create a Generalization from a specific and general classifiers */
-	public Fix createGeneralization(Classifier specific, Classifier general) 
+	public Fix createGeneralizationWithFix(Classifier specific, Classifier general) 
 	{
 		Fix fix = new Fix();
-		// create generalization
+		Generalization g = createGeneralization(specific, general);
+		fix.includeAdded(g);		
+		return fix;
+	}
+	
+	private Generalization createGeneralization(Classifier specific, Classifier general) {
 		Generalization g = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
 		g.setGeneral(general);
 		g.setSpecific(specific);
-		fix.includeAdded(g);		
-		return fix;
+		return g;
 	}
 
 	/** Get relationship stereotype from element */
@@ -1430,17 +1474,17 @@ public class OutcomeFixer{
 		if (nSubKind==typeList.size()) { 
 			Classifier supertype = getDirectSuperTypeInCommon(typeList).get(0); 
 			if (supertype!=null) newSuperType = createClass(ClassStereotype.SUBKIND); 
-			if (supertype!=null && newSuperType!=null) fix.addAll(createGeneralization((Classifier)newSuperType, supertype));
+			if (supertype!=null && newSuperType!=null) fix.addAll(createGeneralizationWithFix((Classifier)newSuperType, supertype));
 		}
 		else if (nRole==typeList.size()) { 
 			Classifier supertype = getDirectSuperTypeInCommon(typeList).get(0); 
 			if (supertype!=null) newSuperType = createClass(ClassStereotype.ROLE); 
-			if (supertype!=null && newSuperType!=null) fix.addAll(createGeneralization((Classifier)newSuperType, supertype));
+			if (supertype!=null && newSuperType!=null) fix.addAll(createGeneralizationWithFix((Classifier)newSuperType, supertype));
 		}
 		else if (nPhase==typeList.size()) { 
 			Classifier supertype = getDirectSuperTypeInCommon(typeList).get(0); 
 			if (supertype!=null) newSuperType = createClass(ClassStereotype.PHASE); 
-			if (supertype!=null && newSuperType!=null) fix.addAll(createGeneralization((Classifier)newSuperType, supertype));
+			if (supertype!=null && newSuperType!=null) fix.addAll(createGeneralizationWithFix((Classifier)newSuperType, supertype));
 		}
 		else if(nRigid==typeList.size()) {
 			newSuperType = createClass(ClassStereotype.CATEGORY);
@@ -1460,7 +1504,7 @@ public class OutcomeFixer{
 		}
 		//create the generalizations from the classes to the new SuperType created 
 		for(Classifier obj: typeList){
-			fix.addAll(createGeneralization((Classifier)obj, (Classifier)newSuperType));
+			fix.addAll(createGeneralizationWithFix((Classifier)obj, (Classifier)newSuperType));
 		}
 		return fix;
 	}

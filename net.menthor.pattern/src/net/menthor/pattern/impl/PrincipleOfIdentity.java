@@ -79,7 +79,7 @@ public class PrincipleOfIdentity extends AbstractPattern{
 
 				if(specific != null){
 					if(general != null){
-						_fix = outcomeFixer.createGeneralization(specific, general);
+						_fix = outcomeFixer.createGeneralizationWithFix(specific, general);
 						Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 						generalizationList.add(generalization);
 						fix.addAll(_fix);

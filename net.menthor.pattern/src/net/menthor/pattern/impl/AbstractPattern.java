@@ -98,7 +98,7 @@ public abstract class AbstractPattern {
 
 				if(specific != null){
 					if(general != null){
-						_fix = outcomeFixer.createGeneralization(specific, general);
+						_fix = outcomeFixer.createGeneralizationWithFix(specific, general);
 						fix.addAll(_fix);
 						Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 						generalizationList.add(generalization);

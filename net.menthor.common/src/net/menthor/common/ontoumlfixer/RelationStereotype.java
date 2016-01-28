@@ -6,6 +6,7 @@ import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.Derivation;
 import RefOntoUML.FormalAssociation;
+import RefOntoUML.Generalization;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Mediation;
 import RefOntoUML.Structuration;
@@ -14,6 +15,8 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 
+
+//TODO: merge this with RelationshipType
 public enum RelationStereotype implements Stereotype{
 	FORMAL {
 		@Override
@@ -99,7 +102,7 @@ public enum RelationStereotype implements Stereotype{
 		SUBQUANTITYOF.metaClass = subQuantityOf.class;
 		SUBCOLLECTIONOF.metaClass = subCollectionOf.class;
 		MEMBEROF.metaClass = memberOf.class;
-		GENERALIZATION.metaClass = null; //FIX
+		GENERALIZATION.metaClass = Generalization.class;
 		STRUCTURATION.metaClass = Structuration.class;
 	}
 	

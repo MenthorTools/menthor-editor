@@ -22,6 +22,7 @@ package net.menthor.editor.v2.menu.draw;
  */
 
 import org.tinyuml.umldraw.AssociationElement;
+import org.tinyuml.umldraw.GeneralizationElement;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
@@ -95,6 +96,9 @@ public class ConnectionPopupMenu extends BasePopupMenu {
 			RefOntoUML.Property tgtEnd = ((RefOntoUML.Association)rel).getMemberEnd().get(1);
 			srcEndMenu.setText(srcEnd.getType().getName());
 			tgtEndMenu.setText(tgtEnd.getType().getName());
+		}
+		else if(context instanceof GeneralizationElement){
+			changeMenu.setContext(((GeneralizationElement)context).getGeneralization());
 		}
 		super.setContext(context);
 	}

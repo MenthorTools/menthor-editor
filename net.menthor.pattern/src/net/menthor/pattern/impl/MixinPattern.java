@@ -73,13 +73,13 @@ public class MixinPattern extends AbstractPattern{
 
 		if(mixin != null){
 			if(sortal != null){
-				_fix = outcomeFixer.createGeneralization(sortal, mixin);
+				_fix = outcomeFixer.createGeneralizationWithFix(sortal, mixin);
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);
 			}
 
 			if(antirigid != null){
-				_fix = outcomeFixer.createGeneralization(antirigid, mixin);
+				_fix = outcomeFixer.createGeneralizationWithFix(antirigid, mixin);
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);
 			}

@@ -144,7 +144,7 @@ public class DepPhaseOccurrence extends AntipatternOccurrence{
 			
 			//creates a generalization from the created role to a parent of the phase
 			if (phaseParent instanceof Classifier)
-				fix.addAll(fixer.createGeneralization(createdRole, phaseParent));
+				fix.addAll(fixer.createGeneralizationWithFix(createdRole, phaseParent));
 			
 			for (MaterialAssociation material : getMaterials((Relator) p.getType())) {
 				fix.addAll(fixer.changeReferencesInAssociation(material, phase, createdRole));
