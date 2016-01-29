@@ -33,12 +33,12 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.EditorMode;
-import org.tinyuml.ui.diagram.EditorMouseEvent;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 
 import org.tinyuml.umldraw.shared.UmlNode;
 
+import net.menthor.editor.v2.editors.EditorMode;
+import net.menthor.editor.v2.editors.EditorMouseEvent;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 
@@ -63,7 +63,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	
 	/** copy selected elements and put the copies in the clipboard */
 	public void copySelectedToClipboard(){
-		DiagramEditor de = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 		DrawingContext context = diagramManager.getDrawingContext();
 		de.setEditorMode(this);
 		List<DiagramElement> selected = de.getSelectedElements();		
@@ -76,7 +76,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	
 	/** copy given element and put the copy to clipboard */
 	public void copyToClipboard(DiagramElement element){
-		DiagramEditor de = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 		DrawingContext context = diagramManager.getDrawingContext();
 		de.setEditorMode(this);
 		clipboard.clear();
@@ -89,7 +89,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	
 	/** paste clipboard elements to current diagram */
 	public void pasteClipboard(){
-		DiagramEditor de = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 		for(Object o: clipboard){
 			if(o instanceof UmlNode){				
 				UmlNode ce = (UmlNode)o;				
@@ -125,7 +125,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	
 	/** create a node from a stereotype and put the created node to clipboard */
 	public UmlNode createNode(ClassType stereotype) {
-		DiagramEditor de = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 	    UmlNode node = diagramManager.getElementFactory().createNode(stereotype, de.getDiagram());	        
 	    node.setParent(de.getDiagram());    
 	    if(!clipboard.contains(node))clipboard.add(node);
@@ -135,7 +135,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 		  
 	/** clone a node from a stereotype and put the created node to clipboard */
 	public UmlNode createNode(DataType stereotype) {
-		DiagramEditor de = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 	    UmlNode node = diagramManager.getElementFactory().createNode(stereotype, de.getDiagram());
 	    node.setParent(de.getDiagram());    
 	    if(!clipboard.contains(node))clipboard.add(node);
@@ -145,7 +145,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 		  
 	/** create a node and put the created node to clipboard */
 	public UmlNode createNode(RefOntoUML.Type type, EObject eContainer) {
-		DiagramEditor de = diagramManager.getCurrentDiagramEditor();		
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
 	    UmlNode node = diagramManager.getElementFactory().createNode(type, eContainer, de.getDiagram());
 	    node.setParent(de.getDiagram());
 	    if(!clipboard.contains(node))clipboard.add(node);
@@ -194,14 +194,14 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	public void mouseMoved(EditorMouseEvent event) {
 		 tmpPos.setLocation(event.getX(), event.getY());
 		 updateClipBounds();
-		 diagramManager.getCurrentDiagramEditor().redraw();
+		 TabManager.get().getCurrentDiagramEditor().redraw();
 	}
 	
 	@Override
 	public void mousePressed(EditorMouseEvent event) {
 		tmpPos.setLocation(event.getX(), event.getY());
 		pasteClipboard();
-		diagramManager.getCurrentDiagramEditor().redraw();
+		TabManager.get().getCurrentDiagramEditor().redraw();
 	}
 	
 	@Override

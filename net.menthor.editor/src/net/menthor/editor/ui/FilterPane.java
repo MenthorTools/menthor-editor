@@ -24,11 +24,10 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.parser.OntoUMLParser;
 
 import net.menthor.editor.v2.OntoumlDiagram;
-
-import net.menthor.editor.v2.trees.ProjectTree;
-import net.menthor.editor.v2.trees.DiagramStrictTree;
-import net.menthor.editor.v2.trees.ProjectTreeCheckPane;
-import net.menthor.editor.v2.trees.TreeVisibility;
+import net.menthor.editor.v2.tree.DiagramStrictTree;
+import net.menthor.editor.v2.tree.ProjectTree;
+import net.menthor.editor.v2.tree.ProjectTreeCheckPane;
+import net.menthor.editor.v2.tree.TreeVisibility;
 
 public class FilterPane extends JPanel {
 	

@@ -39,7 +39,7 @@ import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
 
@@ -92,7 +92,7 @@ public class DeletionManager extends BaseManager {
 		else if (elem instanceof RefOntoUML.Element){				
 			deleteElement((RefOntoUML.Element)elem,true);    					    					
 		} else{ 
-			diagramManager.getCurrentDiagramEditor().deleteSelection(elem);
+			TabManager.get().getCurrentDiagramEditor().deleteSelection(elem);
 		}
 	}
 	
@@ -102,7 +102,7 @@ public class DeletionManager extends BaseManager {
 		if (showwarning) response = confirmOclDocDeletion(diagramManager);		
 		if(response) {
 			Models.getOclDocList().remove(doc);
-			diagramManager.removeOclDocTab(doc);		
+			TabManager.get().removeEditor(doc);		
 			browser.getTree().removeCurrentNode();
 		}
 	}
@@ -113,7 +113,7 @@ public class DeletionManager extends BaseManager {
 		if(response){
 			eraseAllElements(diagramManager, diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
-			diagramManager.removeDiagramFromTab(diagram);
+			TabManager.get().removeEditor(diagram);
 			browser.getTree().removeCurrentNode();
 		}	
 	}
@@ -168,8 +168,8 @@ public class DeletionManager extends BaseManager {
 	}
 	
 	/** Delete all elements at the diagram */
-	public void eraseAllElements(DiagramManager manager, StructureDiagram diagram){
-		DiagramEditor ed = manager.getDiagramEditor(diagram);
+	public void eraseAllElements(TopTabbedPane manager, StructureDiagram diagram){
+		DiagramEditor ed = TabManager.get().getDiagramEditor(diagram);
 		for(DiagramElement delem: diagram.getChildren()) {
 			if(delem instanceof ClassElement) eraseElement(ed,((ClassElement)delem).getClassifier());
 			if(delem instanceof AssociationElement) eraseElement(ed,((AssociationElement)delem).getRelationship());

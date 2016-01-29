@@ -77,7 +77,7 @@ public class DuplicateManager extends BaseManager {
 	public UmlNode duplicateNode(UmlNode classElement){		
 		UmlNode newClass = (UmlNode)classElement.clone();
 		OccurenceManager.get().add(newClass.getClassifier(),newClass);
-		DiagramEditor editor = diagramManager.getDiagramEditor((StructureDiagram)classElement.getDiagram());
+		DiagramEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
 		double x = classElement.getAbsoluteX2()+15;
 		double y = classElement.getAbsoluteY2()+15;
 		AddNodeCommand cmd = new AddNodeCommand(editor,newClass, x, y);		

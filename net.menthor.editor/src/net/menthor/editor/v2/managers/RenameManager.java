@@ -100,7 +100,7 @@ public class RenameManager extends BaseManager {
 					@Override
 					public void run() {
 						oclDoc.setName(newtext);
-						int index = diagramManager.getTabIndex(oclDoc);					
+						int index = TabManager.get().getEditorIndex(oclDoc);					
 						if(index>=0) diagramManager.setTitleAt(index, newtext);			        
 						diagramManager.updateUI();
 						browser.refresh();					        
@@ -122,7 +122,7 @@ public class RenameManager extends BaseManager {
 					@Override
 					public void run() {
 						diagram.setName(newtext);
-						int index = diagramManager.getTabIndex(diagram);					
+						int index = TabManager.get().getEditorIndex(diagram);					
 						if(index>=0) diagramManager.setTitleAt(index, newtext);			        
 						diagramManager.updateUI();
 						browser.refresh();				        

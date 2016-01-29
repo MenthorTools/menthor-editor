@@ -28,6 +28,8 @@ import org.eclipse.emf.edit.provider.IDisposable;
 
 public interface Editor extends IDisposable {
 	
+	public void propagateNewTitle(String title);
+	
 	public boolean isSaveNeeded();
 	
 	abstract EditorType getEditorType();

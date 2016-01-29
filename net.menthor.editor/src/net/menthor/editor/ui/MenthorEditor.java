@@ -29,7 +29,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.ui.SplashScreen;
+import net.menthor.editor.v2.start.SplashScreen;
 import net.menthor.editor.v2.util.Directories;
 import net.menthor.editor.v2.util.UIFontUtil;
 import net.menthor.editor.v2.util.Util;

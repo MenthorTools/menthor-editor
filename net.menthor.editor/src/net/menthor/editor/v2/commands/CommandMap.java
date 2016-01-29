@@ -30,7 +30,6 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
-import net.menthor.editor.ui.DiagramManager;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -41,11 +40,11 @@ import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
+import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MoveManager;
-import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.OwlManager;
 import net.menthor.editor.v2.managers.ParthoodManager;
 import net.menthor.editor.v2.managers.ProjectManager;
@@ -53,6 +52,7 @@ import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
+import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -90,7 +90,7 @@ public class CommandMap {
 			helpManager();
 			additionManager();			
 			changeManager(); 
-			occurenceManager();
+			findManager();
 			baseActionManagers();
 			moveManager();
 			tabManager();
@@ -157,9 +157,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
 			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
 		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));
-		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
-				new MethodCall(DiagramEditor.class.getMethod("findInProjectBrowser", Object.class)));
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
 		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
 				new MethodCall(DiagramEditor.class.getMethod("addAllRelatedElements", Object.class)));
 		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
@@ -331,23 +329,23 @@ public class CommandMap {
 	
 	private void tabManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS_TAB,
-				new MethodCall(DiagramManager.class.getMethod("closeTab", Component.class)));
+				new MethodCall(TabManager.class.getMethod("closeThis", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
-				new MethodCall(DiagramManager.class.getMethod("closeOthers", Component.class)));
+				new MethodCall(TabManager.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL_TABS,
-				new MethodCall(DiagramManager.class.getMethod("closeAll", Component.class)));
+				new MethodCall(TabManager.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_TAB,
-				new MethodCall(DiagramManager.class.getMethod("selectTab", Object.class)));
+				new MethodCall(TabManager.class.getMethod("selectEditor", Object.class)));
 		cmdMap.put(CommandType.OPEN_TAB,
-				new MethodCall(DiagramManager.class.getMethod("openTab", Object.class)));		
+				new MethodCall(TabManager.class.getMethod("addEditor", Object.class)));		
 		cmdMap.put(CommandType.CLOSE_RULES_TAB,
-				new MethodCall(DiagramManager.class.getMethod("closeCurrentOclDocument")));
+				new MethodCall(TabManager.class.getMethod("closeCurrentOclEditor")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM_TAB,
-				new MethodCall(DiagramManager.class.getMethod("closeCurrentDiagram")));		
+				new MethodCall(TabManager.class.getMethod("closeCurrentDiagramEditor")));		
 		cmdMap.put(CommandType.ADD_FINDER_TAB,
-				new MethodCall(DiagramManager.class.getMethod("addFinderTab")));		
+				new MethodCall(TabManager.class.getMethod("addFinderEditor")));		
 		cmdMap.put(CommandType.ADD_STATISTICS_TAB,
-				new MethodCall(DiagramManager.class.getMethod("addStatisticsTab")));
+				new MethodCall(TabManager.class.getMethod("addStatisticsEditor")));
 	}
 	
 	private void moveManager() throws NoSuchMethodException, SecurityException{
@@ -360,9 +358,13 @@ public class CommandMap {
 	}
 	
 	
-	private void occurenceManager()throws NoSuchMethodException, SecurityException{
+	private void findManager()throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
-				new MethodCall(OccurenceManager.class.getMethod("findInDiagrams", Object.class)));
+				new MethodCall(FindManager.class.getMethod("findInDiagrams", Object.class)));
+		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
+				new MethodCall(FindManager.class.getMethod("findInProjectTree", Object.class)));
+		cmdMap.put(CommandType.FIND_BY_NAME, 
+				new MethodCall(FindManager.class.getMethod("findByName", String.class)));
 	}
 	
 	private void baseActionManagers() throws NoSuchMethodException, SecurityException{

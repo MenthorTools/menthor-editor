@@ -135,6 +135,7 @@ public enum CommandType {
 
 	ADD_FINDER_TAB("Find a term in current project"),
 	FIND_IN_PROJECT_BROWSER("Find a term in project browser"),
+	FIND_BY_NAME("Find element strictly by its name"),
 	ADD_STATISTICS_TAB("Collect statistics of current project"),
 	
 	MOVE_DOWN_TREE(null),

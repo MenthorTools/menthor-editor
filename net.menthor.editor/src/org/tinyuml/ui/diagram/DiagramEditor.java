@@ -110,7 +110,7 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.MainFrame;
@@ -119,6 +119,8 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.BaseEditor;
+import net.menthor.editor.v2.editors.EditorMode;
+import net.menthor.editor.v2.editors.EditorMouseEvent;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.ClipboardManager;
@@ -152,7 +154,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	private static final long serialVersionUID = 4210158437374056534L;
 
 	public MainFrame frame;
-	private DiagramManager diagramManager;
+	private TopTabbedPane diagramManager;
 	private DiagramWrapper wrapper;
 		
 	private transient EditorMode editorMode;
@@ -232,7 +234,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(MainFrame frame, DiagramManager diagramManager, OntoumlDiagram diagram) 
+	public DiagramEditor(MainFrame frame, TopTabbedPane diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
 		this.diagramManager = diagramManager;
@@ -265,8 +267,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		setSize(new Dimension((int)width,(int)height));		
 	}
 
-	public DiagramManager getManager() { return diagramManager; }
-	public DiagramManager getDiagramManager() { return diagramManager; }
+	public TopTabbedPane getManager() { return diagramManager; }
+	public TopTabbedPane getDiagramManager() { return diagramManager; }
 	public LineHandler getLineHandler() { return lineHandler; }
 	public UmlProject getProject() { return diagram.getProject(); }
 	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }	
@@ -1631,7 +1633,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 //			if(element instanceof TreeConnection) sb.append(ModelHelper.handleName(((TreeConnection)element).getOwnerConnection()) + (i < elements.size()-1 ? ", " : ""));
 			if (element instanceof SimpleLabel) sb.append(((Label) element).getSource().getLabelText());			
 		}
-		frame.getDiagramManager().showStatus(this,capitalize(sb.toString()));
+		getWrapper().getStatusBar().report(capitalize(sb.toString()));
 	}
 
 	@Override
@@ -2692,12 +2694,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	public void requestFocusInEditor() { diagramManager.requestFocus(); }
 
 	/** {@inheritDoc} */
-	public EditorType getEditorType() {	return EditorType.ONTOUML_DIAGRAM; }
+	public EditorType getEditorType() {	return EditorType.ONTOUML_EDITOR; }
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean isSaveNeeded() { return diagram.isSaveNeeded(); }
 
+	@Override
+	public void propagateNewTitle(String title) { diagram.setName(title); }
+	
 	@Override
 	public void dispose() { }
 

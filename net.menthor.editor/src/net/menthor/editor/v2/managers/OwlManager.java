@@ -42,12 +42,12 @@ public class OwlManager extends BaseManager {
 	
 	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt){
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = OWLHelper.generateOwl(filteredParser, model, diagramManager.getWorkingConstraints(), trOpt);
+		ResultType result = OWLHelper.generateOwl(filteredParser, model, TabManager.get().getConstraints(), trOpt);
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
 				infoManager.showOutputText(result.toString(), true, false);
-				diagramManager.showInTextEditor((String)result.getData()[0]);
+				TabManager.get().addTextEditor((String)result.getData()[0]);
 			}else{
 				infoManager.showOutputText(result.toString(), true, true);
 			}			

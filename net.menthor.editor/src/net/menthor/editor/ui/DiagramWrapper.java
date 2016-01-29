@@ -36,7 +36,7 @@ import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.status.StatusPane;
 import net.menthor.editor.v2.toolbar.DiagramToolBar;
-import net.menthor.editor.v2.trees.DiagramDropListener;
+import net.menthor.editor.v2.tree.DiagramDropListener;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.RoundedPanel;
 
@@ -107,11 +107,14 @@ public class DiagramWrapper extends RoundedPanel implements Editor{
 
 	@Override
 	public EditorType getEditorType() {
-		return EditorType.ONTOUML_DIAGRAM;
+		return EditorType.ONTOUML_EDITOR;
 	}
 
 	@Override
 	public void dispose() {
 		
 	}
+
+	@Override
+	public void propagateNewTitle(String title) { editor.getDiagram().setName(title);}
 }

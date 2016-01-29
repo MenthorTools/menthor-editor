@@ -27,19 +27,15 @@ import java.awt.Dimension;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-import net.menthor.editor.problems.ErrorPane;
-import net.menthor.editor.problems.ProblemPane;
-import net.menthor.editor.problems.StatisticsPane;
-import net.menthor.editor.problems.WarningPane;
-import net.menthor.editor.v2.ui.ConsolePane;
+import net.menthor.editor.v2.editors.ConsoleEditor;
+import net.menthor.editor.v2.editors.ErrorEditor;
+import net.menthor.editor.v2.editors.ProblemEditor;
+import net.menthor.editor.v2.editors.WarningEditor;
 
-/**
- * @author John Guerson
- */
 public class InfoManager extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;	
-	public static ConsolePane outputPane;	
+	public static ConsoleEditor outputPane;	
 	public MainFrame frame;
 	public UmlProject project;
 		
@@ -55,7 +51,7 @@ public class InfoManager extends JTabbedPane {
 		outputPane.write("");
 		
 		for(Component c: getComponents()){
-			if(c instanceof ProblemPane) remove(((ProblemPane)c));
+			if(c instanceof ProblemEditor) remove(((ProblemEditor)c));
 		}
 		repaint();
 		revalidate();
@@ -65,7 +61,7 @@ public class InfoManager extends JTabbedPane {
 	{
 		for(Component c: getComponents())
 		{
-			if(c instanceof WarningPane) setSelectedIndex(indexOfComponent(c));	
+			if(c instanceof WarningEditor) setSelectedIndex(indexOfComponent(c));	
 		}
 	}
 	
@@ -73,7 +69,7 @@ public class InfoManager extends JTabbedPane {
 	{
 		for(Component c: getComponents())
 		{
-			if(c instanceof ProblemPane && !(c instanceof ErrorPane) && !(c instanceof WarningPane)) 
+			if(c instanceof ProblemEditor && !(c instanceof ErrorEditor) && !(c instanceof WarningEditor)) 
 			{
 				setSelectedIndex(indexOfComponent(c));				
 			}
@@ -92,7 +88,7 @@ public class InfoManager extends JTabbedPane {
 	{
 		for(Component c: getComponents())
 		{
-			if(c instanceof ErrorPane) setSelectedIndex(indexOfComponent(c));	
+			if(c instanceof ErrorEditor) setSelectedIndex(indexOfComponent(c));	
 		}
 	}
 		
@@ -100,7 +96,7 @@ public class InfoManager extends JTabbedPane {
 	{
 		for(Component c: getComponents())
 		{
-			if(c instanceof ConsolePane) setSelectedIndex(indexOfComponent(c));	
+			if(c instanceof ConsoleEditor) setSelectedIndex(indexOfComponent(c));	
 		}
 	}
 	
@@ -109,7 +105,7 @@ public class InfoManager extends JTabbedPane {
 		this.frame=frame;
 		this.project = project;
 				
-		outputPane = new ConsolePane();
+		outputPane = new ConsoleEditor();
 		
 		setBorder(null);
 		setBackground(UIManager.getColor("Panel.background"));
@@ -118,7 +114,7 @@ public class InfoManager extends JTabbedPane {
 		addTab(" Console ",outputPane);						
 	}
 	
-	public ConsolePane getOutput(){
+	public ConsoleEditor getOutput(){
 		return outputPane;
 	}
 		

@@ -182,7 +182,7 @@ public class AdditionManager extends BaseManager {
 		Models.getOclDocList().add(oclDoc);				
 		DefaultMutableTreeNode container = browser.getTree().getNode(eContainer);
 		browser.getTree().addElement(container, oclDoc);
-		if(createTab) diagramManager.createConstraintEditor(oclDoc);
+		if(createTab) TabManager.get().addOclEditor(oclDoc);
 		return oclDoc;
 	}
 	
@@ -201,7 +201,7 @@ public class AdditionManager extends BaseManager {
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
-		diagramManager.createDiagramEditor(diagram);		
+		TabManager.get().addDiagramEditor(diagram);		
 		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
 		browser.getTree().addElement(container,diagram);
 		return diagram;

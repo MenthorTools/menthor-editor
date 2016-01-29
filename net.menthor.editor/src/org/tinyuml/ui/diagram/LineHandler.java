@@ -22,6 +22,8 @@ package org.tinyuml.ui.diagram;
 
 import java.awt.geom.Point2D;
 
+import net.menthor.editor.v2.editors.EditorMode;
+import net.menthor.editor.v2.editors.EditorMouseEvent;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.types.RelationshipType;
 

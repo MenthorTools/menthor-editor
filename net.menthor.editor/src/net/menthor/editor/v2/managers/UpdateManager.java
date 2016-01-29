@@ -44,7 +44,7 @@ import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.trees.ProjectTree;
+import net.menthor.editor.v2.tree.ProjectTree;
 
 public class UpdateManager extends BaseManager {
 	
@@ -116,8 +116,7 @@ public class UpdateManager extends BaseManager {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		DiagramEditor ed = diagramManager.getCurrentDiagramEditor();
-		
+		DiagramEditor ed = TabManager.get().getCurrentDiagramEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
@@ -227,5 +226,9 @@ public class UpdateManager extends BaseManager {
 				browser.getTree().remove(deletedElement);
 			}
 		});
+	}
+	
+	public void updateProjectTree(){
+		browser.refresh();
 	}
 }

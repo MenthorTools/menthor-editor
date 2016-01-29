@@ -38,7 +38,7 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.trees.ProjectTree;
+import net.menthor.editor.v2.tree.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 

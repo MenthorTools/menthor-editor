@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.editor.ui.ConstraintEditor;
 import net.menthor.editor.ui.DATException;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
@@ -39,7 +38,8 @@ import net.menthor.editor.ui.ProjectReader;
 import net.menthor.editor.ui.ProjectWriter;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.ui.StartPage;
+import net.menthor.editor.v2.editors.OclEditor;
+import net.menthor.editor.v2.start.StartPage;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
@@ -62,7 +62,7 @@ public class ProjectManager extends BaseManager {
 		this.project.setSaveModelNeeded(false);		
 		browser.set(this.project, project.getModel());
 		infoManager.set(this.project);
-		diagramManager.set();
+		TabManager.get().initialize(project);
 	}
 	
 	public File getProjectFile(){ return projectFile; }
@@ -141,7 +141,7 @@ public class ProjectManager extends BaseManager {
 	}
 	
 	public void openRecentProject(){
-		StartPage startPanel = (StartPage) diagramManager.getCurrentEditor();
+		StartPage startPanel = (StartPage) TabManager.get().getCurrentEditor();
 		if(startPanel != null){
 			openProjectFromFile(startPanel.getSelectedRecentFile());
 		}
@@ -253,11 +253,11 @@ public class ProjectManager extends BaseManager {
 		try {
 			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
 			if (file.exists()) file.delete();
-			for(ConstraintEditor ce: diagramManager.getConstraintEditors()){				
+			for(OclEditor ce: TabManager.get().getOclEditors()){				
 				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
 			}
 			project.clearOpenedDiagrams();
-			for(DiagramEditor editor: diagramManager.getDiagramEditors()){
+			for(DiagramEditor editor: TabManager.get().getDiagramEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
 			result = ProjectWriter.getInstance().writeProject(diagramManager, file, project, Models.getOclDocList());

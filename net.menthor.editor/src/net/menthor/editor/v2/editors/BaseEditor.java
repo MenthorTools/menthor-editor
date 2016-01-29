@@ -30,5 +30,6 @@ public abstract class BaseEditor extends JComponent implements Editor {
 	private static final long serialVersionUID = -5942413080525420849L;
 			
 	public boolean isSaveNeeded(){ return false; }
+	
 	public abstract EditorType getEditorType();
 }

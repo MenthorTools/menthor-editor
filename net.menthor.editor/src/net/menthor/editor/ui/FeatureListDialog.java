@@ -52,7 +52,7 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.problems.FeatureElement;
+import net.menthor.editor.v2.elements.PropertyElement;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 
@@ -65,8 +65,8 @@ public class FeatureListDialog extends JDialog {
 	private JButton btnArrowRight;
 	private JButton btnArrowLeft;
 	private JScrollPane scrollRight;
-	private JList<FeatureElement> leftList;
-	private JList<FeatureElement> rightList;
+	private JList<PropertyElement> leftList;
+	private JList<PropertyElement> rightList;
 	@SuppressWarnings("rawtypes")
 	private DefaultListModel rightListModel;
 	@SuppressWarnings("rawtypes")
@@ -164,13 +164,13 @@ public class FeatureListDialog extends JDialog {
 					
 					if(baseProperty.eContainer() instanceof RefOntoUML.Class && p.eContainer() instanceof RefOntoUML.Class &&
 							(baseProperty.getClass_().equals(p.getClass_()) || baseProperty.getClass_().allParents().contains(p.getClass_()))	){
-						FeatureElement elem = new FeatureElement(p);
+						PropertyElement elem = new PropertyElement(p);
 						leftListModel.addElement(elem);
 					}
 
 					else if(baseProperty.eContainer() instanceof DataType && p.eContainer() instanceof DataType &&
 							(baseProperty.getDatatype().equals(p.getDatatype()) || baseProperty.getDatatype().allParents().contains(p.getDatatype()))		){
-						FeatureElement elem = new FeatureElement(p);
+						PropertyElement elem = new PropertyElement(p);
 						leftListModel.addElement(elem);
 					}
 					
@@ -178,20 +178,20 @@ public class FeatureListDialog extends JDialog {
 				else if (baseProperty.getAssociation()!=null && p.getAssociation()!=null &&
 						(baseType.equals(p.getType()) || baseType.allParents().contains(p.getType())) &&
 						(baseProperty.getOpposite().getType().equals(p.getOpposite().getType()) || ((Classifier) baseProperty.getOpposite().getType()).allParents().contains(p.getOpposite().getType()))){
-					FeatureElement elem = new FeatureElement(p);
+					PropertyElement elem = new PropertyElement(p);
 					leftListModel.addElement(elem);
 				}
 				
 				
 			}
 		}
-		leftList = new JList<FeatureElement>(leftListModel);
+		leftList = new JList<PropertyElement>(leftListModel);
 		
 		for(Object obj: featureList){
-			FeatureElement elem = new FeatureElement((Element)obj);
+			PropertyElement elem = new PropertyElement((Element)obj);
 			rightListModel.addElement(elem);
 		}
-		rightList = new JList<FeatureElement>(rightListModel);
+		rightList = new JList<PropertyElement>(rightListModel);
 		
 		scrollLeft = new JScrollPane();	
 		scrollLeft.setViewportView(leftList);
@@ -204,7 +204,7 @@ public class FeatureListDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{				
-				for(FeatureElement n: leftList.getSelectedValuesList())
+				for(PropertyElement n: leftList.getSelectedValuesList())
 				{
 					if(!rightListModel.contains(n)) {						
 						rightListModel.addElement(n); 
@@ -223,7 +223,7 @@ public class FeatureListDialog extends JDialog {
 		btnArrowLeft.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				for(FeatureElement n: rightList.getSelectedValuesList()){
+				for(PropertyElement n: rightList.getSelectedValuesList()){
 					if(!leftListModel.contains(n)) { 
 						leftListModel.addElement(n); 
 						leftList.setSelectedIndex(leftListModel.indexOf(n)); 
@@ -341,7 +341,7 @@ public class FeatureListDialog extends JDialog {
 	{
 		ArrayList<Object> result = new ArrayList<Object>();
 		for (int i=0;i<rightListModel.getSize();i++) {
-			result.add(((FeatureElement)rightListModel.get(i)).getElement());
+			result.add(((PropertyElement)rightListModel.get(i)).getElement());
 		}
 		return result;
 	}

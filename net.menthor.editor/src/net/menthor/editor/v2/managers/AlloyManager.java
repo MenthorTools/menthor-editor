@@ -29,9 +29,9 @@ import javax.swing.Timer;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.transformation.alloy.AlsSettingsDialog;
 import net.menthor.editor.ui.AlloySpecification;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -71,7 +71,7 @@ public class AlloyManager extends BaseManager {
 				openAnalyzer(Models.getAlloySpec(),true, -1);			
 			}
 			if(to.getDestination()==ALS4Destination.TAB){ //open it in a tab		
-				diagramManager.showInTextEditor(Models.getAlloySpec().getContent());
+				TabManager.get().addTextEditor(Models.getAlloySpec().getContent());
 			}
 			if(to.getDestination()==ALS4Destination.FILE){ //print to a file
 				MessageManager.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");

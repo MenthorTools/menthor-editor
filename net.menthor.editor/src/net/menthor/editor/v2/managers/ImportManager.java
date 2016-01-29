@@ -41,7 +41,7 @@ public class ImportManager extends BaseManager {
 	}
 	
 	public void importFromEARecent() throws IOException {		
-		lastImportEAPath = diagramManager.getStartPage().getSelectedRecentFile();
+		lastImportEAPath = TabManager.get().getStartEditor().getSelectedRecentFile();
 		new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
 		Settings.addRecentProject(lastImportEAPath);				
 	}

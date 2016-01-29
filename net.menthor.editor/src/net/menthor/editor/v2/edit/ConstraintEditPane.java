@@ -45,7 +45,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -55,7 +55,7 @@ public class ConstraintEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private DiagramManager diagramManager;	
+	private TopTabbedPane diagramManager;	
 
 	private Classifier element;
 	private ArrayList<Constraintx> constraintList = new ArrayList<Constraintx>();
@@ -75,7 +75,7 @@ public class ConstraintEditPane extends JPanel {
 	private JLabel lblNewLabel_1;
 	private JLabel lblConstraint;
 	
-	public ConstraintEditPane(DiagramManager diagramManager, Classifier element){
+	public ConstraintEditPane(TopTabbedPane diagramManager, Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
 		this.element = element;

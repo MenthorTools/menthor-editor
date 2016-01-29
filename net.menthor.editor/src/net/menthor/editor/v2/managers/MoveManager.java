@@ -61,7 +61,7 @@ public class MoveManager extends BaseManager {
 	
 	/** Move element to current diagram */
 	public void move(Object element){
-		move((RefOntoUML.Element)element,-1, -1, diagramManager.getCurrentDiagramEditor(),true);
+		move((RefOntoUML.Element)element,-1, -1, TabManager.get().getCurrentDiagramEditor(),true);
 	}
 	
 	public void move(Object element, DiagramEditor editor){
@@ -80,11 +80,11 @@ public class MoveManager extends BaseManager {
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
 				diagramManager.getFrame().showInformationMessageDialog(
-					"Move Manager", element+"\" already exists in diagram "+d.getDiagram().getName());			
+					"Mooving Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
 			}
 			else if (element instanceof Generalization) {
 				diagramManager.getFrame().showInformationMessageDialog(
-					"Move Manager", element+" already exists in diagram "+d.getDiagram().getName());
+					"Moving Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if(de!=null) d.select(de);

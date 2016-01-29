@@ -55,6 +55,7 @@ import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FilterManager;
+import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
@@ -69,13 +70,14 @@ import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
+import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.palette.PalettePane;
 import net.menthor.editor.v2.toolbar.MainToolbar;
-import net.menthor.editor.v2.trees.BaseCheckBoxTree;
+import net.menthor.editor.v2.tree.BaseCheckBoxTree;
 import net.menthor.editor.v2.ui.BaseMultiSplitPane;
 import net.menthor.editor.v2.util.Util;
 
@@ -88,8 +90,8 @@ public class MainFrame extends JFrame implements CommandListener {
 	private transient BaseMultiSplitPane multiSplitPane;
 	private transient PalettePane palettePane;
 	private transient ProjectBrowser browserPane;	
-	private transient TopViewPane editorsPane;
-	private transient BottomViewPane footerPane;
+	private transient TopTabbedPane topTabbedPane;
+	private transient InfoManager footerPane;
 	
 	public MainFrame() {
 		super();
@@ -225,29 +227,32 @@ public class MainFrame extends JFrame implements CommandListener {
 		TransferManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		ParthoodManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
 		GlossaryManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		TabManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		FindManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
+		TabManager.get().addStartEditor(true);
 	}
 	
 	private void installMultiSplitPane(){		
-		footerPane= new BottomViewPane(this, null);
+		footerPane= new InfoManager(this, null);
 		browserPane = new ProjectBrowser(this,null,null,null);
 		palettePane = new PalettePane(this);
-		editorsPane = new TopViewPane(this);		
-		multiSplitPane = new BaseMultiSplitPane(palettePane, editorsPane, footerPane, browserPane);
+		topTabbedPane = new TopTabbedPane(this);		
+		multiSplitPane = new BaseMultiSplitPane(palettePane, topTabbedPane, footerPane, browserPane);
 		getContentPane().add(multiSplitPane, BorderLayout.CENTER);
 	}	
 	
 	
 	public ProjectBrowser getProjectBrowser(){ return browserPane; }		
-	public DiagramManager getDiagramManager() { return editorsPane.getDiagramManager(); }
-	public InfoManager getInfoManager() { return footerPane.getInfoManager(); }
+	public TopTabbedPane getDiagramManager() { return topTabbedPane; }
+	public InfoManager getInfoManager() { return footerPane; }
 //	public MainToolbar getMainToolBar() { return mainToolBar; }
 	public MainMenuBar getMainMenu() { return mainMenu; }	
 	public PalettePane getToolManager() { return palettePane; }
-	public void selectConsole() { footerPane.getInfoManager().selectConsole(); }		
-	public void selectWarnings() { footerPane.getInfoManager().selectWarnings(); }	
-	public void selectProblems() { footerPane.getInfoManager().selectProblems(); }	
-	public void selectErrors() { footerPane.getInfoManager().selectErrors(); }
-	public void selectStatistic() { footerPane.getInfoManager().selectStatistic(); }
+	public void selectConsole() { footerPane.selectConsole(); }		
+	public void selectWarnings() { footerPane.selectWarnings(); }	
+	public void selectProblems() { footerPane.selectProblems(); }	
+	public void selectErrors() { footerPane.selectErrors(); }
+	public void selectStatistic() { footerPane.selectStatistic(); }
 	
 	public void forceShowBrowserPane(){
 		multiSplitPane.forceShowRightPane();		
@@ -336,7 +341,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		try{
 			if(methodcall.getMethod().getDeclaringClass() == getClass()){
 				return methodcall.call(this);
-			}else if(methodcall.getMethod().getDeclaringClass() == DiagramManager.class){
+			}else if(methodcall.getMethod().getDeclaringClass() == TopTabbedPane.class){
 				return methodcall.call(getDiagramManager());
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){
@@ -393,9 +398,13 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(ParthoodManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == GlossaryManager.class){
 				return methodcall.call(GlossaryManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == TabManager.class){
+				return methodcall.call(TabManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == FindManager.class){
+				return methodcall.call(FindManager.get());
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
-				return methodcall.call(getDiagramManager().getCurrentDiagramEditor());
+				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
 			}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){
 				return methodcall.call(getProjectBrowser().getTree());		
 			}

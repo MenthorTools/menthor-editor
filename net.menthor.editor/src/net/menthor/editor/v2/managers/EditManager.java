@@ -61,9 +61,9 @@ public class EditManager extends BaseManager {
 			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
 			callGeneralizationDialog(generalization, true);			
 		} else if (element instanceof StructureDiagram){    		
-			diagramManager.openTab(element);
+			TabManager.get().addEditor(element);
     	} else if (element instanceof OclDocument){
-    		diagramManager.openTab(element);
+    		TabManager.get().addEditor(element);
     	} else if(element instanceof RefOntoUML.Element){
     		RefOntoUML.Element e = (RefOntoUML.Element)element;
     		openDialog(e);
@@ -80,7 +80,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit generalization */
 	public GeneralizationEditDialog callGeneralizationDialog(Generalization element, boolean modal){
-		DiagramEditor diagEditor = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null)diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element,diagram);
@@ -94,7 +94,7 @@ public class EditManager extends BaseManager {
 	public ClassEditDialog callConstraintxDialog(Constraintx element, boolean modal){
 		RefOntoUML.Element context = ((RefOntoUML.Constraintx)element).getConstrainedElement().get(0);
 		if (context instanceof RefOntoUML.Class){
-			DiagramEditor diagEditor = diagramManager.getCurrentDiagramEditor();
+			DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 			StructureDiagram diagram = null;
 			if(diagEditor != null) diagram = diagEditor.getDiagram();
 			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(context,diagram);
@@ -109,7 +109,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit comment */
 	public JDialog callCommentDialog(Comment element, boolean modal){
-		DiagramEditor diagEditor = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		if (element.eContainer() instanceof RefOntoUML.Class){
@@ -133,7 +133,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit association */
 	public AssociationEditDialog callAssociationDialog(Association element, boolean modal){
-		DiagramEditor diagEditor = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);
@@ -146,7 +146,7 @@ public class EditManager extends BaseManager {
 	/** Edit attribute or endpoint */
 	public JDialog callPropertyDialog(Property element, boolean modal){
 		Property p = (Property)element;
-		DiagramEditor diagEditor = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		if (p.getAssociation()!=null){
@@ -169,7 +169,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit class */
 	public ClassEditDialog callClassDialog(Classifier element, boolean modal){
-		DiagramEditor diagEditor = diagramManager.getCurrentDiagramEditor();
+		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);

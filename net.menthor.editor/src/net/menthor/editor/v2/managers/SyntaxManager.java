@@ -32,12 +32,12 @@ import org.eclipse.ocl.SemanticException;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-import net.menthor.editor.problems.ErrorElement;
-import net.menthor.editor.problems.ErrorVerificator;
-import net.menthor.editor.problems.ProblemElement;
-import net.menthor.editor.problems.ProblemElement.TypeProblem;
-import net.menthor.editor.problems.WarningVerificator;
+import net.menthor.editor.ui.ErrorVerificator;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.ui.WarningVerificator;
+import net.menthor.editor.v2.elements.ErrorElement;
+import net.menthor.editor.v2.elements.ProblemElement;
+import net.menthor.editor.v2.elements.ProblemElement.TypeProblem;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -56,7 +56,7 @@ public class SyntaxManager extends BaseManager{
 			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
-			toclparser.parseTemporalOCL(diagramManager.getWorkingConstraints());			
+			toclparser.parseTemporalOCL(TabManager.get().getConstraints());			
 			Models.setOclOptions(new TOCL2AlloyOption(toclparser));
 			String msg =  "Constraints are syntactically correct.\n";
 			if(showSuccesfullyMessage) MessageManager.get().showSuccess("Constraints Parse",msg);			
@@ -100,7 +100,7 @@ public class SyntaxManager extends BaseManager{
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
-		diagramManager.setErrorsOnTab(start, end, problems);
+		TabManager.get().addErrorsEditor(infoManager, start, end, problems, diagramManager.getCommandListener());
 		return problems;
 	}
 	
@@ -112,7 +112,7 @@ public class SyntaxManager extends BaseManager{
 		Collections.sort(warnings,new ProblemComparator());		
 		int count=0;
 		for(ProblemElement pe: warnings) { count++; pe.setIdentifier(count); }
-		diagramManager.setWarningsOnTab(verificator.getTimingMessage(), warnings);
+		TabManager.get().addWarningsEditor(infoManager, verificator.getTimingMessage(), warnings, diagramManager.getCommandListener());
 		return warnings;
 	}
 	

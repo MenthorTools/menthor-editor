@@ -27,6 +27,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;

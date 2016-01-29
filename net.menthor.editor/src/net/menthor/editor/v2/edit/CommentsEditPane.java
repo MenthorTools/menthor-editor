@@ -39,7 +39,7 @@ import javax.swing.border.EmptyBorder;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
-import net.menthor.editor.ui.DiagramManager;
+import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.TransferManager;
@@ -50,7 +50,7 @@ import net.menthor.editor.v2.managers.TransferManager;
 public class CommentsEditPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private DiagramManager diagramManager;
+	private TopTabbedPane diagramManager;
 		
 	private Classifier element;
 	
@@ -64,7 +64,7 @@ public class CommentsEditPane extends JPanel {
 	private JLabel lblComment;
 	private JLabel lblNewLabel;
 	
-	public CommentsEditPane(DiagramManager diagramManager, Classifier element){
+	public CommentsEditPane(TopTabbedPane diagramManager, Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.diagramManager = diagramManager;
 		this.element = element;

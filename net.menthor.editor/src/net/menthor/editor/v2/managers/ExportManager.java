@@ -122,7 +122,7 @@ public class ExportManager extends BaseManager {
 			File file = choosePNGFile();
 			if(file==null) return;
 			PngWriter exporter = new PngWriter();
-			exporter.writePNG(diagramManager.getCurrentDiagramEditor(), file);
+			exporter.writePNG(TabManager.get().getCurrentDiagramEditor(), file);
 		} catch (IOException ex) {
 			MessageManager.get().showError(ex, "Export Image", "Could not export image.");
 		}		

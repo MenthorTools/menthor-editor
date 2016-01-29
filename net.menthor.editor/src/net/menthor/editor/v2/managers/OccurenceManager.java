@@ -44,7 +44,6 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.ui.DiagramListDialog;
 
 public class OccurenceManager extends BaseManager {
 
@@ -240,7 +239,7 @@ public class OccurenceManager extends BaseManager {
 	
 	public DiagramElement openedInADiagram(Element element){
 		for(DiagramElement de: getDiagramElements(element)){
-			for(StructureDiagram d: ProjectManager.get().getDiagramManager().getOpenedDiagrams()){
+			for(StructureDiagram d: TabManager.get().getDiagrams()){
 				if(d.getChildren().contains(de)) return de;				
 			}
 		}
@@ -252,15 +251,11 @@ public class OccurenceManager extends BaseManager {
 		List<DiagramEditor> list = new ArrayList<DiagramEditor>();
 		List<OntoumlDiagram> diagrams = getDiagrams(element);
 		for(OntoumlDiagram diagram: diagrams){			
-			DiagramEditor editor = diagramManager.getDiagramEditor((StructureDiagram)diagram);
+			DiagramEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)diagram);
 			list.add(editor);			
 		}
 		return list;
 	}
 	
-	/** show dialog with diagram occurence of this element */
-	public void findInDiagrams(Object element){
-		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams((RefOntoUML.Element)element);
-		DiagramListDialog.open(diagramManager.getFrame(), diagrams);		
-	}
+	
 }
