@@ -37,8 +37,19 @@ import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 
 public class SbvrManager extends BaseManager {
 
-	private static SbvrManager instance = new SbvrManager();
-	public static SbvrManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class SbvrLoader {
+        private static final SbvrManager INSTANCE = new SbvrManager();
+    }	
+	public static SbvrManager get() { 
+		return SbvrLoader.INSTANCE; 
+	}	
+    private SbvrManager() {
+        if (SbvrLoader.INSTANCE != null) throw new IllegalStateException("SbvrManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	/**  Generate SBVR documentation.
 	 *   In order to use the plug-in, we need to store the model into a file before. */
@@ -61,7 +72,7 @@ public class SbvrManager extends BaseManager {
 			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			infoManager.showOutputText("SBVR generated successfully", true, true); 
+			infoTabbedPane().showOutput("SBVR generated successfully", true, true); 
 			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -69,12 +80,12 @@ public class SbvrManager extends BaseManager {
 		}		
 		if(result.getResultType() != Result.ERROR)
 		{
-			infoManager.showOutputText(result.toString(), true, true);			
+			infoTabbedPane().showOutput(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
 			File file = new File(htmlFilePath);
 			openLinkWithBrowser(file.toURI().toString());
 		}else{
-			infoManager.showOutputText(result.toString(), true, true); 
+			infoTabbedPane().showOutput(result.toString(), true, true); 
 		}
 	}
 	

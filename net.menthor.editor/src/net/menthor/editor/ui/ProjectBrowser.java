@@ -24,15 +24,10 @@ package net.menthor.editor.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.File;
-import java.util.List;
 
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 
-import net.menthor.antipattern.application.AntiPatternList;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.toolbar.ProjectToolBar;
@@ -40,9 +35,6 @@ import net.menthor.editor.v2.tree.ProjectTree;
 import net.menthor.editor.v2.tree.TreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.TitlePanel;
-import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
-import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-import RefOntoUML.parser.OntoUMLParser;
 
 /**
  * @author John Guerson
@@ -57,88 +49,32 @@ public class ProjectBrowser extends RoundedPanel{
 	private ProjectTree tree;
 	public ProjectTree getTree() { return tree; }	
 	private ProjectToolBar toolbar;
-			
-	public List<OntoumlDiagram> getAllDiagrams(){
-		return (List<OntoumlDiagram>) Models.getProject().getDiagrams();
-	}
 	
 	public ProjectBrowser(MainFrame appframe, UmlProject project, RefOntoUML.Model model, OclDocument oclDoc){
 		super();		
-		Models.setProject(project);		
+		Models.set(project, model);
 		frame = appframe;		
 		scroll = new JScrollPane();		
 		scroll.setBorder(null);		
-		if (project!=null) set(project, model);		
-		add(scroll, BorderLayout.CENTER);			
-		RoundedPanel emptyTempPanel = new RoundedPanel();
-		emptyTempPanel.setBackground(Color.WHITE);
-		emptyTempPanel.setBorder(new EmptyBorder(0,0, 0, 0));
-		scroll.setViewportView(emptyTempPanel);	
-		
-		scroll.setMinimumSize(new Dimension(0,0));
+		add(scroll, BorderLayout.CENTER);
+		initialize();
 	}
-	
-	public void refresh(){				
-		tree.updateUI();		
-		updateUI();
-	}
-	
-	public void empty(){
-		//clear models
-		Models.clear();
-		
-		RoundedPanel emptyTempPanel = new RoundedPanel();
-		emptyTempPanel.setBackground(Color.WHITE);
-		emptyTempPanel.setBorder(new EmptyBorder(0,0, 0, 0));
-		scroll.setViewportView(emptyTempPanel);				
-		emptyTempPanel.setPreferredSize(new Dimension(200,250));		
-		updateUI();
-	}	
-  	
-	public void set(UmlProject project, RefOntoUML.Package model){
-		set(project,model,null);
-	}
-	
-//	public void set(UmlProject project, RefOntoUML.Package model, OclDocument oclDoc){
-//		//set models
-//		List<OclDocument> list = new ArrayList<OclDocument>();
-//		list.add(oclDoc);
-//		set(project,model,list);
-//	}
-	
-	public void set(UmlProject project, RefOntoUML.Package model, List<OclDocument> oclDocs){
-		//set models
-		Models.setProject(project);				
-		Models.setRefparser(new OntoUMLParser(project.getModel()));	
-		if(oclDocs!=null){
-			for(OclDocument s: oclDocs){
-				Models.getOclDocList().add(s);
-			}
-		}
-		String name = ((RefOntoUML.Package)project.getResource().getContents().get(0)).getName();
-		if (name==null || name.isEmpty()) name = "model";		
-		Models.setAlloySpec(new AlloySpecification(project.getTempDir()+File.separator+name.toLowerCase()+".als"));		
-		Models.setOclOptions(new TOCL2AlloyOption());		
-		Models.setRefOptions(new OntoUML2AlloyOptions());		
-		Models.setAntipatterns(new AntiPatternList());
-		
+	  	
+	public void initialize(){	
 		toolbar = new ProjectToolBar(frame);		
 		tree = ProjectTree.create(frame,
 			Models.getRefparser(), 
 			Models.getOclDocList(), 
-			Models.getProject().getDiagrams(),
+			Models.getProject(),
 			new TreeVisibility(), 
 			false
 		);		
-		
 		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getIcon(IconType.MENTHOR_TREE));
-		title.setBackground(Color.LIGHT_GRAY);
-		
+		title.setBackground(Color.LIGHT_GRAY);		
 		RoundedPanel panel = new RoundedPanel();
 		panel.add(title, BorderLayout.NORTH);
 		panel.add(toolbar, BorderLayout.CENTER);				
-		add(panel, BorderLayout.NORTH);
-				
+		add(panel, BorderLayout.NORTH);				
 		scroll.setViewportView(tree);	
 		scroll.setMinimumSize(new Dimension(0,0));
 		updateUI();

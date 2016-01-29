@@ -8,6 +8,7 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.v2.menu.draw.ConnectionPopupMenu;
 import net.menthor.editor.v2.menu.draw.MultiElementPopupMenu;
 import net.menthor.editor.v2.menu.draw.NodePopupMenu;
@@ -25,10 +26,9 @@ public class ContextMenusBuilder {
 	
 	public ContextMenusBuilder(DiagramEditor editor)
 	{
-		
-		singleNodePopup = new NodePopupMenu(editor.getDiagramManager().getFrame());
-		singleConnectionPopup = new ConnectionPopupMenu(editor.getDiagramManager().getFrame());		
-		multiSelectinoPopup = new MultiElementPopupMenu(editor.getDiagramManager().getFrame());
+		singleNodePopup = new NodePopupMenu(MenthorEditor.getFrame());
+		singleConnectionPopup = new ConnectionPopupMenu(MenthorEditor.getFrame());		
+		multiSelectinoPopup = new MultiElementPopupMenu(MenthorEditor.getFrame());
 	}
 	
 	/**

@@ -27,19 +27,30 @@ import net.menthor.editor.v2.ui.AboutDialog;
 
 public class HelpManager extends BaseManager {
 
-	private static HelpManager instance = new HelpManager();
-	public static HelpManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class HelpLoader {
+        private static final HelpManager INSTANCE = new HelpManager();
+    }	
+	public static HelpManager get() { 
+		return HelpLoader.INSTANCE; 
+	}	
+    private HelpManager() {
+        if (HelpLoader.INSTANCE != null) throw new IllegalStateException("HelpManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	public void about(){
 		AboutDialog.open(
-			diagramManager.getCommandListener(),
+			listener(),
 			MenthorEditor.MENTHOR_COMPILATION_DATE,
 			MenthorEditor.MENTHOR_VERSION
 		);
 	}
 	
 	public void licenses(){
-		LicensesDialog.open(diagramManager);
+		LicensesDialog.open(frame());
 	}
 
 }

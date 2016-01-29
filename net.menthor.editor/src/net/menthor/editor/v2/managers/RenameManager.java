@@ -39,8 +39,19 @@ import net.menthor.editor.v2.OclDocument;
 
 public class RenameManager extends BaseManager {
 
-	private static RenameManager instance = new RenameManager();
-	public static RenameManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class RenameLoader {
+        private static final RenameManager INSTANCE = new RenameManager();
+    }	
+	public static RenameManager get() { 
+		return RenameLoader.INSTANCE; 
+	}	
+    private RenameManager() {
+        if (RenameLoader.INSTANCE != null) throw new IllegalStateException("RenameManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	public String askForElementName(Component parentWindow, RefOntoUML.Element element){
 		return (String)MessageManager.get().input(parentWindow,
@@ -72,7 +83,7 @@ public class RenameManager extends BaseManager {
 	/** Rename element. */
 	public void renameElement(RefOntoUML.Element element){
 		if (element instanceof NamedElement){
-			String value = askForElementName(diagramManager, element);    						
+			String value = askForElementName(frame(), element);    						
 			if(value!=null){
 				((NamedElement)element).setName(value);
 				List<DiagramEditor> editors = OccurenceManager.get().getDiagramEditors(element);
@@ -89,7 +100,7 @@ public class RenameManager extends BaseManager {
 	
 	/** Rename OCL document */
 	public void renameOclDocument(final OclDocument oclDoc){
-		String text = askForOCLDocName(diagramManager, oclDoc);					
+		String text = askForOCLDocName(frame(), oclDoc);					
 		final String newtext = text;
 		if(text!=null){
 			if(Models.getOclDocumentNames().contains(text)){
@@ -101,9 +112,9 @@ public class RenameManager extends BaseManager {
 					public void run() {
 						oclDoc.setName(newtext);
 						int index = TabManager.get().getEditorIndex(oclDoc);					
-						if(index>=0) diagramManager.setTitleAt(index, newtext);			        
-						diagramManager.updateUI();
-						browser.refresh();					        
+						if(index>=0) editorTabbedPane().setTitleAt(index, newtext);			        
+						editorTabbedPane().updateUI();
+						tree().updateUI();					        
 					}
 				});
 			}
@@ -112,7 +123,7 @@ public class RenameManager extends BaseManager {
 	
 	/** Rename diagram */
 	public void renameDiagram(final StructureDiagram diagram){
-		String text = askForDiagramName(diagramManager, diagram);
+		String text = askForDiagramName(frame(), diagram);
 		final String newtext = text;		
 		if(text!=null){
 			if(Models.getDiagramNames().contains(text)){
@@ -123,9 +134,9 @@ public class RenameManager extends BaseManager {
 					public void run() {
 						diagram.setName(newtext);
 						int index = TabManager.get().getEditorIndex(diagram);					
-						if(index>=0) diagramManager.setTitleAt(index, newtext);			        
-						diagramManager.updateUI();
-						browser.refresh();				        
+						if(index>=0) editorTabbedPane().setTitleAt(index, newtext);			        
+						editorTabbedPane().updateUI();
+						tree().updateUI();				        
 					}
 				});				
 			}

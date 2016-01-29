@@ -1,5 +1,6 @@
 package net.menthor.editor.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,28 @@ import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 public class Models {
+	
+	public static void set(UmlProject project, RefOntoUML.Package model){
+		set(project,model,null);
+	}
+	
+	public static void set(UmlProject project, RefOntoUML.Package model, List<OclDocument> oclDocs){
+		setProject(project);				
+		if(project!=null){
+			setRefparser(new OntoUMLParser(project.getModel()));
+			if(oclDocs!=null){
+				for(OclDocument s: oclDocs){
+					getOclDocList().add(s);
+				}
+			}
+			String name = ((RefOntoUML.Package)project.getResource().getContents().get(0)).getName();
+			if (name==null || name.isEmpty()) name = "model";		
+			setAlloySpec(new AlloySpecification(project.getTempDir()+File.separator+name.toLowerCase()+".als"));		
+			setOclOptions(new TOCL2AlloyOption());		
+			setRefOptions(new OntoUML2AlloyOptions());		
+			setAntipatterns(new AntiPatternList());
+		}
+	}
 	
 	private static UmlProject project;	
 	public static UmlProject getProject() { return project; }

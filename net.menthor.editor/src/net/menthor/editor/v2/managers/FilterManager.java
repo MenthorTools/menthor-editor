@@ -41,8 +41,19 @@ import net.menthor.editor.ui.Models;
 
 public class FilterManager extends BaseManager {
 
-	private static FilterManager instance = new FilterManager();
-	public static FilterManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class FilerLoader {
+        private static final FilterManager INSTANCE = new FilterManager();
+    }	
+	public static FilterManager get() { 
+		return FilerLoader.INSTANCE; 
+	}	
+    private FilterManager() {
+        if (FilerLoader.INSTANCE != null) throw new IllegalStateException("FilterManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	/** Tell the application to work only with the set of elements contained in the diagram. */
 	public void workingOnlyWith(StructureDiagram diagram){
@@ -53,7 +64,7 @@ public class FilterManager extends BaseManager {
 		elements.removeAll(added);
 		elements.addAll(added);
 		//browser.getTree().check(elements, true); //no checkbox on the browser				
-		browser.getTree().updateUI();		
+		tree().updateUI();		
 		Models.setRefparser(refparser);
 	}
 	
@@ -62,14 +73,14 @@ public class FilterManager extends BaseManager {
 		OntoUMLParser refparser = Models.getRefparser();					
 		//pb.getTree().checkModelElement(currentProject.getModel()); //no checkbox on the browser
 		refparser.selectAll();		
-		browser.getTree().updateUI();		
+		tree().updateUI();		
 		Models.setRefparser(refparser);
 	}
 	
 	/** Tell the application to work only with the checked elements in the tree. */
 	public List<Object> workingOnlyWithChecked(){ //takes too long
 		OntoUMLParser refparser = Models.getRefparser();
-		List<Object> selected = browser.getTree().getCheckedElements();
+		List<Object> selected = tree().getCheckedElements();
 		List<EObject> result = new ArrayList<EObject>();
 		for(Object c: selected) result.add((EObject)c);
 		refparser.select(result,true);		
@@ -77,7 +88,7 @@ public class FilterManager extends BaseManager {
 		selected.removeAll(added);
 		selected.addAll(added);		
 		//modeltree.getTree().checkModelElements(selected, true); //no checkbox on the browser		
-		browser.getTree().updateUI();	
+		tree().updateUI();	
 		Models.setRefparser(refparser);		
 		return selected;
 	}
@@ -124,7 +135,7 @@ public class FilterManager extends BaseManager {
 		elements.addAll(added);
 		//check in the tree the selected elements of the parser		
 		//modeltree.getTree().check(elements, true); //no checkbox on teh browser					
-		browser.getTree().updateUI();		
+		tree().updateUI();		
 		Models.setRefparser(refparser);
 	}
 	

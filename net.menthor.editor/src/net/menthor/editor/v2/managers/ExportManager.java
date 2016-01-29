@@ -33,8 +33,19 @@ import net.menthor.editor.v2.util.XMIWriter;
 
 public class ExportManager extends BaseManager {
 
-	private static ExportManager instance = new ExportManager();
-	public static ExportManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class ExportLoader {
+        private static final ExportManager INSTANCE = new ExportManager();
+    }	
+	public static ExportManager get() { 
+		return ExportLoader.INSTANCE; 
+	}	
+    private ExportManager() {
+        if (ExportLoader.INSTANCE != null) throw new IllegalStateException("ExportManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	public String lastRefOntoPath = new String();
 	public String lastUmlPath = new String();
@@ -42,19 +53,19 @@ public class ExportManager extends BaseManager {
 	public String lastPngPath = new String();
 	
 	public File chooseRefOntoumlFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastRefOntoPath, "Export Manager - RefOntouml", "Reference OntoUML (*.refontouml)", "refontouml",true);
+		return Util.chooseFile(frame(), lastRefOntoPath, "Export Manager - RefOntouml", "Reference OntoUML (*.refontouml)", "refontouml",true);
 	}
 	
 	public File chooseEcoreFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastEcorePath, "Export Manager - Ecore", "Ecore (*.ecore)", "ecore",true);
+		return Util.chooseFile(frame(), lastEcorePath, "Export Manager - Ecore", "Ecore (*.ecore)", "ecore",true);
 	}
 	
 	public File chooseUMLFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastUmlPath, "Export Manager - UML", "UML2 (*.uml)", "uml",true);
+		return Util.chooseFile(frame(), lastUmlPath, "Export Manager - UML", "UML2 (*.uml)", "uml",true);
 	}
 	
 	public File choosePNGFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastPngPath, "Export Manager - PNG", "Portable Network Graphics (*.png)", "png",true);
+		return Util.chooseFile(frame(), lastPngPath, "Export Manager - PNG", "Portable Network Graphics (*.png)", "png",true);
 	}
 	
 	public void exportToReferenceOntouml(){				
@@ -63,7 +74,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();			
 			XMIWriter exporter = new XMIWriter();
-			exporter.toRefontouml(diagramManager.getFrame(),Models.getRefparser(), file);			
+			exporter.toRefontouml(frame(),Models.getRefparser(), file);			
 			lastRefOntoPath = file.getAbsolutePath();			
 			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
 		} catch (Exception ex) {
@@ -78,7 +89,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();				
 			EcoreWriter exporter = new EcoreWriter();
-			exporter.toEcore(diagramManager.getFrame(),Models.getRefparser(), file);				
+			exporter.toEcore(frame(),Models.getRefparser(), file);				
 			lastEcorePath = file.getAbsolutePath();				
 			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
 		} catch (Exception ex) {
@@ -93,7 +104,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();				
 			UMLWriter exporter = new UMLWriter();
-			exporter.toProfileUML(diagramManager.getFrame(),Models.getRefparser(), file);				
+			exporter.toProfileUML(frame(),Models.getRefparser(), file);				
 			lastUmlPath = file.getAbsolutePath();				
 			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
 		} catch (Exception ex) {
@@ -108,7 +119,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();			
 			UMLWriter exporter = new UMLWriter();
-			exporter.toUML(diagramManager.getFrame(),Models.getRefparser(), file);				
+			exporter.toUML(frame(),Models.getRefparser(), file);				
 			lastUmlPath = file.getAbsolutePath();				
 			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
 		} catch (Exception ex) {					

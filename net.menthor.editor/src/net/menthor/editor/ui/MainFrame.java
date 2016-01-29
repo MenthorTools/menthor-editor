@@ -1,3 +1,4 @@
+
 package net.menthor.editor.ui;
 
 /**
@@ -36,8 +37,13 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JTextArea;
 
+import org.tinyuml.draw.DrawingContext;
+import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
+import net.menthor.editor.v2.EditorTabbedPane;
+import net.menthor.editor.v2.InfoTabbedPane;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
@@ -59,7 +65,6 @@ import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.OwlManager;
@@ -79,19 +84,27 @@ import net.menthor.editor.v2.palette.PalettePane;
 import net.menthor.editor.v2.toolbar.MainToolbar;
 import net.menthor.editor.v2.tree.BaseCheckBoxTree;
 import net.menthor.editor.v2.ui.BaseMultiSplitPane;
+import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Util;
 
 public class MainFrame extends JFrame implements CommandListener {
 
 	private static final long serialVersionUID = 3464348864344034246L;
 	
+	
 	private transient MainMenuBar mainMenu;
 	private transient MainToolbar mainToolBar;	
 	private transient BaseMultiSplitPane multiSplitPane;
 	private transient PalettePane palettePane;
 	private transient ProjectBrowser browserPane;	
-	private transient TopTabbedPane topTabbedPane;
-	private transient InfoManager footerPane;
+	private transient EditorTabbedPane topTabbedPane;
+	private transient InfoTabbedPane footerPane;
+	
+	private transient DiagramElementFactoryImpl elementFactory = new DiagramElementFactoryImpl();
+	private transient DrawingContext drawingContext = new DrawingContextImpl();	
+	
+	public DiagramElementFactoryImpl getElementFactory() { return elementFactory; }
+	public DrawingContext getDrawingContext() { return drawingContext; }
 	
 	public MainFrame() {
 		super();
@@ -99,11 +112,11 @@ public class MainFrame extends JFrame implements CommandListener {
 		setTitle("Menthor Editor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize();		
-		if(Util.onMac()) Util.enableFullScreenMode(this);		
+		if(Util.onMac()) Util.enableFullScreenMode(this);	
+		RefOntoUMLEditingDomain.getInstance().initialize();
 		installMainMenu();
 //		installMainToolBar();
-		installMultiSplitPane();
-		installManagers();
+		installMultiSplitPane();		
 		showOnlyStartPage();		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -190,70 +203,31 @@ public class MainFrame extends JFrame implements CommandListener {
 	@SuppressWarnings("unused")
 	private void installMainToolBar(){		
 		mainToolBar = new MainToolbar(this);		
-		mainToolBar.addCommandListener(getDiagramManager().getCommandListener());
+		mainToolBar.addCommandListener(this);
 		JPanel panel = new JPanel();		
 		panel.setLayout(new BorderLayout(5,5));
 		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		panel.add(mainToolBar, BorderLayout.WEST);		
 		this.getContentPane().add(panel, BorderLayout.NORTH);
 	}
-
-	private void installManagers(){
-		OccurenceManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		DeletionManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		MoveManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		AdditionManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		UpdateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		ChangeManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		RemakeManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		ProjectManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		FilterManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		HelpManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		RenameManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		EditManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		SbvrManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		ImportManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		ExportManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		AlloyManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		MessageManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		SyntaxManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		CursorManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		AntiPatternManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		UndoManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		RedoManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		OwlManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		DuplicateManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		ClipboardManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		TransferManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		ParthoodManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		GlossaryManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		TabManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		FindManager.get().setup(getDiagramManager(), getProjectBrowser(), getInfoManager());
-		TabManager.get().addStartEditor(true);
-	}
 	
 	private void installMultiSplitPane(){		
-		footerPane= new InfoManager(this, null);
+		footerPane= new InfoTabbedPane();
+		topTabbedPane = new EditorTabbedPane();
 		browserPane = new ProjectBrowser(this,null,null,null);
-		palettePane = new PalettePane(this);
-		topTabbedPane = new TopTabbedPane(this);		
+		palettePane = new PalettePane(this);				
 		multiSplitPane = new BaseMultiSplitPane(palettePane, topTabbedPane, footerPane, browserPane);
 		getContentPane().add(multiSplitPane, BorderLayout.CENTER);
 	}	
 	
 	
 	public ProjectBrowser getProjectBrowser(){ return browserPane; }		
-	public TopTabbedPane getDiagramManager() { return topTabbedPane; }
-	public InfoManager getInfoManager() { return footerPane; }
+	public EditorTabbedPane getDiagramManager() { return topTabbedPane; }
+	public InfoTabbedPane getInfoManager() { return footerPane; }
 //	public MainToolbar getMainToolBar() { return mainToolBar; }
 	public MainMenuBar getMainMenu() { return mainMenu; }	
-	public PalettePane getToolManager() { return palettePane; }
-	public void selectConsole() { footerPane.selectConsole(); }		
-	public void selectWarnings() { footerPane.selectWarnings(); }	
-	public void selectProblems() { footerPane.selectProblems(); }	
-	public void selectErrors() { footerPane.selectErrors(); }
-	public void selectStatistic() { footerPane.selectStatistic(); }
-	
+	public PalettePane getToolManager() { return palettePane; }	
+		
 	public void forceShowBrowserPane(){
 		multiSplitPane.forceShowRightPane();		
 		getMainMenu().select(CommandType.PROJECT_BROWSER,true);
@@ -341,7 +315,7 @@ public class MainFrame extends JFrame implements CommandListener {
 		try{
 			if(methodcall.getMethod().getDeclaringClass() == getClass()){
 				return methodcall.call(this);
-			}else if(methodcall.getMethod().getDeclaringClass() == TopTabbedPane.class){
+			}else if(methodcall.getMethod().getDeclaringClass() == EditorTabbedPane.class){
 				return methodcall.call(getDiagramManager());
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){

@@ -36,9 +36,20 @@ import net.menthor.editor.ui.Models;
 
 public class RemakeManager extends BaseManager {
 
-	private static RemakeManager instance = new RemakeManager();
-	public static RemakeManager get() { return instance; }
-		
+	// -------- Lazy Initialization
+	
+	private static class RemakeLoader {
+        private static final RemakeManager INSTANCE = new RemakeManager();
+    }	
+	public static RemakeManager get() { 
+		return RemakeLoader.INSTANCE; 
+	}	
+    private RemakeManager() {
+        if (RemakeLoader.INSTANCE != null) throw new IllegalStateException("RemakeManager already instantiated");
+    }		
+    
+    // ----------------------------
+	
 	/** Re-make all associations in all diagrams they appear. */
 	public void remakeAllAssociations(){
 		Set<Association> list = Models.getRefparser().getAllInstances(Association.class);

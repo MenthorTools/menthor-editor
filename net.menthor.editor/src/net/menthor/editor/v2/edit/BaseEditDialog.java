@@ -33,8 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -44,7 +44,7 @@ public class BaseEditDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	protected CommandListener listener;
-	protected TopTabbedPane diagramManager;
+	protected EditorTabbedPane diagramManager;
 		
 	protected JTabbedPane tabbedPane;
 	protected JPanel btnPane;	

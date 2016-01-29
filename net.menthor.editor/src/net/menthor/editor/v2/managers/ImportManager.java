@@ -30,19 +30,30 @@ import net.menthor.editor.v2.util.Util;
 
 public class ImportManager extends BaseManager {
 
-	private static ImportManager instance = new ImportManager();
-	public static ImportManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class ImportLoader {
+        private static final ImportManager INSTANCE = new ImportManager();
+    }	
+	public static ImportManager get() { 
+		return ImportLoader.INSTANCE; 
+	}	
+    private ImportManager() {
+        if (ImportLoader.INSTANCE != null) throw new IllegalStateException("ImportManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	public String lastImportEAPath = new String();	
 	
 	public File chooseEAFile() throws IOException{
-		return Util.chooseFile(diagramManager, lastImportEAPath, 
+		return Util.chooseFile(frame(), lastImportEAPath, 
 		"Import From EA", "XMI, XML (*.xmi, *.xml)", "xmi", "xml",true);
 	}
 	
 	public void importFromEARecent() throws IOException {		
 		lastImportEAPath = TabManager.get().getStartEditor().getSelectedRecentFile();
-		new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
+		new EASettingsDialog(frame(), true, frame(), lastImportEAPath);
 		Settings.addRecentProject(lastImportEAPath);				
 	}
 
@@ -50,7 +61,7 @@ public class ImportManager extends BaseManager {
 		File file = chooseEAFile();
 		if(file!=null){
 			lastImportEAPath = file.getAbsolutePath();
-			new EASettingsDialog(diagramManager.getFrame(), true, diagramManager.getFrame(), lastImportEAPath);
+			new EASettingsDialog(frame(), true, frame(), lastImportEAPath);
 			Settings.addRecentProject(file.getCanonicalPath());
 		}
 	}

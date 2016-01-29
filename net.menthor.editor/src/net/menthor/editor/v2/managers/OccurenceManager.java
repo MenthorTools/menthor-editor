@@ -47,13 +47,22 @@ import net.menthor.editor.v2.OntoumlDiagram;
 
 public class OccurenceManager extends BaseManager {
 
-	private static OccurenceManager instance = new OccurenceManager();
-	public static OccurenceManager get() { return instance; }
-		
+	// -------- Lazy Initialization
+	
+	private static class OccurenceLoader {
+        private static final OccurenceManager INSTANCE = new OccurenceManager();
+    }	
+	public static OccurenceManager get() { 
+		return OccurenceLoader.INSTANCE; 
+	}	
+    private OccurenceManager() {
+        if (OccurenceLoader.INSTANCE != null) throw new IllegalStateException("OccurenceManager already instantiated");
+    }	
+    
+    // ----------------------------
+    
 	/** a mapping between the abstract and concrete syntaxes */
 	private HashMap<Element,List<DiagramElement>> map = new HashMap<Element, List<DiagramElement>>();
-
-	private OccurenceManager() {}
 	
 	/** add */
 	public boolean add(Element element, DiagramElement diagramElement){	

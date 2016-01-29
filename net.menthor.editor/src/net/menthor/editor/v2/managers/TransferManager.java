@@ -57,8 +57,19 @@ import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 
 public class TransferManager extends BaseManager {
 	
-	private static TransferManager instance = new TransferManager();
-	public static TransferManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class TransferLoader {
+        private static final TransferManager INSTANCE = new TransferManager();
+    }	
+	public static TransferManager get() { 
+		return TransferLoader.INSTANCE; 
+	}	
+    private TransferManager() {
+        if (TransferLoader.INSTANCE != null) throw new IllegalStateException("TransferManager already instantiated");
+    }		
+    
+    // ----------------------------
 		
 	public void transferLiterals(RefOntoUML.Element element, List<EnumerationLiteral> enumLiterals){
 		//to be deleted
@@ -98,7 +109,7 @@ public class TransferManager extends BaseManager {
 		}			
 		UpdateManager.get().updateFromChange(element,false);
 		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0){			
-			diagramManager.getCommandListener().handleCommand("CHANGE_TO_"+newStereotype.toUpperCase(), new Object[]{element});			
+			listener().handleCommand("CHANGE_TO_"+newStereotype.toUpperCase(), new Object[]{element});			
 		}
 	}
 	

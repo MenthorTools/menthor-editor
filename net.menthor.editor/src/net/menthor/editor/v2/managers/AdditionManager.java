@@ -1,3 +1,4 @@
+
 package net.menthor.editor.v2.managers;
 
 /**
@@ -49,9 +50,20 @@ import net.menthor.editor.v2.util.Util;
 
 public class AdditionManager extends BaseManager {
 
-	private static AdditionManager instance = new AdditionManager();
-	public static AdditionManager get() { return instance; }
-		
+	// -------- Lazy Initialization
+	
+	private static class AdditionLoader {
+        private static final AdditionManager INSTANCE = new AdditionManager();
+    }	
+	public static AdditionManager get() { 
+		return AdditionLoader.INSTANCE; 
+	}	
+    private AdditionManager() {
+        if (AdditionLoader.INSTANCE != null) throw new IllegalStateException("AdditionManager already instantiated");
+    }		
+    
+    // ----------------------------
+	
 	public boolean confirmGenSetAddition(Component parentWindow){
 		return MessageManager.get().confirm(parentWindow, "Add Generalization Set",
 			"There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?"
@@ -60,8 +72,8 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add relationship to the model. */
 	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, EObject eContainer)	{
-		RefOntoUML.Relationship relationship = factory.createRelationship(stereotype);
-		if(relationship instanceof RefOntoUML.Association) factory.createPropertiesByDefault((RefOntoUML.Association)relationship);
+		RefOntoUML.Relationship relationship = factory().createRelationship(stereotype);
+		if(relationship instanceof RefOntoUML.Association) factory().createPropertiesByDefault((RefOntoUML.Association)relationship);
 		if (stereotype==RelationshipType.GENERALIZATION) { //generalizations are owned by a type
 			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,(RefOntoUML.Classifier)eContainer,null,null);
 			cmd.run();
@@ -74,7 +86,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add comment to the model. */
 	public RefOntoUML.Comment addComment(RefOntoUML.Element eContainer){
-		RefOntoUML.Comment comment = factory.createComment();
+		RefOntoUML.Comment comment = factory().createComment();
 		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,eContainer);		
 		cmd.run();
 		return comment;
@@ -88,7 +100,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add package to the model.  */
 	public RefOntoUML.Element addPackage(RefOntoUML.Element eContainer){
-		RefOntoUML.Element comment = factory.createPackage();
+		RefOntoUML.Element comment = factory().createPackage();
 		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,eContainer);		
 		cmd.run();
 		return comment;
@@ -107,7 +119,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add constraint to the model*/
 	public void addConstraintx(String text, RefOntoUML.Element eContainer){
-		RefOntoUML.Constraintx element = factory.createConstraintx();
+		RefOntoUML.Constraintx element = factory().createConstraintx();
 		((StringExpression)element.getSpecification()).setSymbol(text);
 		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
 		cmd.run();				
@@ -115,7 +127,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add generalization set to the model  */
 	public RefOntoUML.Element addGeneralizationSet(RefOntoUML.Element eContainer){
-		RefOntoUML.Element element = factory.createGeneralizationSet();		
+		RefOntoUML.Element element = factory().createGeneralizationSet();		
 		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
 		cmd.run();		
 		return element;
@@ -123,7 +135,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add class to the model */
 	public RefOntoUML.Element addClass(ClassType stereotype, RefOntoUML.Element eContainer){	
-		RefOntoUML.Element element = factory.createClass(stereotype);		
+		RefOntoUML.Element element = factory().createClass(stereotype);		
 		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
 		cmd.run();		
 		return element;
@@ -131,7 +143,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add datatype to the model */
 	public RefOntoUML.Element addDataType(DataType stereotype, RefOntoUML.Element eContainer){
-		RefOntoUML.Element element = factory.createDataType(stereotype);		
+		RefOntoUML.Element element = factory().createDataType(stereotype);		
 		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
 		cmd.run();		
 		return element;
@@ -144,12 +156,12 @@ public class AdditionManager extends BaseManager {
 		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);
 		if(gens.size()<=1) return null; 
 		if(haveGenSet){
-			if(!confirmGenSetAddition(diagramManager)) return null;
+			if(!confirmGenSetAddition(frame())) return null;
 		}
 		EObject eContainer = null;
 		if(gens.size()>1) eContainer = gens.get(0).getSpecific().eContainer();	
 		else eContainer = project.getModel();
-		RefOntoUML.GeneralizationSet newgenset = (GeneralizationSet)factory.createGeneralizationSet();
+		RefOntoUML.GeneralizationSet newgenset = (GeneralizationSet)factory().createGeneralizationSet();
 		((RefOntoUML.Package)eContainer).getPackagedElement().add(newgenset);
 		((GeneralizationSet)newgenset).setIsCovering(true);
 		((GeneralizationSet)newgenset).setIsDisjoint(true);
@@ -179,9 +191,9 @@ public class AdditionManager extends BaseManager {
 		oclDoc.setContainer(eContainer);
 		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
 		oclDoc.setName("Rules"+Models.getOclDocList().size());		
-		Models.getOclDocList().add(oclDoc);				
-		DefaultMutableTreeNode container = browser.getTree().getNode(eContainer);
-		browser.getTree().addElement(container, oclDoc);
+		Models.getOclDocList().add(oclDoc);			
+		DefaultMutableTreeNode container = tree().getNode(eContainer);
+		tree().addElement(container, oclDoc);
 		if(createTab) TabManager.get().addOclEditor(oclDoc);
 		return oclDoc;
 	}
@@ -193,8 +205,8 @@ public class AdditionManager extends BaseManager {
 	public StructureDiagram addDiagram(Object epackage){	
 		StructureDiagram diagram = new StructureDiagram(
 			ProjectManager.get().getProject(),
-			diagramManager.getElementFactory(),
-			diagramManager.getDrawingContext()
+			frame().getElementFactory(),
+			frame().getDrawingContext()
 		);
 		if(epackage!=null) diagram.setContainer(epackage);
 		setDefaultDiagramSize(diagram);
@@ -202,15 +214,15 @@ public class AdditionManager extends BaseManager {
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
 		TabManager.get().addDiagramEditor(diagram);		
-		DefaultMutableTreeNode container = browser.getTree().getNode(epackage);
-		browser.getTree().addElement(container,diagram);
+		DefaultMutableTreeNode container = tree().getNode(epackage);
+		tree().addElement(container,diagram);
 		return diagram;
 	}
 	
 	public void setDefaultDiagramSize(StructureDiagram diagram){
 		double waste = 0;
-		if(diagramManager.getFrame().isShowBrowserPane()) waste+=240;
-		if(diagramManager.getFrame().isShowPalettePane()) waste+=240;
+		if(frame().isShowBrowserPane()) waste+=240;
+		if(frame().isShowPalettePane()) waste+=240;
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 }

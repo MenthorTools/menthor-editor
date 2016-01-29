@@ -1,3 +1,4 @@
+
 package net.menthor.editor.v2.managers;
 
 /**
@@ -33,19 +34,28 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.tree.ProjectTree;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 
 public class ChangeManager extends BaseManager {
 	
-	private static ChangeManager instance = new ChangeManager();
-	public static ChangeManager get() { return instance; }
+	// -------- Lazy Initialization
+	
+	private static class ChangeLoader {
+        private static final ChangeManager INSTANCE = new ChangeManager();
+    }	
+	public static ChangeManager get() { 
+		return ChangeLoader.INSTANCE; 
+	}	
+    private ChangeManager() {
+        if (ChangeLoader.INSTANCE != null) throw new IllegalStateException("ChangeManager already instantiated");
+    }		
+    
+    // ----------------------------
+	
 		
 	/** Change relation stereotype */ 
 	public void changeRelationStereotype(RelationshipType type, RefOntoUML.Relationship element){	
@@ -84,19 +94,19 @@ public class ChangeManager extends BaseManager {
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
 		UpdateManager.get().notifyChange(property.getAssociation());
-		browser.refresh();
+		tree().updateUI();
 	}
 	
 	/** Change multiplicity from integer values */
 	public void changeMultiplicity(RefOntoUML.Property property, int lowerValue, int upperValue){
-		LiteralInteger lower = factory.getFactory().createLiteralInteger();
+		LiteralInteger lower = factory().createLiteralInteger();
 		lower.setValue(lowerValue);
-		LiteralUnlimitedNatural upper =  factory.getFactory().createLiteralUnlimitedNatural();
+		LiteralUnlimitedNatural upper =  factory().createLiteralUnlimitedNatural();
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
 		UpdateManager.get().notifyChange(property.getAssociation());
-		browser.refresh();
+		tree().updateUI();
 	}
 	
 	/** Invert end points of an association. */
@@ -111,13 +121,12 @@ public class ChangeManager extends BaseManager {
    		association.getOwnedEnd().add(target);
    		association.getOwnedEnd().add(source);
    		association.getNavigableOwnedEnd().add(target);
-   		association.getNavigableOwnedEnd().add(source);
-   		ProjectTree tree = browser.getTree();
-   		tree.checkElement(source);
-   		tree.removeCurrentNode();   		
-   		tree.checkElement(association);
-   		tree.addElement(source);  
-   		tree.updateUI();
+   		association.getNavigableOwnedEnd().add(source);   		
+   		tree().checkElement(source);
+   		tree().removeCurrentNode();   		
+   		tree().checkElement(association);
+   		tree().addElement(source);  
+   		tree().updateUI();
    		UpdateManager.get().updateFromChange(association, true);
 	}
 	
@@ -136,12 +145,12 @@ public class ChangeManager extends BaseManager {
 	public void invertEndMultiplicities(RefOntoUML.Association association){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
-   		LiteralInteger sourceLower = factory.getFactory().createLiteralInteger();
-   		LiteralUnlimitedNatural sourceUpper = factory.getFactory().createLiteralUnlimitedNatural();
+   		LiteralInteger sourceLower = factory().createLiteralInteger();
+   		LiteralUnlimitedNatural sourceUpper = factory().createLiteralUnlimitedNatural();
    		sourceLower.setValue(target.getLower());
    		sourceUpper.setValue(target.getUpper());   		
-   		LiteralInteger targetLower = factory.getFactory().createLiteralInteger();
-   		LiteralUnlimitedNatural targetUpper = factory.getFactory().createLiteralUnlimitedNatural();
+   		LiteralInteger targetLower = factory().createLiteralInteger();
+   		LiteralUnlimitedNatural targetUpper = factory().createLiteralUnlimitedNatural();
    		targetUpper.setValue(source.getUpper());
    		targetLower.setValue(source.getLower());  	
    		source.setUpperValue(sourceUpper);

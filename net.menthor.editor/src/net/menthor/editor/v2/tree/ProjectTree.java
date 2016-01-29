@@ -40,13 +40,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.menu.TreePopupMenu;
-import net.menthor.editor.v2.util.Util;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -58,6 +51,13 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.menu.TreePopupMenu;
+import net.menthor.editor.v2.util.Util;
 
 public class ProjectTree extends BaseCheckBoxTree {
 
@@ -76,12 +76,23 @@ public class ProjectTree extends BaseCheckBoxTree {
     // STATIC CONSTRUCTORS
 	//==========================================================
 	
-	public static ProjectTree create(CommandListener listener, OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean useCheckbox)
+	public static ProjectTree create(CommandListener listener, OntoUMLParser refparser, List<OclDocument> oclDocList, UmlProject project, TreeVisibility opt, boolean useCheckbox)
+	{
+		if(refparser!=null) return new ProjectTree(listener, new DefaultMutableTreeNode(refparser.getModel()), refparser, oclDocList, project.getDiagrams(), opt, useCheckbox);
+		else return null;		
+	}
+
+	public static ProjectTree create(CommandListener listener,OntoUMLParser refparser, TreeVisibility opt, boolean useCheckbox){
+		if(refparser!=null) return new ProjectTree(listener, new DefaultMutableTreeNode(refparser.getModel()), refparser, null, null, opt, useCheckbox);
+		else return null;
+	}
+	
+	public static ProjectTree create(CommandListener listener, OntoUMLParser refparser, List<OclDocument> oclDocList,List<OntoumlDiagram> diagrams , TreeVisibility opt, boolean useCheckbox)
 	{
 		if(refparser!=null) return new ProjectTree(listener, new DefaultMutableTreeNode(refparser.getModel()), refparser, oclDocList, diagrams, opt, useCheckbox);
 		else return null;		
 	}
-	
+		
 	public static ProjectTree createPackageableTree(CommandListener listener,OntoUMLParser refparser, List<OclDocument> oclDocList, List<OntoumlDiagram> diagrams)
 	{	
 		TreeVisibility opt = new TreeVisibility();
@@ -90,18 +101,12 @@ public class ProjectTree extends BaseCheckBoxTree {
 		
 		return tree;
 	}
-	
-	public static ProjectTree create(CommandListener listener,OntoUMLParser refparser, TreeVisibility opt, boolean useCheckbox)
-	{		
-		ProjectTree tree = create(listener,refparser, null, null, opt,useCheckbox);
-		return tree;
-	}
-	
+		
 	public static ProjectTree createPackageableTree(CommandListener listener,OntoUMLParser refparser)
 	{	
 		TreeVisibility opt = new TreeVisibility();
 		opt.showOnlyPackageable();
-		ProjectTree tree = create(listener, refparser, null, null, opt, false);
+		ProjectTree tree = create(listener, refparser, opt, false);
 		return tree;
 	}
 	

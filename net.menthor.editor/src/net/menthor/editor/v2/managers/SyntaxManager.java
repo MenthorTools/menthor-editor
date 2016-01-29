@@ -43,8 +43,19 @@ import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 public class SyntaxManager extends BaseManager{
 
-	private static SyntaxManager instance = new SyntaxManager();
-	public static SyntaxManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class SyntaxLoader {
+        private static final SyntaxManager INSTANCE = new SyntaxManager();
+    }	
+	public static SyntaxManager get() { 
+		return SyntaxLoader.INSTANCE; 
+	}	
+    private SyntaxManager() {
+        if (SyntaxLoader.INSTANCE != null) throw new IllegalStateException("SyntaxManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	public void verifyConstraints(){
 		verifyConstraints(true);		
@@ -73,17 +84,17 @@ public class SyntaxManager extends BaseManager{
 		CursorManager.get().waitCursor();		
 		List<ProblemElement> errors = verifyErrors();
 		List<ProblemElement> warnings = verifyWarnings();
-		diagramManager.getFrame().forceShowFooterPane();
+		frame().forceShowFooterPane();
 		if(errors.size()>0 && warnings.size()>0) {
-			diagramManager.getFrame().selectErrors();
+			TabManager.get().selectErrorEditor();
 			MessageManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
 		}
 		else if(errors.size()>0 && warnings.size()==0) {
-			diagramManager.getFrame().selectErrors();
+			TabManager.get().selectErrorEditor();
 			MessageManager.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
 		}
 		else if(errors.size()==0 && warnings.size()>0) {
-			diagramManager.getFrame().selectWarnings();
+			TabManager.get().selectWarningEditor();
 			MessageManager.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
 		} else {
 			MessageManager.get().showSuccess("Model Verified", "Model is syntactically correct");
@@ -100,7 +111,7 @@ public class SyntaxManager extends BaseManager{
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
-		TabManager.get().addErrorsEditor(infoManager, start, end, problems, diagramManager.getCommandListener());
+		TabManager.get().addErrorsEditor(start, end, problems, listener());
 		return problems;
 	}
 	
@@ -112,7 +123,7 @@ public class SyntaxManager extends BaseManager{
 		Collections.sort(warnings,new ProblemComparator());		
 		int count=0;
 		for(ProblemElement pe: warnings) { count++; pe.setIdentifier(count); }
-		TabManager.get().addWarningsEditor(infoManager, verificator.getTimingMessage(), warnings, diagramManager.getCommandListener());
+		TabManager.get().addWarningsEditor(verificator.getTimingMessage(), warnings, listener());
 		return warnings;
 	}
 	

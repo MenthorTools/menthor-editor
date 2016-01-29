@@ -29,8 +29,19 @@ import net.menthor.editor.v2.util.Util;
 
 public class MessageManager extends BaseManager {
 
-	private static MessageManager instance = new MessageManager();
-	public static MessageManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class MessageLoader {
+        private static final MessageManager INSTANCE = new MessageManager();
+    }	
+	public static MessageManager get() { 
+		return MessageLoader.INSTANCE; 
+	}	
+    private MessageManager() {
+        if (MessageLoader.INSTANCE != null) throw new IllegalStateException("MessageManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	//------- OPTION -------
 	
@@ -61,7 +72,7 @@ public class MessageManager extends BaseManager {
 	//------- CONFIRM -------
 	
 	public boolean confirm(String title, String customMessage){
-		return confirm(diagramManager, title, customMessage);
+		return confirm(frame(), title, customMessage);
 	}
 	
 	public boolean confirm(Component parent, String title, String customMessage){
@@ -77,7 +88,7 @@ public class MessageManager extends BaseManager {
 	//------- ERROR -------
 	
 	public void showError(Exception e, String dialogName, String customMessage){
-		showError(diagramManager, e, dialogName, customMessage);
+		showError(frame(), e, dialogName, customMessage);
 	}
 	
 	public void showError(Component parent, Exception e, String dialogName, String customMessage){
@@ -89,7 +100,7 @@ public class MessageManager extends BaseManager {
 	}
 	
 	public void showError(String dialogName, String customMessage){
-		showError(diagramManager, dialogName, customMessage);
+		showError(frame(), dialogName, customMessage);
 	}
 	
 	public void showError(Component parent, String dialogName, String customMessage){
@@ -103,7 +114,7 @@ public class MessageManager extends BaseManager {
 	//------- WARNING -------
 	
 	public void showWarning(String dialogName, String customMessage){
-		showWarning(diagramManager, dialogName, customMessage);
+		showWarning(frame(), dialogName, customMessage);
 	}
 	
 	public void showWarning(Component parent, String dialogName, String customMessage){
@@ -117,7 +128,7 @@ public class MessageManager extends BaseManager {
 	//------- INFO -------
 	
 	public void showInfo(String dialogName, String customMessage){
-		showInfo(diagramManager, dialogName, customMessage);
+		showInfo(frame(), dialogName, customMessage);
 	}
 		
 	public void showInfo(Component parent, String dialogName, String customMessage){
@@ -139,6 +150,6 @@ public class MessageManager extends BaseManager {
 	}
 	
 	public void showSuccess(String dialogName, String customMessage){
-		showSuccess(diagramManager,dialogName, customMessage);
+		showSuccess(frame(),dialogName, customMessage);
 	}
 }

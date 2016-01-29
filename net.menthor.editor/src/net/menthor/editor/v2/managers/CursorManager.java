@@ -28,33 +28,44 @@ import javax.swing.RootPaneContainer;
 
 public class CursorManager extends BaseManager {
 
-	private static CursorManager instance = new CursorManager();
-	public static CursorManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class CursorLoader {
+        private static final CursorManager INSTANCE = new CursorManager();
+    }	
+	public static CursorManager get() { 
+		return CursorLoader.INSTANCE; 
+	}	
+    private CursorManager() {
+        if (CursorLoader.INSTANCE != null) throw new IllegalStateException("CursorManager already instantiated");
+    }		
+    
+    // ----------------------------
 		
 	public void waitCursor(){
 		int cursorType = Cursor.WAIT_CURSOR;
-		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)editorTabbedPane().getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 	
 	public void defaultCursor(){
 		int cursorType = Cursor.DEFAULT_CURSOR;
-		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)editorTabbedPane().getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 	
 	public void handCursor(){
 		int cursorType = Cursor.HAND_CURSOR;
-		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)editorTabbedPane().getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 	
 	public void crossHairCursor(){
 		int cursorType = Cursor.CROSSHAIR_CURSOR;
-		Component glassPane = ((RootPaneContainer)diagramManager.getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)editorTabbedPane().getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}

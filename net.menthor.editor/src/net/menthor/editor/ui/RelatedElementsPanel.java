@@ -43,6 +43,7 @@ import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.tables.TableColumnAdjuster;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -52,7 +53,7 @@ public class RelatedElementsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")
-	private TopTabbedPane diagramManager;
+	private EditorTabbedPane diagramManager;
 	@SuppressWarnings("unused")
 	private DiagramElement diagramElement;
 	private Element element;
@@ -186,7 +187,7 @@ public class RelatedElementsPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public RelatedElementsPanel(final TopTabbedPane diagramManager, final DiagramElement diagramElement, Classifier element)  
+	public RelatedElementsPanel(final EditorTabbedPane diagramManager, final DiagramElement diagramElement, Classifier element)  
 	{
 		setBorder(new EmptyBorder(10, 10, 10, 10));			
 		this.diagramManager = diagramManager;

@@ -39,15 +39,25 @@ import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
 
 public class DeletionManager extends BaseManager {
 		
-	private static DeletionManager instance = new DeletionManager();
-	public static DeletionManager get() { return instance; }
+	// -------- Lazy Initialization
 	
+	private static class DeletionLoader {
+        private static final DeletionManager INSTANCE = new DeletionManager();
+    }	
+	public static DeletionManager get() { 
+		return DeletionLoader.INSTANCE; 
+	}	
+    private DeletionManager() {
+        if (DeletionLoader.INSTANCE != null) throw new IllegalStateException("DeletionManager already instantiated");
+    }		
+    
+    // ----------------------------
+	    
 	public boolean confirmElementDeletion(Component parentWindow){
 		return MessageManager.get().confirm(parentWindow, "Delete Element",
 			"WARNING - Are you sure you want to delete the selected items from the model \n"
@@ -99,29 +109,29 @@ public class DeletionManager extends BaseManager {
 	/** Delete Ocl document from the browser, tab pane and application */
 	public void deleteOclDocument(OclDocument doc, boolean showwarning){
 		boolean response = true;
-		if (showwarning) response = confirmOclDocDeletion(diagramManager);		
+		if (showwarning) response = confirmOclDocDeletion(frame());		
 		if(response) {
 			Models.getOclDocList().remove(doc);
 			TabManager.get().removeEditor(doc);		
-			browser.getTree().removeCurrentNode();
+			tree().removeCurrentNode();
 		}
 	}
 	
 	public void deleteDiagram(StructureDiagram diagram, boolean showwarning){
 		boolean response = true;
-		if (showwarning) response = confirmDiagramDeletion(diagramManager);		
+		if (showwarning) response = confirmDiagramDeletion(frame());		
 		if(response){
-			eraseAllElements(diagramManager, diagram);
+			eraseAllElements(diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
 			TabManager.get().removeEditor(diagram);
-			browser.getTree().removeCurrentNode();
+			tree().removeCurrentNode();
 		}	
 	}
 
 	/** Delete element from the model and every diagram in each it appears. */
 	public void deleteElement(RefOntoUML.Element element, boolean showwarning){	
 		boolean response = true;
-		if(showwarning) response = confirmElementDeletion(diagramManager);		
+		if(showwarning) response = confirmElementDeletion(frame());		
 		if(response) {		
 			List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 			list.add(element);
@@ -134,7 +144,7 @@ public class DeletionManager extends BaseManager {
 	public void deleteElements(Collection<DiagramElement> diagramElements, boolean showmessage){	
 		List<RefOntoUML.Element> list = (List<Element>) OccurenceManager.get().getElements(diagramElements);
 		boolean response = true;
-		if(showmessage) response = confirmElementDeletion(diagramManager);
+		if(showmessage) response = confirmElementDeletion(frame());
 		if(response) deleteElements(list);		
 	}
 	
@@ -168,7 +178,7 @@ public class DeletionManager extends BaseManager {
 	}
 	
 	/** Delete all elements at the diagram */
-	public void eraseAllElements(TopTabbedPane manager, StructureDiagram diagram){
+	public void eraseAllElements(StructureDiagram diagram){
 		DiagramEditor ed = TabManager.get().getDiagramEditor(diagram);
 		for(DiagramElement delem: diagram.getChildren()) {
 			if(delem instanceof ClassElement) eraseElement(ed,((ClassElement)delem).getClassifier());
@@ -184,7 +194,7 @@ public class DeletionManager extends BaseManager {
 		if(genSets.size()==1){
 			deleteElement(genSets.get(0),true);
 		}else{
-			GeneralizationSet chosen = confirmGenSetDeletion(diagramManager, genSets);
+			GeneralizationSet chosen = confirmGenSetDeletion(frame(), genSets);
 			if(chosen!=null) deleteElement(chosen,true);
 		}			
 	}

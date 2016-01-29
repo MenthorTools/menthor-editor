@@ -23,26 +23,27 @@ package net.menthor.editor.v2.managers;
 
 import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
-import net.menthor.editor.ui.TopTabbedPane;
-import net.menthor.editor.ui.InfoManager;
-import net.menthor.editor.ui.ProjectBrowser;
+import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.MenthorEditor;
+import net.menthor.editor.v2.EditorTabbedPane;
+import net.menthor.editor.v2.InfoTabbedPane;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.tree.ProjectTree;
 
 public class BaseManager {
 
 	private static BaseManager instance = new BaseManager();
 	public static BaseManager get() { return instance; }
-		
-	protected ProjectBrowser browser;
-	protected TopTabbedPane diagramManager;
-	protected DiagramElementFactoryImpl factory;
-	protected InfoManager infoManager;
 	
-	public TopTabbedPane getDiagramManager() { return diagramManager; }
+	protected CommandListener listener(){ return frame(); }
 	
-	public void setup(TopTabbedPane mg, ProjectBrowser pb, InfoManager im){
-		browser = pb;
-		diagramManager = mg;
-		factory = mg.getElementFactory();
-		infoManager = im;
-	}
+	protected MainFrame frame(){ return MenthorEditor.getFrame(); }
+	
+	protected DiagramElementFactoryImpl factory(){ return MenthorEditor.getFrame().getElementFactory(); }
+	
+	protected ProjectTree tree(){ return MenthorEditor.getFrame().getProjectBrowser().getTree(); }
+	
+	protected EditorTabbedPane editorTabbedPane() { return MenthorEditor.getFrame().getDiagramManager(); }
+	
+	protected InfoTabbedPane infoTabbedPane() { return MenthorEditor.getFrame().getInfoManager(); }		
 }

@@ -542,9 +542,13 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
 	  return rel;			  
   }
   
-  public RefOntoUMLFactory getFactory(){
-	  return factory;
+  public RefOntoUML.LiteralUnlimitedNatural createLiteralUnlimitedNatural()
+  {
+	  return factory.createLiteralUnlimitedNatural();
   }
+ public RefOntoUML.LiteralInteger createLiteralInteger(){
+	 return factory.createLiteralInteger();
+ }
   
   /**
    * {@inheritDoc} This method also create the referred RefOntoUML Type of the UmlNode. 

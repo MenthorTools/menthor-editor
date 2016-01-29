@@ -30,6 +30,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.ui.AlloySpecification;
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
@@ -38,8 +39,19 @@ import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 public class AlloyManager extends BaseManager {
 
-	private static AlloyManager instance = new AlloyManager();
-	public static AlloyManager get() { return instance; }
+	// -------- Lazy Initialization
+
+	private static class AlloyLoader {
+        private static final AlloyManager INSTANCE = new AlloyManager();
+    }	
+	public static AlloyManager get() { 
+		return AlloyLoader.INSTANCE; 
+	}	
+    private AlloyManager() {
+        if (AlloyLoader.INSTANCE != null) throw new IllegalStateException("AlloyManager already instantiated");
+    }		
+    
+    // ----------------------------
 		
 	/** open alloy settings dialog */
 	public void openAlloySettings(){		
@@ -49,9 +61,9 @@ public class AlloyManager extends BaseManager {
 		OntoUMLParser refparser = Models.getRefparser();
 		refOptions.check(refparser);
 		
-		AlsSettingsDialog.open(diagramManager.getFrame(),
+		AlsSettingsDialog.open(MenthorEditor.getFrame(),
 			Models.getRefparser(),
-			browser.getAllDiagrams(),
+			ProjectManager.get().getProject().getDiagrams(),
 			refOptions, 
 			Models.getOclOptions()
 		);	

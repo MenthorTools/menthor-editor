@@ -40,16 +40,24 @@ import RefOntoUML.Classifier;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-
 import net.menthor.common.ontoumlfixer.Fix;
-
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.tree.ProjectTree;
 
 public class UpdateManager extends BaseManager {
+
+	// -------- Lazy Initialization
 	
-	private static UpdateManager instance = new UpdateManager();
-	public static UpdateManager get() { return instance; }
+	private static class UpdateLoader {
+        private static final UpdateManager INSTANCE = new UpdateManager();
+    }	
+	public static UpdateManager get() { 
+		return UpdateLoader.INSTANCE; 
+	}	
+    private UpdateManager() {
+        if (UpdateLoader.INSTANCE != null) throw new IllegalStateException("UpdateManager already instantiated");
+    }		
+    
+    // ----------------------------
 	
 	/** Causes redraw of the corresponding diagram element */
 	public void notifyChange(RefOntoUML.Element element){
@@ -160,23 +168,22 @@ public class UpdateManager extends BaseManager {
 		//add to tree
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
-			public void run() {
-				ProjectTree tree = browser.getTree();				
-				boolean found = tree.checkElement((EObject)addedElement);
+			public void run() {								
+				boolean found = tree().checkElement((EObject)addedElement);
 				if(!found) {
-					if(addedElement.eContainer()!=null) tree.checkElement(addedElement.eContainer());
-					else if(addedElement instanceof EnumerationLiteral) tree.checkElement(((EnumerationLiteral)addedElement).getEnumeration());
-					else tree.checkElement(ProjectManager.get().getProject().getModel());					
-					tree.addElement(addedElement);					
+					if(addedElement.eContainer()!=null) tree().checkElement(addedElement.eContainer());
+					else if(addedElement instanceof EnumerationLiteral) tree().checkElement(((EnumerationLiteral)addedElement).getEnumeration());
+					else tree().checkElement(ProjectManager.get().getProject().getModel());					
+					tree().addElement(addedElement);					
 				} else {
 					if(addedElement instanceof Generalization){
-						tree.checkElement(addedElement);
-						tree.removeCurrentNode();
-						tree.checkElement(addedElement.eContainer());
-						tree.addElement(addedElement);
+						tree().checkElement(addedElement);
+						tree().removeCurrentNode();
+						tree().checkElement(addedElement.eContainer());
+						tree().addElement(addedElement);
 					}
 				}
-				tree.updateUI();						
+				tree().updateUI();						
 			}
 		});		
 	}
@@ -223,12 +230,12 @@ public class UpdateManager extends BaseManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				browser.getTree().remove(deletedElement);
+				tree().remove(deletedElement);
 			}
 		});
 	}
 	
 	public void updateProjectTree(){
-		browser.refresh();
+		tree().updateUI();
 	}
 }

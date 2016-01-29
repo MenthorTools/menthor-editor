@@ -48,15 +48,26 @@ import net.menthor.editor.ui.Models;
 
 public class MoveManager extends BaseManager {
 	
-	private static MoveManager instance = new MoveManager();
-	public static MoveManager get() { return instance; }
+	// -------- Lazy Initialization
+	
+	private static class MoveLoader {
+        private static final MoveManager INSTANCE = new MoveManager();
+    }	
+	public static MoveManager get() { 
+		return MoveLoader.INSTANCE; 
+	}	
+    private MoveManager() {
+        if (MoveLoader.INSTANCE != null) throw new IllegalStateException("MoveManager already instantiated");
+    }		
+    
+    // ----------------------------
 		
 	public void moveDownSelectedOnTree(){
-		browser.getTree().moveDown();
+		tree().moveDown();
 	}
 	
 	public void moveUpSelectedOnTree(){
-		browser.getTree().moveUp();
+		tree().moveUp();
 	}
 	
 	/** Move element to current diagram */
@@ -70,7 +81,7 @@ public class MoveManager extends BaseManager {
 	
 	/** Mode selected element on the brwoser to a Diagram */
 	public void moveBrowserSelected(DiagramEditor editor, Point location){
-		DefaultMutableTreeNode node = browser.getTree().getSelectedNode();
+		DefaultMutableTreeNode node = tree().getSelectedNode();
 		Object obj = node.getUserObject();				
 		move((RefOntoUML.Element)obj, location.x, location.y, editor, true);			
 	}
@@ -79,11 +90,11 @@ public class MoveManager extends BaseManager {
 	public void move(RefOntoUML.Element element, double x, double y, DiagramEditor d, boolean showmessage){
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
-				diagramManager.getFrame().showInformationMessageDialog(
+				frame().showInformationMessageDialog(
 					"Mooving Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
 			}
 			else if (element instanceof Generalization) {
-				diagramManager.getFrame().showInformationMessageDialog(
+				frame().showInformationMessageDialog(
 					"Moving Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());

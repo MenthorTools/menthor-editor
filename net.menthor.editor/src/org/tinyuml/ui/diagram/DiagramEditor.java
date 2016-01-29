@@ -1,4 +1,5 @@
 
+
 package org.tinyuml.ui.diagram;
 
 /**
@@ -110,12 +111,13 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.TopTabbedPane;
 import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.BaseEditor;
@@ -154,7 +156,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	private static final long serialVersionUID = 4210158437374056534L;
 
 	public MainFrame frame;
-	private TopTabbedPane diagramManager;
+	private EditorTabbedPane diagramManager;
 	private DiagramWrapper wrapper;
 		
 	private transient EditorMode editorMode;
@@ -192,7 +194,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	// The command processor to hold this diagram's operations.
 	private UndoManager undoManager = new UndoManager();
 	public CommandListener getListener() { return frame; }
-	public DrawingContext getDrawingContext() { return diagramManager.getDrawingContext(); }
+	public DrawingContext getDrawingContext() { return MenthorEditor.getFrame().getDrawingContext(); }
 	
 	/**
 	 * Reset the transient values for serialization.
@@ -234,7 +236,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(MainFrame frame, TopTabbedPane diagramManager, OntoumlDiagram diagram) 
+	public DiagramEditor(MainFrame frame, EditorTabbedPane diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
 		this.diagramManager = diagramManager;
@@ -267,8 +269,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		setSize(new Dimension((int)width,(int)height));		
 	}
 
-	public TopTabbedPane getManager() { return diagramManager; }
-	public TopTabbedPane getDiagramManager() { return diagramManager; }
+	public EditorTabbedPane getManager() { return diagramManager; }
+	public EditorTabbedPane getDiagramManager() { return diagramManager; }
 	public LineHandler getLineHandler() { return lineHandler; }
 	public UmlProject getProject() { return diagram.getProject(); }
 	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }	
@@ -998,14 +1000,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
 	{	
-		lineHandler.setRelationType(relationType,getDiagramManager().getElementFactory().getConnectMethod(relationType));
+		lineHandler.setRelationType(relationType,MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;
 	}
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
 		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-		lineHandler.setRelationType(relationType, getDiagramManager().getElementFactory().getConnectMethod(relationType));
+		lineHandler.setRelationType(relationType, MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType));
 		editorMode = lineHandler;		
 		RefOntoUML.Type source = null;
 		RefOntoUML.Type target = null;
@@ -1668,7 +1670,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	public void setEndPointName(DiagramElement con, RefOntoUML.Property endpoint){
-		String name = (String)JOptionPane.showInputDialog(getDiagramManager().getFrame(), 
+		String name = (String)JOptionPane.showInputDialog(MenthorEditor.getFrame(), 
 		     "Specify the end-point name: ",
 		     "Set end-point name",
 			 JOptionPane.PLAIN_MESSAGE,
@@ -1701,7 +1703,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	public void setMultiplicity(RefOntoUML.Property endpoint){
 		//
-		String multiplicity = (String)JOptionPane.showInputDialog(getDiagramManager().getFrame(), 
+		String multiplicity = (String)JOptionPane.showInputDialog(MenthorEditor.getFrame(), 
 		     "Specify the new multiplicity: ",
 		     "Set multiplicity",
 			 JOptionPane.PLAIN_MESSAGE,
@@ -1891,7 +1893,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	public void subsets(final DiagramElement connection, RefOntoUML.Property endpoint){
 		FeatureListDialog.open(
-			getDiagramManager().getFrame(),null, "Subsetted", endpoint, 
+				MenthorEditor.getFrame(),null, "Subsetted", endpoint, 
 			Models.getRefparser()
 		);		
 		SwingUtilities.invokeLater(new Runnable() {						
@@ -1923,7 +1925,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	public void redefines(final DiagramElement connection, RefOntoUML.Property endpoint){
 		FeatureListDialog.open(
-			getDiagramManager().getFrame(),null, "Redefined", endpoint, 
+				MenthorEditor.getFrame(),null, "Redefined", endpoint, 
 			Models.getRefparser()
 		);		
 		SwingUtilities.invokeLater(new Runnable() {						
@@ -2105,17 +2107,17 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (element instanceof ClassElement) {
 			ClassElement classElement = (ClassElement) element;		
 			Classifier c = classElement.getClassifier();
-			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+			MenthorEditor.getFrame().getProjectBrowser().getTree().checkElement(c);
 		}
 		if (element instanceof AssociationElement) {
 			AssociationElement classElement = (AssociationElement) element;		
 			Relationship c = classElement.getRelationship();
-			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+			MenthorEditor.getFrame().getProjectBrowser().getTree().checkElement(c);
 		}
 		if (element instanceof GeneralizationElement) {
 			GeneralizationElement classElement = (GeneralizationElement) element;		
 			Relationship c = classElement.getRelationship();
-			getDiagramManager().getFrame().getProjectBrowser().getTree().checkElement(c);
+			MenthorEditor.getFrame().getProjectBrowser().getTree().checkElement(c);
 		}
 	}
 	
@@ -2158,8 +2160,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	
 	public void setupColorOnSelected()
 	{
-		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a Background Color", color);
+		if(color==null) color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a Background Color", color);
 		if (color != null){
 			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),color));        			
 		}        		   
@@ -2190,8 +2192,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	public void setupColor(List<DiagramElement> classList){		
-		if(color==null) color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(getDiagramManager().getFrame(), "Select a background color", color);
+		if(color==null) color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a background color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a background color", color);
 		if (color != null){
 			execute(new SetColorCommand((DiagramNotification)this,classList,color));        			
 		}
