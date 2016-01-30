@@ -136,7 +136,7 @@ public class PaletteGrouping extends JPanel
 		mousePointerItem = createPaletteItem(
 			IconType.MENTHOR_MOUSE_POINTER, 
 			"Mouse Pointer", 
-			CommandType.TB_DND_POINTER_MODE
+			CommandType.PALLETE_POINTER_MODE
 		);
 		contentPane.add(mousePointerItem);
 		for(PaletteItem pe: result){

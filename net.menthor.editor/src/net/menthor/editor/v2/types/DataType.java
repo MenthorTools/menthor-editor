@@ -25,11 +25,17 @@ package net.menthor.editor.v2.types;
 
 public enum DataType {
 
-	DATATYPE("DataType"), MEASUREMENTDOMAIN("MeasurementDomain"), 
-	ENUMERATION("Enumeration"), PRIMITIVETYPE("PrimitiveType"), 
-	INTEGERRATIONALDIMENSION("IntegerRationalDimension"), INTEGERORDINALDIMENSION("IntegerOrdinalDimension"), INTEGERINTERVALDIMENSION("IntegerIntervalDimension"), 
-	DECIMALRATIONALDIMENSION("DecimalRationalDimension"), DECIMALORDINALDIMENSION("DecimalOrdinalDimension"), DECIMALINTERVALDIMENSION("DecimalIntervalDimension"),
-	STRINGNOMINALSTRUCTURE("StringNominalStructure");
+	DATATYPE("DataType"), 
+	ENUMERATION("Enumeration"), 
+	PRIMITIVETYPE("PrimitiveType"),
+	MEASUREMENT_DOMAIN("Measurement Domain"),
+	INTEGERRATIONAL_DIMENSION("IntegerRational Dimension"), 
+	INTEGERORDINAL_DIMENSION("IntegerOrdinal Dimension"), 
+	INTEGERINTERVAL_DIMENSION("IntegerInterval Dimension"), 
+	DECIMALRATIONAL_DIMENSION("DecimalRational Dimension"), 
+	DECIMALORDINAL_DIMENSION("DecimalOrdinal Dimension"), 
+	DECIMALINTERVAL_DIMENSION("DecimalInterval Dimension"),
+	STRINGNOMINAL_STRUCTURE("StringNominal Structure");
 	
 	private String name;
 	
@@ -43,6 +49,7 @@ public enum DataType {
 		return getName();
 	}
 
+	public String getEnumString() { return name.toUpperCase().replace(" ", "_"); }
 	public String getName() { return name; }
 
 	public static void main (String args[])

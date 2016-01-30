@@ -135,7 +135,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 			public void valueChanged(TreeSelectionEvent e) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
 				if(node!=null && node.getUserObject()!=null && (node.getUserObject() instanceof OntoumlDiagram || node.getUserObject() instanceof OclDocument)){
-					listener.handleCommand(CommandType.SELECT_TAB.toString(), new Object[]{node.getUserObject()});		
+					listener.handleCommand(CommandType.SELECT_EDITOR.toString(), new Object[]{node.getUserObject()});		
 				}
 			}			
 		});

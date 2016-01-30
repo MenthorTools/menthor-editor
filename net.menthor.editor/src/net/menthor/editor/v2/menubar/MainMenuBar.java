@@ -27,6 +27,8 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
@@ -229,8 +231,8 @@ public class MainMenuBar extends BaseMenuBar {
 		add(project);		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);
-		createMenuItem(project, "Find", CommandType.ADD_FINDER_TAB, background,stroke);
-		createMenuItem(project, "Statistics", CommandType.ADD_STATISTICS_TAB, background);
+		createMenuItem(project, "Find", CommandType.ADD_FINDER_EDITOR, background,stroke);
+		createMenuItem(project, "Statistics", CommandType.ADD_STATISTICS_EDITOR, background);
 	}	
 
 	private void createRulesMenu(){
@@ -238,26 +240,38 @@ public class MainMenuBar extends BaseMenuBar {
 		add(rules);
 		createMenuItem(rules, "New", CommandType.NEW_OCLDOCUMENT, background);
 		rules.addSeparator();
-		createMenuItem(rules, "Close", CommandType.CLOSE_RULES_TAB, background);
+		createMenuItem(rules, "Close", CommandType.CLOSE_OCL_EDITOR, background);
 	}
 	
-	private void createDiagramMenu(){
-		KeyStroke stroke;
+	private void createDiagramMenu(){		
 		diagram = new JMenu("Diagram");
+		diagram.addMenuListener(new MenuListener() {
+			@Override
+			public void menuSelected(MenuEvent e) { 
+				for(CommandListener l: getListeners()) {
+					l.handleCommand(CommandType.INITIALIZE_SHOWGRID_MENUITEM.toString());
+				}
+			}
+			@Override
+			public void menuDeselected(MenuEvent e){}			
+			@Override
+			public void menuCanceled(MenuEvent e){}
+		});		
 		add(diagram);
+		KeyStroke stroke;
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "New", CommandType.NEW_DIAGRAM, background,stroke);
 		diagram.addSeparator();
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);
-		createMenuItem(diagram, "Close", CommandType.CLOSE_DIAGRAM_TAB, background,stroke);
+		createMenuItem(diagram, "Close", CommandType.CLOSE_DIAGRAM_EDITOR, background,stroke);
 		diagram.addSeparator();		
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "Select All", CommandType.SELECT_ALL_DIAGRAM, background,stroke);
-		createMenuItem(diagram, "Redraw", CommandType.REDRAW_DIAGRAM, background);
-		createMenuItem(diagram, "Show Grid", CommandType.SHOW_GRID, background);
+		createMenuItem(diagram, "Redraw", CommandType.REDRAW_DIAGRAM, background);		
+		createCheckBoxMenuItem(diagram, "Show Grid", CommandType.SHOW_GRID, background);
 		diagram.addSeparator();
 		createMenuItem(diagram, "Fit to Window", CommandType.FIT_TO_WINDOW, background);
 		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.META_MASK);

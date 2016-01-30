@@ -9,8 +9,8 @@ public class TabPopupMenu extends BasePopupMenu {
 
 	public TabPopupMenu(CommandListener listener) {
 		super(listener);
-		createMenuItem("Close This Tab", null, CommandType.CLOSE_THIS_TAB);
-		createMenuItem("Close All Other Tabs", null, CommandType.CLOSE_OTHER_TABS);
-		createMenuItem("Close All Tabs", null, CommandType.CLOSE_ALL_TABS);
+		createMenuItem("Close This Tab", null, CommandType.CLOSE_THIS);
+		createMenuItem("Close All Other Tabs", null, CommandType.CLOSE_OTHER);
+		createMenuItem("Close All Tabs", null, CommandType.CLOSE_ALL);
 	}
 }

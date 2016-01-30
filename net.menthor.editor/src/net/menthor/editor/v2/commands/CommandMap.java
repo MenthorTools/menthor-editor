@@ -96,7 +96,7 @@ public class CommandMap {
 			tabManager();
 			
 			diagramEditor();
-			dragAndDrop();
+			palleteDragAndDrop();
 			
 			exportManager();
 			importManager();
@@ -116,12 +116,14 @@ public class CommandMap {
 	}
 	
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
+				new MethodCall(DiagramEditor.class.getMethod("initializeShowGridMenuItem")));
+		cmdMap.put(CommandType.SHOW_GRID,
+				new MethodCall(DiagramEditor.class.getMethod("showGrid")));
 		cmdMap.put(CommandType.ERASE, 
 				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));		
 		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("selectAll")));		
-		cmdMap.put(CommandType.SHOW_GRID,
-				new MethodCall(DiagramEditor.class.getMethod("showGrid")));		
+				new MethodCall(DiagramEditor.class.getMethod("selectAll")));
 		cmdMap.put(CommandType.REDRAW_DIAGRAM,
 				new MethodCall(DiagramEditor.class.getMethod("redraw")));
 		cmdMap.put(CommandType.FIT_TO_WINDOW,
@@ -246,105 +248,67 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("bringFromProjectBrowser", Point.class)));		
 	}
 	
-	private void dragAndDrop() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.TB_DND_POINTER_MODE, 
-				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));		
-		cmdMap.put(CommandType.TB_DND_KIND, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.KIND));
-		cmdMap.put(CommandType.TB_DND_QUANTITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.QUANTITY));
-		cmdMap.put(CommandType.TB_DND_COLLECTIVE, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.COLLECTIVE));
-		cmdMap.put(CommandType.TB_DND_SUBKIND, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.SUBKIND));
-		cmdMap.put(CommandType.TB_DND_PHASE, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.PHASE));
-		cmdMap.put(CommandType.TB_DND_ROLE, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.ROLE));
-		cmdMap.put(CommandType.TB_DND_CATEGORY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.CATEGORY));
-		cmdMap.put(CommandType.TB_DND_ROLEMIXIN, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.ROLEMIXIN));
-		cmdMap.put(CommandType.TB_DND_MIXIN, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.MIXIN));
-		cmdMap.put(CommandType.TB_DND_MODE, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.MODE));
-		cmdMap.put(CommandType.TB_DND_RELATOR, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.RELATOR));
-		cmdMap.put(CommandType.TB_DND_PERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.PERCEIVABLEQUALITY));
-		cmdMap.put(CommandType.TB_DND_NOMINAL_QUALITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NOMINALQUALITY));
-		cmdMap.put(CommandType.TB_DND_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", ClassType.class), ClassType.NONPERCEIVABLEQUALITY));
+	private void palleteDragAndDrop() throws NoSuchMethodException, SecurityException{
 		
-		cmdMap.put(CommandType.TB_DND_DATATYPE, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DATATYPE));
-		cmdMap.put(CommandType.TB_DND_ENUMERATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.ENUMERATION));
-		cmdMap.put(CommandType.TB_DND_PRIMITIVETYPE, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.PRIMITIVETYPE));
-		cmdMap.put(CommandType.TB_DND_MEASUREMENT_DOMAIN, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.MEASUREMENTDOMAIN));
-		cmdMap.put(CommandType.TB_DND_STRING_NOMINAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.STRINGNOMINALSTRUCTURE));
-		cmdMap.put(CommandType.TB_DND_INTEGER_INTERVAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.INTEGERINTERVALDIMENSION));
-		cmdMap.put(CommandType.TB_DND_INTEGER_RATIONAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.INTEGERRATIONALDIMENSION));
-		cmdMap.put(CommandType.TB_DND_INTEGER_ORDINAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.INTEGERORDINALDIMENSION));
-		cmdMap.put(CommandType.TB_DND_DECIMAL_ORDINAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DECIMALORDINALDIMENSION));
-		cmdMap.put(CommandType.TB_DND_DECIMAL_RATIONAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DECIMALRATIONALDIMENSION));
-		cmdMap.put(CommandType.TB_DND_DECIMAL_INTERVAL_DIMENSION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreationMode", DataType.class), DataType.DECIMALINTERVALDIMENSION));
+		cmdMap.put(CommandType.PALLETE_POINTER_MODE, 
+				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));	
 		
-		cmdMap.put(CommandType.TB_DND_GENERALIZATION, 
+		for(ClassType ct: ClassType.values()){
+			CommandType cmdType = CommandType.getCommandType("PALLETE_"+ct.getEnumString());
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("copyToClipboard", ClassType.class), ct));
+			}
+		}		
+		for(DataType dt: DataType.values()){
+			CommandType cmdType = CommandType.getCommandType("PALLETE_"+dt.getEnumString());
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("copyToClipboard", DataType.class), dt));
+			}
+		}		
+		cmdMap.put(CommandType.PALLETE_GENERALIZATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.TB_DND_CHARACTERIZATION, 
+		cmdMap.put(CommandType.PALLETE_CHARACTERIZATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.TB_DND_FORMAL, 
+		cmdMap.put(CommandType.PALLETE_FORMAL, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.TB_DND_MATERIAL, 
+		cmdMap.put(CommandType.PALLETE_MATERIAL, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.MATERIAL));				
-		cmdMap.put(CommandType.TB_DND_MEDIATION, 
+		cmdMap.put(CommandType.PALLETE_MEDIATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.TB_DND_MEMBEROF, 
+		cmdMap.put(CommandType.PALLETE_MEMBEROF, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.TB_DND_SUBQUANTITYOF, 
+		cmdMap.put(CommandType.PALLETE_SUBQUANTITYOF, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.TB_DND_SUBCOLLECTIONOF, 
+		cmdMap.put(CommandType.PALLETE_SUBCOLLECTIONOF, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.TB_DND_COMPONENTOF, 
+		cmdMap.put(CommandType.PALLETE_COMPONENTOF, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.TB_DND_DERIVATION, 
+		cmdMap.put(CommandType.PALLETE_DERIVATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.TB_DND_ASSOCIATION, 
+		cmdMap.put(CommandType.PALLETE_ASSOCIATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.ASSOCIATION));
-		cmdMap.put(CommandType.TB_DND_STRUCTURATION, 
+		cmdMap.put(CommandType.PALLETE_STRUCTURATION, 
 				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.STRUCTURATION));
 	}
 	
 	private void tabManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CLOSE_THIS_TAB,
+		cmdMap.put(CommandType.CLOSE_THIS,
 				new MethodCall(TabManager.class.getMethod("closeThis", Component.class)));
-		cmdMap.put(CommandType.CLOSE_OTHER_TABS,
+		cmdMap.put(CommandType.CLOSE_OTHER,
 				new MethodCall(TabManager.class.getMethod("closeOthers", Component.class)));
-		cmdMap.put(CommandType.CLOSE_ALL_TABS,
+		cmdMap.put(CommandType.CLOSE_ALL,
 				new MethodCall(TabManager.class.getMethod("closeAll", Component.class)));
-		cmdMap.put(CommandType.SELECT_TAB,
+		cmdMap.put(CommandType.SELECT_EDITOR,
 				new MethodCall(TabManager.class.getMethod("selectEditor", Object.class)));
-		cmdMap.put(CommandType.OPEN_TAB,
+		cmdMap.put(CommandType.ADD_EDITOR,
 				new MethodCall(TabManager.class.getMethod("addEditor", Object.class)));		
-		cmdMap.put(CommandType.CLOSE_RULES_TAB,
+		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
 				new MethodCall(TabManager.class.getMethod("closeCurrentOclEditor")));
-		cmdMap.put(CommandType.CLOSE_DIAGRAM_TAB,
+		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
 				new MethodCall(TabManager.class.getMethod("closeCurrentDiagramEditor")));		
-		cmdMap.put(CommandType.ADD_FINDER_TAB,
+		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
 				new MethodCall(TabManager.class.getMethod("addFinderEditor")));		
-		cmdMap.put(CommandType.ADD_STATISTICS_TAB,
+		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
 				new MethodCall(TabManager.class.getMethod("addStatisticsEditor")));
 	}
 	
@@ -502,11 +466,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_MODE, 
 				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
 		cmdMap.put(CommandType.ADD_PERCEIVABLE_QUALITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLEQUALITY));
+				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
 		cmdMap.put(CommandType.ADD_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLEQUALITY));
+				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
 		cmdMap.put(CommandType.ADD_NOMINAL_QUALITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINALQUALITY));
+				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
 		cmdMap.put(CommandType.ADD_CATEGORY, 
 				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
 		cmdMap.put(CommandType.ADD_MIXIN, 
@@ -520,21 +484,21 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_ENUMERATION, 
 				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.ENUMERATION));
 		cmdMap.put(CommandType.ADD_MEASUREMENT_DOMAIN, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.MEASUREMENTDOMAIN));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.MEASUREMENT_DOMAIN));
 		cmdMap.put(CommandType.ADD_STRING_NOMINAL_STRUCTURE, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.STRINGNOMINALSTRUCTURE));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.STRINGNOMINAL_STRUCTURE));
 		cmdMap.put(CommandType.ADD_INTEGER_INTERVAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERINTERVALDIMENSION));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERINTERVAL_DIMENSION));
 		cmdMap.put(CommandType.ADD_INTEGER_RATIONAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERRATIONALDIMENSION));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERRATIONAL_DIMENSION));
 		cmdMap.put(CommandType.ADD_INTEGER_ORDINAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERORDINALDIMENSION));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERORDINAL_DIMENSION));
 		cmdMap.put(CommandType.ADD_DECIMAL_ORDINAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALORDINALDIMENSION));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALORDINAL_DIMENSION));
 		cmdMap.put(CommandType.ADD_DECIMAL_RATIONAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALRATIONALDIMENSION));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALRATIONAL_DIMENSION));
 		cmdMap.put(CommandType.ADD_DECIMAL_INTERVAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALINTERVALDIMENSION));
+				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALINTERVAL_DIMENSION));
 		cmdMap.put(CommandType.ADD_MEDIATION, 
 				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
 		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 
@@ -596,11 +560,11 @@ public class CommandMap {
 		cmdMap.put(CommandType.CHANGE_TO_MODE, 
 				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
 		cmdMap.put(CommandType.CHANGE_TO_PERCEIVABLE_QUALITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLEQUALITY));
+				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
 		cmdMap.put(CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLEQUALITY));
+				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
 		cmdMap.put(CommandType.CHANGE_TO_NOMINAL_QUALITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINALQUALITY));
+				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
 		cmdMap.put(CommandType.CHANGE_TO_CATEGORY, 
 				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
 		cmdMap.put(CommandType.CHANGE_TO_MIXIN, 

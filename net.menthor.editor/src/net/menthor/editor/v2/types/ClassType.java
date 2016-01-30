@@ -24,12 +24,23 @@ package net.menthor.editor.v2.types;
 public enum ClassType {
 
 	CLASS("Class"), 
-	KIND("Kind"), QUANTITY("Quantity"), COLLECTIVE("Collective"), 
-	RELATOR("Relator"), MODE("Mode"), 
-	PERCEIVABLEQUALITY("PerceivableQuality"), NONPERCEIVABLEQUALITY("NonPerceivableQuality"), NOMINALQUALITY("NominalQuality"),
-	SUBKIND("SubKind"), ROLE("Role"), PHASE("Phase"), 
-	CATEGORY("Category"), MIXIN("Mixin"), ROLEMIXIN("RoleMixin"), PHASEMIXIN("PhaseMixin"),
-	EVENT("Event"), POWERTYPE("PowerType");
+	KIND("Kind"), 
+	QUANTITY("Quantity"), 
+	COLLECTIVE("Collective"), 
+	RELATOR("Relator"), 
+	MODE("Mode"), 
+	PERCEIVABLE_QUALITY("Perceivable Quality"), 
+	NONPERCEIVABLE_QUALITY("NonPerceivable Quality"), 
+	NOMINAL_QUALITY("Nominal Quality"),
+	SUBKIND("SubKind"), 
+	ROLE("Role"), 
+	PHASE("Phase"), 
+	CATEGORY("Category"), 
+	MIXIN("Mixin"), 
+	ROLEMIXIN("RoleMixin"), 
+	PHASEMIXIN("PhaseMixin"),
+	EVENT("Event"), 
+	POWERTYPE("PowerType");
 	
 	private String name;
 
@@ -43,6 +54,7 @@ public enum ClassType {
 		return getName();
 	}
 
+	public String getEnumString() { return name.toUpperCase().replace(" ", "_"); }
 	public String getName() { return name; }
 
 	public static void main (String args[])

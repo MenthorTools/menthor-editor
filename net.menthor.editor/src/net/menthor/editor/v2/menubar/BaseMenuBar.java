@@ -43,14 +43,15 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 
-public class BaseMenuBar extends JMenuBar implements ActionListener{
+public class BaseMenuBar extends JMenuBar implements ActionListener {
 	
 	private static final long serialVersionUID = -665363641218269342L;
 	
 	private List<CommandListener> listeners = new ArrayList<CommandListener>();
 	public void addCommandListener(CommandListener l) { listeners.add(l); }
+	public List<CommandListener> getListeners(){ return listeners; }
 	
-	private Map<CommandType, JMenuItem> menuItemsMap = new HashMap<CommandType, JMenuItem>();		
+	protected Map<CommandType, JMenuItem> menuItemsMap = new HashMap<CommandType, JMenuItem>();	
 	public void enableMenuItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
 	public JMenuItem getMenuItem(CommandType cmdType) { return menuItemsMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setEnabled(value); } }
@@ -131,5 +132,5 @@ public class BaseMenuBar extends JMenuBar implements ActionListener{
 		JMenuItem menuitem = createMenuItem(menu, name, null, command, background);
 		menuitem.setAccelerator(stroke);
 		return menuitem;
-	}
+	}	
 }

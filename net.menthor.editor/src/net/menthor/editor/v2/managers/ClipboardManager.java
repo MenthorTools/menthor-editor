@@ -60,22 +60,39 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	protected Rectangle2D clipBounds;
 	protected Point2D tmpPos = new Point2D.Double();
 		
-	public void clear(){
+	public void clearClipboard(){
 	  tmpPos = new Point2D.Double();
 	  clipBounds = null;
+	  clipboard.clear();
 	}
 	
 	/** copy selected elements and put the copies in the clipboard */
 	public void copySelectedToClipboard(){
 		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
+		copyToClipboard(de.getSelectedElements());		
+	}
+	
+	/** create given class from stereotype and put the created class to clipboard */
+	public void copyToClipboard(ClassType elementType){
+		UmlNode node = ClipboardManager.get().createNode(elementType);
+		copyToClipboard(node);
+	}
+	
+	/** create given datatype from a stereotype and put the created datatype to clipboard */
+	public void copyToClipboard(DataType elementType){
+		UmlNode node = ClipboardManager.get().createNode(elementType);
+		copyToClipboard(node);
+	}
+	
+	/** copy given elements and put the copies in the clipboard */
+	public void copyToClipboard(List<DiagramElement> elements){
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();
 		de.setEditorMode(this);
-		List<DiagramElement> selected = de.getSelectedElements();		
-		clipboard.clear();
-		cloneNodes(selected);
+		clipboard.clear();		
+		cloneNodes(elements);
 		initClipBounds();
 		drawClipBounds(context);
-		
 	}
 	
 	/** copy given element and put the copy to clipboard */
@@ -90,6 +107,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 			drawClipBounds(context);
 		}		
 	}
+		
 	
 	/** paste clipboard elements to current diagram */
 	public void pasteClipboard(){
@@ -108,65 +126,23 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 				cmd.run();
 			}			
 		}
+		de.cancelEditing();				
 		de.select(clipboard);		
-		clipboard.clear();
-	}
-	
-	/** clone a node and put the cloned node to clipboard */
-	public UmlNode cloneNode(UmlNode node){		 	    
-		UmlNode ce = (UmlNode)node.clone();	        
-	    ce.setParent(node.getDiagram());	    
-		if(!clipboard.contains(ce))clipboard.add(ce);
-		OccurenceManager.get().add(ce.getClassifier(), ce);
-	    return ce;
-	}		  
-	
-	public void cloneNodes(List<DiagramElement> selected){
-		for(DiagramElement s: selected){
-			if(s instanceof UmlNode) cloneNode((UmlNode)s);
-		}
-	}
-	
-	/** create a node from a stereotype and put the created node to clipboard */
-	public UmlNode createNode(ClassType stereotype) {
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(stereotype, de.getDiagram());	        
-	    node.setParent(de.getDiagram());    
-	    if(!clipboard.contains(node))clipboard.add(node);
-	    OccurenceManager.get().add(node.getClassifier(), node);
-	    return node;
-	}
-		  
-	/** clone a node from a stereotype and put the created node to clipboard */
-	public UmlNode createNode(DataType stereotype) {
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(stereotype, de.getDiagram());
-	    node.setParent(de.getDiagram());    
-	    if(!clipboard.contains(node))clipboard.add(node);
-	    OccurenceManager.get().add(node.getClassifier(), node);
-	    return node;
-	}
-		  
-	/** create a node and put the created node to clipboard */
-	public UmlNode createNode(RefOntoUML.Type type, EObject eContainer) {
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
-	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(type, eContainer, de.getDiagram());
-	    node.setParent(de.getDiagram());
-	    if(!clipboard.contains(node))clipboard.add(node);
-	    OccurenceManager.get().add(node.getClassifier(), node);
-	    return node;
+		clearClipboard();
 	}
 	
 	/** draw the bounds of the copied elements in the clipboard */
 	@Override
 	public void draw(DrawingContext drawingContext) {
-		if(clipBounds==null) initClipBounds();
+//		if(clipBounds==null) initClipBounds();
 		drawClipBounds(drawingContext);
 	}
 		
 	private void updateClipBounds(){
-		clipBounds.setRect(tmpPos.getX()-(clipBounds.getWidth()/2), tmpPos.getY()-(clipBounds.getHeight()/2), 
-		clipBounds.getWidth(), clipBounds.getHeight());
+		if(clipBounds!=null){
+			clipBounds.setRect(tmpPos.getX()-(clipBounds.getWidth()/2), tmpPos.getY()-(clipBounds.getHeight()/2), 
+			clipBounds.getWidth(), clipBounds.getHeight());
+		}
 	}
 	
 	private void drawClipBounds(DrawingContext drawingContext){		
@@ -218,4 +194,52 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	public void stateChanged(){}
 	@Override
 	public void cancel(){}
+	
+	
+	/** clone a node and put the cloned node to clipboard */
+	public UmlNode cloneNode(UmlNode node){		 	    
+		UmlNode ce = (UmlNode)node.clone();	        
+	    ce.setParent(node.getDiagram());	    
+		if(!clipboard.contains(ce))clipboard.add(ce);
+		OccurenceManager.get().add(ce.getClassifier(), ce);
+	    return ce;
+	}		  
+	
+	public void cloneNodes(List<DiagramElement> selected){
+		for(DiagramElement s: selected){
+			if(s instanceof UmlNode) cloneNode((UmlNode)s);
+		}
+	}
+	
+	/** create a node from a stereotype and put the created node to clipboard */
+	public UmlNode createNode(ClassType stereotype) {
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
+	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(stereotype, de.getDiagram());	        
+	    node.setParent(de.getDiagram());    
+	    if(!clipboard.contains(node))clipboard.add(node);
+	    OccurenceManager.get().add(node.getClassifier(), node);
+	    return node;
+	}
+		  
+	/** clone a node from a stereotype and put the created node to clipboard */
+	public UmlNode createNode(DataType stereotype) {
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
+	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(stereotype, de.getDiagram());
+	    node.setParent(de.getDiagram());    
+	    if(!clipboard.contains(node))clipboard.add(node);
+	    OccurenceManager.get().add(node.getClassifier(), node);
+	    return node;
+	}
+		  
+	/** create a node and put the created node to clipboard */
+	public UmlNode createNode(RefOntoUML.Type type, EObject eContainer) {
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
+	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(type, eContainer, de.getDiagram());
+	    node.setParent(de.getDiagram());
+	    if(!clipboard.contains(node))clipboard.add(node);
+	    OccurenceManager.get().add(node.getClassifier(), node);
+	    return node;
+	}
 }
+
+

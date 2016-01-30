@@ -44,37 +44,37 @@ public class PalettePopupMenu extends BasePopupMenu {
 	public PalettePopupMenu(CommandListener listener){
 		super(listener);
 				
-		classes.add(createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_KIND, false));
-		classes.add(createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_SUBKIND, false));
-		classes.add(createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_COLLECTIVE, false));
-		classes.add(createMenuItem(ClassType.QUANTITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_QUANTITY, false));
-		classes.add(createMenuItem(ClassType.PHASE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_PHASE, false));
-		classes.add(createMenuItem(ClassType.ROLE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_ROLE, false));
-		classes.add(createMenuItem(ClassType.CATEGORY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_CATEGORY, false));
-		classes.add(createMenuItem(ClassType.ROLEMIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_ROLEMIXIN, false));
-		classes.add(createMenuItem(ClassType.MIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_MIXIN, false));
-		classes.add(createMenuItem(ClassType.RELATOR.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_RELATOR, false));
-		classes.add(createMenuItem(ClassType.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_MODE, false));
-		classes.add(createMenuItem(ClassType.PERCEIVABLEQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_PERCEIVABLE_QUALITY, false));
-		classes.add(createMenuItem(ClassType.NONPERCEIVABLEQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_NONPERCEIVABLE_QUALITY, false));
-		classes.add(createMenuItem(ClassType.NOMINALQUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_NOMINAL_QUALITY, false));
+		classes.add(createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_KIND, false));
+		classes.add(createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_SUBKIND, false));
+		classes.add(createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_COLLECTIVE, false));
+		classes.add(createMenuItem(ClassType.QUANTITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_QUANTITY, false));
+		classes.add(createMenuItem(ClassType.PHASE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_PHASE, false));
+		classes.add(createMenuItem(ClassType.ROLE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_ROLE, false));
+		classes.add(createMenuItem(ClassType.CATEGORY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_CATEGORY, false));
+		classes.add(createMenuItem(ClassType.ROLEMIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_ROLEMIXIN, false));
+		classes.add(createMenuItem(ClassType.MIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_MIXIN, false));
+		classes.add(createMenuItem(ClassType.RELATOR.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_RELATOR, false));
+		classes.add(createMenuItem(ClassType.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_MODE, false));
+		classes.add(createMenuItem(ClassType.PERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_PERCEIVABLE_QUALITY, false));
+		classes.add(createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_NONPERCEIVABLE_QUALITY, false));
+		classes.add(createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_NOMINAL_QUALITY, false));
 		
-		datatypes.add(createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_DATATYPE, false));
-		datatypes.add(createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_ENUMERATION, false));
-		datatypes.add(createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.TB_DND_PRIMITIVETYPE, false));
+		datatypes.add(createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_DATATYPE, false));
+		datatypes.add(createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_ENUMERATION, false));
+		datatypes.add(createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_PRIMITIVETYPE, false));
 		
-		relationships.add(createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.TB_DND_GENERALIZATION, false));
-		relationships.add(createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_CHARACTERIZATION, false));
-		relationships.add(createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_MEDIATION, false));
-		relationships.add(createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_FORMAL, false));
-		relationships.add(createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_MATERIAL, false));
-		relationships.add(createMenuItem(RelationshipType.DERIVATION.getName(), IconType.MENTHOR_DERIVATION, CommandType.TB_DND_DERIVATION, false));
-		relationships.add(createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_COMPONENTOF, CommandType.TB_DND_COMPONENTOF, false));
-		relationships.add(createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_MEMBEROF, CommandType.TB_DND_MEMBEROF, false));
-		relationships.add(createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.TB_DND_SUBCOLLECTIONOF, false));
-		relationships.add(createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.TB_DND_SUBQUANTITYOF, false));
-		relationships.add(createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_STRUCTURATION, false));
-		relationships.add(createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.TB_DND_ASSOCIATION, false));
+		relationships.add(createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.PALLETE_GENERALIZATION, false));
+		relationships.add(createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_CHARACTERIZATION, false));
+		relationships.add(createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_MEDIATION, false));
+		relationships.add(createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_FORMAL, false));
+		relationships.add(createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_MATERIAL, false));
+		relationships.add(createMenuItem(RelationshipType.DERIVATION.getName(), IconType.MENTHOR_DERIVATION, CommandType.PALLETE_DERIVATION, false));
+		relationships.add(createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_COMPONENTOF, CommandType.PALLETE_COMPONENTOF, false));
+		relationships.add(createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_MEMBEROF, CommandType.PALLETE_MEMBEROF, false));
+		relationships.add(createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.PALLETE_SUBCOLLECTIONOF, false));
+		relationships.add(createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.PALLETE_SUBQUANTITYOF, false));
+		relationships.add(createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_STRUCTURATION, false));
+		relationships.add(createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_ASSOCIATION, false));
 		
 		sort();
 	}
@@ -85,7 +85,7 @@ public class PalettePopupMenu extends BasePopupMenu {
 		List<JMenuItem> ds = sort(datatypes);
 		List<JMenuItem> rs = sort(relationships);
 		addSeparator();
-		createMenuItem("Mouse Pointer", IconType.MENTHOR_MOUSE_POINTER, CommandType.TB_DND_POINTER_MODE);		
+		createMenuItem("Mouse Pointer", IconType.MENTHOR_MOUSE_POINTER, CommandType.PALLETE_POINTER_MODE);		
 		for(JMenuItem pe: cs) add(pe);		
 		for(JMenuItem pe: ds) add(pe);
 		addSeparator();

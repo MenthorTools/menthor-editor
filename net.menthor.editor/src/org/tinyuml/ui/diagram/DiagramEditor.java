@@ -120,6 +120,7 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.editors.BaseEditor;
 import net.menthor.editor.v2.editors.EditorMode;
 import net.menthor.editor.v2.editors.EditorMouseEvent;
@@ -970,7 +971,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreationMode(ClassType elementType) 
 	{
-		ClipboardManager.get().createNode(elementType);
+		ClipboardManager.get().copyToClipboard(elementType);
 		editorMode = ClipboardManager.get();
 	}
 	
@@ -983,8 +984,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param elementType the ElementType that indicates what to create
 	 */
 	public void setCreationMode(DataType elementType) 
-	{
-		ClipboardManager.get().createNode(elementType);
+	{		
+		ClipboardManager.get().copyToClipboard(elementType);
 		editorMode = ClipboardManager.get();
 	}
 	
@@ -1037,6 +1038,21 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		//paintImmediately(0, 0, getWidth(), getHeight());
 		repaint(0, 0, getWidth(), getHeight());
 	}
+	
+	public void initializeShowGridMenuItem(){
+		frame.getMainMenu().getMenuItem(CommandType.SHOW_GRID).setSelected(isShownGrid());
+	}
+	
+	public void showGrid()
+	{
+		if(isShownGrid()){
+			showGrid(false);
+			frame.getMainMenu().select(CommandType.SHOW_GRID,false);
+		}else{
+			showGrid(true);
+			frame.getMainMenu().select(CommandType.SHOW_GRID,true);
+		}
+	}
 
 	/**
 	 * Sets the grid to visible.
@@ -1047,15 +1063,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		diagram.setGridVisible(flag);		
 		updateUI();
 		if(wrapper!=null)wrapper.getScrollPane().updateUI();
-	}
-
-	public void showGrid()
-	{
-		if(isShownGrid()){
-			showGrid(false);
-		}else{
-			showGrid(true);
-		}
 	}
 	
 	public boolean isShownGrid()

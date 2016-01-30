@@ -149,57 +149,57 @@ public class PaletteAccordion extends JPanel{
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.DATATYPE.toString(),
-			CommandType.TB_DND_DATATYPE
+			CommandType.PALLETE_DATATYPE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.ENUMERATION.toString(),
-			CommandType.TB_DND_ENUMERATION
+			CommandType.PALLETE_ENUMERATION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.PRIMITIVETYPE.toString(),
-			CommandType.TB_DND_PRIMITIVETYPE
+			CommandType.PALLETE_PRIMITIVETYPE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.MEASUREMENTDOMAIN.toString(),
-			CommandType.TB_DND_MEASUREMENT_DOMAIN
+			DataType.MEASUREMENT_DOMAIN.toString(),
+			CommandType.PALLETE_MEASUREMENT_DOMAIN
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.STRINGNOMINALSTRUCTURE.toString(),
-			CommandType.TB_DND_STRING_NOMINAL_DIMENSION
+			DataType.STRINGNOMINAL_STRUCTURE.toString(),
+			CommandType.PALLETE_STRINGNOMINAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.INTEGERINTERVALDIMENSION.toString(),
-			CommandType.TB_DND_INTEGER_INTERVAL_DIMENSION
+			DataType.INTEGERINTERVAL_DIMENSION.toString(),
+			CommandType.PALLETE_INTEGERINTERVAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.INTEGERRATIONALDIMENSION.toString(),
-			CommandType.TB_DND_INTEGER_RATIONAL_DIMENSION
+			DataType.INTEGERRATIONAL_DIMENSION.toString(),
+			CommandType.PALLETE_INTEGERRATIONAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.INTEGERORDINALDIMENSION.toString(),
-			CommandType.TB_DND_INTEGER_ORDINAL_DIMENSION
+			DataType.INTEGERORDINAL_DIMENSION.toString(),
+			CommandType.PALLETE_INTEGERORDINAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DECIMALORDINALDIMENSION.toString(),
-			CommandType.TB_DND_DECIMAL_ORDINAL_DIMENSION
+			DataType.DECIMALORDINAL_DIMENSION.toString(),
+			CommandType.PALLETE_DECIMALORDINAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DECIMALRATIONALDIMENSION.toString(),
-			CommandType.TB_DND_DECIMAL_RATIONAL_DIMENSION
+			DataType.DECIMALRATIONAL_DIMENSION.toString(),
+			CommandType.PALLETE_DECIMALRATIONAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DECIMALINTERVALDIMENSION.toString(),
-			CommandType.TB_DND_DECIMAL_INTERVAL_DIMENSION
+			DataType.DECIMALINTERVAL_DIMENSION.toString(),
+			CommandType.PALLETE_DECIMALINTERVAL_DIMENSION
 		);
 		paletteMap.put(paletteName, datatypeGrouping);
 		if(openPalette == null) openPalette = paletteName;		
@@ -213,62 +213,62 @@ public class PaletteAccordion extends JPanel{
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_GENERALIZATION, 
 			RelationshipType.GENERALIZATION.toString(),
-			CommandType.TB_DND_GENERALIZATION
+			CommandType.PALLETE_GENERALIZATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.MATERIAL.toString(),
-			CommandType.TB_DND_MATERIAL
+			CommandType.PALLETE_MATERIAL
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.FORMAL.toString(),
-			CommandType.TB_DND_FORMAL
+			CommandType.PALLETE_FORMAL
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.CHARACTERIZATION.toString(),
-			CommandType.TB_DND_CHARACTERIZATION
+			CommandType.PALLETE_CHARACTERIZATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.MEDIATION.toString(),
-			CommandType.TB_DND_MEDIATION
+			CommandType.PALLETE_MEDIATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_DERIVATION, 
 			RelationshipType.DERIVATION.toString(),
-			CommandType.TB_DND_DERIVATION
+			CommandType.PALLETE_DERIVATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.STRUCTURATION.toString(),
-			CommandType.TB_DND_STRUCTURATION
+			CommandType.PALLETE_STRUCTURATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
 			RelationshipType.ASSOCIATION.toString(),
-			CommandType.TB_DND_ASSOCIATION
+			CommandType.PALLETE_ASSOCIATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_COMPONENTOF, 
 			RelationshipType.COMPONENTOF.toString(),
-			CommandType.TB_DND_COMPONENTOF
+			CommandType.PALLETE_COMPONENTOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_SUBCOLLECTIONOF, 
 			RelationshipType.SUBCOLLECTIONOF.toString(),
-			CommandType.TB_DND_SUBCOLLECTIONOF
+			CommandType.PALLETE_SUBCOLLECTIONOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_SUBQUANTITYOF, 
 			RelationshipType.SUBQUANTITYOF.toString(),
-			CommandType.TB_DND_SUBQUANTITYOF
+			CommandType.PALLETE_SUBQUANTITYOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_MEMBEROF, 
 			RelationshipType.MEMBEROF.toString(),
-			CommandType.TB_DND_MEMBEROF
+			CommandType.PALLETE_MEMBEROF
 		);
 		paletteMap.put(paletteName, relationshipGrouping);
 		if(openPalette == null) openPalette = paletteName;		
@@ -283,72 +283,72 @@ public class PaletteAccordion extends JPanel{
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.KIND.toString(),
-			CommandType.TB_DND_KIND
+			CommandType.PALLETE_KIND
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.COLLECTIVE.toString(),
-			CommandType.TB_DND_COLLECTIVE
+			CommandType.PALLETE_COLLECTIVE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.QUANTITY.toString(),
-			CommandType.TB_DND_QUANTITY
+			CommandType.PALLETE_QUANTITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.RELATOR.toString(),
-			CommandType.TB_DND_RELATOR
+			CommandType.PALLETE_RELATOR
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.MODE.toString(),
-			CommandType.TB_DND_MODE
+			CommandType.PALLETE_MODE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.ROLE.toString(),
-			CommandType.TB_DND_ROLE
+			CommandType.PALLETE_ROLE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.PHASE.toString(),
-			CommandType.TB_DND_PHASE
+			CommandType.PALLETE_PHASE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.SUBKIND.toString(),
-			CommandType.TB_DND_SUBKIND
+			CommandType.PALLETE_SUBKIND
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.CATEGORY.toString(),
-			CommandType.TB_DND_CATEGORY
+			CommandType.PALLETE_CATEGORY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.MIXIN.toString(),
-			CommandType.TB_DND_MIXIN
+			CommandType.PALLETE_MIXIN
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			ClassType.ROLEMIXIN.toString(),
-			CommandType.TB_DND_ROLEMIXIN
+			CommandType.PALLETE_ROLEMIXIN
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.PERCEIVABLEQUALITY.toString(),
-			CommandType.TB_DND_PERCEIVABLE_QUALITY
+			ClassType.PERCEIVABLE_QUALITY.toString(),
+			CommandType.PALLETE_PERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.NONPERCEIVABLEQUALITY.toString(),
-			CommandType.TB_DND_NONPERCEIVABLE_QUALITY
+			ClassType.NONPERCEIVABLE_QUALITY.toString(),
+			CommandType.PALLETE_NONPERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.NOMINALQUALITY.toString(),
-			CommandType.TB_DND_NOMINAL_QUALITY
+			ClassType.NOMINAL_QUALITY.toString(),
+			CommandType.PALLETE_NOMINAL_QUALITY
 		);
 		paletteMap.put(paletteName, classGrouping);
 		if(openPalette == null) openPalette = paletteName;		

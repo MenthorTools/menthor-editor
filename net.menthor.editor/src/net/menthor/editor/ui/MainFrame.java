@@ -294,7 +294,7 @@ public class MainFrame extends JFrame implements CommandListener {
 			getMainMenu().select(CommandType.PALETTE_OF_ELEMENTS,false);
 		}		
 	}
-		
+	
 	//=========================================================================
 	
 	private MethodCall getMethodCall(String command, Object[] parameters){

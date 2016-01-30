@@ -45,10 +45,11 @@ public enum CommandType {
 	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
 		
 	NEW_OCLDOCUMENT("Createa a new rules document"),
-	CLOSE_RULES_TAB("Createa a new rules document"),
+	CLOSE_OCL_EDITOR("Createa a new rules document"),
 		
+	INITIALIZE_SHOWGRID_MENUITEM(null),
 	NEW_DIAGRAM("Create a new class diagram"), 
-	CLOSE_DIAGRAM_TAB("Close current class diagram"),	
+	CLOSE_DIAGRAM_EDITOR("Close current class diagram"),	
 	REDRAW_DIAGRAM("Redraw the current class diagram"),
 	SELECT_ALL_DIAGRAM("Select all elements on current diagram"),
 	EXPORT_TO_PNG("<html>Save diagram as PNG<br><br>TIP: Move your diagram as close as possible <br>to the upper left side of the grid.</hmtl>"),
@@ -133,10 +134,10 @@ public enum CommandType {
 	ABOUT(null), 
 	LICENSES(null), 
 
-	ADD_FINDER_TAB("Find a term in current project"),
+	ADD_FINDER_EDITOR("Find a term in current project"),
 	FIND_IN_PROJECT_BROWSER("Find a term in project browser"),
 	FIND_BY_NAME("Find element strictly by its name"),
-	ADD_STATISTICS_TAB("Collect statistics of current project"),
+	ADD_STATISTICS_EDITOR("Collect statistics of current project"),
 	
 	MOVE_DOWN_TREE(null),
 	MOVE_UP_TREE(null),
@@ -154,64 +155,57 @@ public enum CommandType {
 	SEARCH_FOR_ANTIPATTERNS("Search for semantic anti-patterns in current project"),
 	VALIDATE_PARTHOOD_TRANSITIVITY("Validate the transitivity of parthood relationships"),
 	
-	CLOSE_THIS_TAB("Close this tab"),
-	CLOSE_OTHER_TABS("Close all other tabs except this one"),
-	CLOSE_ALL_TABS("Close all tabs"),
-	SELECT_TAB("Select tab"),
-	OPEN_TAB("Select tab"),
+	SELECT_EDITOR("Select tab"),
+	ADD_EDITOR("Add to a tab"),
+	CLOSE_THIS("Close this tab"),
+	CLOSE_OTHER("Close all other tabs except this one"),
+	CLOSE_ALL("Close all tabs"),
 	
-	TB_DND_POINTER_MODE(null),
-	TB_DND_KIND(null), 
-	TB_DND_QUANTITY(null), 
-	TB_DND_COLLECTIVE(null), 
-	TB_DND_SUBKIND(null), 
-	TB_DND_PHASE(null), 
-	TB_DND_ROLE(null),
-	TB_DND_RELATOR(null), 
-	TB_DND_MODE(null), 
-	TB_DND_PERCEIVABLE_QUALITY(null), 
-	TB_DND_NONPERCEIVABLE_QUALITY(null), 
-	TB_DND_NOMINAL_QUALITY(null),
-	TB_DND_CATEGORY(null), 
-	TB_DND_MIXIN(null), 
-	TB_DND_ROLEMIXIN(null), 
-	TB_DND_PHASEMIXIN(null), 
-	TB_DND_EVENT(null),	
-	TB_DND_POWERTYPE(null), 
-	TB_DND_CLASS(null),
-	
-	TB_DND_DATATYPE(null), 
-	TB_DND_ENUMERATION(null),
-	TB_DND_STRING_NOMINAL_DIMENSION(null), 
-	TB_DND_MEASUREMENT_DOMAIN(null),
-	TB_DND_INTEGER_INTERVAL_DIMENSION(null),
-	TB_DND_INTEGER_RATIONAL_DIMENSION(null),
-	TB_DND_INTEGER_ORDINAL_DIMENSION(null),
-	TB_DND_DECIMAL_INTERVAL_DIMENSION(null),
-	TB_DND_DECIMAL_RATIONAL_DIMENSION(null),
-	TB_DND_DECIMAL_ORDINAL_DIMENSION(null),
-	TB_DND_PRIMITIVETYPE(null),
+	PALLETE_POINTER_MODE(null),
+	PALLETE_CLASS(null),
+	PALLETE_KIND(null), 
+	PALLETE_QUANTITY(null), 
+	PALLETE_COLLECTIVE(null), 
+	PALLETE_SUBKIND(null), 
+	PALLETE_PHASE(null), 
+	PALLETE_ROLE(null),
+	PALLETE_RELATOR(null), 
+	PALLETE_MODE(null), 
+	PALLETE_PERCEIVABLE_QUALITY(null), 
+	PALLETE_NONPERCEIVABLE_QUALITY(null), 
+	PALLETE_NOMINAL_QUALITY(null),
+	PALLETE_CATEGORY(null), 
+	PALLETE_MIXIN(null), 
+	PALLETE_ROLEMIXIN(null), 
+	PALLETE_PHASEMIXIN(null), 
+	PALLETE_EVENT(null),	
+	PALLETE_POWERTYPE(null), 
+		
+	PALLETE_DATATYPE(null), 
+	PALLETE_ENUMERATION(null),
+	PALLETE_PRIMITIVETYPE(null),
+	PALLETE_MEASUREMENT_DOMAIN(null),
+	PALLETE_INTEGERINTERVAL_DIMENSION(null),
+	PALLETE_INTEGERRATIONAL_DIMENSION(null),
+	PALLETE_INTEGERORDINAL_DIMENSION(null),
+	PALLETE_DECIMALINTERVAL_DIMENSION(null),
+	PALLETE_DECIMALRATIONAL_DIMENSION(null),
+	PALLETE_DECIMALORDINAL_DIMENSION(null),
+	PALLETE_STRINGNOMINAL_DIMENSION(null),
 
-	TB_DND_GENERALIZATION(null),
-	TB_DND_GENERALIZATIONSET(null), 
-	TB_DND_MEDIATION(null), 
-	TB_DND_CHARACTERIZATION(null), 
-	TB_DND_DERIVATION(null), 
-	TB_DND_FORMAL(null),
-	TB_DND_MATERIAL(null), 
-	TB_DND_STRUCTURATION(null), 
-	TB_DND_COMPONENTOF(null), 
-	TB_DND_MEMBEROF(null), 
-	TB_DND_SUBCOLLECTIONOF(null), 
-	TB_DND_SUBQUANTITYOF(null), 
-	TB_DND_ASSOCIATION(null),
-	
-	ADD_PACKAGE(null),
-	ADD_COMMENT(null),
-	ADD_CONSTRAINT(null),
-
-	ADD_DIAGRAM(null),
-	ADD_OCLDOCUMENT(null),
+	PALLETE_GENERALIZATION(null),
+	PALLETE_GENERALIZATIONSET(null), 
+	PALLETE_MEDIATION(null), 
+	PALLETE_CHARACTERIZATION(null), 
+	PALLETE_DERIVATION(null), 
+	PALLETE_FORMAL(null),
+	PALLETE_MATERIAL(null), 
+	PALLETE_STRUCTURATION(null), 
+	PALLETE_COMPONENTOF(null), 
+	PALLETE_MEMBEROF(null), 
+	PALLETE_SUBCOLLECTIONOF(null), 
+	PALLETE_SUBQUANTITYOF(null), 
+	PALLETE_ASSOCIATION(null),
 		
 	ADD_CLASS(null),
 	ADD_KIND(null),
@@ -254,6 +248,13 @@ public enum CommandType {
 	ADD_DERIVATION(null),
 	ADD_STRUCTURATION(null),
 	ADD_ASSOCIATION(null),
+	
+	ADD_PACKAGE(null),
+	ADD_COMMENT(null),
+	ADD_CONSTRAINT(null),
+	
+	ADD_DIAGRAM(null),
+	ADD_OCLDOCUMENT(null),
 	
 	CHANGE_TO_GENERALIZATION(null),
 	CHANGE_TO_GENERALIZATIONSET(null),
@@ -303,6 +304,13 @@ public enum CommandType {
 		for(CommandType c: CommandType.values()){
 			System.out.println(c.description);
 		}
+	}
+	
+	public static CommandType getCommandType(String command){
+		for(CommandType ct: values()){
+			if(ct.toString().compareToIgnoreCase(command)==0) return ct;
+		}
+		return null;
 	}
 	
 	public static boolean isValueOf(String command)
