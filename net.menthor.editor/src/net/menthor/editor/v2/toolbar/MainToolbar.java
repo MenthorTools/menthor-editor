@@ -44,7 +44,7 @@ public class MainToolbar extends BaseToolBar {
 		createButton(IconType.MENTHOR_CHECK,CommandType.VERIFY_MODEL, background);
 		createButton(IconType.MENTHOR_STATS,CommandType.ADD_STATISTICS_EDITOR, background);
 		createButton(IconType.MENTHOR_PLAY, CommandType.ALLOY_SETTINGS, background);
-		createButton(IconType.MENTHOR_SEMANTIC_WEB, CommandType.CALL_OWL_SETTINGS, background);				
+		createButton(IconType.MENTHOR_SEMANTIC_WEB, CommandType.OWL_SETTINGS, background);				
 		enableAll(false);
 	}	
 }

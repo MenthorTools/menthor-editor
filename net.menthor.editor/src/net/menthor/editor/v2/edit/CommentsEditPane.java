@@ -39,8 +39,7 @@ import javax.swing.border.EmptyBorder;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
-import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.EditorTabbedPane;
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.TransferManager;
@@ -63,7 +62,7 @@ public class CommentsEditPane extends JPanel {
 	private JLabel lblComment;
 	private JLabel lblNewLabel;
 	
-	public CommentsEditPane(EditorTabbedPane diagramManager, Classifier element){
+	public CommentsEditPane(Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.element = element;
 		initUI();
@@ -95,7 +94,7 @@ public class CommentsEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void createComment(){
-		Comment c = MenthorEditor.getFrame().getElementFactory().createComment();
+		Comment c = FactoryManager.get().createComment();
 		c.setBody("This is an empty comment...");
 		CommentElement ce = new CommentElement(c);		
 		commentCombo.addItem(ce);

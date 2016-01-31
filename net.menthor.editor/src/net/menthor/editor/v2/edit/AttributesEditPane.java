@@ -60,7 +60,6 @@ import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Property;
-import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -183,7 +182,7 @@ public class AttributesEditPane extends JPanel {
 			Property p = tablemodel.getEntry(row);
 			AttributeEditDialog dialog = null;
 			if (parent instanceof JFrame){
-				dialog = new AttributeEditDialog((MainFrame)parent,classElement, element, p, false);    				
+				dialog = new AttributeEditDialog((JFrame)parent,classElement, element, p, false);    				
 			}else if (parent instanceof JDialog) {
 				dialog = new AttributeEditDialog((JDialog)parent, classElement, element, p, false);    			
 			}

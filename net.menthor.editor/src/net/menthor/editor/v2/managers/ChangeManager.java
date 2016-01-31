@@ -36,6 +36,7 @@ import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -99,9 +100,9 @@ public class ChangeManager extends BaseManager {
 	
 	/** Change multiplicity from integer values */
 	public void changeMultiplicity(RefOntoUML.Property property, int lowerValue, int upperValue){
-		LiteralInteger lower = factory().createLiteralInteger();
+		LiteralInteger lower = FactoryManager.get().createLiteralInteger();
 		lower.setValue(lowerValue);
-		LiteralUnlimitedNatural upper =  factory().createLiteralUnlimitedNatural();
+		LiteralUnlimitedNatural upper =  FactoryManager.get().createLiteralUnlimitedNatural();
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
@@ -145,12 +146,12 @@ public class ChangeManager extends BaseManager {
 	public void invertEndMultiplicities(RefOntoUML.Association association){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
-   		LiteralInteger sourceLower = factory().createLiteralInteger();
-   		LiteralUnlimitedNatural sourceUpper = factory().createLiteralUnlimitedNatural();
+   		LiteralInteger sourceLower = FactoryManager.get().createLiteralInteger();
+   		LiteralUnlimitedNatural sourceUpper = FactoryManager.get().createLiteralUnlimitedNatural();
    		sourceLower.setValue(target.getLower());
    		sourceUpper.setValue(target.getUpper());   		
-   		LiteralInteger targetLower = factory().createLiteralInteger();
-   		LiteralUnlimitedNatural targetUpper = factory().createLiteralUnlimitedNatural();
+   		LiteralInteger targetLower = FactoryManager.get().createLiteralInteger();
+   		LiteralUnlimitedNatural targetUpper = FactoryManager.get().createLiteralUnlimitedNatural();
    		targetUpper.setValue(source.getUpper());
    		targetLower.setValue(source.getLower());  	
    		source.setUpperValue(sourceUpper);

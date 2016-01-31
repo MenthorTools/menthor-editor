@@ -34,6 +34,7 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.shared.UmlNode;
 
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.v2.editors.base.EditorMode;
 import net.menthor.editor.v2.editors.base.EditorMouseEvent;
@@ -214,7 +215,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	/** create a node from a stereotype and put the created node to clipboard */
 	public UmlNode createNode(ClassType stereotype) {
 		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(stereotype, de.getDiagram());	        
+	    UmlNode node = FactoryManager.get().createNode(stereotype, de.getDiagram());	        
 	    node.setParent(de.getDiagram());    
 	    if(!clipboard.contains(node))clipboard.add(node);
 	    OccurenceManager.get().add(node.getClassifier(), node);
@@ -224,7 +225,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	/** clone a node from a stereotype and put the created node to clipboard */
 	public UmlNode createNode(DataType stereotype) {
 		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(stereotype, de.getDiagram());
+	    UmlNode node = FactoryManager.get().createNode(stereotype, de.getDiagram());
 	    node.setParent(de.getDiagram());    
 	    if(!clipboard.contains(node))clipboard.add(node);
 	    OccurenceManager.get().add(node.getClassifier(), node);
@@ -234,7 +235,7 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	/** create a node and put the created node to clipboard */
 	public UmlNode createNode(RefOntoUML.Type type, EObject eContainer) {
 		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
-	    UmlNode node = MenthorEditor.getFrame().getElementFactory().createNode(type, eContainer, de.getDiagram());
+	    UmlNode node = FactoryManager.get().createNode(type, eContainer, de.getDiagram());
 	    node.setParent(de.getDiagram());
 	    if(!clipboard.contains(node))clipboard.add(node);
 	    OccurenceManager.get().add(node.getClassifier(), node);

@@ -148,10 +148,10 @@ public enum CommandType {
 	VERIFY_CONSTRAINTS("Check syntax of all rules at the current project"),
 	 
 	ALLOY_SETTINGS("Simulate and check current project using Alloy"), 
-	CALL_OWL_SETTINGS("Generate current project implementation in OWL/RDF"),
+	OWL_SETTINGS("Generate current project implementation in OWL/RDF"),
 	GENERATE_OWL("Generate current project implementation in OWL/RDF"),
 	GENERATE_SBVR("Transform current project into a SBVR business vocabulary"),
-	TEXTUAL_DESCRIPTION("Transform current project into Natural Language"),	
+	GLOSSARY_SETTINGS("Transform current project into Natural Language"),	
 	SEARCH_FOR_ANTIPATTERNS("Search for semantic anti-patterns in current project"),
 	VALIDATE_PARTHOOD_TRANSITIVITY("Validate the transitivity of parthood relationships"),
 	

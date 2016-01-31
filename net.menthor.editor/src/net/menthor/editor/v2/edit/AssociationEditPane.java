@@ -49,6 +49,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class AssociationEditPane extends JPanel {

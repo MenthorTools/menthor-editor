@@ -26,6 +26,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -35,7 +36,6 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.ui.RelatedElementsPane;
 
@@ -63,7 +63,7 @@ public class ClassEditDialog extends BaseEditDialog {
 		classEdition.transferData();
 	}
 	
-	public ClassEditDialog(final MainFrame parent, final ClassElement classElement, Classifier element, boolean modal){
+	public ClassEditDialog(final JFrame parent, final ClassElement classElement, Classifier element, boolean modal){
 		super(parent, modal);				
 		this.element = element;
 		setTitle(""+""+OntoUMLParser.getStereotype(element)+" "+element.getName());
@@ -89,10 +89,10 @@ public class ClassEditDialog extends BaseEditDialog {
 			classTab.add(attributesEdition, BorderLayout.CENTER);
 		}	
 		
-		commentsEdition = new CommentsEditPane (diagramManager,element);
+		commentsEdition = new CommentsEditPane (element);
 		tabbedPane.addTab("Comments", commentsEdition);
 		
-		constraintsEdition = new ConstraintEditPane(diagramManager,element);
+		constraintsEdition = new ConstraintEditPane(element);
 		tabbedPane.addTab("Constraints", constraintsEdition);
 		
 		relatedElements = new RelatedElementsPane(element, Models.getRefparser());

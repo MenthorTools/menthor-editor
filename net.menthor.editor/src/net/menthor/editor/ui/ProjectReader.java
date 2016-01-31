@@ -40,12 +40,11 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.util.FileReader;
 import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 
 /** Reads a model from a file. Models are stored and retrieved using serialization. */
-public final class ProjectReader extends FileReader {
+public final class ProjectReader {
 
 	private static ProjectReader instance = new ProjectReader();
 	public static ProjectReader getInstance() { return instance; }

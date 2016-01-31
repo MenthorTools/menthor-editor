@@ -54,7 +54,7 @@ public class AlloyManager extends BaseManager {
     // ----------------------------
 		
 	/** open alloy settings dialog */
-	public void openAlloySettings(){		
+	public void callAlloySettings(){		
 		SyntaxManager.get().verifyConstraints(false);
 
 		OntoUML2AlloyOptions refOptions = Models.getRefOptions();

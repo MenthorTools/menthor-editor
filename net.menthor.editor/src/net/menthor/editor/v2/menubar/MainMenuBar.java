@@ -219,10 +219,10 @@ public class MainMenuBar extends BaseMenuBar {
 	private void createTransformationMenu(){
 		transformation = new JMenu("Transform");
 		add(transformation);		
-		createMenuItem(transformation, "Semantic Web (OWL/RDF)", CommandType.CALL_OWL_SETTINGS, background);		
+		createMenuItem(transformation, "Semantic Web (OWL/RDF)", CommandType.OWL_SETTINGS, background);		
 		transformation.addSeparator();
 		createMenuItem(transformation, "Business Vocabulary (SBVR)", CommandType.GENERATE_SBVR, background);
-		createMenuItem(transformation, "Natural Language Description (PT-BR)", CommandType.TEXTUAL_DESCRIPTION, background);
+		createMenuItem(transformation, "Natural Language Description (PT-BR)", CommandType.GLOSSARY_SETTINGS, background);
 	}
 		
 	private void createProjectMenu(){

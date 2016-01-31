@@ -1,5 +1,8 @@
 package net.menthor.editor.v2.managers;
 
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -23,13 +26,19 @@ package net.menthor.editor.v2.managers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.tinyuml.ui.diagram.DiagramEditor;
+
+import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.PngWriter;
-import net.menthor.editor.v2.util.EcoreWriter;
-import net.menthor.editor.v2.util.UMLWriter;
 import net.menthor.editor.v2.util.Util;
-import net.menthor.editor.v2.util.XMIWriter;
+import net.menthor.ontouml2ecore.OntoUML2Ecore;
+import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
+import net.menthor.ontouml2uml.OntoUML2UML;
+import net.menthor.ontouml2uml.OntoUML2UMLOption;
 
 public class ExportManager extends BaseManager {
 
@@ -53,19 +62,19 @@ public class ExportManager extends BaseManager {
 	public String lastPngPath = new String();
 	
 	public File chooseRefOntoumlFile() throws IOException{
-		return Util.chooseFile(frame(), lastRefOntoPath, "Export Manager - RefOntouml", "Reference OntoUML (*.refontouml)", "refontouml",true);
+		return Util.chooseFile(frame(), lastRefOntoPath, "Export - RefOntouml", "Reference OntoUML (*.refontouml)", "refontouml",true);
 	}
 	
 	public File chooseEcoreFile() throws IOException{
-		return Util.chooseFile(frame(), lastEcorePath, "Export Manager - Ecore", "Ecore (*.ecore)", "ecore",true);
+		return Util.chooseFile(frame(), lastEcorePath, "Export - Ecore", "Ecore (*.ecore)", "ecore",true);
 	}
 	
 	public File chooseUMLFile() throws IOException{
-		return Util.chooseFile(frame(), lastUmlPath, "Export Manager - UML", "UML2 (*.uml)", "uml",true);
+		return Util.chooseFile(frame(), lastUmlPath, "Export - UML", "UML2 (*.uml)", "uml",true);
 	}
 	
 	public File choosePNGFile() throws IOException{
-		return Util.chooseFile(frame(), lastPngPath, "Export Manager - PNG", "Portable Network Graphics (*.png)", "png",true);
+		return Util.chooseFile(frame(), lastPngPath, "Export - PNG", "Portable Network Graphics (*.png)", "png",true);
 	}
 	
 	public void exportToReferenceOntouml(){				
@@ -73,12 +82,11 @@ public class ExportManager extends BaseManager {
 			File file = chooseRefOntoumlFile();
 			if(file==null) return;
 			CursorManager.get().waitCursor();			
-			XMIWriter exporter = new XMIWriter();
-			exporter.toRefontouml(frame(),Models.getRefparser(), file);			
+			RefOntoUMLResourceUtil.saveModel(file.getAbsolutePath(), ProjectManager.get().getProject().getModel());		
 			lastRefOntoPath = file.getAbsolutePath();			
-			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
+			MessageManager.get().showSuccess("Export - RefOntouml", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
 		} catch (Exception ex) {
-			MessageManager.get().showError(ex,"Export Manager","Current project could not be exported to Reference OntoUML.");
+			MessageManager.get().showError(ex,"Export - RefOntouml","Current project could not be exported to Reference OntoUML.");
 		}		
 		CursorManager.get().defaultCursor();
 	}	
@@ -88,12 +96,12 @@ public class ExportManager extends BaseManager {
 			File file = chooseEcoreFile();
 			if(file==null) return;
 			CursorManager.get().waitCursor();				
-			EcoreWriter exporter = new EcoreWriter();
-			exporter.toEcore(frame(),Models.getRefparser(), file);				
+			OntoUML2EcoreOption opt = new OntoUML2EcoreOption(false,false);
+			OntoUML2Ecore.convertToEcore(Models.getRefparser(), file.getAbsolutePath(), opt);
 			lastEcorePath = file.getAbsolutePath();				
-			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
+			MessageManager.get().showSuccess("Export - Ecore", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
 		} catch (Exception ex) {
-			MessageManager.get().showError(ex, "Export Manager", "Current project could not be exported to Ecore");									
+			MessageManager.get().showError(ex, "Export - Ecore", "Current project could not be exported to Ecore");									
 		}		
 		CursorManager.get().defaultCursor();		
 	}
@@ -103,12 +111,12 @@ public class ExportManager extends BaseManager {
 			File file = chooseUMLFile();
 			if(file==null) return;
 			CursorManager.get().waitCursor();				
-			UMLWriter exporter = new UMLWriter();
-			exporter.toProfileUML(frame(),Models.getRefparser(), file);				
+			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
+			OntoUML2UML.convertToUMLProfile(Models.getRefparser(),file.getAbsolutePath(),opt);							
 			lastUmlPath = file.getAbsolutePath();				
-			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
+			MessageManager.get().showSuccess("Export - UML Profile", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
 		} catch (Exception ex) {
-			MessageManager.get().showError(ex,"Export Manager", "Current project could not be exported to UML Profile");
+			MessageManager.get().showError(ex,"Export - UML Profile", "Current project could not be exported to UML Profile");
 		}		
 		CursorManager.get().defaultCursor();
 	}	
@@ -118,12 +126,12 @@ public class ExportManager extends BaseManager {
 			File file = chooseUMLFile();
 			if(file==null) return;
 			CursorManager.get().waitCursor();			
-			UMLWriter exporter = new UMLWriter();
-			exporter.toUML(frame(),Models.getRefparser(), file);				
+			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
+			OntoUML2UML.convertToUML(Models.getRefparser(),file.getAbsolutePath(),opt);			
 			lastUmlPath = file.getAbsolutePath();				
-			MessageManager.get().showSuccess("Export Manager", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
+			MessageManager.get().showSuccess("Export - UML", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
 		} catch (Exception ex) {					
-			MessageManager.get().showError(ex, "Export Manager", "Current project could not be exported to UML.");			
+			MessageManager.get().showError(ex, "Export - UML", "Current project could not be exported to UML.");			
 		}		
 		CursorManager.get().defaultCursor();		
 	}
@@ -131,11 +139,17 @@ public class ExportManager extends BaseManager {
 	public void exportToPng(){		
 		try {
 			File file = choosePNGFile();
-			if(file==null) return;
-			PngWriter exporter = new PngWriter();
-			exporter.writePNG(TabManager.get().getCurrentDiagramEditor(), file);
+			if(file==null) return;			
+			DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+			List<Point> points = editor.getUsedCanvasSize();
+			Point origin = points.get(0);
+			Point end = points.get(1);			
+			BufferedImage image = new BufferedImage((int) end.x+20, (int) end.y+20, BufferedImage.TYPE_INT_RGB);
+			editor.paintComponentNonScreen(image.getGraphics());
+			BufferedImage croped = image.getSubimage(origin.x - 20, origin.y - 20, (end.x + 40 - origin.x), (end.y + 40 - origin.y));
+			ImageIO.write(croped, "png", file);
 		} catch (IOException ex) {
-			MessageManager.get().showError(ex, "Export Image", "Could not export image.");
+			MessageManager.get().showError(ex, "Export - PNG", "Could not export current diagram into a PNG image.");
 		}		
 	}
 }

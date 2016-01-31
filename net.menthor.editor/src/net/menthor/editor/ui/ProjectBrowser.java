@@ -44,6 +44,7 @@ public class ProjectBrowser extends RoundedPanel{
 	
 	private JScrollPane scroll;	
 	private ProjectTree tree;
+	
 	public ProjectTree getTree() { return tree; }	
 	
 	public ProjectBrowser(CommandListener appframe, UmlProject project, RefOntoUML.Model model, OclDocument oclDoc){

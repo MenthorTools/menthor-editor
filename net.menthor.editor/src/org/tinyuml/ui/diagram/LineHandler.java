@@ -38,7 +38,7 @@ import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.MenthorEditor;
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.v2.editors.base.EditorMode;
 import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.managers.OccurenceManager;
@@ -139,7 +139,7 @@ public class LineHandler implements EditorMode {
 	  if(target instanceof ClassElement) targetPoint.setLocation(((ClassElement)target).getAbsCenterX(),((ClassElement)target).getAbsCenterY());
 	  if(source instanceof AssociationElement) sourcePoint.setLocation(((AssociationElement)source).getAbsCenterX(),((AssociationElement)source).getAbsCenterY());
 	  if(target instanceof AssociationElement) targetPoint.setLocation(((AssociationElement)target).getAbsCenterX(),((AssociationElement)target).getAbsCenterY());	  
-	  LineConnectMethod connectMethod = MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType);	  
+	  LineConnectMethod connectMethod = FactoryManager.get().getConnectMethod(relationType);	  
 	  UmlConnection conn = createConnection(editor, connectMethod, relationType, source, target, sourcePoint, targetPoint);	  
 	  addConnection(editor, conn, source, target, eContainer);  	  
 	  editor.redraw();	  
@@ -159,7 +159,7 @@ public class LineHandler implements EditorMode {
 	  if(source instanceof AssociationElement) sourcePoint.setLocation(((AssociationElement)source).getAbsCenterX(),((AssociationElement)source).getAbsCenterY());
 	  if(target instanceof AssociationElement) targetPoint.setLocation(((AssociationElement)target).getAbsCenterX(),((AssociationElement)target).getAbsCenterY());	  
 	  RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-	  LineConnectMethod connectMethod = MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType);	  
+	  LineConnectMethod connectMethod = FactoryManager.get().getConnectMethod(relationType);	  
 	  UmlConnection conn = createConnection(editor, connectMethod, relationship, source, target, sourcePoint, targetPoint);	  
 	  addConnection(editor, conn, source, target, eContainer);  	  
 	  editor.redraw();	  
@@ -177,7 +177,7 @@ public class LineHandler implements EditorMode {
 	  //UmlConnection ->(connectedTo) -> UmlNode
 	  if (source instanceof UmlConnection && target instanceof UmlNode)
 	  {
-		  conn = MenthorEditor.getFrame().getElementFactory().createConnectionFromCon(relationship, (UmlConnection) source, (UmlNode) target);		
+		  conn = FactoryManager.get().createConnectionFromCon(relationship, (UmlConnection) source, (UmlNode) target);		
 	  	  connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection)source,  (UmlNode)target, anchor, tmpPos);	
 	  }
 	  // UmlNode ->(connectedTo) -> UmlConnection
@@ -185,7 +185,7 @@ public class LineHandler implements EditorMode {
 	  {
 		  //invert sides if derivation is pushed from the UmlNode (relator), it should be from the UmlConnection (material)
 		  if (relationship instanceof RefOntoUML.Derivation) { 
-			  conn = MenthorEditor.getFrame().getElementFactory().createConnectionFromCon(relationship, (UmlConnection) target, (UmlNode) source);   
+			  conn = FactoryManager.get().createConnectionFromCon(relationship, (UmlConnection) target, (UmlNode) source);   
               connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection) target, (UmlNode)source, anchor, tmpPos); 
 		  }
 	  }
@@ -198,10 +198,10 @@ public class LineHandler implements EditorMode {
 			  ((relationship instanceof RefOntoUML.Mediation) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
 		      ((relationship instanceof RefOntoUML.Structuration) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))		      
 		  ){
-			  conn = MenthorEditor.getFrame().getElementFactory().createConnection(relationship, (UmlNode) target, (UmlNode) source);
+			  conn = FactoryManager.get().createConnection(relationship, (UmlNode) target, (UmlNode) source);
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) target, (UmlNode)source, anchor, tmpPos);
 		  }else{
-			  conn = MenthorEditor.getFrame().getElementFactory().createConnection(relationship, (UmlNode) source, (UmlNode) target);
+			  conn = FactoryManager.get().createConnection(relationship, (UmlNode) source, (UmlNode) target);
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) source, (UmlNode)target, anchor, tmpPos);
 		    }	
 	  }
@@ -222,7 +222,7 @@ public class LineHandler implements EditorMode {
 	  //UmlConnection ->(connectedTo) -> UmlNode
 	  if (source instanceof UmlConnection && target instanceof UmlNode)
 	  {
-		  conn = MenthorEditor.getFrame().getElementFactory().createConnectionFromCon(relationType, (UmlConnection) source, (UmlNode) target);		
+		  conn = FactoryManager.get().createConnectionFromCon(relationType, (UmlConnection) source, (UmlNode) target);		
 	  	  connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection)source,  (UmlNode)target, anchor, tmpPos);	
 	  }
 	  // UmlNode ->(connectedTo) -> UmlConnection
@@ -230,7 +230,7 @@ public class LineHandler implements EditorMode {
 	  {
 		  //invert sides if derivation is pushed from the UmlNode (relator), it should be from the UmlConnection (material)
 		  if (relationType == RelationshipType.DERIVATION) { 
-			  conn = MenthorEditor.getFrame().getElementFactory().createConnectionFromCon(relationType, (UmlConnection) target, (UmlNode) source);   
+			  conn = FactoryManager.get().createConnectionFromCon(relationType, (UmlConnection) target, (UmlNode) source);   
               connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection) target, (UmlNode)source, anchor, tmpPos); 
 		  }
 	  }
@@ -243,17 +243,17 @@ public class LineHandler implements EditorMode {
 			  (relationType == RelationshipType.MEDIATION && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
 		      (relationType == RelationshipType.STRUCTURATION && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))
 		  ){
-			  conn = MenthorEditor.getFrame().getElementFactory().createConnection(relationType, (UmlNode) target, (UmlNode) source);
+			  conn = FactoryManager.get().createConnection(relationType, (UmlNode) target, (UmlNode) source);
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) target, (UmlNode)source, anchor, tmpPos);
 		  }else{
-			  conn = MenthorEditor.getFrame().getElementFactory().createConnection(relationType, (UmlNode) source, (UmlNode) target);
+			  conn = FactoryManager.get().createConnection(relationType, (UmlNode) source, (UmlNode) target);
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) source, (UmlNode)target, anchor, tmpPos);
 		    }	
 	  }
 	  // UmlNode ->(connectedTo) -> UmlNode
 	  if (source instanceof UmlConnection && target instanceof UmlConnection)
 	  {
-		  conn = MenthorEditor.getFrame().getElementFactory().createConnectionBetweenCon(relationType, (UmlConnection) source, (UmlConnection) target);
+		  conn = FactoryManager.get().createConnectionBetweenCon(relationType, (UmlConnection) source, (UmlConnection) target);
 		  connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection) source, (UmlConnection)target, anchor, tmpPos);
 	  }
 	  if (conn!=null){
@@ -366,7 +366,7 @@ public class LineHandler implements EditorMode {
 			  if(source instanceof AssociationElement) sourcePoint.setLocation(((AssociationElement)source).getAbsCenterX(),((AssociationElement)source).getAbsCenterY());
 			  if(target instanceof AssociationElement) targetPoint.setLocation(((AssociationElement)target).getAbsCenterX(),((AssociationElement)target).getAbsCenterY());	  
 			  
-			  LineConnectMethod connectMethod = MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType);
+			  LineConnectMethod connectMethod = FactoryManager.get().getConnectMethod(relationType);
 			  
 			  UmlConnection conn = createConnection(editor, connectMethod, relationType, source, target, sourcePoint, targetPoint); 
 			  

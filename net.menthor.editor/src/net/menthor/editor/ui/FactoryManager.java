@@ -1,23 +1,24 @@
-package org.tinyuml.umldraw.shared;
+package net.menthor.editor.ui;
 
 /**
- * Copyright 2007 Wei-ju Wu
+ * ============================================================================================
+ * Menthor Editor -- Copyright (c) 2015 
  *
- * This file is part of TinyUML.
+ * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
+ * distributed under the same license terms.
  *
- * TinyUML is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
  *
- * TinyUML is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with TinyUML; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * You should have received a copy of the GNU General Public License along with Menthor Editor; 
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
+ * MA  02110-1301  USA
+ * ============================================================================================
  */
 
 import java.util.HashMap;
@@ -30,6 +31,9 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.UmlConnection;
+import org.tinyuml.umldraw.shared.UmlDiagramElement;
+import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.AggregationKind;
 import RefOntoUML.Association;
@@ -88,18 +92,28 @@ import RefOntoUML.impl.MeronymicImpl;
 import RefOntoUML.impl.StructurationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.managers.BaseManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 
-/**
- * Implementation of the DiagramElementFactory interface. A
- * DiagramElementFactory instance belongs to a particular UmlDiagram instance,
- * so it can automatically associate allElements to the diagram they belong to.
- *
- * @author Wei-ju Wu, John Guerson
- */
-public class DiagramElementFactoryImpl implements DiagramElementFactory {
+public class FactoryManager extends BaseManager {
+
+	// -------- Lazy Initialization
+	
+	private static class FactoryLoader {
+        private static final FactoryManager INSTANCE = new FactoryManager();
+    }	
+	public static FactoryManager get() { 
+		return FactoryLoader.INSTANCE; 
+	}	
+    private FactoryManager() {
+    	setupElementMaps();
+    	setupConnectionMaps();
+        if (FactoryLoader.INSTANCE != null) throw new IllegalStateException("FactoryManager already instantiated");
+    }		
+    
+    // ----------------------------
 
   //private Map<ElementType, UmlDiagramElement> elementPrototypes = new HashMap<ElementType, UmlDiagramElement>();
   private Map<ClassType, UmlDiagramElement> classPrototypes = new HashMap<ClassType, UmlDiagramElement>();
@@ -112,16 +126,7 @@ public class DiagramElementFactoryImpl implements DiagramElementFactory {
   private Map<RelationshipType, Integer> relationCounters = new HashMap<RelationshipType, Integer>();
   
   private RefOntoUMLFactory factory;
-  
-  /**
-   * Constructor.
-   * @param aDiagram the diagram this factory belongs to
-   */
-  public DiagramElementFactoryImpl() {  
-    setupElementMaps();
-    setupConnectionMaps();
-  }
-   
+     
 
   /**
    * Initializes the element map with the element prototypes.
@@ -667,7 +672,6 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
   /**
    * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
    */
-  @Override
   public UmlConnection createConnectionFromCon(RelationshipType relationType, UmlConnection c1, UmlNode node2) 
   {
 	  UmlConnection prototype = relationPrototypes.get(relationType);	  
@@ -692,7 +696,6 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
   /**
    * Create a UmlConnection from a relationship 
    */
-  @Override
   public UmlConnection createConnectionFromCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlNode node2) 
   {
 	  UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));	  

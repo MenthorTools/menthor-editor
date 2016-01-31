@@ -23,13 +23,14 @@ package net.menthor.editor.v2.edit;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JFrame;
+
 import org.tinyuml.umldraw.AssociationElement;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.MainFrame;
 
 public class AssociationEditDialog extends BaseEditDialog {
 	
@@ -51,8 +52,9 @@ public class AssociationEditDialog extends BaseEditDialog {
 		assocEdition.transferData();
 	}	
 	
-	public AssociationEditDialog(final MainFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal){
+	public AssociationEditDialog(JFrame parent, final AssociationElement assocElement, RefOntoUML.Relationship relationship, boolean modal){
 		super(parent, modal);
+		
 		this.assocElement = assocElement;
 		this.relationship = relationship;		
 		setTitle(""+""+OntoUMLParser.getStereotype(this.relationship)+" "+ ((Classifier)relationship).getName());		
@@ -66,7 +68,7 @@ public class AssociationEditDialog extends BaseEditDialog {
 		end2Edition = new PropertyEditPane(this,this.assocElement,(Classifier)relationship,((Association)relationship).getMemberEnd().get(1));
 		tabbedPane.addTab("Target End", end2Edition);		
 		
-		commentsEdition = new CommentsEditPane (diagramManager,(Classifier)relationship);
+		commentsEdition = new CommentsEditPane ((Classifier)relationship);
 		tabbedPane.addTab("Comments", commentsEdition);
 	}
 }

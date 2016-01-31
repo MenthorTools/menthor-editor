@@ -68,7 +68,6 @@ import org.tinyuml.draw.NodeChangeListener;
 import org.tinyuml.draw.Selection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.umldraw.shared.BaseConnection;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 import org.tinyuml.umldraw.shared.DiagramSelection;
 
 import RefOntoUML.Association;
@@ -86,6 +85,7 @@ import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.OccurenceManager;
 
@@ -215,7 +215,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	/**
 	 * Constructor.
 	 */
-	public StructureDiagram(UmlProject project, DiagramElementFactoryImpl elementFactory, DrawingContext drawingContext) {
+	public StructureDiagram(UmlProject project, FactoryManager elementFactory, DrawingContext drawingContext) {
 		initializeNameLabel();		
 		this.project = project;	
 		this.container=project.getModel();

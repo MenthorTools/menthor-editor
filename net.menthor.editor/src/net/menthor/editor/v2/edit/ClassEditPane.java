@@ -38,6 +38,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.MixinClass;
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class ClassEditPane extends JPanel {

@@ -29,22 +29,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.v2.EditorTabbedPane;
-import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 
 public class BaseEditDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
-	protected CommandListener listener;
-	protected EditorTabbedPane diagramManager;
 		
 	protected JTabbedPane tabbedPane;
 	protected JPanel btnPane;	
@@ -63,10 +58,8 @@ public class BaseEditDialog extends JDialog {
 		
 	}
 	
-	public BaseEditDialog(final MainFrame parent, boolean modal){
-		super(parent, modal);		
-		this.listener = (CommandListener)parent;
-		this.diagramManager = parent.getDiagramManager();	
+	public BaseEditDialog(final JFrame parent, boolean modal){
+		super(parent, modal);	
 		buildUI();		
 	}	
 	

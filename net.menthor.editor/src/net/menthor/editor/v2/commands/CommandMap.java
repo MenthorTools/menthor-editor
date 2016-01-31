@@ -320,8 +320,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
 				new MethodCall(MoveManager.class.getMethod("move", Object.class)));		
 	}
-	
-	
+		
 	private void findManager()throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
 				new MethodCall(FindManager.class.getMethod("findInDiagrams", Object.class)));
@@ -363,14 +362,14 @@ public class CommandMap {
 	}
 	
 	private void owlManager()throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CALL_OWL_SETTINGS,
+		cmdMap.put(CommandType.OWL_SETTINGS,
 				new MethodCall(OwlManager.class.getMethod("callOwlSettings")));
 		cmdMap.put(CommandType.GENERATE_OWL,
 				new MethodCall(OwlManager.class.getMethod("generateOwl", Object.class)));
 	}
 	
 	private void glossaryManager()throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.TEXTUAL_DESCRIPTION, 
+		cmdMap.put(CommandType.GLOSSARY_SETTINGS, 
 			new MethodCall(GlossaryManager.class.getMethod("openGlossarySettings")));
 	}
 	

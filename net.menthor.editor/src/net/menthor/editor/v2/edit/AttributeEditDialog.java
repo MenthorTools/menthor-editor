@@ -25,14 +25,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-
-import net.menthor.editor.ui.MainFrame;
 
 public class AttributeEditDialog extends BaseEditDialog {
 
@@ -44,7 +43,7 @@ public class AttributeEditDialog extends BaseEditDialog {
 	
 	private PropertyEditPane propertyEdition;
 	
-	public AttributeEditDialog(final MainFrame parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
+	public AttributeEditDialog(final JFrame parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
 		super(parent, modal);				
 		this.classElement = classElement;		
 		this.element = element;		

@@ -111,6 +111,7 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
@@ -1001,14 +1002,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
 	{	
-		lineHandler.setRelationType(relationType,MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType));
+		lineHandler.setRelationType(relationType,FactoryManager.get().getConnectMethod(relationType));
 		editorMode = lineHandler;
 	}
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
 		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-		lineHandler.setRelationType(relationType, MenthorEditor.getFrame().getElementFactory().getConnectMethod(relationType));
+		lineHandler.setRelationType(relationType, FactoryManager.get().getConnectMethod(relationType));
 		editorMode = lineHandler;		
 		RefOntoUML.Type source = null;
 		RefOntoUML.Type target = null;

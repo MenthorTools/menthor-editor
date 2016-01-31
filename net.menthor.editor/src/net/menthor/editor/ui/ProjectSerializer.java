@@ -14,30 +14,28 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.util.FileWriter;
 import net.menthor.editor.v2.util.Settings;
 
 /**
  * This class writes the current model and diagram data to an XML file.
  */
-public final class ProjectWriter extends FileWriter {
+public final class ProjectSerializer {
 
-	private static ProjectWriter instance = new ProjectWriter();
+	private static ProjectSerializer instance = new ProjectSerializer();
 
 	/**
 	 * Returns the singleton instance.
 	 */
-	public static ProjectWriter getInstance() {
+	public static ProjectSerializer getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Writes the specified UmlProject to a file.
 	 */
-	public File writeProject(File file, UmlProject project, ArrayList<OclDocument> oclDocList) throws IOException {
+	public File serialize(File file, UmlProject project, ArrayList<OclDocument> oclDocList) throws IOException {
 
-		File outFile = getFileWithExtension(file);
-		FileOutputStream dest = new FileOutputStream(outFile);
+		FileOutputStream dest = new FileOutputStream(file);
 		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
 		
 		System.out.println("Saving model XMI information in Menthor file...");
@@ -81,7 +79,7 @@ public final class ProjectWriter extends FileWriter {
 		out.finish();
 		out.close();
 
-		return outFile;
+		return file;
 	}
 	
 	public String getSuffix() 

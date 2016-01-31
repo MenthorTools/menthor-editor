@@ -45,9 +45,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Constraintx;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.MenthorEditor;
+import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.TransferManager;
@@ -74,7 +73,7 @@ public class ConstraintEditPane extends JPanel {
 	private JLabel lblNewLabel_1;
 	private JLabel lblConstraint;
 	
-	public ConstraintEditPane(EditorTabbedPane diagramManager, Classifier element){
+	public ConstraintEditPane(Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.element = element;
 		initUI();
@@ -104,7 +103,7 @@ public class ConstraintEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void createConstraint(){
-		Constraintx c = MenthorEditor.getFrame().getElementFactory().createConstraintx();		
+		Constraintx c = FactoryManager.get().createConstraintx();		
 		c.getConstrainedElement().add(element);
 		String selectedItem = ((String)comboConstraintType.getSelectedItem());
 		if(selectedItem.compareToIgnoreCase("invariant")==0) c.setName("Invariant");

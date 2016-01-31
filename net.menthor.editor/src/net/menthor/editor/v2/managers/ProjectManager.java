@@ -35,7 +35,7 @@ import net.menthor.editor.ui.DATException;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectReader;
-import net.menthor.editor.ui.ProjectWriter;
+import net.menthor.editor.ui.ProjectSerializer;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.editors.OclEditor;
@@ -160,7 +160,7 @@ public class ProjectManager extends BaseManager {
 	
 	public void saveProject() {
 		if (projectFile == null) saveProjectAs();			
-		else writeProject(projectFile);
+		else serializeProject(projectFile);
 	}
 	
 	public void newProject(){		
@@ -171,7 +171,7 @@ public class ProjectManager extends BaseManager {
 			CursorManager.get().waitCursor();
 			closeProject();
 			createEmptyProject(false,true);				
-			writeProject(file);			
+			serializeProject(file);			
 			MenthorEditor.getFrame().set(file);														
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "New Project", "Could not create new project");
@@ -203,7 +203,7 @@ public class ProjectManager extends BaseManager {
 			lastOpenPath = file.getAbsolutePath();
 			CursorManager.get().waitCursor();			
 			closeProject();
-			readProject(projectFile);
+			deserializeProject(projectFile);
 			MenthorEditor.getFrame().set(file);			
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Open Project", "Could not open existing project");
@@ -217,7 +217,7 @@ public class ProjectManager extends BaseManager {
 			closeProject();
 			File file = new File(filePath);
 			projectFile = file;						
-			readProject(projectFile);	
+			deserializeProject(projectFile);	
 			MenthorEditor.getFrame().set(file);
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Open Project", "Could not open existing project from a file path");
@@ -230,7 +230,7 @@ public class ProjectManager extends BaseManager {
 			File file = chooseSaveAsFile();
 			if(file==null) return;	
 			CursorManager.get().waitCursor();
-			projectFile = writeProject(file);			
+			projectFile = serializeProject(file);			
 			lastSavePath = file.getAbsolutePath();
 			MenthorEditor.getFrame().set(projectFile, false);			
 		}catch (Exception ex) {
@@ -250,7 +250,7 @@ public class ProjectManager extends BaseManager {
 			Resource resource = RefOntoUMLResourceUtil.loadModel(file.getAbsolutePath());
 			RefOntoUML.Package model = (RefOntoUML.Package)resource.getContents().get(0);
 			createProject(model, true, false);
-			writeProject(projectFile);
+			serializeProject(projectFile);
 			MenthorEditor.getFrame().set(projectFile);			
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
@@ -259,7 +259,7 @@ public class ProjectManager extends BaseManager {
 	}
 
 	/**serialize project */
-	public File writeProject(File file){
+	public File serializeProject(File file){
 		File result = null;
 		try {
 			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
@@ -271,7 +271,7 @@ public class ProjectManager extends BaseManager {
 			for(DiagramEditor editor: TabManager.get().getDiagramEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
-			result = ProjectWriter.getInstance().writeProject(file, project, Models.getOclDocList());
+			result = ProjectSerializer.getInstance().serialize(file, project, Models.getOclDocList());
 			project.setName(file.getName().replace(".menthor",""));
 			tree().updateUI();
 			project.saveAllDiagramNeeded(false);
@@ -284,7 +284,7 @@ public class ProjectManager extends BaseManager {
 	}
 	
 	/**deserialize project */
-	public void readProject(File file) throws IOException, ClassNotFoundException, DATException {
+	public void deserializeProject(File file) throws IOException, ClassNotFoundException, DATException {
 		CursorManager.get().waitCursor();
 		ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
 		List<OclDocument> ocllist = new ArrayList<OclDocument>();

@@ -39,7 +39,6 @@ import javax.swing.JRootPane;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 
 import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.InfoTabbedPane;
@@ -101,10 +100,8 @@ public class MainFrame extends JFrame implements CommandListener {
 	private transient EditorTabbedPane topTabbedPane;
 	private transient InfoTabbedPane footerPane;
 	
-	private transient DiagramElementFactoryImpl elementFactory = new DiagramElementFactoryImpl();
 	private transient DrawingContext drawingContext = new DrawingContextImpl();	
 	
-	public DiagramElementFactoryImpl getElementFactory() { return elementFactory; }
 	public DrawingContext getDrawingContext() { return drawingContext; }
 	
 	public MainFrame() {
@@ -383,6 +380,8 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(ErrorManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == StatisticsManager.class){
 				return methodcall.call(StatisticsManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == FactoryManager.class){
+				return methodcall.call(FactoryManager.get());
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
