@@ -40,6 +40,7 @@ import javax.swing.table.TableModel;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.elements.FoundElement;
 import net.menthor.editor.v2.tables.FoundScrollTable;
 import net.menthor.editor.v2.types.EditorType;

@@ -80,7 +80,7 @@ public class FilterManager extends BaseManager {
 	/** Tell the application to work only with the checked elements in the tree. */
 	public List<Object> workingOnlyWithChecked(){ //takes too long
 		OntoUMLParser refparser = Models.getRefparser();
-		List<Object> selected = tree().getCheckedElements();
+		List<Object> selected = tree().getCheckedObjects();
 		List<EObject> result = new ArrayList<EObject>();
 		for(Object c: selected) result.add((EObject)c);
 		refparser.select(result,true);		

@@ -1,4 +1,4 @@
-package net.menthor.editor.ui;
+package net.menthor.editor.v2.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,11 +22,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
-
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.tree.DiagramStrictTree;
+
+import net.menthor.editor.v2.tree.SimpleDiagramTree;
 import net.menthor.editor.v2.tree.ProjectTree;
-import net.menthor.editor.v2.tree.ProjectTreeCheckPane;
+import net.menthor.editor.v2.tree.TreeCheckPane;
 import net.menthor.editor.v2.tree.TreeVisibility;
 
 public class FilterPane extends JPanel {
@@ -35,14 +35,12 @@ public class FilterPane extends JPanel {
 		
 	//tree
 	private ProjectTree elemTree;
-	private DiagramStrictTree diagramTree;
-	private JScrollPane scrollTreePane = new JScrollPane();
-	private JPanel treeWrapper = new JPanel();
-	private TreeType activeTree = TreeType.BY_ELEMENT;
+	private SimpleDiagramTree diagramTree;
+	private TreeType activeTreeType = TreeType.BY_ELEMENT;
 	private boolean isExpanded = false;
-	
-	//options
-	private ProjectTreeCheckPane optPane = new ProjectTreeCheckPane();
+	private TreeCheckPane optPane = new TreeCheckPane();
+	private JScrollPane scrollPane = new JScrollPane();
+	private JPanel wrapperPane = new JPanel();	
 	
 	//find
 	private JTextField findText;
@@ -59,89 +57,71 @@ public class FilterPane extends JPanel {
 	private JPanel searchPane;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public FilterPane()
-	{
+	public FilterPane(){
 		setBorder(new EmptyBorder(10, 5, 5, 5));
 		setLayout(new BorderLayout(7,7));				
-		setPreferredSize(new Dimension(529, 400));
-				
+		setPreferredSize(new Dimension(529, 400));				
 		optPane.setPreferredSize(new Dimension(162, 100));
-		add(optPane, BorderLayout.EAST);
-				
-		treeWrapper.setBackground(Color.WHITE);
-		treeWrapper.setBorder(new EmptyBorder(0,0, 0, 0));
-		treeWrapper.setPreferredSize(new Dimension(210,250));
-		
-		scrollTreePane.setViewportView(treeWrapper);				
-		scrollTreePane.setPreferredSize(new Dimension(210,250));
-		
-		add(scrollTreePane,BorderLayout.CENTER);		
-		
+		add(optPane, BorderLayout.EAST);				
+		wrapperPane.setBackground(Color.WHITE);
+		wrapperPane.setBorder(new EmptyBorder(0,0, 0, 0));
+		wrapperPane.setPreferredSize(new Dimension(210,250));		
+		scrollPane.setViewportView(wrapperPane);				
+		scrollPane.setPreferredSize(new Dimension(210,250));		
+		add(scrollPane,BorderLayout.CENTER);				
 		findPanel = new JPanel();
 		add(findPanel, BorderLayout.NORTH);
-		findPanel.setLayout(new BorderLayout(0, 0));
-		
+		findPanel.setLayout(new BorderLayout(0, 0));		
 		textPanel = new JPanel();
 		findPanel.add(textPanel);
-		textPanel.setLayout(new BorderLayout(3, 3));
-		
+		textPanel.setLayout(new BorderLayout(3, 3));		
 		btnPanel = new JPanel();
 		textPanel.add(btnPanel, BorderLayout.EAST);
-		btnPanel.setLayout(new BorderLayout(2, 2));
-		
+		btnPanel.setLayout(new BorderLayout(2, 2));		
 		btnExpandAll = new JButton("Expand All");
-		btnPanel.add(btnExpandAll, BorderLayout.WEST);
-		
+		btnPanel.add(btnExpandAll, BorderLayout.WEST);		
 		treeTypeCombo = new JComboBox();
 		treeTypeCombo.setModel(new DefaultComboBoxModel(new String[] {"By Element", "By Diagram"}));
 		treeTypeCombo.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(treeTypeCombo.getSelectedIndex()==0){
-					activeTree=TreeType.BY_ELEMENT;
+					activeTreeType=TreeType.BY_ELEMENT;
 				}
 				if(treeTypeCombo.getSelectedIndex()==1){
-					activeTree=TreeType.BY_DIAGRAM;
+					activeTreeType=TreeType.BY_DIAGRAM;
 				}
 				ProjectTree tree = getActiveTree();		
 				tree.setBorder(new EmptyBorder(2,2,2,2));				
-				scrollTreePane.setViewportView(tree);		
+				scrollPane.setViewportView(tree);		
 				optPane.setTree(tree);				
 				updateUI();
 			}
-		});
-		
-		btnPanel.add(treeTypeCombo, BorderLayout.CENTER);
-		
+		});		
+		btnPanel.add(treeTypeCombo, BorderLayout.CENTER);		
 		searchPane = new JPanel();
 		textPanel.add(searchPane, BorderLayout.CENTER);
-		searchPane.setLayout(new BorderLayout(0, 0));
-		
+		searchPane.setLayout(new BorderLayout(0, 0));		
 		findText = new JTextField();
 		searchPane.add(findText);
 		findText.setPreferredSize(new Dimension(100, 20));
 		findText.setMargin(new Insets(2, 6, 2, 2));
-		findText.setColumns(38);
-		
+		findText.setColumns(38);		
 		findButton = new JButton("");
 		searchPane.add(findButton, BorderLayout.EAST);
-//		findButton.setContentAreaFilled(false);
-//		findButton.setOpaque(false);
-//		findButton.setFocusPainted(false);
 		findButton.setFocusable(false);
-//		findButton.setBorderPainted(false);
 		findButton.setPreferredSize(new Dimension(60, 28));
 		findButton.setText("Find");
 		findButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				find();
+				findOnTree();
 			}
 		});
 		findText.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				find();
+				findOnTree();
 			}
 		});
 		btnExpandAll.addActionListener(new ActionListener() {			
@@ -150,15 +130,37 @@ public class FilterPane extends JPanel {
 				if(isExpanded) isExpanded=false; else isExpanded=true;
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				if(!isExpanded){
-					if(activeTree==TreeType.BY_ELEMENT) elemTree.expandAll();
-					if(activeTree==TreeType.BY_DIAGRAM) diagramTree.expandAll();
+					if(activeTreeType==TreeType.BY_ELEMENT) elemTree.expandAll();
+					if(activeTreeType==TreeType.BY_DIAGRAM) diagramTree.expandAll();
 				}else{
-					if(activeTree==TreeType.BY_ELEMENT) elemTree.colapseAll();
-					if(activeTree==TreeType.BY_DIAGRAM) diagramTree.colapseAll();
+					if(activeTreeType==TreeType.BY_ELEMENT) elemTree.colapseAll();
+					if(activeTreeType==TreeType.BY_DIAGRAM) diagramTree.colapseAll();
 				}
 				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));				
 			}
 		});
+	}
+	
+	public OntoUMLParser getParser() { return getActiveTree().getParser(); }
+	public ProjectTree getFilter() { return getActiveTree(); }
+	
+	public OntoUMLParser getFilteredParser(){					
+		getParser().select(getCheckedElements(),true);		
+		return getParser();	
+	}
+	
+	public List<EObject> getCheckedElements(){
+		List<EObject> result = new ArrayList<EObject>();
+		for(Object c: getActiveTree().getCheckedObjects()){
+			if(c instanceof EObject)result.add((EObject)c);
+		}
+		return result;
+	}
+	
+	protected ProjectTree getActiveTree(){
+		ProjectTree active;
+		if(activeTreeType == TreeType.BY_DIAGRAM) active = diagramTree; else active = elemTree;
+		return active;
 	}
 
 	public enum TreeType{
@@ -170,32 +172,22 @@ public class FilterPane extends JPanel {
 		public String value() { return value; }
 	}
 	
-	public void fillContent(OntoUMLParser refparser, List<OntoumlDiagram> diagrams)
-	{
-		diagramTree = DiagramStrictTree.createDiagramTree(refparser, diagrams, new TreeVisibility(),true);
+	public void fillTree(OntoUMLParser refparser){
+		activeTreeType=TreeType.BY_ELEMENT;
+		fillTree(refparser, null);		
+	}
+	
+	public void fillTree(OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
+		diagramTree = SimpleDiagramTree.createDiagramTree(refparser, diagrams, new TreeVisibility(),true);
 		elemTree = ProjectTree.create(null, refparser, new TreeVisibility(),true);
 		ProjectTree tree = getActiveTree();		
 		if(tree!=null) tree.setBorder(new EmptyBorder(2,2,2,2));				
-		scrollTreePane.setViewportView(tree);		
+		scrollPane.setViewportView(tree);		
 		optPane.setTree(tree);
 		updateUI();						
 	}	
 	
-	public void fillContent(OntoUMLParser refparser)
-	{
-		activeTree=TreeType.BY_ELEMENT;
-		fillContent(refparser, null);		
-	}	
-	
-	protected ProjectTree getActiveTree()
-	{
-		ProjectTree active;
-		if(activeTree == TreeType.BY_DIAGRAM) active = diagramTree; else active = elemTree;
-		return active;
-	}
-	
-	protected void find() 
-	{
+	public void findOnTree() {
 		ProjectTree tree = getActiveTree();		
 		tree.resetSelection();
 		if(findText.getText().equals(lastTextFound)) {						
@@ -209,40 +201,19 @@ public class FilterPane extends JPanel {
 		}
 	}
 	
-	public void refresh()
-	{				
+	public void refresh(){				
 		ProjectTree tree = getActiveTree();
 		if(tree!=null) tree.updateUI();		
 		validate();
 		repaint();		
 	}
 	
-	public void clear()
-	{
+	public void clear(){
 		JPanel emptyTempPanel = new JPanel();
 		emptyTempPanel.setBackground(Color.WHITE);
 		emptyTempPanel.setBorder(new EmptyBorder(0,0, 0, 0));
-		scrollTreePane.setViewportView(emptyTempPanel);		
+		scrollPane.setViewportView(emptyTempPanel);		
 		emptyTempPanel.setPreferredSize(new Dimension(200,250));		
 		updateUI();
-	}
-	
-	public OntoUMLParser getParser() { return getActiveTree().getParser(); }
-	
-	public OntoUMLParser getFilteredParser()
-	{					
-		getParser().select(getCheckedElements(),true);		
-		return getParser();	
-	}
-	
-	public ProjectTree getFilter() { return getActiveTree(); }
-	
-	public List<EObject> getCheckedElements()
-	{
-		List<EObject> result = new ArrayList<EObject>();
-		for(Object c: getActiveTree().getCheckedElements()){
-			if(c instanceof EObject)result.add((EObject)c);
-		}
-		return result;
 	}
 }

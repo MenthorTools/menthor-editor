@@ -169,18 +169,18 @@ public class UpdateManager extends BaseManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				boolean found = tree().checkElement((EObject)addedElement);
+				boolean found = tree().checkObject((EObject)addedElement);
 				if(!found) {
-					if(addedElement.eContainer()!=null) tree().checkElement(addedElement.eContainer());
-					else if(addedElement instanceof EnumerationLiteral) tree().checkElement(((EnumerationLiteral)addedElement).getEnumeration());
-					else tree().checkElement(ProjectManager.get().getProject().getModel());					
-					tree().addElement(addedElement);					
+					if(addedElement.eContainer()!=null) tree().checkObject(addedElement.eContainer());
+					else if(addedElement instanceof EnumerationLiteral) tree().checkObject(((EnumerationLiteral)addedElement).getEnumeration());
+					else tree().checkObject(ProjectManager.get().getProject().getModel());					
+					tree().addChild(addedElement);					
 				} else {
 					if(addedElement instanceof Generalization){
-						tree().checkElement(addedElement);
+						tree().checkObject(addedElement);
 						tree().removeCurrentNode();
-						tree().checkElement(addedElement.eContainer());
-						tree().addElement(addedElement);
+						tree().checkObject(addedElement.eContainer());
+						tree().addChild(addedElement);
 					}
 				}
 				tree().updateUI();						

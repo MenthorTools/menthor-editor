@@ -28,32 +28,28 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.toolbar.ProjectToolBar;
 import net.menthor.editor.v2.tree.ProjectTree;
 import net.menthor.editor.v2.tree.TreeVisibility;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.TitlePanel;
 
-/**
- * @author John Guerson
- */
 public class ProjectBrowser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
-	public static MainFrame frame;
+	public static CommandListener listener;
 	
 	private JScrollPane scroll;	
 	private ProjectTree tree;
 	public ProjectTree getTree() { return tree; }	
-	private ProjectToolBar toolbar;
 	
-	public ProjectBrowser(MainFrame appframe, UmlProject project, RefOntoUML.Model model, OclDocument oclDoc){
+	public ProjectBrowser(CommandListener appframe, UmlProject project, RefOntoUML.Model model, OclDocument oclDoc){
 		super();		
 		Models.set(project, model);
-		frame = appframe;		
+		listener = appframe;		
 		scroll = new JScrollPane();		
 		scroll.setBorder(null);		
 		add(scroll, BorderLayout.CENTER);
@@ -61,19 +57,19 @@ public class ProjectBrowser extends RoundedPanel{
 	}
 	  	
 	public void initialize(){	
-		toolbar = new ProjectToolBar(frame);		
-		tree = ProjectTree.create(frame,
+		TreeVisibility viz = new TreeVisibility();
+		viz.hideEnds();
+		tree = ProjectTree.create(listener,
 			Models.getRefparser(), 
 			Models.getOclDocList(), 
 			Models.getProject(),
-			new TreeVisibility(), 
+			viz, 
 			false
 		);		
 		TitlePanel title = new TitlePanel("Project Browser", IconMap.getInstance().getIcon(IconType.MENTHOR_TREE));
 		title.setBackground(Color.LIGHT_GRAY);		
 		RoundedPanel panel = new RoundedPanel();
 		panel.add(title, BorderLayout.NORTH);
-		panel.add(toolbar, BorderLayout.CENTER);				
 		add(panel, BorderLayout.NORTH);				
 		scroll.setViewportView(tree);	
 		scroll.setMinimumSize(new Dimension(0,0));

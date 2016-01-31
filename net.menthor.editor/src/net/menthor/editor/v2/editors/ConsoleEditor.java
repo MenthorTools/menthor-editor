@@ -28,6 +28,7 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.EditorType;

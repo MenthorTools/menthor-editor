@@ -55,7 +55,7 @@ import javax.swing.event.ChangeListener;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ColorMap;

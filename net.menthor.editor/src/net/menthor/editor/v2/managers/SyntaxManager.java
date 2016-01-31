@@ -32,9 +32,7 @@ import org.eclipse.ocl.SemanticException;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-import net.menthor.editor.ui.ErrorVerificator;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.WarningVerificator;
 import net.menthor.editor.v2.elements.ErrorElement;
 import net.menthor.editor.v2.elements.ProblemElement;
 import net.menthor.editor.v2.elements.ProblemElement.TypeProblem;
@@ -80,10 +78,24 @@ public class SyntaxManager extends BaseManager{
 		}				
 	}
 	
+	//we want warnings and errors all together with the model verification
 	public void verifyModel(){
 		CursorManager.get().waitCursor();		
-		List<ProblemElement> errors = verifyErrors();
-		List<ProblemElement> warnings = verifyWarnings();
+		double start = System.currentTimeMillis();
+		
+		//application warnings
+		List<ProblemElement> warnings = WarningManager.get().verifyWarnings();
+		//application errors
+		List<ProblemElement> errors = new ArrayList<ProblemElement>();		
+		errors.addAll(ErrorManager.get().getErrors());		
+		//meta-model issues
+		errors.addAll(getMetamodelErrors());
+		
+		Collections.sort(errors,new ProblemComparator());
+		double end = System.currentTimeMillis();				
+		int count=0;
+		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
+		TabManager.get().addErrorsEditor(start, end, errors, listener());		
 		frame().forceShowFooterPane();
 		if(errors.size()>0 && warnings.size()>0) {
 			TabManager.get().selectErrorEditor();
@@ -102,40 +114,7 @@ public class SyntaxManager extends BaseManager{
 		CursorManager.get().defaultCursor();
 	}
 	
-	public List<ProblemElement> verifyErrors(){
-		double start = System.currentTimeMillis();		
-		List<ProblemElement> problems = new ArrayList<ProblemElement>();		
-		problems.addAll(getMetamodelErrors());	
-		problems.addAll(getApplicationErrors());		
-		Collections.sort(problems,new ProblemComparator());
-		double end = System.currentTimeMillis();				
-		int count=0;
-		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
-		TabManager.get().addErrorsEditor(start, end, problems, listener());
-		return problems;
-	}
-	
-	public List<ProblemElement> verifyWarnings(){		
-		List<ProblemElement> warnings = new ArrayList<ProblemElement>();
-		WarningVerificator verificator = new WarningVerificator(Models.getRefparser());					
-		verificator.run();
-		warnings.addAll(verificator.getWarnings());		
-		Collections.sort(warnings,new ProblemComparator());		
-		int count=0;
-		for(ProblemElement pe: warnings) { count++; pe.setIdentifier(count); }
-		TabManager.get().addWarningsEditor(verificator.getTimingMessage(), warnings, listener());
-		return warnings;
-	}
-	
-	public List<ProblemElement> getApplicationErrors(){
-		List<ProblemElement> result = new ArrayList<ProblemElement>();
-		ErrorVerificator errorVerificator = new ErrorVerificator(Models.getRefparser());
-		errorVerificator.run();
-		result.addAll(errorVerificator.getErrors());
-		return result;
-	}
-	
-	public List<ProblemElement> getMetamodelErrors(){
+	private List<ProblemElement> getMetamodelErrors(){
 		List<ProblemElement> result = new ArrayList<ProblemElement>();
 		SyntacticVerificator verificator = new SyntacticVerificator();
 		verificator.run(ProjectManager.get().getProject().getModel());			

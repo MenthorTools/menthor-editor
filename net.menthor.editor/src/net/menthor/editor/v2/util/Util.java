@@ -132,8 +132,8 @@ public class Util {
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(parent,"Ok") == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
-			if(!file.getName().endsWith("."+fileExtension)) {
-				file = new File(file.getCanonicalFile() + "."+fileExtension);
+			if(!(file.getName().endsWith("."+fileExtension)) && !(file.getName().endsWith("."+fileExtension2)) ) {
+				file = new File(file.getCanonicalFile() + "."+fileExtension2);
 			}else{
 				file = new File(file.getCanonicalFile()+"");
 			}

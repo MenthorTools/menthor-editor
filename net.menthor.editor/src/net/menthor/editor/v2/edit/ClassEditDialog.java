@@ -36,7 +36,8 @@ import RefOntoUML.Enumeration;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.ui.RelatedElementsPanel;
+import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.ui.RelatedElementsPane;
 
 public class ClassEditDialog extends BaseEditDialog {
 
@@ -50,7 +51,7 @@ public class ClassEditDialog extends BaseEditDialog {
 	private LiteralEditPane literalsEdition;
 	private DimensionEditPane dimensionEdition;
 	private ConstraintEditPane constraintsEdition;
-	private RelatedElementsPanel relatedElements;
+	private RelatedElementsPane relatedElements;
 	
 	@Override
 	public void confirm(ActionEvent arg0){
@@ -94,7 +95,7 @@ public class ClassEditDialog extends BaseEditDialog {
 		constraintsEdition = new ConstraintEditPane(diagramManager,element);
 		tabbedPane.addTab("Constraints", constraintsEdition);
 		
-		relatedElements = new RelatedElementsPanel(diagramManager,classElement,element);
+		relatedElements = new RelatedElementsPane(element, Models.getRefparser());
 		tabbedPane.addTab("Related Elements", relatedElements);
 		
 		classEdition.selectNameText();

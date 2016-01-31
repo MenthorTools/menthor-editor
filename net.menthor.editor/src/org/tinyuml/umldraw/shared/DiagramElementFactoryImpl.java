@@ -581,9 +581,11 @@ public RefOntoUML.Relationship createRelationship(RelationshipType RelationshipT
   {
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  umlnode = (UmlNode) classPrototypes.get(ClassType.valueOf(type.eClass().getName().toUpperCase())).clone();
+		  ClassType stereo = ClassType.getClassType((RefOntoUML.Class)type);
+		  umlnode = (UmlNode) classPrototypes.get(stereo).clone();
 	  }else{ 
-		  umlnode = (UmlNode) datatypesPrototypes.get(DataType.valueOf(type.eClass().getName().toUpperCase())).clone();
+		  DataType stereo = DataType.getDataType((RefOntoUML.DataType)type);
+		  umlnode = (UmlNode) datatypesPrototypes.get(stereo).clone();
 	  }
 	  ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);
 	  if(diagram.getContainer()!=null){

@@ -51,7 +51,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import org.eclipse.emf.edit.provider.IDisposable;
 
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.Editor;
+import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;

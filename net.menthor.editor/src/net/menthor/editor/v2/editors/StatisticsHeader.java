@@ -1,4 +1,4 @@
-package net.menthor.editor.ui;
+package net.menthor.editor.v2.editors;
 
 /**
  * ============================================================================================
@@ -30,36 +30,24 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-/**
- * @author John Guerson
- */
-public class StatisticsHeadPane extends JPanel {
+public class StatisticsHeader extends JPanel {
 
 	private static final long serialVersionUID = -4542364815581324052L;
 	private JButton btnRun;
 	private JButton btnCopy;
 	
-	public JButton getRunButton() {
-		return btnRun;
-	}
+	public JButton getRunButton(){ return btnRun; }	
+	public JButton getCopyButton() { return btnCopy; }
 	
-	public JButton getCopyButton() {
-		return btnCopy;
-	}
-	
-	public StatisticsHeadPane() 
-	{
+	public StatisticsHeader(){
 		//setBorder(BorderFactory.createTitledBorder(""));
-		setBackground(Color.LIGHT_GRAY);
-		
+		setBackground(Color.LIGHT_GRAY);		
 		btnRun = new JButton("Collect statistics");
 		btnRun.setBackground(Color.LIGHT_GRAY);
-		btnRun.setFocusable(false);
-		
+		btnRun.setFocusable(false);		
 		btnCopy = new JButton("Copy to Clipboard");
 		btnCopy.setBackground(Color.LIGHT_GRAY);
-		btnCopy.setEnabled(false);
-		
+		btnCopy.setEnabled(false);		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)

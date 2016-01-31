@@ -37,10 +37,8 @@ import javax.swing.tree.TreePath;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTreeCellRenderer;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 
@@ -108,7 +106,8 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 	   	checkbox.setSelected(checked);	   	
 	   	if(!checked) {
 	   		if (selected) {
-				label.setBackground(Color.LIGHT_GRAY);
+				//label.setBackground(Color.LIGHT_GRAY);
+				label.setBackground(UIManager.getColor("Tree.selectionBackground"));
 			}else{
 				label.setBackground(UIManager.getColor("Tree.textBackground"));
 				label.setBorder(null);
@@ -116,7 +115,8 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer implements Checkbo
 	   		label.setForeground(Color.RED);
 	   	}else {
 	   		if (selected) {
-	   			label.setBackground(Color.LIGHT_GRAY);
+	   			//label.setBackground(Color.LIGHT_GRAY);
+	   			label.setBackground(UIManager.getColor("Tree.selectionBackground"));
 			}else{
 				label.setBackground(UIManager.getColor("Tree.textBackground"));
 				label.setBorder(null);

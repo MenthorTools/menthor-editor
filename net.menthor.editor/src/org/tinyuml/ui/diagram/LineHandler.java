@@ -39,8 +39,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.editors.EditorMode;
-import net.menthor.editor.v2.editors.EditorMouseEvent;
+import net.menthor.editor.v2.editors.base.EditorMode;
+import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.types.RelationshipType;
 

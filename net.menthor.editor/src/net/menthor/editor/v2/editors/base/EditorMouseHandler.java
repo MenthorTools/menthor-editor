@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.editors;
+package net.menthor.editor.v2.editors.base;
 
 /**
  * ============================================================================================
@@ -21,15 +21,11 @@ package net.menthor.editor.v2.editors;
  * ============================================================================================
  */
 
-import javax.swing.JComponent;
+public interface EditorMouseHandler {
 
-import net.menthor.editor.v2.types.EditorType;
-
-public abstract class BaseEditor extends JComponent implements Editor {
-
-	private static final long serialVersionUID = -5942413080525420849L;
-			
-	public boolean isSaveNeeded(){ return false; }
-	
-	public abstract EditorType getEditorType();
+  void mouseClicked(EditorMouseEvent event);
+  void mousePressed(EditorMouseEvent event);
+  void mouseReleased(EditorMouseEvent event);
+  void mouseDragged(EditorMouseEvent event);
+  void mouseMoved(EditorMouseEvent event);
 }

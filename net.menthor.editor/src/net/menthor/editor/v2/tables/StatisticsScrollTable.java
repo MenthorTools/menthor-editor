@@ -1,4 +1,4 @@
-package net.menthor.editor.ui;
+package net.menthor.editor.v2.tables;
 
 /**
  * ============================================================================================
@@ -27,6 +27,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -36,72 +37,49 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.v2.elements.StatisticalElement;
-import net.menthor.editor.v2.tables.StatisticsTableModel;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 
-/**
- * @author John Guerson
- */
 public class StatisticsScrollTable extends JScrollPane{
 
 	private static final long serialVersionUID = 1732036629191359696L;
+	
 	private JTable table;
 	private StatisticsTableModel tablemodel;
-	private ArrayList<StatisticalElement> resultList = new ArrayList<StatisticalElement>();
+	private List<StatisticalElement> resultList = new ArrayList<StatisticalElement>();
 	
 	public JTable getTable() { return table; }
-	public ArrayList<StatisticalElement> getResult() { return resultList; }
+	public List<StatisticalElement> getResult() { return resultList; }
 	
-	public StatisticsScrollTable()
-	{				
+	public StatisticsScrollTable(){				
 		String[] columnNames = {"Measure", "Count", "Type Percentage", "Total Percentage"};
-        Object[][] data = {};
-        
+        Object[][] data = {};        
 	    setMinimumSize(new Dimension(0, 0));
 	    setMinimumSize(new Dimension(0, 0));
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		setBorder(new EmptyBorder(0,0,0,0));
-		
+		setBorder(new EmptyBorder(0,0,0,0));		
 		table = new JTable(data,columnNames);
-		setViewportView(table);
-		
+		setViewportView(table);		
 		table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setGridColor(Color.LIGHT_GRAY);		
 	    table.setSelectionBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE));
 	    table.setSelectionForeground(Color.BLACK);
-	    table.setFocusable(false);	
-	    
-	    table.addMouseListener(new MouseAdapter()
-	    {
-	    	public void mousePressed(MouseEvent e)
-	    	{
-	    		// Left mouse click
-	    		if ( SwingUtilities.isLeftMouseButton(e))
-	    		{
-	    			// nothing
-	    		}
-	    		// Right mouse click
-	    		else if (SwingUtilities.isRightMouseButton(e))
-	    		{
-	    			// get the coordinates of the mouse click
+	    table.setFocusable(false);	    
+	    table.addMouseListener(new MouseAdapter(){
+	    	public void mousePressed(MouseEvent e){
+	    		if (SwingUtilities.isRightMouseButton(e)){
 	    			Point p = e.getPoint();	     
-	    			// get the row index that contains that coordinate
 	    			int rowNumber = table.rowAtPoint( p );	     
-	    			// Get the ListSelectionModel of the JTable
 	    			ListSelectionModel model = table.getSelectionModel();	     
-	    			// set the selected interval of rows. Using the "rowNumber"
-	    			// variable for the beginning and end selects only that one row.
 	    			model.setSelectionInterval( rowNumber, rowNumber );
 	    		}
 	    	}
 	    });
 	}
 	
-	public void reset()
-	{
+	public void reset(){
 		Object[][] data = {};String[] columnNames = {};
 		tablemodel = new StatisticsTableModel(columnNames,data);
 		table.setModel(tablemodel);	
@@ -109,18 +87,14 @@ public class StatisticsScrollTable extends JScrollPane{
 		table.validate();		
 	}
 	
-	public void selectRow (int row)
-	{
+	public void selectRow (int row){
 		table.setRowSelectionInterval(row, row);
 	}
 	
-	public void setData(ArrayList<StatisticalElement> foundList)
-	{
+	public void setElements(List<StatisticalElement> foundList){
 		this.resultList = foundList;
-		int rows=foundList.size();
-				
-		String[][] data = new String[rows][4];
-		
+		int rows=foundList.size();				
+		String[][] data = new String[rows][4];		
 		int i=0;		
 		for(StatisticalElement elem: this.resultList){						
 			data[i][0]="    "+elem.getMeasure();
@@ -128,17 +102,13 @@ public class StatisticsScrollTable extends JScrollPane{
 			data[i][2]=" "+elem.getTypePercentage();
 			data[i][3]=" "+elem.getAllPercentage();
 			i++;
-		}
-		
+		}		
 		String[] columnNames = {"Measure", "Count", "Type Percentage", "Total Percentage"};
-		tablemodel = new StatisticsTableModel(columnNames,data);
-		
-		table.setModel(tablemodel);
-		
+		tablemodel = new StatisticsTableModel(columnNames,data);		
+		table.setModel(tablemodel);		
 		for(int j=0;j<table.getRowCount();j++){
 			table.setRowHeight(j, 18);	
-	    }
-		
+	    }		
 		table.repaint();
 		table.validate();		
 		repaint();
@@ -147,16 +117,13 @@ public class StatisticsScrollTable extends JScrollPane{
 	
 	public String getTableText(){
 		String s = new String();
-		int rows = table.getModel().getRowCount();
-		
+		int rows = table.getModel().getRowCount();		
 		for (int i = 0; i < rows; i++) {
 			s +=table.getValueAt(i, 0).toString().replaceAll("    ", "")+"\t"+table.getValueAt(i, 1)+"\t"+
 				table.getValueAt(i, 2)+"\t"+table.getValueAt(i, 3);
 			if(i<rows-1)
 				s+="\n";
-		}
-		
+		}		
 		return s;
 	}
-
 }

@@ -63,7 +63,7 @@ public class FindManager extends BaseManager {
 		RefOntoUML.Element refElem = null;
 		if(element instanceof RefOntoUML.Element) refElem = (RefOntoUML.Element)element;
 		if(element instanceof FoundElement) refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
-		tree().checkElement(refElem);
+		tree().checkObject(refElem);
 	}
 	
 	public List<FoundElement> findByName(String text){		

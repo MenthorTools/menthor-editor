@@ -35,22 +35,22 @@ import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.ui.DiagramWrapper;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.StatisticsPane;
 import net.menthor.editor.ui.UmlProject;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.ConsoleEditor;
-import net.menthor.editor.v2.editors.Editor;
 import net.menthor.editor.v2.editors.ErrorEditor;
 import net.menthor.editor.v2.editors.FindEditor;
 import net.menthor.editor.v2.editors.OclEditor;
 import net.menthor.editor.v2.editors.ProblemEditor;
-import net.menthor.editor.v2.editors.TxtEditor;
+import net.menthor.editor.v2.editors.StatisticsEditor;
+import net.menthor.editor.v2.editors.TextEditor;
 import net.menthor.editor.v2.editors.WarningEditor;
+import net.menthor.editor.v2.editors.base.Editor;
+import net.menthor.editor.v2.editors.wrapper.DiagramEditorWrapper;
 import net.menthor.editor.v2.elements.ProblemElement;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
@@ -128,8 +128,8 @@ public class TabManager extends BaseManager {
 	}
 	
 	public DiagramEditor getCurrentDiagramEditor(){		
-		if(editorTabbedPane().getSelectedComponent() instanceof DiagramWrapper){			
-			return ((DiagramWrapper) editorTabbedPane().getSelectedComponent()).getDiagramEditor();
+		if(editorTabbedPane().getSelectedComponent() instanceof DiagramEditorWrapper){			
+			return ((DiagramEditorWrapper) editorTabbedPane().getSelectedComponent()).getDiagramEditor();
 		}
 		return null;
 	}
@@ -143,9 +143,9 @@ public class TabManager extends BaseManager {
 	
 	public DiagramEditor getDiagramEditor(StructureDiagram diagram){		
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramWrapper) {
-				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
-					return ((DiagramWrapper)c).getDiagramEditor();
+			if(c instanceof DiagramEditorWrapper) {
+				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
+					return ((DiagramEditorWrapper)c).getDiagramEditor();
 			}
 		}
 		DiagramEditor editor = new DiagramEditor(frame(),editorTabbedPane(),diagram);
@@ -166,7 +166,7 @@ public class TabManager extends BaseManager {
 	public List<DiagramEditor> getDiagramEditors(){
 		List<DiagramEditor> list = new ArrayList<DiagramEditor>();
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor());
+			if(c instanceof DiagramEditorWrapper) list.add(((DiagramEditorWrapper)c).getDiagramEditor());
 		}
 		return list;
 	}
@@ -182,7 +182,7 @@ public class TabManager extends BaseManager {
 	public ArrayList<StructureDiagram> getDiagrams(){
 		ArrayList<StructureDiagram> list = new ArrayList<StructureDiagram>();
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramWrapper) list.add(((DiagramWrapper)c).getDiagramEditor().getDiagram());
+			if(c instanceof DiagramEditorWrapper) list.add(((DiagramEditorWrapper)c).getDiagramEditor().getDiagram());
 		}
 		return list;
 	}
@@ -206,8 +206,8 @@ public class TabManager extends BaseManager {
 	
 	public int getEditorIndex(StructureDiagram diagram){		
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramWrapper) {
-				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
+			if(c instanceof DiagramEditorWrapper) {
+				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
 					return editorTabbedPane().indexOfComponent(c);
 			}
 		}
@@ -232,8 +232,8 @@ public class TabManager extends BaseManager {
 				editorTabbedPane().setSelectedComponent(c);
 				return true;
 			}
-			if(c instanceof DiagramWrapper) {
-				if(((DiagramWrapper) c).getDiagramEditor().getDiagram().equals(obj)) {
+			if(c instanceof DiagramEditorWrapper) {
+				if(((DiagramEditorWrapper) c).getDiagramEditor().getDiagram().equals(obj)) {
 					editorTabbedPane().setSelectedComponent(c);
 					return true;
 				}
@@ -250,8 +250,8 @@ public class TabManager extends BaseManager {
 	
 	public void selectEditor(StructureDiagram diagram){		
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramWrapper) {
-				if(((DiagramWrapper) c).getDiagramEditor().getDiagram().equals(diagram)) editorTabbedPane().setSelectedComponent(c);
+			if(c instanceof DiagramEditorWrapper) {
+				if(((DiagramEditorWrapper) c).getDiagramEditor().getDiagram().equals(diagram)) editorTabbedPane().setSelectedComponent(c);
 			}
 		}		
 	}
@@ -266,8 +266,8 @@ public class TabManager extends BaseManager {
 	
 	public void selectEditor(Editor editor){		
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramWrapper) {
-				if(((DiagramWrapper) c).getDiagramEditor().equals(editor)) editorTabbedPane().setSelectedComponent(c);
+			if(c instanceof DiagramEditorWrapper) {
+				if(((DiagramEditorWrapper) c).getDiagramEditor().equals(editor)) editorTabbedPane().setSelectedComponent(c);
 			}else{
 				if(c.equals(editor)) editorTabbedPane().setSelectedComponent(c);
 			}
@@ -302,8 +302,8 @@ public class TabManager extends BaseManager {
 	
 	public boolean isEditorOpen(StructureDiagram diagram){
 		for(Component c: editorTabbedPane().getComponents())
-			if (c instanceof DiagramWrapper)
-				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) return true;
+			if (c instanceof DiagramEditorWrapper)
+				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) return true;
 		return false;
 	}
 
@@ -352,8 +352,8 @@ public class TabManager extends BaseManager {
 	
 	public void removeEditor(StructureDiagram diagram){
 		for(Component c: editorTabbedPane().getComponents()){
-			if (c instanceof DiagramWrapper){
-				if (((DiagramWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) editorTabbedPane().remove(c);
+			if (c instanceof DiagramEditorWrapper){
+				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) editorTabbedPane().remove(c);
 			}
 		}		
 	}
@@ -385,7 +385,7 @@ public class TabManager extends BaseManager {
 		DiagramEditor editor = new DiagramEditor(frame(), editorTabbedPane(), diagram);	
 		editor.addAppCommandListener(listener());
 		OccurenceManager.get().add(editor.getDiagram());
-		DiagramWrapper wrapper = new DiagramWrapper(editor, listener());
+		DiagramEditorWrapper wrapper = new DiagramEditorWrapper(editor, listener());
 		editor.setWrapper(wrapper);
 		addClosableTab(editorTabbedPane(),((StructureDiagram)diagram).getLabelText(), wrapper);		
 		return editor;
@@ -430,11 +430,11 @@ public class TabManager extends BaseManager {
 		addStatisticsEditor(editorTabbedPane(),true); 
 	}
 	
-	public StatisticsPane addStatisticsEditor(JTabbedPane pane, boolean closable){
+	public StatisticsEditor addStatisticsEditor(JTabbedPane pane, boolean closable){
 		for(Component c: pane.getComponents()) {
-			if(c instanceof StatisticsPane) { pane.setSelectedComponent(c); return (StatisticsPane)c; }
+			if(c instanceof StatisticsEditor) { pane.setSelectedComponent(c); return (StatisticsEditor)c; }
 		}		
-		StatisticsPane statPanel = new StatisticsPane(ProjectManager.get().getProject());
+		StatisticsEditor statPanel = new StatisticsEditor();
 		if(closable) addClosableTab(pane,"Statistics", statPanel);
 		else addNonClosableTab(pane,"Statistics", statPanel);
 		return statPanel;
@@ -474,10 +474,10 @@ public class TabManager extends BaseManager {
 		return problemsPane;
 	}
 	
-	public TxtEditor addTextEditor(String content){
-		TxtEditor textViz = (TxtEditor) TabManager.get().getEditor(EditorType.TXT_EDITOR);
+	public TextEditor addTextEditor(String content){
+		TextEditor textViz = (TextEditor) TabManager.get().getEditor(EditorType.TXT_EDITOR);
 		if(textViz == null){
-			textViz = new TxtEditor();
+			textViz = new TextEditor();
 			addClosableTab(editorTabbedPane(),"Text Editor", textViz);
 		}else{
 			editorTabbedPane().setSelectedComponent(textViz);
@@ -545,13 +545,13 @@ public class TabManager extends BaseManager {
 		if(component instanceof OclEditor) {
 			pane.setIconAt(pane.indexOfComponent(component), IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC));
 		}
-		if(component instanceof DiagramWrapper) {
+		if(component instanceof DiagramEditorWrapper) {
 			pane.setIconAt(pane.indexOfComponent(component), IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM));
 		}
 		if(component instanceof ProblemEditor) {
 			pane.setIconAt(pane.indexOfComponent(component), IconMap.getInstance().getIcon(IconType.MENTHOR_CHECK));		
 		}
-		if(component instanceof StatisticsPane) {
+		if(component instanceof StatisticsEditor) {
 			pane.setIconAt(pane.indexOfComponent(component), IconMap.getInstance().getIcon(IconType.MENTHOR_STATS));
 		}
 		if(component instanceof FindEditor) {
@@ -570,7 +570,7 @@ public class TabManager extends BaseManager {
 		pane.addTab(text, component);		
 		CommandListener listener = listener();
 		ClosableTab tab = null; Icon icon = null;
-		if(component instanceof DiagramWrapper){
+		if(component instanceof DiagramEditorWrapper){
 			tab = new ClosableTab(pane, listener);
 			icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM);			
 		}
@@ -578,7 +578,7 @@ public class TabManager extends BaseManager {
 			tab = new ClosableTab(pane,listener);
 			icon = IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC);
 		}
-		if(component instanceof TxtEditor){
+		if(component instanceof TextEditor){
 			tab = new ClosableTab(pane,false,listener);
 			icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DOC);
 		}
@@ -590,7 +590,7 @@ public class TabManager extends BaseManager {
 			tab = new ClosableTab(pane,false,listener);
 			icon = IconMap.getInstance().getIcon(IconType.MENTHOR_ERROR);		
 		}
-		if(component instanceof StatisticsPane){
+		if(component instanceof StatisticsEditor){
 			tab = new ClosableTab(pane,false,listener);
 			icon = IconMap.getInstance().getIcon(IconType.MENTHOR_STATS);		
 		}

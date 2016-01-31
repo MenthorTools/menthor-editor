@@ -32,9 +32,9 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
+
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
 import net.menthor.editor.v2.commands.CommandListener;
@@ -46,7 +46,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	private static final long serialVersionUID = 1L;
 
 	protected DefaultMutableTreeNode modelRootNode;		
-	protected DefaultTreeModel treeModel;
+	protected SortTreeModel treeModel;
 	protected TreeCheckingModel checkingModel;
 	
 	protected BaseCheckBoxTree(final CommandListener listener, DefaultMutableTreeNode rootNode){
@@ -79,7 +79,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	protected BaseCheckBoxTree(DefaultMutableTreeNode rootNode){
 		super(rootNode);
 		this.modelRootNode = rootNode;
-		this.treeModel = new DefaultTreeModel(rootNode);
+		this.treeModel = new SortTreeModel(rootNode);
 		setModel(treeModel);
 		getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);			
 		checkingModel = getCheckingModel();		
@@ -107,7 +107,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
     }
     
     /** Add child to the currently selected node. */
-    public DefaultMutableTreeNode addElement(Object child){    		
+    public DefaultMutableTreeNode addChild(Object child){    		
         DefaultMutableTreeNode parentNode = null;
         TreePath parentPath = getSelectionPath(); 
         if (parentPath == null){
@@ -115,20 +115,20 @@ public class BaseCheckBoxTree extends CheckboxTree {
         } else {
             parentNode = (DefaultMutableTreeNode)(parentPath.getLastPathComponent());
         } 
-        return addElement(parentNode, child, true);
+        return addChild(parentNode, child, true);
     }    
       
-    public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child){
-    	return addElement(parent, child, true);
+    public DefaultMutableTreeNode addChild(DefaultMutableTreeNode parent, Object child){
+    	return addChild(parent, child, true);
     }
     
     /** Add element to the tree */
-    protected DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible){    	
+    protected DefaultMutableTreeNode addChild(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible){    	
 		DefaultMutableTreeNode node = getNode(child);
 		if(node!=null) return node;    	    	
 		DefaultMutableTreeNode childNode = createNode(child);		
 		if (parent == null) parent = modelRootNode;				
-		//It is key to invoke this on the TreeModel, and NOT DefaultMutableTreeNode
+		//It is key to invoke this on the TreeModel, and NOT SortedTreeNode
 		treeModel.insertNodeInto(childNode, parent, parent.getChildCount());		
 		//Make sure the user can see the lovely new node.
 		if (shouldBeVisible) scrollPathToVisible(new TreePath(childNode.getPath()));		
@@ -142,7 +142,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
   		 // Check if this is the top node in its group
         if( selectedNode.getPreviousSibling() != null ){
             // Move the node up one
-            DefaultTreeModel treeModel = (DefaultTreeModel)getModel();
+            SortTreeModel treeModel = (SortTreeModel)getModel();
             int newIndex = treeModel.getIndexOfChild(parent,selectedNode) - 1;
             treeModel.removeNodeFromParent(selectedNode);
             treeModel.insertNodeInto(selectedNode,parent,newIndex);
@@ -161,7 +161,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
   		 // Check if this is the bottom node in its group
         if( selectedNode.getNextSibling() != null ){
             // Move the node down one
-            DefaultTreeModel treeModel = (DefaultTreeModel)getModel();
+            SortTreeModel treeModel = (SortTreeModel)getModel();
             int newIndex = treeModel.getIndexOfChild(parent,selectedNode) + 1;
             treeModel.removeNodeFromParent(selectedNode);
             treeModel.insertNodeInto(selectedNode,parent,newIndex);
@@ -206,7 +206,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
     
 	
 	/** Get checked elements */
-    public List<Object> getCheckedElements () {		
+    public List<Object> getCheckedObjects () {		
 		List<Object> checkedNodes = new ArrayList<Object>();
 	    TreePath[] treepathList = getCheckingPaths();	    	
 	    for (TreePath treepath : treepathList){	    	
@@ -218,7 +218,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	}
     
 	/** Get Unchecked Elements. */
-    public List<Object> getUncheckedElements (){
+    public List<Object> getUncheckedObject (){
 		List<Object> uncheckedNodes = new ArrayList<Object>();
 		List<Object> checkedNodes = new ArrayList<Object>();
 	    TreePath[] treepathList = getCheckingPaths();	    	
@@ -275,7 +275,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	/** Check these elements. We do not concern with other elements*/
 	@SuppressWarnings("rawtypes")
 	public void check(List<Object> elements){			   
-		List<Object> alreadyChecked = getCheckedElements();	    
+		List<Object> alreadyChecked = getCheckedObjects();	    
 		alreadyChecked.removeAll(elements);
 		alreadyChecked.addAll(elements);				
 	    Enumeration e = modelRootNode.breadthFirstEnumeration();
@@ -314,7 +314,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	/** Uncheck this elements */
 	@SuppressWarnings("rawtypes")
 	public void uncheck(List<Object> elements){			   
-		List<Object> alreadyUnchecked = getUncheckedElements();	    
+		List<Object> alreadyUnchecked = getUncheckedObject();	    
 		alreadyUnchecked.removeAll(elements);
 		alreadyUnchecked.addAll(elements);				
 	    Enumeration e = modelRootNode.breadthFirstEnumeration();
@@ -331,7 +331,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	
 	/** Check Element */
 	@SuppressWarnings("rawtypes")
-	public boolean checkElement(Object element){	
+	public boolean checkObject(Object element){	
 		boolean result = false;
 		Object rootEObj = (Object)modelRootNode.getUserObject();
 		if (rootEObj.equals(element)) { result=true; select(modelRootNode); return result; }		

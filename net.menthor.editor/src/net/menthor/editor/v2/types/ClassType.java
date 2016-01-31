@@ -57,6 +57,17 @@ public enum ClassType {
 	public String getEnumString() { return name.toUpperCase().replace(" ", "_"); }
 	public String getName() { return name; }
 
+	public static ClassType getClassType(RefOntoUML.Class type){
+		return getClassType(type.eClass().getName().replace(" ", ""));		
+	}
+	
+	public static ClassType getClassType(String classType){
+		for(ClassType ct: values()){			
+			if(ct.toString().replace(" ","").compareToIgnoreCase(classType)==0) return ct;
+		}
+		return null;
+	}
+	
 	public static void main (String args[])
 	{
 		for(ClassType c: ClassType.values()){

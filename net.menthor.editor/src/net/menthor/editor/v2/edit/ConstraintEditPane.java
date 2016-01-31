@@ -56,8 +56,6 @@ public class ConstraintEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private EditorTabbedPane diagramManager;	
-
 	private Classifier element;
 	private ArrayList<Constraintx> constraintList = new ArrayList<Constraintx>();
 	
@@ -78,7 +76,6 @@ public class ConstraintEditPane extends JPanel {
 	
 	public ConstraintEditPane(EditorTabbedPane diagramManager, Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
-		this.diagramManager = diagramManager;
 		this.element = element;
 		initUI();
 	}

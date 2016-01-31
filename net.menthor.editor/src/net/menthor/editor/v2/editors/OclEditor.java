@@ -32,6 +32,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.types.EditorType;

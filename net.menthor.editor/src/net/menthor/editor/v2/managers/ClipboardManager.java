@@ -35,8 +35,8 @@ import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.editors.EditorMode;
-import net.menthor.editor.v2.editors.EditorMouseEvent;
+import net.menthor.editor.v2.editors.base.EditorMode;
+import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 

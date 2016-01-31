@@ -1,4 +1,5 @@
-package net.menthor.editor.v2.editors;
+
+package net.menthor.editor.v2.editors.base;
 
 /**
  * ============================================================================================
@@ -21,11 +22,15 @@ package net.menthor.editor.v2.editors;
  * ============================================================================================
  */
 
-public interface EditorMouseHandler {
+import net.menthor.editor.v2.types.EditorType;
 
-  void mouseClicked(EditorMouseEvent event);
-  void mousePressed(EditorMouseEvent event);
-  void mouseReleased(EditorMouseEvent event);
-  void mouseDragged(EditorMouseEvent event);
-  void mouseMoved(EditorMouseEvent event);
+import org.eclipse.emf.edit.provider.IDisposable;
+
+public interface Editor extends IDisposable {
+	
+	public void propagateNewTitle(String title);
+	
+	public boolean isSaveNeeded();
+	
+	abstract EditorType getEditorType();
 }

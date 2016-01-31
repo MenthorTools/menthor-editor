@@ -111,8 +111,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.DiagramWrapper;
-import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
@@ -121,9 +119,10 @@ import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.editors.BaseEditor;
-import net.menthor.editor.v2.editors.EditorMode;
-import net.menthor.editor.v2.editors.EditorMouseEvent;
+import net.menthor.editor.v2.editors.base.BaseEditor;
+import net.menthor.editor.v2.editors.base.EditorMode;
+import net.menthor.editor.v2.editors.base.EditorMouseEvent;
+import net.menthor.editor.v2.editors.wrapper.DiagramEditorWrapper;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.ClipboardManager;
@@ -141,6 +140,7 @@ import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.FeatureListDialog;
 import net.menthor.editor.v2.util.Util;
 
 /**
@@ -158,7 +158,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 
 	public MainFrame frame;
 	private EditorTabbedPane diagramManager;
-	private DiagramWrapper wrapper;
+	private DiagramEditorWrapper wrapper;
 		
 	private transient EditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
@@ -221,12 +221,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		scaling = Scaling.SCALING_100;
 	}
 	
-	public void setWrapper(DiagramWrapper wrapper)
+	public void setWrapper(DiagramEditorWrapper wrapper)
 	{
 		this.wrapper = wrapper;
 	}
 	
-	public DiagramWrapper getWrapper() { return wrapper; }
+	public DiagramEditorWrapper getWrapper() { return wrapper; }
 	
 	/** Empty constructor for testing. Do not use !  */
 	public DiagramEditor() { }
@@ -808,14 +808,14 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** Undoes the last operation. */
 	public void undo() { 
 		if (canUndo()) undoManager.undo(); else{
-			frame.showInformationMessageDialog("Cannot Undo", "No other action to be undone.\n\n");
+			MessageManager.get().showInfo(this, "Cannot Undo", "No other action to be undone.\n\n");
 		}
 	}
 
 	/** Redoes the last operation. */
 	public void redo() {
 		if (canRedo()) undoManager.redo(); else {
-			frame.showInformationMessageDialog("Cannot Redo", "No other action to be redone.\n\n");
+			MessageManager.get().showInfo(this,"Cannot Redo", "No other action to be redone.\n\n");
 		}
 	}
 
@@ -2114,17 +2114,17 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		if (element instanceof ClassElement) {
 			ClassElement classElement = (ClassElement) element;		
 			Classifier c = classElement.getClassifier();
-			MenthorEditor.getFrame().getProjectBrowser().getTree().checkElement(c);
+			MenthorEditor.getFrame().getProjectBrowser().getTree().checkObject(c);
 		}
 		if (element instanceof AssociationElement) {
 			AssociationElement classElement = (AssociationElement) element;		
 			Relationship c = classElement.getRelationship();
-			MenthorEditor.getFrame().getProjectBrowser().getTree().checkElement(c);
+			MenthorEditor.getFrame().getProjectBrowser().getTree().checkObject(c);
 		}
 		if (element instanceof GeneralizationElement) {
 			GeneralizationElement classElement = (GeneralizationElement) element;		
 			Relationship c = classElement.getRelationship();
-			MenthorEditor.getFrame().getProjectBrowser().getTree().checkElement(c);
+			MenthorEditor.getFrame().getProjectBrowser().getTree().checkObject(c);
 		}
 	}
 	

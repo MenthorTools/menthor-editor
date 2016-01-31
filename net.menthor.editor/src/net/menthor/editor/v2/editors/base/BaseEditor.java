@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.editors;
+package net.menthor.editor.v2.editors.base;
 
 /**
  * ============================================================================================
@@ -21,16 +21,15 @@ package net.menthor.editor.v2.editors;
  * ============================================================================================
  */
 
-import org.tinyuml.draw.DrawingContext;
+import javax.swing.JComponent;
 
-public interface EditorMode extends EditorMouseHandler {
+import net.menthor.editor.v2.types.EditorType;
 
-  /** Draws any additional decorations supported by this mode. */
-  void draw(DrawingContext drawingContext);
+public abstract class BaseEditor extends JComponent implements Editor {
 
-  /** The editor state was changed, update any elements. */
-  void stateChanged();
-
-  /** Cancels the current action. */
-  void cancel();
+	private static final long serialVersionUID = -5942413080525420849L;
+			
+	public boolean isSaveNeeded(){ return false; }
+	
+	public abstract EditorType getEditorType();
 }

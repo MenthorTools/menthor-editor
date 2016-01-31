@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.editors;
+package net.menthor.editor.v2.editors.base;
 
 /**
  * ============================================================================================
@@ -21,36 +21,16 @@ package net.menthor.editor.v2.editors;
  * ============================================================================================
  */
 
-import java.awt.event.MouseEvent;
+import org.tinyuml.draw.DrawingContext;
 
-import org.tinyuml.draw.Scaling;
+public interface EditorMode extends EditorMouseHandler {
 
-/**
- * This class encapsulates a mouse event. The properties of the
- * original MouseEvent are preserved by wrapping and delegating most
- * functionality to it.
- */
+  /** Draws any additional decorations supported by this mode. */
+  void draw(DrawingContext drawingContext);
 
-public class EditorMouseEvent {
-	
-	private MouseEvent event;
-	private Scaling scaling;
-  
-	public void setMouseEvent(MouseEvent anEvent, Scaling aScaling) {
-		this.event = anEvent;
-		this.scaling = aScaling;
-	}
+  /** The editor state was changed, update any elements. */
+  void stateChanged();
 
-	public MouseEvent getMouseEvent() { return event; }
-	public boolean isScaling100(){ return scaling == Scaling.SCALING_100; }
-	public int getClickCount() { return event.getClickCount(); }
-	public boolean isPopupTrigger() { return event.isPopupTrigger(); }
-	public boolean isMainButton() { return event.getButton() == MouseEvent.BUTTON1; }
-	
-	public double getX() {
-		return scaling ==  Scaling.SCALING_100 ? event.getX() : event.getX()/scaling.getScaleFactor();
-	}
-	public double getY() {
-		return scaling ==  Scaling.SCALING_100 ? event.getY() : event.getY()/scaling.getScaleFactor();
-	}
+  /** Cancels the current action. */
+  void cancel();
 }

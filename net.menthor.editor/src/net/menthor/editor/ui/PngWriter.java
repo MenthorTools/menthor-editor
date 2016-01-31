@@ -85,7 +85,7 @@ public class PngWriter extends FileWriter {
 			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_DEFAULT);
 			diagram.setGridVisible(false);		
-			DrawingContext dw = ProjectBrowser.frame.getDrawingContext();
+			DrawingContext dw = MenthorEditor.getFrame().getDrawingContext();
 			dw.setGraphics2D(g2d, bounds);
 			diagram.draw(dw, false);
 			BufferedImage croped = image.getSubimage(origin.x - 21, origin.y - 21, (end.x + 40 - origin.x), (end.y + 40 - origin.y));		

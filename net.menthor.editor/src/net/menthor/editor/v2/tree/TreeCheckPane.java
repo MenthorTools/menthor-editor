@@ -47,7 +47,7 @@ import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
 
-public class ProjectTreeCheckPane extends JPanel{
+public class TreeCheckPane extends JPanel{
 	
 	private static final long serialVersionUID = -6393962006647644434L;
 	
@@ -64,7 +64,7 @@ public class ProjectTreeCheckPane extends JPanel{
 		this.elemTree=elemTree;
 	}
 	
-	public ProjectTreeCheckPane(){
+	public TreeCheckPane(){
 		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check/Uncheck All", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setPreferredSize(new Dimension(10, 200));		

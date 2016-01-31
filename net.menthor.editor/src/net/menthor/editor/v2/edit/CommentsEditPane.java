@@ -51,8 +51,6 @@ import net.menthor.editor.v2.managers.TransferManager;
 public class CommentsEditPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private EditorTabbedPane diagramManager;
-		
 	private Classifier element;
 	
 	private JTextArea descriptionText;
@@ -67,7 +65,6 @@ public class CommentsEditPane extends JPanel {
 	
 	public CommentsEditPane(EditorTabbedPane diagramManager, Classifier element){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
-		this.diagramManager = diagramManager;
 		this.element = element;
 		initUI();
 	}

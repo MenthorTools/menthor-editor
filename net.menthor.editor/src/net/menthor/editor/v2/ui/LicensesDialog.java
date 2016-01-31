@@ -1,6 +1,6 @@
-package net.menthor.editor.ui;
+package net.menthor.editor.v2.ui;
 
-/*
+/**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
  *

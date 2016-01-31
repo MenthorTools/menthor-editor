@@ -48,7 +48,7 @@ public class ImportManager extends BaseManager {
 	
 	public File chooseEAFile() throws IOException{
 		return Util.chooseFile(frame(), lastImportEAPath, 
-		"Import From EA", "XMI, XML (*.xmi, *.xml)", "xmi", "xml",true);
+		"Import From EA", "XMI, XML (*.xmi, *.xml)", "xmi", "xml", false);
 	}
 	
 	public void importFromEARecent() throws IOException {		

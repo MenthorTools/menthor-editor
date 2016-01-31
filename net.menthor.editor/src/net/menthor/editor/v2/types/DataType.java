@@ -52,6 +52,17 @@ public enum DataType {
 	public String getEnumString() { return name.toUpperCase().replace(" ", "_"); }
 	public String getName() { return name; }
 
+	public static DataType getDataType(RefOntoUML.DataType type){
+		return getDataType(type.eClass().getName().replace(" ", ""));		
+	}
+	
+	public static DataType getDataType(String dataType){
+		for(DataType ct: values()){
+			if(ct.toString().replace(" ","").compareToIgnoreCase(dataType)==0) return ct;
+		}
+		return null;
+	}
+	
 	public static void main (String args[])
 	{
 		for(DataType c: DataType.values()){

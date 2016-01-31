@@ -31,20 +31,19 @@ import javax.swing.tree.TreePath;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
-
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
 import net.menthor.editor.v2.OntoumlDiagram;
 
-public class DiagramStrictTree extends ProjectTree {
+public class SimpleDiagramTree extends ProjectTree {
 
 	private static final long serialVersionUID = 1L;
 	
 	private List<OntoumlDiagram> diagrams;
 	
 	/** Create an instance of the tree */
-	public static DiagramStrictTree createDiagramTree(OntoUMLParser refparser, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean checkboxVisible){
+	public static SimpleDiagramTree createDiagramTree(OntoUMLParser refparser, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean checkboxVisible){
 		if(refparser!=null){
-			return new DiagramStrictTree(new DefaultMutableTreeNode(refparser.getModel()), 
+			return new SimpleDiagramTree(new DefaultMutableTreeNode(refparser.getModel()), 
 			refparser, diagrams, opt,checkboxVisible);
 		}else{
 			return null;
@@ -52,7 +51,7 @@ public class DiagramStrictTree extends ProjectTree {
 	}
 	
 	/**Constructor */
-	private DiagramStrictTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean checkboxVisible){	
+	private SimpleDiagramTree (DefaultMutableTreeNode rootNode, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, TreeVisibility opt, boolean checkboxVisible){	
 		super(rootNode);			
 		this.diagrams=diagrams;
 		this.opt=opt;		
@@ -86,10 +85,10 @@ public class DiagramStrictTree extends ProjectTree {
             
     /** Add element to the tree */
     @Override
-	public DefaultMutableTreeNode addElement(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) 
+	public DefaultMutableTreeNode addChild(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) 
     {
     	if(child instanceof Object){ 
-    		super.addElement(parent,child,shouldBeVisible); 
+    		super.addChild(parent,child,shouldBeVisible); 
     	}
     	else if (child instanceof OntoumlDiagram){    		
     		DefaultMutableTreeNode node = getNode((OntoumlDiagram)child);
@@ -97,7 +96,7 @@ public class DiagramStrictTree extends ProjectTree {
     	}    	
 		DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);		
 		if (parent == null) parent = modelRootNode;				
-		//It is key to invoke this on the TreeModel, and NOT DefaultMutableTreeNode
+		//It is key to invoke this on the TreeModel, and NOT SortedTreeNode
 		treeModel.insertNodeInto(childNode, parent, parent.getChildCount());		
 		//Make sure the user can see the lovely new node.
 		if (shouldBeVisible) scrollPathToVisible(new TreePath(childNode.getPath()));		
@@ -114,7 +113,7 @@ public class DiagramStrictTree extends ProjectTree {
 				//diagram elements
 				List<EObject> contents = diagram.getPackageableElements();
 				for(EObject eobj: contents){
-					super.drawElements(dNode, (RefOntoUML.Element) eobj);
+					super.addModelElements(dNode, (RefOntoUML.Element) eobj);
 				}
 			}	
 		}

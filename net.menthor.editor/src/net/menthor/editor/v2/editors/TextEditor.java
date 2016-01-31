@@ -32,6 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.types.EditorType;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -39,14 +40,14 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-public class TxtEditor extends JPanel implements Editor {
+public class TextEditor extends JPanel implements Editor {
 
 	private static final long serialVersionUID = -1832428183354138999L;
 	
 	protected RSyntaxTextArea textArea = new RSyntaxTextArea();
 	protected RTextScrollPane scrollPane;
 	
-	public TxtEditor(){		
+	public TextEditor(){		
 		setBorder(new EmptyBorder(0, 0, 0, 0));		
 		textArea = new RSyntaxTextArea(5, 30);		
 	    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);

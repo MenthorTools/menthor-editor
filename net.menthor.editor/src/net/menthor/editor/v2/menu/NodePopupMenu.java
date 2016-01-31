@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.menu.draw;
+package net.menthor.editor.v2.menu;
 
 /**
  * ============================================================================================
@@ -28,10 +28,6 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.menu.BasePopupMenu;
-import net.menthor.editor.v2.menu.ChangeClassMenu;
-import net.menthor.editor.v2.menu.ColorMenu;
-import net.menthor.editor.v2.menu.MenuBuilder;
 
 public class NodePopupMenu extends BasePopupMenu {
 

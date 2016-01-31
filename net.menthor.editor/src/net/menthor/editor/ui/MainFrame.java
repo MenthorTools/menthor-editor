@@ -35,7 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.JTextArea;
 
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContextImpl;
@@ -59,6 +58,7 @@ import net.menthor.editor.v2.managers.CursorManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.ErrorManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FilterManager;
 import net.menthor.editor.v2.managers.FindManager;
@@ -74,11 +74,13 @@ import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
+import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.menubar.MainMenuBar;
 import net.menthor.editor.v2.palette.PalettePane;
 import net.menthor.editor.v2.toolbar.MainToolbar;
@@ -90,7 +92,6 @@ import net.menthor.editor.v2.util.Util;
 public class MainFrame extends JFrame implements CommandListener {
 
 	private static final long serialVersionUID = 3464348864344034246L;
-	
 	
 	private transient MainMenuBar mainMenu;
 	private transient MainToolbar mainToolBar;	
@@ -376,6 +377,12 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(TabManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == FindManager.class){
 				return methodcall.call(FindManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == WarningManager.class){
+				return methodcall.call(WarningManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ErrorManager.class){
+				return methodcall.call(ErrorManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == StatisticsManager.class){
+				return methodcall.call(StatisticsManager.get());
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
@@ -411,27 +418,5 @@ public class MainFrame extends JFrame implements CommandListener {
 		if(methodcall!=null) result = callMethod(methodcall);
 		CursorManager.get().defaultCursor();
 		return result;		
-	}
-	
-	//============
-
-	/**
-	 * Resets the active palette (in the tool manager) to the default element,
-	 * the pointer.
-	 * */
-	public void selectPaletteDefaultElement() {
-		palettePane.getClassPalette().selectDefault();
-	}
-	
-	public void showInformationMessageDialog(String title, String message){
-		JTextArea textArea = new JTextArea(message);
-		textArea.setColumns(30);
-		textArea.setLineWrap( true );
-		textArea.setWrapStyleWord(true);
-		textArea.setSize(textArea.getPreferredSize().width, 1);
-		textArea.setBackground(this.getBackground());		
-		JOptionPane.showMessageDialog(
-			this, textArea,title,JOptionPane.ERROR_MESSAGE
-		);
 	}
 }

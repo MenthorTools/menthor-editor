@@ -44,8 +44,8 @@ import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.EditorMode;
-import net.menthor.editor.v2.editors.EditorMouseEvent;
+import net.menthor.editor.v2.editors.base.EditorMode;
+import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.managers.EditManager;
 
 /**

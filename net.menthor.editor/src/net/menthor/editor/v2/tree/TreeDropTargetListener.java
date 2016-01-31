@@ -33,7 +33,6 @@ import java.awt.dnd.DropTargetListener;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -103,7 +102,7 @@ public class TreeDropTargetListener implements DropTargetListener {
 	          dtde.acceptDrop(dtde.getDropAction());
 	          //make the dnd movement
 		  	  DefaultMutableTreeNode dropNode = (DefaultMutableTreeNode)targetTree.getSelectionPath().getLastPathComponent();		  	  	          	          
-	          DefaultTreeModel model = (DefaultTreeModel) tree.getModel();	          
+	          SortTreeModel model = (SortTreeModel) tree.getModel();	          
 	          model.removeNodeFromParent(dropNode);	          
 	          model.insertNodeInto(dropNode, parent, 0);
 	          addToNewContainer(dropNode.getUserObject(),parent.getUserObject());	          

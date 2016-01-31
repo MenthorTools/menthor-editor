@@ -1,5 +1,4 @@
-
-package net.menthor.editor.v2.editors;
+package net.menthor.editor.v2.editors.base;
 
 /**
  * ============================================================================================
@@ -22,15 +21,36 @@ package net.menthor.editor.v2.editors;
  * ============================================================================================
  */
 
-import net.menthor.editor.v2.types.EditorType;
+import java.awt.event.MouseEvent;
 
-import org.eclipse.emf.edit.provider.IDisposable;
+import org.tinyuml.draw.Scaling;
 
-public interface Editor extends IDisposable {
+/**
+ * This class encapsulates a mouse event. The properties of the
+ * original MouseEvent are preserved by wrapping and delegating most
+ * functionality to it.
+ */
+
+public class EditorMouseEvent {
 	
-	public void propagateNewTitle(String title);
+	private MouseEvent event;
+	private Scaling scaling;
+  
+	public void setMouseEvent(MouseEvent anEvent, Scaling aScaling) {
+		this.event = anEvent;
+		this.scaling = aScaling;
+	}
+
+	public MouseEvent getMouseEvent() { return event; }
+	public boolean isScaling100(){ return scaling == Scaling.SCALING_100; }
+	public int getClickCount() { return event.getClickCount(); }
+	public boolean isPopupTrigger() { return event.isPopupTrigger(); }
+	public boolean isMainButton() { return event.getButton() == MouseEvent.BUTTON1; }
 	
-	public boolean isSaveNeeded();
-	
-	abstract EditorType getEditorType();
+	public double getX() {
+		return scaling ==  Scaling.SCALING_100 ? event.getX() : event.getX()/scaling.getScaleFactor();
+	}
+	public double getY() {
+		return scaling ==  Scaling.SCALING_100 ? event.getY() : event.getY()/scaling.getScaleFactor();
+	}
 }

@@ -52,11 +52,11 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.FeatureListDialog;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.ui.FeatureListDialog;
 
 public class PropertyEditPane extends JPanel {
 

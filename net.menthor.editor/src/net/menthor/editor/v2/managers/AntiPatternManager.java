@@ -34,6 +34,7 @@ import net.menthor.antipattern.application.AntiPatternSearchDialog;
 import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.ui.Models;
+
 public class AntiPatternManager extends BaseManager {
 
 	// -------- Lazy Initialization
