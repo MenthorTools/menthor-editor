@@ -84,6 +84,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				else this.diagramElement = FactoryManager.get().createNode((RefOntoUML.Type)element, eContainer);
 			}			
 		}
+		
 		absx = x;
 		absy = y;
 	}

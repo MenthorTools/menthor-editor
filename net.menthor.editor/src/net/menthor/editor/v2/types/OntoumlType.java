@@ -5,6 +5,5 @@ import org.eclipse.emf.ecore.EObject;
 interface OntoumlType {
 
 	public Class<? extends EObject> getMetaclass();	
-	public String getEnumString();
 	public String getName();	
 }

@@ -79,20 +79,24 @@ public enum ClassType implements OntoumlType {
 	public Class<? extends EObject> getMetaclass(){ return metaClass; }
 	
 	@Override
-	public String getEnumString() { return name.toUpperCase().replace(" ", "_"); }
-	
-	@Override
 	public String getName() { return name; }
 
 	public static ClassType getClassType(RefOntoUML.Class type){
-		return getClassType(type.eClass().getName().replace(" ", ""));		
-	}
-		
-	public static ClassType getClassType(String classType){
-		for(ClassType ct: values()){			
-			if(ct.toString().replace(" ","").compareToIgnoreCase(classType)==0) return ct;
-		}
-		return null;
+		if(type instanceof RefOntoUML.Kind) return ClassType.KIND;
+		if(type instanceof RefOntoUML.Collective) return ClassType.COLLECTIVE;
+		if(type instanceof RefOntoUML.Quantity) return ClassType.QUANTITY;
+		if(type instanceof RefOntoUML.SubKind) return ClassType.SUBKIND;
+		if(type instanceof RefOntoUML.Phase) return ClassType.PHASE;
+		if(type instanceof RefOntoUML.Role) return ClassType.ROLE;
+		if(type instanceof RefOntoUML.Category) return ClassType.CATEGORY;
+		if(type instanceof RefOntoUML.Mixin) return ClassType.MIXIN;
+		if(type instanceof RefOntoUML.RoleMixin) return ClassType.ROLEMIXIN;
+		if(type instanceof RefOntoUML.Mode) return ClassType.MODE;
+		if(type instanceof RefOntoUML.Relator) return ClassType.RELATOR;
+		if(type instanceof RefOntoUML.NonPerceivableQuality) return ClassType.NONPERCEIVABLE_QUALITY;
+		if(type instanceof RefOntoUML.PerceivableQuality) return ClassType.PERCEIVABLE_QUALITY;
+		if(type instanceof RefOntoUML.NominalQuality) return ClassType.NOMINAL_QUALITY;
+		return ClassType.CLASS;		
 	}
 	
 	public static void main (String args[])

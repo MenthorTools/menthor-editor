@@ -253,16 +253,14 @@ public class CommandMap {
 		cmdMap.put(CommandType.PALLETE_POINTER_MODE, 
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));	
 		
-		for(ClassType ct: ClassType.values()){
-			System.out.println(ct.getEnumString());
-			CommandType cmdType = CommandType.getCommandType("PALLETE_"+ct.getEnumString());
-			System.out.println(cmdType);
+		for(ClassType ct: ClassType.values()){		
+			CommandType cmdType = CommandType.getPalleteCommandType(ct);
 			if(cmdType!=null){
 				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
 			}
-		}		
+		}
 		for(DataType dt: DataType.values()){
-			CommandType cmdType = CommandType.getCommandType("PALLETE_"+dt.getEnumString());
+			CommandType cmdType = CommandType.getPalleteCommandType(dt);
 			if(cmdType!=null){
 				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", DataType.class), dt));
 			}

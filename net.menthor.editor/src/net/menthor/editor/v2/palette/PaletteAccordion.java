@@ -169,7 +169,7 @@ public class PaletteAccordion extends JPanel{
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
 			DataType.STRINGNOMINAL_STRUCTURE.toString(),
-			CommandType.PALLETE_STRINGNOMINAL_DIMENSION
+			CommandType.PALLETE_STRINGNOMINAL_STRUCTURE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 

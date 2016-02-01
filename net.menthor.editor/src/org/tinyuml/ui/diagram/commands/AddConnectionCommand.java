@@ -33,6 +33,7 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
@@ -79,7 +80,11 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		if (notification!=null) diagramElement = OccurenceManager.get().getDiagramElement(relationship);
+		DiagramEditor editor = ((DiagramEditor)notification);
+		StructureDiagram diagram = null;
+		if(editor!=null) diagram = editor.getDiagram();
+		this.diagramElement = OccurenceManager.get().getDiagramElement(relationship, diagram);		
+		if (diagramElement==null) diagramElement = OccurenceManager.get().getDiagramElement(relationship);
 	}
 
 	@Override

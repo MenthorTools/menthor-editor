@@ -1,7 +1,6 @@
 
 package net.menthor.editor.v2.types;
 
-
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -49,18 +48,21 @@ public enum DataType {
 		return getName();
 	}
 
-	public String getEnumString() { return name.toUpperCase().replace(" ", "_"); }
 	public String getName() { return name; }
 
-	public static DataType getDataType(RefOntoUML.DataType type){
-		return getDataType(type.eClass().getName().replace(" ", ""));		
-	}
-	
-	public static DataType getDataType(String dataType){
-		for(DataType ct: values()){
-			if(ct.toString().replace(" ","").compareToIgnoreCase(dataType)==0) return ct;
-		}
-		return null;
+	public static DataType getDataType(RefOntoUML.DataType dataType){
+		if(dataType instanceof RefOntoUML.DecimalIntervalDimension) return DECIMALINTERVAL_DIMENSION;
+		if(dataType instanceof RefOntoUML.DecimalOrdinalDimension) return DECIMALORDINAL_DIMENSION;
+		if(dataType instanceof RefOntoUML.DecimalRationalDimension) return DECIMALRATIONAL_DIMENSION;
+		if(dataType instanceof RefOntoUML.IntegerIntervalDimension) return INTEGERINTERVAL_DIMENSION;
+		if(dataType instanceof RefOntoUML.IntegerOrdinalDimension) return INTEGERORDINAL_DIMENSION;
+		if(dataType instanceof RefOntoUML.IntegerRationalDimension) return INTEGERRATIONAL_DIMENSION;
+		if(dataType instanceof RefOntoUML.MeasurementDomain) return MEASUREMENT_DOMAIN;
+		if(dataType instanceof RefOntoUML.Enumeration) return ENUMERATION;
+		if(dataType instanceof RefOntoUML.StringNominalStructure) return STRINGNOMINAL_STRUCTURE;
+		if(dataType instanceof RefOntoUML.PrimitiveType) return PRIMITIVETYPE;
+		if(dataType instanceof RefOntoUML.DataType) return DATATYPE;		
+		return DATATYPE;
 	}
 	
 	public static void main (String args[])

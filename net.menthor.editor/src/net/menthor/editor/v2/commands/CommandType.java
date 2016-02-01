@@ -1,5 +1,8 @@
 package net.menthor.editor.v2.commands;
 
+import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -191,7 +194,7 @@ public enum CommandType {
 	PALLETE_DECIMALINTERVAL_DIMENSION(null),
 	PALLETE_DECIMALRATIONAL_DIMENSION(null),
 	PALLETE_DECIMALORDINAL_DIMENSION(null),
-	PALLETE_STRINGNOMINAL_DIMENSION(null),
+	PALLETE_STRINGNOMINAL_STRUCTURE(null),
 
 	PALLETE_GENERALIZATION(null),
 	PALLETE_GENERALIZATIONSET(null), 
@@ -304,6 +307,38 @@ public enum CommandType {
 		for(CommandType c: CommandType.values()){
 			System.out.println(c.description);
 		}
+	}
+	
+	public static CommandType getPalleteCommandType(ClassType classType){
+		if(classType==ClassType.KIND) return PALLETE_KIND;
+		if(classType==ClassType.SUBKIND) return PALLETE_SUBKIND;
+		if(classType==ClassType.COLLECTIVE) return PALLETE_COLLECTIVE;
+		if(classType==ClassType.PHASE) return PALLETE_PHASE;
+		if(classType==ClassType.ROLE) return PALLETE_ROLE;
+		if(classType==ClassType.MIXIN) return PALLETE_MIXIN;
+		if(classType==ClassType.CATEGORY) return PALLETE_CATEGORY;
+		if(classType==ClassType.ROLEMIXIN) return PALLETE_ROLEMIXIN;
+		if(classType==ClassType.MODE) return PALLETE_MODE;
+		if(classType==ClassType.RELATOR) return PALLETE_RELATOR;
+		if(classType==ClassType.NONPERCEIVABLE_QUALITY) return PALLETE_NONPERCEIVABLE_QUALITY;
+		if(classType==ClassType.PERCEIVABLE_QUALITY) return PALLETE_PERCEIVABLE_QUALITY;
+		if(classType==ClassType.NOMINAL_QUALITY) return PALLETE_NOMINAL_QUALITY;
+		return PALLETE_CLASS;
+	}
+	
+	public static CommandType getPalleteCommandType(DataType dataType){
+		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return PALLETE_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return PALLETE_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return PALLETE_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return PALLETE_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return PALLETE_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return PALLETE_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataType.MEASUREMENT_DOMAIN) return PALLETE_MEASUREMENT_DOMAIN;
+		if(dataType==DataType.ENUMERATION) return PALLETE_ENUMERATION;
+		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return PALLETE_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataType.PRIMITIVETYPE) return PALLETE_PRIMITIVETYPE;
+		if(dataType==DataType.DATATYPE) return PALLETE_DATATYPE;		
+		return PALLETE_DATATYPE;
 	}
 	
 	public static CommandType getCommandType(String command){
