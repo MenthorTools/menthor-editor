@@ -256,13 +256,13 @@ public class CommandMap {
 		for(ClassType ct: ClassType.values()){
 			CommandType cmdType = CommandType.getCommandType("PALLETE_"+ct.getEnumString());
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("copyToClipboard", ClassType.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
 			}
 		}		
 		for(DataType dt: DataType.values()){
 			CommandType cmdType = CommandType.getCommandType("PALLETE_"+dt.getEnumString());
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("copyToClipboard", DataType.class), dt));
+				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", DataType.class), dt));
 			}
 		}		
 		cmdMap.put(CommandType.PALLETE_GENERALIZATION, 
@@ -338,7 +338,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("copySelectedToClipboard")));
+				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,

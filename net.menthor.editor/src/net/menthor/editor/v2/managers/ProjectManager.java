@@ -34,7 +34,7 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.DATException;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectReader;
+import net.menthor.editor.ui.ProjectDeserializer;
 import net.menthor.editor.ui.ProjectSerializer;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
@@ -286,7 +286,7 @@ public class ProjectManager extends BaseManager {
 	/**deserialize project */
 	public void deserializeProject(File file) throws IOException, ClassNotFoundException, DATException {
 		CursorManager.get().waitCursor();
-		ArrayList<Object> listFiles = ProjectReader.getInstance().readProject(file);
+		ArrayList<Object> listFiles = ProjectDeserializer.getInstance().readProject(file);
 		List<OclDocument> ocllist = new ArrayList<OclDocument>();
 		for(int i=1; i<listFiles.size();i++){																
 			ocllist.add((OclDocument)listFiles.get(i));

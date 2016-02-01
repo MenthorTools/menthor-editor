@@ -100,7 +100,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 		try {
 			cloned = (BaseConnection) super.clone();
 			if (relationship != null) {
-				cloned.relationship = RefOntoUMLFactoryUtil.clone(relationship);
+				cloned.relationship = RefOntoUMLFactoryUtil.cloneRelationship(relationship);
 				//cloned.relationship.eAdapters().add(cloned);
 			}
 			if (connection != null) {

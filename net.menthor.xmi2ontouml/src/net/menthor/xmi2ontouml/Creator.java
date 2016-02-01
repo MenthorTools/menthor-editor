@@ -1,13 +1,12 @@
 package net.menthor.xmi2ontouml;
 
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
-import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-
 import java.io.File;
 import java.util.Map.Entry;
 
 import javax.swing.event.TreeSelectionListener;
 
+import RefOntoUML.Model;
+import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import net.menthor.xmi2ontouml.framework.XMI2RefAssociation;
 import net.menthor.xmi2ontouml.framework.XMI2RefClassifier;
 import net.menthor.xmi2ontouml.framework.XMI2RefElement;
@@ -17,7 +16,6 @@ import net.menthor.xmi2ontouml.framework.XMI2RefProperty;
 import net.menthor.xmi2ontouml.util.RefOntoUMLUtil;
 import net.menthor.xmi2ontouml.xmiparser.XMIParser;
 import net.menthor.xmi2ontouml.xmiparser.XMIParserFactory;
-import RefOntoUML.Model;
 
 
 public class Creator

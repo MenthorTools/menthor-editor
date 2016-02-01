@@ -74,8 +74,7 @@ public class AdditionManager extends BaseManager {
 	
 	/** Add relationship to the model. */
 	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, EObject eContainer)	{
-		RefOntoUML.Relationship relationship = FactoryManager.get().createRelationship(stereotype);
-		if(relationship instanceof RefOntoUML.Association) FactoryManager.get().createPropertiesByDefault((RefOntoUML.Association)relationship);
+		RefOntoUML.Relationship relationship = FactoryManager.get().createRelationship(stereotype);		
 		if (stereotype==RelationshipType.GENERALIZATION) { //generalizations are owned by a type
 			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,(RefOntoUML.Classifier)eContainer,null,null);
 			cmd.run();

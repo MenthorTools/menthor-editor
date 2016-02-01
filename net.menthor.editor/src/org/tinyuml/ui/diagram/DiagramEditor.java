@@ -972,7 +972,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreationMode(ClassType elementType) 
 	{
-		ClipboardManager.get().copyToClipboard(elementType);
+		ClipboardManager.get().createAndPutToClipboard(elementType);
 		editorMode = ClipboardManager.get();
 	}
 	
@@ -986,13 +986,13 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreationMode(DataType elementType) 
 	{		
-		ClipboardManager.get().copyToClipboard(elementType);
+		ClipboardManager.get().createAndPutToClipboard(elementType);
 		editorMode = ClipboardManager.get();
 	}
 	
-	public void setDragElementMode(RefOntoUML.Type type, EObject eContainer)
+	public void setDragElementMode(RefOntoUML.Type type)
 	{		
-		ClipboardManager.get().createNode(type,eContainer);
+		ClipboardManager.get().putToClipboard(type, true);
 		editorMode = ClipboardManager.get();
 	}
 	

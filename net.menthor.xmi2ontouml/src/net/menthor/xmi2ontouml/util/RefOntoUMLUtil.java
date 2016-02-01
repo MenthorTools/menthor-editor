@@ -55,13 +55,11 @@ public class RefOntoUMLUtil {
 	public static CheckboxTree createSelectionTreeFromModel(RefOntoUML.Model model) {
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new ChckBoxTreeNodeElem(model));
 		CheckboxTree modelTree = new CheckboxTree(rootNode);
-		modelTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);
-		modelTree.expandAll();
-		modelTree.addCheckingPath(new TreePath(rootNode));		
-		modelTree.setCellRenderer(new OntoUMLTreeCellRenderer());
-		
+		modelTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);		
+		modelTree.setCellRenderer(new OntoUMLTreeCellRenderer());		
 		drawTree(rootNode, model);
-		
+		modelTree.addCheckingPath(new TreePath(rootNode));
+		modelTree.expandAll();		
 		return modelTree;
 	}
 	
@@ -106,9 +104,7 @@ public class RefOntoUMLUtil {
 	public static CheckboxTree createSelectionTreeByDiagram(XMIParser mapper, Model model) throws Exception {
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(new ChckBoxTreeNodeElem(model));
 		CheckboxTree modelTree = new CheckboxTree(rootNode);
-		modelTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);
-		modelTree.expandAll();
-		modelTree.addCheckingPath(new TreePath(rootNode));
+		modelTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE);		
 		modelTree.setCellRenderer(new OntoUMLTreeCellRenderer());
 		
 //		for (PackageableElement pel : model.getPackagedElement()) {
@@ -144,6 +140,9 @@ public class RefOntoUMLUtil {
     		}
     	}
     	
+    	modelTree.expandAll();
+		modelTree.addCheckingPath(new TreePath(rootNode));
+		
     	return modelTree;
 	}
 	

@@ -44,10 +44,10 @@ import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 
 /** Reads a model from a file. Models are stored and retrieved using serialization. */
-public final class ProjectReader {
+public final class ProjectDeserializer {
 
-	private static ProjectReader instance = new ProjectReader();
-	public static ProjectReader getInstance() { return instance; }
+	private static ProjectDeserializer instance = new ProjectDeserializer();
+	public static ProjectDeserializer getInstance() { return instance; }
 
 	/** Reads a UmlProject object from a file. 
 	 * @throws DATException */
