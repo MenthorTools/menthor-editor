@@ -681,7 +681,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	/** {@inheritDoc} */
 	public void mouseReleased(MouseEvent e) 
 	{
-		if (!stopEditing()) editorMode.mouseReleased(convertMouseEvent(e));		
+		if (!stopEditing()) editorMode.mouseReleased(convertMouseEvent(e));
 	}
 
 	/** {@inheritDoc} */

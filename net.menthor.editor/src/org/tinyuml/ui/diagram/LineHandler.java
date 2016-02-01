@@ -125,6 +125,7 @@ public class LineHandler implements EditorMode {
     	addConnection(editor, conn, source, target, (EObject)editor.getDiagram().getContainer());
     }
     isDragging = false;
+    editor.cancelEditing();
     editor.redraw();
   }
   
