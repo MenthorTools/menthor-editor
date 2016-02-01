@@ -254,7 +254,9 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));	
 		
 		for(ClassType ct: ClassType.values()){
+			System.out.println(ct.getEnumString());
 			CommandType cmdType = CommandType.getCommandType("PALLETE_"+ct.getEnumString());
+			System.out.println(cmdType);
 			if(cmdType!=null){
 				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
 			}

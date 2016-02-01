@@ -307,7 +307,7 @@ public enum CommandType {
 	}
 	
 	public static CommandType getCommandType(String command){
-		for(CommandType ct: values()){
+		for(CommandType ct: values()){			
 			if(ct.toString().compareToIgnoreCase(command)==0) return ct;
 		}
 		return null;
