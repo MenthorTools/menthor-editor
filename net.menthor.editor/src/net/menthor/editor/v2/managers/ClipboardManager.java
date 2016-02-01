@@ -152,7 +152,6 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 			}			
 		}
 		de.cancelEditing();				
-		de.select(clipboard);		
 		clearClipboard();
 	}
 	

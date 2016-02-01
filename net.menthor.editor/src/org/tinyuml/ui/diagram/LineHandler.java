@@ -162,7 +162,8 @@ public class LineHandler implements EditorMode {
 	  RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
 	  LineConnectMethod connectMethod = FactoryManager.get().getConnectMethod(relationType);	  
 	  UmlConnection conn = createConnection(editor, connectMethod, relationship, source, target, sourcePoint, targetPoint);	  
-	  addConnection(editor, conn, source, target, eContainer);  	  
+	  addConnection(editor, conn, source, target, eContainer);  	 
+	  editor.cancelEditing();
 	  editor.redraw();	  
 	  return conn;
   }
