@@ -725,9 +725,10 @@ public class OutcomeFixer{
 		else if (stereo.compareToIgnoreCase("Mode")==0) return ClassStereotype.MODE;
 		else if (stereo.compareToIgnoreCase("DataType")==0) return ClassStereotype.DATATYPE;
 		else if (stereo.compareToIgnoreCase("PrimitiveType")==0) return ClassStereotype.PRIMITIVETYPE;
-		else if (stereo.compareToIgnoreCase("PerceivableQuality")==0) return ClassStereotype.PERCEIVABLEQUALITY;
-		else if (stereo.compareToIgnoreCase("NonPerceivableQuality")==0) return ClassStereotype.NONPERCEIVABLEQUALITY;
-		else if (stereo.compareToIgnoreCase("NominalQuality")==0) return ClassStereotype.NOMINALQUALITY;
+		//TODO:fix this by mergind the Enums ClassStereotype here and in the editor. No more string comparison.
+		else if (stereo.compareToIgnoreCase("PerceivableQuality")==0 || stereo.compareToIgnoreCase("Perceivable Quality")==0) return ClassStereotype.PERCEIVABLEQUALITY;
+		else if (stereo.compareToIgnoreCase("NonPerceivableQuality")==0 || stereo.compareToIgnoreCase("NonPerceivable Quality")==0) return ClassStereotype.NONPERCEIVABLEQUALITY;
+		else if (stereo.compareToIgnoreCase("NominalQuality")==0 || stereo.compareToIgnoreCase("Nominal Quality")==0) return ClassStereotype.NOMINALQUALITY;
 		else return ClassStereotype.KIND;
 	}
 	
