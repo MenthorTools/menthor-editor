@@ -188,7 +188,9 @@ public class RectilinearLineConnectMethod implements LineConnectMethod {
 	public void generateAndSetPointsToConnection(Connection conn, Connection sourceConnection, Connection targetConnection, Point2D source, Point2D dest) 
 	{
 		RectilinearLineBuilder linebuilder = RectilinearLineBuilder.getInstance();
-	    List<Point2D> points = linebuilder.calculateLineSegments(source, dest, Orientation.HORIZONTAL);
+		List<Point2D> points = null;
+		if (sourceConnection.equals(targetConnection)) points = linebuilder.calculateSelfLineSegments(sourceConnection, targetConnection, source, dest);
+	    else points = linebuilder.calculateLineSegments(source, dest, Orientation.HORIZONTAL);
 	    List<Point2D> linepoints = new LinkedList<Point2D>();
 	    for (Point2D point : points) linepoints.add(point); 
 	    

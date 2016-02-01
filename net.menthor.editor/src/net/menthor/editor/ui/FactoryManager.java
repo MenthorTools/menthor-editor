@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.LineConnectMethod;
@@ -41,6 +42,7 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import RefOntoUML.Association;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
+import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.parser.OntoUMLParser;
@@ -474,8 +476,13 @@ public class FactoryManager extends BaseManager {
     	  Association association = (Association) conn.getRelationship();
     	  association.setName(association.getName() + nextRelationshipCount(RelationshipType));
     	  if(node1.getDiagram().getContainer()!=null){
-    	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-    	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+    	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package){
+    	      		Package container = (RefOntoUML.Package)node1.getDiagram().getContainer();
+    	      		EList<PackageableElement> packagedElement = container.getPackagedElement();
+    	      		PackageableElement relationship = (RefOntoUML.PackageableElement)conn.getRelationship();
+    	      		packagedElement.add(relationship);
+    	      		System.out.println();
+    	      	}
     	      }
       }      
     }    

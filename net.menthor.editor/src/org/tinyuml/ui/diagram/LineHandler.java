@@ -234,6 +234,9 @@ public class LineHandler implements EditorMode {
 		  if (relationType == RelationshipType.DERIVATION) { 
 			  conn = FactoryManager.get().createConnectionFromCon(relationType, (UmlConnection) target, (UmlNode) source);   
               connectMethod.generateAndSetPointsToConnection(conn, (UmlConnection) target, (UmlNode)source, anchor, tmpPos); 
+		  }else{
+			  conn = FactoryManager.get().createConnectionToCon(relationType, (UmlNode) source, (UmlConnection) target );   
+              connectMethod.generateAndSetPointsToConnection(conn, (UmlNode)source, (UmlConnection) target, anchor, tmpPos);
 		  }
 	  }
 	  // UmlNode ->(connectedTo) -> UmlNode
@@ -252,7 +255,7 @@ public class LineHandler implements EditorMode {
 		      connectMethod.generateAndSetPointsToConnection(conn, (UmlNode) source, (UmlNode)target, anchor, tmpPos);
 		    }	
 	  }
-	  // UmlNode ->(connectedTo) -> UmlNode
+	  // UmlConnection ->(connectedTo) -> UmlConnection
 	  if (source instanceof UmlConnection && target instanceof UmlConnection)
 	  {
 		  conn = FactoryManager.get().createConnectionBetweenCon(relationType, (UmlConnection) source, (UmlConnection) target);
@@ -296,6 +299,9 @@ public class LineHandler implements EditorMode {
 					aSource =  (Classifier) ((AssociationElement)target).getRelationship(); 
 					aTarget =  (Classifier) ((UmlNode)source).getClassifier();
 				}				
+			}else{
+				aSource = (Classifier) ((UmlNode)source).getClassifier();
+				aTarget = (Classifier) ((AssociationElement)target).getRelationship(); 
 			}
 		}
 	    // UmlNode ->(connectedTo) -> UmlNode
