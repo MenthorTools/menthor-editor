@@ -185,14 +185,16 @@ public class ProjectManager extends BaseManager {
 		List<Object> list = (List<Object>)object;
 		RefOntoUML.Package model=null;
 		if(list.size()>0) model = (RefOntoUML.Package)list.get(0);		
+		
 		if(list.size()>1 && list.get(1) instanceof List<?>){
 			createProject(model, (List<String>) list.get(1));
-		}
-		else if(list.size()>1 && list.get(1) instanceof String){
+		}else if(list.size()>1 && list.get(1) instanceof String){
 			createProject(model, (String) list.get(1), true, true);
-		} else{
+		}else{
 			createProject(model, "",true,true);
-		}		
+		}
+		
+		MenthorEditor.getFrame().forceDefaultUI();
 	}
 	
 	public void openProject(){
