@@ -341,6 +341,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 			chckbxIgnoreElementsWith.setSelected(true);			
 			chckbxGenerateCard.setSelected(true);
 			chckbxShowWarningLog.setSelected(true);
+			chckbxImportComments.setSelected(false);
 		}
 		else if (e.getSource() == btnRun || e.getSource() == btnFilter)
 		{
