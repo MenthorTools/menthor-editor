@@ -80,6 +80,7 @@ import org.tinyuml.draw.Scaling;
 import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.draw.TreeConnection;
+import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
 import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
 import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.ui.diagram.commands.Command;
@@ -1002,15 +1003,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
 	{	
-		lineHandler.setRelationType(relationType,FactoryManager.get().getConnectMethod(relationType));
+		lineHandler.setRelationType(relationType, FactoryManager.get().getDefaultConnectMethod(relationType));
 		editorMode = lineHandler;
 	}
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
 		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-		lineHandler.setRelationType(relationType, FactoryManager.get().getConnectMethod(relationType));
-		editorMode = lineHandler;		
+		lineHandler.setRelationType(relationType, FactoryManager.get().getDefaultConnectMethod(relationType));
+		editorMode = lineHandler;
 		RefOntoUML.Type source = null;
 		RefOntoUML.Type target = null;
 		if(relationship instanceof RefOntoUML.Association){
@@ -1030,7 +1031,12 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		DiagramElement tgt = OccurenceManager.get().getDiagramElement(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
-		return lineHandler.createAndAddConnection(this, relationship, src, tgt, eContainer);
+		 UmlConnection conn = FactoryManager.get().createConnection(relationship, src, tgt);
+		  AddConnectionCommand command = new AddConnectionCommand(this, conn);
+	  	  command.run();	    	 
+		  this.cancelEditing();
+		  this.redraw();
+		return conn;
 	}
 		  	
 	/** Immediate redraw of the view. */

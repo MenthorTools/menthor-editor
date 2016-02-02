@@ -30,6 +30,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.UmlConnection;
+import org.tinyuml.umldraw.shared.UmlNode;
 
 /**
  * This class represents the abstract super class that contains the common
@@ -86,6 +88,30 @@ public abstract class AbstractConnection implements Connection,
 		return node1;
 	}
 
+	public Object getSourceObject(){
+		if(node1!=null && node1 instanceof UmlNode) return ((UmlNode)node1).getClassifier();
+		else if(connection1!=null && connection1 instanceof UmlConnection) return ((UmlConnection)connection1).getRelationship();
+		return null;
+	}
+	
+	public Object getTargetObject(){
+		if(node2!=null && node2 instanceof UmlNode) return ((UmlNode)node2).getClassifier();
+		else if(connection2!=null && connection2 instanceof UmlConnection) return ((UmlConnection)connection2).getRelationship();
+		return null;
+	}
+	
+	public DiagramElement getSourceDiagramElement(){
+		if(node1!=null) return node1;
+		else if(connection1!=null) return connection1;
+		return null;
+	}
+	
+	public DiagramElement getTargetDiagramElement(){
+		if(node2!=null) return node2;
+		else if(connection2!=null) return connection2;
+		return null;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */

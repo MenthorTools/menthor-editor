@@ -583,4 +583,29 @@ public class BaseConnection implements UmlConnection, Adapter {
 		connection.setConnections(connList);		
 	}
 
+	@Override
+	public DiagramElement getSourceDiagramElement() {
+		return connection.getSourceDiagramElement();
+	}
+
+	@Override
+	public void setPoints() {
+		connection.setPoints();		
+	}
+
+	@Override
+	public DiagramElement getTargetDiagramElement() {
+		return connection.getTargetDiagramElement();
+	}
+
+	@Override
+	public Object getSourceObject() {
+		return connection.getSourceObject();
+	}
+
+	@Override
+	public Object getTargetObject() {
+		return connection.getTargetObject();
+	}
+
 }

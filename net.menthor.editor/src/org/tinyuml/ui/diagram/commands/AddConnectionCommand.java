@@ -65,6 +65,17 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 	private EObject eContainer;	
 	private boolean addToDiagram;
 
+	public AddConnectionCommand(DiagramNotification editorNotification, UmlConnection conn){
+		this(
+			editorNotification, 
+			(CompositeElement)((DiagramEditor)editorNotification).getDiagram(), 
+			(RefOntoUML.Element)conn.getRelationship(), 
+			(RefOntoUML.Classifier)conn.getSourceObject(), 
+			(RefOntoUML.Classifier)conn.getTargetObject(), 
+			(RefOntoUML.Element)conn.getRelationship().eContainer()
+		);
+	}
+	
 	public AddConnectionCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
 		this.parent = parent;		
 		this.notification = editorNotification;

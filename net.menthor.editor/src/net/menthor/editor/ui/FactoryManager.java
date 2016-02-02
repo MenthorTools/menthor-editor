@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.draw.Connection;
+import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.LineConnectMethod;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
@@ -38,13 +38,13 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import RefOntoUML.Association;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.managers.BaseManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -97,7 +97,7 @@ public class FactoryManager extends BaseManager {
 	    relationPrototypes.put(relType, generalizationElement);
     }
     
-    public String nextClassTypeCount(ClassType elementType){	  
+    private String nextClassTypeCount(ClassType elementType){	  
   	  if (classCounters.get(elementType)!=null) {
   		  int count = classCounters.get(elementType);
   		  classCounters.put(elementType, count+1);
@@ -108,7 +108,7 @@ public class FactoryManager extends BaseManager {
   	  }
     }
     
-    public String nextDataTypeCount(DataType elementType){	  
+    private String nextDataTypeCount(DataType elementType){	  
   	  if (datatypeCounters.get(elementType)!=null) {
   		  int count = datatypeCounters.get(elementType);
   		  datatypeCounters.put(elementType, count+1);
@@ -119,7 +119,7 @@ public class FactoryManager extends BaseManager {
   	  }
     }
     
-    public String nextRelationshipCount(RelationshipType RelationshipType) {	  
+    private String nextRelationshipCount(RelationshipType RelationshipType) {	  
   	  if (relationCounters.get(RelationshipType)!=null) {
   		  int count = relationCounters.get(RelationshipType);
   		  relationCounters.put(RelationshipType, count+1);
@@ -188,6 +188,8 @@ public class FactoryManager extends BaseManager {
     	createAssociationPrototype(RelationshipType.ASSOCIATION);
     }
 
+    // ------------- RefOnto --------------
+    
     public RefOntoUML.Element createClass(ClassType elementType){
 	  RefOntoUML.Element type = null;
 	  String name = elementType.getName()+nextClassTypeCount(elementType);
@@ -294,6 +296,8 @@ public class FactoryManager extends BaseManager {
 	  return RefOntoUMLFactoryUtil.cloneRelationship(newType, type);
   }
     
+  //------------- Node --------------
+  
   public UmlNode createNode(ClassType classType, StructureDiagram container) {
     UmlNode umlnode = (UmlNode) classPrototypes.get(classType).clone(); 
     String name = umlnode.getClassifier().getName() + nextClassTypeCount(classType);
@@ -370,221 +374,137 @@ public class FactoryManager extends BaseManager {
 	  return ce;
   }
   
-  /**
-   * {@inheritDoc}  This method also create the referred RefOntoUML Relationship of the UmlConnection. 
-   */
-  public UmlConnection createConnection(RelationshipType RelationshipType, UmlNode node1, UmlNode node2) 
-  {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType);    
-    UmlConnection conn = null;
-    if (prototype != null) 
-    {
-      conn = (UmlConnection) prototype.clone();
-      bindConnection(conn, node1, node2);
-      if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
-      {
-    	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationshipCount(RelationshipType));
-    	  if(node1.getDiagram().getContainer()!=null){
-	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-	      }
-      }      
-    }    
-    return conn;
-  }
+  // ------------- Connection --------------
   
-  /**
-   * Create a UmlConnection from a relationship 
-   */
-  public UmlConnection createConnection(RefOntoUML.Relationship relationship, UmlNode node1, UmlNode node2) 
-  {	
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));    
+  public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
     UmlConnection conn = null;
-    if (prototype != null) 
-    {
+    if (prototype != null){
 		conn = (UmlConnection) prototype.clone();
-		conn.setRelationship(relationship);
-		bindConnection(conn, node1, node2);
-		if(node1.getDiagram().getContainer()!=null && conn.getRelationship() instanceof AssociationImpl){
-	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-	      }
+		conn.setRelationship(relationship);		
+		bind(conn, diagramElement1, diagramElement2);
+		OntoumlDiagram diagram = diagramElement1.getDiagram();
+		if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){
+	      	if(conn.getRelationship() instanceof AssociationImpl){
+	      		((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add(
+	      			(RefOntoUML.PackageableElement)conn.getRelationship()
+	      		);
+	      	}
+	    }
     }
+    if(conn!=null) conn.setPoints();
+    OccurenceManager.get().add(conn.getRelationship(), conn);
     return conn;
   }
-  
-  /**
-   * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
-   */
-  public UmlConnection createConnectionFromCon(RelationshipType relationType, UmlConnection c1, UmlNode node2) 
-  {
+    
+  public UmlConnection createConnection(RelationshipType relationType, DiagramElement de1, DiagramElement de2){
 	  UmlConnection prototype = relationPrototypes.get(relationType);	  
       UmlConnection conn = null;
-      if (prototype != null) 
-      {
+      if (prototype != null){
 	      conn = (UmlConnection) prototype.clone();
-	      bindConnection(conn, c1, node2);
-	      if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
-	      {
-	    	  Association association = (Association) conn.getRelationship();
-	    	  association.setName(association.getName() + nextRelationshipCount(relationType));
-	    	  if(c1.getDiagram().getContainer()!=null){
-		        	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-		        		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
+	      bind(conn, de1, de2);
+	      OntoumlDiagram diagram = de1.getDiagram();
+	      if(conn.getRelationship() instanceof RefOntoUML.Association){
+	    	  RefOntoUML.Association rel = (RefOntoUML.Association)conn.getRelationship();	    	  
+	    	  rel.setName(rel.getName() + nextRelationshipCount(relationType));
+	    	  if(diagram !=null && diagram.getContainer()!=null){
+		        	if(diagram.getContainer() instanceof RefOntoUML.Package){
+		        		((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add(
+		        			(RefOntoUML.PackageableElement)conn.getRelationship()
+		        		);
+		        	}
 		        }
 	      }	      
       }	    
+      if(conn!=null) conn.setPoints();
+      OccurenceManager.get().add(conn.getRelationship(), conn);
       return conn;
   }
-
-  /**
-   * Create a UmlConnection from a relationship 
-   */
-  public UmlConnection createConnectionFromCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlNode node2) 
-  {
-	  UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));	  
-      UmlConnection conn = null;
-      if (prototype != null) 
-      {
+  
+  public UmlConnection createConnection(RelationshipType relationType, RefOntoUML.Relationship toBeCloned, StructureDiagram diagram){
+	  UmlConnection prototype = relationPrototypes.get(relationType);	
+	  UmlConnection conn = null;
+      if (prototype != null){
 	      conn = (UmlConnection) prototype.clone();
-	      conn.setRelationship(relationship);
-	      bindConnection(conn, c1, node2);
-	      if(c1.getDiagram().getContainer()!=null && conn.getRelationship() instanceof AssociationImpl){
-	        	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-	        		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-	        }
-      }
-      return conn;
+	      RefOntoUMLFactoryUtil.cloneRelationship(conn.getRelationship(), toBeCloned);
+	      RefOntoUML.Classifier sourceType = OntoUMLParser.getSourceType(conn.getRelationship());
+	      RefOntoUML.Classifier targetType = OntoUMLParser.getTargetType(conn.getRelationship());
+	      DiagramElement source = OccurenceManager.get().getDiagramElement(sourceType,diagram);
+	      DiagramElement target = OccurenceManager.get().getDiagramElement(targetType,diagram);
+	      bind(conn, source, target);	      			   
+	      conn.setPoints();			  
+	  }	  
+      OccurenceManager.get().add(conn.getRelationship(), conn);
+	  return conn;
   }
   
-  /**
-   * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
-   */
-  public UmlConnection createConnectionToCon(RelationshipType RelationshipType, UmlNode node1, UmlConnection c2) 
-  {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType);    
-    UmlConnection conn = null;
-    if (prototype != null) 
-    {
-      conn = (UmlConnection) prototype.clone();
-      bindConnection(conn, node1, c2);
-      if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
-      {
-    	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationshipCount(RelationshipType));
-    	  if(node1.getDiagram().getContainer()!=null){
-    	      	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-    	      		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-    	      }
-      }      
-    }    
-    return conn;
+  public LineConnectMethod getDefaultConnectMethod(RelationshipType RelationshipType){
+    UmlConnection connPrototype = relationPrototypes.get(RelationshipType);
+    return (connPrototype == null) ? null : connPrototype.getConnectMethod();
   }
 
-  /**
-   *  Create a UmlConnection from a relationship
-   */
-  public UmlConnection createConnectionToCon(RefOntoUML.Relationship relationship, UmlNode node1, UmlConnection c2) 
-  {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));    
-    UmlConnection conn = null;
-    if (prototype != null) 
-    {
-      conn = (UmlConnection) prototype.clone();
-      conn.setRelationship(relationship);
-      bindConnection(conn, node1, c2);
-      if(node1.getDiagram().getContainer()!=null  && conn.getRelationship() instanceof AssociationImpl){
-        	if(node1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-        		((RefOntoUML.Package)node1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-        }
-    }    
-    return conn;
+  public boolean shouldInvert(UmlConnection conn, DiagramElement source, DiagramElement target){
+	  RefOntoUML.Relationship relationship = conn.getRelationship();
+	  if((relationship instanceof RefOntoUML.Derivation) ||
+	    ((relationship instanceof RefOntoUML.Characterization) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
+		((relationship instanceof RefOntoUML.Characterization) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Quality)) ||
+		((relationship instanceof RefOntoUML.Mediation) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
+		((relationship instanceof RefOntoUML.Structuration) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))		      
+	  ) return true;
+	  return false;
   }
   
-  /**
-   * {@inheritDoc} This method also create the referred RefOntoUML Relationship of the UmlConnection. 
-   */
-  public UmlConnection createConnectionBetweenCon(RelationshipType RelationshipType, UmlConnection c1, UmlConnection c2) 
-  {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType);    
-    UmlConnection conn = null;
-    if (prototype != null) 
-    {
-      conn = (UmlConnection) prototype.clone();
-      bindConnection(conn, c1, c2);
-      if(conn.getRelationship() != null && conn.getRelationship() instanceof AssociationImpl)
-      {
-    	  Association association = (Association) conn.getRelationship();
-    	  association.setName(association.getName() + nextRelationshipCount(RelationshipType));
-    	  if(c1.getDiagram().getContainer()!=null){
-          	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-          		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-          }
-      }      
-    }    
-    return conn;
-  }
-
-  /**
-   *  Create a UmlConnection from a RefOntoUML Relationship
-   */
-  public UmlConnection createConnectionBetweenCon(RefOntoUML.Relationship relationship, UmlConnection c1, UmlConnection c2) 
-  {
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase()));    
-    UmlConnection conn = null;
-    if (prototype != null) 
-    {
-      conn = (UmlConnection) prototype.clone();
-      conn.setRelationship(relationship);
-      bindConnection(conn, c1, c2);
-      if(c1.getDiagram().getContainer()!=null && conn.getRelationship() instanceof AssociationImpl){
-      	if(c1.getDiagram().getContainer() instanceof RefOntoUML.Package)
-      		((RefOntoUML.Package)c1.getDiagram().getContainer()).getPackagedElement().add((RefOntoUML.PackageableElement)conn.getRelationship());
-      }
-    }    
-    return conn;
+  public void bind(UmlConnection conn, DiagramElement de1, DiagramElement de2){	  
+	  if(de1 instanceof UmlNode && de2 instanceof UmlNode) {
+		  if(shouldInvert(conn, de1, de2)) bind(conn, (UmlNode)de2, (UmlNode)de1);
+		  else bind(conn, (UmlNode)de1, (UmlNode)de2);
+	  }
+	  if(de1 instanceof UmlNode && de2 instanceof UmlConnection) {
+		  if(shouldInvert(conn, de1, de2)) bind(conn, (UmlConnection)de2, (UmlNode)de1);
+		  else bind(conn, (UmlNode)de1, (UmlConnection)de2);
+	  }
+	  if(de1 instanceof UmlConnection && de2 instanceof UmlNode) {
+		  if(shouldInvert(conn, de1, de2)) bind(conn, (UmlNode)de2, (UmlConnection)de1);
+		  else bind(conn, (UmlConnection)de1, (UmlNode)de2);
+	  }
+	  if(de1 instanceof UmlConnection && de2 instanceof UmlConnection){
+		  if(shouldInvert(conn, de1, de2)) bind(conn, (UmlConnection)de2, (UmlConnection)de1);
+		  else bind(conn, (UmlConnection)de1, (UmlConnection)de2);
+	  }
   }
   
-  /**
-   * {@inheritDoc}
-   */
-  public LineConnectMethod getConnectMethod(RelationshipType RelationshipType)
-  {
-    UmlConnection conn = relationPrototypes.get(RelationshipType);
-    return (conn == null) ? null : conn.getConnectMethod();
-  }
-
-  /**
-   * Binds the UmlConnection to the nodes.
-   * @param conn the Connection
-   * @param node1 the Node 1
-   * @param node2 the Node 2
-   */
-  public void bindConnection(UmlConnection conn, UmlNode node1, UmlNode node2) {
-    conn.setNode1(node1);
-    conn.setNode2(node2);
-    if(node1!=null) node1.addConnection(conn);
-    if(node2!=null) node2.addConnection(conn);
+  public void bind(UmlConnection conn, UmlNode node1, UmlNode node2) {
+	  conn.setNode1(node1);
+	  conn.setNode2(node2);
+	  OntoUMLParser.setSourceType(conn.getRelationship(), (RefOntoUML.Classifier)node1.getClassifier());
+	  OntoUMLParser.setTargetType(conn.getRelationship(), (RefOntoUML.Classifier)node2.getClassifier());
+	  if(node1!=null) node1.addConnection(conn);
+	  if(node2!=null) node2.addConnection(conn);
   }
   
-  public void bindConnection(UmlConnection conn, UmlNode node1, Connection c2) {
+  public void bind(UmlConnection conn, UmlNode node1, UmlConnection c2) {
 	  conn.setNode1(node1);
 	  conn.setConnection2(c2);
+	  OntoUMLParser.setSourceType(conn.getRelationship(), (RefOntoUML.Classifier)node1.getClassifier());
+	  OntoUMLParser.setTargetType(conn.getRelationship(), (RefOntoUML.Classifier)c2.getRelationship());
 	  if(node1!=null) node1.addConnection(conn);
 	  if(c2!=null) c2.addConnection(conn);  
   }
   
-  public void bindConnection(UmlConnection conn, UmlConnection c1, UmlNode node2) {
+  public void bind(UmlConnection conn, UmlConnection c1, UmlNode node2) {
 	  conn.setNode2(node2);
 	  conn.setConnection1(c1);
+	  OntoUMLParser.setSourceType(conn.getRelationship(), (RefOntoUML.Classifier)c1.getRelationship());
+	  OntoUMLParser.setTargetType(conn.getRelationship(), (RefOntoUML.Classifier)node2.getClassifier());
 	  if(node2!=null) node2.addConnection(conn);
 	  if(c1!=null) c1.addConnection(conn);  
   }
   
-  public void bindConnection(UmlConnection conn, UmlConnection c1, UmlConnection c2) {
-	  conn.setConnection2(c2);
+  public void bind(UmlConnection conn, UmlConnection c1, UmlConnection c2) {
 	  conn.setConnection1(c1);
+	  conn.setConnection2(c2);
+	  OntoUMLParser.setSourceType(conn.getRelationship(), (RefOntoUML.Classifier)c1.getRelationship());
+	  OntoUMLParser.setTargetType(conn.getRelationship(), (RefOntoUML.Classifier)c2.getRelationship());
 	  if(c2!=null) c2.addConnection(conn);
 	  if(c1!=null) c1.addConnection(conn);  
   }

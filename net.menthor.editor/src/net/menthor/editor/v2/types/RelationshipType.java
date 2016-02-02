@@ -55,6 +55,22 @@ public enum RelationshipType {
 
 	public String getName() { return name; }
 
+	public static RelationshipType getRelationshipType(RefOntoUML.Relationship type){
+		if(type instanceof RefOntoUML.Generalization) return RelationshipType.GENERALIZATION;
+		if(type instanceof RefOntoUML.Characterization) return RelationshipType.CHARACTERIZATION;
+		if(type instanceof RefOntoUML.componentOf) return RelationshipType.COMPONENTOF;
+		if(type instanceof RefOntoUML.Derivation) return RelationshipType.DERIVATION;
+		if(type instanceof RefOntoUML.FormalAssociation) return RelationshipType.FORMAL;
+		if(type instanceof RefOntoUML.MaterialAssociation) return RelationshipType.MATERIAL;
+		if(type instanceof RefOntoUML.Mediation) return RelationshipType.MEDIATION;
+		if(type instanceof RefOntoUML.memberOf) return RelationshipType.MEMBEROF;
+		if(type instanceof RefOntoUML.Structuration) return RelationshipType.STRUCTURATION;
+		if(type instanceof RefOntoUML.subCollectionOf) return RelationshipType.SUBCOLLECTIONOF;
+		if(type instanceof RefOntoUML.subQuantityOf) return RelationshipType.SUBQUANTITYOF;
+		if(type instanceof RefOntoUML.Association) return RelationshipType.ASSOCIATION;
+		return RelationshipType.ASSOCIATION;		
+	}
+	
 	public static void main (String args[])
 	{
 		for(RelationshipType c: RelationshipType.values()){

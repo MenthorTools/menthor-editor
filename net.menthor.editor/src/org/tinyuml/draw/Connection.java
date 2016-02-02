@@ -45,37 +45,22 @@ public interface Connection extends DiagramElement {
    */
   void copyData(Connection conn);
 
-  /**
-   * Returns the Node 1 element.
-   * @return node 1
-   */
+  DiagramElement getSourceDiagramElement();
+  DiagramElement getTargetDiagramElement();
+  Object getSourceObject();
+  Object getTargetObject();
+  
+  //change this in the future....
   Node getNode1();
-
-  /**
-   * Sets the node 1 element.
-   * @param aNode the node 1 element
-   */
   void setNode1(Node aNode);
-
-  /**
-   * Returns the Node 2 element.
-   * @return node 2
-   */
   Node getNode2();
-
-  /**
-   * Sets the node 2 element of the connection.
-   * @param aNode the node 2 element
-   */
   void setNode2(Node aNode);
-
-  void setConnection2(Connection c);
-  
-  Connection getConnection2();
-  
-  void setConnection1(Connection c);
-  
+  void setConnection2(Connection c);  
+  Connection getConnection2();  
+  void setConnection1(Connection c);  
   Connection getConnection1();
+  
+  
   
   void setConnections(Collection<? extends Connection> connList);
   
@@ -91,10 +76,6 @@ public interface Connection extends DiagramElement {
    * @return the segments
    */
   List<Line2D> getSegments();
-
-  double getAbsCenterX(); 
-
-  double getAbsCenterY();
   
   // not sure this is also true connections (John)...
   double getAbsoluteX2();  
@@ -152,8 +133,6 @@ public interface Connection extends DiagramElement {
    * @return the rotation of the last segment to node 2.
    */
   AffineTransform calculateRotationInEndPoint2();
-
-  void calculateIntersection(Line2D line, Point2D intersectionPoint);
   
   boolean intersects(Line2D line);
   
@@ -174,6 +153,7 @@ public interface Connection extends DiagramElement {
    * @return the LineConnectMethod
    */
   LineConnectMethod getConnectMethod();
+  void setPoints();
   
   /**
    * Returns the Connections this node has.
