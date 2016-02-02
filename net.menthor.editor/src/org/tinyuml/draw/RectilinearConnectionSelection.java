@@ -407,11 +407,13 @@ public class RectilinearConnectionSelection extends ConnectionSelection {
     Node node1 = getConnection().getNode1();
     Node node2 = getConnection().getNode2();
     Connection c1 = getConnection().getConnection1();
+    Connection c2 = getConnection().getConnection2();
     
     if (editpoints.size() > 2) {
       // remove last point if possible
-      Point2D p = editpoints.get(editpoints.size() - 2);      
-      if (outcode(node2.getAbsoluteBounds(), p) == 0) {
+      Point2D p = editpoints.get(editpoints.size() - 2);
+      if (node2 != null && outcode(node2.getAbsoluteBounds(), p) == 0 ||
+    		  c2 != null && outcode(c2.getAbsoluteBounds(), p) == 0) {
         // see above
         removeEditPoint(editpoints.size() - 1);
       }

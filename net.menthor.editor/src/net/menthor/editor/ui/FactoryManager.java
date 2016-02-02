@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.LineConnectMethod;
@@ -40,8 +41,8 @@ import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
+import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
-import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -384,12 +385,11 @@ public class FactoryManager extends BaseManager {
 		conn.setRelationship(relationship);		
 		bind(conn, diagramElement1, diagramElement2);
 		OntoumlDiagram diagram = diagramElement1.getDiagram();
-		if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){
-	      	if(conn.getRelationship() instanceof AssociationImpl){
-	      		((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add(
-	      			(RefOntoUML.PackageableElement)conn.getRelationship()
-	      		);
-	      	}
+		if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){	      	
+			Package container = (RefOntoUML.Package)diagramElement1.getDiagram().getContainer();
+			EList<PackageableElement> packagedElement = container.getPackagedElement();
+			PackageableElement rel = (RefOntoUML.PackageableElement)conn.getRelationship();
+			packagedElement.add(rel);							    	      	      			      	
 	    }
     }
     if(conn!=null) conn.setPoints();
@@ -404,17 +404,16 @@ public class FactoryManager extends BaseManager {
 	      conn = (UmlConnection) prototype.clone();
 	      bind(conn, de1, de2);
 	      OntoumlDiagram diagram = de1.getDiagram();
-	      if(conn.getRelationship() instanceof RefOntoUML.Association){
+	      if(conn.getRelationship()!=null && conn.getRelationship() instanceof RefOntoUML.Association){
 	    	  RefOntoUML.Association rel = (RefOntoUML.Association)conn.getRelationship();	    	  
 	    	  rel.setName(rel.getName() + nextRelationshipCount(relationType));
-	    	  if(diagram !=null && diagram.getContainer()!=null){
-		        	if(diagram.getContainer() instanceof RefOntoUML.Package){
-		        		((RefOntoUML.Package)diagram.getContainer()).getPackagedElement().add(
-		        			(RefOntoUML.PackageableElement)conn.getRelationship()
-		        		);
-		        	}
-		        }
-	      }	      
+	      }		  
+		  if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){	      	
+			Package container = (RefOntoUML.Package)de1.getDiagram().getContainer();
+			EList<PackageableElement> packagedElement = container.getPackagedElement();
+			PackageableElement relationship = (RefOntoUML.PackageableElement)conn.getRelationship();
+			packagedElement.add(relationship);							    	      	      			      	
+		  }	      	      
       }	    
       if(conn!=null) conn.setPoints();
       OccurenceManager.get().add(conn.getRelationship(), conn);
@@ -442,7 +441,7 @@ public class FactoryManager extends BaseManager {
     UmlConnection connPrototype = relationPrototypes.get(RelationshipType);
     return (connPrototype == null) ? null : connPrototype.getConnectMethod();
   }
-
+  
   public boolean shouldInvert(UmlConnection conn, DiagramElement source, DiagramElement target){
 	  RefOntoUML.Relationship relationship = conn.getRelationship();
 	  if((relationship instanceof RefOntoUML.Derivation) ||

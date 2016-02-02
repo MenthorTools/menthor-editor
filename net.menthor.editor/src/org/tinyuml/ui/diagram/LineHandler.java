@@ -21,7 +21,7 @@ public class LineHandler implements EditorMode {
   private Point2D anchor = new Point2D.Double();
   private Point2D tmpPos = new Point2D.Double();
   private DiagramElement source;
-  private boolean isDrawingLine;
+  private boolean isDragging;
   private RelationshipType relationType;
   private LineConnectMethod connectMethod;
 
@@ -35,9 +35,9 @@ public class LineHandler implements EditorMode {
 	  relationType = anAssociationType;   
   }
 
-  public boolean isDragging() { return isDrawingLine; }
+  public boolean isDragging() { return isDragging; }
   public void stateChanged() { }
-  public void cancel() { isDrawingLine = false; }
+  public void cancel() { isDragging = false; }
   
   public void mousePressed(EditorMouseEvent event) {
 	  double mx = event.getX(), my = event.getY();
@@ -45,7 +45,7 @@ public class LineHandler implements EditorMode {
 	  if (elem!=null && ! (elem instanceof NullElement)) {
 		  anchor.setLocation(mx, my); //TODO Change the anchor to the edge of the Diagram Element
 		  tmpPos.setLocation(mx, my);
-		  isDrawingLine = true;
+		  isDragging = true;
 		  if (elem instanceof UmlNode) source = (UmlNode) elem;
 		  else source = (UmlConnection) elem;
 	  }
@@ -60,11 +60,12 @@ public class LineHandler implements EditorMode {
     	AddConnectionCommand command = new AddConnectionCommand(editor, conn);
     	command.run();
     }
-    isDrawingLine = false;
+    isDragging = false;
     editor.cancelEditing();
     editor.redraw();
   }
-    
+ 
+  
   /**
    * {@inheritDoc}
    */
@@ -87,9 +88,10 @@ public class LineHandler implements EditorMode {
 
   /**
    * {@inheritDoc}
+   * 
    */
   public void draw(DrawingContext drawingContext) {
-    if (isDrawingLine) {
+    if (isDragging) {
       connectMethod.drawLineSegments(drawingContext, anchor, tmpPos);
     }
   }

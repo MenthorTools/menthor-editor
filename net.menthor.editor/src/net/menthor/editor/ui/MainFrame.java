@@ -192,10 +192,14 @@ public class MainFrame extends JFrame implements CommandListener {
 		root.putClientProperty("Window.documentFile", projectFile);
 		setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 		if(forceDefaultUI){
-			forceShowBrowserPane();
-			forceShowPalettePane();				
-			getMainMenu().activateAll();
+			forceDefaultUI();
 		}
+	}
+	
+	public void forceDefaultUI(){
+		forceShowBrowserPane();
+		forceShowPalettePane();
+		getMainMenu().activateAll();
 	}
 	
 	@SuppressWarnings("unused")
