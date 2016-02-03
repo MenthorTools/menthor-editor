@@ -66,7 +66,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	private Label mainLabel;
 	private Label ontoUmlLabel;
 	private String ontoUmlStereotype;
-	private boolean showOperations = false, showAttributes = false, showStereotypes = true;
+	private boolean showOperations = false, showAttributes = false, showStereotypes = true, showNamespace = false, showParents = false;
 	private static ClassElement prototype = new ClassElement();
 
 	/**
@@ -373,7 +373,23 @@ public final class ClassElement extends AbstractCompositeNode implements
 		//mainCompartment.addLabel(mainLabel);
 		invalidate();
 	}
-
+	
+	public void setShowNamespace(boolean flag){
+		//TODO: add behaviour;
+	}
+	
+	public boolean showNamespace(){
+		return showNamespace;
+	}
+	
+	public void setShowParents(boolean flag){
+		//TODO: add behaviour;
+	}
+	
+	public boolean showParents(){
+		return showParents;
+	}
+	
 	/**
 	 * Returns the value of the showStereotypes attribute.
 	 * 
@@ -728,5 +744,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	public boolean isNestable() {
 		return true;
 	}
+
+	
 }
 

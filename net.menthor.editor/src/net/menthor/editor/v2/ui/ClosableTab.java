@@ -116,8 +116,7 @@ public class ClosableTab extends JPanel {
                 } else if (SwingUtilities.isRightMouseButton(e)){                	             		
             		int index = pane.indexOfTabComponent(ClosableTab.this);
             		Component comp = pane.getComponentAt(index);            		
-            		TabPopupMenu popup = new TabPopupMenu(listener);
-            		popup.setContext(comp);
+            		TabPopupMenu popup = new TabPopupMenu(listener,comp);
             		popup.show(e.getComponent(),e.getX(),e.getY());                	
                 } else { 
                     if (pane.getSelectedIndex() != pane.indexOfTabComponent(ClosableTab.this)) pane.setSelectedIndex(pane.indexOfTabComponent(ClosableTab.this)); 

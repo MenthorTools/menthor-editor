@@ -33,6 +33,14 @@ public class TreeConnection extends RectilinearConnection {
 		this.vertical = vertical;
 	}
 	
+	public boolean isVertical(){
+		return vertical;
+	}
+	
+	public boolean isHorizontal(){
+		return !vertical;
+	}
+	
 	@Override
 	public Selection getSelection(DiagramOperations operations) 
 	{

@@ -22,22 +22,25 @@ package net.menthor.editor.v2.menu;
  */
 
 import javax.swing.ButtonGroup;
+import javax.swing.JPopupMenu;
+
+import org.tinyuml.umldraw.AssociationElement;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
-public class ReadingDirectionMenu extends BaseMenu {
+public class ReadingDirectionMenu extends BaseMenu<AssociationElement> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public ReadingDirectionMenu(CommandListener listener, String text){
-		super(listener, text);	
+	public ReadingDirectionMenu(CommandListener listener, String text, AssociationElement associationElement, JPopupMenu parent){
+		super(listener, text, associationElement);	
 		build();
+		parent.add(this);
 	}
 	
-	public ReadingDirectionMenu(CommandListener listener){
-		super(listener, "Reading Direction");		
-		build();
+	public ReadingDirectionMenu(CommandListener listener, AssociationElement associationElement, JPopupMenu parent){
+		this(listener, "Reading Direction", associationElement, parent);		
   	}
 	
 	public void build(){

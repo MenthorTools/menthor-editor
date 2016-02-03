@@ -56,7 +56,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.menu.TreePopupMenu;
+import net.menthor.editor.v2.menu.ProjectBrowserPopupMenu;
 import net.menthor.editor.v2.util.Util;
 
 public class ProjectTree extends BaseCheckBoxTree {
@@ -64,7 +64,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 	private static final long serialVersionUID = 1L;
 	
 	protected TreeVisibility opt;
-	private TreePopupMenu popupmenu;	
+	private ProjectBrowserPopupMenu popupmenu;	
 	protected OntoUMLParser refparser;	
 	private TreeDragSourceListener dndSource;
 	
@@ -142,12 +142,12 @@ public class ProjectTree extends BaseCheckBoxTree {
 		       listener.handleCommand(CommandType.DELETE.toString(), new Object[]{getSelectedNode().getUserObject()});
 		    }
 		});				
-		popupmenu = new TreePopupMenu(listener);
+		
 		/* Click */
 		addMouseListener(new MouseAdapter(){
 	        public void mouseClicked (MouseEvent e){	       	
 	        	if (SwingUtilities.isRightMouseButton(e)){	            	
-	        		openPopupMenu(e);         
+	        		openPopupMenu(e,listener);         
 	            }
 	        	if (e.getClickCount()==2 && SwingUtilities.isLeftMouseButton(e)){
 	            	TreePath path = getPathForLocation(e.getX(),e.getY());
@@ -167,14 +167,14 @@ public class ProjectTree extends BaseCheckBoxTree {
 	
 	//------- Popup Menu ---------
 	
-	public void openPopupMenu(MouseEvent e){				
+	public void openPopupMenu(MouseEvent e, CommandListener listener){				
 		TreePath path = getPathForLocation(e.getX (), e.getY());        	
     	setSelectionPath(path);
     	scrollPathToVisible(path);            
     	DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)(path.getLastPathComponent());
     	Rectangle pathBounds = getUI().getPathBounds(ProjectTree.this, path);
         if (pathBounds != null && pathBounds.contains(e.getX (),e.getY())){
-        	popupmenu.setContext(currentNode.getUserObject());
+        	popupmenu = new ProjectBrowserPopupMenu(listener,currentNode);
     		popupmenu.show(e.getComponent(), e.getX(), e.getY());
         }			
 	}

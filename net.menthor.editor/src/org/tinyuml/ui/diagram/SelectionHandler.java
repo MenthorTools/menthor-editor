@@ -43,10 +43,13 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
+import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.editors.base.EditorMode;
 import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.menu.MultiElementPopupMenu;
+import net.menthor.editor.v2.menu.SingleElementPopupMenu;
 
 /**
  * This class handles selections of diagram allElements, this includes all
@@ -60,7 +63,6 @@ public class SelectionHandler implements EditorMode {
 	private DiagramEditor editor;
 	private Selection selection = NullSelection.getInstance();
 	private Set<SelectionListener> listeners = new HashSet<SelectionListener>();
-	private ContextMenusBuilder contextMenuBuilder;
 	private Point2D startPoint = new Point2D.Double();
 	
 	/**
@@ -96,7 +98,6 @@ public class SelectionHandler implements EditorMode {
 	public SelectionHandler(DiagramEditor anEditor) {
 		editor = anEditor;
 		selector.setDiagram(editor.getDiagram());
-		contextMenuBuilder = new ContextMenusBuilder(editor);
 	}
 
 	public Selection getSelection() {
@@ -211,23 +212,36 @@ public class SelectionHandler implements EditorMode {
 		if (!nothingSelected()) {
 			if(selection.getElement() instanceof StructureDiagram == false)
 			{
-				final JPopupMenu menu = contextMenuBuilder.setContext(selection,mx,my);
+				final JPopupMenu menu = createDiagramPopupMenu(selection,mx,my);
 				menu.show(e.getMouseEvent().getComponent(), e.getMouseEvent().getX(), e.getMouseEvent().getY());
-				//change the focus to the pop-up menu...
-//				editor.getDiagramManager().getFrame().addWindowFocusListener(new WindowFocusListener() {
-//				    @Override public void windowGainedFocus(WindowEvent arg0) {}
-//				    @Override public void windowLostFocus(WindowEvent arg0) {
-//				    	menu.setVisible(false);
-//				    	editor.getDiagramManager().getFrame().removeWindowFocusListener(this);
-//				    }
-//				});
 			}
 		}	
 	}
-
-	public ContextMenusBuilder getMenubuilder() {
-		return contextMenuBuilder;
+	
+	public JPopupMenu createDiagramPopupMenu(Selection selection, double x, double y) {
+		
+		ArrayList<UmlDiagramElement> filteredSelection = filterUmlDiagramElements(selection.getElements());
+		
+		if(filteredSelection.size()==1)
+			return new SingleElementPopupMenu(MenthorEditor.getFrame(), filteredSelection.get(0));
+		
+		if (selection.getElements().size() > 1) 			
+			return new MultiElementPopupMenu(MenthorEditor.getFrame(), filteredSelection);
+		
+		return new JPopupMenu("No Action Available");
 	}
+	
+	private ArrayList<UmlDiagramElement> filterUmlDiagramElements(List<DiagramElement> original){
+		ArrayList<UmlDiagramElement> filteredList = new ArrayList<UmlDiagramElement>();
+		
+		for (DiagramElement diagramElement : original) {
+			if(diagramElement instanceof UmlDiagramElement)
+				filteredList.add((UmlDiagramElement) diagramElement);
+		}
+		
+		return filteredList;
+	}
+	
 
 	/**
 	 * Handle the selection on a mousePressed event.

@@ -334,7 +334,7 @@ public class FactoryManager extends BaseManager {
   public UmlNode createNode(RefOntoUML.Type type, StructureDiagram container){
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  ClassType classType = ClassType.getClassType((RefOntoUML.Class)type);
+		  ClassType classType = ClassType.getClassEnum((RefOntoUML.Class)type);
 		  umlnode = (UmlNode) classPrototypes.get(classType).clone();
 	  }else{ 
 		  DataType dataType = DataType.getDataType((RefOntoUML.DataType)type);
@@ -353,7 +353,7 @@ public class FactoryManager extends BaseManager {
   public UmlNode createNode(RefOntoUML.Type type, EObject eContainer){
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  ClassType classType = ClassType.getClassType((RefOntoUML.Class)type);
+		  ClassType classType = ClassType.getClassEnum((RefOntoUML.Class)type);
 		  umlnode = (UmlNode) classPrototypes.get(classType).clone();
 	  }else{ 
 		  DataType dataType = DataType.getDataType((RefOntoUML.DataType)type);
@@ -378,7 +378,7 @@ public class FactoryManager extends BaseManager {
   // ------------- Connection --------------
   
   public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationEnum(relationship));    
     UmlConnection conn = null;
     if (prototype != null){
 		conn = (UmlConnection) prototype.clone();

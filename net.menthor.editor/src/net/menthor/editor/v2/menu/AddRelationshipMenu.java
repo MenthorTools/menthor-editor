@@ -1,25 +1,20 @@
 package net.menthor.editor.v2.menu;
 
+import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.RelationshipType;
 
-public class AddRelationshipMenu extends BaseMenu {
+public class AddRelationshipMenu extends BaseMenu<DefaultMutableTreeNode> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public AddRelationshipMenu(CommandListener listener, String text){
-		super(listener, text);	
-		build();
-	}
-	
-	public AddRelationshipMenu(CommandListener listener){
-		super(listener, "Add Relationship");	
-		build();
-	}
-	
-	public void build(){
+	public AddRelationshipMenu(CommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+		super(listener, text, treeNode);	
+
 		createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.ADD_GENERALIZATION);
 		createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_CHARACTERIZATION);
 		createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_MEDIATION);
@@ -32,6 +27,13 @@ public class AddRelationshipMenu extends BaseMenu {
 		createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.ADD_SUBQUANTITYOF);
 		createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_STRUCTURATION);
 		createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.ADD_ASSOCIATION);
+		
 		sort();
+		
+		parent.add(this);
+	}
+	
+	public AddRelationshipMenu(CommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+		this(listener, "Add Relationship", treeNode, parent);	
 	}
 }

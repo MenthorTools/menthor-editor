@@ -52,6 +52,7 @@ import RefOntoUML.parser.OntoUMLParser;
 
 import net.menthor.editor.v2.managers.TransferManager;
 
+//TODO: add show Subsetting and show Redefining properties
 public class AssociationEditPane extends JPanel {
 	
 	private static final long serialVersionUID = 1L;

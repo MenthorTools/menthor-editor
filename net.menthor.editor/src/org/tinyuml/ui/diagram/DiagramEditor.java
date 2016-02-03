@@ -247,7 +247,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		this.diagram.addNodeChangeListener(this);
 		initEditorMembers();
 		
-		popupmenu = new PalettePopupMenu(frame);
+		popupmenu = new PalettePopupMenu(MenthorEditor.getFrame());
 		
 		setToolTipText("Press SPACE to see the elements you may draw");
 		

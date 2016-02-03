@@ -1,24 +1,20 @@
 package net.menthor.editor.v2.menu;
 
+import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.DataType;
 
-public class AddDataTypeMenu extends BaseMenu {
+public class AddDataTypeMenu extends BaseMenu<DefaultMutableTreeNode> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public AddDataTypeMenu(CommandListener listener, String text){
-		super(listener, text);
-		build();
-	}
-	public AddDataTypeMenu(CommandListener listener){
-		super(listener, "Add DataType");
-		build();
-	}
-	
-	public void build(){
+	public AddDataTypeMenu(CommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+		super(listener, text, treeNode);
+
 		createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_DATATYPE);
 		createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_ENUMERATION);
 		createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_PRIMITIVETYPE);
@@ -31,5 +27,11 @@ public class AddDataTypeMenu extends BaseMenu {
 		createMenuItem(DataType.STRINGNOMINAL_STRUCTURE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_STRING_NOMINAL_STRUCTURE);
 		createMenuItem(DataType.MEASUREMENT_DOMAIN.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_MEASUREMENT_DOMAIN);
 		sort();
+		
+		parent.add(this);
+		
+	}
+	public AddDataTypeMenu(CommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+		this(listener, "Add DataType", treeNode, parent);
 	}
 }

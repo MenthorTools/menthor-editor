@@ -86,8 +86,7 @@ public class FoundScrollTable extends JScrollPane{
 	    			int rowNumber = table.rowAtPoint( p );	     
 	    			ListSelectionModel model = table.getSelectionModel();	     
 	    			model.setSelectionInterval( rowNumber, rowNumber );	    			
-	    			FoundPopupMenu menu = new FoundPopupMenu(listener);
-	    			menu.setContext(elements.get(rowNumber));
+	    			FoundPopupMenu menu = new FoundPopupMenu(listener,elements.get(rowNumber));
 	    			menu.show(e.getComponent(),e.getX(),e.getY());
 	    		}
 	    	}
