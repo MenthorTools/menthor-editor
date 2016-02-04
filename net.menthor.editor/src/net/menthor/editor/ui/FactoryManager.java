@@ -397,6 +397,7 @@ public class FactoryManager extends BaseManager {
     return conn;
   }
     
+  //Method called when creating a new relationship from the palette (either the fixed one and the popup one).
   public UmlConnection createConnection(RelationshipType relationType, DiagramElement de1, DiagramElement de2){
 	  UmlConnection prototype = relationPrototypes.get(relationType);	  
       UmlConnection conn = null;
@@ -407,13 +408,14 @@ public class FactoryManager extends BaseManager {
 	      if(conn.getRelationship()!=null && conn.getRelationship() instanceof RefOntoUML.Association){
 	    	  RefOntoUML.Association rel = (RefOntoUML.Association)conn.getRelationship();	    	  
 	    	  rel.setName(rel.getName() + nextRelationshipCount(relationType));
+	    	  if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){	      	
+	  			Package container = (RefOntoUML.Package)de1.getDiagram().getContainer();
+	  			EList<PackageableElement> packagedElement = container.getPackagedElement();
+	  			PackageableElement relationship = (RefOntoUML.PackageableElement)conn.getRelationship();
+	  			packagedElement.add(relationship);							    	      	      			      	
+	  		  }
 	      }		  
-		  if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){	      	
-			Package container = (RefOntoUML.Package)de1.getDiagram().getContainer();
-			EList<PackageableElement> packagedElement = container.getPackagedElement();
-			PackageableElement relationship = (RefOntoUML.PackageableElement)conn.getRelationship();
-			packagedElement.add(relationship);							    	      	      			      	
-		  }	      	      
+		  	      	      
       }	    
       if(conn!=null) conn.setPoints();
       OccurenceManager.get().add(conn.getRelationship(), conn);
