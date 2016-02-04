@@ -119,7 +119,7 @@ public enum RelationshipType implements OntoUMLMetatype{
 	
 	public static RelationshipType getRelationEnum(EObject relation) {
 		for (RelationshipType value : RelationshipType.values()) {
-			if(value.metaClass.equals(relation.getClass()))
+			if(value!=ASSOCIATION && value.metaClass.isInstance(relation))
 				return value;
 		}
 		return ASSOCIATION;

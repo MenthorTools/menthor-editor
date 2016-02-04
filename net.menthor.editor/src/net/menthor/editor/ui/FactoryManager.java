@@ -377,6 +377,23 @@ public class FactoryManager extends BaseManager {
   
   // ------------- Connection --------------
   
+  //Creates a visual representation for a relation (on the diagram) from an existing relation on the model. Called when draging and droping from the project browser.
+  public UmlConnection createVisualConnectionFromModelRelationship(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
+	    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationEnum(relationship));    
+	    UmlConnection conn = null;
+	    if (prototype != null){
+			conn = (UmlConnection) prototype.clone();
+			conn.setRelationship(relationship);		
+			bind(conn, diagramElement1, diagramElement2);
+	    }
+	    if(conn!=null) 
+	    	conn.setPoints();
+	    
+	    OccurenceManager.get().add(conn.getRelationship(), conn);
+	    
+	    return conn;
+	  }
+  
   public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
     UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationEnum(relationship));    
     UmlConnection conn = null;

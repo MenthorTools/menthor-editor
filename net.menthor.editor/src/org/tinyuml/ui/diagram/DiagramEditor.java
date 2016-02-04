@@ -1031,11 +1031,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		DiagramElement tgt = OccurenceManager.get().getDiagramElement(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
-		 UmlConnection conn = FactoryManager.get().createConnection(relationship, src, tgt);
-		  AddConnectionCommand command = new AddConnectionCommand(this, conn);
-	  	  command.run();	    	 
-		  this.cancelEditing();
-		  this.redraw();
+		UmlConnection conn = FactoryManager.get().createVisualConnectionFromModelRelationship(relationship, src, tgt);
+		AddConnectionCommand command = new AddConnectionCommand(this, conn);
+	  	command.run();	    	 
+		this.cancelEditing();
+		this.redraw();
 		return conn;
 	}
 		  	
