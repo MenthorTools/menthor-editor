@@ -37,14 +37,14 @@ public class MainToolbar extends BaseToolBar {
 	public MainToolbar(CommandListener listener){
 		super(listener, background);
 		setBackground(background);
-		createButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background);
-		createButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_EXISTING_PROJECT, background);	
-		createButton(IconType.MENTHOR_SAVE, CommandType.SAVE_PROJECT, background);
-		createButton(IconType.MENTHOR_SEARCH,CommandType.ADD_FINDER_EDITOR, background);		
-		createButton(IconType.MENTHOR_CHECK,CommandType.VERIFY_MODEL, background);
-		createButton(IconType.MENTHOR_STATS,CommandType.ADD_STATISTICS_EDITOR, background);
-		createButton(IconType.MENTHOR_PLAY, CommandType.ALLOY_SETTINGS, background);
-		createButton(IconType.MENTHOR_SEMANTIC_WEB, CommandType.OWL_SETTINGS, background);				
+		new BaseToolBarButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_EXISTING_PROJECT, background, this);	
+		new BaseToolBarButton(IconType.MENTHOR_SAVE, CommandType.SAVE_PROJECT, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_SEARCH,CommandType.ADD_FINDER_EDITOR, background, this);		
+		new BaseToolBarButton(IconType.MENTHOR_CHECK,CommandType.VERIFY_MODEL, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_STATS,CommandType.ADD_STATISTICS_EDITOR, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_PLAY, CommandType.ALLOY_SETTINGS, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_SEMANTIC_WEB, CommandType.OWL_SETTINGS, background, this);				
 		enableAll(false);
 	}	
 }
