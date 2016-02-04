@@ -39,6 +39,8 @@ public interface DiagramElement extends Serializable, Cloneable {
    * @return the cloned object
    */
   Object clone();
+  Object getModelObject();
+  
   /**
    * Returns the element's bounding box in absolute coordinates.
    * @return the bounding box
@@ -46,7 +48,6 @@ public interface DiagramElement extends Serializable, Cloneable {
   Rectangle2D getAbsoluteBounds();
 
   double getAbsCenterX(); 
-
   double getAbsCenterY();
   
   /**

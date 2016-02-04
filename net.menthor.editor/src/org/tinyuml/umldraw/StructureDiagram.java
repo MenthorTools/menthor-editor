@@ -1192,4 +1192,9 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		int value = ((StructureDiagram)arg0).getName().compareTo(this.getName());
 		if(value!=0) return -value; else return value;
 	}
+
+	@Override
+	public Object getModelObject() {
+		return null;
+	}
 }

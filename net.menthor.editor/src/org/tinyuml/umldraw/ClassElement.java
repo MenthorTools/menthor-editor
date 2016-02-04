@@ -728,5 +728,10 @@ public final class ClassElement extends AbstractCompositeNode implements
 	public boolean isNestable() {
 		return true;
 	}
+
+	@Override
+	public Object getModelObject() {
+		return getClassifier();
+	}
 }
 

@@ -87,7 +87,7 @@ public abstract class AbstractConnection implements Connection,
 	public Node getNode1() {
 		return node1;
 	}
-
+	
 	public Object getSourceObject(){
 		if(node1!=null && node1 instanceof UmlNode) return ((UmlNode)node1).getClassifier();
 		else if(connection1!=null && connection1 instanceof UmlConnection) return ((UmlConnection)connection1).getRelationship();
@@ -415,14 +415,16 @@ public abstract class AbstractConnection implements Connection,
 	 * {@inheritDoc}
 	 */
 	public Point2D getEndPoint1() {
-		return getPoints().get(0);
+		if(getPoints()!=null && getPoints().size()>1) return getPoints().get(0);
+		else return null;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public Point2D getEndPoint2() {
-		return getPoints().get(getPoints().size() - 1);
+		if(getPoints()!=null && getPoints().size()>1) return getPoints().get(getPoints().size() - 1);
+		return null;
 	}
 
 	public void setEndPoint2(Point2D point) {
@@ -446,6 +448,7 @@ public abstract class AbstractConnection implements Connection,
 	 * {@inheritDoc}
 	 */
 	public List<Point2D> getPoints() {
+		if(points==null) setPoints();
 		return points;
 	}
 

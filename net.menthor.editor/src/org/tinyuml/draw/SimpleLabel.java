@@ -161,4 +161,9 @@ public class SimpleLabel extends AbstractNode implements Label {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
+
+	@Override
+	public Object getModelObject() {
+		return null;
+	}
 }

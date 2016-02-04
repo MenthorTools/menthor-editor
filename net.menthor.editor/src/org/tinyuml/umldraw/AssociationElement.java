@@ -1178,6 +1178,7 @@ public final class AssociationElement extends BaseConnection {
 	private void positionLabel(Label label, Object endPointDiagramElement, Point2D endpoint, DrawingContext drawingContext, boolean roleLabel) 
 	{
 		Direction direction=null;
+		if(endpoint==null) return;
 		if (endPointDiagramElement instanceof Node) direction = getPointDirection((Node)endPointDiagramElement, endpoint);
 		else if (endPointDiagramElement instanceof Connection) direction = getPointDirection((Connection)endPointDiagramElement, endpoint);
 		double labelHeight = label.getSize().getHeight(); 

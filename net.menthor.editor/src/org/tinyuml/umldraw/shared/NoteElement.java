@@ -164,4 +164,7 @@ implements UmlNode, LabelSource {
     UmlNode with) {
     return false;// associationType == RelationshipType.NOTE_CONNECTOR;
   }
+  
+  @Override
+	public Object getModelObject() { return null; }
 }

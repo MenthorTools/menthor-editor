@@ -608,4 +608,8 @@ public class BaseConnection implements UmlConnection, Adapter {
 		return connection.getTargetObject();
 	}
 
+	@Override
+	public Object getModelObject() {
+		return getRelationship();
+	}
 }

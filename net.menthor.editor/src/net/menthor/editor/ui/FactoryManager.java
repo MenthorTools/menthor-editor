@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.LineConnectMethod;
 import org.tinyuml.umldraw.AssociationElement;
@@ -45,6 +46,7 @@ import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.managers.BaseManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
@@ -377,16 +379,16 @@ public class FactoryManager extends BaseManager {
   
   // ------------- Connection --------------
   
-  public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
+  public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement de1, DiagramElement de2){	
     UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
     UmlConnection conn = null;
     if (prototype != null){
 		conn = (UmlConnection) prototype.clone();
 		conn.setRelationship(relationship);		
-		bind(conn, diagramElement1, diagramElement2);
-		OntoumlDiagram diagram = diagramElement1.getDiagram();
+		bind(conn, de1, de2);
+		OntoumlDiagram diagram = de1.getDiagram();
 		if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){	      	
-			Package container = (RefOntoUML.Package)diagramElement1.getDiagram().getContainer();
+			Package container = (RefOntoUML.Package)de1.getDiagram().getContainer();
 			EList<PackageableElement> packagedElement = container.getPackagedElement();
 			PackageableElement rel = (RefOntoUML.PackageableElement)conn.getRelationship();
 			packagedElement.add(rel);							    	      	      			      	
@@ -445,10 +447,10 @@ public class FactoryManager extends BaseManager {
   public boolean shouldInvert(UmlConnection conn, DiagramElement source, DiagramElement target){
 	  RefOntoUML.Relationship relationship = conn.getRelationship();
 	  if((relationship instanceof RefOntoUML.Derivation) ||
-	    ((relationship instanceof RefOntoUML.Characterization) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Mode) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Mode)) ||  
-		((relationship instanceof RefOntoUML.Characterization) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Quality)) ||
-		((relationship instanceof RefOntoUML.Mediation) && ! (((UmlNode)source).getClassifier() instanceof RefOntoUML.Relator) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.Relator)) ||
-		((relationship instanceof RefOntoUML.Structuration) && (((UmlNode)target).getClassifier() instanceof RefOntoUML.ReferenceStructure) && (((UmlNode)source).getClassifier() instanceof RefOntoUML.Quality))		      
+	    ((relationship instanceof RefOntoUML.Characterization) && ! (source.getModelObject() instanceof RefOntoUML.Mode) && (source.getModelObject()  instanceof RefOntoUML.Mode)) ||  
+		((relationship instanceof RefOntoUML.Characterization) && ! (source.getModelObject()  instanceof RefOntoUML.Quality) && (source.getModelObject()  instanceof RefOntoUML.Quality)) ||
+		((relationship instanceof RefOntoUML.Mediation) && ! (source.getModelObject() instanceof RefOntoUML.Relator) && (source.getModelObject()  instanceof RefOntoUML.Relator)) ||
+		((relationship instanceof RefOntoUML.Structuration) && (source.getModelObject()  instanceof RefOntoUML.ReferenceStructure) && (source.getModelObject()  instanceof RefOntoUML.Quality))		      
 	  ) return true;
 	  return false;
   }

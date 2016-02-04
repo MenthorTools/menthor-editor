@@ -244,4 +244,9 @@ implements CompositeNode {
     }
     return null;
   }
+
+@Override
+public Object getModelObject() {
+	return null;
+}
 }

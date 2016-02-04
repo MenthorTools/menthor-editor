@@ -161,4 +161,9 @@ public class SimpleConnection extends AbstractConnection {
 	public void setPoints() {
 		getConnectMethod().setPoints(this);	
 	}
+	
+	@Override
+	public Object getModelObject() {
+		return owner.getModelObject();
+	}
 }
