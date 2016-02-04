@@ -175,8 +175,8 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("showAttributes", Object.class)));
 		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
 				new MethodCall(DiagramEditor.class.getMethod("setupColorOnSelected")));	
-		cmdMap.put(CommandType.ADD_GEN_SET_DIAGRAM, 
-				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", Object.class)));
+		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
+				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
 				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,

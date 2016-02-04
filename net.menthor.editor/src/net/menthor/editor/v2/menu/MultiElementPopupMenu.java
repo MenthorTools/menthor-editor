@@ -59,7 +59,8 @@ public class MultiElementPopupMenu extends BasePopupMenu<ArrayList<UmlDiagramEle
 			alignMenu = new AlignMenu(listener, elements, this);
 		}
 		
-		if(helper.onlyGeneralizations()){			
+		if(helper.hasGeneralization()){
+			addSeparator();
 			genSetMenu = new GenSetMenu(listener, elements, this);
 		}
 					

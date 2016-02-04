@@ -75,7 +75,7 @@ public enum CommandType {
 	APPLY_VERTICAL_STYLE("Apply vertical style on line"),
 	APPLY_HORIZONTAL_STYLE("Apply horizontal style on line"),	
 	DELETE_GEN_SET_DIAGRAM(null),
-	ADD_GEN_SET_DIAGRAM(null),
+	NEW_GEN_SET_DIAGRAM(null),
 	APPLY_DIRECT_STYLE(null), 
 	APPLY_RECTILINEAR_STYLE(null), 
 	SET_BACKGROUND_COLOR("Set the background color for selected classes"),
@@ -311,7 +311,10 @@ public enum CommandType {
 	SHOW_PARENTS(null), 
 	SET_ABSTRACT(null), 
 	SET_EXTENSIONAL(null), 
-	SET_DERIVED(null);
+	SET_DERIVED(null), 
+	DELETE_GS_DIAGRAM(null), 
+	ADD_TO_GEN_SET_DIAGRAM(null), 
+	REMOVE_FROM_GS_DIAGRAM(null);
 	
 	private String description;
 

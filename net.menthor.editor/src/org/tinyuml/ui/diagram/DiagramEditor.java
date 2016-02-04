@@ -2562,26 +2562,18 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.LEFT));
 	}
 
-	@SuppressWarnings("unchecked")
-	public void addGeneralizationSet(Object genElems){
-		if(genElems instanceof Collection<?>){
-			GeneralizationSet genSet = AdditionManager.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
-			if(genSet!=null){		
-				deselectAll();
-				cancelEditing();
-				EditManager.get().callGeneralizationSetDialog(genSet,true);
-				deselectAll();
-				cancelEditing();
-			}	
-		}
-	}
-	
 	/** Create a generalizations from selected elements in the diagram */
-	public void addGeneralizationSet(){		
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		addGeneralizationSet(diagramElementsList);		
+	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
+		GeneralizationSet genSet = AdditionManager.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+		if(genSet!=null){		
+			deselectAll();
+			cancelEditing();
+			EditManager.get().callGeneralizationSetDialog(genSet,true);
+			deselectAll();
+			cancelEditing();
+		}	
 	}
-		
+			
 	/** Delete generalization Set from selected elements in the diagram */
 	public void deleteGeneralizationSet(){
 		Collection<DiagramElement> diagramElementsList = getSelectedElements();
