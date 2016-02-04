@@ -46,7 +46,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -81,8 +80,6 @@ import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.ui.diagram.commands.Command;
 import org.tinyuml.ui.diagram.commands.ConvertConnectionTypeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
@@ -1174,141 +1171,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		wrapper.getScrollPane().updateUI();
 	}
 	
-	/** Align Bottom */
-	public void alignBottom()
-	{
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement atbottom = getClassElementAtBottom(classElements);				
-		if(atbottom!=null){
-			double atbottomY2 = atbottom.getAbsoluteY2();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;	
-				double ceHeight = ce.getAbsoluteBounds().getHeight();
-				if(!ce.equals(atbottom)){
-					ce.setAbsolutePos(ce.getAbsoluteX1(),atbottomY2-ceHeight);
-				}
-			}			
-		}		
-	}
 	
-	/** Align Top */
-	public void alignTop()
-	{
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement attop = getClassElementAtTop(classElements);				
-		if(attop!=null){
-			double attopY1 = attop.getAbsoluteY1();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;				
-				if(!ce.equals(attop)){
-					ce.setAbsolutePos(ce.getAbsoluteX1(),attopY1);
-				}
-			}			
-		}
-	}	
-	
-	/** Align Left */
-	public void alignLeft()
-	{
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement atleft = getClassElementAtLeft(classElements);				
-		if(atleft!=null){
-			double atrightX1 = atleft.getAbsoluteX1();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;				
-				if(!ce.equals(atleft)){
-					ce.setAbsolutePos(atrightX1,ce.getAbsoluteY1());
-				}
-			}			
-		}		
-	}
-	
-	/** Align Right */
-	public void alignRight()
-	{		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement atright = getClassElementAtRight(classElements);				
-		if(atright!=null){
-			double atrightX2 = atright.getAbsoluteX2();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;	
-				double ceWidth = ce.getAbsoluteBounds().getWidth();
-				if(!ce.equals(atright)){
-					ce.setAbsolutePos(atrightX2-ceWidth,ce.getAbsoluteY1());
-				}
-			}			
-		}		
-	}
-		
-	/** Align Center Vertically */
-	public void alignCenterVertically()
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
-		{
-			ArrayList<Double> coordList = new ArrayList<Double>();
-			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
-			classElements.addAll(getSelectedClassElements());
-			for(DiagramElement de: classElements)
-			{				
-				ClassElement ce = (ClassElement)de;				
-				coordList.add(ce.getAbsCenterX());	
-			}
-			double finalpos = calculateCenterAlignPosition(coordList);
-			ClassElement larger = getClassElementLargestWidth(classElements);			
-			if(finalpos!=-1 && larger !=null)
-			{		
-				double largerWidth = larger.getAbsoluteBounds().getWidth();
-				((ClassElement)larger).setAbsolutePos(finalpos-(largerWidth/2),larger.getAbsoluteY1());
-				for(DiagramElement de: classElements)
-				{					
-					ClassElement ce = (ClassElement)de;	
-					double ceWidth = ce.getAbsoluteBounds().getWidth();
-					if(!ce.equals(larger)){
-						ce.setAbsolutePos(finalpos-(ceWidth/2),ce.getAbsoluteY1());
-					}
-				}
-			}			
-		}
-	}
-
-	/** Align Center Horizontally */
-	public void alignCenterHorizontally ()
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
-		{
-			ArrayList<Double> coordList = new ArrayList<Double>();
-			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
-			classElements.addAll(getSelectedClassElements());
-			for(DiagramElement de: classElements)
-			{				
-				ClassElement ce = (ClassElement)de;				
-				coordList.add(ce.getAbsCenterY());	
-			}
-			double finalpos = calculateCenterAlignPosition(coordList);
-			ClassElement larger = getClassElementLargestHeight(classElements);			
-			if(finalpos!=-1 && larger !=null)
-			{		
-				double largerHeight= larger.getAbsoluteBounds().getHeight();
-				((ClassElement)larger).setAbsolutePos(larger.getAbsoluteX1(),finalpos-(largerHeight/2));
-				for(DiagramElement de: classElements)
-				{					
-					ClassElement ce = (ClassElement)de;	
-					double ceHeight = ce.getAbsoluteBounds().getHeight();
-					if(!ce.equals(larger)){
-						ce.setAbsolutePos(ce.getAbsoluteX1(),finalpos-(ceHeight/2));
-					}
-				}
-			}			
-		}			
-	}
 	
 	/** Returns all selected class elements */
 	public List<ClassElement>getSelectedClassElements()
@@ -1411,50 +1274,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		return atRightElement;
 	}
 	
-	/** Returns the class element with the largest height */
-	public ClassElement getClassElementLargestHeight(ArrayList<DiagramElement> list)
-	{
-		double maxheight = 0;
-		ClassElement largerHeightElement = null;
-		for(DiagramElement de: list){
-			if(de.getAbsoluteBounds().getHeight()>maxheight) {
-				maxheight = de.getAbsoluteBounds().getHeight();
-				largerHeightElement = (ClassElement)de;				
-			}
-		}		
-		return largerHeightElement;		
-	}
 	
-	/** Returns the class element with the largest width */
-	public ClassElement getClassElementLargestWidth(ArrayList<DiagramElement> list)
-	{
-		double maxwidth = 0;
-		ClassElement largerWidthElement = null;
-		for(DiagramElement de: list){
-			if(de.getAbsoluteBounds().getWidth()>maxwidth) {
-				maxwidth = de.getAbsoluteBounds().getWidth();
-				largerWidthElement = (ClassElement)de;				
-			}
-		}
-		return largerWidthElement;		
-	}
 	
-	/** Algorithm to calculate the center alignment position */
-	public double calculateCenterAlignPosition(ArrayList<Double> coordList)
-	{
-		Collections.sort(coordList);
-		int size = coordList.size();
-		double offset = 1000;
-		double finalpos = -1;			
-		if(coordList.size()>0 && coordList.get(0)==coordList.get(size-1)) return finalpos;			
-		for(int i =size-1; i>=0;i--){
-			for(int j=i-1; j>=0;j--){
-				double diff = coordList.get(i)-coordList.get(j);
-				if(diff<offset) { finalpos = coordList.get(j)+(diff/2); offset = diff; }
-			}
-		}
-		return finalpos;
-	}
+	
+	
+	
 		
 	/** Puts the current selection to the back. */
 	public void putToBack() 
@@ -2537,31 +2361,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 	
-
-	public void executeAlignCenterVertically(ArrayList<DiagramElement> diagramElements){
-		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.CENTER_VERTICAL));
-	}
-	
-	public void executeAlignCenterHorizontally(ArrayList<DiagramElement> diagramElements){
-		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.CENTER_HORIZONTAL));
-	}
-	
-	public void executeAlignBottom(ArrayList<DiagramElement> diagramElements){
-		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.BOTTOM));
-	}
-	
-	public void executeAlignTop(ArrayList<DiagramElement> diagramElements){
-		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.TOP));
-	}
-
-	
-	public void executeAlignRight(ArrayList<DiagramElement> diagramElements){
-		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.RIGHT));
-	}
-	
-	public void executeAlignLeft(ArrayList<DiagramElement> diagramElements){
-		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.LEFT));
-	}
 
 	/** Create a generalizations from selected elements in the diagram */
 	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){

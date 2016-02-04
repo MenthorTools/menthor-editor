@@ -37,6 +37,7 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
@@ -113,12 +114,30 @@ public class CommandMap {
 			parthoodManager();
 			glossaryManager();
 			
+			alignManager();
+			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private void alignManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ALIGN_VERTICAL,
+				new MethodCall(AlignManager.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
+				new MethodCall(AlignManager.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_TOP,
+				new MethodCall(AlignManager.class.getMethod("executeAlignTop",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_BOTTOM,
+				new MethodCall(AlignManager.class.getMethod("executeAlignBottom",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_LEFT,
+				new MethodCall(AlignManager.class.getMethod("executeAlignLeft",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_RIGHT,
+				new MethodCall(AlignManager.class.getMethod("executeAlignRight",ArrayList.class)));
+	}
+	
 	
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
@@ -143,18 +162,6 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
 				new MethodCall(DiagramEditor.class.getMethod("bringToFront")));
-		cmdMap.put(CommandType.ALIGN_VERTICAL,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_TOP,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignTop",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_BOTTOM,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignBottom",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_LEFT,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignLeft",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_RIGHT,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight",ArrayList.class)));
 		cmdMap.put(CommandType.RESET_POINTS, 
 			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
 		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
