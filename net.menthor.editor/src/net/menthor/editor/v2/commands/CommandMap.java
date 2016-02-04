@@ -27,6 +27,8 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
@@ -318,7 +320,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
 				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("move", Object.class)));		
+				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
 	}
 		
 	private void findManager()throws NoSuchMethodException, SecurityException{
