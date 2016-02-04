@@ -26,8 +26,6 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
-import org.tinyuml.umldraw.StructureDiagram;
-
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;

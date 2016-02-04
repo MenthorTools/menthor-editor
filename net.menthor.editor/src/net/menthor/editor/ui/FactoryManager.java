@@ -397,7 +397,7 @@ public class FactoryManager extends BaseManager {
 	}
 		  
   
-  public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
+  public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement de1, DiagramElement de2){	
     UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationEnum(relationship));    
     UmlConnection conn = null;
     if (prototype != null){

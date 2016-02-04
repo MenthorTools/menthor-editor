@@ -26,7 +26,6 @@ import java.awt.Component;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -350,7 +349,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("cloneAndPutToClipboard",List.class)));
+				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
