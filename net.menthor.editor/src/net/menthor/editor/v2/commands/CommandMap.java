@@ -26,12 +26,14 @@ import java.awt.Component;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.umldraw.shared.BaseConnection;
 
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
@@ -341,7 +343,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
+				new MethodCall(ClipboardManager.class.getMethod("cloneAndPutToClipboard",List.class)));
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
@@ -598,12 +600,12 @@ public class CommandMap {
 		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
 				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
 		cmdMap.put(CommandType.INVERT_END_NAMES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndNames", RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndNames", BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_POINTS, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_MULTIPLICITIES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_TYPES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",BaseConnection.class)));
 	}
 }

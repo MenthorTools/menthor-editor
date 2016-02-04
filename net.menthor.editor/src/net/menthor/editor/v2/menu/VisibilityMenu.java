@@ -17,8 +17,8 @@ public class VisibilityMenu extends MultiElementMenu {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	private JCheckBoxMenuItem 	showNamespace, showStereotype, showEndPoint, showSubsetting, showRedefining, showMultiplicities, 
-								showName, showAttributes, showGeneralizationSets, showParents;
+	private JCheckBoxMenuItem 	showNamespace, showStereotypeItem, showEndPointItem, showSubsettingItem, showRedefiningItem, showMultiplicitiesItem, 
+								showNameItem, showAttributes, showGeneralizationSets, showParents, showAll;
 		
 	public VisibilityMenu(CommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		this(listener, "Visibility",elements,parent);		
@@ -43,16 +43,17 @@ public class VisibilityMenu extends MultiElementMenu {
 		boolean needSeparator = false;
 		
 		if(helper.hasAssociation() || helper.hasClass()){
-			showStereotype = createCheckBoxMenuItem("Stereotype", CommandType.SHOW_STEREOTYPE);
+			showAll = createCheckBoxMenuItem("All", CommandType.SHOW_ALL);
 			addSeparator();
+			showStereotypeItem = createCheckBoxMenuItem("Stereotype", CommandType.SHOW_STEREOTYPE);
 		}
 		
 		if(helper.hasAssociation()){
-			showName = createCheckBoxMenuItem("Association Name", CommandType.SHOW_NAME);
-			showEndPoint = createCheckBoxMenuItem("Show EndPoint Name", CommandType.SHOW_END_POINT_NAMES);
-			showMultiplicities = createCheckBoxMenuItem("Multiplicities", CommandType.SHOW_MULTIPLICITIES);
-			showSubsetting = createCheckBoxMenuItem("Subsetting", CommandType.SHOW_SUBSETTING); 
-			showRedefining = createCheckBoxMenuItem("Redefining", CommandType.SHOW_REDEFINITIONS);
+			showNameItem = createCheckBoxMenuItem("Association Name", CommandType.SHOW_NAME);
+			showEndPointItem = createCheckBoxMenuItem("Show EndPoint Name", CommandType.SHOW_END_POINT_NAMES);
+			showMultiplicitiesItem = createCheckBoxMenuItem("Multiplicities", CommandType.SHOW_MULTIPLICITIES);
+			showSubsettingItem = createCheckBoxMenuItem("Subsetting", CommandType.SHOW_SUBSETTING); 
+			showRedefiningItem = createCheckBoxMenuItem("Redefining", CommandType.SHOW_REDEFINITIONS);
 
 			needSeparator = true;
 		}
@@ -88,19 +89,25 @@ public class VisibilityMenu extends MultiElementMenu {
 		
 		if(element instanceof AssociationElement){
 			AssociationElement associationElement = (AssociationElement) element;
-			showStereotype.setSelected(associationElement.showOntoUmlStereotype());
-			showEndPoint.setSelected(associationElement.showRoles());
-			showSubsetting.setSelected(associationElement.showSubsetting());
-			showRedefining.setSelected(associationElement.showRedefining());
-			showMultiplicities.setSelected(associationElement.showMultiplicities());
-			showName.setSelected(associationElement.showName());
+			
+			showStereotypeItem.setSelected(associationElement.showOntoUmlStereotype());
+			showEndPointItem.setSelected(associationElement.showRoles());
+			showSubsettingItem.setSelected(associationElement.showSubsetting());
+			showRedefiningItem.setSelected(associationElement.showRedefining());
+			showMultiplicitiesItem.setSelected(associationElement.showMultiplicities());
+			showNameItem.setSelected(associationElement.showName());
+			
+			showAll.setSelected(associationElement.showOntoUmlStereotype() && associationElement.showRoles() && associationElement.showSubsetting() && 
+					associationElement.showRedefining() && associationElement.showName() && associationElement.showMultiplicities());
 		}
 		else if(element instanceof ClassElement){
 			ClassElement classElement = (ClassElement)element;
-			showStereotype.setSelected(classElement.showStereotypes());
+			showStereotypeItem.setSelected(classElement.showStereotypes());
 			showAttributes.setSelected(classElement.showAttributes());
 			showNamespace.setSelected(classElement.showNamespace());
 			showParents.setSelected(classElement.showParents());
+			
+			showAll.setSelected(classElement.showStereotypes() && classElement.showAttributes() && classElement.showNamespace() && classElement.showParents());
 		}
 		else if(element instanceof GeneralizationElement){
 			GeneralizationElement generalizationElement = (GeneralizationElement)element;

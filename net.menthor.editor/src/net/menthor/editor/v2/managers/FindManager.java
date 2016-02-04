@@ -24,6 +24,8 @@ package net.menthor.editor.v2.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
@@ -54,8 +56,18 @@ public class FindManager extends BaseManager {
 	/** show dialog with diagram occurrence of this element */
 	public void findInDiagrams(Object element){
 		RefOntoUML.Element refElem = null;
-		if(element instanceof RefOntoUML.Element) refElem = (RefOntoUML.Element)element;
-		if(element instanceof FoundElement) refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
+		
+		if(element instanceof DefaultMutableTreeNode)
+			refElem = (RefOntoUML.Element)((DefaultMutableTreeNode) element).getUserObject();
+		else if(element instanceof BaseConnection)
+			refElem = ((BaseConnection) element).getRelationship();
+		else if(element instanceof ClassElement)
+			refElem = ((ClassElement) element).getClassifier();
+		else if(element instanceof RefOntoUML.Element) 
+			refElem = (RefOntoUML.Element)element;
+		else if(element instanceof FoundElement) 
+			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
+		
 		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(refElem);
 		DiagramListDialog.open(frame(), diagrams);		
 	}

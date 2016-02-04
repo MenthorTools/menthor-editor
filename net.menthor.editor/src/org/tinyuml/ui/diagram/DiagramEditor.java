@@ -1161,6 +1161,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}		
 	}
 	
+	
 	/** Set the background color of the selected elements */
 	public void setBackgroundInSelected(Color color)
 	{

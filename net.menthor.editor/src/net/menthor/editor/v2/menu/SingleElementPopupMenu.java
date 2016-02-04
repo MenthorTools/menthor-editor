@@ -49,6 +49,8 @@ public class SingleElementPopupMenu extends BasePopupMenu<UmlDiagramElement> {
 		createMenuItem("Delete from Model",IconType.MENTHOR_DELETE, CommandType.DELETE);
 		addSeparator();
 		createMenuItem("Find in Project Browser", IconType.MENTHOR_TREE, CommandType.FIND_IN_PROJECT_BROWSER);
+		createMenuItem("Find in Diagrams", IconType.MENTHOR_SEARCH, CommandType.FIND_IN_DIAGRAMS);
+		addSeparator();
 		
 		if(diagramElement instanceof UmlNode){
 			UmlNode node = (UmlNode) diagramElement;
@@ -67,7 +69,6 @@ public class SingleElementPopupMenu extends BasePopupMenu<UmlDiagramElement> {
 				changeStereotypeMenu = new ChangeStereotypeMenu(listener, classElement.getClassifier(), this);
 				metaAttributeMenu = new MetaAttributeMenu(listener,classElement,this);
 				
-				addSeparator();
 			}
 			if(diagramElement instanceof NoteElement){
 				//NoteElement note = (NoteElement) diagramElement;
@@ -78,33 +79,31 @@ public class SingleElementPopupMenu extends BasePopupMenu<UmlDiagramElement> {
 		else if(diagramElement instanceof BaseConnection){
 			BaseConnection connection = (BaseConnection) diagramElement;
 			
-			addSeparator();
 			
 			visibilityMenu = new VisibilityMenu(listener, connection, this);
 			lineStyleMenu = new LineStyleMenu(listener, connection, this);
-			invertMenu = new InvertMenu(listener, connection, this);	
-			
+			createMenuItem("Reset Points", CommandType.RESET_POINTS);
+
 			if(diagramElement instanceof AssociationElement){
 				AssociationElement association = (AssociationElement) diagramElement;
 				
-				createMenuItem("Reset Points", CommandType.RESET_POINTS);
 				readingDirectionMenu = new ReadingDirectionMenu(listener, association, this);
 				
 				addSeparator();
-				
+				invertMenu = new InvertMenu(listener, connection, this);	
 				changeStereotypeMenu = new ChangeStereotypeMenu(listener, association.getAssociation(), this);
 				metaAttributeMenu = new MetaAttributeMenu(listener,association,this);
-						
 				sourceEndMenu = new EndPointMenu(listener, association, this, true);
 				targetEndMenu = new EndPointMenu(listener, association, this, false);
-				
-				addSeparator();
 				
 			}
 			else if(diagramElement instanceof GeneralizationElement){
 				GeneralizationElement generalization = (GeneralizationElement) diagramElement;
+				
 				addSeparator();
+				invertMenu = new InvertMenu(listener, connection, this);	
 				changeStereotypeMenu = new ChangeStereotypeMenu(listener, generalization.getGeneralization(), this);
+				
 				addSeparator();
 				genSetMenu = new GenSetMenu(listener, generalization, this);
 			}

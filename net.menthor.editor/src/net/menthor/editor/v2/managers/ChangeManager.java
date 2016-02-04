@@ -26,8 +26,14 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.shared.BaseConnection;
 
+import RefOntoUML.Association;
+import RefOntoUML.Classifier;
+import RefOntoUML.Generalization;
 import RefOntoUML.LiteralInteger;
 import RefOntoUML.LiteralUnlimitedNatural;
 import RefOntoUML.Property;
@@ -111,28 +117,48 @@ public class ChangeManager extends BaseManager {
 	}
 	
 	/** Invert end points of an association. */
-	public void invertEndPoints(RefOntoUML.Association association){
-		Property source = association.getMemberEnd().get(0);
-   		Property target = association.getMemberEnd().get(1);
-   		association.getMemberEnd().clear();	
-   		association.getOwnedEnd().clear();
-   		association.getNavigableOwnedEnd().clear();
-   		association.getMemberEnd().add(target);
-   		association.getMemberEnd().add(source);   	
-   		association.getOwnedEnd().add(target);
-   		association.getOwnedEnd().add(source);
-   		association.getNavigableOwnedEnd().add(target);
-   		association.getNavigableOwnedEnd().add(source);   		
-   		tree().checkObject(source);
-   		tree().removeCurrentNode();   		
-   		tree().checkObject(association);
-   		tree().addChild(source);  
-   		tree().updateUI();
-   		UpdateManager.get().updateFromChange(association, true);
+	public void invertEndPoints(BaseConnection connection){
+		if(connection instanceof AssociationElement){
+			Association association = ((AssociationElement) connection).getAssociation();
+			Property source = association.getMemberEnd().get(0);
+	   		Property target = association.getMemberEnd().get(1);
+	   		association.getMemberEnd().clear();	
+	   		association.getOwnedEnd().clear();
+	   		association.getNavigableOwnedEnd().clear();
+	   		association.getMemberEnd().add(target);
+	   		association.getMemberEnd().add(source);   	
+	   		association.getOwnedEnd().add(target);
+	   		association.getOwnedEnd().add(source);
+	   		association.getNavigableOwnedEnd().add(target);
+	   		association.getNavigableOwnedEnd().add(source);   		
+	   		tree().checkObject(source);
+	   		tree().removeCurrentNode();   		
+	   		tree().checkObject(association);
+	   		tree().addChild(source);  
+	   		tree().updateUI();
+	   		UpdateManager.get().updateFromChange(association, true);
+		}
+		else if (connection instanceof GeneralizationElement){
+			Generalization generalization = ((GeneralizationElement) connection).getGeneralization();
+			Classifier general = generalization.getGeneral();
+			Classifier specific = generalization.getSpecific();
+			
+			generalization.setSpecific(general);
+			generalization.setGeneral(specific);
+			
+			tree().updateUI();
+			UpdateManager.get().updateFromChange(generalization, true);
+			
+		}
+		
 	}
 	
 	/** Invert names of end points of an association. */
-	public void invertEndNames(RefOntoUML.Association association){
+	public void invertEndNames(BaseConnection connection){
+		if(!(connection instanceof AssociationElement))
+			return;
+			
+		Association association = ((AssociationElement) connection).getAssociation();	
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		String sourceName = source.getName();
@@ -143,7 +169,11 @@ public class ChangeManager extends BaseManager {
 	}
 	
 	/** Invert multiplicities of end points of an association. */
-	public void invertEndMultiplicities(RefOntoUML.Association association){
+	public void invertEndMultiplicities(BaseConnection connection){
+		if(!(connection instanceof AssociationElement))
+			return;
+			
+		Association association = ((AssociationElement) connection).getAssociation();
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		LiteralInteger sourceLower = FactoryManager.get().createLiteralInteger();
@@ -162,7 +192,11 @@ public class ChangeManager extends BaseManager {
 	}
 	
 	/** Invert types of end points of an association. */
-	public void invertEndTypes(RefOntoUML.Association association){
+	public void invertEndTypes(BaseConnection connection){
+		if(!(connection instanceof AssociationElement))
+			return;
+			
+		Association association = ((AssociationElement) connection).getAssociation();
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
    		Type sourceType = source.getType();

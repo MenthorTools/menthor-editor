@@ -66,11 +66,6 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	  clipboard.clear();
 	}
 	
-	public void cloneSelectedAndPutToClipboard(){
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-		cloneAndPutToClipboard(de.getSelectedElements());		
-	}
-	
 	public void cloneAndPutToClipboard(List<DiagramElement> elements){
 		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
 		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();

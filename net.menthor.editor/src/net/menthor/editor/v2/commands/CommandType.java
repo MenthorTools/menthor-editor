@@ -314,7 +314,8 @@ public enum CommandType {
 	SET_DERIVED(null), 
 	DELETE_GS_DIAGRAM(null), 
 	ADD_TO_GEN_SET_DIAGRAM(null), 
-	REMOVE_FROM_GS_DIAGRAM(null);
+	REMOVE_FROM_GS_DIAGRAM(null),
+	SHOW_ALL(null);
 	
 	private String description;
 
@@ -334,6 +335,7 @@ public enum CommandType {
 	
 	public static CommandType getPalleteCommandType(ClassType classType){
 		if(classType==ClassType.KIND) return PALLETE_KIND;
+		if(classType==ClassType.QUANTITY) return PALLETE_QUANTITY;
 		if(classType==ClassType.SUBKIND) return PALLETE_SUBKIND;
 		if(classType==ClassType.COLLECTIVE) return PALLETE_COLLECTIVE;
 		if(classType==ClassType.PHASE) return PALLETE_PHASE;
