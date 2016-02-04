@@ -52,13 +52,29 @@ public class MultiplicityMenu extends BaseMenu<AssociationElement> {
 		this.isSourceEnd = isSourceEnd;
 		this.isTargetEnd = !isSourceEnd;
 		
-		optional = createRadioMenuItem("0..1", CommandType.OPTIONAL_ON_TARGET);
-		singular = createRadioMenuItem("1", CommandType.SINGULAR_ON_TARGET);
-		any = createRadioMenuItem("0..*", CommandType.ANY_ON_TARGET);
-		some = createRadioMenuItem("1..*", CommandType.SOME_ON_TARGET);
-		two = createRadioMenuItem("2", CommandType.TWO_ON_TARGET);
-		twoAtLeast = createRadioMenuItem("2..*", CommandType.TWO_AT_LEAST_ON_TARGET);
-		other = createRadioMenuItem("Other", CommandType.OTHER_ON_TARGET);
+		Association association = associationElement.getAssociation();
+		String mult = "";
+		
+		if(isSourceEnd){
+			mult=RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(0));
+			optional = createRadioMenuItem("0..1", CommandType.OPTIONAL_ON_SOURCE);
+			singular = createRadioMenuItem("1", CommandType.SINGULAR_ON_SOURCE);
+			any = createRadioMenuItem("0..*", CommandType.ANY_ON_SOURCE);
+			some = createRadioMenuItem("1..*", CommandType.SOME_ON_SOURCE);
+			two = createRadioMenuItem("2", CommandType.TWO_ON_SOURCE);
+			twoAtLeast = createRadioMenuItem("2..*", CommandType.TWO_AT_LEAST_ON_SOURCE);
+			other = createRadioMenuItem("Other", CommandType.OTHER_ON_SOURCE);
+		}
+		else{
+			mult=RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(1));
+			optional = createRadioMenuItem("0..1", CommandType.OPTIONAL_ON_TARGET);
+			singular = createRadioMenuItem("1", CommandType.SINGULAR_ON_TARGET);
+			any = createRadioMenuItem("0..*", CommandType.ANY_ON_TARGET);
+			some = createRadioMenuItem("1..*", CommandType.SOME_ON_TARGET);
+			two = createRadioMenuItem("2", CommandType.TWO_ON_TARGET);
+			twoAtLeast = createRadioMenuItem("2..*", CommandType.TWO_AT_LEAST_ON_TARGET);
+			other = createRadioMenuItem("Other", CommandType.OTHER_ON_TARGET);
+		}
 		
 		group = new ButtonGroup();
 		group.add(optional);
@@ -70,26 +86,17 @@ public class MultiplicityMenu extends BaseMenu<AssociationElement> {
 		group.add(other);
 		sort();
 		
-		Association association = associationElement.getAssociation();
-		
-		String mult = "";
-		
-		if(isSourceEnd)
-			RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(0));
-		else
-			RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(1));
-		
-		if(mult.equals("0..1")) 
+		if(mult.compareTo("0..1")==0) 
 			optional.setSelected(true);
-		else if(mult.equals("1")) 
+		else if(mult.compareTo("1")==0) 
 			singular.setSelected(true);
-		else if(mult.equals("1..*")) 
+		else if(mult.compareTo("1..*")==0) 
 			some.setSelected(true);
-		else if(mult.equals("0..*") || mult.equals("*")) 
+		else if(mult.compareTo("0..*")==0 || mult.compareTo("*")==0) 
 			any.setSelected(true);
-		else if(mult.equals("2")) 
+		else if(mult.compareTo("2")==0) 
 			two.setSelected(true);
-		else if(mult.equals("2..*")) 
+		else if(mult.compareTo("2..*")==0) 
 			twoAtLeast.setSelected(true);
 		else 
 			other.setSelected(true);		

@@ -310,7 +310,8 @@ public enum CommandType {
 	SHOW_NAMESPACE(null), 
 	SHOW_PARENTS(null), 
 	SET_ABSTRACT(null), 
-	SET_EXTENSIONAL(null);
+	SET_EXTENSIONAL(null), 
+	SET_DERIVED(null);
 	
 	private String description;
 

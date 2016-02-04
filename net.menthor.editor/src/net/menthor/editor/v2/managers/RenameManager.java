@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
@@ -37,6 +38,7 @@ import RefOntoUML.NamedElement;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
 
+//Class to deal with renaning elements on the project browser.
 public class RenameManager extends BaseManager {
 
 	// -------- Lazy Initialization
@@ -143,9 +145,21 @@ public class RenameManager extends BaseManager {
 		}		
 	}
 	
-	public void rename(Object obj){		
-		if (obj instanceof StructureDiagram) renameDiagram((StructureDiagram)obj);		
-		else if (obj instanceof OclDocument) renameOclDocument((OclDocument)obj);							
-		else if (obj instanceof RefOntoUML.Element) renameElement((RefOntoUML.Element)obj);		
+	
+	public void rename(Object obj){
+		Object element = obj;
+		
+		//Added this verification to allow the method to be called from different sources. Currently, it is only called from the tree.
+		if(obj instanceof DefaultMutableTreeNode)
+			element = ((DefaultMutableTreeNode)obj).getUserObject();
+		
+		if (element instanceof StructureDiagram) 
+			renameDiagram((StructureDiagram)element);		
+		else if (element instanceof OclDocument) 
+			renameOclDocument((OclDocument)element);							
+		else if (element instanceof RefOntoUML.Element) 
+			renameElement((RefOntoUML.Element)element);		
 	}
+	
+	
 }

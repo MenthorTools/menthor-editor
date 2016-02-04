@@ -27,16 +27,17 @@ public class EndPointMenu extends BaseMenu<AssociationElement> {
 			createMenuItem("Name",CommandType.SET_SOURCE_END_POINT_NAME);
 			createMenuItem("Subsets",CommandType.SUBSETS_SOURCE);
 			createMenuItem("Redefines",CommandType.REDEFINES_SOURCE);
+			//Sets the menu name as the end point name;
+			this.setText("Source ("+endName+")");
 		}
 		else{
 			endName = associationElement.getAssociation().getMemberEnd().get(1).getName();
 			createMenuItem("Name",CommandType.SET_TARGET_END_POINT_NAME);
 			createMenuItem("Subsets",CommandType.SUBSETS_TARGET);
 			createMenuItem("Redefines",CommandType.REDEFINES_TARGET);
+			//Sets the menu name as the end point name;
+			this.setText("Target ("+endName+")");
 		}
-		
-		//Sets the menu name as the end point name;
-		this.setName(endName);
 
 		parent.add(this);
 	}

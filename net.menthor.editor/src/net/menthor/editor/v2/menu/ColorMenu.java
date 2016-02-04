@@ -19,7 +19,11 @@ public class ColorMenu extends MultiElementMenu {
 		super(listener, text, elements);	
 		
 		createMenuItem("Set", IconType.MENTHOR_COLOR_CHOOSER, CommandType.SETUP_BACKGROUND_COLOR);
-		createMenuItem("Copy", CommandType.COPY_BACKGROUND_COLOR);
+		
+		//Can only copy the style if only one element is selected. 
+		if(helper.isSimpleContext())
+			createMenuItem("Copy", CommandType.COPY_BACKGROUND_COLOR);
+		
 		createMenuItem("Paste", CommandType.PASTE_BACKGROUND_COLOR);	
 		
 		parent.add(this);

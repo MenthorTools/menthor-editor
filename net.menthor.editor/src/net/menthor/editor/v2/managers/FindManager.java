@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
@@ -58,11 +60,21 @@ public class FindManager extends BaseManager {
 		DiagramListDialog.open(frame(), diagrams);		
 	}
 	
-	/** select occurence of this element in the project tree*/
+	/** select occurence of this element in the project tree
+	 *  method called from Diagram and Find Tab
+	 * */
 	public void findInProjectTree(Object element){
 		RefOntoUML.Element refElem = null;
-		if(element instanceof RefOntoUML.Element) refElem = (RefOntoUML.Element)element;
-		if(element instanceof FoundElement) refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
+		
+		if(element instanceof BaseConnection)
+			refElem = ((BaseConnection) element).getRelationship();
+		else if(element instanceof ClassElement)
+			refElem = ((ClassElement) element).getClassifier();
+		else if(element instanceof RefOntoUML.Element)
+			refElem = (RefOntoUML.Element)element;
+		else if(element instanceof FoundElement) 
+			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
+		
 		tree().checkObject(refElem);
 	}
 	

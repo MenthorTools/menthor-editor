@@ -2143,7 +2143,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}else if(obj instanceof Collection<?>){			
 			for(Object o: ((Collection<?>)obj)){
 				if(o instanceof ClassElement){
-					copiedColor = ((ClassElement)obj).getBackgroundColor();
+					copiedColor = ((ClassElement)o).getBackgroundColor();
 					return;
 				}
 			}			
@@ -2536,93 +2536,30 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void executeAlignCenterVertically(Object diagramElements){
-		if(diagramElements instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(List<DiagramElement>)diagramElements,
-				Alignment.CENTER_VERTICAL)
-			);
-		}
+
+	public void executeAlignCenterVertically(ArrayList<DiagramElement> diagramElements){
+		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.CENTER_VERTICAL));
 	}
 	
-	public void executeAlignCenterVertically(){
-		executeAlignCenterVertically(getSelectedElements());
+	public void executeAlignCenterHorizontally(ArrayList<DiagramElement> diagramElements){
+		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.CENTER_HORIZONTAL));
 	}
 	
-	public void executeAlignCenterHorizontally(){
-		executeAlignCenterHorizontally(getSelectedElements());	
+	public void executeAlignBottom(ArrayList<DiagramElement> diagramElements){
+		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.BOTTOM));
+	}
+	
+	public void executeAlignTop(ArrayList<DiagramElement> diagramElements){
+		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.TOP));
 	}
 
-	@SuppressWarnings("unchecked")
-	public void executeAlignCenterHorizontally(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(List<DiagramElement>) diagElems,
-				Alignment.CENTER_HORIZONTAL)
-			);
-		}
-	}
-	public void executeAlignBottom(){
-		executeAlignBottom(getSelectedElements());
+	
+	public void executeAlignRight(ArrayList<DiagramElement> diagramElements){
+		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.RIGHT));
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void executeAlignBottom(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(ArrayList<DiagramElement>) diagElems,
-				Alignment.BOTTOM)
-			);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignTop(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(List<DiagramElement>) diagElems,
-				Alignment.TOP)
-			);
-		}
-	}
-	
-	public void executeAlignTop(){
-		executeAlignTop(getSelectedElements());
-	}
-	
-	public void executeAlignRight(){
-		executeAlignRight(getSelectedElements());
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignRight(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(ArrayList<DiagramElement>) diagElems,
-				Alignment.RIGHT)
-			);
-		}
-	}
-	
-	public void executeAlignLeft(){
-		executeAlignLeft(getSelectedElements());
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignLeft(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(ArrayList<DiagramElement>) diagElems,
-				Alignment.LEFT)
-			);
-		}
+	public void executeAlignLeft(ArrayList<DiagramElement> diagramElements){
+		execute(new AlignElementsCommand((DiagramNotification)this,	diagramElements, Alignment.LEFT));
 	}
 
 	@SuppressWarnings("unchecked")

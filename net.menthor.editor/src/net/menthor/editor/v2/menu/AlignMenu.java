@@ -15,13 +15,13 @@ public class AlignMenu extends MultiElementMenu {
 	
 	public AlignMenu(CommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text,elements);	
-
+		
+		createMenuItem("Horizontal Center", CommandType.ALIGN_HORIZONTAL);
+		createMenuItem("Vertical Center", CommandType.ALIGN_VERTICAL);
 		createMenuItem("Top", CommandType.ALIGN_TOP);				
 		createMenuItem("Bottom", CommandType.ALIGN_BOTTOM);
 		createMenuItem("Left", CommandType.ALIGN_LEFT);
 		createMenuItem("Right", CommandType.ALIGN_RIGHT);
-		createMenuItem("Horizontal", CommandType.ALIGN_HORIZONTAL);
-		createMenuItem("Vertical", CommandType.ALIGN_VERTICAL);
 		
 		parent.add(this);
 	}

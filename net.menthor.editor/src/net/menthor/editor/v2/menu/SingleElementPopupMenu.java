@@ -104,6 +104,7 @@ public class SingleElementPopupMenu extends BasePopupMenu<UmlDiagramElement> {
 			else if(diagramElement instanceof GeneralizationElement){
 				GeneralizationElement generalization = (GeneralizationElement) diagramElement;
 				addSeparator();
+				changeStereotypeMenu = new ChangeStereotypeMenu(listener, generalization.getGeneralization(), this);
 				genSetMenu = new GenSetMenu(listener, generalization, this);
 			}
 		}

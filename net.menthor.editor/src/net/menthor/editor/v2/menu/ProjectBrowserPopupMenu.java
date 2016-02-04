@@ -39,10 +39,13 @@ public class ProjectBrowserPopupMenu extends BasePopupMenu<DefaultMutableTreeNod
     	
     	Object element = treeNode.getUserObject();
     	
-    	createMenuItem("Rename", CommandType.RENAME);
+    	if(!(element instanceof Generalization)){
+    		createMenuItem("Rename", CommandType.RENAME);
+    		addSeparator();
+    	}
     	
     	//TODO: check these methods...
-    	addSeparator();
+    	
     	createMenuItem("Duplicate", CommandType.DUPLICATE); 
     	createMenuItem("Copy", CommandType.COPY);
     	createMenuItem("Paste", CommandType.PASTE);

@@ -24,6 +24,7 @@ import java.awt.Component;
  */
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -141,17 +142,17 @@ public class CommandMap {
 		cmdMap.put(CommandType.BRING_TO_FRONT,
 				new MethodCall(DiagramEditor.class.getMethod("bringToFront")));
 		cmdMap.put(CommandType.ALIGN_VERTICAL,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterVertically")));
+				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterHorizontally")));
+				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_TOP,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignTop")));
+				new MethodCall(DiagramEditor.class.getMethod("executeAlignTop",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_BOTTOM,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignBottom")));
+				new MethodCall(DiagramEditor.class.getMethod("executeAlignBottom",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_LEFT,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignLeft")));
+				new MethodCall(DiagramEditor.class.getMethod("executeAlignLeft",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_RIGHT,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight")));
+				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight",ArrayList.class)));
 		cmdMap.put(CommandType.RESET_POINTS, 
 			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
 		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
