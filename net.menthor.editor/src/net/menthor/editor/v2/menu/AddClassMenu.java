@@ -1,25 +1,20 @@
 package net.menthor.editor.v2.menu;
 
+import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.types.ClassType;
 
-public class AddClassMenu extends BaseMenu {
+public class AddClassMenu extends BaseMenu<DefaultMutableTreeNode> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public AddClassMenu(CommandListener listener, String text){
-		super(listener, text);	
-		build();
-	}
-	
-	public AddClassMenu(CommandListener listener){
-		super(listener, "Add Class");		
-		build();
-  	}
-	
-	public void build(){
+	public AddClassMenu(CommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+		super(listener, text, treeNode);	
+
 		createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_KIND);
 		createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_SUBKIND);
 		createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_COLLECTIVE);
@@ -35,5 +30,11 @@ public class AddClassMenu extends BaseMenu {
 		createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NONPERCEIVABLE_QUALITY);
 		createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_NOMINAL_QUALITY);
         sort();
+		
+		parent.add(this);
+	}
+	
+	public AddClassMenu(CommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+		this(listener, "Add Class", treeNode, parent);		
 	}
 }

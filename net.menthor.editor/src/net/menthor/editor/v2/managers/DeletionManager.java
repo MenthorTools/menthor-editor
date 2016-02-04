@@ -24,6 +24,7 @@ package net.menthor.editor.v2.managers;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
@@ -150,6 +151,16 @@ public class DeletionManager extends BaseManager {
 	
 	/** Delete element from the model and from every diagram they might appear. **/
 	public void deleteElements(List<RefOntoUML.Element> elements){
+		
+		HashSet<Element> dependencies = new HashSet<Element>();
+		
+		//if element is a Class or a Datatype, adds all connections attached to it to the deletion list
+		for (Element element : elements) {
+			dependencies.addAll(Models.getRefparser().getDirectRelationships(element));
+		}
+		
+		elements.addAll(dependencies);
+		
 		List<DiagramEditor> editors = OccurenceManager.get().getDiagramEditors(elements.get(0));		
 		for(DiagramEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){

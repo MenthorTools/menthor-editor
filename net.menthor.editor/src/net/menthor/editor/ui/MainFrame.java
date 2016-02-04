@@ -49,6 +49,7 @@ import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
@@ -386,7 +387,8 @@ public class MainFrame extends JFrame implements CommandListener {
 				return methodcall.call(StatisticsManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == FactoryManager.class){
 				return methodcall.call(FactoryManager.get());
-				
+			}else if(methodcall.getMethod().getDeclaringClass() == AlignManager.class){
+				return methodcall.call(AlignManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
 			}else if(methodcall.getMethod().getDeclaringClass() == BaseCheckBoxTree.class){

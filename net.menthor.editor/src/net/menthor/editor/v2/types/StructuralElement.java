@@ -2,20 +2,9 @@ package net.menthor.editor.v2.types;
 
 import org.eclipse.emf.ecore.EObject;
 
-import RefOntoUML.Category;
-import RefOntoUML.Collective;
-import RefOntoUML.Kind;
-import RefOntoUML.Mixin;
-import RefOntoUML.Mode;
-import RefOntoUML.NominalQuality;
-import RefOntoUML.NonPerceivableQuality;
-import RefOntoUML.PerceivableQuality;
-import RefOntoUML.Phase;
-import RefOntoUML.Quantity;
-import RefOntoUML.Relator;
-import RefOntoUML.Role;
-import RefOntoUML.RoleMixin;
-import RefOntoUML.SubKind;
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Model;
+import RefOntoUML.Property;
 
 /**
  * ============================================================================================
@@ -38,34 +27,17 @@ import RefOntoUML.SubKind;
  * ============================================================================================
  */
 
-public enum ClassType implements OntoUMLMetatype {
-	
-	CLASS("Class",RefOntoUML.Class.class),
-	KIND("Kind", Kind.class), 
-	QUANTITY("Quantity", Quantity.class), 
-	COLLECTIVE("Collective", Collective.class), 
-	RELATOR("Relator", Relator.class), 
-	MODE("Mode", Mode.class), 
-	PERCEIVABLE_QUALITY("Perceivable Quality", PerceivableQuality.class), 
-	NONPERCEIVABLE_QUALITY("NonPerceivable Quality", NonPerceivableQuality.class), 
-	NOMINAL_QUALITY("Nominal Quality", NominalQuality.class),
-	SUBKIND("SubKind", SubKind.class), 
-	ROLE("Role", Role.class), 
-	PHASE("Phase", Phase.class), 
-	CATEGORY("Category", Category.class), 
-	MIXIN("Mixin", Mixin.class), 
-	ROLEMIXIN("RoleMixin", RoleMixin.class);
-	
+public enum StructuralElement implements OntoUMLMetatype {
 
-//  TODO: Classes to be added	
-//	PHASEMIXIN("PhaseMixin",null),
-//	EVENT("Event",null), 
-//	POWERTYPE("PowerType",null);
+	PACKAGE("Package",RefOntoUML.Package.class), 
+	MODEL("Model", Model.class), 
+	GENERALIZATION_SET("Generalization Set", GeneralizationSet.class), 
+	PROPERTY("Property", Property.class);
 	
 	private String name;
 	private Class<? extends EObject> metaClass;
 
-	ClassType(String name, Class<? extends EObject> metaClass)
+	StructuralElement(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
 		this.metaClass = metaClass;
@@ -103,31 +75,23 @@ public enum ClassType implements OntoUMLMetatype {
 
 	@Override
 	public boolean isClass() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isGeneralizationSet() {
-		return false;
+		return this==GENERALIZATION_SET;
 	}
 
 	@Override
 	public boolean isPackage() {
-		return false;
+		return this==PACKAGE;
 	}
 	
 	public static void main (String args[])
 	{
-		for(ClassType c: ClassType.values()){
+		for(StructuralElement c: StructuralElement.values()){
 			System.out.println(c.name);
 		}
-	}
-
-	public static ClassType getClassEnum(EObject element) {
-		for (ClassType value : ClassType.values()) {
-			if(value!=CLASS && value.metaClass.isInstance(element))
-				return value;
-		}
-		return CLASS;
 	}
 }

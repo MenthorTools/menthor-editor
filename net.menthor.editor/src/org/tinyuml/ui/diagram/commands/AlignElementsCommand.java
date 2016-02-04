@@ -34,6 +34,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.AlignManager;
 
 /**
  * @author John Guerson
@@ -108,12 +109,12 @@ public class AlignElementsCommand extends BaseDiagramCommand {
 	 */
 	public void run() {
 		
-		if(direction==Alignment.TOP) editor.alignTop();
-		if(direction==Alignment.BOTTOM) editor.alignBottom();
-		if(direction==Alignment.LEFT) editor.alignLeft();
-		if(direction==Alignment.RIGHT) editor.alignRight();
-		if(direction==Alignment.CENTER_VERTICAL) editor.alignCenterVertically();
-		if(direction==Alignment.CENTER_HORIZONTAL) editor.alignCenterHorizontally();
+		if(direction==Alignment.TOP) AlignManager.get().alignTop();
+		if(direction==Alignment.BOTTOM) AlignManager.get().alignBottom();
+		if(direction==Alignment.LEFT) AlignManager.get().alignLeft();
+		if(direction==Alignment.RIGHT) AlignManager.get().alignRight();
+		if(direction==Alignment.CENTER_VERTICAL) AlignManager.get().alignCenterVertically();
+		if(direction==Alignment.CENTER_HORIZONTAL) AlignManager.get().alignCenterHorizontally();
 		
 		//notify
 		if (notification!=null) {

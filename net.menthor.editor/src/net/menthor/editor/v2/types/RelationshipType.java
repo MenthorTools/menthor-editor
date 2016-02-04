@@ -1,5 +1,21 @@
 package net.menthor.editor.v2.types;
 
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.Association;
+import RefOntoUML.Characterization;
+import RefOntoUML.Derivation;
+import RefOntoUML.FormalAssociation;
+import RefOntoUML.Generalization;
+import RefOntoUML.MaterialAssociation;
+import RefOntoUML.Mediation;
+import RefOntoUML.Structuration;
+import RefOntoUML.componentOf;
+import RefOntoUML.memberOf;
+import RefOntoUML.subCollectionOf;
+import RefOntoUML.subQuantityOf;
+
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -21,54 +37,92 @@ package net.menthor.editor.v2.types;
  * ============================================================================================
  */
 
-public enum RelationshipType {
-
-	ASSOCIATION("Association"), 
-	GENERALIZATION("Generalization"), 
-	GENERALIZATIONSET("GeneralizationSet"),
-	CHARACTERIZATION("Characterization"), 
-	MEDIATION("Mediation"), 
-	DERIVATION("Derivation"), 
-	STRUCTURATION("Structuration"), 
-	FORMAL("Formal"), 
-	MATERIAL("Material"), 
-	COMPONENTOF("ComponentOf"), 
-	MEMBEROF("MemberOf"), 
-	SUBCOLLECTIONOF("SubCollectionOf"), 
-	SUBQUANTITYOF("SubQuantityOf"),
-	SUBEVENTOF("SubEventOf"), 
-	PARTICIPATION("Participation"), 
-	TEMPORAL("Temporal"),
-	INSTANCEOF("InstanceOf");
+public enum RelationshipType implements OntoUMLMetatype{
 	
+	ASSOCIATION("Association", Association.class), 
+	CHARACTERIZATION("Characterization", Characterization.class), 
+	MEDIATION("Mediation", Mediation.class), 
+	DERIVATION("Derivation", Derivation.class), 
+	STRUCTURATION("Structuration", Structuration.class), 
+	FORMAL("Formal", FormalAssociation.class), 
+	MATERIAL("Material", MaterialAssociation.class), 
+	COMPONENTOF("ComponentOf", componentOf.class), 
+	MEMBEROF("MemberOf", memberOf.class), 
+	SUBCOLLECTIONOF("SubCollectionOf", subCollectionOf.class), 
+	SUBQUANTITYOF("SubQuantityOf", subQuantityOf.class),
+	GENERALIZATION("Generalization", Generalization.class); 
+	
+//  TODO: Associations to be added
+//	SUBEVENTOF("SubEventOf", null), 
+//	PARTICIPATION("Participation", null), 
+//	TEMPORAL("Temporal", null),
+//	INSTANCEOF("InstanceOf", null),
+		
 	private String name;
+	private Class<? extends EObject> metaClass;
 
-	RelationshipType(String name)
+	RelationshipType(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
+		this.metaClass = metaClass;
 	}
 
 	@Override
-	public String toString() {
-		return getName();
+	public String toString() { 
+		return getName(); 
+	}
+	
+	@Override
+	public Class<? extends EObject> getMetaclass(){ 
+		return metaClass; 
+	}
+	
+	@Override
+	public String getName() { 
+		return name; 
 	}
 
-	public String getName() { return name; }
+	public boolean isAssociation(){
+		if(this==GENERALIZATION)
+			return false;
+		return true;
+	}
+	
+	public boolean isMeronymic(){
+		if(!this.isAssociation())
+			return false;
+		
+		if(this==COMPONENTOF || this==MEMBEROF ||this==SUBCOLLECTIONOF ||this==SUBQUANTITYOF)
+			return true;
+		
+		return false;
+	}
+	
+	public boolean isGeneralization(){
+		return this==GENERALIZATION;
+	}
 
-	public static RelationshipType getRelationshipType(RefOntoUML.Relationship type){
-		if(type instanceof RefOntoUML.Generalization) return RelationshipType.GENERALIZATION;
-		if(type instanceof RefOntoUML.Characterization) return RelationshipType.CHARACTERIZATION;
-		if(type instanceof RefOntoUML.componentOf) return RelationshipType.COMPONENTOF;
-		if(type instanceof RefOntoUML.Derivation) return RelationshipType.DERIVATION;
-		if(type instanceof RefOntoUML.FormalAssociation) return RelationshipType.FORMAL;
-		if(type instanceof RefOntoUML.MaterialAssociation) return RelationshipType.MATERIAL;
-		if(type instanceof RefOntoUML.Mediation) return RelationshipType.MEDIATION;
-		if(type instanceof RefOntoUML.memberOf) return RelationshipType.MEMBEROF;
-		if(type instanceof RefOntoUML.Structuration) return RelationshipType.STRUCTURATION;
-		if(type instanceof RefOntoUML.subCollectionOf) return RelationshipType.SUBCOLLECTIONOF;
-		if(type instanceof RefOntoUML.subQuantityOf) return RelationshipType.SUBQUANTITYOF;
-		if(type instanceof RefOntoUML.Association) return RelationshipType.ASSOCIATION;
-		return RelationshipType.ASSOCIATION;		
+	@Override
+	public boolean isClass() {
+		return false;
+	}
+
+	@Override
+	public boolean isGeneralizationSet() {
+		return false;
+	}
+
+	@Override
+	public boolean isPackage() {
+		return false;
+	}
+	
+	public static RelationshipType getRelationEnum(EObject relation) {
+		for (RelationshipType value : RelationshipType.values()) {
+			if(value!=ASSOCIATION && value.metaClass.isInstance(relation))
+				return value;
+		}
+		return ASSOCIATION;
 	}
 	
 	public static void main (String args[])

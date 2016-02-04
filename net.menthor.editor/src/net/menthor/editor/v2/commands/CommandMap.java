@@ -24,14 +24,20 @@ import java.awt.Component;
  */
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.umldraw.shared.BaseConnection;
 
 import net.menthor.editor.ui.MainFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
@@ -108,12 +114,30 @@ public class CommandMap {
 			parthoodManager();
 			glossaryManager();
 			
+			alignManager();
+			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private void alignManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ALIGN_VERTICAL,
+				new MethodCall(AlignManager.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
+				new MethodCall(AlignManager.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_TOP,
+				new MethodCall(AlignManager.class.getMethod("executeAlignTop",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_BOTTOM,
+				new MethodCall(AlignManager.class.getMethod("executeAlignBottom",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_LEFT,
+				new MethodCall(AlignManager.class.getMethod("executeAlignLeft",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_RIGHT,
+				new MethodCall(AlignManager.class.getMethod("executeAlignRight",ArrayList.class)));
+	}
+	
 	
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
@@ -138,18 +162,6 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
 				new MethodCall(DiagramEditor.class.getMethod("bringToFront")));
-		cmdMap.put(CommandType.ALIGN_VERTICAL,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterVertically")));
-		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignCenterHorizontally")));
-		cmdMap.put(CommandType.ALIGN_TOP,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignTop")));
-		cmdMap.put(CommandType.ALIGN_BOTTOM,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignBottom")));
-		cmdMap.put(CommandType.ALIGN_LEFT,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignLeft")));
-		cmdMap.put(CommandType.ALIGN_RIGHT,
-				new MethodCall(DiagramEditor.class.getMethod("executeAlignRight")));
 		cmdMap.put(CommandType.RESET_POINTS, 
 			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
 		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
@@ -172,8 +184,8 @@ public class CommandMap {
 				new MethodCall(DiagramEditor.class.getMethod("showAttributes", Object.class)));
 		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
 				new MethodCall(DiagramEditor.class.getMethod("setupColorOnSelected")));	
-		cmdMap.put(CommandType.ADD_GEN_SET_DIAGRAM, 
-				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", Object.class)));
+		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
+				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
 				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
@@ -318,7 +330,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
 				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("move", Object.class)));		
+				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
 	}
 		
 	private void findManager()throws NoSuchMethodException, SecurityException{
@@ -338,7 +350,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
+				new MethodCall(ClipboardManager.class.getMethod("cloneAndPutToClipboard",List.class)));
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
@@ -595,12 +607,12 @@ public class CommandMap {
 		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
 				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
 		cmdMap.put(CommandType.INVERT_END_NAMES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndNames", RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndNames", BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_POINTS, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_MULTIPLICITIES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_TYPES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",RefOntoUML.Association.class)));
+				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",BaseConnection.class)));
 	}
 }

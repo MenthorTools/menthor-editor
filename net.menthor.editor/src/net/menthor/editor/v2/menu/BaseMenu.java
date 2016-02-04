@@ -42,30 +42,31 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconMap;
 import net.menthor.editor.v2.icon.IconType;
 
-public class BaseMenu extends JMenu implements ActionListener{
+public class BaseMenu<T> extends JMenu implements ActionListener{
 
 	private static final long serialVersionUID = -1451727867476622857L;
 	
 	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
 	public void addCommandListener(CommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
 	
-	protected Object context;
+	protected T context;
 	
 	public HashMap<CommandType,JMenuItem> menuItemsMap = new HashMap<CommandType,JMenuItem>();
 	public void enableItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
 	public JMenuItem getMenuItem(CommandType cmdType) { return menuItemsMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setEnabled(value); } }
 	
-	public BaseMenu(CommandListener listener, String text) { 
+	public BaseMenu(CommandListener listener, String text, T context) { 
 		super(text);
+		this.context = context;
 		addCommandListener(listener);
 	}
 	
-	/** some actions are executed in the context of a given element, 
-	 *  called here of 'context' */ 
-	public void setContext(Object context){
-		this.context = context;		
-	}
+//	/** some actions are executed in the context of a given element, 
+//	 *  called here of 'context' */ 
+//	public void setContext(Object context){
+//		this.context = context;		
+//	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {	
@@ -75,74 +76,67 @@ public class BaseMenu extends JMenu implements ActionListener{
 		}		
 	}
 
+	/** create checkbox menu item */
 	protected JCheckBoxMenuItem createCheckBoxMenuItem(String name, CommandType command){
 		return createCheckBoxMenuItem(name,null,command);
 	}
 	
-	/** create menu item */
+	/** create checkbox menu item */
 	protected JCheckBoxMenuItem createCheckBoxMenuItem(String name, IconType icontype, CommandType command){
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-		if(icontype!=null){
-			Icon icon = IconMap.getInstance().getIcon(icontype);
-			Image img = ((ImageIcon)icon).getImage();  
-			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
-			Icon newIcon = new ImageIcon(newimg);
-			item.setIcon(newIcon);
-		}		
-		if(name!=null) item.setText(name);				
-		item.setActionCommand(command.toString());
-		item.addActionListener(this);
-		menuItemsMap.put(command, item);
-		add(item);		
-		item.setToolTipText(command.getDescription());
+		setIcon(icontype, item);		
+		configureMenuItem(name, icontype, command, item);
 		return item;
 	}
 	
+	/** create radio menu item */
 	protected JRadioButtonMenuItem createRadioMenuItem(String name, CommandType command){
 		return createRadioMenuItem(name,null,command);
 	}
 	
-	/** create menu item */
+	/** create radio menu item */
 	protected JRadioButtonMenuItem createRadioMenuItem(String name, IconType icontype, CommandType command){
 		JRadioButtonMenuItem item = new JRadioButtonMenuItem();
-		if(icontype!=null){
-			Icon icon = IconMap.getInstance().getIcon(icontype);
-			Image img = ((ImageIcon)icon).getImage();  
-			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
-			Icon newIcon = new ImageIcon(newimg);
-			item.setIcon(newIcon);
-		}		
-		if(name!=null) item.setText(name);				
-		item.setActionCommand(command.toString());
-		item.addActionListener(this);
-		menuItemsMap.put(command, item);
-		add(item);		
-		item.setToolTipText(command.getDescription());
+		configureMenuItem(name, icontype, command, item);
 		return item;
 	}
-	/** create menu item */
+		
+	/** create regular menu item */
 	protected JMenuItem createMenuItem(String name, CommandType command){
 		return createMenuItem(name,null, command);
 	}
 	
-	/** create menu item */
+	/** create regular menu item */
 	protected JMenuItem createMenuItem(String name, IconType icontype, CommandType command){
 		JMenuItem item = new JMenuItem();
+		configureMenuItem(name, icontype, command, item);
+		return item;
+	}
+	
+	private void configureMenuItem(String name, IconType icontype, CommandType command, JMenuItem item) {
+		setIcon(icontype, item);		
+		
+		if(name!=null) 
+			item.setText(name);				
+		
+		item.setToolTipText(command.getDescription());
+		
+		item.setActionCommand(command.toString());
+		item.addActionListener(this);
+		menuItemsMap.put(command, item);
+		add(item);		
+		
+	}
+	
+	private void setIcon(IconType icontype, JMenuItem item) {
 		if(icontype!=null){
 			Icon icon = IconMap.getInstance().getIcon(icontype);
 			Image img = ((ImageIcon)icon).getImage();  
 			Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);  
 			Icon newIcon = new ImageIcon(newimg);
 			item.setIcon(newIcon);
-		}		
-		if(name!=null) item.setText(name);				
-		item.setActionCommand(command.toString());
-		item.addActionListener(this);
-		menuItemsMap.put(command, item);
-		add(item);		
-		item.setToolTipText(command.getDescription());
-		return item;
-	}	
+		}
+	}
 	
 	public void sort(){
   		ArrayList<JMenuItem> result = sort(menuItemsMap.values());		

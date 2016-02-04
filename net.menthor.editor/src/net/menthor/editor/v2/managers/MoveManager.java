@@ -38,10 +38,12 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
+import RefOntoUML.DataType;
 import RefOntoUML.Derivation;
 import RefOntoUML.Generalization;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.NamedElement;
+import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
@@ -70,9 +72,11 @@ public class MoveManager extends BaseManager {
 		tree().moveUp();
 	}
 	
-	/** Move element to current diagram */
-	public void move(Object element){
-		move((RefOntoUML.Element)element,-1, -1, TabManager.get().getCurrentDiagramEditor(),true);
+	/** Move element from project browser to current diagram */
+	public void move(DefaultMutableTreeNode treeNode){
+		Object modelElement = treeNode.getUserObject();
+		if(modelElement instanceof RefOntoUML.Class || modelElement instanceof Relationship || modelElement instanceof DataType)
+			move((RefOntoUML.Element)modelElement,-1, -1, TabManager.get().getCurrentDiagramEditor(),true);
 	}
 	
 	public void move(Object element, DiagramEditor editor){

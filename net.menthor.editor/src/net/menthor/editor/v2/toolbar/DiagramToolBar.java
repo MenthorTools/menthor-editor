@@ -22,12 +22,14 @@ package net.menthor.editor.v2.toolbar;
  */
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.managers.TabManager;
 
 public class DiagramToolBar extends BaseToolBar {
 
@@ -44,22 +46,29 @@ public class DiagramToolBar extends BaseToolBar {
 	public DiagramToolBar (CommandListener listener){		
 		super(listener, background);	
 		setBackground(background);
-		createButton(IconType.MENTHOR_GRID, CommandType.SHOW_GRID, background);
-		createButton(IconType.MENTHOR_ALIGN_BOTTOM,CommandType.ALIGN_BOTTOM,background);
-		createButton(IconType.MENTHOR_ALIGN_TOP, CommandType.ALIGN_TOP, background);
-		createButton(IconType.MENTHOR_ALIGN_HORIZONTAL,CommandType.ALIGN_HORIZONTAL,background);
-		createButton(IconType.MENTHOR_ALIGN_LEFT,CommandType.ALIGN_LEFT,background);
-		createButton(IconType.MENTHOR_ALIGN_VERTICAL,CommandType.ALIGN_VERTICAL,background);
-		createButton(IconType.MENTHOR_ALIGN_RIGHT,CommandType.ALIGN_RIGHT,background);
-		createButton(IconType.MENTHOR_TO_FRONT,CommandType.BRING_TO_FRONT,background);
-		createButton(IconType.MENTHOR_TO_BACK,CommandType.PUT_BACK,background);
-		createButton(IconType.MENTHOR_UNDO,CommandType.UNDO,background);
-		createButton(IconType.MENTHOR_REDO,CommandType.REDO,background);
-		createButton(IconType.MENTHOR_COLOR_CHOOSER,CommandType.SET_BACKGROUND_COLOR,background);		
-		createButton(IconType.MENTHOR_EXPORT,CommandType.EXPORT_TO_PNG,background);
-		createButton(IconType.MENTHOR_ZOOM_IN,CommandType.ZOOM_IN,background);
-		createButton(IconType.MENTHOR_ZOOM_OUT,CommandType.ZOOM_OUT,background);
-		createButton(IconType.MENTHOR_FIT,CommandType.FIT_TO_WINDOW,background);	
+		new BaseToolBarButton(IconType.MENTHOR_GRID, CommandType.SHOW_GRID, background, this);
+		
+		new BaseToolBarButton(IconType.MENTHOR_ALIGN_BOTTOM,CommandType.ALIGN_BOTTOM, background, true, this);
+		new BaseToolBarButton(IconType.MENTHOR_ALIGN_TOP, CommandType.ALIGN_TOP, background, true, this);
+		new BaseToolBarButton(IconType.MENTHOR_ALIGN_HORIZONTAL,CommandType.ALIGN_HORIZONTAL, background, true, this);
+		new BaseToolBarButton(IconType.MENTHOR_ALIGN_LEFT,CommandType.ALIGN_LEFT, background, true, this);
+		new BaseToolBarButton(IconType.MENTHOR_ALIGN_VERTICAL,CommandType.ALIGN_VERTICAL, background, true, this);
+		new BaseToolBarButton(IconType.MENTHOR_ALIGN_RIGHT,CommandType.ALIGN_RIGHT, background, true, this);
+		
+		new BaseToolBarButton(IconType.MENTHOR_TO_FRONT,CommandType.BRING_TO_FRONT, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_TO_BACK,CommandType.PUT_BACK, background, this);
+		
+		new BaseToolBarButton(IconType.MENTHOR_UNDO,CommandType.UNDO, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_REDO,CommandType.REDO, background, this);
+		
+		new BaseToolBarButton(IconType.MENTHOR_COLOR_CHOOSER,CommandType.SET_BACKGROUND_COLOR, background, this);		
+		
+		new BaseToolBarButton(IconType.MENTHOR_ZOOM_IN,CommandType.ZOOM_IN, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_ZOOM_OUT,CommandType.ZOOM_OUT, background, this);
+		new BaseToolBarButton(IconType.MENTHOR_FIT,CommandType.FIT_TO_WINDOW, background, this);
+		
+		new BaseToolBarButton(IconType.MENTHOR_EXPORT,CommandType.EXPORT_TO_PNG, background, this);
+		
 		btnZoomStatus = new JButton("100%");
 		btnZoomStatus.setContentAreaFilled(false);		
 		btnZoomStatus.setFocusable(false);
@@ -69,5 +78,20 @@ public class DiagramToolBar extends BaseToolBar {
 	
 	public void update(String zoomPercentage){		
 		btnZoomStatus.setText(zoomPercentage+"%");		
+	}
+	
+	@Override
+	/** handle commands */
+	public void actionPerformed(ActionEvent e) {
+		for (CommandListener l : listeners) {
+			
+			Object source = e.getSource();
+			
+			if(source instanceof BaseToolBarButton && ((BaseToolBarButton) source).useSelectionAsContext){
+				l.handleCommand(e.getActionCommand(),new Object[]{TabManager.get().getCurrentDiagramEditor().getSelectedClassElements()});
+			}
+			
+			l.handleCommand(e.getActionCommand());	
+		}
 	}
 }

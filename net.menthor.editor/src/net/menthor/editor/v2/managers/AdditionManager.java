@@ -155,10 +155,14 @@ public class AdditionManager extends BaseManager {
 		UmlProject project = ProjectManager.get().getProject();
 		List<Generalization> gens = d.getGeneralizations(diagramElements);
 		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);
-		if(gens.size()<=1) return null; 
+		
+		if(gens.size()<1) 
+			return null; 
+		
 		if(haveGenSet){
 			if(!confirmGenSetAddition(frame())) return null;
 		}
+		
 		EObject eContainer = null;
 		if(gens.size()>1) eContainer = gens.get(0).getSpecific().eContainer();	
 		else eContainer = project.getModel();

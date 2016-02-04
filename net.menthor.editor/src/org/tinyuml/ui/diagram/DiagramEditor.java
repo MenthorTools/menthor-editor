@@ -46,7 +46,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -81,8 +80,6 @@ import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.ui.diagram.commands.Command;
 import org.tinyuml.ui.diagram.commands.ConvertConnectionTypeCommand;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
@@ -247,7 +244,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		this.diagram.addNodeChangeListener(this);
 		initEditorMembers();
 		
-		popupmenu = new PalettePopupMenu(frame);
+		popupmenu = new PalettePopupMenu(MenthorEditor.getFrame());
 		
 		setToolTipText("Press SPACE to see the elements you may draw");
 		
@@ -1031,11 +1028,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		DiagramElement tgt = OccurenceManager.get().getDiagramElement(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
-		 UmlConnection conn = FactoryManager.get().createConnection(relationship, src, tgt);
-		  AddConnectionCommand command = new AddConnectionCommand(this, conn);
-	  	  command.run();	    	 
-		  this.cancelEditing();
-		  this.redraw();
+		UmlConnection conn = FactoryManager.get().createVisualConnectionFromModelRelationship(relationship, src, tgt);
+		AddConnectionCommand command = new AddConnectionCommand(this, conn);
+	  	command.run();	    	 
+		this.cancelEditing();
+		this.redraw();
 		return conn;
 	}
 		  	
@@ -1161,6 +1158,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}		
 	}
 	
+	
 	/** Set the background color of the selected elements */
 	public void setBackgroundInSelected(Color color)
 	{
@@ -1173,141 +1171,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		wrapper.getScrollPane().updateUI();
 	}
 	
-	/** Align Bottom */
-	public void alignBottom()
-	{
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement atbottom = getClassElementAtBottom(classElements);				
-		if(atbottom!=null){
-			double atbottomY2 = atbottom.getAbsoluteY2();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;	
-				double ceHeight = ce.getAbsoluteBounds().getHeight();
-				if(!ce.equals(atbottom)){
-					ce.setAbsolutePos(ce.getAbsoluteX1(),atbottomY2-ceHeight);
-				}
-			}			
-		}		
-	}
 	
-	/** Align Top */
-	public void alignTop()
-	{
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement attop = getClassElementAtTop(classElements);				
-		if(attop!=null){
-			double attopY1 = attop.getAbsoluteY1();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;				
-				if(!ce.equals(attop)){
-					ce.setAbsolutePos(ce.getAbsoluteX1(),attopY1);
-				}
-			}			
-		}
-	}	
-	
-	/** Align Left */
-	public void alignLeft()
-	{
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement atleft = getClassElementAtLeft(classElements);				
-		if(atleft!=null){
-			double atrightX1 = atleft.getAbsoluteX1();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;				
-				if(!ce.equals(atleft)){
-					ce.setAbsolutePos(atrightX1,ce.getAbsoluteY1());
-				}
-			}			
-		}		
-	}
-	
-	/** Align Right */
-	public void alignRight()
-	{		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>();
-		classElements.addAll(getSelectedClassElements());
-		ClassElement atright = getClassElementAtRight(classElements);				
-		if(atright!=null){
-			double atrightX2 = atright.getAbsoluteX2();
-			for(DiagramElement de: classElements)
-			{					
-				ClassElement ce = (ClassElement)de;	
-				double ceWidth = ce.getAbsoluteBounds().getWidth();
-				if(!ce.equals(atright)){
-					ce.setAbsolutePos(atrightX2-ceWidth,ce.getAbsoluteY1());
-				}
-			}			
-		}		
-	}
-		
-	/** Align Center Vertically */
-	public void alignCenterVertically()
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
-		{
-			ArrayList<Double> coordList = new ArrayList<Double>();
-			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
-			classElements.addAll(getSelectedClassElements());
-			for(DiagramElement de: classElements)
-			{				
-				ClassElement ce = (ClassElement)de;				
-				coordList.add(ce.getAbsCenterX());	
-			}
-			double finalpos = calculateCenterAlignPosition(coordList);
-			ClassElement larger = getClassElementLargestWidth(classElements);			
-			if(finalpos!=-1 && larger !=null)
-			{		
-				double largerWidth = larger.getAbsoluteBounds().getWidth();
-				((ClassElement)larger).setAbsolutePos(finalpos-(largerWidth/2),larger.getAbsoluteY1());
-				for(DiagramElement de: classElements)
-				{					
-					ClassElement ce = (ClassElement)de;	
-					double ceWidth = ce.getAbsoluteBounds().getWidth();
-					if(!ce.equals(larger)){
-						ce.setAbsolutePos(finalpos-(ceWidth/2),ce.getAbsoluteY1());
-					}
-				}
-			}			
-		}
-	}
-
-	/** Align Center Horizontally */
-	public void alignCenterHorizontally ()
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
-		{
-			ArrayList<Double> coordList = new ArrayList<Double>();
-			ArrayList<DiagramElement> classElements = new ArrayList<DiagramElement>();
-			classElements.addAll(getSelectedClassElements());
-			for(DiagramElement de: classElements)
-			{				
-				ClassElement ce = (ClassElement)de;				
-				coordList.add(ce.getAbsCenterY());	
-			}
-			double finalpos = calculateCenterAlignPosition(coordList);
-			ClassElement larger = getClassElementLargestHeight(classElements);			
-			if(finalpos!=-1 && larger !=null)
-			{		
-				double largerHeight= larger.getAbsoluteBounds().getHeight();
-				((ClassElement)larger).setAbsolutePos(larger.getAbsoluteX1(),finalpos-(largerHeight/2));
-				for(DiagramElement de: classElements)
-				{					
-					ClassElement ce = (ClassElement)de;	
-					double ceHeight = ce.getAbsoluteBounds().getHeight();
-					if(!ce.equals(larger)){
-						ce.setAbsolutePos(ce.getAbsoluteX1(),finalpos-(ceHeight/2));
-					}
-				}
-			}			
-		}			
-	}
 	
 	/** Returns all selected class elements */
 	public List<ClassElement>getSelectedClassElements()
@@ -1410,50 +1274,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		return atRightElement;
 	}
 	
-	/** Returns the class element with the largest height */
-	public ClassElement getClassElementLargestHeight(ArrayList<DiagramElement> list)
-	{
-		double maxheight = 0;
-		ClassElement largerHeightElement = null;
-		for(DiagramElement de: list){
-			if(de.getAbsoluteBounds().getHeight()>maxheight) {
-				maxheight = de.getAbsoluteBounds().getHeight();
-				largerHeightElement = (ClassElement)de;				
-			}
-		}		
-		return largerHeightElement;		
-	}
 	
-	/** Returns the class element with the largest width */
-	public ClassElement getClassElementLargestWidth(ArrayList<DiagramElement> list)
-	{
-		double maxwidth = 0;
-		ClassElement largerWidthElement = null;
-		for(DiagramElement de: list){
-			if(de.getAbsoluteBounds().getWidth()>maxwidth) {
-				maxwidth = de.getAbsoluteBounds().getWidth();
-				largerWidthElement = (ClassElement)de;				
-			}
-		}
-		return largerWidthElement;		
-	}
 	
-	/** Algorithm to calculate the center alignment position */
-	public double calculateCenterAlignPosition(ArrayList<Double> coordList)
-	{
-		Collections.sort(coordList);
-		int size = coordList.size();
-		double offset = 1000;
-		double finalpos = -1;			
-		if(coordList.size()>0 && coordList.get(0)==coordList.get(size-1)) return finalpos;			
-		for(int i =size-1; i>=0;i--){
-			for(int j=i-1; j>=0;j--){
-				double diff = coordList.get(i)-coordList.get(j);
-				if(diff<offset) { finalpos = coordList.get(j)+(diff/2); offset = diff; }
-			}
-		}
-		return finalpos;
-	}
+	
+	
+	
 		
 	/** Puts the current selection to the back. */
 	public void putToBack() 
@@ -2143,7 +1968,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}else if(obj instanceof Collection<?>){			
 			for(Object o: ((Collection<?>)obj)){
 				if(o instanceof ClassElement){
-					copiedColor = ((ClassElement)obj).getBackgroundColor();
+					copiedColor = ((ClassElement)o).getBackgroundColor();
 					return;
 				}
 			}			
@@ -2536,115 +2361,19 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void executeAlignCenterVertically(Object diagramElements){
-		if(diagramElements instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(List<DiagramElement>)diagramElements,
-				Alignment.CENTER_VERTICAL)
-			);
-		}
-	}
-	
-	public void executeAlignCenterVertically(){
-		executeAlignCenterVertically(getSelectedElements());
-	}
-	
-	public void executeAlignCenterHorizontally(){
-		executeAlignCenterHorizontally(getSelectedElements());	
-	}
 
-	@SuppressWarnings("unchecked")
-	public void executeAlignCenterHorizontally(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(List<DiagramElement>) diagElems,
-				Alignment.CENTER_HORIZONTAL)
-			);
-		}
-	}
-	public void executeAlignBottom(){
-		executeAlignBottom(getSelectedElements());
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignBottom(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(ArrayList<DiagramElement>) diagElems,
-				Alignment.BOTTOM)
-			);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignTop(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(List<DiagramElement>) diagElems,
-				Alignment.TOP)
-			);
-		}
-	}
-	
-	public void executeAlignTop(){
-		executeAlignTop(getSelectedElements());
-	}
-	
-	public void executeAlignRight(){
-		executeAlignRight(getSelectedElements());
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignRight(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(ArrayList<DiagramElement>) diagElems,
-				Alignment.RIGHT)
-			);
-		}
-	}
-	
-	public void executeAlignLeft(){
-		executeAlignLeft(getSelectedElements());
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void executeAlignLeft(Object diagElems){
-		if(diagElems instanceof List<?>){
-			execute(
-				new AlignElementsCommand((DiagramNotification)this,
-				(ArrayList<DiagramElement>) diagElems,
-				Alignment.LEFT)
-			);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public void addGeneralizationSet(Object genElems){
-		if(genElems instanceof Collection<?>){
-			GeneralizationSet genSet = AdditionManager.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
-			if(genSet!=null){		
-				deselectAll();
-				cancelEditing();
-				EditManager.get().callGeneralizationSetDialog(genSet,true);
-				deselectAll();
-				cancelEditing();
-			}	
-		}
-	}
-	
 	/** Create a generalizations from selected elements in the diagram */
-	public void addGeneralizationSet(){		
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		addGeneralizationSet(diagramElementsList);		
+	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
+		GeneralizationSet genSet = AdditionManager.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+		if(genSet!=null){		
+			deselectAll();
+			cancelEditing();
+			EditManager.get().callGeneralizationSetDialog(genSet,true);
+			deselectAll();
+			cancelEditing();
+		}	
 	}
-		
+			
 	/** Delete generalization Set from selected elements in the diagram */
 	public void deleteGeneralizationSet(){
 		Collection<DiagramElement> diagramElementsList = getSelectedElements();

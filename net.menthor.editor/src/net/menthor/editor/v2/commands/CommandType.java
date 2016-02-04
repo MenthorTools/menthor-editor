@@ -75,7 +75,7 @@ public enum CommandType {
 	APPLY_VERTICAL_STYLE("Apply vertical style on line"),
 	APPLY_HORIZONTAL_STYLE("Apply horizontal style on line"),	
 	DELETE_GEN_SET_DIAGRAM(null),
-	ADD_GEN_SET_DIAGRAM(null),
+	NEW_GEN_SET_DIAGRAM(null),
 	APPLY_DIRECT_STYLE(null), 
 	APPLY_RECTILINEAR_STYLE(null), 
 	SET_BACKGROUND_COLOR("Set the background color for selected classes"),
@@ -288,10 +288,34 @@ public enum CommandType {
 	CHANGE_TO_NONPERCEIVABLE_QUALITY(null),
 	CHANGE_TO_NOMINAL_QUALITY(null),
 	
+	CHANGE_TO_DATATYPE(null),
+	CHANGE_TO_PRIMITIVE(null),
+	CHANGE_TO_ENUM(null),
+	CHANGE_TO_DECIMAL_INTERVAL(null),
+	CHANGE_TO_DECIMAL_RATIONAL(null),
+	CHANGE_TO_DECIMAL_ORDINAL(null),
+	CHANGE_TO_INTEGER_INTERVAL(null),
+	CHANGE_TO_INTEGER_RATIONAL(null),
+	CHANGE_TO_INTEGER_ORDINAL(null),
+	CHANGE_TO_DOMAIN(null),
+	CHANGE_TO_NOMINAL(null),
+	
 	INVERT_END_NAMES(null),
 	INVERT_END_POINTS(null),
 	INVERT_END_MULTIPLICITIES(null),
-	INVERT_END_TYPES(null);
+	INVERT_END_TYPES(null), 
+	
+	//TODO: add actions
+	SHOW_GENERALIZATION_SETS(null), 
+	SHOW_NAMESPACE(null), 
+	SHOW_PARENTS(null), 
+	SET_ABSTRACT(null), 
+	SET_EXTENSIONAL(null), 
+	SET_DERIVED(null), 
+	DELETE_GS_DIAGRAM(null), 
+	ADD_TO_GEN_SET_DIAGRAM(null), 
+	REMOVE_FROM_GS_DIAGRAM(null),
+	SHOW_ALL(null);
 	
 	private String description;
 
@@ -311,6 +335,7 @@ public enum CommandType {
 	
 	public static CommandType getPalleteCommandType(ClassType classType){
 		if(classType==ClassType.KIND) return PALLETE_KIND;
+		if(classType==ClassType.QUANTITY) return PALLETE_QUANTITY;
 		if(classType==ClassType.SUBKIND) return PALLETE_SUBKIND;
 		if(classType==ClassType.COLLECTIVE) return PALLETE_COLLECTIVE;
 		if(classType==ClassType.PHASE) return PALLETE_PHASE;

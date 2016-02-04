@@ -26,6 +26,8 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import org.tinyuml.umldraw.StructureDiagram;
+
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.icon.IconType;
@@ -33,7 +35,12 @@ import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 
-public class PalettePopupMenu extends BasePopupMenu {
+/*
+ * Pop-up menu used as a shortcut for creating model elements on a diagram. It shows every available element in the language, i.e. all association and class stereotypes.
+ * Currently accessible by pressing space.
+ * Context: Currently visible diagram.
+ * */
+public class PalettePopupMenu extends BasePopupMenu<Object> {
 
 	private static final long serialVersionUID = -2133010759680525956L;
 
@@ -42,7 +49,7 @@ public class PalettePopupMenu extends BasePopupMenu {
 	List<JMenuItem> relationships = new ArrayList<JMenuItem>();
 	
 	public PalettePopupMenu(CommandListener listener){
-		super(listener);
+		super(listener,null);
 				
 		classes.add(createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_KIND, false));
 		classes.add(createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_SUBKIND, false));
@@ -84,12 +91,14 @@ public class PalettePopupMenu extends BasePopupMenu {
 		List<JMenuItem> cs = sort(classes);		
 		List<JMenuItem> ds = sort(datatypes);
 		List<JMenuItem> rs = sort(relationships);
-		addSeparator();
 		createMenuItem("Mouse Pointer", IconType.MENTHOR_MOUSE_POINTER, CommandType.PALLETE_POINTER_MODE);		
-		for(JMenuItem pe: cs) add(pe);		
+		addSeparator();
+		for(JMenuItem pe: cs) add(pe);
+		addSeparator();
 		for(JMenuItem pe: ds) add(pe);
 		addSeparator();
-		for(JMenuItem pe: rs) add(pe);		
+		for(JMenuItem pe: rs) add(pe);
+		
 	}
 	
 }

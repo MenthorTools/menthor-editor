@@ -1357,6 +1357,37 @@ public class OntoUMLParser {
 		return genSets;
 	}
 	
+	/** Return all the generalization sets from a list of generalizations */
+	public Set<GeneralizationSet> getGeneralizationSets(ArrayList<Generalization> generalizations)
+	{
+		Set<GeneralizationSet> genSets = new HashSet<GeneralizationSet>();		
+		if(generalizations==null)
+			return genSets;
+		
+		for (Generalization g : generalizations) {
+			genSets.addAll(getGeneralizationSet(g));
+		}
+		
+		return genSets;
+	}
+	
+	/** Return a subset of the inputed generalization sets in which at least one of the inputed generalizations could be added 
+	 * */
+	public Set<GeneralizationSet> getAvailableGeneralizations(Set<GeneralizationSet> gsList, ArrayList<Generalization> gList){
+		Set<GeneralizationSet> availableGSs = new HashSet<GeneralizationSet>();		
+		
+		if(!sameGeneralOnGeneralizationList(gList))
+			return availableGSs;
+		
+		for (GeneralizationSet gs : gsList) {
+			if(!gs.getGeneralization().containsAll(gList))
+				availableGSs.add(gs);
+		}
+		
+		return availableGSs;
+	}
+	
+	
 	/** Return all the selected generalizations that this type is attached */
 	public ArrayList<Generalization> getGeneralizations(RefOntoUML.Classifier type)
 	{
@@ -1368,6 +1399,19 @@ public class OntoUMLParser {
 		}
 		return genList;
 	}
+	
+	/** Rerturn true if the property generalization.getGeneral() (the parent classifier) returns the same classifier for all generalizations in the inputed list*/
+	public boolean sameGeneralOnGeneralizationList(ArrayList<Generalization> gList){
+		Classifier general = null;
+		for (Generalization g : gList) {
+			if(general==null)
+				general = g.getGeneral();
+			else if(!general.equals(g.getGeneral()))
+				return false;
+		}
+		return true;
+	}
+	
 	
 	/** Return all the generalizations that this type is attached as the general type*/
 	public ArrayList<Generalization> getSpecializations(RefOntoUML.Classifier type)

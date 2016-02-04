@@ -31,24 +31,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
 
 public class BaseToolBar extends JToolBar implements ActionListener {
 
 	private static final long serialVersionUID = -665363641218269342L;
 	
-	private List<CommandListener> listeners = new ArrayList<CommandListener>();
+	List<CommandListener> listeners = new ArrayList<CommandListener>();
 	public void addCommandListener(CommandListener l) { if(!listeners.contains(l))  listeners.add(l); }
 	
-	private Map<CommandType, JButton> jbuttonMap = new HashMap<CommandType, JButton>();		
+	Map<CommandType, JButton> jbuttonMap = new HashMap<CommandType, JButton>();		
 	public void enableButton(CommandType cmdType, boolean flag) { jbuttonMap.get(cmdType).setEnabled(flag); }
 	public JButton getButton(CommandType cmdType) { return jbuttonMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JButton btn: jbuttonMap.values()) { btn.setEnabled(value); } }
@@ -83,53 +79,4 @@ public class BaseToolBar extends JToolBar implements ActionListener {
 		}
 	}
 		
-	/** create toolbar button */
-	protected JButton createButton(String name, Icon icon, CommandType command, Color background){
-		JButton btn = createButton(name, icon, command);
-		btn.setBackground(background);
-		return btn;
-	}
-	
-	protected JButton createButton(String name, IconType icontype, CommandType command, Color background){
-		JButton btn = createButton(name, icontype, command);
-		btn.setBackground(background);
-		return btn;
-	}
-	
-	/** create toolbar button */
-	protected JButton createButton(String name, Icon icon, CommandType command){		
-		JButton button = new JButton(icon);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-	    button.setHorizontalTextPosition(SwingConstants.CENTER);
-		if(name!=null) {
-			button.setText(name);
-		}
-		button.setMargin(new Insets(1, 1, 1, 1));		
-		button.setActionCommand(command.toString());
-		button.addActionListener(this);
-		//button.setOpaque(false);
-		//button.setContentAreaFilled(false);		
-		button.setBorderPainted(false);
-	    button.setFocusable(false);
-		jbuttonMap.put(command, button);
-		add(button);		
-		button.setToolTipText(command.getDescription());
-		return button;
-	}
-	/** create toolbar button */
-	protected JButton createButton(String name, IconType icontype, CommandType command){
-		Icon icon = IconMap.getInstance().getIcon(icontype);
-		return createButton(name,icon,command);
-	}	
-	
-	protected JButton createButton(IconType icontype, CommandType command, Color background){
-		JButton btn = createButton(icontype, command);
-		btn.setBackground(background);
-		return btn;
-	}
-	
-	protected JButton createButton(IconType icontype, CommandType command){
-		JButton btn = createButton(null,icontype, command);
-		return btn;
-	}
 }
