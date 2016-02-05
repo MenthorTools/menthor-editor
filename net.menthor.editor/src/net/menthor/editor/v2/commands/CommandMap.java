@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.v2.AppFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -62,6 +61,7 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.AppFrame;
 import net.menthor.editor.v2.ui.menubar.AppMenuBar;
 import net.menthor.editor.v2.ui.splitpane.AppMultiSplitPane;
 
@@ -158,9 +158,9 @@ public class CommandMap {
 				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
 				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
-		cmdMap.put(CommandType.MOVE_SELECTED_TO_DIAGRAM,
+		cmdMap.put(CommandType.MOVE_SELECTED_TREE_TO_DIAGRAM,
 				new MethodCall(MoveManager.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
-		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
+		cmdMap.put(CommandType.MOVE_TREE_NODE_TO_DIAGRAM,
 				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
 	}
 		
@@ -205,32 +205,14 @@ public class CommandMap {
 				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
 			}
 		}		
-		cmdMap.put(CommandType.ADD_MEDIATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.ADD_DERIVATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.ADD_COMPONENTOF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.ADD_SUBCOLLECTIONOF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.ADD_SUBQUANTITYOF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.ADD_MEMBEROF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.ADD_STRUCTURATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.STRUCTURATION));
-		cmdMap.put(CommandType.ADD_FORMAL, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.ADD_MATERIAL, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MATERIAL));
-		cmdMap.put(CommandType.ADD_ASSOCIATION,	
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.ASSOCIATION));
+		for(RelationshipType rt: RelationshipType.values()){		
+			CommandType cmdType = CommandType.getChangeToCommandType(rt);
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), rt));
+			}
+		}	
 		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(AdditionManager.class.getMethod("addPackage",DefaultMutableTreeNode.class)));
-		cmdMap.put(CommandType.ADD_GENERALIZATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.GENERALIZATION));
+				new MethodCall(AdditionManager.class.getMethod("addPackage",DefaultMutableTreeNode.class)));		
 		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
 				new MethodCall(AdditionManager.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
 		cmdMap.put(CommandType.ADD_COMMENT, 
@@ -240,8 +222,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
 				new MethodCall(AdditionManager.class.getMethod("addOclDocument", Object.class)));		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(AdditionManager.class.getMethod("addDiagram", Object.class)));
-		
+				new MethodCall(AdditionManager.class.getMethod("addDiagram", Object.class)));		
 		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
 				new MethodCall(AdditionManager.class.getMethod("newOclDocument")));
 		cmdMap.put(CommandType.NEW_DIAGRAM,
@@ -255,31 +236,12 @@ public class CommandMap {
 				cmdMap.put(cmdType, new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class, RefOntoUML.Element.class), ct));
 			}
 		}
-		cmdMap.put(CommandType.CHANGE_TO_GENERALIZATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.CHANGE_TO_MEDIATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.CHANGE_TO_CHARACTERIZATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.CHANGE_TO_DERIVATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.CHANGE_TO_COMPONENTOF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.CHANGE_TO_SUBCOLLECTIONOF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.CHANGE_TO_SUBQUANTITYOF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.CHANGE_TO_MEMBEROF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.CHANGE_TO_STRUCTURATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.STRUCTURATION));
-		cmdMap.put(CommandType.CHANGE_TO_FORMAL, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.CHANGE_TO_MATERIAL, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MATERIAL));
-		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
-		
+		for(RelationshipType rt: RelationshipType.values()){		
+			CommandType cmdType = CommandType.getChangeToCommandType(rt);
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), rt));
+			}
+		}		
 		cmdMap.put(CommandType.INVERT_END_NAMES, 
 				new MethodCall(ChangeManager.class.getMethod("invertEndNames", BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_POINTS, 
@@ -466,31 +428,13 @@ public class CommandMap {
 			if(cmdType!=null){
 				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", DataType.class), dt));
 			}
+		}	
+		for(RelationshipType dt: RelationshipType.values()){
+			CommandType cmdType = CommandType.getPalleteCommandType(dt);
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), dt));
+			}
 		}		
-		cmdMap.put(CommandType.PALLETE_GENERALIZATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.PALLETE_CHARACTERIZATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.PALLETE_FORMAL, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.PALLETE_MATERIAL, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.MATERIAL));				
-		cmdMap.put(CommandType.PALLETE_MEDIATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.PALLETE_MEMBEROF, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.PALLETE_SUBQUANTITYOF, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.PALLETE_SUBCOLLECTIONOF, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.PALLETE_COMPONENTOF, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.PALLETE_DERIVATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.PALLETE_ASSOCIATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.ASSOCIATION));
-		cmdMap.put(CommandType.PALLETE_STRUCTURATION, 
-				new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), RelationshipType.STRUCTURATION));
 	}
 	
 	private void tabManager() throws NoSuchMethodException, SecurityException{

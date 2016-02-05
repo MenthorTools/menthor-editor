@@ -23,7 +23,6 @@ package net.menthor.editor.ui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -31,7 +30,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
@@ -40,8 +38,9 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.GeneralizationSetImpl;
+import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
+import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.DirectoryUtil;
@@ -54,6 +53,8 @@ public class UmlProject implements Serializable {
 	/** name and version */
 	private String name = new String();	
 	private String version = new String();
+	
+	private transient OntoUMLParser refparser;
 	
 	/** is save needed */
 	private transient boolean saveNeeded = false;
@@ -70,17 +71,6 @@ public class UmlProject implements Serializable {
 	
 	public static transient String tempDir;
 	public static transient String binDir;	
-	
-	private  Collection<DiagramElement> exclusionDerivationList= new HashSet<DiagramElement>();
-	
-	public Collection<DiagramElement> getExclusionDerivationList() {
-		return exclusionDerivationList;
-	}
-
-	public void setExclusionDerivationList(
-			Collection<DiagramElement> exclusionDerivationList) {
-		this.exclusionDerivationList.addAll(exclusionDerivationList);
-	}
 	
 	public String getVersion() { return version; }	
 	public String getName () { return name; }	
@@ -105,12 +95,13 @@ public class UmlProject implements Serializable {
 	
 	public UmlProject(RefOntoUML.Package model) {
 		super();
-		properties = new Properties();
+		properties = new Properties();		
 		resource = RefOntoUMLEditingDomain.getInstance().createResource();
 		resource.getContents().add(model);		
 		RefOntoUMLEditingDomain.getInstance().createDomain();
 		name = "New Project";
 		version = MenthorEditor.MENTHOR_VERSION;
+		refparser = new OntoUMLParser(model);
 	}
 	
 	public UmlProject() {
@@ -123,7 +114,10 @@ public class UmlProject implements Serializable {
 		RefOntoUMLEditingDomain.getInstance().createDomain();
 		name = "New Project";		
 		version = MenthorEditor.MENTHOR_VERSION;
+		refparser = new OntoUMLParser(model);
 	}
+	
+	public OntoUMLParser getRefParser(){ return refparser; }
 	
 	public void saveAllDiagramNeeded(boolean value){
 		for(OntoumlDiagram d: getDiagrams()) {

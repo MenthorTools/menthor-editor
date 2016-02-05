@@ -1,6 +1,6 @@
 package net.menthor.editor.v2.managers;
 
-import net.menthor.editor.ui.MenthorEditor;
+import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.ui.dialog.help.AboutDialog;
 import net.menthor.editor.v2.ui.dialog.help.LicensesDialog;
 

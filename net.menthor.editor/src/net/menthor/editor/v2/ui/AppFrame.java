@@ -1,5 +1,5 @@
 
-package net.menthor.editor.v2;
+package net.menthor.editor.v2.ui;
 
 /**
  * ============================================================================================
@@ -48,6 +48,7 @@ import net.menthor.editor.v2.ui.tabbedpane.AppEditorTabbedPane;
 import net.menthor.editor.v2.ui.tabbedpane.AppInfoTabbedPane;
 import net.menthor.editor.v2.ui.toolbar.AppToolBar;
 import net.menthor.editor.v2.ui.tree.AppProjectBrowser;
+import net.menthor.editor.v2.util.SystemUtil;
 import net.menthor.editor.v2.util.Util;
 
 public class AppFrame extends JFrame {
@@ -107,7 +108,7 @@ public class AppFrame extends JFrame {
 		setTitle("Menthor Editor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize();		
-		if(Util.onMac()) Util.enableFullScreenMode(this);	
+		if(SystemUtil.onMac()) Util.enableFullScreenMode(this);	
 		RefOntoUMLEditingDomain.getInstance().initialize();
 		buildComponents();
 		addWindowListener(new WindowAdapter() {

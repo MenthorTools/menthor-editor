@@ -33,7 +33,7 @@ import javax.swing.event.MenuListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.TabManager;
-import net.menthor.editor.v2.util.Util;
+import net.menthor.editor.v2.util.SystemUtil;
 
 public class AppMenuBar extends GenericMenuBar {
 
@@ -115,16 +115,16 @@ public class AppMenuBar extends GenericMenuBar {
 		KeyStroke stroke;
 		JMenu file = new JMenu("File");
 		add(file);
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK);
 		createMenuItem(file, "New", CommandType.NEW_PROJECT, background, stroke);		
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK);
 		createMenuItem(file, "Open...", CommandType.OPEN_EXISTING_PROJECT, background,stroke);		
 		file.addSeparator();
 		createMenuItem(file, "Close", CommandType.CLOSE_PROJECT, background);		
 		file.addSeparator();		
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK);
 		createMenuItem(file, "Save", CommandType.SAVE_PROJECT, background,stroke);		
 		createMenuItem(file, "Save As...", CommandType.SAVE_PROJECT_AS, background);		
@@ -141,7 +141,7 @@ public class AppMenuBar extends GenericMenuBar {
 		createMenuItem(importation, "XMI (.refontouml)", CommandType.IMPORT_FROM_XMI_EMF, background);
 		createMenuItem(importation, "EA (.xml)", CommandType.IMPORT_FROM_XMI_EA, background);				
 		file.addSeparator();
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
 		/*if(Util.onMac()){
 			 Application.getApplication().setQuitHandler(new QuitHandler(){
@@ -164,26 +164,26 @@ public class AppMenuBar extends GenericMenuBar {
 		KeyStroke stroke;
 		edit = new JMenu("Edit");
 		add(edit);		
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Undo", CommandType.UNDO, background,stroke);	
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Redo", CommandType.REDO, background,stroke);
 		edit.addSeparator();
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Copy", CommandType.COPY, background, stroke);
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Paste", CommandType.PASTE, background, stroke);
 		createMenuItem(edit, "Duplicate", CommandType.DUPLICATE, background);
 		edit.addSeparator();
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke("BACK_SPACE");
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke("BACK_SPACE");
 		else stroke = KeyStroke.getKeyStroke("DELETE");
 		createMenuItem(edit, "Erase", CommandType.ERASE, background, stroke);	
 		edit.addSeparator();
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK);
 		createMenuItem(edit, "Delete", CommandType.DELETE, background,stroke);	
 	}
@@ -192,7 +192,7 @@ public class AppMenuBar extends GenericMenuBar {
 		KeyStroke stroke;
 		evaluation = new JMenu("Evaluate");
 		add(evaluation);
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
 		createMenuItem(evaluation, "Check Rules", CommandType.VERIFY_CONSTRAINTS, background,stroke);
 		createMenuItem(evaluation, "Check Model", CommandType.VERIFY_MODEL, background);
@@ -231,7 +231,7 @@ public class AppMenuBar extends GenericMenuBar {
 		KeyStroke stroke;
 		project = new JMenu("Project");
 		add(project);		
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK);
 		createMenuItem(project, "Find", CommandType.ADD_FINDER_EDITOR, background,stroke);
 		createMenuItem(project, "Statistics", CommandType.ADD_STATISTICS_EDITOR, background);
@@ -261,25 +261,25 @@ public class AppMenuBar extends GenericMenuBar {
 		});		
 		add(diagram);
 		KeyStroke stroke;
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "New", CommandType.NEW_DIAGRAM, background,stroke);
 		diagram.addSeparator();
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "Close", CommandType.CLOSE_DIAGRAM_EDITOR, background,stroke);
 		diagram.addSeparator();		
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "Select All", CommandType.SELECT_ALL_DIAGRAM, background,stroke);
 		createMenuItem(diagram, "Redraw", CommandType.REDRAW_DIAGRAM, background);		
 		createCheckBoxMenuItem(diagram, "Show Grid", CommandType.SHOW_GRID, background);
 		diagram.addSeparator();
 		createMenuItem(diagram, "Fit to Window", CommandType.FIT_TO_WINDOW, background);
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "Zoom In", CommandType.ZOOM_IN, background);
-		if(Util.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.META_MASK);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK);
 		createMenuItem(diagram, "Zoom Out", CommandType.ZOOM_OUT, background);
 		createMenuItem(diagram, "Zoom at 100%", CommandType.ZOOM_AT_100, background);	

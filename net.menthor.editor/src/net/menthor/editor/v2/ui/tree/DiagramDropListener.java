@@ -59,7 +59,7 @@ public class DiagramDropListener implements DropTargetListener{
 	  		if(tr.isDataFlavorSupported(TransferableTreeNode.TREE_PATH_FLAVOR)){
 	  			dtde.acceptDrop(DnDConstants.ACTION_MOVE);
 	  			
-	  			listener.handleCommand(CommandType.MOVE_SELECTED_TO_DIAGRAM.toString(), new Object[]{location});
+	  			listener.handleCommand(CommandType.MOVE_SELECTED_TREE_TO_DIAGRAM.toString(), new Object[]{location});
 	  			
 	  			dtde.dropComplete(true);
 	  		}			  

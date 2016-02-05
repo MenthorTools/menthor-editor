@@ -31,8 +31,8 @@ import javax.swing.JTextPane;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.editor.base.IEditor;
+import net.menthor.editor.v2.ui.util.RoundedPanel;
 
 public class ConsoleEditor extends RoundedPanel implements IEditor {
 	

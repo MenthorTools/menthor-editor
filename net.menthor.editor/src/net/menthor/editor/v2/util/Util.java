@@ -59,10 +59,6 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 /** A helper class which provides settings and file management facilities. */
 public class Util {
 	
-	public static boolean onMac() {
-		return System.getProperty("mrj.version") != null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");
-	}
-
 	public static String getFileName(String filePath) {
 		return new File(filePath).getName();
 	}
@@ -75,10 +71,6 @@ public class Util {
 		return canon(dir + File.separatorChar + fileName);
 	}
 	
-	public static boolean onWindows() {
-		return System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
-	};
-
 	public static String getExceptionMessage(Exception ex){
 		ex.printStackTrace();
 		String msg = ex.getLocalizedMessage();
@@ -86,16 +78,6 @@ public class Util {
 		return msg;
 	}
 	
-	public static String getOSx(){ 
-		if (onWindows()) return "win"; else if (onMac()) return "mac"; else return "linux"; 
-	}
-			
-	public static String getArch() { 
-		String osArch = System.getProperty("os.arch").toLowerCase();
-		String arch = osArch.contains("64") ? "x64" : "x86";                
-        return arch;
-	}
-
 	public static JFileChooser createChooser(String lastPath, final boolean checkOverrideFile){
 		return new JFileChooser(lastPath){
 			private static final long serialVersionUID = 1L;
@@ -128,7 +110,7 @@ public class Util {
 		fileChooser.setDialogTitle(dialogTitle);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension, fileExtension2);
 		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
+		if(SystemUtil.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(parent,"Ok") == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
@@ -148,7 +130,7 @@ public class Util {
 		fileChooser.setDialogTitle(dialogTitle);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension);
 		fileChooser.addChoosableFileFilter(filter);
-		if(Util.onWindows()) fileChooser.setFileFilter(filter);
+		if(SystemUtil.onWindows()) fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showDialog(parent, "Ok") == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();

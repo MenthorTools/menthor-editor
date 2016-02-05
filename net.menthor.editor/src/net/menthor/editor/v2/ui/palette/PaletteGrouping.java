@@ -42,9 +42,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
+import net.menthor.editor.v2.ui.util.TitlePane;
 
 public class PaletteGrouping extends JPanel
 {
@@ -59,7 +59,7 @@ public class PaletteGrouping extends JPanel
 	private PaletteItem mousePointerItem;
 	
 	private String name;
-	private TitlePanel titlePane;
+	private TitlePane titlePane;
 	private JPanel contentPane;
 	private Icon closedIcon;
 	private Icon openIcon;
@@ -104,7 +104,7 @@ public class PaletteGrouping extends JPanel
 	
 	/** Create title pane */
 	private void createTitlePane(){
-		titlePane = new TitlePanel(name,closedIcon);
+		titlePane = new TitlePane(name,closedIcon);
 		titlePane.addMouseListener(new MouseAdapter() { 
 			public void mousePressed(MouseEvent me) { 
 				parent.openPalette(name); 

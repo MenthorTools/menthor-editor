@@ -69,7 +69,7 @@ public final class DirectoryUtil {
 		if (!tempfile.isDirectory()) {
 			System.err.println("Error. Cannot create the temporary directory "	+ ans);
 		}
-		if (!Util.onWindows()) {
+		if (!SystemUtil.onWindows()) {
 			String[] args = { "chmod", "700", ans };
 			try {
 				Runtime.getRuntime().exec(args).waitFor();
@@ -93,7 +93,7 @@ public final class DirectoryUtil {
 		if (!tempfile.isDirectory()) {
 			System.out.println("Error. Cannot create the temporary directory "	+ ans);
 		}
-		if (!Util.onWindows()){
+		if (!SystemUtil.onWindows()){
 			String[] args = { "chmod", "700", ans };
 			try {
 				Runtime.getRuntime().exec(args).waitFor();

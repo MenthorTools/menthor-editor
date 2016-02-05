@@ -34,8 +34,7 @@ import javax.swing.JTabbedPane;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.FilterPane;
-import net.menthor.editor.v2.ui.ProgressPane;
+import net.menthor.editor.v2.ui.util.ProgressPane;
 
 public class BaseSettingsDialog extends javax.swing.JDialog {
 

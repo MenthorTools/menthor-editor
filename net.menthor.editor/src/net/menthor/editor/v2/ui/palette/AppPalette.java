@@ -28,7 +28,7 @@ import java.awt.Dimension;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.RoundedPanel;
+import net.menthor.editor.v2.ui.util.RoundedPanel;
 
 public class AppPalette extends RoundedPanel {
 

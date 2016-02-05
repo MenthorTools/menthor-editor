@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui;
+package net.menthor.editor.v2.ui.dialog.edit;
 
 /**
  * ============================================================================================
@@ -40,6 +40,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.ui.table.AssociationTableModel;

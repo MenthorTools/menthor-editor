@@ -23,17 +23,23 @@ package net.menthor.editor.v2.managers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.Timer;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.alloy.AlloyModule;
+import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.ui.AlloySpecification;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
+import net.menthor.ontouml2alloy.OntoUML2Alloy;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
+import net.menthor.tocl.parser.TOCLParser;
+import net.menthor.tocl.tocl2alloy.TOCL2Alloy;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 public class AlloyManager extends BaseManager {
@@ -52,11 +58,16 @@ public class AlloyManager extends BaseManager {
     
     // ----------------------------
 		
+    public AlloySpec alloySpec;
+    public OntoUML2AlloyOptions refOptions = new OntoUML2AlloyOptions();
+	public TOCL2AlloyOption oclOptions = new TOCL2AlloyOption();
+	
 	/** open alloy settings dialog */
-	public void openAlloySettings(){		
+	public void openAlloySettings(){
+		alloySpec = new AlloySpec(ProjectManager.get().getProject().getTempDir()+
+			    	File.separator+ProjectManager.get().getProject().getName().toLowerCase()+".als");
 		SyntaxManager.get().verifyConstraints(false);
-
-		OntoUML2AlloyOptions refOptions = Models.getRefOptions();
+		
 		OntoUMLParser refparser = Models.getRefparser();
 		refOptions.check(refparser);
 		
@@ -64,7 +75,7 @@ public class AlloyManager extends BaseManager {
 			Models.getRefparser(),
 			ProjectManager.get().getProject().getDiagrams(),
 			refOptions, 
-			Models.getOclOptions()
+			oclOptions
 		);	
 	}
 	
@@ -72,17 +83,17 @@ public class AlloyManager extends BaseManager {
 	public void generateAlloy(OntoUMLParser refparser, ALS4TransformationOption to){			
 		try{
 			if(to.getDestination()==ALS4Destination.FILE){ //make sure a path is set
-				if(to.getPath()!=null) Models.getAlloySpec().setAlloyPath(to.getPath());
+				if(to.getPath()!=null) alloySpec.setAlloyPath(to.getPath());
 			}
 			
 			runOntouml(refparser);		
 			runOcl(refparser);
 			
 			if(to.getDestination()==ALS4Destination.ANALYZER) { //open analyzer
-				openAnalyzer(Models.getAlloySpec(),true, -1);			
+				openAnalyzer(alloySpec,true, -1);			
 			}
 			if(to.getDestination()==ALS4Destination.TAB){ //open it in a tab		
-				TabManager.get().addTextEditor(Models.getAlloySpec().getContent());
+				TabManager.get().addTextEditor(alloySpec.getContent());
 			}
 			if(to.getDestination()==ALS4Destination.FILE){ //print to a file
 				MessageManager.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");
@@ -95,14 +106,11 @@ public class AlloyManager extends BaseManager {
 	}
 
 	public void runOntouml(OntoUMLParser refparser) throws Exception {		
-		OntoUML2AlloyOptions refOptions = Models.getRefOptions();
-		Models.getAlloySpec().setDomainModel(refparser,refOptions);
-		Models.getAlloySpec().transformDomainModel();	
+		alloySpec.setDomainModel(refparser,refOptions);
+		alloySpec.transformDomainModel();	
 	}
 	
-	public void runOcl(OntoUMLParser refparser) {				
-		TOCL2AlloyOption oclOptions = Models.getOclOptions();
-		AlloySpecification alloySpec = Models.getAlloySpec();		
+	public void runOcl(OntoUMLParser refparser) {						
 		try {						
 			String logMessage = alloySpec.transformConstraints(refparser, oclOptions.getParser(),oclOptions);
 			if (!logMessage.isEmpty() && logMessage!=null){				
@@ -114,7 +122,7 @@ public class AlloyManager extends BaseManager {
 	}
 		
 	/** open the alloy analyzer */
-	public void openAnalyzer (final AlloySpecification alloymodel, final boolean showAnalyzer, final int cmdIndexToExecute){
+	public void openAnalyzer (final AlloySpec alloymodel, final boolean showAnalyzer, final int cmdIndexToExecute){
 		if (alloymodel.getAlloyPath().isEmpty() || alloymodel.getAlloyPath()==null) return;
 		try{
 			final Timer timer = new Timer(100, null);			
@@ -137,4 +145,118 @@ public class AlloyManager extends BaseManager {
 		}
 	}
 	
+	class AlloySpec {
+
+		/** Absolute directory path of alloy specification. */
+		public String alsOutDirectory;	
+		
+		/** File name of alloy specification. */
+		private String alsmodelName;	
+		
+		/** Absolute path of alloy specification. */
+		private String alsPath;	
+		
+		/** Alloy Module */
+		private AlloyModule alsModule;
+		private OntoUML2Alloy ontouml2alloy;
+		
+		/** Additional content of alloy specification. */	
+		private String additionalContent = new String();
+		
+		/** Log details for operations made. */
+		private String logDetails = new String();
+
+		/**
+		 * This constructor basically initialize the path of alloy model, i.e. without any content.
+		 */
+		public AlloySpec(String alloyPath)
+		{
+			this();
+			
+			setAlloyModel(alloyPath);
+		}
+		
+		public AlloySpec(String alloyPath,OntoUMLParser refparser, OntoUML2AlloyOptions optmodel) throws Exception
+		{
+			this();
+			
+			setAlloyModel(alloyPath,refparser,optmodel);
+		}
+		
+		public AlloySpec() { }	
+
+		/**
+		 * Private methods
+		 */
+		private void setAlloyModel(String alloyPath, OntoUMLParser refparser, OntoUML2AlloyOptions optmodel) throws Exception
+		{
+			setAlloyModel(alloyPath);				
+			setDomainModel(refparser,optmodel);	
+		}
+		
+		private void setAlloyModel(String alloyPath)
+		{			
+			this.alsPath = alloyPath;
+			File file = new File(alsPath);
+			file.deleteOnExit();
+			
+			alsOutDirectory = alsPath.substring(0, alsPath.lastIndexOf(File.separator)+1);		
+			alsmodelName = alsPath.substring(alsPath.lastIndexOf(File.separator)+1,alsPath.length()).replace(".als","");	
+		}
+		
+		public void setAlloyPath(String alloyPath)
+		{
+			this.alsPath = alloyPath;			
+			alsOutDirectory = alsPath.substring(0, alsPath.lastIndexOf(File.separator)+1);		
+			alsmodelName = alsPath.substring(alsPath.lastIndexOf(File.separator)+1,alsPath.length()).replace(".als","");
+		}
+		
+		public void setDomainModel(OntoUMLParser refparser, OntoUML2AlloyOptions ontoOptions)
+		{
+			ontouml2alloy = new OntoUML2Alloy(refparser, alsPath, ontoOptions);
+			alsModule = ontouml2alloy.transformer.module;
+		}
+		
+		public void appendContent(String content) throws IOException
+		{ 
+			additionalContent = additionalContent+content; 
+			FileUtil.writeToFile(alsModule.toString()+"\n"+additionalContent, alsPath); 
+		}	
+			
+		/**
+		 * Transformations
+		 */
+		public void transformDomainModel() throws Exception
+		{
+			ontouml2alloy.transform();
+			FileUtil.writeToFile(alsModule.toString()+"\n"+additionalContent, alsPath);
+		}
+		
+		public String transformConstraints(OntoUMLParser refparser, TOCLParser toclparser, TOCL2AlloyOption oclOptions) throws IOException
+		{	
+			additionalContent += "\n"+TOCL2Alloy.convertHistoricalRelationships(ontouml2alloy.transformer.factory, ontouml2alloy.transformer.sigObject, toclparser);
+			additionalContent += "\n"+TOCL2Alloy.convertTemporalConstraints(toclparser, oclOptions);
+			
+			FileUtil.writeToFile(alsModule.toString()+"\n"+additionalContent, alsPath);
+			
+			return TOCL2Alloy.log;		
+		}
+			
+		/** Get Log details for made operations. */
+		public String getDetails() { return logDetails; }
+		
+		/**  Get absolute path of alloy specification. */
+		public String getAlloyPath() { return alsPath; }
+		
+		/** Get file name of alloy specification. */
+		public String getAlloyModelName() {	return alsmodelName; }
+		
+		/** Get content of alloy specification. */
+		public String getContent() { return alsModule.toString()+"\n"+additionalContent; }
+		
+		/** Get the Destination Directory of this model. */
+		public String getDirectory() { return alsOutDirectory; }
+		
+	}
+
 }

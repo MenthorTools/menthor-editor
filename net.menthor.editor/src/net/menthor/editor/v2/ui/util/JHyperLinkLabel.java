@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui;
+package net.menthor.editor.v2.ui.util;
 
 /**
  * ============================================================================================
@@ -21,30 +21,40 @@ package net.menthor.editor.v2.ui;
  * ============================================================================================
  */
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Insets;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
 
-public class TitlePanel extends RoundedPanel {
+public class JHyperLinkLabel extends JLabel {
 	
-	private static final long serialVersionUID = -531131162599115843L;
+	private static final long serialVersionUID = -4144795172729779055L;
 	
-	private JLabel titleLabel;
-	
-	public TitlePanel(String name, Icon icon){		
-		setLayout(new BorderLayout());
-		titleLabel = new JLabel(name, icon, JLabel.LEFT);		
-		titleLabel.setFocusable(false);		
-		add(titleLabel, BorderLayout.CENTER);
-		setMaximumSize(new Dimension(32767, 24));
-		Dimension size = new Dimension(200, 24);
-		setSize(size);
-		setPreferredSize(size);		
+	private Color underlineColor = null;
+	  
+	public JHyperLinkLabel(String label){
+	    super(label);
+	    setForeground(Color.BLUE.darker());
+	    setCursor(new Cursor(Cursor.HAND_CURSOR));	    
 	}
-	
-	public void setIcon(Icon icon){
-		titleLabel.setIcon(icon);
+
+	@Override
+	protected void paintComponent(Graphics g){
+	    super.paintComponent(g);
+	    g.setColor(underlineColor == null ? getForeground() : underlineColor);
+	    Insets insets = getInsets();
+	    int left = insets.left;
+	    if (getIcon() != null) left += getIcon().getIconWidth() + getIconTextGap();
+	    g.drawLine(left, getHeight() - 1 - insets.bottom, (int) getPreferredSize().getWidth() - insets.right, getHeight() - 1 - insets.bottom);
+	}
+
+	public Color getUnderlineColor() {
+	    return underlineColor;
+	}
+
+	public void setUnderlineColor(Color underlineColor) {
+	    this.underlineColor = underlineColor;
 	}
 }

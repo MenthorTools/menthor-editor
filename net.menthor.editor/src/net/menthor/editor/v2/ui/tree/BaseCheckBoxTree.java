@@ -37,9 +37,9 @@ import javax.swing.tree.TreePath;
 
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.util.Util;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.util.SystemUtil;
 
 public class BaseCheckBoxTree extends CheckboxTree {
 
@@ -52,7 +52,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	protected BaseCheckBoxTree(final ICommandListener listener, DefaultMutableTreeNode rootNode){
 		this(rootNode);
 		/* Ctrl+Up / Ctrl+Down Key Stroke */
-		if(Util.onMac()){
+		if(SystemUtil.onMac()){
 			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, ActionEvent.META_MASK), "moveup");
 			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, ActionEvent.META_MASK), "movedown");
 		}else{

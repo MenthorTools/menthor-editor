@@ -32,12 +32,11 @@ import javax.swing.JPanel;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.AppFrame;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
+import net.menthor.editor.v2.ui.AppFrame;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -136,7 +135,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 		ontoumlOptions.relatorConstraint = modelSimulationPanel.isSelectedRelatorConstraint();			    	
 		
 		if(getOwner() instanceof AppFrame){
-			Models.setRefOptions(ontoumlOptions);
+			AlloyManager.get().refOptions = ontoumlOptions;
 		}
 				
 		TOCL2AlloyOption oclOptions = new TOCL2AlloyOption(this.oclOptions.getParser());		
@@ -147,7 +146,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 		oclOptions.setConstraintList(constraintSimulationPanel.getConstraintListSelected());
     	
 		if(getOwner() instanceof AppFrame){
-			Models.setOclOptions(oclOptions);
+			AlloyManager.get().oclOptions = oclOptions;
 		}		  
 		
 		//dispose();

@@ -40,7 +40,7 @@ public class WindowsInstaller implements Installer{
     	
     	System.out.println(txt.subSequence(firstQuote, secondQuote));
     	
-    	String version = net.menthor.editor.ui.MenthorEditor.MENTHOR_VERSION;
+    	String version = net.menthor.editor.v2.MenthorEditor.MENTHOR_VERSION;
     	//String version = "2.3.4.5";
     	System.out.println(version);
     	txt = txt.substring(0, firstQuote) + version + txt.substring(secondQuote, txt.length());

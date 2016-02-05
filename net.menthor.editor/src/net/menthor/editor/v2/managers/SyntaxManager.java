@@ -66,7 +66,7 @@ public class SyntaxManager extends BaseManager{
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
 			toclparser.parseTemporalOCL(TabManager.get().getConstraints());			
-			Models.setOclOptions(new TOCL2AlloyOption(toclparser));
+			AlloyManager.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
 			if(showSuccesfullyMessage) MessageManager.get().showSuccess("Constraints Parse",msg);			
 		}catch(SemanticException e2){

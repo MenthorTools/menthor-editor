@@ -2,6 +2,7 @@ package net.menthor.editor.v2.commands;
 
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * ============================================================================================
@@ -117,7 +118,7 @@ public enum CommandType {
 	OTHER_ON_TARGET(null),
 	SET_SOURCE_END_POINT_NAME(null),
 	SET_TARGET_END_POINT_NAME(null),
-	MOVE_SELECTED_TO_DIAGRAM(null),
+	MOVE_SELECTED_TREE_TO_DIAGRAM(null),
 	
 	EXPORT_AS_PATTERN("Export current project as a pattern"),	
 	EXPORT_TO_UML("Export current project to UML (UML2)"), 
@@ -144,7 +145,7 @@ public enum CommandType {
 	
 	MOVE_DOWN_TREE(null),
 	MOVE_UP_TREE(null),
-	MOVE_TO_DIAGRAM(null),
+	MOVE_TREE_NODE_TO_DIAGRAM(null),
 	FIND_IN_DIAGRAMS(null),
 	
 	VERIFY_MODEL("Check syntax of the entire model"), 
@@ -165,8 +166,8 @@ public enum CommandType {
 	CLOSE_ALL("Close all tabs"),
 	
 	PALLETE_POINTER_MODE(null),
-	PALLETE_CLASS(null),
-	PALLETE_KIND(null), 
+	PALLETE_CLASS("A simple UML class."),
+	PALLETE_KIND("<html>A Kind provides identity to its instances. A Kind can be a Chair, a Person, a Car, etc.</html>"), 
 	PALLETE_QUANTITY(null), 
 	PALLETE_COLLECTIVE(null), 
 	PALLETE_SUBKIND(null), 
@@ -196,8 +197,7 @@ public enum CommandType {
 	PALLETE_DECIMALORDINAL_DIMENSION(null),
 	PALLETE_STRINGNOMINAL_STRUCTURE(null),
 
-	PALLETE_GENERALIZATION(null),
-	PALLETE_GENERALIZATIONSET(null), 
+	PALLETE_GENERALIZATION(null),	 
 	PALLETE_MEDIATION(null), 
 	PALLETE_CHARACTERIZATION(null), 
 	PALLETE_DERIVATION(null), 
@@ -352,6 +352,37 @@ public enum CommandType {
 		return PALLETE_CLASS;
 	}
 	
+	public static CommandType getPalleteCommandType(DataType dataType){
+		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return PALLETE_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return PALLETE_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return PALLETE_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return PALLETE_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return PALLETE_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return PALLETE_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataType.MEASUREMENT_DOMAIN) return PALLETE_MEASUREMENT_DOMAIN;
+		if(dataType==DataType.ENUMERATION) return PALLETE_ENUMERATION;
+		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return PALLETE_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataType.PRIMITIVETYPE) return PALLETE_PRIMITIVETYPE;
+		if(dataType==DataType.DATATYPE) return PALLETE_DATATYPE;		
+		return PALLETE_DATATYPE;
+	}
+	
+	public static CommandType getPalleteCommandType(RelationshipType relType){		
+		if(relType==RelationshipType.CHARACTERIZATION) return PALLETE_CHARACTERIZATION;
+		if(relType==RelationshipType.COMPONENTOF) return PALLETE_COMPONENTOF;
+		if(relType==RelationshipType.DERIVATION) return PALLETE_DERIVATION;
+		if(relType==RelationshipType.FORMAL) return PALLETE_FORMAL;
+		if(relType==RelationshipType.GENERALIZATION) return PALLETE_GENERALIZATION;
+		if(relType==RelationshipType.MATERIAL) return PALLETE_MATERIAL;
+		if(relType==RelationshipType.MEDIATION) return PALLETE_MEDIATION;
+		if(relType==RelationshipType.MEMBEROF) return PALLETE_MEMBEROF;
+		if(relType==RelationshipType.STRUCTURATION) return PALLETE_STRUCTURATION;
+		if(relType==RelationshipType.SUBCOLLECTIONOF) return PALLETE_SUBCOLLECTIONOF;
+		if(relType==RelationshipType.SUBQUANTITYOF) return PALLETE_SUBQUANTITYOF;
+		if(relType==RelationshipType.ASSOCIATION) return PALLETE_ASSOCIATION;
+		return PALLETE_ASSOCIATION;
+	}
+	
 	public static CommandType getAddCommandType(ClassType classType){
 		if(classType==ClassType.KIND) return ADD_KIND;
 		if(classType==ClassType.QUANTITY) return ADD_QUANTITY;
@@ -368,6 +399,37 @@ public enum CommandType {
 		if(classType==ClassType.PERCEIVABLE_QUALITY) return ADD_PERCEIVABLE_QUALITY;
 		if(classType==ClassType.NOMINAL_QUALITY) return ADD_NOMINAL_QUALITY;
 		return ADD_CLASS;
+	}
+	
+	public static CommandType getAddCommandType(RelationshipType relType){		
+		if(relType==RelationshipType.CHARACTERIZATION) return ADD_CHARACTERIZATION;
+		if(relType==RelationshipType.COMPONENTOF) return ADD_COMPONENTOF;
+		if(relType==RelationshipType.DERIVATION) return ADD_DERIVATION;
+		if(relType==RelationshipType.FORMAL) return ADD_FORMAL;
+		if(relType==RelationshipType.GENERALIZATION) return ADD_GENERALIZATION;
+		if(relType==RelationshipType.MATERIAL) return ADD_MATERIAL;
+		if(relType==RelationshipType.MEDIATION) return ADD_MEDIATION;
+		if(relType==RelationshipType.MEMBEROF) return ADD_MEMBEROF;
+		if(relType==RelationshipType.STRUCTURATION) return ADD_STRUCTURATION;
+		if(relType==RelationshipType.SUBCOLLECTIONOF) return ADD_SUBCOLLECTIONOF;
+		if(relType==RelationshipType.SUBQUANTITYOF) return ADD_SUBQUANTITYOF;
+		if(relType==RelationshipType.ASSOCIATION) return ADD_ASSOCIATION;
+		return ADD_ASSOCIATION;
+	}
+	
+	public static CommandType getAddCommandType(DataType dataType){
+		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return ADD_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return ADD_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return ADD_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return ADD_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return ADD_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return ADD_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataType.MEASUREMENT_DOMAIN) return ADD_MEASUREMENT_DOMAIN;
+		if(dataType==DataType.ENUMERATION) return ADD_ENUMERATION;
+		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return ADD_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataType.PRIMITIVETYPE) return ADD_PRIMITIVETYPE;
+		if(dataType==DataType.DATATYPE) return ADD_DATATYPE;		
+		return ADD_DATATYPE;
 	}
 	
 	public static CommandType getChangeToCommandType(ClassType classType){
@@ -388,34 +450,20 @@ public enum CommandType {
 		return CHANGE_TO_CLASS;
 	}
 	
-	public static CommandType getPalleteCommandType(DataType dataType){
-		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return PALLETE_DECIMALINTERVAL_DIMENSION;
-		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return PALLETE_DECIMALORDINAL_DIMENSION;
-		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return PALLETE_DECIMALRATIONAL_DIMENSION;
-		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return PALLETE_INTEGERINTERVAL_DIMENSION;
-		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return PALLETE_INTEGERORDINAL_DIMENSION;
-		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return PALLETE_INTEGERRATIONAL_DIMENSION;
-		if(dataType==DataType.MEASUREMENT_DOMAIN) return PALLETE_MEASUREMENT_DOMAIN;
-		if(dataType==DataType.ENUMERATION) return PALLETE_ENUMERATION;
-		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return PALLETE_STRINGNOMINAL_STRUCTURE;
-		if(dataType==DataType.PRIMITIVETYPE) return PALLETE_PRIMITIVETYPE;
-		if(dataType==DataType.DATATYPE) return PALLETE_DATATYPE;		
-		return PALLETE_DATATYPE;
-	}
-	
-	public static CommandType getAddCommandType(DataType dataType){
-		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return ADD_DECIMALINTERVAL_DIMENSION;
-		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return ADD_DECIMALORDINAL_DIMENSION;
-		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return ADD_DECIMALRATIONAL_DIMENSION;
-		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return ADD_INTEGERINTERVAL_DIMENSION;
-		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return ADD_INTEGERORDINAL_DIMENSION;
-		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return ADD_INTEGERRATIONAL_DIMENSION;
-		if(dataType==DataType.MEASUREMENT_DOMAIN) return ADD_MEASUREMENT_DOMAIN;
-		if(dataType==DataType.ENUMERATION) return ADD_ENUMERATION;
-		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return ADD_STRINGNOMINAL_STRUCTURE;
-		if(dataType==DataType.PRIMITIVETYPE) return ADD_PRIMITIVETYPE;
-		if(dataType==DataType.DATATYPE) return ADD_DATATYPE;		
-		return ADD_DATATYPE;
+	public static CommandType getChangeToCommandType(RelationshipType relType){		
+		if(relType==RelationshipType.CHARACTERIZATION) return CHANGE_TO_CHARACTERIZATION;
+		if(relType==RelationshipType.COMPONENTOF) return CHANGE_TO_COMPONENTOF;
+		if(relType==RelationshipType.DERIVATION) return CHANGE_TO_DERIVATION;
+		if(relType==RelationshipType.FORMAL) return CHANGE_TO_FORMAL;
+		if(relType==RelationshipType.GENERALIZATION) return CHANGE_TO_GENERALIZATION;
+		if(relType==RelationshipType.MATERIAL) return CHANGE_TO_MATERIAL;
+		if(relType==RelationshipType.MEDIATION) return CHANGE_TO_MEDIATION;
+		if(relType==RelationshipType.MEMBEROF) return CHANGE_TO_MEMBEROF;
+		if(relType==RelationshipType.STRUCTURATION) return CHANGE_TO_STRUCTURATION;
+		if(relType==RelationshipType.SUBCOLLECTIONOF) return CHANGE_TO_SUBCOLLECTIONOF;
+		if(relType==RelationshipType.SUBQUANTITYOF) return CHANGE_TO_SUBQUANTITYOF;
+		if(relType==RelationshipType.ASSOCIATION) return CHANGE_TO_ASSOCIATION;
+		return CHANGE_TO_ASSOCIATION;
 	}
 	
 	public static CommandType getChangeToCommandType(DataType dataType){

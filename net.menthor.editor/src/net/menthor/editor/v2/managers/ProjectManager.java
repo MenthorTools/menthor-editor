@@ -31,9 +31,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.editor.OclEditor;
 import net.menthor.editor.v2.ui.startpage.StartPage;
@@ -68,7 +68,7 @@ public class ProjectManager extends BaseManager {
 	public void setProject(UmlProject project){
 		this.project = project;
 		this.project.setSaveModelNeeded(false);		
-		Models.set(this.project, project.getModel());
+		Models.set(this.project);
 		frame().getProjectBrowser().initialize(project, Models.getRefparser(), Models.getOclDocList());		
 		TabManager.get().initialize(project);
 	}
@@ -208,6 +208,19 @@ public class ProjectManager extends BaseManager {
 			MessageManager.get().showError(ex, "Open Project", "Could not open existing project");
 		}
 		CursorManager.get().defaultCursor();
+	}
+	
+	public void openProjectFromArgs(String[] args){		
+		String fileName = "";
+		for (String arg : args){
+			if(arg.endsWith(".menthor")){
+				fileName  = arg;
+				break;
+			}
+		}
+		if(!fileName.equals("")){						
+			openProjectFromFile(fileName);
+		}
 	}
 	
 	public void openProjectFromFile(String filePath){

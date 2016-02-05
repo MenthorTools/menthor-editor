@@ -33,17 +33,17 @@ import net.menthor.editor.ui.UmlProject;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.RoundedPanel;
-import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
+import net.menthor.editor.v2.ui.util.RoundedPanel;
+import net.menthor.editor.v2.ui.util.TitlePane;
 
 public class AppProjectBrowser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
 	private ICommandListener listener;
-	private TitlePanel titlePane;
+	private TitlePane titlePane;
 	private JScrollPane scrollPane;
 	private ProjectTree tree;
 	
@@ -55,7 +55,7 @@ public class AppProjectBrowser extends RoundedPanel{
 		scrollPane = new JScrollPane();		
 		scrollPane.setBorder(null);		
 		add(scrollPane, BorderLayout.CENTER);
-		titlePane = new TitlePanel("Project Browser", IconMap.getInstance().getIcon(IconType.MENTHOR_TREE));
+		titlePane = new TitlePane("Project Browser", IconMap.getInstance().getIcon(IconType.MENTHOR_TREE));
 		titlePane.setBackground(Color.LIGHT_GRAY);		
 		RoundedPanel roundTitlePane = new RoundedPanel();
 		roundTitlePane.add(titlePane, BorderLayout.NORTH);

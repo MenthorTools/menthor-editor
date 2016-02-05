@@ -74,7 +74,7 @@ public class ProjectBrowserPopupMenu extends GenericPopupMenu<DefaultMutableTree
     	
     	if(element instanceof Association || element instanceof RefOntoUML.Class || element instanceof Generalization || element instanceof DataType){
     		addSeparator();
-    		movetodiag = createMenuItem("Move To Diagram", IconType.MENTHOR_HAND_CURSOR, CommandType.MOVE_TO_DIAGRAM);    	
+    		movetodiag = createMenuItem("Move To Diagram", IconType.MENTHOR_HAND_CURSOR, CommandType.MOVE_TREE_NODE_TO_DIAGRAM);    	
         	findindiag = createMenuItem("Find In Diagrams", IconType.MENTHOR_SEARCH, CommandType.FIND_IN_DIAGRAMS);
         	
         	addSeparator();

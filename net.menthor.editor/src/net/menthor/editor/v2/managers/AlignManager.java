@@ -9,8 +9,6 @@ import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
 import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.ui.MenthorEditor;
-
 public class AlignManager extends BaseManager {
 
 	// -------- Lazy Initialization
@@ -30,7 +28,7 @@ public class AlignManager extends BaseManager {
     private void executeAlign(ArrayList<DiagramElement> diagramElements, Alignment mode ) {
 		AlignElementsCommand command = new AlignElementsCommand(TabManager.get().getCurrentDiagramEditor(), diagramElements, mode);
 		command.run();
-		MenthorEditor.getDiagramManager().updateUI();
+		editorTabbedPane().updateUI();
 	}
     
     public void executeAlignCenterVertically(ArrayList<DiagramElement> diagramElements){

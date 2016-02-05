@@ -54,10 +54,10 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.menu.ProjectBrowserPopupMenu;
-import net.menthor.editor.v2.util.Util;
+import net.menthor.editor.v2.util.SystemUtil;
 
 public class ProjectTree extends BaseCheckBoxTree {
 
@@ -130,7 +130,7 @@ public class ProjectTree extends BaseCheckBoxTree {
 			}			
 		});
 		/* Delete Key Stroke */
-		if(Util.onMac()){
+		if(SystemUtil.onMac()){
 			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK), "delete");
 		}else{
 			getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK), "delete");

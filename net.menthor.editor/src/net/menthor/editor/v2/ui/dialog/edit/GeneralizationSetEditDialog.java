@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.AppFrame;
+import net.menthor.editor.v2.ui.AppFrame;
 
 public class GeneralizationSetEditDialog extends GenericEditDialog {
 

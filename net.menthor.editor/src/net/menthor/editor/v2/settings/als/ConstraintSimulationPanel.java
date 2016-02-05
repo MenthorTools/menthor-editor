@@ -40,7 +40,7 @@ import javax.swing.ScrollPaneConstants;
 
 import org.eclipse.uml2.uml.Constraint;
 
-import net.menthor.editor.v2.AppFrame;
+import net.menthor.editor.v2.ui.AppFrame;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 /**

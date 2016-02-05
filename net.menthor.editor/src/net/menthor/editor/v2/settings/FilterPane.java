@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui;
+package net.menthor.editor.v2.settings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

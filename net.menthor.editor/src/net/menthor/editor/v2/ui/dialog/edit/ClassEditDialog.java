@@ -37,7 +37,6 @@ import RefOntoUML.Enumeration;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.ui.RelatedElementsPane;
 
 public class ClassEditDialog extends GenericEditDialog {
 

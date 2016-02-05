@@ -35,7 +35,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.FoundElement;
-import net.menthor.editor.v2.ui.DiagramListDialog;
+import net.menthor.editor.v2.ui.util.DiagramListDialog;
 
 public class FindManager extends BaseManager {
 
