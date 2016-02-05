@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
@@ -93,7 +95,13 @@ public class DeletionManager extends BaseManager {
 	}
 	
 	/** Delete any element from the application, whether a diagram, document, element or from selection. */
-	public void delete(Object elem){	
+	public void delete(Object input){
+		Object elem = input;
+		
+		if(input instanceof DefaultMutableTreeNode){
+			elem = ((DefaultMutableTreeNode) elem).getUserObject();
+		}
+		
 		if (elem instanceof StructureDiagram){
 			deleteDiagram((StructureDiagram)elem, true);    					
 		} 

@@ -532,7 +532,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_ASSOCIATION,	
 				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.ASSOCIATION));
 		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(AdditionManager.class.getMethod("addPackage",RefOntoUML.Element.class)));
+				new MethodCall(AdditionManager.class.getMethod("addPackage",DefaultMutableTreeNode.class)));
 		cmdMap.put(CommandType.ADD_GENERALIZATION, 
 				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.GENERALIZATION));
 		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 

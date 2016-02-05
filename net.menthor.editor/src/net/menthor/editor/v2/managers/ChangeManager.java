@@ -121,19 +121,25 @@ public class ChangeManager extends BaseManager {
 			Association association = ((AssociationElement) connection).getAssociation();
 			Property source = association.getMemberEnd().get(0);
 	   		Property target = association.getMemberEnd().get(1);
+	   		
 	   		association.getMemberEnd().clear();	
 	   		association.getOwnedEnd().clear();
 	   		association.getNavigableOwnedEnd().clear();
+	   		
 	   		association.getMemberEnd().add(target);
 	   		association.getMemberEnd().add(source);   	
 	   		association.getOwnedEnd().add(target);
 	   		association.getOwnedEnd().add(source);
 	   		association.getNavigableOwnedEnd().add(target);
 	   		association.getNavigableOwnedEnd().add(source);   		
+	   		
 	   		tree().checkObject(source);
-	   		tree().removeCurrentNode();   		
+	   		tree().removeCurrentNode();
+	   		tree().checkObject(target);
+	   		tree().removeCurrentNode();
 	   		tree().checkObject(association);
 	   		tree().addChild(source);  
+	   		tree().addChild(target);  
 	   		tree().updateUI();
 	   		UpdateManager.get().updateFromChange(association, true);
 		}

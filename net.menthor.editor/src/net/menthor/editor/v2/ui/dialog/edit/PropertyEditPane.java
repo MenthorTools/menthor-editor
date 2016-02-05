@@ -44,13 +44,9 @@ import javax.swing.border.EmptyBorder;
 
 import org.tinyuml.draw.DiagramElement;
 
-import RefOntoUML.Association;
-import RefOntoUML.Characterization;
 import RefOntoUML.Classifier;
-import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
-import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.managers.TransferManager;
@@ -128,10 +124,7 @@ public class PropertyEditPane extends JPanel {
 		cbxReadOnly.setSelected(property.isIsReadOnly());
 		cbxUnique.setSelected(property.isIsUnique());
 		aggregCombo.setSelectedItem(property.getAggregation().getName());		
-		if (ownerElement instanceof Mediation || ownerElement instanceof Characterization || ownerElement instanceof Structuration){
-			if (property.equals(((Association)ownerElement).getMemberEnd().get(0))) cbxReadOnly.setEnabled(true);
-			else cbxReadOnly.setEnabled(false);
-		}				
+						
 		if (ownerElement instanceof Meronymic) aggregCombo.setEnabled(true);
 		else aggregCombo.setEnabled(false);
 		String multiplicity = new String();

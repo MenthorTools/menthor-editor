@@ -31,7 +31,7 @@ public class OntoUML2AlloyOptions {
 		if (!identityMissing.isEmpty()) {
 			identityPrinciple = false;
 			identityPrincipleInvalid = true;   
-			identityPrincipleInvalidMsg = "The following elements does not have an identity principle:\n";
+			identityPrincipleInvalidMsg = "The following elements do not have an identity principle:\n";
 			for(Classifier c: identityMissing) { identityPrincipleInvalidMsg += "- "+refparser.getStringRepresentation(c)+"\n"; }
 		}
 		ArrayList<Relator> relatorAxiomMissing = refparser.getRelatorsWithInvalidAxiom();
