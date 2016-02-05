@@ -38,6 +38,7 @@ import org.tinyuml.umldraw.StructureDiagram;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -100,11 +101,16 @@ public class AdditionManager extends BaseManager {
 	}
 	
 	/** Add package to the model.  */
-	public RefOntoUML.Element addPackage(RefOntoUML.Element eContainer){
-		RefOntoUML.Element comment = FactoryManager.get().createPackage();
-		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,eContainer);		
+	public void addPackage(DefaultMutableTreeNode node){
+		
+		if(!(node.getUserObject() instanceof RefOntoUML.Package))
+			return;
+		
+		RefOntoUML.Package container = (RefOntoUML.Package) (node.getUserObject()) ;
+		RefOntoUML.Element newPackage = FactoryManager.get().createPackage();
+
+		AddNodeCommand cmd = new AddNodeCommand(null,null,newPackage,0,0,container);		
 		cmd.run();
-		return comment;
 	}
 	
 	/** Add constraint to the model */
@@ -176,44 +182,57 @@ public class AdditionManager extends BaseManager {
 	}
 	
 	/** New ocl document */
-	public OclDocument newOclDocument(){
-		return newOclDocument(null, false);		
+	public void newOclDocument(){
+		newOclDocument(null, false);		
 	}
 	
 	/** New ocl document */
-	public OclDocument newOclDocument(String oclcontent, boolean createTab){
-		return addOclDocument(null,oclcontent, createTab);		
+	public void newOclDocument(String oclcontent, boolean createTab){
+		addOclDocument(null, oclcontent, createTab);		
 	}
 	
 	/** Add ocl document to a container */
-	public OclDocument addOclDocument(Object eContainer){
-		return addOclDocument(eContainer, "", false);
+	public void addOclDocument(Object eContainer){
+		addOclDocument(eContainer, "", false);
 	}
 	
 	/** Add ocl document to a container */
-	public OclDocument addOclDocument(Object eContainer, String oclContent, boolean createTab){		
+	public void addOclDocument(Object eContainer, String oclContent, boolean createTab){		
+		
+		if(!(eContainer instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode) eContainer).getUserObject() instanceof Package))
+			return;
+		
+		Package pack = (Package) ((DefaultMutableTreeNode) eContainer).getUserObject();
+				
 		OclDocument oclDoc = new OclDocument();		
-		oclDoc.setContainer(eContainer);
+		oclDoc.setContainer(pack);
 		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
 		oclDoc.setName("Rules"+Models.getOclDocList().size());		
 		Models.getOclDocList().add(oclDoc);			
-		DefaultMutableTreeNode container = tree().getNode(eContainer);
+		DefaultMutableTreeNode container = tree().getNode(pack);
 		tree().addChild(container, oclDoc);
 		if(createTab) TabManager.get().addOclEditor(oclDoc);
-		return oclDoc;
 	}
 	
 	public void newDiagram(){
 		addDiagram(null);
 	}
 
-	public StructureDiagram addDiagram(Object epackage){	
+	public void addDiagram(Object input){
+		
+		if(!(input instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode) input).getUserObject() instanceof Package))
+			return;
+		
+		Package epackage = (Package) ((DefaultMutableTreeNode) input).getUserObject();
+				
 		StructureDiagram diagram = new StructureDiagram(
 			ProjectManager.get().getProject(),
 			FactoryManager.get(),
 			frame().getDrawingContext()
 		);
-		if(epackage!=null) diagram.setContainer(epackage);
+		if(epackage!=null) 
+			diagram.setContainer(epackage);
+		
 		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
@@ -221,7 +240,6 @@ public class AdditionManager extends BaseManager {
 		TabManager.get().addDiagramEditor(diagram);		
 		DefaultMutableTreeNode container = tree().getNode(epackage);
 		tree().addChild(container,diagram);
-		return diagram;
 	}
 	
 	public void setDefaultDiagramSize(StructureDiagram diagram){
