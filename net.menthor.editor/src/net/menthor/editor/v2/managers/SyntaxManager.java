@@ -33,9 +33,9 @@ import org.eclipse.ocl.SemanticException;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.elements.ErrorElement;
-import net.menthor.editor.v2.elements.ProblemElement;
-import net.menthor.editor.v2.elements.ProblemElement.TypeProblem;
+import net.menthor.editor.v2.element.ErrorElement;
+import net.menthor.editor.v2.element.ProblemElement;
+import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -96,7 +96,7 @@ public class SyntaxManager extends BaseManager{
 		int count=0;
 		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
 		TabManager.get().addErrorsEditor(start, end, errors, listener());		
-		frame().forceShowFooterPane();
+		splitPane().forceShowInfoTabbedPane();
 		if(errors.size()>0 && warnings.size()>0) {
 			TabManager.get().selectErrorEditor();
 			MessageManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				

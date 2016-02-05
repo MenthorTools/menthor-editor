@@ -107,13 +107,12 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.AppFrame;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.wrapper.DiagramEditorWrapper;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.ClipboardManager;
@@ -155,6 +154,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	private static final long serialVersionUID = 4210158437374056534L;
 
 	public AppFrame frame;
+	public ICommandListener listener;
 	private AppEditorTabbedPane diagramManager;
 	private DiagramEditorWrapper wrapper;
 		
@@ -191,7 +191,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	
 	// The command processor to hold this diagram's operations.
 	private UndoManager undoManager = new UndoManager();
-	public CommandListener getListener() { return frame; }
+	public ICommandListener getListener() { return listener; }
 	//public DrawingContext getDrawingContext() { return MenthorEditor.getFrame().getDrawingContext(); }
 	
 	/**
@@ -233,15 +233,16 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(AppFrame frame, AppEditorTabbedPane diagramManager, OntoumlDiagram diagram) 
+	public DiagramEditor(AppFrame frame, ICommandListener listener, AppEditorTabbedPane diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
+		this.listener = listener;
 		this.diagramManager = diagramManager;
 		this.diagram = (StructureDiagram)diagram;
 		this.diagram.addNodeChangeListener(this);
 		initEditorMembers();
 		
-		popupmenu = new PalettePopupMenu(MenthorEditor.getFrame());
+		popupmenu = new PalettePopupMenu(listener);
 		
 		setToolTipText("Press SPACE to see the elements you may draw");
 		
@@ -827,8 +828,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	public void fitToWindow()
 	{		
 		double waste = 20;
-		if(frame.isShowBrowserPane()) waste+=240;
-		if(frame.isShowPalettePane()) waste+=240;
+		if(frame.getSplitPane().isShowProjectBrowser()) waste+=240;
+		if(frame.getSplitPane().isShowPalette()) waste+=240;
 		double offx = (Util.getScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
 		double offy = (Util.getScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
 		double diffx = (getUsedCanvasSize().get(1).getX()-(Util.getScreenWorkingWidth()-waste));
@@ -1039,18 +1040,14 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		repaint(0, 0, getWidth(), getHeight());
 	}
 	
-	public void initializeShowGridMenuItem(){
-		frame.initializeShowGridMenuItem(isShownGrid());
-	}
-	
 	public void showGrid()
 	{
 		if(isShownGrid()){
 			showGrid(false);
-			frame.selectShowGridMenuItem(false);
+			frame.getMenu().selectShowGrid(false);
 		}else{
 			showGrid(true);
-			frame.selectShowGridMenuItem(true);
+			frame.getMenu().selectShowGrid(true);
 		}
 	}
 
@@ -1374,7 +1371,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	 * Adds the specified AppCommandListener.
 	 * @param l the AppCommandListener to add
 	 */
-	public void addAppCommandListener(CommandListener l) 
+	public void addAppCommandListener(ICommandListener l) 
 	{
 		selectionHandler.addAppCommandListener(l);
 	}

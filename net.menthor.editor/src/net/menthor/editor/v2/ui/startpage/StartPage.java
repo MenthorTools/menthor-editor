@@ -53,7 +53,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -84,9 +84,9 @@ public class StartPage extends BackgroundPanel implements IEditor {
 	private JButton btnFAQButton;
 	private JButton btnCommunityButton;
 	private Component emptyHeaderArea;
-	private CommandListener commandListener;
+	private ICommandListener commandListener;
 	
-	public StartPage(CommandListener commandListener){
+	public StartPage(ICommandListener commandListener){
 		this();
 		this.commandListener = commandListener;			
 	}

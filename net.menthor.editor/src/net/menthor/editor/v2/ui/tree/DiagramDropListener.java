@@ -30,17 +30,17 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class DiagramDropListener implements DropTargetListener{
 	  
-	private CommandListener listener;
+	private ICommandListener listener;
 	private Point location = new Point();
 	@SuppressWarnings("unused")
 	private boolean dragInProgress = false;
   
-	public DiagramDropListener(CommandListener listener){
+	public DiagramDropListener(ICommandListener listener){
 		this.listener = listener;
 	}
 

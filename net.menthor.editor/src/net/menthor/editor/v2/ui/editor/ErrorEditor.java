@@ -1,11 +1,11 @@
 package net.menthor.editor.v2.ui.editor;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.types.EditorType;
 
 public class ErrorEditor extends ProblemEditor {
 
-	public ErrorEditor(CommandListener listener) {
+	public ErrorEditor(ICommandListener listener) {
 		super(listener);
 	}
 

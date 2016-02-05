@@ -60,7 +60,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import RefOntoUML.Model;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.xmi2ontouml.Creator;
@@ -74,7 +74,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	private static final long serialVersionUID = 2093867102692070258L;
 	
 	private JFrame owner;
-	private CommandListener listener;
+	private ICommandListener listener;
 	
 	
 	private JTextField filePathField;
@@ -94,7 +94,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	private JPanel panel_5;
 	
 	/** @wbp.parser.constructor */
-	public EASettingsDialog(JFrame owner, boolean modal, CommandListener listener){
+	public EASettingsDialog(JFrame owner, boolean modal, ICommandListener listener){
 		super(owner, modal);		
 		this.listener = listener;
 		this.owner=owner;
@@ -103,7 +103,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		setVisible(true);
 	}
 	
-	public EASettingsDialog(JFrame owner, boolean modal, CommandListener listener, String filePath){
+	public EASettingsDialog(JFrame owner, boolean modal, ICommandListener listener, String filePath){
 		super(owner, modal);				
 		this.listener = listener;
 		this.owner=owner;

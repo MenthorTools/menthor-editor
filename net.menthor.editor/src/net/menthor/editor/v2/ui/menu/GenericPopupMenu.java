@@ -38,7 +38,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -49,8 +49,8 @@ public class GenericPopupMenu <T> extends JPopupMenu implements ActionListener{
 	
 	protected T context;
 	
-	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
+	protected List<ICommandListener> listeners = new ArrayList<ICommandListener>();
+	public void addCommandListener(ICommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
 	
 	public HashMap<CommandType,JMenuItem> menuItemsMap = new HashMap<CommandType,JMenuItem>();
 	public void enableMenuItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
@@ -66,13 +66,13 @@ public class GenericPopupMenu <T> extends JPopupMenu implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (CommandListener l : listeners) {
+		for (ICommandListener l : listeners) {
 			if(context!=null) l.handleCommand(e.getActionCommand(), new Object[]{context});
 			else l.handleCommand(e.getActionCommand());			
 		}		
 	}
 
-	public GenericPopupMenu(CommandListener listener, T context) { 
+	public GenericPopupMenu(ICommandListener listener, T context) { 
 		super();
 		this.context = context;
 		addCommandListener(listener);

@@ -26,17 +26,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.owl.OwlOptions;
-
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlSettingsDialog extends BaseSettingsDialog {
 	
@@ -52,8 +52,8 @@ public class OwlSettingsDialog extends BaseSettingsDialog {
 	//CONSTRUCTOR
 	//==================================================
 	
-	public OwlSettingsDialog(CommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
-		super(listener, refparser, diagrams);		
+	public OwlSettingsDialog(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
+		super(frame, listener, refparser, diagrams);		
 		buildUI(refparser);
 	}
 	

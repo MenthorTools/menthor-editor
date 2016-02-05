@@ -38,7 +38,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -47,9 +47,9 @@ public abstract class GenericMenuBar extends JMenuBar implements ActionListener 
 	
 	private static final long serialVersionUID = -665363641218269342L;
 	
-	private List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { listeners.add(l); }
-	public List<CommandListener> getListeners(){ return listeners; }
+	private List<ICommandListener> listeners = new ArrayList<ICommandListener>();
+	public void addCommandListener(ICommandListener l) { listeners.add(l); }
+	public List<ICommandListener> getListeners(){ return listeners; }
 	
 	protected Map<CommandType, JMenuItem> menuItemsMap = new HashMap<CommandType, JMenuItem>();	
 	public void enableMenuItem(CommandType cmdType, boolean flag) { menuItemsMap.get(cmdType).setEnabled(flag); }
@@ -65,14 +65,14 @@ public abstract class GenericMenuBar extends JMenuBar implements ActionListener 
 	}
 	
 	/** constructor */
-	public GenericMenuBar(CommandListener listener, Color backgroundColor){		
+	public GenericMenuBar(ICommandListener listener, Color backgroundColor){		
 		addCommandListener(listener);
 		setBackground(backgroundColor);		
 	}
 	
 	/** handle commands */
 	public void actionPerformed(ActionEvent e) {
-		for (CommandListener l : listeners) {
+		for (ICommandListener l : listeners) {
 			l.handleCommand(e.getActionCommand());
 		}
 	}

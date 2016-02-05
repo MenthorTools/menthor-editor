@@ -27,7 +27,7 @@ import java.awt.Dimension;
 
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.RoundedPanel;
 
 public class AppPalette extends RoundedPanel {
@@ -46,7 +46,7 @@ public class AppPalette extends RoundedPanel {
 		setFocusable(false);				
 	}
 	
-	public AppPalette(CommandListener listener){
+	public AppPalette(ICommandListener listener){
 		this();				
 		palettes = new PaletteAccordion(listener);
 		palettes.setBackground(Color.WHITE);

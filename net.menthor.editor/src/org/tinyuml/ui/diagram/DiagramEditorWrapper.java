@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.editors.wrapper;
+package org.tinyuml.ui.diagram;
 
 /**
  * ============================================================================================
@@ -31,9 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
-
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.editor.base.IEditor;
@@ -56,7 +54,7 @@ public class DiagramEditorWrapper extends RoundedPanel implements IEditor{
 	public StatusBar getStatusBar() { return statusPane; }
 	public JScrollPane getScrollPane() { return scrollpane; }
 	
-	public DiagramEditorWrapper(final DiagramEditor editor, CommandListener editorDispatcher){
+	public DiagramEditorWrapper(final DiagramEditor editor, ICommandListener editorDispatcher){
 		super();
 		this.diagramEditor = editor;	
 		diagramToolbar = new DiagramToolBar(editor.getListener());		

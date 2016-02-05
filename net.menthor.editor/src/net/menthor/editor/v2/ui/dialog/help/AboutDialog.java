@@ -38,7 +38,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -50,7 +50,7 @@ public class AboutDialog extends JDialog{
 
 	private static final long serialVersionUID = -251319551154959770L;
 	
-	private CommandListener listener;
+	private ICommandListener listener;
 	
 	private JLabel logoLabel;
 	private JPanel logoPanel;
@@ -61,7 +61,7 @@ public class AboutDialog extends JDialog{
 	private JHyperLinkLabel nemoLink;
 	private JTextPane detailsTextPane;
 	
-	public static void open(CommandListener listener, String buildDate, String version){
+	public static void open(ICommandListener listener, String buildDate, String version){
 		try {
 			AboutDialog dialog = new AboutDialog(listener, buildDate, version);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -72,7 +72,7 @@ public class AboutDialog extends JDialog{
 		}
 	}
 	
-	public AboutDialog(final CommandListener frame, String buildDate, String version){
+	public AboutDialog(final ICommandListener frame, String buildDate, String version){
 		super((Frame)frame);		
 		setTitle("About");
 		setBounds(100, 100, 521, 372);		

@@ -5,7 +5,7 @@ import javax.swing.JPopupMenu;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Relationship;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -16,11 +16,11 @@ public class ChangeStereotypeMenu extends GenericMenu<EObject> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public ChangeStereotypeMenu(CommandListener listener, EObject element, JPopupMenu parent){
+	public ChangeStereotypeMenu(ICommandListener listener, EObject element, JPopupMenu parent){
 		this(listener, "Change Stereotype To", element,parent);
 	}
 	
-	public ChangeStereotypeMenu(CommandListener listener, String text, EObject element, JPopupMenu parent){
+	public ChangeStereotypeMenu(ICommandListener listener, String text, EObject element, JPopupMenu parent){
 		super(listener, text, element);	
 		
 		if(element instanceof RefOntoUML.Class){
@@ -55,16 +55,16 @@ public class ChangeStereotypeMenu extends GenericMenu<EObject> {
 		}
 		else if (element instanceof RefOntoUML.DataType){
 			createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DATATYPE);
-			createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ENUM);
-			createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PRIMITIVE);
-			createMenuItem(DataType.DECIMALINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMAL_INTERVAL);
-			createMenuItem(DataType.DECIMALORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMAL_ORDINAL);
-			createMenuItem(DataType.DECIMALRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMAL_RATIONAL);
-			createMenuItem(DataType.INTEGERINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGER_INTERVAL);
-			createMenuItem(DataType.INTEGERORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGER_ORDINAL);
-			createMenuItem(DataType.INTEGERRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGER_RATIONAL);
-			createMenuItem(DataType.STRINGNOMINAL_STRUCTURE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_NOMINAL);
-			createMenuItem(DataType.MEASUREMENT_DOMAIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DOMAIN);
+			createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ENUMERATION);
+			createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PRIMITIVETYPE);
+			createMenuItem(DataType.DECIMALINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALINTERVAL_DIMENSION);
+			createMenuItem(DataType.DECIMALORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALORDINAL_DIMENSION);
+			createMenuItem(DataType.DECIMALRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALRATIONAL_DIMENSION);
+			createMenuItem(DataType.INTEGERINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERINTERVAL_DIMENSION);
+			createMenuItem(DataType.INTEGERORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERORDINAL_DIMENSION);
+			createMenuItem(DataType.INTEGERRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERRATIONAL_DIMENSION);
+			createMenuItem(DataType.STRINGNOMINAL_STRUCTURE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_STRINGNOMINAL_STRUCTURE);
+			createMenuItem(DataType.MEASUREMENT_DOMAIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MEASUREMENT_DOMAIN);
 			
 		}
 		

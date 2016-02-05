@@ -43,11 +43,11 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.AppCommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
 import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.base.IEditorMode;
 import net.menthor.editor.v2.ui.menu.MultiElementPopupMenu;
 import net.menthor.editor.v2.ui.menu.SingleElementPopupMenu;
 
@@ -223,10 +223,10 @@ public class SelectionHandler implements IEditorMode {
 		ArrayList<UmlDiagramElement> filteredSelection = filterUmlDiagramElements(selection.getElements());
 		
 		if(filteredSelection.size()==1)
-			return new SingleElementPopupMenu(MenthorEditor.getFrame(), filteredSelection.get(0));
+			return new SingleElementPopupMenu(AppCommandListener.get(), filteredSelection.get(0));
 		
 		if (selection.getElements().size() > 1) 			
-			return new MultiElementPopupMenu(MenthorEditor.getFrame(), filteredSelection);
+			return new MultiElementPopupMenu(AppCommandListener.get(), filteredSelection);
 		
 		return new JPopupMenu("No Action Available");
 	}
@@ -488,7 +488,7 @@ public class SelectionHandler implements IEditorMode {
 	 * Adds the specified AppCommandListener.
 	 * @param l the AppCommandListener to add
 	 */
-	public void addAppCommandListener(CommandListener l) {
+	public void addAppCommandListener(ICommandListener l) {
 		//contextMenuBuilder.addAppCommandListener(l);
 	}
 }

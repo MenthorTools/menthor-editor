@@ -30,7 +30,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.AppFrame;
+import net.menthor.editor.v2.AppFrame;
 
 public class GeneralizationEditDialog extends GenericEditDialog {
 

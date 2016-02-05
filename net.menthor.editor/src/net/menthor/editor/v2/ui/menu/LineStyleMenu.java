@@ -12,7 +12,7 @@ import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class LineStyleMenu extends MultiElementMenu {
@@ -20,7 +20,7 @@ public class LineStyleMenu extends MultiElementMenu {
 	private static final long serialVersionUID = 3797953970276009760L;
 	JCheckBoxMenuItem directMenuItem, rectilinearMenuItem, treeHorizontalMenuItem, treeVerticalMenuItem;
 	
-	public LineStyleMenu(CommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public LineStyleMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);	
 		
 		directMenuItem = createCheckBoxMenuItem("Direct", CommandType.APPLY_DIRECT_STYLE);
@@ -51,15 +51,15 @@ public class LineStyleMenu extends MultiElementMenu {
 		
 	}
 
-	public LineStyleMenu(CommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public LineStyleMenu(ICommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		this(listener, "Line Style", elements, parent);		
   	}
 	
-	public LineStyleMenu(CommandListener listener, String text, BaseConnection connection, JPopupMenu parent){
+	public LineStyleMenu(ICommandListener listener, String text, BaseConnection connection, JPopupMenu parent){
 		this(listener, text, setUpList(connection), parent);	
 	}
 	
-	public LineStyleMenu(CommandListener listener, BaseConnection connection, JPopupMenu parent){
+	public LineStyleMenu(ICommandListener listener, BaseConnection connection, JPopupMenu parent){
 		this(listener, setUpList(connection), parent);		
   	}
 	

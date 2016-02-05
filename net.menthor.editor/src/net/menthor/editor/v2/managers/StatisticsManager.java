@@ -7,7 +7,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.elements.StatisticalElement;
+import net.menthor.editor.v2.element.StatisticalElement;
 
 public class StatisticsManager extends BaseManager {
 

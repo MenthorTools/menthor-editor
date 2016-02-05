@@ -27,8 +27,8 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.elements.ProblemElement;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.element.ProblemElement;
 
 public class ProblemScrollTable extends FoundScrollTable {
 
@@ -36,7 +36,7 @@ public class ProblemScrollTable extends FoundScrollTable {
 	
 	protected List<ProblemElement> problemList = new ArrayList<ProblemElement>();
 	
-	public ProblemScrollTable(CommandListener listener, String[] columns){
+	public ProblemScrollTable(ICommandListener listener, String[] columns){
 		super(listener, columns);
 	}
 	 

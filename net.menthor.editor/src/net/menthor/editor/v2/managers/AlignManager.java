@@ -22,7 +22,7 @@ public class AlignManager extends BaseManager {
 		return DuplicateLoader.INSTANCE; 
 	}	
     private AlignManager() {
-        if (DuplicateLoader.INSTANCE != null) throw new IllegalStateException("DuplicateManager already instantiated");
+        if (DuplicateLoader.INSTANCE != null) throw new IllegalStateException("AlignManager already instantiated");
     }		
     
     // ----------------------------

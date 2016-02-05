@@ -37,6 +37,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -45,8 +46,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -54,7 +55,7 @@ public class DiagramListDialog extends JDialog {
 	
 	private static final long serialVersionUID = -251319551154959770L;
 	
-	private CommandListener listener;
+	private ICommandListener listener;
 	private List<OntoumlDiagram> diagrams = new ArrayList<OntoumlDiagram>();	
 	
 	private JList<OntoumlDiagram> diagramList;	
@@ -66,9 +67,9 @@ public class DiagramListDialog extends JDialog {
 	private JScrollPane scroll;		
 	private JLabel lblText;
 			
-	public static void open(CommandListener listener, List<OntoumlDiagram> diagrams){
+	public static void open(JFrame frame, ICommandListener listener, List<OntoumlDiagram> diagrams){
 		try {			
-			DiagramListDialog dialog = new DiagramListDialog(listener,diagrams);
+			DiagramListDialog dialog = new DiagramListDialog(frame, listener,diagrams);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.setLocationRelativeTo((Component)listener);			
@@ -77,8 +78,8 @@ public class DiagramListDialog extends JDialog {
 		}
 	}
 		
-	public DiagramListDialog(CommandListener listener, List<OntoumlDiagram> diagrams){
-		super((Frame) listener);		
+	public DiagramListDialog(JFrame frame, ICommandListener listener, List<OntoumlDiagram> diagrams){
+		super((Frame) frame);		
 		this.listener = listener;
 		this.diagrams = diagrams;		
 		setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_DIAGRAM.toString()));

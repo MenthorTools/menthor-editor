@@ -3,7 +3,7 @@ package net.menthor.editor.v2.ui.menu;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -12,7 +12,7 @@ public class AddClassMenu extends GenericMenu<DefaultMutableTreeNode> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public AddClassMenu(CommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+	public AddClassMenu(ICommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
 		super(listener, text, treeNode);	
 
 		createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.ADD_KIND);
@@ -34,7 +34,7 @@ public class AddClassMenu extends GenericMenu<DefaultMutableTreeNode> {
 		parent.add(this);
 	}
 	
-	public AddClassMenu(CommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+	public AddClassMenu(ICommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
 		this(listener, "Add Class", treeNode, parent);		
 	}
 }

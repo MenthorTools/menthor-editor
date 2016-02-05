@@ -37,7 +37,7 @@ import javax.swing.tree.TreePath;
 
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.util.Util;
 
@@ -49,7 +49,7 @@ public class BaseCheckBoxTree extends CheckboxTree {
 	protected SortTreeModel treeModel;
 	protected TreeCheckingModel checkingModel;
 	
-	protected BaseCheckBoxTree(final CommandListener listener, DefaultMutableTreeNode rootNode){
+	protected BaseCheckBoxTree(final ICommandListener listener, DefaultMutableTreeNode rootNode){
 		this(rootNode);
 		/* Ctrl+Up / Ctrl+Down Key Stroke */
 		if(Util.onMac()){

@@ -53,7 +53,7 @@ public class ImportManager extends BaseManager {
 	
 	public void importFromEARecent() throws IOException {		
 		lastImportEAPath = TabManager.get().getStartEditor().getSelectedRecentFile();
-		new EASettingsDialog(frame(), true, frame(), lastImportEAPath);
+		new EASettingsDialog(frame(), true, listener(), lastImportEAPath);
 		Settings.addRecentProject(lastImportEAPath);				
 	}
 
@@ -61,7 +61,7 @@ public class ImportManager extends BaseManager {
 		File file = chooseEAFile();
 		if(file!=null){
 			lastImportEAPath = file.getAbsolutePath();
-			new EASettingsDialog(frame(), true, frame(), lastImportEAPath);
+			new EASettingsDialog(frame(), true, listener(), lastImportEAPath);
 			Settings.addRecentProject(file.getCanonicalPath());
 		}
 	}

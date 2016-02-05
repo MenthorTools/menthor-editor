@@ -2,7 +2,7 @@ package net.menthor.editor.v2.ui.menu;
 
 import java.awt.Component;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 /*
@@ -13,7 +13,7 @@ public class TabPopupMenu extends GenericPopupMenu<Component> {
 
 	private static final long serialVersionUID = 8404322926387805476L;
 
-	public TabPopupMenu(CommandListener listener, Component tab) {
+	public TabPopupMenu(ICommandListener listener, Component tab) {
 		super(listener,tab);
 		createMenuItem("Close This Tab", null, CommandType.CLOSE_THIS);
 		createMenuItem("Close All Other Tabs", null, CommandType.CLOSE_OTHER);

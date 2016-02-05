@@ -27,13 +27,15 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.AppFrame;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
@@ -60,9 +62,9 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 	private JPanel principalPane;
 	
 	/** @wbp.parser.constructor */
-	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
+	public AlsSettingsDialog(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
-		super(owner, refparser, diagrams);
+		super(frame,listener, refparser, diagrams);
 				
 		principalPane = new JPanel();
 		principalPane.setLayout(new BorderLayout(10,10));
@@ -97,28 +99,28 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 	}
 	
 	/** Launch the Dialog. */
-	public static void open(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public static void open(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		try {			
-			AlsSettingsDialog dialog = new AlsSettingsDialog(owner, refparser, diagrams, refOptions, oclOptions);
+			AlsSettingsDialog dialog = new AlsSettingsDialog(frame,listener, refparser, diagrams, refOptions, oclOptions);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			dialog.setLocationRelativeTo(owner);			
+			dialog.setLocationRelativeTo(frame);			
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public AlsSettingsDialog(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
-		this(owner,refparser,diagrams, false);	
+		this(frame,listener,refparser,diagrams, false);	
 		
 		this.refOptions = refOptions;
 		this.oclOptions = oclOptions;
 		
-		modelSimulationPanel.setOntoUMLOptionsPane(refOptions,owner);
+		modelSimulationPanel.setOntoUMLOptionsPane(refOptions,frame);
 		
-		constraintSimulationPanel.setOCLOptionPane(oclOptions,owner);		
+		constraintSimulationPanel.setOCLOptionPane(oclOptions,frame);		
 		if (oclOptions.getConstraintList().size()>0) {
 			axiomPane.add(constraintSimulationPanel, BorderLayout.CENTER);
 		}				

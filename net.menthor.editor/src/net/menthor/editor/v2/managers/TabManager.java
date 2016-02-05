@@ -33,6 +33,7 @@ import javax.swing.SwingConstants;
 
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.DiagramEditorWrapper;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import net.menthor.editor.ui.Models;
@@ -40,9 +41,8 @@ import net.menthor.editor.ui.UmlProject;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.wrapper.DiagramEditorWrapper;
-import net.menthor.editor.v2.elements.ProblemElement;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.ErrorEditor;
@@ -146,7 +146,7 @@ public class TabManager extends BaseManager {
 					return ((DiagramEditorWrapper)c).getDiagramEditor();
 			}
 		}
-		DiagramEditor editor = new DiagramEditor(frame(),editorTabbedPane(),diagram);
+		DiagramEditor editor = new DiagramEditor(frame(),listener(), editorTabbedPane(),diagram);
 		editor.addAppCommandListener(listener());
 		return editor;
 	}
@@ -380,7 +380,7 @@ public class TabManager extends BaseManager {
 	}
 	
 	public DiagramEditor addDiagramEditor(OntoumlDiagram diagram){		
-		DiagramEditor editor = new DiagramEditor(frame(), editorTabbedPane(), diagram);	
+		DiagramEditor editor = new DiagramEditor(frame(), listener(), editorTabbedPane(), diagram);	
 		editor.addAppCommandListener(listener());
 		OccurenceManager.get().add(editor.getDiagram());
 		DiagramEditorWrapper wrapper = new DiagramEditorWrapper(editor, listener());
@@ -414,7 +414,7 @@ public class TabManager extends BaseManager {
 		addFinderEditor(editorTabbedPane(),true, listener()); 
 	}
 	
-	public FindEditor addFinderEditor(JTabbedPane pane, boolean closable, CommandListener listener){
+	public FindEditor addFinderEditor(JTabbedPane pane, boolean closable, ICommandListener listener){
 		for(Component c: pane.getComponents()) {
 			if(c instanceof FindEditor) { pane.setSelectedComponent(c); return (FindEditor)c; }
 		}		
@@ -438,13 +438,13 @@ public class TabManager extends BaseManager {
 		return statPanel;
 	}
 	
-	public void addWarningsEditor(String message, List<ProblemElement> warnings, CommandListener listener){
+	public void addWarningsEditor(String message, List<ProblemElement> warnings, ICommandListener listener){
 		WarningEditor warningsPane = addWarningsEditor(true, listener);
 		warningsPane.setData(warnings);
 		warningsPane.setStatus(message);
 	}
 	
-	public WarningEditor addWarningsEditor(boolean closable, CommandListener listener){
+	public WarningEditor addWarningsEditor(boolean closable, ICommandListener listener){
 		JTabbedPane pane = infoTabbedPane();
 		for(Component c: pane.getComponents()) {
 			if(c instanceof WarningEditor) { pane.setSelectedComponent(c); return (WarningEditor)c; }
@@ -455,13 +455,13 @@ public class TabManager extends BaseManager {
 		return warningPane;
 	}
 	
-	public void addErrorsEditor(double startTime, double endTime, List<ProblemElement> errors, CommandListener listener){
+	public void addErrorsEditor(double startTime, double endTime, List<ProblemElement> errors, ICommandListener listener){
 		ErrorEditor errorPane = addErrorsEditor(true, listener);
 		errorPane.setData(errors);
 		errorPane.setStatus(MessageFormat.format("Model verified in {0} ms, {1} error(s) found", (startTime - endTime),  errors.size()));
 	}
 	
-	public ErrorEditor addErrorsEditor(boolean closable, CommandListener listener){		
+	public ErrorEditor addErrorsEditor(boolean closable, ICommandListener listener){		
 		JTabbedPane pane = infoTabbedPane();
 		for(Component c: pane.getComponents()) {
 			if(c instanceof ErrorEditor) { pane.setSelectedComponent(c); return (ErrorEditor)c; }
@@ -566,7 +566,7 @@ public class TabManager extends BaseManager {
 	public Component addClosableTab(JTabbedPane pane, String text, Component component){
 		if (component==null) component = new JPanel();
 		pane.addTab(text, component);		
-		CommandListener listener = listener();
+		ICommandListener listener = listener();
 		ClosableTab tab = null; Icon icon = null;
 		if(component instanceof DiagramEditorWrapper){
 			tab = new ClosableTab(pane, listener);

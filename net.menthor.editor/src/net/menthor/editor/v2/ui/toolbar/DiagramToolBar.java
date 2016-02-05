@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -38,11 +38,11 @@ public class DiagramToolBar extends GenericToolBar {
 	private static Color background = null; //Color.WHITE;
 	private JButton btnZoomStatus;
 		
-	public DiagramToolBar (CommandListener listener, int orientation){
+	public DiagramToolBar (ICommandListener listener, int orientation){
 		this(listener);	
 	}
 	
-	public DiagramToolBar (CommandListener listener){		
+	public DiagramToolBar (ICommandListener listener){		
 		super(listener, background);	
 		setBackground(background);
 		new ToolBarButton(IconType.MENTHOR_GRID, CommandType.SHOW_GRID, background, this);
@@ -82,7 +82,7 @@ public class DiagramToolBar extends GenericToolBar {
 	@Override
 	/** handle commands */
 	public void actionPerformed(ActionEvent e) {
-		for (CommandListener l : listeners) {
+		for (ICommandListener l : listeners) {
 			
 			Object source = e.getSource();
 			

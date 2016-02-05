@@ -23,7 +23,7 @@ package net.menthor.editor.v2.ui.toolbar;
 
 import java.awt.Color;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -34,7 +34,7 @@ public class AppToolBar extends GenericToolBar {
 	private static Color background = null; //Color.WHITE;
 	
 	/** constructor */
-	public AppToolBar(CommandListener listener){
+	public AppToolBar(ICommandListener listener){
 		super(listener, background);
 		setBackground(background);
 		new ToolBarButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background, this);

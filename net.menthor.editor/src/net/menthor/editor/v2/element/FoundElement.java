@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.types;
+package net.menthor.editor.v2.element;
 
 /**
  * ============================================================================================
@@ -21,33 +21,42 @@ package net.menthor.editor.v2.types;
  * ============================================================================================
  */
 
-public enum DerivedPatternType {
+import java.util.ArrayList;
+import java.util.List;
 
-	UNION("Union"), 
-	EXCLUSION("Exclusion"), 
-	INTERSECTION("Intersection"), 
-	SPECIALIZATION("Specialization"), 
-	PASTSPECIALIZATION("Past Specialization"), 
-	PARTICIPATION("Participation");
+import org.eclipse.emf.ecore.EObject;
 
-	private String name;
+import RefOntoUML.parser.OntoUMLNameHelper;
 
-	DerivedPatternType(String name)
-	{
-		this.name = name;
+public class FoundElement {
+
+	protected EObject eobject;
+	
+	protected String name;
+	protected String path;
+	protected String stereotype;
+	protected List<EObject> pathHierarchyList = new ArrayList<EObject>();
+	
+	public FoundElement(EObject eobject){
+		this.eobject = eobject;
+		name = OntoUMLNameHelper.getName(eobject);
+		path = getPath(eobject);
+		stereotype = OntoUMLNameHelper.getTypeName(eobject);
 	}
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-	public String getName() { return name; }
-
-	public static void main (String args[])
-	{
-		for(DerivedPatternType c: DerivedPatternType.values()){
-			System.out.println(c.name);
+	
+	public String getName() { return name; } 
+	public String getType() { return stereotype; }
+	public String getPath() { return path; }
+	public List<EObject> getPathHierarchy() { return pathHierarchyList; }
+	public EObject getElement() { return eobject; }
+	
+	private String getPath (EObject e){
+		String path = "";				
+		if (e.eContainer()!=null) {
+			path += getPath((e.eContainer()))+"::";				
 		}
-	}
+		path += OntoUMLNameHelper.getName(e)+"";
+		pathHierarchyList.add(e);
+		return path;
+	}	
 }

@@ -26,20 +26,20 @@ import javax.swing.JPopupMenu;
 
 import org.tinyuml.umldraw.AssociationElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class ReadingDirectionMenu extends GenericMenu<AssociationElement> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public ReadingDirectionMenu(CommandListener listener, String text, AssociationElement associationElement, JPopupMenu parent){
+	public ReadingDirectionMenu(ICommandListener listener, String text, AssociationElement associationElement, JPopupMenu parent){
 		super(listener, text, associationElement);	
 		build();
 		parent.add(this);
 	}
 	
-	public ReadingDirectionMenu(CommandListener listener, AssociationElement associationElement, JPopupMenu parent){
+	public ReadingDirectionMenu(ICommandListener listener, AssociationElement associationElement, JPopupMenu parent){
 		this(listener, "Reading Direction", associationElement, parent);		
   	}
 	

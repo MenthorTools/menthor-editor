@@ -36,7 +36,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.v2.elements.StatisticalElement;
+import net.menthor.editor.v2.element.StatisticalElement;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 

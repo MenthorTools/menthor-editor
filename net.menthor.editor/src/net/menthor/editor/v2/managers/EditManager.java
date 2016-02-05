@@ -37,7 +37,7 @@ import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
-import net.menthor.editor.ui.AppFrame;
+import net.menthor.editor.v2.AppFrame;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;

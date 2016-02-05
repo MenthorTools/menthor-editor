@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 
 public class MultiElementMenu extends GenericMenu<ArrayList<UmlDiagramElement>> {
 
@@ -12,7 +12,7 @@ public class MultiElementMenu extends GenericMenu<ArrayList<UmlDiagramElement>> 
 	
 	public MultiElementHelper helper;
 	
-	public MultiElementMenu(CommandListener listener, String text, ArrayList<UmlDiagramElement> elements) {
+	public MultiElementMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements) {
 		super(listener, text, elements);
 		helper = new MultiElementHelper(elements);
 	}

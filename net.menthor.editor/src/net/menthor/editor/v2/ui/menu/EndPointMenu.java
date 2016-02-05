@@ -4,7 +4,7 @@ import javax.swing.JPopupMenu;
 
 import org.tinyuml.umldraw.AssociationElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class EndPointMenu extends GenericMenu<AssociationElement> {
@@ -14,7 +14,7 @@ public class EndPointMenu extends GenericMenu<AssociationElement> {
 	protected boolean isSourceEnd, isTargetEnd;
 	String endName;
 	
-	public EndPointMenu(CommandListener listener, AssociationElement associationElement, JPopupMenu parent, boolean isSourceEnd){
+	public EndPointMenu(ICommandListener listener, AssociationElement associationElement, JPopupMenu parent, boolean isSourceEnd){
 		super(listener, "End Point Name", associationElement);	
 		
 		this.isSourceEnd = isSourceEnd;

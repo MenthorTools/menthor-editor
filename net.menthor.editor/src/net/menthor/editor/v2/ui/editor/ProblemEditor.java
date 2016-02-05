@@ -35,9 +35,9 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.elements.FoundElement;
-import net.menthor.editor.v2.elements.ProblemElement;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.element.FoundElement;
+import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.table.ProblemScrollTable;
@@ -49,7 +49,7 @@ public class ProblemEditor extends JPanel implements IEditor {
 	protected ProblemScrollTable problemScrollTable;	
 	protected JLabel status;
 
-	public ProblemEditor(CommandListener listener){
+	public ProblemEditor(ICommandListener listener){
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BorderLayout(0, 0));				
 		String[] columns = {"Type","Description", "Stereotype", "Element","Location"};				

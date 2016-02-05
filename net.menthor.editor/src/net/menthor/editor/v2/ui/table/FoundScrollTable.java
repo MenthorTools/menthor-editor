@@ -36,8 +36,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.elements.FoundElement;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.element.FoundElement;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.ui.menu.FoundPopupMenu;
@@ -64,7 +64,7 @@ public class FoundScrollTable extends JScrollPane{
 		table.validate();		
 	}
 	
-	public FoundScrollTable(final CommandListener listener, String[] columns){				
+	public FoundScrollTable(final ICommandListener listener, String[] columns){				
 		columnNames = columns;
         Object[][] data = {};        
 	    setMinimumSize(new Dimension(0, 0));	    

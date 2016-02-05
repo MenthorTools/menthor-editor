@@ -26,7 +26,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -46,7 +46,7 @@ public class PalettePopupMenu extends GenericPopupMenu<Object> {
 	List<JMenuItem> classes = new ArrayList<JMenuItem>();
 	List<JMenuItem> relationships = new ArrayList<JMenuItem>();
 	
-	public PalettePopupMenu(CommandListener listener){
+	public PalettePopupMenu(ICommandListener listener){
 		super(listener,null);
 				
 		classes.add(createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_KIND, false));

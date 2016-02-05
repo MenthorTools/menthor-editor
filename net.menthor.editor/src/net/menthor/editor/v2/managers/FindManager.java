@@ -34,7 +34,7 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.elements.FoundElement;
+import net.menthor.editor.v2.element.FoundElement;
 import net.menthor.editor.v2.ui.DiagramListDialog;
 
 public class FindManager extends BaseManager {
@@ -69,7 +69,7 @@ public class FindManager extends BaseManager {
 			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
 		
 		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(refElem);
-		DiagramListDialog.open(frame(), diagrams);		
+		DiagramListDialog.open(frame(), listener(), diagrams);		
 	}
 	
 	/** select occurence of this element in the project tree

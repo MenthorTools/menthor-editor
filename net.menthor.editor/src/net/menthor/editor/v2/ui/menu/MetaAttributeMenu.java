@@ -12,7 +12,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Element;
 import RefOntoUML.Meronymic;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class MetaAttributeMenu extends GenericMenu<UmlDiagramElement> {
@@ -21,7 +21,7 @@ public class MetaAttributeMenu extends GenericMenu<UmlDiagramElement> {
 	protected JCheckBoxMenuItem isAbstractMenu, isExtensionalMenu, isDerivedMenu;
 	protected JCheckBoxMenuItem isEssentialMenu, isInseparableMenu, isImmutablePartMenu, isImmutableWholeMenu, isShareableMenu;
 	
-	public MetaAttributeMenu(CommandListener listener, String text, UmlDiagramElement element, JPopupMenu parent){
+	public MetaAttributeMenu(ICommandListener listener, String text, UmlDiagramElement element, JPopupMenu parent){
 		super(listener, text, element);	
 		
 		Element modelElement = null;
@@ -71,7 +71,7 @@ public class MetaAttributeMenu extends GenericMenu<UmlDiagramElement> {
 		parent.add(this);
 	}
 	
-	public MetaAttributeMenu(CommandListener listener, UmlDiagramElement element, JPopupMenu parent){
+	public MetaAttributeMenu(ICommandListener listener, UmlDiagramElement element, JPopupMenu parent){
 		this(listener, "Meta Attributes", element, parent);		
   	}
 

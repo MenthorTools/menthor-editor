@@ -12,7 +12,7 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 /** Assumes that this menu is only created if there is at least one instance of GeneralizationELement on the context. 
@@ -26,7 +26,7 @@ public class GenSetMenu extends MultiElementMenu {
 	GenericMenu<ArrayList<Generalization>> addMenu;
 	JMenuItem newMenuItem;
 	
-	public GenSetMenu(CommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public GenSetMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);	
 		ArrayList<Generalization> gList = filterGeneralizations();
 		Set<GeneralizationSet> gsList = Models.getRefparser().getGeneralizationSets(gList);
@@ -75,15 +75,15 @@ public class GenSetMenu extends MultiElementMenu {
 		parent.add(this);
 	}
 	
-	public GenSetMenu(CommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public GenSetMenu(ICommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		this(listener, "Generalization Set", elements, parent);		
   	}
 	
-	public GenSetMenu(CommandListener listener, GeneralizationElement generalization, JPopupMenu parent){
+	public GenSetMenu(ICommandListener listener, GeneralizationElement generalization, JPopupMenu parent){
 		this(listener, setUpList(generalization), parent);		
   	}
 	
-	public GenSetMenu(CommandListener listener,  String text, GeneralizationElement generalization, JPopupMenu parent){
+	public GenSetMenu(ICommandListener listener,  String text, GeneralizationElement generalization, JPopupMenu parent){
 		this(listener, text, setUpList(generalization), parent);		
   	}
 	

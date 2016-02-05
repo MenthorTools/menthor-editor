@@ -30,8 +30,9 @@ import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.util.Util;
 
 public class AppMenuBar extends GenericMenuBar {
@@ -52,7 +53,7 @@ public class AppMenuBar extends GenericMenuBar {
 	private JMenu window;
 	
 	/** constructor */
-	public AppMenuBar(CommandListener listener){
+	public AppMenuBar(ICommandListener listener){
 		super(listener, background);
 		setBackground(background);		
 		createFileMenu();
@@ -155,7 +156,7 @@ public class AppMenuBar extends GenericMenuBar {
 			 
 		}else{
 		*/
-			createMenuItem(file, "Quit", CommandType.QUIT_MENTHOR, background,stroke);
+			createMenuItem(file, "Quit", CommandType.QUIT_APPLICATION, background,stroke);
 		//}
 	}
 	
@@ -203,17 +204,17 @@ public class AppMenuBar extends GenericMenuBar {
 	}
 	
 	public void selectWindowMenu(boolean projectBrowser, boolean palette, boolean infoTabbedPane) {
-		select(CommandType.PROJECT_BROWSER, projectBrowser);
-		select(CommandType.PALETTE, projectBrowser);
-		select(CommandType.INFO_TABBED_PANE, projectBrowser);
+		select(CommandType.SHOW_PROJECT_BROWSER, projectBrowser);
+		select(CommandType.SHOW_PALETTE, projectBrowser);
+		select(CommandType.SHOW_INFO_TABBED_PANE, projectBrowser);
 	}
 	
 	private void createWindowMenu(){
 		window = new JMenu("Window");
 		add(window);
-		createCheckBoxMenuItem(window, "Palette of Elements", CommandType.PALETTE, background);
-		createCheckBoxMenuItem(window, "Console", CommandType.INFO_TABBED_PANE, background);
-		createCheckBoxMenuItem(window, "Project Browser", CommandType.PROJECT_BROWSER, background);	
+		createCheckBoxMenuItem(window, "Palette of Elements", CommandType.SHOW_PALETTE, background);
+		createCheckBoxMenuItem(window, "Console", CommandType.SHOW_INFO_TABBED_PANE, background);
+		createCheckBoxMenuItem(window, "Project Browser", CommandType.SHOW_PROJECT_BROWSER, background);	
 		selectWindowMenu(false, false, false);
 	}
 
@@ -249,7 +250,7 @@ public class AppMenuBar extends GenericMenuBar {
 		diagram.addMenuListener(new MenuListener() {
 			@Override
 			public void menuSelected(MenuEvent e) { 
-				for(CommandListener l: getListeners()) {
+				for(ICommandListener l: getListeners()) {
 					l.handleCommand(CommandType.INITIALIZE_SHOWGRID_MENUITEM.toString());
 				}
 			}
@@ -303,4 +304,13 @@ public class AppMenuBar extends GenericMenuBar {
 		//}	
 		createMenuItem(help, "Licenses", CommandType.LICENSES, background);
 	}
+	
+	public void initializeShowGrid(){
+		boolean isShownGrid = TabManager.get().getCurrentDiagramEditor().isShownGrid();
+		getMenuItem(CommandType.SHOW_GRID).setSelected(isShownGrid);
+	}
+	
+	public void selectShowGrid(boolean value){
+		select(CommandType.SHOW_GRID,value);
+	}	
 }

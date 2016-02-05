@@ -33,7 +33,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -49,8 +49,8 @@ public class PaletteAccordion extends JPanel{
 	private static final long serialVersionUID = 8265628368514182832L;
 
 	/** Listen to a command */
-	private CommandListener listener;
-	public CommandListener getCommanListener() { return listener; }
+	private ICommandListener listener;
+	public ICommandListener getCommanListener() { return listener; }
 	
 	private static Map<String, PaletteGrouping> paletteMap = new LinkedHashMap<String, PaletteGrouping>();
 	public Map<String, PaletteGrouping> getPaletteGMap() { return paletteMap; }
@@ -72,7 +72,7 @@ public class PaletteAccordion extends JPanel{
 	}
 	
 	/** Constructor */
-	public PaletteAccordion(CommandListener listener){
+	public PaletteAccordion(ICommandListener listener){
 		super();
 		this.listener = listener;		
 		this.setLayout(new BorderLayout());		

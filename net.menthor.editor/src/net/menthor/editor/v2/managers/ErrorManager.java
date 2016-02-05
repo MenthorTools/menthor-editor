@@ -18,9 +18,9 @@ import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.elements.ErrorElement;
-import net.menthor.editor.v2.elements.ProblemElement;
-import net.menthor.editor.v2.elements.ProblemElement.TypeProblem;
+import net.menthor.editor.v2.element.ErrorElement;
+import net.menthor.editor.v2.element.ProblemElement;
+import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 
 public class ErrorManager extends BaseManager {
 

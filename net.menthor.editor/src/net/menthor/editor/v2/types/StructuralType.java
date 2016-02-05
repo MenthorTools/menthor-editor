@@ -21,44 +21,76 @@ package net.menthor.editor.v2.types;
  * ============================================================================================
  */
 
-public enum PatternType {
- 
-	PHASE_PARTITION("Phase Partition"),
-	SUBKIND_PARTITION("SubKind Partition"), 
-	ROLE_PARTITION("Role Partition"),
-	KIND_PARTITION("Kind Partition"), 
-	COLLECTIVE_PARTITION("Collective Partition"), 
-	QUANTITY_PARTITION("Quantity Partition"),	
-	ROLEMIXIN("RoleMixin"), 
-	RELATOR("Relator"),
-	CATEGORY("Category"),	 
-	MIXIN("Mixin"), 
-	MIXIN_WITH_SUBKIND("Mixin with Subkind"),	
-	DEPENDENT_ROLEMIXIN("Dependent RoleMixin"), 
-	GENERIC_RELATOR("Generic Relator"),
-	CHARACTERIZATION("Characterization"),
-	RIGID_WEAK_SUPPLEMENTATION("Rigid Weak Supplementation"),
-	ANTIRIGID_WEAK_SUPPLEMENTATION("AntiRigid Weak Supplementation"),
-	COMPLETER("Complete"),
-	DOMAIN_PATTERN("Domain Dependent Pattern");
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.GeneralizationSet;
+import RefOntoUML.Model;
+import RefOntoUML.Property;
+
+public enum StructuralType implements OntoUMLMetatype {
+
+	PACKAGE("Package",RefOntoUML.Package.class), 
+	MODEL("Model", Model.class), 
+	GENERALIZATION_SET("Generalization Set", GeneralizationSet.class), 
+	PROPERTY("Property", Property.class);
 	
 	private String name;
+	private Class<? extends EObject> metaClass;
 
-	PatternType(String name)
+	StructuralType(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
+		this.metaClass = metaClass;
 	}
 
 	@Override
-	public String toString() {
-		return getName();
+	public String toString() { 
+		return getName(); 
 	}
 
-	public String getName() { return name; }
+	@Override
+	public Class<? extends EObject> getMetaclass(){ 
+		return metaClass; 
+	}
+	
+	@Override
+	public String getName() { 
+		return name; 
+	}
 
+	@Override
+	public boolean isAssociation() {
+		return false;
+	}
+
+	@Override
+	public boolean isMeronymic() {
+		return false;
+	}
+
+	@Override
+	public boolean isGeneralization() {
+		return false;
+	}
+
+	@Override
+	public boolean isClass() {
+		return false;
+	}
+
+	@Override
+	public boolean isGeneralizationSet() {
+		return this==GENERALIZATION_SET;
+	}
+
+	@Override
+	public boolean isPackage() {
+		return this==PACKAGE;
+	}
+	
 	public static void main (String args[])
 	{
-		for(PatternType c: PatternType.values()){
+		for(StructuralType c: StructuralType.values()){
 			System.out.println(c.name);
 		}
 	}

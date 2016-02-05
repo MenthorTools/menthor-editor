@@ -6,7 +6,7 @@ import javax.swing.JCheckBoxMenuItem;
 
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -24,7 +24,7 @@ public class MultiElementPopupMenu extends GenericPopupMenu<ArrayList<UmlDiagram
 	protected JCheckBoxMenuItem attrItem;
 	
 	
-	public MultiElementPopupMenu(CommandListener listener, ArrayList<UmlDiagramElement> elements) {
+	public MultiElementPopupMenu(ICommandListener listener, ArrayList<UmlDiagramElement> elements) {
 		super(listener,elements);				
 		helper = new MultiElementHelper(elements);
 		

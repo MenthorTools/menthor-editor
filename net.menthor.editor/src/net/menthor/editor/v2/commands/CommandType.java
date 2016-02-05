@@ -34,7 +34,7 @@ public enum CommandType {
 	SAVE_PROJECT_AS("Save current menthor project"), 
 	SAVE_PROJECT("Save current menthor project as..."), 
 	OPEN_LINK_WITH_BROWSER("Open link with browser"),	
-	QUIT_MENTHOR(null),
+	QUIT_APPLICATION(null),
 
 	REDO("Redo action"),	
 	UNDO("Undo action"),
@@ -130,9 +130,9 @@ public enum CommandType {
 	IMPORT_FROM_XMI_EA_FILE(null), 
 	IMPORT_FROM_PATTERN(null),
 	
-	PALETTE(null), 
-	PROJECT_BROWSER(null), 
-	INFO_TABBED_PANE(null),
+	SHOW_PALETTE(null), 
+	SHOW_PROJECT_BROWSER(null), 
+	SHOW_INFO_TABBED_PANE(null),
 		
 	ABOUT(null), 
 	LICENSES(null), 
@@ -229,13 +229,13 @@ public enum CommandType {
 	ADD_DATATYPE(null),
 	ADD_ENUMERATION(null),
 	ADD_PRIMITIVETYPE(null),
-	ADD_INTEGER_INTERVAL_DIMENSION(null),
-	ADD_INTEGER_RATIONAL_DIMENSION(null),
-	ADD_INTEGER_ORDINAL_DIMENSION(null),
-	ADD_DECIMAL_ORDINAL_DIMENSION(null),
-	ADD_DECIMAL_RATIONAL_DIMENSION(null),
-	ADD_DECIMAL_INTERVAL_DIMENSION(null),
-	ADD_STRING_NOMINAL_STRUCTURE(null),
+	ADD_INTEGERINTERVAL_DIMENSION(null),
+	ADD_INTEGERRATIONAL_DIMENSION(null),
+	ADD_INTEGERORDINAL_DIMENSION(null),
+	ADD_DECIMALORDINAL_DIMENSION(null),
+	ADD_DECIMALRATIONAL_DIMENSION(null),
+	ADD_DECIMALINTERVAL_DIMENSION(null),
+	ADD_STRINGNOMINAL_STRUCTURE(null),
 	ADD_MEASUREMENT_DOMAIN(null),
 	
 	ADD_GENERALIZATION(null),
@@ -287,18 +287,19 @@ public enum CommandType {
 	CHANGE_TO_PERCEIVABLE_QUALITY(null),
 	CHANGE_TO_NONPERCEIVABLE_QUALITY(null),
 	CHANGE_TO_NOMINAL_QUALITY(null),
+	CHANGE_TO_CLASS(null),
 	
 	CHANGE_TO_DATATYPE(null),
-	CHANGE_TO_PRIMITIVE(null),
-	CHANGE_TO_ENUM(null),
-	CHANGE_TO_DECIMAL_INTERVAL(null),
-	CHANGE_TO_DECIMAL_RATIONAL(null),
-	CHANGE_TO_DECIMAL_ORDINAL(null),
-	CHANGE_TO_INTEGER_INTERVAL(null),
-	CHANGE_TO_INTEGER_RATIONAL(null),
-	CHANGE_TO_INTEGER_ORDINAL(null),
-	CHANGE_TO_DOMAIN(null),
-	CHANGE_TO_NOMINAL(null),
+	CHANGE_TO_PRIMITIVETYPE(null),
+	CHANGE_TO_ENUMERATION(null),
+	CHANGE_TO_DECIMALINTERVAL_DIMENSION(null),
+	CHANGE_TO_DECIMALRATIONAL_DIMENSION(null),
+	CHANGE_TO_DECIMALORDINAL_DIMENSION(null),
+	CHANGE_TO_INTEGERINTERVAL_DIMENSION(null),
+	CHANGE_TO_INTEGERRATIONAL_DIMENSION(null),
+	CHANGE_TO_INTEGERORDINAL_DIMENSION(null),
+	CHANGE_TO_MEASUREMENT_DOMAIN(null),
+	CHANGE_TO_STRINGNOMINAL_STRUCTURE(null),
 	
 	INVERT_END_NAMES(null),
 	INVERT_END_POINTS(null),
@@ -351,6 +352,42 @@ public enum CommandType {
 		return PALLETE_CLASS;
 	}
 	
+	public static CommandType getAddCommandType(ClassType classType){
+		if(classType==ClassType.KIND) return ADD_KIND;
+		if(classType==ClassType.QUANTITY) return ADD_QUANTITY;
+		if(classType==ClassType.SUBKIND) return ADD_SUBKIND;
+		if(classType==ClassType.COLLECTIVE) return ADD_COLLECTIVE;
+		if(classType==ClassType.PHASE) return ADD_PHASE;
+		if(classType==ClassType.ROLE) return ADD_ROLE;
+		if(classType==ClassType.MIXIN) return ADD_MIXIN;
+		if(classType==ClassType.CATEGORY) return ADD_CATEGORY;
+		if(classType==ClassType.ROLEMIXIN) return ADD_ROLEMIXIN;
+		if(classType==ClassType.MODE) return ADD_MODE;
+		if(classType==ClassType.RELATOR) return ADD_RELATOR;
+		if(classType==ClassType.NONPERCEIVABLE_QUALITY) return ADD_NONPERCEIVABLE_QUALITY;
+		if(classType==ClassType.PERCEIVABLE_QUALITY) return ADD_PERCEIVABLE_QUALITY;
+		if(classType==ClassType.NOMINAL_QUALITY) return ADD_NOMINAL_QUALITY;
+		return ADD_CLASS;
+	}
+	
+	public static CommandType getChangeToCommandType(ClassType classType){
+		if(classType==ClassType.KIND) return CHANGE_TO_KIND;
+		if(classType==ClassType.QUANTITY) return CHANGE_TO_QUANTITY;
+		if(classType==ClassType.SUBKIND) return CHANGE_TO_SUBKIND;
+		if(classType==ClassType.COLLECTIVE) return CHANGE_TO_COLLECTIVE;
+		if(classType==ClassType.PHASE) return CHANGE_TO_PHASE;
+		if(classType==ClassType.ROLE) return CHANGE_TO_ROLE;
+		if(classType==ClassType.MIXIN) return CHANGE_TO_MIXIN;
+		if(classType==ClassType.CATEGORY) return CHANGE_TO_CATEGORY;
+		if(classType==ClassType.ROLEMIXIN) return CHANGE_TO_ROLEMIXIN;
+		if(classType==ClassType.MODE) return CHANGE_TO_MODE;
+		if(classType==ClassType.RELATOR) return CHANGE_TO_RELATOR;
+		if(classType==ClassType.NONPERCEIVABLE_QUALITY) return CHANGE_TO_NONPERCEIVABLE_QUALITY;
+		if(classType==ClassType.PERCEIVABLE_QUALITY) return CHANGE_TO_PERCEIVABLE_QUALITY;
+		if(classType==ClassType.NOMINAL_QUALITY) return CHANGE_TO_NOMINAL_QUALITY;
+		return CHANGE_TO_CLASS;
+	}
+	
 	public static CommandType getPalleteCommandType(DataType dataType){
 		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return PALLETE_DECIMALINTERVAL_DIMENSION;
 		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return PALLETE_DECIMALORDINAL_DIMENSION;
@@ -364,6 +401,36 @@ public enum CommandType {
 		if(dataType==DataType.PRIMITIVETYPE) return PALLETE_PRIMITIVETYPE;
 		if(dataType==DataType.DATATYPE) return PALLETE_DATATYPE;		
 		return PALLETE_DATATYPE;
+	}
+	
+	public static CommandType getAddCommandType(DataType dataType){
+		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return ADD_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return ADD_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return ADD_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return ADD_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return ADD_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return ADD_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataType.MEASUREMENT_DOMAIN) return ADD_MEASUREMENT_DOMAIN;
+		if(dataType==DataType.ENUMERATION) return ADD_ENUMERATION;
+		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return ADD_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataType.PRIMITIVETYPE) return ADD_PRIMITIVETYPE;
+		if(dataType==DataType.DATATYPE) return ADD_DATATYPE;		
+		return ADD_DATATYPE;
+	}
+	
+	public static CommandType getChangeToCommandType(DataType dataType){
+		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return CHANGE_TO_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return CHANGE_TO_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return CHANGE_TO_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return CHANGE_TO_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return CHANGE_TO_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return CHANGE_TO_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataType.MEASUREMENT_DOMAIN) return CHANGE_TO_MEASUREMENT_DOMAIN;
+		if(dataType==DataType.ENUMERATION) return CHANGE_TO_ENUMERATION;
+		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return CHANGE_TO_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataType.PRIMITIVETYPE) return CHANGE_TO_PRIMITIVETYPE;
+		if(dataType==DataType.DATATYPE) return CHANGE_TO_DATATYPE;		
+		return CHANGE_TO_DATATYPE;
 	}
 	
 	public static CommandType getCommandType(String command){

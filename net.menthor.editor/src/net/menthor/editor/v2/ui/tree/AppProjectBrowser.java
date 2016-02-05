@@ -32,7 +32,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.RoundedPanel;
 import net.menthor.editor.v2.ui.TitlePanel;
 import net.menthor.editor.v2.ui.icon.IconMap;
@@ -42,14 +42,14 @@ public class AppProjectBrowser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
-	private CommandListener listener;
+	private ICommandListener listener;
 	private TitlePanel titlePane;
 	private JScrollPane scrollPane;
 	private ProjectTree tree;
 	
 	public ProjectTree getTree() { return tree; }	
 	
-	public AppProjectBrowser(CommandListener listener){
+	public AppProjectBrowser(ICommandListener listener){
 		super();
 		this.listener = listener;
 		scrollPane = new JScrollPane();		

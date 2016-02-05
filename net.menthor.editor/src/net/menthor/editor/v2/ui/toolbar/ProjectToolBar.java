@@ -25,7 +25,7 @@ import java.awt.Color;
 
 import javax.swing.UIManager;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -35,7 +35,7 @@ public class ProjectToolBar extends GenericToolBar {
 
 	private static Color background = UIManager.getColor("Panel.background"); //Color.WHITE;
 	
-	public ProjectToolBar(CommandListener listener){
+	public ProjectToolBar(ICommandListener listener){
 		super(listener, background);
 		setFloatable(false);		
 		setBackground(background);

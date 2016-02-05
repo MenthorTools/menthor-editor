@@ -31,16 +31,17 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 
-import net.menthor.editor.ui.AppFrame;
-import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
-
 import org.eclipse.uml2.uml.Constraint;
+
+import net.menthor.editor.v2.AppFrame;
+import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 /**
  * @author John Guerson
@@ -53,7 +54,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	@SuppressWarnings("unused")
 	private TOCL2AlloyOption oclOptions;
 	
-	private AppFrame frame;	
+	private JFrame frame;	
 	
 	private JPanel ctpanel;
 	private JScrollPane scrollPane; 
@@ -73,7 +74,7 @@ public class ConstraintSimulationPanel extends JPanel {
 		setOCLOptionPane(oclOptions,frame);
 	}
 	
-	public void setOCLOptionPane (TOCL2AlloyOption oclOptions, AppFrame frame)
+	public void setOCLOptionPane (TOCL2AlloyOption oclOptions, JFrame frame)
 	{
 		this.frame=frame;
 		ctpanel.removeAll();
@@ -282,7 +283,7 @@ public class ConstraintSimulationPanel extends JPanel {
 	 * 
 	 * @return
 	 */
-	public AppFrame getFrame()
+	public JFrame getFrame()
 	{
 		return frame;
 	}

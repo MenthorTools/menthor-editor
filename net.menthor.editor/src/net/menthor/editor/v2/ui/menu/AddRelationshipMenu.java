@@ -3,7 +3,7 @@ package net.menthor.editor.v2.ui.menu;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -12,7 +12,7 @@ public class AddRelationshipMenu extends GenericMenu<DefaultMutableTreeNode> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public AddRelationshipMenu(CommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+	public AddRelationshipMenu(ICommandListener listener, String text, DefaultMutableTreeNode treeNode, JPopupMenu parent){
 		super(listener, text, treeNode);	
 
 		createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.ADD_GENERALIZATION);
@@ -33,7 +33,7 @@ public class AddRelationshipMenu extends GenericMenu<DefaultMutableTreeNode> {
 		parent.add(this);
 	}
 	
-	public AddRelationshipMenu(CommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
+	public AddRelationshipMenu(ICommandListener listener, DefaultMutableTreeNode treeNode, JPopupMenu parent){
 		this(listener, "Add Relationship", treeNode, parent);	
 	}
 }

@@ -50,7 +50,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import org.eclipse.emf.edit.provider.IDisposable;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
@@ -66,19 +66,19 @@ public class ClosableTab extends JPanel {
 	public JLabel label;
 	public TabButton button;
 	public boolean isTitleEditable = true;
-	private CommandListener listener;
+	private ICommandListener listener;
 	
 	public JLabel getLabel() { return label; }
 	public JTabbedPane getTabbedPane() { return pane; }
-	public CommandListener getListener() { return listener; }
+	public ICommandListener getListener() { return listener; }
 	
-	public ClosableTab(final JTabbedPane pane, boolean isTitleEditable, CommandListener listener) {
+	public ClosableTab(final JTabbedPane pane, boolean isTitleEditable, ICommandListener listener) {
 		this(pane);
 		this.isTitleEditable = isTitleEditable;
 		this.listener=listener;
 	}
 	
-	public ClosableTab(final JTabbedPane pane,CommandListener listener) {
+	public ClosableTab(final JTabbedPane pane,ICommandListener listener) {
 		this(pane);
 		this.listener=listener;
 	}

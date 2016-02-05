@@ -9,7 +9,7 @@ import RefOntoUML.Association;
 import RefOntoUML.DataType;
 import RefOntoUML.Generalization;
 import RefOntoUML.Property;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconType;
 /**
@@ -33,7 +33,7 @@ public class ProjectBrowserPopupMenu extends GenericPopupMenu<DefaultMutableTree
 	JMenuItem movetodiag;
 	JMenuItem findindiag;
 	
-    public ProjectBrowserPopupMenu(final CommandListener listener, DefaultMutableTreeNode treeNode)
+    public ProjectBrowserPopupMenu(final ICommandListener listener, DefaultMutableTreeNode treeNode)
     {
     	super(listener,treeNode);
     	

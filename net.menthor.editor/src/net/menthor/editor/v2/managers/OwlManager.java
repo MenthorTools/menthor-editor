@@ -51,7 +51,7 @@ public class OwlManager extends BaseManager {
     // ----------------------------
 	
 	public void callOwlSettings(){		
-		OwlSettingsDialog dialog = new OwlSettingsDialog(frame(), 
+		OwlSettingsDialog dialog = new OwlSettingsDialog(frame(),listener(), 
 			Models.getRefparser(),
 			ProjectManager.get().getProject().getDiagrams()
 		);

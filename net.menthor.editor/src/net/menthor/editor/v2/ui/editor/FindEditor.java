@@ -38,9 +38,9 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.element.FoundElement;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.elements.FoundElement;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.table.FoundScrollTable;
@@ -49,7 +49,7 @@ public class FindEditor extends JPanel implements IEditor {
 
 	private static final long serialVersionUID = -3183962658000841153L;
 	
-	protected CommandListener listener;
+	protected ICommandListener listener;
 	protected FoundScrollTable foundScrollTable;	
 	protected FindHeader foundHeadPane;
 	protected JLabel status;
@@ -62,7 +62,7 @@ public class FindEditor extends JPanel implements IEditor {
 		setElements(elementsFound);
 	}
 	
-	public FindEditor(CommandListener listener, boolean addHeader){
+	public FindEditor(ICommandListener listener, boolean addHeader){
 		this.listener = listener;
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BorderLayout(0, 0));				

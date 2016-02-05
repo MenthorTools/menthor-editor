@@ -6,14 +6,14 @@ import javax.swing.JPopupMenu;
 
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class AlignMenu extends MultiElementMenu {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public AlignMenu(CommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public AlignMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text,elements);	
 		
 		createMenuItem("Horizontal Center", CommandType.ALIGN_HORIZONTAL);
@@ -26,7 +26,7 @@ public class AlignMenu extends MultiElementMenu {
 		parent.add(this);
 	}
 	
-	public AlignMenu(CommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public AlignMenu(ICommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		this(listener, "Align", elements, parent);		
   	}
 }

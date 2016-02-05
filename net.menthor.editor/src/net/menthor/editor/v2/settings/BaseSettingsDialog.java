@@ -27,20 +27,21 @@ import java.awt.Frame;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.FilterPane;
 import net.menthor.editor.v2.ui.ProgressPane;
-import RefOntoUML.parser.OntoUMLParser;
 
 public class BaseSettingsDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = -4770351584655675698L;
 	
-	protected CommandListener listener;
+	protected ICommandListener listener;
 	
 	protected OntoUMLParser refparser;
 	protected List<OntoumlDiagram> diagrams;	
@@ -60,8 +61,8 @@ public class BaseSettingsDialog extends javax.swing.JDialog {
 	protected ProgressPane progressPane;
 	public ProgressPane getProgressPane() { return progressPane; }
 	
-	protected BaseSettingsDialog(CommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
-		super((Frame)listener, false);		
+	protected BaseSettingsDialog(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams){
+		super((Frame)frame, false);		
 		this.listener = listener;
 		this.refparser = refparser;
 		this.diagrams=diagrams;		

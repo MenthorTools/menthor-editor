@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.ui.AppFrame;
+import net.menthor.editor.v2.AppFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -62,6 +62,8 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.menubar.AppMenuBar;
+import net.menthor.editor.v2.ui.splitpane.AppMultiSplitPane;
 
 public class CommandMap {
 	
@@ -87,20 +89,215 @@ public class CommandMap {
 		}
 	}
 	
+	//-------------- application --------------
+	
+	private void application() throws NoSuchMethodException, SecurityException{
+		appFrame();
+		menu();
+		splitPane();
+	}
+	
+	private void menu() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
+				new MethodCall(AppMenuBar.class.getMethod("initializeShowGrid")));		
+	}
+	private void appFrame() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.QUIT_APPLICATION,
+				new MethodCall(AppFrame.class.getMethod("quitApplication")));
+	}
+	private void splitPane() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.SHOW_PALETTE,
+				new MethodCall(AppMultiSplitPane.class.getMethod("showPalette")));
+		cmdMap.put(CommandType.SHOW_PROJECT_BROWSER,
+				new MethodCall(AppMultiSplitPane.class.getMethod("showProjectBrowser")));
+		cmdMap.put(CommandType.SHOW_INFO_TABBED_PANE,
+				new MethodCall(AppMultiSplitPane.class.getMethod("showInfoTabbedPane")));		
+	}
+	
+	//-------------- core --------------
+	
+	private void core() throws NoSuchMethodException, SecurityException{
+		projectManager();		
+		tabManager();
+		editionManagers();
+		additionManager();			
+		changeManager(); 
+		findManager();		
+		moveManager();		
+		helpManager();
+	}
+	
+	private void projectManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.NEW_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("newProject")));
+		cmdMap.put(CommandType.NEW_PROJECT_FROM_MODEL,
+				new MethodCall(ProjectManager.class.getMethod("newProject", Object.class)));
+		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("openProject")));		
+		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("openRecentProject")));
+		cmdMap.put(CommandType.CLOSE_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("closeProject")));
+		cmdMap.put(CommandType.SAVE_PROJECT_AS,
+				new MethodCall(ProjectManager.class.getMethod("saveProjectAs")));
+		cmdMap.put(CommandType.SAVE_PROJECT,
+				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
+		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
+				new MethodCall(ProjectManager.class.getMethod("importModelContent")));
+	}
+	
+	private void helpManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ABOUT,
+				new MethodCall(HelpManager.class.getMethod("about")));			
+		cmdMap.put(CommandType.LICENSES, 
+				new MethodCall(HelpManager.class.getMethod("licenses")));
+	}
+		
+	private void moveManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.MOVE_UP_TREE,
+				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
+		cmdMap.put(CommandType.MOVE_DOWN_TREE,
+				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
+		cmdMap.put(CommandType.MOVE_SELECTED_TO_DIAGRAM,
+				new MethodCall(MoveManager.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
+		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
+				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
+	}
+		
+	private void findManager()throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
+				new MethodCall(FindManager.class.getMethod("findInDiagrams", Object.class)));
+		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
+				new MethodCall(FindManager.class.getMethod("findInProjectTree", Object.class)));
+		cmdMap.put(CommandType.FIND_BY_NAME, 
+				new MethodCall(FindManager.class.getMethod("findByName", String.class)));
+	}
+	
+	private void editionManagers() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.REDO,
+				new MethodCall(RedoManager.class.getMethod("redo")));
+		cmdMap.put(CommandType.UNDO,
+				new MethodCall(UndoManager.class.getMethod("undo")));
+		cmdMap.put(CommandType.DUPLICATE,
+				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
+		cmdMap.put(CommandType.COPY,
+				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
+		cmdMap.put(CommandType.PASTE,
+				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
+		cmdMap.put(CommandType.RENAME,
+				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
+		cmdMap.put(CommandType.EDIT, 
+				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
+		cmdMap.put(CommandType.DELETE, 
+				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));
+	}
+	
+	private void additionManager() throws NoSuchMethodException, SecurityException{
+		for(ClassType ct: ClassType.values()){		
+			CommandType cmdType = CommandType.getAddCommandType(ct);
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ct));
+			}
+		}
+		for(DataType dt: DataType.values()){		
+			CommandType cmdType = CommandType.getAddCommandType(dt);
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
+			}
+		}		
+		cmdMap.put(CommandType.ADD_MEDIATION, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
+		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.CHARACTERIZATION));
+		cmdMap.put(CommandType.ADD_DERIVATION, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.DERIVATION));
+		cmdMap.put(CommandType.ADD_COMPONENTOF, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.COMPONENTOF));
+		cmdMap.put(CommandType.ADD_SUBCOLLECTIONOF, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.SUBCOLLECTIONOF));
+		cmdMap.put(CommandType.ADD_SUBQUANTITYOF, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.SUBQUANTITYOF));
+		cmdMap.put(CommandType.ADD_MEMBEROF, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEMBEROF));
+		cmdMap.put(CommandType.ADD_STRUCTURATION, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.STRUCTURATION));
+		cmdMap.put(CommandType.ADD_FORMAL, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.FORMAL));
+		cmdMap.put(CommandType.ADD_MATERIAL, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MATERIAL));
+		cmdMap.put(CommandType.ADD_ASSOCIATION,	
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.ASSOCIATION));
+		cmdMap.put(CommandType.ADD_PACKAGE, 
+				new MethodCall(AdditionManager.class.getMethod("addPackage",DefaultMutableTreeNode.class)));
+		cmdMap.put(CommandType.ADD_GENERALIZATION, 
+				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.GENERALIZATION));
+		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
+				new MethodCall(AdditionManager.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
+		cmdMap.put(CommandType.ADD_COMMENT, 
+				new MethodCall(AdditionManager.class.getMethod("addComment",RefOntoUML.Element.class)));
+		cmdMap.put(CommandType.ADD_CONSTRAINT, 
+				new MethodCall(AdditionManager.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
+		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
+				new MethodCall(AdditionManager.class.getMethod("addOclDocument", Object.class)));		
+		cmdMap.put(CommandType.ADD_DIAGRAM, 
+				new MethodCall(AdditionManager.class.getMethod("addDiagram", Object.class)));
+		
+		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
+				new MethodCall(AdditionManager.class.getMethod("newOclDocument")));
+		cmdMap.put(CommandType.NEW_DIAGRAM,
+				new MethodCall(AdditionManager.class.getMethod("newDiagram")));
+	}
+	
+	private void changeManager() throws NoSuchMethodException, SecurityException{
+		for(ClassType ct: ClassType.values()){		
+			CommandType cmdType = CommandType.getChangeToCommandType(ct);
+			if(cmdType!=null){
+				cmdMap.put(cmdType, new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class, RefOntoUML.Element.class), ct));
+			}
+		}
+		cmdMap.put(CommandType.CHANGE_TO_GENERALIZATION, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.GENERALIZATION));
+		cmdMap.put(CommandType.CHANGE_TO_MEDIATION, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEDIATION));
+		cmdMap.put(CommandType.CHANGE_TO_CHARACTERIZATION, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.CHARACTERIZATION));
+		cmdMap.put(CommandType.CHANGE_TO_DERIVATION, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.DERIVATION));
+		cmdMap.put(CommandType.CHANGE_TO_COMPONENTOF, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.COMPONENTOF));
+		cmdMap.put(CommandType.CHANGE_TO_SUBCOLLECTIONOF, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBCOLLECTIONOF));
+		cmdMap.put(CommandType.CHANGE_TO_SUBQUANTITYOF, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBQUANTITYOF));
+		cmdMap.put(CommandType.CHANGE_TO_MEMBEROF, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEMBEROF));
+		cmdMap.put(CommandType.CHANGE_TO_STRUCTURATION, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.STRUCTURATION));
+		cmdMap.put(CommandType.CHANGE_TO_FORMAL, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.FORMAL));
+		cmdMap.put(CommandType.CHANGE_TO_MATERIAL, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MATERIAL));
+		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
+				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
+		
+		cmdMap.put(CommandType.INVERT_END_NAMES, 
+				new MethodCall(ChangeManager.class.getMethod("invertEndNames", BaseConnection.class)));
+		cmdMap.put(CommandType.INVERT_END_POINTS, 
+				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",BaseConnection.class)));
+		cmdMap.put(CommandType.INVERT_END_MULTIPLICITIES, 
+				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",BaseConnection.class)));
+		cmdMap.put(CommandType.INVERT_END_TYPES, 
+				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",BaseConnection.class)));
+	}
+	
 	/** constructor */
 	private CommandMap(){
 		try {		
-			projectManager();	
-			mainFrame();
-			helpManager();
-			additionManager();			
-			changeManager(); 
-			findManager();
-			baseActionManagers();
-			moveManager();
-			tabManager();
+			application();	
+			core();		
 			
 			diagramEditor();
+			alignManager();
 			palleteDragAndDrop();
 			
 			exportManager();
@@ -112,8 +309,6 @@ public class CommandMap {
 			alloyManager();
 			parthoodManager();
 			glossaryManager();
-			
-			alignManager();
 			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -139,8 +334,6 @@ public class CommandMap {
 	
 	
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
-				new MethodCall(DiagramEditor.class.getMethod("initializeShowGridMenuItem")));
 		cmdMap.put(CommandType.SHOW_GRID,
 				new MethodCall(DiagramEditor.class.getMethod("showGrid")));
 		cmdMap.put(CommandType.ERASE, 
@@ -320,46 +513,6 @@ public class CommandMap {
 		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
 				new MethodCall(TabManager.class.getMethod("addStatisticsEditor")));
 	}
-	
-	private void moveManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.MOVE_UP_TREE,
-				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
-		cmdMap.put(CommandType.MOVE_DOWN_TREE,
-				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
-		cmdMap.put(CommandType.MOVE_SELECTED_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
-		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
-	}
-		
-	private void findManager()throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
-				new MethodCall(FindManager.class.getMethod("findInDiagrams", Object.class)));
-		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
-				new MethodCall(FindManager.class.getMethod("findInProjectTree", Object.class)));
-		cmdMap.put(CommandType.FIND_BY_NAME, 
-				new MethodCall(FindManager.class.getMethod("findByName", String.class)));
-	}
-	
-	private void baseActionManagers() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.REDO,
-				new MethodCall(RedoManager.class.getMethod("redo")));
-		cmdMap.put(CommandType.UNDO,
-				new MethodCall(UndoManager.class.getMethod("undo")));
-		cmdMap.put(CommandType.DUPLICATE,
-				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
-		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
-		cmdMap.put(CommandType.PASTE,
-				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
-		cmdMap.put(CommandType.RENAME,
-				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
-		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
-		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));
-	}
-
 	private void sbvrManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.GENERATE_SBVR, 
 				new MethodCall(SbvrManager.class.getMethod("generateSbvr")));
@@ -401,17 +554,6 @@ public class CommandMap {
 				new MethodCall(SyntaxManager.class.getMethod("verifyModel")));		
 	}
 	
-	private void mainFrame() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.PALETTE,
-				new MethodCall(AppFrame.class.getMethod("showPalettePane")));
-		cmdMap.put(CommandType.PROJECT_BROWSER,
-				new MethodCall(AppFrame.class.getMethod("showBrowserPane")));
-		cmdMap.put(CommandType.INFO_TABBED_PANE,
-				new MethodCall(AppFrame.class.getMethod("showFooterPane")));
-		cmdMap.put(CommandType.QUIT_MENTHOR,
-				new MethodCall(AppFrame.class.getMethod("quitApplication")));
-	}
-	
 	private void exportManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.EXPORT_TO_ECORE,
 				new MethodCall(ExportManager.class.getMethod("exportToEcore")));
@@ -425,25 +567,7 @@ public class CommandMap {
 				new MethodCall(ExportManager.class.getMethod("exportToPng")));
 	}
 	
-	private void projectManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.NEW_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("newProject")));
-		cmdMap.put(CommandType.NEW_PROJECT_FROM_MODEL,
-				new MethodCall(ProjectManager.class.getMethod("newProject", Object.class)));
-		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("openProject")));		
-		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("openRecentProject")));
-		cmdMap.put(CommandType.CLOSE_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("closeProject")));
-		cmdMap.put(CommandType.SAVE_PROJECT_AS,
-				new MethodCall(ProjectManager.class.getMethod("saveProjectAs")));
-		cmdMap.put(CommandType.SAVE_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
-		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
-				new MethodCall(ProjectManager.class.getMethod("importModelContent")));
-	}
-	
+		
 	private void importManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
 				new MethodCall(ImportManager.class.getMethod("importFromEA")));
@@ -451,167 +575,5 @@ public class CommandMap {
 				new MethodCall(ImportManager.class.getMethod("importFromEARecent")));
 	}
 	
-	private void helpManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.ABOUT,
-				new MethodCall(HelpManager.class.getMethod("about")));			
-		cmdMap.put(CommandType.LICENSES, 
-				new MethodCall(HelpManager.class.getMethod("licenses")));
-	}
 	
-	private void additionManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.ADD_KIND, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ClassType.KIND));
-		cmdMap.put(CommandType.ADD_SUBKIND, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.SUBKIND));
-		cmdMap.put(CommandType.ADD_COLLECTIVE, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.COLLECTIVE));
-		cmdMap.put(CommandType.ADD_QUANTITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.QUANTITY));
-		cmdMap.put(CommandType.ADD_ROLE, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.ROLE));
-		cmdMap.put(CommandType.ADD_PHASE, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PHASE));
-		cmdMap.put(CommandType.ADD_RELATOR, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.RELATOR));
-		cmdMap.put(CommandType.ADD_MODE, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
-		cmdMap.put(CommandType.ADD_PERCEIVABLE_QUALITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.ADD_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.ADD_NOMINAL_QUALITY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
-		cmdMap.put(CommandType.ADD_CATEGORY, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
-		cmdMap.put(CommandType.ADD_MIXIN, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.MIXIN));
-		cmdMap.put(CommandType.ADD_ROLEMIXIN, 
-				new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class,RefOntoUML.Element.class), ClassType.ROLEMIXIN));
-		cmdMap.put(CommandType.ADD_DATATYPE, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DATATYPE));
-		cmdMap.put(CommandType.ADD_PRIMITIVETYPE, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.PRIMITIVETYPE));
-		cmdMap.put(CommandType.ADD_ENUMERATION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.ENUMERATION));
-		cmdMap.put(CommandType.ADD_MEASUREMENT_DOMAIN, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.MEASUREMENT_DOMAIN));
-		cmdMap.put(CommandType.ADD_STRING_NOMINAL_STRUCTURE, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.STRINGNOMINAL_STRUCTURE));
-		cmdMap.put(CommandType.ADD_INTEGER_INTERVAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERINTERVAL_DIMENSION));
-		cmdMap.put(CommandType.ADD_INTEGER_RATIONAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERRATIONAL_DIMENSION));
-		cmdMap.put(CommandType.ADD_INTEGER_ORDINAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.INTEGERORDINAL_DIMENSION));
-		cmdMap.put(CommandType.ADD_DECIMAL_ORDINAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALORDINAL_DIMENSION));
-		cmdMap.put(CommandType.ADD_DECIMAL_RATIONAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALRATIONAL_DIMENSION));
-		cmdMap.put(CommandType.ADD_DECIMAL_INTERVAL_DIMENSION, 
-				new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class,RefOntoUML.Element.class), DataType.DECIMALINTERVAL_DIMENSION));
-		cmdMap.put(CommandType.ADD_MEDIATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.ADD_CHARACTERIZATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.ADD_DERIVATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.ADD_COMPONENTOF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.ADD_SUBCOLLECTIONOF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.ADD_SUBQUANTITYOF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.ADD_MEMBEROF, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.ADD_STRUCTURATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.STRUCTURATION));
-		cmdMap.put(CommandType.ADD_FORMAL, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.ADD_MATERIAL, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.MATERIAL));
-		cmdMap.put(CommandType.ADD_ASSOCIATION,	
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.ASSOCIATION));
-		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(AdditionManager.class.getMethod("addPackage",DefaultMutableTreeNode.class)));
-		cmdMap.put(CommandType.ADD_GENERALIZATION, 
-				new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
-				new MethodCall(AdditionManager.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
-		cmdMap.put(CommandType.ADD_COMMENT, 
-				new MethodCall(AdditionManager.class.getMethod("addComment",RefOntoUML.Element.class)));
-		cmdMap.put(CommandType.ADD_CONSTRAINT, 
-				new MethodCall(AdditionManager.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
-		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
-				new MethodCall(AdditionManager.class.getMethod("addOclDocument", Object.class)));		
-		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(AdditionManager.class.getMethod("addDiagram", Object.class)));
-		
-		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
-				new MethodCall(AdditionManager.class.getMethod("newOclDocument")));
-		cmdMap.put(CommandType.NEW_DIAGRAM,
-				new MethodCall(AdditionManager.class.getMethod("newDiagram")));
-	}
-	
-	private void changeManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CHANGE_TO_KIND, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.KIND));
-		cmdMap.put(CommandType.CHANGE_TO_SUBKIND, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.SUBKIND));
-		cmdMap.put(CommandType.CHANGE_TO_COLLECTIVE, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.COLLECTIVE));
-		cmdMap.put(CommandType.CHANGE_TO_QUANTITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.QUANTITY));
-		cmdMap.put(CommandType.CHANGE_TO_ROLE, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.ROLE));
-		cmdMap.put(CommandType.CHANGE_TO_PHASE, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PHASE));
-		cmdMap.put(CommandType.CHANGE_TO_RELATOR, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.RELATOR));
-		cmdMap.put(CommandType.CHANGE_TO_MODE, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MODE));		
-		cmdMap.put(CommandType.CHANGE_TO_PERCEIVABLE_QUALITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.PERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NONPERCEIVABLE_QUALITY));
-		cmdMap.put(CommandType.CHANGE_TO_NOMINAL_QUALITY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.NOMINAL_QUALITY));
-		cmdMap.put(CommandType.CHANGE_TO_CATEGORY, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.CATEGORY));
-		cmdMap.put(CommandType.CHANGE_TO_MIXIN, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.MIXIN));
-		cmdMap.put(CommandType.CHANGE_TO_ROLEMIXIN, 
-				new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class,RefOntoUML.Element.class), ClassType.ROLEMIXIN));
-		cmdMap.put(CommandType.CHANGE_TO_GENERALIZATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.GENERALIZATION));
-		cmdMap.put(CommandType.CHANGE_TO_MEDIATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEDIATION));
-		cmdMap.put(CommandType.CHANGE_TO_CHARACTERIZATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.CHARACTERIZATION));
-		cmdMap.put(CommandType.CHANGE_TO_DERIVATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.DERIVATION));
-		cmdMap.put(CommandType.CHANGE_TO_COMPONENTOF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.COMPONENTOF));
-		cmdMap.put(CommandType.CHANGE_TO_SUBCOLLECTIONOF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBCOLLECTIONOF));
-		cmdMap.put(CommandType.CHANGE_TO_SUBQUANTITYOF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.SUBQUANTITYOF));
-		cmdMap.put(CommandType.CHANGE_TO_MEMBEROF, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MEMBEROF));
-		cmdMap.put(CommandType.CHANGE_TO_STRUCTURATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.STRUCTURATION));
-		cmdMap.put(CommandType.CHANGE_TO_FORMAL, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.FORMAL));
-		cmdMap.put(CommandType.CHANGE_TO_MATERIAL, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.MATERIAL));
-		cmdMap.put(CommandType.CHANGE_TO_ASSOCIATION, 
-				new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), RelationshipType.ASSOCIATION));
-		cmdMap.put(CommandType.INVERT_END_NAMES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndNames", BaseConnection.class)));
-		cmdMap.put(CommandType.INVERT_END_POINTS, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",BaseConnection.class)));
-		cmdMap.put(CommandType.INVERT_END_MULTIPLICITIES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",BaseConnection.class)));
-		cmdMap.put(CommandType.INVERT_END_TYPES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",BaseConnection.class)));
-	}
 }

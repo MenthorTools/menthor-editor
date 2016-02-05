@@ -232,8 +232,8 @@ public class AdditionManager extends BaseManager {
 	
 	public void setDefaultDiagramSize(StructureDiagram diagram){
 		double waste = 0;
-		if(frame().isShowBrowserPane()) waste+=240;
-		if(frame().isShowPalettePane()) waste+=240;
+		if(splitPane().isShowProjectBrowser()) waste+=240;
+		if(splitPane().isShowPalette()) waste+=240;
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 }

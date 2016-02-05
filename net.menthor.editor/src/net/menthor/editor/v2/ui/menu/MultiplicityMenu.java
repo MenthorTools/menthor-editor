@@ -29,7 +29,7 @@ import org.tinyuml.umldraw.AssociationElement;
 
 import RefOntoUML.Association;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class MultiplicityMenu extends GenericMenu<AssociationElement> {
@@ -46,7 +46,7 @@ public class MultiplicityMenu extends GenericMenu<AssociationElement> {
 	
 	protected boolean isSourceEnd, isTargetEnd;
 	
-	public MultiplicityMenu(CommandListener listener, String text, AssociationElement associationElement, JMenu parent, boolean isSourceEnd){
+	public MultiplicityMenu(ICommandListener listener, String text, AssociationElement associationElement, JMenu parent, boolean isSourceEnd){
 		super(listener, text, associationElement);
 		
 		this.isSourceEnd = isSourceEnd;
@@ -104,7 +104,7 @@ public class MultiplicityMenu extends GenericMenu<AssociationElement> {
 		parent.add(this);
 	}
 	
-	public MultiplicityMenu(CommandListener listener, AssociationElement associationElement, JMenu parent, boolean isSourceEnd){
+	public MultiplicityMenu(ICommandListener listener, AssociationElement associationElement, JMenu parent, boolean isSourceEnd){
 		this(listener, "Multiplicity",associationElement,parent, isSourceEnd);	
   	}		
 }

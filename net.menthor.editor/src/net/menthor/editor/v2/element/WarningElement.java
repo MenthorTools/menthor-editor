@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.commands;
+package net.menthor.editor.v2.element;
 
 /**
  * ============================================================================================
@@ -21,11 +21,11 @@ package net.menthor.editor.v2.commands;
  * ============================================================================================
  */
 
-/** A simple interface to be implemented by classes that receive application commands strings. */
-public interface CommandListener {
-	
-  /** Handles the specified action command string. */  
-  Object handleCommand(String command, Object[] parameters);
-  Object handleCommand(String command);
-  
- }
+import org.eclipse.emf.ecore.EObject;
+
+public class WarningElement extends ProblemElement {
+
+	public WarningElement(EObject eobject, int identifier, String description, TypeProblem typeProblem){
+		super(eobject, identifier, description, typeProblem);
+	}	
+}

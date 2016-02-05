@@ -37,7 +37,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -46,8 +46,8 @@ public class GenericMenu<T> extends JMenu implements ActionListener{
 
 	private static final long serialVersionUID = -1451727867476622857L;
 	
-	protected List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
+	protected List<ICommandListener> listeners = new ArrayList<ICommandListener>();
+	public void addCommandListener(ICommandListener l) { if(!listeners.contains(l)) listeners.add(l); }
 	
 	protected T context;
 	
@@ -56,7 +56,7 @@ public class GenericMenu<T> extends JMenu implements ActionListener{
 	public JMenuItem getMenuItem(CommandType cmdType) { return menuItemsMap.get(cmdType); }
 	public void enableAll(boolean value) { for(JMenuItem btn: menuItemsMap.values()) { btn.setEnabled(value); } }
 	
-	public GenericMenu(CommandListener listener, String text, T context) { 
+	public GenericMenu(ICommandListener listener, String text, T context) { 
 		super(text);
 		this.context = context;
 		addCommandListener(listener);
@@ -70,7 +70,7 @@ public class GenericMenu<T> extends JMenu implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {	
-		for (CommandListener l : listeners) {
+		for (ICommandListener l : listeners) {
 			if(context!=null) l.handleCommand(e.getActionCommand(), new Object[]{context});
 			else l.handleCommand(e.getActionCommand());
 		}		

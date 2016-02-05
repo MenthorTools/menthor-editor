@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.elements;
+package net.menthor.editor.v2.element;
 
 import RefOntoUML.Element;
 import RefOntoUML.NamedElement;

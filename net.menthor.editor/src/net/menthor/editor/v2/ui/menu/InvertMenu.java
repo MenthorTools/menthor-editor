@@ -5,14 +5,14 @@ import javax.swing.JPopupMenu;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class InvertMenu extends GenericMenu<BaseConnection> {
 
 	private static final long serialVersionUID = 3797953970276009760L;
 	
-	public InvertMenu(CommandListener listener, String text, BaseConnection connection, JPopupMenu parent){
+	public InvertMenu(ICommandListener listener, String text, BaseConnection connection, JPopupMenu parent){
 		super(listener, text, connection);	
 		
 		createMenuItem("End-Points", CommandType.INVERT_END_POINTS);
@@ -26,7 +26,7 @@ public class InvertMenu extends GenericMenu<BaseConnection> {
 		parent.add(this);
 	}
 	
-	public InvertMenu(CommandListener listener, BaseConnection connection, JPopupMenu parent){
+	public InvertMenu(ICommandListener listener, BaseConnection connection, JPopupMenu parent){
 		this(listener, "Invert Ends", connection, parent);		
   	}
 }

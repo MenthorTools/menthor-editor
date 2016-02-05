@@ -8,7 +8,7 @@ import org.tinyuml.umldraw.shared.NoteElement;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -36,7 +36,7 @@ public class SingleElementPopupMenu extends GenericPopupMenu<UmlDiagramElement> 
 	protected EndPointMenu sourceEndMenu, targetEndMenu;
 	
 	//creates the menu according to the element being clicked.
-	public SingleElementPopupMenu(CommandListener listener, UmlDiagramElement diagramElement) {
+	public SingleElementPopupMenu(ICommandListener listener, UmlDiagramElement diagramElement) {
 		super(listener, diagramElement);
 		
 		//add default items to all cases

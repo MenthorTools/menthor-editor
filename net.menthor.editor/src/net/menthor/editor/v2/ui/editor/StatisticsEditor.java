@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import net.menthor.editor.v2.elements.StatisticalElement;
+import net.menthor.editor.v2.element.StatisticalElement;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.editor.base.IEditor;

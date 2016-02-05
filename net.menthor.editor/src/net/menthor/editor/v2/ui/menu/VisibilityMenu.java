@@ -10,7 +10,7 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class VisibilityMenu extends MultiElementMenu {
@@ -20,19 +20,19 @@ public class VisibilityMenu extends MultiElementMenu {
 	private JCheckBoxMenuItem 	showNamespace, showStereotypeItem, showEndPointItem, showSubsettingItem, showRedefiningItem, showMultiplicitiesItem, 
 								showNameItem, showAttributes, showGeneralizationSets, showParents, showAll;
 		
-	public VisibilityMenu(CommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public VisibilityMenu(ICommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		this(listener, "Visibility",elements,parent);		
   	}
 	
-	public VisibilityMenu(CommandListener listener, UmlDiagramElement element, JPopupMenu parent){
+	public VisibilityMenu(ICommandListener listener, UmlDiagramElement element, JPopupMenu parent){
 		this(listener, "Visibility",setUpList(element),parent);		
   	}
 		
-	public VisibilityMenu(CommandListener listener, String text, UmlDiagramElement element, JPopupMenu parent){
+	public VisibilityMenu(ICommandListener listener, String text, UmlDiagramElement element, JPopupMenu parent){
 		this(listener, text, setUpList(element), parent);		
   	}
 	
-	public VisibilityMenu(CommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public VisibilityMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);	
 		build();
 		updateSelectedState();

@@ -11,10 +11,9 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.NamedElement;
 
 import net.menthor.editor.ui.Models;
-
-import net.menthor.editor.v2.elements.ProblemElement.TypeProblem;
-import net.menthor.editor.v2.elements.ProblemElement;
-import net.menthor.editor.v2.elements.WarningElement;
+import net.menthor.editor.v2.element.ProblemElement;
+import net.menthor.editor.v2.element.WarningElement;
+import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 
 public class WarningManager extends BaseManager {
 

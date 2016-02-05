@@ -33,8 +33,6 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
-import net.menthor.editor.ui.ProjectDeserializer;
-import net.menthor.editor.ui.ProjectSerializer;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.editor.OclEditor;
@@ -193,7 +191,7 @@ public class ProjectManager extends BaseManager {
 			createProject(model, "",true,true);
 		}
 		
-		MenthorEditor.getFrame().forceDefaultUI();
+		splitPane().forceDefaultState();
 	}
 	
 	public void openProject(){
@@ -272,7 +270,7 @@ public class ProjectManager extends BaseManager {
 			for(DiagramEditor editor: TabManager.get().getDiagramEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
-			result = ProjectSerializer.getInstance().serialize(file, project, Models.getOclDocList());
+			result = SerializationManager.get().serializeMenthorFile(file, project, Models.getOclDocList());
 			project.setName(file.getName().replace(".menthor",""));
 			tree().updateUI();
 			project.saveAllDiagramNeeded(false);
@@ -287,7 +285,7 @@ public class ProjectManager extends BaseManager {
 	/**deserialize project */
 	public void deserializeProject(File file) throws IOException, ClassNotFoundException {
 		CursorManager.get().waitCursor();
-		ArrayList<Object> listFiles = ProjectDeserializer.getInstance().readProject(file);
+		List<Object> listFiles = DeserializationManager.get().deserializeMenthorFile(file);
 		List<OclDocument> ocllist = new ArrayList<OclDocument>();
 		for(int i=1; i<listFiles.size();i++){																
 			ocllist.add((OclDocument)listFiles.get(i));

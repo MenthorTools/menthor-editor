@@ -34,15 +34,15 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 
 public abstract class GenericToolBar extends JToolBar implements ActionListener {
 
 	private static final long serialVersionUID = -665363641218269342L;
 	
-	List<CommandListener> listeners = new ArrayList<CommandListener>();
-	public void addCommandListener(CommandListener l) { if(!listeners.contains(l))  listeners.add(l); }
+	List<ICommandListener> listeners = new ArrayList<ICommandListener>();
+	public void addCommandListener(ICommandListener l) { if(!listeners.contains(l))  listeners.add(l); }
 	
 	Map<CommandType, JButton> jbuttonMap = new HashMap<CommandType, JButton>();		
 	public void enableButton(CommandType cmdType, boolean flag) { jbuttonMap.get(cmdType).setEnabled(flag); }
@@ -58,7 +58,7 @@ public abstract class GenericToolBar extends JToolBar implements ActionListener 
 	}
 	
 	/** constructor */
-	public GenericToolBar(CommandListener listener, Color backgroundColor){		
+	public GenericToolBar(ICommandListener listener, Color backgroundColor){		
 		addCommandListener(listener);
 		setBackground(backgroundColor);
 		setRollover(true);
@@ -66,7 +66,7 @@ public abstract class GenericToolBar extends JToolBar implements ActionListener 
 	}
 	
 	/** constructor */
-	public GenericToolBar(CommandListener listener){		
+	public GenericToolBar(ICommandListener listener){		
 		addCommandListener(listener);
 		setRollover(true);
 		setMargin(new Insets(5,5,5,5));
@@ -74,7 +74,7 @@ public abstract class GenericToolBar extends JToolBar implements ActionListener 
 		
 	/** handle commands */
 	public void actionPerformed(ActionEvent e) {
-		for (CommandListener l : listeners) {
+		for (ICommandListener l : listeners) {
 			l.handleCommand(e.getActionCommand());
 		}
 	}

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.elements;
+package net.menthor.editor.v2.commands;
 
 /**
  * ============================================================================================
@@ -21,42 +21,11 @@ package net.menthor.editor.v2.elements;
  * ============================================================================================
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
-
-import RefOntoUML.parser.OntoUMLNameHelper;
-
-public class FoundElement {
-
-	protected EObject eobject;
+/** A simple interface to be implemented by classes that receive application commands strings. */
+public interface ICommandListener {
 	
-	protected String name;
-	protected String path;
-	protected String stereotype;
-	protected List<EObject> pathHierarchyList = new ArrayList<EObject>();
-	
-	public FoundElement(EObject eobject){
-		this.eobject = eobject;
-		name = OntoUMLNameHelper.getName(eobject);
-		path = getPath(eobject);
-		stereotype = OntoUMLNameHelper.getTypeName(eobject);
-	}
-	
-	public String getName() { return name; } 
-	public String getType() { return stereotype; }
-	public String getPath() { return path; }
-	public List<EObject> getPathHierarchy() { return pathHierarchyList; }
-	public EObject getElement() { return eobject; }
-	
-	private String getPath (EObject e){
-		String path = "";				
-		if (e.eContainer()!=null) {
-			path += getPath((e.eContainer()))+"::";				
-		}
-		path += OntoUMLNameHelper.getName(e)+"";
-		pathHierarchyList.add(e);
-		return path;
-	}	
-}
+  /** Handles the specified action command string. */  
+  Object handleCommand(String command, Object[] parameters);
+  Object handleCommand(String command);
+  
+ }
