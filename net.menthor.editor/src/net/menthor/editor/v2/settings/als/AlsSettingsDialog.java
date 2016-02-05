@@ -31,8 +31,7 @@ import javax.swing.JPanel;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.ui.ConstraintSimulationPanel;
-import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -61,7 +60,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 	private JPanel principalPane;
 	
 	/** @wbp.parser.constructor */
-	public AlsSettingsDialog(MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
 	{
 		super(owner, refparser, diagrams);
 				
@@ -98,7 +97,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 	}
 	
 	/** Launch the Dialog. */
-	public static void open(MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public static void open(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		try {			
 			AlsSettingsDialog dialog = new AlsSettingsDialog(owner, refparser, diagrams, refOptions, oclOptions);
@@ -110,7 +109,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 		}
 	}
 	
-	public AlsSettingsDialog(MainFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
+	public AlsSettingsDialog(AppFrame owner, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, OntoUML2AlloyOptions refOptions, TOCL2AlloyOption oclOptions)
 	{
 		this(owner,refparser,diagrams, false);	
 		
@@ -134,7 +133,7 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
 		ontoumlOptions.weakSupplementation = modelSimulationPanel.isSelectedWeakSupplementation();
 		ontoumlOptions.relatorConstraint = modelSimulationPanel.isSelectedRelatorConstraint();			    	
 		
-		if(getOwner() instanceof MainFrame){
+		if(getOwner() instanceof AppFrame){
 			Models.setRefOptions(ontoumlOptions);
 		}
 				
@@ -145,13 +144,13 @@ public class AlsSettingsDialog extends BaseSettingsDialog {
     	oclOptions.setWorldScope(constraintSimulationPanel.getWorldScopeListSelected());
 		oclOptions.setConstraintList(constraintSimulationPanel.getConstraintListSelected());
     	
-		if(getOwner() instanceof MainFrame){
+		if(getOwner() instanceof AppFrame){
 			Models.setOclOptions(oclOptions);
 		}		  
 		
 		//dispose();
 		
-		if(getOwner() instanceof MainFrame)
+		if(getOwner() instanceof AppFrame)
 		{		
 			ALS4TransformationOption options = new ALS4TransformationOption(
 				mapPane.getApproach(),

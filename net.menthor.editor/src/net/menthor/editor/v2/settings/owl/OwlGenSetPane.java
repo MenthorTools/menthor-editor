@@ -27,7 +27,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.owl.OWL2GeneralizationSet;
-import net.menthor.editor.v2.tables.MappingChoiceTableModel;
+import net.menthor.editor.v2.ui.table.MappingChoiceTableModel;
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 

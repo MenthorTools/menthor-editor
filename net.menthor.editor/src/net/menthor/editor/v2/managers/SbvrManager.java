@@ -30,7 +30,7 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
 
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
@@ -65,7 +65,7 @@ public class SbvrManager extends BaseManager {
 		String name = new String();
 		if(refpackage.getName()==null || refpackage.getName().isEmpty()) name = "model";
 		else name = refpackage.getName();
-		String modelFileName = Util.getCanonPath(Directories.getTempDir(), name+".refontouml");
+		String modelFileName = Util.getCanonPath(DirectoryUtil.getTempDir(), name+".refontouml");
 		File modelFile = new File(modelFileName);  	
     	modelFile.deleteOnExit();    	
 		try {

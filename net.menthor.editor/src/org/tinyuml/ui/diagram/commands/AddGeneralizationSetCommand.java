@@ -39,7 +39,7 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.v2.managers.UpdateManager;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
  * @author John Guerson

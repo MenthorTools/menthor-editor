@@ -40,11 +40,11 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.tables.AssociationTableModel;
-import net.menthor.editor.v2.tables.GeneralizationTableModel;
-import net.menthor.editor.v2.tables.TableColumnAdjuster;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.table.AssociationTableModel;
+import net.menthor.editor.v2.ui.table.GeneralizationTableModel;
+import net.menthor.editor.v2.ui.table.TableColumnAdjuster;
 
 public class RelatedElementsPane extends JPanel {
 

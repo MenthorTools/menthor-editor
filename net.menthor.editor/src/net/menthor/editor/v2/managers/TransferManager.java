@@ -53,7 +53,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 public class TransferManager extends BaseManager {
 	

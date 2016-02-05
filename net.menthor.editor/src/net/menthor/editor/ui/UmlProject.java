@@ -43,8 +43,8 @@ import RefOntoUML.impl.GeneralizationSetImpl;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.util.Directories;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.util.DirectoryUtil;
 
 /** The UmlProject is serialized to a binary file in order to store the diagrams and its graphics allElements. */
 public class UmlProject implements Serializable {
@@ -209,22 +209,22 @@ public class UmlProject implements Serializable {
 	}
 	
 	public String getTempDir(){
-		if(tempDir == null) tempDir = Directories.makeTempDir();		
+		if(tempDir == null) tempDir = DirectoryUtil.makeTempDir();		
 		return tempDir;
 	}
 
 	public String getBinDir(){
-		if(binDir == null) binDir = Directories.makeBinDir();		
+		if(binDir == null) binDir = DirectoryUtil.makeBinDir();		
 		return binDir;
 	}
 	
 	public static String createTempDir(){
-		if(tempDir == null) tempDir = Directories.makeTempDir();		
+		if(tempDir == null) tempDir = DirectoryUtil.makeTempDir();		
 		return tempDir;
 	}
 	
 	public static String createBinDir(){
-		if(binDir == null) binDir = Directories.makeBinDir();		
+		if(binDir == null) binDir = DirectoryUtil.makeBinDir();		
 		return binDir;
 	}
 }

@@ -31,15 +31,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.editor.ui.DATException;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.ProjectDeserializer;
 import net.menthor.editor.ui.ProjectSerializer;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.editors.OclEditor;
-import net.menthor.editor.v2.start.StartPage;
+import net.menthor.editor.v2.ui.editor.OclEditor;
+import net.menthor.editor.v2.ui.startpage.StartPage;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
@@ -72,7 +71,7 @@ public class ProjectManager extends BaseManager {
 		this.project = project;
 		this.project.setSaveModelNeeded(false);		
 		Models.set(this.project, project.getModel());
-		frame().getProjectBrowser().initialize();		
+		frame().getProjectBrowser().initialize(project, Models.getRefparser(), Models.getOclDocList());		
 		TabManager.get().initialize(project);
 	}
 	
@@ -172,7 +171,7 @@ public class ProjectManager extends BaseManager {
 			closeProject();
 			createEmptyProject(false,true);				
 			serializeProject(file);			
-			MenthorEditor.getFrame().set(file);														
+			MenthorEditor.getFrame().initializeFrame(file);														
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "New Project", "Could not create new project");
 		}		
@@ -206,7 +205,7 @@ public class ProjectManager extends BaseManager {
 			CursorManager.get().waitCursor();			
 			closeProject();
 			deserializeProject(projectFile);
-			MenthorEditor.getFrame().set(file);			
+			MenthorEditor.getFrame().initializeFrame(file);			
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Open Project", "Could not open existing project");
 		}
@@ -220,7 +219,7 @@ public class ProjectManager extends BaseManager {
 			File file = new File(filePath);
 			projectFile = file;						
 			deserializeProject(projectFile);	
-			MenthorEditor.getFrame().set(file);
+			MenthorEditor.getFrame().initializeFrame(file);
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Open Project", "Could not open existing project from a file path");
 		}
@@ -234,7 +233,7 @@ public class ProjectManager extends BaseManager {
 			CursorManager.get().waitCursor();
 			projectFile = serializeProject(file);			
 			lastSavePath = file.getAbsolutePath();
-			MenthorEditor.getFrame().set(projectFile, false);			
+			MenthorEditor.getFrame().initializeFrame(projectFile, false);			
 		}catch (Exception ex) {
 			MessageManager.get().showError(ex, "Save Project As", "Could not save project");
 		}		
@@ -253,7 +252,7 @@ public class ProjectManager extends BaseManager {
 			RefOntoUML.Package model = (RefOntoUML.Package)resource.getContents().get(0);
 			createProject(model, true, false);
 			serializeProject(projectFile);
-			MenthorEditor.getFrame().set(projectFile);			
+			MenthorEditor.getFrame().initializeFrame(projectFile);			
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
 		}		
@@ -277,7 +276,7 @@ public class ProjectManager extends BaseManager {
 			project.setName(file.getName().replace(".menthor",""));
 			tree().updateUI();
 			project.saveAllDiagramNeeded(false);
-			MenthorEditor.getFrame().set(file, false);			
+			MenthorEditor.getFrame().initializeFrame(file, false);			
 			Settings.addRecentProject(file.getCanonicalPath());
 		} catch (Exception ex) {
 			MessageManager.get().showError(ex, "Write Project", "Could not serialize current project to a file");
@@ -286,7 +285,7 @@ public class ProjectManager extends BaseManager {
 	}
 	
 	/**deserialize project */
-	public void deserializeProject(File file) throws IOException, ClassNotFoundException, DATException {
+	public void deserializeProject(File file) throws IOException, ClassNotFoundException {
 		CursorManager.get().waitCursor();
 		ArrayList<Object> listFiles = ProjectDeserializer.getInstance().readProject(file);
 		List<OclDocument> ocllist = new ArrayList<OclDocument>();
@@ -296,7 +295,7 @@ public class ProjectManager extends BaseManager {
 		Object o = listFiles.get(0);
 		if(o instanceof UmlProject) setProject((UmlProject)o);
 		if(o instanceof RefOntoUML.Package) createProject((RefOntoUML.Package)o,true,false);
-		MenthorEditor.getFrame().set(file, false);
+		MenthorEditor.getFrame().initializeFrame(file, false);
 		CursorManager.get().defaultCursor();
 		Settings.addRecentProject(file.getCanonicalPath());
 	}

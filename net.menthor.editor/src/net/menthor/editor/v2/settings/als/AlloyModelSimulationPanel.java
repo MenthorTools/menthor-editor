@@ -37,9 +37,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import net.menthor.editor.ui.MainFrame;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.ui.AppFrame;
+import net.menthor.editor.v2.ui.icon.IconMap;
+import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 
 /**
@@ -53,7 +53,7 @@ public class AlloyModelSimulationPanel extends JPanel {
 	@SuppressWarnings("unused")
 	private OntoUML2AlloyOptions refOptions;
 		
-	private MainFrame frame;
+	private AppFrame frame;
 	private JCheckBox cbxRelator;
 	private JCheckBox cbxWeak ;	
 	private JCheckBox cbxIdentity ;
@@ -79,7 +79,7 @@ public class AlloyModelSimulationPanel extends JPanel {
 	 * @param optModel
 	 * @param frame
 	 */
-	public AlloyModelSimulationPanel(OntoUML2AlloyOptions refOptions, MainFrame frame)
+	public AlloyModelSimulationPanel(OntoUML2AlloyOptions refOptions, AppFrame frame)
 	{
 		this();
 		
@@ -92,7 +92,7 @@ public class AlloyModelSimulationPanel extends JPanel {
 	/**
 	 * Set OntoUML Options Pane from OntoUML2Alloy Options.
 	 */
-	public void setOntoUMLOptionsPane (OntoUML2AlloyOptions refOptions, MainFrame frame)
+	public void setOntoUMLOptionsPane (OntoUML2AlloyOptions refOptions, AppFrame frame)
 	{
 		this.frame = frame;
 		this.cbxAntirigidity.setSelected(refOptions.antiRigidity);
@@ -409,5 +409,5 @@ public class AlloyModelSimulationPanel extends JPanel {
 	 * 
 	 * @return
 	 */
-	public MainFrame getFrame() { return frame; }
+	public AppFrame getFrame() { return frame; }
 }

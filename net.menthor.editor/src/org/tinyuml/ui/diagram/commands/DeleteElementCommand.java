@@ -49,7 +49,7 @@ import RefOntoUML.Relationship;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
  * A command class to remove allElements from a diagram.

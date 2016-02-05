@@ -82,7 +82,7 @@ public enum Settings {
 		
 	public static boolean saveProperties(){
 		if(properties != null) {
-			File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.SETTINGS_FILE.getValue()));
+			File file = new File(Util.getCanonPath(DirectoryUtil.getTempDir(), Settings.SETTINGS_FILE.getValue()));
 			try {
 				FileOutputStream out = new FileOutputStream(file);
 				properties.storeToXML(out, "Menthor Configuration File", "UTF-8");
@@ -96,7 +96,7 @@ public enum Settings {
 	public static Properties getProperties() {
 		if(properties != null) return properties;		
 		properties = new Properties();		
-		File file = new File(Util.getCanonPath(Directories.getTempDir(), Settings.SETTINGS_FILE.getValue()));
+		File file = new File(Util.getCanonPath(DirectoryUtil.getTempDir(), Settings.SETTINGS_FILE.getValue()));
 		if(file.exists()) {
 			try {
 				FileInputStream in = new FileInputStream(file);

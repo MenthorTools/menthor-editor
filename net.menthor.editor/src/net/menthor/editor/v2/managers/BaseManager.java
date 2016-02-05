@@ -1,11 +1,11 @@
 package net.menthor.editor.v2.managers;
 
-import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.EditorTabbedPane;
-import net.menthor.editor.v2.InfoTabbedPane;
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.tree.ProjectTree;
+import net.menthor.editor.v2.ui.tabbedpane.AppEditorTabbedPane;
+import net.menthor.editor.v2.ui.tabbedpane.AppInfoTabbedPane;
+import net.menthor.editor.v2.ui.tree.ProjectTree;
 
 public class BaseManager {
 
@@ -14,11 +14,11 @@ public class BaseManager {
 	
 	protected CommandListener listener(){ return frame(); }
 	
-	protected MainFrame frame(){ return MenthorEditor.getFrame(); }
+	protected AppFrame frame(){ return MenthorEditor.getFrame(); }
 	
 	protected ProjectTree tree(){ return MenthorEditor.getFrame().getProjectBrowser().getTree(); }
 	
-	protected EditorTabbedPane editorTabbedPane() { return MenthorEditor.getFrame().getDiagramManager(); }
+	protected AppEditorTabbedPane editorTabbedPane() { return MenthorEditor.getFrame().getEditorTabbedPane(); }
 	
-	protected InfoTabbedPane infoTabbedPane() { return MenthorEditor.getFrame().getInfoManager(); }		
+	protected AppInfoTabbedPane infoTabbedPane() { return MenthorEditor.getFrame().getInfoTabbedPane(); }		
 }

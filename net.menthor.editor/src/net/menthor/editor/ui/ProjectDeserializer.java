@@ -39,8 +39,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.Settings;
 
 /** Reads a model from a file. Models are stored and retrieved using serialization. */
@@ -52,7 +52,7 @@ public final class ProjectDeserializer {
 	/** Reads a UmlProject object from a file. 
 	 * @throws DATException */
 	@SuppressWarnings({ "unused" })
-	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException, DATException 
+	public ArrayList<Object> readProject(File file) throws IOException, ClassNotFoundException 
 	{		
 		// first element is UmlProject, the second the OCL String content.
 		ArrayList<Object> list = new ArrayList<Object>();

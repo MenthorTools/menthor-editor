@@ -40,8 +40,6 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
-
-import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
@@ -208,11 +206,7 @@ public class AdditionManager extends BaseManager {
 	}
 
 	public StructureDiagram addDiagram(Object epackage){	
-		StructureDiagram diagram = new StructureDiagram(
-			ProjectManager.get().getProject(),
-			FactoryManager.get(),
-			frame().getDrawingContext()
-		);
+		StructureDiagram diagram = new StructureDiagram(ProjectManager.get().getProject());
 		if(epackage!=null) diagram.setContainer(epackage);
 		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());

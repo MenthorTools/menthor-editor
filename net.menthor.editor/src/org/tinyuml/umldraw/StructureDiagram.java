@@ -59,7 +59,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DiagramOperations;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContext.FontType;
-import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LabelChangeListener;
 import org.tinyuml.draw.LabelSource;
@@ -85,7 +84,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.managers.OccurenceManager;
 
@@ -113,8 +111,6 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	private List<Connection> connections = new ArrayList<Connection>();
 	private Label nameLabel = new SimpleLabel();
 	private UmlProject project;
-//	private DiagramElementFactory elementFactory;
-	private DrawingContext drawingContext;	
 	private String uuidContainer = new String();
 	
 	
@@ -215,12 +211,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	/**
 	 * Constructor.
 	 */
-	public StructureDiagram(UmlProject project, FactoryManager elementFactory, DrawingContext drawingContext) {
+	public StructureDiagram(UmlProject project) {
 		initializeNameLabel();		
 		this.project = project;	
 		this.container=project.getModel();
-		//this.elementFactory = elementFactory;
-		this.drawingContext = drawingContext;
 	}
 
 	/**
@@ -256,12 +250,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 //		elementFactory.setDiagram(this);
 //		return elementFactory;
 //	}
-	
-	public DrawingContext getDrawingContext() {
-		if(drawingContext==null) drawingContext = new DrawingContextImpl();		
-		return drawingContext;
-	}
-	
+		
 	public List<EObject> getPackageableElements()
 	{	 
    		ArrayList<EObject> elements = new ArrayList<EObject>();   		

@@ -28,9 +28,7 @@ import java.util.List;
 import javax.swing.table.TableColumn;
 
 import net.menthor.common.settings.owl.OWL2Quality;
-
-import net.menthor.editor.v2.tables.MappingTablePane;
-
+import net.menthor.editor.v2.ui.table.MappingTablePane;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlQualityTablePane extends MappingTablePane {

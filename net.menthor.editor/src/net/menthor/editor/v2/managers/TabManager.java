@@ -41,22 +41,22 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.ConsoleEditor;
-import net.menthor.editor.v2.editors.ErrorEditor;
-import net.menthor.editor.v2.editors.FindEditor;
-import net.menthor.editor.v2.editors.OclEditor;
-import net.menthor.editor.v2.editors.ProblemEditor;
-import net.menthor.editor.v2.editors.StatisticsEditor;
-import net.menthor.editor.v2.editors.TextEditor;
-import net.menthor.editor.v2.editors.WarningEditor;
-import net.menthor.editor.v2.editors.base.Editor;
 import net.menthor.editor.v2.editors.wrapper.DiagramEditorWrapper;
 import net.menthor.editor.v2.elements.ProblemElement;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
-import net.menthor.editor.v2.start.StartPage;
 import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.ui.ClosableTab;
+import net.menthor.editor.v2.ui.editor.ConsoleEditor;
+import net.menthor.editor.v2.ui.editor.ErrorEditor;
+import net.menthor.editor.v2.ui.editor.FindEditor;
+import net.menthor.editor.v2.ui.editor.OclEditor;
+import net.menthor.editor.v2.ui.editor.ProblemEditor;
+import net.menthor.editor.v2.ui.editor.StatisticsEditor;
+import net.menthor.editor.v2.ui.editor.TextEditor;
+import net.menthor.editor.v2.ui.editor.WarningEditor;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
+import net.menthor.editor.v2.ui.icon.IconMap;
+import net.menthor.editor.v2.ui.icon.IconType;
+import net.menthor.editor.v2.ui.startpage.StartPage;
+import net.menthor.editor.v2.ui.tabbedpane.ClosableTab;
 
 public class TabManager extends BaseManager {
 
@@ -91,11 +91,9 @@ public class TabManager extends BaseManager {
 	public void backToInitialState(){
 		editorTabbedPane().removeAll();
 		TabManager.get().addStartEditor(false);
-		frame().setTitle("Menthor Editor");
-		frame().showOnlyStartPage();
-		frame().getMainMenu().disactivateSomeToBegin();			
 		editorTabbedPane().repaint();
 		editorTabbedPane().revalidate();
+		frame().resetFrame();		
 	}	
 	
 	// ----- getters ----
@@ -107,19 +105,19 @@ public class TabManager extends BaseManager {
 		return null;
 	}
 	
-	public Editor getCurrentEditor(){
+	public IEditor getCurrentEditor(){
 		if(editorTabbedPane().getSelectedIndex() != -1){
 			Object obj = editorTabbedPane().getSelectedComponent();
-			if(obj instanceof Editor) return (Editor) obj;	
+			if(obj instanceof IEditor) return (IEditor) obj;	
 		}
 		return null;
 	}
 	
 	
-	public Editor getEditor(EditorType nature){
+	public IEditor getEditor(EditorType nature){
 		int totalTabs = editorTabbedPane().getTabCount();
 		for(int i = 0; i < totalTabs; i++){
-			Editor editor = (Editor)editorTabbedPane().getComponentAt(i);
+			IEditor editor = (IEditor)editorTabbedPane().getComponentAt(i);
 			if(editor.getEditorType() == nature){
 				return editor;
 			}
@@ -199,7 +197,7 @@ public class TabManager extends BaseManager {
 		
 	//----- index -----
 	
-	public int getEditorIndex(Editor editor){
+	public int getEditorIndex(IEditor editor){
 		if(editor instanceof DiagramEditor) return editorTabbedPane().indexOfComponent(((DiagramEditor)editor).getWrapper());
 		else return editorTabbedPane().indexOfComponent((Component)editor);
 	}
@@ -264,7 +262,7 @@ public class TabManager extends BaseManager {
 		}		
 	}
 	
-	public void selectEditor(Editor editor){		
+	public void selectEditor(IEditor editor){		
 		for(Component c: editorTabbedPane().getComponents()){
 			if(c instanceof DiagramEditorWrapper) {
 				if(((DiagramEditorWrapper) c).getDiagramEditor().equals(editor)) editorTabbedPane().setSelectedComponent(c);
@@ -317,7 +315,7 @@ public class TabManager extends BaseManager {
 	//----- close -----
 	
 	public void closeCurrentOclEditor(){
-		Editor editor = getCurrentOclEditor();
+		IEditor editor = getCurrentOclEditor();
 		if(editor!=null){
 			if(editor.isSaveNeeded()){
 				boolean response = MessageManager.get().confirm("Save", 
@@ -333,7 +331,7 @@ public class TabManager extends BaseManager {
 	}
 	
 	public void closeCurrentDiagramEditor(){
-		Editor editor = getCurrentDiagramEditor();
+		IEditor editor = getCurrentDiagramEditor();
 		if(editor!=null){
 			if(editor.isSaveNeeded()){
 				boolean response = MessageManager.get().confirm("Save", 

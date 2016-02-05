@@ -47,8 +47,8 @@ import javax.swing.border.EmptyBorder;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
+import net.menthor.editor.v2.ui.icon.IconMap;
+import net.menthor.editor.v2.ui.icon.IconType;
 
 public class DiagramListDialog extends JDialog {
 	

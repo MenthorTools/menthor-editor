@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -254,9 +254,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.SET_SOURCE_END_POINT_NAME,
 				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnSource", Object.class)));
 		cmdMap.put(CommandType.SET_TARGET_END_POINT_NAME,
-				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnTarget", Object.class)));
-		cmdMap.put(CommandType.BRING_FROM_PROJECT_BROWSER,
-				new MethodCall(DiagramEditor.class.getMethod("bringFromProjectBrowser", Point.class)));		
+				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnTarget", Object.class)));				
 	}
 	
 	private void palleteDragAndDrop() throws NoSuchMethodException, SecurityException{
@@ -328,6 +326,8 @@ public class CommandMap {
 				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
 				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
+		cmdMap.put(CommandType.MOVE_SELECTED_TO_DIAGRAM,
+				new MethodCall(MoveManager.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
 		cmdMap.put(CommandType.MOVE_TO_DIAGRAM,
 				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
 	}
@@ -402,14 +402,14 @@ public class CommandMap {
 	}
 	
 	private void mainFrame() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.PALETTE_OF_ELEMENTS,
-				new MethodCall(MainFrame.class.getMethod("showPalettePane")));
+		cmdMap.put(CommandType.PALETTE,
+				new MethodCall(AppFrame.class.getMethod("showPalettePane")));
 		cmdMap.put(CommandType.PROJECT_BROWSER,
-				new MethodCall(MainFrame.class.getMethod("showBrowserPane")));
-		cmdMap.put(CommandType.CONSOLE,
-				new MethodCall(MainFrame.class.getMethod("showFooterPane")));
+				new MethodCall(AppFrame.class.getMethod("showBrowserPane")));
+		cmdMap.put(CommandType.INFO_TABBED_PANE,
+				new MethodCall(AppFrame.class.getMethod("showFooterPane")));
 		cmdMap.put(CommandType.QUIT_MENTHOR,
-				new MethodCall(MainFrame.class.getMethod("quitApplication")));
+				new MethodCall(AppFrame.class.getMethod("quitApplication")));
 	}
 	
 	private void exportManager() throws NoSuchMethodException, SecurityException{

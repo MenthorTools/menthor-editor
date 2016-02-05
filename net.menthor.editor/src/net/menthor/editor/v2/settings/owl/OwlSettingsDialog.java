@@ -33,9 +33,9 @@ import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.icon.IconMap;
-import net.menthor.editor.v2.icon.IconType;
 import net.menthor.editor.v2.settings.BaseSettingsDialog;
+import net.menthor.editor.v2.ui.icon.IconMap;
+import net.menthor.editor.v2.ui.icon.IconType;
 import RefOntoUML.parser.OntoUMLParser;
 
 public class OwlSettingsDialog extends BaseSettingsDialog {

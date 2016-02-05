@@ -45,11 +45,11 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.base.EditorMode;
-import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.menu.MultiElementPopupMenu;
-import net.menthor.editor.v2.menu.SingleElementPopupMenu;
+import net.menthor.editor.v2.ui.editor.base.IEditorMode;
+import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.menu.MultiElementPopupMenu;
+import net.menthor.editor.v2.ui.menu.SingleElementPopupMenu;
 
 /**
  * This class handles selections of diagram allElements, this includes all
@@ -58,7 +58,7 @@ import net.menthor.editor.v2.menu.SingleElementPopupMenu;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class SelectionHandler implements EditorMode {
+public class SelectionHandler implements IEditorMode {
 
 	private DiagramEditor editor;
 	private Selection selection = NullSelection.getInstance();

@@ -31,7 +31,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
  * This class implements a command to add nodes. It is introduced, because

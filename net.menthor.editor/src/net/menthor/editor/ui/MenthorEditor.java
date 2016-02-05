@@ -26,23 +26,23 @@ import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.menthor.editor.v2.EditorTabbedPane;
-import net.menthor.editor.v2.InfoTabbedPane;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.start.SplashScreen;
-import net.menthor.editor.v2.tree.ProjectTree;
-import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.ui.startpage.SplashScreen;
+import net.menthor.editor.v2.ui.tabbedpane.AppEditorTabbedPane;
+import net.menthor.editor.v2.ui.tabbedpane.AppInfoTabbedPane;
+import net.menthor.editor.v2.ui.tree.ProjectTree;
+import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.UIFontUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.swt.SWTConfigurer;
 
 public final class MenthorEditor {
 	
-	private static MainFrame frame; 
-	public static MainFrame getFrame(){ return frame; }
+	private static AppFrame frame; 
+	public static AppFrame getFrame(){ return frame; }
 	
 	/**
 	 * This variable MUST be composed as "a.b.c". Increment when is built a:
@@ -114,13 +114,13 @@ public final class MenthorEditor {
 		try {
 			setSystemProperties();					
 			UIFontUtil.setDefault();					
-			SWTConfigurer.execute(Directories.getBinDir());
+			SWTConfigurer.execute(DirectoryUtil.getBinDir());
 			
 			OwlSettingsMap.getInstance();
 			
 			//File alloyJarFile = Util.extractLib("alloy4.2.jar");
 			//System.out.println("Extracted: "+alloyJarFile.getAbsolutePath());											
-			frame = new MainFrame();
+			frame = new AppFrame();
 			TabManager.get().addStartEditor(false);
 			frame.setLocationByPlatform(true);					
 			checkAndOpenProject(args);					
@@ -134,7 +134,7 @@ public final class MenthorEditor {
 		splashScreen.close();
 	}
 	
-	public static EditorTabbedPane getDiagramManager(){ return getFrame().getDiagramManager(); }
+	public static AppEditorTabbedPane getDiagramManager(){ return getFrame().getEditorTabbedPane(); }
 	public static ProjectTree getProjectTree(){ return getFrame().getProjectBrowser().getTree(); }
-	public static InfoTabbedPane getInfoManager(){ return getFrame().getInfoManager(); }	
+	public static AppInfoTabbedPane getInfoManager(){ return getFrame().getInfoTabbedPane(); }	
 }

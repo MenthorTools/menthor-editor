@@ -57,7 +57,6 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -65,7 +64,6 @@ import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DiagramOperations;
-import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContext.FontType;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LineStyle;
@@ -109,37 +107,38 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.FactoryManager;
-import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.ui.MenthorEditor;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.EditorTabbedPane;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.editors.base.BaseEditor;
-import net.menthor.editor.v2.editors.base.EditorMode;
-import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.editors.wrapper.DiagramEditorWrapper;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.ClipboardManager;
+import net.menthor.editor.v2.managers.ConnectManager;
 import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
-import net.menthor.editor.v2.menu.PalettePopupMenu;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.FeatureListDialog;
+import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
+import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.base.GenericEditor;
+import net.menthor.editor.v2.ui.editor.base.IEditorMode;
+import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
+import net.menthor.editor.v2.ui.tabbedpane.AppEditorTabbedPane;
+import net.menthor.editor.v2.util.DrawUtil;
 import net.menthor.editor.v2.util.Util;
 
 /**
@@ -151,17 +150,16 @@ import net.menthor.editor.v2.util.Util;
  * @author Wei-ju Wu, John Guerson
  */
 
-public class DiagramEditor extends BaseEditor implements ActionListener, MouseListener, MouseWheelListener, MouseMotionListener, DiagramNotification, DiagramOperations, NodeChangeListener {
+public class DiagramEditor extends GenericEditor implements ActionListener, MouseListener, MouseWheelListener, MouseMotionListener, DiagramNotification, DiagramOperations, NodeChangeListener {
 
 	private static final long serialVersionUID = 4210158437374056534L;
 
-	public MainFrame frame;
-	private EditorTabbedPane diagramManager;
+	public AppFrame frame;
+	private AppEditorTabbedPane diagramManager;
 	private DiagramEditorWrapper wrapper;
 		
-	private transient EditorMode editorMode;
+	private transient IEditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
-	private transient LineHandler lineHandler;
 	public transient List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
 	private transient Scaling scaling = Scaling.SCALING_100;		
 	private static final double MARGIN_TOP=0;
@@ -194,7 +192,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	// The command processor to hold this diagram's operations.
 	private UndoManager undoManager = new UndoManager();
 	public CommandListener getListener() { return frame; }
-	public DrawingContext getDrawingContext() { return MenthorEditor.getFrame().getDrawingContext(); }
+	//public DrawingContext getDrawingContext() { return MenthorEditor.getFrame().getDrawingContext(); }
 	
 	/**
 	 * Reset the transient values for serialization.
@@ -214,7 +212,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	private void initEditorMembers() 
 	{		
 		selectionHandler = new SelectionHandler(this);
-		lineHandler = new LineHandler(this);
 		editorMode = selectionHandler;
 		mouseEvent = new EditorMouseEvent();
 		scaling = Scaling.SCALING_100;
@@ -236,7 +233,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(MainFrame frame, EditorTabbedPane diagramManager, OntoumlDiagram diagram) 
+	public DiagramEditor(AppFrame frame, AppEditorTabbedPane diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
 		this.diagramManager = diagramManager;
@@ -269,9 +266,8 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		setSize(new Dimension((int)width,(int)height));		
 	}
 
-	public EditorTabbedPane getManager() { return diagramManager; }
-	public EditorTabbedPane getDiagramManager() { return diagramManager; }
-	public LineHandler getLineHandler() { return lineHandler; }
+	public AppEditorTabbedPane getManager() { return diagramManager; }
+	public AppEditorTabbedPane getDiagramManager() { return diagramManager; }
 	public UmlProject getProject() { return diagram.getProject(); }
 	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }	
 	public int getScalingPercentual() { return (int)((scaling.getScaleFactor()*100)/100); }
@@ -447,7 +443,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		}
 		editorMode.cancel();
 		selectionHandler.deselectAll();
-		frame.getToolManager().getClassPalette().selectMousePointer();
+		frame.getPallete().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
 		requestFocusInEditor();
@@ -562,11 +558,11 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		int height = (int)(diagram.getSize().getHeight() + MARGIN_BOTTOM + MARGIN_TOP + ADDSCROLL_VERTICAL);		
 		bounds = new Rectangle((int)width,(int)height);
 		clearScreen(g, bounds, background);
-		getDrawingContext().setGraphics2D(g2d, bounds);				
-		diagram.draw(getDrawingContext(), toScreen);
+		DrawUtil.getDrawingContext().setGraphics2D(g2d, bounds);				
+		diagram.draw(DrawUtil.getDrawingContext(), toScreen);
 		// Draw user interface specific allElements (e.g. selections)
 		if (toScreen) {
-			editorMode.draw(getDrawingContext());
+			editorMode.draw(DrawUtil.getDrawingContext());
 		}
 		restoreRenderingHints(g2d);
 		//diagram.setGridVisible(gridVisible);
@@ -974,7 +970,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		editorMode = ClipboardManager.get();
 	}
 	
-	public void setEditorMode(EditorMode mode){		
+	public void setEditorMode(IEditorMode mode){		
 		editorMode = mode;
 	}
 	
@@ -1000,15 +996,15 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
 	{	
-		lineHandler.setRelationType(relationType, FactoryManager.get().getDefaultConnectMethod(relationType));
-		editorMode = lineHandler;
+		ConnectManager.get().setRelationshipType(relationType);
+		editorMode = ConnectManager.get();
 	}
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
 		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-		lineHandler.setRelationType(relationType, FactoryManager.get().getDefaultConnectMethod(relationType));
-		editorMode = lineHandler;
+		ConnectManager.get().setRelationshipType(relationType);
+		editorMode = ConnectManager.get();
 		RefOntoUML.Type source = null;
 		RefOntoUML.Type target = null;
 		if(relationship instanceof RefOntoUML.Association){
@@ -1044,17 +1040,17 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	public void initializeShowGridMenuItem(){
-		frame.getMainMenu().getMenuItem(CommandType.SHOW_GRID).setSelected(isShownGrid());
+		frame.initializeShowGridMenuItem(isShownGrid());
 	}
 	
 	public void showGrid()
 	{
 		if(isShownGrid()){
 			showGrid(false);
-			frame.getMainMenu().select(CommandType.SHOW_GRID,false);
+			frame.selectShowGridMenuItem(false);
 		}else{
 			showGrid(true);
-			frame.getMainMenu().select(CommandType.SHOW_GRID,true);
+			frame.selectShowGridMenuItem(true);
 		}
 	}
 
@@ -1731,7 +1727,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	public void subsets(final DiagramElement connection, RefOntoUML.Property endpoint){
-		FeatureListDialog.open(
+		PropertyListEditDialog.open(
 				MenthorEditor.getFrame(),null, "Subsetted", endpoint, 
 			Models.getRefparser()
 		);		
@@ -1763,7 +1759,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 	}
 	
 	public void redefines(final DiagramElement connection, RefOntoUML.Property endpoint){
-		FeatureListDialog.open(
+		PropertyListEditDialog.open(
 				MenthorEditor.getFrame(),null, "Redefined", endpoint, 
 			Models.getRefparser()
 		);		
@@ -1941,24 +1937,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}
 		}
 	}
-
-	public void findInProjectBrowser(Object element){
-		if (element instanceof ClassElement) {
-			ClassElement classElement = (ClassElement) element;		
-			Classifier c = classElement.getClassifier();
-			MenthorEditor.getFrame().getProjectBrowser().getTree().checkObject(c);
-		}
-		if (element instanceof AssociationElement) {
-			AssociationElement classElement = (AssociationElement) element;		
-			Relationship c = classElement.getRelationship();
-			MenthorEditor.getFrame().getProjectBrowser().getTree().checkObject(c);
-		}
-		if (element instanceof GeneralizationElement) {
-			GeneralizationElement classElement = (GeneralizationElement) element;		
-			Relationship c = classElement.getRelationship();
-			MenthorEditor.getFrame().getProjectBrowser().getTree().checkObject(c);
-		}
-	}
 	
 	private Color copiedColor=Color.WHITE;
 	
@@ -2053,12 +2031,6 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 			}
 			setupColor(list);
 		}
-	}
-	
-	public void bringFromProjectBrowser(Point p){
-		DefaultMutableTreeNode node = frame.getProjectBrowser().getTree().getSelectedNode();
-		Object obj = node.getUserObject();				
-		MoveManager.get().move((RefOntoUML.Element)obj, p.x, p.y, this, true);	
 	}
 	
 	/** Bring related elements to diagram */
@@ -2422,7 +2394,7 @@ public class DiagramEditor extends BaseEditor implements ActionListener, MouseLi
 		{
 			if (label instanceof MultiLineLabel) 
 			{
-				multilineEditor.setFont(getDrawingContext().getFont(FontType.DEFAULT));
+				multilineEditor.setFont(DrawUtil.getDrawingContext().getFont(FontType.DEFAULT));
 				multilineEditor.showEditor(label, getGraphics());
 			} else {
 				captionEditor.showEditor(label, getGraphics());				

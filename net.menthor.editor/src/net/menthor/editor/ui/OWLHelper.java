@@ -4,15 +4,18 @@ import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.editor.v2.types.ResultType;
-import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.util.Directories;
+
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLMappingTypes;
 import net.menthor.ontouml2temporalowl.auxiliary.OWLStructure;
 import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
+
+import net.menthor.editor.v2.types.ResultType;
+import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.util.DirectoryUtil;
+
 import RefOntoUML.parser.OntoUMLParser;
 /**
  * ============================================================================================
@@ -50,7 +53,7 @@ public class OWLHelper {
     		if(trOpt.getApproach()==OWL2Approach.OOTOS)
     		{    			
     			OntoUML2OWL ontoUML2OWL = new OntoUML2OWL();
-    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt, Directories.getTempDir());
+    			owlOutput = ontoUML2OWL.Transformation(filteredParser, oclRules, trOpt, DirectoryUtil.getTempDir());
     			errors = ontoUML2OWL.errors;
     		}
     		if(trOpt.getApproach()==OWL2Approach.REIFICATION || trOpt.getApproach()==OWL2Approach.WORM_VIEW_A0 || 

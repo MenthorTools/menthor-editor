@@ -40,7 +40,7 @@ import net.menthor.common.settings.owl.OWL2Reasoner;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlMappings;
 import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.editor.v2.util.Directories;
+import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
 import RefOntoUML.Classifier;
 import RefOntoUML.GeneralizationSet;
@@ -58,7 +58,7 @@ public final class OwlSettingsMap {
 	
 	//PROPERTIES MAP
 	private Properties properties=null;
-	private String dir = Directories.getTempDir();
+	private String dir = DirectoryUtil.getTempDir();
 		
 	//======================================================
 	//CONSTRUCTOR & INITIALIZER

@@ -27,11 +27,10 @@ import java.util.List;
 
 import javax.swing.table.TableColumn;
 
-import net.menthor.editor.v2.tables.MappingTablePane;
-
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.ui.table.MappingTablePane;
 
 public class OwlAttributeTablePane extends MappingTablePane {
 

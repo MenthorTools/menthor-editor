@@ -117,7 +117,7 @@ public enum CommandType {
 	OTHER_ON_TARGET(null),
 	SET_SOURCE_END_POINT_NAME(null),
 	SET_TARGET_END_POINT_NAME(null),
-	BRING_FROM_PROJECT_BROWSER(null),
+	MOVE_SELECTED_TO_DIAGRAM(null),
 	
 	EXPORT_AS_PATTERN("Export current project as a pattern"),	
 	EXPORT_TO_UML("Export current project to UML (UML2)"), 
@@ -130,9 +130,9 @@ public enum CommandType {
 	IMPORT_FROM_XMI_EA_FILE(null), 
 	IMPORT_FROM_PATTERN(null),
 	
-	PALETTE_OF_ELEMENTS(null), 
+	PALETTE(null), 
 	PROJECT_BROWSER(null), 
-	CONSOLE(null),
+	INFO_TABBED_PANE(null),
 		
 	ABOUT(null), 
 	LICENSES(null), 

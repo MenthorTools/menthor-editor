@@ -47,7 +47,7 @@ import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
  * This is an undoable creation command for a Connection.

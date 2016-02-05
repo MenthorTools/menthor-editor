@@ -28,7 +28,7 @@ import java.util.List;
 import javax.swing.table.TableColumn;
 
 import net.menthor.common.settings.owl.OWL2GeneralizationSet;
-import net.menthor.editor.v2.tables.MappingTablePane;
+import net.menthor.editor.v2.ui.table.MappingTablePane;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 

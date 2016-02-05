@@ -28,13 +28,12 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
-import net.menthor.editor.v2.tables.MappingTableModel;
-
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import RefOntoUML.Element;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.ui.table.MappingTableModel;
 
 public class OwlPrimitivePane extends JPanel{
 

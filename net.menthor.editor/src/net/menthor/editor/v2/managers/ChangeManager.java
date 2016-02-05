@@ -42,7 +42,6 @@ import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.editor.ui.FactoryManager;
 import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;

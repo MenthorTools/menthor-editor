@@ -37,12 +37,12 @@ import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
-import net.menthor.editor.ui.MainFrame;
+import net.menthor.editor.ui.AppFrame;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.edit.AssociationEditDialog;
-import net.menthor.editor.v2.edit.ClassEditDialog;
-import net.menthor.editor.v2.edit.GeneralizationEditDialog;
-import net.menthor.editor.v2.edit.GeneralizationSetEditDialog;
+import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
+import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;
+import net.menthor.editor.v2.ui.dialog.edit.GeneralizationEditDialog;
+import net.menthor.editor.v2.ui.dialog.edit.GeneralizationSetEditDialog;
 
 public class EditManager extends BaseManager {
 
@@ -60,7 +60,7 @@ public class EditManager extends BaseManager {
     
     // ----------------------------
 	
-	public MainFrame getParent(){ return frame(); }
+	public AppFrame getParent(){ return frame(); }
 	
 	/** edit */
 	public void edit(Object element){

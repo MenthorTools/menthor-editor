@@ -21,7 +21,6 @@ package net.menthor.editor.v2.managers;
  * ============================================================================================
  */
 
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -33,14 +32,13 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.ui.FactoryManager;
-import net.menthor.editor.ui.MenthorEditor;
-import net.menthor.editor.v2.editors.base.EditorMode;
-import net.menthor.editor.v2.editors.base.EditorMouseEvent;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.ui.editor.base.IEditorMode;
+import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.util.DrawUtil;
 
-public class ClipboardManager extends BaseManager implements EditorMode {
+public class ClipboardManager extends BaseManager implements IEditorMode {
 	
 	// -------- Lazy Initialization
 
@@ -57,13 +55,15 @@ public class ClipboardManager extends BaseManager implements EditorMode {
     // ----------------------------
 	
 	protected List<DiagramElement> clipboard = new ArrayList<DiagramElement>(); //copied elements
-	protected Rectangle2D clipBounds;
+	protected Rectangle2D clipBounds;	
 	protected Point2D tmpPos = new Point2D.Double();
+	protected boolean isActive = false;
 		
 	public void clearClipboard(){
 	  tmpPos = new Point2D.Double();
 	  clipBounds = null;
 	  clipboard.clear();
+	  isActive=false;
 	}
 	
 	public void cloneSelectedAndPutToClipboard(){
@@ -71,9 +71,9 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 		cloneAndPutToClipboard(de.getSelectedElements());
 	}
 	
-	public void cloneAndPutToClipboard(List<DiagramElement> diagramElementList){		
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();
+	public void cloneAndPutToClipboard(List<DiagramElement> diagramElementList){	
+		isActive=true;
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();		
 		for(DiagramElement s: diagramElementList){
@@ -83,55 +83,55 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 			}
 		}
 		initClipBounds();
-		drawClipBounds(context);
+		drawClipBounds();
 	}
 	
 	public void cloneAndPutToClipboard(DiagramElement element){
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();
+		isActive=true;
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 		if(element instanceof UmlNode) {
 			UmlNode ce = FactoryManager.get().cloneNode((UmlNode)element);
 		    if(!clipboard.contains(ce))clipboard.add(ce);	
 			initClipBounds();
-			drawClipBounds(context);
+			drawClipBounds();
 		}		
 	}
 		
 	public void createAndPutToClipboard(ClassType elementType){
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();
+		isActive=true;
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
 	    if(!clipboard.contains(node)) clipboard.add(node);	 
 	   	initClipBounds();
-	   	drawClipBounds(context);	 		
+	   	drawClipBounds();	 		
 	}
 	
 	public void createAndPutToClipboard(DataType elementType){
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
-		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();
+		isActive=true;
+		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
 	    if(!clipboard.contains(node)) clipboard.add(node);
 	    initClipBounds();
-		drawClipBounds(context);
+		drawClipBounds();
 	}
 	
 	public UmlNode putToClipboard(RefOntoUML.Type type, boolean drawClipBounds) {
+		isActive=true;
 		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
-		DrawingContext context = MenthorEditor.getFrame().getDrawingContext();
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(type, de.getDiagram());
 	    if(!clipboard.contains(node))clipboard.add(node);
 	    if(drawClipBounds){
 	    	initClipBounds();
-	    	drawClipBounds(context);
-	    }		
+	    	drawClipBounds();
+	    }			    
 	    return node;
 	}
 	
@@ -153,12 +153,15 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 		}
 		de.cancelEditing();				
 		clearClipboard();
+		isActive=false;
 	}
 	
 	/** draw the bounds of the copied elements in the clipboard */
 	@Override
 	public void draw(DrawingContext drawingContext) {
-		drawClipBounds(drawingContext);
+		if(isActive){
+			drawClipBounds();
+		}
 	}
 		
 	private void updateClipBounds(){
@@ -168,9 +171,13 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 		}
 	}
 	
-	private void drawClipBounds(DrawingContext drawingContext){		
+	private void drawClipBounds(){		
 		if(clipBounds!=null) {
-			drawingContext.drawRectangle(clipBounds.getX(), clipBounds.getY(), clipBounds.getWidth(), clipBounds.getHeight(), null);
+			DrawUtil.getDrawingContext().drawRectangle(
+				clipBounds.getX(), clipBounds.getY(), 
+				clipBounds.getWidth(), clipBounds.getHeight(), 
+				null
+			);
 		}
 	}
 	
@@ -201,22 +208,22 @@ public class ClipboardManager extends BaseManager implements EditorMode {
 	}
 	
 	@Override
-	public void mousePressed(EditorMouseEvent event) {
-		tmpPos.setLocation(event.getX(), event.getY());
+	public void mousePressed(EditorMouseEvent event) {		
+		tmpPos.setLocation(event.getX(), event.getY());		
 		pasteClipboard();
 		TabManager.get().getCurrentDiagramEditor().redraw();
 	}
-	
+	  
+	@Override
+	public void mouseReleased(EditorMouseEvent event){}	
+	@Override
+	public void mouseDragged(EditorMouseEvent event){}	
 	@Override
 	public void mouseClicked(EditorMouseEvent event){}	
 	@Override
-	public void mouseReleased(EditorMouseEvent event){}
-	@Override
-	public void mouseDragged(EditorMouseEvent event){}
-	@Override
 	public void stateChanged(){}
 	@Override
-	public void cancel(){}
+	public void cancel(){ isActive=false;}
 }
 
 

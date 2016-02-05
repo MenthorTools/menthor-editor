@@ -34,33 +34,33 @@ import javax.swing.border.EmptyBorder;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.editors.base.Editor;
-import net.menthor.editor.v2.status.StatusPane;
-import net.menthor.editor.v2.toolbar.DiagramToolBar;
-import net.menthor.editor.v2.tree.DiagramDropListener;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.ui.RoundedPanel;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
+import net.menthor.editor.v2.ui.statusbar.StatusBar;
+import net.menthor.editor.v2.ui.toolbar.DiagramToolBar;
+import net.menthor.editor.v2.ui.tree.DiagramDropListener;
 
-public class DiagramEditorWrapper extends RoundedPanel implements Editor{
+public class DiagramEditorWrapper extends RoundedPanel implements IEditor{
 
 	private static final long serialVersionUID = -1962960747434759099L;
 	
 	private DiagramToolBar diagramToolbar;		
 	private JScrollPane scrollpane;
 	private DiagramEditor diagramEditor;
-	private StatusPane statusPane;
+	private StatusBar statusPane;
 	public DropTarget dndTarget;
 	
 	public DiagramEditor getDiagramEditor() { return diagramEditor; }
 	public DiagramToolBar getToolBar() { return diagramToolbar; }	
-	public StatusPane getStatusBar() { return statusPane; }
+	public StatusBar getStatusBar() { return statusPane; }
 	public JScrollPane getScrollPane() { return scrollpane; }
 	
 	public DiagramEditorWrapper(final DiagramEditor editor, CommandListener editorDispatcher){
 		super();
 		this.diagramEditor = editor;	
 		diagramToolbar = new DiagramToolBar(editor.getListener());		
-		statusPane = new StatusPane();		
+		statusPane = new StatusBar();		
 		scrollpane = new JScrollPane();
 		scrollpane.setBackground(Color.WHITE);
 		scrollpane.getVerticalScrollBar().setUnitIncrement(16);

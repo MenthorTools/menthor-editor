@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 
 import net.menthor.common.settings.owl.OWL2Quality;
-import net.menthor.editor.v2.tables.MappingTableModel;
+import net.menthor.editor.v2.ui.table.MappingTableModel;
 import RefOntoUML.Element;
 import RefOntoUML.parser.OntoUMLParser;
 

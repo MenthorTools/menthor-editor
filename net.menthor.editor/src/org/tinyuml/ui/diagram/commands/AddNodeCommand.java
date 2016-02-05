@@ -38,10 +38,10 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Classifier;
-import net.menthor.editor.ui.FactoryManager;
+import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.UpdateManager;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
  * This class implements a command to add nodes. It is introduced, because
