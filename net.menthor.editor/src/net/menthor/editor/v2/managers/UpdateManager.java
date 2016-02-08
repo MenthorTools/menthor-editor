@@ -41,7 +41,6 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.ui.Models;
 
 public class UpdateManager extends BaseManager {
 
@@ -102,7 +101,7 @@ public class UpdateManager extends BaseManager {
 		updateFromChange(fix);		
 		updateFromDeletion(fix);
 		for(String str: fix.getAddedRules()){
-			Models.getOclDocList().get(0).addContentAsString(str);		
+			ProjectManager.get().getProject().getOclDocList().get(0).addContentAsString(str);		
 		}
 		return ;	
 	}
@@ -164,7 +163,7 @@ public class UpdateManager extends BaseManager {
 	/** Update application from the addition of an element on the model */
 	public void updateFromAddition(final RefOntoUML.Element addedElement){		
 		//add to parser
-		Models.getRefparser().addElement(addedElement);		
+		ProjectManager.get().getProject().getRefParser().addElement(addedElement);		
 		//add to tree
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -225,7 +224,7 @@ public class UpdateManager extends BaseManager {
 	/** Update application from the deletion of an element on the model */
 	public void updateFromDeletion(final RefOntoUML.Element deletedElement){		
 		// deleted from parser
-		Models.getRefparser().removeElement(deletedElement);
+		ProjectManager.get().getProject().getRefParser().removeElement(deletedElement);
 		//delete from the tree
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override

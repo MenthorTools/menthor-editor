@@ -40,7 +40,9 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.GeneralizationSetImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.antipattern.application.AntiPatternList;
 import net.menthor.editor.v2.MenthorEditor;
+import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.util.DirectoryUtil;
@@ -55,6 +57,22 @@ public class UmlProject implements Serializable {
 	private String version = new String();
 	
 	private transient OntoUMLParser refparser;
+	
+	private transient AntiPatternList antipatterns;	
+	public AntiPatternList getAntipatterns() { return antipatterns; }
+	public void setAntipatterns(AntiPatternList antipatterns) { this.antipatterns = antipatterns; }
+	
+	private transient List<OclDocument> oclDocList = new ArrayList<OclDocument>();
+	public List<OclDocument> getOclDocList() { return oclDocList; }
+	public void setOclDocList(List<OclDocument> oclDocList) { this.oclDocList = oclDocList; }
+	public void clearOclDocs(){ this.getOclDocList().clear(); }
+	public List<String> getOclDocumentNames(){
+		List<String> result = new ArrayList<String>();
+		for(OclDocument d: oclDocList){
+			result.add(d.getName());			
+		}
+		return result;
+	}
 	
 	/** is save needed */
 	private transient boolean saveNeeded = false;
@@ -102,6 +120,7 @@ public class UmlProject implements Serializable {
 		name = "New Project";
 		version = MenthorEditor.MENTHOR_VERSION;
 		refparser = new OntoUMLParser(model);
+		oclDocList = new ArrayList<OclDocument>();
 	}
 	
 	public UmlProject() {
@@ -115,9 +134,13 @@ public class UmlProject implements Serializable {
 		name = "New Project";		
 		version = MenthorEditor.MENTHOR_VERSION;
 		refparser = new OntoUMLParser(model);
+		oclDocList = new ArrayList<OclDocument>();
 	}
 	
-	public OntoUMLParser getRefParser(){ return refparser; }
+	public OntoUMLParser getRefParser(){ 
+		if(refparser==null && getModel()!=null) refparser = new OntoUMLParser(getModel());
+		return refparser; 
+	}
 	
 	public void saveAllDiagramNeeded(boolean value){
 		for(OntoumlDiagram d: getDiagrams()) {
@@ -220,5 +243,14 @@ public class UmlProject implements Serializable {
 	public static String createBinDir(){
 		if(binDir == null) binDir = DirectoryUtil.makeBinDir();		
 		return binDir;
+	}
+	
+
+	public List<String> getDiagramNames(){
+		List<String> result = new ArrayList<String>();
+		for(OntoumlDiagram d: getDiagrams()){
+			result.add(d.getName());			
+		}
+		return result;
 	}
 }

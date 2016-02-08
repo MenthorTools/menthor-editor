@@ -23,7 +23,6 @@ package net.menthor.editor.v2.managers;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.ui.Models;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
 public class ParthoodManager extends BaseManager {
@@ -43,7 +42,7 @@ public class ParthoodManager extends BaseManager {
     // ----------------------------
 	
 	public void evaluateParthoods() {
-		ParthoodDialog.open(Models.getRefparser(), frame());
+		ParthoodDialog.open(ProjectManager.get().getProject().getRefParser(), frame());
 	}	
 	
 	class ParthoodDialog extends ValidationDialog {

@@ -26,13 +26,10 @@ import java.io.File;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
-
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 
 public class SbvrManager extends BaseManager {
@@ -54,7 +51,7 @@ public class SbvrManager extends BaseManager {
 	/**  Generate SBVR documentation.
 	 *   In order to use the plug-in, we need to store the model into a file before. */
 	public void generateSbvr(){
-		OntoUMLParser refparser = Models.getRefparser();		
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();		
 		generateSbvr(refparser.getModel());
 	}
 	

@@ -33,7 +33,6 @@ import net.menthor.antipattern.application.AntiPatternResultDialog;
 import net.menthor.antipattern.application.AntiPatternSearchDialog;
 import net.menthor.antipattern.application.AntipatternOccurrence;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.ui.Models;
 
 public class AntiPatternManager extends BaseManager {
 
@@ -52,7 +51,7 @@ public class AntiPatternManager extends BaseManager {
     // ----------------------------
 	
 	public void detectAntiPatterns(){					
-		APSearchDialog.open(frame(), Models.getRefparser());		
+		APSearchDialog.open(frame(), ProjectManager.get().getProject().getRefParser());		
 	}	
 	
 	class APSearchDialog extends AntiPatternSearchDialog {
@@ -67,7 +66,7 @@ public class AntiPatternManager extends BaseManager {
 		
 		/** transfer the result to Menthor */
 		@Override 
-		public void transferResult(AntiPatternList list){ Models.setAntipatterns(list); }
+		public void transferResult(AntiPatternList list){ ProjectManager.get().getProject().setAntipatterns(list); }
 	}
 	
 	class APResultDialog extends AntiPatternResultDialog {

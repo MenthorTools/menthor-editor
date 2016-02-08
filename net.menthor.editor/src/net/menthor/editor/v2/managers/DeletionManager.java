@@ -42,7 +42,7 @@ import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.ui.Models;
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
 
 public class DeletionManager extends BaseManager {
@@ -120,7 +120,7 @@ public class DeletionManager extends BaseManager {
 		boolean response = true;
 		if (showwarning) response = confirmOclDocDeletion(frame());		
 		if(response) {
-			Models.getOclDocList().remove(doc);
+			ProjectManager.get().getProject().getOclDocList().remove(doc);
 			TabManager.get().removeEditor(doc);		
 			tree().removeCurrentNode();
 		}
@@ -161,10 +161,10 @@ public class DeletionManager extends BaseManager {
 	public void deleteElements(List<RefOntoUML.Element> elements){
 		
 		HashSet<Element> dependencies = new HashSet<Element>();
-		
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		//if element is a Class or a Datatype, adds all connections attached to it to the deletion list
 		for (Element element : elements) {
-			dependencies.addAll(Models.getRefparser().getDirectRelationships(element));
+			dependencies.addAll(refparser.getDirectRelationships(element));
 		}
 		
 		elements.addAll(dependencies);

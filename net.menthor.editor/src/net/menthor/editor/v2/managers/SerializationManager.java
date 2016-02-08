@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -68,7 +67,7 @@ public class SerializationManager extends BaseManager {
 		}
     }
     
-    public File serializeMenthorFile(File file, UmlProject project, ArrayList<OclDocument> oclDocList) throws IOException {
+    public File serializeMenthorFile(File file, UmlProject project, List<OclDocument> oclDocList) throws IOException {
 		FileOutputStream dest = new FileOutputStream(file);
 		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
 		serializeModel(project.getResource(),out);

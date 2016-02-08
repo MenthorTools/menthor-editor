@@ -36,8 +36,8 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 
 /**
@@ -82,7 +82,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			Classifier element = (((ClassElement)parent).getClassifier());
 									
 			// replace all references in constraints
-			for(OclDocument oclDoc: Models.getOclDocList())
+			for(OclDocument oclDoc: ProjectManager.get().getProject().getOclDocList())
 			{
 				String currentConstraints = oclDoc.getContentAsString();
 				String newConstraints = currentConstraints.replaceAll(oldName,text);
@@ -131,7 +131,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			Classifier element = (((ClassElement)parent).getClassifier());
 			
 			// replace all references in constraints
-			for(OclDocument oclDoc: Models.getOclDocList())
+			for(OclDocument oclDoc: ProjectManager.get().getProject().getOclDocList())
 			{
 				String currentConstraints = oclDoc.getContentAsString();
 				String newConstraints = currentConstraints.replaceAll(text,oldText);

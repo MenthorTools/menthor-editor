@@ -24,14 +24,10 @@ package net.menthor.editor.v2.ui.tree;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.List;
 
 import javax.swing.JScrollPane;
 
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
-
-import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -62,10 +58,10 @@ public class AppProjectBrowser extends RoundedPanel{
 		add(roundTitlePane, BorderLayout.NORTH);	
 	}
 		  	
-	public void initialize(UmlProject project, OntoUMLParser refparser, List<OclDocument> oclDocs){	
+	public void initialize(UmlProject project){	
 		TreeVisibility viz = new TreeVisibility();
 		viz.hideEnds();
-		tree = ProjectTree.create(listener,refparser,oclDocs,project, viz, false);
+		tree = ProjectTree.create(listener,project.getRefParser(),project.getOclDocList(),project, viz, false);
 		scrollPane.setViewportView(tree);	
 		scrollPane.setMinimumSize(new Dimension(0,0));
 		updateUI();

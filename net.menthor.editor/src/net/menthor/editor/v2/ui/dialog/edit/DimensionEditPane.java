@@ -39,7 +39,7 @@ import RefOntoUML.IntegerMeasurementRegion;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.MeasurementDomain;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.Models;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
 
 public class DimensionEditPane extends JPanel {
@@ -160,7 +160,7 @@ public class DimensionEditPane extends JPanel {
 					.addContainerGap(23, Short.MAX_VALUE))
 		);		
 		pane.setLayout(gl_classPropPanel);
-		OntoUMLParser refparser = Models.getRefparser();		
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();		
     	domainCombo.setModel(new DefaultComboBoxModel(refparser.getAllDomainsSorted().toArray()));    	
     	add(pane);
     	if(structure instanceof MeasurementDimension) setData();

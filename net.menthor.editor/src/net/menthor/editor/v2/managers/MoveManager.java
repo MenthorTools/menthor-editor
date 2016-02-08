@@ -46,7 +46,6 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.Models;
 
 public class MoveManager extends BaseManager {
 	
@@ -149,7 +148,7 @@ public class MoveManager extends BaseManager {
 			conn.setShowRoles(showRoles);
 			conn.setReadingDesign(direction);			
 			if(association instanceof MaterialAssociation){				
-				OntoUMLParser refparser = Models.getRefparser();
+				OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
 				if(deriv!=null) moveAssociation(deriv, d, false, false, false, true, false, direction);
 			}
@@ -158,7 +157,7 @@ public class MoveManager extends BaseManager {
 	
 	/** Move associations of an element to the diagram. */
 	public void moveAssociations(RefOntoUML.Element element, DiagramEditor d){
-		OntoUMLParser refparser = Models.getRefparser();		
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();		
 		for(RefOntoUML.Association a: refparser.getDirectAssociations((RefOntoUML.Classifier)element)){
 			if(a instanceof MaterialAssociation){						
 				Derivation deriv = refparser.getDerivation((MaterialAssociation)a);
@@ -170,7 +169,7 @@ public class MoveManager extends BaseManager {
 	
 	/** Move generalizations of an element to the diagram. */
 	public void moveGeneralizations(RefOntoUML.Element element, DiagramEditor d){
-		OntoUMLParser refparser = Models.getRefparser();
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element)){
 			if(!d.getDiagram().containsChild(gen)) moveGeneralization(d, gen, false);
 		}

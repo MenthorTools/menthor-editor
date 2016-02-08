@@ -46,8 +46,8 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Relationship;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
@@ -105,7 +105,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		for (Element elem : theElements) 
 		{
 			// level 1 of dependency
-			ArrayList<Relationship> depList = Models.getRefparser().getDirectRelationships(elem);			
+			ArrayList<Relationship> depList = ProjectManager.get().getProject().getRefParser().getDirectRelationships(elem);			
 			depList.removeAll(elemList);
 			for(Element e: depList) { if(!elemDep1List.contains(e)) elemDep1List.add(e); }			
 			
@@ -115,7 +115,7 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 			{ 
 				if (r instanceof MaterialAssociation) 
 				{ 
-					Derivation d =  Models.getRefparser().getDerivation((MaterialAssociation)r);
+					Derivation d =  ProjectManager.get().getProject().getRefParser().getDerivation((MaterialAssociation)r);
 					if(d!=null) {
 						if(!elemDep2List.contains(d)) elemDep2List.add(d);						
 					}

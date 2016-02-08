@@ -30,7 +30,6 @@ import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
@@ -60,7 +59,7 @@ public class OwlManager extends BaseManager {
 	
 	public void callOwlSettings(){		
 		OwlSettingsDialog dialog = new OwlSettingsDialog(frame(),listener(), 
-			Models.getRefparser(),
+			ProjectManager.get().getProject().getRefParser(),
 			ProjectManager.get().getProject().getDiagrams()
 		);
 		dialog.setLocationRelativeTo(frame());

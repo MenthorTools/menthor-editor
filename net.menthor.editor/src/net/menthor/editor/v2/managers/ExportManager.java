@@ -33,7 +33,6 @@ import javax.imageio.ImageIO;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
 import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
@@ -97,7 +96,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();				
 			OntoUML2EcoreOption opt = new OntoUML2EcoreOption(false,false);
-			OntoUML2Ecore.convertToEcore(Models.getRefparser(), file.getAbsolutePath(), opt);
+			OntoUML2Ecore.convertToEcore(ProjectManager.get().getProject().getRefParser(), file.getAbsolutePath(), opt);
 			lastEcorePath = file.getAbsolutePath();				
 			MessageManager.get().showSuccess("Export - Ecore", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
 		} catch (Exception ex) {
@@ -112,7 +111,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();				
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
-			OntoUML2UML.convertToUMLProfile(Models.getRefparser(),file.getAbsolutePath(),opt);							
+			OntoUML2UML.convertToUMLProfile(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);							
 			lastUmlPath = file.getAbsolutePath();				
 			MessageManager.get().showSuccess("Export - UML Profile", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
 		} catch (Exception ex) {
@@ -127,7 +126,7 @@ public class ExportManager extends BaseManager {
 			if(file==null) return;
 			CursorManager.get().waitCursor();			
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
-			OntoUML2UML.convertToUML(Models.getRefparser(),file.getAbsolutePath(),opt);			
+			OntoUML2UML.convertToUML(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);			
 			lastUmlPath = file.getAbsolutePath();				
 			MessageManager.get().showSuccess("Export - UML", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
 		} catch (Exception ex) {					

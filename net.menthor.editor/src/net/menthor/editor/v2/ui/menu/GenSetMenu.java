@@ -11,9 +11,9 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.ui.Models;
-import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.managers.ProjectManager;
 
 /** Assumes that this menu is only created if there is at least one instance of GeneralizationELement on the context. 
  * Verification if left for the caller, because it would not make sense to even create this menu.
@@ -29,8 +29,8 @@ public class GenSetMenu extends MultiElementMenu {
 	public GenSetMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);	
 		ArrayList<Generalization> gList = filterGeneralizations();
-		Set<GeneralizationSet> gsList = Models.getRefparser().getGeneralizationSets(gList);
-		Set<GeneralizationSet> gsToAdd = Models.getRefparser().getAvailableGeneralizations(gsList, gList);
+		Set<GeneralizationSet> gsList = ProjectManager.get().getProject().getRefParser().getGeneralizationSets(gList);
+		Set<GeneralizationSet> gsToAdd = ProjectManager.get().getProject().getRefParser().getAvailableGeneralizations(gsList, gList);
 		
 		newMenuItem = createMenuItem("New", CommandType.NEW_GEN_SET_DIAGRAM); 
 		addMenu = new GenericMenu<ArrayList<Generalization>>(listener,"Add to",gList);
@@ -42,7 +42,7 @@ public class GenSetMenu extends MultiElementMenu {
 		add(deleteMenu);
 		
 		//Can only create a new GS if all generalizations lead to the same classifier
-		if(Models.getRefparser().sameGeneralOnGeneralizationList(gList))
+		if(ProjectManager.get().getProject().getRefParser().sameGeneralOnGeneralizationList(gList))
 			newMenuItem.setEnabled(true);
 		else
 			newMenuItem.setEnabled(false);

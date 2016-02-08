@@ -37,7 +37,6 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.Models;
 
 public class FilterManager extends BaseManager {
 
@@ -58,28 +57,26 @@ public class FilterManager extends BaseManager {
 	/** Tell the application to work only with the set of elements contained in the diagram. */
 	public void workingOnlyWith(StructureDiagram diagram){
 		List<EObject> elements = OccurenceManager.get().getElements(diagram);
-		OntoUMLParser refparser = Models.getRefparser();				
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
 		elements.removeAll(added);
 		elements.addAll(added);
 		//browser.getTree().check(elements, true); //no checkbox on the browser				
 		tree().updateUI();		
-		Models.setRefparser(refparser);
 	}
 	
 	/** Tell the application to work with all elements in the model. */
 	public void workingWithAll(){
-		OntoUMLParser refparser = Models.getRefparser();					
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();					
 		//pb.getTree().checkModelElement(currentProject.getModel()); //no checkbox on the browser
 		refparser.selectAll();		
-		tree().updateUI();		
-		Models.setRefparser(refparser);
+		tree().updateUI();	
 	}
 	
 	/** Tell the application to work only with the checked elements in the tree. */
 	public List<Object> workingOnlyWithChecked(){ //takes too long
-		OntoUMLParser refparser = Models.getRefparser();
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		List<Object> selected = tree().getCheckedObjects();
 		List<EObject> result = new ArrayList<EObject>();
 		for(Object c: selected) result.add((EObject)c);
@@ -88,8 +85,7 @@ public class FilterManager extends BaseManager {
 		selected.removeAll(added);
 		selected.addAll(added);		
 		//modeltree.getTree().checkModelElements(selected, true); //no checkbox on the browser		
-		tree().updateUI();	
-		Models.setRefparser(refparser);		
+		tree().updateUI();		
 		return selected;
 	}
 	
@@ -128,7 +124,7 @@ public class FilterManager extends BaseManager {
 			}		
 		}
 		//complete missing/mandatory dependencies on the parser
-		OntoUMLParser refparser = Models.getRefparser();				
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
 		elements.removeAll(added);
@@ -136,7 +132,6 @@ public class FilterManager extends BaseManager {
 		//check in the tree the selected elements of the parser		
 		//modeltree.getTree().check(elements, true); //no checkbox on teh browser					
 		tree().updateUI();		
-		Models.setRefparser(refparser);
 	}
 	
 }

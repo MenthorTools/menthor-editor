@@ -35,7 +35,6 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OclDocument;
 
 //Class to deal with renaning elements on the project browser.
@@ -105,7 +104,7 @@ public class RenameManager extends BaseManager {
 		String text = askForOCLDocName(frame(), oclDoc);					
 		final String newtext = text;
 		if(text!=null){
-			if(Models.getOclDocumentNames().contains(text)){
+			if(ProjectManager.get().getProject().getOclDocumentNames().contains(text)){
 				//name must be unique
 			}else{
 				//update ocl tab
@@ -128,7 +127,7 @@ public class RenameManager extends BaseManager {
 		String text = askForDiagramName(frame(), diagram);
 		final String newtext = text;		
 		if(text!=null){
-			if(Models.getDiagramNames().contains(text)){
+			if(ProjectManager.get().getProject().getDiagramNames().contains(text)){
 				//diagram name must be unique
 			}else{
 				SwingUtilities.invokeLater(new Runnable() {				

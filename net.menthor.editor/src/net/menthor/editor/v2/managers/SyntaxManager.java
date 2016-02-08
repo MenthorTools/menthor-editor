@@ -32,7 +32,6 @@ import org.eclipse.ocl.SemanticException;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
@@ -60,7 +59,7 @@ public class SyntaxManager extends BaseManager{
 	}
 	
 	public void verifyConstraints(boolean showSuccesfullyMessage){
-		OntoUMLParser refparser = Models.getRefparser();				
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();				
 		try { 
 			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";

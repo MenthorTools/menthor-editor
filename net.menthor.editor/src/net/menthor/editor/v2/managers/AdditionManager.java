@@ -41,7 +41,6 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.types.ClassType;
@@ -190,25 +189,21 @@ public class AdditionManager extends BaseManager {
 	}
 	
 	/** Add ocl document to a container */
-	public void addOclDocument(Object eContainer){
-		addOclDocument(eContainer, "", false);
+	public void addOclDocument(Object treeNode){
+		addOclDocument(treeNode, "", false);
 	}
 	
 	/** Add ocl document to a container */
-	public void addOclDocument(Object eContainer, String oclContent, boolean createTab){		
-		
-		if(!(eContainer instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode) eContainer).getUserObject() instanceof Package))
-			return;
-		
-		Package pack = (Package) ((DefaultMutableTreeNode) eContainer).getUserObject();
-				
-		OclDocument oclDoc = new OclDocument();		
-		oclDoc.setContainer(pack);
+	public void addOclDocument(Object treeNode, String oclContent, boolean createTab){		
+		OclDocument oclDoc = new OclDocument();
+		if(treeNode!=null && (treeNode instanceof DefaultMutableTreeNode)){
+			Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
+			oclDoc.setContainer(pack);
+		}				
 		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
-		oclDoc.setName("Rules"+Models.getOclDocList().size());		
-		Models.getOclDocList().add(oclDoc);			
-		DefaultMutableTreeNode container = tree().getNode(pack);
-		tree().addChild(container, oclDoc);
+		oclDoc.setName("Rules"+ProjectManager.get().getProject().getOclDocList().size());		
+		ProjectManager.get().getProject().getOclDocList().add(oclDoc);		
+		tree().addChild((DefaultMutableTreeNode)treeNode, oclDoc);
 		if(createTab) TabManager.get().addOclEditor(oclDoc);
 	}
 	
@@ -216,18 +211,18 @@ public class AdditionManager extends BaseManager {
 		addDiagram(null);
 	}
 
-	public void addDiagram(Object input){		
-		if(!(input instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode) input).getUserObject() instanceof Package)) return;		
-		Package epackage = (Package) ((DefaultMutableTreeNode) input).getUserObject();				
+	public void addDiagram(Object treeNode){				
 		StructureDiagram diagram = new StructureDiagram(ProjectManager.get().getProject());
-		if(epackage!=null) diagram.setContainer(epackage);
+		if(treeNode!=null){
+			Package epackage = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
+			if(epackage!=null) diagram.setContainer(epackage);			
+		}
 		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
-		TabManager.get().addDiagramEditor(diagram);		
-		DefaultMutableTreeNode container = tree().getNode(epackage);
-		tree().addChild(container,diagram);
+		TabManager.get().addDiagramEditor(diagram);				
+		tree().addChild((DefaultMutableTreeNode)treeNode,diagram);
 	}
 	
 	public void setDefaultDiagramSize(StructureDiagram diagram){

@@ -32,7 +32,6 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
-import net.menthor.editor.ui.Models;
 
 public class RemakeManager extends BaseManager {
 
@@ -52,7 +51,7 @@ public class RemakeManager extends BaseManager {
 	
 	/** Re-make all associations in all diagrams they appear. */
 	public void remakeAllAssociations(){
-		Set<Association> list = Models.getRefparser().getAllInstances(Association.class);
+		Set<Association> list = ProjectManager.get().getProject().getRefParser().getAllInstances(Association.class);
 		for(Association a: list){
 			remakeRelationship(a);
 		}

@@ -107,7 +107,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -1726,7 +1725,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	public void subsets(final DiagramElement connection, RefOntoUML.Property endpoint){
 		PropertyListEditDialog.open(
 				MenthorEditor.getFrame(),null, "Subsetted", endpoint, 
-			Models.getRefparser()
+				ProjectManager.get().getProject().getRefParser()
 		);		
 		SwingUtilities.invokeLater(new Runnable() {						
 			@Override
@@ -1758,7 +1757,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	public void redefines(final DiagramElement connection, RefOntoUML.Property endpoint){
 		PropertyListEditDialog.open(
 				MenthorEditor.getFrame(),null, "Redefined", endpoint, 
-			Models.getRefparser()
+				ProjectManager.get().getProject().getRefParser()
 		);		
 		SwingUtilities.invokeLater(new Runnable() {						
 			@Override
@@ -2040,7 +2039,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 			double y = ce.getAbsoluteY1()-30;
 			int row = 0;
 			int column = 0;
-			OntoUMLParser refparser = Models.getRefparser();			
+			OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();			
 			HashSet<Type> addedTypes = new HashSet<Type>();			
 			ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
 			relatedAssociations.addAll(refparser.getDirectAssociations(element));

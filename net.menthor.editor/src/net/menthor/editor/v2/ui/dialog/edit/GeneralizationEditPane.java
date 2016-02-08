@@ -48,10 +48,10 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.MessageManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -111,7 +111,7 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setData(){
-		List<RefOntoUML.PackageableElement> types = Models.getRefparser().getAllTypesSorted();				
+		List<RefOntoUML.PackageableElement> types = ProjectManager.get().getProject().getRefParser().getAllTypesSorted();				
     	generalCombo.setModel(new DefaultComboBoxModel(types.toArray()));
     	generalCombo.setSelectedItem(element.getGeneral());	
     	specificCombo.setModel(new DefaultComboBoxModel(types.toArray()));
@@ -151,7 +151,7 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void addGenSet(){
-		OntoUMLParser refparser = Models.getRefparser();
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		ArrayList<RefOntoUML.GeneralizationSet> genSetList = new ArrayList<RefOntoUML.GeneralizationSet>();
 		for(GeneralizationSet gs: refparser.getAllInstances(GeneralizationSet.class)){
 			if (!(element.getGeneralizationSet().contains(gs))) genSetList.add(gs);

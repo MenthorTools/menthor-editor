@@ -32,7 +32,6 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.FoundElement;
 import net.menthor.editor.v2.ui.util.DiagramListDialog;
@@ -92,7 +91,7 @@ public class FindManager extends BaseManager {
 	
 	public List<FoundElement> findByName(String text){		
 		List<FoundElement> result = new ArrayList<FoundElement>();
-		OntoUMLParser refparser = Models.getRefparser();
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		if(refparser!=null && text!=null /*&& !text.isEmpty()*/){
 			for(EObject eobj: refparser.getAllInstances(EObject.class)){
 				if (eobj instanceof NamedElement){

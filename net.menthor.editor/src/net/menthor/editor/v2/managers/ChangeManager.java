@@ -42,7 +42,6 @@ import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 
@@ -71,7 +70,7 @@ public class ChangeManager extends BaseManager {
 	
 	/** Change relation stereotype */ 
 	public void changeRelationStereotype(Relationship type, String stereo){	
-   		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
+   		OutcomeFixer fixer = new OutcomeFixer(ProjectManager.get().getProject().getModel());
    		Fix fix = fixer.changeRelationStereotypeTo(type, fixer.getRelationshipStereotype(stereo));   		
    		UpdateManager.get().update(fix);   		   		
    	}
@@ -84,7 +83,7 @@ public class ChangeManager extends BaseManager {
 	/** Change a class stereotype */ 
 	public void changeClassStereotype(Type type, String stereo){   
 		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(type);		
-   		OutcomeFixer fixer = new OutcomeFixer(Models.getRefparser().getModel());
+   		OutcomeFixer fixer = new OutcomeFixer(ProjectManager.get().getProject().getModel());
    		Fix fix = fixer.changeClassStereotypeTo(type, fixer.getClassStereotype(stereo));   	
    		for(DiagramElement de: diagramElements){
 	   		if (de !=null && de instanceof ClassElement) {

@@ -36,7 +36,6 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import org.tinyuml.ui.diagram.DiagramEditorWrapper;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 
 import net.menthor.editor.v2.OclDocument;
@@ -187,7 +186,7 @@ public class TabManager extends BaseManager {
 	
 	public String getConstraints(){
 		String result = new String();
-		for(OclDocument oclmodel: Models.getOclDocList()){				
+		for(OclDocument oclmodel: ProjectManager.get().getProject().getOclDocList()){				
 			OclEditor ce = TabManager.get().getOclEditor(oclmodel);
 			if(ce!=null) result+=ce.getText();
 			else result+=oclmodel.getContentAsString();

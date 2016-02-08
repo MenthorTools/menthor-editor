@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.diagram.DiagramEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OclDocument;
@@ -67,9 +66,8 @@ public class ProjectManager extends BaseManager {
 	
 	public void setProject(UmlProject project){
 		this.project = project;
-		this.project.setSaveModelNeeded(false);		
-		Models.set(this.project);
-		frame().getProjectBrowser().initialize(project, Models.getRefparser(), Models.getOclDocList());		
+		this.project.setSaveModelNeeded(false);
+		frame().getProjectBrowser().initialize(project);		
 		TabManager.get().initialize(project);
 	}
 	
@@ -143,8 +141,7 @@ public class ProjectManager extends BaseManager {
 			if(confirmClose(frame())) saveProject();							
 		}		
 		project=null;
-		infoTabbedPane().empty();
-		Models.clear();
+		infoTabbedPane().empty();		
 		TabManager.get().backToInitialState();
 	}
 	
@@ -283,7 +280,7 @@ public class ProjectManager extends BaseManager {
 			for(DiagramEditor editor: TabManager.get().getDiagramEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
-			result = SerializationManager.get().serializeMenthorFile(file, project, Models.getOclDocList());
+			result = SerializationManager.get().serializeMenthorFile(file, project, project.getOclDocList());
 			project.setName(file.getName().replace(".menthor",""));
 			tree().updateUI();
 			project.saveAllDiagramNeeded(false);

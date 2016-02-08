@@ -51,7 +51,6 @@ import RefOntoUML.impl.IntegerOrdinalDimensionImpl;
 import RefOntoUML.impl.IntegerRationalDimensionImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
@@ -224,14 +223,14 @@ public class TransferManager extends BaseManager {
 		// added
 		ArrayList<Constraintx> toBeAdded = new ArrayList<Constraintx>();
 		for(Constraintx c: constraints){			
-			if (!Models.getRefparser().getConstraints(element).contains(c)){				
+			if (!ProjectManager.get().getProject().getRefParser().getConstraints(element).contains(c)){				
 				toBeAdded.add(c);
 			}
 		}
 		for(Constraintx cmt: toBeAdded) { AdditionManager.get().addConstraintx(cmt, (RefOntoUML.Element)element); }			
 		//deleted
 		ArrayList<Constraintx> toBeDeleted = new ArrayList<Constraintx>();
-		for(Constraintx c: Models.getRefparser().getConstraints(element)){
+		for(Constraintx c: ProjectManager.get().getProject().getRefParser().getConstraints(element)){
 			if (!constraints.contains(c)){
 				toBeDeleted.add(c);
 			}

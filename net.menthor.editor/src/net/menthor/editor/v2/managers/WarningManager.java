@@ -9,11 +9,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.NamedElement;
-
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.element.ProblemElement;
-import net.menthor.editor.v2.element.WarningElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
+import net.menthor.editor.v2.element.WarningElement;
 
 public class WarningManager extends BaseManager {
 
@@ -61,7 +59,7 @@ public class WarningManager extends BaseManager {
 	}
 	 
 	private void checkUnnamedElements(){		
-		for(EObject c: Models.getRefparser().getElements()){			
+		for(EObject c: ProjectManager.get().getProject().getRefParser().getElements()){			
 			if(c instanceof NamedElement){
 				NamedElement ne = (NamedElement)c;
 				if (ne.getName()==null || ne.getName().trim().isEmpty()){ 				

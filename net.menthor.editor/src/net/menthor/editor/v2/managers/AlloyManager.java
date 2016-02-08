@@ -33,7 +33,6 @@ import net.menthor.alloy.AlloyModule;
 import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.ui.Models;
 import net.menthor.editor.v2.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.ontouml2alloy.OntoUML2Alloy;
@@ -68,11 +67,11 @@ public class AlloyManager extends BaseManager {
 			    	File.separator+ProjectManager.get().getProject().getName().toLowerCase()+".als");
 		SyntaxManager.get().verifyConstraints(false);
 		
-		OntoUMLParser refparser = Models.getRefparser();
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		refOptions.check(refparser);
 		
 		AlsSettingsDialog.open(frame(), listener(),
-			Models.getRefparser(),
+			ProjectManager.get().getProject().getRefParser(),
 			ProjectManager.get().getProject().getDiagrams(),
 			refOptions, 
 			oclOptions
