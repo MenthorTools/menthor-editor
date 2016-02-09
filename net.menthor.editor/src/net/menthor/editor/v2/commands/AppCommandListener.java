@@ -2,6 +2,7 @@ package net.menthor.editor.v2.commands;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
 
+import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -40,6 +41,7 @@ import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.managers.WarningManager;
+import net.menthor.editor.v2.ui.AppFrame;
 
 public class AppCommandListener implements ICommandListener {
 
@@ -100,7 +102,8 @@ public class AppCommandListener implements ICommandListener {
 			if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
 				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
 			//----------------
-				
+			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
+				return methodcall.call(MenthorEditor.getFrame());
 			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){
 				return methodcall.call(AdditionManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AlignManager.class){
