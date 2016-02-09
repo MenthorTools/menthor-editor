@@ -7,7 +7,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 
 public abstract class AntipatternWizardPage<T extends AntipatternOccurrence, W extends AntipatternWizard> extends WizardPage {
 

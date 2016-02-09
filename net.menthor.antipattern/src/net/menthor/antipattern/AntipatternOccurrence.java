@@ -1,5 +1,5 @@
 
-package net.menthor.antipattern.application;
+package net.menthor.antipattern;
 
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
@@ -19,11 +19,11 @@ public abstract class AntipatternOccurrence {
 		if (antipattern==null)
 			throw new NullPointerException("AntipatternOccurrence: antipattern cannot be null.");
 		
-		if (antipattern.parser==null)
+		if (antipattern.getParser()==null)
 			throw new NullPointerException("AntipatternOccurrence: parser cannot be null.");
 		
 		this.antipattern = antipattern;
-		this.parser = antipattern.parser;
+		this.parser = antipattern.getParser();
 		this.fixer = new OutcomeFixer(parser.getModel());
 		this.fix = new Fix();
 		this.isFixed = false;		

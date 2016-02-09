@@ -253,12 +253,14 @@ public class TabManager extends BaseManager {
 		}		
 	}
 	
-	public void selectEditor(OclDocument oclDoc){		
+	public boolean selectEditor(OclDocument oclDoc){		
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof OclEditor) {
-				if(((OclEditor) c).getOclDocument().equals(oclDoc)) editorTabbedPane().setSelectedComponent(c);
+			if(c instanceof OclEditor && ((OclEditor) c).getOclDocument().equals(oclDoc)) {
+				editorTabbedPane().setSelectedComponent(c);
+				return true;
 			}
-		}		
+		}
+		return false;
 	}
 	
 	public void selectEditor(IEditor editor){		

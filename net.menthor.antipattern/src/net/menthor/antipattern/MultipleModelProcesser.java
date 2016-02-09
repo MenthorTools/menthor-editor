@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.GSRig.GSRigAntipattern;
-import net.menthor.antipattern.application.Antipattern;
 import net.menthor.antipattern.asscyc.AssCycAntipattern;
 import net.menthor.antipattern.binover.BinOverAntipattern;
 import net.menthor.antipattern.decint.DecIntAntipattern;

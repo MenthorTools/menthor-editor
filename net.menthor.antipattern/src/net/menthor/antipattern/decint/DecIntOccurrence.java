@@ -11,7 +11,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 
 public class DecIntOccurrence extends AntipatternOccurrence {
 

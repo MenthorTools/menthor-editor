@@ -1,4 +1,4 @@
-package net.menthor.antipattern.application;
+package net.menthor.editor.v2.ui.antipattern;
 
 /**
  * ============================================================================================
@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
+import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
 
 public class AntipatternTask extends SwingWorker<Void, Void>{

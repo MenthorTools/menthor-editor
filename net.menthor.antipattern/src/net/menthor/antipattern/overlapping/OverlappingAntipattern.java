@@ -8,7 +8,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.antipattern.application.Antipattern;
+import net.menthor.antipattern.Antipattern;
 
 public abstract class OverlappingAntipattern<T extends OverlappingOccurrence> extends Antipattern<T> {
 

@@ -1,10 +1,9 @@
-package net.menthor.antipattern.application;
+package net.menthor.antipattern;
 
 import java.util.ArrayList;
 
 import RefOntoUML.Package;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.antipattern.AntipatternInfo;
 
 
 public abstract class Antipattern<T extends AntipatternOccurrence> {

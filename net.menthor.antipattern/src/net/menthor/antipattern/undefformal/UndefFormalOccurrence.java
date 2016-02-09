@@ -3,7 +3,7 @@ package net.menthor.antipattern.undefformal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.RelationStereotype;

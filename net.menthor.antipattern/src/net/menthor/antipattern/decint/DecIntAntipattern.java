@@ -3,8 +3,8 @@ package net.menthor.antipattern.decint;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
-import net.menthor.antipattern.application.Antipattern;
 import RefOntoUML.AntiRigidSortalClass;
 import RefOntoUML.Class;
 import RefOntoUML.Classifier;

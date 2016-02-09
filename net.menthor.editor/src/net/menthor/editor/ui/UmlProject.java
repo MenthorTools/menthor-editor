@@ -40,7 +40,7 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.GeneralizationSetImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.antipattern.application.AntiPatternList;
+import net.menthor.antipattern.AntiPatternList;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;

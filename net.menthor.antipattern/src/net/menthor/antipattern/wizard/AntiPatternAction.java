@@ -1,6 +1,6 @@
 package net.menthor.antipattern.wizard;
 
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 
 public abstract class AntiPatternAction <T extends AntipatternOccurrence> {
 	

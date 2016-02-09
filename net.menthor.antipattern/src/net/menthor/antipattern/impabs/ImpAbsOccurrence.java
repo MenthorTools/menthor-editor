@@ -2,7 +2,7 @@ package net.menthor.antipattern.impabs;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 import net.menthor.antipattern.util.AlloyConstructor;
 import net.menthor.antipattern.util.SourceTargetAssociation;
 import net.menthor.common.list.Combination;

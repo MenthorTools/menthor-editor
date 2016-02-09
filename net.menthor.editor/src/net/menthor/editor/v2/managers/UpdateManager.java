@@ -41,6 +41,7 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.v2.OclDocument;
 
 public class UpdateManager extends BaseManager {
 
@@ -100,8 +101,15 @@ public class UpdateManager extends BaseManager {
 		updateFromAddition(fix);				
 		updateFromChange(fix);		
 		updateFromDeletion(fix);
+		
+		List<OclDocument> oclDocs = ProjectManager.get().getProject().getOclDocList();
+		
+		if(fix.getAddedRules().size()>0 && oclDocs.size()==0){
+			AdditionManager.get().newOclDocument("", true);
+		}
+		
 		for(String str: fix.getAddedRules()){
-			ProjectManager.get().getProject().getOclDocList().get(0).addContentAsString(str);		
+			oclDocs.get(0).addContentAsString(str);		
 		}
 		return ;	
 	}

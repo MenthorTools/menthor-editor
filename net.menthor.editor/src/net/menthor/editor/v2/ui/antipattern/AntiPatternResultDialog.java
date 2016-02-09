@@ -1,4 +1,4 @@
-package net.menthor.antipattern.application;
+package net.menthor.editor.v2.ui.antipattern;
 
 /**
  * ============================================================================================
@@ -56,6 +56,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
+import net.menthor.antipattern.AntiPatternList;
+import net.menthor.antipattern.AntipatternOccurrence;
 import net.menthor.antipattern.GSRig.GSRigAntipattern;
 import net.menthor.antipattern.GSRig.GSRigOccurrence;
 import net.menthor.antipattern.asscyc.AssCycAntipattern;
@@ -118,6 +120,10 @@ import net.menthor.antipattern.wizard.reprel.RepRelWizard;
 import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard;
 import net.menthor.antipattern.wizard.undefphase.UndefPhaseWizard;
 import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.TabManager;
+import net.menthor.editor.v2.managers.UpdateManager;
 
 /**
  * @author Tiago Sales
@@ -142,7 +148,22 @@ public class AntiPatternResultDialog extends Dialog {
 	
 	/** Transfer fixes made on the model to an application. 
 	 *  Users must override this method to get the modifications made by the antipatterns */
-	public void transferFix(Fix fix){}
+	public void transferFix(Fix fix){
+		UpdateManager.get().update(fix);
+		
+		//if there are rules, the update action opens a tab to show the ocl document to the user;
+		if(fix.getAddedRules().size()>0){
+			OclDocument oclDoc = ProjectManager.get().getProject().getOclDocList().get(0);
+			
+			if(TabManager.get().isEditorOpen(oclDoc))
+				TabManager.get().selectEditor(oclDoc);
+			//TODO: open tab
+//			else 
+//				TabManager.get().addOclEditor(oclDoc);
+			
+			TabManager.get().getCurrentOclEditor().reloadText();
+		}
+	}
 	
 	public void showWizard(final AntipatternOccurrence apOccur){		
 		WizardDialog wizardDialog = getWizardDialog(apOccur);		

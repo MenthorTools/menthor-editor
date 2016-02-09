@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 
 public class MRBSAntiPattern extends AntipatternOccurrence {
 		

@@ -1,4 +1,4 @@
-package net.menthor.antipattern.application;
+package net.menthor.editor.v2.ui.antipattern;
 
 /**
  * ============================================================================================
@@ -52,6 +52,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.antipattern.AntiPatternList;
+import net.menthor.antipattern.Antipattern;
 import net.menthor.antipattern.AntipatternInfo;
 import net.menthor.antipattern.GSRig.GSRigAntipattern;
 import net.menthor.antipattern.asscyc.AssCycAntipattern;
@@ -74,6 +76,7 @@ import net.menthor.antipattern.reprel.RepRelAntipattern;
 import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
+import net.menthor.editor.v2.managers.ProjectManager;
 
 /**
  * @author Tiago Sales
@@ -193,10 +196,14 @@ public class AntiPatternSearchDialog extends JDialog {
 	private SwingWorker<Void,Void> preTask;
 
 	/** transfer result of search to an application */
-	public void transferResult(AntiPatternList list){}
+	public void transferResult(AntiPatternList list){
+		ProjectManager.get().getProject().setAntipatterns(list);
+	}
 	
 	/** open the result which in turn can call the wizards */
-	public void openResult(AntiPatternList list){ AntiPatternResultDialog.openDialog(list,frame); }
+	public void openResult(AntiPatternList list){ 
+		AntiPatternResultDialog.openDialog(list,frame); 
+	}
 	
 	/** 
 	 * Check if AntiPattern is selected.

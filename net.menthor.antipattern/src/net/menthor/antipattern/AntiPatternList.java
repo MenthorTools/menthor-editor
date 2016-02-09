@@ -1,4 +1,4 @@
-package net.menthor.antipattern.application;
+package net.menthor.antipattern;
 
 /**
  * ============================================================================================

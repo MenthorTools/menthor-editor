@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import org.eclipse.jface.wizard.Wizard;
 
-import net.menthor.antipattern.application.AntipatternOccurrence;
+import net.menthor.antipattern.AntipatternOccurrence;
 
 /**
  * @author Tiago Sales

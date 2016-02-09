@@ -1,7 +1,9 @@
-package net.menthor.antipattern.application;
+package net.menthor.editor.v2.ui.antipattern;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+
+import net.menthor.antipattern.AntipatternOccurrence;
 
 /**
  * @author Tiago Sales

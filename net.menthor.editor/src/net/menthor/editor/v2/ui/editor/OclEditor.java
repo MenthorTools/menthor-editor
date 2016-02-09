@@ -107,4 +107,8 @@ public class OclEditor extends TOCLEditorPanel implements IEditor {
 	
 	@Override
 	public EditorType getEditorType() { return EditorType.OCL_EDITOR; }
+	
+	public void reloadText(){
+		setText(oclDoc.getContentAsString());
+	}
 }

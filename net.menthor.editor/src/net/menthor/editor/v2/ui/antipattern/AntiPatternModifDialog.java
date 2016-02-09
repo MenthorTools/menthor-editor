@@ -1,4 +1,4 @@
-package net.menthor.antipattern.application;
+package net.menthor.editor.v2.ui.antipattern;
 
 import javax.swing.JFrame;
 
@@ -49,7 +49,7 @@ import net.menthor.common.ontoumlfixer.Fix;
 public class AntiPatternModifDialog extends Dialog {
 
 	public Fix fix;
-	
+
 	//GUI
 	public JFrame frame;
 	public Label statusLabel;	

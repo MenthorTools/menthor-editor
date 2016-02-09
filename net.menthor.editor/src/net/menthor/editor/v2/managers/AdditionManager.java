@@ -42,6 +42,7 @@ import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -196,15 +197,22 @@ public class AdditionManager extends BaseManager {
 	/** Add ocl document to a container */
 	public void addOclDocument(Object treeNode, String oclContent, boolean createTab){		
 		OclDocument oclDoc = new OclDocument();
-		if(treeNode!=null && (treeNode instanceof DefaultMutableTreeNode)){
-			Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
-			oclDoc.setContainer(pack);
-		}				
-		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
+		
+		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package))
+			treeNode = MenthorEditor.getFrame().getProjectBrowser().getTree().getRootNode();
+
+		Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
+		oclDoc.setContainer(pack);
+		
+		if(oclContent!=null) 
+			oclDoc.setContentAsString(oclContent);
+		
 		oclDoc.setName("Rules"+ProjectManager.get().getProject().getOclDocList().size());		
 		ProjectManager.get().getProject().getOclDocList().add(oclDoc);		
 		tree().addChild((DefaultMutableTreeNode)treeNode, oclDoc);
-		if(createTab) TabManager.get().addOclEditor(oclDoc);
+		
+		if(createTab) 
+			TabManager.get().addOclEditor(oclDoc);
 	}
 	
 	public void newDiagram(){
