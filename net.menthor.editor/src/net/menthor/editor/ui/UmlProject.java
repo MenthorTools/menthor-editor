@@ -50,7 +50,7 @@ import net.menthor.editor.v2.util.DirectoryUtil;
 /** The UmlProject is serialized to a binary file in order to store the diagrams and its graphics allElements. */
 public class UmlProject implements Serializable {
 		
-	private static final long serialVersionUID = 1;	
+	private static final long serialVersionUID = 1L;	
 	
 	/** name and version */
 	private String name = new String();	
@@ -127,14 +127,19 @@ public class UmlProject implements Serializable {
 		super();
 		properties = new Properties();
 		resource = RefOntoUMLEditingDomain.getInstance().createResource();		
-		RefOntoUML.Package model = RefOntoUMLFactoryUtil.factory.createModel();
-		if(model.getName()==null || model.getName()=="") model.setName("Model");
-		resource.getContents().add(model);		
+		RefOntoUML.Package model = createAndAddRootModel();		
 		RefOntoUMLEditingDomain.getInstance().createDomain();
 		name = "New Project";		
 		version = MenthorEditor.MENTHOR_VERSION;
 		refparser = new OntoUMLParser(model);
 		oclDocList = new ArrayList<OclDocument>();
+	}
+	
+	private RefOntoUML.Package createAndAddRootModel() {
+		RefOntoUML.Package model = RefOntoUMLFactoryUtil.factory.createModel();
+		model.setName("Model");
+		resource.getContents().add(model);
+		return model;
 	}
 	
 	public OntoUMLParser getRefParser(){ 

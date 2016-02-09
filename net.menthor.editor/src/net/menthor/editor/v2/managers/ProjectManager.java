@@ -24,8 +24,8 @@ package net.menthor.editor.v2.managers;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipException;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.diagram.DiagramEditor;
@@ -33,7 +33,6 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
-import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.editor.OclEditor;
 import net.menthor.editor.v2.ui.startpage.StartPage;
 import net.menthor.editor.v2.util.Settings;
@@ -63,6 +62,7 @@ public class ProjectManager extends BaseManager {
 	private String lastImportPath = new String();
 	
 	public UmlProject getProject(){ return project; }
+	
 	
 	public void setProject(UmlProject project){
 		this.project = project;
@@ -292,17 +292,14 @@ public class ProjectManager extends BaseManager {
 		return result;
 	}
 	
-	/**deserialize project */
-	public void deserializeProject(File file) throws IOException, ClassNotFoundException {
+	/**deserialize project 
+	 * @throws IOException 
+	 * @throws ZipException */
+	public void deserializeProject(File file) throws ZipException, IOException {
 		CursorManager.get().waitCursor();
-		List<Object> listFiles = DeserializationManager.get().deserializeMenthorFile(file);
-		List<OclDocument> ocllist = new ArrayList<OclDocument>();
-		for(int i=1; i<listFiles.size();i++){																
-			ocllist.add((OclDocument)listFiles.get(i));
-		}
-		Object o = listFiles.get(0);
-		if(o instanceof UmlProject) setProject((UmlProject)o);
-		if(o instanceof RefOntoUML.Package) createProject((RefOntoUML.Package)o,true,false);
+
+		setProject(DeserializationManager.get().deserializeMenthorFile(file));
+			
 		MenthorEditor.getFrame().initializeFrame(file, false);
 		CursorManager.get().defaultCursor();
 		Settings.addRecentProject(file.getCanonicalPath());

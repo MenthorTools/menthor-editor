@@ -33,8 +33,9 @@ public enum Settings {
 	SETTINGS_FILE("SETTINGS_FILE", "settings.xml"),
 	
 	MODEL_FILE("MODEL_FILE", "model.refontouml"),
-	PROJECT_FILE("PROJECT_FILE","project.dat"),	
-	
+	PROJECT_FILE("PROJECT_FILE","project.dat"),
+	OWL_CONFIG_FILE("OWL_CONFIG_FILE","owl-cnf.xml"),
+	OCL_FILE("OCL_FILE",".ocl"),
 	RECENT_PROJECT_1("RECENT_PROJECT_1", ""),	
 	RECENT_PROJECT_2("RECENT_PROJECT_2", ""),	
 	RECENT_PROJECT_3("RECENT_PROJECT_3", ""),	
