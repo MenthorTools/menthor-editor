@@ -63,9 +63,9 @@ import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.AppFrame;
-import net.menthor.editor.v2.ui.menubar.AppMenuBar;
-import net.menthor.editor.v2.ui.splitpane.AppMultiSplitPane;
+import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.app.AppMenuBar;
+import net.menthor.editor.v2.ui.app.AppMultiSplitPane;
 
 public class CommandMap {
 	

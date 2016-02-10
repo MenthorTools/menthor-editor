@@ -31,10 +31,12 @@ import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.generic.GenericPopupMenu;
 import net.menthor.editor.v2.ui.icon.IconType;
 
-/*
- * Pop-up menu used as a shortcut for creating model elements on a diagram. It shows every available element in the language, i.e. all association and class stereotypes.
+/**
+ * Pop-up menu used as a shortcut for creating model elements on a diagram. 
+ * It shows every available element in the language, i.e. all association and class stereotypes.
  * Currently accessible by pressing space.
  * Context: Currently visible diagram.
  * */
@@ -47,8 +49,7 @@ public class PalettePopupMenu extends GenericPopupMenu<Object> {
 	List<JMenuItem> relationships = new ArrayList<JMenuItem>();
 	
 	public PalettePopupMenu(ICommandListener listener){
-		super(listener,null);
-				
+		super(listener,null);				
 		classes.add(createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_KIND, false));
 		classes.add(createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_SUBKIND, false));
 		classes.add(createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_COLLECTIVE, false));
@@ -62,12 +63,10 @@ public class PalettePopupMenu extends GenericPopupMenu<Object> {
 		classes.add(createMenuItem(ClassType.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_MODE, false));
 		classes.add(createMenuItem(ClassType.PERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_PERCEIVABLE_QUALITY, false));
 		classes.add(createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_NONPERCEIVABLE_QUALITY, false));
-		classes.add(createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_NOMINAL_QUALITY, false));
-		
+		classes.add(createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_NOMINAL_QUALITY, false));		
 		datatypes.add(createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_DATATYPE, false));
 		datatypes.add(createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_ENUMERATION, false));
-		datatypes.add(createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_PRIMITIVETYPE, false));
-		
+		datatypes.add(createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.PALLETE_PRIMITIVETYPE, false));		
 		relationships.add(createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.PALLETE_GENERALIZATION, false));
 		relationships.add(createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_CHARACTERIZATION, false));
 		relationships.add(createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_MEDIATION, false));
@@ -79,13 +78,11 @@ public class PalettePopupMenu extends GenericPopupMenu<Object> {
 		relationships.add(createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.PALLETE_SUBCOLLECTIONOF, false));
 		relationships.add(createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.PALLETE_SUBQUANTITYOF, false));
 		relationships.add(createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_STRUCTURATION, false));
-		relationships.add(createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_ASSOCIATION, false));
-		
+		relationships.add(createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.PALLETE_ASSOCIATION, false));		
 		sort();
 	}
 	
-	public void sort()
-	{
+	public void sort(){
 		List<JMenuItem> cs = sort(classes);		
 		List<JMenuItem> ds = sort(datatypes);
 		List<JMenuItem> rs = sort(relationships);
@@ -95,9 +92,7 @@ public class PalettePopupMenu extends GenericPopupMenu<Object> {
 		addSeparator();
 		for(JMenuItem pe: ds) add(pe);
 		addSeparator();
-		for(JMenuItem pe: rs) add(pe);
-		
-	}
-	
+		for(JMenuItem pe: rs) add(pe);		
+	}	
 }
 

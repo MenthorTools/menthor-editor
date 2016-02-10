@@ -3,10 +3,10 @@ package net.menthor.editor.v2.managers;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.commands.AppCommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.AppFrame;
-import net.menthor.editor.v2.ui.splitpane.AppMultiSplitPane;
-import net.menthor.editor.v2.ui.tabbedpane.AppEditorTabbedPane;
-import net.menthor.editor.v2.ui.tabbedpane.AppInfoTabbedPane;
+import net.menthor.editor.v2.ui.app.AppEditorTabbedPane;
+import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.app.AppInfoTabbedPane;
+import net.menthor.editor.v2.ui.app.AppMultiSplitPane;
 import net.menthor.editor.v2.ui.tree.ProjectTree;
 
 public class BaseManager {

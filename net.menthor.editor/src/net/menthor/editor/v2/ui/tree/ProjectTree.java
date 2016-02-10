@@ -56,10 +56,11 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.menu.ProjectBrowserPopupMenu;
+import net.menthor.editor.v2.ui.generic.GenericCheckBoxTree;
+import net.menthor.editor.v2.ui.popupmenu.ProjectBrowserPopupMenu;
 import net.menthor.editor.v2.util.SystemUtil;
 
-public class ProjectTree extends BaseCheckBoxTree {
+public class ProjectTree extends GenericCheckBoxTree {
 
 	private static final long serialVersionUID = 1L;
 	

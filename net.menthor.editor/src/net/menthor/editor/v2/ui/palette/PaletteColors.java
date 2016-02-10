@@ -28,8 +28,8 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.color.ColorMap;
+import net.menthor.editor.v2.ui.color.ColorType;
 
 public class PaletteColors {
 

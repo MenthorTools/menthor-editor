@@ -43,7 +43,7 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
-import net.menthor.editor.v2.ui.AppFrame;
+import net.menthor.editor.v2.ui.app.AppFrame;
 
 public class AppCommandListener implements ICommandListener {
 

@@ -34,8 +34,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.color.ColorMap;
+import net.menthor.editor.v2.ui.color.ColorType;
  
 public class ProgressPane extends JPanel implements PropertyChangeListener {
 	

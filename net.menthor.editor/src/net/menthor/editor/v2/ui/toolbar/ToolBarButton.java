@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.ui.generic.GenericToolBar;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 

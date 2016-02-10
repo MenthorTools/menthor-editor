@@ -33,7 +33,7 @@ import net.menthor.alloy.AlloyModule;
 import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.v2.settings.als.AlsSettingsDialog;
+import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.ontouml2alloy.OntoUML2Alloy;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;

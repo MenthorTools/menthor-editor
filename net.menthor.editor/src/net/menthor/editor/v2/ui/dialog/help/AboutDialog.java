@@ -40,8 +40,8 @@ import javax.swing.UIManager;
 
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.color.ColorMap;
+import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.util.JHyperLinkLabel;

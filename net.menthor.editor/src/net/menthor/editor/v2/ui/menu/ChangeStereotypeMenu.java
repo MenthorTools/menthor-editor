@@ -5,11 +5,13 @@ import javax.swing.JPopupMenu;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Relationship;
+
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.generic.GenericMenu;
 import net.menthor.editor.v2.ui.icon.IconType;
 
 public class ChangeStereotypeMenu extends GenericMenu<EObject> {
@@ -21,8 +23,7 @@ public class ChangeStereotypeMenu extends GenericMenu<EObject> {
 	}
 	
 	public ChangeStereotypeMenu(ICommandListener listener, String text, EObject element, JPopupMenu parent){
-		super(listener, text, element);	
-		
+		super(listener, text, element);			
 		if(element instanceof RefOntoUML.Class){
 			createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_KIND);
 			createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_SUBKIND);
@@ -65,11 +66,8 @@ public class ChangeStereotypeMenu extends GenericMenu<EObject> {
 			createMenuItem(DataType.INTEGERRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERRATIONAL_DIMENSION);
 			createMenuItem(DataType.STRINGNOMINAL_STRUCTURE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_STRINGNOMINAL_STRUCTURE);
 			createMenuItem(DataType.MEASUREMENT_DOMAIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MEASUREMENT_DOMAIN);
-			
 		}
-		
-		sort();
-		
+		sort();		
 		parent.add(this);
 	}
 }

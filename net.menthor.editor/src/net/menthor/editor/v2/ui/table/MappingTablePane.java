@@ -47,8 +47,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 
-import net.menthor.editor.v2.types.ColorMap;
-import net.menthor.editor.v2.types.ColorType;
+import net.menthor.editor.v2.ui.color.ColorMap;
+import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import RefOntoUML.parser.OntoUMLParser;

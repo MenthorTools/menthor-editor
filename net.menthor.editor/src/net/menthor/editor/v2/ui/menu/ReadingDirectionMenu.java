@@ -27,6 +27,7 @@ import javax.swing.JPopupMenu;
 import org.tinyuml.umldraw.AssociationElement;
 
 import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.ui.generic.GenericMenu;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class ReadingDirectionMenu extends GenericMenu<AssociationElement> {

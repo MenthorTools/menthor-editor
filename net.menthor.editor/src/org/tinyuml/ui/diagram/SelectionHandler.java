@@ -46,10 +46,10 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import net.menthor.editor.v2.commands.AppCommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
-import net.menthor.editor.v2.ui.menu.MultiElementPopupMenu;
-import net.menthor.editor.v2.ui.menu.SingleElementPopupMenu;
+import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.IEditorMode;
+import net.menthor.editor.v2.ui.popupmenu.MultiElementPopupMenu;
+import net.menthor.editor.v2.ui.popupmenu.SingleElementPopupMenu;
 
 /**
  * This class handles selections of diagram allElements, this includes all

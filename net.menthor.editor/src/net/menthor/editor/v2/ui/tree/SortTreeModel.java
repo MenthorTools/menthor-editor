@@ -27,7 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-class SortTreeModel extends DefaultTreeModel {
+public class SortTreeModel extends DefaultTreeModel {
 	  
 	private static final long serialVersionUID = -3688752043502623815L;
 	

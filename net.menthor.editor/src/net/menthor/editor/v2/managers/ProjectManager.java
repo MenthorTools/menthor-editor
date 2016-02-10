@@ -33,8 +33,8 @@ import org.tinyuml.ui.diagram.DiagramEditor;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
-import net.menthor.editor.v2.ui.editor.OclEditor;
-import net.menthor.editor.v2.ui.startpage.StartPage;
+import net.menthor.editor.v2.ui.editor.StartEditor;
+import net.menthor.editor.v2.ui.editor.lang.OclEditor;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
@@ -146,7 +146,7 @@ public class ProjectManager extends BaseManager {
 	}
 	
 	public void openRecentProject(){
-		StartPage startPanel = (StartPage) TabManager.get().getCurrentEditor();
+		StartEditor startPanel = (StartEditor) TabManager.get().getCurrentEditor();
 		if(startPanel != null){
 			openProjectFromFile(startPanel.getSelectedRecentFile());
 		}

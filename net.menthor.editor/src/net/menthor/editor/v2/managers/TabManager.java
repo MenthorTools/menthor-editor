@@ -42,20 +42,20 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.ProblemElement;
-import net.menthor.editor.v2.types.EditorType;
-import net.menthor.editor.v2.ui.editor.ConsoleEditor;
-import net.menthor.editor.v2.ui.editor.ErrorEditor;
-import net.menthor.editor.v2.ui.editor.FindEditor;
-import net.menthor.editor.v2.ui.editor.OclEditor;
-import net.menthor.editor.v2.ui.editor.ProblemEditor;
-import net.menthor.editor.v2.ui.editor.StatisticsEditor;
-import net.menthor.editor.v2.ui.editor.TextEditor;
-import net.menthor.editor.v2.ui.editor.WarningEditor;
-import net.menthor.editor.v2.ui.editor.base.IEditor;
+import net.menthor.editor.v2.ui.editor.EditorType;
+import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.editor.StartEditor;
+import net.menthor.editor.v2.ui.editor.info.ConsoleEditor;
+import net.menthor.editor.v2.ui.editor.info.ErrorEditor;
+import net.menthor.editor.v2.ui.editor.info.FindEditor;
+import net.menthor.editor.v2.ui.editor.info.ProblemEditor;
+import net.menthor.editor.v2.ui.editor.info.StatisticsEditor;
+import net.menthor.editor.v2.ui.editor.info.WarningEditor;
+import net.menthor.editor.v2.ui.editor.lang.OclEditor;
+import net.menthor.editor.v2.ui.editor.lang.TextEditor;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.startpage.StartPage;
-import net.menthor.editor.v2.ui.tabbedpane.ClosableTab;
+import net.menthor.editor.v2.ui.util.ClosableTab;
 
 public class TabManager extends BaseManager {
 
@@ -97,9 +97,9 @@ public class TabManager extends BaseManager {
 	
 	// ----- getters ----
 	
-	public StartPage getStartEditor(){
+	public StartEditor getStartEditor(){
 		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof StartPage) return(StartPage)c;			
+			if(c instanceof StartEditor) return(StartEditor)c;			
 		}	
 		return null;
 	}
@@ -404,8 +404,8 @@ public class TabManager extends BaseManager {
 		return editor;
 	}
 	
-	public StartPage addStartEditor(boolean closable){
-		StartPage start = new StartPage(listener());
+	public StartEditor addStartEditor(boolean closable){
+		StartEditor start = new StartEditor(listener());
 		if(closable)addClosableTab(editorTabbedPane(),"Welcome", start);
 		else addNonClosableTab(editorTabbedPane(),"Welcome", start);
 		return start;

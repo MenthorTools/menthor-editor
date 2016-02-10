@@ -24,7 +24,7 @@ package net.menthor.editor.v2.managers;
 import java.io.File;
 import java.io.IOException;
 
-import net.menthor.editor.v2.settings.ea.EASettingsDialog;
+import net.menthor.editor.v2.ui.settings.ea.EASettingsDialog;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 

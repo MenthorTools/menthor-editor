@@ -30,6 +30,7 @@ import org.tinyuml.umldraw.AssociationElement;
 import RefOntoUML.Association;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.ui.generic.GenericMenu;
 import net.menthor.editor.v2.commands.CommandType;
 
 public class MultiplicityMenu extends GenericMenu<AssociationElement> {
@@ -47,14 +48,11 @@ public class MultiplicityMenu extends GenericMenu<AssociationElement> {
 	protected boolean isSourceEnd, isTargetEnd;
 	
 	public MultiplicityMenu(ICommandListener listener, String text, AssociationElement associationElement, JMenu parent, boolean isSourceEnd){
-		super(listener, text, associationElement);
-		
+		super(listener, text, associationElement);		
 		this.isSourceEnd = isSourceEnd;
-		this.isTargetEnd = !isSourceEnd;
-		
+		this.isTargetEnd = !isSourceEnd;		
 		Association association = associationElement.getAssociation();
-		String mult = "";
-		
+		String mult = "";		
 		if(isSourceEnd){
 			mult=RefOntoUMLFactoryUtil.getMultiplicityAsString(association.getMemberEnd().get(0));
 			optional = createRadioMenuItem("0..1", CommandType.OPTIONAL_ON_SOURCE);
@@ -74,8 +72,7 @@ public class MultiplicityMenu extends GenericMenu<AssociationElement> {
 			two = createRadioMenuItem("2", CommandType.TWO_ON_TARGET);
 			twoAtLeast = createRadioMenuItem("2..*", CommandType.TWO_AT_LEAST_ON_TARGET);
 			other = createRadioMenuItem("Other", CommandType.OTHER_ON_TARGET);
-		}
-		
+		}		
 		group = new ButtonGroup();
 		group.add(optional);
 		group.add(singular);
@@ -84,8 +81,7 @@ public class MultiplicityMenu extends GenericMenu<AssociationElement> {
 		group.add(two);
 		group.add(twoAtLeast);
 		group.add(other);
-		sort();
-		
+		sort();		
 		if(mult.compareTo("0..1")==0) 
 			optional.setSelected(true);
 		else if(mult.compareTo("1")==0) 
@@ -100,7 +96,6 @@ public class MultiplicityMenu extends GenericMenu<AssociationElement> {
 			twoAtLeast.setSelected(true);
 		else 
 			other.setSelected(true);		
-		
 		parent.add(this);
 	}
 	

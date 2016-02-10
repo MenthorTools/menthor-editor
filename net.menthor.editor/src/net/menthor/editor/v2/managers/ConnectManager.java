@@ -32,8 +32,8 @@ import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.IEditorMode;
 
 public class ConnectManager extends BaseManager implements IEditorMode {
 
