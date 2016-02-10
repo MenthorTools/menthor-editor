@@ -119,11 +119,7 @@ import net.menthor.antipattern.wizard.relspec.RelSpecWizard;
 import net.menthor.antipattern.wizard.reprel.RepRelWizard;
 import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard;
 import net.menthor.antipattern.wizard.undefphase.UndefPhaseWizard;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.TabManager;
-import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.managers.AntiPatternManager;
 
 /**
  * @author Tiago Sales
@@ -146,31 +142,14 @@ public class AntiPatternResultDialog extends Dialog {
 	protected Button btnReset;
 	protected Label feedBackLabel;
 	
-	/** Transfer fixes made on the model to an application. 
-	 *  Users must override this method to get the modifications made by the antipatterns */
-	public void transferFix(Fix fix){
-		UpdateManager.get().update(fix);
-		
-		//if there are rules, the update action opens a tab to show the ocl document to the user;
-		if(fix.getAddedRules().size()>0){
-			OclDocument oclDoc = ProjectManager.get().getProject().getOclDocList().get(0);
-			
-			if(TabManager.get().isEditorOpen(oclDoc))
-				TabManager.get().selectEditor(oclDoc);
-			//TODO: open tab
-//			else 
-//				TabManager.get().addOclEditor(oclDoc);
-			
-			TabManager.get().getCurrentOclEditor().reloadText();
-		}
-	}
+	
 	
 	public void showWizard(final AntipatternOccurrence apOccur){		
 		WizardDialog wizardDialog = getWizardDialog(apOccur);		
 		if(wizardDialog!=null && wizardDialog.open()==Window.OK){			
 			if(!apOccur.getFix().isEmpty()){
 				if(AntiPatternModifDialog.openDialog(apOccur.getFix(), frame)==Window.OK){					
-					transferFix(apOccur.getFix());
+					AntiPatternManager.get().transferFix(apOccur.getFix());
 				}
 			}
 			refresh();
