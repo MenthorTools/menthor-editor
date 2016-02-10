@@ -83,6 +83,7 @@ public enum CommandType {
 	SETUP_BACKGROUND_COLOR("Setup background color for selected classes"),
 	COPY_BACKGROUND_COLOR("Copy background color from selected classes"),
 	PASTE_BACKGROUND_COLOR("Paste background color into selected classes"),
+	
 	SHOW_ATTRIBUTES(null),
 	SHOW_END_POINT_NAMES(null),
 	SHOW_SUBSETTING(null),
@@ -90,6 +91,9 @@ public enum CommandType {
 	SHOW_MULTIPLICITIES(null),
 	SHOW_NAME(null),
 	SHOW_STEREOTYPE(null),
+	SHOW_CLASS_STEREOTYPE(null),
+	SHOW_NAMESPACE(null), 
+	SHOW_PARENTS(null), 
 	READING_DIRECTION_SOURCE(null),
 	READING_DIRECTION_TARGET(null),
 	READING_DIRECTION_UNSPECIFIED(null),
@@ -313,8 +317,6 @@ public enum CommandType {
 	
 	//TODO: add actions
 	SHOW_GENERALIZATION_SETS(null), 
-	SHOW_NAMESPACE(null), 
-	SHOW_PARENTS(null), 
 	DELETE_GS_DIAGRAM(null), 
 	ADD_TO_GEN_SET_DIAGRAM(null), 
 	REMOVE_FROM_GS_DIAGRAM(null),

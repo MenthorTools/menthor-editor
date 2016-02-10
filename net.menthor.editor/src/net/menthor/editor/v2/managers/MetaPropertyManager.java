@@ -5,10 +5,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification;
-import org.tinyuml.ui.diagram.commands.SetVisibilityCommand;
-import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 
@@ -219,7 +215,7 @@ public class MetaPropertyManager extends BaseManager {
 		}
 	}
 	
-	public void subsets(final DiagramElement connection, final RefOntoUML.Property endpoint){
+	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
 		
 		PropertyListEditDialog.open(
 				MenthorEditor.getFrame(),null, "Subsetted", endpoint, 
@@ -229,9 +225,7 @@ public class MetaPropertyManager extends BaseManager {
 		SwingUtilities.invokeLater(new Runnable() {						
 			@Override
 			public void run() {
-				DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
-				editor.execute(new SetVisibilityCommand((DiagramNotification)editor,connection,Visibility.SUBSETS,true));
-				UpdateManager.get().notifyChange(endpoint.getAssociation());
+				VisibilityManager.get().showSubsetting(association);
 			}
 		});
 	}
@@ -252,7 +246,7 @@ public class MetaPropertyManager extends BaseManager {
 		}
 	}
 	
-	public void redefines(final DiagramElement connection, final RefOntoUML.Property endpoint){
+	public void redefines(final AssociationElement association, final RefOntoUML.Property endpoint){
 		PropertyListEditDialog.open(
 				MenthorEditor.getFrame(),null, "Redefined", endpoint, 
 				ProjectManager.get().getProject().getRefParser()
@@ -261,9 +255,7 @@ public class MetaPropertyManager extends BaseManager {
 		SwingUtilities.invokeLater(new Runnable() {						
 			@Override
 			public void run() {
-				DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
-				editor.execute(new SetVisibilityCommand((DiagramNotification)editor,connection,Visibility.REDEFINES,true));
-				UpdateManager.get().notifyChange(endpoint.getAssociation());
+				VisibilityManager.get().showRedefinitions(association);
 			}
 		});
 	}

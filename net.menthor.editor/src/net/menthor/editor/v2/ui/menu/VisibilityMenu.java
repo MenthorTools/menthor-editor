@@ -45,10 +45,10 @@ public class VisibilityMenu extends MultiElementMenu {
 		if(helper.hasAssociation() || helper.hasClass()){
 			showAll = createCheckBoxMenuItem("All", CommandType.SHOW_ALL);
 			addSeparator();
-			showStereotypeItem = createCheckBoxMenuItem("Stereotype", CommandType.SHOW_STEREOTYPE);
 		}
 		
 		if(helper.hasAssociation()){
+			showStereotypeItem = createCheckBoxMenuItem("Association Stereotype", CommandType.SHOW_STEREOTYPE);
 			showNameItem = createCheckBoxMenuItem("Association Name", CommandType.SHOW_NAME);
 			showEndPointItem = createCheckBoxMenuItem("Show EndPoint Name", CommandType.SHOW_END_POINT_NAMES);
 			showMultiplicitiesItem = createCheckBoxMenuItem("Multiplicities", CommandType.SHOW_MULTIPLICITIES);
@@ -62,9 +62,11 @@ public class VisibilityMenu extends MultiElementMenu {
 			if(needSeparator)
 				addSeparator();
 			
+			showAttributes = createCheckBoxMenuItem("Attributes", CommandType.SHOW_ATTRIBUTES);
+			showStereotypeItem = createCheckBoxMenuItem("Class Stereotype", CommandType.SHOW_CLASS_STEREOTYPE); //TODO: Check action	
 			showNamespace = createCheckBoxMenuItem("Namespace", CommandType.SHOW_NAMESPACE); //TODO: Check action			
 			showParents = createCheckBoxMenuItem("Parents", CommandType.SHOW_PARENTS); //TODO: Check action
-			showAttributes = createCheckBoxMenuItem("Attributes", CommandType.SHOW_ATTRIBUTES);//TODO: Check action
+			
 
 			needSeparator = true;
 		}

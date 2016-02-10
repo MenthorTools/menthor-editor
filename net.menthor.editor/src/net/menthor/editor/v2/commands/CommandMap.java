@@ -297,8 +297,16 @@ public class CommandMap {
 				new MethodCall(VisibilityManager.class.getMethod("showSubsetting",Object.class)));
 		cmdMap.put(CommandType.SHOW_STEREOTYPE,
 				new MethodCall(VisibilityManager.class.getMethod("showStereotype",Object.class)));
+		cmdMap.put(CommandType.SHOW_ALL,
+				new MethodCall(VisibilityManager.class.getMethod("showAll", Object.class)));
 		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
 				new MethodCall(VisibilityManager.class.getMethod("showAttributes", Object.class)));
+		cmdMap.put(CommandType.SHOW_PARENTS,
+				new MethodCall(VisibilityManager.class.getMethod("showParents",Object.class)));
+		cmdMap.put(CommandType.SHOW_NAMESPACE,
+				new MethodCall(VisibilityManager.class.getMethod("showNamespace",Object.class)));
+		cmdMap.put(CommandType.SHOW_CLASS_STEREOTYPE,
+				new MethodCall(VisibilityManager.class.getMethod("showClassStereotype",Object.class)));
 	}
 
 	private void metaPropertyManager() throws NoSuchMethodException, SecurityException {
