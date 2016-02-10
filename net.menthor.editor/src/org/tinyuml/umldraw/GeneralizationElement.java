@@ -171,7 +171,7 @@ public final class GeneralizationElement extends BaseConnection {
 	 */
 	private void drawNameLabel(DrawingContext drawingContext) {
 		
-		if(nameLabel.getSource() == null && getGeneralization().getGeneralizationSet().size() > 0)
+		if(nameLabel.getSource() == null && getGeneralization().getGeneralizationSet().size() > 0 && showName())
 		{
 			nameLabel.setSource(new UmlModelElementLabelSource((StructureDiagram)getDiagram(),getGeneralization()));
 		}

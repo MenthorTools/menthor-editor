@@ -26,10 +26,12 @@ public class UmlLabelFormatter {
 		if(namedElement instanceof Generalization)
 		{
 			String name = new String();
-			int i=0;
+			
 			for(GeneralizationSet genSet: ((Generalization)namedElement).getGeneralizationSet()){
-				if(i==((Generalization)namedElement).getGeneralizationSet().size()-1) name += genSet.getName();
-				i++;
+				if(!name.isEmpty())
+					name+=", ";
+				
+				name+=genSet.getName();
 			}
 			return name;
 		}
