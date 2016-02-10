@@ -93,13 +93,13 @@ public class CommandMap {
 	
 	//-------------- application --------------
 	
-	private void application() throws NoSuchMethodException, SecurityException{
+	private void applicationOperations() throws NoSuchMethodException, SecurityException{
 		appFrame();
-		menu();
-		splitPane();
+		appMenuBar();
+		appSplitPane();
 	}
 	
-	private void menu() throws NoSuchMethodException, SecurityException{
+	private void appMenuBar() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
 				new MethodCall(AppMenuBar.class.getMethod("initializeShowGrid")));		
 	}
@@ -107,7 +107,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.QUIT_APPLICATION,
 				new MethodCall(AppFrame.class.getMethod("quitApplication")));
 	}
-	private void splitPane() throws NoSuchMethodException, SecurityException{
+	private void appSplitPane() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_PALETTE,
 				new MethodCall(AppMultiSplitPane.class.getMethod("showPalette")));
 		cmdMap.put(CommandType.SHOW_PROJECT_BROWSER,
@@ -116,20 +116,20 @@ public class CommandMap {
 				new MethodCall(AppMultiSplitPane.class.getMethod("showInfoTabbedPane")));		
 	}
 	
-	//-------------- core --------------
+	//-------------- essential manager operations --------------
 	
-	private void core() throws NoSuchMethodException, SecurityException{
-		projectManager();		
-		tabManager();
-		editionManagers();
-		additionManager();			
-		changeManager(); 
-		findManager();		
-		moveManager();		
-		helpManager();
+	private void essentialOperations() throws NoSuchMethodException, SecurityException{
+		project();
+		tabs();
+		edit();
+		addition();			
+		change(); 
+		find();		
+		move();		
+		help();
 	}
 	
-	private void projectManager() throws NoSuchMethodException, SecurityException{
+	private void project() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
 				new MethodCall(ProjectManager.class.getMethod("newProject")));
 		cmdMap.put(CommandType.NEW_PROJECT_FROM_MODEL,
@@ -148,14 +148,14 @@ public class CommandMap {
 				new MethodCall(ProjectManager.class.getMethod("importModelContent")));
 	}
 	
-	private void helpManager() throws NoSuchMethodException, SecurityException{
+	private void help() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ABOUT,
 				new MethodCall(HelpManager.class.getMethod("about")));			
 		cmdMap.put(CommandType.LICENSES, 
 				new MethodCall(HelpManager.class.getMethod("licenses")));
 	}
 		
-	private void moveManager() throws NoSuchMethodException, SecurityException{
+	private void move() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.MOVE_UP_TREE,
 				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
@@ -166,7 +166,7 @@ public class CommandMap {
 				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
 	}
 		
-	private void findManager()throws NoSuchMethodException, SecurityException{
+	private void find()throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.FIND_IN_DIAGRAMS,
 				new MethodCall(FindManager.class.getMethod("findInDiagrams", Object.class)));
 		cmdMap.put(CommandType.FIND_IN_PROJECT_BROWSER, 
@@ -175,7 +175,7 @@ public class CommandMap {
 				new MethodCall(FindManager.class.getMethod("findByName", String.class)));
 	}
 	
-	private void editionManagers() throws NoSuchMethodException, SecurityException{
+	private void edit() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.REDO,
 				new MethodCall(RedoManager.class.getMethod("redo")));
 		cmdMap.put(CommandType.UNDO,
@@ -191,10 +191,10 @@ public class CommandMap {
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));
+				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));		
 	}
 	
-	private void additionManager() throws NoSuchMethodException, SecurityException{
+	private void addition() throws NoSuchMethodException, SecurityException{
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(ct);
 			if(cmdType!=null){
@@ -231,7 +231,7 @@ public class CommandMap {
 				new MethodCall(AdditionManager.class.getMethod("newDiagram")));
 	}
 	
-	private void changeManager() throws NoSuchMethodException, SecurityException{
+	private void change() throws NoSuchMethodException, SecurityException{
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(ct);
 			if(cmdType!=null){
@@ -254,11 +254,32 @@ public class CommandMap {
 				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",BaseConnection.class)));
 	}
 	
+	private void tabs() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.CLOSE_THIS,
+				new MethodCall(TabManager.class.getMethod("closeThis", Component.class)));
+		cmdMap.put(CommandType.CLOSE_OTHER,
+				new MethodCall(TabManager.class.getMethod("closeOthers", Component.class)));
+		cmdMap.put(CommandType.CLOSE_ALL,
+				new MethodCall(TabManager.class.getMethod("closeAll", Component.class)));
+		cmdMap.put(CommandType.SELECT_EDITOR,
+				new MethodCall(TabManager.class.getMethod("selectEditor", Object.class)));
+		cmdMap.put(CommandType.ADD_EDITOR,
+				new MethodCall(TabManager.class.getMethod("addEditor", Object.class)));		
+		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
+				new MethodCall(TabManager.class.getMethod("closeCurrentOclEditor")));
+		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
+				new MethodCall(TabManager.class.getMethod("closeCurrentDiagramEditor")));		
+		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
+				new MethodCall(TabManager.class.getMethod("addFinderEditor")));		
+		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
+				new MethodCall(TabManager.class.getMethod("addStatisticsEditor")));
+	}
+	
 	/** constructor */
 	private CommandMap(){
 		try {		
-			application();	
-			core();		
+			applicationOperations();	
+			essentialOperations();		
 			
 			diagramEditor();
 			alignManager();
@@ -466,26 +487,7 @@ public class CommandMap {
 		}		
 	}
 	
-	private void tabManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.CLOSE_THIS,
-				new MethodCall(TabManager.class.getMethod("closeThis", Component.class)));
-		cmdMap.put(CommandType.CLOSE_OTHER,
-				new MethodCall(TabManager.class.getMethod("closeOthers", Component.class)));
-		cmdMap.put(CommandType.CLOSE_ALL,
-				new MethodCall(TabManager.class.getMethod("closeAll", Component.class)));
-		cmdMap.put(CommandType.SELECT_EDITOR,
-				new MethodCall(TabManager.class.getMethod("selectEditor", Object.class)));
-		cmdMap.put(CommandType.ADD_EDITOR,
-				new MethodCall(TabManager.class.getMethod("addEditor", Object.class)));		
-		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
-				new MethodCall(TabManager.class.getMethod("closeCurrentOclEditor")));
-		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
-				new MethodCall(TabManager.class.getMethod("closeCurrentDiagramEditor")));		
-		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
-				new MethodCall(TabManager.class.getMethod("addFinderEditor")));		
-		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
-				new MethodCall(TabManager.class.getMethod("addStatisticsEditor")));
-	}
+	
 	private void sbvrManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.GENERATE_SBVR, 
 				new MethodCall(SbvrManager.class.getMethod("generateSbvr")));

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.editor.info;
+package net.menthor.editor.v2.ui.editor;
 
 /**
  * ============================================================================================
@@ -38,8 +38,8 @@ import javax.swing.table.TableModel;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.FoundElement;
 import net.menthor.editor.v2.element.ProblemElement;
-import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.table.ProblemScrollTable;
 
 public class ProblemEditor extends JPanel implements IEditor {

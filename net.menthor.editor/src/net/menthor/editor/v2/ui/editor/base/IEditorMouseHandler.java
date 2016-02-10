@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.toolbar;
+package net.menthor.editor.v2.ui.editor.base;
 
 /**
  * ============================================================================================
@@ -21,26 +21,11 @@ package net.menthor.editor.v2.ui.toolbar;
  * ============================================================================================
  */
 
-import java.awt.Color;
+public interface IEditorMouseHandler {
 
-import javax.swing.UIManager;
-
-import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.ui.generic.GenericToolBar;
-import net.menthor.editor.v2.ui.icon.IconType;
-
-public class ProjectToolBar extends GenericToolBar {
-
-	private static final long serialVersionUID = 1809611076455179596L;
-
-	private static Color background = UIManager.getColor("Panel.background"); //Color.WHITE;
-	
-	public ProjectToolBar(ICommandListener listener){
-		super(listener, background);
-		setFloatable(false);		
-		setBackground(background);
-		new ToolBarButton(IconType.MENTHOR_UP, CommandType.MOVE_UP_TREE, background, this);
-		new ToolBarButton(IconType.MENTHOR_DOWN, CommandType.MOVE_DOWN_TREE, background, this);
-	}	
+  void mouseClicked(EditorMouseEvent event);
+  void mousePressed(EditorMouseEvent event);
+  void mouseReleased(EditorMouseEvent event);
+  void mouseDragged(EditorMouseEvent event);
+  void mouseMoved(EditorMouseEvent event);
 }

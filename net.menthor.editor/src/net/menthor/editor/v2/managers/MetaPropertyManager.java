@@ -13,7 +13,6 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Meronymic;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 
 public class MetaPropertyManager extends BaseManager {
@@ -51,7 +50,7 @@ public class MetaPropertyManager extends BaseManager {
 	}
 	
 	public void setEndPointName(DiagramElement con, RefOntoUML.Property endpoint){
-		String name = (String)JOptionPane.showInputDialog(MenthorEditor.getFrame(), 
+		String name = (String)JOptionPane.showInputDialog(frame(), 
 		     "Specify the end-point name: ",
 		     "Set end-point name",
 			 JOptionPane.PLAIN_MESSAGE,
@@ -84,7 +83,7 @@ public class MetaPropertyManager extends BaseManager {
 	
 	public void setMultiplicity(RefOntoUML.Property endpoint){
 		//
-		String multiplicity = (String)JOptionPane.showInputDialog(MenthorEditor.getFrame(), 
+		String multiplicity = (String)JOptionPane.showInputDialog(frame(), 
 		     "Specify the new multiplicity: ",
 		     "Set multiplicity",
 			 JOptionPane.PLAIN_MESSAGE,
@@ -218,7 +217,7 @@ public class MetaPropertyManager extends BaseManager {
 	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
 		
 		PropertyListEditDialog.open(
-				MenthorEditor.getFrame(),null, "Subsetted", endpoint, 
+				frame(),null, "Subsetted", endpoint, 
 				ProjectManager.get().getProject().getRefParser()
 		);
 		
@@ -248,7 +247,7 @@ public class MetaPropertyManager extends BaseManager {
 	
 	public void redefines(final AssociationElement association, final RefOntoUML.Property endpoint){
 		PropertyListEditDialog.open(
-				MenthorEditor.getFrame(),null, "Redefined", endpoint, 
+				frame(),null, "Redefined", endpoint, 
 				ProjectManager.get().getProject().getRefParser()
 		);		
 		

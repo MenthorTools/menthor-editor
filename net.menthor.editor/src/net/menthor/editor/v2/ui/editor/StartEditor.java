@@ -57,6 +57,8 @@ import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.util.BackgroundPanel;
@@ -111,7 +113,7 @@ public class StartEditor extends BackgroundPanel implements IEditor {
 	@Override
 	public boolean isSaveNeeded() { return false; }
 	@Override
-	public EditorType getEditorType() { return EditorType.WELCOME_EDITOR; }
+	public EditorType getEditorType() { return EditorType.START_EDITOR; }
 	
 	private JPanel createRecentPane(){
 		JScrollPane recentScrollPane = new JScrollPane();

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.editor;
+package net.menthor.editor.v2.ui.editor.base;
 
 /**
  * ============================================================================================
@@ -21,16 +21,16 @@ package net.menthor.editor.v2.ui.editor;
  * ============================================================================================
  */
 
-import org.tinyuml.draw.DrawingContext;
 
-public interface IEditorMode extends IEditorMouseHandler {
-
-  /** Draws any additional decorations supported by this mode. */
-  void draw(DrawingContext drawingContext);
-
-  /** The editor state was changed, update any elements. */
-  void stateChanged();
-
-  /** Cancels the current action. */
-  void cancel();
+public enum EditorType {	
+	START_EDITOR, 
+	ONTOUML_EDITOR, 
+	OCL_EDITOR, 
+	TXT_EDITOR, 
+	PROBLEMS_EDITOR, 
+	ERRORS_EDITOR, 
+	WARNING_EDITOR,
+	FINDER_EDITOR,
+	STATISTICS_EDITOR,
+	CONSOLE_EDITOR
 }

@@ -23,7 +23,6 @@ package net.menthor.editor.v2.ui.app;
 
 import java.awt.Color;
 
-import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.generic.GenericToolBar;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -33,11 +32,26 @@ public class AppToolBar extends GenericToolBar {
 
 	private static final long serialVersionUID = 8870790907921523710L;
 	
+	// -------- Lazy Initialization
+
+	private static class AppToolBarLoader {
+        private static final AppToolBar INSTANCE = new AppToolBar();
+    }	
+	public static AppToolBar get() { 
+		return AppToolBarLoader.INSTANCE; 
+	}	
+    private AppToolBar() {
+    	super(AppCommandListener.get(), background);
+    	if (AppToolBarLoader.INSTANCE != null) throw new IllegalStateException("AppToolBar already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
+	    
 	private static Color background = null; //Color.WHITE;
 	
 	/** constructor */
-	public AppToolBar(ICommandListener listener){
-		super(listener, background);
+	public void buildUI(){		
 		setBackground(background);
 		new ToolBarButton(IconType.MENTHOR_DOC, CommandType.NEW_PROJECT, background, this);
 		new ToolBarButton(IconType.MENTHOR_FOLDER,CommandType.OPEN_EXISTING_PROJECT, background, this);	

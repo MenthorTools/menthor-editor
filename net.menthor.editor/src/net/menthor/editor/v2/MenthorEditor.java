@@ -45,10 +45,7 @@ public final class MenthorEditor {
 	public static String MENTHOR_COMPILATION_DATE = Util.getCompilationDateMessage();	
 	
 	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
-	
-	private static AppFrame frame; 
-	public static AppFrame getFrame(){ return frame; }
-	
+		
 	/** start menthor */
 	public static void start(String[] args){
 		try {			
@@ -56,15 +53,18 @@ public final class MenthorEditor {
 			UIFontUtil.set();					
 			SWTConfigurer.execute(DirectoryUtil.getBinDir());		
 			OwlSettingsMap.getInstance();														
-			frame = new AppFrame();			
+			
+			//create application frame
+			AppFrame.get();	
 			
 			//these must be called after AppFrame is constructed...
 			TabManager.get().addStartEditor(false);								
 			ProjectManager.get().openProjectFromArgs(args);		
 			
-			frame.setLocationByPlatform(true);
-			frame.setVisible(true);
-			frame.toFront();
+			AppFrame.get().setLocationByPlatform(true);
+			AppFrame.get().setVisible(true);
+			AppFrame.get().toFront();
+			
 		}catch(Exception ex){
 			MessageManager.get().showError(ex, 
 			"Menthor Editor", "Could not start application due to an internal error.");

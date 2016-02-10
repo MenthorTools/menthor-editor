@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.editor.lang;
+package net.menthor.editor.v2.ui.editor;
 
 /**
  * ============================================================================================
@@ -37,8 +37,8 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
 
 public class TextEditor extends JPanel implements IEditor {
 

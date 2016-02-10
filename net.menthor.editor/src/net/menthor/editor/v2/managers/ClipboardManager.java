@@ -34,8 +34,8 @@ import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.IEditorMode;
+import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.base.IEditorMode;
 import net.menthor.editor.v2.util.DrawUtil;
 
 public class ClipboardManager extends BaseManager implements IEditorMode {

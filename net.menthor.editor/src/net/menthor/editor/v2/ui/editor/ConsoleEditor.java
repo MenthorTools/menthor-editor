@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.editor.info;
+package net.menthor.editor.v2.ui.editor;
 
 /**
  * ============================================================================================
@@ -30,8 +30,8 @@ import javax.swing.JTextPane;
 
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
-import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.util.RoundedPanel;
 
 public class ConsoleEditor extends RoundedPanel implements IEditor {

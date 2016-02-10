@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.editor.info;
+package net.menthor.editor.v2.ui.editor;
 
 /**
  * ============================================================================================
@@ -42,8 +42,8 @@ import javax.swing.table.TableModel;
 
 import net.menthor.editor.v2.element.StatisticalElement;
 import net.menthor.editor.v2.managers.StatisticsManager;
-import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.table.StatisticsScrollTable;
 
 public class StatisticsEditor extends JPanel implements IEditor {

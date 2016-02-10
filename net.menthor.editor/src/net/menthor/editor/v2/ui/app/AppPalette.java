@@ -27,7 +27,6 @@ import java.awt.Dimension;
 
 import javax.swing.border.EmptyBorder;
 
-import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.palette.PaletteAccordion;
 import net.menthor.editor.v2.ui.palette.PaletteGrouping;
 import net.menthor.editor.v2.ui.util.RoundedPanel;
@@ -36,24 +35,37 @@ public class AppPalette extends RoundedPanel {
 
 	private static final long serialVersionUID = 1752050268631906319L;
 	
+	// -------- Lazy Initialization
+
+	private static class AppPaletteLoader {
+        private static final AppPalette INSTANCE = new AppPalette();
+    }	
+	public static AppPalette get() { 
+		return AppPaletteLoader.INSTANCE; 
+	}	
+    private AppPalette() {
+    	super();
+    	palettes = new PaletteAccordion(AppCommandListener.get());
+        if (AppPaletteLoader.INSTANCE != null) throw new IllegalStateException("AppPalette already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
+	    
 	private PaletteAccordion palettes;	
 	
-	public AppPalette(){	
-		super();
+	public void buildUI(){		
 		setOpaque(false);
 		setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(0,0));
 		setLayout(new BorderLayout(0,0));
 		setBorder(new EmptyBorder(2,2,2,2));		
-		setFocusable(false);				
-	}
-	
-	public AppPalette(ICommandListener listener){
-		this();				
-		palettes = new PaletteAccordion(listener);
-		palettes.setBackground(Color.WHITE);
-		palettes.createGroupings();				
-		add(palettes,BorderLayout.CENTER);		
+		setFocusable(false);
+		if(palettes!=null){
+			palettes.setBackground(Color.WHITE);
+			palettes.createGroupings();				
+			add(palettes,BorderLayout.CENTER);
+		}
 	}
 	
 	public PaletteGrouping getOpenPalette() { return palettes.getOpenPalette(); }

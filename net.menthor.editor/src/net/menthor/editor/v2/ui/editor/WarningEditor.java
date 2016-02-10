@@ -1,7 +1,7 @@
-package net.menthor.editor.v2.ui.editor.info;
+package net.menthor.editor.v2.ui.editor;
 
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.editor.EditorType;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
 
 public class WarningEditor extends ProblemEditor {
 

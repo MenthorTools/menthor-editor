@@ -23,7 +23,6 @@ package net.menthor.editor.v2.ui.app;
  */
 
 import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -33,10 +32,8 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import net.menthor.editor.v2.commands.AppCommandListener;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.icon.IconMap;
@@ -47,63 +44,32 @@ import net.menthor.editor.v2.util.Util;
 public class AppFrame extends JFrame {
 
 	private static final long serialVersionUID = 3464348864344034246L;
-	
-	private transient AppCommandListener appListener = AppCommandListener.get();
-	private transient AppMenuBar appMenu;
-	private transient AppToolBar appToolBar;	
-	private transient AppMultiSplitPane appSplitPane;
-	private transient AppPalette appPallete;
-	private transient AppProjectBrowser appProjectBrowser;	
-	private transient AppEditorTabbedPane appEditorTabbedPane;
-	private transient AppInfoTabbedPane appInfoTabbedPane;
-	
-	public AppProjectBrowser getProjectBrowser(){ return appProjectBrowser; }		
-	public AppEditorTabbedPane getEditorTabbedPane() { return appEditorTabbedPane; }
-	public AppInfoTabbedPane getInfoTabbedPane() { return appInfoTabbedPane; }
-	public AppPalette getPallete() { return appPallete; }
-	public AppMultiSplitPane getSplitPane() { return appSplitPane; }
-	public AppMenuBar getMenu(){ return appMenu; }
-	
-	public void initializeFrame(File projectFile){
-		initializeFrame(projectFile,true);
-	}
-	
-	public void initializeFrame(File projectFile, boolean forceDefaultUI){
-		JRootPane root = getRootPane( );
-		root.putClientProperty("Window.documentFile", projectFile);
-		setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
-		if(forceDefaultUI){
-			appSplitPane.forceDefaultState();
-		}
-	}
-	
-	public void resetFrame(){
-		setTitle("Menthor Editor");		
-		appSplitPane.forceInitialState();
-	}
-	
-	public boolean quitApplication() throws IOException {
-		if (canQuit()) {					
-			getEditorTabbedPane().dispose();
-			dispose();
-			Thread.currentThread().interrupt();			
-			System.gc();
-			Runtime.getRuntime().exit(0);
-			return true;
-		}else{
-			return false;
-		}
+		
+	// -------- Lazy Initialization
+
+	private static class AppFrameLoader {
+        private static final AppFrame INSTANCE = new AppFrame();
+    }	
+	public static AppFrame get() { 
+		return AppFrameLoader.INSTANCE; 
 	}	
+    private AppFrame() {
+    	super();
+    	setJMenuBar(AppMenuBar.get());		
+		getContentPane().add(AppMultiSplitPane.get(), BorderLayout.CENTER);
+        if (AppFrameLoader.INSTANCE != null) throw new IllegalStateException("AppFrame already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
 	
-	public AppFrame() {
-		super();
+    public void buildUI() {	
 		super.setIconImage(IconMap.getInstance().getImage(IconType.MENTHOR_APP_ICON));
 		setTitle("Menthor Editor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize();		
 		if(SystemUtil.onMac()) Util.enableFullScreenMode(this);	
-		RefOntoUMLEditingDomain.getInstance().initialize();
-		buildComponents();
+		RefOntoUMLEditingDomain.getInstance().initialize();		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				try {
@@ -116,28 +82,38 @@ public class AppFrame extends JFrame {
 		});
 		pack();
 	}
-	
-	@SuppressWarnings("unused")
-	private void buildMenuBar(){
-		appToolBar = new AppToolBar(appListener);		
-		JPanel panel = new JPanel();		
-		panel.setLayout(new BorderLayout(5,5));
-		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(appToolBar, BorderLayout.WEST);		
-		this.getContentPane().add(panel, BorderLayout.NORTH);
+    
+	public void initializeFrame(File projectFile){
+		initializeFrame(projectFile,true);
 	}
 	
-	private void buildComponents(){
-		appMenu = new AppMenuBar(appListener);
-		setJMenuBar(appMenu);
-		appInfoTabbedPane= new AppInfoTabbedPane();
-		appEditorTabbedPane = new AppEditorTabbedPane();
-		appProjectBrowser = new AppProjectBrowser(appListener);
-		appPallete = new AppPalette(appListener);				
-		appSplitPane = new AppMultiSplitPane(appMenu, appPallete, appEditorTabbedPane, appInfoTabbedPane, appProjectBrowser);
-		getContentPane().add(appSplitPane, BorderLayout.CENTER);
+	public void initializeFrame(File projectFile, boolean forceDefaultUI){
+		JRootPane root = getRootPane( );
+		root.putClientProperty("Window.documentFile", projectFile);
+		setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
+		if(forceDefaultUI){
+			AppMultiSplitPane.get().forceDefaultState();
+		}
 	}
 	
+	public void resetFrame(){
+		setTitle("Menthor Editor");		
+		AppMultiSplitPane.get().forceInitialState();
+	}
+	
+	public boolean quitApplication() throws IOException {
+		if (canQuit()) {					
+			AppEditorTabbedPane.get().dispose();
+			dispose();
+			Thread.currentThread().interrupt();			
+			System.gc();
+			Runtime.getRuntime().exit(0);
+			return true;
+		}else{
+			return false;
+		}
+	}	
+		
 	private boolean canQuit() throws IOException {		
 		if(ProjectManager.get().getProject()==null) return true;		
 		int response = JOptionPane.showOptionDialog(

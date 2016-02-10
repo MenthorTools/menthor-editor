@@ -28,16 +28,31 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
 import net.menthor.editor.v2.managers.TabManager;
-import net.menthor.editor.v2.ui.editor.info.ConsoleEditor;
-import net.menthor.editor.v2.ui.editor.info.ProblemEditor;
+import net.menthor.editor.v2.ui.editor.ConsoleEditor;
+import net.menthor.editor.v2.ui.editor.ProblemEditor;
 
 public class AppInfoTabbedPane extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;	
 	
+	// -------- Lazy Initialization
+
+	private static class AppInfoTabbedPaneLoader {
+        private static final AppInfoTabbedPane INSTANCE = new AppInfoTabbedPane();
+    }	
+	public static AppInfoTabbedPane get() { 
+		return AppInfoTabbedPaneLoader.INSTANCE; 
+	}	
+    private AppInfoTabbedPane() {
+        if (AppInfoTabbedPaneLoader.INSTANCE != null) throw new IllegalStateException("AppInfoTabbedPane already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
+	    
 	protected static ConsoleEditor consoleEditor;	
 	
-	public AppInfoTabbedPane(){						
+	public void buildUI(){						
 		consoleEditor = new ConsoleEditor();		
 		setBorder(null);
 		setBackground(UIManager.getColor("Panel.background"));

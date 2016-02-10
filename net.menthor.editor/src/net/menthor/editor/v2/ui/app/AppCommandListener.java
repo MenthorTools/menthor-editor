@@ -1,8 +1,11 @@
-package net.menthor.editor.v2.commands;
+package net.menthor.editor.v2.ui.app;
 
 import org.tinyuml.ui.diagram.DiagramEditor;
 
-import net.menthor.editor.v2.MenthorEditor;
+import net.menthor.editor.v2.commands.CommandMap;
+import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.managers.AdditionManager;
 import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
@@ -43,7 +46,6 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
-import net.menthor.editor.v2.ui.app.AppFrame;
 
 public class AppCommandListener implements ICommandListener {
 
@@ -105,7 +107,12 @@ public class AppCommandListener implements ICommandListener {
 				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
 			//----------------
 			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
-				return methodcall.call(MenthorEditor.getFrame());
+				return methodcall.call(AppFrame.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == AppMultiSplitPane.class){
+				return methodcall.call(AppMultiSplitPane.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AppMenuBar.class){
+				return methodcall.call(AppMenuBar.get());
+			//----------------				
 			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){
 				return methodcall.call(AdditionManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AlignManager.class){

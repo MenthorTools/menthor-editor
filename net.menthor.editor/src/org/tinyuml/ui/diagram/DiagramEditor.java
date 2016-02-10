@@ -104,7 +104,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.AdditionManager;
@@ -122,11 +121,14 @@ import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.AppEditorTabbedPane;
 import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.app.AppMenuBar;
+import net.menthor.editor.v2.ui.app.AppMultiSplitPane;
+import net.menthor.editor.v2.ui.app.AppPalette;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
-import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.IEditorMode;
+import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.util.DrawUtil;
@@ -436,7 +438,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		}
 		editorMode.cancel();
 		selectionHandler.deselectAll();
-		frame.getPallete().getClassPalette().selectMousePointer();
+		AppPalette.get().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
 		requestFocusInEditor();
@@ -820,8 +822,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	public void fitToWindow()
 	{		
 		double waste = 20;
-		if(frame.getSplitPane().isShowProjectBrowser()) waste+=240;
-		if(frame.getSplitPane().isShowPalette()) waste+=240;
+		if(AppMultiSplitPane.get().isShowProjectBrowser()) waste+=240;
+		if(AppMultiSplitPane.get().isShowPalette()) waste+=240;
 		double offx = (Util.getScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
 		double offy = (Util.getScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
 		double diffx = (getUsedCanvasSize().get(1).getX()-(Util.getScreenWorkingWidth()-waste));
@@ -1036,10 +1038,10 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	{
 		if(isShownGrid()){
 			showGrid(false);
-			frame.getMenu().selectShowGrid(false);
+			AppMenuBar.get().selectShowGrid(false);
 		}else{
 			showGrid(true);
-			frame.getMenu().selectShowGrid(true);
+			AppMenuBar.get().selectShowGrid(true);
 		}
 	}
 
@@ -1607,8 +1609,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	
 	public void setupColorOnSelected()
 	{
-		if(color==null) color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a Background Color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a Background Color", color);
+		if(color==null) color = JColorChooser.showDialog(this, "Select a Background Color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(this, "Select a Background Color", color);
 		if (color != null){
 			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),color));        			
 		}        		   
@@ -1617,8 +1619,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	
 	
 	public void setupColor(List<DiagramElement> classList){		
-		if(color==null) color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a background color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a background color", color);
+		if(color==null) color = JColorChooser.showDialog(this, "Select a background color", Color.LIGHT_GRAY);
+		else color = JColorChooser.showDialog(this, "Select a background color", color);
 		if (color != null){
 			execute(new SetColorCommand((DiagramNotification)this,classList,color));        			
 		}

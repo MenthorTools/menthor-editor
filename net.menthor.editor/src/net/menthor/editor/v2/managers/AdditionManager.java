@@ -42,7 +42,6 @@ import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -199,7 +198,7 @@ public class AdditionManager extends BaseManager {
 		OclDocument oclDoc = new OclDocument();
 		
 		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package))
-			treeNode = MenthorEditor.getFrame().getProjectBrowser().getTree().getRootNode();
+			treeNode = tree().getRootNode();
 
 		Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
 		oclDoc.setContainer(pack);

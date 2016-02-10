@@ -32,8 +32,8 @@ import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.editor.base.EditorType;
+import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.statusbar.StatusBar;
 import net.menthor.editor.v2.ui.toolbar.DiagramToolBar;
 import net.menthor.editor.v2.ui.tree.DiagramDropListener;

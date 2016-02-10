@@ -7,12 +7,24 @@ public class AppMultiSplitPane extends GenericMultiSplitPane {
 
 	private static final long serialVersionUID = -5413026364779814341L;
 
+	// -------- Lazy Initialization
+
+	private static class AppMultiSplitPaneLoader {
+        private static final AppMultiSplitPane INSTANCE = new AppMultiSplitPane();
+    }	
+	public static AppMultiSplitPane get() { 
+		return AppMultiSplitPaneLoader.INSTANCE; 
+	}	
+    private AppMultiSplitPane() {
+		super(AppPalette.get(), AppEditorTabbedPane.get(), AppInfoTabbedPane.get(), AppProjectBrowser.get());
+		this.appMenu = AppMenuBar.get();
+        if (AppMultiSplitPaneLoader.INSTANCE != null) throw new IllegalStateException("AppMultiSplitPane already instantiated");
+    }		
+    
+    // ----------------------------
+	    
 	private AppMenuBar appMenu;
 	
-	public AppMultiSplitPane(AppMenuBar menu, AppPalette leftPane, AppEditorTabbedPane topPane, AppInfoTabbedPane bottomPane, AppProjectBrowser rightPane) {
-		super(leftPane, topPane, bottomPane, rightPane);
-		this.appMenu = menu;
-	}
 	
 	public boolean isShowPalette(){
 		return isShowLeftPane();

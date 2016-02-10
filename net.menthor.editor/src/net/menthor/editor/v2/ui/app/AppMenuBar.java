@@ -40,6 +40,22 @@ public class AppMenuBar extends GenericMenuBar {
 
 	private static final long serialVersionUID = 2698337212571991120L;
 
+	// -------- Lazy Initialization
+
+	private static class AppMenuBarLoader {
+        private static final AppMenuBar INSTANCE = new AppMenuBar();
+    }	
+	public static AppMenuBar get() { 
+		return AppMenuBarLoader.INSTANCE; 
+	}	
+    private AppMenuBar() {
+    	super(AppCommandListener.get(), background);
+    	if (AppMenuBarLoader.INSTANCE != null) throw new IllegalStateException("AppMenuBar already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
+	    
 	private static Color background = null; //Color.WHITE;
 	
 	private JMenu importation;
@@ -54,8 +70,7 @@ public class AppMenuBar extends GenericMenuBar {
 	private JMenu window;
 	
 	/** constructor */
-	public AppMenuBar(ICommandListener listener){
-		super(listener, background);
+	public void buildUI(){		
 		setBackground(background);		
 		createFileMenu();
 		createEditMenu();

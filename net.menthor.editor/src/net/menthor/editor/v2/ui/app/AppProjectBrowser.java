@@ -40,6 +40,23 @@ public class AppProjectBrowser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
+	// -------- Lazy Initialization
+
+	private static class AppProjectBrowserLoader {
+        private static final AppProjectBrowser INSTANCE = new AppProjectBrowser();
+    }	
+	public static AppProjectBrowser get() { 
+		return AppProjectBrowserLoader.INSTANCE; 
+	}	
+    private AppProjectBrowser() {
+    	super();
+    	this.listener = AppCommandListener.get();
+    	if (AppProjectBrowserLoader.INSTANCE != null) throw new IllegalStateException("AppProjectBrowser already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
+	    
 	private ICommandListener listener;
 	private TitlePane titlePane;
 	private JScrollPane scrollPane;
@@ -47,9 +64,7 @@ public class AppProjectBrowser extends RoundedPanel{
 	
 	public ProjectTree getTree() { return tree; }	
 	
-	public AppProjectBrowser(ICommandListener listener){
-		super();
-		this.listener = listener;
+	public void buildUI(){
 		scrollPane = new JScrollPane();		
 		scrollPane.setBorder(null);		
 		add(scrollPane, BorderLayout.CENTER);

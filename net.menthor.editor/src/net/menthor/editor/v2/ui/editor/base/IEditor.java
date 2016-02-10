@@ -1,5 +1,5 @@
 
-package net.menthor.editor.v2.ui.editor;
+package net.menthor.editor.v2.ui.editor.base;
 
 import org.eclipse.emf.edit.provider.IDisposable;
 

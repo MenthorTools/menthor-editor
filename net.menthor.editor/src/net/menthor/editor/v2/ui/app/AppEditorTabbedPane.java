@@ -33,7 +33,22 @@ public class AppEditorTabbedPane extends JTabbedPane implements IDisposable {
 
 	private static final long serialVersionUID = 5019191384767258996L;
 		
-	public AppEditorTabbedPane(){
+	// -------- Lazy Initialization
+
+	private static class AppEditorTabbedPaneLoader {
+        private static final AppEditorTabbedPane INSTANCE = new AppEditorTabbedPane();
+    }	
+	public static AppEditorTabbedPane get() { 
+		return AppEditorTabbedPaneLoader.INSTANCE; 
+	}	
+    private AppEditorTabbedPane() {
+        if (AppEditorTabbedPaneLoader.INSTANCE != null) throw new IllegalStateException("AppEditorTabbedPane already instantiated");
+        buildUI();
+    }		
+    
+    // ----------------------------
+	    
+	private void buildUI(){
 		setBorder(new EmptyBorder(0,0,0,0));		
 		setBackground(Color.white);
 		setMinimumSize(new Dimension(0,0));
