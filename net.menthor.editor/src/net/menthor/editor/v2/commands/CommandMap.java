@@ -59,6 +59,7 @@ import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.UndoManager;
+import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -273,6 +274,9 @@ public class CommandMap {
 			parthoodManager();
 			glossaryManager();
 			
+			metaPropertyManager();
+			visibilityManager();
+			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -280,87 +284,24 @@ public class CommandMap {
 		}
 	}
 	
-	private void alignManager() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.ALIGN_VERTICAL,
-				new MethodCall(AlignManager.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
-				new MethodCall(AlignManager.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_TOP,
-				new MethodCall(AlignManager.class.getMethod("executeAlignTop",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_BOTTOM,
-				new MethodCall(AlignManager.class.getMethod("executeAlignBottom",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_LEFT,
-				new MethodCall(AlignManager.class.getMethod("executeAlignLeft",ArrayList.class)));
-		cmdMap.put(CommandType.ALIGN_RIGHT,
-				new MethodCall(AlignManager.class.getMethod("executeAlignRight",ArrayList.class)));
-	}
-	
-	
-	private void diagramEditor() throws NoSuchMethodException, SecurityException{
-		cmdMap.put(CommandType.SHOW_GRID,
-				new MethodCall(DiagramEditor.class.getMethod("showGrid")));
-		cmdMap.put(CommandType.ERASE, 
-				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));		
-		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("selectAll")));
-		cmdMap.put(CommandType.REDRAW_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("redraw")));
-		cmdMap.put(CommandType.FIT_TO_WINDOW,
-				new MethodCall(DiagramEditor.class.getMethod("fitToWindow")));
-		cmdMap.put(CommandType.ZOOM_OUT,
-				new MethodCall(DiagramEditor.class.getMethod("zoomOut")));
-		cmdMap.put(CommandType.ZOOM_AT_100,
-				new MethodCall(DiagramEditor.class.getMethod("zoom100")));
-		cmdMap.put(CommandType.ZOOM_IN,
-				new MethodCall(DiagramEditor.class.getMethod("zoomIn")));
-		cmdMap.put(CommandType.PUT_BACK,
-				new MethodCall(DiagramEditor.class.getMethod("putToBack")));
-		cmdMap.put(CommandType.BRING_TO_FRONT,
-				new MethodCall(DiagramEditor.class.getMethod("bringToFront")));
-		cmdMap.put(CommandType.RESET_POINTS, 
-			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
-		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toDirect", Object.class)));
-		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toRectilinear", Object.class)));
-		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
-		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
-		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
-				new MethodCall(DiagramEditor.class.getMethod("addAllRelatedElements", Object.class)));
-		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("setupColor", Object.class)));
-		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("copyColor", Object.class)));
-		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("pasteColor", Object.class)));
-		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
-				new MethodCall(DiagramEditor.class.getMethod("showAttributes", Object.class)));
-		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("setupColorOnSelected")));	
-		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
-				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
-		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
+	private void visibilityManager() throws NoSuchMethodException, SecurityException {
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
-				new MethodCall(DiagramEditor.class.getMethod("showEndPointNames",Object.class)));
+				new MethodCall(VisibilityManager.class.getMethod("showEndPointNames",Object.class)));
 		cmdMap.put(CommandType.SHOW_MULTIPLICITIES,
-				new MethodCall(DiagramEditor.class.getMethod("showMultiplicities",Object.class)));
+				new MethodCall(VisibilityManager.class.getMethod("showMultiplicities",Object.class)));
 		cmdMap.put(CommandType.SHOW_NAME,
-				new MethodCall(DiagramEditor.class.getMethod("showName",Object.class)));
+				new MethodCall(VisibilityManager.class.getMethod("showName",Object.class)));
 		cmdMap.put(CommandType.SHOW_REDEFINITIONS,
-				new MethodCall(DiagramEditor.class.getMethod("showRedefinitions",Object.class)));
+				new MethodCall(VisibilityManager.class.getMethod("showRedefinitions",Object.class)));
 		cmdMap.put(CommandType.SHOW_SUBSETTING,
-				new MethodCall(DiagramEditor.class.getMethod("showSubsetting",Object.class)));
+				new MethodCall(VisibilityManager.class.getMethod("showSubsetting",Object.class)));
 		cmdMap.put(CommandType.SHOW_STEREOTYPE,
-				new MethodCall(DiagramEditor.class.getMethod("showStereotype",Object.class)));
-		cmdMap.put(CommandType.READING_DIRECTION_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("readingDesignToSource",Object.class)));
-		cmdMap.put(CommandType.READING_DIRECTION_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("readingDesignToTarget",Object.class)));
-		cmdMap.put(CommandType.READING_DIRECTION_UNSPECIFIED,
-				new MethodCall(DiagramEditor.class.getMethod("readingDesignUnspecified",Object.class)));
+				new MethodCall(VisibilityManager.class.getMethod("showStereotype",Object.class)));
+		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
+				new MethodCall(VisibilityManager.class.getMethod("showAttributes", Object.class)));
+	}
+
+	private void metaPropertyManager() throws NoSuchMethodException, SecurityException {
 		cmdMap.put(CommandType.SUBSETS_SOURCE,
 				new MethodCall(MetaPropertyManager.class.getMethod("subsetsSource", Object.class)));
 		cmdMap.put(CommandType.SUBSETS_TARGET,
@@ -416,7 +357,80 @@ public class CommandMap {
 		cmdMap.put(CommandType.SET_SOURCE_END_POINT_NAME,
 				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnSource", Object.class)));
 		cmdMap.put(CommandType.SET_TARGET_END_POINT_NAME,
-				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnTarget", Object.class)));				
+				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnTarget", Object.class)));	
+		
+	}
+
+	private void alignManager() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.ALIGN_VERTICAL,
+				new MethodCall(AlignManager.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
+				new MethodCall(AlignManager.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_TOP,
+				new MethodCall(AlignManager.class.getMethod("executeAlignTop",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_BOTTOM,
+				new MethodCall(AlignManager.class.getMethod("executeAlignBottom",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_LEFT,
+				new MethodCall(AlignManager.class.getMethod("executeAlignLeft",ArrayList.class)));
+		cmdMap.put(CommandType.ALIGN_RIGHT,
+				new MethodCall(AlignManager.class.getMethod("executeAlignRight",ArrayList.class)));
+	}
+	
+	
+	private void diagramEditor() throws NoSuchMethodException, SecurityException{
+		cmdMap.put(CommandType.SHOW_GRID,
+				new MethodCall(DiagramEditor.class.getMethod("showGrid")));
+		cmdMap.put(CommandType.ERASE, 
+				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));		
+		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
+				new MethodCall(DiagramEditor.class.getMethod("selectAll")));
+		cmdMap.put(CommandType.REDRAW_DIAGRAM,
+				new MethodCall(DiagramEditor.class.getMethod("redraw")));
+		cmdMap.put(CommandType.FIT_TO_WINDOW,
+				new MethodCall(DiagramEditor.class.getMethod("fitToWindow")));
+		cmdMap.put(CommandType.ZOOM_OUT,
+				new MethodCall(DiagramEditor.class.getMethod("zoomOut")));
+		cmdMap.put(CommandType.ZOOM_AT_100,
+				new MethodCall(DiagramEditor.class.getMethod("zoom100")));
+		cmdMap.put(CommandType.ZOOM_IN,
+				new MethodCall(DiagramEditor.class.getMethod("zoomIn")));
+		cmdMap.put(CommandType.PUT_BACK,
+				new MethodCall(DiagramEditor.class.getMethod("putToBack")));
+		cmdMap.put(CommandType.BRING_TO_FRONT,
+				new MethodCall(DiagramEditor.class.getMethod("bringToFront")));
+		cmdMap.put(CommandType.RESET_POINTS, 
+			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
+		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toDirect", Object.class)));
+		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toRectilinear", Object.class)));
+		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
+		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
+			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
+		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
+				new MethodCall(DiagramEditor.class.getMethod("addAllRelatedElements", Object.class)));
+		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("setupColor", Object.class)));
+		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("copyColor", Object.class)));
+		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("pasteColor", Object.class)));
+		
+		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
+				new MethodCall(DiagramEditor.class.getMethod("setupColorOnSelected")));	
+		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
+				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
+		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
+				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
+		
+		cmdMap.put(CommandType.READING_DIRECTION_SOURCE,
+				new MethodCall(DiagramEditor.class.getMethod("readingDesignToSource",Object.class)));
+		cmdMap.put(CommandType.READING_DIRECTION_TARGET,
+				new MethodCall(DiagramEditor.class.getMethod("readingDesignToTarget",Object.class)));
+		cmdMap.put(CommandType.READING_DIRECTION_UNSPECIFIED,
+				new MethodCall(DiagramEditor.class.getMethod("readingDesignUnspecified",Object.class)));
+					
 	}
 	
 	private void palleteDragAndDrop() throws NoSuchMethodException, SecurityException{

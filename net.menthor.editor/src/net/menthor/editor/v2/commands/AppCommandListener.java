@@ -41,6 +41,7 @@ import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.AppFrame;
 
@@ -148,7 +149,9 @@ public class AppCommandListener implements ICommandListener {
 			}else if(methodcall.getMethod().getDeclaringClass() == MessageManager.class){
 				return methodcall.call(MessageManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MetaPropertyManager.class){
-				return methodcall.call(MetaPropertyManager.get());				
+				return methodcall.call(MetaPropertyManager.get());		
+			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityManager.class){
+				return methodcall.call(VisibilityManager.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == MoveManager.class){
 				return methodcall.call(MoveManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){

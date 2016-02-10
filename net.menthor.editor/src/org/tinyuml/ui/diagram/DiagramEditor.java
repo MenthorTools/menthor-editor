@@ -88,8 +88,6 @@ import org.tinyuml.ui.diagram.commands.ResetConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.ResizeElementCommand;
 import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
-import org.tinyuml.ui.diagram.commands.SetVisibilityCommand;
-import org.tinyuml.ui.diagram.commands.SetVisibilityCommand.Visibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
@@ -1082,68 +1080,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		}
 	}
 
-	public void showStereotype(boolean value)
-	{		
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof AssociationElement){
-				((AssociationElement)de).setShowOntoUmlStereotype(value);		
-			}
-		}		
-	}
-
-	public void showEndPoints(boolean value)
-	{		
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof AssociationElement){
-				((AssociationElement)de).setShowRoles(value);		
-			}
-		}		
-	}
-
-	public void showRedefining(boolean value)
-	{		
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof AssociationElement){
-				((AssociationElement)de).setShowRedefining(value);		
-			}
-		}		
-	}
 	
-	public void showSubsetting(boolean value)
-	{		
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof AssociationElement){
-				((AssociationElement)de).setShowSubsetting(value);		
-			}
-		}		
-	}
-	
-	public void showMultiplicities(boolean value)
-	{		
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof AssociationElement){
-				((AssociationElement)de).setShowMultiplicities(value);		
-			}
-		}		
-	}
-	
-	public void showName(boolean value)
-	{		
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof BaseConnection){
-				if(de instanceof AssociationElement)
-					((AssociationElement)de).setShowName(value);
-				else if(de instanceof GeneralizationElement)
-					((GeneralizationElement)de).setShowName(value);
-			}
-		}		
-	}
 	
 	
 	/** Set the background color of the selected elements */
@@ -1158,7 +1095,18 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		wrapper.getScrollPane().updateUI();
 	}
 	
-	
+	/** Returns all selected association elements */
+	public List<AssociationElement> getSelectedAssociationElements()
+	{
+		List<AssociationElement> result = new ArrayList<AssociationElement>();
+		for(DiagramElement de: selectionHandler.getSelectedElements())
+		{
+			if(de instanceof AssociationElement){
+				result.add((AssociationElement)de);
+			}
+		}	
+		return result;
+	}
 	
 	/** Returns all selected class elements */
 	public List<ClassElement>getSelectedClassElements()
@@ -1288,32 +1236,6 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	{		
 		selectionHandler.selectAll();
 	}
-	
-//	public void showAttribute()
-//	{
-//		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
-//		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);
-//	}
-	
-//	public void showOperation()
-//	{
-//		DiagramElement element = diagram.getChildAt(currentPointerPosition.getX(),currentPointerPosition.getY());
-//		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);
-//	}
-//	
-//	public void showOperationsOnSelected()
-//	{
-//		DiagramElement element = selectionHandler.getSelection().getElement();
-//		if (element instanceof ClassElement) ((ClassElement)element).setShowOperations(true);		
-//	}
-	
-//	public void showAttributesOnSelected()
-//	{
-//		DiagramElement element = selectionHandler.getSelection().getElement();
-//		if (element instanceof ClassElement) ((ClassElement)element).setShowAttributes(true);	
-//	}
-
-	
 	
 	public void setLineStyle(UmlConnection connection, LineStyle style)
 	{
@@ -1692,29 +1614,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		}        		   
 	}
 	
-	public void showAttributes(List<DiagramElement> classList){
-		for(DiagramElement classElem: classList){
-			boolean value = ((ClassElement)classElem).showAttributes();
-			((ClassElement)classElem).setShowAttributes(!value);				
-		}		
-		notifyChange(classList, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-	}
 	
-	public void showAttributes(Object obj){
-		if (obj instanceof ClassElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();			
-			list.add((DiagramElement)obj);
-			showAttributes(list);
-		}else if(obj instanceof Collection<?>){
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			for(Object o: ((Collection<?>)obj)){
-				if(o instanceof ClassElement){
-					list.add((DiagramElement)o);
-				}
-			}
-			showAttributes(list);
-		}		
-	}
 	
 	public void setupColor(List<DiagramElement> classList){		
 		if(color==null) color = JColorChooser.showDialog(MenthorEditor.getFrame(), "Select a background color", Color.LIGHT_GRAY);
@@ -1880,166 +1780,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		if (getSelectedElements().size() > 0) EditManager.get().edit(getSelectedElements().get(0));		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void showEndPointNames(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,
-				Visibility.ENDPOINTS,
-				!((AssociationElement)con).showRoles())
-			);					
-		}
-		else if (con instanceof Collection<?>){			
-			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, 
-				Visibility.ENDPOINTS,
-				!someShowEndNames((List<Object>)con))
-			);					
-		}
-	}
 	
-	@SuppressWarnings("unchecked")
-	public void showSubsetting(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,
-				Visibility.SUBSETS,
-				!((AssociationElement)con).showSubsetting())
-			);						
-		}
-		else if (con instanceof Collection<?>){			
-			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, 
-				Visibility.SUBSETS,
-				!someShowSubsetting((List<Object>)con))
-			);					
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void showRedefinitions(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,
-				Visibility.REDEFINES,
-				!((AssociationElement)con).showRedefining())
-			);						
-		}
-		else if (con instanceof Collection<?>){			
-			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, 
-				Visibility.REDEFINES,
-				!someShowRedefining((List<Object>)con))
-			);					
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public void showMultiplicities(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,
-				Visibility.MULTIPLICITY,
-				!((AssociationElement)con).showMultiplicities())
-			);						
-		}
-		else if (con instanceof Collection<?>){			
-			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, 
-				Visibility.MULTIPLICITY,
-				!someShowMultiplicities((List<Object>)con))
-			);					
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void showStereotype(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,
-				Visibility.STEREOTYPE,
-				!((AssociationElement)con).showOntoUmlStereotype())
-			);						
-		}
-		else if (con instanceof Collection<?>){			
-			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, 
-				Visibility.STEREOTYPE,
-				!someShowStereotype((List<Object>)con))
-			);					
-		}
-	}
-	
-	private boolean someShowEndNames(List<Object> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showRoles()) return true;
-		}
-		return false;
-	}
-	
-	private boolean someShowMultiplicities(List<Object> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showMultiplicities()) return true;
-		}
-		return false;
-	}
-	
-	private boolean someShowName(List<Object> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showName()) return true;
-		}
-		return false;
-	}
-	
-	private boolean someShowRedefining(List<Object> objs){
-		for(Object o: objs){
-			if(((AssociationElement)o).showRedefining()) return true;
-		}
-		return false;
-	}
-	
-	private boolean someShowSubsetting(List<Object> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showSubsetting()) return true;
-		}
-		return false;
-	}
-	
-	private boolean someShowStereotype(List<Object> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showOntoUmlStereotype()) return true;
-		}
-		return false;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void showName(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)con);			
-			execute(new SetVisibilityCommand((DiagramNotification)this,list,
-				Visibility.NAME,
-				!((AssociationElement)con).showName())
-			);						
-		}
-		else if (con instanceof Collection<?>){			
-			execute(new SetVisibilityCommand((DiagramNotification)this,
-				(List<DiagramElement>)con, 
-				Visibility.NAME,
-				!someShowName((List<Object>)con))
-			);					
-		}
-	}
 	
 
 	/** Create a generalizations from selected elements in the diagram */

@@ -36,6 +36,7 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.managers.VisibilityManager;
 
 /**
  * @author John Guerson
@@ -120,12 +121,12 @@ public class SetVisibilityCommand extends BaseDiagramCommand{
 	@Override
 	public void run() {
 		
-		if(visibility==Visibility.NAME) editor.showName(value);
-		if(visibility==Visibility.STEREOTYPE) editor.showStereotype(value);
-		if(visibility==Visibility.MULTIPLICITY) editor.showMultiplicities(value);
-		if(visibility==Visibility.ENDPOINTS) editor.showEndPoints(value);
-		if(visibility==Visibility.SUBSETS) editor.showSubsetting(value);
-		if(visibility==Visibility.REDEFINES) editor.showRedefining(value);
+		if(visibility==Visibility.NAME) VisibilityManager.get().showName(value);
+		if(visibility==Visibility.STEREOTYPE) VisibilityManager.get().showStereotype(value);
+		if(visibility==Visibility.MULTIPLICITY) VisibilityManager.get().showMultiplicities(value);
+		if(visibility==Visibility.ENDPOINTS) VisibilityManager.get().showEndPoints(value);
+		if(visibility==Visibility.SUBSETS) VisibilityManager.get().showSubsetting(value);
+		if(visibility==Visibility.REDEFINES) VisibilityManager.get().showRedefining(value);
 		
 		//notify
 		if (notification!=null) {
