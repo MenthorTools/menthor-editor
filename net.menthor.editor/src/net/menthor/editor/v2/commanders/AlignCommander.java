@@ -10,7 +10,7 @@ import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
 import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.v2.managers.TabManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class AlignCommander {
 
@@ -23,7 +23,7 @@ public class AlignCommander {
 		return DuplicateLoader.INSTANCE; 
 	}	
     private AlignCommander() {
-        if (DuplicateLoader.INSTANCE != null) throw new IllegalStateException("AlignManager already instantiated");
+        if (DuplicateLoader.INSTANCE != null) throw new IllegalStateException("AlignCommander already instantiated");
     }		
     
     // ----------------------------

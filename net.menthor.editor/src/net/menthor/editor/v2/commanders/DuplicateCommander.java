@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 /**
  * ============================================================================================
@@ -32,20 +32,21 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class DuplicateManager extends AppManager {
+public class DuplicateCommander {
 
 	// -------- Lazy Initialization
 
 	private static class DuplicateLoader {
-        private static final DuplicateManager INSTANCE = new DuplicateManager();
+        private static final DuplicateCommander INSTANCE = new DuplicateCommander();
     }	
-	public static DuplicateManager get() { 
+	public static DuplicateCommander get() { 
 		return DuplicateLoader.INSTANCE; 
 	}	
-    private DuplicateManager() {
-        if (DuplicateLoader.INSTANCE != null) throw new IllegalStateException("DuplicateManager already instantiated");
+    private DuplicateCommander() {
+        if (DuplicateLoader.INSTANCE != null) throw new IllegalStateException("DuplicateCommander already instantiated");
     }		
     
     // ----------------------------

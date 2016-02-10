@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 /**
  * ============================================================================================
@@ -37,26 +37,27 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
-import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.commanders.AdditionCommander;
-import net.menthor.editor.v2.commanders.DeletionCommander;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.RemakeManager;
+import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class UpdateManager extends AppManager {
+public class UpdateCommander {
 
 	// -------- Lazy Initialization
 	
 	private static class UpdateLoader {
-        private static final UpdateManager INSTANCE = new UpdateManager();
+        private static final UpdateCommander INSTANCE = new UpdateCommander();
     }	
-	public static UpdateManager get() { 
+	public static UpdateCommander get() { 
 		return UpdateLoader.INSTANCE; 
 	}	
-    private UpdateManager() {
+    private UpdateCommander() {
         if (UpdateLoader.INSTANCE != null) throw new IllegalStateException("UpdateManager already instantiated");
     }		
     
@@ -153,11 +154,11 @@ public class UpdateManager extends AppManager {
 		//relationships and attributes
 		for(Object obj: fix.getAdded()) { 
 			if (obj instanceof RefOntoUML.Relationship) {
-				UpdateManager.get().updateFromAddition((RefOntoUML.Element)obj);
-				MoveManager.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
+				UpdateCommander.get().updateFromAddition((RefOntoUML.Element)obj);
+				MoveCommander.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
 			}
 			if(obj instanceof RefOntoUML.Property){		
-				UpdateManager.get().updateFromAddition((RefOntoUML.Element)obj);
+				UpdateCommander.get().updateFromAddition((RefOntoUML.Element)obj);
 			}
 		}	
 
@@ -179,21 +180,7 @@ public class UpdateManager extends AppManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				boolean found = browser().getTree().checkObject((EObject)addedElement);
-				if(!found) {
-					if(addedElement.eContainer()!=null) browser().getTree().checkObject(addedElement.eContainer());
-					else if(addedElement instanceof EnumerationLiteral) browser().getTree().checkObject(((EnumerationLiteral)addedElement).getEnumeration());
-					else browser().getTree().checkObject(ProjectManager.get().getProject().getModel());					
-					browser().getTree().addChild(addedElement);					
-				} else {
-					if(addedElement instanceof Generalization){
-						browser().getTree().checkObject(addedElement);
-						browser().getTree().removeCurrentNode();
-						browser().getTree().checkObject(addedElement.eContainer());
-						browser().getTree().addChild(addedElement);
-					}
-				}
-				browser().getTree().updateUI();						
+				BrowserManager.get().add(addedElement);				
 			}
 		});		
 	}
@@ -240,12 +227,12 @@ public class UpdateManager extends AppManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				browser().getTree().remove(deletedElement);
+				BrowserManager.get().remove(deletedElement);
 			}
 		});
 	}
 	
 	public void updateProjectTree(){
-		browser().getTree().updateUI();
+		BrowserManager.get().updateUI();
 	}
 }

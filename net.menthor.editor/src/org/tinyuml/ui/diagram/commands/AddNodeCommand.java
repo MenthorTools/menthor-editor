@@ -38,9 +38,9 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Classifier;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
@@ -97,7 +97,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 		if(element!=null){
 //			System.out.println("Undoing = "+element);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			UpdateManager.get().updateFromDeletion(element);			
+			UpdateCommander.get().updateFromDeletion(element);			
 		}
 		
 		if(addToDiagram && diagramElement != null){
@@ -127,7 +127,7 @@ public class AddNodeCommand extends BaseDiagramCommand {
 				
 		if(element!=null){
 			addToModel(element);
-			UpdateManager.get().updateFromAddition(element);			
+			UpdateCommander.get().updateFromAddition(element);			
 		}
 		
 		if(addToDiagram && diagramElement !=null){			

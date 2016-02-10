@@ -50,10 +50,10 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import org.eclipse.emf.edit.provider.IDisposable;
 
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.IEditor;
@@ -142,7 +142,7 @@ public class ClosableTab extends JPanel {
                 	closableTab.getTabbedPane().setTabComponentAt(index, closableTab);
                 	IEditor editor = ((IEditor) closableTab.getTabbedPane().getComponentAt(index));
                 	editor.propagateNewTitle(textField.getText());
-                	UpdateManager.get().updateProjectTree();
+                	UpdateCommander.get().updateProjectTree();
                 } 
             } 
         }); 
@@ -152,7 +152,7 @@ public class ClosableTab extends JPanel {
             	closableTab.getTabbedPane().setTabComponentAt(index, closableTab);
             	IEditor editor = ((IEditor) closableTab.getTabbedPane().getComponentAt(index));
             	editor.propagateNewTitle(textField.getText());
-            	UpdateManager.get().updateProjectTree();
+            	UpdateCommander.get().updateProjectTree();
             } 
         }); 
         return textField; 

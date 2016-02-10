@@ -22,15 +22,15 @@ import RefOntoUML.parser.OntoUMLParser;
 
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.BrowserManager;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SplitManager;
-import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.Util;
 
 public class AdditionCommander {
@@ -44,7 +44,7 @@ public class AdditionCommander {
 		return AdditionLoader.INSTANCE; 
 	}	
     private AdditionCommander() {
-        if (AdditionLoader.INSTANCE != null) throw new IllegalStateException("AdditionManager already instantiated");
+        if (AdditionLoader.INSTANCE != null) throw new IllegalStateException("AdditionCommander already instantiated");
     }		
     
     // ----------------------------

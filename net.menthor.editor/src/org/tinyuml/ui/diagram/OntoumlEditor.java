@@ -105,11 +105,11 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.MessageManager;
-import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -1670,7 +1670,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 						target = (Classifier)((Generalization)rel).getSpecific();
 					}					
 					if(source!=null && !getDiagram().containsChild(source)) { 
-						MoveManager.get().move(source,x+100*column,y+75*row,this,false); 
+						MoveCommander.get().move(source,x+100*column,y+75*row,this,false); 
 						row++; 						
 						if(row>2) {
 							row=0; column++;
@@ -1678,7 +1678,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 						addedTypes.add(source);
 					}						
 					if(target!=null && !getDiagram().containsChild(target)) {  
-						MoveManager.get().move(target,x+100*column,y+75*row,this,false); 
+						MoveCommander.get().move(target,x+100*column,y+75*row,this,false); 
 						row++;						
 						if(row>2) {
 							row=0; 
@@ -1687,7 +1687,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 						addedTypes.add(target);
 					}					
 					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
-						MoveManager.get().move(rel, -1, -1, this, false);					
+						MoveCommander.get().move(rel, -1, -1, this, false);					
 				}catch(Exception e){					
 					MessageManager.get().showError(e, "Related Elements", "Could not add all related elements.");
 				}
@@ -1701,13 +1701,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 				Type source = a.getMemberEnd().get(0).getType();
 				Type target = a.getMemberEnd().get(1).getType();				
 				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
-					MoveManager.get().move(a, -1, -1,this, false);
+					MoveCommander.get().move(a, -1, -1,this, false);
 			}			
 			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
 				RefOntoUML.Type specific = g.getSpecific();
 				RefOntoUML.Type general = g.getGeneral();			
 				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
-					MoveManager.get().move(g,-1,-1,this, false);
+					MoveCommander.get().move(g,-1,-1,this, false);
 			}			
 		}
 	}

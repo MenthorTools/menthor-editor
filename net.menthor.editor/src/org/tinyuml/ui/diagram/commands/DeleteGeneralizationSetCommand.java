@@ -37,7 +37,7 @@ import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.v2.managers.UpdateManager;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
@@ -80,7 +80,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		if(diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				UpdateManager.get().updateFromChange(gen,false);
+				UpdateCommander.get().updateFromChange(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -109,7 +109,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		if(diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
-				UpdateManager.get().updateFromChange(gen,false);
+				UpdateCommander.get().updateFromChange(gen,false);
 				list.add(genElem);
 			}
 		}		
@@ -138,7 +138,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		((GeneralizationSet)elem).getGeneralization().removeAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().remove(elem);
-			UpdateManager.get().updateFromChange(gen, false);
+			UpdateCommander.get().updateFromChange(gen, false);
 		}
 		
 		delete(elem);		
@@ -149,7 +149,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 //		System.out.println("Deleting = "+elem);
 		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(RefOntoUMLEditingDomain.getInstance().createDomain(), elem);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
-		UpdateManager.get().updateFromDeletion(elem);
+		UpdateCommander.get().updateFromDeletion(elem);
 	}
 	
 	private void undoGeneralizationSet(GeneralizationSet elem)
@@ -160,7 +160,7 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 		((GeneralizationSet)elem).getGeneralization().addAll(decoupledGenSetMap.keySet());		
 		for(Generalization gen: decoupledGenSetMap.keySet()) {
 			gen.getGeneralizationSet().add(elem);
-			UpdateManager.get().updateFromChange(gen, false);
+			UpdateCommander.get().updateFromChange(gen, false);
 		}
 	}
 	
@@ -168,6 +168,6 @@ public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
 	{		
 //		System.out.println("Undoing = "+elem);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		UpdateManager.get().updateFromAddition(elem);
+		UpdateCommander.get().updateFromAddition(elem);
 	}
 }

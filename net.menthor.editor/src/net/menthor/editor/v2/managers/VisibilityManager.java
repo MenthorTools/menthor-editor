@@ -14,6 +14,7 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class VisibilityManager extends AppManager {
 	

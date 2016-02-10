@@ -12,6 +12,7 @@ import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.element.WarningElement;
 
 public class WarningManager extends AppManager {

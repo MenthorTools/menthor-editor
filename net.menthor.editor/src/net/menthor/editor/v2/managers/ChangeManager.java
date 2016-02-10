@@ -42,9 +42,11 @@ import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.BrowserManager;
 
 public class ChangeManager extends AppManager {
 	
@@ -73,7 +75,7 @@ public class ChangeManager extends AppManager {
 	public void changeRelationStereotype(Relationship type, String stereo){	
    		OutcomeFixer fixer = new OutcomeFixer(ProjectManager.get().getProject().getModel());
    		Fix fix = fixer.changeRelationStereotypeTo(type, fixer.getRelationshipStereotype(stereo));   		
-   		UpdateManager.get().update(fix);   		   		
+   		UpdateCommander.get().update(fix);   		   		
    	}
 	
 	/** Change a class stereotype */ 
@@ -93,13 +95,13 @@ public class ChangeManager extends AppManager {
 	   	   		fix.setAddedPosition(fix.getAdded().get(0),x,y);
 	   		}
    		}
-  		UpdateManager.get().update(fix);
+  		UpdateCommander.get().update(fix);
 	}
 	
 	/** Change multiplicity from string */
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		UpdateManager.get().notifyChange(property.getAssociation());
+		UpdateCommander.get().notifyChange(property.getAssociation());
 		BrowserManager.get().updateUI();
 	}
 	
@@ -111,7 +113,7 @@ public class ChangeManager extends AppManager {
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
-		UpdateManager.get().notifyChange(property.getAssociation());
+		UpdateCommander.get().notifyChange(property.getAssociation());
 		BrowserManager.get().updateUI();
 	}
 	
@@ -141,7 +143,7 @@ public class ChangeManager extends AppManager {
 	   		browser().getTree().addChild(source);  
 	   		browser().getTree().addChild(target);  
 	   		browser().getTree().updateUI();
-	   		UpdateManager.get().updateFromChange(association, true);
+	   		UpdateCommander.get().updateFromChange(association, true);
 		}
 		else if (connection instanceof GeneralizationElement){
 			Generalization generalization = ((GeneralizationElement) connection).getGeneralization();
@@ -152,7 +154,7 @@ public class ChangeManager extends AppManager {
 			generalization.setGeneral(specific);
 			
 			BrowserManager.get().updateUI();
-			UpdateManager.get().updateFromChange(generalization, true);
+			UpdateCommander.get().updateFromChange(generalization, true);
 			
 		}
 		
@@ -170,7 +172,7 @@ public class ChangeManager extends AppManager {
    		String targetName = target.getName();
    		source.setName(targetName);
    		target.setName(sourceName);
-   		UpdateManager.get().updateFromChange(association, false);
+   		UpdateCommander.get().updateFromChange(association, false);
 	}
 	
 	/** Invert multiplicities of end points of an association. */
@@ -193,7 +195,7 @@ public class ChangeManager extends AppManager {
    		source.setLowerValue(sourceLower);
    		target.setUpperValue(targetUpper);
    		target.setLowerValue(targetLower);
-   		UpdateManager.get().updateFromChange(association, false);
+   		UpdateCommander.get().updateFromChange(association, false);
 	}
 	
 	/** Invert types of end points of an association. */
@@ -208,6 +210,6 @@ public class ChangeManager extends AppManager {
    		Type targetType = target.getType();
    		source.setType(targetType);
    		target.setType(sourceType);
-   		UpdateManager.get().updateFromChange(association, true);
+   		UpdateCommander.get().updateFromChange(association, true);
 	}
 }

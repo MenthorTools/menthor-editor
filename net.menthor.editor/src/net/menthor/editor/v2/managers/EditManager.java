@@ -37,6 +37,7 @@ import RefOntoUML.Constraintx;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
+
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppManager;
@@ -44,6 +45,7 @@ import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationSetEditDialog;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class EditManager extends AppManager {
 

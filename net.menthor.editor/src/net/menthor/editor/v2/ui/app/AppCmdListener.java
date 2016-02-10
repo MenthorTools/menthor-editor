@@ -5,6 +5,9 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.commanders.DuplicateCommander;
+import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
@@ -14,7 +17,6 @@ import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.CursorManager;
 import net.menthor.editor.v2.managers.DeserializationManager;
-import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ErrorManager;
 import net.menthor.editor.v2.managers.ExportManager;
@@ -26,7 +28,6 @@ import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
-import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.OwlManager;
 import net.menthor.editor.v2.managers.ParthoodManager;
@@ -38,14 +39,13 @@ import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SerializationManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class AppCmdListener implements ICommandListener {
 
@@ -133,8 +133,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(DeletionCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DeserializationManager.class){
 				return methodcall.call(DeserializationManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateManager.class){
-				return methodcall.call(DuplicateManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateCommander.class){
+				return methodcall.call(DuplicateCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == EditManager.class){
 				return methodcall.call(EditManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ErrorManager.class){
@@ -159,8 +159,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(MetaPropertyManager.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityManager.class){
 				return methodcall.call(VisibilityManager.get());	
-			}else if(methodcall.getMethod().getDeclaringClass() == MoveManager.class){
-				return methodcall.call(MoveManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == MoveCommander.class){
+				return methodcall.call(MoveCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
 				return methodcall.call(OccurenceManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == OwlManager.class){
@@ -189,8 +189,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(TransferManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == UndoManager.class){
 				return methodcall.call(UndoManager.get());	
-			}else if(methodcall.getMethod().getDeclaringClass() == UpdateManager.class){
-				return methodcall.call(UpdateManager.get());		
+			}else if(methodcall.getMethod().getDeclaringClass() == UpdateCommander.class){
+				return methodcall.call(UpdateCommander.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == WarningManager.class){
 				return methodcall.call(WarningManager.get());	
 			}

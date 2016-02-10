@@ -54,6 +54,7 @@ import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.app.AppManager;
 
@@ -81,7 +82,7 @@ public class TransferManager extends AppManager {
 			for(EnumerationLiteral p: literals){
 				if(!enumLiterals.contains(p)) {					
 					((Enumeration)element).getOwnedLiteral().remove(p);
-					UpdateManager.get().updateFromDeletion(p);
+					UpdateCommander.get().updateFromDeletion(p);
 				}
 			}
 		}
@@ -91,7 +92,7 @@ public class TransferManager extends AppManager {
 			if(!l.getName().isEmpty()){				
 				if(element instanceof Enumeration){
 					((Enumeration)element).getOwnedLiteral().add(l);					
-					UpdateManager.get().updateFromAddition(l);
+					UpdateCommander.get().updateFromAddition(l);
 				}				
 			}
 		}
@@ -109,7 +110,7 @@ public class TransferManager extends AppManager {
 			((Meronymic)element).setIsImmutableWhole(isImmutableWhole);
 			((Meronymic)element).setIsShareable(isShareable);
 		}			
-		UpdateManager.get().updateFromChange(element,false);
+		UpdateCommander.get().updateFromChange(element,false);
 		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0){			
 			listener().handleCommand("CHANGE_TO_"+newStereotype.toUpperCase(), new Object[]{element});			
 		}
@@ -120,7 +121,7 @@ public class TransferManager extends AppManager {
 			UmlProject project = ProjectManager.get().getProject();				
 			AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), dt);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
-			UpdateManager.get().updateFromAddition(dt);		
+			UpdateCommander.get().updateFromAddition(dt);		
 		}
 	}
 	
@@ -130,7 +131,7 @@ public class TransferManager extends AppManager {
 		element.setGeneral((Classifier)general);					
 		if (specific!=null && !specific.equals(element.getSpecific())) redesign = true;
 		element.setSpecific((Classifier)specific);		
-		UpdateManager.get().updateFromChange(element, redesign);
+		UpdateCommander.get().updateFromChange(element, redesign);
 	}
 	
 	public void transferDimension(RefOntoUML.Element structure, String unitOfMeasure, RefOntoUML.MeasurementDomain domain, String upperBound, String lowerBound){
@@ -140,7 +141,7 @@ public class TransferManager extends AppManager {
 			transferUpperRegion(structure, upperBound);		
 			transferLowerRegion(structure, lowerBound);
 		}		
-		UpdateManager.get().updateFromChange(structure,false);
+		UpdateCommander.get().updateFromChange(structure,false);
 	}
 	
 	public void transferUpperRegion(RefOntoUML.Element structure, String upperBound){
@@ -197,7 +198,7 @@ public class TransferManager extends AppManager {
 			for(Property p: currentAttrs){
 				if(!attributes.contains(p)) {					
 					((RefOntoUML.DataType)element).getOwnedAttribute().remove(p);
-					UpdateManager.get().updateFromDeletion(p);
+					UpdateCommander.get().updateFromDeletion(p);
 				}
 			}
 		}
@@ -208,7 +209,7 @@ public class TransferManager extends AppManager {
 			for(Property p: currentAttrs){
 				if(!attributes.contains(p)) {					
 					((RefOntoUML.Class)element).getOwnedAttribute().remove(p);
-					UpdateManager.get().updateFromDeletion(p);
+					UpdateCommander.get().updateFromDeletion(p);
 				}
 			}
 		}
@@ -217,7 +218,7 @@ public class TransferManager extends AppManager {
 			if(!property.getName().isEmpty() || !property.getType().getName().isEmpty()){								
 				if(element instanceof RefOntoUML.DataType) ((RefOntoUML.DataType)element).getOwnedAttribute().add(property);					
 				if(element instanceof RefOntoUML.Class) ((RefOntoUML.Class)element).getOwnedAttribute().add(property);
-				UpdateManager.get().updateFromAddition(property);
+				UpdateCommander.get().updateFromAddition(property);
 			}
 		}
 	}
@@ -265,14 +266,14 @@ public class TransferManager extends AppManager {
 		genSet.setIsCovering(isComplete);
 		genSet.setIsDisjoint(isDisjoint);
 		genSet.setName(name);		
-		UpdateManager.get().updateFromChange(genSet, redesign);
+		UpdateCommander.get().updateFromChange(genSet, redesign);
 	}
 	
 	public void transferClass(RefOntoUML.Classifier element, String name, boolean isExtensional, boolean isAbstract, String newStereotype){
 		element.setName(name);
 		if (element instanceof Collective) ((Collective) element).setIsExtensional(isExtensional);
 		element.setIsAbstract(isAbstract);		
-		UpdateManager.get().updateFromChange(element,false);		
+		UpdateCommander.get().updateFromChange(element,false);		
 		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0)	{
 			ChangeManager.get().changeClassStereotype(element, newStereotype);
 		}
@@ -298,8 +299,8 @@ public class TransferManager extends AppManager {
 		}catch(Exception e){
 			System.out.println("Transfering data to property - "+ e.getLocalizedMessage());
 		}
-		UpdateManager.get().updateFromChange((RefOntoUML.Element)property.eContainer(), redesign);
-		UpdateManager.get().updateFromChange(property, redesign);
+		UpdateCommander.get().updateFromChange((RefOntoUML.Element)property.eContainer(), redesign);
+		UpdateCommander.get().updateFromChange(property, redesign);
 	}
 	
 }

@@ -36,7 +36,9 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 //Class to deal with renaning elements on the project browser.
 public class RenameManager extends AppManager {
@@ -95,7 +97,7 @@ public class RenameManager extends AppManager {
 						new SetLabelTextCommand((DiagramNotification)editors.get(0),((ClassElement)dElem).getMainLabel(),value).run();						
 					}
 				}
-				UpdateManager.get().updateFromChange(element, false);
+				UpdateCommander.get().updateFromChange(element, false);
 			}
 		}   
 	}	

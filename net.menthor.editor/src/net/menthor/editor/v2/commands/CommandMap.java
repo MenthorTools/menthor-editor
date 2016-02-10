@@ -37,10 +37,11 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.commanders.DuplicateCommander;
+import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
-import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FindManager;
@@ -48,7 +49,6 @@ import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
-import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OwlManager;
 import net.menthor.editor.v2.managers.ParthoodManager;
 import net.menthor.editor.v2.managers.ProjectManager;
@@ -56,7 +56,6 @@ import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -66,6 +65,7 @@ import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class CommandMap {
 	
@@ -157,13 +157,13 @@ public class CommandMap {
 		
 	private void move() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.MOVE_UP_TREE,
-				new MethodCall(MoveManager.class.getMethod("moveUpSelectedOnTree")));
+				new MethodCall(MoveCommander.class.getMethod("moveUpSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
-				new MethodCall(MoveManager.class.getMethod("moveDownSelectedOnTree")));
+				new MethodCall(MoveCommander.class.getMethod("moveDownSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_SELECTED_TREE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
+				new MethodCall(MoveCommander.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
 		cmdMap.put(CommandType.MOVE_TREE_NODE_TO_DIAGRAM,
-				new MethodCall(MoveManager.class.getMethod("move", DefaultMutableTreeNode.class)));		
+				new MethodCall(MoveCommander.class.getMethod("move", DefaultMutableTreeNode.class)));		
 	}
 		
 	private void find()throws NoSuchMethodException, SecurityException{
@@ -181,7 +181,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.UNDO,
 				new MethodCall(UndoManager.class.getMethod("undo")));
 		cmdMap.put(CommandType.DUPLICATE,
-				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
+				new MethodCall(DuplicateCommander.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
 				new MethodCall(ClipboardMode.class.getMethod("cloneSelectedAndPutToClipboard")));
 		cmdMap.put(CommandType.PASTE,

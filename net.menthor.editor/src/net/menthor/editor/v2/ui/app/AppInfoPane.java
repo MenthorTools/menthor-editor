@@ -27,9 +27,9 @@ import java.awt.Dimension;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.ProblemEditor;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class AppInfoPane extends JTabbedPane {
 

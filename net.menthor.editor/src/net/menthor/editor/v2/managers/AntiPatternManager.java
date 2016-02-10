@@ -2,8 +2,10 @@ package net.menthor.editor.v2.managers;
 
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.antipattern.AntiPatternSearchDialog;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class AntiPatternManager extends AppManager {
 
@@ -28,7 +30,7 @@ public class AntiPatternManager extends AppManager {
 	/** Transfer fixes made on the model to an application. 
 	 *  Users must override this method to get the modifications made by the antipatterns */
 	public void transferFix(Fix fix){
-		UpdateManager.get().update(fix);
+		UpdateCommander.get().update(fix);
 		
 		//if there are rules, the update action opens a tab to show the ocl document to the user;
 		if(fix.getAddedRules().size()>0){

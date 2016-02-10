@@ -37,8 +37,8 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 
 /**
  * This class represents a reversible operation that sets a Label to a new
@@ -90,7 +90,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			}
 			
 			// update application accordingly
-			UpdateManager.get().updateFromChange(element, false);
+			UpdateCommander.get().updateFromChange(element, false);
 						
 		}else if (parent instanceof BaseConnection){
 			
@@ -139,7 +139,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 			}
 			
 			// update application accordingly
-			UpdateManager.get().updateFromChange(element, false);
+			UpdateCommander.get().updateFromChange(element, false);
 						
 		}else if (parent instanceof BaseConnection){
 			

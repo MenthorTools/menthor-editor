@@ -45,6 +45,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class OccurenceManager extends AppManager {
 

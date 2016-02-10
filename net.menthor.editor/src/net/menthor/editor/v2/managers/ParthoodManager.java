@@ -23,6 +23,7 @@ package net.menthor.editor.v2.managers;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
@@ -53,7 +54,7 @@ public class ParthoodManager extends AppManager {
 		/** transfer modifications on the model to Menthor */
 		@Override
 		protected void transferFix(Fix fix){
-			UpdateManager.get().update(fix);
+			UpdateCommander.get().update(fix);
 		}
 	}
 }

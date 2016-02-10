@@ -32,8 +32,8 @@ import javax.swing.event.MenuListener;
 
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.ui.generic.GenericMenuBar;
+import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.SystemUtil;
 
 public class AppMenuBar extends GenericMenuBar {

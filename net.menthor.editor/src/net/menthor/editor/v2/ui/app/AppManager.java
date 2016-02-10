@@ -2,7 +2,7 @@ package net.menthor.editor.v2.ui.app;
 
 /* A manager always manages menthor interface. 
  * To decide if a java class is a manager, see if it depends on some UI component of the application.
- * If so, that java class is supposed to extend AppManager. If not, it should extend GenericCommander 
+ * If so, that java class is supposed to extend AppManager. If not, it should extend Commander class
  */
 
 public abstract class AppManager {

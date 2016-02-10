@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 /**
  * ============================================================================================
@@ -46,35 +46,39 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.managers.MessageManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class MoveManager extends AppManager {
+public class MoveCommander {
 	
 	// -------- Lazy Initialization
 	
 	private static class MoveLoader {
-        private static final MoveManager INSTANCE = new MoveManager();
+        private static final MoveCommander INSTANCE = new MoveCommander();
     }	
-	public static MoveManager get() { 
+	public static MoveCommander get() { 
 		return MoveLoader.INSTANCE; 
 	}	
-    private MoveManager() {
+    private MoveCommander() {
         if (MoveLoader.INSTANCE != null) throw new IllegalStateException("MoveManager already instantiated");
     }		
     
     // ----------------------------
 		
 	public void moveDownSelectedOnTree(){
-		browser().getTree().moveDown();
+		BrowserManager.get().moveDown();
 	}
 	
 	public void moveUpSelectedOnTree(){
-		browser().getTree().moveUp();
+		BrowserManager.get().moveUp();
 	}
 	
 	public void moveSelectedOnTreeToDiagram(Point p){
 		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
-		DefaultMutableTreeNode node = browser().getTree().getSelectedNode();
+		DefaultMutableTreeNode node = BrowserManager.get().selected();
 		Object obj = node.getUserObject();				
 		move((RefOntoUML.Element)obj, p.x, p.y, editor, true);	
 	}
@@ -94,12 +98,10 @@ public class MoveManager extends AppManager {
 	public void move(RefOntoUML.Element element, double x, double y, OntoumlEditor d, boolean showmessage){
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
-				MessageManager.get().showInfo(frame(),
-				"Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
+				MessageManager.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
 			}
 			else if (element instanceof Generalization) {
-				MessageManager.get().showInfo(frame(),
-				"Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
+				MessageManager.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if(de!=null) d.select(de);

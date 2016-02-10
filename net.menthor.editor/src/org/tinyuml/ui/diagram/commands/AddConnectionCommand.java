@@ -45,8 +45,8 @@ import RefOntoUML.Relationship;
 import RefOntoUML.impl.AssociationImpl;
 import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 
 /**
@@ -106,7 +106,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		if (relationship!=null){
 //			System.out.println("Undoing ="+relationship);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-			UpdateManager.get().updateFromDeletion(relationship);
+			UpdateCommander.get().updateFromDeletion(relationship);
 		}
 		
 		if(addToDiagram && diagramElement!=null){				
@@ -132,7 +132,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 		addToModel();		
-		UpdateManager.get().updateFromAddition(relationship);
+		UpdateCommander.get().updateFromAddition(relationship);
 		
 		if(addToDiagram && diagramElement != null)
 		{			

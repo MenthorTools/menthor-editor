@@ -22,11 +22,11 @@ import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.BrowserManager;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.TabManager;
+import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class DeletionCommander {
 		
@@ -39,7 +39,7 @@ public class DeletionCommander {
 		return DeletionLoader.INSTANCE; 
 	}	
     private DeletionCommander() {
-        if (DeletionLoader.INSTANCE != null) throw new IllegalStateException("DeletionManager already instantiated");
+        if (DeletionLoader.INSTANCE != null) throw new IllegalStateException("DeletionCommander already instantiated");
     }		
     
     // ----------------------------

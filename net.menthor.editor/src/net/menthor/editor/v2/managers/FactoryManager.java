@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.LineConnectMethod;
 import org.tinyuml.umldraw.AssociationElement;
@@ -46,14 +45,12 @@ import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.AppManager;
 
-public class FactoryManager extends AppManager {
+public class FactoryManager {
 
 	// -------- Lazy Initialization
 	

@@ -23,8 +23,8 @@ package net.menthor.editor.v2;
 
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.util.SplashScreen;
 import net.menthor.editor.v2.util.DirectoryUtil;

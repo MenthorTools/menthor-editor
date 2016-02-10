@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.manager;
 
 /**
  * ============================================================================================
@@ -42,6 +42,9 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.ProblemElement;
+import net.menthor.editor.v2.managers.MessageManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -611,6 +614,8 @@ public class TabManager extends AppManager {
 		}
 		return component;
 	}
-
 	
+	public void showOutputInfo(String text, boolean clear, boolean showOutput){	
+		infoPane().showOutput(text, clear, showOutput);
+	}
 }

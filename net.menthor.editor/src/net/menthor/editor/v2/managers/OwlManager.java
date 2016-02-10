@@ -33,6 +33,7 @@ import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
