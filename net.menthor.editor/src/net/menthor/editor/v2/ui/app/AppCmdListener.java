@@ -1,20 +1,18 @@
 package net.menthor.editor.v2.ui.app;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
+import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.AlignCommander;
+import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.MethodCall;
-import net.menthor.editor.v2.managers.AdditionManager;
-import net.menthor.editor.v2.managers.AlignManager;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
-import net.menthor.editor.v2.managers.ClipboardManager;
-import net.menthor.editor.v2.managers.ConnectManager;
 import net.menthor.editor.v2.managers.CursorManager;
-import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DeserializationManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
@@ -46,18 +44,20 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
+import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
+import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
 
-public class AppCommandListener implements ICommandListener {
+public class AppCmdListener implements ICommandListener {
 
 	// -------- Lazy Initialization
 
 	private static class CommandListenerLoader {
-        private static final AppCommandListener INSTANCE = new AppCommandListener();
+        private static final AppCmdListener INSTANCE = new AppCmdListener();
     }	
-	public static AppCommandListener get() { 
+	public static AppCmdListener get() { 
 		return CommandListenerLoader.INSTANCE; 
 	}	
-    private AppCommandListener() {
+    private AppCmdListener() {
         if (CommandListenerLoader.INSTANCE != null) throw new IllegalStateException("AppCommandListener already instantiated");
     }		
     
@@ -103,34 +103,34 @@ public class AppCommandListener implements ICommandListener {
 	private Object callMethod(MethodCall methodcall){
 		try{
 			//----------------
-			if(methodcall.getMethod().getDeclaringClass() == DiagramEditor.class){
+			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
 				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
 			//----------------
 			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
 				return methodcall.call(AppFrame.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == AppMultiSplitPane.class){
-				return methodcall.call(AppMultiSplitPane.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AppSplitPane.class){
+				return methodcall.call(AppSplitPane.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AppMenuBar.class){
 				return methodcall.call(AppMenuBar.get());
 			//----------------				
-			}else if(methodcall.getMethod().getDeclaringClass() == AdditionManager.class){
-				return methodcall.call(AdditionManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == AlignManager.class){
-				return methodcall.call(AlignManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AdditionCommander.class){
+				return methodcall.call(AdditionCommander.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AlignCommander.class){
+				return methodcall.call(AlignCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AlloyManager.class){
 				return methodcall.call(AlloyManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AntiPatternManager.class){
 				return methodcall.call(AntiPatternManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ChangeManager.class){
 				return methodcall.call(ChangeManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ClipboardManager.class){
-				return methodcall.call(ClipboardManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ConnectManager.class){
-				return methodcall.call(ConnectManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ClipboardMode.class){
+				return methodcall.call(ClipboardMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ConnectMode.class){
+				return methodcall.call(ConnectMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == CursorManager.class){
 				return methodcall.call(CursorManager.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == DeletionManager.class){
-				return methodcall.call(DeletionManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == DeletionCommander.class){
+				return methodcall.call(DeletionCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DeserializationManager.class){
 				return methodcall.call(DeserializationManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateManager.class){

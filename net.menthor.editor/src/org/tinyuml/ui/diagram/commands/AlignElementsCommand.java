@@ -28,13 +28,13 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.managers.AlignManager;
+import net.menthor.editor.v2.commanders.AlignCommander;
 
 /**
  * @author John Guerson
@@ -43,7 +43,7 @@ public class AlignElementsCommand extends BaseDiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	public DiagramEditor editor;
+	public OntoumlEditor editor;
 	public UmlProject project;
 	public ArrayList<DiagramElement> selected = new ArrayList<DiagramElement>();
 	public enum Alignment { TOP, BOTTOM, LEFT, RIGHT, CENTER_VERTICAL, CENTER_HORIZONTAL }
@@ -53,7 +53,7 @@ public class AlignElementsCommand extends BaseDiagramCommand {
 	
 	public AlignElementsCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Alignment direction) 
 	{
-		this.editor = (DiagramEditor)editorNotification;
+		this.editor = (OntoumlEditor)editorNotification;
 		notification = editorNotification;
 		this.direction = direction;
 		
@@ -109,18 +109,18 @@ public class AlignElementsCommand extends BaseDiagramCommand {
 	 */
 	public void run() {
 		
-		if(direction==Alignment.TOP) AlignManager.get().alignTop();
-		if(direction==Alignment.BOTTOM) AlignManager.get().alignBottom();
-		if(direction==Alignment.LEFT) AlignManager.get().alignLeft();
-		if(direction==Alignment.RIGHT) AlignManager.get().alignRight();
-		if(direction==Alignment.CENTER_VERTICAL) AlignManager.get().alignCenterVertically();
-		if(direction==Alignment.CENTER_HORIZONTAL) AlignManager.get().alignCenterHorizontally();
+		if(direction==Alignment.TOP) AlignCommander.get().alignTop(this.editor);
+		if(direction==Alignment.BOTTOM) AlignCommander.get().alignBottom(this.editor);
+		if(direction==Alignment.LEFT) AlignCommander.get().alignLeft(this.editor);
+		if(direction==Alignment.RIGHT) AlignCommander.get().alignRight(this.editor);
+		if(direction==Alignment.CENTER_VERTICAL) AlignCommander.get().alignCenterVertically(this.editor);
+		if(direction==Alignment.CENTER_HORIZONTAL) AlignCommander.get().alignCenterHorizontally(this.editor);
 		
 		//notify
 		if (notification!=null) {
 			notification.notifyChange((List<DiagramElement>) selected, ChangeType.ELEMENTS_ALIGNED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)editor), this);
-			for (UndoableEditListener l : ((DiagramEditor)editor).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
+			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
 		}	
 	}
 }

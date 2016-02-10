@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand;
 import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand.Visibility;
 import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand;
@@ -13,7 +13,9 @@ import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand.ClassVisibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 
-public class VisibilityManager extends BaseManager {
+import net.menthor.editor.v2.ui.app.AppManager;
+
+public class VisibilityManager extends AppManager {
 	
 	// -------- Lazy Initialization
 	
@@ -213,13 +215,13 @@ public class VisibilityManager extends BaseManager {
 	}
 	
 	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, Visibility visibilityItem, boolean value){
-		DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		AssociationVisibilityCommand command = new AssociationVisibilityCommand(editor, elementList, visibilityItem, value);
 		editor.execute(command);
 	}
 	
 	private void createAndRunVisibilityCommand(List<ClassElement> elementList, ClassVisibility visibilityItem, boolean value){
-		DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		ClassVisibilityCommand command = new ClassVisibilityCommand(editor, elementList, visibilityItem, value);
 		editor.execute(command);
 	}

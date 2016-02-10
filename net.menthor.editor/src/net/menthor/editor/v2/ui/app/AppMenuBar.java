@@ -49,7 +49,7 @@ public class AppMenuBar extends GenericMenuBar {
 		return AppMenuBarLoader.INSTANCE; 
 	}	
     private AppMenuBar() {
-    	super(AppCommandListener.get(), background);
+    	super(AppCmdListener.get(), background);
     	if (AppMenuBarLoader.INSTANCE != null) throw new IllegalStateException("AppMenuBar already instantiated");
         buildUI();
     }		

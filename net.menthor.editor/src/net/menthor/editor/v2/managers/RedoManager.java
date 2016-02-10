@@ -21,9 +21,11 @@ package net.menthor.editor.v2.managers;
  * ============================================================================================
  */
 
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
-public class RedoManager extends BaseManager {
+import net.menthor.editor.v2.ui.app.AppManager;
+
+public class RedoManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -40,7 +42,7 @@ public class RedoManager extends BaseManager {
     // ----------------------------
 	
 	public void redo(){
-		DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		if(editor==null) return;		
 		if(editor.canRedo()) editor.redo();
 		else MessageManager.get().showError("Cannot Redo", "No other action to be redone.\n");			

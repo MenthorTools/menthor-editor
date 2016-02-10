@@ -1,27 +1,5 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
-/**
- * ============================================================================================
- * Menthor Editor -- Copyright (c) 2015 
- *
- * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
- * distributed under the same license terms.
- *
- * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation; either 
- * version 2 of the License, or (at your option) any later version.
- *
- * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Menthor Editor; 
- * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
- * MA  02110-1301  USA
- * ============================================================================================
- */
-
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,7 +8,7 @@ import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
 import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import org.tinyuml.umldraw.AssociationElement;
@@ -44,42 +22,46 @@ import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.managers.BrowserManager;
+import net.menthor.editor.v2.managers.MessageManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.TabManager;
 
-public class DeletionManager extends BaseManager {
+public class DeletionCommander {
 		
 	// -------- Lazy Initialization
 	
 	private static class DeletionLoader {
-        private static final DeletionManager INSTANCE = new DeletionManager();
+        private static final DeletionCommander INSTANCE = new DeletionCommander();
     }	
-	public static DeletionManager get() { 
+	public static DeletionCommander get() { 
 		return DeletionLoader.INSTANCE; 
 	}	
-    private DeletionManager() {
+    private DeletionCommander() {
         if (DeletionLoader.INSTANCE != null) throw new IllegalStateException("DeletionManager already instantiated");
     }		
     
     // ----------------------------
 	    
-	public boolean confirmElementDeletion(Component parentWindow){
-		return MessageManager.get().confirm(parentWindow, "Delete Element",
+	public boolean confirmElementDeletion(){
+		return MessageManager.get().confirm("Delete Element",
 			"WARNING - Are you sure you want to delete the selected items from the model \n"
 					+ "and from all the diagrams they might appear?");
 	}
 	
-	public boolean confirmDiagramDeletion(Component parentWindow){
-		return MessageManager.get().confirm(parentWindow,"Delete Diagram", 
+	public boolean confirmDiagramDeletion(){
+		return MessageManager.get().confirm("Delete Diagram", 
 			"WARNING - Are you sure you want to delete this diagram?\nThis action CANNOT be undone.");
 	}
 	
-	public boolean confirmOclDocDeletion(Component parentWindow){
-		return MessageManager.get().confirm(parentWindow,"Delete Ocl Document", 
+	public boolean confirmOclDocDeletion(){
+		return MessageManager.get().confirm("Delete Ocl Document", 
 			"WARNING - Are you sure you want to delete this document?\nThis action CANNOT be undone.");
 	}
 	
-	public GeneralizationSet confirmGenSetDeletion(Component parentWindow, List<GeneralizationSet> genSets){
-		return (GeneralizationSet) MessageManager.get().input(
-			parentWindow,
+	public GeneralizationSet confirmGenSetDeletion(List<GeneralizationSet> genSets){
+		return (GeneralizationSet) MessageManager.get().input(			
 			"Delete Generalization Set",
 			"Which generalization set do you want to delete?",			 
 			genSets.toArray(), 
@@ -118,29 +100,29 @@ public class DeletionManager extends BaseManager {
 	/** Delete Ocl document from the browser, tab pane and application */
 	public void deleteOclDocument(OclDocument doc, boolean showwarning){
 		boolean response = true;
-		if (showwarning) response = confirmOclDocDeletion(frame());		
+		if (showwarning) response = confirmOclDocDeletion();		
 		if(response) {
 			ProjectManager.get().getProject().getOclDocList().remove(doc);
 			TabManager.get().removeEditor(doc);		
-			tree().removeCurrentNode();
+			BrowserManager.get().remove();
 		}
 	}
 	
 	public void deleteDiagram(StructureDiagram diagram, boolean showwarning){
 		boolean response = true;
-		if (showwarning) response = confirmDiagramDeletion(frame());		
+		if (showwarning) response = confirmDiagramDeletion();		
 		if(response){
 			eraseAllElements(diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
 			TabManager.get().removeEditor(diagram);
-			tree().removeCurrentNode();
+			BrowserManager.get().remove();
 		}	
 	}
 
 	/** Delete element from the model and every diagram in each it appears. */
 	public void deleteElement(RefOntoUML.Element element, boolean showwarning){	
 		boolean response = true;
-		if(showwarning) response = confirmElementDeletion(frame());		
+		if(showwarning) response = confirmElementDeletion();		
 		if(response) {		
 			List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 			list.add(element);
@@ -153,7 +135,7 @@ public class DeletionManager extends BaseManager {
 	public void deleteElements(Collection<DiagramElement> diagramElements, boolean showmessage){	
 		List<RefOntoUML.Element> list = (List<Element>) OccurenceManager.get().getElements(diagramElements);
 		boolean response = true;
-		if(showmessage) response = confirmElementDeletion(frame());
+		if(showmessage) response = confirmElementDeletion();
 		if(response) deleteElements(list);		
 	}
 	
@@ -169,8 +151,8 @@ public class DeletionManager extends BaseManager {
 		
 		elements.addAll(dependencies);
 		
-		List<DiagramEditor> editors = OccurenceManager.get().getDiagramEditors(elements.get(0));		
-		for(DiagramEditor ed: editors){
+		List<OntoumlEditor> editors = OccurenceManager.get().getDiagramEditors(elements.get(0));		
+		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
 				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();
 			}else{
@@ -187,7 +169,7 @@ public class DeletionManager extends BaseManager {
 	}
 	
 	/** Erase element from a particular diagram. It does not delete the element from the model. */
-	public void eraseElement(DiagramEditor ed, RefOntoUML.Element element){		
+	public void eraseElement(OntoumlEditor ed, RefOntoUML.Element element){		
 		if(element instanceof GeneralizationSet) return;
 		if(element instanceof Constraintx) return;
 		if(element instanceof Comment) return;
@@ -198,7 +180,7 @@ public class DeletionManager extends BaseManager {
 	
 	/** Delete all elements at the diagram */
 	public void eraseAllElements(StructureDiagram diagram){
-		DiagramEditor ed = TabManager.get().getDiagramEditor(diagram);
+		OntoumlEditor ed = TabManager.get().getDiagramEditor(diagram);
 		for(DiagramElement delem: diagram.getChildren()) {
 			if(delem instanceof ClassElement) eraseElement(ed,((ClassElement)delem).getClassifier());
 			if(delem instanceof AssociationElement) eraseElement(ed,((AssociationElement)delem).getRelationship());
@@ -207,13 +189,13 @@ public class DeletionManager extends BaseManager {
 	}
 	
 	/** Delete a generalization set from a list of selected diagram elements */
-	public void deleteGeneralizationSet(DiagramEditor d, List<DiagramElement> selectedElements){	
+	public void deleteGeneralizationSet(OntoumlEditor d, List<DiagramElement> selectedElements){	
 		List<GeneralizationSet> genSets = d.getGeneralizationSets(selectedElements);
 		if(genSets.size()==0) return;
 		if(genSets.size()==1){
 			deleteElement(genSets.get(0),true);
 		}else{
-			GeneralizationSet chosen = confirmGenSetDeletion(frame(), genSets);
+			GeneralizationSet chosen = confirmGenSetDeletion(genSets);
 			if(chosen!=null) deleteElement(chosen,true);
 		}			
 	}

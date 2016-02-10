@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -68,7 +68,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 	public AddConnectionCommand(DiagramNotification editorNotification, UmlConnection conn){
 		this(
 			editorNotification, 
-			(CompositeElement)((DiagramEditor)editorNotification).getDiagram(), 
+			(CompositeElement)((OntoumlEditor)editorNotification).getDiagram(), 
 			(RefOntoUML.Element)conn.getRelationship(), 
 			(RefOntoUML.Classifier)conn.getSourceObject(), 
 			(RefOntoUML.Classifier)conn.getTargetObject(), 
@@ -91,7 +91,7 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		DiagramEditor editor = ((DiagramEditor)notification);
+		OntoumlEditor editor = ((OntoumlEditor)notification);
 		StructureDiagram diagram = null;
 		if(editor!=null) diagram = editor.getDiagram();
 		this.diagramElement = OccurenceManager.get().getDiagramElement(relationship, diagram);		
@@ -141,12 +141,12 @@ public class AddConnectionCommand extends BaseDiagramCommand {
 			list.add(diagramElement);
 		}
 		
-		DiagramEditor d = ((DiagramEditor)notification);
+		OntoumlEditor d = ((OntoumlEditor)notification);
 		//notify
 		if (d!=null) {
 			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_ADDED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)d), this);
-			for (UndoableEditListener l : ((DiagramEditor)d).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
+			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
 		}
 	}
 		

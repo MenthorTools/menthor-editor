@@ -41,7 +41,7 @@ public class AppToolBar extends GenericToolBar {
 		return AppToolBarLoader.INSTANCE; 
 	}	
     private AppToolBar() {
-    	super(AppCommandListener.get(), background);
+    	super(AppCmdListener.get(), background);
     	if (AppToolBarLoader.INSTANCE != null) throw new IllegalStateException("AppToolBar already instantiated");
         buildUI();
     }		

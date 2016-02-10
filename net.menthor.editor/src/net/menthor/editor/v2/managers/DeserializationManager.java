@@ -22,10 +22,11 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.Settings;
 
-public class DeserializationManager extends BaseManager {
+public class DeserializationManager extends AppManager {
 
 	// -------- Lazy Initialization
 

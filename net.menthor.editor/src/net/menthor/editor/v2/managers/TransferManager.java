@@ -52,9 +52,12 @@ import RefOntoUML.impl.IntegerRationalDimensionImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class TransferManager extends BaseManager {
+public class TransferManager extends AppManager {
 	
 	// -------- Lazy Initialization
 
@@ -227,7 +230,7 @@ public class TransferManager extends BaseManager {
 				toBeAdded.add(c);
 			}
 		}
-		for(Constraintx cmt: toBeAdded) { AdditionManager.get().addConstraintx(cmt, (RefOntoUML.Element)element); }			
+		for(Constraintx cmt: toBeAdded) { AdditionCommander.get().addConstraintx(cmt, (RefOntoUML.Element)element); }			
 		//deleted
 		ArrayList<Constraintx> toBeDeleted = new ArrayList<Constraintx>();
 		for(Constraintx c: ProjectManager.get().getProject().getRefParser().getConstraints(element)){
@@ -235,7 +238,7 @@ public class TransferManager extends BaseManager {
 				toBeDeleted.add(c);
 			}
 		}
-		for(Constraintx cmt: toBeDeleted) { DeletionManager.get().deleteElement(cmt,false); }	
+		for(Constraintx cmt: toBeDeleted) { DeletionCommander.get().deleteElement(cmt,false); }	
 	}
 	
 	public void transferComments(RefOntoUML.Element element, List<Comment> comments){
@@ -246,7 +249,7 @@ public class TransferManager extends BaseManager {
 				toBeAdded.add(c);
 			}
 		}
-		for(Comment cmt: toBeAdded) { AdditionManager.get().addComment(cmt, element); }			
+		for(Comment cmt: toBeAdded) { AdditionCommander.get().addComment(cmt, element); }			
 		//deleted
 		ArrayList<Comment> toBeDeleted = new ArrayList<Comment>();
 		for(Comment c: element.getOwnedComment()){
@@ -254,7 +257,7 @@ public class TransferManager extends BaseManager {
 				toBeDeleted.add(c);
 			}
 		}
-		for(Comment cmt: toBeDeleted) { DeletionManager.get().deleteElement(cmt,false); }
+		for(Comment cmt: toBeDeleted) { DeletionCommander.get().deleteElement(cmt,false); }
 	}
 	
 	public void transferGeneralizationSet(RefOntoUML.GeneralizationSet genSet, String name, boolean isDisjoint, boolean isComplete){

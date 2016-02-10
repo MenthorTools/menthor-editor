@@ -25,9 +25,10 @@ import java.awt.Component;
 
 import javax.swing.JOptionPane;
 
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.util.Util;
 
-public class MessageManager extends BaseManager {
+public class MessageManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -60,6 +61,14 @@ public class MessageManager extends BaseManager {
 	}
 	
 	//------- INPUT -------
+	
+	public Object input(String title, String customMessage, Object[] values, Object selected){
+		return JOptionPane.showInputDialog(frame(), 
+			customMessage, 
+			"Input - "+title,
+		    JOptionPane.QUESTION_MESSAGE, null, values, selected
+		);
+	}
 	
 	public Object input(Component parent, String title, String customMessage, Object[] values, Object selected){
 		return JOptionPane.showInputDialog(parent, 

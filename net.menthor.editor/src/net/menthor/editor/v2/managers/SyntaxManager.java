@@ -35,10 +35,11 @@ import RefOntoUML.parser.SyntacticVerificator;
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-public class SyntaxManager extends BaseManager{
+public class SyntaxManager extends AppManager{
 
 	// -------- Lazy Initialization
 

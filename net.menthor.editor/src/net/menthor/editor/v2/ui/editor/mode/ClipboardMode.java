@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.editor.mode;
 
 /**
  * ============================================================================================
@@ -28,27 +28,27 @@ import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.shared.UmlNode;
 
+import net.menthor.editor.v2.managers.FactoryManager;
+import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
 import net.menthor.editor.v2.util.DrawUtil;
 
-public class ClipboardManager extends BaseManager implements IEditorMode {
+public class ClipboardMode implements IEditorMode {
 	
 	// -------- Lazy Initialization
 
 	private static class ClipboardLoader {
-        private static final ClipboardManager INSTANCE = new ClipboardManager();
+        private static final ClipboardMode INSTANCE = new ClipboardMode();
     }	
-	public static ClipboardManager get() { 
+	public static ClipboardMode get() { 
 		return ClipboardLoader.INSTANCE; 
 	}	
-    private ClipboardManager() {
+    private ClipboardMode() {
         if (ClipboardLoader.INSTANCE != null) throw new IllegalStateException("ClipboardManager already instantiated");
     }		
     
@@ -67,13 +67,13 @@ public class ClipboardManager extends BaseManager implements IEditorMode {
 	}
 	
 	public void cloneSelectedAndPutToClipboard(){
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();
 		cloneAndPutToClipboard(de.getSelectedElements());
 	}
 	
 	public void cloneAndPutToClipboard(List<DiagramElement> diagramElementList){	
 		isActive=true;
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();		
 		for(DiagramElement s: diagramElementList){
@@ -88,7 +88,7 @@ public class ClipboardManager extends BaseManager implements IEditorMode {
 	
 	public void cloneAndPutToClipboard(DiagramElement element){
 		isActive=true;
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 		if(element instanceof UmlNode) {
@@ -101,7 +101,7 @@ public class ClipboardManager extends BaseManager implements IEditorMode {
 		
 	public void createAndPutToClipboard(ClassType elementType){
 		isActive=true;
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
@@ -112,7 +112,7 @@ public class ClipboardManager extends BaseManager implements IEditorMode {
 	
 	public void createAndPutToClipboard(DataType elementType){
 		isActive=true;
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
@@ -123,7 +123,7 @@ public class ClipboardManager extends BaseManager implements IEditorMode {
 	
 	public UmlNode putToClipboard(RefOntoUML.Type type, boolean drawClipBounds) {
 		isActive=true;
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(type, de.getDiagram());
@@ -136,7 +136,7 @@ public class ClipboardManager extends BaseManager implements IEditorMode {
 	}
 	
 	public void pasteClipboard(){
-		DiagramEditor de = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();
 		for(Object o: clipboard){
 			if(o instanceof UmlNode){				
 				UmlNode ce = (UmlNode)o;				

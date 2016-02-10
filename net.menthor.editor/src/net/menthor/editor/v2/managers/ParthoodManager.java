@@ -23,9 +23,10 @@ package net.menthor.editor.v2.managers;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
-public class ParthoodManager extends BaseManager {
+public class ParthoodManager extends AppManager {
 
 	// -------- Lazy Initialization
 

@@ -37,8 +37,9 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class FilterManager extends BaseManager {
+public class FilterManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -63,7 +64,7 @@ public class FilterManager extends BaseManager {
 		elements.removeAll(added);
 		elements.addAll(added);
 		//browser.getTree().check(elements, true); //no checkbox on the browser				
-		tree().updateUI();		
+		browser().getTree().updateUI();		
 	}
 	
 	/** Tell the application to work with all elements in the model. */
@@ -71,13 +72,13 @@ public class FilterManager extends BaseManager {
 		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();					
 		//pb.getTree().checkModelElement(currentProject.getModel()); //no checkbox on the browser
 		refparser.selectAll();		
-		tree().updateUI();	
+		browser().getTree().updateUI();	
 	}
 	
 	/** Tell the application to work only with the checked elements in the tree. */
 	public List<Object> workingOnlyWithChecked(){ //takes too long
 		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
-		List<Object> selected = tree().getCheckedObjects();
+		List<Object> selected = browser().getTree().getCheckedObjects();
 		List<EObject> result = new ArrayList<EObject>();
 		for(Object c: selected) result.add((EObject)c);
 		refparser.select(result,true);		
@@ -85,7 +86,7 @@ public class FilterManager extends BaseManager {
 		selected.removeAll(added);
 		selected.addAll(added);		
 		//modeltree.getTree().checkModelElements(selected, true); //no checkbox on the browser		
-		tree().updateUI();		
+		browser().getTree().updateUI();		
 		return selected;
 	}
 	
@@ -131,7 +132,7 @@ public class FilterManager extends BaseManager {
 		elements.addAll(added);
 		//check in the tree the selected elements of the parser		
 		//modeltree.getTree().check(elements, true); //no checkbox on teh browser					
-		tree().updateUI();		
+		browser().getTree().updateUI();		
 	}
 	
 }

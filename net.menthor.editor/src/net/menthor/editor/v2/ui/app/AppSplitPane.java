@@ -3,20 +3,20 @@ package net.menthor.editor.v2.ui.app;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.generic.GenericMultiSplitPane;
 
-public class AppMultiSplitPane extends GenericMultiSplitPane {
+public class AppSplitPane extends GenericMultiSplitPane {
 
 	private static final long serialVersionUID = -5413026364779814341L;
 
 	// -------- Lazy Initialization
 
 	private static class AppMultiSplitPaneLoader {
-        private static final AppMultiSplitPane INSTANCE = new AppMultiSplitPane();
+        private static final AppSplitPane INSTANCE = new AppSplitPane();
     }	
-	public static AppMultiSplitPane get() { 
+	public static AppSplitPane get() { 
 		return AppMultiSplitPaneLoader.INSTANCE; 
 	}	
-    private AppMultiSplitPane() {
-		super(AppPalette.get(), AppEditorTabbedPane.get(), AppInfoTabbedPane.get(), AppProjectBrowser.get());
+    private AppSplitPane() {
+		super(AppPalette.get(), AppEditorsPane.get(), AppInfoPane.get(), AppBrowser.get());
 		this.appMenu = AppMenuBar.get();
         if (AppMultiSplitPaneLoader.INSTANCE != null) throw new IllegalStateException("AppMultiSplitPane already instantiated");
     }		

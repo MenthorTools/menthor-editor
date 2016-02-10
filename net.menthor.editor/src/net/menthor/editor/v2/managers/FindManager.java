@@ -34,9 +34,10 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.FoundElement;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.util.DiagramListDialog;
 
-public class FindManager extends BaseManager {
+public class FindManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -86,7 +87,7 @@ public class FindManager extends BaseManager {
 		else if(element instanceof FoundElement) 
 			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
 		
-		tree().checkObject(refElem);
+		browser().getTree().checkObject(refElem);
 	}
 	
 	public List<FoundElement> findByName(String text){		

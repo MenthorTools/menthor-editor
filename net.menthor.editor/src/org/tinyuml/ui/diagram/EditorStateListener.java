@@ -2,7 +2,7 @@ package org.tinyuml.ui.diagram;
 
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
 
 /**
  * An interface to report state changes within the diagram editor.
@@ -21,6 +21,6 @@ public interface EditorStateListener {
    * @param editor the editor that changed
    * @param the type of the change made in the diagram
    */
-  void stateChanged(DiagramEditor editor, ChangeType changeType);
+  void stateChanged(OntoumlEditor editor, ChangeType changeType);
 
 }

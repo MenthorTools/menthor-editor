@@ -31,7 +31,7 @@ import javax.swing.event.UndoableEditListener;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.Node;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 
@@ -74,12 +74,12 @@ public class ResizeElementCommand extends BaseDiagramCommand {
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
 		
-		DiagramEditor d = ((DiagramEditor)notification);
+		OntoumlEditor d = ((OntoumlEditor)notification);
 		//notify
 		if (d!=null) {
 			d.notifyChange((List<DiagramElement>) elements, ChangeType.ELEMENTS_RESIZED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)d), this);
-			for (UndoableEditListener l : ((DiagramEditor)d).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
+			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
 		}		
 	}
 

@@ -45,9 +45,9 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.ui.app.AppCommandListener;
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
+import net.menthor.editor.v2.ui.app.AppCmdListener;
+import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
 import net.menthor.editor.v2.ui.popupmenu.MultiElementPopupMenu;
 import net.menthor.editor.v2.ui.popupmenu.SingleElementPopupMenu;
 
@@ -60,7 +60,7 @@ import net.menthor.editor.v2.ui.popupmenu.SingleElementPopupMenu;
  */
 public class SelectionHandler implements IEditorMode {
 
-	private DiagramEditor editor;
+	private OntoumlEditor editor;
 	private Selection selection = NullSelection.getInstance();
 	private Set<SelectionListener> listeners = new HashSet<SelectionListener>();
 	private Point2D startPoint = new Point2D.Double();
@@ -95,7 +95,7 @@ public class SelectionHandler implements IEditorMode {
 	 * Constructor.
 	 * @param anEditor the editor
 	 */
-	public SelectionHandler(DiagramEditor anEditor) {
+	public SelectionHandler(OntoumlEditor anEditor) {
 		editor = anEditor;
 		selector.setDiagram(editor.getDiagram());
 	}
@@ -223,10 +223,10 @@ public class SelectionHandler implements IEditorMode {
 		ArrayList<UmlDiagramElement> filteredSelection = filterUmlDiagramElements(selection.getElements());
 		
 		if(filteredSelection.size()==1)
-			return new SingleElementPopupMenu(AppCommandListener.get(), filteredSelection.get(0));
+			return new SingleElementPopupMenu(AppCmdListener.get(), filteredSelection.get(0));
 		
 		if (selection.getElements().size() > 1) 			
-			return new MultiElementPopupMenu(AppCommandListener.get(), filteredSelection);
+			return new MultiElementPopupMenu(AppCmdListener.get(), filteredSelection);
 		
 		return new JPopupMenu("No Action Available");
 	}

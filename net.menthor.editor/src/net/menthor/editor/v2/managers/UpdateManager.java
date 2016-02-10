@@ -28,7 +28,7 @@ import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
@@ -42,8 +42,11 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class UpdateManager extends BaseManager {
+public class UpdateManager extends AppManager {
 
 	// -------- Lazy Initialization
 	
@@ -61,13 +64,13 @@ public class UpdateManager extends BaseManager {
 	
 	/** Causes redraw of the corresponding diagram element */
 	public void notifyChange(RefOntoUML.Element element){
-		for(DiagramEditor diagramEditor: OccurenceManager.get().getDiagramEditors(element)){
+		for(OntoumlEditor diagramEditor: OccurenceManager.get().getDiagramEditors(element)){
 			notifyChange(element,diagramEditor);
 		}
 	}
 	
 	/** Causes redraw of the corresponding diagram element */
-	public void notifyChange(RefOntoUML.Element element, DiagramEditor editor)	{		
+	public void notifyChange(RefOntoUML.Element element, OntoumlEditor editor)	{		
 		if(editor==null || !editor.getDiagram().containsChild(element))
 			return;
 		
@@ -105,7 +108,7 @@ public class UpdateManager extends BaseManager {
 		List<OclDocument> oclDocs = ProjectManager.get().getProject().getOclDocList();
 		
 		if(fix.getAddedRules().size()>0 && oclDocs.size()==0){
-			AdditionManager.get().newOclDocument("", true);
+			AdditionCommander.get().newOclDocument("", true);
 		}
 		
 		for(String str: fix.getAddedRules()){
@@ -117,7 +120,7 @@ public class UpdateManager extends BaseManager {
 	/** Update application from a set of deletions (fix) on the model */
 	public void updateFromDeletion(Fix fix){
 		for(Object obj: fix.getDeleted()){
-			DeletionManager.get().deleteElement((RefOntoUML.Element)obj,false);				
+			DeletionCommander.get().deleteElement((RefOntoUML.Element)obj,false);				
 		}
 	}
 	
@@ -131,7 +134,7 @@ public class UpdateManager extends BaseManager {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		DiagramEditor ed = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor ed = TabManager.get().getCurrentDiagramEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
@@ -176,21 +179,21 @@ public class UpdateManager extends BaseManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				boolean found = tree().checkObject((EObject)addedElement);
+				boolean found = browser().getTree().checkObject((EObject)addedElement);
 				if(!found) {
-					if(addedElement.eContainer()!=null) tree().checkObject(addedElement.eContainer());
-					else if(addedElement instanceof EnumerationLiteral) tree().checkObject(((EnumerationLiteral)addedElement).getEnumeration());
-					else tree().checkObject(ProjectManager.get().getProject().getModel());					
-					tree().addChild(addedElement);					
+					if(addedElement.eContainer()!=null) browser().getTree().checkObject(addedElement.eContainer());
+					else if(addedElement instanceof EnumerationLiteral) browser().getTree().checkObject(((EnumerationLiteral)addedElement).getEnumeration());
+					else browser().getTree().checkObject(ProjectManager.get().getProject().getModel());					
+					browser().getTree().addChild(addedElement);					
 				} else {
 					if(addedElement instanceof Generalization){
-						tree().checkObject(addedElement);
-						tree().removeCurrentNode();
-						tree().checkObject(addedElement.eContainer());
-						tree().addChild(addedElement);
+						browser().getTree().checkObject(addedElement);
+						browser().getTree().removeCurrentNode();
+						browser().getTree().checkObject(addedElement.eContainer());
+						browser().getTree().addChild(addedElement);
 					}
 				}
-				tree().updateUI();						
+				browser().getTree().updateUI();						
 			}
 		});		
 	}
@@ -237,12 +240,12 @@ public class UpdateManager extends BaseManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				tree().remove(deletedElement);
+				browser().getTree().remove(deletedElement);
 			}
 		});
 	}
 	
 	public void updateProjectTree(){
-		tree().updateUI();
+		browser().getTree().updateUI();
 	}
 }

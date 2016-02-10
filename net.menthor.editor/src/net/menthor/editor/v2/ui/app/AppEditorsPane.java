@@ -29,19 +29,19 @@ import javax.swing.border.EmptyBorder;
 
 import org.eclipse.emf.edit.provider.IDisposable;
 
-public class AppEditorTabbedPane extends JTabbedPane implements IDisposable {
+public class AppEditorsPane extends JTabbedPane implements IDisposable {
 
 	private static final long serialVersionUID = 5019191384767258996L;
 		
 	// -------- Lazy Initialization
 
 	private static class AppEditorTabbedPaneLoader {
-        private static final AppEditorTabbedPane INSTANCE = new AppEditorTabbedPane();
+        private static final AppEditorsPane INSTANCE = new AppEditorsPane();
     }	
-	public static AppEditorTabbedPane get() { 
+	public static AppEditorsPane get() { 
 		return AppEditorTabbedPaneLoader.INSTANCE; 
 	}	
-    private AppEditorTabbedPane() {
+    private AppEditorsPane() {
         if (AppEditorTabbedPaneLoader.INSTANCE != null) throw new IllegalStateException("AppEditorTabbedPane already instantiated");
         buildUI();
     }		

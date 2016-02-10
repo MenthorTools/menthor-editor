@@ -31,16 +31,15 @@ import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.v2.managers.AdditionManager;
-import net.menthor.editor.v2.managers.AlignManager;
+import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.AlignCommander;
+import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
-import net.menthor.editor.v2.managers.ClipboardManager;
-import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.DuplicateManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
@@ -65,7 +64,8 @@ import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
-import net.menthor.editor.v2.ui.app.AppMultiSplitPane;
+import net.menthor.editor.v2.ui.app.AppSplitPane;
+import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 
 public class CommandMap {
 	
@@ -109,11 +109,11 @@ public class CommandMap {
 	}
 	private void appSplitPane() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_PALETTE,
-				new MethodCall(AppMultiSplitPane.class.getMethod("showPalette")));
+				new MethodCall(AppSplitPane.class.getMethod("showPalette")));
 		cmdMap.put(CommandType.SHOW_PROJECT_BROWSER,
-				new MethodCall(AppMultiSplitPane.class.getMethod("showProjectBrowser")));
+				new MethodCall(AppSplitPane.class.getMethod("showProjectBrowser")));
 		cmdMap.put(CommandType.SHOW_INFO_TABBED_PANE,
-				new MethodCall(AppMultiSplitPane.class.getMethod("showInfoTabbedPane")));		
+				new MethodCall(AppSplitPane.class.getMethod("showInfoTabbedPane")));		
 	}
 	
 	//-------------- essential manager operations --------------
@@ -183,52 +183,52 @@ public class CommandMap {
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateManager.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardManager.class.getMethod("cloneSelectedAndPutToClipboard")));
+				new MethodCall(ClipboardMode.class.getMethod("cloneSelectedAndPutToClipboard")));
 		cmdMap.put(CommandType.PASTE,
-				new MethodCall(ClipboardManager.class.getMethod("pasteClipboard")));
+				new MethodCall(ClipboardMode.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeletionManager.class.getMethod("delete", Object.class)));		
+				new MethodCall(DeletionCommander.class.getMethod("delete", Object.class)));		
 	}
 	
 	private void addition() throws NoSuchMethodException, SecurityException{
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ct));
+				cmdMap.put(cmdType, new MethodCall(AdditionCommander.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ct));
 			}
 		}
 		for(DataType dt: DataType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
+				cmdMap.put(cmdType, new MethodCall(AdditionCommander.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
 			}
 		}		
 		for(RelationshipType rt: RelationshipType.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(rt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AdditionManager.class.getMethod("addRelationship", RelationshipType.class, EObject.class), rt));
+				cmdMap.put(cmdType, new MethodCall(AdditionCommander.class.getMethod("addRelationship", RelationshipType.class, EObject.class), rt));
 			}
 		}	
 		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(AdditionManager.class.getMethod("addPackage",DefaultMutableTreeNode.class)));		
+				new MethodCall(AdditionCommander.class.getMethod("addPackage",DefaultMutableTreeNode.class)));		
 		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
-				new MethodCall(AdditionManager.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
+				new MethodCall(AdditionCommander.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
 		cmdMap.put(CommandType.ADD_COMMENT, 
-				new MethodCall(AdditionManager.class.getMethod("addComment",RefOntoUML.Element.class)));
+				new MethodCall(AdditionCommander.class.getMethod("addComment",RefOntoUML.Element.class)));
 		cmdMap.put(CommandType.ADD_CONSTRAINT, 
-				new MethodCall(AdditionManager.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
+				new MethodCall(AdditionCommander.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
 		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
-				new MethodCall(AdditionManager.class.getMethod("addOclDocument", Object.class)));		
+				new MethodCall(AdditionCommander.class.getMethod("addOclDocument", Object.class)));		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(AdditionManager.class.getMethod("addDiagram", Object.class)));		
+				new MethodCall(AdditionCommander.class.getMethod("addDiagram", Object.class)));		
 		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
-				new MethodCall(AdditionManager.class.getMethod("newOclDocument")));
+				new MethodCall(AdditionCommander.class.getMethod("newOclDocument")));
 		cmdMap.put(CommandType.NEW_DIAGRAM,
-				new MethodCall(AdditionManager.class.getMethod("newDiagram")));
+				new MethodCall(AdditionCommander.class.getMethod("newDiagram")));
 	}
 	
 	private void change() throws NoSuchMethodException, SecurityException{
@@ -392,97 +392,97 @@ public class CommandMap {
 
 	private void alignManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ALIGN_VERTICAL,
-				new MethodCall(AlignManager.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
+				new MethodCall(AlignCommander.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
-				new MethodCall(AlignManager.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
+				new MethodCall(AlignCommander.class.getMethod("executeAlignCenterHorizontally",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_TOP,
-				new MethodCall(AlignManager.class.getMethod("executeAlignTop",ArrayList.class)));
+				new MethodCall(AlignCommander.class.getMethod("executeAlignTop",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_BOTTOM,
-				new MethodCall(AlignManager.class.getMethod("executeAlignBottom",ArrayList.class)));
+				new MethodCall(AlignCommander.class.getMethod("executeAlignBottom",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_LEFT,
-				new MethodCall(AlignManager.class.getMethod("executeAlignLeft",ArrayList.class)));
+				new MethodCall(AlignCommander.class.getMethod("executeAlignLeft",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_RIGHT,
-				new MethodCall(AlignManager.class.getMethod("executeAlignRight",ArrayList.class)));
+				new MethodCall(AlignCommander.class.getMethod("executeAlignRight",ArrayList.class)));
 	}
 	
 	
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_GRID,
-				new MethodCall(DiagramEditor.class.getMethod("showGrid")));
+				new MethodCall(OntoumlEditor.class.getMethod("showGrid")));
 		cmdMap.put(CommandType.ERASE, 
-				new MethodCall(DiagramEditor.class.getMethod("excludeSelection", Object.class)));		
+				new MethodCall(OntoumlEditor.class.getMethod("excludeSelection", Object.class)));		
 		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("selectAll")));
+				new MethodCall(OntoumlEditor.class.getMethod("selectAll")));
 		cmdMap.put(CommandType.REDRAW_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("redraw")));
+				new MethodCall(OntoumlEditor.class.getMethod("redraw")));
 		cmdMap.put(CommandType.FIT_TO_WINDOW,
-				new MethodCall(DiagramEditor.class.getMethod("fitToWindow")));
+				new MethodCall(OntoumlEditor.class.getMethod("fitToWindow")));
 		cmdMap.put(CommandType.ZOOM_OUT,
-				new MethodCall(DiagramEditor.class.getMethod("zoomOut")));
+				new MethodCall(OntoumlEditor.class.getMethod("zoomOut")));
 		cmdMap.put(CommandType.ZOOM_AT_100,
-				new MethodCall(DiagramEditor.class.getMethod("zoom100")));
+				new MethodCall(OntoumlEditor.class.getMethod("zoom100")));
 		cmdMap.put(CommandType.ZOOM_IN,
-				new MethodCall(DiagramEditor.class.getMethod("zoomIn")));
+				new MethodCall(OntoumlEditor.class.getMethod("zoomIn")));
 		cmdMap.put(CommandType.PUT_BACK,
-				new MethodCall(DiagramEditor.class.getMethod("putToBack")));
+				new MethodCall(OntoumlEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
-				new MethodCall(DiagramEditor.class.getMethod("bringToFront")));
+				new MethodCall(OntoumlEditor.class.getMethod("bringToFront")));
 		cmdMap.put(CommandType.RESET_POINTS, 
-			new MethodCall(DiagramEditor.class.getMethod("resetConnectionPoints", Object.class)));
+			new MethodCall(OntoumlEditor.class.getMethod("resetConnectionPoints", Object.class)));
 		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toDirect", Object.class)));
+			new MethodCall(OntoumlEditor.class.getMethod("toDirect", Object.class)));
 		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toRectilinear", Object.class)));
+			new MethodCall(OntoumlEditor.class.getMethod("toRectilinear", Object.class)));
 		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
+			new MethodCall(OntoumlEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
 		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
-			new MethodCall(DiagramEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
+			new MethodCall(OntoumlEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
 		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
-				new MethodCall(DiagramEditor.class.getMethod("addAllRelatedElements", Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("addAllRelatedElements", Object.class)));
 		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("setupColor", Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("setupColor", Object.class)));
 		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("copyColor", Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("copyColor", Object.class)));
 		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("pasteColor", Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("pasteColor", Object.class)));
 		
 		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
-				new MethodCall(DiagramEditor.class.getMethod("setupColorOnSelected")));	
+				new MethodCall(OntoumlEditor.class.getMethod("setupColorOnSelected")));	
 		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
-				new MethodCall(DiagramEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
-				new MethodCall(DiagramEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
 		
 		cmdMap.put(CommandType.READING_DIRECTION_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("readingDesignToSource",Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("readingDesignToSource",Object.class)));
 		cmdMap.put(CommandType.READING_DIRECTION_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("readingDesignToTarget",Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("readingDesignToTarget",Object.class)));
 		cmdMap.put(CommandType.READING_DIRECTION_UNSPECIFIED,
-				new MethodCall(DiagramEditor.class.getMethod("readingDesignUnspecified",Object.class)));
+				new MethodCall(OntoumlEditor.class.getMethod("readingDesignUnspecified",Object.class)));
 					
 	}
 	
 	private void palleteDragAndDrop() throws NoSuchMethodException, SecurityException{
 		
 		cmdMap.put(CommandType.PALLETE_POINTER_MODE, 
-				new MethodCall(DiagramEditor.class.getMethod("setSelectionMode")));	
+				new MethodCall(OntoumlEditor.class.getMethod("setSelectionMode")));	
 		
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getPalleteCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ClipboardMode.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
 			}
 		}
 		for(DataType dt: DataType.values()){
 			CommandType cmdType = CommandType.getPalleteCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardManager.class.getMethod("createAndPutToClipboard", DataType.class), dt));
+				cmdMap.put(cmdType, new MethodCall(ClipboardMode.class.getMethod("createAndPutToClipboard", DataType.class), dt));
 			}
 		}	
 		for(RelationshipType dt: RelationshipType.values()){
 			CommandType cmdType = CommandType.getPalleteCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(DiagramEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), dt));
+				cmdMap.put(cmdType, new MethodCall(OntoumlEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), dt));
 			}
 		}		
 	}

@@ -23,8 +23,8 @@ package net.menthor.editor.v2.ui.generic;
 
 import javax.swing.JComponent;
 
-import net.menthor.editor.v2.ui.editor.base.EditorType;
-import net.menthor.editor.v2.ui.editor.base.IEditor;
+import net.menthor.editor.v2.ui.editor.EditorType;
+import net.menthor.editor.v2.ui.editor.IEditor;
 
 public abstract class GenericEditor extends JComponent implements IEditor {
 

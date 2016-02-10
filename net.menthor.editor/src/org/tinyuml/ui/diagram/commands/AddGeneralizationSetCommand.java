@@ -31,7 +31,7 @@ import javax.swing.event.UndoableEditListener;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -63,7 +63,7 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 		this.genSet = genSet;		
 		this.generalizations .addAll(generalizations);
 		if(generalizations!=null && notification!=null){			
-			for(DiagramElement dElem: ((DiagramEditor)notification).getDiagram().getChildren()){
+			for(DiagramElement dElem: ((OntoumlEditor)notification).getDiagram().getChildren()){
 				if(dElem instanceof GeneralizationElement){
 					GeneralizationElement genElem = (GeneralizationElement)dElem;
 					if(generalizations.contains((Generalization)genElem.getRelationship())){ 
@@ -124,12 +124,12 @@ public class AddGeneralizationSetCommand extends BaseDiagramCommand {
 			}
 		}		
 		
-		DiagramEditor d = ((DiagramEditor)notification);
+		OntoumlEditor d = ((OntoumlEditor)notification);
 		//notify
 		if (d!=null) {
 			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_MODIFIED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)d), this);
-			for (UndoableEditListener l : ((DiagramEditor)d).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
+			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
 		}
 		
 	}

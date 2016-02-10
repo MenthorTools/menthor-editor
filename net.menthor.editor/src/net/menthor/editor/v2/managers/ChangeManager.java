@@ -44,8 +44,9 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class ChangeManager extends BaseManager {
+public class ChangeManager extends AppManager {
 	
 	// -------- Lazy Initialization
 	
@@ -99,7 +100,7 @@ public class ChangeManager extends BaseManager {
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
 		UpdateManager.get().notifyChange(property.getAssociation());
-		tree().updateUI();
+		BrowserManager.get().updateUI();
 	}
 	
 	/** Change multiplicity from integer values */
@@ -111,7 +112,7 @@ public class ChangeManager extends BaseManager {
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
 		UpdateManager.get().notifyChange(property.getAssociation());
-		tree().updateUI();
+		BrowserManager.get().updateUI();
 	}
 	
 	/** Invert end points of an association. */
@@ -132,14 +133,14 @@ public class ChangeManager extends BaseManager {
 	   		association.getNavigableOwnedEnd().add(target);
 	   		association.getNavigableOwnedEnd().add(source);   		
 	   		
-	   		tree().checkObject(source);
-	   		tree().removeCurrentNode();
-	   		tree().checkObject(target);
-	   		tree().removeCurrentNode();
-	   		tree().checkObject(association);
-	   		tree().addChild(source);  
-	   		tree().addChild(target);  
-	   		tree().updateUI();
+	   		browser().getTree().checkObject(source);
+	   		browser().getTree().removeCurrentNode();
+	   		browser().getTree().checkObject(target);
+	   		browser().getTree().removeCurrentNode();
+	   		browser().getTree().checkObject(association);
+	   		browser().getTree().addChild(source);  
+	   		browser().getTree().addChild(target);  
+	   		browser().getTree().updateUI();
 	   		UpdateManager.get().updateFromChange(association, true);
 		}
 		else if (connection instanceof GeneralizationElement){
@@ -150,7 +151,7 @@ public class ChangeManager extends BaseManager {
 			generalization.setSpecific(general);
 			generalization.setGeneral(specific);
 			
-			tree().updateUI();
+			BrowserManager.get().updateUI();
 			UpdateManager.get().updateFromChange(generalization, true);
 			
 		}

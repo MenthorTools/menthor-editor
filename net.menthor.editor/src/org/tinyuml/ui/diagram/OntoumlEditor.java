@@ -1,5 +1,3 @@
-
-
 package org.tinyuml.ui.diagram;
 
 /**
@@ -105,11 +103,9 @@ import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.AdditionManager;
-import net.menthor.editor.v2.managers.ClipboardManager;
-import net.menthor.editor.v2.managers.ConnectManager;
-import net.menthor.editor.v2.managers.DeletionManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.MessageManager;
@@ -119,16 +115,18 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.AppEditorTabbedPane;
+import net.menthor.editor.v2.ui.app.AppEditorsPane;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
-import net.menthor.editor.v2.ui.app.AppMultiSplitPane;
+import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.app.AppPalette;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.base.EditorType;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
+import net.menthor.editor.v2.ui.editor.EditorType;
+import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
+import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
+import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
+import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.util.DrawUtil;
@@ -143,15 +141,15 @@ import net.menthor.editor.v2.util.Util;
  * @author Wei-ju Wu, John Guerson
  */
 
-public class DiagramEditor extends GenericEditor implements ActionListener, MouseListener, MouseWheelListener, MouseMotionListener, DiagramNotification, DiagramOperations, NodeChangeListener {
+public class OntoumlEditor extends GenericEditor implements ActionListener, MouseListener, MouseWheelListener, MouseMotionListener, DiagramNotification, DiagramOperations, NodeChangeListener {
 
 	private static final long serialVersionUID = 4210158437374056534L;
 
 	public AppFrame frame;
 	public ICommandListener listener;
-	private AppEditorTabbedPane diagramManager;
-	private DiagramEditorWrapper wrapper;
-		
+	private AppEditorsPane diagramManager;
+	private OntoumlWrapper wrapper;
+	
 	private transient IEditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
 	public transient List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
@@ -211,15 +209,15 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		scaling = Scaling.SCALING_100;
 	}
 	
-	public void setWrapper(DiagramEditorWrapper wrapper)
+	public void setWrapper(OntoumlWrapper wrapper)
 	{
 		this.wrapper = wrapper;
 	}
 	
-	public DiagramEditorWrapper getWrapper() { return wrapper; }
+	public OntoumlWrapper getWrapper() { return wrapper; }
 	
 	/** Empty constructor for testing. Do not use !  */
-	public DiagramEditor() { }
+	public OntoumlEditor() { }
 
 	/**
 	 * Constructor. Basic setup of the layout area.
@@ -227,7 +225,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public DiagramEditor(AppFrame frame, ICommandListener listener, AppEditorTabbedPane diagramManager, OntoumlDiagram diagram) 
+	public OntoumlEditor(AppFrame frame, ICommandListener listener, AppEditorsPane diagramManager, OntoumlDiagram diagram) 
 	{
 		this.frame = frame;
 		this.listener = listener;
@@ -261,8 +259,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 		setSize(new Dimension((int)width,(int)height));		
 	}
 
-	public AppEditorTabbedPane getManager() { return diagramManager; }
-	public AppEditorTabbedPane getDiagramManager() { return diagramManager; }
+	public AppEditorsPane getManager() { return diagramManager; }
+	public AppEditorsPane getDiagramManager() { return diagramManager; }
 	public UmlProject getProject() { return diagram.getProject(); }
 	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }	
 	public int getScalingPercentual() { return (int)((scaling.getScaleFactor()*100)/100); }
@@ -822,8 +820,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	public void fitToWindow()
 	{		
 		double waste = 20;
-		if(AppMultiSplitPane.get().isShowProjectBrowser()) waste+=240;
-		if(AppMultiSplitPane.get().isShowPalette()) waste+=240;
+		if(AppSplitPane.get().isShowProjectBrowser()) waste+=240;
+		if(AppSplitPane.get().isShowPalette()) waste+=240;
 		double offx = (Util.getScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
 		double offy = (Util.getScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
 		double diffx = (getUsedCanvasSize().get(1).getX()-(Util.getScreenWorkingWidth()-waste));
@@ -961,8 +959,8 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	public void setCreationMode(ClassType elementType) 
 	{
-		ClipboardManager.get().createAndPutToClipboard(elementType);
-		editorMode = ClipboardManager.get();
+		ClipboardMode.get().createAndPutToClipboard(elementType);
+		editorMode = ClipboardMode.get();
 	}
 	
 	public void setEditorMode(IEditorMode mode){		
@@ -975,14 +973,14 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	public void setCreationMode(DataType elementType) 
 	{		
-		ClipboardManager.get().createAndPutToClipboard(elementType);
-		editorMode = ClipboardManager.get();
+		ClipboardMode.get().createAndPutToClipboard(elementType);
+		editorMode = ClipboardMode.get();
 	}
 	
 	public void setDragElementMode(RefOntoUML.Type type)
 	{		
-		ClipboardManager.get().putToClipboard(type, true);
-		editorMode = ClipboardManager.get();
+		ClipboardMode.get().putToClipboard(type, true);
+		editorMode = ClipboardMode.get();
 	}
 	
 	/**
@@ -991,15 +989,15 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
 	{	
-		ConnectManager.get().setRelationshipType(relationType);
-		editorMode = ConnectManager.get();
+		ConnectMode.get().setRelationshipType(relationType);
+		editorMode = ConnectMode.get();
 	}
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
 		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-		ConnectManager.get().setRelationshipType(relationType);
-		editorMode = ConnectManager.get();
+		ConnectMode.get().setRelationshipType(relationType);
+		editorMode = ConnectMode.get();
 		RefOntoUML.Type source = null;
 		RefOntoUML.Type target = null;
 		if(relationship instanceof RefOntoUML.Association){
@@ -1720,11 +1718,11 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 			DiagramElement ce = ((DiagramElement)element);
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
-			DeletionManager.get().deleteElements(list,true);
+			DeletionCommander.get().deleteElements(list,true);
 		}else if (element instanceof Collection<?>){
-			DeletionManager.get().deleteElements((List<DiagramElement>)element,true);
+			DeletionCommander.get().deleteElements((List<DiagramElement>)element,true);
 		}else{
-			DeletionManager.get().delete(element);
+			DeletionCommander.get().delete(element);
 		}
 	}
 	
@@ -1735,7 +1733,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 				
 		if(this.isFocusable()){
 			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			DeletionManager.get().deleteElements(diagramElementsList,true);
+			DeletionCommander.get().deleteElements(diagramElementsList,true);
 		}
 	}
 	
@@ -1787,7 +1785,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 
 	/** Create a generalizations from selected elements in the diagram */
 	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
-		GeneralizationSet genSet = AdditionManager.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+		GeneralizationSet genSet = AdditionCommander.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
 		if(genSet!=null){		
 			deselectAll();
 			cancelEditing();
@@ -1806,7 +1804,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	@SuppressWarnings("unchecked")
 	public void deleteGeneralizationSet(Object genElems){
 		if(genElems instanceof Collection<?>){
-			DeletionManager.get().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			DeletionCommander.get().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
 			deselectAll();
 			cancelEditing();	
 		}

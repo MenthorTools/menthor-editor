@@ -26,13 +26,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-public class DuplicateManager extends BaseManager {
+import net.menthor.editor.v2.ui.app.AppManager;
+
+public class DuplicateManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -109,7 +111,7 @@ public class DuplicateManager extends BaseManager {
 	public UmlNode duplicateNode(UmlNode classElement){		
 		UmlNode newClass = (UmlNode)classElement.clone();
 		OccurenceManager.get().add(newClass.getClassifier(),newClass);
-		DiagramEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
+		OntoumlEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
 		double x = classElement.getAbsoluteX2()+15;
 		double y = classElement.getAbsoluteY2()+15;
 		AddNodeCommand cmd = new AddNodeCommand(editor,newClass, x, y);		

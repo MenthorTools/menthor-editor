@@ -32,7 +32,7 @@ import org.tinyuml.draw.MoveNodeOperation;
 import org.tinyuml.draw.MoveOperation;
 import org.tinyuml.draw.Node;
 import org.tinyuml.draw.TranslateConnectionOperation;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -104,21 +104,21 @@ public class MoveElementCommand extends BaseDiagramCommand {
 			if (elem instanceof Node){
 				Node node = (Node)elem;
 				for(Connection c: node.getConnections()){					
-					resetRelatedConnectionPoints((DiagramEditor)notification, c);
+					resetRelatedConnectionPoints((OntoumlEditor)notification, c);
 				}
 			}
 		}
 
-		DiagramEditor d = ((DiagramEditor)notification);
+		OntoumlEditor d = ((OntoumlEditor)notification);
 		//notify
 		if (d!=null) {
 			d.notifyChange((List<DiagramElement>) elements, ChangeType.ELEMENTS_MOVED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)d), this);
-			for (UndoableEditListener l : ((DiagramEditor)d).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
+			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
 		}
 	}
 
-	public void resetRelatedConnectionPoints(DiagramEditor notification, Connection con)
+	public void resetRelatedConnectionPoints(OntoumlEditor notification, Connection con)
 	{
 		if(con.getConnections()!=null){
 			for(Connection c2: con.getConnections()) { 

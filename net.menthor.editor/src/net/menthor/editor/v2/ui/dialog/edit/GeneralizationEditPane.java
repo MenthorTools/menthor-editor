@@ -48,7 +48,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.AdditionManager;
+import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
@@ -129,7 +129,7 @@ public class GeneralizationEditPane extends JPanel {
 	public void newGenSet(){
 		boolean response = MessageManager.get().confirm(GeneralizationEditPane.this, "Add", "Are you sure you want to create a new generalization set?");
 		if(response){
-			PackageableElement genSet = (PackageableElement)AdditionManager.get().addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
+			PackageableElement genSet = (PackageableElement)AdditionCommander.get().addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
 			genSet.setName("gs");
 			((GeneralizationSet)genSet).setIsCovering(true);
 			((GeneralizationSet)genSet).setIsDisjoint(true);

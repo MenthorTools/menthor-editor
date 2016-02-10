@@ -33,7 +33,7 @@ import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
@@ -94,8 +94,8 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		if(((DiagramEditor)notification)!=null){
-			diagramElemList.addAll(OccurenceManager.get().getDiagramElements(elemList,((DiagramEditor)notification).getDiagram()));
+		if(((OntoumlEditor)notification)!=null){
+			diagramElemList.addAll(OccurenceManager.get().getDiagramElements(elemList,((OntoumlEditor)notification).getDiagram()));
 		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
@@ -122,9 +122,9 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 				}
 			}			
 		}		
-		if(((DiagramEditor)notification)!=null){
-			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,((DiagramEditor)notification).getDiagram()));		
-			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,((DiagramEditor)notification).getDiagram()));
+		if(((OntoumlEditor)notification)!=null){
+			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,((OntoumlEditor)notification).getDiagram()));		
+			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,((OntoumlEditor)notification).getDiagram()));
 		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
@@ -174,12 +174,12 @@ public class DeleteElementCommand extends BaseDiagramCommand{
 		runDelete(diagramElemList, elemList);
 		list.addAll(diagramElemList);
 		
-		DiagramEditor d = ((DiagramEditor)notification);
+		OntoumlEditor d = ((OntoumlEditor)notification);
 		//notify
 		if (d!=null) {
 			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_REMOVED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)d), this);
-			for (UndoableEditListener l : ((DiagramEditor)d).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
+			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
 		}
 	}
 

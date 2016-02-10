@@ -45,7 +45,7 @@ public class AppPalette extends RoundedPanel {
 	}	
     private AppPalette() {
     	super();
-    	palettes = new PaletteAccordion(AppCommandListener.get());
+    	palettes = new PaletteAccordion(AppCmdListener.get());
         if (AppPaletteLoader.INSTANCE != null) throw new IllegalStateException("AppPalette already instantiated");
         buildUI();
     }		

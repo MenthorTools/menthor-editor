@@ -1,35 +1,13 @@
 
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
-/**
- * ============================================================================================
- * Menthor Editor -- Copyright (c) 2015 
- *
- * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
- * distributed under the same license terms.
- *
- * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation; either 
- * version 2 of the License, or (at your option) any later version.
- *
- * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Menthor Editor; 
- * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
- * MA  02110-1301  USA
- * ============================================================================================
- */
-
-import java.awt.Component;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
 import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
@@ -41,31 +19,38 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.managers.BrowserManager;
+import net.menthor.editor.v2.managers.FactoryManager;
+import net.menthor.editor.v2.managers.MessageManager;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.SplitManager;
+import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.util.Util;
 
-public class AdditionManager extends BaseManager {
+public class AdditionCommander {
 
 	// -------- Lazy Initialization
 	
 	private static class AdditionLoader {
-        private static final AdditionManager INSTANCE = new AdditionManager();
+        private static final AdditionCommander INSTANCE = new AdditionCommander();
     }	
-	public static AdditionManager get() { 
+	public static AdditionCommander get() { 
 		return AdditionLoader.INSTANCE; 
 	}	
-    private AdditionManager() {
+    private AdditionCommander() {
         if (AdditionLoader.INSTANCE != null) throw new IllegalStateException("AdditionManager already instantiated");
     }		
     
     // ----------------------------
 	
-	public boolean confirmGenSetAddition(Component parentWindow){
-		return MessageManager.get().confirm(parentWindow, "Add Generalization Set",
+	private boolean confirmGenSetAddition(){
+		return MessageManager.get().confirm("Add Generalization Set",
 			"There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?"
 		);
 	}
@@ -98,14 +83,10 @@ public class AdditionManager extends BaseManager {
 	}
 	
 	/** Add package to the model.  */
-	public void addPackage(DefaultMutableTreeNode node){
-		
-		if(!(node.getUserObject() instanceof RefOntoUML.Package))
-			return;
-		
+	public void addPackage(DefaultMutableTreeNode node){		
+		if(!(node.getUserObject() instanceof RefOntoUML.Package)) return;		
 		RefOntoUML.Package container = (RefOntoUML.Package) (node.getUserObject()) ;
 		RefOntoUML.Element newPackage = FactoryManager.get().createPackage();
-
 		AddNodeCommand cmd = new AddNodeCommand(null,null,newPackage,0,0,container);		
 		cmd.run();
 	}
@@ -154,18 +135,14 @@ public class AdditionManager extends BaseManager {
 	}
 	
 	/** Add generalization set to generalization diagram elements */
-	public GeneralizationSet addGeneralizationSet(DiagramEditor d, List<DiagramElement> diagramElements){		
+	public GeneralizationSet addGeneralizationSet(OntoumlEditor d, List<DiagramElement> diagramElements){		
 		UmlProject project = ProjectManager.get().getProject();
 		List<Generalization> gens = d.getGeneralizations(diagramElements);
-		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);
-		
-		if(gens.size()<1) 
-			return null; 
-		
+		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);		
+		if(gens.size()<1) return null;		
 		if(haveGenSet){
-			if(!confirmGenSetAddition(frame())) return null;
-		}
-		
+			if(!confirmGenSetAddition()) return null;
+		}		
 		EObject eContainer = null;
 		if(gens.size()>1) eContainer = gens.get(0).getSpecific().eContainer();	
 		else eContainer = project.getModel();
@@ -194,48 +171,43 @@ public class AdditionManager extends BaseManager {
 	}
 	
 	/** Add ocl document to a container */
-	public void addOclDocument(Object treeNode, String oclContent, boolean createTab){		
+	public void addOclDocument(Object treeNode, String oclContent, boolean createTab){				
+		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
+			treeNode = BrowserManager.get().root();
+		}
 		OclDocument oclDoc = new OclDocument();
-		
-		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package))
-			treeNode = tree().getRootNode();
-
 		Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
-		oclDoc.setContainer(pack);
-		
-		if(oclContent!=null) 
-			oclDoc.setContentAsString(oclContent);
-		
-		oclDoc.setName("Rules"+ProjectManager.get().getProject().getOclDocList().size());		
+		oclDoc.setContainer(pack);		
+		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
+		oclDoc.setName("OclDocument"+ProjectManager.get().getProject().getOclDocList().size());		
 		ProjectManager.get().getProject().getOclDocList().add(oclDoc);		
-		tree().addChild((DefaultMutableTreeNode)treeNode, oclDoc);
-		
-		if(createTab) 
-			TabManager.get().addOclEditor(oclDoc);
+		BrowserManager.get().add((DefaultMutableTreeNode)treeNode, oclDoc);		
+		if(createTab) TabManager.get().addOclEditor(oclDoc);
 	}
 	
 	public void newDiagram(){
 		addDiagram(null);
 	}
 
-	public void addDiagram(Object treeNode){				
-		StructureDiagram diagram = new StructureDiagram(ProjectManager.get().getProject());
-		if(treeNode!=null){
-			Package epackage = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
-			if(epackage!=null) diagram.setContainer(epackage);			
+	public void addDiagram(Object treeNode){
+		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
+			treeNode = BrowserManager.get().root();
 		}
+		StructureDiagram diagram = new StructureDiagram(ProjectManager.get().getProject());		
+		Package epackage = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
+		diagram.setContainer(epackage);		
 		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
 		TabManager.get().addDiagramEditor(diagram);				
-		tree().addChild((DefaultMutableTreeNode)treeNode,diagram);
+		if(treeNode!=null) BrowserManager.get().add((DefaultMutableTreeNode)treeNode,diagram);
 	}
 	
 	public void setDefaultDiagramSize(StructureDiagram diagram){
 		double waste = 0;
-		if(splitPane().isShowProjectBrowser()) waste+=240;
-		if(splitPane().isShowPalette()) waste+=240;
+		if(SplitManager.get().isShowProjectBrowser()) waste+=240;
+		if(SplitManager.get().isShowPalette()) waste+=240;
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 }

@@ -28,7 +28,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
 import org.tinyuml.umldraw.ClassElement;
@@ -36,9 +36,10 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.ui.app.AppManager;
 
 //Class to deal with renaning elements on the project browser.
-public class RenameManager extends BaseManager {
+public class RenameManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -87,7 +88,7 @@ public class RenameManager extends BaseManager {
 			String value = askForElementName(frame(), element);    						
 			if(value!=null){
 				((NamedElement)element).setName(value);
-				List<DiagramEditor> editors = OccurenceManager.get().getDiagramEditors(element);
+				List<OntoumlEditor> editors = OccurenceManager.get().getDiagramEditors(element);
 				List<DiagramElement> dElemList = OccurenceManager.get().getDiagramElements(element);
 				for(DiagramElement dElem: dElemList){
 					if (dElem instanceof ClassElement){
@@ -113,9 +114,9 @@ public class RenameManager extends BaseManager {
 					public void run() {
 						oclDoc.setName(newtext);
 						int index = TabManager.get().getEditorIndex(oclDoc);					
-						if(index>=0) editorTabbedPane().setTitleAt(index, newtext);			        
-						editorTabbedPane().updateUI();
-						tree().updateUI();					        
+						if(index>=0) editorsPane().setTitleAt(index, newtext);			        
+						editorsPane().updateUI();
+						browser().getTree().updateUI();					        
 					}
 				});
 			}
@@ -135,9 +136,9 @@ public class RenameManager extends BaseManager {
 					public void run() {
 						diagram.setName(newtext);
 						int index = TabManager.get().getEditorIndex(diagram);					
-						if(index>=0) editorTabbedPane().setTitleAt(index, newtext);			        
-						editorTabbedPane().updateUI();
-						tree().updateUI();				        
+						if(index>=0) editorsPane().setTitleAt(index, newtext);			        
+						editorsPane().updateUI();
+						browser().getTree().updateUI();				        
 					}
 				});				
 			}

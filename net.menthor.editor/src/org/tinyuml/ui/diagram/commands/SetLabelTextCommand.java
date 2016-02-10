@@ -29,7 +29,7 @@ import javax.swing.event.UndoableEditListener;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Label;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
@@ -72,7 +72,7 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 	public void run() {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
-		DiagramEditor d = ((DiagramEditor)notification);
+		OntoumlEditor d = ((OntoumlEditor)notification);
 		
 		String oldName = label.getNameLabelText();		
 		label.setNameLabelText(text);
@@ -101,8 +101,8 @@ public class SetLabelTextCommand extends BaseDiagramCommand {
 		//notify
 		if (d!=null) {
 			d.notifyChange((List<DiagramElement>) elements, ChangeType.LABEL_TEXT_SET, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)d), this);
-			for (UndoableEditListener l : ((DiagramEditor)d).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
+			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
 		}
 	}
 

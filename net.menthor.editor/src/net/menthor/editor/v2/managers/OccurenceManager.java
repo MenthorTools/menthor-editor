@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -44,8 +44,9 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class OccurenceManager extends BaseManager {
+public class OccurenceManager extends AppManager {
 
 	// -------- Lazy Initialization
 	
@@ -256,11 +257,11 @@ public class OccurenceManager extends BaseManager {
 	}
 	
 	/** get diagram editors */
-	public List<DiagramEditor> getDiagramEditors(RefOntoUML.Element element){
-		List<DiagramEditor> list = new ArrayList<DiagramEditor>();
+	public List<OntoumlEditor> getDiagramEditors(RefOntoUML.Element element){
+		List<OntoumlEditor> list = new ArrayList<OntoumlEditor>();
 		List<OntoumlDiagram> diagrams = getDiagrams(element);
 		for(OntoumlDiagram diagram: diagrams){			
-			DiagramEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)diagram);
+			OntoumlEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)diagram);
 			list.add(editor);			
 		}
 		return list;

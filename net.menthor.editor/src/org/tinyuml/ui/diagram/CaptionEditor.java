@@ -49,12 +49,12 @@ implements DocumentListener, BaseTextEditor {
 	
 	private Label currentLabel;
 	@SuppressWarnings("unused")
-	private DiagramEditor editor;
+	private OntoumlEditor editor;
 	
 	/**
 	 * Constructor. Initially hidden.
 	 */
-	public CaptionEditor(DiagramEditor editor) {
+	public CaptionEditor(OntoumlEditor editor) {
 		super();
 		this.editor=editor;
 		setBackground(ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST));

@@ -30,16 +30,17 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
 import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
 import net.menthor.ontouml2uml.OntoUML2UML;
 import net.menthor.ontouml2uml.OntoUML2UMLOption;
 
-public class ExportManager extends BaseManager {
+public class ExportManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -139,7 +140,7 @@ public class ExportManager extends BaseManager {
 		try {
 			File file = choosePNGFile();
 			if(file==null) return;			
-			DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+			OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 			List<Point> points = editor.getUsedCanvasSize();
 			Point origin = points.get(0);
 			Point end = points.get(1);			

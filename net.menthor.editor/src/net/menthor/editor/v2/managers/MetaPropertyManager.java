@@ -13,9 +13,10 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Meronymic;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 
-public class MetaPropertyManager extends BaseManager {
+public class MetaPropertyManager extends AppManager {
 	
 	// -------- Lazy Initialization
 	

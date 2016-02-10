@@ -28,7 +28,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.LineStyle;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
@@ -46,8 +46,9 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class MoveManager extends BaseManager {
+public class MoveManager extends AppManager {
 	
 	// -------- Lazy Initialization
 	
@@ -64,16 +65,16 @@ public class MoveManager extends BaseManager {
     // ----------------------------
 		
 	public void moveDownSelectedOnTree(){
-		tree().moveDown();
+		browser().getTree().moveDown();
 	}
 	
 	public void moveUpSelectedOnTree(){
-		tree().moveUp();
+		browser().getTree().moveUp();
 	}
 	
 	public void moveSelectedOnTreeToDiagram(Point p){
-		DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
-		DefaultMutableTreeNode node = tree().getSelectedNode();
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		DefaultMutableTreeNode node = browser().getTree().getSelectedNode();
 		Object obj = node.getUserObject();				
 		move((RefOntoUML.Element)obj, p.x, p.y, editor, true);	
 	}
@@ -85,12 +86,12 @@ public class MoveManager extends BaseManager {
 			move((RefOntoUML.Element)modelElement,-1, -1, TabManager.get().getCurrentDiagramEditor(),true);
 	}
 	
-	public void move(Object element, DiagramEditor editor){
+	public void move(Object element, OntoumlEditor editor){
 		move((RefOntoUML.Element)element,-1, -1, editor,true);
 	}
 	
 	/** Move element to a Diagram */
-	public void move(RefOntoUML.Element element, double x, double y, DiagramEditor d, boolean showmessage){
+	public void move(RefOntoUML.Element element, double x, double y, OntoumlEditor d, boolean showmessage){
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
 				MessageManager.get().showInfo(frame(),
@@ -116,7 +117,7 @@ public class MoveManager extends BaseManager {
 	}
 	
 	/** Move generalization to a diagram. */
-	public void moveGeneralization(DiagramEditor d, Generalization gen, boolean isRectilinear){		
+	public void moveGeneralization(OntoumlEditor d, Generalization gen, boolean isRectilinear){		
 		if (d.getDiagram().containsChild(gen.getGeneral()) && d.getDiagram().containsChild(gen.getSpecific())){	
 			UmlConnection conn = d.dragRelation(gen,(EObject)d.getDiagram().getContainer());			
 			if (gen.getGeneralizationSet().size()>0){
@@ -135,7 +136,7 @@ public class MoveManager extends BaseManager {
 	}
 	
 	/** Move association to a diagram.*/
-	public void moveAssociation(Association association, DiagramEditor d, boolean isRectilinear, boolean showName, boolean showOntoUMLStereotype, boolean showMultiplicities, boolean showRoles, ReadingDesign direction){		
+	public void moveAssociation(Association association, OntoumlEditor d, boolean isRectilinear, boolean showName, boolean showOntoUMLStereotype, boolean showMultiplicities, boolean showRoles, ReadingDesign direction){		
 		Type src = ((Association)association).getMemberEnd().get(0).getType();
 		Type tgt = ((Association)association).getMemberEnd().get(1).getType();				
 		if (d.getDiagram().containsChild(src) && d.getDiagram().containsChild(tgt)){			
@@ -156,7 +157,7 @@ public class MoveManager extends BaseManager {
 	}
 	
 	/** Move associations of an element to the diagram. */
-	public void moveAssociations(RefOntoUML.Element element, DiagramEditor d){
+	public void moveAssociations(RefOntoUML.Element element, OntoumlEditor d){
 		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();		
 		for(RefOntoUML.Association a: refparser.getDirectAssociations((RefOntoUML.Classifier)element)){
 			if(a instanceof MaterialAssociation){						
@@ -168,7 +169,7 @@ public class MoveManager extends BaseManager {
 	}
 	
 	/** Move generalizations of an element to the diagram. */
-	public void moveGeneralizations(RefOntoUML.Element element, DiagramEditor d){
+	public void moveGeneralizations(RefOntoUML.Element element, OntoumlEditor d){
 		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element)){
 			if(!d.getDiagram().containsChild(gen)) moveGeneralization(d, gen, false);
@@ -176,7 +177,7 @@ public class MoveManager extends BaseManager {
 	}
 	
 	/** Move class to a diagram  */
-	public void moveClass(RefOntoUML.Element element, double x, double y, DiagramEditor d)	{
+	public void moveClass(RefOntoUML.Element element, double x, double y, OntoumlEditor d)	{
 		AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),element,x,y, (RefOntoUML.Element)element.eContainer());		
 		cmd.run();
 		moveGeneralizations(element,d);		   

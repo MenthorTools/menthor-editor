@@ -51,8 +51,9 @@ import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class FactoryManager extends BaseManager {
+public class FactoryManager extends AppManager {
 
 	// -------- Lazy Initialization
 	

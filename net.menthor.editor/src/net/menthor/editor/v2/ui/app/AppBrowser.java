@@ -36,21 +36,21 @@ import net.menthor.editor.v2.ui.tree.TreeVisibility;
 import net.menthor.editor.v2.ui.util.RoundedPanel;
 import net.menthor.editor.v2.ui.util.TitlePane;
 
-public class AppProjectBrowser extends RoundedPanel{
+public class AppBrowser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
 	// -------- Lazy Initialization
 
 	private static class AppProjectBrowserLoader {
-        private static final AppProjectBrowser INSTANCE = new AppProjectBrowser();
+        private static final AppBrowser INSTANCE = new AppBrowser();
     }	
-	public static AppProjectBrowser get() { 
+	public static AppBrowser get() { 
 		return AppProjectBrowserLoader.INSTANCE; 
 	}	
-    private AppProjectBrowser() {
+    private AppBrowser() {
     	super();
-    	this.listener = AppCommandListener.get();
+    	this.listener = AppCmdListener.get();
     	if (AppProjectBrowserLoader.INSTANCE != null) throw new IllegalStateException("AppProjectBrowser already instantiated");
         buildUI();
     }		
@@ -74,7 +74,7 @@ public class AppProjectBrowser extends RoundedPanel{
 		roundTitlePane.add(titlePane, BorderLayout.NORTH);
 		add(roundTitlePane, BorderLayout.NORTH);	
 	}
-		  	
+	
 	public void initialize(UmlProject project){	
 		TreeVisibility viz = new TreeVisibility();
 		viz.hideEnds();

@@ -3,8 +3,9 @@ package net.menthor.editor.v2.managers;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.antipattern.AntiPatternSearchDialog;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class AntiPatternManager extends BaseManager {
+public class AntiPatternManager extends AppManager {
 
 	// -------- Lazy Initialization
 

@@ -56,7 +56,7 @@ public class AppFrame extends JFrame {
     private AppFrame() {
     	super();
     	setJMenuBar(AppMenuBar.get());		
-		getContentPane().add(AppMultiSplitPane.get(), BorderLayout.CENTER);
+		getContentPane().add(AppSplitPane.get(), BorderLayout.CENTER);
         if (AppFrameLoader.INSTANCE != null) throw new IllegalStateException("AppFrame already instantiated");
         buildUI();
     }		
@@ -92,18 +92,18 @@ public class AppFrame extends JFrame {
 		root.putClientProperty("Window.documentFile", projectFile);
 		setTitle(projectFile.getName().replace(".menthor","")+" - Menthor Editor");
 		if(forceDefaultUI){
-			AppMultiSplitPane.get().forceDefaultState();
+			AppSplitPane.get().forceDefaultState();
 		}
 	}
 	
 	public void resetFrame(){
 		setTitle("Menthor Editor");		
-		AppMultiSplitPane.get().forceInitialState();
+		AppSplitPane.get().forceInitialState();
 	}
 	
 	public boolean quitApplication() throws IOException {
 		if (canQuit()) {					
-			AppEditorTabbedPane.get().dispose();
+			AppEditorsPane.get().dispose();
 			dispose();
 			Thread.currentThread().interrupt();			
 			System.gc();

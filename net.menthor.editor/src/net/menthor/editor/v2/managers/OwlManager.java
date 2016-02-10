@@ -32,6 +32,7 @@ import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
@@ -41,7 +42,7 @@ import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
 
-public class OwlManager extends BaseManager {
+public class OwlManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -85,14 +86,14 @@ public class OwlManager extends BaseManager {
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
-				infoTabbedPane().showOutput(result.toString(), true, false);
+				infoPane().showOutput(result.toString(), true, false);
 				TabManager.get().addTextEditor((String)result.getData()[0]);
 			}else{
-				infoTabbedPane().showOutput(result.toString(), true, true);
+				infoPane().showOutput(result.toString(), true, true);
 			}			
 			return "SUCCESS. Project successfully transformed.";
 		}else{
-			infoTabbedPane().showOutput(result.toString(), true, true);			
+			infoPane().showOutput(result.toString(), true, true);			
 			return "FAILURE. Project could not be transformed.";
 		}
 	}

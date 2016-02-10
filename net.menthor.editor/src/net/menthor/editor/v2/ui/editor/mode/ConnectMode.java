@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.editor.mode;
 
 /**
  * ============================================================================================
@@ -27,26 +27,26 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.LineConnectMethod;
 import org.tinyuml.draw.NullElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
+import net.menthor.editor.v2.managers.FactoryManager;
+import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.base.IEditorMode;
 
-public class ConnectManager extends BaseManager implements IEditorMode {
+public class ConnectMode implements IEditorMode {
 
 	// -------- Lazy Initialization
 
-	private static class LineDrawLoader {
-        private static final ConnectManager INSTANCE = new ConnectManager();
+	private static class ConnectModeLoader {
+        private static final ConnectMode INSTANCE = new ConnectMode();
     }	
-	public static ConnectManager get() { 
-		return LineDrawLoader.INSTANCE; 
+	public static ConnectMode get() { 
+		return ConnectModeLoader.INSTANCE; 
 	}	
-    private ConnectManager() {
-        if (LineDrawLoader.INSTANCE != null) throw new IllegalStateException("LineDrawManager already instantiated");
+    private ConnectMode() {
+        if (ConnectModeLoader.INSTANCE != null) throw new IllegalStateException("ConnectMode already instantiated");
     }
     
     // ----------------------------
@@ -66,7 +66,7 @@ public class ConnectManager extends BaseManager implements IEditorMode {
 	
 	@Override
 	public void mousePressed(EditorMouseEvent event) {
-		DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		double mx = event.getX(), my = event.getY();
 		sourceElem = editor.getDiagram().getChildAt(mx, my);
 		if (sourceElem!=null && ! (sourceElem instanceof NullElement)) {
@@ -78,7 +78,7 @@ public class ConnectManager extends BaseManager implements IEditorMode {
 	
 	@Override
 	public void mouseReleased(EditorMouseEvent event) {
-		DiagramEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		double mx = event.getX(), my = event.getY();
 	    targetElem = editor.getDiagram().getChildAt(mx, my);	
 	    tmpPos.setLocation(mx, my);

@@ -34,8 +34,6 @@ import javax.swing.event.DocumentListener;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.ui.editor.base.EditorType;
-import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.tocl.editor.TOCLEditorPanel;
 
 public class OclEditor extends TOCLEditorPanel implements IEditor {

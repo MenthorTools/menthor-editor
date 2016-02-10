@@ -29,7 +29,7 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
@@ -43,7 +43,7 @@ public class SetColorCommand extends BaseDiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	public DiagramEditor editor;
+	public OntoumlEditor editor;
 	public UmlProject project;
 	public ArrayList<DiagramElement> selected = new ArrayList<DiagramElement>();
 	public ArrayList<Color> oldColorList = new ArrayList<Color>();
@@ -51,7 +51,7 @@ public class SetColorCommand extends BaseDiagramCommand {
 	
 	public SetColorCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Color color)
 	{
-		this.editor = (DiagramEditor)editorNotification;
+		this.editor = (OntoumlEditor)editorNotification;
 		notification = editorNotification;
 		this.color = color;
 		
@@ -115,8 +115,8 @@ public class SetColorCommand extends BaseDiagramCommand {
 		//notify
 		if (notification!=null) {
 			notification.notifyChange((List<DiagramElement>) selected, ChangeType.ELEMENTS_COLORED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)editor), this);
-			for (UndoableEditListener l : ((DiagramEditor)editor).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
+			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
 		}	
 	}
 }

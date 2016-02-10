@@ -29,7 +29,7 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
 import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.AssociationElement;
@@ -41,7 +41,7 @@ public class AssociationVisibilityCommand extends BaseDiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
-	public DiagramEditor editor;
+	public OntoumlEditor editor;
 	//maps the selected elements to the previous values
 	public HashMap<AssociationElement, Boolean> valueMap = new HashMap<AssociationElement, Boolean>();
 	public ArrayList<AssociationElement> associationList = new ArrayList<AssociationElement>();
@@ -52,7 +52,7 @@ public class AssociationVisibilityCommand extends BaseDiagramCommand{
 	public boolean value;
 	
 	private AssociationVisibilityCommand(DiagramNotification editorNotification, Visibility visibility, boolean value){
-		this.editor = (DiagramEditor)editorNotification;
+		this.editor = (OntoumlEditor)editorNotification;
 		notification = editorNotification;
 		this.visibility = visibility;
 		this.value = value;
@@ -175,8 +175,8 @@ public class AssociationVisibilityCommand extends BaseDiagramCommand{
 		//notify
 		if (notification!=null) {
 			notification.notifyChange(diagramElementList, ChangeType.VISIBILITY_CHANGED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((DiagramEditor)editor), this);
-			for (UndoableEditListener l : ((DiagramEditor)editor).editListeners)  l.undoableEditHappened(event);			
+			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
+			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
 		}	
 		
 	}

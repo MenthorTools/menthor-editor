@@ -7,8 +7,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.editor.v2.element.StatisticalElement;
+import net.menthor.editor.v2.ui.app.AppManager;
 
-public class StatisticsManager extends BaseManager {
+public class StatisticsManager extends AppManager {
 
 	// -------- Lazy Initialization
 

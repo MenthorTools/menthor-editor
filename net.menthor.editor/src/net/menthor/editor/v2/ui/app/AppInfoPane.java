@@ -31,19 +31,19 @@ import net.menthor.editor.v2.managers.TabManager;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.ProblemEditor;
 
-public class AppInfoTabbedPane extends JTabbedPane {
+public class AppInfoPane extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;	
 	
 	// -------- Lazy Initialization
 
 	private static class AppInfoTabbedPaneLoader {
-        private static final AppInfoTabbedPane INSTANCE = new AppInfoTabbedPane();
+        private static final AppInfoPane INSTANCE = new AppInfoPane();
     }	
-	public static AppInfoTabbedPane get() { 
+	public static AppInfoPane get() { 
 		return AppInfoTabbedPaneLoader.INSTANCE; 
 	}	
-    private AppInfoTabbedPane() {
+    private AppInfoPane() {
         if (AppInfoTabbedPaneLoader.INSTANCE != null) throw new IllegalStateException("AppInfoTabbedPane already instantiated");
         buildUI();
     }		

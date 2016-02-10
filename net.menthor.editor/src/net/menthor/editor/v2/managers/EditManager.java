@@ -24,7 +24,7 @@ package net.menthor.editor.v2.managers;
 import javax.swing.JDialog;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.DiagramEditor;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -39,12 +39,13 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationSetEditDialog;
 
-public class EditManager extends BaseManager {
+public class EditManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -93,7 +94,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit generalization */
 	public GeneralizationEditDialog callGeneralizationDialog(Generalization element, boolean modal){
-		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null)diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element,diagram);
@@ -107,7 +108,7 @@ public class EditManager extends BaseManager {
 	public ClassEditDialog callConstraintxDialog(Constraintx element, boolean modal){
 		RefOntoUML.Element context = ((RefOntoUML.Constraintx)element).getConstrainedElement().get(0);
 		if (context instanceof RefOntoUML.Class){
-			DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
+			OntoumlEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 			StructureDiagram diagram = null;
 			if(diagEditor != null) diagram = diagEditor.getDiagram();
 			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(context,diagram);
@@ -122,7 +123,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit comment */
 	public JDialog callCommentDialog(Comment element, boolean modal){
-		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		if (element.eContainer() instanceof RefOntoUML.Class){
@@ -146,7 +147,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit association */
 	public AssociationEditDialog callAssociationDialog(Association element, boolean modal){
-		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);
@@ -159,7 +160,7 @@ public class EditManager extends BaseManager {
 	/** Edit attribute or endpoint */
 	public JDialog callPropertyDialog(Property element, boolean modal){
 		Property p = (Property)element;
-		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		if (p.getAssociation()!=null){
@@ -182,7 +183,7 @@ public class EditManager extends BaseManager {
 	
 	/** Edit class */
 	public ClassEditDialog callClassDialog(Classifier element, boolean modal){
-		DiagramEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = TabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);

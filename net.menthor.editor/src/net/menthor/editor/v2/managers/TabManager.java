@@ -32,8 +32,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import org.eclipse.emf.edit.provider.IDisposable;
-import org.tinyuml.ui.diagram.DiagramEditor;
-import org.tinyuml.ui.diagram.DiagramEditorWrapper;
+import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.ui.diagram.OntoumlWrapper;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import net.menthor.editor.ui.UmlProject;
@@ -42,22 +42,23 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.ProblemElement;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
+import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.editor.v2.ui.editor.ErrorEditor;
 import net.menthor.editor.v2.ui.editor.FindEditor;
+import net.menthor.editor.v2.ui.editor.IEditor;
 import net.menthor.editor.v2.ui.editor.OclEditor;
 import net.menthor.editor.v2.ui.editor.ProblemEditor;
 import net.menthor.editor.v2.ui.editor.StartEditor;
 import net.menthor.editor.v2.ui.editor.StatisticsEditor;
 import net.menthor.editor.v2.ui.editor.TextEditor;
 import net.menthor.editor.v2.ui.editor.WarningEditor;
-import net.menthor.editor.v2.ui.editor.base.EditorType;
-import net.menthor.editor.v2.ui.editor.base.IEditor;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.util.ClosableTab;
 
-public class TabManager extends BaseManager {
+public class TabManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -88,25 +89,25 @@ public class TabManager extends BaseManager {
 	
 	/** clear the editor tabbed pane */
 	public void backToInitialState(){
-		editorTabbedPane().removeAll();
+		editorsPane().removeAll();
 		TabManager.get().addStartEditor(false);
-		editorTabbedPane().repaint();
-		editorTabbedPane().revalidate();
+		editorsPane().repaint();
+		editorsPane().revalidate();
 		frame().resetFrame();		
 	}	
 	
 	// ----- getters ----
 	
 	public StartEditor getStartEditor(){
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if(c instanceof StartEditor) return(StartEditor)c;			
 		}	
 		return null;
 	}
 	
 	public IEditor getCurrentEditor(){
-		if(editorTabbedPane().getSelectedIndex() != -1){
-			Object obj = editorTabbedPane().getSelectedComponent();
+		if(editorsPane().getSelectedIndex() != -1){
+			Object obj = editorsPane().getSelectedComponent();
 			if(obj instanceof IEditor) return (IEditor) obj;	
 		}
 		return null;
@@ -114,9 +115,9 @@ public class TabManager extends BaseManager {
 	
 	
 	public IEditor getEditor(EditorType nature){
-		int totalTabs = editorTabbedPane().getTabCount();
+		int totalTabs = editorsPane().getTabCount();
 		for(int i = 0; i < totalTabs; i++){
-			IEditor editor = (IEditor)editorTabbedPane().getComponentAt(i);
+			IEditor editor = (IEditor)editorsPane().getComponentAt(i);
 			if(editor.getEditorType() == nature){
 				return editor;
 			}
@@ -124,34 +125,34 @@ public class TabManager extends BaseManager {
 		return null;
 	}
 	
-	public DiagramEditor getCurrentDiagramEditor(){		
-		if(editorTabbedPane().getSelectedComponent() instanceof DiagramEditorWrapper){			
-			return ((DiagramEditorWrapper) editorTabbedPane().getSelectedComponent()).getDiagramEditor();
+	public OntoumlEditor getCurrentDiagramEditor(){		
+		if(editorsPane().getSelectedComponent() instanceof OntoumlWrapper){			
+			return ((OntoumlWrapper) editorsPane().getSelectedComponent()).getDiagramEditor();
 		}
 		return null;
 	}
 	
 	public OclEditor getCurrentOclEditor(){
-		if(editorTabbedPane().getSelectedComponent() instanceof OclEditor) {
-			return ((OclEditor)editorTabbedPane().getSelectedComponent());
+		if(editorsPane().getSelectedComponent() instanceof OclEditor) {
+			return ((OclEditor)editorsPane().getSelectedComponent());
 		}
 		return null;
 	}
 	
-	public DiagramEditor getDiagramEditor(StructureDiagram diagram){		
-		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramEditorWrapper) {
-				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
-					return ((DiagramEditorWrapper)c).getDiagramEditor();
+	public OntoumlEditor getDiagramEditor(StructureDiagram diagram){		
+		for(Component c: editorsPane().getComponents()){
+			if(c instanceof OntoumlWrapper) {
+				if (((OntoumlWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
+					return ((OntoumlWrapper)c).getDiagramEditor();
 			}
 		}
-		DiagramEditor editor = new DiagramEditor(frame(),listener(), editorTabbedPane(),diagram);
+		OntoumlEditor editor = new OntoumlEditor(frame(),listener(), editorsPane(),diagram);
 		editor.addAppCommandListener(listener());
 		return editor;
 	}
 	
 	public OclEditor getOclEditor(OclDocument oclDoc){		
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if(c instanceof OclEditor) {
 				if (((OclEditor)c).getOclDocument().equals(oclDoc))
 					return (OclEditor)c;
@@ -160,17 +161,17 @@ public class TabManager extends BaseManager {
 		return null;
 	}
 	
-	public List<DiagramEditor> getDiagramEditors(){
-		List<DiagramEditor> list = new ArrayList<DiagramEditor>();
-		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramEditorWrapper) list.add(((DiagramEditorWrapper)c).getDiagramEditor());
+	public List<OntoumlEditor> getDiagramEditors(){
+		List<OntoumlEditor> list = new ArrayList<OntoumlEditor>();
+		for(Component c: editorsPane().getComponents()){
+			if(c instanceof OntoumlWrapper) list.add(((OntoumlWrapper)c).getDiagramEditor());
 		}
 		return list;
 	}
 	
 	public List<OclEditor> getOclEditors(){
 		List<OclEditor> list = new ArrayList<OclEditor>();
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if(c instanceof OclEditor) list.add((OclEditor)c);
 		}
 		return list;
@@ -178,8 +179,8 @@ public class TabManager extends BaseManager {
 	
 	public ArrayList<StructureDiagram> getDiagrams(){
 		ArrayList<StructureDiagram> list = new ArrayList<StructureDiagram>();
-		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramEditorWrapper) list.add(((DiagramEditorWrapper)c).getDiagramEditor().getDiagram());
+		for(Component c: editorsPane().getComponents()){
+			if(c instanceof OntoumlWrapper) list.add(((OntoumlWrapper)c).getDiagramEditor().getDiagram());
 		}
 		return list;
 	}
@@ -197,25 +198,25 @@ public class TabManager extends BaseManager {
 	//----- index -----
 	
 	public int getEditorIndex(IEditor editor){
-		if(editor instanceof DiagramEditor) return editorTabbedPane().indexOfComponent(((DiagramEditor)editor).getWrapper());
-		else return editorTabbedPane().indexOfComponent((Component)editor);
+		if(editor instanceof OntoumlEditor) return editorsPane().indexOfComponent(((OntoumlEditor)editor).getWrapper());
+		else return editorsPane().indexOfComponent((Component)editor);
 	}
 	
 	public int getEditorIndex(StructureDiagram diagram){		
-		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramEditorWrapper) {
-				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
-					return editorTabbedPane().indexOfComponent(c);
+		for(Component c: editorsPane().getComponents()){
+			if(c instanceof OntoumlWrapper) {
+				if (((OntoumlWrapper)c).getDiagramEditor().getDiagram().equals(diagram))
+					return editorsPane().indexOfComponent(c);
 			}
 		}
 		return -1;
 	}
 	
 	public int getEditorIndex(OclDocument oclDoc){
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if(c instanceof OclEditor) {
 				if (((OclEditor)c).getOclDocument().equals(oclDoc))
-					return editorTabbedPane().indexOfComponent(c);
+					return editorsPane().indexOfComponent(c);
 			}
 		}
 		return -1;		
@@ -224,20 +225,20 @@ public class TabManager extends BaseManager {
 	//----- select -----
 	
 	public boolean selectEditor(Object obj){
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if(c.equals(obj)) {
-				editorTabbedPane().setSelectedComponent(c);
+				editorsPane().setSelectedComponent(c);
 				return true;
 			}
-			if(c instanceof DiagramEditorWrapper) {
-				if(((DiagramEditorWrapper) c).getDiagramEditor().getDiagram().equals(obj)) {
-					editorTabbedPane().setSelectedComponent(c);
+			if(c instanceof OntoumlWrapper) {
+				if(((OntoumlWrapper) c).getDiagramEditor().getDiagram().equals(obj)) {
+					editorsPane().setSelectedComponent(c);
 					return true;
 				}
 			}			
 			if(c instanceof OclEditor) {
 				if(((OclEditor) c).getOclDocument().equals(obj)) {
-					editorTabbedPane().setSelectedComponent(c);	
+					editorsPane().setSelectedComponent(c);	
 					return true;
 				}
 			}
@@ -246,17 +247,17 @@ public class TabManager extends BaseManager {
 	}
 	
 	public void selectEditor(StructureDiagram diagram){		
-		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramEditorWrapper) {
-				if(((DiagramEditorWrapper) c).getDiagramEditor().getDiagram().equals(diagram)) editorTabbedPane().setSelectedComponent(c);
+		for(Component c: editorsPane().getComponents()){
+			if(c instanceof OntoumlWrapper) {
+				if(((OntoumlWrapper) c).getDiagramEditor().getDiagram().equals(diagram)) editorsPane().setSelectedComponent(c);
 			}
 		}		
 	}
 	
 	public boolean selectEditor(OclDocument oclDoc){		
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if(c instanceof OclEditor && ((OclEditor) c).getOclDocument().equals(oclDoc)) {
-				editorTabbedPane().setSelectedComponent(c);
+				editorsPane().setSelectedComponent(c);
 				return true;
 			}
 		}
@@ -264,35 +265,35 @@ public class TabManager extends BaseManager {
 	}
 	
 	public void selectEditor(IEditor editor){		
-		for(Component c: editorTabbedPane().getComponents()){
-			if(c instanceof DiagramEditorWrapper) {
-				if(((DiagramEditorWrapper) c).getDiagramEditor().equals(editor)) editorTabbedPane().setSelectedComponent(c);
+		for(Component c: editorsPane().getComponents()){
+			if(c instanceof OntoumlWrapper) {
+				if(((OntoumlWrapper) c).getDiagramEditor().equals(editor)) editorsPane().setSelectedComponent(c);
 			}else{
-				if(c.equals(editor)) editorTabbedPane().setSelectedComponent(c);
+				if(c.equals(editor)) editorsPane().setSelectedComponent(c);
 			}
 		}		
 	}
 	
 	public void selectWarningEditor(){
-		for(Component c: infoTabbedPane().getComponents()){
+		for(Component c: infoPane().getComponents()){
 			if(c instanceof WarningEditor) {
-				infoTabbedPane().setSelectedIndex(infoTabbedPane().indexOfComponent(c));	
+				infoPane().setSelectedIndex(infoPane().indexOfComponent(c));	
 			}
 		}
 	}
 			
 	public void selectErrorEditor(){
-		for(Component c: infoTabbedPane().getComponents()){
+		for(Component c: infoPane().getComponents()){
 			if(c instanceof ErrorEditor) {
-				infoTabbedPane().setSelectedIndex(infoTabbedPane().indexOfComponent(c));	
+				infoPane().setSelectedIndex(infoPane().indexOfComponent(c));	
 			}
 		}
 	}
 	
 	public void selectConsoleEditor(){
-		for(Component c: infoTabbedPane().getComponents()){
+		for(Component c: infoPane().getComponents()){
 			if(c instanceof ConsoleEditor) {
-				infoTabbedPane().setSelectedIndex(infoTabbedPane().indexOfComponent(c));	
+				infoPane().setSelectedIndex(infoPane().indexOfComponent(c));	
 			}
 		}
 	}
@@ -300,14 +301,14 @@ public class TabManager extends BaseManager {
 	//----- check -----
 	
 	public boolean isEditorOpen(StructureDiagram diagram){
-		for(Component c: editorTabbedPane().getComponents())
-			if (c instanceof DiagramEditorWrapper)
-				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) return true;
+		for(Component c: editorsPane().getComponents())
+			if (c instanceof OntoumlWrapper)
+				if (((OntoumlWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) return true;
 		return false;
 	}
 
 	public boolean isEditorOpen (OclDocument oclDoc){
-		for(Component c: editorTabbedPane().getComponents())
+		for(Component c: editorsPane().getComponents())
 			if (c instanceof OclEditor)
 				if (((OclEditor)c).getOclDocument().equals(oclDoc)) return true;
 		return false;
@@ -327,7 +328,7 @@ public class TabManager extends BaseManager {
 					return;
 				}
 			}			
-			closeThis(getEditorIndex(((OclEditor)editor).getOclDocument()), editorTabbedPane());
+			closeThis(getEditorIndex(((OclEditor)editor).getOclDocument()), editorsPane());
 		}
 	}
 	
@@ -343,24 +344,24 @@ public class TabManager extends BaseManager {
 					return; 
 				}				
 			}			
-			closeThis(getEditorIndex(((DiagramEditor)editor).getDiagram()),editorTabbedPane());
+			closeThis(getEditorIndex(((OntoumlEditor)editor).getDiagram()),editorsPane());
 		}
 	}
 	
 	//----- remove -----
 	
 	public void removeEditor(StructureDiagram diagram){
-		for(Component c: editorTabbedPane().getComponents()){
-			if (c instanceof DiagramEditorWrapper){
-				if (((DiagramEditorWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) editorTabbedPane().remove(c);
+		for(Component c: editorsPane().getComponents()){
+			if (c instanceof OntoumlWrapper){
+				if (((OntoumlWrapper)c).getDiagramEditor().getDiagram().equals(diagram)) editorsPane().remove(c);
 			}
 		}		
 	}
 	
 	public void removeEditor(OclDocument doc){		
-		for(Component c: editorTabbedPane().getComponents()){
+		for(Component c: editorsPane().getComponents()){
 			if (c instanceof OclEditor){
-				if (((OclEditor)c).getOclDocument().equals(doc)) editorTabbedPane().remove(c);
+				if (((OclEditor)c).getOclDocument().equals(doc)) editorsPane().remove(c);
 			}
 		}	
 	}
@@ -380,18 +381,18 @@ public class TabManager extends BaseManager {
 		}		
 	}
 	
-	public DiagramEditor addDiagramEditor(OntoumlDiagram diagram){		
-		DiagramEditor editor = new DiagramEditor(frame(), listener(), editorTabbedPane(), diagram);	
+	public OntoumlEditor addDiagramEditor(OntoumlDiagram diagram){		
+		OntoumlEditor editor = new OntoumlEditor(frame(), listener(), editorsPane(), diagram);	
 		editor.addAppCommandListener(listener());
 		OccurenceManager.get().add(editor.getDiagram());
-		DiagramEditorWrapper wrapper = new DiagramEditorWrapper(editor, listener());
+		OntoumlWrapper wrapper = new OntoumlWrapper(editor, listener());
 		editor.setWrapper(wrapper);
-		addClosableTab(editorTabbedPane(),((StructureDiagram)diagram).getLabelText(), wrapper);		
+		addClosableTab(editorsPane(),((StructureDiagram)diagram).getLabelText(), wrapper);		
 		return editor;
 	}
 	
-	public List<DiagramEditor> addDiagramEditors(List<OntoumlDiagram> diagrams){
-		List<DiagramEditor> result = new ArrayList<DiagramEditor>();
+	public List<OntoumlEditor> addDiagramEditors(List<OntoumlDiagram> diagrams){
+		List<OntoumlEditor> result = new ArrayList<OntoumlEditor>();
 		for(OntoumlDiagram diagram: diagrams) {
 			result.add(addDiagramEditor((StructureDiagram)diagram));
 		}
@@ -400,19 +401,19 @@ public class TabManager extends BaseManager {
 	
 	public OclEditor addOclEditor(OclDocument oclDoc){		
 		OclEditor editor = new OclEditor(frame(), oclDoc);
-		addClosableTab(editorTabbedPane(),oclDoc.getName(), editor);		
+		addClosableTab(editorsPane(),oclDoc.getName(), editor);		
 		return editor;
 	}
 	
 	public StartEditor addStartEditor(boolean closable){
 		StartEditor start = new StartEditor(listener());
-		if(closable)addClosableTab(editorTabbedPane(),"Welcome", start);
-		else addNonClosableTab(editorTabbedPane(),"Welcome", start);
+		if(closable)addClosableTab(editorsPane(),"Welcome", start);
+		else addNonClosableTab(editorsPane(),"Welcome", start);
 		return start;
 	}
 	
 	public void addFinderEditor(){ 
-		addFinderEditor(editorTabbedPane(),true, listener()); 
+		addFinderEditor(editorsPane(),true, listener()); 
 	}
 	
 	public FindEditor addFinderEditor(JTabbedPane pane, boolean closable, ICommandListener listener){
@@ -426,7 +427,7 @@ public class TabManager extends BaseManager {
 	}
 	
 	public void addStatisticsEditor() { 
-		addStatisticsEditor(editorTabbedPane(),true); 
+		addStatisticsEditor(editorsPane(),true); 
 	}
 	
 	public StatisticsEditor addStatisticsEditor(JTabbedPane pane, boolean closable){
@@ -446,7 +447,7 @@ public class TabManager extends BaseManager {
 	}
 	
 	public WarningEditor addWarningsEditor(boolean closable, ICommandListener listener){
-		JTabbedPane pane = infoTabbedPane();
+		JTabbedPane pane = infoPane();
 		for(Component c: pane.getComponents()) {
 			if(c instanceof WarningEditor) { pane.setSelectedComponent(c); return (WarningEditor)c; }
 		}		
@@ -463,7 +464,7 @@ public class TabManager extends BaseManager {
 	}
 	
 	public ErrorEditor addErrorsEditor(boolean closable, ICommandListener listener){		
-		JTabbedPane pane = infoTabbedPane();
+		JTabbedPane pane = infoPane();
 		for(Component c: pane.getComponents()) {
 			if(c instanceof ErrorEditor) { pane.setSelectedComponent(c); return (ErrorEditor)c; }
 		}		
@@ -477,9 +478,9 @@ public class TabManager extends BaseManager {
 		TextEditor textViz = (TextEditor) TabManager.get().getEditor(EditorType.TXT_EDITOR);
 		if(textViz == null){
 			textViz = new TextEditor();
-			addClosableTab(editorTabbedPane(),"Text Editor", textViz);
+			addClosableTab(editorsPane(),"Text Editor", textViz);
 		}else{
-			editorTabbedPane().setSelectedComponent(textViz);
+			editorsPane().setSelectedComponent(textViz);
 		}
 		textViz.setText(content);
 		return textViz;
@@ -488,15 +489,15 @@ public class TabManager extends BaseManager {
 	// ---- close Tab ----
 	
 	public void closeThis(Component c)	{
-		closeThis(editorTabbedPane().indexOfComponent(c),editorTabbedPane());
+		closeThis(editorsPane().indexOfComponent(c),editorsPane());
 	}
 	
 	public void closeOthers(Component component){
-		closeOthers(editorTabbedPane(),component);
+		closeOthers(editorsPane(),component);
 	}
 	
 	public void closeAll(Component c){
-		closeAll(editorTabbedPane());
+		closeAll(editorsPane());
 	}
 	
 	public void closeAll(JTabbedPane pane){
@@ -544,7 +545,7 @@ public class TabManager extends BaseManager {
 		if(component instanceof OclEditor) {
 			pane.setIconAt(pane.indexOfComponent(component), IconMap.getInstance().getIcon(IconType.MENTHOR_CONSTRAINTDOC));
 		}
-		if(component instanceof DiagramEditorWrapper) {
+		if(component instanceof OntoumlWrapper) {
 			pane.setIconAt(pane.indexOfComponent(component), IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM));
 		}
 		if(component instanceof ProblemEditor) {
@@ -569,7 +570,7 @@ public class TabManager extends BaseManager {
 		pane.addTab(text, component);		
 		ICommandListener listener = listener();
 		ClosableTab tab = null; Icon icon = null;
-		if(component instanceof DiagramEditorWrapper){
+		if(component instanceof OntoumlWrapper){
 			tab = new ClosableTab(pane, listener);
 			icon = IconMap.getInstance().getIcon(IconType.MENTHOR_DIAGRAM);			
 		}

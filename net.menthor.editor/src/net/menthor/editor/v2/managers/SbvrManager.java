@@ -28,11 +28,12 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 
-public class SbvrManager extends BaseManager {
+public class SbvrManager extends AppManager {
 
 	// -------- Lazy Initialization
 
@@ -69,7 +70,7 @@ public class SbvrManager extends BaseManager {
 			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			infoTabbedPane().showOutput("SBVR generated successfully", true, true); 
+			infoPane().showOutput("SBVR generated successfully", true, true); 
 			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -77,12 +78,12 @@ public class SbvrManager extends BaseManager {
 		}		
 		if(result.getResultType() != Result.ERROR)
 		{
-			infoTabbedPane().showOutput(result.toString(), true, true);			
+			infoPane().showOutput(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
 			File file = new File(htmlFilePath);
 			openLinkWithBrowser(file.toURI().toString());
 		}else{
-			infoTabbedPane().showOutput(result.toString(), true, true); 
+			infoPane().showOutput(result.toString(), true, true); 
 		}
 	}
 	

@@ -33,6 +33,7 @@ import net.menthor.alloy.AlloyModule;
 import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.ontouml2alloy.OntoUML2Alloy;
@@ -41,7 +42,7 @@ import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2Alloy;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-public class AlloyManager extends BaseManager {
+public class AlloyManager extends AppManager {
 
 	// -------- Lazy Initialization
 

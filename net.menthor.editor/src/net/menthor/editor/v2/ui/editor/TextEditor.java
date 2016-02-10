@@ -37,9 +37,6 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import net.menthor.editor.v2.ui.editor.base.EditorType;
-import net.menthor.editor.v2.ui.editor.base.IEditor;
-
 public class TextEditor extends JPanel implements IEditor {
 
 	private static final long serialVersionUID = -1832428183354138999L;

@@ -24,11 +24,12 @@ package net.menthor.editor.v2.managers;
 import java.io.File;
 import java.io.IOException;
 
+import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.settings.ea.EASettingsDialog;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
-public class ImportManager extends BaseManager {
+public class ImportManager extends AppManager {
 
 	// -------- Lazy Initialization
 
