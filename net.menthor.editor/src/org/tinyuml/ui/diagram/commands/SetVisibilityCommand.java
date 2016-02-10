@@ -51,6 +51,10 @@ public class SetVisibilityCommand extends BaseDiagramCommand{
 	public Visibility visibility;
 	public boolean value;
 	
+	public SetVisibilityCommand(DiagramNotification editorNotification,DiagramElement element, Visibility visibility, boolean show){
+		this(editorNotification,setUpList(element),visibility,show);
+	}
+	
 	public SetVisibilityCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Visibility visibility, boolean show) 
 	{
 		this.editor = (DiagramEditor)editorNotification;
@@ -65,7 +69,13 @@ public class SetVisibilityCommand extends BaseDiagramCommand{
 			}
 		}
 	}
-
+	
+	private static ArrayList<DiagramElement> setUpList(DiagramElement element){
+		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
+		list.add(element);
+		return list;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */

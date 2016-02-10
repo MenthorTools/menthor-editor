@@ -48,6 +48,7 @@ import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
+import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OwlManager;
 import net.menthor.editor.v2.managers.ParthoodManager;
@@ -361,55 +362,61 @@ public class CommandMap {
 		cmdMap.put(CommandType.READING_DIRECTION_UNSPECIFIED,
 				new MethodCall(DiagramEditor.class.getMethod("readingDesignUnspecified",Object.class)));
 		cmdMap.put(CommandType.SUBSETS_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("subsetsSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("subsetsSource", Object.class)));
 		cmdMap.put(CommandType.SUBSETS_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("subsetsTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("subsetsTarget", Object.class)));
 		cmdMap.put(CommandType.REDEFINES_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("redefinesSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("redefinesSource", Object.class)));
 		cmdMap.put(CommandType.REDEFINES_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("redefinesTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("redefinesTarget", Object.class)));
 		cmdMap.put(CommandType.SET_ESSENTIAL,
-				new MethodCall(DiagramEditor.class.getMethod("essential", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("setEssential", Object.class)));
 		cmdMap.put(CommandType.SET_INSEPARABLE,
-				new MethodCall(DiagramEditor.class.getMethod("inseparable", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("setInseparable", Object.class)));
 		cmdMap.put(CommandType.SET_IMMUTABLEPART,
-				new MethodCall(DiagramEditor.class.getMethod("immutablePart", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("setImmutablePart", Object.class)));
 		cmdMap.put(CommandType.SET_IMMUTABLEWHOLE,
-				new MethodCall(DiagramEditor.class.getMethod("immutableWhole", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("setImmutableWhole", Object.class)));
 		cmdMap.put(CommandType.SET_SHAREABLE,
-				new MethodCall(DiagramEditor.class.getMethod("shareable", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("setShareable", Object.class)));
+		cmdMap.put(CommandType.SET_ABSTRACT,
+				new MethodCall(MetaPropertyManager.class.getMethod("setAbstract", Object.class)));
+		cmdMap.put(CommandType.SET_DERIVED,
+				new MethodCall(MetaPropertyManager.class.getMethod("setDerived", Object.class)));
+		cmdMap.put(CommandType.SET_EXTENSIONAL,
+				new MethodCall(MetaPropertyManager.class.getMethod("setExtensional", Object.class)));
 		cmdMap.put(CommandType.OPTIONAL_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("optionalOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("optionalOnSource", Object.class)));
 		cmdMap.put(CommandType.OPTIONAL_ON_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("optionalOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("optionalOnTarget", Object.class)));
 		cmdMap.put(CommandType.SINGULAR_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("singularOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("singularOnSource", Object.class)));
 		cmdMap.put(CommandType.SINGULAR_ON_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("singularOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("singularOnTarget", Object.class)));
 		cmdMap.put(CommandType.SOME_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("someOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("someOnSource", Object.class)));
 		cmdMap.put(CommandType.SOME_ON_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("someOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("someOnTarget", Object.class)));
 		cmdMap.put(CommandType.ANY_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("anyOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("anyOnSource", Object.class)));
 		cmdMap.put(CommandType.ANY_ON_TARGET,				
-				new MethodCall(DiagramEditor.class.getMethod("anyOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("anyOnTarget", Object.class)));
 		cmdMap.put(CommandType.TWO_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("twoOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("twoOnSource", Object.class)));
 		cmdMap.put(CommandType.TWO_ON_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("twoOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("twoOnTarget", Object.class)));
 		cmdMap.put(CommandType.TWO_AT_LEAST_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("twoAtLeastOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("twoAtLeastOnSource", Object.class)));
 		cmdMap.put(CommandType.TWO_AT_LEAST_ON_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("twoAtLeastOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("twoAtLeastOnTarget", Object.class)));
 		cmdMap.put(CommandType.OTHER_ON_SOURCE,
-				new MethodCall(DiagramEditor.class.getMethod("otherOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("otherOnSource", Object.class)));
 		cmdMap.put(CommandType.OTHER_ON_TARGET,
-				new MethodCall(DiagramEditor.class.getMethod("otherOnTarget", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("otherOnTarget", Object.class)));
 		cmdMap.put(CommandType.SET_SOURCE_END_POINT_NAME,
-				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnSource", Object.class)));
+				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnSource", Object.class)));
 		cmdMap.put(CommandType.SET_TARGET_END_POINT_NAME,
-				new MethodCall(DiagramEditor.class.getMethod("endPointNameOnTarget", Object.class)));				
+				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnTarget", Object.class)));				
 	}
 	
 	private void palleteDragAndDrop() throws NoSuchMethodException, SecurityException{

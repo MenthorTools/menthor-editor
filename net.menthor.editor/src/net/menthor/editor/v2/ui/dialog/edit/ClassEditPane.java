@@ -72,10 +72,20 @@ public class ClassEditPane extends JPanel {
 	
 	/** Set data from model to the GUI */
 	public void setData(){		
-		if (element instanceof MixinClass) btnAbstract.setEnabled(false);
-		else btnAbstract.setEnabled(true);
-		if (element instanceof Collective) btnExtensional.setEnabled(true);
-		else btnExtensional.setEnabled(false);
+		if (element instanceof MixinClass){ 
+			btnAbstract.setEnabled(false);
+			btnAbstract.setSelected(true);
+		}
+		else 
+			btnAbstract.setEnabled(true);
+		
+		if (element instanceof Collective){ 
+			btnExtensional.setEnabled(true);
+			btnExtensional.setSelected(((Collective) element).isIsExtensional());
+		}
+		else 
+			btnExtensional.setEnabled(false);
+		
 		nameField.setText(element.getName());		
 		btnAbstract.setSelected(element.isIsAbstract());
 		stereoCombo.setSelectedItem(OntoUMLParser.getStereotype(element).trim());

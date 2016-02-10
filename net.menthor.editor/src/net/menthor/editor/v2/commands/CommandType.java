@@ -306,13 +306,14 @@ public enum CommandType {
 	INVERT_END_MULTIPLICITIES(null),
 	INVERT_END_TYPES(null), 
 	
+	SET_ABSTRACT(null), 
+	SET_DERIVED(null), 
+	SET_EXTENSIONAL(null), 
+	
 	//TODO: add actions
 	SHOW_GENERALIZATION_SETS(null), 
 	SHOW_NAMESPACE(null), 
 	SHOW_PARENTS(null), 
-	SET_ABSTRACT(null), 
-	SET_EXTENSIONAL(null), 
-	SET_DERIVED(null), 
 	DELETE_GS_DIAGRAM(null), 
 	ADD_TO_GEN_SET_DIAGRAM(null), 
 	REMOVE_FROM_GS_DIAGRAM(null),

@@ -102,17 +102,14 @@ import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.AdditionManager;
-import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.ClipboardManager;
 import net.menthor.editor.v2.managers.ConnectManager;
 import net.menthor.editor.v2.managers.DeletionManager;
@@ -122,7 +119,6 @@ import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MoveManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.UpdateManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.ColorMap;
 import net.menthor.editor.v2.types.ColorType;
@@ -130,7 +126,6 @@ import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.EditorType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.AppFrame;
-import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 import net.menthor.editor.v2.ui.editor.base.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.base.GenericEditor;
 import net.menthor.editor.v2.ui.editor.base.IEditorMode;
@@ -1484,290 +1479,7 @@ public class DiagramEditor extends GenericEditor implements ActionListener, Mous
 	// ***** Diagram Editor Operations
 	// *************************************************************************
 
-	public void endPointNameOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			setEndPointName(con,endpoint);
-		}
-	}
-
-	public void endPointNameOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			setEndPointName(con,endpoint);
-		}
-	}
 	
-	public void setEndPointName(DiagramElement con, RefOntoUML.Property endpoint){
-		String name = (String)JOptionPane.showInputDialog(MenthorEditor.getFrame(), 
-		     "Specify the end-point name: ",
-		     "Set end-point name",
-			 JOptionPane.PLAIN_MESSAGE,
-			 null,
-			 null,
-			 endpoint.getType().getName().toLowerCase().trim()
-		 );
-		 if(name!=null){
-			 endpoint.setName(name);
-			 ((AssociationElement)con).setShowRoles(true);
-			 UpdateManager.get().notifyChange(endpoint.getAssociation());
-		 }
-	}
-			
-	public void otherOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			setMultiplicity(endpoint);
-		}
-	}
-	
-	public void otherOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			setMultiplicity(endpoint);
-		}
-	}
-	
-	public void setMultiplicity(RefOntoUML.Property endpoint){
-		//
-		String multiplicity = (String)JOptionPane.showInputDialog(MenthorEditor.getFrame(), 
-		     "Specify the new multiplicity: ",
-		     "Set multiplicity",
-			 JOptionPane.PLAIN_MESSAGE,
-			 null,
-			 null,
-			 RefOntoUMLFactoryUtil.getMultiplicityAsString(endpoint)
-		);
-		 if(multiplicity!=null){
-			 try{
-				ChangeManager.get().changeMultiplicity(endpoint, multiplicity);
-			 }catch(Exception e){
-				 MessageManager.get().showError(e, "Multiplicity","Could not change the multiplicity");
-			 }
-		 }	
-	}
-	
-	public void twoAtLeastOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, -1);
-		}
-	}
-
-	public void twoAtLeastOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, -1);
-		}
-	}
-	
-	public void twoOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, 2);
-		}
-	}
-
-	public void twoOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, 2);
-		}
-	}
-	
-	public void anyOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, -1);
-		}
-	}
-
-	public void anyOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, -1);
-		}
-	}
-	
-	public void someOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, -1);
-		}
-	}
-
-	public void someOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, -1);
-		}
-	}
-	
-	public void optionalOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, 1);
-		}
-	}
-
-	public void optionalOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, 1);
-		}
-	}
-	
-	public void singularOnSource(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, 1);
-		}
-	}
-	
-	public void singularOnTarget(Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, 1);
-		}
-	}
-	
-	public void essential(Object con){
-		if (con instanceof AssociationElement) {	 
-			((Meronymic)((AssociationElement) con).getRelationship()).setIsEssential(
-				((Meronymic)((AssociationElement) con).getRelationship()).isIsEssential()				
-			);
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setShowMetaProperties(true);
-			list.add((DiagramElement)con);
-			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-		}
-	}
-	
-	public void shareable(Object con){
-		if (con instanceof AssociationElement) {	 
-			((Meronymic)((AssociationElement) con).getRelationship()).setIsShareable(
-				((Meronymic)((AssociationElement) con).getRelationship()).isIsShareable()				
-			);
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setShowMetaProperties(true);
-			list.add((DiagramElement)con);
-			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-		}
-	}
-	
-	public void immutablePart(Object con){
-		if (con instanceof AssociationElement) {	 
-			((Meronymic)((AssociationElement) con).getRelationship()).setIsImmutablePart(
-				((Meronymic)((AssociationElement) con).getRelationship()).isIsImmutablePart()				
-			);
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setShowMetaProperties(true);
-			list.add((DiagramElement)con);
-			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-		}
-	}
-	
-	public void immutableWhole(Object con){
-		if (con instanceof AssociationElement) {	 
-			((Meronymic)((AssociationElement) con).getRelationship()).setIsImmutableWhole(
-				((Meronymic)((AssociationElement) con).getRelationship()).isIsImmutableWhole()				
-			);
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setShowMetaProperties(true);
-			list.add((DiagramElement)con);
-			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-		}
-	}
-	
-	public void inseparable(Object con){
-		if (con instanceof AssociationElement) {	 
-			((Meronymic)((AssociationElement) con).getRelationship()).setIsInseparable(
-				((Meronymic)((AssociationElement) con).getRelationship()).isIsInseparable()				
-			);
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setShowMetaProperties(true);
-			list.add((DiagramElement)con);
-			notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-		}
-	}
-	public void subsetsSource(final Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			subsets(con, endpoint);
-		}
-	}
-
-	public void subsetsTarget(final Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			subsets(con, endpoint);
-		}
-	}
-	
-	public void subsets(final DiagramElement connection, RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(
-				MenthorEditor.getFrame(),null, "Subsetted", endpoint, 
-				ProjectManager.get().getProject().getRefParser()
-		);		
-		SwingUtilities.invokeLater(new Runnable() {						
-			@Override
-			public void run() {
-				ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-				list.add((DiagramElement)connection);					
-				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,Visibility.SUBSETS,true));
-				notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-			}
-		});
-	}
-	
-	public void redefinesSource(final Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			redefines(con, endpoint);
-		}
-	}
-
-	public void redefinesTarget(final Object element){
-		if(element instanceof AssociationElement){
-			AssociationElement con = (AssociationElement)element;
-			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			redefines(con, endpoint);
-		}
-	}
-	
-	public void redefines(final DiagramElement connection, RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(
-				MenthorEditor.getFrame(),null, "Redefined", endpoint, 
-				ProjectManager.get().getProject().getRefParser()
-		);		
-		SwingUtilities.invokeLater(new Runnable() {						
-			@Override
-			public void run() {
-				ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-				list.add((DiagramElement)connection);					
-				execute(new SetVisibilityCommand((DiagramNotification)DiagramEditor.this,list,Visibility.REDEFINES,true));
-			}
-		});
-	}
 	
 	public void readingDesignToTarget(Object con){
 		if (con instanceof AssociationElement) {	

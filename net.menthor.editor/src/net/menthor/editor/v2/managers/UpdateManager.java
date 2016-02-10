@@ -67,19 +67,19 @@ public class UpdateManager extends BaseManager {
 	}
 	
 	/** Causes redraw of the corresponding diagram element */
-	public void notifyChange(RefOntoUML.Element element, DiagramEditor d)	{		
-		if (d!=null && !d.getDiagram().containsChild(element)) return;
-		if (d!=null) {
-			List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-			for(DiagramElement de: diagramElements){
-				if(de!=null){				
-					List<DiagramElement> list = new ArrayList<DiagramElement>();
-					list.add(de);
-					//notify one by one
-					d.notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
-				}			
-			}
-		}		
+	public void notifyChange(RefOntoUML.Element element, DiagramEditor editor)	{		
+		if(editor==null || !editor.getDiagram().containsChild(element))
+			return;
+		
+		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
+		for(DiagramElement de: diagramElements){
+			if(de!=null){				
+				List<DiagramElement> list = new ArrayList<DiagramElement>();
+				list.add(de);
+				//notify one by one
+				editor.notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+			}			
+		}
 	}
 	
 	/** Decide whether we remake the element or not in the diagram (delete it and add it again) */
