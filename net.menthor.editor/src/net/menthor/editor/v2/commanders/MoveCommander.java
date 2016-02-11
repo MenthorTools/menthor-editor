@@ -33,7 +33,6 @@ import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Association;
@@ -133,7 +132,6 @@ public class MoveCommander {
 			}
 			else if (isRectilinear) d.setLineStyle(conn,  LineStyle.RECTILINEAR);
 			else d.setLineStyle(conn,  LineStyle.DIRECT);
-			((GeneralizationElement)conn).setShowName(false);
 		}
 	}
 	

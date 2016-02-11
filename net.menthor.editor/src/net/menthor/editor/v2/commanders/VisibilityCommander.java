@@ -2,7 +2,6 @@
 package net.menthor.editor.v2.commanders;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
@@ -10,8 +9,11 @@ import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand;
 import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand.Visibility;
 import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand;
 import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand.ClassVisibility;
+import org.tinyuml.ui.diagram.commands.GeneralizationVisibilityCommand;
+import org.tinyuml.ui.diagram.commands.GeneralizationVisibilityCommand.GeneralizationVisibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.GeneralizationElement;
 
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
@@ -86,6 +88,12 @@ public class VisibilityCommander extends AppManager {
 		createAndRunVisibilityCommand(list, Visibility.NAME, !hasVisibleName(list));
 	}
 	
+	public void showGeneralizationSet(Object input){
+		ArrayList<GeneralizationElement> list = setUpList(input, GeneralizationElement.class);
+		createAndRunVisibilityCommand(list, GeneralizationVisibility.GENSET, !hasVisibleGeneralizationSet(list));
+	}
+	
+	
 	public void showAll(Object input){
 		
 		ArrayList<AssociationElement> associations = setUpList(input, AssociationElement.class);
@@ -115,51 +123,53 @@ public class VisibilityCommander extends AppManager {
 	// HELPERS																	// 
 	//////////////////////////////////////////////////////////////////////////////
 	
-
-	private boolean hasVisibleEndName(Collection<?> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showRoles()) return true;
+	private boolean hasVisibleGeneralizationSet(ArrayList<GeneralizationElement> objs){
+		for(GeneralizationElement g: objs){
+			if(g.showName()) 
+				return true;
 		}
 		return false;
 	}
 	
-	private boolean hasVisibleMultiplicity(Collection<?> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showMultiplicities()) return true;
+	private boolean hasVisibleEndName(ArrayList<AssociationElement> objs){
+		for(AssociationElement o: objs){
+			if(o.showRoles()) return true;
 		}
 		return false;
 	}
 	
-	private boolean hasVisibleName(Collection<?> objs){
-		
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showName()) return true;
+	private boolean hasVisibleMultiplicity(ArrayList<AssociationElement> objs){
+		for(AssociationElement o: objs){
+			if(o.showMultiplicities()) 
+				return true;
 		}
 		return false;
 	}
 	
-	private boolean hasVisibleRedefinition(Collection<?> objs){
-		for(Object o: objs){
-			if(((AssociationElement)o).showRedefining()) return true;
+	private boolean hasVisibleName(ArrayList<AssociationElement> objs){
+		for(AssociationElement o: objs){
+			if(o.showName()) return true;
 		}
 		return false;
 	}
 	
-	private boolean hasVisibleSubsetting(Collection<?> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showSubsetting()) return true;
+	private boolean hasVisibleRedefinition(ArrayList<AssociationElement> objs){
+		for(AssociationElement o: objs){
+			if(o.showRedefining()) return true;
+		}
+		return false;
+	}
+	
+	private boolean hasVisibleSubsetting(ArrayList<AssociationElement> objs){
+		for(AssociationElement o: objs){
+				if(o.showSubsetting()) return true;
 		}
 		return false;
 	}
 	
 	private boolean hasVisibleStereotype(ArrayList<AssociationElement> objs){
-		for(Object o: objs){
-			if(o instanceof AssociationElement)
-				if(((AssociationElement)o).showOntoUmlStereotype()) return true;
+		for(AssociationElement o: objs){
+				if(o.showOntoUmlStereotype()) return true;
 		}
 		return false;
 	}
@@ -200,9 +210,6 @@ public class VisibilityCommander extends AppManager {
 		return false;
 	}
 	
-	
-	
-	
 	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, Visibility visibilityItem, boolean value){
 		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		AssociationVisibilityCommand command = new AssociationVisibilityCommand(editor, elementList, visibilityItem, value);
@@ -212,6 +219,12 @@ public class VisibilityCommander extends AppManager {
 	private void createAndRunVisibilityCommand(List<ClassElement> elementList, ClassVisibility visibilityItem, boolean value){
 		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
 		ClassVisibilityCommand command = new ClassVisibilityCommand(editor, elementList, visibilityItem, value);
+		editor.execute(command);
+	}
+	
+	private void createAndRunVisibilityCommand(List<GeneralizationElement> elementList, GeneralizationVisibility visibilityItem, boolean value){
+		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		GeneralizationVisibilityCommand command = new GeneralizationVisibilityCommand(editor, elementList, visibilityItem, value);
 		editor.execute(command);
 	}
 }

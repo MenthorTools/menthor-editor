@@ -340,6 +340,8 @@ public class CommandMap {
 				new MethodCall(VisibilityCommander.class.getMethod("showNamespace",Object.class)));
 		cmdMap.put(CommandType.SHOW_CLASS_STEREOTYPE,
 				new MethodCall(VisibilityCommander.class.getMethod("showClassStereotype",Object.class)));
+		cmdMap.put(CommandType.SHOW_GENERALIZATION_SETS,
+				new MethodCall(VisibilityCommander.class.getMethod("showGeneralizationSet",Object.class)));
 	}
 
 	private void metaPropertyManager() throws NoSuchMethodException, SecurityException {
