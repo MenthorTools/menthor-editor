@@ -38,6 +38,7 @@ import org.tinyuml.ui.diagram.OntoumlWrapper;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
+import RefOntoUML.NamedElement;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -45,6 +46,7 @@ import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.app.AppEditorsPane;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.editor.v2.ui.editor.ErrorEditor;
@@ -653,5 +655,15 @@ public class AppTabManager extends AppGenericManager {
 		return list;
 	}
 	
-	
+	//----- ------
+	// Item is the OCLDocument or StructureDigram used to identify the tab that needs renaming.
+	public void refrashTabTitle(NamedElement item){
+		int index = getEditorIndex(item);	
+		
+		if(index>=0){ 
+			AppEditorsPane.get().setTitleAt(index, item.getName());			        
+		}
+		
+		AppEditorsPane.get().updateUI();
+	}
 }
