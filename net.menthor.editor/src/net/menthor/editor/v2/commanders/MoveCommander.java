@@ -45,10 +45,10 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class MoveCommander {

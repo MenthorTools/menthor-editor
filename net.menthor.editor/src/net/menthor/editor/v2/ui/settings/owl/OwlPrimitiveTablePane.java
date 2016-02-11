@@ -43,8 +43,8 @@ import RefOntoUML.IntegerOrdinalDimension;
 import RefOntoUML.IntegerRationalDimension;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.ui.icon.IconType;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.table.MappingTableModel;
 import net.menthor.editor.v2.ui.table.MappingTablePane;
 

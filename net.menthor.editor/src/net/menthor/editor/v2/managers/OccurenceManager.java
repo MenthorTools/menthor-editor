@@ -29,7 +29,6 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -43,11 +42,10 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
-import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class OccurenceManager extends AppManager {
+import net.menthor.editor.v2.OntoumlDiagram;
+
+public class OccurenceManager {
 
 	// -------- Lazy Initialization
 	
@@ -247,26 +245,5 @@ public class OccurenceManager extends AppManager {
 		}
 		return list;
 	}
-	
-	public DiagramElement openedInADiagram(Element element){
-		for(DiagramElement de: getDiagramElements(element)){
-			for(StructureDiagram d: TabManager.get().getDiagrams()){
-				if(d.getChildren().contains(de)) return de;				
-			}
-		}
-		return null;
-	}
-	
-	/** get diagram editors */
-	public List<OntoumlEditor> getDiagramEditors(RefOntoUML.Element element){
-		List<OntoumlEditor> list = new ArrayList<OntoumlEditor>();
-		List<OntoumlDiagram> diagrams = getDiagrams(element);
-		for(OntoumlDiagram diagram: diagrams){			
-			OntoumlEditor editor = TabManager.get().getDiagramEditor((StructureDiagram)diagram);
-			list.add(editor);			
-		}
-		return list;
-	}
-	
-	
+
 }

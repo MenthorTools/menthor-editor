@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.feature;
 
 /**
  * ============================================================================================
@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import RefOntoUML.parser.OntoUMLParser;
@@ -33,7 +34,12 @@ import net.menthor.alloy.AlloyModule;
 import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.managers.SyntaxManager;
+import net.menthor.editor.v2.ui.app.AppCmdListener;
+import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
@@ -43,17 +49,22 @@ import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2Alloy;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-public class AlloyManager extends AppManager {
+public class AlloyFeature {
 
+	private JFrame parent;
+	private ICommandListener listener;
+	
 	// -------- Lazy Initialization
 
 	private static class AlloyLoader {
-        private static final AlloyManager INSTANCE = new AlloyManager();
+        private static final AlloyFeature INSTANCE = new AlloyFeature();
     }	
-	public static AlloyManager get() { 
+	public static AlloyFeature get() { 
 		return AlloyLoader.INSTANCE; 
 	}	
-    private AlloyManager() {
+    private AlloyFeature() {
+    	parent = AppFrame.get();
+    	listener = AppCmdListener.get();
         if (AlloyLoader.INSTANCE != null) throw new IllegalStateException("AlloyManager already instantiated");
     }		
     
@@ -72,7 +83,7 @@ public class AlloyManager extends AppManager {
 		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 		refOptions.check(refparser);
 		
-		AlsSettingsDialog.open(frame(), listener(),
+		AlsSettingsDialog.open(parent, listener,
 			ProjectManager.get().getProject().getRefParser(),
 			ProjectManager.get().getProject().getDiagrams(),
 			refOptions, 

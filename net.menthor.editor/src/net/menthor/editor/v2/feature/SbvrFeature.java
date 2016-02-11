@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.feature;
 
 /**
  * ============================================================================================
@@ -26,24 +26,25 @@ import java.io.File;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
 
-public class SbvrManager extends AppManager {
+public class SbvrFeature {
 
 	// -------- Lazy Initialization
 
 	private static class SbvrLoader {
-        private static final SbvrManager INSTANCE = new SbvrManager();
+        private static final SbvrFeature INSTANCE = new SbvrFeature();
     }	
-	public static SbvrManager get() { 
+	public static SbvrFeature get() { 
 		return SbvrLoader.INSTANCE; 
 	}	
-    private SbvrManager() {
+    private SbvrFeature() {
         if (SbvrLoader.INSTANCE != null) throw new IllegalStateException("SbvrManager already instantiated");
     }		
     
@@ -70,7 +71,7 @@ public class SbvrManager extends AppManager {
 			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			infoPane().showOutput("SBVR generated successfully", true, true); 
+			TabManager.get().showOutputInfo("SBVR generated successfully", true, true); 
 			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -78,12 +79,12 @@ public class SbvrManager extends AppManager {
 		}		
 		if(result.getResultType() != Result.ERROR)
 		{
-			infoPane().showOutput(result.toString(), true, true);			
+			TabManager.get().showOutputInfo(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
 			File file = new File(htmlFilePath);
 			openLinkWithBrowser(file.toURI().toString());
 		}else{
-			infoPane().showOutput(result.toString(), true, true); 
+			TabManager.get().showOutputInfo(result.toString(), true, true); 
 		}
 	}
 	

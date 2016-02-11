@@ -35,12 +35,14 @@ import RefOntoUML.parser.SyntacticVerificator;
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.feature.AlloyFeature;
+import net.menthor.editor.v2.ui.manager.MessageManager;
+import net.menthor.editor.v2.ui.manager.SplitManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-public class SyntaxManager extends AppManager{
+public class SyntaxManager {
 
 	// -------- Lazy Initialization
 
@@ -67,7 +69,7 @@ public class SyntaxManager extends AppManager{
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
 			toclparser.parseTemporalOCL(TabManager.get().getConstraints());			
-			AlloyManager.get().oclOptions = new TOCL2AlloyOption(toclparser);
+			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
 			if(showSuccesfullyMessage) MessageManager.get().showSuccess("Constraints Parse",msg);			
 		}catch(SemanticException e2){
@@ -96,8 +98,8 @@ public class SyntaxManager extends AppManager{
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
-		TabManager.get().addErrorsEditor(start, end, errors, listener());		
-		splitPane().forceShowInfoTabbedPane();
+		TabManager.get().addErrorsEditor(start, end, errors);		
+		SplitManager.get().forceShowInfo();
 		if(errors.size()>0 && warnings.size()>0) {
 			TabManager.get().selectErrorEditor();
 			MessageManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.manager;
 
 import net.menthor.editor.v2.ui.app.AppManager;
 
@@ -18,6 +18,16 @@ public class SplitManager extends AppManager {
     
     // ----------------------------
     
-    public boolean isShowProjectBrowser() { return splitPane().isShowProjectBrowser(); }
-    public boolean isShowPalette() { return splitPane().isShowPalette(); }
+    public boolean isShowProjectBrowser() { 
+    	return splitPane().isShowProjectBrowser(); 
+    }
+    
+    public boolean isShowPalette() { 
+    	return splitPane().isShowPalette(); 
+    }
+    
+    public void forceShowInfo(){
+    	splitPane().forceShowInfoTabbedPane();
+    }
+    
 }

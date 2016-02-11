@@ -34,6 +34,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;

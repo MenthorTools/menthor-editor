@@ -32,17 +32,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import org.eclipse.emf.edit.provider.IDisposable;
+import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.OntoumlWrapper;
 import org.tinyuml.umldraw.StructureDiagram;
 
+import RefOntoUML.Element;
 import net.menthor.editor.ui.UmlProject;
-
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.ProblemElement;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.AppManager;
@@ -460,8 +460,8 @@ public class TabManager extends AppManager {
 		return warningPane;
 	}
 	
-	public void addErrorsEditor(double startTime, double endTime, List<ProblemElement> errors, ICommandListener listener){
-		ErrorEditor errorPane = addErrorsEditor(true, listener);
+	public void addErrorsEditor(double startTime, double endTime, List<ProblemElement> errors){
+		ErrorEditor errorPane = addErrorsEditor(true, listener());
 		errorPane.setData(errors);
 		errorPane.setStatus(MessageFormat.format("Model verified in {0} ms, {1} error(s) found", (startTime - endTime),  errors.size()));
 	}
@@ -615,7 +615,33 @@ public class TabManager extends AppManager {
 		return component;
 	}
 	
+	//---- show text -----
+	
 	public void showOutputInfo(String text, boolean clear, boolean showOutput){	
 		infoPane().showOutput(text, clear, showOutput);
 	}
+	
+	//----- open -------
+	
+	public DiagramElement openedInADiagram(Element element){
+		for(DiagramElement de: OccurenceManager.get().getDiagramElements(element)){
+			for(StructureDiagram d: getDiagrams()){
+				if(d.getChildren().contains(de)) return de;				
+			}
+		}
+		return null;
+	}
+	
+	/** get diagram editors */
+	public List<OntoumlEditor> getDiagramEditors(RefOntoUML.Element element){
+		List<OntoumlEditor> list = new ArrayList<OntoumlEditor>();
+		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(element);
+		for(OntoumlDiagram diagram: diagrams){			
+			OntoumlEditor editor = getDiagramEditor((StructureDiagram)diagram);
+			list.add(editor);			
+		}
+		return list;
+	}
+	
+	
 }

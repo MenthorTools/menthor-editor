@@ -37,6 +37,7 @@ import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.editor.OclEditor;
 import net.menthor.editor.v2.ui.editor.StartEditor;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;

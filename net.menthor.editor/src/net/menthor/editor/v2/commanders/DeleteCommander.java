@@ -22,10 +22,10 @@ import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class DeleteCommander {
@@ -151,7 +151,7 @@ public class DeleteCommander {
 		
 		elements.addAll(dependencies);
 		
-		List<OntoumlEditor> editors = OccurenceManager.get().getDiagramEditors(elements.get(0));		
+		List<OntoumlEditor> editors = TabManager.get().getDiagramEditors(elements.get(0));		
 		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
 				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();

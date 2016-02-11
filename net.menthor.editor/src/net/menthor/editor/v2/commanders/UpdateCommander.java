@@ -65,7 +65,7 @@ public class UpdateCommander {
 	
 	/** Causes redraw of the corresponding diagram element */
 	public void notifyChange(RefOntoUML.Element element){
-		for(OntoumlEditor diagramEditor: OccurenceManager.get().getDiagramEditors(element)){
+		for(OntoumlEditor diagramEditor: TabManager.get().getDiagramEditors(element)){
 			notifyChange(element,diagramEditor);
 		}
 	}

@@ -42,7 +42,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.menthor.editor.v2.managers.MessageManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 
 public class LicensesDialog extends JDialog {
 

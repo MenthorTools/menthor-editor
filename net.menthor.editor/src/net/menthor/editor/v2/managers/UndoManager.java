@@ -24,6 +24,7 @@ package net.menthor.editor.v2.managers;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class UndoManager extends AppManager {

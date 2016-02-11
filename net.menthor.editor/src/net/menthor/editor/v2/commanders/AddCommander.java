@@ -23,13 +23,13 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.SplitManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
+import net.menthor.editor.v2.ui.manager.SplitManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.Util;
 

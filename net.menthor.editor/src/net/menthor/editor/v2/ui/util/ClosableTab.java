@@ -52,11 +52,11 @@ import org.eclipse.emf.edit.provider.IDisposable;
 
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.IEditor;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.menu.TabPopupMenu;
 
 public class ClosableTab extends JPanel {

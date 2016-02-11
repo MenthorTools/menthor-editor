@@ -42,7 +42,10 @@ import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
-import net.menthor.editor.v2.managers.AlloyManager;
+import net.menthor.editor.v2.feature.AlloyFeature;
+import net.menthor.editor.v2.feature.OwlFeature;
+import net.menthor.editor.v2.feature.ParthoodFeature;
+import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
@@ -51,12 +54,9 @@ import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
-import net.menthor.editor.v2.managers.OwlManager;
-import net.menthor.editor.v2.managers.ParthoodManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RenameManager;
-import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -496,21 +496,21 @@ public class CommandMap {
 	
 	private void sbvrManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.GENERATE_SBVR, 
-				new MethodCall(SbvrManager.class.getMethod("generateSbvr")));
+				new MethodCall(SbvrFeature.class.getMethod("generateSbvr")));
 		cmdMap.put(CommandType.OPEN_LINK_WITH_BROWSER,
-				new MethodCall(SbvrManager.class.getMethod("openLinkWithBrowser", String.class)));		
+				new MethodCall(SbvrFeature.class.getMethod("openLinkWithBrowser", String.class)));		
 	}
 	
 	private void alloyManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ALLOY_SETTINGS,
-			new MethodCall(AlloyManager.class.getMethod("openAlloySettings")));
+			new MethodCall(AlloyFeature.class.getMethod("openAlloySettings")));
 	}
 	
 	private void owlManager()throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.OWL_SETTINGS,
-				new MethodCall(OwlManager.class.getMethod("callOwlSettings")));
+				new MethodCall(OwlFeature.class.getMethod("callOwlSettings")));
 		cmdMap.put(CommandType.GENERATE_OWL,
-				new MethodCall(OwlManager.class.getMethod("generateOwl", Object.class)));
+				new MethodCall(OwlFeature.class.getMethod("generateOwl", Object.class)));
 	}
 	
 	private void glossaryManager()throws NoSuchMethodException, SecurityException{
@@ -525,7 +525,7 @@ public class CommandMap {
 	
 	private void parthoodManager()throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.VALIDATE_PARTHOOD_TRANSITIVITY, 
-				new MethodCall(ParthoodManager.class.getMethod("evaluateParthoods")));
+				new MethodCall(ParthoodFeature.class.getMethod("evaluateParthoods")));
 	}
 	
 	private void syntaxManager() throws NoSuchMethodException, SecurityException{

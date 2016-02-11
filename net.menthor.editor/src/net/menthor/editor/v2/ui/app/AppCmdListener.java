@@ -15,7 +15,10 @@ import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.MethodCall;
-import net.menthor.editor.v2.managers.AlloyManager;
+import net.menthor.editor.v2.feature.AlloyFeature;
+import net.menthor.editor.v2.feature.OwlFeature;
+import net.menthor.editor.v2.feature.ParthoodFeature;
+import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.CursorManager;
 import net.menthor.editor.v2.managers.DeserializationManager;
@@ -28,16 +31,12 @@ import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.OwlManager;
-import net.menthor.editor.v2.managers.ParthoodManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.RenameManager;
-import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SerializationManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
@@ -46,6 +45,7 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
 public class AppCmdListener implements ICommandListener {
@@ -118,8 +118,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(AddCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AlignCommander.class){
 				return methodcall.call(AlignCommander.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == AlloyManager.class){
-				return methodcall.call(AlloyManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AlloyFeature.class){
+				return methodcall.call(AlloyFeature.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AntiPatternManager.class){
 				return methodcall.call(AntiPatternManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ChangeCommander.class){
@@ -166,10 +166,10 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(MoveCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
 				return methodcall.call(OccurenceManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == OwlManager.class){
-				return methodcall.call(OwlManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ParthoodManager.class){
-				return methodcall.call(ParthoodManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == OwlFeature.class){
+				return methodcall.call(OwlFeature.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ParthoodFeature.class){
+				return methodcall.call(ParthoodFeature.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ProjectManager.class){
 				return methodcall.call(ProjectManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RedoManager.class){
@@ -178,8 +178,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(RemakeManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RenameManager.class){
 				return methodcall.call(RenameManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == SbvrManager.class){
-				return methodcall.call(SbvrManager.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == SbvrFeature.class){
+				return methodcall.call(SbvrFeature.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SerializationManager.class){
 				return methodcall.call(SerializationManager.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == StatisticsManager.class){

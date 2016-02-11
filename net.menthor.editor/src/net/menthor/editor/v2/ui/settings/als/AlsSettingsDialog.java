@@ -34,7 +34,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.AlloyManager;
+import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.generic.GenericSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
@@ -135,7 +135,7 @@ public class AlsSettingsDialog extends GenericSettingsDialog {
 		ontoumlOptions.relatorConstraint = modelSimulationPanel.isSelectedRelatorConstraint();			    	
 		
 		if(getOwner() instanceof AppFrame){
-			AlloyManager.get().refOptions = ontoumlOptions;
+			AlloyFeature.get().refOptions = ontoumlOptions;
 		}
 				
 		TOCL2AlloyOption oclOptions = new TOCL2AlloyOption(this.oclOptions.getParser());		
@@ -146,7 +146,7 @@ public class AlsSettingsDialog extends GenericSettingsDialog {
 		oclOptions.setConstraintList(constraintSimulationPanel.getConstraintListSelected());
     	
 		if(getOwner() instanceof AppFrame){
-			AlloyManager.get().oclOptions = oclOptions;
+			AlloyFeature.get().oclOptions = oclOptions;
 		}		  
 		
 		//dispose();
@@ -158,7 +158,7 @@ public class AlsSettingsDialog extends GenericSettingsDialog {
 				destPane.getALS4Destination(),				
 				destPane.getPath()				
 			);			
-			AlloyManager.get().generateAlloy(
+			AlloyFeature.get().generateAlloy(
 				filterPane.getFilteredParser(), options				
 			);
 		}

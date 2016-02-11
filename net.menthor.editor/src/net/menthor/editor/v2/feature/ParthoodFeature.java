@@ -1,4 +1,6 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.feature;
+
+import java.awt.Component;
 
 /**
  * ============================================================================================
@@ -24,27 +26,31 @@ package net.menthor.editor.v2.managers;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.commanders.UpdateCommander;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
-public class ParthoodManager extends AppManager {
+public class ParthoodFeature {
 
+	private Component parent;
+	
 	// -------- Lazy Initialization
 
 	private static class ParthoodLoader {
-        private static final ParthoodManager INSTANCE = new ParthoodManager();
+        private static final ParthoodFeature INSTANCE = new ParthoodFeature();
     }	
-	public static ParthoodManager get() { 
+	public static ParthoodFeature get() { 
 		return ParthoodLoader.INSTANCE; 
 	}	
-    private ParthoodManager() {
+    private ParthoodFeature() {
+    	parent = AppFrame.get();
         if (ParthoodLoader.INSTANCE != null) throw new IllegalStateException("ParthoodManager already instantiated");
     }		
     
     // ----------------------------
 	
 	public void evaluateParthoods() {
-		ParthoodDialog.open(ProjectManager.get().getProject().getRefParser(), frame());
+		ParthoodDialog.open(ProjectManager.get().getProject().getRefParser(), parent);
 	}	
 	
 	class ParthoodDialog extends ValidationDialog {

@@ -18,6 +18,7 @@ import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 
 public class MetaPropertyManager extends AppManager {
 	

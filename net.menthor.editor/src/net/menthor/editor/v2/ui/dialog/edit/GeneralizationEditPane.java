@@ -50,11 +50,11 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.managers.MessageManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 
 /**
  * @author John Guerson

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.feature;
 
 /**
  * ============================================================================================
@@ -23,6 +23,8 @@ package net.menthor.editor.v2.managers;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import RefOntoUML.parser.OntoUMLParser;
@@ -30,9 +32,12 @@ import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
+import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.app.AppCmdListener;
+import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
@@ -43,28 +48,33 @@ import net.menthor.ontouml2temporalowl.tree.TreeProcessor;
 import net.menthor.ontouml2temporalowl.verbose.FileManager;
 import net.menthor.ootos.OntoUML2OWL;
 
-public class OwlManager extends AppManager {
+public class OwlFeature {
 
+	private JFrame parent;
+	private ICommandListener listener;
+	
 	// -------- Lazy Initialization
 
 	private static class OwlLoader {
-        private static final OwlManager INSTANCE = new OwlManager();
+        private static final OwlFeature INSTANCE = new OwlFeature();
     }	
-	public static OwlManager get() { 
+	public static OwlFeature get() { 
 		return OwlLoader.INSTANCE; 
 	}	
-    private OwlManager() {
+    private OwlFeature() {
+    	parent = AppFrame.get();
+    	listener = AppCmdListener.get();
         if (OwlLoader.INSTANCE != null) throw new IllegalStateException("OwlManager already instantiated");
     }		
     
     // ----------------------------
 	
 	public void callOwlSettings(){		
-		OwlSettingsDialog dialog = new OwlSettingsDialog(frame(),listener(), 
+		OwlSettingsDialog dialog = new OwlSettingsDialog(parent,listener, 
 			ProjectManager.get().getProject().getRefParser(),
 			ProjectManager.get().getProject().getDiagrams()
 		);
-		dialog.setLocationRelativeTo(frame());
+		dialog.setLocationRelativeTo(parent);
 		dialog.setVisible(true);
 	}
 	
@@ -87,14 +97,14 @@ public class OwlManager extends AppManager {
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
-				infoPane().showOutput(result.toString(), true, false);
+				TabManager.get().showOutputInfo(result.toString(), true, false);
 				TabManager.get().addTextEditor((String)result.getData()[0]);
 			}else{
-				infoPane().showOutput(result.toString(), true, true);
+				TabManager.get().showOutputInfo(result.toString(), true, true);
 			}			
 			return "SUCCESS. Project successfully transformed.";
 		}else{
-			infoPane().showOutput(result.toString(), true, true);			
+			TabManager.get().showOutputInfo(result.toString(), true, true);			
 			return "FAILURE. Project could not be transformed.";
 		}
 	}

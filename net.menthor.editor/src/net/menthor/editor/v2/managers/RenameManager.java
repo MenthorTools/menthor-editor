@@ -38,6 +38,7 @@ import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.MessageManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
 //Class to deal with renaning elements on the project browser.
@@ -90,7 +91,7 @@ public class RenameManager extends AppManager {
 			String value = askForElementName(frame(), element);    						
 			if(value!=null){
 				((NamedElement)element).setName(value);
-				List<OntoumlEditor> editors = OccurenceManager.get().getDiagramEditors(element);
+				List<OntoumlEditor> editors = TabManager.get().getDiagramEditors(element);
 				List<DiagramElement> dElemList = OccurenceManager.get().getDiagramElements(element);
 				for(DiagramElement dElem: dElemList){
 					if (dElem instanceof ClassElement){

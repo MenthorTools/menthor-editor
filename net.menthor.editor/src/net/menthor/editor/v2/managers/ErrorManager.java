@@ -51,7 +51,7 @@ public class ErrorManager extends AppManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
-		TabManager.get().addErrorsEditor(start, end, problems, listener());
+		TabManager.get().addErrorsEditor(start, end, problems);
 		return problems;
 	}
 	
