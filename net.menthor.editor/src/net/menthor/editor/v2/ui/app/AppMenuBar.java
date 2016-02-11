@@ -30,6 +30,8 @@ import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import org.tinyuml.ui.diagram.OntoumlEditor;
+
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
@@ -322,8 +324,11 @@ public class AppMenuBar extends GenericMenuBar {
 	}
 	
 	public void initializeShowGrid(){
-		boolean isShownGrid = AppTabManager.get().getCurrentDiagramEditor().isShownGrid();
-		getMenuItem(CommandType.SHOW_GRID).setSelected(isShownGrid);
+		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		if(editor!=null){
+			getMenuItem(CommandType.SHOW_GRID).setSelected(editor.isShownGrid());
+		}
+		
 	}
 	
 	public void selectShowGrid(boolean value){
