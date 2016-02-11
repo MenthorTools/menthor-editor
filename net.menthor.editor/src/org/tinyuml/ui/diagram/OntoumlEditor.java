@@ -414,15 +414,25 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 //            		centeredZoomOut(e.getPoint());
             	}
             }
-		}else{	
-			if (e.getWheelRotation() < 0)
-            {
-				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()-50);
-            }
-			if (e.getWheelRotation() > 0)
-            {
-				wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()+50);
-            }
+		}
+		else{
+			if(e.isShiftDown()){
+				if (e.getWheelRotation() < 0) {
+					wrapper.getScrollPane().getHorizontalScrollBar().setValue(wrapper.getScrollPane().getHorizontalScrollBar().getValue()-50);
+	            }
+				else if (e.getWheelRotation() > 0) {
+					wrapper.getScrollPane().getHorizontalScrollBar().setValue(wrapper.getScrollPane().getHorizontalScrollBar().getValue()+50);
+	            }
+			}
+			else {
+				if (e.getWheelRotation() < 0) {
+					wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()-50);
+	            }
+				else if (e.getWheelRotation() > 0) {
+					wrapper.getScrollPane().getVerticalScrollBar().setValue(wrapper.getScrollPane().getVerticalScrollBar().getValue()+50);
+	            }
+			}
+			
 		}
 	}
 	
