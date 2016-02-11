@@ -103,8 +103,8 @@ import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commanders.AdditionCommander;
-import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.commanders.AddCommander;
+import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
@@ -1718,11 +1718,11 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			DiagramElement ce = ((DiagramElement)element);
 			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.add(ce);
-			DeletionCommander.get().deleteElements(list,true);
+			DeleteCommander.get().deleteElements(list,true);
 		}else if (element instanceof Collection<?>){
-			DeletionCommander.get().deleteElements((List<DiagramElement>)element,true);
+			DeleteCommander.get().deleteElements((List<DiagramElement>)element,true);
 		}else{
-			DeletionCommander.get().delete(element);
+			DeleteCommander.get().delete(element);
 		}
 	}
 	
@@ -1733,7 +1733,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 				
 		if(this.isFocusable()){
 			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			DeletionCommander.get().deleteElements(diagramElementsList,true);
+			DeleteCommander.get().deleteElements(diagramElementsList,true);
 		}
 	}
 	
@@ -1785,7 +1785,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	/** Create a generalizations from selected elements in the diagram */
 	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
-		GeneralizationSet genSet = AdditionCommander.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
+		GeneralizationSet genSet = AddCommander.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
 		if(genSet!=null){		
 			deselectAll();
 			cancelEditing();
@@ -1804,7 +1804,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	@SuppressWarnings("unchecked")
 	public void deleteGeneralizationSet(Object genElems){
 		if(genElems instanceof Collection<?>){
-			DeletionCommander.get().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
+			DeleteCommander.get().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
 			deselectAll();
 			cancelEditing();	
 		}

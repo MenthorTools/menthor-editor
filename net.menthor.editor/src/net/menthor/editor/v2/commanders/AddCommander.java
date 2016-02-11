@@ -33,17 +33,17 @@ import net.menthor.editor.v2.ui.manager.BrowserManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 import net.menthor.editor.v2.util.Util;
 
-public class AdditionCommander {
+public class AddCommander {
 
 	// -------- Lazy Initialization
 	
 	private static class AdditionLoader {
-        private static final AdditionCommander INSTANCE = new AdditionCommander();
+        private static final AddCommander INSTANCE = new AddCommander();
     }	
-	public static AdditionCommander get() { 
+	public static AddCommander get() { 
 		return AdditionLoader.INSTANCE; 
 	}	
-    private AdditionCommander() {
+    private AddCommander() {
         if (AdditionLoader.INSTANCE != null) throw new IllegalStateException("AdditionCommander already instantiated");
     }		
     

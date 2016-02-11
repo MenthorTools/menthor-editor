@@ -33,7 +33,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
-import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.editor.OclEditor;
 import net.menthor.editor.v2.ui.editor.StartEditor;
@@ -107,8 +107,8 @@ public class ProjectManager extends AppManager {
 	public void createEmptyProject(boolean createRulesDocument, boolean createDiagram){
 		project = new UmlProject();
 		setProject(project);		
-		if(createDiagram) AdditionCommander.get().newDiagram();
-		if(createRulesDocument) AdditionCommander.get().newOclDocument();
+		if(createDiagram) AddCommander.get().newDiagram();
+		if(createRulesDocument) AddCommander.get().newOclDocument();
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, String oclContent){		
@@ -126,16 +126,16 @@ public class ProjectManager extends AppManager {
 	public UmlProject createProject(RefOntoUML.Package model, String oclContent, boolean createDefaultDiagram, boolean createDefaultRules){		
 		project = new UmlProject(model);
 		setProject(project);
-		if(createDefaultDiagram && project.getDiagrams().size()==0) AdditionCommander.get().newDiagram();		
-		if(createDefaultRules) AdditionCommander.get().newOclDocument(oclContent,false);		
+		if(createDefaultDiagram && project.getDiagrams().size()==0) AddCommander.get().newDiagram();		
+		if(createDefaultRules) AddCommander.get().newOclDocument(oclContent,false);		
 		return project;
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, List<String> oclContent){		
 		project = new UmlProject(model);
 		setProject(project);
-		if(project.getDiagrams().size()==0) AdditionCommander.get().newDiagram();
-		for(String str: oclContent) AdditionCommander.get().newOclDocument(str,false);		
+		if(project.getDiagrams().size()==0) AddCommander.get().newDiagram();
+		for(String str: oclContent) AddCommander.get().newOclDocument(str,false);		
 		return project;
 	}
 	

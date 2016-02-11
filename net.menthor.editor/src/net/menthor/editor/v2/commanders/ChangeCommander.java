@@ -1,5 +1,5 @@
 
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 /**
  * ============================================================================================
@@ -40,37 +40,38 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.editor.v2.commanders.UpdateCommander;
+
+import net.menthor.editor.v2.managers.FactoryManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.manager.BrowserManager;
 
-public class ChangeManager extends AppManager {
+public class ChangeCommander {
 	
 	// -------- Lazy Initialization
 	
 	private static class ChangeLoader {
-        private static final ChangeManager INSTANCE = new ChangeManager();
+        private static final ChangeCommander INSTANCE = new ChangeCommander();
     }	
-	public static ChangeManager get() { 
+	public static ChangeCommander get() { 
 		return ChangeLoader.INSTANCE; 
 	}	
-    private ChangeManager() {
-        if (ChangeLoader.INSTANCE != null) throw new IllegalStateException("ChangeManager already instantiated");
+    private ChangeCommander() {
+        if (ChangeLoader.INSTANCE != null) throw new IllegalStateException("ChangeCommander already instantiated");
     }		
     
     // ----------------------------
 	
-		
 	/** Change relation stereotype */ 
 	public void changeRelationStereotype(RelationshipType type, RefOntoUML.Relationship element){	
 		changeRelationStereotype(element, type.getName());
 	}	
-	
-	
+		
 	/** Change relation stereotype */ 
 	public void changeRelationStereotype(Relationship type, String stereo){	
    		OutcomeFixer fixer = new OutcomeFixer(ProjectManager.get().getProject().getModel());
@@ -122,49 +123,33 @@ public class ChangeManager extends AppManager {
 		if(connection instanceof AssociationElement){
 			Association association = ((AssociationElement) connection).getAssociation();
 			Property source = association.getMemberEnd().get(0);
-	   		Property target = association.getMemberEnd().get(1);
-	   		
+	   		Property target = association.getMemberEnd().get(1);	   		
 	   		association.getMemberEnd().clear();	
 	   		association.getOwnedEnd().clear();
-	   		association.getNavigableOwnedEnd().clear();
-	   		
+	   		association.getNavigableOwnedEnd().clear();	   		
 	   		association.getMemberEnd().add(target);
 	   		association.getMemberEnd().add(source);   	
 	   		association.getOwnedEnd().add(target);
 	   		association.getOwnedEnd().add(source);
 	   		association.getNavigableOwnedEnd().add(target);
-	   		association.getNavigableOwnedEnd().add(source);   		
-	   		
-	   		browser().getTree().checkObject(source);
-	   		browser().getTree().removeCurrentNode();
-	   		browser().getTree().checkObject(target);
-	   		browser().getTree().removeCurrentNode();
-	   		browser().getTree().checkObject(association);
-	   		browser().getTree().addChild(source);  
-	   		browser().getTree().addChild(target);  
-	   		browser().getTree().updateUI();
+	   		association.getNavigableOwnedEnd().add(source);	   		
+	   		BrowserManager.get().changeTo(association, source, target);
 	   		UpdateCommander.get().updateFromChange(association, true);
 		}
 		else if (connection instanceof GeneralizationElement){
 			Generalization generalization = ((GeneralizationElement) connection).getGeneralization();
 			Classifier general = generalization.getGeneral();
-			Classifier specific = generalization.getSpecific();
-			
+			Classifier specific = generalization.getSpecific();			
 			generalization.setSpecific(general);
-			generalization.setGeneral(specific);
-			
+			generalization.setGeneral(specific);			
 			BrowserManager.get().updateUI();
-			UpdateCommander.get().updateFromChange(generalization, true);
-			
-		}
-		
+			UpdateCommander.get().updateFromChange(generalization, true);			
+		}		
 	}
 	
 	/** Invert names of end points of an association. */
 	public void invertEndNames(BaseConnection connection){
-		if(!(connection instanceof AssociationElement))
-			return;
-			
+		if(!(connection instanceof AssociationElement)) return;			
 		Association association = ((AssociationElement) connection).getAssociation();	
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
@@ -177,9 +162,7 @@ public class ChangeManager extends AppManager {
 	
 	/** Invert multiplicities of end points of an association. */
 	public void invertEndMultiplicities(BaseConnection connection){
-		if(!(connection instanceof AssociationElement))
-			return;
-			
+		if(!(connection instanceof AssociationElement)) return;			
 		Association association = ((AssociationElement) connection).getAssociation();
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
@@ -200,9 +183,7 @@ public class ChangeManager extends AppManager {
 	
 	/** Invert types of end points of an association. */
 	public void invertEndTypes(BaseConnection connection){
-		if(!(connection instanceof AssociationElement))
-			return;
-			
+		if(!(connection instanceof AssociationElement)) return;			
 		Association association = ((AssociationElement) connection).getAssociation();
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);

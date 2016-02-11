@@ -74,4 +74,19 @@ public class BrowserManager extends AppManager {
 		}
 		browser().getTree().updateUI();		
     }
+    
+    public void select(EObject o){
+    	browser().getTree().checkObject(o);
+    }
+    
+    public void changeTo(EObject relationship, EObject source, EObject target){
+    	browser().getTree().checkObject(source);
+   		browser().getTree().removeCurrentNode();
+   		browser().getTree().checkObject(target);
+   		browser().getTree().removeCurrentNode();
+   		browser().getTree().checkObject(relationship);
+   		browser().getTree().addChild(source);  
+   		browser().getTree().addChild(target);  
+   		browser().getTree().updateUI();
+    }
 }

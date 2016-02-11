@@ -109,7 +109,7 @@ public class UpdateCommander {
 		List<OclDocument> oclDocs = ProjectManager.get().getProject().getOclDocList();
 		
 		if(fix.getAddedRules().size()>0 && oclDocs.size()==0){
-			AdditionCommander.get().newOclDocument("", true);
+			AddCommander.get().newOclDocument("", true);
 		}
 		
 		for(String str: fix.getAddedRules()){
@@ -121,7 +121,7 @@ public class UpdateCommander {
 	/** Update application from a set of deletions (fix) on the model */
 	public void updateFromDeletion(Fix fix){
 		for(Object obj: fix.getDeleted()){
-			DeletionCommander.get().deleteElement((RefOntoUML.Element)obj,false);				
+			DeleteCommander.get().deleteElement((RefOntoUML.Element)obj,false);				
 		}
 	}
 	

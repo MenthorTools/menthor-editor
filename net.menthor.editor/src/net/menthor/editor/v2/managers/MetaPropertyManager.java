@@ -13,6 +13,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Meronymic;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
@@ -95,7 +96,7 @@ public class MetaPropertyManager extends AppManager {
 		);
 		 if(multiplicity!=null){
 			 try{
-				ChangeManager.get().changeMultiplicity(endpoint, multiplicity);
+				ChangeCommander.get().changeMultiplicity(endpoint, multiplicity);
 			 }catch(Exception e){
 				 MessageManager.get().showError(e, "Multiplicity","Could not change the multiplicity");
 			 }
@@ -106,7 +107,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, -1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 2, -1);
 		}
 	}
 
@@ -114,7 +115,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, -1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 2, -1);
 		}
 	}
 	
@@ -122,7 +123,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, 2);
+			ChangeCommander.get().changeMultiplicity(endpoint, 2, 2);
 		}
 	}
 
@@ -130,7 +131,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 2, 2);
+			ChangeCommander.get().changeMultiplicity(endpoint, 2, 2);
 		}
 	}
 	
@@ -138,7 +139,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, -1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 0, -1);
 		}
 	}
 
@@ -146,7 +147,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, -1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 0, -1);
 		}
 	}
 	
@@ -154,7 +155,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, -1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 1, -1);
 		}
 	}
 
@@ -162,7 +163,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, -1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 1, -1);
 		}
 	}
 	
@@ -170,7 +171,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, 1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 0, 1);
 		}
 	}
 
@@ -178,7 +179,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 0, 1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 0, 1);
 		}
 	}
 	
@@ -186,7 +187,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, 1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 1, 1);
 		}
 	}
 	
@@ -194,7 +195,7 @@ public class MetaPropertyManager extends AppManager {
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
 			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
-			ChangeManager.get().changeMultiplicity(endpoint, 1, 1);
+			ChangeCommander.get().changeMultiplicity(endpoint, 1, 1);
 		}
 	}
 	

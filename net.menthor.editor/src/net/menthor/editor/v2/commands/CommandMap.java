@@ -34,14 +34,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
-import net.menthor.editor.v2.commanders.AdditionCommander;
+import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
-import net.menthor.editor.v2.commanders.DeletionCommander;
+import net.menthor.editor.v2.commanders.ChangeCommander;
+import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
-import net.menthor.editor.v2.managers.ChangeManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FindManager;
@@ -191,67 +191,67 @@ public class CommandMap {
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeletionCommander.class.getMethod("delete", Object.class)));		
+				new MethodCall(DeleteCommander.class.getMethod("delete", Object.class)));		
 	}
 	
 	private void addition() throws NoSuchMethodException, SecurityException{
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AdditionCommander.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ct));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ct));
 			}
 		}
 		for(DataType dt: DataType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AdditionCommander.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
 			}
 		}		
 		for(RelationshipType rt: RelationshipType.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(rt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AdditionCommander.class.getMethod("addRelationship", RelationshipType.class, EObject.class), rt));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addRelationship", RelationshipType.class, EObject.class), rt));
 			}
 		}	
 		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(AdditionCommander.class.getMethod("addPackage",DefaultMutableTreeNode.class)));		
+				new MethodCall(AddCommander.class.getMethod("addPackage",DefaultMutableTreeNode.class)));		
 		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
-				new MethodCall(AdditionCommander.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
+				new MethodCall(AddCommander.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
 		cmdMap.put(CommandType.ADD_COMMENT, 
-				new MethodCall(AdditionCommander.class.getMethod("addComment",RefOntoUML.Element.class)));
+				new MethodCall(AddCommander.class.getMethod("addComment",RefOntoUML.Element.class)));
 		cmdMap.put(CommandType.ADD_CONSTRAINT, 
-				new MethodCall(AdditionCommander.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
+				new MethodCall(AddCommander.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
 		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
-				new MethodCall(AdditionCommander.class.getMethod("addOclDocument", Object.class)));		
+				new MethodCall(AddCommander.class.getMethod("addOclDocument", Object.class)));		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(AdditionCommander.class.getMethod("addDiagram", Object.class)));		
+				new MethodCall(AddCommander.class.getMethod("addDiagram", Object.class)));		
 		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
-				new MethodCall(AdditionCommander.class.getMethod("newOclDocument")));
+				new MethodCall(AddCommander.class.getMethod("newOclDocument")));
 		cmdMap.put(CommandType.NEW_DIAGRAM,
-				new MethodCall(AdditionCommander.class.getMethod("newDiagram")));
+				new MethodCall(AddCommander.class.getMethod("newDiagram")));
 	}
 	
 	private void change() throws NoSuchMethodException, SecurityException{
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ChangeManager.class.getMethod("changeClassStereotype", ClassType.class, RefOntoUML.Element.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeClassStereotype", ClassType.class, RefOntoUML.Element.class), ct));
 			}
 		}
 		for(RelationshipType rt: RelationshipType.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(rt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ChangeManager.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), rt));
+				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), rt));
 			}
 		}		
 		cmdMap.put(CommandType.INVERT_END_NAMES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndNames", BaseConnection.class)));
+				new MethodCall(ChangeCommander.class.getMethod("invertEndNames", BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_POINTS, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndPoints",BaseConnection.class)));
+				new MethodCall(ChangeCommander.class.getMethod("invertEndPoints",BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_MULTIPLICITIES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndMultiplicities",BaseConnection.class)));
+				new MethodCall(ChangeCommander.class.getMethod("invertEndMultiplicities",BaseConnection.class)));
 		cmdMap.put(CommandType.INVERT_END_TYPES, 
-				new MethodCall(ChangeManager.class.getMethod("invertEndTypes",BaseConnection.class)));
+				new MethodCall(ChangeCommander.class.getMethod("invertEndTypes",BaseConnection.class)));
 	}
 	
 	private void tabs() throws NoSuchMethodException, SecurityException{

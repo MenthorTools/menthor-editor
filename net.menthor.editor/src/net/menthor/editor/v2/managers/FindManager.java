@@ -55,8 +55,7 @@ public class FindManager extends AppManager {
     
 	/** show dialog with diagram occurrence of this element */
 	public void findInDiagrams(Object element){
-		RefOntoUML.Element refElem = null;
-		
+		RefOntoUML.Element refElem = null;		
 		if(element instanceof DefaultMutableTreeNode)
 			refElem = (RefOntoUML.Element)((DefaultMutableTreeNode) element).getUserObject();
 		else if(element instanceof BaseConnection)
@@ -66,18 +65,16 @@ public class FindManager extends AppManager {
 		else if(element instanceof RefOntoUML.Element) 
 			refElem = (RefOntoUML.Element)element;
 		else if(element instanceof FoundElement) 
-			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
-		
+			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();		
 		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(refElem);
-		DiagramListDialog.open(frame(), listener(), diagrams);		
+		DiagramListDialog.open(frame(), listener(), diagrams);
 	}
 	
-	/** select occurence of this element in the project tree
+	/** select occurrence of this element in the project tree
 	 *  method called from Diagram and Find Tab
 	 * */
 	public void findInProjectTree(Object element){
-		RefOntoUML.Element refElem = null;
-		
+		RefOntoUML.Element refElem = null;		
 		if(element instanceof BaseConnection)
 			refElem = ((BaseConnection) element).getRelationship();
 		else if(element instanceof ClassElement)
@@ -85,8 +82,7 @@ public class FindManager extends AppManager {
 		else if(element instanceof RefOntoUML.Element)
 			refElem = (RefOntoUML.Element)element;
 		else if(element instanceof FoundElement) 
-			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();
-		
+			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();		
 		browser().getTree().checkObject(refElem);
 	}
 	

@@ -28,17 +28,17 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.manager.BrowserManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class DeletionCommander {
+public class DeleteCommander {
 		
 	// -------- Lazy Initialization
 	
 	private static class DeletionLoader {
-        private static final DeletionCommander INSTANCE = new DeletionCommander();
+        private static final DeleteCommander INSTANCE = new DeleteCommander();
     }	
-	public static DeletionCommander get() { 
+	public static DeleteCommander get() { 
 		return DeletionLoader.INSTANCE; 
 	}	
-    private DeletionCommander() {
+    private DeleteCommander() {
         if (DeletionLoader.INSTANCE != null) throw new IllegalStateException("DeletionCommander already instantiated");
     }		
     
