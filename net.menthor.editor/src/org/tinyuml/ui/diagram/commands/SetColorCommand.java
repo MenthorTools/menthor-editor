@@ -45,9 +45,14 @@ public class SetColorCommand extends BaseDiagramCommand {
 	
 	public OntoumlEditor editor;
 	public UmlProject project;
-	public ArrayList<DiagramElement> selected = new ArrayList<DiagramElement>();
+	
+	public ArrayList<DiagramElement> elementList = new ArrayList<DiagramElement>();
+	public ArrayList<ClassElement> classList = new ArrayList<ClassElement>();
+//	public ArrayList<ClassElement> connectionList = new ArrayList<ClassElement>();
+	
 	public ArrayList<Color> oldColorList = new ArrayList<Color>();
 	public Color color;
+	
 	
 	public SetColorCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Color color)
 	{
@@ -55,15 +60,18 @@ public class SetColorCommand extends BaseDiagramCommand {
 		notification = editorNotification;
 		this.color = color;
 		
+		elementList.addAll(selected);
+		
 		for(DiagramElement dElem: selected)
 		{
 			if(dElem instanceof ClassElement){
 				ClassElement ce = (ClassElement)dElem;
 				oldColorList.add(ce.getBackgroundColor());
-				this.selected.add(ce);
+				this.classList.add(ce);
 			}
 		}
 	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -75,15 +83,11 @@ public class SetColorCommand extends BaseDiagramCommand {
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 			int i =0;
-			for(DiagramElement dElem: selected)
+			for(ClassElement ce: classList)
 			{
-				if(dElem instanceof ClassElement)
-				{
-					ClassElement ce = (ClassElement)dElem;
-					ce.setBackgroundColor(oldColorList.get(i));
-					list.add(ce);
-					i++;
-				}
+				ce.setBackgroundColor(oldColorList.get(i));
+				list.add(ce);
+				i++;
 			}
 			
 			notification.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_COLORED, NotificationType.UNDO);
@@ -103,7 +107,7 @@ public class SetColorCommand extends BaseDiagramCommand {
 	@Override
 	public void run() {
 		
-		for(DiagramElement dElem: selected)
+		for(DiagramElement dElem: classList)
 		{
 			if(dElem instanceof ClassElement)
 			{
@@ -114,7 +118,7 @@ public class SetColorCommand extends BaseDiagramCommand {
 	
 		//notify
 		if (notification!=null) {
-			notification.notifyChange((List<DiagramElement>) selected, ChangeType.ELEMENTS_COLORED, redo ? NotificationType.REDO : NotificationType.DO);			
+			notification.notifyChange(elementList, ChangeType.ELEMENTS_COLORED, redo ? NotificationType.REDO : NotificationType.DO);			
 			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
 			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
 		}	

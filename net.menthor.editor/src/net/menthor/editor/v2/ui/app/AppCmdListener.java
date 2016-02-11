@@ -6,9 +6,11 @@ import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
+import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
+import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
@@ -41,7 +43,6 @@ import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
-import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
@@ -127,6 +128,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ClipboardMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ConnectMode.class){
 				return methodcall.call(ConnectMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ColorCommander.class){
+				return methodcall.call(ColorCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == CursorManager.class){
 				return methodcall.call(CursorManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == DeleteCommander.class){
@@ -157,8 +160,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(MessageManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MetaPropertyManager.class){
 				return methodcall.call(MetaPropertyManager.get());		
-			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityManager.class){
-				return methodcall.call(VisibilityManager.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
+				return methodcall.call(VisibilityCommander.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == MoveCommander.class){
 				return methodcall.call(MoveCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){

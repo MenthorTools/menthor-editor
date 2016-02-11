@@ -1,5 +1,5 @@
 
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,17 +16,17 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class VisibilityManager extends AppManager {
+public class VisibilityCommander extends AppManager {
 	
 	// -------- Lazy Initialization
 	
 	private static class ChangeLoader {
-        private static final VisibilityManager INSTANCE = new VisibilityManager();
+        private static final VisibilityCommander INSTANCE = new VisibilityCommander();
     }	
-	public static VisibilityManager get() { 
+	public static VisibilityCommander get() { 
 		return ChangeLoader.INSTANCE; 
 	}	
-    private VisibilityManager() {
+    private VisibilityCommander() {
         if (ChangeLoader.INSTANCE != null) throw new IllegalStateException("ChangeManager already instantiated");
     }		
     
@@ -201,19 +201,7 @@ public class VisibilityManager extends AppManager {
 	}
 	
 	
-	private <T> ArrayList<T> setUpList(Object con, Class<T> type) {
-		ArrayList<T> list = new ArrayList<T>();
-		
-		if(type.isInstance(con))
-			list.add(type.cast(con));
-		else if (con instanceof Collection){
-			for (Object item : (Collection<?>)con) {
-				if(type.isInstance(item))
-					list.add(type.cast(item));
-			}
-		}
-		return list;
-	}
+	
 	
 	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, Visibility visibilityItem, boolean value){
 		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();

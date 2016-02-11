@@ -79,8 +79,8 @@ public enum CommandType {
 	NEW_GEN_SET_DIAGRAM(null),
 	APPLY_DIRECT_STYLE(null), 
 	APPLY_RECTILINEAR_STYLE(null), 
-	SET_BACKGROUND_COLOR("Set the background color for selected classes"),
-	SETUP_BACKGROUND_COLOR("Setup background color for selected classes"),
+	
+	SET_BACKGROUND_COLOR("Setup background color for selected classes"),
 	COPY_BACKGROUND_COLOR("Copy background color from selected classes"),
 	PASTE_BACKGROUND_COLOR("Paste background color into selected classes"),
 	

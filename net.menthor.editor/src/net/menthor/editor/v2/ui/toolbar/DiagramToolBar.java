@@ -61,7 +61,7 @@ public class DiagramToolBar extends GenericToolBar {
 		new ToolBarButton(IconType.MENTHOR_UNDO,CommandType.UNDO, background, this);
 		new ToolBarButton(IconType.MENTHOR_REDO,CommandType.REDO, background, this);
 		
-		new ToolBarButton(IconType.MENTHOR_COLOR_CHOOSER,CommandType.SET_BACKGROUND_COLOR, background, this);		
+		new ToolBarButton(IconType.MENTHOR_COLOR_CHOOSER,CommandType.SET_BACKGROUND_COLOR, background, true, this);		
 		
 		new ToolBarButton(IconType.MENTHOR_ZOOM_IN,CommandType.ZOOM_IN, background, this);
 		new ToolBarButton(IconType.MENTHOR_ZOOM_OUT,CommandType.ZOOM_OUT, background, this);
@@ -87,11 +87,10 @@ public class DiagramToolBar extends GenericToolBar {
 			
 			Object source = e.getSource();
 			
-			if(source instanceof ToolBarButton && ((ToolBarButton) source).useSelectionAsContext){
+			if(source instanceof ToolBarButton && ((ToolBarButton) source).useSelectionAsContext)
 				l.handleCommand(e.getActionCommand(),new Object[]{TabManager.get().getCurrentDiagramEditor().getSelectedClassElements()});
-			}
-			
-			l.handleCommand(e.getActionCommand());	
+			else 
+				l.handleCommand(e.getActionCommand());	
 		}
 	}
 }

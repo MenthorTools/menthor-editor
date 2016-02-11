@@ -38,8 +38,10 @@ import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
+import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.EditManager;
@@ -57,7 +59,6 @@ import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.UndoManager;
-import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -282,7 +283,9 @@ public class CommandMap {
 			essentialOperations();		
 			
 			diagramEditor();
-			alignManager();
+			colorCommander();
+			alignCommander();
+			visibilityCommander();
 			palleteDragAndDrop();
 			
 			exportManager();
@@ -296,7 +299,7 @@ public class CommandMap {
 			glossaryManager();
 			
 			metaPropertyManager();
-			visibilityManager();
+			
 			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -305,29 +308,38 @@ public class CommandMap {
 		}
 	}
 	
-	private void visibilityManager() throws NoSuchMethodException, SecurityException {
+	private void colorCommander() throws NoSuchMethodException, SecurityException {
+		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
+				new MethodCall(ColorCommander.class.getMethod("setBackgroundColor", Object.class)));
+		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
+				new MethodCall(ColorCommander.class.getMethod("copyBackgroundColor", Object.class)));
+		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
+				new MethodCall(ColorCommander.class.getMethod("pasteBackgroundColor", Object.class)));
+	}
+	
+	private void visibilityCommander() throws NoSuchMethodException, SecurityException {
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
-				new MethodCall(VisibilityManager.class.getMethod("showEndPointNames",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showEndPointNames",Object.class)));
 		cmdMap.put(CommandType.SHOW_MULTIPLICITIES,
-				new MethodCall(VisibilityManager.class.getMethod("showMultiplicities",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showMultiplicities",Object.class)));
 		cmdMap.put(CommandType.SHOW_NAME,
-				new MethodCall(VisibilityManager.class.getMethod("showName",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showName",Object.class)));
 		cmdMap.put(CommandType.SHOW_REDEFINITIONS,
-				new MethodCall(VisibilityManager.class.getMethod("showRedefinitions",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showRedefinitions",Object.class)));
 		cmdMap.put(CommandType.SHOW_SUBSETTING,
-				new MethodCall(VisibilityManager.class.getMethod("showSubsetting",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showSubsetting",Object.class)));
 		cmdMap.put(CommandType.SHOW_STEREOTYPE,
-				new MethodCall(VisibilityManager.class.getMethod("showStereotype",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showStereotype",Object.class)));
 		cmdMap.put(CommandType.SHOW_ALL,
-				new MethodCall(VisibilityManager.class.getMethod("showAll", Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showAll", Object.class)));
 		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
-				new MethodCall(VisibilityManager.class.getMethod("showAttributes", Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showAttributes", Object.class)));
 		cmdMap.put(CommandType.SHOW_PARENTS,
-				new MethodCall(VisibilityManager.class.getMethod("showParents",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showParents",Object.class)));
 		cmdMap.put(CommandType.SHOW_NAMESPACE,
-				new MethodCall(VisibilityManager.class.getMethod("showNamespace",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showNamespace",Object.class)));
 		cmdMap.put(CommandType.SHOW_CLASS_STEREOTYPE,
-				new MethodCall(VisibilityManager.class.getMethod("showClassStereotype",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showClassStereotype",Object.class)));
 	}
 
 	private void metaPropertyManager() throws NoSuchMethodException, SecurityException {
@@ -390,7 +402,7 @@ public class CommandMap {
 		
 	}
 
-	private void alignManager() throws NoSuchMethodException, SecurityException{
+	private void alignCommander() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ALIGN_VERTICAL,
 				new MethodCall(AlignCommander.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
@@ -439,15 +451,7 @@ public class CommandMap {
 			new MethodCall(OntoumlEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
 		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
 				new MethodCall(OntoumlEditor.class.getMethod("addAllRelatedElements", Object.class)));
-		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("setupColor", Object.class)));
-		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("copyColor", Object.class)));
-		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("pasteColor", Object.class)));
 		
-		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("setupColorOnSelected")));	
 		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
 				new MethodCall(OntoumlEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
