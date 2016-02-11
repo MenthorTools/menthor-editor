@@ -8,9 +8,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.AddConnectionCommand;
-import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Constraintx;
@@ -31,6 +28,9 @@ import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.command.AddConnectionCommand;
+import net.menthor.editor.v2.ui.notify.command.AddGeneralizationSetCommand;
+import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
 import net.menthor.editor.v2.util.Util;
 
 public class AddCommander {
@@ -151,7 +151,7 @@ public class AddCommander {
 		((GeneralizationSet)newgenset).setIsCovering(true);
 		((GeneralizationSet)newgenset).setIsDisjoint(true);
 		((GeneralizationSet)newgenset).setName("gs");
-		new AddGeneralizationSetCommand(d, d.getDiagram(), newgenset, gens, project.getModel()).run();
+		new AddGeneralizationSetCommand(d.getNotificator(), d.getDiagram(), newgenset, gens, project.getModel()).run();
 		return (GeneralizationSet)newgenset;
 	}
 	

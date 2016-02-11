@@ -21,7 +21,6 @@ import net.menthor.editor.v2.feature.OwlFeature;
 import net.menthor.editor.v2.feature.ParthoodFeature;
 import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
-import net.menthor.editor.v2.managers.CursorManager;
 import net.menthor.editor.v2.managers.DeserializationManager;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ErrorManager;
@@ -45,6 +44,7 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
 
@@ -66,24 +66,24 @@ public class AppCmdListener implements ICommandListener {
 	    
 	@Override
 	public Object handleCommand(String command, Object[] parameters) {	
-		CursorManager.get().waitCursor();		
+		AppCursorManager.get().waitCursor();		
 		MethodCall methodcall = getMethodCall(command,parameters);
 		System.out.println(methodcall);
 		Object result=null;
 		if(methodcall!=null) result = callMethod(methodcall);
-		CursorManager.get().defaultCursor();
+		AppCursorManager.get().defaultCursor();
 		return result;		
 	}
 	
 	@Override
 	
 	public Object handleCommand(String command) {	
-		CursorManager.get().waitCursor();
+		AppCursorManager.get().waitCursor();
 		MethodCall methodcall = getMethodCall(command,null);
 		System.out.println(methodcall);
 		Object result=null;
 		if(methodcall!=null) result = callMethod(methodcall);
-		CursorManager.get().defaultCursor();
+		AppCursorManager.get().defaultCursor();
 		return result;		
 	}
 	
@@ -130,8 +130,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ConnectMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ColorCommander.class){
 				return methodcall.call(ColorCommander.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == CursorManager.class){
-				return methodcall.call(CursorManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == AppCursorManager.class){
+				return methodcall.call(AppCursorManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == DeleteCommander.class){
 				return methodcall.call(DeleteCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DeserializationManager.class){

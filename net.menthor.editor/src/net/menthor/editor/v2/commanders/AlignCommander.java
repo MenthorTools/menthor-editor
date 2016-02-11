@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand;
-import org.tinyuml.ui.diagram.commands.AlignElementsCommand.Alignment;
 
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.command.AlignElementsCommand;
+import net.menthor.editor.v2.ui.notify.command.AlignElementsCommand.Alignment;
 
 public class AlignCommander {
 
@@ -50,7 +50,7 @@ public class AlignCommander {
 	}
 	
 	private void executeAlign(List<DiagramElement> diagramElements, Alignment mode ) {
-		AlignElementsCommand command = new AlignElementsCommand(AppTabManager.get().getCurrentDiagramEditor(), diagramElements, mode);
+		AlignElementsCommand command = new AlignElementsCommand(AppTabManager.get().getCurrentDiagramEditor().getNotificator(), diagramElements, mode);
 		command.run();
 	}
 	

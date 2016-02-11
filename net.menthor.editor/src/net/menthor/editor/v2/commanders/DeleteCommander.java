@@ -9,8 +9,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DeleteElementCommand;
-import org.tinyuml.ui.diagram.commands.DeleteGeneralizationSetCommand;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -27,6 +25,8 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.command.DeleteElementCommand;
+import net.menthor.editor.v2.ui.notify.command.DeleteGeneralizationSetCommand;
 
 public class DeleteCommander {
 		
@@ -154,9 +154,9 @@ public class DeleteCommander {
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
-				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();
+				new DeleteGeneralizationSetCommand(ed.getNotificator(), elements.get(0)).run();
 			}else{
-				new DeleteElementCommand(ed, elements, true, true).run();
+				new DeleteElementCommand(ed.getNotificator(), elements, true, true).run();
 			}
 		}
 		if(editors==null || editors.size()==0) {
@@ -175,7 +175,7 @@ public class DeleteCommander {
 		if(element instanceof Comment) return;
 		List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 		list.add(element);
-		new DeleteElementCommand(ed,list,false,true).run();				
+		new DeleteElementCommand(ed.getNotificator(),list,false,true).run();				
 	}
 	
 	/** Delete all elements at the diagram */

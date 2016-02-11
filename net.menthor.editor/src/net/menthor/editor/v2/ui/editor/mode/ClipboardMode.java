@@ -29,13 +29,13 @@ import java.util.List;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
 import net.menthor.editor.v2.util.DrawUtil;
 
 public class ClipboardMode implements IEditorMode {
@@ -147,7 +147,7 @@ public class ClipboardMode implements IEditorMode {
 					ceCenterX = ce.getAbsCenterX()+(ceCenterX - center.getX());
 					ceCenterY = ce.getAbsCenterY()+(ceCenterY - center.getY());
 				}				 
-				AddNodeCommand cmd = new AddNodeCommand(de, ce, ceCenterX-40, ceCenterY-20);		
+				AddNodeCommand cmd = new AddNodeCommand(de.getNotificator(), ce, ceCenterX-40, ceCenterY-20);		
 				cmd.run();
 			}			
 		}

@@ -4,15 +4,16 @@ package net.menthor.editor.v2.commanders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand;
-import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand.AssociationVisibility;
-import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand;
-import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand.ClassVisibility;
-import org.tinyuml.ui.diagram.commands.GeneralizationVisibilityCommand;
-import org.tinyuml.ui.diagram.commands.GeneralizationVisibilityCommand.GeneralizationVisibility;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
+
+import net.menthor.editor.v2.ui.notify.command.AssociationVisibilityCommand;
+import net.menthor.editor.v2.ui.notify.command.ClassVisibilityCommand;
+import net.menthor.editor.v2.ui.notify.command.GeneralizationVisibilityCommand;
+import net.menthor.editor.v2.ui.notify.command.AssociationVisibilityCommand.AssociationVisibility;
+import net.menthor.editor.v2.ui.notify.command.ClassVisibilityCommand.ClassVisibility;
+import net.menthor.editor.v2.ui.notify.command.GeneralizationVisibilityCommand.GeneralizationVisibility;
 
 public class VisibilityCommander extends GenericCommander {
 	
@@ -207,14 +208,14 @@ public class VisibilityCommander extends GenericCommander {
 	}
 	
 	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, AssociationVisibility visibilityItem, boolean value){
-		execute(new AssociationVisibilityCommand(currentEditor(), elementList, visibilityItem, value));
+		execute(new AssociationVisibilityCommand(currentEditor().getNotificator(), elementList, visibilityItem, value));
 	}
 	
 	private void createAndRunVisibilityCommand(List<ClassElement> elementList, ClassVisibility visibilityItem, boolean value){
-		execute(new ClassVisibilityCommand(currentEditor(), elementList, visibilityItem, value));
+		execute(new ClassVisibilityCommand(currentEditor().getNotificator(), elementList, visibilityItem, value));
 	}
 	
 	private void createAndRunVisibilityCommand(List<GeneralizationElement> elementList, GeneralizationVisibility visibilityItem, boolean value){
-		execute(new GeneralizationVisibilityCommand(currentEditor(), elementList, visibilityItem, value));
+		execute(new GeneralizationVisibilityCommand(currentEditor().getNotificator(), elementList, visibilityItem, value));
 	}
 }

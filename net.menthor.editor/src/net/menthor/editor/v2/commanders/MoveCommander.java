@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.LineStyle;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
@@ -50,6 +49,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
 
 public class MoveCommander {
 	
@@ -178,7 +178,7 @@ public class MoveCommander {
 	
 	/** Move class to a diagram  */
 	public void moveClass(RefOntoUML.Element element, double x, double y, OntoumlEditor d)	{
-		AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),element,x,y, (RefOntoUML.Element)element.eContainer());		
+		AddNodeCommand cmd = new AddNodeCommand(d.getNotificator(),d.getDiagram(),element,x,y, (RefOntoUML.Element)element.eContainer());		
 		cmd.run();
 		moveGeneralizations(element,d);		   
 		moveAssociations(element, d);

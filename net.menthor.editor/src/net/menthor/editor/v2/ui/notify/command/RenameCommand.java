@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 import javax.swing.SwingUtilities;
 
@@ -10,11 +10,12 @@ import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.app.AppBrowser;
 import net.menthor.editor.v2.ui.app.AppEditorsPane;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.ModelCommand;
 
 /**
  * @author Tiago Prince
  */
-public class RenameCommand extends GenericModelCommand {
+public class RenameCommand extends ModelCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -50,7 +51,7 @@ public class RenameCommand extends GenericModelCommand {
 
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();		
 	}

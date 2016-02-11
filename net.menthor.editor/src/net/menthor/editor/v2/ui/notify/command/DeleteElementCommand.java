@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -25,17 +25,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.BaseConnection;
@@ -50,13 +45,17 @@ import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * A command class to remove allElements from a diagram.
  * 
  * @author Wei-ju Wu, John Guerson
  */
-public class DeleteElementCommand extends GenericDiagramCommand{
+public class DeleteElementCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = 2456036038567915529L;	
 	
@@ -86,16 +85,16 @@ public class DeleteElementCommand extends GenericDiagramCommand{
 		}
 	}
 
-	public DeleteElementCommand(DiagramNotification aNotification, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
+	public DeleteElementCommand(Notification aNotification, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
 	{
-		this.notification = aNotification;	
+		this.notificator = aNotification;	
 		this.deleteFromDiagram = deleteFromDiagram;
 		this.deleteFromModel = deleteFromModel;
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		if(((OntoumlEditor)notification)!=null){
-			diagramElemList.addAll(OccurenceManager.get().getDiagramElements(elemList,((OntoumlEditor)notification).getDiagram()));
+		if(((OntoumlEditor)notificator.getDiagramEditor())!=null){
+			diagramElemList.addAll(OccurenceManager.get().getDiagramElements(elemList,((OntoumlEditor)notificator.getDiagramEditor()).getDiagram()));
 		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
@@ -122,9 +121,9 @@ public class DeleteElementCommand extends GenericDiagramCommand{
 				}
 			}			
 		}		
-		if(((OntoumlEditor)notification)!=null){
-			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,((OntoumlEditor)notification).getDiagram()));		
-			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,((OntoumlEditor)notification).getDiagram()));
+		if((notificator)!=null){
+			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,((OntoumlEditor)notificator.getDiagramEditor()).getDiagram()));		
+			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,((OntoumlEditor)notificator.getDiagramEditor()).getDiagram()));
 		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
@@ -153,7 +152,7 @@ public class DeleteElementCommand extends GenericDiagramCommand{
 	@Override
 	public void redo() 
 	{	
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
@@ -174,12 +173,9 @@ public class DeleteElementCommand extends GenericDiagramCommand{
 		runDelete(diagramElemList, elemList);
 		list.addAll(diagramElemList);
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_REMOVED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_REMOVED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}
 	}
 
@@ -198,12 +194,12 @@ public class DeleteElementCommand extends GenericDiagramCommand{
 		runUndo(parentChildRelationsDep2,elemDep2List);	
 		
 		//notify
-		if(notification!=null){
+		if(notificator!=null){
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.addAll(diagramElemList);
 			list.addAll(diagramElemDep1List);
 			list.addAll(diagramElemDep2List);
-			notification.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_REMOVED, NotificationType.UNDO);		
+			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_REMOVED, ActionType.UNDO);		
 		}
 	}
 	

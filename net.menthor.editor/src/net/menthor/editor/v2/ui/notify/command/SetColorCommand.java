@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * ============================================================================================
@@ -25,21 +25,20 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class SetColorCommand extends GenericDiagramCommand {
+public class SetColorCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -54,10 +53,10 @@ public class SetColorCommand extends GenericDiagramCommand {
 	public Color color;
 	
 	
-	public SetColorCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Color color)
+	public SetColorCommand(Notification editorNotification, List<DiagramElement> selected, Color color)
 	{
-		this.editor = (OntoumlEditor)editorNotification;
-		notification = editorNotification;
+		this.editor = editorNotification.getDiagramEditor();
+		notificator = editorNotification;
 		this.color = color;
 		
 		elementList.addAll(selected);
@@ -79,7 +78,7 @@ public class SetColorCommand extends GenericDiagramCommand {
 	public void undo() {
 		super.undo();
 						
-		if(notification!=null){
+		if(notificator!=null){
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 			int i =0;
@@ -90,7 +89,7 @@ public class SetColorCommand extends GenericDiagramCommand {
 				i++;
 			}
 			
-			notification.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_COLORED, NotificationType.UNDO);
+			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_COLORED, ActionType.UNDO);
 		}
 	}
 	
@@ -99,7 +98,7 @@ public class SetColorCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();		
 	}
@@ -117,10 +116,8 @@ public class SetColorCommand extends GenericDiagramCommand {
 		}
 	
 		//notify
-		if (notification!=null) {
-			notification.notifyChange(elementList, ChangeType.ELEMENTS_COLORED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
-			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, elementList, NotificationType.ELEMENTS_COLORED, isRedo ? ActionType.REDO : ActionType.DO);			
 		}	
 	}
 }

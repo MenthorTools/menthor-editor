@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * ============================================================================================
@@ -25,19 +25,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class ClassVisibilityCommand extends GenericDiagramCommand{
+public class ClassVisibilityCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
@@ -53,21 +53,21 @@ public class ClassVisibilityCommand extends GenericDiagramCommand{
 	
 	public boolean value;
 	
-	private ClassVisibilityCommand(DiagramNotification editorNotification, ClassVisibility visibility, boolean value){
-		this.editor = (OntoumlEditor)editorNotification;
-		notification = editorNotification;
+	private ClassVisibilityCommand(Notification editorNotification, ClassVisibility visibility, boolean value){
+		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
+		notificator = editorNotification;
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
-	public ClassVisibilityCommand(DiagramNotification editorNotification, ClassElement element, ClassVisibility visibility, boolean value){
+	public ClassVisibilityCommand(Notification editorNotification, ClassElement element, ClassVisibility visibility, boolean value){
 		this(editorNotification,visibility,value);
 		this.classList.add(element);
 		this.diagramElementList.add(element);
 		populateMap();
 	}
 	
-	public ClassVisibilityCommand(DiagramNotification editorNotification, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
+	public ClassVisibilityCommand(Notification editorNotification, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
 	{
 		this(editorNotification,visibility,value);
 		this.classList.addAll(selected);
@@ -122,8 +122,8 @@ public class ClassVisibilityCommand extends GenericDiagramCommand{
 			}
 		}
 		
-		if(notification!=null)
-			notification.notifyChange(diagramElementList, ChangeType.VISIBILITY_CHANGED, NotificationType.UNDO);
+		if(notificator!=null)
+			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, ActionType.UNDO);
 
 	}
 	
@@ -132,7 +132,7 @@ public class ClassVisibilityCommand extends GenericDiagramCommand{
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();		
 	}
@@ -159,10 +159,9 @@ public class ClassVisibilityCommand extends GenericDiagramCommand{
 		}
 		
 		//notify
-		if (notification!=null) {
-			notification.notifyChange(diagramElementList, ChangeType.VISIBILITY_CHANGED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
-			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}	
 		
 	}

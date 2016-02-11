@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * ============================================================================================
@@ -25,19 +25,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.AssociationElement;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class AssociationVisibilityCommand extends GenericDiagramCommand{
+public class AssociationVisibilityCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
@@ -51,21 +51,21 @@ public class AssociationVisibilityCommand extends GenericDiagramCommand{
 	public AssociationVisibility visibility;
 	public boolean value;
 	
-	private AssociationVisibilityCommand(DiagramNotification editorNotification, AssociationVisibility visibility, boolean value){
-		this.editor = (OntoumlEditor)editorNotification;
-		notification = editorNotification;
+	private AssociationVisibilityCommand(Notification editorNotification, AssociationVisibility visibility, boolean value){
+		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
+		notificator = editorNotification;
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
-	public AssociationVisibilityCommand(DiagramNotification editorNotification, AssociationElement element, AssociationVisibility visibility, boolean value){
+	public AssociationVisibilityCommand(Notification editorNotification, AssociationElement element, AssociationVisibility visibility, boolean value){
 		this(editorNotification,visibility,value);
 		this.associationList.add(element);
 		this.diagramElementList.add(element);
 		populateMap();
 	}
 	
-	public AssociationVisibilityCommand(DiagramNotification editorNotification, List<AssociationElement> selected, AssociationVisibility visibility, boolean value) 
+	public AssociationVisibilityCommand(Notification editorNotification, List<AssociationElement> selected, AssociationVisibility visibility, boolean value) 
 	{
 		this(editorNotification,visibility,value);
 		this.associationList.addAll(selected);
@@ -131,8 +131,8 @@ public class AssociationVisibilityCommand extends GenericDiagramCommand{
 			}
 		}
 		
-		if(notification!=null)
-			notification.notifyChange(diagramElementList, ChangeType.VISIBILITY_CHANGED, NotificationType.UNDO);
+		if(notificator!=null)
+			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, ActionType.UNDO);
 
 	}
 	
@@ -141,7 +141,7 @@ public class AssociationVisibilityCommand extends GenericDiagramCommand{
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();		
 	}
@@ -173,10 +173,9 @@ public class AssociationVisibilityCommand extends GenericDiagramCommand{
 		}
 		
 		//notify
-		if (notification!=null) {
-			notification.notifyChange(diagramElementList, ChangeType.VISIBILITY_CHANGED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
-			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}	
 		
 	}

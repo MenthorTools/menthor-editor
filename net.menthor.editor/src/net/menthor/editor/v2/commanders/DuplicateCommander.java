@@ -27,13 +27,13 @@ import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
 
 public class DuplicateCommander {
 
@@ -115,7 +115,7 @@ public class DuplicateCommander {
 		OntoumlEditor editor = AppTabManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
 		double x = classElement.getAbsoluteX2()+15;
 		double y = classElement.getAbsoluteY2()+15;
-		AddNodeCommand cmd = new AddNodeCommand(editor,newClass, x, y);		
+		AddNodeCommand cmd = new AddNodeCommand(editor.getNotificator(),newClass, x, y);		
 		cmd.run();		
 		return newClass;
 	}

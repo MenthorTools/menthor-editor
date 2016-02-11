@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -27,11 +27,13 @@ import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.edit.command.ChangeCommand;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class implements a command to add nodes. It is introduced, because
@@ -40,7 +42,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ChangeNodeCommand extends GenericDiagramCommand {
+public class ChangeNodeCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -3148409380703192555L;
 	private Node element;
@@ -57,8 +59,8 @@ public class ChangeNodeCommand extends GenericDiagramCommand {
 	 * @param x the absolute x position
 	 * @param y the absolute y position
 	 */
-	public ChangeNodeCommand(DiagramNotification editorNotification, Node node, Node snapshot, ChangeDescription desc) {
-		this.notification = editorNotification;
+	public ChangeNodeCommand(Notification editorNotification, Node node, Node snapshot, ChangeDescription desc) {
+		this.notificator = editorNotification;
 		this.desc = desc;
 		element = node;
 		this.prvSnapshot = snapshot;
@@ -94,7 +96,7 @@ public class ChangeNodeCommand extends GenericDiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notification.notifyChange(elements, ChangeType.ELEMENTS_MODIFIED, NotificationType.UNDO);
+		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_MODIFIED, ActionType.UNDO);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class ChangeNodeCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		
 		if(desc.getObjectChanges().size() > 0)
@@ -126,7 +128,7 @@ public class ChangeNodeCommand extends GenericDiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notification.notifyChange(elements, ChangeType.ELEMENTS_MODIFIED, NotificationType.REDO);
+		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_MODIFIED, ActionType.REDO);
 	}
 
 	/**
@@ -146,6 +148,6 @@ public class ChangeNodeCommand extends GenericDiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notification.notifyChange(elements, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);		
+		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);		
 	}
 }

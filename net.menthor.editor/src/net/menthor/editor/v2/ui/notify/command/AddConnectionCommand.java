@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -23,16 +23,11 @@ package org.tinyuml.ui.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
@@ -47,14 +42,19 @@ import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This is an undoable creation command for a Connection.
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class AddConnectionCommand extends GenericDiagramCommand {
+public class AddConnectionCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
 	private CompositeElement parent;
@@ -65,10 +65,10 @@ public class AddConnectionCommand extends GenericDiagramCommand {
 	private EObject eContainer;	
 	private boolean addToDiagram;
 
-	public AddConnectionCommand(DiagramNotification editorNotification, UmlConnection conn){
+	public AddConnectionCommand(Notification editorNotification, UmlConnection conn){
 		this(
 			editorNotification, 
-			(CompositeElement)((OntoumlEditor)editorNotification).getDiagram(), 
+			(CompositeElement)((OntoumlEditor)editorNotification.getDiagramEditor()).getDiagram(), 
 			(RefOntoUML.Element)conn.getRelationship(), 
 			(RefOntoUML.Classifier)conn.getSourceObject(), 
 			(RefOntoUML.Classifier)conn.getTargetObject(), 
@@ -76,11 +76,11 @@ public class AddConnectionCommand extends GenericDiagramCommand {
 		);
 	}
 	
-	public AddConnectionCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
+	public AddConnectionCommand(Notification editorNotification, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
 		this.parent = parent;		
-		this.notification = editorNotification;
+		this.notificator = editorNotification;
 		
-		if (notification==null) this.addToDiagram = false; 
+		if (notificator==null) this.addToDiagram = false; 
 		else this.addToDiagram=true;
 		
 		this.relationship = relationship;
@@ -91,7 +91,7 @@ public class AddConnectionCommand extends GenericDiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		OntoumlEditor editor = ((OntoumlEditor)notification);
+		OntoumlEditor editor = ((OntoumlEditor)notificator.getDiagramEditor());
 		StructureDiagram diagram = null;
 		if(editor!=null) diagram = editor.getDiagram();
 		this.diagramElement = OccurenceManager.get().getDiagramElement(relationship, diagram);		
@@ -115,14 +115,14 @@ public class AddConnectionCommand extends GenericDiagramCommand {
 			
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
-			notification.notifyChange(elements, ChangeType.ELEMENTS_ADDED, NotificationType.UNDO);			
+			notificator.notifyChange(this, elements, NotificationType.ELEMENTS_ADDED, ActionType.UNDO);			
 		}	
 	}
 
 	@Override
 	public void redo() 
 	{
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
@@ -136,17 +136,14 @@ public class AddConnectionCommand extends GenericDiagramCommand {
 		
 		if(addToDiagram && diagramElement != null)
 		{			
-			addToDiagram(redo);
+			addToDiagram(isRedo);
 			OccurenceManager.get().add(relationship, diagramElement);	
 			list.add(diagramElement);
 		}
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_ADDED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_ADDED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}
 	}
 		
@@ -198,7 +195,7 @@ public class AddConnectionCommand extends GenericDiagramCommand {
 			
 			// add to model
 			if(eContainer==null){
-				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), relationship);
+				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), ProjectManager.get().getProject().getModel().getPackagedElement(), relationship);
 				RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 			}else{				
 				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), relationship);

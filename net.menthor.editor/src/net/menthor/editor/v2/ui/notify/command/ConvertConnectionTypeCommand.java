@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -23,22 +23,21 @@ package org.tinyuml.ui.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.shared.UmlConnection;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class converts wrapped connection types.
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ConvertConnectionTypeCommand extends GenericDiagramCommand {
+public class ConvertConnectionTypeCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -8661812094443443847L;
 	private UmlConnection connection;
@@ -51,8 +50,8 @@ public class ConvertConnectionTypeCommand extends GenericDiagramCommand {
 	 * @param umlconn the UmlConnection wrapped object
 	 * @param theNewConnection the new connection to be wrapped
 	 */
-	public ConvertConnectionTypeCommand(DiagramNotification aNotification, UmlConnection umlconn, Connection theNewConnection) {
-		this.notification = aNotification;
+	public ConvertConnectionTypeCommand(Notification aNotification, UmlConnection umlconn, Connection theNewConnection) {
+		this.notificator = aNotification;
 		connection = umlconn;
 		newconnection = theNewConnection;
 	}
@@ -72,12 +71,9 @@ public class ConvertConnectionTypeCommand extends GenericDiagramCommand {
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) elements, ChangeType.CONNECTION_TYPE_CONVERTED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this,(List<DiagramElement>) elements, NotificationType.CONNECTION_TYPE_CONVERTED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}		
 	}
 
@@ -91,7 +87,7 @@ public class ConvertConnectionTypeCommand extends GenericDiagramCommand {
 	
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notification.notifyChange(elements, ChangeType.CONNECTION_TYPE_CONVERTED, NotificationType.UNDO);
+		notificator.notifyChange(this, elements, NotificationType.CONNECTION_TYPE_CONVERTED, ActionType.UNDO);
 	}
 
 	/**
@@ -99,7 +95,7 @@ public class ConvertConnectionTypeCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.tinyuml.ui.diagram.commands.Command;
+import net.menthor.editor.v2.ui.notify.ICommand;
 
 
 /**
@@ -108,7 +108,7 @@ public class MultiSelection implements Selection {
 	//Test if there was an effective move or resize
 	if(x != startPos.getX() || y != startPos.getY())
 	{
-	    List<Command> moveOperations = new ArrayList<Command>();
+	    List<ICommand> moveOperations = new ArrayList<ICommand>();
 	    double transx = tmpPos.getX() - bounds.getX();
 	    double transy = tmpPos.getY() - bounds.getY();
 	    for (DiagramElement element : elements) {
@@ -135,7 +135,7 @@ public class MultiSelection implements Selection {
    * @param transx the x translation
    * @param transy the y translation
    */
-  private void addMoveNodeOperation(List<Command> moveOperations, Node node, double transx, double transy) {
+  private void addMoveNodeOperation(List<ICommand> moveOperations, Node node, double transx, double transy) {
     Point2D targetPos = new Point2D.Double(node.getAbsoluteX1() + transx, node.getAbsoluteY1() + transy);
     moveOperations.add(new MoveNodeOperation(node, node.getParent(), targetPos));
   }
@@ -147,7 +147,7 @@ public class MultiSelection implements Selection {
    * @param transx the x translation
    * @param transy the y translation
    */
-  private void addTranslateConnectionOperations(List<Command> moveOperations,
+  private void addTranslateConnectionOperations(List<ICommand> moveOperations,
     Connection conn, double transx, double transy) {
     moveOperations.add(new TranslateConnectionOperation(conn, transx, transy));
   }

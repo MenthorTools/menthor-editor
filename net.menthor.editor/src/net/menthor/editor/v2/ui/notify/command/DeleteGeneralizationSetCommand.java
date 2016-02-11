@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * ============================================================================================
@@ -25,37 +25,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.GeneralizationElement;
 
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class DeleteGeneralizationSetCommand extends GenericDiagramCommand {
+public class DeleteGeneralizationSetCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
 	private RefOntoUML.Element genSet;
 	private ArrayList<DiagramElement> diagramGenList = new ArrayList<DiagramElement>();
 	private ArrayList<Generalization> generalizations = new ArrayList<Generalization>();
 	
-	public DeleteGeneralizationSetCommand(DiagramNotification editorNotification, RefOntoUML.Element genSet) {		
-		this.notification = editorNotification;		
+	public DeleteGeneralizationSetCommand(Notification editorNotification, RefOntoUML.Element genSet) {		
+		this.notificator = editorNotification;		
 		this.genSet = genSet;		
 		this.generalizations.addAll(((RefOntoUML.GeneralizationSet)genSet).getGeneralization());
-		if(generalizations!=null && notification!=null){
-			for(DiagramElement dElem: ((OntoumlEditor)notification).getDiagram().getChildren()){
+		if(generalizations!=null && notificator!=null){
+			for(DiagramElement dElem: ((OntoumlEditor)notificator.getDiagramEditor()).getDiagram().getChildren()){
 				if(dElem instanceof GeneralizationElement){
 					GeneralizationElement genElem = (GeneralizationElement)dElem;
 					if(generalizations.contains((Generalization)genElem.getRelationship())){ 
@@ -85,15 +84,15 @@ public class DeleteGeneralizationSetCommand extends GenericDiagramCommand {
 			}
 		}		
 		
-		if(notification!=null){
-			notification.notifyChange(diagramGenList, ChangeType.ELEMENTS_MODIFIED, NotificationType.UNDO);
+		if(notificator!=null){
+			notificator.notifyChange(this,diagramGenList, NotificationType.ELEMENTS_MODIFIED, ActionType.UNDO);
 		}
 	}
 	
 	@Override
 	public void redo() 
 	{
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
@@ -114,12 +113,9 @@ public class DeleteGeneralizationSetCommand extends GenericDiagramCommand {
 			}
 		}		
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_MODIFIED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_MODIFIED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}
 		
 	}

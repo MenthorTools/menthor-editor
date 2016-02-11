@@ -1,3 +1,4 @@
+
 package net.menthor.editor.v2.commanders;
 
 /**
@@ -29,11 +30,6 @@ import javax.swing.SwingUtilities;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.AddGeneralizationSetCommand;
-import org.tinyuml.ui.diagram.commands.AddNodeCommand;
-import org.tinyuml.ui.diagram.commands.DiagramNotification;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -46,6 +42,10 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.NotificationType;
+import net.menthor.editor.v2.ui.notify.command.AddGeneralizationSetCommand;
+import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
 
 public class UpdateCommander {
 
@@ -81,7 +81,7 @@ public class UpdateCommander {
 				List<DiagramElement> list = new ArrayList<DiagramElement>();
 				list.add(de);
 				//notify one by one
-				editor.notifyChange(list, ChangeType.ELEMENTS_MODIFIED, NotificationType.DO);
+				editor.getNotificator().notifyChange(null, list, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);
 			}			
 		}
 	}
@@ -141,7 +141,7 @@ public class UpdateCommander {
 		for(Object obj: fix.getAdded()){			
 			if (obj instanceof RefOntoUML.Class||obj instanceof RefOntoUML.DataType) {	
 				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1){						
-					AddNodeCommand cmd = new AddNodeCommand((DiagramNotification)ed,ed.getDiagram(),(RefOntoUML.Element)obj,
+					AddNodeCommand cmd = new AddNodeCommand(ed.getNotificator(),ed.getDiagram(),(RefOntoUML.Element)obj,
 					fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y, (RefOntoUML.Element)((EObject)obj).eContainer());		
 					cmd.run();
 				}else{
@@ -165,7 +165,7 @@ public class UpdateCommander {
 		//generalization sets
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.GeneralizationSet){
-				AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand((DiagramNotification)ed,ed.getDiagram(),(RefOntoUML.Element)obj,
+				AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand(ed.getNotificator(),ed.getDiagram(),(RefOntoUML.Element)obj,
 				((GeneralizationSet)obj).getGeneralization(),(RefOntoUML.Element)((EObject)obj).eContainer());
 				cmd.run(); 
 			}

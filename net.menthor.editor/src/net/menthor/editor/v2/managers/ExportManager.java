@@ -36,6 +36,7 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
 import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
@@ -83,21 +84,21 @@ public class ExportManager extends AppGenericManager {
 		try {
 			File file = chooseRefOntoumlFile();
 			if(file==null) return;
-			CursorManager.get().waitCursor();			
+			AppCursorManager.get().waitCursor();			
 			RefOntoUMLResourceUtil.saveModel(file.getAbsolutePath(), ProjectManager.get().getProject().getModel());		
 			lastRefOntoPath = file.getAbsolutePath();			
 			AppMessageManager.get().showSuccess("Export - RefOntouml", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
 		} catch (Exception ex) {
 			AppMessageManager.get().showError(ex,"Export - RefOntouml","Current project could not be exported to Reference OntoUML.");
 		}		
-		CursorManager.get().defaultCursor();
+		AppCursorManager.get().defaultCursor();
 	}	
 		
 	public void exportToEcore(){
 		try {
 			File file = chooseEcoreFile();
 			if(file==null) return;
-			CursorManager.get().waitCursor();				
+			AppCursorManager.get().waitCursor();				
 			OntoUML2EcoreOption opt = new OntoUML2EcoreOption(false,false);
 			OntoUML2Ecore.convertToEcore(ProjectManager.get().getProject().getRefParser(), file.getAbsolutePath(), opt);
 			lastEcorePath = file.getAbsolutePath();				
@@ -105,14 +106,14 @@ public class ExportManager extends AppGenericManager {
 		} catch (Exception ex) {
 			AppMessageManager.get().showError(ex, "Export - Ecore", "Current project could not be exported to Ecore");									
 		}		
-		CursorManager.get().defaultCursor();		
+		AppCursorManager.get().defaultCursor();		
 	}
 	
 	public void exportToProfileUML(){		
 		try {
 			File file = chooseUMLFile();
 			if(file==null) return;
-			CursorManager.get().waitCursor();				
+			AppCursorManager.get().waitCursor();				
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
 			OntoUML2UML.convertToUMLProfile(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);							
 			lastUmlPath = file.getAbsolutePath();				
@@ -120,14 +121,14 @@ public class ExportManager extends AppGenericManager {
 		} catch (Exception ex) {
 			AppMessageManager.get().showError(ex,"Export - UML Profile", "Current project could not be exported to UML Profile");
 		}		
-		CursorManager.get().defaultCursor();
+		AppCursorManager.get().defaultCursor();
 	}	
 	
 	public void exportToUML(){
 		try {
 			File file = chooseUMLFile();
 			if(file==null) return;
-			CursorManager.get().waitCursor();			
+			AppCursorManager.get().waitCursor();			
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
 			OntoUML2UML.convertToUML(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);			
 			lastUmlPath = file.getAbsolutePath();				
@@ -135,7 +136,7 @@ public class ExportManager extends AppGenericManager {
 		} catch (Exception ex) {					
 			AppMessageManager.get().showError(ex, "Export - UML", "Current project could not be exported to UML.");			
 		}		
-		CursorManager.get().defaultCursor();		
+		AppCursorManager.get().defaultCursor();		
 	}
 	
 	public void exportToPng(){		

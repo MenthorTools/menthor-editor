@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.Command;
 
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.ICommand;
 
 public abstract class GenericCommander {
 	
@@ -32,7 +32,7 @@ public abstract class GenericCommander {
 		return AppTabManager.get().getCurrentDiagramEditor();
 	}
 	
-	public void execute(Command command){
+	public void execute(ICommand command){
 		currentEditor().execute(command);
 	}
 	

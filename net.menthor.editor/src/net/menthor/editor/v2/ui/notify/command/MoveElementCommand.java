@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -23,9 +23,6 @@ package org.tinyuml.ui.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.MoveNodeOperation;
@@ -33,9 +30,12 @@ import org.tinyuml.draw.MoveOperation;
 import org.tinyuml.draw.Node;
 import org.tinyuml.draw.TranslateConnectionOperation;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.StructureDiagram;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 
 /**
@@ -46,7 +46,7 @@ import org.tinyuml.umldraw.StructureDiagram;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class MoveElementCommand extends GenericDiagramCommand {
+public class MoveElementCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 2523534899493234371L;
 	private MoveOperation[] moveOperations;
@@ -57,8 +57,8 @@ public class MoveElementCommand extends GenericDiagramCommand {
 	 * @param aNotification the notification
 	 * @param aMoveOperations the move operations
 	 */
-	public MoveElementCommand(DiagramNotification aNotification, final MoveOperation[] aMoveOperations) {
-		this.notification = aNotification;
+	public MoveElementCommand(Notification aNotification, final MoveOperation[] aMoveOperations) {
+		this.notificator = aNotification;
 		moveOperations = new MoveOperation[aMoveOperations.length];
 		for (int i = 0; i < aMoveOperations.length; i++) {
 			moveOperations[i] = aMoveOperations[i];
@@ -104,17 +104,14 @@ public class MoveElementCommand extends GenericDiagramCommand {
 			if (elem instanceof Node){
 				Node node = (Node)elem;
 				for(Connection c: node.getConnections()){					
-					resetRelatedConnectionPoints((OntoumlEditor)notification, c);
+					resetRelatedConnectionPoints((OntoumlEditor)notificator.getDiagramEditor(), c);
 				}
 			}
 		}
-
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) elements, ChangeType.ELEMENTS_MOVED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		
+		if (notificator!=null) {
+			notificator.notifyChange(this,(List<DiagramElement>) elements, NotificationType.ELEMENTS_MOVED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}
 	}
 
@@ -153,7 +150,7 @@ public class MoveElementCommand extends GenericDiagramCommand {
 			}
 		}
 		
-		notification.notifyChange(elements, ChangeType.ELEMENTS_MOVED, NotificationType.UNDO);		
+		notificator.notifyChange(this,elements, NotificationType.ELEMENTS_MOVED, ActionType.UNDO);		
 	}
 
 	/**
@@ -161,7 +158,7 @@ public class MoveElementCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;	
+		isRedo = true;	
 		super.redo();	
 		run();
 	}

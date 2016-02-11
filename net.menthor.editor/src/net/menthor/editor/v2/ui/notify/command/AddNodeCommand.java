@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -23,16 +23,11 @@ package org.tinyuml.ui.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.eclipse.emf.edit.command.AddCommand;
 import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
@@ -41,7 +36,12 @@ import RefOntoUML.Classifier;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class implements a command to add nodes. It is introduced, because
@@ -50,7 +50,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class AddNodeCommand extends GenericDiagramCommand {
+public class AddNodeCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -3148409380703192555L;
 	
@@ -61,22 +61,24 @@ public class AddNodeCommand extends GenericDiagramCommand {
 	private RefOntoUML.Element eContainer;	
 	private boolean addToDiagram;
 
-	public AddNodeCommand(DiagramNotification editorNotification, UmlNode node, double x, double y){
-		this(editorNotification, (CompositeElement)((OntoumlEditor)editorNotification).getDiagram(), 
+	public AddNodeCommand(Notification editorNotification, UmlNode node, double x, double y){
+		this(editorNotification, (CompositeElement)((OntoumlEditor)editorNotification.getDiagramEditor()).getDiagram(), 
 		(RefOntoUML.Element)node.getClassifier(), x, y, (RefOntoUML.Element)node.getClassifier().eContainer());
 	}
 	
-	public AddNodeCommand(DiagramNotification editorNotification, CompositeElement parent, RefOntoUML.Element element, double x, double y, RefOntoUML.Element eContainer) 
+	public AddNodeCommand(Notification editorNotification, CompositeElement parent, RefOntoUML.Element element, double x, double y, RefOntoUML.Element eContainer) 
 	{
 		this.parent = parent;		
-		this.notification = editorNotification;		
-		if(notification==null) this.addToDiagram = false; else this.addToDiagram=true;
+		this.notificator = editorNotification;		
+		if(notificator==null) this.addToDiagram = false; else this.addToDiagram=true;
 		this.element = element;		
 		this.eContainer = eContainer;
 		
-		OntoumlEditor editor = ((OntoumlEditor)notification);
 		StructureDiagram diagram = null;
-		if(editor!=null) diagram = editor.getDiagram();
+		if(notificator!=null) {
+			OntoumlEditor editor = ((OntoumlEditor)notificator.getDiagramEditor());		
+			if(editor!=null) diagram = editor.getDiagram();
+		}		
 		this.diagramElement = OccurenceManager.get().getDiagramElement(element, diagram);		
 		if(this.diagramElement==null){			
 			if(element instanceof RefOntoUML.Class || element instanceof RefOntoUML.Association || element instanceof RefOntoUML.DataType || element instanceof RefOntoUML.Generalization){				
@@ -105,10 +107,10 @@ public class AddNodeCommand extends GenericDiagramCommand {
 			OccurenceManager.get().remove(diagramElement);
 		}		
 		
-		if(notification!=null){
+		if(notificator!=null){
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
-			notification.notifyChange(elements, ChangeType.ELEMENTS_ADDED, NotificationType.UNDO);
+			notificator.notifyChange(this, elements, NotificationType.ELEMENTS_ADDED, ActionType.UNDO);
 		}
 		
 	}
@@ -116,7 +118,7 @@ public class AddNodeCommand extends GenericDiagramCommand {
 	@Override
 	public void redo() 
 	{	
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
@@ -131,17 +133,14 @@ public class AddNodeCommand extends GenericDiagramCommand {
 		}
 		
 		if(addToDiagram && diagramElement !=null){			
-			addToDiagram(diagramElement,redo);
+			addToDiagram(diagramElement,isRedo);
 			OccurenceManager.get().add(element, ((ClassElement)diagramElement));
 			list.add(diagramElement);
 		}		
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_ADDED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_ADDED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}
 	}	
 	
@@ -174,9 +173,9 @@ public class AddNodeCommand extends GenericDiagramCommand {
 //		System.out.println("Adding = "+element);
 		if(eContainer==null){
 			
-			if (!(project.getModel().getPackagedElement().contains(element)))
+			if (!(ProjectManager.get().getProject().getModel().getPackagedElement().contains(element)))
 			{
-				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), element);
+				AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), ProjectManager.get().getProject().getModel().getPackagedElement(), element);
 				RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
 			}
 			

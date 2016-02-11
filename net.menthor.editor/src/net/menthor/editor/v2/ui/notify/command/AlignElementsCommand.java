@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * ============================================================================================
@@ -25,21 +25,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class AlignElementsCommand extends GenericDiagramCommand {
+public class AlignElementsCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -51,10 +50,10 @@ public class AlignElementsCommand extends GenericDiagramCommand {
 	public ArrayList<Double> oldPosXList = new ArrayList<Double>();
 	public ArrayList<Double> oldPosYList = new ArrayList<Double>();
 	
-	public AlignElementsCommand(DiagramNotification editorNotification, List<DiagramElement> selected, Alignment direction) 
+	public AlignElementsCommand(Notification editorNotification, List<DiagramElement> selected, Alignment direction) 
 	{
-		this.editor = (OntoumlEditor)editorNotification;
-		notification = editorNotification;
+		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
+		notificator = editorNotification;
 		this.direction = direction;
 		
 		for(DiagramElement dElem: selected)
@@ -75,7 +74,7 @@ public class AlignElementsCommand extends GenericDiagramCommand {
 	public void undo() {
 		super.undo();
 						
-		if(notification!=null){
+		if(notificator!=null){
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 			int i =0;
@@ -90,7 +89,7 @@ public class AlignElementsCommand extends GenericDiagramCommand {
 				}
 			}
 			
-			notification.notifyChange((List<DiagramElement>) list, ChangeType.ELEMENTS_ALIGNED, NotificationType.UNDO);
+			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_ALIGNED, ActionType.UNDO);
 		}
 	}
 	
@@ -99,7 +98,7 @@ public class AlignElementsCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();		
 	}
@@ -123,10 +122,9 @@ public class AlignElementsCommand extends GenericDiagramCommand {
 			alignCenterHorizontally(this.editor);
 		
 		//notify
-		if (notification!=null) {
-			notification.notifyChange((List<DiagramElement>) selected, ChangeType.ELEMENTS_ALIGNED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)editor), this);
-			for (UndoableEditListener l : ((OntoumlEditor)editor).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) selected, NotificationType.ELEMENTS_ALIGNED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}	
 	}
 	

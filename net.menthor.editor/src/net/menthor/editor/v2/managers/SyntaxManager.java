@@ -39,6 +39,7 @@ import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -83,7 +84,7 @@ public class SyntaxManager {
 	
 	//we want warnings and errors all together with the model verification
 	public void verifyModel(){
-		CursorManager.get().waitCursor();		
+		AppCursorManager.get().waitCursor();		
 		double start = System.currentTimeMillis();
 		
 		//application warnings
@@ -114,7 +115,7 @@ public class SyntaxManager {
 		} else {
 			AppMessageManager.get().showSuccess("Model Verified", "Model is syntactically correct");
 		}
-		CursorManager.get().defaultCursor();
+		AppCursorManager.get().defaultCursor();
 	}
 	
 	private List<ProblemElement> getMetamodelErrors(){

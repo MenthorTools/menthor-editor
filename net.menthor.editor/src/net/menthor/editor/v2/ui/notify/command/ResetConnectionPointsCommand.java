@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -24,21 +24,20 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class implements a reversible command to reset a connection's points.
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResetConnectionPointsCommand extends GenericDiagramCommand {
+public class ResetConnectionPointsCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -1321480473934728961L;
 	private Connection connection;
@@ -49,8 +48,8 @@ public class ResetConnectionPointsCommand extends GenericDiagramCommand {
 	 * @param aNotification the notification object
 	 * @param conn the connection
 	 */
-	public ResetConnectionPointsCommand(DiagramNotification aNotification, Connection conn) {
-		this.notification = aNotification;
+	public ResetConnectionPointsCommand(Notification aNotification, Connection conn) {
+		this.notificator = aNotification;
 		connection = conn;
 	}
 
@@ -64,12 +63,9 @@ public class ResetConnectionPointsCommand extends GenericDiagramCommand {
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) elements, ChangeType.CONNECTION_POINTS_RESET, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.CONNECTION_POINTS_RESET, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}		
 	}
 
@@ -96,7 +92,7 @@ public class ResetConnectionPointsCommand extends GenericDiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notification.notifyChange(elements, ChangeType.CONNECTION_POINTS_RESET, NotificationType.UNDO);
+		notificator.notifyChange(this, elements, NotificationType.CONNECTION_POINTS_RESET, ActionType.UNDO);
 	}
 
 	/**
@@ -104,7 +100,7 @@ public class ResetConnectionPointsCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}

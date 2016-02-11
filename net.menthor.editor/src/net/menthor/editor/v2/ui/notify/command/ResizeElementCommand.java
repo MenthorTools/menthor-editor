@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -25,22 +25,21 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.Node;
-import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class implements a resizing command.
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResizeElementCommand extends GenericDiagramCommand {
+public class ResizeElementCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -3090945928366890788L;
 	private Node element;
@@ -54,8 +53,8 @@ public class ResizeElementCommand extends GenericDiagramCommand {
 	 * @param aNewPos the new position
 	 * @param aNewSize the new size
 	 */
-	public ResizeElementCommand(DiagramNotification aNotification, Node anElement, Point2D aNewPos, Dimension2D aNewSize) {
-		this.notification = aNotification;
+	public ResizeElementCommand(Notification aNotification, Node anElement, Point2D aNewPos, Dimension2D aNewSize) {
+		this.notificator = aNotification;
 		element = anElement;
 		newpos.setLocation(aNewPos);
 		newsize.setSize(aNewSize);
@@ -74,12 +73,11 @@ public class ResizeElementCommand extends GenericDiagramCommand {
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
+
 		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) elements, ChangeType.ELEMENTS_RESIZED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.ELEMENTS_RESIZED, isRedo ? ActionType.REDO : ActionType.DO);			
+						
 		}		
 	}
 
@@ -88,7 +86,7 @@ public class ResizeElementCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
@@ -104,6 +102,6 @@ public class ResizeElementCommand extends GenericDiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notification.notifyChange(elements, ChangeType.ELEMENTS_RESIZED, NotificationType.UNDO);
+		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_RESIZED, ActionType.UNDO);
 	}
 }

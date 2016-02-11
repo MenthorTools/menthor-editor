@@ -23,10 +23,10 @@ package org.tinyuml.draw;
 
 import javax.swing.undo.AbstractUndoableEdit;
 
-import org.tinyuml.ui.diagram.commands.Command;
+import net.menthor.editor.v2.ui.notify.ICommand;
 
 public abstract class AddOperation  extends AbstractUndoableEdit
-implements Command {
+implements ICommand {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.app.manager;
 
 /**
  * ============================================================================================
@@ -26,19 +26,17 @@ import java.awt.Cursor;
 
 import javax.swing.RootPaneContainer;
 
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
-
-public class CursorManager extends AppGenericManager {
+public class AppCursorManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 
 	private static class CursorLoader {
-        private static final CursorManager INSTANCE = new CursorManager();
+        private static final AppCursorManager INSTANCE = new AppCursorManager();
     }	
-	public static CursorManager get() { 
+	public static AppCursorManager get() { 
 		return CursorLoader.INSTANCE; 
 	}	
-    private CursorManager() {
+    private AppCursorManager() {
         if (CursorLoader.INSTANCE != null) throw new IllegalStateException("CursorManager already instantiated");
     }		
     

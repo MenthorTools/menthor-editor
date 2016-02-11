@@ -25,12 +25,11 @@ import java.awt.Component;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.tinyuml.ui.diagram.commands.Command;
-import org.tinyuml.ui.diagram.commands.RenameCommand;
-
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.notify.ICommand;
+import net.menthor.editor.v2.ui.notify.command.RenameCommand;
 
 //Class to deal with renaning elements on the project browser.
 public class RenameCommander extends GenericCommander {
@@ -70,7 +69,7 @@ public class RenameCommander extends GenericCommander {
 		if (element instanceof NamedElement){
 			namedElement = (NamedElement) element;
 			String newName = askForElementName(AppFrame.get(), namedElement.getName());
-			Command command = new RenameCommand(namedElement, newName);
+			ICommand command = new RenameCommand(namedElement, newName);
 			command.run();
 		}
 					

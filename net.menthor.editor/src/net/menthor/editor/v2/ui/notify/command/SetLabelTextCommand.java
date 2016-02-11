@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -23,15 +23,9 @@ package org.tinyuml.ui.diagram.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Label;
-import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
@@ -39,6 +33,10 @@ import RefOntoUML.Classifier;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class represents a reversible operation that sets a Label to a new
@@ -46,7 +44,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class SetLabelTextCommand extends GenericDiagramCommand {
+public class SetLabelTextCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 5701807952287882396L;
 	private Label label;
@@ -58,8 +56,8 @@ public class SetLabelTextCommand extends GenericDiagramCommand {
 	 * @param aLabel the Label
 	 * @param aText the new text
 	 */
-	public SetLabelTextCommand(DiagramNotification aNotification, Label aLabel, String aText) {
-		this.notification = aNotification;
+	public SetLabelTextCommand(Notification aNotification, Label aLabel, String aText) {
+		this.notificator = aNotification;
 		label = aLabel;
 		text = aText;
 		oldText = aLabel.getNameLabelText();
@@ -72,8 +70,7 @@ public class SetLabelTextCommand extends GenericDiagramCommand {
 	public void run() {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		
+				
 		String oldName = label.getNameLabelText();		
 		label.setNameLabelText(text);
 						
@@ -99,10 +96,8 @@ public class SetLabelTextCommand extends GenericDiagramCommand {
 		elements.add(parent);		
 				
 		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) elements, ChangeType.LABEL_TEXT_SET, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.LABEL_TEXT_SET, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 	}
 
@@ -111,7 +106,7 @@ public class SetLabelTextCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
@@ -147,6 +142,6 @@ public class SetLabelTextCommand extends GenericDiagramCommand {
 				
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(parent);
-		notification.notifyChange(elements, ChangeType.LABEL_TEXT_SET, NotificationType.UNDO);					
+		notificator.notifyChange(this, elements, NotificationType.LABEL_TEXT_SET, ActionType.UNDO);					
 	}
 }

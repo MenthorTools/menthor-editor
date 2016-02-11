@@ -1,4 +1,4 @@
-package org.tinyuml.ui.diagram.commands;
+package net.menthor.editor.v2.ui.notify.command;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -24,17 +24,16 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.RectilinearConnection;
 import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.TreeConnection;
-import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.ChangeType;
-import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
+
+import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * This class implements an unoable operation to set a new list of connection
@@ -42,7 +41,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
  *
  * @author Wei-ju Wu
  */
-public class EditConnectionPointsCommand extends GenericDiagramCommand {
+public class EditConnectionPointsCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -6538389889543538053L;
 	private Connection connection;
@@ -54,8 +53,8 @@ public class EditConnectionPointsCommand extends GenericDiagramCommand {
 	 * @param aConnection the connection object
 	 * @param theNewpoints the new point list
 	 */
-	public EditConnectionPointsCommand(DiagramNotification aNotification, Connection aConnection, List<Point2D> theNewpoints) {
-		this.notification = aNotification;
+	public EditConnectionPointsCommand(Notification aNotification, Connection aConnection, List<Point2D> theNewpoints) {
+		this.notificator = aNotification;
 		connection = aConnection;
 		newpoints = clonePointList(theNewpoints);
 	}
@@ -80,12 +79,9 @@ public class EditConnectionPointsCommand extends GenericDiagramCommand {
 			}
 		}			
 		
-		OntoumlEditor d = ((OntoumlEditor)notification);
-		//notify
-		if (d!=null) {
-			d.notifyChange((List<DiagramElement>) elements, ChangeType.CONNECTION_POINT_EDITED, redo ? NotificationType.REDO : NotificationType.DO);			
-			UndoableEditEvent event = new UndoableEditEvent(((OntoumlEditor)d), this);
-			for (UndoableEditListener l : ((OntoumlEditor)d).editListeners)  l.undoableEditHappened(event);			
+		if (notificator!=null) {
+			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.CONNECTION_POINT_EDITED, isRedo ? ActionType.REDO : ActionType.DO);		
+						
 		}
 	}
 
@@ -116,7 +112,7 @@ public class EditConnectionPointsCommand extends GenericDiagramCommand {
 		if(connection instanceof SimpleConnection) elements.add(((SimpleConnection)connection).getOwnerConnection());
 		if(connection instanceof TreeConnection) elements.add(((TreeConnection)connection).getOwnerConnection());
 		
-		notification.notifyChange(elements, ChangeType.CONNECTION_POINT_EDITED, NotificationType.UNDO);
+		notificator.notifyChange(this,elements, NotificationType.CONNECTION_POINT_EDITED, ActionType.UNDO);
 	}
 
 	/**
@@ -124,7 +120,7 @@ public class EditConnectionPointsCommand extends GenericDiagramCommand {
 	 */
 	@Override
 	public void redo() {
-		redo = true;
+		isRedo = true;
 		super.redo();
 		run();
 	}
