@@ -49,7 +49,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
-import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
@@ -84,7 +83,6 @@ import org.tinyuml.ui.diagram.commands.EditConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.MoveElementCommand;
 import org.tinyuml.ui.diagram.commands.ResetConnectionPointsCommand;
 import org.tinyuml.ui.diagram.commands.ResizeElementCommand;
-import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.ui.diagram.commands.SetLabelTextCommand;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
@@ -118,8 +116,8 @@ import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.AppEditorsPane;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
-import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.app.AppPalette;
+import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -161,7 +159,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	private static final double ADDSCROLL_HORIZONTAL=0;
 	private static final double ADDSCROLL_VERTICAL=0;
 		
-	private Color color;
+	
 	
 	PalettePopupMenu popupmenu;
 	
@@ -1295,7 +1293,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// *************************************************************************
 	// ***** ModelNotification
 	// *************************************************************************
-
+	
 	public void notifyChange(List<DiagramElement> elements, ChangeType changeType, NotificationType notificationType)
 	{
 		editorMode.stateChanged();
@@ -1568,78 +1566,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		}
 	}
 	
-	private Color copiedColor=Color.WHITE;
 	
-	public void copyColor(Object obj){
-		if(obj instanceof ClassElement){
-			copiedColor = ((ClassElement)obj).getBackgroundColor();	
-		}else if(obj instanceof Collection<?>){			
-			for(Object o: ((Collection<?>)obj)){
-				if(o instanceof ClassElement){
-					copiedColor = ((ClassElement)o).getBackgroundColor();
-					return;
-				}
-			}			
-		}			
-	}
-	
-	public void pasteColor(List<DiagramElement> classElements){
-		if (copiedColor != null){
-			execute(new SetColorCommand((DiagramNotification)this,classElements,copiedColor));        			
-		}
-	}
-	
-	public void pasteColor(Object obj){
-		if(obj instanceof ClassElement){
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)obj);		
-			pasteColor(list);			
-		}else if(obj instanceof Collection<?>){
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			for(Object o: ((Collection<?>)obj)){
-				if(o instanceof ClassElement){
-					list.add((DiagramElement)o);
-				}
-			}
-			pasteColor(list);
-		}		
-	}
-	
-	public void setupColorOnSelected()
-	{
-		if(color==null) color = JColorChooser.showDialog(this, "Select a Background Color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(this, "Select a Background Color", color);
-		if (color != null){
-			execute(new SetColorCommand((DiagramNotification)this,(ArrayList<DiagramElement>) getSelectedElements(),color));        			
-		}        		   
-	}
-	
-	
-	
-	public void setupColor(List<DiagramElement> classList){		
-		if(color==null) color = JColorChooser.showDialog(this, "Select a background color", Color.LIGHT_GRAY);
-		else color = JColorChooser.showDialog(this, "Select a background color", color);
-		if (color != null){
-			execute(new SetColorCommand((DiagramNotification)this,classList,color));        			
-		}
-	}
-	
-	public void setupColor(Object obj)
-	{
-		if(obj instanceof ClassElement){
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add((DiagramElement)obj);
-			setupColor(list);
-		}else if(obj instanceof Collection<?>){
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			for(Object o: ((Collection<?>)obj)){
-				if(o instanceof ClassElement){
-					list.add((DiagramElement)o);
-				}
-			}
-			setupColor(list);
-		}
-	}
 	
 	/** Bring related elements to diagram */
 	public void addAllRelatedElements(Object diagramElement)

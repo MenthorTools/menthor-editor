@@ -38,7 +38,7 @@ public class ColorMenu extends MultiElementMenu {
 	
 	public ColorMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);		
-		createMenuItem("Set", IconType.MENTHOR_COLOR_CHOOSER, CommandType.SETUP_BACKGROUND_COLOR);
+		createMenuItem("Set", IconType.MENTHOR_COLOR_CHOOSER, CommandType.SET_BACKGROUND_COLOR);
 		
 		//Can only copy the style if only one element is selected. 
 		if(helper.isSingleContext())

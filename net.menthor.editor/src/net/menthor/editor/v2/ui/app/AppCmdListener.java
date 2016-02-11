@@ -4,6 +4,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
+import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
@@ -127,6 +128,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ClipboardMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ConnectMode.class){
 				return methodcall.call(ConnectMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ColorCommander.class){
+				return methodcall.call(ColorCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == CursorManager.class){
 				return methodcall.call(CursorManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == DeletionCommander.class){

@@ -36,6 +36,7 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import net.menthor.editor.v2.commanders.AdditionCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
+import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
@@ -282,7 +283,9 @@ public class CommandMap {
 			essentialOperations();		
 			
 			diagramEditor();
-			alignManager();
+			colorCommander();
+			alignCommander();
+			visibilityCommander();
 			palleteDragAndDrop();
 			
 			exportManager();
@@ -296,7 +299,7 @@ public class CommandMap {
 			glossaryManager();
 			
 			metaPropertyManager();
-			visibilityManager();
+			
 			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -305,7 +308,16 @@ public class CommandMap {
 		}
 	}
 	
-	private void visibilityManager() throws NoSuchMethodException, SecurityException {
+	private void colorCommander() throws NoSuchMethodException, SecurityException {
+		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
+				new MethodCall(ColorCommander.class.getMethod("setBackgroundColor", Object.class)));
+		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
+				new MethodCall(ColorCommander.class.getMethod("copyBackgroundColor", Object.class)));
+		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
+				new MethodCall(ColorCommander.class.getMethod("pasteBackgroundColor", Object.class)));
+	}
+	
+	private void visibilityCommander() throws NoSuchMethodException, SecurityException {
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
 				new MethodCall(VisibilityCommander.class.getMethod("showEndPointNames",Object.class)));
 		cmdMap.put(CommandType.SHOW_MULTIPLICITIES,
@@ -390,7 +402,7 @@ public class CommandMap {
 		
 	}
 
-	private void alignManager() throws NoSuchMethodException, SecurityException{
+	private void alignCommander() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.ALIGN_VERTICAL,
 				new MethodCall(AlignCommander.class.getMethod("executeAlignCenterVertically",ArrayList.class)));
 		cmdMap.put(CommandType.ALIGN_HORIZONTAL,
@@ -439,15 +451,7 @@ public class CommandMap {
 			new MethodCall(OntoumlEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
 		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
 				new MethodCall(OntoumlEditor.class.getMethod("addAllRelatedElements", Object.class)));
-		cmdMap.put(CommandType.SETUP_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("setupColor", Object.class)));
-		cmdMap.put(CommandType.COPY_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("copyColor", Object.class)));
-		cmdMap.put(CommandType.PASTE_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("pasteColor", Object.class)));
 		
-		cmdMap.put(CommandType.SET_BACKGROUND_COLOR,
-				new MethodCall(OntoumlEditor.class.getMethod("setupColorOnSelected")));	
 		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
 				new MethodCall(OntoumlEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
