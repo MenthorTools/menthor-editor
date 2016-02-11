@@ -1,0 +1,41 @@
+
+==========================================================================================
+									CODE CONVENTIONS
+==========================================================================================
+
+1. 	Always use curly brackets (i.e. "{" and "}") and always open a curly brackets right after 
+	a declaration. No matter how many code lines do we have on the block. Example:  
+    
+	public void method(int x){
+		if(x>1) {
+			x++;
+		}	
+		return;		
+	}
+	
+2. 	Always use interfaces for Collection types on declarations such as lists (List), sets (Set) 
+	and maps (Map). A specific Collection type (e.g. ArrayList, HashMap) must only be used at 
+	the creation of a new object (unless you REALLy need the specific type). Example:
+	
+    public void method(List<String> names){
+		if(names==null){
+			names = new ArrayList<String>();
+		}		
+	}
+
+3. 	Always put Menthor Copyright right after the package declaration. Example:
+
+    package net.menthor.editor;
+	
+	/**
+	* ============================================================================================
+	* Menthor Editor -- Copyright (c) 2015 
+	* ....
+	*
+	* ============================================================================================ */
+	
+	//import (...)
+	
+4. 	A interface name should be always preceded by a capital letter "I". Example: ICommandListener, IEditor, etc.
+
+5. 	A abstrac class name should be always preceded by the word "Generic". Example: GenericEditor, GenericMenu, etc.
