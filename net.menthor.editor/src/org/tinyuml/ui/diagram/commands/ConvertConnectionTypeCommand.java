@@ -38,7 +38,7 @@ import org.tinyuml.umldraw.shared.UmlConnection;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ConvertConnectionTypeCommand extends BaseDiagramCommand {
+public class ConvertConnectionTypeCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = -8661812094443443847L;
 	private UmlConnection connection;

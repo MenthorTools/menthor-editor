@@ -9,6 +9,7 @@ import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.commands.CommandMap;
@@ -36,17 +37,16 @@ import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SerializationManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.WarningManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class AppCmdListener implements ICommandListener {
 
@@ -105,7 +105,7 @@ public class AppCmdListener implements ICommandListener {
 		try{
 			//----------------
 			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
-				return methodcall.call(TabUIManager.get().getCurrentDiagramEditor());
+				return methodcall.call(AppTabManager.get().getCurrentDiagramEditor());
 			//----------------
 			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
 				return methodcall.call(AppFrame.get());				
@@ -156,8 +156,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(HelpManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ImportManager.class){
 				return methodcall.call(ImportManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == MessageUIManager.class){
-				return methodcall.call(MessageUIManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == AppMessageManager.class){
+				return methodcall.call(AppMessageManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MetaPropertyManager.class){
 				return methodcall.call(MetaPropertyManager.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
@@ -176,8 +176,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(RedoManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
 				return methodcall.call(RemakeManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == RenameManager.class){
-				return methodcall.call(RenameManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == RenameCommander.class){
+				return methodcall.call(RenameCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == SbvrFeature.class){
 				return methodcall.call(SbvrFeature.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SerializationManager.class){
@@ -186,8 +186,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(StatisticsManager.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){
 				return methodcall.call(SyntaxManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == TabUIManager.class){
-				return methodcall.call(TabUIManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == AppTabManager.class){
+				return methodcall.call(AppTabManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
 				return methodcall.call(TransferManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == UndoManager.class){

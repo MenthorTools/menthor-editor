@@ -32,8 +32,8 @@ import javax.swing.event.MenuListener;
 
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.generic.GenericMenuBar;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
 import net.menthor.editor.v2.util.SystemUtil;
 
 public class AppMenuBar extends GenericMenuBar {
@@ -322,7 +322,7 @@ public class AppMenuBar extends GenericMenuBar {
 	}
 	
 	public void initializeShowGrid(){
-		boolean isShownGrid = TabUIManager.get().getCurrentDiagramEditor().isShownGrid();
+		boolean isShownGrid = AppTabManager.get().getCurrentDiagramEditor().isShownGrid();
 		getMenuItem(CommandType.SHOW_GRID).setSelected(isShownGrid);
 	}
 	

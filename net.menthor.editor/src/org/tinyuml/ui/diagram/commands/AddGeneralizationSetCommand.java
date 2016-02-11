@@ -44,7 +44,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 /**
  * @author John Guerson
  */
-public class AddGeneralizationSetCommand extends BaseDiagramCommand {
+public class AddGeneralizationSetCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
 	@SuppressWarnings("unused")

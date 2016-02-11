@@ -40,7 +40,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ChangeNodeCommand extends BaseDiagramCommand {
+public class ChangeNodeCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = -3148409380703192555L;
 	private Node element;

@@ -42,7 +42,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
  *
  * @author Wei-ju Wu
  */
-public class EditConnectionPointsCommand extends BaseDiagramCommand {
+public class EditConnectionPointsCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = -6538389889543538053L;
 	private Connection connection;

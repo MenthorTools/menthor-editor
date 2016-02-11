@@ -16,11 +16,11 @@ import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
 
-public class MetaPropertyManager extends GenericUIManager {
+public class MetaPropertyManager extends AppGenericManager {
 	
 	// -------- Lazy Initialization
 	
@@ -100,7 +100,7 @@ public class MetaPropertyManager extends GenericUIManager {
 			 try{
 				ChangeCommander.get().changeMultiplicity(endpoint, multiplicity);
 			 }catch(Exception e){
-				 MessageUIManager.get().showError(e, "Multiplicity","Could not change the multiplicity");
+				 AppMessageManager.get().showError(e, "Multiplicity","Could not change the multiplicity");
 			 }
 		 }	
 	}

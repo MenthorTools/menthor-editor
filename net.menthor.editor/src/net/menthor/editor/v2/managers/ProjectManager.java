@@ -34,15 +34,15 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.commanders.AddCommander;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.OclEditor;
 import net.menthor.editor.v2.ui.editor.StartEditor;
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
-public class ProjectManager extends GenericUIManager {
+public class ProjectManager extends AppGenericManager {
 	
 	// -------- Lazy Initialization
 
@@ -72,7 +72,7 @@ public class ProjectManager extends GenericUIManager {
 		this.project = project;
 		this.project.setSaveModelNeeded(false);
 		browser().initialize(project);		
-		TabUIManager.get().initialize(project);
+		AppTabManager.get().initialize(project);
 	}
 	
 	public File getProjectFile(){ return projectFile; }
@@ -94,7 +94,7 @@ public class ProjectManager extends GenericUIManager {
 	}
 	
 	public boolean confirmClose(Component parentWindow){
-		 return MessageUIManager.get().option(parentWindow,
+		 return AppMessageManager.get().option(parentWindow,
 			"Close Project",
 			"Do you really want to close the current project?",
 			new String[]{"Save and Close", "Close", "Cancel"}
@@ -146,11 +146,11 @@ public class ProjectManager extends GenericUIManager {
 		}		
 		project=null;
 		infoPane().empty();		
-		TabUIManager.get().backToInitialState();
+		AppTabManager.get().backToInitialState();
 	}
 	
 	public void openRecentProject(){
-		StartEditor startPanel = (StartEditor) TabUIManager.get().getCurrentEditor();
+		StartEditor startPanel = (StartEditor) AppTabManager.get().getCurrentEditor();
 		if(startPanel != null){
 			openProjectFromFile(startPanel.getSelectedRecentFile());
 		}
@@ -172,7 +172,7 @@ public class ProjectManager extends GenericUIManager {
 			serializeProject(file);			
 			frame().initializeFrame(file);														
 		} catch (Exception ex) {
-			MessageUIManager.get().showError(ex, "New Project", "Could not create new project");
+			AppMessageManager.get().showError(ex, "New Project", "Could not create new project");
 		}		
 		CursorManager.get().defaultCursor();
 	}	
@@ -206,7 +206,7 @@ public class ProjectManager extends GenericUIManager {
 			deserializeProject(projectFile);
 			frame().initializeFrame(file);			
 		} catch (Exception ex) {
-			MessageUIManager.get().showError(ex, "Open Project", "Could not open existing project");
+			AppMessageManager.get().showError(ex, "Open Project", "Could not open existing project");
 		}
 		CursorManager.get().defaultCursor();
 	}
@@ -233,7 +233,7 @@ public class ProjectManager extends GenericUIManager {
 			deserializeProject(projectFile);	
 			frame().initializeFrame(file);
 		} catch (Exception ex) {
-			MessageUIManager.get().showError(ex, "Open Project", "Could not open existing project from a file path");
+			AppMessageManager.get().showError(ex, "Open Project", "Could not open existing project from a file path");
 		}
 		CursorManager.get().defaultCursor();		
 	}
@@ -247,7 +247,7 @@ public class ProjectManager extends GenericUIManager {
 			lastSavePath = file.getAbsolutePath();
 			frame().initializeFrame(projectFile, false);			
 		}catch (Exception ex) {
-			MessageUIManager.get().showError(ex, "Save Project As", "Could not save project");
+			AppMessageManager.get().showError(ex, "Save Project As", "Could not save project");
 		}		
 		CursorManager.get().defaultCursor();
 	}
@@ -266,7 +266,7 @@ public class ProjectManager extends GenericUIManager {
 			serializeProject(projectFile);
 			frame().initializeFrame(projectFile);			
 		} catch (Exception ex) {
-			MessageUIManager.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
+			AppMessageManager.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
 		}		
 		CursorManager.get().defaultCursor();
 	}
@@ -277,11 +277,11 @@ public class ProjectManager extends GenericUIManager {
 		try {
 			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
 			if (file.exists()) file.delete();
-			for(OclEditor ce: TabUIManager.get().getOclEditors()){				
+			for(OclEditor ce: AppTabManager.get().getOclEditors()){				
 				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
 			}
 			project.clearOpenedDiagrams();
-			for(OntoumlEditor editor: TabUIManager.get().getDiagramEditors()){
+			for(OntoumlEditor editor: AppTabManager.get().getDiagramEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
 			result = SerializationManager.get().serializeMenthorFile(file, project, project.getOclDocList());
@@ -291,7 +291,7 @@ public class ProjectManager extends GenericUIManager {
 			frame().initializeFrame(file, false);			
 			Settings.addRecentProject(file.getCanonicalPath());
 		} catch (Exception ex) {
-			MessageUIManager.get().showError(ex, "Write Project", "Could not serialize current project to a file");
+			AppMessageManager.get().showError(ex, "Write Project", "Could not serialize current project to a file");
 		}				
 		return result;
 	}

@@ -28,9 +28,9 @@ import javax.swing.JButton;
 
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.generic.GenericToolBar;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class DiagramToolBar extends GenericToolBar {
 
@@ -88,7 +88,7 @@ public class DiagramToolBar extends GenericToolBar {
 			Object source = e.getSource();
 			
 			if(source instanceof ToolBarButton && ((ToolBarButton) source).useSelectionAsContext)
-				l.handleCommand(e.getActionCommand(),new Object[]{TabUIManager.get().getCurrentDiagramEditor().getSelectedClassElements()});
+				l.handleCommand(e.getActionCommand(),new Object[]{AppTabManager.get().getCurrentDiagramEditor().getSelectedClassElements()});
 			else 
 				l.handleCommand(e.getActionCommand());	
 		}

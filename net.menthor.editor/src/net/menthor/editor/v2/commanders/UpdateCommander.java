@@ -44,8 +44,8 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.ui.manager.BrowserUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 
 public class UpdateCommander {
 
@@ -65,7 +65,7 @@ public class UpdateCommander {
 	
 	/** Causes redraw of the corresponding diagram element */
 	public void notifyChange(RefOntoUML.Element element){
-		for(OntoumlEditor diagramEditor: TabUIManager.get().getDiagramEditors(element)){
+		for(OntoumlEditor diagramEditor: AppTabManager.get().getDiagramEditors(element)){
 			notifyChange(element,diagramEditor);
 		}
 	}
@@ -135,7 +135,7 @@ public class UpdateCommander {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		OntoumlEditor ed = TabUIManager.get().getCurrentDiagramEditor();
+		OntoumlEditor ed = AppTabManager.get().getCurrentDiagramEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
@@ -154,11 +154,11 @@ public class UpdateCommander {
 		//relationships and attributes
 		for(Object obj: fix.getAdded()) { 
 			if (obj instanceof RefOntoUML.Relationship) {
-				UpdateCommander.get().updateFromAddition((RefOntoUML.Element)obj);
+				updateFromAddition((RefOntoUML.Element)obj);
 				MoveCommander.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
 			}
 			if(obj instanceof RefOntoUML.Property){		
-				UpdateCommander.get().updateFromAddition((RefOntoUML.Element)obj);
+				updateFromAddition((RefOntoUML.Element)obj);
 			}
 		}	
 
@@ -180,7 +180,7 @@ public class UpdateCommander {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				BrowserUIManager.get().add(addedElement);				
+				AppBrowserManager.get().add(addedElement);				
 			}
 		});		
 	}
@@ -227,12 +227,12 @@ public class UpdateCommander {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				BrowserUIManager.get().remove(deletedElement);
+				AppBrowserManager.get().remove(deletedElement);
 			}
 		});
 	}
 	
 	public void updateProjectTree(){
-		BrowserUIManager.get().updateUI();
+		AppBrowserManager.get().updateUI();
 	}
 }

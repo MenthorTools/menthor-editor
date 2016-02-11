@@ -117,6 +117,7 @@ import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppPalette;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -125,7 +126,6 @@ import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
 import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.util.DrawUtil;
 import net.menthor.editor.v2.util.Util;
@@ -794,14 +794,14 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** Undoes the last operation. */
 	public void undo() { 
 		if (canUndo()) undoManager.undo(); else{
-			MessageUIManager.get().showInfo(this, "Cannot Undo", "No other action to be undone.\n\n");
+			AppMessageManager.get().showInfo(this, "Cannot Undo", "No other action to be undone.\n\n");
 		}
 	}
 
 	/** Redoes the last operation. */
 	public void redo() {
 		if (canRedo()) undoManager.redo(); else {
-			MessageUIManager.get().showInfo(this,"Cannot Redo", "No other action to be redone.\n\n");
+			AppMessageManager.get().showInfo(this,"Cannot Redo", "No other action to be redone.\n\n");
 		}
 	}
 
@@ -1616,7 +1616,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
 						MoveCommander.get().move(rel, -1, -1, this, false);					
 				}catch(Exception e){					
-					MessageUIManager.get().showError(e, "Related Elements", "Could not add all related elements.");
+					AppMessageManager.get().showError(e, "Related Elements", "Could not add all related elements.");
 				}
 			}			
 			HashSet<Type> typesInDiagram = new HashSet<Type>();

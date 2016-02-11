@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.element.WarningElement;
 
-public class WarningManager extends GenericUIManager {
+public class WarningManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 
@@ -42,7 +42,7 @@ public class WarningManager extends GenericUIManager {
 		Collections.sort(result,new ProblemComparator());		
 		int count=0;
 		for(ProblemElement pe: result) { count++; pe.setIdentifier(count); }
-		TabUIManager.get().addWarningsEditor(getTimingMessage(), result, listener());
+		AppTabManager.get().addWarningsEditor(getTimingMessage(), result, listener());
 		return result;
 	}
 	

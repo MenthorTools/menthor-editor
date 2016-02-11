@@ -46,7 +46,7 @@ import org.tinyuml.umldraw.StructureDiagram;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class MoveElementCommand extends BaseDiagramCommand {
+public class MoveElementCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = 2523534899493234371L;
 	private MoveOperation[] moveOperations;

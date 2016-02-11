@@ -4,10 +4,10 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.antipattern.AntiPatternSearchDialog;
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 
-public class AntiPatternManager extends GenericUIManager {
+public class AntiPatternManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 
@@ -36,13 +36,13 @@ public class AntiPatternManager extends GenericUIManager {
 		if(fix.getAddedRules().size()>0){
 			OclDocument oclDoc = ProjectManager.get().getProject().getOclDocList().get(0);
 			
-			if(TabUIManager.get().isEditorOpen(oclDoc))
-				TabUIManager.get().selectEditor(oclDoc);
+			if(AppTabManager.get().isEditorOpen(oclDoc))
+				AppTabManager.get().selectEditor(oclDoc);
 			//TODO: open tab
 //			else 
 //				TabManager.get().addOclEditor(oclDoc);
 			
-			TabUIManager.get().getCurrentOclEditor().reloadText();
+			AppTabManager.get().getCurrentOclEditor().reloadText();
 		}
 	}
 	

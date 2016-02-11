@@ -4,9 +4,8 @@ package net.menthor.editor.v2.commanders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand;
-import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand.Visibility;
+import org.tinyuml.ui.diagram.commands.AssociationVisibilityCommand.AssociationVisibility;
 import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand;
 import org.tinyuml.ui.diagram.commands.ClassVisibilityCommand.ClassVisibility;
 import org.tinyuml.ui.diagram.commands.GeneralizationVisibilityCommand;
@@ -15,10 +14,7 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
-
-public class VisibilityCommander extends GenericUIManager {
+public class VisibilityCommander extends GenericCommander {
 	
 	// -------- Lazy Initialization
 	
@@ -60,32 +56,32 @@ public class VisibilityCommander extends GenericUIManager {
 	
 	public void showEndPointNames(Object input){
 		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
-		createAndRunVisibilityCommand(list, Visibility.ENDPOINTS, !hasVisibleEndName(list));
+		createAndRunVisibilityCommand(list, AssociationVisibility.ENDPOINTS, !hasVisibleEndName(list));
 	}
 	
 	public void showSubsetting(Object input){
 		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
-		createAndRunVisibilityCommand(list, Visibility.SUBSETS, !hasVisibleSubsetting(list));
+		createAndRunVisibilityCommand(list, AssociationVisibility.SUBSETS, !hasVisibleSubsetting(list));
 	}
 	
 	public void showRedefinitions(Object input){
 		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
-		createAndRunVisibilityCommand(list, Visibility.REDEFINES,!hasVisibleRedefinition(list));
+		createAndRunVisibilityCommand(list, AssociationVisibility.REDEFINES,!hasVisibleRedefinition(list));
 	}
 
 	public void showMultiplicities(Object input){
 		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
-		createAndRunVisibilityCommand(list, Visibility.MULTIPLICITY, !hasVisibleMultiplicity(list));
+		createAndRunVisibilityCommand(list, AssociationVisibility.MULTIPLICITY, !hasVisibleMultiplicity(list));
 	}
 	
 	public void showStereotype(Object input){
 		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);
-		createAndRunVisibilityCommand(list, Visibility.STEREOTYPE, !hasVisibleStereotype(list));				
+		createAndRunVisibilityCommand(list, AssociationVisibility.STEREOTYPE, !hasVisibleStereotype(list));				
 	}
 	
 	public void showName(Object input){
 		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);
-		createAndRunVisibilityCommand(list, Visibility.NAME, !hasVisibleName(list));
+		createAndRunVisibilityCommand(list, AssociationVisibility.NAME, !hasVisibleName(list));
 	}
 	
 	public void showGeneralizationSet(Object input){
@@ -104,12 +100,12 @@ public class VisibilityCommander extends GenericUIManager {
 			newValue = !hasVisibleName(associations) && !hasVisibleStereotype(associations) && !hasVisibleMultiplicity(associations) && 
 					!hasVisibleRedefinition(associations) && !hasVisibleSubsetting(associations) && !hasVisibleEndName(associations);
 			
-			createAndRunVisibilityCommand(associations, Visibility.NAME, newValue);
-			createAndRunVisibilityCommand(associations, Visibility.STEREOTYPE, newValue);
-			createAndRunVisibilityCommand(associations, Visibility.MULTIPLICITY, newValue);
-			createAndRunVisibilityCommand(associations, Visibility.REDEFINES,newValue);
-			createAndRunVisibilityCommand(associations, Visibility.SUBSETS, newValue);
-			createAndRunVisibilityCommand(associations, Visibility.ENDPOINTS, newValue);
+			createAndRunVisibilityCommand(associations, AssociationVisibility.NAME, newValue);
+			createAndRunVisibilityCommand(associations, AssociationVisibility.STEREOTYPE, newValue);
+			createAndRunVisibilityCommand(associations, AssociationVisibility.MULTIPLICITY, newValue);
+			createAndRunVisibilityCommand(associations, AssociationVisibility.REDEFINES,newValue);
+			createAndRunVisibilityCommand(associations, AssociationVisibility.SUBSETS, newValue);
+			createAndRunVisibilityCommand(associations, AssociationVisibility.ENDPOINTS, newValue);
 		}
 		
 		if(classes.size()>0){
@@ -210,21 +206,15 @@ public class VisibilityCommander extends GenericUIManager {
 		return false;
 	}
 	
-	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, Visibility visibilityItem, boolean value){
-		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
-		AssociationVisibilityCommand command = new AssociationVisibilityCommand(editor, elementList, visibilityItem, value);
-		editor.execute(command);
+	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, AssociationVisibility visibilityItem, boolean value){
+		execute(new AssociationVisibilityCommand(currentEditor(), elementList, visibilityItem, value));
 	}
 	
 	private void createAndRunVisibilityCommand(List<ClassElement> elementList, ClassVisibility visibilityItem, boolean value){
-		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
-		ClassVisibilityCommand command = new ClassVisibilityCommand(editor, elementList, visibilityItem, value);
-		editor.execute(command);
+		execute(new ClassVisibilityCommand(currentEditor(), elementList, visibilityItem, value));
 	}
 	
 	private void createAndRunVisibilityCommand(List<GeneralizationElement> elementList, GeneralizationVisibility visibilityItem, boolean value){
-		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
-		GeneralizationVisibilityCommand command = new GeneralizationVisibilityCommand(editor, elementList, visibilityItem, value);
-		editor.execute(command);
+		execute(new GeneralizationVisibilityCommand(currentEditor(), elementList, visibilityItem, value));
 	}
 }

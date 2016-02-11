@@ -1,16 +1,16 @@
-package net.menthor.editor.v2.ui.manager;
+package net.menthor.editor.v2.ui.app.manager;
 
-public class SplitPaneUIManager extends GenericUIManager {
+public class AppSplitPaneManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 	
 	private static class SplitLoader {
-        private static final SplitPaneUIManager INSTANCE = new SplitPaneUIManager();
+        private static final AppSplitPaneManager INSTANCE = new AppSplitPaneManager();
     }	
-	public static SplitPaneUIManager get() { 
+	public static AppSplitPaneManager get() { 
 		return SplitLoader.INSTANCE; 
 	}	
-    private SplitPaneUIManager() {
+    private AppSplitPaneManager() {
         if (SplitLoader.INSTANCE != null) throw new IllegalStateException("SplitManager already instantiated");
     }		
     

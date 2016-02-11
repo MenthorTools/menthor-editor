@@ -54,7 +54,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class AddConnectionCommand extends BaseDiagramCommand {
+public class AddConnectionCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
 	private CompositeElement parent;

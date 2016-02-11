@@ -40,14 +40,14 @@ import RefOntoUML.Property;
 
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationSetEditDialog;
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
 
-public class EditManager extends GenericUIManager {
+public class EditManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 
@@ -77,9 +77,9 @@ public class EditManager extends GenericUIManager {
 			Generalization generalization = ((GeneralizationElement)element).getGeneralization();
 			callGeneralizationDialog(generalization, true);			
 		} else if (element instanceof StructureDiagram){    		
-			TabUIManager.get().addEditor(element);
+			AppTabManager.get().addEditor(element);
     	} else if (element instanceof OclDocument){
-    		TabUIManager.get().addEditor(element);
+    		AppTabManager.get().addEditor(element);
     	} else if(element instanceof RefOntoUML.Element){
     		RefOntoUML.Element e = (RefOntoUML.Element)element;
     		openDialog(e);
@@ -96,7 +96,7 @@ public class EditManager extends GenericUIManager {
 	
 	/** Edit generalization */
 	public GeneralizationEditDialog callGeneralizationDialog(Generalization element, boolean modal){
-		OntoumlEditor diagEditor = TabUIManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null)diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element,diagram);
@@ -110,7 +110,7 @@ public class EditManager extends GenericUIManager {
 	public ClassEditDialog callConstraintxDialog(Constraintx element, boolean modal){
 		RefOntoUML.Element context = ((RefOntoUML.Constraintx)element).getConstrainedElement().get(0);
 		if (context instanceof RefOntoUML.Class){
-			OntoumlEditor diagEditor = TabUIManager.get().getCurrentDiagramEditor();
+			OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
 			StructureDiagram diagram = null;
 			if(diagEditor != null) diagram = diagEditor.getDiagram();
 			DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(context,diagram);
@@ -125,7 +125,7 @@ public class EditManager extends GenericUIManager {
 	
 	/** Edit comment */
 	public JDialog callCommentDialog(Comment element, boolean modal){
-		OntoumlEditor diagEditor = TabUIManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		if (element.eContainer() instanceof RefOntoUML.Class){
@@ -149,7 +149,7 @@ public class EditManager extends GenericUIManager {
 	
 	/** Edit association */
 	public AssociationEditDialog callAssociationDialog(Association element, boolean modal){
-		OntoumlEditor diagEditor = TabUIManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);
@@ -162,7 +162,7 @@ public class EditManager extends GenericUIManager {
 	/** Edit attribute or endpoint */
 	public JDialog callPropertyDialog(Property element, boolean modal){
 		Property p = (Property)element;
-		OntoumlEditor diagEditor = TabUIManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		if (p.getAssociation()!=null){
@@ -185,7 +185,7 @@ public class EditManager extends GenericUIManager {
 	
 	/** Edit class */
 	public ClassEditDialog callClassDialog(Classifier element, boolean modal){
-		OntoumlEditor diagEditor = TabUIManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
 		StructureDiagram diagram = null;
 		if(diagEditor != null) diagram = diagEditor.getDiagram();
 		DiagramElement diagramElement = OccurenceManager.get().getDiagramElement(element,diagram);

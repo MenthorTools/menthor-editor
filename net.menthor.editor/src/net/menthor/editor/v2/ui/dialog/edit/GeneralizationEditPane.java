@@ -52,9 +52,9 @@ import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
 
 /**
  * @author John Guerson
@@ -127,7 +127,7 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void newGenSet(){
-		boolean response = MessageUIManager.get().confirm(GeneralizationEditPane.this, "Add", "Are you sure you want to create a new generalization set?");
+		boolean response = AppMessageManager.get().confirm(GeneralizationEditPane.this, "Add", "Are you sure you want to create a new generalization set?");
 		if(response){
 			PackageableElement genSet = (PackageableElement)AddCommander.get().addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
 			genSet.setName("gs");
@@ -157,9 +157,9 @@ public class GeneralizationEditPane extends JPanel {
 			if (!(element.getGeneralizationSet().contains(gs))) genSetList.add(gs);
 		}				
 		if (genSetList.size()==0) {
-			MessageUIManager.get().showInfo(GeneralizationEditPane.this, "Generalization Set", "No generalization set left in the model.");
+			AppMessageManager.get().showInfo(GeneralizationEditPane.this, "Generalization Set", "No generalization set left in the model.");
 		}else{
-			RefOntoUML.GeneralizationSet genSet = (RefOntoUML.GeneralizationSet) MessageUIManager.get().input(
+			RefOntoUML.GeneralizationSet genSet = (RefOntoUML.GeneralizationSet) AppMessageManager.get().input(
 				GeneralizationEditPane.this,
 				"Generalization Set",
 		        "To which generalization set do you want to include "+element,		         

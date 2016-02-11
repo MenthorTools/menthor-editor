@@ -33,7 +33,7 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 
 public class DuplicateCommander {
 
@@ -112,7 +112,7 @@ public class DuplicateCommander {
 	public UmlNode duplicateNode(UmlNode classElement){		
 		UmlNode newClass = (UmlNode)classElement.clone();
 		OccurenceManager.get().add(newClass.getClassifier(),newClass);
-		OntoumlEditor editor = TabUIManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
+		OntoumlEditor editor = AppTabManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
 		double x = classElement.getAbsoluteX2()+15;
 		double y = classElement.getAbsoluteY2()+15;
 		AddNodeCommand cmd = new AddNodeCommand(editor,newClass, x, y);		

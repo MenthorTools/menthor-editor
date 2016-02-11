@@ -39,7 +39,7 @@ import net.menthor.editor.ui.UmlProject;
 /**
  * @author John Guerson
  */
-public class SetColorCommand extends BaseDiagramCommand {
+public class SetColorCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -24,13 +24,13 @@ package net.menthor.editor.v2.managers;
 import java.io.File;
 import java.io.IOException;
 
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.settings.ea.EASettingsDialog;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
-public class ImportManager extends GenericUIManager {
+public class ImportManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 
@@ -54,7 +54,7 @@ public class ImportManager extends GenericUIManager {
 	}
 	
 	public void importFromEARecent() throws IOException {		
-		lastImportEAPath = TabUIManager.get().getStartEditor().getSelectedRecentFile();
+		lastImportEAPath = AppTabManager.get().getStartEditor().getSelectedRecentFile();
 		new EASettingsDialog(frame(), true, listener(), lastImportEAPath);
 		Settings.addRecentProject(lastImportEAPath);				
 	}

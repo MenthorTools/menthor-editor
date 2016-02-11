@@ -41,6 +41,7 @@ import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.feature.OwlFeature;
@@ -56,7 +57,6 @@ import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
-import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -65,8 +65,8 @@ import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class CommandMap {
 	
@@ -188,7 +188,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardMode.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
-				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
+				new MethodCall(RenameCommander.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 
@@ -257,23 +257,23 @@ public class CommandMap {
 	
 	private void tabs() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS,
-				new MethodCall(TabUIManager.class.getMethod("closeThis", Component.class)));
+				new MethodCall(AppTabManager.class.getMethod("closeThis", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER,
-				new MethodCall(TabUIManager.class.getMethod("closeOthers", Component.class)));
+				new MethodCall(AppTabManager.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL,
-				new MethodCall(TabUIManager.class.getMethod("closeAll", Component.class)));
+				new MethodCall(AppTabManager.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_EDITOR,
-				new MethodCall(TabUIManager.class.getMethod("selectEditor", Object.class)));
+				new MethodCall(AppTabManager.class.getMethod("selectEditor", Object.class)));
 		cmdMap.put(CommandType.ADD_EDITOR,
-				new MethodCall(TabUIManager.class.getMethod("addEditor", Object.class)));		
+				new MethodCall(AppTabManager.class.getMethod("addEditor", Object.class)));		
 		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
-				new MethodCall(TabUIManager.class.getMethod("closeCurrentOclEditor")));
+				new MethodCall(AppTabManager.class.getMethod("closeCurrentOclEditor")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
-				new MethodCall(TabUIManager.class.getMethod("closeCurrentDiagramEditor")));		
+				new MethodCall(AppTabManager.class.getMethod("closeCurrentDiagramEditor")));		
 		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
-				new MethodCall(TabUIManager.class.getMethod("addFinderEditor")));		
+				new MethodCall(AppTabManager.class.getMethod("addFinderEditor")));		
 		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
-				new MethodCall(TabUIManager.class.getMethod("addStatisticsEditor")));
+				new MethodCall(AppTabManager.class.getMethod("addStatisticsEditor")));
 	}
 	
 	/** constructor */

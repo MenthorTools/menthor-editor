@@ -56,7 +56,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
  * 
  * @author Wei-ju Wu, John Guerson
  */
-public class DeleteElementCommand extends BaseDiagramCommand{
+public class DeleteElementCommand extends GenericDiagramCommand{
 
 	private static final long serialVersionUID = 2456036038567915529L;	
 	

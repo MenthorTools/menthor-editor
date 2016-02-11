@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.manager;
+package net.menthor.editor.v2.ui.app.manager;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -6,19 +6,20 @@ import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
+
 import net.menthor.editor.v2.managers.ProjectManager;
 
-public class BrowserUIManager extends GenericUIManager {
+public class AppBrowserManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 	
 	private static class BrowserLoader {
-        private static final BrowserUIManager INSTANCE = new BrowserUIManager();
+        private static final AppBrowserManager INSTANCE = new AppBrowserManager();
     }	
-	public static BrowserUIManager get() { 
+	public static AppBrowserManager get() { 
 		return BrowserLoader.INSTANCE; 
 	}	
-    private BrowserUIManager() {
+    private AppBrowserManager() {
         if (BrowserLoader.INSTANCE != null) throw new IllegalStateException("BrowserManager already instantiated");
     }		
     

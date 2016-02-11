@@ -1,11 +1,11 @@
 package net.menthor.editor.v2.managers;
 
 import net.menthor.editor.v2.MenthorEditor;
+import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 import net.menthor.editor.v2.ui.dialog.help.AboutDialog;
 import net.menthor.editor.v2.ui.dialog.help.LicensesDialog;
-import net.menthor.editor.v2.ui.manager.GenericUIManager;
 
-public class HelpManager extends GenericUIManager {
+public class HelpManager extends AppGenericManager {
 
 	// -------- Lazy Initialization
 

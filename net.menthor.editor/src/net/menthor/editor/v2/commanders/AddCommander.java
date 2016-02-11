@@ -27,10 +27,10 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.manager.BrowserUIManager;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
-import net.menthor.editor.v2.ui.manager.SplitPaneUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.util.Util;
 
 public class AddCommander {
@@ -50,7 +50,7 @@ public class AddCommander {
     // ----------------------------
 	
 	private boolean confirmGenSetAddition(){
-		return MessageUIManager.get().confirm("Add Generalization Set",
+		return AppMessageManager.get().confirm("Add Generalization Set",
 			"There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?"
 		);
 	}
@@ -173,7 +173,7 @@ public class AddCommander {
 	/** Add ocl document to a container */
 	public void addOclDocument(Object treeNode, String oclContent, boolean createTab){				
 		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
-			treeNode = BrowserUIManager.get().root();
+			treeNode = AppBrowserManager.get().root();
 		}
 		OclDocument oclDoc = new OclDocument();
 		Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
@@ -181,8 +181,8 @@ public class AddCommander {
 		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
 		oclDoc.setName("OclDocument"+ProjectManager.get().getProject().getOclDocList().size());		
 		ProjectManager.get().getProject().getOclDocList().add(oclDoc);		
-		BrowserUIManager.get().add((DefaultMutableTreeNode)treeNode, oclDoc);		
-		if(createTab) TabUIManager.get().addOclEditor(oclDoc);
+		AppBrowserManager.get().add((DefaultMutableTreeNode)treeNode, oclDoc);		
+		if(createTab) AppTabManager.get().addOclEditor(oclDoc);
 	}
 	
 	public void newDiagram(){
@@ -191,7 +191,7 @@ public class AddCommander {
 
 	public void addDiagram(Object treeNode){
 		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
-			treeNode = BrowserUIManager.get().root();
+			treeNode = AppBrowserManager.get().root();
 		}
 		StructureDiagram diagram = new StructureDiagram(ProjectManager.get().getProject());		
 		Package epackage = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
@@ -200,14 +200,14 @@ public class AddCommander {
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
-		TabUIManager.get().addDiagramEditor(diagram);				
-		if(treeNode!=null) BrowserUIManager.get().add((DefaultMutableTreeNode)treeNode,diagram);
+		AppTabManager.get().addDiagramEditor(diagram);				
+		if(treeNode!=null) AppBrowserManager.get().add((DefaultMutableTreeNode)treeNode,diagram);
 	}
 	
 	public void setDefaultDiagramSize(StructureDiagram diagram){
 		double waste = 0;
-		if(SplitPaneUIManager.get().isShowProjectBrowser()) waste+=240;
-		if(SplitPaneUIManager.get().isShowPalette()) waste+=240;
+		if(AppSplitPaneManager.get().isShowProjectBrowser()) waste+=240;
+		if(AppSplitPaneManager.get().isShowPalette()) waste+=240;
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 }

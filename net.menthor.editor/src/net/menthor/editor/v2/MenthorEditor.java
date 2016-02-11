@@ -2,8 +2,8 @@ package net.menthor.editor.v2;
 
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.manager.MessageUIManager;
-import net.menthor.editor.v2.ui.manager.TabUIManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.util.SplashScreen;
 import net.menthor.editor.v2.util.DirectoryUtil;
@@ -37,7 +37,7 @@ public final class MenthorEditor {
 			AppFrame.get();	
 			
 			//these must be called after AppFrame is constructed...
-			TabUIManager.get().addStartEditor(false);								
+			AppTabManager.get().addStartEditor(false);								
 			ProjectManager.get().openProjectFromArgs(args);		
 			
 			AppFrame.get().setLocationByPlatform(true);
@@ -45,7 +45,7 @@ public final class MenthorEditor {
 			AppFrame.get().toFront();
 			
 		}catch(Exception ex){
-			MessageUIManager.get().showError(ex, 
+			AppMessageManager.get().showError(ex, 
 			"Menthor Editor", "Could not start application due to an internal error.");
 		}	
 		splashScreen.close();
