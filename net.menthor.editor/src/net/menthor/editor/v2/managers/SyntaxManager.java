@@ -36,9 +36,9 @@ import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 import net.menthor.editor.v2.feature.AlloyFeature;
-import net.menthor.editor.v2.ui.manager.MessageManager;
-import net.menthor.editor.v2.ui.manager.SplitManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.MessageUIManager;
+import net.menthor.editor.v2.ui.manager.SplitPaneUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
@@ -68,16 +68,16 @@ public class SyntaxManager {
 			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
-			toclparser.parseTemporalOCL(TabManager.get().getConstraints());			
+			toclparser.parseTemporalOCL(TabUIManager.get().getConstraints());			
 			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
-			if(showSuccesfullyMessage) MessageManager.get().showSuccess("Constraints Parse",msg);			
+			if(showSuccesfullyMessage) MessageUIManager.get().showSuccess("Constraints Parse",msg);			
 		}catch(SemanticException e2){
-			MessageManager.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
+			MessageUIManager.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
 		}catch(ParserException e1){
-			MessageManager.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
+			MessageUIManager.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
 		}catch(Exception e4){
-			MessageManager.get().showError(e4, "OCL", "Could not parse OCl constraints");			
+			MessageUIManager.get().showError(e4, "OCL", "Could not parse OCl constraints");			
 		}				
 	}
 	
@@ -98,21 +98,21 @@ public class SyntaxManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
-		TabManager.get().addErrorsEditor(start, end, errors);		
-		SplitManager.get().forceShowInfo();
+		TabUIManager.get().addErrorsEditor(start, end, errors);		
+		SplitPaneUIManager.get().forceShowInfo();
 		if(errors.size()>0 && warnings.size()>0) {
-			TabManager.get().selectErrorEditor();
-			MessageManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
+			TabUIManager.get().selectErrorEditor();
+			MessageUIManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
 		}
 		else if(errors.size()>0 && warnings.size()==0) {
-			TabManager.get().selectErrorEditor();
-			MessageManager.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
+			TabUIManager.get().selectErrorEditor();
+			MessageUIManager.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
 		}
 		else if(errors.size()==0 && warnings.size()>0) {
-			TabManager.get().selectWarningEditor();
-			MessageManager.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
+			TabUIManager.get().selectWarningEditor();
+			MessageUIManager.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
 		} else {
-			MessageManager.get().showSuccess("Model Verified", "Model is syntactically correct");
+			MessageUIManager.get().showSuccess("Model Verified", "Model is syntactically correct");
 		}
 		CursorManager.get().defaultCursor();
 	}

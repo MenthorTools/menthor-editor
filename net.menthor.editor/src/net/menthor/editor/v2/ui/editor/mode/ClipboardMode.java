@@ -35,7 +35,7 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 import net.menthor.editor.v2.util.DrawUtil;
 
 public class ClipboardMode implements IEditorMode {
@@ -67,13 +67,13 @@ public class ClipboardMode implements IEditorMode {
 	}
 	
 	public void cloneSelectedAndPutToClipboard(){
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();
 		cloneAndPutToClipboard(de.getSelectedElements());
 	}
 	
 	public void cloneAndPutToClipboard(List<DiagramElement> diagramElementList){	
 		isActive=true;
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();		
 		for(DiagramElement s: diagramElementList){
@@ -88,7 +88,7 @@ public class ClipboardMode implements IEditorMode {
 	
 	public void cloneAndPutToClipboard(DiagramElement element){
 		isActive=true;
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 		if(element instanceof UmlNode) {
@@ -101,7 +101,7 @@ public class ClipboardMode implements IEditorMode {
 		
 	public void createAndPutToClipboard(ClassType elementType){
 		isActive=true;
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
@@ -112,7 +112,7 @@ public class ClipboardMode implements IEditorMode {
 	
 	public void createAndPutToClipboard(DataType elementType){
 		isActive=true;
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
@@ -123,7 +123,7 @@ public class ClipboardMode implements IEditorMode {
 	
 	public UmlNode putToClipboard(RefOntoUML.Type type, boolean drawClipBounds) {
 		isActive=true;
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();		
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();		
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(type, de.getDiagram());
@@ -136,7 +136,7 @@ public class ClipboardMode implements IEditorMode {
 	}
 	
 	public void pasteClipboard(){
-		OntoumlEditor de = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor de = TabUIManager.get().getCurrentDiagramEditor();
 		for(Object o: clipboard){
 			if(o instanceof UmlNode){				
 				UmlNode ce = (UmlNode)o;				
@@ -204,14 +204,14 @@ public class ClipboardMode implements IEditorMode {
 	public void mouseMoved(EditorMouseEvent event) {
 		 tmpPos.setLocation(event.getX(), event.getY());
 		 updateClipBounds();
-		 TabManager.get().getCurrentDiagramEditor().redraw();
+		 TabUIManager.get().getCurrentDiagramEditor().redraw();
 	}
 	
 	@Override
 	public void mousePressed(EditorMouseEvent event) {		
 		tmpPos.setLocation(event.getX(), event.getY());		
 		pasteClipboard();
-		TabManager.get().getCurrentDiagramEditor().redraw();
+		TabUIManager.get().getCurrentDiagramEditor().redraw();
 	}
 	  
 	@Override

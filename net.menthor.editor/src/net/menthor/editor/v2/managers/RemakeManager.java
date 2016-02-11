@@ -34,10 +34,10 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Type;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
-public class RemakeManager extends AppManager {
+public class RemakeManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 	
@@ -64,7 +64,7 @@ public class RemakeManager extends AppManager {
 	
 	/** Re-make element in all diagrams they appear */
 	public void remakeRelationship(RefOntoUML.Element element){
-		List<OntoumlEditor> editors = TabManager.get().getDiagramEditors(element);
+		List<OntoumlEditor> editors = TabUIManager.get().getDiagramEditors(element);
 		for(OntoumlEditor diagramEditor: editors ){
 			remakeRelationship(element,diagramEditor);
 		}
@@ -72,8 +72,8 @@ public class RemakeManager extends AppManager {
 			if (element instanceof RefOntoUML.Association){
 				Type source = ((Association)element).getMemberEnd().get(0).getType();
 				Type target = ((Association)element).getMemberEnd().get(1).getType();				
-				for(OntoumlEditor ed: TabManager.get().getDiagramEditors(source)){
-					if (TabManager.get().getDiagramEditors(target).contains(ed)){						
+				for(OntoumlEditor ed: TabUIManager.get().getDiagramEditors(source)){
+					if (TabUIManager.get().getDiagramEditors(target).contains(ed)){						
 						remakeRelationship(element, ed);
 					}
 				}				
@@ -81,8 +81,8 @@ public class RemakeManager extends AppManager {
 			if (element instanceof RefOntoUML.Generalization){
 				Type general = ((Generalization)element).getGeneral();
 				Type specific = ((Generalization)element).getSpecific();
-				for(OntoumlEditor ed: TabManager.get().getDiagramEditors(general)){
-					if (TabManager.get().getDiagramEditors(specific).contains(ed)){
+				for(OntoumlEditor ed: TabUIManager.get().getDiagramEditors(general)){
+					if (TabUIManager.get().getDiagramEditors(specific).contains(ed)){
 						remakeRelationship(element, ed);
 					}
 				}	

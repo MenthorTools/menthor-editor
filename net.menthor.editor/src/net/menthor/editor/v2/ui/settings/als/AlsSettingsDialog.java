@@ -40,58 +40,41 @@ import net.menthor.editor.v2.ui.generic.GenericSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-/**
- * @author John Guerson
- */
-
 public class AlsSettingsDialog extends GenericSettingsDialog {
 	
 	private static final long serialVersionUID = 7877781445149017806L;
-			
+	
+	private JPanel principalPane;
+	private JPanel axiomPane;
 	private AlsDestinationPane destPane;
 	private AlsApproachPane mapPane;
-	private JPanel axiomPane;
-	
 	private AlsModelSimulationPanel modelSimulationPanel;
-	@SuppressWarnings("unused")
+	private AlsConstraintSimulationPanel constraintSimulationPanel;
+	
+	private TOCL2AlloyOption oclOptions;	
 	private OntoUML2AlloyOptions refOptions;
 	
-	private AlsConstraintSimulationPanel constraintSimulationPanel;
-	private TOCL2AlloyOption oclOptions;	
-	private JPanel principalPane;
-	
 	/** @wbp.parser.constructor */
-	public AlsSettingsDialog(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal) 
-	{
-		super(frame,listener, refparser, diagrams);
-				
+	public AlsSettingsDialog(JFrame frame, ICommandListener listener, OntoUMLParser refparser, List<OntoumlDiagram> diagrams, boolean modal){
+		super(frame,listener, refparser, diagrams);				
 		principalPane = new JPanel();
-		principalPane.setLayout(new BorderLayout(10,10));
-		
+		principalPane.setLayout(new BorderLayout(10,10));		
 		destPane = new AlsDestinationPane();		
-		principalPane.add(destPane, BorderLayout.NORTH);
-		
+		principalPane.add(destPane, BorderLayout.NORTH);		
 		mapPane = new AlsApproachPane();
-		principalPane.add(mapPane,BorderLayout.CENTER);
-		
+		principalPane.add(mapPane,BorderLayout.CENTER);		
 		modelSimulationPanel = new AlsModelSimulationPanel();		
-		constraintSimulationPanel = new AlsConstraintSimulationPanel();
-		
+		constraintSimulationPanel = new AlsConstraintSimulationPanel();		
 		axiomPane = new JPanel();
 		axiomPane.setLayout(new BorderLayout(5, 5));		
-		axiomPane.add(modelSimulationPanel, BorderLayout.NORTH);	
-		
+		axiomPane.add(modelSimulationPanel, BorderLayout.NORTH);		
 		addNonClosable("Approach", principalPane);
 		addNonClosable("Filter", getFilter());
-		addNonClosable("Axioms", axiomPane);
-		
-		tabbedPane.setSelectedComponent(principalPane);
-		
+		addNonClosable("Axioms", axiomPane);		
+		tabbedPane.setSelectedComponent(principalPane);		
 		setTitle("Alloy Settings");
-		getProgressPane().getStartButton().addActionListener(new ActionListener() 
-		{
-       		public void actionPerformed(ActionEvent event) 
-       		{
+		getProgressPane().getStartButton().addActionListener(new ActionListener(){
+       		public void actionPerformed(ActionEvent event){
        			OkActionPerformed(event);
        		}
        	});

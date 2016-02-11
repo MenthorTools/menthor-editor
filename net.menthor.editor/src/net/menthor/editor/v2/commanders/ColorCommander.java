@@ -13,10 +13,10 @@ import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
-public class ColorCommander extends AppManager {
+public class ColorCommander extends GenericUIManager {
 	
 	private Color lastSelectedColor=Color.LIGHT_GRAY;
 	private Color copiedColor=Color.WHITE;
@@ -75,7 +75,7 @@ public class ColorCommander extends AppManager {
 	
 
 	private void createAndRunCommand(List<DiagramElement> elementList, Color color){
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
 		SetColorCommand command = new SetColorCommand(editor, elementList, color);
 		editor.execute(command);
 	}

@@ -47,9 +47,9 @@ import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.manager.BrowserManager;
-import net.menthor.editor.v2.ui.manager.MessageManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.BrowserUIManager;
+import net.menthor.editor.v2.ui.manager.MessageUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class MoveCommander {
 	
@@ -68,16 +68,16 @@ public class MoveCommander {
     // ----------------------------
 		
 	public void moveDownSelectedOnTree(){
-		BrowserManager.get().moveDown();
+		BrowserUIManager.get().moveDown();
 	}
 	
 	public void moveUpSelectedOnTree(){
-		BrowserManager.get().moveUp();
+		BrowserUIManager.get().moveUp();
 	}
 	
 	public void moveSelectedOnTreeToDiagram(Point p){
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
-		DefaultMutableTreeNode node = BrowserManager.get().selected();
+		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
+		DefaultMutableTreeNode node = BrowserUIManager.get().selected();
 		Object obj = node.getUserObject();				
 		move((RefOntoUML.Element)obj, p.x, p.y, editor, true);	
 	}
@@ -86,7 +86,7 @@ public class MoveCommander {
 	public void move(DefaultMutableTreeNode treeNode){
 		Object modelElement = treeNode.getUserObject();
 		if(modelElement instanceof RefOntoUML.Class || modelElement instanceof Relationship || modelElement instanceof DataType)
-			move((RefOntoUML.Element)modelElement,-1, -1, TabManager.get().getCurrentDiagramEditor(),true);
+			move((RefOntoUML.Element)modelElement,-1, -1, TabUIManager.get().getCurrentDiagramEditor(),true);
 	}
 	
 	public void move(Object element, OntoumlEditor editor){
@@ -97,10 +97,10 @@ public class MoveCommander {
 	public void move(RefOntoUML.Element element, double x, double y, OntoumlEditor d, boolean showmessage){
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
-				MessageManager.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
+				MessageUIManager.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
 			}
 			else if (element instanceof Generalization) {
-				MessageManager.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
+				MessageUIManager.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if(de!=null) d.select(de);

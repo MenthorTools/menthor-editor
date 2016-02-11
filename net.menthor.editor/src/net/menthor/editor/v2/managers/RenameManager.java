@@ -37,12 +37,12 @@ import org.tinyuml.umldraw.StructureDiagram;
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.MessageManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
+import net.menthor.editor.v2.ui.manager.MessageUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 //Class to deal with renaning elements on the project browser.
-public class RenameManager extends AppManager {
+public class RenameManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 
@@ -59,7 +59,7 @@ public class RenameManager extends AppManager {
     // ----------------------------
 	
 	public String askForElementName(Component parentWindow, RefOntoUML.Element element){
-		return (String)MessageManager.get().input(parentWindow,
+		return (String)MessageUIManager.get().input(parentWindow,
 			"Please, enter a new name for the model element:",
 			"Rename Manager",			
 			null,
@@ -68,7 +68,7 @@ public class RenameManager extends AppManager {
 	}
 	
 	public String askForOCLDocName(Component parentWindow, OclDocument doc){
-		return (String)MessageManager.get().input(parentWindow,
+		return (String)MessageUIManager.get().input(parentWindow,
 			"Please, enter a new name for the OCL document:",
 			"Rename Manager",			
 			null,
@@ -77,7 +77,7 @@ public class RenameManager extends AppManager {
 	}
 	
 	public String askForDiagramName(Component parentWindow, StructureDiagram diagram){
-		return (String)MessageManager.get().input(parentWindow,			
+		return (String)MessageUIManager.get().input(parentWindow,			
 			"Rename Manager",
 			"Please, enter a new name for the diagram:",			
 			null,
@@ -91,7 +91,7 @@ public class RenameManager extends AppManager {
 			String value = askForElementName(frame(), element);    						
 			if(value!=null){
 				((NamedElement)element).setName(value);
-				List<OntoumlEditor> editors = TabManager.get().getDiagramEditors(element);
+				List<OntoumlEditor> editors = TabUIManager.get().getDiagramEditors(element);
 				List<DiagramElement> dElemList = OccurenceManager.get().getDiagramElements(element);
 				for(DiagramElement dElem: dElemList){
 					if (dElem instanceof ClassElement){
@@ -116,7 +116,7 @@ public class RenameManager extends AppManager {
 					@Override
 					public void run() {
 						oclDoc.setName(newtext);
-						int index = TabManager.get().getEditorIndex(oclDoc);					
+						int index = TabUIManager.get().getEditorIndex(oclDoc);					
 						if(index>=0) editorsPane().setTitleAt(index, newtext);			        
 						editorsPane().updateUI();
 						browser().getTree().updateUI();					        
@@ -138,7 +138,7 @@ public class RenameManager extends AppManager {
 					@Override
 					public void run() {
 						diagram.setName(newtext);
-						int index = TabManager.get().getEditorIndex(diagram);					
+						int index = TabUIManager.get().getEditorIndex(diagram);					
 						if(index>=0) editorsPane().setTitleAt(index, newtext);			        
 						editorsPane().updateUI();
 						browser().getTree().updateUI();				        

@@ -38,7 +38,7 @@ import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.ui.app.AppCmdListener;
 import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
@@ -93,18 +93,18 @@ public class OwlFeature {
 	
 	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt){
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = generateOwl(filteredParser, model, TabManager.get().getConstraints(), trOpt);
+		ResultType result = generateOwl(filteredParser, model, TabUIManager.get().getConstraints(), trOpt);
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
-				TabManager.get().showOutputInfo(result.toString(), true, false);
-				TabManager.get().addTextEditor((String)result.getData()[0]);
+				TabUIManager.get().showOutputInfo(result.toString(), true, false);
+				TabUIManager.get().addTextEditor((String)result.getData()[0]);
 			}else{
-				TabManager.get().showOutputInfo(result.toString(), true, true);
+				TabUIManager.get().showOutputInfo(result.toString(), true, true);
 			}			
 			return "SUCCESS. Project successfully transformed.";
 		}else{
-			TabManager.get().showOutputInfo(result.toString(), true, true);			
+			TabUIManager.get().showOutputInfo(result.toString(), true, true);			
 			return "FAILURE. Project could not be transformed.";
 		}
 	}

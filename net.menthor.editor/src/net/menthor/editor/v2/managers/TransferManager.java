@@ -57,9 +57,9 @@ import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
 
-public class TransferManager extends AppManager {
+public class TransferManager extends GenericUIManager {
 	
 	// -------- Lazy Initialization
 

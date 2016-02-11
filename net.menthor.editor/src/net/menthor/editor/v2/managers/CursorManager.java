@@ -26,9 +26,9 @@ import java.awt.Cursor;
 
 import javax.swing.RootPaneContainer;
 
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
 
-public class CursorManager extends AppManager {
+public class CursorManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 

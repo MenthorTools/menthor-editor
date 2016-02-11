@@ -23,11 +23,11 @@ package net.menthor.editor.v2.managers;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.MessageManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
+import net.menthor.editor.v2.ui.manager.MessageUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
-public class UndoManager extends AppManager {
+public class UndoManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 
@@ -44,9 +44,9 @@ public class UndoManager extends AppManager {
     // ----------------------------
 	
 	public void undo(){	
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
 		if(editor==null) return;		
 		if(editor.canUndo()) editor.undo();
-		else MessageManager.get().showError("Cannot Undo", "No other action to be undone.\n");
+		else MessageUIManager.get().showError("Cannot Undo", "No other action to be undone.\n");
 	}
 }

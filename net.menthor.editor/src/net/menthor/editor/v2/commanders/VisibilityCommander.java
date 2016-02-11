@@ -15,10 +15,10 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
-public class VisibilityCommander extends AppManager {
+public class VisibilityCommander extends GenericUIManager {
 	
 	// -------- Lazy Initialization
 	
@@ -211,19 +211,19 @@ public class VisibilityCommander extends AppManager {
 	}
 	
 	private void createAndRunVisibilityCommand(List<AssociationElement> elementList, Visibility visibilityItem, boolean value){
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
 		AssociationVisibilityCommand command = new AssociationVisibilityCommand(editor, elementList, visibilityItem, value);
 		editor.execute(command);
 	}
 	
 	private void createAndRunVisibilityCommand(List<ClassElement> elementList, ClassVisibility visibilityItem, boolean value){
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
 		ClassVisibilityCommand command = new ClassVisibilityCommand(editor, elementList, visibilityItem, value);
 		editor.execute(command);
 	}
 	
 	private void createAndRunVisibilityCommand(List<GeneralizationElement> elementList, GeneralizationVisibility visibilityItem, boolean value){
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabUIManager.get().getCurrentDiagramEditor();
 		GeneralizationVisibilityCommand command = new GeneralizationVisibilityCommand(editor, elementList, visibilityItem, value);
 		editor.execute(command);
 	}

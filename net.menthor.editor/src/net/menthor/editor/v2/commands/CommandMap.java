@@ -66,7 +66,7 @@ import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class CommandMap {
 	
@@ -257,23 +257,23 @@ public class CommandMap {
 	
 	private void tabs() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS,
-				new MethodCall(TabManager.class.getMethod("closeThis", Component.class)));
+				new MethodCall(TabUIManager.class.getMethod("closeThis", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER,
-				new MethodCall(TabManager.class.getMethod("closeOthers", Component.class)));
+				new MethodCall(TabUIManager.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL,
-				new MethodCall(TabManager.class.getMethod("closeAll", Component.class)));
+				new MethodCall(TabUIManager.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_EDITOR,
-				new MethodCall(TabManager.class.getMethod("selectEditor", Object.class)));
+				new MethodCall(TabUIManager.class.getMethod("selectEditor", Object.class)));
 		cmdMap.put(CommandType.ADD_EDITOR,
-				new MethodCall(TabManager.class.getMethod("addEditor", Object.class)));		
+				new MethodCall(TabUIManager.class.getMethod("addEditor", Object.class)));		
 		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
-				new MethodCall(TabManager.class.getMethod("closeCurrentOclEditor")));
+				new MethodCall(TabUIManager.class.getMethod("closeCurrentOclEditor")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
-				new MethodCall(TabManager.class.getMethod("closeCurrentDiagramEditor")));		
+				new MethodCall(TabUIManager.class.getMethod("closeCurrentDiagramEditor")));		
 		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
-				new MethodCall(TabManager.class.getMethod("addFinderEditor")));		
+				new MethodCall(TabUIManager.class.getMethod("addFinderEditor")));		
 		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
-				new MethodCall(TabManager.class.getMethod("addStatisticsEditor")));
+				new MethodCall(TabUIManager.class.getMethod("addStatisticsEditor")));
 	}
 	
 	/** constructor */

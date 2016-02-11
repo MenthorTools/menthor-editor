@@ -7,19 +7,18 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.AppManager;
 
-public class BrowserManager extends AppManager {
+public class BrowserUIManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 	
 	private static class BrowserLoader {
-        private static final BrowserManager INSTANCE = new BrowserManager();
+        private static final BrowserUIManager INSTANCE = new BrowserUIManager();
     }	
-	public static BrowserManager get() { 
+	public static BrowserUIManager get() { 
 		return BrowserLoader.INSTANCE; 
 	}	
-    private BrowserManager() {
+    private BrowserUIManager() {
         if (BrowserLoader.INSTANCE != null) throw new IllegalStateException("BrowserManager already instantiated");
     }		
     

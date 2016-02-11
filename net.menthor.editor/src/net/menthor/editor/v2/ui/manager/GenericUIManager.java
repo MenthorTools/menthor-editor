@@ -1,15 +1,16 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-/* 
- * A manager always manages menthor interface. 
- * To decide if a java class is a manager, see if it depends on some UI component of the application.
- * If so, that java class is supposed to extend AppManager.
- */
+import net.menthor.editor.v2.ui.app.AppBrowser;
+import net.menthor.editor.v2.ui.app.AppCmdListener;
+import net.menthor.editor.v2.ui.app.AppEditorsPane;
+import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.app.AppInfoPane;
+import net.menthor.editor.v2.ui.app.AppSplitPane;
 
-public abstract class AppManager {
+public abstract class GenericUIManager {
 	
 	protected AppFrame frame(){ return AppFrame.get(); }	
 	protected AppCmdListener listener(){ return AppCmdListener.get(); }	

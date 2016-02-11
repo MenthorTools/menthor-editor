@@ -49,7 +49,7 @@ import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.manager.BrowserManager;
+import net.menthor.editor.v2.ui.manager.BrowserUIManager;
 
 public class ChangeCommander {
 	
@@ -103,7 +103,7 @@ public class ChangeCommander {
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
 		UpdateCommander.get().notifyChange(property.getAssociation());
-		BrowserManager.get().updateUI();
+		BrowserUIManager.get().updateUI();
 	}
 	
 	/** Change multiplicity from integer values */
@@ -115,7 +115,7 @@ public class ChangeCommander {
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
 		UpdateCommander.get().notifyChange(property.getAssociation());
-		BrowserManager.get().updateUI();
+		BrowserUIManager.get().updateUI();
 	}
 	
 	/** Invert end points of an association. */
@@ -133,7 +133,7 @@ public class ChangeCommander {
 	   		association.getOwnedEnd().add(source);
 	   		association.getNavigableOwnedEnd().add(target);
 	   		association.getNavigableOwnedEnd().add(source);	   		
-	   		BrowserManager.get().changeTo(association, source, target);
+	   		BrowserUIManager.get().changeTo(association, source, target);
 	   		UpdateCommander.get().updateFromChange(association, true);
 		}
 		else if (connection instanceof GeneralizationElement){
@@ -142,7 +142,7 @@ public class ChangeCommander {
 			Classifier specific = generalization.getSpecific();			
 			generalization.setSpecific(general);
 			generalization.setGeneral(specific);			
-			BrowserManager.get().updateUI();
+			BrowserUIManager.get().updateUI();
 			UpdateCommander.get().updateFromChange(generalization, true);			
 		}		
 	}

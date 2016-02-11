@@ -45,8 +45,8 @@ import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
-import net.menthor.editor.v2.ui.manager.MessageManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.MessageUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class AppCmdListener implements ICommandListener {
 
@@ -105,7 +105,7 @@ public class AppCmdListener implements ICommandListener {
 		try{
 			//----------------
 			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
-				return methodcall.call(TabManager.get().getCurrentDiagramEditor());
+				return methodcall.call(TabUIManager.get().getCurrentDiagramEditor());
 			//----------------
 			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
 				return methodcall.call(AppFrame.get());				
@@ -156,8 +156,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(HelpManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ImportManager.class){
 				return methodcall.call(ImportManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == MessageManager.class){
-				return methodcall.call(MessageManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == MessageUIManager.class){
+				return methodcall.call(MessageUIManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MetaPropertyManager.class){
 				return methodcall.call(MetaPropertyManager.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
@@ -186,8 +186,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(StatisticsManager.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){
 				return methodcall.call(SyntaxManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == TabManager.class){
-				return methodcall.call(TabManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == TabUIManager.class){
+				return methodcall.call(TabUIManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
 				return methodcall.call(TransferManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == UndoManager.class){

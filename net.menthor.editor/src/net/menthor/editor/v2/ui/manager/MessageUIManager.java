@@ -25,20 +25,19 @@ import java.awt.Component;
 
 import javax.swing.JOptionPane;
 
-import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.util.Util;
 
-public class MessageManager extends AppManager {
+public class MessageUIManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 
 	private static class MessageLoader {
-        private static final MessageManager INSTANCE = new MessageManager();
+        private static final MessageUIManager INSTANCE = new MessageUIManager();
     }	
-	public static MessageManager get() { 
+	public static MessageUIManager get() { 
 		return MessageLoader.INSTANCE; 
 	}	
-    private MessageManager() {
+    private MessageUIManager() {
         if (MessageLoader.INSTANCE != null) throw new IllegalStateException("MessageManager already instantiated");
     }		
     

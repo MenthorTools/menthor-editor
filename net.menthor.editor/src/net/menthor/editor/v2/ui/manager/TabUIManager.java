@@ -45,7 +45,6 @@ import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.editor.v2.ui.editor.ErrorEditor;
@@ -61,17 +60,17 @@ import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.util.ClosableTab;
 
-public class TabManager extends AppManager {
+public class TabUIManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 
 	private static class TabLoader {
-        private static final TabManager INSTANCE = new TabManager();
+        private static final TabUIManager INSTANCE = new TabUIManager();
     }	
-	public static TabManager get() { 
+	public static TabUIManager get() { 
 		return TabLoader.INSTANCE; 
 	}	
-    private TabManager() {
+    private TabUIManager() {
         if (TabLoader.INSTANCE != null) throw new IllegalStateException("TabManager already instantiated");
     }		
     
@@ -80,11 +79,11 @@ public class TabManager extends AppManager {
 	/** add diagrams recorded as open in the project */
 	public void initialize(UmlProject project){		
 		if(project.isAllClosed() && project.getDiagrams().size()>0){				
-			TabManager.get().addDiagramEditor((StructureDiagram)project.getDiagrams().get(0));
+			TabUIManager.get().addDiagramEditor((StructureDiagram)project.getDiagrams().get(0));
 		}else{
 			for(OntoumlDiagram diagram: project.getDiagrams()) {
 				if(project.isOpened(diagram)){						
-					TabManager.get().addDiagramEditor((StructureDiagram)diagram);
+					TabUIManager.get().addDiagramEditor((StructureDiagram)diagram);
 				}
 			}
 		}		
@@ -93,7 +92,7 @@ public class TabManager extends AppManager {
 	/** clear the editor tabbed pane */
 	public void backToInitialState(){
 		editorsPane().removeAll();
-		TabManager.get().addStartEditor(false);
+		TabUIManager.get().addStartEditor(false);
 		editorsPane().repaint();
 		editorsPane().revalidate();
 		frame().resetFrame();		
@@ -191,7 +190,7 @@ public class TabManager extends AppManager {
 	public String getConstraints(){
 		String result = new String();
 		for(OclDocument oclmodel: ProjectManager.get().getProject().getOclDocList()){				
-			OclEditor ce = TabManager.get().getOclEditor(oclmodel);
+			OclEditor ce = TabUIManager.get().getOclEditor(oclmodel);
 			if(ce!=null) result+=ce.getText();
 			else result+=oclmodel.getContentAsString();
 		}
@@ -323,7 +322,7 @@ public class TabManager extends AppManager {
 		IEditor editor = getCurrentOclEditor();
 		if(editor!=null){
 			if(editor.isSaveNeeded()){
-				boolean response = MessageManager.get().confirm("Save", 
+				boolean response = MessageUIManager.get().confirm("Save", 
 				"Your rules document has been modified. Save changes?");
 				if(response) { 
 					ProjectManager.get().saveProject(); 
@@ -339,7 +338,7 @@ public class TabManager extends AppManager {
 		IEditor editor = getCurrentDiagramEditor();
 		if(editor!=null){
 			if(editor.isSaveNeeded()){
-				boolean response = MessageManager.get().confirm("Save", 
+				boolean response = MessageUIManager.get().confirm("Save", 
 				"Your diagram has been modified. Save changes?");
 				if(response) { 
 					ProjectManager.get().saveProject(); 
@@ -478,7 +477,7 @@ public class TabManager extends AppManager {
 	}
 	
 	public TextEditor addTextEditor(String content){
-		TextEditor textViz = (TextEditor) TabManager.get().getEditor(EditorType.TXT_EDITOR);
+		TextEditor textViz = (TextEditor) TabUIManager.get().getEditor(EditorType.TXT_EDITOR);
 		if(textViz == null){
 			textViz = new TextEditor();
 			addClosableTab(editorsPane(),"Text Editor", textViz);

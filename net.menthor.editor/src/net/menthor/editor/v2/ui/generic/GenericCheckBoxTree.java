@@ -37,6 +37,7 @@ import javax.swing.tree.TreePath;
 
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.TreeCheckingModel;
+
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.tree.SortTreeModel;

@@ -24,9 +24,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.manager.BrowserManager;
-import net.menthor.editor.v2.ui.manager.MessageManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.BrowserUIManager;
+import net.menthor.editor.v2.ui.manager.MessageUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class DeleteCommander {
 		
@@ -45,23 +45,23 @@ public class DeleteCommander {
     // ----------------------------
 	    
 	public boolean confirmElementDeletion(){
-		return MessageManager.get().confirm("Delete Element",
+		return MessageUIManager.get().confirm("Delete Element",
 			"WARNING - Are you sure you want to delete the selected items from the model \n"
 					+ "and from all the diagrams they might appear?");
 	}
 	
 	public boolean confirmDiagramDeletion(){
-		return MessageManager.get().confirm("Delete Diagram", 
+		return MessageUIManager.get().confirm("Delete Diagram", 
 			"WARNING - Are you sure you want to delete this diagram?\nThis action CANNOT be undone.");
 	}
 	
 	public boolean confirmOclDocDeletion(){
-		return MessageManager.get().confirm("Delete Ocl Document", 
+		return MessageUIManager.get().confirm("Delete Ocl Document", 
 			"WARNING - Are you sure you want to delete this document?\nThis action CANNOT be undone.");
 	}
 	
 	public GeneralizationSet confirmGenSetDeletion(List<GeneralizationSet> genSets){
-		return (GeneralizationSet) MessageManager.get().input(			
+		return (GeneralizationSet) MessageUIManager.get().input(			
 			"Delete Generalization Set",
 			"Which generalization set do you want to delete?",			 
 			genSets.toArray(), 
@@ -93,7 +93,7 @@ public class DeleteCommander {
 		else if (elem instanceof RefOntoUML.Element){				
 			deleteElement((RefOntoUML.Element)elem,true);    					    					
 		} else{ 
-			TabManager.get().getCurrentDiagramEditor().deleteSelection(elem);
+			TabUIManager.get().getCurrentDiagramEditor().deleteSelection(elem);
 		}
 	}
 	
@@ -103,8 +103,8 @@ public class DeleteCommander {
 		if (showwarning) response = confirmOclDocDeletion();		
 		if(response) {
 			ProjectManager.get().getProject().getOclDocList().remove(doc);
-			TabManager.get().removeEditor(doc);		
-			BrowserManager.get().remove();
+			TabUIManager.get().removeEditor(doc);		
+			BrowserUIManager.get().remove();
 		}
 	}
 	
@@ -114,8 +114,8 @@ public class DeleteCommander {
 		if(response){
 			eraseAllElements(diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
-			TabManager.get().removeEditor(diagram);
-			BrowserManager.get().remove();
+			TabUIManager.get().removeEditor(diagram);
+			BrowserUIManager.get().remove();
 		}	
 	}
 
@@ -151,7 +151,7 @@ public class DeleteCommander {
 		
 		elements.addAll(dependencies);
 		
-		List<OntoumlEditor> editors = TabManager.get().getDiagramEditors(elements.get(0));		
+		List<OntoumlEditor> editors = TabUIManager.get().getDiagramEditors(elements.get(0));		
 		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
 				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();
@@ -180,7 +180,7 @@ public class DeleteCommander {
 	
 	/** Delete all elements at the diagram */
 	public void eraseAllElements(StructureDiagram diagram){
-		OntoumlEditor ed = TabManager.get().getDiagramEditor(diagram);
+		OntoumlEditor ed = TabUIManager.get().getDiagramEditor(diagram);
 		for(DiagramElement delem: diagram.getChildren()) {
 			if(delem instanceof ClassElement) eraseElement(ed,((ClassElement)delem).getClassifier());
 			if(delem instanceof AssociationElement) eraseElement(ed,((AssociationElement)delem).getRelationship());

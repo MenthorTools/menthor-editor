@@ -29,7 +29,7 @@ import javax.swing.UIManager;
 
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.ProblemEditor;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class AppInfoPane extends JTabbedPane {
 
@@ -67,7 +67,7 @@ public class AppInfoPane extends JTabbedPane {
 		else consoleEditor.append(text);				
 		if(showOutput){
 			consoleEditor.setVisible(true);
-			TabManager.get().selectConsoleEditor();
+			TabUIManager.get().selectConsoleEditor();
 		}		
 	}
 	

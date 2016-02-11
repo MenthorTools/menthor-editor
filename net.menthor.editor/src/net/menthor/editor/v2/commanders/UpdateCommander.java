@@ -44,8 +44,8 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.ui.manager.BrowserManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
+import net.menthor.editor.v2.ui.manager.BrowserUIManager;
+import net.menthor.editor.v2.ui.manager.TabUIManager;
 
 public class UpdateCommander {
 
@@ -65,7 +65,7 @@ public class UpdateCommander {
 	
 	/** Causes redraw of the corresponding diagram element */
 	public void notifyChange(RefOntoUML.Element element){
-		for(OntoumlEditor diagramEditor: TabManager.get().getDiagramEditors(element)){
+		for(OntoumlEditor diagramEditor: TabUIManager.get().getDiagramEditors(element)){
 			notifyChange(element,diagramEditor);
 		}
 	}
@@ -135,7 +135,7 @@ public class UpdateCommander {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		OntoumlEditor ed = TabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor ed = TabUIManager.get().getCurrentDiagramEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
@@ -180,7 +180,7 @@ public class UpdateCommander {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				BrowserManager.get().add(addedElement);				
+				BrowserUIManager.get().add(addedElement);				
 			}
 		});		
 	}
@@ -227,12 +227,12 @@ public class UpdateCommander {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				BrowserManager.get().remove(deletedElement);
+				BrowserUIManager.get().remove(deletedElement);
 			}
 		});
 	}
 	
 	public void updateProjectTree(){
-		BrowserManager.get().updateUI();
+		BrowserUIManager.get().updateUI();
 	}
 }

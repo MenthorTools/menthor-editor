@@ -34,10 +34,10 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.FoundElement;
-import net.menthor.editor.v2.ui.app.AppManager;
+import net.menthor.editor.v2.ui.manager.GenericUIManager;
 import net.menthor.editor.v2.ui.util.DiagramListDialog;
 
-public class FindManager extends AppManager {
+public class FindManager extends GenericUIManager {
 
 	// -------- Lazy Initialization
 
