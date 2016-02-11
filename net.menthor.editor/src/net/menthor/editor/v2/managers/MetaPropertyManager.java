@@ -14,6 +14,7 @@ import RefOntoUML.Collective;
 import RefOntoUML.Meronymic;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.commanders.UpdateCommander;
+import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 
@@ -226,7 +227,7 @@ public class MetaPropertyManager extends AppManager {
 		SwingUtilities.invokeLater(new Runnable() {						
 			@Override
 			public void run() {
-				VisibilityManager.get().showSubsetting(association);
+				VisibilityCommander.get().showSubsetting(association);
 			}
 		});
 	}
@@ -256,7 +257,7 @@ public class MetaPropertyManager extends AppManager {
 		SwingUtilities.invokeLater(new Runnable() {						
 			@Override
 			public void run() {
-				VisibilityManager.get().showRedefinitions(association);
+				VisibilityCommander.get().showRedefinitions(association);
 			}
 		});
 	}

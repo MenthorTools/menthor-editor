@@ -39,6 +39,7 @@ import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.managers.AlloyManager;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ChangeManager;
@@ -57,7 +58,6 @@ import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SbvrManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.UndoManager;
-import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -307,27 +307,27 @@ public class CommandMap {
 	
 	private void visibilityManager() throws NoSuchMethodException, SecurityException {
 		cmdMap.put(CommandType.SHOW_END_POINT_NAMES,
-				new MethodCall(VisibilityManager.class.getMethod("showEndPointNames",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showEndPointNames",Object.class)));
 		cmdMap.put(CommandType.SHOW_MULTIPLICITIES,
-				new MethodCall(VisibilityManager.class.getMethod("showMultiplicities",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showMultiplicities",Object.class)));
 		cmdMap.put(CommandType.SHOW_NAME,
-				new MethodCall(VisibilityManager.class.getMethod("showName",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showName",Object.class)));
 		cmdMap.put(CommandType.SHOW_REDEFINITIONS,
-				new MethodCall(VisibilityManager.class.getMethod("showRedefinitions",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showRedefinitions",Object.class)));
 		cmdMap.put(CommandType.SHOW_SUBSETTING,
-				new MethodCall(VisibilityManager.class.getMethod("showSubsetting",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showSubsetting",Object.class)));
 		cmdMap.put(CommandType.SHOW_STEREOTYPE,
-				new MethodCall(VisibilityManager.class.getMethod("showStereotype",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showStereotype",Object.class)));
 		cmdMap.put(CommandType.SHOW_ALL,
-				new MethodCall(VisibilityManager.class.getMethod("showAll", Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showAll", Object.class)));
 		cmdMap.put(CommandType.SHOW_ATTRIBUTES,
-				new MethodCall(VisibilityManager.class.getMethod("showAttributes", Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showAttributes", Object.class)));
 		cmdMap.put(CommandType.SHOW_PARENTS,
-				new MethodCall(VisibilityManager.class.getMethod("showParents",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showParents",Object.class)));
 		cmdMap.put(CommandType.SHOW_NAMESPACE,
-				new MethodCall(VisibilityManager.class.getMethod("showNamespace",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showNamespace",Object.class)));
 		cmdMap.put(CommandType.SHOW_CLASS_STEREOTYPE,
-				new MethodCall(VisibilityManager.class.getMethod("showClassStereotype",Object.class)));
+				new MethodCall(VisibilityCommander.class.getMethod("showClassStereotype",Object.class)));
 	}
 
 	private void metaPropertyManager() throws NoSuchMethodException, SecurityException {

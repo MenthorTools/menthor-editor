@@ -1,5 +1,5 @@
 
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,17 +16,17 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.editor.v2.ui.app.AppManager;
 import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class VisibilityManager extends AppManager {
+public class VisibilityCommander extends AppManager {
 	
 	// -------- Lazy Initialization
 	
 	private static class ChangeLoader {
-        private static final VisibilityManager INSTANCE = new VisibilityManager();
+        private static final VisibilityCommander INSTANCE = new VisibilityCommander();
     }	
-	public static VisibilityManager get() { 
+	public static VisibilityCommander get() { 
 		return ChangeLoader.INSTANCE; 
 	}	
-    private VisibilityManager() {
+    private VisibilityCommander() {
         if (ChangeLoader.INSTANCE != null) throw new IllegalStateException("ChangeManager already instantiated");
     }		
     

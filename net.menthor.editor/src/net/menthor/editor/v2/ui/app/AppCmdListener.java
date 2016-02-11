@@ -8,6 +8,7 @@ import net.menthor.editor.v2.commanders.DeletionCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
+import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.commands.CommandMap;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
@@ -41,7 +42,6 @@ import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.UndoManager;
-import net.menthor.editor.v2.managers.VisibilityManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
@@ -157,8 +157,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(MessageManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MetaPropertyManager.class){
 				return methodcall.call(MetaPropertyManager.get());		
-			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityManager.class){
-				return methodcall.call(VisibilityManager.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
+				return methodcall.call(VisibilityCommander.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == MoveCommander.class){
 				return methodcall.call(MoveCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
