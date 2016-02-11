@@ -27,6 +27,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
@@ -127,6 +128,8 @@ public class AppMenuBar extends GenericMenuBar {
 		help.setEnabled(true);
 //		window.setVisible(true);
 		window.setEnabled(true);
+		
+		SwingUtilities.updateComponentTreeUI(AppMenuBar.get());
 	}
 	
 	private void createFileMenu(){
