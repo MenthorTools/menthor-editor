@@ -30,10 +30,10 @@ import net.menthor.editor.v2.managers.ProjectManager;
  * 
  * @author Antognoni Albuquerque
  */
-public abstract class BaseDiagramCommand extends AbstractUndoableEdit implements Command {
+public abstract class GenericDiagramCommand extends AbstractUndoableEdit implements Command {
 	
-	private static final long serialVersionUID = 733613330226013575L;
-	
+	private static final long serialVersionUID = 6382309607858531755L;
+
 	protected UmlProject project = ProjectManager.get().getProject();
 	protected DiagramNotification notification;
 	protected boolean redo = false;

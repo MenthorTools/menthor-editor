@@ -37,7 +37,7 @@ import org.tinyuml.umldraw.AssociationElement;
 /**
  * @author John Guerson
  */
-public class AssociationVisibilityCommand extends BaseDiagramCommand{
+public class AssociationVisibilityCommand extends GenericDiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
@@ -47,25 +47,25 @@ public class AssociationVisibilityCommand extends BaseDiagramCommand{
 	public ArrayList<AssociationElement> associationList = new ArrayList<AssociationElement>();
 	public ArrayList<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
 	
-	public enum Visibility { NAME, ENDPOINTS, STEREOTYPE, MULTIPLICITY, SUBSETS, REDEFINES }
-	public Visibility visibility;
+	public enum AssociationVisibility { NAME, ENDPOINTS, STEREOTYPE, MULTIPLICITY, SUBSETS, REDEFINES }
+	public AssociationVisibility visibility;
 	public boolean value;
 	
-	private AssociationVisibilityCommand(DiagramNotification editorNotification, Visibility visibility, boolean value){
+	private AssociationVisibilityCommand(DiagramNotification editorNotification, AssociationVisibility visibility, boolean value){
 		this.editor = (OntoumlEditor)editorNotification;
 		notification = editorNotification;
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
-	public AssociationVisibilityCommand(DiagramNotification editorNotification, AssociationElement element, Visibility visibility, boolean value){
+	public AssociationVisibilityCommand(DiagramNotification editorNotification, AssociationElement element, AssociationVisibility visibility, boolean value){
 		this(editorNotification,visibility,value);
 		this.associationList.add(element);
 		this.diagramElementList.add(element);
 		populateMap();
 	}
 	
-	public AssociationVisibilityCommand(DiagramNotification editorNotification, List<AssociationElement> selected, Visibility visibility, boolean value) 
+	public AssociationVisibilityCommand(DiagramNotification editorNotification, List<AssociationElement> selected, AssociationVisibility visibility, boolean value) 
 	{
 		this(editorNotification,visibility,value);
 		this.associationList.addAll(selected);

@@ -37,7 +37,7 @@ import org.tinyuml.umldraw.GeneralizationElement;
 /**
  * @author John Guerson
  */
-public class GeneralizationVisibilityCommand extends BaseDiagramCommand{
+public class GeneralizationVisibilityCommand extends GenericDiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 

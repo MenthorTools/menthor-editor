@@ -41,6 +41,7 @@ import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.feature.OwlFeature;
@@ -56,7 +57,6 @@ import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
-import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -188,7 +188,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardMode.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.RENAME,
-				new MethodCall(RenameManager.class.getMethod("rename", Object.class)));
+				new MethodCall(RenameCommander.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE, 

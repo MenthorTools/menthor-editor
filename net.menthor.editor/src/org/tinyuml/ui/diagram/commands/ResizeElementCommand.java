@@ -40,7 +40,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResizeElementCommand extends BaseDiagramCommand {
+public class ResizeElementCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = -3090945928366890788L;
 	private Node element;

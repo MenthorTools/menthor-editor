@@ -205,6 +205,17 @@ public class TabManager extends AppManager {
 		else return editorsPane().indexOfComponent((Component)editor);
 	}
 	
+	public int getEditorIndex(Object obj){
+		if(obj instanceof StructureDiagram){
+			return getEditorIndex((StructureDiagram)obj);
+		}
+		else if(obj instanceof OclDocument){
+			return getEditorIndex((OclDocument)obj);
+		}
+		
+		return -1;
+	}
+	
 	public int getEditorIndex(StructureDiagram diagram){		
 		for(Component c: editorsPane().getComponents()){
 			if(c instanceof OntoumlWrapper) {

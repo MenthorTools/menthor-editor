@@ -9,6 +9,7 @@ import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.commands.CommandMap;
@@ -36,7 +37,6 @@ import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.managers.RenameManager;
 import net.menthor.editor.v2.managers.SerializationManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
@@ -176,8 +176,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(RedoManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
 				return methodcall.call(RemakeManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == RenameManager.class){
-				return methodcall.call(RenameManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == RenameCommander.class){
+				return methodcall.call(RenameCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == SbvrFeature.class){
 				return methodcall.call(SbvrFeature.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SerializationManager.class){

@@ -46,7 +46,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class SetLabelTextCommand extends BaseDiagramCommand {
+public class SetLabelTextCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = 5701807952287882396L;
 	private Label label;

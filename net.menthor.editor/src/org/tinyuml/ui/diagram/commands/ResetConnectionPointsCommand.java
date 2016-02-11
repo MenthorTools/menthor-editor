@@ -38,7 +38,7 @@ import org.tinyuml.ui.diagram.commands.DiagramNotification.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResetConnectionPointsCommand extends BaseDiagramCommand {
+public class ResetConnectionPointsCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = -1321480473934728961L;
 	private Connection connection;

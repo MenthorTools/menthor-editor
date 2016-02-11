@@ -8,15 +8,12 @@ import java.util.List;
 import javax.swing.JColorChooser;
 
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.commands.SetColorCommand;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.AppManager;
-import net.menthor.editor.v2.ui.manager.TabManager;
 
-public class ColorCommander extends AppManager {
+public class ColorCommander extends GenericCommander {
 	
 	private Color lastSelectedColor=Color.LIGHT_GRAY;
 	private Color copiedColor=Color.WHITE;
@@ -75,9 +72,7 @@ public class ColorCommander extends AppManager {
 	
 
 	private void createAndRunCommand(List<DiagramElement> elementList, Color color){
-		OntoumlEditor editor = TabManager.get().getCurrentDiagramEditor();
-		SetColorCommand command = new SetColorCommand(editor, elementList, color);
-		editor.execute(command);
+		execute(new SetColorCommand(currentEditor(), elementList, color));
 	}
 	
 }

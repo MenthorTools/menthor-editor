@@ -43,7 +43,7 @@ import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 /**
  * @author John Guerson
  */
-public class DeleteGeneralizationSetCommand extends BaseDiagramCommand {
+public class DeleteGeneralizationSetCommand extends GenericDiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
 	private RefOntoUML.Element genSet;

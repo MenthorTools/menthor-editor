@@ -37,7 +37,7 @@ import org.tinyuml.umldraw.ClassElement;
 /**
  * @author John Guerson
  */
-public class ClassVisibilityCommand extends BaseDiagramCommand{
+public class ClassVisibilityCommand extends GenericDiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 

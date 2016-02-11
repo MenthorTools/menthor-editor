@@ -154,11 +154,11 @@ public class UpdateCommander {
 		//relationships and attributes
 		for(Object obj: fix.getAdded()) { 
 			if (obj instanceof RefOntoUML.Relationship) {
-				UpdateCommander.get().updateFromAddition((RefOntoUML.Element)obj);
+				updateFromAddition((RefOntoUML.Element)obj);
 				MoveCommander.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
 			}
 			if(obj instanceof RefOntoUML.Property){		
-				UpdateCommander.get().updateFromAddition((RefOntoUML.Element)obj);
+				updateFromAddition((RefOntoUML.Element)obj);
 			}
 		}	
 
