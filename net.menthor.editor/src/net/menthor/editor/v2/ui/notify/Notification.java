@@ -24,7 +24,7 @@ public class Notification implements INotification {
 	
 	private List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
 	private List<EditorStateListener> editorListeners = new ArrayList<EditorStateListener>();
-	private UndoManager undoManager = new UndoManager(); // The command processor to hold this diagram's operations.
+	private UndoManager undoManager = new UndoManager(); 
 	
 	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }
 	public UndoManager getUndoManager(){ return undoManager; }
@@ -33,11 +33,15 @@ public class Notification implements INotification {
 	public List<EditorStateListener> getEditorStateListeners(){ return editorListeners; }
 	
 	public Notification(OntoumlEditor editor){
-		diagramEditor = editor;
+		this();
+		diagramEditor = editor;		
+	}
+	
+	public Notification(){
 		editListeners.add(undoManager);	
 	}
 	
-	public String notifyChange(GenericCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType notificationType){
+	public String notifyChange(GenericCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType actionType){
 		if(elements.size()==0) return null;
 		StructureDiagram diagram = (StructureDiagram) elements.get(0).getDiagram();
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);
@@ -47,14 +51,15 @@ public class Notification implements INotification {
 			l.stateChanged(diagramEditor, changeType);
 		}		
 		if(changeType == NotificationType.ELEMENTS_REMOVED || 
-		(changeType == NotificationType.ELEMENTS_ADDED && notificationType == ActionType.UNDO)){
+		(changeType == NotificationType.ELEMENTS_ADDED && actionType == ActionType.UNDO)){
 			diagramEditor.getSelectionHandler().elementRemoved(elements);
 		}
 		
-		UndoableEditEvent event = new UndoableEditEvent(diagramEditor, command);
-		for (UndoableEditListener l : getUndoableEditListeners())  l.undoableEditHappened(event);
-		
-		String text = getStatus(elements, changeType, notificationType);
+		if(actionType!=ActionType.UNDO){
+			UndoableEditEvent event = new UndoableEditEvent(diagramEditor, command);
+			for (UndoableEditListener l : getUndoableEditListeners())  l.undoableEditHappened(event);
+		}
+		String text = getStatus(elements, changeType, actionType);
 		diagramEditor.getWrapper().getStatusBar().report(text);
 		return text;
 	}
