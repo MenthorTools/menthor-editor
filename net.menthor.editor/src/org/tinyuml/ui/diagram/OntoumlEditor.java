@@ -163,7 +163,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	private static final double ADDSCROLL_VERTICAL=0;
 		
 	
-	
 	PalettePopupMenu popupmenu;
 	
 	// It is nice to report the mapped coordinates to listeners, so it can be used for debug output. 

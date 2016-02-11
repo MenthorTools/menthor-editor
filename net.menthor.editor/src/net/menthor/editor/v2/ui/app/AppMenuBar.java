@@ -27,8 +27,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
@@ -125,6 +128,8 @@ public class AppMenuBar extends GenericMenuBar {
 		help.setEnabled(true);
 //		window.setVisible(true);
 		window.setEnabled(true);
+		
+		SwingUtilities.updateComponentTreeUI(AppMenuBar.get());
 	}
 	
 	private void createFileMenu(){
@@ -322,8 +327,11 @@ public class AppMenuBar extends GenericMenuBar {
 	}
 	
 	public void initializeShowGrid(){
-		boolean isShownGrid = AppTabManager.get().getCurrentDiagramEditor().isShownGrid();
-		getMenuItem(CommandType.SHOW_GRID).setSelected(isShownGrid);
+		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		if(editor!=null){
+			getMenuItem(CommandType.SHOW_GRID).setSelected(editor.isShownGrid());
+		}
+		
 	}
 	
 	public void selectShowGrid(boolean value){

@@ -7,8 +7,7 @@ import org.tinyuml.umldraw.StructureDiagram;
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
-import net.menthor.editor.v2.ui.app.AppBrowser;
-import net.menthor.editor.v2.ui.app.AppEditorsPane;
+import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.notify.ModelCommand;
 
@@ -68,19 +67,14 @@ public class RenameCommand extends ModelCommand {
 			SwingUtilities.invokeLater(new Runnable() {				
 				@Override
 				public void run() {
-					int index = AppTabManager.get().getEditorIndex(namedElement);	
-					
-					if(index>=0){ 
-						AppEditorsPane.get().setTitleAt(index, namedElement.getName());			        
-					}
-					AppEditorsPane.get().updateUI();
-					AppBrowser.get().getTree().updateUI();					        
+					AppTabManager.get().refrashTabTitle(namedElement);
+					AppBrowserManager.get().updateUI();					        
 				}
 			});
 		}
 		else{
 			UpdateCommander.get().notifyChange(namedElement);
-			AppBrowser.get().getTree().updateUI();
+			AppBrowserManager.get().updateUI();	
 		}
 	}	
 	
