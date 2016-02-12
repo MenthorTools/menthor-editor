@@ -164,6 +164,17 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		generateTheme = true;	
 	}
 	
+	public List<GeneralizationElement> getGeneralizations(List<RefOntoUML.Element> gens){
+		List<GeneralizationElement> result = new ArrayList<GeneralizationElement>();
+		for(DiagramElement dElem: getChildren()){
+			if(dElem instanceof GeneralizationElement){
+				GeneralizationElement genElem = (GeneralizationElement)dElem;
+				if(gens.contains(genElem.getRelationship())) result.add(genElem);
+			}
+		}
+		return result;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	/** Delete connections that have a null relationship. This should not happen. */
 	public void eliminateTrash(List<Connection> connections)

@@ -36,10 +36,14 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
+import RefOntoUML.Element;
+import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.app.AppBrowser;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 
-public class Notifier implements INotification {
+public class Notifier {
 
 	// -------- Lazy Initialization
 	
@@ -59,90 +63,89 @@ public class Notifier implements INotification {
 	private List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
 	private UndoManager undoManager = new UndoManager(); 
 	
-	public UndoManager getUndoManager(){ 
-		return undoManager; 
-	}	
+	public UndoManager getUndoManager(){ return undoManager; }	
 	
-	public List<UndoableEditListener> getUndoableEditListeners(){ 
-		return editListeners; 
+	public List<UndoableEditListener> getUndoableEditListeners(){ return editListeners; }
+	
+	public void undo(){	
+		if(getUndoManager().canUndo()) getUndoManager().undo();						
+		else AppMessageManager.get().showInfo("Cannot Undo", "No other action to be undone.\n\n");
 	}
 	
-	//--- notify model ----
+	public void redo(){	
+		if(getUndoManager().canRedo()) getUndoManager().redo();						
+		else AppMessageManager.get().showInfo("Cannot Redo", "No other action to be redone.\n\n");
+	}
 	
-	public String notifyDo(ModelCommand command, RefOntoUML.Element element, NotificationType changeType){
+	//--- Notify application that a command caused a change on a model element ----
+	
+	public String notify(ModelCommand command, RefOntoUML.Element element, ActionType actionType){
 		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-		return notify(null, diagramElements, changeType, ActionType.DO);
+		if(diagramElements.size()>0){
+			return notify(command, diagramElements, actionType);
+		}else{
+			eventHappened(AppBrowser.get(), command, actionType);
+			notifyUpdateCommander(command.getNotificationType(), element);
+			return null;
+		}
 	}
 	
-	public String notifyRedo(ModelCommand command, RefOntoUML.Element element, NotificationType changeType){
-		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-		return notify(null, diagramElements, changeType, ActionType.REDO);
+	public String notify(ModelCommand command, List<RefOntoUML.Element> elements, ActionType actionType){
+		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(elements);
+		if(diagramElements.size()>0){
+			return notify(command, diagramElements, actionType);
+		}else{
+			eventHappened(AppBrowser.get(), command, actionType);			
+			for(Element e: elements) {
+				notifyUpdateCommander(command.getNotificationType(), e);
+			}
+			return null;
+		}
 	}
 	
-	public String notifyUndo(ModelCommand command, RefOntoUML.Element element, NotificationType changeType){
-		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-		return notify(null, diagramElements, changeType, ActionType.UNDO);
-	}
+	//--- Notify application that a command caused a change on a diagram element ----
 	
-	public String notify(ModelCommand command, RefOntoUML.Element element, NotificationType changeType, ActionType actionType){
-		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-		return notify(null, diagramElements, changeType, actionType);
-	}
-	
-	//--- notify diagram ---
-	
-	public String notifyDo(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
-		return notify(command,elements,changeType, ActionType.DO);
-	}
-	
-	public String notifyDo(IDiagramCommand command, DiagramElement element, NotificationType changeType){
+	public String notify(GenericCommand command, DiagramElement element, ActionType actionType){
 		List<DiagramElement> list = new ArrayList<DiagramElement>();
 		list.add(element);
-		return notify(command,list,changeType, ActionType.DO);
+		return notify(command,list, actionType);
 	}
 	
-	
-	public String notifyRedo(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
-		return notify(command,elements,changeType, ActionType.REDO);
-	}
-	
-	public String notifyRedo(IDiagramCommand command, DiagramElement element, NotificationType changeType){
-		List<DiagramElement> list = new ArrayList<DiagramElement>();
-		list.add(element);
-		return notify(command,list,changeType, ActionType.REDO);
-	}
-	
-	public String notifyUndo(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
-		return notify(command,elements,changeType, ActionType.UNDO);
-	}
-	
-	public String notifyUndo(IDiagramCommand command, DiagramElement element, NotificationType changeType){
-		List<DiagramElement> list = new ArrayList<DiagramElement>();
-		list.add(element);
-		return notify(command,list,changeType, ActionType.UNDO);
-	}
-	
-	public String notify(IDiagramCommand command, DiagramElement element, NotificationType changeType, ActionType actionType){
-		List<DiagramElement> list = new ArrayList<DiagramElement>();
-		list.add(element);
-		return notify(command,list,changeType, actionType);
-	}
-	
-	public String notify(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType actionType){
-		if(elements.size()==0) return null;		
+	public String notify(GenericCommand command, List<DiagramElement> elements, ActionType actionType){
+		if(elements.size()==0) return null;
+		NotificationType changeType = command.getNotificationType();
+		if(changeType==null) changeType = NotificationType.MODIFY;
 		for(DiagramElement element: elements){
 			StructureDiagram diagram = (StructureDiagram) element.getDiagram();
 			ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);		
 			eventHappened(diagram, command, actionType);
+			notifyUpdateCommander(changeType, element);			
 		}
 		String text = getStatus(elements, changeType, actionType);
-		if(command !=null && command.getOntoumlEditor()!=null){
-			command.getOntoumlEditor().getWrapper().getStatusBar().report(text);
+		if(command !=null && command instanceof IDiagramCommand){
+			IDiagramCommand diagramCmd = (IDiagramCommand)command;
+			diagramCmd.getOntoumlEditor().getWrapper().getStatusBar().report(text);
 		}
 		return text;
 	}
 	
-	//--- notify undoable event ---
+	//--- Notify application ---
+	
+	private void notifyUpdateCommander(NotificationType changeType, DiagramElement element){
+		Element modelObject = (Element)element.getModelObject();
+		notifyUpdateCommander(changeType, modelObject);
+	}
+	
+	private void notifyUpdateCommander(NotificationType changeType, Element element){		
+		if(changeType==NotificationType.ADD) UpdateCommander.get().updateFromAddition(element);
+		if(changeType==NotificationType.DELETE) UpdateCommander.get().updateFromDeletion(element);		
+		if(changeType==NotificationType.RENAME) UpdateCommander.get().updateFromChange(element, false);
+		if(changeType==NotificationType.RENAME_LABEL) UpdateCommander.get().updateFromChange(element, false);
+		if(changeType==NotificationType.RESIZE) UpdateCommander.get().updateFromChange(element, false);
+		if(changeType==NotificationType.MODIFY) UpdateCommander.get().updateFromChange(element, false);
+	}		
+			
+	//--- undoable event has happened ---
 	
 	private void eventHappened(Object sourceComponent, UndoableEdit command, ActionType actionType){
 		if(command !=null && actionType!=ActionType.UNDO){			
@@ -174,8 +177,7 @@ public class Notifier implements INotification {
 		}
 		return capitalize(sb.toString());
 	}
-		
-	
+			
 	private String capitalize(String s){
 		if (s.length() == 0) return s;
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();

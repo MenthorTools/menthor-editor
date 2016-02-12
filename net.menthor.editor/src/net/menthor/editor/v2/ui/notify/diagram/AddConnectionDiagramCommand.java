@@ -31,10 +31,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.IDiagramCommand;
-import net.menthor.editor.v2.ui.notify.NotificationType;
-import net.menthor.editor.v2.ui.notify.model.AddRelationshipCommand;
+import net.menthor.editor.v2.ui.notify.model.AddRelationshipModelCommand;
 
-public class AddConnectionCommand extends AddRelationshipCommand implements IDiagramCommand {
+public class AddConnectionDiagramCommand extends AddRelationshipModelCommand implements IDiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
 	
@@ -47,7 +46,7 @@ public class AddConnectionCommand extends AddRelationshipCommand implements IDia
 		return ontoumlEditor;
 	}
 	
-	public AddConnectionCommand(OntoumlEditor editor, UmlConnection conn){
+	public AddConnectionDiagramCommand(OntoumlEditor editor, UmlConnection conn){
 		super();	
 		ontoumlEditor = editor;
 		if(ontoumlEditor!=null) parent = ontoumlEditor.getDiagram();
@@ -67,19 +66,15 @@ public class AddConnectionCommand extends AddRelationshipCommand implements IDia
 		super.undo();						
 		parent.removeChild(diagramElement);
 		OccurenceManager.get().remove(diagramElement);		
-		notifier.notifyUndo(this, diagramElement, NotificationType.ADD);			
+		notifier.notify(this, diagramElement, ActionType.UNDO);			
 	}
 
 	public void run() {	    
 		super.runWithoutNotifying();
-		addToDiagram();
-		notifier.notify((IDiagramCommand)this, diagramElement, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);				
-	}
-	
-	protected void addToDiagram (){
 		parent.addChild(diagramElement);		
 		// small bug on drawing a derivation line. Not best solution, but it works...				
-		if (source instanceof Relationship || target instanceof Relationship)  diagramElement.invalidate();		
-	}	
+		if (source instanceof Relationship || target instanceof Relationship)  diagramElement.invalidate();
+		notifier.notify(this, diagramElement, isRedo ? ActionType.REDO : ActionType.DO);				
+	}		
 }
 

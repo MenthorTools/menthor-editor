@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * ============================================================================================
@@ -30,82 +30,75 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-/**
- * @author John Guerson
- */
-public class AssociationVisibilityCommand extends DiagramStrictCommand{
+public class AssociationVisibilityDiagramCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
-	public OntoumlEditor editor;
-	//maps the selected elements to the previous values
-	public HashMap<AssociationElement, Boolean> valueMap = new HashMap<AssociationElement, Boolean>();
-	public ArrayList<AssociationElement> associationList = new ArrayList<AssociationElement>();
-	public ArrayList<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
+	public enum AssociationVisibility { 
+		NAME, ENDPOINTS, STEREOTYPE, MULTIPLICITY, SUBSETS, REDEFINES 
+	}
 	
-	public enum AssociationVisibility { NAME, ENDPOINTS, STEREOTYPE, MULTIPLICITY, SUBSETS, REDEFINES }
+	public HashMap<AssociationElement, Boolean> valueMap = new HashMap<AssociationElement, Boolean>();
+	public List<AssociationElement> associationList = new ArrayList<AssociationElement>();
+	public List<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
 	public AssociationVisibility visibility;
 	public boolean value;
 	
-	private AssociationVisibilityCommand(OntoumlEditor editor, AssociationVisibility visibility, boolean value){
+	public AssociationVisibilityDiagramCommand(){
+		super();
+		this.notificationType = NotificationType.VISIBILITY;
+	}
+	
+	private AssociationVisibilityDiagramCommand(OntoumlEditor editor, AssociationVisibility visibility, boolean value){
+		this();
 		this.ontoumlEditor = editor;		
 		this.visibility = visibility;
-		this.value = value;
+		this.value = value;		
 	}
 	
-	public AssociationVisibilityCommand(OntoumlEditor editor, AssociationElement element, AssociationVisibility visibility, boolean value){
+	public AssociationVisibilityDiagramCommand(OntoumlEditor editor, AssociationElement element, AssociationVisibility visibility, boolean value){
 		this(editor,visibility,value);
 		this.associationList.add(element);
-		this.diagramElementList.add(element);
-		populateMap();
+		this.diagramElementList.add(element);		
+		storeOldValues();
 	}
 	
-	public AssociationVisibilityCommand(OntoumlEditor editor, List<AssociationElement> selected, AssociationVisibility visibility, boolean value) 
-	{
+	public AssociationVisibilityDiagramCommand(OntoumlEditor editor, List<AssociationElement> selected, AssociationVisibility visibility, boolean value){
 		this(editor,visibility,value);
 		this.associationList.addAll(selected);
 		this.diagramElementList.addAll(selected);
-		populateMap();
+		storeOldValues();
 	}
 	
-	private void populateMap(){
-		for (AssociationElement association : associationList) {
-			
+	private void storeOldValues(){
+		for (AssociationElement association : associationList) {			
 			switch(visibility){
-				case NAME:
-					valueMap.put(association, association.showName());
-					break;
-				case STEREOTYPE:
-					valueMap.put(association, association.showOntoUmlStereotype());
-					break;
-				case MULTIPLICITY:
-					valueMap.put(association, association.showMultiplicities());
-					break;
-				case ENDPOINTS:
-					valueMap.put(association, association.showRoles());
-					break;
-				case SUBSETS:
-					valueMap.put(association, association.showSubsetting());
-					break;
-				case REDEFINES:
-					valueMap.put(association, association.showRedefining());
-					break;
-			}
-			
+			case NAME:
+				valueMap.put(association, association.showName());
+				break;
+			case STEREOTYPE:
+				valueMap.put(association, association.showOntoUmlStereotype());
+				break;
+			case MULTIPLICITY:
+				valueMap.put(association, association.showMultiplicities());
+				break;
+			case ENDPOINTS:
+				valueMap.put(association, association.showRoles());
+				break;
+			case SUBSETS:
+				valueMap.put(association, association.showSubsetting());
+				break;
+			case REDEFINES:
+				valueMap.put(association, association.showRedefining());
+				break;
+			}			
 		}
 	}
 	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void undo() {
-		super.undo();						
-	
+	protected void undoWithoutNotifying(){
 		for (AssociationElement association : associationList) {
 			switch(visibility){
 			case NAME:
@@ -128,15 +121,23 @@ public class AssociationVisibilityCommand extends DiagramStrictCommand{
 				break;
 			}
 		}
-		
-		if(notifier!=null)
-			notifier.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
-
+	}
+	
+	@Override
+	public void undo() {
+		super.undo();						
+		undoWithoutNotifying();
+		notifier.notify(this, diagramElementList, ActionType.UNDO);
 	}
 	
 	@Override
 	public void run() {
-
+		super.run();
+		runWithoutNotifying();
+		notifier.notify(this, diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);		
+	}
+	
+	protected void runWithoutNotifying(){
 		for (AssociationElement association : associationList) {
 			switch(visibility){
 			case NAME:
@@ -158,14 +159,7 @@ public class AssociationVisibilityCommand extends DiagramStrictCommand{
 				association.setShowRedefining(value);
 				break;
 			}
-		}
-		
-		//notify
-		if (notifier!=null) {
-			notifier.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);		
-						
-		}	
-		
+		}		
 	}
 	
 }

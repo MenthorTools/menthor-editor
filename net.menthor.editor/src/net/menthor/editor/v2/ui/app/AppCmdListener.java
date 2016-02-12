@@ -5,8 +5,8 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
-import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
+import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
@@ -34,19 +34,18 @@ import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.SerializationManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
-import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.managers.WarningManager;
+import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
+import net.menthor.editor.v2.ui.notify.Notifier;
 
 public class AppCmdListener implements ICommandListener {
 
@@ -178,8 +177,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ParthoodFeature.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ProjectManager.class){
 				return methodcall.call(ProjectManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == RedoManager.class){
-				return methodcall.call(RedoManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == Notifier.class){
+				return methodcall.call(Notifier.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
 				return methodcall.call(RemakeManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RenameCommander.class){
@@ -195,9 +194,7 @@ public class AppCmdListener implements ICommandListener {
 			}else if(methodcall.getMethod().getDeclaringClass() == AppTabManager.class){
 				return methodcall.call(AppTabManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
-				return methodcall.call(TransferManager.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == UndoManager.class){
-				return methodcall.call(UndoManager.get());	
+				return methodcall.call(TransferManager.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == UpdateCommander.class){
 				return methodcall.call(UpdateCommander.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == WarningManager.class){

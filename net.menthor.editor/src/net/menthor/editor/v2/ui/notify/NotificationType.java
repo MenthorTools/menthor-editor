@@ -24,17 +24,18 @@ package net.menthor.editor.v2.ui.notify;
 public enum NotificationType {
 
 	ADD("added","add"),	 
-	DELETE("deleted","delete"), 
-	MODIFY("modified","modify"), 
-	MOVE("moved","move"), 
-	RESIZE("resized", "resize"),	
 	ALIGN("align","aligned"),
-	MODIFY_VISIBILITY("visibility modified","modify visibility"),
-	COLOR("colored","color"),
-	MODIFY_LABEL_TEXT("label text modified","modify label text"),	
-	RESET_CONNECTION_POINTS("connection points reseted","reset connection points"), 
-	MODIFY_CONNECTION_POINTS("connection points modified","modify connection points"), 
-	MODIFY_CONNECTION_TYPE("connection type modified","modify connection type");
+	CONNECTION_TYPE("connection type changed","change connection type"),
+	DELETE("deleted","delete"), 
+	EDIT_POINTS("connection points edited","edit connection points"),
+	MOVE("moved","move"),
+	MODIFY("modified","modify"),
+	RENAME("renamed","rename"),
+	RENAME_LABEL("label renamed","rename label"),
+	RESET_POINTS("connection points reseted","reset connection points"),
+	VISIBILITY("visibility changed","change visibility"),	 
+	RESIZE("resized", "resize"),	
+	COLOR("colored"," set color");
 	
 	private String past;
 	private String present;

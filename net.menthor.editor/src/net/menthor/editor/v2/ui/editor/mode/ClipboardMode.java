@@ -35,7 +35,7 @@ import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeDiagramCommand;
 import net.menthor.editor.v2.util.DrawUtil;
 
 public class ClipboardMode implements IEditorMode {
@@ -147,7 +147,7 @@ public class ClipboardMode implements IEditorMode {
 					ceCenterX = ce.getAbsCenterX()+(ceCenterX - center.getX());
 					ceCenterY = ce.getAbsCenterY()+(ceCenterY - center.getY());
 				}				 
-				AddNodeCommand cmd = new AddNodeCommand(de, ce, ceCenterX-40, ceCenterY-20);		
+				AddNodeDiagramCommand cmd = new AddNodeDiagramCommand(de, ce, ceCenterX-40, ceCenterY-20);		
 				cmd.run();
 			}			
 		}

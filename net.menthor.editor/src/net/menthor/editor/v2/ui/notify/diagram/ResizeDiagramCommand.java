@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -31,7 +31,7 @@ import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -39,7 +39,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResizeElementCommand extends DiagramStrictCommand {
+public class ResizeDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -3090945928366890788L;
 	private Node element;
@@ -53,8 +53,9 @@ public class ResizeElementCommand extends DiagramStrictCommand {
 	 * @param aNewPos the new position
 	 * @param aNewSize the new size
 	 */
-	public ResizeElementCommand(OntoumlEditor editor, Node anElement, Point2D aNewPos, Dimension2D aNewSize) {
+	public ResizeDiagramCommand(OntoumlEditor editor, Node anElement, Point2D aNewPos, Dimension2D aNewSize) {
 		this.ontoumlEditor = editor;
+		this.notificationType = NotificationType.RESIZE;
 		element = anElement;
 		newpos.setLocation(aNewPos);
 		newsize.setSize(aNewSize);
@@ -76,7 +77,7 @@ public class ResizeElementCommand extends DiagramStrictCommand {
 
 		//notify
 		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.RESIZE, isRedo ? ActionType.REDO : ActionType.DO);			
+			notifier.notify(this, (List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);			
 						
 		}		
 	}
@@ -92,6 +93,6 @@ public class ResizeElementCommand extends DiagramStrictCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notifier.notify(this, elements, NotificationType.RESIZE, ActionType.UNDO);
+		notifier.notify(this, elements, ActionType.UNDO);
 	}
 }

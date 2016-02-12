@@ -35,20 +35,28 @@ import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.NotificationType;
+import net.menthor.editor.v2.ui.notify.IDiagramCommand;
+import net.menthor.editor.v2.ui.notify.ModelCommand;
 
 /**
  * @author John Guerson
  */
-public class DeleteGeneralizationSetCommand extends DiagramCommand {
+public class DeleteGenSetDiagramCommand extends ModelCommand implements IDiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
+	
+	protected OntoumlEditor ontoumlEditor;
+	
 	private RefOntoUML.Element genSet;
 	private ArrayList<DiagramElement> diagramGenList = new ArrayList<DiagramElement>();
 	private ArrayList<Generalization> generalizations = new ArrayList<Generalization>();
 	
-	public DeleteGeneralizationSetCommand(OntoumlEditor editor, RefOntoUML.Element genSet) {		
+	@Override
+	public OntoumlEditor getOntoumlEditor() {
+		return ontoumlEditor;
+	}
+	
+	public DeleteGenSetDiagramCommand(OntoumlEditor editor, RefOntoUML.Element genSet) {		
 		this.ontoumlEditor = editor;		
 		this.genSet = genSet;		
 		this.generalizations.addAll(((RefOntoUML.GeneralizationSet)genSet).getGeneralization());
@@ -84,7 +92,7 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 		}		
 		
 		if(notifier!=null){
-			notifier.notify(this,diagramGenList, NotificationType.MODIFY, ActionType.UNDO);
+			notifier.notify(this,diagramGenList, ActionType.UNDO);
 		}
 	}
 	
@@ -113,7 +121,7 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 		}		
 		
 		if (notifier!=null) {
-			notifier.notify(this,(List<DiagramElement>) list, NotificationType.MODIFY, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notify(this,(List<DiagramElement>) list, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 		

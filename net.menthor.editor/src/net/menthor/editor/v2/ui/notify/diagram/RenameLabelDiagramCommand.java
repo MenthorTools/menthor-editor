@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -35,7 +35,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -44,7 +44,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class SetLabelTextCommand extends DiagramStrictCommand {
+public class RenameLabelDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 5701807952287882396L;
 	private Label label;
@@ -56,8 +56,9 @@ public class SetLabelTextCommand extends DiagramStrictCommand {
 	 * @param aLabel the Label
 	 * @param aText the new text
 	 */
-	public SetLabelTextCommand(OntoumlEditor editor, Label aLabel, String aText) {
+	public RenameLabelDiagramCommand(OntoumlEditor editor, Label aLabel, String aText) {
 		this.ontoumlEditor = editor;
+		this.notificationType = NotificationType.RENAME_LABEL;
 		label = aLabel;
 		text = aText;
 		oldText = aLabel.getNameLabelText();
@@ -97,7 +98,7 @@ public class SetLabelTextCommand extends DiagramStrictCommand {
 				
 		//notify
 		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.MODIFY_LABEL_TEXT, isRedo ? ActionType.REDO : ActionType.DO);			
+			notifier.notify(this, (List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 	}
 
@@ -132,6 +133,6 @@ public class SetLabelTextCommand extends DiagramStrictCommand {
 				
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(parent);
-		notifier.notify(this, elements, NotificationType.MODIFY_LABEL_TEXT, ActionType.UNDO);					
+		notifier.notify(this, elements, ActionType.UNDO);					
 	}
 }

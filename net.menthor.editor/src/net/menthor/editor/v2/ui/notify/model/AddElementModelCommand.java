@@ -3,47 +3,49 @@ package net.menthor.editor.v2.ui.notify.model;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 
-import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.ModelCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-public class AddElementCommand extends ModelCommand {
+public class AddElementModelCommand extends ModelCommand {
 
 	private static final long serialVersionUID = 7518976801833128513L;
 
 	protected RefOntoUML.Element element;
 	protected RefOntoUML.Element eContainer;	
 	
-	public AddElementCommand(){}
+	public AddElementModelCommand(){
+		super();
+		this.notificationType = NotificationType.ADD;
+	}
 	
-	public AddElementCommand(RefOntoUML.Element element, RefOntoUML.Element eContainer){
+	public AddElementModelCommand(RefOntoUML.Element element, RefOntoUML.Element eContainer){
+		this();
 		this.element = element;		
 		this.eContainer = eContainer;
 	}
 	
 	@Override
 	public void undo(){
-		super.undo();		
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		UpdateCommander.get().updateFromDeletion(element);
-		notifier.notifyUndo(this, element, NotificationType.ADD);
+		super.undo();	
+		undoWithoutNotifying();
+		notifier.notify(this, element, ActionType.UNDO);
 	}
 	
 	@Override
 	public void run() {	    
-		super.run();	
+		super.run();
 		runWithoutNotifying();
-		notifier.notifyDo(this, element, NotificationType.ADD);
+		notifier.notify(this, element, isRedo ? ActionType.REDO : ActionType.DO);
 	}
 	
-	public void runWithoutNotifying(){
-		addToModel();
-		UpdateCommander.get().updateFromAddition(element);
+	public void undoWithoutNotifying(){
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();		
 	}
 	
-	private void addToModel(){
+	public void runWithoutNotifying(){		
 		RefOntoUML.Package model = ProjectManager.get().getProject().getModel();
 		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
 		AddCommand emfCommand = null;

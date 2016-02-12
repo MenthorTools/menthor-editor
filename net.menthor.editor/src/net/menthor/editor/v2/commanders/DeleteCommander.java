@@ -25,8 +25,8 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.DeleteElementCommand;
-import net.menthor.editor.v2.ui.notify.diagram.DeleteGeneralizationSetCommand;
+import net.menthor.editor.v2.ui.notify.diagram.DeleteElementDiagramCommand;
+import net.menthor.editor.v2.ui.notify.diagram.DeleteGenSetDiagramCommand;
 
 public class DeleteCommander {
 		
@@ -154,16 +154,16 @@ public class DeleteCommander {
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
-				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();
+				new DeleteGenSetDiagramCommand(ed, elements.get(0)).run();
 			}else{
-				new DeleteElementCommand(ed, elements, true, true).run();
+				new DeleteElementDiagramCommand(ed, elements, true, true).run();
 			}
 		}
 		if(editors==null || editors.size()==0) {
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
-				new DeleteGeneralizationSetCommand(null, elements.get(0)).run();
+				new DeleteGenSetDiagramCommand(null, elements.get(0)).run();
 			}else{
-				new DeleteElementCommand(null, elements, true, false).run();
+				new DeleteElementDiagramCommand(null, elements, true, false).run();
 			}
 		}
 	}
@@ -175,7 +175,7 @@ public class DeleteCommander {
 		if(element instanceof Comment) return;
 		List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 		list.add(element);
-		new DeleteElementCommand(ed,list,false,true).run();				
+		new DeleteElementDiagramCommand(ed,list,false,true).run();				
 	}
 	
 	/** Delete all elements at the diagram */

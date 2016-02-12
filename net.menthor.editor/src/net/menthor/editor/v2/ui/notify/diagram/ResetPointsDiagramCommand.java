@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -29,7 +29,7 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -37,7 +37,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResetConnectionPointsCommand extends DiagramStrictCommand {
+public class ResetPointsDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -1321480473934728961L;
 	private Connection connection;
@@ -48,9 +48,10 @@ public class ResetConnectionPointsCommand extends DiagramStrictCommand {
 	 * @param aNotification the notification object
 	 * @param conn the connection
 	 */
-	public ResetConnectionPointsCommand(OntoumlEditor editor, Connection conn) {
+	public ResetPointsDiagramCommand(OntoumlEditor editor, Connection conn) {
 		this.ontoumlEditor = editor;
 		connection = conn;
+		this.notificationType = NotificationType.RESET_POINTS;
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class ResetConnectionPointsCommand extends DiagramStrictCommand {
 		elements.add(connection);
 		
 		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.RESET_CONNECTION_POINTS, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notify(this, (List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}		
 	}
@@ -92,6 +93,6 @@ public class ResetConnectionPointsCommand extends DiagramStrictCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notifier.notify(this, elements, NotificationType.RESET_CONNECTION_POINTS, ActionType.UNDO);
+		notifier.notify(this, elements, ActionType.UNDO);
 	}
 }

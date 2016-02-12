@@ -47,17 +47,19 @@ import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.NotificationType;
+import net.menthor.editor.v2.ui.notify.IDiagramCommand;
+import net.menthor.editor.v2.ui.notify.ModelCommand;
 
 /**
  * A command class to remove allElements from a diagram.
  * 
  * @author Wei-ju Wu, John Guerson
  */
-public class DeleteElementCommand extends DiagramCommand{
+public class DeleteElementDiagramCommand extends ModelCommand implements IDiagramCommand {
 
 	private static final long serialVersionUID = 2456036038567915529L;	
+	
+	protected OntoumlEditor ontoumlEditor;
 	
 	private Collection<DiagramElement> diagramElemList = new ArrayList<DiagramElement>();
 	private Collection<DiagramElement> diagramElemDep1List = new ArrayList<DiagramElement>(); 
@@ -74,6 +76,11 @@ public class DeleteElementCommand extends DiagramCommand{
 	private boolean deleteFromModel;
 	private boolean deleteFromDiagram;
 	
+	@Override
+	public OntoumlEditor getOntoumlEditor() {
+		return ontoumlEditor;
+	}
+	
 	/** A helper class to store the original parent child relation. */
 	private static class ParentChildRelation {
 		DiagramElement element;
@@ -85,8 +92,9 @@ public class DeleteElementCommand extends DiagramCommand{
 		}
 	}
 
-	public DeleteElementCommand(OntoumlEditor editor, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
+	public DeleteElementDiagramCommand(OntoumlEditor editor, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
 	{
+		super();
 		this.ontoumlEditor = editor;	
 		this.deleteFromDiagram = deleteFromDiagram;
 		this.deleteFromModel = deleteFromModel;
@@ -149,14 +157,6 @@ public class DeleteElementCommand extends DiagramCommand{
 		
 	}
 
-	@Override
-	public void redo() 
-	{	
-		isRedo = true;
-		super.redo();
-		run();
-	}
-
 	public void run() 
 	{
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
@@ -174,7 +174,7 @@ public class DeleteElementCommand extends DiagramCommand{
 		list.addAll(diagramElemList);
 		
 		if (notifier!=null) {
-			notifier.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notify(this,(List<DiagramElement>) list, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}
@@ -199,7 +199,7 @@ public class DeleteElementCommand extends DiagramCommand{
 			list.addAll(diagramElemList);
 			list.addAll(diagramElemDep1List);
 			list.addAll(diagramElemDep2List);
-			notifier.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, ActionType.UNDO);		
+			notifier.notify(this,(List<DiagramElement>) list, ActionType.UNDO);		
 		}
 	}
 	
@@ -538,4 +538,6 @@ public class DeleteElementCommand extends DiagramCommand{
 		else
 			conn.getConnection2().addConnection(conn);
 	}
+
+	
 }

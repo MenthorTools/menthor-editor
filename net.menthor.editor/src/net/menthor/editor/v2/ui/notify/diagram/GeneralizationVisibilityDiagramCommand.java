@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * ============================================================================================
@@ -30,13 +30,13 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.GeneralizationElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class GeneralizationVisibilityCommand extends DiagramStrictCommand{
+public class GeneralizationVisibilityDiagramCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
@@ -50,14 +50,15 @@ public class GeneralizationVisibilityCommand extends DiagramStrictCommand{
 	public boolean value;
 	
 	// private constructor that sets up the basic data
-	private GeneralizationVisibilityCommand(OntoumlEditor editor, GeneralizationVisibility visibility, boolean value){
-		this.ontoumlEditor = editor;		
+	private GeneralizationVisibilityDiagramCommand(OntoumlEditor editor, GeneralizationVisibility visibility, boolean value){
+		this.ontoumlEditor = editor;	
+		this.notificationType = NotificationType.VISIBILITY;
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
 	//creates command from a list of element
-	public GeneralizationVisibilityCommand(OntoumlEditor editor, List<GeneralizationElement> selected, GeneralizationVisibility visibility, boolean value) 
+	public GeneralizationVisibilityDiagramCommand(OntoumlEditor editor, List<GeneralizationElement> selected, GeneralizationVisibility visibility, boolean value) 
 	{
 		this(editor,visibility,value);
 		this.generalizationList.addAll(selected);
@@ -94,7 +95,7 @@ public class GeneralizationVisibilityCommand extends DiagramStrictCommand{
 		}
 		
 		if(notifier!=null)
-			notifier.notify(this,diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
+			notifier.notify(this,diagramElementList, ActionType.UNDO);
 
 	}
 	
@@ -111,7 +112,7 @@ public class GeneralizationVisibilityCommand extends DiagramStrictCommand{
 		
 		//notify
 		if (notifier!=null) {
-			notifier.notify(this,diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);			
+			notifier.notify(this,diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);			
 						
 		}	
 		

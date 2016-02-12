@@ -33,7 +33,7 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AddConnectionCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddConnectionDiagramCommand;
 
 public class ConnectMode implements IEditorMode {
 
@@ -84,7 +84,7 @@ public class ConnectMode implements IEditorMode {
 	    tmpPos.setLocation(mx, my);
 	    if(sourceElem !=null && targetElem !=null){
 	    	UmlConnection conn = FactoryManager.get().createConnection(relType, sourceElem, targetElem); 
-	    	AddConnectionCommand command = new AddConnectionCommand(editor, conn);
+	    	AddConnectionDiagramCommand command = new AddConnectionDiagramCommand(editor, conn);
 	    	command.run();
 	    }
 	    isActive = false;

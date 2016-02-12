@@ -55,9 +55,7 @@ import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.managers.RedoManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.managers.UndoManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -66,6 +64,7 @@ import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
+import net.menthor.editor.v2.ui.notify.Notifier;
 
 public class CommandMap {
 	
@@ -177,9 +176,9 @@ public class CommandMap {
 	
 	private void edit() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.REDO,
-				new MethodCall(RedoManager.class.getMethod("redo")));
+				new MethodCall(Notifier.class.getMethod("redo")));
 		cmdMap.put(CommandType.UNDO,
-				new MethodCall(UndoManager.class.getMethod("undo")));
+				new MethodCall(Notifier.class.getMethod("undo")));
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateCommander.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,

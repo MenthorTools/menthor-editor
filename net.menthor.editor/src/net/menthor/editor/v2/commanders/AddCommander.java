@@ -28,9 +28,9 @@ import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
-import net.menthor.editor.v2.ui.notify.model.AddElementCommand;
-import net.menthor.editor.v2.ui.notify.model.AddRelationshipCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddGenSetDiagramCommand;
+import net.menthor.editor.v2.ui.notify.model.AddElementModelCommand;
+import net.menthor.editor.v2.ui.notify.model.AddRelationshipModelCommand;
 import net.menthor.editor.v2.util.Util;
 
 public class AddCommander {
@@ -60,7 +60,7 @@ public class AddCommander {
 		if(stereotype==null) return null;
 		Element container = getContainer(input);		
 		RefOntoUML.Relationship relationship = FactoryManager.get().createRelationship(stereotype);		
-		AddRelationshipCommand cmd = new AddRelationshipCommand(relationship,null,null,container);
+		AddRelationshipModelCommand cmd = new AddRelationshipModelCommand(relationship,null,null,container);
 		cmd.run();
 		return relationship;
 	}
@@ -70,7 +70,7 @@ public class AddCommander {
 		Element container = getContainer(input);
 		if(container!=null){
 			RefOntoUML.Comment comment = FactoryManager.get().createComment();
-			AddElementCommand cmd = new AddElementCommand(comment,container);		
+			AddElementModelCommand cmd = new AddElementModelCommand(comment,container);		
 			cmd.run();
 			return comment;
 		}
@@ -79,7 +79,7 @@ public class AddCommander {
 	
 	/** Add comment to the model */
 	public void addComment(RefOntoUML.Comment c, RefOntoUML.Element eContainer){
-		AddElementCommand cmd = new AddElementCommand(c,eContainer);		
+		AddElementModelCommand cmd = new AddElementModelCommand(c,eContainer);		
 		cmd.run();
 	}
 	
@@ -88,14 +88,14 @@ public class AddCommander {
 		Element container = getContainer(input);
 		if(container!=null){			
 			RefOntoUML.Element newPackage = FactoryManager.get().createPackage();
-			AddElementCommand cmd = new AddElementCommand(newPackage,container);		
+			AddElementModelCommand cmd = new AddElementModelCommand(newPackage,container);		
 			cmd.run();
 		}
 	}
 	
 	/** Add constraint to the model */
 	public void addConstraintx(Constraintx cmt, RefOntoUML.Element eContainer){
-		AddElementCommand cmd = new AddElementCommand(cmt,eContainer);		
+		AddElementModelCommand cmd = new AddElementModelCommand(cmt,eContainer);		
 		cmd.run();
 	}
 	
@@ -110,7 +110,7 @@ public class AddCommander {
 		if(container!=null){
 			RefOntoUML.Constraintx element = FactoryManager.get().createConstraintx();
 			((StringExpression)element.getSpecification()).setSymbol(text);
-			AddElementCommand cmd = new AddElementCommand(element,container);		
+			AddElementModelCommand cmd = new AddElementModelCommand(element,container);		
 			cmd.run();				
 		}
 	}
@@ -120,7 +120,7 @@ public class AddCommander {
 		Element container = getContainer(input);			
 		if(container!=null){
 			RefOntoUML.Element element = FactoryManager.get().createGeneralizationSet();		
-			AddElementCommand cmd = new AddElementCommand(element,container);		
+			AddElementModelCommand cmd = new AddElementModelCommand(element,container);		
 			cmd.run();
 			return element;			
 		}
@@ -132,7 +132,7 @@ public class AddCommander {
 		Element container = getContainer(input);			
 		if(container!=null){
 			RefOntoUML.Element element = FactoryManager.get().createClass(stereotype);		
-			AddElementCommand cmd = new AddElementCommand(element,container);		
+			AddElementModelCommand cmd = new AddElementModelCommand(element,container);		
 			cmd.run();		
 			return element;
 		}
@@ -144,7 +144,7 @@ public class AddCommander {
 		Element eContainer = getContainer(input);			
 		if(eContainer!=null){
 			RefOntoUML.Element element = FactoryManager.get().createDataType(stereotype);		
-			AddElementCommand cmd = new AddElementCommand(element,eContainer);		
+			AddElementModelCommand cmd = new AddElementModelCommand(element,eContainer);		
 			cmd.run();		
 			return element;
 		}
@@ -169,7 +169,7 @@ public class AddCommander {
 		((GeneralizationSet)newgenset).setIsCovering(true);
 		((GeneralizationSet)newgenset).setIsDisjoint(true);
 		((GeneralizationSet)newgenset).setName("gs");
-		new AddGeneralizationSetCommand(d, d.getDiagram(), newgenset, gens, project.getModel()).run();
+		new AddGenSetDiagramCommand(d, newgenset, gens, project.getModel()).run();
 		return (GeneralizationSet)newgenset;
 	}
 	

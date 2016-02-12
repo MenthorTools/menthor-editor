@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -33,7 +33,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 
@@ -45,7 +45,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class MoveElementCommand extends DiagramStrictCommand {
+public class MoveDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 2523534899493234371L;
 	private MoveOperation[] moveOperations;
@@ -56,8 +56,9 @@ public class MoveElementCommand extends DiagramStrictCommand {
 	 * @param aNotification the notification
 	 * @param aMoveOperations the move operations
 	 */
-	public MoveElementCommand(OntoumlEditor editor, final MoveOperation[] aMoveOperations) {
+	public MoveDiagramCommand(OntoumlEditor editor, final MoveOperation[] aMoveOperations) {
 		this.ontoumlEditor = editor;
+		this.notificationType = NotificationType.MOVE;
 		moveOperations = new MoveOperation[aMoveOperations.length];
 		for (int i = 0; i < aMoveOperations.length; i++) {
 			moveOperations[i] = aMoveOperations[i];
@@ -109,7 +110,7 @@ public class MoveElementCommand extends DiagramStrictCommand {
 		}
 		
 		if (notifier!=null) {
-			notifier.notify(this,(List<DiagramElement>) elements, NotificationType.MOVE, isRedo ? ActionType.REDO : ActionType.DO);			
+			notifier.notify(this,(List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 	}
 
@@ -148,7 +149,7 @@ public class MoveElementCommand extends DiagramStrictCommand {
 			}
 		}
 		
-		notifier.notify(this,elements, NotificationType.MOVE, ActionType.UNDO);		
+		notifier.notify(this,elements, ActionType.UNDO);		
 	}
 
 }

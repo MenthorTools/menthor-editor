@@ -28,7 +28,12 @@ public abstract class GenericCommand extends AbstractUndoableEdit implements IUn
 	private static final long serialVersionUID = 2761186015906877743L;
 	
 	protected Notifier notifier = Notifier.get();
+	protected NotificationType notificationType;
 	protected boolean isRedo = false;
+	
+	public NotificationType getNotificationType(){ 
+		return notificationType; 
+	}
 	
 	@Override
 	public void redo(){

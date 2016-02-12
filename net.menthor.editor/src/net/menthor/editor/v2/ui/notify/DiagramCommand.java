@@ -23,7 +23,7 @@ package net.menthor.editor.v2.ui.notify;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-public class DiagramCommand extends ModelCommand implements IDiagramCommand{
+public class DiagramCommand extends GenericCommand implements IDiagramCommand{
 	
 	private static final long serialVersionUID = 6382309607858531755L;
 	

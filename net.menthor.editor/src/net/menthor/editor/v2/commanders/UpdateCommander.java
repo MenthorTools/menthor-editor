@@ -7,10 +7,10 @@ import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Association;
-import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
@@ -20,11 +20,9 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.NotificationType;
-import net.menthor.editor.v2.ui.notify.Notifier;
-import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
-import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
-import net.menthor.editor.v2.ui.notify.model.AddElementCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddGenSetDiagramCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeDiagramCommand;
+import net.menthor.editor.v2.ui.notify.model.AddElementModelCommand;
 
 public class UpdateCommander {
 
@@ -98,10 +96,10 @@ public class UpdateCommander {
 			if (obj instanceof RefOntoUML.Class||obj instanceof RefOntoUML.DataType) {	
 				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1){
 					UmlNode node = FactoryManager.get().createNode((RefOntoUML.Type)obj,  (RefOntoUML.Element)((EObject)obj).eContainer());
-					AddNodeCommand cmd = new AddNodeCommand(ed,node, fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y);		
+					AddNodeDiagramCommand cmd = new AddNodeDiagramCommand(ed,node, fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y);		
 					cmd.run();
 				}else{
-					AddElementCommand cmd = new AddElementCommand((RefOntoUML.Element)obj,(RefOntoUML.Element)((EObject)obj).eContainer());		
+					AddElementModelCommand cmd = new AddElementModelCommand((RefOntoUML.Element)obj,(RefOntoUML.Element)((EObject)obj).eContainer());		
 					cmd.run();									
 				}
 			}			
@@ -121,7 +119,7 @@ public class UpdateCommander {
 		//generalization sets
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.GeneralizationSet){
-				AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand(ed,ed.getDiagram(),(RefOntoUML.Element)obj,
+				AddGenSetDiagramCommand cmd = new AddGenSetDiagramCommand(ed,(RefOntoUML.Element)obj,
 				((GeneralizationSet)obj).getGeneralization(),(RefOntoUML.Element)((EObject)obj).eContainer());
 				cmd.run(); 
 			}
@@ -147,30 +145,27 @@ public class UpdateCommander {
 		//notify the change or simply remake the element
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
-			public void run() {
-				if (element instanceof RefOntoUML.Class || element instanceof RefOntoUML.DataType){
-					Notifier.get().notifyDo(null,(Classifier)element, NotificationType.MODIFY);			
-				}
+			public void run() {				
 				if (element instanceof RefOntoUML.Association){
-					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element);
-					else Notifier.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
+					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element);					
 				}
 				if (element instanceof RefOntoUML.Property){
 					Association assoc= ((RefOntoUML.Property)element).getAssociation();								
 					if (assoc!=null){
 						if(remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)assoc);
-						else  Notifier.get().notifyDo(null,(RefOntoUML.Element)assoc, NotificationType.MODIFY);
-					}else{
-						Notifier.get().notifyDo(null,(RefOntoUML.Element)(element).eContainer(), NotificationType.MODIFY);
+						
 					}
 				}		
 				if (element instanceof RefOntoUML.Generalization){
-					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element); 
-					else Notifier.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
+					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element);
 				}
 				if(element instanceof RefOntoUML.GeneralizationSet){
 					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) updateFromChange(gen,false);
 				}
+				if(element instanceof OclDocument || element instanceof StructureDiagram){					
+					AppTabManager.get().refreshTabTitle((RefOntoUML.NamedElement)element);
+				}
+				AppBrowserManager.get().updateUI();
 			}
 		});
 	}

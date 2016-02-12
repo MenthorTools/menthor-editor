@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * ============================================================================================
@@ -29,33 +29,33 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-/**
- * @author John Guerson
- */
-public class AlignElementsCommand extends DiagramStrictCommand {
+public class AlignDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	public OntoumlEditor editor;
-	public UmlProject project;
-	public ArrayList<DiagramElement> selected = new ArrayList<DiagramElement>();
-	public enum Alignment { TOP, BOTTOM, LEFT, RIGHT, CENTER_VERTICAL, CENTER_HORIZONTAL }
-	public Alignment direction;
-	public ArrayList<Double> oldPosXList = new ArrayList<Double>();
-	public ArrayList<Double> oldPosYList = new ArrayList<Double>();
+	public enum Alignment { 
+		TOP, BOTTOM, LEFT, RIGHT, CENTER_VERTICAL, CENTER_HORIZONTAL 
+	}
 	
-	public AlignElementsCommand(OntoumlEditor editor, List<DiagramElement> selected, Alignment direction) 
-	{
+	public List<DiagramElement> selected = new ArrayList<DiagramElement>();	
+	public Alignment direction;
+	public List<Double> oldPosXList = new ArrayList<Double>();
+	public List<Double> oldPosYList = new ArrayList<Double>();
+	
+	public AlignDiagramCommand(){
+		super();
+		this.notificationType = NotificationType.ALIGN;
+	}
+	
+	public AlignDiagramCommand(OntoumlEditor editor, List<DiagramElement> selected, Alignment direction){
+		this();
 		this.ontoumlEditor = editor;		
-		this.direction = direction;
-		
-		for(DiagramElement dElem: selected)
-		{
+		this.direction = direction;		
+		for(DiagramElement dElem: selected){
 			if(dElem instanceof ClassElement){
 				ClassElement ce = (ClassElement)dElem;
 				oldPosXList.add(ce.getAbsoluteX1());
@@ -65,59 +65,42 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void undo() {
-		super.undo();
-						
-		if(notifier!=null){
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-		
-			int i =0;
-			for(DiagramElement dElem: selected)
-			{
-				if(dElem instanceof ClassElement)
-				{
-					ClassElement ce = (ClassElement)dElem;
-					ce.setAbsolutePos(oldPosXList.get(i), oldPosYList.get(i));
-					list.add(ce);
-					i++;
-				}
+		super.undo();				
+		undoWithoutNotifying();			
+		notifier.notify(this, selected, ActionType.UNDO);		
+	}
+	
+	protected void undoWithoutNotifying(){				
+		int i =0;
+		for(DiagramElement dElem: selected){
+			if(dElem instanceof ClassElement){
+				ClassElement ce = (ClassElement)dElem;
+				ce.setAbsolutePos(oldPosXList.get(i), oldPosYList.get(i));				
+				i++;
 			}
-			
-			notifier.notify(this, (List<DiagramElement>) list, NotificationType.ALIGN, ActionType.UNDO);
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void run() {
-		
-		if(direction==Alignment.TOP) 
-			alignTop(this.editor);
-		else if(direction==Alignment.BOTTOM) 
-			alignBottom(this.editor);
-		else if(direction==Alignment.LEFT) 
-			alignLeft(this.editor);
-		else if(direction==Alignment.RIGHT) 
-			alignRight(this.editor);
-		else if(direction==Alignment.CENTER_VERTICAL) 
-			alignCenterVertically(this.editor);
-		else if(direction==Alignment.CENTER_HORIZONTAL) 
-			alignCenterHorizontally(this.editor);
-		
-		//notify
-		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) selected, NotificationType.ALIGN, isRedo ? ActionType.REDO : ActionType.DO);		
-						
-		}	
+	@Override
+	public void run() {		
+		super.run();
+		runWithoutNotifying();
+		notifier.notify(this, selected, isRedo ? ActionType.REDO : ActionType.DO);		
 	}
 	
-	public void alignBottom(OntoumlEditor de){		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+	protected void runWithoutNotifying(){
+		if(direction==Alignment.TOP) alignTop(this.ontoumlEditor);
+		else if(direction==Alignment.BOTTOM) alignBottom(this.ontoumlEditor);
+		else if(direction==Alignment.LEFT) alignLeft(this.ontoumlEditor);
+		else if(direction==Alignment.RIGHT) alignRight(this.ontoumlEditor);
+		else if(direction==Alignment.CENTER_VERTICAL) alignCenterVertically(this.ontoumlEditor);
+		else if(direction==Alignment.CENTER_HORIZONTAL) alignCenterHorizontally(this.ontoumlEditor);
+	}
+	
+	private void alignBottom(OntoumlEditor de){		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
 		ClassElement atbottom = de.getClassElementAtBottom(classElements);						
 		if(atbottom!=null){
 			double atbottomY2 = atbottom.getAbsoluteY2();
@@ -131,8 +114,8 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 		}		
 	}
 	
-	public void alignTop(OntoumlEditor de){		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+	private void alignTop(OntoumlEditor de){		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
 		ClassElement attop = de.getClassElementAtTop(classElements);						
 		if(attop!=null){
 			double attopY1 = attop.getAbsoluteY1();
@@ -145,8 +128,8 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 		}
 	}	
 	
-	public void alignLeft(OntoumlEditor de){		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+	private void alignLeft(OntoumlEditor de){		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
 		ClassElement atleft = de.getClassElementAtLeft(classElements);				
 		if(atleft!=null){
 			double atrightX1 = atleft.getAbsoluteX1();
@@ -159,8 +142,8 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 		}		
 	}
 	
-	public void alignRight(OntoumlEditor de){		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+	private void alignRight(OntoumlEditor de){		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
 		ClassElement atright = de.getClassElementAtRight(classElements);				
 		if(atright!=null){
 			double atrightX2 = atright.getAbsoluteX2();
@@ -174,8 +157,8 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 		}		
 	}
 		
-	public void alignCenterVertically(OntoumlEditor de){		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+	private void alignCenterVertically(OntoumlEditor de){		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
 		if (classElements.size() > 0){
 			ArrayList<Double> coordList = new ArrayList<Double>();			
 			for(DiagramElement elements: classElements){				
@@ -198,8 +181,8 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 		}
 	}
 
-	public void alignCenterHorizontally (OntoumlEditor de){		
-		ArrayList<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+	protected void alignCenterHorizontally (OntoumlEditor de){		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
 		if (classElements.size() > 0){
 			ArrayList<Double> coordList = new ArrayList<Double>();			
 			for(ClassElement element: classElements){				
@@ -223,7 +206,7 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 	}
 	
 	/** Algorithm to calculate the center alignment position */
-	public double calculateCenterAlignPosition(ArrayList<Double> coordList){
+	protected double calculateCenterAlignPosition(List<Double> coordList){
 		Collections.sort(coordList);
 		int size = coordList.size();
 		double offset = 1000;
@@ -239,7 +222,7 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 	}
 	
 	/** Returns the class element with the largest width */
-	public ClassElement getClassElementLargestWidth(ArrayList<ClassElement> list){
+	protected ClassElement getClassElementLargestWidth(List<ClassElement> list){
 		double maxwidth = 0;
 		ClassElement largerWidthElement = null;
 		for(DiagramElement de: list){
@@ -252,7 +235,7 @@ public class AlignElementsCommand extends DiagramStrictCommand {
 	}
 	
 	/** Returns the class element with the largest height */
-	public ClassElement getClassElementLargestHeight(ArrayList<ClassElement> list){
+	protected ClassElement getClassElementLargestHeight(List<ClassElement> list){
 		double maxheight = 0;
 		ClassElement largerHeightElement = null;
 		for(DiagramElement de: list){

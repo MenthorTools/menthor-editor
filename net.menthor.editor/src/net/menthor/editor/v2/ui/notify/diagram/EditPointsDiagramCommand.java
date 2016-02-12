@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -32,7 +32,7 @@ import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -41,7 +41,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu
  */
-public class EditConnectionPointsCommand extends DiagramStrictCommand {
+public class EditPointsDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -6538389889543538053L;
 	private Connection connection;
@@ -53,9 +53,10 @@ public class EditConnectionPointsCommand extends DiagramStrictCommand {
 	 * @param aConnection the connection object
 	 * @param theNewpoints the new point list
 	 */
-	public EditConnectionPointsCommand(OntoumlEditor editor, Connection aConnection, List<Point2D> theNewpoints) {
+	public EditPointsDiagramCommand(OntoumlEditor editor, Connection aConnection, List<Point2D> theNewpoints) {
 		this.ontoumlEditor = editor;
 		connection = aConnection;
+		this.notificationType = NotificationType.EDIT_POINTS;
 		newpoints = clonePointList(theNewpoints);
 	}
 
@@ -80,7 +81,7 @@ public class EditConnectionPointsCommand extends DiagramStrictCommand {
 		}			
 		
 		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.MODIFY_CONNECTION_POINTS, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notify(this, (List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}
@@ -112,6 +113,6 @@ public class EditConnectionPointsCommand extends DiagramStrictCommand {
 		if(connection instanceof SimpleConnection) elements.add(((SimpleConnection)connection).getOwnerConnection());
 		if(connection instanceof TreeConnection) elements.add(((TreeConnection)connection).getOwnerConnection());
 		
-		notifier.notify(this,elements, NotificationType.MODIFY_CONNECTION_POINTS, ActionType.UNDO);
+		notifier.notify(this,elements, ActionType.UNDO);
 	}
 }

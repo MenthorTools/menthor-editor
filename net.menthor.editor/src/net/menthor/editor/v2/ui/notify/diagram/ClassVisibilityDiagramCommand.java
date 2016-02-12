@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * ============================================================================================
@@ -30,13 +30,13 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class ClassVisibilityCommand extends DiagramStrictCommand{
+public class ClassVisibilityDiagramCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
@@ -52,20 +52,21 @@ public class ClassVisibilityCommand extends DiagramStrictCommand{
 	
 	public boolean value;
 	
-	private ClassVisibilityCommand(OntoumlEditor editor, ClassVisibility visibility, boolean value){
+	private ClassVisibilityDiagramCommand(OntoumlEditor editor, ClassVisibility visibility, boolean value){
 		this.ontoumlEditor=editor;		
 		this.visibility = visibility;
 		this.value = value;
+		this.notificationType = NotificationType.VISIBILITY;
 	}
 	
-	public ClassVisibilityCommand(OntoumlEditor editor, ClassElement element, ClassVisibility visibility, boolean value){
+	public ClassVisibilityDiagramCommand(OntoumlEditor editor, ClassElement element, ClassVisibility visibility, boolean value){
 		this(editor,visibility,value);
 		this.classList.add(element);
 		this.diagramElementList.add(element);
 		populateMap();
 	}
 	
-	public ClassVisibilityCommand(OntoumlEditor editor, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
+	public ClassVisibilityDiagramCommand(OntoumlEditor editor, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
 	{
 		this(editor,visibility,value);
 		this.classList.addAll(selected);
@@ -121,7 +122,7 @@ public class ClassVisibilityCommand extends DiagramStrictCommand{
 		}
 		
 		if(notifier!=null)
-			notifier.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
+			notifier.notify(this, diagramElementList, ActionType.UNDO);
 
 	}
 	
@@ -149,7 +150,7 @@ public class ClassVisibilityCommand extends DiagramStrictCommand{
 		
 		//notify
 		if (notifier!=null) {
-			notifier.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notify(this, diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}	
 		

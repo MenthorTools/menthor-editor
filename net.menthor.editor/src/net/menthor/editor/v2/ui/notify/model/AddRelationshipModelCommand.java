@@ -27,13 +27,13 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.ModelCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-public class AddRelationshipCommand extends ModelCommand {
+public class AddRelationshipModelCommand extends ModelCommand {
 
 	private static final long serialVersionUID = 2583245849126236206L;
 
@@ -42,41 +42,40 @@ public class AddRelationshipCommand extends ModelCommand {
 	protected Classifier target;
 	protected EObject eContainer;	
 	
-	public AddRelationshipCommand(){
+	public AddRelationshipModelCommand(){
 		super();
+		this.notificationType = NotificationType.ADD;
 	}
 	
-	public AddRelationshipCommand(RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer){
-		super();
+	public AddRelationshipModelCommand(RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer){
+		this();
 		this.relationship = relationship;
 		this.eContainer = eContainer;		
 		if(aSource==null) source = OntoUMLParser.getSourceType(relationship);
 		else source = aSource;		
 		if(aTarget==null) target = OntoUMLParser.getTargetType(relationship);
-		else target = aTarget;		
+		else target = aTarget;			
 	}
 	
 	@Override
 	public void undo(){
 		super.undo();		
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		UpdateCommander.get().updateFromDeletion(relationship);
-		notifier.notifyUndo(this, relationship, NotificationType.ADD);
+		undoWithoutNotifying();
+		notifier.notify(this, relationship, ActionType.UNDO);
 	}
 	
 	@Override
 	public void run() {	    
 		super.run();	
 		runWithoutNotifying();
-		notifier.notifyDo(this, relationship, NotificationType.ADD);
+		notifier.notify(this, relationship, isRedo ? ActionType.REDO : ActionType.DO);
 	}
 	
-	public void runWithoutNotifying(){
-		addToModel();
-		UpdateCommander.get().updateFromAddition(relationship);
+	public void undoWithoutNotifying(){
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
 	}
 	
-	protected void addToModel(){
+	public void runWithoutNotifying(){		
 		OntoUMLParser.setSourceType(relationship, source);
 		OntoUMLParser.setTargetType(relationship, target);		
 		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();

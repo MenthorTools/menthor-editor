@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.strict;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -29,7 +29,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
+import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -37,7 +37,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ConvertConnectionTypeCommand extends DiagramStrictCommand {
+public class ConnectionTypeDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = -8661812094443443847L;
 	private UmlConnection connection;
@@ -50,9 +50,10 @@ public class ConvertConnectionTypeCommand extends DiagramStrictCommand {
 	 * @param umlconn the UmlConnection wrapped object
 	 * @param theNewConnection the new connection to be wrapped
 	 */
-	public ConvertConnectionTypeCommand(OntoumlEditor editor, UmlConnection umlconn, Connection theNewConnection) {
+	public ConnectionTypeDiagramCommand(OntoumlEditor editor, UmlConnection umlconn, Connection theNewConnection) {
 		this.ontoumlEditor = editor;
 		connection = umlconn;
+		this.notificationType = NotificationType.CONNECTION_TYPE;
 		newconnection = theNewConnection;
 	}
 
@@ -72,7 +73,7 @@ public class ConvertConnectionTypeCommand extends DiagramStrictCommand {
 		elements.add(connection);
 		
 		if (notifier!=null) {
-			notifier.notify(this,(List<DiagramElement>) elements, NotificationType.MODIFY_CONNECTION_TYPE, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notify(this,(List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}		
 	}
@@ -87,7 +88,7 @@ public class ConvertConnectionTypeCommand extends DiagramStrictCommand {
 	
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notifier.notify(this, elements, NotificationType.MODIFY_CONNECTION_TYPE, ActionType.UNDO);
+		notifier.notify(this, elements, ActionType.UNDO);
 	}
 
 }
