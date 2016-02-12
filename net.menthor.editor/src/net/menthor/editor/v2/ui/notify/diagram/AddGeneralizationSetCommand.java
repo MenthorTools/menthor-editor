@@ -98,14 +98,6 @@ public class AddGeneralizationSetCommand extends DiagramCommand {
 	}
 	
 	@Override
-	public void redo() 
-	{
-		isRedo = true;
-		super.redo();
-		run();
-	}
-
-	@Override
 	public void run() {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		

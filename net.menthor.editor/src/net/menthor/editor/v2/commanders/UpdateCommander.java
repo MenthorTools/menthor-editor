@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -14,14 +15,16 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 import net.menthor.editor.v2.ui.notify.Notifier;
 import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
 import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
-import net.menthor.editor.v2.ui.notify.NotificationType;
+import net.menthor.editor.v2.ui.notify.model.AddElementCommand;
 
 public class UpdateCommander {
 
@@ -93,12 +96,12 @@ public class UpdateCommander {
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
 			if (obj instanceof RefOntoUML.Class||obj instanceof RefOntoUML.DataType) {	
-				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1){						
-					AddNodeCommand cmd = new AddNodeCommand(ed,ed.getDiagram(),(RefOntoUML.Element)obj,
-					fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y, (RefOntoUML.Element)((EObject)obj).eContainer());		
+				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1){
+					UmlNode node = FactoryManager.get().createNode((RefOntoUML.Type)obj,  (RefOntoUML.Element)((EObject)obj).eContainer());
+					AddNodeCommand cmd = new AddNodeCommand(ed,node, fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y);		
 					cmd.run();
 				}else{
-					AddNodeCommand cmd = new AddNodeCommand(null,null,(RefOntoUML.Element)obj,0,0,(RefOntoUML.Element)((EObject)obj).eContainer());		
+					AddElementCommand cmd = new AddElementCommand((RefOntoUML.Element)obj,(RefOntoUML.Element)((EObject)obj).eContainer());		
 					cmd.run();									
 				}
 			}			

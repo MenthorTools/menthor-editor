@@ -434,7 +434,7 @@ public class SelectionHandler implements IEditorMode {
 	/**
 	 * This method is called if the editor removed an element. If the current
 	 * selection contains the removed element, that selection is removed.
-	 * @param element the removed element
+	 * @param type the removed element
 	 */
 	public void elementRemoved(List<DiagramElement> elements) {
 		for (DiagramElement element : elements) {

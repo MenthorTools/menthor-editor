@@ -33,6 +33,7 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.UmlConnection;
+import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -44,6 +45,7 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
@@ -178,7 +180,8 @@ public class MoveCommander {
 	
 	/** Move class to a diagram  */
 	public void moveClass(RefOntoUML.Element element, double x, double y, OntoumlEditor d)	{
-		AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),element,x,y, (RefOntoUML.Element)element.eContainer());		
+		UmlNode node = FactoryManager.get().createNode((RefOntoUML.Type)element, (RefOntoUML.Element)element.eContainer());
+		AddNodeCommand cmd = new AddNodeCommand(d,node, x,y);		
 		cmd.run();
 		moveGeneralizations(element,d);		   
 		moveAssociations(element, d);

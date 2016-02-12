@@ -27,9 +27,9 @@ import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AddConnectionCommand;
 import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
-import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
+import net.menthor.editor.v2.ui.notify.model.AddRelationshipCommand;
+import net.menthor.editor.v2.ui.notify.model.AddElementCommand;
 import net.menthor.editor.v2.util.Util;
 
 public class AddCommander {
@@ -58,10 +58,10 @@ public class AddCommander {
 	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, EObject eContainer)	{
 		RefOntoUML.Relationship relationship = FactoryManager.get().createRelationship(stereotype);		
 		if (stereotype==RelationshipType.GENERALIZATION) { //generalizations are owned by a type
-			AddConnectionCommand cmd = new AddConnectionCommand(relationship,(RefOntoUML.Classifier)eContainer,null,null);
+			AddRelationshipCommand cmd = new AddRelationshipCommand(relationship,null,null,(RefOntoUML.Classifier)eContainer);
 			cmd.run();
 		}else{
-			AddConnectionCommand cmd = new AddConnectionCommand(relationship,null,null,eContainer);
+			AddRelationshipCommand cmd = new AddRelationshipCommand(relationship,null,null,eContainer);
 			cmd.run();
 		}
 		return relationship;
@@ -70,14 +70,14 @@ public class AddCommander {
 	/** Add comment to the model. */
 	public RefOntoUML.Comment addComment(RefOntoUML.Element eContainer){
 		RefOntoUML.Comment comment = FactoryManager.get().createComment();
-		AddNodeCommand cmd = new AddNodeCommand(null,null,comment,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(comment,eContainer);		
 		cmd.run();
 		return comment;
 	}
 	
 	/** Add comment to the model */
 	public void addComment(RefOntoUML.Comment c, RefOntoUML.Element eContainer){
-		AddNodeCommand cmd = new AddNodeCommand(null,null,c,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(c,eContainer);		
 		cmd.run();
 	}
 	
@@ -86,13 +86,13 @@ public class AddCommander {
 		if(!(node.getUserObject() instanceof RefOntoUML.Package)) return;		
 		RefOntoUML.Package container = (RefOntoUML.Package) (node.getUserObject()) ;
 		RefOntoUML.Element newPackage = FactoryManager.get().createPackage();
-		AddNodeCommand cmd = new AddNodeCommand(null,null,newPackage,0,0,container);		
+		AddElementCommand cmd = new AddElementCommand(newPackage,container);		
 		cmd.run();
 	}
 	
 	/** Add constraint to the model */
 	public void addConstraintx(Constraintx cmt, RefOntoUML.Element eContainer){
-		AddNodeCommand cmd = new AddNodeCommand(null,null,cmt,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(cmt,eContainer);		
 		cmd.run();
 	}
 	
@@ -105,14 +105,14 @@ public class AddCommander {
 	public void addConstraintx(String text, RefOntoUML.Element eContainer){
 		RefOntoUML.Constraintx element = FactoryManager.get().createConstraintx();
 		((StringExpression)element.getSpecification()).setSymbol(text);
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
 		cmd.run();				
 	}
 	
 	/** Add generalization set to the model  */
 	public RefOntoUML.Element addGeneralizationSet(RefOntoUML.Element eContainer){
 		RefOntoUML.Element element = FactoryManager.get().createGeneralizationSet();		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
 		cmd.run();		
 		return element;
 	}
@@ -120,7 +120,7 @@ public class AddCommander {
 	/** Add class to the model */
 	public RefOntoUML.Element addClass(ClassType stereotype, RefOntoUML.Element eContainer){	
 		RefOntoUML.Element element = FactoryManager.get().createClass(stereotype);		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
 		cmd.run();		
 		return element;
 	}
@@ -128,7 +128,7 @@ public class AddCommander {
 	/** Add datatype to the model */
 	public RefOntoUML.Element addDataType(DataType stereotype, RefOntoUML.Element eContainer){
 		RefOntoUML.Element element = FactoryManager.get().createDataType(stereotype);		
-		AddNodeCommand cmd = new AddNodeCommand(null,null,element,0,0,eContainer);		
+		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
 		cmd.run();		
 		return element;
 	}
