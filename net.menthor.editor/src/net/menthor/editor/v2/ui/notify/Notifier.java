@@ -85,7 +85,7 @@ public class Notifier {
 			return notify(command, diagramElements, actionType);
 		}else{
 			eventHappened(AppBrowser.get(), command, actionType);
-			notifyUpdateCommander(command.getNotificationType(), element);
+			notifyUpdateCommander(command.getNotificationType(), actionType,element);
 			return null;
 		}
 	}
@@ -97,7 +97,7 @@ public class Notifier {
 		}else{
 			eventHappened(AppBrowser.get(), command, actionType);			
 			for(Element e: elements) {
-				notifyUpdateCommander(command.getNotificationType(), e);
+				notifyUpdateCommander(command.getNotificationType(),actionType, e);
 			}
 			return null;
 		}
@@ -119,26 +119,33 @@ public class Notifier {
 			StructureDiagram diagram = (StructureDiagram) element.getDiagram();
 			ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);		
 			eventHappened(diagram, command, actionType);
-			notifyUpdateCommander(changeType, element);			
+			notifyUpdateCommander(changeType, actionType, element);			
 		}
 		String text = getStatus(elements, changeType, actionType);
 		if(command !=null && command instanceof IDiagramCommand){
 			IDiagramCommand diagramCmd = (IDiagramCommand)command;
 			diagramCmd.getOntoumlEditor().getWrapper().getStatusBar().report(text);
+			diagramCmd.getOntoumlEditor().cancelEditing();
 		}
 		return text;
 	}
 	
 	//--- Notify application ---
 	
-	private void notifyUpdateCommander(NotificationType changeType, DiagramElement element){
+	private void notifyUpdateCommander(NotificationType changeType, ActionType actionType, DiagramElement element){
 		Element modelObject = (Element)element.getModelObject();
-		notifyUpdateCommander(changeType, modelObject);
+		notifyUpdateCommander(changeType, actionType, modelObject);
 	}
 	
-	private void notifyUpdateCommander(NotificationType changeType, Element element){		
-		if(changeType==NotificationType.ADD) UpdateCommander.get().updateFromAddition(element);
-		if(changeType==NotificationType.DELETE) UpdateCommander.get().updateFromDeletion(element);		
+	private void notifyUpdateCommander(NotificationType changeType, ActionType actionType, Element element){		
+		if(changeType==NotificationType.ADD){
+			if(actionType==ActionType.UNDO) UpdateCommander.get().updateFromDeletion(element);
+			else UpdateCommander.get().updateFromAddition(element);
+		}
+		if(changeType==NotificationType.DELETE) {
+			if(actionType==ActionType.UNDO) UpdateCommander.get().updateFromAddition(element);
+			else UpdateCommander.get().updateFromDeletion(element);		
+		}
 		if(changeType==NotificationType.RENAME) UpdateCommander.get().updateFromChange(element, false);
 		if(changeType==NotificationType.RENAME_LABEL) UpdateCommander.get().updateFromChange(element, false);
 		if(changeType==NotificationType.RESIZE) UpdateCommander.get().updateFromChange(element, false);

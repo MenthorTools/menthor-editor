@@ -42,7 +42,8 @@ public class AddElementModelCommand extends ModelCommand {
 	}
 	
 	public void undoWithoutNotifying(){
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();		
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		System.out.println("[undo add] - Model - "+element);
 	}
 	
 	public void runWithoutNotifying(){		
@@ -80,6 +81,7 @@ public class AddElementModelCommand extends ModelCommand {
 				emfCommand = new AddCommand(domain, ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
 			}
 		}			
+		System.out.println("[add] - Model - "+element);
 		if(emfCommand!=null) RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(emfCommand);
 	}
 }

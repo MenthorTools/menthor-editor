@@ -800,20 +800,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// ***** and sorts.
 	// ************************************************************************
 
-	/** Undoes the last operation. */
-	public void undo() { 
-		if (canUndo()) notificator.getUndoManager().undo(); else{
-			AppMessageManager.get().showInfo(this, "Cannot Undo", "No other action to be undone.\n\n");
-		}
-	}
-
-	/** Redoes the last operation. */
-	public void redo() {
-		if (canRedo()) notificator.getUndoManager().redo(); else {
-			AppMessageManager.get().showInfo(this,"Cannot Redo", "No other action to be redone.\n\n");
-		}
-	}
-
 	/**
 	 * Rescales the view.
 	 * @param aScaling a Scaling object
@@ -1576,7 +1562,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void deleteSelection() {
 				
 		if(this.isFocusable()){
-			Collection<DiagramElement> diagramElementsList = getSelectedElements();
+			List<DiagramElement> diagramElementsList = getSelectedElements();
 			DeleteCommander.get().deleteElements(diagramElementsList,true);
 		}
 	}
@@ -1595,7 +1581,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	}
 	
 	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection(Collection<DiagramElement> diagramElementsList){
+	public void excludeSelection(List<DiagramElement> diagramElementsList){
 		//no diagram in the list...
 		List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
 		for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
@@ -1605,7 +1591,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 			if(response==Window.OK)
 			{
-				execute(new DeleteElementDiagramCommand(this, OccurenceManager.get().getElements(diagramElementsList), false,true));
+				execute(new DeleteElementDiagramCommand(this, OccurenceManager.get().getElements(diagramElementsList), true));
 			}
 		}
 	}

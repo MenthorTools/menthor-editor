@@ -50,6 +50,8 @@ public class AddGenSetDiagramCommand extends AddGenSetModelCommand implements ID
 	
 	public AddGenSetDiagramCommand(OntoumlEditor editor, RefOntoUML.Element genSet, List<Generalization> generalizations, RefOntoUML.Element eContainer) {
 		super();
+		//there is no diagram element for generalization sets
+		//therefore we 'modify' the generalizations and does not 'add' them.
 		this.notificationType = NotificationType.MODIFY;
 		ontoumlEditor = editor;
 		if(ontoumlEditor!=null) this.parent = editor.getDiagram();		
@@ -65,7 +67,7 @@ public class AddGenSetDiagramCommand extends AddGenSetModelCommand implements ID
 	public void undo(){
 		super.undoWithoutNotifying();
 		List<DiagramElement> list = new ArrayList<>();
-		list.addAll(diagramGeneralizations);		
+		list.addAll(diagramGeneralizations);
 		notifier.notify(this, list, ActionType.UNDO);
 	}
 	

@@ -22,7 +22,6 @@ package net.menthor.editor.v2.managers;
  */
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -42,7 +41,6 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
-
 import net.menthor.editor.v2.OntoumlDiagram;
 
 public class OccurenceManager {
@@ -140,7 +138,7 @@ public class OccurenceManager {
         }
         return null;
     }	
-	public List<Element> getElements(Collection<DiagramElement> diagramElements){
+	public List<Element> getElements(List<DiagramElement> diagramElements){
 		List<Element> list = new ArrayList<Element>();		
 		for(DiagramElement e: diagramElements){
 			Element elem = getElement(e);
@@ -202,14 +200,14 @@ public class OccurenceManager {
 		if(list.size()>0) return list.get(0);
 		else return null;
 	}
-	public List<DiagramElement> getDiagramElements(Collection<Element> elements)	{
+	public List<DiagramElement> getDiagramElements(List<Element> elements)	{
 		List<DiagramElement> list = new ArrayList<DiagramElement>();		
 		for(Element elem: elements){
 			list.addAll(getDiagramElements(elem));
 		}
 		return list;
 	}
-	public List<DiagramElement> getDiagramElements(Collection<Element> elements, StructureDiagram diagram){
+	public List<DiagramElement> getDiagramElements(List<Element> elements, StructureDiagram diagram){
 		List<DiagramElement> list = new ArrayList<DiagramElement>();
 		for(DiagramElement de: getDiagramElements(elements)){			
 			if (diagram.containsChild(de)) list.add(de);

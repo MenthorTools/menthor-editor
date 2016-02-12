@@ -33,26 +33,22 @@ import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-/**
- * @author John Guerson
- */
 public class ClassVisibilityDiagramCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
-	public OntoumlEditor editor;
+	public enum ClassVisibility { 
+		STEREOTYPE, PARENTS, NAMESPACE, ATTRIBUTES
+	}
 	
-	//maps the selected elements to the previous values
-	public HashMap<ClassElement, Boolean> valueMap = new HashMap<ClassElement, Boolean>();
-	public ArrayList<ClassElement> classList = new ArrayList<ClassElement>();
-	public ArrayList<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
-	
-	public enum ClassVisibility { STEREOTYPE, PARENTS, NAMESPACE, ATTRIBUTES}
-	public ClassVisibility visibility;
-	
-	public boolean value;
+	protected HashMap<ClassElement, Boolean> valueMap = new HashMap<ClassElement, Boolean>();
+	protected ArrayList<ClassElement> classList = new ArrayList<ClassElement>();
+	protected ArrayList<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
+	protected ClassVisibility visibility;	
+	protected boolean value;
 	
 	private ClassVisibilityDiagramCommand(OntoumlEditor editor, ClassVisibility visibility, boolean value){
+		super();
 		this.ontoumlEditor=editor;		
 		this.visibility = visibility;
 		this.value = value;
@@ -63,7 +59,7 @@ public class ClassVisibilityDiagramCommand extends DiagramCommand{
 		this(editor,visibility,value);
 		this.classList.add(element);
 		this.diagramElementList.add(element);
-		populateMap();
+		storeOldValues();
 	}
 	
 	public ClassVisibilityDiagramCommand(OntoumlEditor editor, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
@@ -71,38 +67,36 @@ public class ClassVisibilityDiagramCommand extends DiagramCommand{
 		this(editor,visibility,value);
 		this.classList.addAll(selected);
 		this.diagramElementList.addAll(selected);
-		populateMap();
+		storeOldValues();
 	}
 	
-	private void populateMap(){
-		for (ClassElement element : classList) {
-			
+	private void storeOldValues(){
+		for (ClassElement element : classList) {			
 			switch(visibility){
-				case STEREOTYPE:
-					valueMap.put(element, element.showStereotypes());
-					break;
-				case PARENTS:
-					valueMap.put(element, element.showNamespace());
-					break;
-				case NAMESPACE:
-					valueMap.put(element, element.showNamespace());
-					break;
-				case ATTRIBUTES:
-					valueMap.put(element, element.showAttributes());
-					break;
-			}
-			
+			case STEREOTYPE:
+				valueMap.put(element, element.showStereotypes());
+				break;
+			case PARENTS:
+				valueMap.put(element, element.showNamespace());
+				break;
+			case NAMESPACE:
+				valueMap.put(element, element.showNamespace());
+				break;
+			case ATTRIBUTES:
+				valueMap.put(element, element.showAttributes());
+				break;
+			}			
 		}
 	}
 	
-	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void undo() {
 		super.undo();						
+		undoWithoutNotifying();		
+		notifier.notify(this, diagramElementList, ActionType.UNDO);
+	}
 	
+	protected void undoWithoutNotifying(){
 		for (ClassElement element : classList) {
 			switch(visibility){
 			case STEREOTYPE:
@@ -117,19 +111,18 @@ public class ClassVisibilityDiagramCommand extends DiagramCommand{
 			case ATTRIBUTES:
 				element.setShowAttributes(valueMap.get(element));
 				break;
-
 			}
-		}
-		
-		if(notifier!=null)
-			notifier.notify(this, diagramElementList, ActionType.UNDO);
-
+		}		
 	}
-	
 	
 	@Override
 	public void run() {
-
+		super.run();
+		runWithoutNotifying();
+		notifier.notify(this, diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);		
+	}
+	
+	protected void runWithoutNotifying(){
 		for (ClassElement element : classList) {
 			switch(visibility){
 			case STEREOTYPE:
@@ -144,16 +137,8 @@ public class ClassVisibilityDiagramCommand extends DiagramCommand{
 			case ATTRIBUTES:
 				element.setShowAttributes(value);
 				break;
-
 			}
 		}
-		
-		//notify
-		if (notifier!=null) {
-			notifier.notify(this, diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);		
-						
-		}	
-		
 	}
 	
 }

@@ -1,8 +1,6 @@
 package net.menthor.editor.v2.commanders;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -18,7 +16,6 @@ import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Element;
 import RefOntoUML.GeneralizationSet;
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
@@ -27,6 +24,7 @@ import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.notify.diagram.DeleteElementDiagramCommand;
 import net.menthor.editor.v2.ui.notify.diagram.DeleteGenSetDiagramCommand;
+import net.menthor.editor.v2.ui.notify.model.DeleteElementModelCommand;
 
 public class DeleteCommander {
 		
@@ -132,7 +130,7 @@ public class DeleteCommander {
 	
 	/** Delete elements from the model and from every diagram they might appear. 
 	 *  It shows a message before deletion. */
-	public void deleteElements(Collection<DiagramElement> diagramElements, boolean showmessage){	
+	public void deleteElements(List<DiagramElement> diagramElements, boolean showmessage){	
 		List<RefOntoUML.Element> list = (List<Element>) OccurenceManager.get().getElements(diagramElements);
 		boolean response = true;
 		if(showmessage) response = confirmElementDeletion();
@@ -141,29 +139,20 @@ public class DeleteCommander {
 	
 	/** Delete element from the model and from every diagram they might appear. **/
 	public void deleteElements(List<RefOntoUML.Element> elements){
-		
-		HashSet<Element> dependencies = new HashSet<Element>();
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
-		//if element is a Class or a Datatype, adds all connections attached to it to the deletion list
-		for (Element element : elements) {
-			dependencies.addAll(refparser.getDirectRelationships(element));
-		}
-		
-		elements.addAll(dependencies);
-		
+				
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
 				new DeleteGenSetDiagramCommand(ed, elements.get(0)).run();
 			}else{
-				new DeleteElementDiagramCommand(ed, elements, true, true).run();
+				new DeleteElementDiagramCommand(ed, elements, false).run();
 			}
 		}
 		if(editors==null || editors.size()==0) {
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
 				new DeleteGenSetDiagramCommand(null, elements.get(0)).run();
 			}else{
-				new DeleteElementDiagramCommand(null, elements, true, false).run();
+				new DeleteElementModelCommand(elements).run();
 			}
 		}
 	}
@@ -175,7 +164,7 @@ public class DeleteCommander {
 		if(element instanceof Comment) return;
 		List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 		list.add(element);
-		new DeleteElementDiagramCommand(ed,list,false,true).run();				
+		new DeleteElementDiagramCommand(ed,list,true).run();				
 	}
 	
 	/** Delete all elements at the diagram */

@@ -1970,14 +1970,17 @@ public class OntoUMLParser {
 	}
 	
 	public static String getUUIDFromElement(Element element){
-		return element.eResource().getURIFragment(element);
+		if(element.eResource()!=null) return element.eResource().getURIFragment(element);
+		else return null;
 	}
 	
 	public static String getUUIDFromModel(RefOntoUML.Package model, Element element){
-		return model.eResource().getURIFragment(element);
+		if(model.eResource()!=null) return model.eResource().getURIFragment(element);
+		else return null;
 	}
 	
 	public static Element getElementByUUID(RefOntoUML.Package model, String uuid){
-		return (Element) model.eResource().getEObject(uuid);
+		if(model.eResource()!=null) return (Element) model.eResource().getEObject(uuid);
+		else return null;
 	}
 }

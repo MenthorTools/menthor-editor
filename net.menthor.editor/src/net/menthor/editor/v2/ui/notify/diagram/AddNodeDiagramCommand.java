@@ -69,7 +69,8 @@ public class AddNodeDiagramCommand extends AddElementModelCommand implements IDi
 	@Override
 	public void undo(){		
 		super.undo();
-		parent.removeChild(diagramElement);			
+		parent.removeChild(diagramElement);	
+		System.out.println("[undo add] - "+parent.getName()+" - "+diagramElement);
 		OccurenceManager.get().remove(diagramElement);		
 		notifier.notify(this, diagramElement, ActionType.UNDO);		
 	}
@@ -82,6 +83,7 @@ public class AddNodeDiagramCommand extends AddElementModelCommand implements IDi
 	
 	public void addToDiagram (){
 		parent.addChild(diagramElement);
+		System.out.println("[add] - "+parent.getName()+" - "+diagramElement);
 		if(diagramElement instanceof Node){			
 			((Node)diagramElement).setAbsolutePos(absx, absy);
 			showAttributesCompartment();

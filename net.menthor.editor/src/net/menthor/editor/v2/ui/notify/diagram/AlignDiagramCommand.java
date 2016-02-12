@@ -41,10 +41,10 @@ public class AlignDiagramCommand extends DiagramCommand {
 		TOP, BOTTOM, LEFT, RIGHT, CENTER_VERTICAL, CENTER_HORIZONTAL 
 	}
 	
-	public List<DiagramElement> selected = new ArrayList<DiagramElement>();	
-	public Alignment direction;
-	public List<Double> oldPosXList = new ArrayList<Double>();
-	public List<Double> oldPosYList = new ArrayList<Double>();
+	protected List<DiagramElement> selected = new ArrayList<DiagramElement>();	
+	protected Alignment direction;
+	protected List<Double> oldPosXList = new ArrayList<Double>();
+	protected List<Double> oldPosYList = new ArrayList<Double>();
 	
 	public AlignDiagramCommand(){
 		super();

@@ -73,6 +73,7 @@ public class AddRelationshipModelCommand extends ModelCommand {
 	
 	public void undoWithoutNotifying(){
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		System.out.println("[undo add] - Model - "+relationship);
 	}
 	
 	public void runWithoutNotifying(){		
@@ -88,6 +89,7 @@ public class AddRelationshipModelCommand extends ModelCommand {
 			if(eContainer==null) emfCommand = new AddCommand(domain, model.getPackagedElement(), relationship);
 			else emfCommand = new AddCommand(domain, ((RefOntoUML.Package)eContainer).getPackagedElement(), relationship);			
 		}	
+		System.out.println("[add] - Model - "+relationship);
 		if(emfCommand!=null)RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(emfCommand);
 	}
 }

@@ -41,22 +41,18 @@ public class AssociationVisibilityDiagramCommand extends DiagramCommand{
 		NAME, ENDPOINTS, STEREOTYPE, MULTIPLICITY, SUBSETS, REDEFINES 
 	}
 	
-	public HashMap<AssociationElement, Boolean> valueMap = new HashMap<AssociationElement, Boolean>();
-	public List<AssociationElement> associationList = new ArrayList<AssociationElement>();
-	public List<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
-	public AssociationVisibility visibility;
-	public boolean value;
-	
-	public AssociationVisibilityDiagramCommand(){
-		super();
-		this.notificationType = NotificationType.VISIBILITY;
-	}
-	
+	protected HashMap<AssociationElement, Boolean> valueMap = new HashMap<AssociationElement, Boolean>();
+	protected List<AssociationElement> associationList = new ArrayList<AssociationElement>();
+	protected List<DiagramElement> diagramElementList = new ArrayList<DiagramElement>();
+	protected AssociationVisibility visibility;
+	protected boolean value;
+
 	private AssociationVisibilityDiagramCommand(OntoumlEditor editor, AssociationVisibility visibility, boolean value){
-		this();
+		super();
 		this.ontoumlEditor = editor;		
 		this.visibility = visibility;
 		this.value = value;		
+		this.notificationType = NotificationType.VISIBILITY;
 	}
 	
 	public AssociationVisibilityDiagramCommand(OntoumlEditor editor, AssociationElement element, AssociationVisibility visibility, boolean value){

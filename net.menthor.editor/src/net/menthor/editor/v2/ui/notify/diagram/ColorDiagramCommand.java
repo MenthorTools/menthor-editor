@@ -29,37 +29,25 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-/**
- * @author John Guerson
- */
 public class ColorDiagramCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	public UmlProject project;
-	
-	public ArrayList<DiagramElement> elementList = new ArrayList<DiagramElement>();
-	public ArrayList<ClassElement> classList = new ArrayList<ClassElement>();
-//	public ArrayList<ClassElement> connectionList = new ArrayList<ClassElement>();
-	
-	public ArrayList<Color> oldColorList = new ArrayList<Color>();
-	public Color color;
-	
-	
-	public ColorDiagramCommand(OntoumlEditor editor, List<DiagramElement> selected, Color color)
-	{
+	protected List<DiagramElement> elementList = new ArrayList<DiagramElement>();
+	protected List<ClassElement> classList = new ArrayList<ClassElement>();
+	protected List<Color> oldColorList = new ArrayList<Color>();
+	protected Color color;
+		
+	public ColorDiagramCommand(OntoumlEditor editor, List<DiagramElement> selected, Color color){
 		this.ontoumlEditor = editor;
 		this.color = color;
 		this.notificationType = NotificationType.COLOR;
-		elementList.addAll(selected);
-		
-		for(DiagramElement dElem: selected)
-		{
+		elementList.addAll(selected);		
+		for(DiagramElement dElem: selected){
 			if(dElem instanceof ClassElement){
 				ClassElement ce = (ClassElement)dElem;
 				oldColorList.add(ce.getBackgroundColor());
@@ -68,43 +56,34 @@ public class ColorDiagramCommand extends DiagramCommand {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void undo() {
-		super.undo();
-						
-		if(notifier!=null){
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-		
-			int i =0;
-			for(ClassElement ce: classList)
-			{
-				ce.setBackgroundColor(oldColorList.get(i));
-				list.add(ce);
-				i++;
+		super.undo();	
+		undoWithoutNotifying();
+		notifier.notify(this, elementList, ActionType.UNDO);		
+	}
+	
+	protected void undoWithoutNotifying(){				
+		int i =0;
+		for(ClassElement ce: classList){
+			ce.setBackgroundColor(oldColorList.get(i));
+			i++;
+		}
+	}
+	
+	protected void runWithoutNotifying(){
+		for(DiagramElement dElem: classList){
+			if(dElem instanceof ClassElement){
+				ClassElement ce = (ClassElement)dElem;
+				ce.setBackgroundColor(color);				
 			}
-			
-			notifier.notify(this, (List<DiagramElement>) list, ActionType.UNDO);
 		}
 	}
 	
 	@Override
 	public void run() {
-		
-		for(DiagramElement dElem: classList)
-		{
-			if(dElem instanceof ClassElement)
-			{
-				ClassElement ce = (ClassElement)dElem;
-				ce.setBackgroundColor(color);				
-			}
-		}
-	
-		//notify
-		if (notifier!=null) {
-			notifier.notify(this, elementList, isRedo ? ActionType.REDO : ActionType.DO);			
-		}	
+		super.run();
+		runWithoutNotifying();
+		notifier.notify(this, elementList, isRedo ? ActionType.REDO : ActionType.DO);			
 	}
 }
