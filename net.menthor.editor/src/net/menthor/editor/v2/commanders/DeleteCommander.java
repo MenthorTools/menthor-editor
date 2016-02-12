@@ -25,8 +25,8 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.DeleteElementCommand;
-import net.menthor.editor.v2.ui.notify.command.DeleteGeneralizationSetCommand;
+import net.menthor.editor.v2.ui.notify.diagram.DeleteElementCommand;
+import net.menthor.editor.v2.ui.notify.diagram.DeleteGeneralizationSetCommand;
 
 public class DeleteCommander {
 		

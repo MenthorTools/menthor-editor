@@ -11,7 +11,7 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.notify.command.SetColorCommand;
+import net.menthor.editor.v2.ui.notify.strict.SetColorCommand;
 
 public class ColorCommander extends GenericCommander {
 	

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -106,10 +106,10 @@ public class AddNodeCommand extends DiagramCommand {
 			OccurenceManager.get().remove(diagramElement);
 		}		
 		
-		if(notificator!=null){
+		if(notifier!=null){
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
-			notificator.notify(this, elements, NotificationType.ADD, ActionType.UNDO);
+			notifier.notify(this, elements, NotificationType.ADD, ActionType.UNDO);
 			if(ontoumlEditor!=null){
 				SelectionHandler selHandler = ontoumlEditor.getSelectionHandler();
 				selHandler.elementRemoved(elements);
@@ -141,8 +141,8 @@ public class AddNodeCommand extends DiagramCommand {
 			list.add(diagramElement);
 		}		
 		
-		if (notificator!=null) {
-			notificator.notify(this, (List<DiagramElement>) list, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);		
+		if (notifier!=null) {
+			notifier.notify(this, (List<DiagramElement>) list, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}	

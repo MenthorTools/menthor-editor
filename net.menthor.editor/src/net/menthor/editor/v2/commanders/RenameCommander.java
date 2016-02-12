@@ -28,8 +28,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.notify.ICommand;
-import net.menthor.editor.v2.ui.notify.command.RenameCommand;
+import net.menthor.editor.v2.ui.notify.IUndoableCommand;
+import net.menthor.editor.v2.ui.notify.model.RenameCommand;
 
 //Class to deal with renaning elements on the project browser.
 public class RenameCommander extends GenericCommander {
@@ -69,7 +69,7 @@ public class RenameCommander extends GenericCommander {
 		if (element instanceof NamedElement){
 			namedElement = (NamedElement) element;
 			String newName = askForElementName(AppFrame.get(), namedElement.getName());
-			ICommand command = new RenameCommand(namedElement, newName);
+			IUndoableCommand command = new RenameCommand(namedElement, newName);
 			command.run();
 		}
 					

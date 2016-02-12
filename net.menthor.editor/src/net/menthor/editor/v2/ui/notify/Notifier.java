@@ -18,19 +18,19 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 
-public class Notificator implements INotification {
+public class Notifier implements INotification {
 
 	// -------- Lazy Initialization
 	
 	private static class NotificationLoader {
-        private static final Notificator INSTANCE = new Notificator();
+        private static final Notifier INSTANCE = new Notifier();
     }	
-	public static Notificator get() { 
+	public static Notifier get() { 
 		return NotificationLoader.INSTANCE; 
 	}	
-    private Notificator() {
+    private Notifier() {
     	editListeners.add(undoManager);
-        if (NotificationLoader.INSTANCE != null) throw new IllegalStateException("Notification already instantiated");
+        if (NotificationLoader.INSTANCE != null) throw new IllegalStateException("Notifier already instantiated");
     }		
     
     // ----------------------------
@@ -60,7 +60,7 @@ public class Notificator implements INotification {
 	
 	public String notifyUndo(ModelCommand command, RefOntoUML.Element element, NotificationType changeType){
 		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-		return notify(null, diagramElements, changeType, ActionType.REDO);
+		return notify(null, diagramElements, changeType, ActionType.UNDO);
 	}
 	
 	public String notify(ModelCommand command, RefOntoUML.Element element, NotificationType changeType, ActionType actionType){
@@ -70,19 +70,38 @@ public class Notificator implements INotification {
 	
 	//--- notify diagram ---
 	
-	public String notifyDo(DiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
+	public String notifyDo(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
 		return notify(command,elements,changeType, ActionType.DO);
 	}
 	
-	public String notifyRedo(DiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
+	public String notifyDo(IDiagramCommand command, DiagramElement element, NotificationType changeType){
+		List<DiagramElement> list = new ArrayList<DiagramElement>();
+		list.add(element);
+		return notify(command,list,changeType, ActionType.DO);
+	}
+	
+	
+	public String notifyRedo(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
 		return notify(command,elements,changeType, ActionType.REDO);
 	}
 	
-	public String notifyUndo(DiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
+	public String notifyRedo(IDiagramCommand command, DiagramElement element, NotificationType changeType){
+		List<DiagramElement> list = new ArrayList<DiagramElement>();
+		list.add(element);
+		return notify(command,list,changeType, ActionType.REDO);
+	}
+	
+	public String notifyUndo(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType){
 		return notify(command,elements,changeType, ActionType.UNDO);
 	}
 	
-	public String notify(DiagramCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType actionType){
+	public String notifyUndo(IDiagramCommand command, DiagramElement element, NotificationType changeType){
+		List<DiagramElement> list = new ArrayList<DiagramElement>();
+		list.add(element);
+		return notify(command,list,changeType, ActionType.UNDO);
+	}
+	
+	public String notify(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType actionType){
 		if(elements.size()==0) return null;		
 		for(DiagramElement element: elements){
 			StructureDiagram diagram = (StructureDiagram) element.getDiagram();
@@ -118,7 +137,7 @@ public class Notificator implements INotification {
 		StringBuilder sb = new StringBuilder();		
 		sb.append(actionType.getName());		
 		if(actionType==ActionType.DO) sb.append(notificationType.getPast());
-		else sb.append(notificationType.getPresent());
+		else sb.append(" "+notificationType.getPresent());
 		if(elements.size()>0) sb.append(": "); else sb.append("...");
 		for (int i = 0; i < elements.size(); i++){
 			DiagramElement element = elements.get(i);			

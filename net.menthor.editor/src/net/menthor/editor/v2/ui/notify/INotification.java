@@ -8,7 +8,7 @@ import org.tinyuml.draw.DiagramElement;
 public interface INotification {
 
 	/** notify there was a change in the diagram, in the given elements, of a certain notification/action type */
-	String notify(DiagramCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType notificationType);
+	String notify(IDiagramCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType notificationType);
 	
 	/** notify there was a change in the model, in the given element, of a certain notification/action type */
 	String notify(ModelCommand command, RefOntoUML.Element element, NotificationType changeType, ActionType actionType);

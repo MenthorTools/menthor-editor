@@ -2,15 +2,19 @@ package net.menthor.editor.v2.ui.notify;
 
 import javax.swing.undo.AbstractUndoableEdit;
 
-public abstract class GenericCommand extends AbstractUndoableEdit implements ICommand {
+public abstract class GenericCommand extends AbstractUndoableEdit implements IUndoableCommand {
 
 	private static final long serialVersionUID = 2761186015906877743L;
 	
-	protected Notificator notificator = Notificator.get();
+	protected Notifier notifier = Notifier.get();
 	protected boolean isRedo = false;
 	
 	@Override
-	public void run() {
-	
+	public void redo(){
+		isRedo = true;
+		super.redo();
+		run();	
 	}
+	
+	public void run(){}
 }

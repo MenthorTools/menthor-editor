@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -33,7 +33,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 
@@ -45,7 +45,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class MoveElementCommand extends DiagramCommand {
+public class MoveElementCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = 2523534899493234371L;
 	private MoveOperation[] moveOperations;
@@ -108,8 +108,8 @@ public class MoveElementCommand extends DiagramCommand {
 			}
 		}
 		
-		if (notificator!=null) {
-			notificator.notify(this,(List<DiagramElement>) elements, NotificationType.MOVE, isRedo ? ActionType.REDO : ActionType.DO);			
+		if (notifier!=null) {
+			notifier.notify(this,(List<DiagramElement>) elements, NotificationType.MOVE, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 	}
 
@@ -148,16 +148,7 @@ public class MoveElementCommand extends DiagramCommand {
 			}
 		}
 		
-		notificator.notify(this,elements, NotificationType.MOVE, ActionType.UNDO);		
+		notifier.notify(this,elements, NotificationType.MOVE, ActionType.UNDO);		
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;	
-		super.redo();	
-		run();
-	}
 }

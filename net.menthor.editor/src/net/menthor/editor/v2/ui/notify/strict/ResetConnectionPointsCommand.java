@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -29,7 +29,7 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -37,7 +37,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResetConnectionPointsCommand extends DiagramCommand {
+public class ResetConnectionPointsCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = -1321480473934728961L;
 	private Connection connection;
@@ -63,8 +63,8 @@ public class ResetConnectionPointsCommand extends DiagramCommand {
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
 		
-		if (notificator!=null) {
-			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.RESET_CONNECTION_POINTS, isRedo ? ActionType.REDO : ActionType.DO);		
+		if (notifier!=null) {
+			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.RESET_CONNECTION_POINTS, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}		
 	}
@@ -92,16 +92,6 @@ public class ResetConnectionPointsCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notificator.notify(this, elements, NotificationType.RESET_CONNECTION_POINTS, ActionType.UNDO);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();
+		notifier.notify(this, elements, NotificationType.RESET_CONNECTION_POINTS, ActionType.UNDO);
 	}
 }

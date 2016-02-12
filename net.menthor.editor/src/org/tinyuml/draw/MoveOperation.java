@@ -22,7 +22,7 @@ package org.tinyuml.draw;
 
 import javax.swing.undo.AbstractUndoableEdit;
 
-import net.menthor.editor.v2.ui.notify.ICommand;
+import net.menthor.editor.v2.ui.notify.IUndoableCommand;
 
 /**
  * This class implements a single undoable operation to move a node.
@@ -30,7 +30,7 @@ import net.menthor.editor.v2.ui.notify.ICommand;
  * @author Wei-ju Wu
  */
 public abstract class MoveOperation extends AbstractUndoableEdit
-implements ICommand {
+implements IUndoableCommand {
 
 	private static final long serialVersionUID = 1L;
 

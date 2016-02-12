@@ -35,7 +35,7 @@ import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
 import net.menthor.editor.v2.util.DrawUtil;
 
 public class ClipboardMode implements IEditorMode {

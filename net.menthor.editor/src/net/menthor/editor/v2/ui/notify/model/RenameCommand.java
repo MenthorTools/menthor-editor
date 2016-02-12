@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.model;
 
 import javax.swing.SwingUtilities;
 
@@ -9,7 +9,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.notify.ModelCommand;
-import net.menthor.editor.v2.ui.notify.Notificator;
+import net.menthor.editor.v2.ui.notify.Notifier;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -73,7 +73,7 @@ public class RenameCommand extends ModelCommand {
 			});
 		}
 		else{
-			Notificator.get().notifyDo(this, namedElement, NotificationType.MODIFY);				
+			Notifier.get().notifyDo(this, namedElement, NotificationType.MODIFY);				
 		}
 		AppBrowserManager.get().updateUI();
 	}	

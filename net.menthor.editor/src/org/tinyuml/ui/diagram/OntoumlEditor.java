@@ -114,17 +114,17 @@ import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.ICommand;
-import net.menthor.editor.v2.ui.notify.Notificator;
+import net.menthor.editor.v2.ui.notify.IUndoableCommand;
+import net.menthor.editor.v2.ui.notify.Notifier;
+import net.menthor.editor.v2.ui.notify.diagram.AddConnectionCommand;
+import net.menthor.editor.v2.ui.notify.diagram.DeleteElementCommand;
+import net.menthor.editor.v2.ui.notify.strict.ConvertConnectionTypeCommand;
+import net.menthor.editor.v2.ui.notify.strict.EditConnectionPointsCommand;
+import net.menthor.editor.v2.ui.notify.strict.MoveElementCommand;
+import net.menthor.editor.v2.ui.notify.strict.ResetConnectionPointsCommand;
+import net.menthor.editor.v2.ui.notify.strict.ResizeElementCommand;
+import net.menthor.editor.v2.ui.notify.strict.SetLabelTextCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
-import net.menthor.editor.v2.ui.notify.command.AddConnectionCommand;
-import net.menthor.editor.v2.ui.notify.command.ConvertConnectionTypeCommand;
-import net.menthor.editor.v2.ui.notify.command.DeleteElementCommand;
-import net.menthor.editor.v2.ui.notify.command.EditConnectionPointsCommand;
-import net.menthor.editor.v2.ui.notify.command.MoveElementCommand;
-import net.menthor.editor.v2.ui.notify.command.ResetConnectionPointsCommand;
-import net.menthor.editor.v2.ui.notify.command.ResizeElementCommand;
-import net.menthor.editor.v2.ui.notify.command.SetLabelTextCommand;
 import net.menthor.editor.v2.util.DrawUtil;
 import net.menthor.editor.v2.util.Util;
 
@@ -146,11 +146,11 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	private AppEditorsPane diagramManager;
 	private OntoumlWrapper wrapper;
 	
-	private Notificator notificator = Notificator.get();
+	private Notifier notificator = Notifier.get();
 	private transient IEditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
 	
-	public Notificator getNotificator(){ return notificator; }
+	//public Notifier getNotificator(){ return notificator; }
 	public IEditorMode getEditorMode(){ return editorMode; }
 	public SelectionHandler getSelectionHandler(){ return selectionHandler; }
 	
@@ -1263,7 +1263,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * the operation reversible.
 	 * @param command the command to run
 	 */
-	public void execute(ICommand command) 
+	public void execute(IUndoableCommand command) 
 	{		
 		// We need to run() after notifying the UndoManager in order to ensure correct menu behaviour
 		command.run();

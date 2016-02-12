@@ -18,10 +18,10 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.Notificator;
+import net.menthor.editor.v2.ui.notify.Notifier;
+import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
-import net.menthor.editor.v2.ui.notify.command.AddGeneralizationSetCommand;
-import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
 
 public class UpdateCommander {
 
@@ -146,24 +146,24 @@ public class UpdateCommander {
 			@Override
 			public void run() {
 				if (element instanceof RefOntoUML.Class || element instanceof RefOntoUML.DataType){
-					Notificator.get().notifyDo(null,(Classifier)element, NotificationType.MODIFY);			
+					Notifier.get().notifyDo(null,(Classifier)element, NotificationType.MODIFY);			
 				}
 				if (element instanceof RefOntoUML.Association){
 					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element);
-					else Notificator.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
+					else Notifier.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
 				}
 				if (element instanceof RefOntoUML.Property){
 					Association assoc= ((RefOntoUML.Property)element).getAssociation();								
 					if (assoc!=null){
 						if(remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)assoc);
-						else  Notificator.get().notifyDo(null,(RefOntoUML.Element)assoc, NotificationType.MODIFY);
+						else  Notifier.get().notifyDo(null,(RefOntoUML.Element)assoc, NotificationType.MODIFY);
 					}else{
-						Notificator.get().notifyDo(null,(RefOntoUML.Element)(element).eContainer(), NotificationType.MODIFY);
+						Notifier.get().notifyDo(null,(RefOntoUML.Element)(element).eContainer(), NotificationType.MODIFY);
 					}
 				}		
 				if (element instanceof RefOntoUML.Generalization){
 					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element); 
-					else Notificator.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
+					else Notifier.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
 				}
 				if(element instanceof RefOntoUML.GeneralizationSet){
 					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) updateFromChange(gen,false);

@@ -16,7 +16,6 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
-
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.FactoryManager;
@@ -28,9 +27,9 @@ import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.AddConnectionCommand;
-import net.menthor.editor.v2.ui.notify.command.AddGeneralizationSetCommand;
-import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddConnectionCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
 import net.menthor.editor.v2.util.Util;
 
 public class AddCommander {
@@ -59,10 +58,10 @@ public class AddCommander {
 	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, EObject eContainer)	{
 		RefOntoUML.Relationship relationship = FactoryManager.get().createRelationship(stereotype);		
 		if (stereotype==RelationshipType.GENERALIZATION) { //generalizations are owned by a type
-			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,(RefOntoUML.Classifier)eContainer,null,null);
+			AddConnectionCommand cmd = new AddConnectionCommand(relationship,(RefOntoUML.Classifier)eContainer,null,null);
 			cmd.run();
 		}else{
-			AddConnectionCommand cmd = new AddConnectionCommand(null,null,relationship,null,null,eContainer);
+			AddConnectionCommand cmd = new AddConnectionCommand(relationship,null,null,eContainer);
 			cmd.run();
 		}
 		return relationship;

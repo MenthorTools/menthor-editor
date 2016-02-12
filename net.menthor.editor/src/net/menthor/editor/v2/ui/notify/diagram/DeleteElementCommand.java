@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -121,7 +121,7 @@ public class DeleteElementCommand extends DiagramCommand{
 				}
 			}			
 		}		
-		if((notificator)!=null){
+		if((notifier)!=null){
 			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,ontoumlEditor.getDiagram()));		
 			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,ontoumlEditor.getDiagram()));
 		}
@@ -173,8 +173,8 @@ public class DeleteElementCommand extends DiagramCommand{
 		runDelete(diagramElemList, elemList);
 		list.addAll(diagramElemList);
 		
-		if (notificator!=null) {
-			notificator.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, isRedo ? ActionType.REDO : ActionType.DO);		
+		if (notifier!=null) {
+			notifier.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}
@@ -194,12 +194,12 @@ public class DeleteElementCommand extends DiagramCommand{
 		runUndo(parentChildRelationsDep2,elemDep2List);	
 		
 		//notify
-		if(notificator!=null){
+		if(notifier!=null){
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			list.addAll(diagramElemList);
 			list.addAll(diagramElemDep1List);
 			list.addAll(diagramElemDep2List);
-			notificator.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, ActionType.UNDO);		
+			notifier.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, ActionType.UNDO);		
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -31,7 +31,7 @@ import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -39,7 +39,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ResizeElementCommand extends DiagramCommand {
+public class ResizeElementCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = -3090945928366890788L;
 	private Node element;
@@ -75,20 +75,10 @@ public class ResizeElementCommand extends DiagramCommand {
 		
 
 		//notify
-		if (notificator!=null) {
-			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.RESIZE, isRedo ? ActionType.REDO : ActionType.DO);			
+		if (notifier!=null) {
+			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.RESIZE, isRedo ? ActionType.REDO : ActionType.DO);			
 						
 		}		
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();
 	}
 
 	/**
@@ -102,6 +92,6 @@ public class ResizeElementCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notificator.notify(this, elements, NotificationType.RESIZE, ActionType.UNDO);
+		notifier.notify(this, elements, NotificationType.RESIZE, ActionType.UNDO);
 	}
 }

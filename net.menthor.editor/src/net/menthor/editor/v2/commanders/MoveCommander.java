@@ -49,7 +49,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
 
 public class MoveCommander {
 	

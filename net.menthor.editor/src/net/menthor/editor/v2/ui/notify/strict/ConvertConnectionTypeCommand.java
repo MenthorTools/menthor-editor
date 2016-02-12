@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -29,7 +29,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -37,7 +37,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class ConvertConnectionTypeCommand extends DiagramCommand {
+public class ConvertConnectionTypeCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = -8661812094443443847L;
 	private UmlConnection connection;
@@ -71,8 +71,8 @@ public class ConvertConnectionTypeCommand extends DiagramCommand {
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
 		
-		if (notificator!=null) {
-			notificator.notify(this,(List<DiagramElement>) elements, NotificationType.MODIFY_CONNECTION_TYPE, isRedo ? ActionType.REDO : ActionType.DO);		
+		if (notifier!=null) {
+			notifier.notify(this,(List<DiagramElement>) elements, NotificationType.MODIFY_CONNECTION_TYPE, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}		
 	}
@@ -87,16 +87,7 @@ public class ConvertConnectionTypeCommand extends DiagramCommand {
 	
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notificator.notify(this, elements, NotificationType.MODIFY_CONNECTION_TYPE, ActionType.UNDO);
+		notifier.notify(this, elements, NotificationType.MODIFY_CONNECTION_TYPE, ActionType.UNDO);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();
-	}
 }

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.diagram;
 
 /**
  * ============================================================================================
@@ -22,10 +22,11 @@ package net.menthor.editor.v2.ui.notify.command;
  */
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.GeneralizationElement;
@@ -41,18 +42,25 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
 /**
  * @author John Guerson
  */
-public class DeleteGeneralizationSetCommand extends DiagramCommand {
+public class AddGeneralizationSetCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
+	@SuppressWarnings("unused")
+	private CompositeElement parent;
 	private RefOntoUML.Element genSet;
+	private boolean addToDiagram;
+	private RefOntoUML.Element eContainer;
 	private ArrayList<DiagramElement> diagramGenList = new ArrayList<DiagramElement>();
 	private ArrayList<Generalization> generalizations = new ArrayList<Generalization>();
 	
-	public DeleteGeneralizationSetCommand(OntoumlEditor editor, RefOntoUML.Element genSet) {		
-		this.ontoumlEditor = editor;		
+	public AddGeneralizationSetCommand(OntoumlEditor editor, CompositeElement parent, RefOntoUML.Element genSet, Collection<Generalization> generalizations, RefOntoUML.Element eContainer) {
+		this.parent = parent;		
+		this.eContainer = eContainer;
+		this.ontoumlEditor = editor;	
+		if (ontoumlEditor==null) this.addToDiagram = false; else this.addToDiagram=true;		
 		this.genSet = genSet;		
-		this.generalizations.addAll(((RefOntoUML.GeneralizationSet)genSet).getGeneralization());
-		if(generalizations!=null && ontoumlEditor!=null){
+		this.generalizations .addAll(generalizations);
+		if(generalizations!=null && ontoumlEditor!=null){			
 			for(DiagramElement dElem: ontoumlEditor.getDiagram().getChildren()){
 				if(dElem instanceof GeneralizationElement){
 					GeneralizationElement genElem = (GeneralizationElement)dElem;
@@ -72,10 +80,11 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 		if(genSet!=null){
-			undoGeneralizationSet((RefOntoUML.GeneralizationSet)genSet);			
+			undoFromModel(genSet,generalizations);
+			UpdateCommander.get().updateFromDeletion(genSet);
 		}
 		
-		if(diagramGenList.size()>0){						
+		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
 				UpdateCommander.get().updateFromChange(gen,false);
@@ -83,8 +92,8 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 			}
 		}		
 		
-		if(notificator!=null){
-			notificator.notify(this,diagramGenList, NotificationType.MODIFY, ActionType.UNDO);
+		if(notifier!=null){		
+			notifier.notify(this, diagramGenList, NotificationType.MODIFY, ActionType.UNDO);
 		}
 	}
 	
@@ -101,10 +110,11 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 		if(genSet!=null){
-			deleteGeneralizationSet((RefOntoUML.GeneralizationSet)genSet);						
+			addToModel(genSet, generalizations);
+			UpdateCommander.get().updateFromAddition(genSet);			
 		}
 		
-		if(diagramGenList.size()>0){						
+		if(addToDiagram && diagramGenList.size()>0){						
 			for(DiagramElement genElem: diagramGenList){
 				Generalization gen = (Generalization)((GeneralizationElement)genElem).getRelationship();
 				UpdateCommander.get().updateFromChange(gen,false);
@@ -112,57 +122,33 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 			}
 		}		
 		
-		if (notificator!=null) {
-			notificator.notify(this,(List<DiagramElement>) list, NotificationType.MODIFY, isRedo ? ActionType.REDO : ActionType.DO);		
-						
+		if (notifier!=null) {
+			notifier.notify(this, (List<DiagramElement>) list, NotificationType.MODIFY, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 		
 	}
 	
-	
-	// deleted generalization sets and its dependent generalizations
-	private HashMap<Generalization, GeneralizationSet> decoupledGenSetMap = new HashMap<Generalization,GeneralizationSet>();
-	
-	private void deleteGeneralizationSet(GeneralizationSet elem)
+	public void undoFromModel(RefOntoUML.Element genSet,  ArrayList<Generalization> generalizations)
 	{
-		//decouple generalization sets and its generalizations before deletion
-		for(Generalization gen: ((GeneralizationSet)elem).getGeneralization())
-		{				
-			if(gen!=null) decoupledGenSetMap.put(gen,elem);			
-		}			
-		((GeneralizationSet)elem).getGeneralization().removeAll(decoupledGenSetMap.keySet());		
-		for(Generalization gen: decoupledGenSetMap.keySet()) {
-			gen.getGeneralizationSet().remove(elem);
-			UpdateCommander.get().updateFromChange(gen, false);
-		}
-		
-		delete(elem);		
-	}
-	
-	private void delete (RefOntoUML.Element elem)
-	{			
-//		System.out.println("Deleting = "+elem);
-		DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(RefOntoUMLEditingDomain.getInstance().createDomain(), elem);
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
-		UpdateCommander.get().updateFromDeletion(elem);
-	}
-	
-	private void undoGeneralizationSet(GeneralizationSet elem)
-	{
-		undo(elem);
-		
-		//couple generalization set and its generalizations again
-		((GeneralizationSet)elem).getGeneralization().addAll(decoupledGenSetMap.keySet());		
-		for(Generalization gen: decoupledGenSetMap.keySet()) {
-			gen.getGeneralizationSet().add(elem);
-			UpdateCommander.get().updateFromChange(gen, false);
-		}
-	}
-	
-	private void undo (RefOntoUML.Element elem)
-	{		
-//		System.out.println("Undoing = "+elem);
+//		System.out.println("Undoing = "+genSet);
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		UpdateCommander.get().updateFromAddition(elem);
+		
+		((GeneralizationSet)genSet).getGeneralization().removeAll(generalizations);
+		for(Generalization gen: generalizations) {
+			gen.getGeneralizationSet().remove((GeneralizationSet)genSet); 		
+		}
 	}
+	
+	public void addToModel(RefOntoUML.Element genSet,  ArrayList<Generalization> generalizations)
+	{		
+//		System.out.println("Adding = "+genSet);
+		((GeneralizationSet)genSet).getGeneralization().addAll(generalizations);
+		for(Generalization gen: generalizations) {
+			gen.getGeneralizationSet().add((GeneralizationSet)genSet); 		
+		}
+		
+		AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), ((RefOntoUML.Package)eContainer).getPackagedElement(), genSet);
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);
+	}
+
 }

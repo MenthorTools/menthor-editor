@@ -1,31 +1,10 @@
-package net.menthor.editor.v2.ui.notify.command;
-
-/**
- * Copyright 2007 Wei-ju Wu
- *
- * This file is part of TinyUML.
- *
- * TinyUML is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * TinyUML is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with TinyUML; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+package net.menthor.editor.v2.ui.notify.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -48,101 +27,83 @@ import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
-/**
- * This is an undoable creation command for a Connection.
- *
- * @author Wei-ju Wu, John Guerson
- */
 public class AddConnectionCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 2924451842640450250L;	
-	private CompositeElement parent;
+	
+	private StructureDiagram parent;
 	private DiagramElement diagramElement;	
+	private boolean onDiagram=false;
+	
 	private RefOntoUML.Element relationship;
 	private Classifier source;
 	private Classifier target;
 	private EObject eContainer;	
-	private boolean addToDiagram;
-
+	
+	/** add on the diagram */
 	public AddConnectionCommand(OntoumlEditor editor, UmlConnection conn){
-		this(
-			 editor, 
-			(CompositeElement)editor.getDiagram(), 
-			(RefOntoUML.Element)conn.getRelationship(), 
-			(RefOntoUML.Classifier)conn.getSourceObject(), 
-			(RefOntoUML.Classifier)conn.getTargetObject(), 
-			(RefOntoUML.Element)conn.getRelationship().eContainer()
-		);
+		ontoumlEditor = editor;
+		if(ontoumlEditor!=null){
+			onDiagram = true;
+			parent = ontoumlEditor.getDiagram();
+		}
+		diagramElement = conn;			
+		if(diagramElement==null){			
+			diagramElement = OccurenceManager.get().getDiagramElement(relationship, parent);			
+		}
+		if (diagramElement==null){
+			diagramElement = OccurenceManager.get().getDiagramElement(relationship);
+		}
+		relationship = (RefOntoUML.Element)diagramElement.getModelObject();		
+		if(relationship!=null) {
+			source = OntoUMLParser.getSourceType(relationship); 
+			target = OntoUMLParser.getTargetType(relationship); 
+			eContainer = (RefOntoUML.Element)relationship.eContainer();
+		}				
 	}
 	
-	public AddConnectionCommand(OntoumlEditor editor, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
-		this.parent = parent;		
-		this.ontoumlEditor = editor;
-		
-		if (ontoumlEditor==null) this.addToDiagram = false; 
-		else this.addToDiagram=true;
-		
+	/** add on the model */
+	public AddConnectionCommand(RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer){
 		this.relationship = relationship;
-		if(aSource==null) source = OntoUMLParser.getSourceType(relationship);
-		else source = aSource;
-		if(aTarget==null) target = OntoUMLParser.getTargetType(relationship);
-		else target = aTarget;
-		
 		this.eContainer = eContainer;
-		
-		StructureDiagram diagram = null;
-		if(ontoumlEditor!=null) diagram = editor.getDiagram();
-		this.diagramElement = OccurenceManager.get().getDiagramElement(relationship, diagram);		
-		if (diagramElement==null) diagramElement = OccurenceManager.get().getDiagramElement(relationship);
+		this.onDiagram = false;
+		if(aSource==null){
+			source = OntoUMLParser.getSourceType(relationship);
+		}else{
+			source = aSource;
+		}
+		if(aTarget==null) {
+			target = OntoUMLParser.getTargetType(relationship);
+		}else {
+			target = aTarget;		
+		}		
 	}
 
 	@Override
-	public void undo() 
-	{
-		super.undo();
-						
-		if (relationship!=null){
-//			System.out.println("Undoing ="+relationship);
+	public void undo(){
+		super.undo();		
+		
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
 			UpdateCommander.get().updateFromDeletion(relationship);
-		}
 		
-		if(addToDiagram && diagramElement!=null){				
+		if(onDiagram){				
 			parent.removeChild(diagramElement);
-			OccurenceManager.get().remove(diagramElement);
-			
-			List<DiagramElement> elements = new ArrayList<DiagramElement>();
-			elements.add(diagramElement);
-			notificator.notify(this, elements, NotificationType.ADD, ActionType.UNDO);			
+			OccurenceManager.get().remove(diagramElement);		
+			notifier.notifyUndo(this, diagramElement, NotificationType.ADD);			
 		}	
 	}
 
-	@Override
-	public void redo() 
-	{
-		isRedo = true;
-		super.redo();
-		run();
-	}
-
 	public void run() {	    
-					
-		ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-		
-		addToModel();		
-		UpdateCommander.get().updateFromAddition(relationship);
-		
-		if(addToDiagram && diagramElement != null)
-		{			
+		super.run();
+			addToModel();		
+			UpdateCommander.get().updateFromAddition(relationship);
+		if(onDiagram){
+			List<DiagramElement> list = new ArrayList<DiagramElement>();
 			addToDiagram(isRedo);
 			OccurenceManager.get().add(relationship, diagramElement);	
 			list.add(diagramElement);
-		}
-		
-		if (notificator!=null) {
-			notificator.notify(this, (List<DiagramElement>) list, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);		
-						
-		}
+			notifier.notify(this, (List<DiagramElement>) list, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);
+		}		
 	}
 		
 	@SuppressWarnings("unused")

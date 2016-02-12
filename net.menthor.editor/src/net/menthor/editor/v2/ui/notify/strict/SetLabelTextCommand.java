@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * Copyright 2007 Wei-ju Wu
@@ -35,7 +35,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -44,7 +44,7 @@ import net.menthor.editor.v2.ui.notify.NotificationType;
  *
  * @author Wei-ju Wu, John Guerson
  */
-public class SetLabelTextCommand extends DiagramCommand {
+public class SetLabelTextCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = 5701807952287882396L;
 	private Label label;
@@ -96,19 +96,9 @@ public class SetLabelTextCommand extends DiagramCommand {
 		elements.add(parent);		
 				
 		//notify
-		if (notificator!=null) {
-			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.MODIFY_LABEL_TEXT, isRedo ? ActionType.REDO : ActionType.DO);			
+		if (notifier!=null) {
+			notifier.notify(this, (List<DiagramElement>) elements, NotificationType.MODIFY_LABEL_TEXT, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();
 	}
 
 	/**
@@ -142,6 +132,6 @@ public class SetLabelTextCommand extends DiagramCommand {
 				
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(parent);
-		notificator.notify(this, elements, NotificationType.MODIFY_LABEL_TEXT, ActionType.UNDO);					
+		notifier.notify(this, elements, NotificationType.MODIFY_LABEL_TEXT, ActionType.UNDO);					
 	}
 }

@@ -33,7 +33,7 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.AddConnectionCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddConnectionCommand;
 
 public class ConnectMode implements IEditorMode {
 

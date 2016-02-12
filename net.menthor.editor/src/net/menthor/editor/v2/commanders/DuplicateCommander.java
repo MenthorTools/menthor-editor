@@ -33,7 +33,7 @@ import org.tinyuml.umldraw.shared.UmlNode;
 
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
+import net.menthor.editor.v2.ui.notify.diagram.AddNodeCommand;
 
 public class DuplicateCommander {
 

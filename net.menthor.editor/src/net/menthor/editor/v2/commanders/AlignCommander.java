@@ -6,8 +6,8 @@ import java.util.List;
 import org.tinyuml.draw.DiagramElement;
 
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.command.AlignElementsCommand;
-import net.menthor.editor.v2.ui.notify.command.AlignElementsCommand.Alignment;
+import net.menthor.editor.v2.ui.notify.strict.AlignElementsCommand;
+import net.menthor.editor.v2.ui.notify.strict.AlignElementsCommand.Alignment;
 
 public class AlignCommander {
 

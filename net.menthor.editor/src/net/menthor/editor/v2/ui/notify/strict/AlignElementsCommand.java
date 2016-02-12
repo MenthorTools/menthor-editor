@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * ============================================================================================
@@ -31,13 +31,13 @@ import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class AlignElementsCommand extends DiagramCommand {
+public class AlignElementsCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -72,7 +72,7 @@ public class AlignElementsCommand extends DiagramCommand {
 	public void undo() {
 		super.undo();
 						
-		if(notificator!=null){
+		if(notifier!=null){
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 			int i =0;
@@ -87,20 +87,10 @@ public class AlignElementsCommand extends DiagramCommand {
 				}
 			}
 			
-			notificator.notify(this, (List<DiagramElement>) list, NotificationType.ALIGN, ActionType.UNDO);
+			notifier.notify(this, (List<DiagramElement>) list, NotificationType.ALIGN, ActionType.UNDO);
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();		
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -120,8 +110,8 @@ public class AlignElementsCommand extends DiagramCommand {
 			alignCenterHorizontally(this.editor);
 		
 		//notify
-		if (notificator!=null) {
-			notificator.notify(this, (List<DiagramElement>) selected, NotificationType.ALIGN, isRedo ? ActionType.REDO : ActionType.DO);		
+		if (notifier!=null) {
+			notifier.notify(this, (List<DiagramElement>) selected, NotificationType.ALIGN, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}	
 	}

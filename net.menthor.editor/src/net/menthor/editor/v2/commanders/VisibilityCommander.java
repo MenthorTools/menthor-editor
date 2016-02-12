@@ -8,12 +8,12 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.v2.ui.notify.command.AssociationVisibilityCommand;
-import net.menthor.editor.v2.ui.notify.command.AssociationVisibilityCommand.AssociationVisibility;
-import net.menthor.editor.v2.ui.notify.command.ClassVisibilityCommand;
-import net.menthor.editor.v2.ui.notify.command.ClassVisibilityCommand.ClassVisibility;
-import net.menthor.editor.v2.ui.notify.command.GeneralizationVisibilityCommand;
-import net.menthor.editor.v2.ui.notify.command.GeneralizationVisibilityCommand.GeneralizationVisibility;
+import net.menthor.editor.v2.ui.notify.strict.AssociationVisibilityCommand;
+import net.menthor.editor.v2.ui.notify.strict.ClassVisibilityCommand;
+import net.menthor.editor.v2.ui.notify.strict.GeneralizationVisibilityCommand;
+import net.menthor.editor.v2.ui.notify.strict.AssociationVisibilityCommand.AssociationVisibility;
+import net.menthor.editor.v2.ui.notify.strict.ClassVisibilityCommand.ClassVisibility;
+import net.menthor.editor.v2.ui.notify.strict.GeneralizationVisibilityCommand.GeneralizationVisibility;
 
 public class VisibilityCommander extends GenericCommander {
 	

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * ============================================================================================
@@ -30,13 +30,13 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class ClassVisibilityCommand extends DiagramCommand{
+public class ClassVisibilityCommand extends DiagramStrictCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
@@ -120,20 +120,11 @@ public class ClassVisibilityCommand extends DiagramCommand{
 			}
 		}
 		
-		if(notificator!=null)
-			notificator.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
+		if(notifier!=null)
+			notifier.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
 
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();		
-	}
 	
 	@Override
 	public void run() {
@@ -157,8 +148,8 @@ public class ClassVisibilityCommand extends DiagramCommand{
 		}
 		
 		//notify
-		if (notificator!=null) {
-			notificator.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);		
+		if (notifier!=null) {
+			notifier.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}	
 		

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.notify.command;
+package net.menthor.editor.v2.ui.notify.strict;
 
 /**
  * ============================================================================================
@@ -31,13 +31,13 @@ import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.DiagramCommand;
+import net.menthor.editor.v2.ui.notify.DiagramStrictCommand;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author John Guerson
  */
-public class SetColorCommand extends DiagramCommand {
+public class SetColorCommand extends DiagramStrictCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -75,7 +75,7 @@ public class SetColorCommand extends DiagramCommand {
 	public void undo() {
 		super.undo();
 						
-		if(notificator!=null){
+		if(notifier!=null){
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 		
 			int i =0;
@@ -86,18 +86,8 @@ public class SetColorCommand extends DiagramCommand {
 				i++;
 			}
 			
-			notificator.notify(this, (List<DiagramElement>) list, NotificationType.COLOR, ActionType.UNDO);
+			notifier.notify(this, (List<DiagramElement>) list, NotificationType.COLOR, ActionType.UNDO);
 		}
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void redo() {
-		isRedo = true;
-		super.redo();
-		run();		
 	}
 	
 	@Override
@@ -113,8 +103,8 @@ public class SetColorCommand extends DiagramCommand {
 		}
 	
 		//notify
-		if (notificator!=null) {
-			notificator.notify(this, elementList, NotificationType.COLOR, isRedo ? ActionType.REDO : ActionType.DO);			
+		if (notifier!=null) {
+			notifier.notify(this, elementList, NotificationType.COLOR, isRedo ? ActionType.REDO : ActionType.DO);			
 		}	
 	}
 }
