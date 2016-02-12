@@ -151,7 +151,7 @@ public class AddCommander {
 		((GeneralizationSet)newgenset).setIsCovering(true);
 		((GeneralizationSet)newgenset).setIsDisjoint(true);
 		((GeneralizationSet)newgenset).setName("gs");
-		new AddGeneralizationSetCommand(d.getNotificator(), d.getDiagram(), newgenset, gens, project.getModel()).run();
+		new AddGeneralizationSetCommand(d, d.getDiagram(), newgenset, gens, project.getModel()).run();
 		return (GeneralizationSet)newgenset;
 	}
 	

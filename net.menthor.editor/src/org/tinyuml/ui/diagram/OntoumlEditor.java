@@ -115,7 +115,7 @@ import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.ICommand;
-import net.menthor.editor.v2.ui.notify.Notification;
+import net.menthor.editor.v2.ui.notify.Notificator;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 import net.menthor.editor.v2.ui.notify.command.AddConnectionCommand;
 import net.menthor.editor.v2.ui.notify.command.ConvertConnectionTypeCommand;
@@ -146,11 +146,11 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	private AppEditorsPane diagramManager;
 	private OntoumlWrapper wrapper;
 	
-	private Notification notificator;
+	private Notificator notificator = Notificator.get();
 	private transient IEditorMode editorMode;
 	private transient SelectionHandler selectionHandler;
 	
-	public Notification getNotificator(){ return notificator; }
+	public Notificator getNotificator(){ return notificator; }
 	public IEditorMode getEditorMode(){ return editorMode; }
 	public SelectionHandler getSelectionHandler(){ return selectionHandler; }
 	
@@ -243,7 +243,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		setOpaque(true);
 		setDoubleBuffered(true);
 		
-		notificator = new Notification(this);
 		add(captionEditor);
 		add(multilineEditor);		
 		captionEditor.getDocument().addUndoableEditListener(notificator.getUndoManager());
@@ -655,7 +654,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		{			
 			String text = currentEditor.getText();
 			Label label = currentEditor.getLabel();
-			SetLabelTextCommand command = new SetLabelTextCommand(notificator, label, text);
+			SetLabelTextCommand command = new SetLabelTextCommand(this, label, text);
 			execute(command);
 			currentEditor.hideEditor();				
 //			repaint();
@@ -1027,7 +1026,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		if(src==null || tgt==null) return null;
 		
 		UmlConnection conn = FactoryManager.get().createVisualConnectionFromModelRelationship(relationship, src, tgt);
-		AddConnectionCommand command = new AddConnectionCommand(notificator, conn);
+		AddConnectionCommand command = new AddConnectionCommand(this, conn);
 	  	command.run();	    	 
 		this.cancelEditing();
 		this.redraw();
@@ -1249,13 +1248,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void setLineStyle(UmlConnection connection, LineStyle style)
 	{
 		if(style == LineStyle.RECTILINEAR){
-			execute(new ConvertConnectionTypeCommand(notificator, connection, new RectilinearConnection(connection)));
+			execute(new ConvertConnectionTypeCommand(this, connection, new RectilinearConnection(connection)));
 		} else if (style == LineStyle.DIRECT) {
-			execute(new ConvertConnectionTypeCommand(notificator, connection, new SimpleConnection(connection)));
+			execute(new ConvertConnectionTypeCommand(this, connection, new SimpleConnection(connection)));
 		} else if (style == LineStyle.TREESTYLE_VERTICAL) {
-			execute(new ConvertConnectionTypeCommand(notificator, connection, new TreeConnection(connection,true)));
+			execute(new ConvertConnectionTypeCommand(this, connection, new TreeConnection(connection,true)));
 		} else if (style == LineStyle.TREESTYLE_HORIZONTAL) {
-			execute(new ConvertConnectionTypeCommand(notificator, connection, new TreeConnection(connection,false)));
+			execute(new ConvertConnectionTypeCommand(this, connection, new TreeConnection(connection,false)));
 		}
 	}
 
@@ -1325,7 +1324,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.DESTINATION);
 			list.add((DiagramElement)con);
-			notificator.notifyChange(null,list, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);
+			notificator.notify(null,list, NotificationType.MODIFY, ActionType.DO);
 		}
 	}
 	
@@ -1334,7 +1333,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.UNDEFINED);
 			list.add((DiagramElement)con);
-			notificator.notifyChange(null,list, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);
+			notificator.notify(null,list, NotificationType.MODIFY, ActionType.DO);
 		}
 	}
 		
@@ -1343,7 +1342,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.SOURCE);
 			list.add((DiagramElement)con);
-			notificator.notifyChange(null, list, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);
+			notificator.notify(null, list, NotificationType.MODIFY, ActionType.DO);
 		}
 	}
 	
@@ -1352,7 +1351,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		for(DiagramElement dElem: getSelectedElements()){
 			if(dElem instanceof UmlConnection){
 				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(notificator, conn, new RectilinearConnection(conn)));
+				execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
 			}
 		}		
 		// we can only tell the selection handler to forget about the selection
@@ -1361,13 +1360,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void toRectilinear(Object dElem) {		
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConvertConnectionTypeCommand(notificator, conn, new RectilinearConnection(conn)));
+			execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
 		}	
 		if(dElem instanceof Collection<?>){
 			for(Object obj: ((Collection<?>)dElem)){
 				if(obj instanceof UmlConnection){
 					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConvertConnectionTypeCommand(notificator, conn, new RectilinearConnection(conn)));
+					execute(new ConvertConnectionTypeCommand(this, conn, new RectilinearConnection(conn)));
 				}
 			}
 		}
@@ -1381,7 +1380,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		for(DiagramElement dElem: getSelectedElements()){
 			if(dElem instanceof UmlConnection){
 				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(notificator, conn, new TreeConnection(conn,true)));
+				execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
 			}
 		}		
 		// we can only tell the selection handler to forget about the selection
@@ -1390,13 +1389,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void toTreeStyleVertical(Object dElem){		
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConvertConnectionTypeCommand(notificator, conn, new TreeConnection(conn,true)));
+			execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
 		}	
 		if(dElem instanceof Collection<?>){
 			for(Object obj: ((Collection<?>)dElem)){
 				if(obj instanceof UmlConnection){
 					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConvertConnectionTypeCommand(notificator, conn, new TreeConnection(conn,true)));
+					execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,true)));
 				}
 			}
 		}
@@ -1409,7 +1408,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		for(DiagramElement dElem: getSelectedElements()){
 			if(dElem instanceof UmlConnection){
 				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(notificator, conn, new TreeConnection(conn,false)));
+				execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
 			}
 		}		
 		// we can only tell the selection handler to forget about the selection
@@ -1418,13 +1417,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void toTreeStyleHorizontal(Object dElem){		
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConvertConnectionTypeCommand(notificator, conn, new TreeConnection(conn,false)));
+			execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
 		}		
 		if(dElem instanceof Collection<?>){
 			for(Object obj: ((Collection<?>)dElem)){
 				if(obj instanceof UmlConnection){
 					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConvertConnectionTypeCommand(notificator, conn, new TreeConnection(conn,false)));
+					execute(new ConvertConnectionTypeCommand(this, conn, new TreeConnection(conn,false)));
 				}
 			}
 		}
@@ -1436,13 +1435,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void toDirect(Object dElem){
 		if(dElem instanceof UmlConnection){
 			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConvertConnectionTypeCommand(notificator, conn, new SimpleConnection(conn)));
+			execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
 		}
 		if(dElem instanceof List<?>){
 			for(Object obj: ((List<Object>)dElem)){
 				if(obj instanceof UmlConnection){
 					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConvertConnectionTypeCommand(notificator, conn, new SimpleConnection(conn)));
+					execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
 				}
 			}
 		}
@@ -1454,7 +1453,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		for(DiagramElement dElem: getSelectedElements()){
 			if(dElem instanceof UmlConnection){
 				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConvertConnectionTypeCommand(notificator, conn, new SimpleConnection(conn)));
+				execute(new ConvertConnectionTypeCommand(this, conn, new SimpleConnection(conn)));
 			}
 		}		
 		// we can only tell the selection handler to forget about the selection
@@ -1467,19 +1466,19 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void resetConnectionPoints(){
 		DiagramElement elem = selectionHandler.getSelectedElements().get(0);
 		if (elem instanceof Connection) {
-			execute(new ResetConnectionPointsCommand(notificator, (Connection) elem));
+			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
 		}
 	}
 
 	public void resetConnectionPoints(Object elem){
 		if (elem instanceof Connection) {
-			execute(new ResetConnectionPointsCommand(notificator, (Connection) elem));
+			execute(new ResetConnectionPointsCommand(this, (Connection) elem));
 		}
 		if(elem instanceof Collection<?>){
 			for(Object obj: ((Collection<?>)elem)){
 				if(obj instanceof UmlConnection){
 					UmlConnection conn = (UmlConnection) obj;
-					execute(new ResetConnectionPointsCommand(notificator, conn));
+					execute(new ResetConnectionPointsCommand(this, conn));
 				}
 			}
 		}
@@ -1607,7 +1606,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 			if(response==Window.OK)
 			{
-				execute(new DeleteElementCommand(notificator, OccurenceManager.get().getElements(diagramElementsList), false,true));
+				execute(new DeleteElementCommand(this, OccurenceManager.get().getElements(diagramElementsList), false,true));
 			}
 		}
 	}
@@ -1662,20 +1661,20 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** {@inheritDoc} */
 	public void moveElements(MoveOperation[] moveOperations) 
 	{		
-		MoveElementCommand cmd = new MoveElementCommand(notificator, moveOperations);
+		MoveElementCommand cmd = new MoveElementCommand(this, moveOperations);
 		execute(cmd);		
 	}
 
 	/** {@inheritDoc} */
 	public void setNewConnectionPoints(Connection conn, List<Point2D> points) 
 	{
-		execute(new EditConnectionPointsCommand(notificator, conn, points));
+		execute(new EditConnectionPointsCommand(this, conn, points));
 	}
 
 	/** {@inheritDoc} */
 	public void resizeElement(Node element, Point2D newpos, Dimension2D size) 
 	{
-		ResizeElementCommand cmd = new ResizeElementCommand(notificator, element, newpos, size);
+		ResizeElementCommand cmd = new ResizeElementCommand(this, element, newpos, size);
 		execute(cmd);
 	}
 

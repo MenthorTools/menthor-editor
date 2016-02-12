@@ -40,16 +40,16 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
+import net.menthor.editor.v2.ui.notify.Notificator;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 public class ChangeCommander {
 	
@@ -102,7 +102,7 @@ public class ChangeCommander {
 	/** Change multiplicity from string */
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		UpdateCommander.get().notifyChange(property.getAssociation());
+		Notificator.get().notifyDo(null,property.getAssociation(), NotificationType.MODIFY);
 		AppBrowserManager.get().updateUI();
 	}
 	
@@ -114,7 +114,7 @@ public class ChangeCommander {
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
-		UpdateCommander.get().notifyChange(property.getAssociation());
+		Notificator.get().notifyDo(null,property.getAssociation(), NotificationType.MODIFY);
 		AppBrowserManager.get().updateUI();
 	}
 	

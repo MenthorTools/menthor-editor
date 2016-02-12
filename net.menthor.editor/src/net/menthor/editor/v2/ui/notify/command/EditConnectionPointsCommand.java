@@ -29,10 +29,10 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.RectilinearConnection;
 import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.TreeConnection;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -53,8 +53,8 @@ public class EditConnectionPointsCommand extends DiagramCommand {
 	 * @param aConnection the connection object
 	 * @param theNewpoints the new point list
 	 */
-	public EditConnectionPointsCommand(Notification aNotification, Connection aConnection, List<Point2D> theNewpoints) {
-		this.notificator = aNotification;
+	public EditConnectionPointsCommand(OntoumlEditor editor, Connection aConnection, List<Point2D> theNewpoints) {
+		this.ontoumlEditor = editor;
 		connection = aConnection;
 		newpoints = clonePointList(theNewpoints);
 	}
@@ -80,7 +80,7 @@ public class EditConnectionPointsCommand extends DiagramCommand {
 		}			
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.CONNECTION_POINT_EDITED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.MODIFY_CONNECTION_POINTS, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}
@@ -112,7 +112,7 @@ public class EditConnectionPointsCommand extends DiagramCommand {
 		if(connection instanceof SimpleConnection) elements.add(((SimpleConnection)connection).getOwnerConnection());
 		if(connection instanceof TreeConnection) elements.add(((TreeConnection)connection).getOwnerConnection());
 		
-		notificator.notifyChange(this,elements, NotificationType.CONNECTION_POINT_EDITED, ActionType.UNDO);
+		notificator.notify(this,elements, NotificationType.MODIFY_CONNECTION_POINTS, ActionType.UNDO);
 	}
 
 	/**

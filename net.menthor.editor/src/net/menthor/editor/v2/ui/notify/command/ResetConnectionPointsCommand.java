@@ -26,10 +26,10 @@ import java.util.List;
 
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -48,8 +48,8 @@ public class ResetConnectionPointsCommand extends DiagramCommand {
 	 * @param aNotification the notification object
 	 * @param conn the connection
 	 */
-	public ResetConnectionPointsCommand(Notification aNotification, Connection conn) {
-		this.notificator = aNotification;
+	public ResetConnectionPointsCommand(OntoumlEditor editor, Connection conn) {
+		this.ontoumlEditor = editor;
 		connection = conn;
 	}
 
@@ -64,7 +64,7 @@ public class ResetConnectionPointsCommand extends DiagramCommand {
 		elements.add(connection);
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.CONNECTION_POINTS_RESET, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.RESET_CONNECTION_POINTS, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}		
 	}
@@ -92,7 +92,7 @@ public class ResetConnectionPointsCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notificator.notifyChange(this, elements, NotificationType.CONNECTION_POINTS_RESET, ActionType.UNDO);
+		notificator.notify(this, elements, NotificationType.RESET_CONNECTION_POINTS, ActionType.UNDO);
 	}
 
 	/**

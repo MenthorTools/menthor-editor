@@ -6,7 +6,8 @@ public abstract class GenericCommand extends AbstractUndoableEdit implements ICo
 
 	private static final long serialVersionUID = 2761186015906877743L;
 	
-	protected boolean isRedo = false; //if this is a redo command or not
+	protected Notificator notificator = Notificator.get();
+	protected boolean isRedo = false;
 	
 	@Override
 	public void run() {

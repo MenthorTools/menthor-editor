@@ -48,7 +48,6 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -86,16 +85,16 @@ public class DeleteElementCommand extends DiagramCommand{
 		}
 	}
 
-	public DeleteElementCommand(Notification aNotification, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
+	public DeleteElementCommand(OntoumlEditor editor, Collection<Element> theElements, boolean deleteFromModel, boolean deleteFromDiagram) 
 	{
-		this.notificator = aNotification;	
+		this.ontoumlEditor = editor;	
 		this.deleteFromDiagram = deleteFromDiagram;
 		this.deleteFromModel = deleteFromModel;
 		
 		// requested element for deletion
 		elemList.addAll(theElements);		
-		if(((OntoumlEditor)notificator.getDiagramEditor())!=null){
-			diagramElemList.addAll(OccurenceManager.get().getDiagramElements(elemList,((OntoumlEditor)notificator.getDiagramEditor()).getDiagram()));
+		if(ontoumlEditor!=null){
+			diagramElemList.addAll(OccurenceManager.get().getDiagramElements(elemList,ontoumlEditor.getDiagram()));
 		}
 		
 		//System.out.println("Requested for deletion: \n- "+elemList);
@@ -123,8 +122,8 @@ public class DeleteElementCommand extends DiagramCommand{
 			}			
 		}		
 		if((notificator)!=null){
-			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,((OntoumlEditor)notificator.getDiagramEditor()).getDiagram()));		
-			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,((OntoumlEditor)notificator.getDiagramEditor()).getDiagram()));
+			diagramElemDep1List.addAll(OccurenceManager.get().getDiagramElements(elemDep1List,ontoumlEditor.getDiagram()));		
+			diagramElemDep2List.addAll(OccurenceManager.get().getDiagramElements(elemDep2List,ontoumlEditor.getDiagram()));
 		}
 		
 		//System.out.println("Dependences level 1 for deletion: \n- "+elemDep1List);
@@ -175,7 +174,7 @@ public class DeleteElementCommand extends DiagramCommand{
 		list.addAll(diagramElemList);
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_REMOVED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}
@@ -200,7 +199,7 @@ public class DeleteElementCommand extends DiagramCommand{
 			list.addAll(diagramElemList);
 			list.addAll(diagramElemDep1List);
 			list.addAll(diagramElemDep2List);
-			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_REMOVED, ActionType.UNDO);		
+			notificator.notify(this,(List<DiagramElement>) list, NotificationType.DELETE, ActionType.UNDO);		
 		}
 	}
 	
@@ -233,7 +232,7 @@ public class DeleteElementCommand extends DiagramCommand{
 			deleteFromDiagram(element);	
 			OccurenceManager.get().remove(element);
 		}
-		SelectionHandler selHandler = notificator.getDiagramEditor().getSelectionHandler();
+		SelectionHandler selHandler = ontoumlEditor.getSelectionHandler();
 		selHandler.elementRemoved((List<DiagramElement>)diagramElemList);
 	}
 	

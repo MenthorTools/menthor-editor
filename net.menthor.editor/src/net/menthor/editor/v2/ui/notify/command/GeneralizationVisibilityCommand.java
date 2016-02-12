@@ -31,7 +31,6 @@ import org.tinyuml.umldraw.GeneralizationElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -41,7 +40,6 @@ public class GeneralizationVisibilityCommand extends DiagramCommand{
 
 	private static final long serialVersionUID = -444736590798129291L;
 
-	public OntoumlEditor editor;
 	//maps the selected elements to the previous values
 	public HashMap<GeneralizationElement, Boolean> valueMap = new HashMap<GeneralizationElement, Boolean>();
 	public ArrayList<GeneralizationElement> generalizationList = new ArrayList<GeneralizationElement>();
@@ -52,17 +50,16 @@ public class GeneralizationVisibilityCommand extends DiagramCommand{
 	public boolean value;
 	
 	// private constructor that sets up the basic data
-	private GeneralizationVisibilityCommand(Notification editorNotification, GeneralizationVisibility visibility, boolean value){
-		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
-		notificator = editorNotification;
+	private GeneralizationVisibilityCommand(OntoumlEditor editor, GeneralizationVisibility visibility, boolean value){
+		this.ontoumlEditor = editor;		
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
 	//creates command from a list of element
-	public GeneralizationVisibilityCommand(Notification editorNotification, List<GeneralizationElement> selected, GeneralizationVisibility visibility, boolean value) 
+	public GeneralizationVisibilityCommand(OntoumlEditor editor, List<GeneralizationElement> selected, GeneralizationVisibility visibility, boolean value) 
 	{
-		this(editorNotification,visibility,value);
+		this(editor,visibility,value);
 		this.generalizationList.addAll(selected);
 		this.diagramElementList.addAll(selected);
 		populateMap();
@@ -97,7 +94,7 @@ public class GeneralizationVisibilityCommand extends DiagramCommand{
 		}
 		
 		if(notificator!=null)
-			notificator.notifyChange(this,diagramElementList, NotificationType.VISIBILITY_CHANGED, ActionType.UNDO);
+			notificator.notify(this,diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
 
 	}
 	
@@ -124,7 +121,7 @@ public class GeneralizationVisibilityCommand extends DiagramCommand{
 		
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this,diagramElementList, NotificationType.VISIBILITY_CHANGED, isRedo ? ActionType.REDO : ActionType.DO);			
+			notificator.notify(this,diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);			
 						
 		}	
 		

@@ -37,7 +37,6 @@ import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -54,15 +53,15 @@ public class AddGeneralizationSetCommand extends DiagramCommand {
 	private ArrayList<DiagramElement> diagramGenList = new ArrayList<DiagramElement>();
 	private ArrayList<Generalization> generalizations = new ArrayList<Generalization>();
 	
-	public AddGeneralizationSetCommand(Notification editorNotification, CompositeElement parent, RefOntoUML.Element genSet, Collection<Generalization> generalizations, RefOntoUML.Element eContainer) {
+	public AddGeneralizationSetCommand(OntoumlEditor editor, CompositeElement parent, RefOntoUML.Element genSet, Collection<Generalization> generalizations, RefOntoUML.Element eContainer) {
 		this.parent = parent;		
 		this.eContainer = eContainer;
-		this.notificator = editorNotification;		
-		if (notificator==null) this.addToDiagram = false; else this.addToDiagram=true;		
+		this.ontoumlEditor = editor;	
+		if (ontoumlEditor==null) this.addToDiagram = false; else this.addToDiagram=true;		
 		this.genSet = genSet;		
 		this.generalizations .addAll(generalizations);
-		if(generalizations!=null && notificator!=null){			
-			for(DiagramElement dElem: ((OntoumlEditor)notificator.getDiagramEditor()).getDiagram().getChildren()){
+		if(generalizations!=null && ontoumlEditor!=null){			
+			for(DiagramElement dElem: ontoumlEditor.getDiagram().getChildren()){
 				if(dElem instanceof GeneralizationElement){
 					GeneralizationElement genElem = (GeneralizationElement)dElem;
 					if(generalizations.contains((Generalization)genElem.getRelationship())){ 
@@ -94,7 +93,7 @@ public class AddGeneralizationSetCommand extends DiagramCommand {
 		}		
 		
 		if(notificator!=null){		
-			notificator.notifyChange(this, diagramGenList, NotificationType.ELEMENTS_MODIFIED, ActionType.UNDO);
+			notificator.notify(this, diagramGenList, NotificationType.MODIFY, ActionType.UNDO);
 		}
 	}
 	
@@ -124,7 +123,7 @@ public class AddGeneralizationSetCommand extends DiagramCommand {
 		}		
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_MODIFIED, isRedo ? ActionType.REDO : ActionType.DO);			
+			notificator.notify(this, (List<DiagramElement>) list, NotificationType.MODIFY, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 		
 	}

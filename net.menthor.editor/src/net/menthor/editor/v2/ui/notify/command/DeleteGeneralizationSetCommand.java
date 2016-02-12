@@ -36,7 +36,6 @@ import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -49,12 +48,12 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 	private ArrayList<DiagramElement> diagramGenList = new ArrayList<DiagramElement>();
 	private ArrayList<Generalization> generalizations = new ArrayList<Generalization>();
 	
-	public DeleteGeneralizationSetCommand(Notification editorNotification, RefOntoUML.Element genSet) {		
-		this.notificator = editorNotification;		
+	public DeleteGeneralizationSetCommand(OntoumlEditor editor, RefOntoUML.Element genSet) {		
+		this.ontoumlEditor = editor;		
 		this.genSet = genSet;		
 		this.generalizations.addAll(((RefOntoUML.GeneralizationSet)genSet).getGeneralization());
-		if(generalizations!=null && notificator!=null){
-			for(DiagramElement dElem: ((OntoumlEditor)notificator.getDiagramEditor()).getDiagram().getChildren()){
+		if(generalizations!=null && ontoumlEditor!=null){
+			for(DiagramElement dElem: ontoumlEditor.getDiagram().getChildren()){
 				if(dElem instanceof GeneralizationElement){
 					GeneralizationElement genElem = (GeneralizationElement)dElem;
 					if(generalizations.contains((Generalization)genElem.getRelationship())){ 
@@ -85,7 +84,7 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 		}		
 		
 		if(notificator!=null){
-			notificator.notifyChange(this,diagramGenList, NotificationType.ELEMENTS_MODIFIED, ActionType.UNDO);
+			notificator.notify(this,diagramGenList, NotificationType.MODIFY, ActionType.UNDO);
 		}
 	}
 	
@@ -114,7 +113,7 @@ public class DeleteGeneralizationSetCommand extends DiagramCommand {
 		}		
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_MODIFIED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this,(List<DiagramElement>) list, NotificationType.MODIFY, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 		

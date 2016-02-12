@@ -72,7 +72,7 @@ public class ColorCommander extends GenericCommander {
 	
 
 	private void createAndRunCommand(List<DiagramElement> elementList, Color color){
-		execute(new SetColorCommand(currentEditor().getNotificator(), elementList, color));
+		execute(new SetColorCommand(currentEditor(), elementList, color));
 	}
 	
 }

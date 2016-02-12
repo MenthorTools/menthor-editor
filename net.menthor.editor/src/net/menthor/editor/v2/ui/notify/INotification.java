@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.tinyuml.draw.DiagramElement;
 
-/** Defines an interface to the diagram that handles change notifications. */
+/** Defines an interface to handle notifications. */
 public interface INotification {
 
-	/** This method is called when there is a change done by a Command. */
-	String notifyChange(GenericCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType notificationType);
-
+	/** notify there was a change in the diagram, in the given elements, of a certain notification/action type */
+	String notify(DiagramCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType notificationType);
+	
+	/** notify there was a change in the model, in the given element, of a certain notification/action type */
+	String notify(ModelCommand command, RefOntoUML.Element element, NotificationType changeType, ActionType actionType);
 }

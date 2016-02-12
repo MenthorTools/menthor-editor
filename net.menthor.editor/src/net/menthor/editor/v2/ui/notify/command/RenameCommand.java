@@ -6,10 +6,11 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.notify.ModelCommand;
+import net.menthor.editor.v2.ui.notify.Notificator;
+import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
  * @author Tiago Prince
@@ -72,7 +73,7 @@ public class RenameCommand extends ModelCommand {
 			});
 		}
 		else{
-			UpdateCommander.get().notifyChange(namedElement);				
+			Notificator.get().notifyDo(this, namedElement, NotificationType.MODIFY);				
 		}
 		AppBrowserManager.get().updateUI();
 	}	

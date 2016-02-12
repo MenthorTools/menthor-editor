@@ -115,7 +115,7 @@ public class DuplicateCommander {
 		OntoumlEditor editor = AppTabManager.get().getDiagramEditor((StructureDiagram)classElement.getDiagram());
 		double x = classElement.getAbsoluteX2()+15;
 		double y = classElement.getAbsoluteY2()+15;
-		AddNodeCommand cmd = new AddNodeCommand(editor.getNotificator(),newClass, x, y);		
+		AddNodeCommand cmd = new AddNodeCommand(editor,newClass, x, y);		
 		cmd.run();		
 		return newClass;
 	}

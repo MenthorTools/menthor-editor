@@ -46,7 +46,6 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -65,10 +64,10 @@ public class AddConnectionCommand extends DiagramCommand {
 	private EObject eContainer;	
 	private boolean addToDiagram;
 
-	public AddConnectionCommand(Notification editorNotification, UmlConnection conn){
+	public AddConnectionCommand(OntoumlEditor editor, UmlConnection conn){
 		this(
-			editorNotification, 
-			(CompositeElement)((OntoumlEditor)editorNotification.getDiagramEditor()).getDiagram(), 
+			 editor, 
+			(CompositeElement)editor.getDiagram(), 
 			(RefOntoUML.Element)conn.getRelationship(), 
 			(RefOntoUML.Classifier)conn.getSourceObject(), 
 			(RefOntoUML.Classifier)conn.getTargetObject(), 
@@ -76,11 +75,11 @@ public class AddConnectionCommand extends DiagramCommand {
 		);
 	}
 	
-	public AddConnectionCommand(Notification editorNotification, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
+	public AddConnectionCommand(OntoumlEditor editor, CompositeElement parent, RefOntoUML.Element relationship, Classifier aSource, Classifier aTarget, EObject eContainer) {
 		this.parent = parent;		
-		this.notificator = editorNotification;
+		this.ontoumlEditor = editor;
 		
-		if (notificator==null) this.addToDiagram = false; 
+		if (ontoumlEditor==null) this.addToDiagram = false; 
 		else this.addToDiagram=true;
 		
 		this.relationship = relationship;
@@ -91,9 +90,8 @@ public class AddConnectionCommand extends DiagramCommand {
 		
 		this.eContainer = eContainer;
 		
-		OntoumlEditor editor = ((OntoumlEditor)notificator.getDiagramEditor());
 		StructureDiagram diagram = null;
-		if(editor!=null) diagram = editor.getDiagram();
+		if(ontoumlEditor!=null) diagram = editor.getDiagram();
 		this.diagramElement = OccurenceManager.get().getDiagramElement(relationship, diagram);		
 		if (diagramElement==null) diagramElement = OccurenceManager.get().getDiagramElement(relationship);
 	}
@@ -115,7 +113,7 @@ public class AddConnectionCommand extends DiagramCommand {
 			
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
-			notificator.notifyChange(this, elements, NotificationType.ELEMENTS_ADDED, ActionType.UNDO);			
+			notificator.notify(this, elements, NotificationType.ADD, ActionType.UNDO);			
 		}	
 	}
 
@@ -142,7 +140,7 @@ public class AddConnectionCommand extends DiagramCommand {
 		}
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_ADDED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, (List<DiagramElement>) list, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}

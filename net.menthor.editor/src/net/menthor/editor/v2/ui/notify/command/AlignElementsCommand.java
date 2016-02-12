@@ -32,7 +32,6 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -50,10 +49,9 @@ public class AlignElementsCommand extends DiagramCommand {
 	public ArrayList<Double> oldPosXList = new ArrayList<Double>();
 	public ArrayList<Double> oldPosYList = new ArrayList<Double>();
 	
-	public AlignElementsCommand(Notification editorNotification, List<DiagramElement> selected, Alignment direction) 
+	public AlignElementsCommand(OntoumlEditor editor, List<DiagramElement> selected, Alignment direction) 
 	{
-		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
-		notificator = editorNotification;
+		this.ontoumlEditor = editor;		
 		this.direction = direction;
 		
 		for(DiagramElement dElem: selected)
@@ -89,7 +87,7 @@ public class AlignElementsCommand extends DiagramCommand {
 				}
 			}
 			
-			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_ALIGNED, ActionType.UNDO);
+			notificator.notify(this, (List<DiagramElement>) list, NotificationType.ALIGN, ActionType.UNDO);
 		}
 	}
 	
@@ -123,7 +121,7 @@ public class AlignElementsCommand extends DiagramCommand {
 		
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) selected, NotificationType.ELEMENTS_ALIGNED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, (List<DiagramElement>) selected, NotificationType.ALIGN, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}	
 	}

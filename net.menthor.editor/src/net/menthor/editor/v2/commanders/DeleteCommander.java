@@ -154,9 +154,9 @@ public class DeleteCommander {
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		for(OntoumlEditor ed: editors){
 			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
-				new DeleteGeneralizationSetCommand(ed.getNotificator(), elements.get(0)).run();
+				new DeleteGeneralizationSetCommand(ed, elements.get(0)).run();
 			}else{
-				new DeleteElementCommand(ed.getNotificator(), elements, true, true).run();
+				new DeleteElementCommand(ed, elements, true, true).run();
 			}
 		}
 		if(editors==null || editors.size()==0) {
@@ -175,7 +175,7 @@ public class DeleteCommander {
 		if(element instanceof Comment) return;
 		List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 		list.add(element);
-		new DeleteElementCommand(ed.getNotificator(),list,false,true).run();				
+		new DeleteElementCommand(ed,list,false,true).run();				
 	}
 	
 	/** Delete all elements at the diagram */

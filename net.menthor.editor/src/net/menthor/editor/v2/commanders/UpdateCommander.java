@@ -1,34 +1,11 @@
 
 package net.menthor.editor.v2.commanders;
 
-/**
- * ============================================================================================
- * Menthor Editor -- Copyright (c) 2015 
- *
- * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
- * distributed under the same license terms.
- *
- * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation; either 
- * version 2 of the License, or (at your option) any later version.
- *
- * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Menthor Editor; 
- * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
- * MA  02110-1301  USA
- * ============================================================================================
- */
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
-import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import RefOntoUML.Association;
@@ -37,12 +14,11 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.ActionType;
+import net.menthor.editor.v2.ui.notify.Notificator;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 import net.menthor.editor.v2.ui.notify.command.AddGeneralizationSetCommand;
 import net.menthor.editor.v2.ui.notify.command.AddNodeCommand;
@@ -62,29 +38,6 @@ public class UpdateCommander {
     }		
     
     // ----------------------------
-	
-	/** Causes redraw of the corresponding diagram element */
-	public void notifyChange(RefOntoUML.Element element){
-		for(OntoumlEditor diagramEditor: AppTabManager.get().getDiagramEditors(element)){
-			notifyChange(element,diagramEditor);
-		}
-	}
-	
-	/** Causes redraw of the corresponding diagram element */
-	public void notifyChange(RefOntoUML.Element element, OntoumlEditor editor)	{		
-		if(editor==null || !editor.getDiagram().containsChild(element))
-			return;
-		
-		List<DiagramElement> diagramElements = OccurenceManager.get().getDiagramElements(element);
-		for(DiagramElement de: diagramElements){
-			if(de!=null){				
-				List<DiagramElement> list = new ArrayList<DiagramElement>();
-				list.add(de);
-				//notify one by one
-				editor.getNotificator().notifyChange(null, list, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);
-			}			
-		}
-	}
 	
 	/** Decide whether we remake the element or not in the diagram (delete it and add it again) */
 	public boolean shouldRemakeIt(Object obj){
@@ -141,7 +94,7 @@ public class UpdateCommander {
 		for(Object obj: fix.getAdded()){			
 			if (obj instanceof RefOntoUML.Class||obj instanceof RefOntoUML.DataType) {	
 				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1){						
-					AddNodeCommand cmd = new AddNodeCommand(ed.getNotificator(),ed.getDiagram(),(RefOntoUML.Element)obj,
+					AddNodeCommand cmd = new AddNodeCommand(ed,ed.getDiagram(),(RefOntoUML.Element)obj,
 					fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y, (RefOntoUML.Element)((EObject)obj).eContainer());		
 					cmd.run();
 				}else{
@@ -165,7 +118,7 @@ public class UpdateCommander {
 		//generalization sets
 		for(Object obj: fix.getAdded()) {
 			if (obj instanceof RefOntoUML.GeneralizationSet){
-				AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand(ed.getNotificator(),ed.getDiagram(),(RefOntoUML.Element)obj,
+				AddGeneralizationSetCommand cmd = new AddGeneralizationSetCommand(ed,ed.getDiagram(),(RefOntoUML.Element)obj,
 				((GeneralizationSet)obj).getGeneralization(),(RefOntoUML.Element)((EObject)obj).eContainer());
 				cmd.run(); 
 			}
@@ -193,24 +146,24 @@ public class UpdateCommander {
 			@Override
 			public void run() {
 				if (element instanceof RefOntoUML.Class || element instanceof RefOntoUML.DataType){
-					notifyChange((Classifier)element);			
+					Notificator.get().notifyDo(null,(Classifier)element, NotificationType.MODIFY);			
 				}
 				if (element instanceof RefOntoUML.Association){
 					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element);
-					else notifyChange((RefOntoUML.Element)element);
+					else Notificator.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
 				}
 				if (element instanceof RefOntoUML.Property){
 					Association assoc= ((RefOntoUML.Property)element).getAssociation();								
 					if (assoc!=null){
 						if(remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)assoc);
-						else  notifyChange((RefOntoUML.Element)assoc);
+						else  Notificator.get().notifyDo(null,(RefOntoUML.Element)assoc, NotificationType.MODIFY);
 					}else{
-						notifyChange((RefOntoUML.Element)(element).eContainer());
+						Notificator.get().notifyDo(null,(RefOntoUML.Element)(element).eContainer(), NotificationType.MODIFY);
 					}
 				}		
 				if (element instanceof RefOntoUML.Generalization){
 					if (remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element); 
-					else notifyChange((RefOntoUML.Element)element);
+					else Notificator.get().notifyDo(null,(RefOntoUML.Element)element, NotificationType.MODIFY);
 				}
 				if(element instanceof RefOntoUML.GeneralizationSet){
 					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) updateFromChange(gen,false);

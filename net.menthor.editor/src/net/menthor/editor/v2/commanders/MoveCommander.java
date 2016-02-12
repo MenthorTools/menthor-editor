@@ -178,7 +178,7 @@ public class MoveCommander {
 	
 	/** Move class to a diagram  */
 	public void moveClass(RefOntoUML.Element element, double x, double y, OntoumlEditor d)	{
-		AddNodeCommand cmd = new AddNodeCommand(d.getNotificator(),d.getDiagram(),element,x,y, (RefOntoUML.Element)element.eContainer());		
+		AddNodeCommand cmd = new AddNodeCommand(d,d.getDiagram(),element,x,y, (RefOntoUML.Element)element.eContainer());		
 		cmd.run();
 		moveGeneralizations(element,d);		   
 		moveAssociations(element, d);

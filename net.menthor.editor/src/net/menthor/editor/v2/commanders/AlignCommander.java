@@ -50,7 +50,7 @@ public class AlignCommander {
 	}
 	
 	private void executeAlign(List<DiagramElement> diagramElements, Alignment mode ) {
-		AlignElementsCommand command = new AlignElementsCommand(AppTabManager.get().getCurrentDiagramEditor().getNotificator(), diagramElements, mode);
+		AlignElementsCommand command = new AlignElementsCommand(AppTabManager.get().getCurrentDiagramEditor(), diagramElements, mode);
 		command.run();
 	}
 	

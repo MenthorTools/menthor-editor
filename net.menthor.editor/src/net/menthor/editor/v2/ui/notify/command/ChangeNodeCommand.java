@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.edit.command.ChangeCommand;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -59,8 +59,8 @@ public class ChangeNodeCommand extends DiagramCommand {
 	 * @param x the absolute x position
 	 * @param y the absolute y position
 	 */
-	public ChangeNodeCommand(Notification editorNotification, Node node, Node snapshot, ChangeDescription desc) {
-		this.notificator = editorNotification;
+	public ChangeNodeCommand(OntoumlEditor editor, Node node, Node snapshot, ChangeDescription desc) {
+		this.ontoumlEditor = editor;
 		this.desc = desc;
 		element = node;
 		this.prvSnapshot = snapshot;
@@ -96,7 +96,7 @@ public class ChangeNodeCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_MODIFIED, ActionType.UNDO);
+		notificator.notify(this, elements, NotificationType.MODIFY, ActionType.UNDO);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class ChangeNodeCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_MODIFIED, ActionType.REDO);
+		notificator.notify(this, elements, NotificationType.MODIFY, ActionType.REDO);
 	}
 
 	/**
@@ -148,6 +148,6 @@ public class ChangeNodeCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_MODIFIED, ActionType.DO);		
+		notificator.notify(this, elements, NotificationType.MODIFY, ActionType.DO);		
 	}
 }

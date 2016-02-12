@@ -25,11 +25,11 @@ import java.util.List;
 
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -50,8 +50,8 @@ public class ConvertConnectionTypeCommand extends DiagramCommand {
 	 * @param umlconn the UmlConnection wrapped object
 	 * @param theNewConnection the new connection to be wrapped
 	 */
-	public ConvertConnectionTypeCommand(Notification aNotification, UmlConnection umlconn, Connection theNewConnection) {
-		this.notificator = aNotification;
+	public ConvertConnectionTypeCommand(OntoumlEditor editor, UmlConnection umlconn, Connection theNewConnection) {
+		this.ontoumlEditor = editor;
 		connection = umlconn;
 		newconnection = theNewConnection;
 	}
@@ -72,7 +72,7 @@ public class ConvertConnectionTypeCommand extends DiagramCommand {
 		elements.add(connection);
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this,(List<DiagramElement>) elements, NotificationType.CONNECTION_TYPE_CONVERTED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this,(List<DiagramElement>) elements, NotificationType.MODIFY_CONNECTION_TYPE, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}		
 	}
@@ -87,7 +87,7 @@ public class ConvertConnectionTypeCommand extends DiagramCommand {
 	
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(connection);
-		notificator.notifyChange(this, elements, NotificationType.CONNECTION_TYPE_CONVERTED, ActionType.UNDO);
+		notificator.notify(this, elements, NotificationType.MODIFY_CONNECTION_TYPE, ActionType.UNDO);
 	}
 
 	/**

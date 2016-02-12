@@ -84,7 +84,7 @@ public class ConnectMode implements IEditorMode {
 	    tmpPos.setLocation(mx, my);
 	    if(sourceElem !=null && targetElem !=null){
 	    	UmlConnection conn = FactoryManager.get().createConnection(relType, sourceElem, targetElem); 
-	    	AddConnectionCommand command = new AddConnectionCommand(editor.getNotificator(), conn);
+	    	AddConnectionCommand command = new AddConnectionCommand(editor, conn);
 	    	command.run();
 	    }
 	    isActive = false;

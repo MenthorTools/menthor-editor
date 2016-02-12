@@ -32,7 +32,6 @@ import org.tinyuml.umldraw.ClassElement;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -42,7 +41,6 @@ public class SetColorCommand extends DiagramCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	public OntoumlEditor editor;
 	public UmlProject project;
 	
 	public ArrayList<DiagramElement> elementList = new ArrayList<DiagramElement>();
@@ -53,10 +51,9 @@ public class SetColorCommand extends DiagramCommand {
 	public Color color;
 	
 	
-	public SetColorCommand(Notification editorNotification, List<DiagramElement> selected, Color color)
+	public SetColorCommand(OntoumlEditor editor, List<DiagramElement> selected, Color color)
 	{
-		this.editor = editorNotification.getDiagramEditor();
-		notificator = editorNotification;
+		this.ontoumlEditor = editor;
 		this.color = color;
 		
 		elementList.addAll(selected);
@@ -89,7 +86,7 @@ public class SetColorCommand extends DiagramCommand {
 				i++;
 			}
 			
-			notificator.notifyChange(this,(List<DiagramElement>) list, NotificationType.ELEMENTS_COLORED, ActionType.UNDO);
+			notificator.notify(this, (List<DiagramElement>) list, NotificationType.COLOR, ActionType.UNDO);
 		}
 	}
 	
@@ -117,7 +114,7 @@ public class SetColorCommand extends DiagramCommand {
 	
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this, elementList, NotificationType.ELEMENTS_COLORED, isRedo ? ActionType.REDO : ActionType.DO);			
+			notificator.notify(this, elementList, NotificationType.COLOR, isRedo ? ActionType.REDO : ActionType.DO);			
 		}	
 	}
 }

@@ -31,7 +31,6 @@ import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -53,23 +52,22 @@ public class ClassVisibilityCommand extends DiagramCommand{
 	
 	public boolean value;
 	
-	private ClassVisibilityCommand(Notification editorNotification, ClassVisibility visibility, boolean value){
-		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
-		notificator = editorNotification;
+	private ClassVisibilityCommand(OntoumlEditor editor, ClassVisibility visibility, boolean value){
+		this.ontoumlEditor=editor;		
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
-	public ClassVisibilityCommand(Notification editorNotification, ClassElement element, ClassVisibility visibility, boolean value){
-		this(editorNotification,visibility,value);
+	public ClassVisibilityCommand(OntoumlEditor editor, ClassElement element, ClassVisibility visibility, boolean value){
+		this(editor,visibility,value);
 		this.classList.add(element);
 		this.diagramElementList.add(element);
 		populateMap();
 	}
 	
-	public ClassVisibilityCommand(Notification editorNotification, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
+	public ClassVisibilityCommand(OntoumlEditor editor, List<ClassElement> selected, ClassVisibility visibility, boolean value) 
 	{
-		this(editorNotification,visibility,value);
+		this(editor,visibility,value);
 		this.classList.addAll(selected);
 		this.diagramElementList.addAll(selected);
 		populateMap();
@@ -123,7 +121,7 @@ public class ClassVisibilityCommand extends DiagramCommand{
 		}
 		
 		if(notificator!=null)
-			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, ActionType.UNDO);
+			notificator.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
 
 	}
 	
@@ -160,7 +158,7 @@ public class ClassVisibilityCommand extends DiagramCommand{
 		
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}	
 		

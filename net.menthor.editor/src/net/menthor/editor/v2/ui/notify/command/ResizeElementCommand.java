@@ -28,10 +28,10 @@ import java.util.List;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.Node;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -45,7 +45,7 @@ public class ResizeElementCommand extends DiagramCommand {
 	private Node element;
 	private Point2D newpos = new Point2D.Double(), oldpos = new Point2D.Double();
 	private Dimension2D newsize = new DoubleDimension(), oldsize = new DoubleDimension();
-
+	
 	/**
 	 * Constructor.
 	 * @param aNotification the ModelNotification object
@@ -53,8 +53,8 @@ public class ResizeElementCommand extends DiagramCommand {
 	 * @param aNewPos the new position
 	 * @param aNewSize the new size
 	 */
-	public ResizeElementCommand(Notification aNotification, Node anElement, Point2D aNewPos, Dimension2D aNewSize) {
-		this.notificator = aNotification;
+	public ResizeElementCommand(OntoumlEditor editor, Node anElement, Point2D aNewPos, Dimension2D aNewSize) {
+		this.ontoumlEditor = editor;
 		element = anElement;
 		newpos.setLocation(aNewPos);
 		newsize.setSize(aNewSize);
@@ -76,7 +76,7 @@ public class ResizeElementCommand extends DiagramCommand {
 
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.ELEMENTS_RESIZED, isRedo ? ActionType.REDO : ActionType.DO);			
+			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.RESIZE, isRedo ? ActionType.REDO : ActionType.DO);			
 						
 		}		
 	}
@@ -102,6 +102,6 @@ public class ResizeElementCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notificator.notifyChange(this, elements, NotificationType.ELEMENTS_RESIZED, ActionType.UNDO);
+		notificator.notify(this, elements, NotificationType.RESIZE, ActionType.UNDO);
 	}
 }

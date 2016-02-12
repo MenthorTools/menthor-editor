@@ -147,7 +147,7 @@ public class ClipboardMode implements IEditorMode {
 					ceCenterX = ce.getAbsCenterX()+(ceCenterX - center.getX());
 					ceCenterY = ce.getAbsCenterY()+(ceCenterY - center.getY());
 				}				 
-				AddNodeCommand cmd = new AddNodeCommand(de.getNotificator(), ce, ceCenterX-40, ceCenterY-20);		
+				AddNodeCommand cmd = new AddNodeCommand(de, ce, ceCenterX-40, ceCenterY-20);		
 				cmd.run();
 			}			
 		}

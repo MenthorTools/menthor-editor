@@ -41,7 +41,6 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -62,22 +61,21 @@ public class AddNodeCommand extends DiagramCommand {
 	private RefOntoUML.Element eContainer;	
 	private boolean addToDiagram;
 
-	public AddNodeCommand(Notification editorNotification, UmlNode node, double x, double y){
-		this(editorNotification, (CompositeElement)((OntoumlEditor)editorNotification.getDiagramEditor()).getDiagram(), 
+	public AddNodeCommand(OntoumlEditor editor, UmlNode node, double x, double y){
+		this(editor, editor.getDiagram(), 
 		(RefOntoUML.Element)node.getClassifier(), x, y, (RefOntoUML.Element)node.getClassifier().eContainer());
 	}
 	
-	public AddNodeCommand(Notification editorNotification, CompositeElement parent, RefOntoUML.Element element, double x, double y, RefOntoUML.Element eContainer) 
+	public AddNodeCommand(OntoumlEditor editor, CompositeElement parent, RefOntoUML.Element element, double x, double y, RefOntoUML.Element eContainer) 
 	{
 		this.parent = parent;		
-		this.notificator = editorNotification;		
-		if(notificator==null) this.addToDiagram = false; else this.addToDiagram=true;
+		this.ontoumlEditor = editor;
+		if(ontoumlEditor==null) this.addToDiagram = false; else this.addToDiagram=true;
 		this.element = element;		
 		this.eContainer = eContainer;
 		
 		StructureDiagram diagram = null;
-		if(notificator!=null) {
-			OntoumlEditor editor = ((OntoumlEditor)notificator.getDiagramEditor());		
+		if(ontoumlEditor!=null) {					
 			if(editor!=null) diagram = editor.getDiagram();
 		}		
 		this.diagramElement = OccurenceManager.get().getDiagramElement(element, diagram);		
@@ -111,9 +109,11 @@ public class AddNodeCommand extends DiagramCommand {
 		if(notificator!=null){
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
-			notificator.notifyChange(this, elements, NotificationType.ELEMENTS_ADDED, ActionType.UNDO);
-			SelectionHandler selHandler = notificator.getDiagramEditor().getSelectionHandler();
-			selHandler.elementRemoved(elements);
+			notificator.notify(this, elements, NotificationType.ADD, ActionType.UNDO);
+			if(ontoumlEditor!=null){
+				SelectionHandler selHandler = ontoumlEditor.getSelectionHandler();
+				selHandler.elementRemoved(elements);
+			}
 		}
 		
 	}
@@ -142,7 +142,7 @@ public class AddNodeCommand extends DiagramCommand {
 		}		
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) list, NotificationType.ELEMENTS_ADDED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, (List<DiagramElement>) list, NotificationType.ADD, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}
 	}	

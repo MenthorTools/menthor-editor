@@ -31,7 +31,6 @@ import org.tinyuml.umldraw.AssociationElement;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -51,23 +50,22 @@ public class AssociationVisibilityCommand extends DiagramCommand{
 	public AssociationVisibility visibility;
 	public boolean value;
 	
-	private AssociationVisibilityCommand(Notification editorNotification, AssociationVisibility visibility, boolean value){
-		this.editor = (OntoumlEditor)editorNotification.getDiagramEditor();
-		notificator = editorNotification;
+	private AssociationVisibilityCommand(OntoumlEditor editor, AssociationVisibility visibility, boolean value){
+		this.ontoumlEditor = editor;		
 		this.visibility = visibility;
 		this.value = value;
 	}
 	
-	public AssociationVisibilityCommand(Notification editorNotification, AssociationElement element, AssociationVisibility visibility, boolean value){
-		this(editorNotification,visibility,value);
+	public AssociationVisibilityCommand(OntoumlEditor editor, AssociationElement element, AssociationVisibility visibility, boolean value){
+		this(editor,visibility,value);
 		this.associationList.add(element);
 		this.diagramElementList.add(element);
 		populateMap();
 	}
 	
-	public AssociationVisibilityCommand(Notification editorNotification, List<AssociationElement> selected, AssociationVisibility visibility, boolean value) 
+	public AssociationVisibilityCommand(OntoumlEditor editor, List<AssociationElement> selected, AssociationVisibility visibility, boolean value) 
 	{
-		this(editorNotification,visibility,value);
+		this(editor,visibility,value);
 		this.associationList.addAll(selected);
 		this.diagramElementList.addAll(selected);
 		populateMap();
@@ -132,7 +130,7 @@ public class AssociationVisibilityCommand extends DiagramCommand{
 		}
 		
 		if(notificator!=null)
-			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, ActionType.UNDO);
+			notificator.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, ActionType.UNDO);
 
 	}
 	
@@ -174,7 +172,7 @@ public class AssociationVisibilityCommand extends DiagramCommand{
 		
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this, diagramElementList, NotificationType.VISIBILITY_CHANGED, isRedo ? ActionType.REDO : ActionType.DO);		
+			notificator.notify(this, diagramElementList, NotificationType.MODIFY_VISIBILITY, isRedo ? ActionType.REDO : ActionType.DO);		
 						
 		}	
 		

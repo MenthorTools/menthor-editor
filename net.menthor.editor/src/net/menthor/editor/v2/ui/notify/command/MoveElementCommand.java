@@ -34,7 +34,6 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 
@@ -57,8 +56,8 @@ public class MoveElementCommand extends DiagramCommand {
 	 * @param aNotification the notification
 	 * @param aMoveOperations the move operations
 	 */
-	public MoveElementCommand(Notification aNotification, final MoveOperation[] aMoveOperations) {
-		this.notificator = aNotification;
+	public MoveElementCommand(OntoumlEditor editor, final MoveOperation[] aMoveOperations) {
+		this.ontoumlEditor = editor;
 		moveOperations = new MoveOperation[aMoveOperations.length];
 		for (int i = 0; i < aMoveOperations.length; i++) {
 			moveOperations[i] = aMoveOperations[i];
@@ -104,18 +103,17 @@ public class MoveElementCommand extends DiagramCommand {
 			if (elem instanceof Node){
 				Node node = (Node)elem;
 				for(Connection c: node.getConnections()){					
-					resetRelatedConnectionPoints((OntoumlEditor)notificator.getDiagramEditor(), c);
+					resetRelatedConnectionPoints(c);
 				}
 			}
 		}
 		
 		if (notificator!=null) {
-			notificator.notifyChange(this,(List<DiagramElement>) elements, NotificationType.ELEMENTS_MOVED, isRedo ? ActionType.REDO : ActionType.DO);		
-						
+			notificator.notify(this,(List<DiagramElement>) elements, NotificationType.MOVE, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 	}
 
-	public void resetRelatedConnectionPoints(OntoumlEditor notification, Connection con)
+	public void resetRelatedConnectionPoints(Connection con)
 	{
 		if(con.getConnections()!=null){
 			for(Connection c2: con.getConnections()) { 
@@ -150,7 +148,7 @@ public class MoveElementCommand extends DiagramCommand {
 			}
 		}
 		
-		notificator.notifyChange(this,elements, NotificationType.ELEMENTS_MOVED, ActionType.UNDO);		
+		notificator.notify(this,elements, NotificationType.MOVE, ActionType.UNDO);		
 	}
 
 	/**

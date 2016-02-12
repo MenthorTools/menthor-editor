@@ -26,6 +26,7 @@ import java.util.List;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Label;
+import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
@@ -35,7 +36,6 @@ import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.notify.ActionType;
 import net.menthor.editor.v2.ui.notify.DiagramCommand;
-import net.menthor.editor.v2.ui.notify.Notification;
 import net.menthor.editor.v2.ui.notify.NotificationType;
 
 /**
@@ -56,8 +56,8 @@ public class SetLabelTextCommand extends DiagramCommand {
 	 * @param aLabel the Label
 	 * @param aText the new text
 	 */
-	public SetLabelTextCommand(Notification aNotification, Label aLabel, String aText) {
-		this.notificator = aNotification;
+	public SetLabelTextCommand(OntoumlEditor editor, Label aLabel, String aText) {
+		this.ontoumlEditor = editor;
 		label = aLabel;
 		text = aText;
 		oldText = aLabel.getNameLabelText();
@@ -97,7 +97,7 @@ public class SetLabelTextCommand extends DiagramCommand {
 				
 		//notify
 		if (notificator!=null) {
-			notificator.notifyChange(this, (List<DiagramElement>) elements, NotificationType.LABEL_TEXT_SET, isRedo ? ActionType.REDO : ActionType.DO);			
+			notificator.notify(this, (List<DiagramElement>) elements, NotificationType.MODIFY_LABEL_TEXT, isRedo ? ActionType.REDO : ActionType.DO);			
 		}
 	}
 
@@ -142,6 +142,6 @@ public class SetLabelTextCommand extends DiagramCommand {
 				
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(parent);
-		notificator.notifyChange(this, elements, NotificationType.LABEL_TEXT_SET, ActionType.UNDO);					
+		notificator.notify(this, elements, NotificationType.MODIFY_LABEL_TEXT, ActionType.UNDO);					
 	}
 }
