@@ -109,9 +109,7 @@ public class ConnectMode implements IEditorMode {
 	@Override
 	public void mouseClicked(EditorMouseEvent event) {}
 	@Override
-	public void mouseMoved(EditorMouseEvent event) {}
-	@Override
-	public void stateChanged() {}
+	public void mouseMoved(EditorMouseEvent event) {}	
 	@Override
 	public void cancel() { isActive = false; }		
 }

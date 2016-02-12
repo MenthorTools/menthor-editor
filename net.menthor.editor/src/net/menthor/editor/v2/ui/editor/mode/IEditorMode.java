@@ -28,9 +28,6 @@ public interface IEditorMode extends IEditorMouseHandler {
   /** Draws any additional decorations supported by this mode. */
   void draw(DrawingContext drawingContext);
 
-  /** The editor state was changed, update any elements. */
-  void stateChanged();
-
   /** Cancels the current action. */
   void cancel();
 }

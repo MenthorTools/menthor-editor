@@ -67,15 +67,14 @@ public class RenameCommand extends ModelCommand {
 			SwingUtilities.invokeLater(new Runnable() {				
 				@Override
 				public void run() {
-					AppTabManager.get().refrashTabTitle(namedElement);
-					AppBrowserManager.get().updateUI();					        
+					AppTabManager.get().refreshTabTitle(namedElement);										        
 				}
 			});
 		}
 		else{
-			UpdateCommander.get().notifyChange(namedElement);
-			AppBrowserManager.get().updateUI();	
+			UpdateCommander.get().notifyChange(namedElement);				
 		}
+		AppBrowserManager.get().updateUI();
 	}	
 	
 }

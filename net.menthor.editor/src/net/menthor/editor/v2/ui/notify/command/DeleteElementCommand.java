@@ -31,6 +31,7 @@ import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.ui.diagram.SelectionHandler;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.BaseConnection;
@@ -232,6 +233,8 @@ public class DeleteElementCommand extends DiagramCommand{
 			deleteFromDiagram(element);	
 			OccurenceManager.get().remove(element);
 		}
+		SelectionHandler selHandler = notificator.getDiagramEditor().getSelectionHandler();
+		selHandler.elementRemoved((List<DiagramElement>)diagramElemList);
 	}
 	
 	private void runUndoFromDiagram(Collection<ParentChildRelation> parentChildList, Collection<Element> elemList)
@@ -260,6 +263,7 @@ public class DeleteElementCommand extends DiagramCommand{
 				element.getParent().invalidate();
 			}
 		}
+		
 	}
 	
 	private void undoFromDiagram (ParentChildRelation relation)

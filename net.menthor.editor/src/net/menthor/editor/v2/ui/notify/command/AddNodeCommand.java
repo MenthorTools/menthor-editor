@@ -28,6 +28,7 @@ import org.tinyuml.draw.CompositeElement;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.ui.diagram.SelectionHandler;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
@@ -111,6 +112,8 @@ public class AddNodeCommand extends DiagramCommand {
 			List<DiagramElement> elements = new ArrayList<DiagramElement>();
 			elements.add(diagramElement);
 			notificator.notifyChange(this, elements, NotificationType.ELEMENTS_ADDED, ActionType.UNDO);
+			SelectionHandler selHandler = notificator.getDiagramEditor().getSelectionHandler();
+			selHandler.elementRemoved(elements);
 		}
 		
 	}

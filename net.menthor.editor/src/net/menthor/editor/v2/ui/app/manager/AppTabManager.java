@@ -657,13 +657,11 @@ public class AppTabManager extends AppGenericManager {
 	
 	//----- ------
 	// Item is the OCLDocument or StructureDigram used to identify the tab that needs renaming.
-	public void refrashTabTitle(NamedElement item){
-		int index = getEditorIndex(item);	
-		
+	public void refreshTabTitle(NamedElement item){
+		int index = getEditorIndex(item);		
 		if(index>=0){ 
 			AppEditorsPane.get().setTitleAt(index, item.getName());			        
-		}
-		
+		}		
 		AppEditorsPane.get().updateUI();
 	}
 }

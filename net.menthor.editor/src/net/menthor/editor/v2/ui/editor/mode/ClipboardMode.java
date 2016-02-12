@@ -221,8 +221,6 @@ public class ClipboardMode implements IEditorMode {
 	@Override
 	public void mouseClicked(EditorMouseEvent event){}	
 	@Override
-	public void stateChanged(){}
-	@Override
 	public void cancel(){ isActive=false;}
 }
 

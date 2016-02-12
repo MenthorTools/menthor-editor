@@ -10,7 +10,6 @@ import javax.swing.undo.UndoManager;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.SimpleLabel;
-import org.tinyuml.ui.diagram.EditorStateListener;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -23,15 +22,12 @@ public class Notification implements INotification {
 	private OntoumlEditor diagramEditor;
 	
 	private List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
-	private List<EditorStateListener> editorListeners = new ArrayList<EditorStateListener>();
 	private UndoManager undoManager = new UndoManager(); 
 	
-	public void addEditorStateListener(EditorStateListener l) { editorListeners.add(l); }
 	public UndoManager getUndoManager(){ return undoManager; }
 	public OntoumlEditor getDiagramEditor(){ return diagramEditor; }
 	public List<UndoableEditListener> getUndoableEditListeners(){ return editListeners; }
-	public List<EditorStateListener> getEditorStateListeners(){ return editorListeners; }
-	
+		
 	public Notification(OntoumlEditor editor){
 		this();
 		diagramEditor = editor;		
@@ -42,25 +38,17 @@ public class Notification implements INotification {
 	}
 	
 	public String notifyChange(GenericCommand command, List<DiagramElement> elements, NotificationType changeType, ActionType actionType){
-		if(elements.size()==0) return null;
+		if(elements.size()==0) return null;		
 		StructureDiagram diagram = (StructureDiagram) elements.get(0).getDiagram();
-		ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);
-		
-		diagramEditor.getEditorMode().stateChanged();
-		for (EditorStateListener l : editorListeners){
-			l.stateChanged(diagramEditor, changeType);
-		}		
-		if(changeType == NotificationType.ELEMENTS_REMOVED || 
-		(changeType == NotificationType.ELEMENTS_ADDED && actionType == ActionType.UNDO)){
-			diagramEditor.getSelectionHandler().elementRemoved(elements);
-		}
-		
-		if(actionType!=ActionType.UNDO){
-			UndoableEditEvent event = new UndoableEditEvent(diagramEditor, command);
+		ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);		
+		if(command !=null && actionType!=ActionType.UNDO){			
+			UndoableEditEvent event = new UndoableEditEvent(diagram, command);
 			for (UndoableEditListener l : getUndoableEditListeners())  l.undoableEditHappened(event);
 		}
 		String text = getStatus(elements, changeType, actionType);
-		diagramEditor.getWrapper().getStatusBar().report(text);
+		if(diagramEditor!=null){
+			diagramEditor.getWrapper().getStatusBar().report(text);
+		}
 		return text;
 	}
 	

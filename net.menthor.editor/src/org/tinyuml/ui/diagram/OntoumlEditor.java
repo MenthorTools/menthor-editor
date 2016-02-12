@@ -710,7 +710,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		EditorMouseEvent evt = convertMouseEvent(e);
 		currentPointerPosition = evt.getMouseEvent();		
 		editorMode.mouseMoved(evt);
-		notifyCoordinateListeners();		
+		//notifyCoordinateListeners();		
 	}
 	
 	/** {@inheritDoc} */
@@ -719,20 +719,20 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		EditorMouseEvent evt = convertMouseEvent(e);
 		currentPointerPosition = evt.getMouseEvent();
 		editorMode.mouseDragged(evt);
-		notifyCoordinateListeners();
+		//notifyCoordinateListeners();
 	}
 
 	/**
 	 * Notifies the coordinate listeners.
 	 * Precondition: Mouse coordinates have been previously transformed.
 	 */
-	private void notifyCoordinateListeners() 
-	{
-		for (EditorStateListener l : notificator.getEditorStateListeners()) 
-		{
-			l.mouseMoved(mouseEvent);
-		}
-	}
+//	private void notifyCoordinateListeners() 
+//	{
+//		for (EditorStateListener l : notificator.getEditorStateListeners()) 
+//		{
+//			l.mouseMoved(mouseEvent);
+//		}
+//	}
 
 	/**
 	 * Converts the java.awt.MouseEvent into an EditorMouseEvent.
