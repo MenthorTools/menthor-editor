@@ -82,7 +82,11 @@ public class AppCmdListener implements ICommandListener {
 		MethodCall methodcall = getMethodCall(command,null);
 		System.out.println(methodcall);
 		Object result=null;
-		if(methodcall!=null) result = callMethod(methodcall);
+		
+		if(methodcall!=null) {
+			result = callMethod(methodcall);
+		}
+		
 		AppCursorManager.get().defaultCursor();
 		return result;		
 	}
@@ -91,7 +95,9 @@ public class AppCmdListener implements ICommandListener {
 		MethodCall methodcall=null;		
 		CommandType cmdType = CommandType.valueOf(command);
 		if(CommandType.isValueOf(command)){
-			if(parameters!=null) CommandMap.getInstance().addParameters(cmdType, parameters);			
+			if(parameters!=null) {
+				CommandMap.getInstance().addParameters(cmdType, parameters);			
+			}
 			methodcall = CommandMap.getInstance().getMethodCall(cmdType);
 		}
 		if(methodcall==null){

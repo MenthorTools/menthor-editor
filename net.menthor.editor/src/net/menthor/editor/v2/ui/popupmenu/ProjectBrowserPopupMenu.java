@@ -81,7 +81,6 @@ public class ProjectBrowserPopupMenu extends GenericPopupMenu<DefaultMutableTree
         	addOCLDocument = createMenuItem("Add Rules Document", CommandType.ADD_OCLDOCUMENT);        	
         	addSeparator();
     		addClassMenu = new AddClassMenu(listener, treeNode, this);
-    		addRelationshipMenu = new AddRelationshipMenu(listener, treeNode, this);
     		addDataTypeMenu = new AddDataTypeMenu(listener, treeNode, this);    		
     		addSeparator();
         	addGeneralizationSetMenuItem = createMenuItem("Add Generalization Set", CommandType.ADD_GENERALIZATIONSET);    	
