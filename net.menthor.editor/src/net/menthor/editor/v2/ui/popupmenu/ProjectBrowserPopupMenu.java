@@ -81,12 +81,8 @@ public class ProjectBrowserPopupMenu extends GenericPopupMenu<DefaultMutableTree
         	addOCLDocument = createMenuItem("Add Rules Document", CommandType.ADD_OCLDOCUMENT);        	
         	addSeparator();
     		addClassMenu = new AddClassMenu(listener, treeNode, this);
-    		addRelationshipMenu = new AddRelationshipMenu(listener, treeNode, this);
     		addDataTypeMenu = new AddDataTypeMenu(listener, treeNode, this);    		
-    		addSeparator();
         	addGeneralizationSetMenuItem = createMenuItem("Add Generalization Set", CommandType.ADD_GENERALIZATIONSET);    	
-        	addConstraintMenuItem = createMenuItem("Add Constraint", CommandType.ADD_CONSTRAINT);    	
-        	addCommentMenuItem = createMenuItem("Add Comment", CommandType.ADD_COMMENT);
     	}    	
     	if(element instanceof Association || element instanceof RefOntoUML.Class || element instanceof Generalization || element instanceof DataType){
     		addSeparator();
@@ -98,6 +94,9 @@ public class ProjectBrowserPopupMenu extends GenericPopupMenu<DefaultMutableTree
     	if(element instanceof Association || element instanceof RefOntoUML.Class || element instanceof DataType){
     		addSeparator();
         	addGeneralization = createMenuItem("Add Generalization", CommandType.ADD_GENERALIZATION);
+        	addConstraintMenuItem = createMenuItem("Add Constraint", CommandType.ADD_CONSTRAINT);    	
+        	addCommentMenuItem = createMenuItem("Add Comment", CommandType.ADD_COMMENT);
+
     	}    	
     }
 }

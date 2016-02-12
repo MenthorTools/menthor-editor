@@ -30,15 +30,14 @@ import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
-import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
+import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
@@ -199,31 +198,31 @@ public class CommandMap {
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addClass", ClassType.class, RefOntoUML.Element.class), ct));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addClass", ClassType.class, Object.class), ct));
 			}
 		}
 		for(DataType dt: DataType.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addDataType", DataType.class, RefOntoUML.Element.class), dt));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addDataType", DataType.class, Object.class), dt));
 			}
 		}		
 		for(RelationshipType rt: RelationshipType.values()){		
-			CommandType cmdType = CommandType.getChangeToCommandType(rt);
+			CommandType cmdType = CommandType.getAddCommandType(rt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addRelationship", RelationshipType.class, EObject.class), rt));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addRelationship", RelationshipType.class, Object.class), rt));
 			}
 		}	
 		cmdMap.put(CommandType.ADD_PACKAGE, 
-				new MethodCall(AddCommander.class.getMethod("addPackage",DefaultMutableTreeNode.class)));		
+				new MethodCall(AddCommander.class.getMethod("addPackage", Object.class)));		
 		cmdMap.put(CommandType.ADD_GENERALIZATIONSET, 
-				new MethodCall(AddCommander.class.getMethod("addGeneralizationSet",RefOntoUML.Element.class)));
+				new MethodCall(AddCommander.class.getMethod("addGeneralizationSet", Object.class)));
 		cmdMap.put(CommandType.ADD_COMMENT, 
-				new MethodCall(AddCommander.class.getMethod("addComment",RefOntoUML.Element.class)));
+				new MethodCall(AddCommander.class.getMethod("addComment", Object.class)));
 		cmdMap.put(CommandType.ADD_CONSTRAINT, 
-				new MethodCall(AddCommander.class.getMethod("addConstraintx",RefOntoUML.Element.class)));		
+				new MethodCall(AddCommander.class.getMethod("addConstraintx", Object.class)));		
 		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
-				new MethodCall(AddCommander.class.getMethod("addOclDocument", Object.class)));		
+				new MethodCall(AddCommander.class.getMethod("addOclDocument", Object.class))); //TODO: Qual a diferença entre addOclDocument e newOclDocument?		
 		cmdMap.put(CommandType.ADD_DIAGRAM, 
 				new MethodCall(AddCommander.class.getMethod("addDiagram", Object.class)));		
 		cmdMap.put(CommandType.NEW_OCLDOCUMENT,

@@ -11,6 +11,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Constraintx;
+import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
@@ -28,8 +29,8 @@ import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.notify.diagram.AddGeneralizationSetCommand;
-import net.menthor.editor.v2.ui.notify.model.AddRelationshipCommand;
 import net.menthor.editor.v2.ui.notify.model.AddElementCommand;
+import net.menthor.editor.v2.ui.notify.model.AddRelationshipCommand;
 import net.menthor.editor.v2.util.Util;
 
 public class AddCommander {
@@ -55,24 +56,25 @@ public class AddCommander {
 	}
 	
 	/** Add relationship to the model. */
-	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, EObject eContainer)	{
+	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, Object input)	{
+		if(stereotype==null) return null;
+		Element container = getContainer(input);		
 		RefOntoUML.Relationship relationship = FactoryManager.get().createRelationship(stereotype);		
-		if (stereotype==RelationshipType.GENERALIZATION) { //generalizations are owned by a type
-			AddRelationshipCommand cmd = new AddRelationshipCommand(relationship,null,null,(RefOntoUML.Classifier)eContainer);
-			cmd.run();
-		}else{
-			AddRelationshipCommand cmd = new AddRelationshipCommand(relationship,null,null,eContainer);
-			cmd.run();
-		}
+		AddRelationshipCommand cmd = new AddRelationshipCommand(relationship,null,null,container);
+		cmd.run();
 		return relationship;
 	}
 	
 	/** Add comment to the model. */
-	public RefOntoUML.Comment addComment(RefOntoUML.Element eContainer){
-		RefOntoUML.Comment comment = FactoryManager.get().createComment();
-		AddElementCommand cmd = new AddElementCommand(comment,eContainer);		
-		cmd.run();
-		return comment;
+	public RefOntoUML.Comment addComment(Object input){
+		Element container = getContainer(input);
+		if(container!=null){
+			RefOntoUML.Comment comment = FactoryManager.get().createComment();
+			AddElementCommand cmd = new AddElementCommand(comment,container);		
+			cmd.run();
+			return comment;
+		}
+		return null;
 	}
 	
 	/** Add comment to the model */
@@ -82,12 +84,13 @@ public class AddCommander {
 	}
 	
 	/** Add package to the model.  */
-	public void addPackage(DefaultMutableTreeNode node){		
-		if(!(node.getUserObject() instanceof RefOntoUML.Package)) return;		
-		RefOntoUML.Package container = (RefOntoUML.Package) (node.getUserObject()) ;
-		RefOntoUML.Element newPackage = FactoryManager.get().createPackage();
-		AddElementCommand cmd = new AddElementCommand(newPackage,container);		
-		cmd.run();
+	public void addPackage(Object input){	
+		Element container = getContainer(input);
+		if(container!=null){			
+			RefOntoUML.Element newPackage = FactoryManager.get().createPackage();
+			AddElementCommand cmd = new AddElementCommand(newPackage,container);		
+			cmd.run();
+		}
 	}
 	
 	/** Add constraint to the model */
@@ -97,41 +100,57 @@ public class AddCommander {
 	}
 	
 	/** Add constraint to the model */
-	public void addConstraintx(RefOntoUML.Element eContainer){
-		addConstraintx("",eContainer);
+	public void addConstraintx(Object input){
+		addConstraintx("",input);
 	}
 	
 	/** Add constraint to the model*/
-	public void addConstraintx(String text, RefOntoUML.Element eContainer){
-		RefOntoUML.Constraintx element = FactoryManager.get().createConstraintx();
-		((StringExpression)element.getSpecification()).setSymbol(text);
-		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
-		cmd.run();				
+	public void addConstraintx(String text, Object input){
+		Element container = getContainer(input);			
+		if(container!=null){
+			RefOntoUML.Constraintx element = FactoryManager.get().createConstraintx();
+			((StringExpression)element.getSpecification()).setSymbol(text);
+			AddElementCommand cmd = new AddElementCommand(element,container);		
+			cmd.run();				
+		}
 	}
 	
 	/** Add generalization set to the model  */
-	public RefOntoUML.Element addGeneralizationSet(RefOntoUML.Element eContainer){
-		RefOntoUML.Element element = FactoryManager.get().createGeneralizationSet();		
-		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
-		cmd.run();		
-		return element;
+	public RefOntoUML.Element addGeneralizationSet(Object input){
+		Element container = getContainer(input);			
+		if(container!=null){
+			RefOntoUML.Element element = FactoryManager.get().createGeneralizationSet();		
+			AddElementCommand cmd = new AddElementCommand(element,container);		
+			cmd.run();
+			return element;			
+		}
+		return null;
 	}
 	
 	/** Add class to the model */
-	public RefOntoUML.Element addClass(ClassType stereotype, RefOntoUML.Element eContainer){	
-		RefOntoUML.Element element = FactoryManager.get().createClass(stereotype);		
-		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
-		cmd.run();		
-		return element;
+	public RefOntoUML.Element addClass(ClassType stereotype, Object input){	
+		Element container = getContainer(input);			
+		if(container!=null){
+			RefOntoUML.Element element = FactoryManager.get().createClass(stereotype);		
+			AddElementCommand cmd = new AddElementCommand(element,container);		
+			cmd.run();		
+			return element;
+		}
+		return null;
 	}
 	
 	/** Add datatype to the model */
-	public RefOntoUML.Element addDataType(DataType stereotype, RefOntoUML.Element eContainer){
-		RefOntoUML.Element element = FactoryManager.get().createDataType(stereotype);		
-		AddElementCommand cmd = new AddElementCommand(element,eContainer);		
-		cmd.run();		
-		return element;
+	public RefOntoUML.Element addDataType(DataType stereotype, Object input){
+		Element eContainer = getContainer(input);			
+		if(eContainer!=null){
+			RefOntoUML.Element element = FactoryManager.get().createDataType(stereotype);		
+			AddElementCommand cmd = new AddElementCommand(element,eContainer);		
+			cmd.run();		
+			return element;
+		}
+		return null;
 	}
+	
 	
 	/** Add generalization set to generalization diagram elements */
 	public GeneralizationSet addGeneralizationSet(OntoumlEditor d, List<DiagramElement> diagramElements){		
@@ -208,5 +227,13 @@ public class AddCommander {
 		if(AppSplitPaneManager.get().isShowProjectBrowser()) waste+=240;
 		if(AppSplitPaneManager.get().isShowPalette()) waste+=240;
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
+	}
+	
+	private Element getContainer(Object input){				
+		if(input instanceof DefaultMutableTreeNode){
+			return (Element)((DefaultMutableTreeNode) input).getUserObject();
+		}else{
+			return (Element) input;
+		}		
 	}
 }
