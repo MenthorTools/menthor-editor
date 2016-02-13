@@ -1309,7 +1309,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.DESTINATION);
 			list.add((DiagramElement)con);
-			notificator.notify(null,list, ActionType.DO);
+			notificator.notifyChangeOnView(null, ActionType.DO,list);
 		}
 	}
 	
@@ -1318,7 +1318,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.UNDEFINED);
 			list.add((DiagramElement)con);
-			notificator.notify(null,list, ActionType.DO);
+			notificator.notifyChangeOnView(null,ActionType.DO,list);
 		}
 	}
 		
@@ -1327,7 +1327,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.SOURCE);
 			list.add((DiagramElement)con);
-			notificator.notify(null, list, ActionType.DO);
+			notificator.notifyChangeOnView(null, ActionType.DO,list);
 		}
 	}
 	

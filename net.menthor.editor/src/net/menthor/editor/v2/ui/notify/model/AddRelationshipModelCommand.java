@@ -61,14 +61,14 @@ public class AddRelationshipModelCommand extends ModelCommand {
 	public void undo(){
 		super.undo();		
 		undoWithoutNotifying();
-		notifier.notify(this, relationship, ActionType.UNDO);
+		notifier.notifyChange(this, ActionType.UNDO, relationship);
 	}
 	
 	@Override
 	public void run() {	    
 		super.run();	
 		runWithoutNotifying();
-		notifier.notify(this, relationship, isRedo ? ActionType.REDO : ActionType.DO);
+		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, relationship);
 	}
 	
 	public void undoWithoutNotifying(){

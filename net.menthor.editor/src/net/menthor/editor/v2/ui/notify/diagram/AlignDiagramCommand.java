@@ -69,7 +69,7 @@ public class AlignDiagramCommand extends DiagramCommand {
 	public void undo() {
 		super.undo();				
 		undoWithoutNotifying();			
-		notifier.notify(this, selected, ActionType.UNDO);		
+		notifier.notifyChangeOnView(this, ActionType.UNDO,selected);		
 	}
 	
 	protected void undoWithoutNotifying(){				
@@ -87,7 +87,7 @@ public class AlignDiagramCommand extends DiagramCommand {
 	public void run() {		
 		super.run();
 		runWithoutNotifying();
-		notifier.notify(this, selected, isRedo ? ActionType.REDO : ActionType.DO);		
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,selected);		
 	}
 	
 	protected void runWithoutNotifying(){

@@ -30,10 +30,10 @@ public class DeleteElementModelCommand extends ModelCommand {
 	/** requested list for deletion */
 	protected List<Element> requestedList= new ArrayList<Element>();
 	
-	/** not requested for deletion but connected to some of the elements requested for deletion */
+	/** not requested for deletion but connected to some of the elements requested  */
 	protected List<Element> directRelationshipsList = new ArrayList<Element>(); 
 	
-	/** not requested for deletion but connected to an element which is also connected to a requested element */
+	/** not requested but connected to an element which is also connected to a requested element */
 	protected List<Element> indirectRelationshipsList = new ArrayList<Element>();
 	
 	protected List<Element> getAllElements(){
@@ -87,14 +87,14 @@ public class DeleteElementModelCommand extends ModelCommand {
 	public void undo(){
 		super.undo();
 		undoWithoutNotifying();
-		notifier.notify(this,getAllElements(), ActionType.UNDO);
+		notifier.notifyChange(this,ActionType.UNDO,getAllElements());
 	}
 
 	@Override
 	public void run(){
 		super.run();
 		runWithoutNotifying();
-		notifier.notify(this,getAllElements(), isRedo ? ActionType.REDO : ActionType.DO);
+		notifier.notifyChange(this,isRedo ? ActionType.REDO : ActionType.DO, getAllElements());
 	}
 	
 	protected void undoWithoutNotifying(){					

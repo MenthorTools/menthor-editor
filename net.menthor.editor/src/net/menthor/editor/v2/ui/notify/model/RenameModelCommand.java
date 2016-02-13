@@ -38,14 +38,14 @@ public class RenameModelCommand extends ModelCommand {
 	public void undo() {
 		super.undo();
 		undoWithoutNotifying();
-		Notifier.get().notify(this, namedElement, ActionType.UNDO);
+		Notifier.get().notifyChange(this, ActionType.UNDO, namedElement);
 	}
 	
 	@Override
 	public void run() {
 		super.run();
 		runWithoutNotifying();
-		Notifier.get().notify(this, namedElement, isRedo ? ActionType.REDO : ActionType.DO);
+		Notifier.get().notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, namedElement);
 	}
 	
 	public void undoWithoutNotifying(){

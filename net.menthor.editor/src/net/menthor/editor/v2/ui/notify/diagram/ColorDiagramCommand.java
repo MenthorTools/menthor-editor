@@ -60,7 +60,7 @@ public class ColorDiagramCommand extends DiagramCommand {
 	public void undo() {
 		super.undo();	
 		undoWithoutNotifying();
-		notifier.notify(this, elementList, ActionType.UNDO);		
+		notifier.notifyChangeOnView(this, ActionType.UNDO,elementList);		
 	}
 	
 	protected void undoWithoutNotifying(){				
@@ -84,6 +84,6 @@ public class ColorDiagramCommand extends DiagramCommand {
 	public void run() {
 		super.run();
 		runWithoutNotifying();
-		notifier.notify(this, elementList, isRedo ? ActionType.REDO : ActionType.DO);			
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,elementList);			
 	}
 }

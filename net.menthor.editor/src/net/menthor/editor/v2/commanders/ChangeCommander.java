@@ -102,7 +102,7 @@ public class ChangeCommander {
 	/** Change multiplicity from string */
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		Notifier.get().notify(null,property.getAssociation(), ActionType.DO);
+		Notifier.get().notifyChange(null,ActionType.DO,property.getAssociation());
 		AppBrowserManager.get().updateUI();
 	}
 	
@@ -114,7 +114,7 @@ public class ChangeCommander {
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
-		Notifier.get().notify(null,property.getAssociation(), ActionType.DO);
+		Notifier.get().notifyChange(null, ActionType.DO,property.getAssociation());
 		AppBrowserManager.get().updateUI();
 	}
 	

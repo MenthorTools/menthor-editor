@@ -92,7 +92,7 @@ public class DeleteGenSetDiagramCommand extends ModelCommand implements IDiagram
 		}		
 		
 		if(notifier!=null){
-			notifier.notify(this,diagramGenList, ActionType.UNDO);
+			notifier.notifyChangeOnView(this,ActionType.UNDO,diagramGenList);
 		}
 	}
 	
@@ -121,7 +121,7 @@ public class DeleteGenSetDiagramCommand extends ModelCommand implements IDiagram
 		}		
 		
 		if (notifier!=null) {
-			notifier.notify(this,(List<DiagramElement>) list, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,(List<DiagramElement>) list);		
 						
 		}
 		

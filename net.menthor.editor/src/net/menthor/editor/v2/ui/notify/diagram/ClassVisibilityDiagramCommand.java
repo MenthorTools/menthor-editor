@@ -93,7 +93,7 @@ public class ClassVisibilityDiagramCommand extends DiagramCommand{
 	public void undo() {
 		super.undo();						
 		undoWithoutNotifying();		
-		notifier.notify(this, diagramElementList, ActionType.UNDO);
+		notifier.notifyChangeOnView(this, ActionType.UNDO,diagramElementList);
 	}
 	
 	protected void undoWithoutNotifying(){
@@ -119,7 +119,7 @@ public class ClassVisibilityDiagramCommand extends DiagramCommand{
 	public void run() {
 		super.run();
 		runWithoutNotifying();
-		notifier.notify(this, diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);		
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,diagramElementList);		
 	}
 	
 	protected void runWithoutNotifying(){

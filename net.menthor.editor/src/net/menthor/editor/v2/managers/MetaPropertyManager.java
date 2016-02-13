@@ -67,7 +67,7 @@ public class MetaPropertyManager extends AppGenericManager {
 		 if(name!=null){
 			 endpoint.setName(name);
 			 ((AssociationElement)con).setShowRoles(true);
-			 Notifier.get().notify(null,endpoint.getAssociation(), ActionType.DO);
+			 Notifier.get().notifyChange(null, ActionType.DO,endpoint.getAssociation());
 		 }
 	}
 			
@@ -269,7 +269,7 @@ public class MetaPropertyManager extends AppGenericManager {
   		if (containsCollective(con)) {
   			Collective collective = getCollective(con);
   			collective.setIsExtensional(!collective.isIsExtensional());
-  			Notifier.get().notify(null,collective, ActionType.DO);
+  			Notifier.get().notifyChange(null,ActionType.DO,collective);
   		}
   	}
     
@@ -277,7 +277,7 @@ public class MetaPropertyManager extends AppGenericManager {
   		if (containsClassifier(con)) {
   			Classifier classifier = getClassifier(con);
   			classifier.setIsAbstract(!classifier.isIsAbstract());
-  			Notifier.get().notify(null,classifier, ActionType.DO);
+  			Notifier.get().notifyChange(null,ActionType.DO,classifier);
   		}
   	}
     
@@ -285,7 +285,7 @@ public class MetaPropertyManager extends AppGenericManager {
 		if (containsAssociation(con)) {
 			Association association = getAssociation(con);
 			association.setIsDerived(!association.isIsDerived());
-			Notifier.get().notify(null,association, ActionType.DO);
+			Notifier.get().notifyChange(null,ActionType.DO,association);
 		}
 	}
 	
@@ -293,7 +293,7 @@ public class MetaPropertyManager extends AppGenericManager {
 		if (containsMeronymic(con)) {
 			Meronymic meronymic = getMeronymic(con);
 			meronymic.setIsShareable(!meronymic.isIsShareable());
-			Notifier.get().notify(null,meronymic, ActionType.DO);
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
 		}
 	}
 	
@@ -301,7 +301,7 @@ public class MetaPropertyManager extends AppGenericManager {
 		if (containsMeronymic(con)) {
 			Meronymic meronymic = getMeronymic(con);
 			meronymic.setIsImmutablePart(!meronymic.isIsImmutablePart());
-			Notifier.get().notify(null,meronymic, ActionType.DO);
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
 		}
 	}
 	
@@ -309,7 +309,7 @@ public class MetaPropertyManager extends AppGenericManager {
 		if (containsMeronymic(con)) {
 			Meronymic meronymic = getMeronymic(con);
 			meronymic.setIsImmutableWhole(!meronymic.isIsImmutableWhole());
-			Notifier.get().notify(null,meronymic, ActionType.DO);
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
 		}
 	}
 	
@@ -322,7 +322,7 @@ public class MetaPropertyManager extends AppGenericManager {
 			if(meronymic.isIsInseparable())
 				meronymic.setIsImmutableWhole(true);
 			
-			Notifier.get().notify(null,meronymic, ActionType.DO);
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
 		}
 	}
 	
@@ -335,7 +335,7 @@ public class MetaPropertyManager extends AppGenericManager {
 				if(meronymic.isIsEssential())
 					meronymic.setIsImmutablePart(true);
 				
-				Notifier.get().notify(null,meronymic, ActionType.DO);
+				Notifier.get().notifyChange(null,ActionType.DO,meronymic);
 			}
 		}
 	

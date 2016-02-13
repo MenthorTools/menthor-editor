@@ -28,7 +28,7 @@ public class ConnectionTypeDiagramCommand extends DiagramCommand {
 	public void run() {
 		super.run();
 		runWithoutNotifying();
-		notifier.notify(this,connection, isRedo ? ActionType.REDO : ActionType.DO);
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,connection);
 	}
 
 	protected void runWithoutNotifying(){
@@ -49,6 +49,6 @@ public class ConnectionTypeDiagramCommand extends DiagramCommand {
 	public void undo() {
 		super.undo();
 		undoWithoutNotifying();
-		notifier.notify(this, connection, ActionType.UNDO);
+		notifier.notifyChangeOnView(this, ActionType.UNDO, connection);
 	}
 }

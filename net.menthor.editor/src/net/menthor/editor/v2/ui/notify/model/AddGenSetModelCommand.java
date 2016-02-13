@@ -30,13 +30,13 @@ public class AddGenSetModelCommand extends AddElementModelCommand {
 	@Override
 	public void undo(){
 		undoWithoutNotifying();
-		notifier.notify(this, element, ActionType.UNDO);		
+		notifier.notifyChange(this,ActionType.UNDO, element);		
 	}
 	
 	@Override 
 	public void run(){
 		runWithoutNotifying();
-		notifier.notify(this, element, isRedo ? ActionType.REDO : ActionType.DO);		
+		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, element);		
 	}
 	
 	public void undoWithoutNotifying(){

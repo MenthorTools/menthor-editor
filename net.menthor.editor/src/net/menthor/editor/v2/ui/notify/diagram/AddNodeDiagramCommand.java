@@ -72,13 +72,13 @@ public class AddNodeDiagramCommand extends AddElementModelCommand implements IDi
 		parent.removeChild(diagramElement);	
 		System.out.println("[undo add] - "+parent.getName()+" - "+diagramElement);
 		OccurenceManager.get().remove(diagramElement);		
-		notifier.notify(this, diagramElement, ActionType.UNDO);		
+		notifier.notifyChangeOnView(this, ActionType.UNDO,diagramElement);		
 	}
 
 	public void run(){				
 		super.runWithoutNotifying();					
 		addToDiagram();				
-		notifier.notify(this, diagramElement, isRedo ? ActionType.REDO : ActionType.DO);		
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO, diagramElement);		
 	}	
 	
 	public void addToDiagram (){

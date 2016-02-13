@@ -81,7 +81,7 @@ public class EditPointsDiagramCommand extends DiagramCommand {
 		}			
 		
 		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);		
+			notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,(List<DiagramElement>) elements);		
 						
 		}
 	}
@@ -113,6 +113,6 @@ public class EditPointsDiagramCommand extends DiagramCommand {
 		if(connection instanceof SimpleConnection) elements.add(((SimpleConnection)connection).getOwnerConnection());
 		if(connection instanceof TreeConnection) elements.add(((TreeConnection)connection).getOwnerConnection());
 		
-		notifier.notify(this,elements, ActionType.UNDO);
+		notifier.notifyChangeOnView(this, ActionType.UNDO,elements);
 	}
 }

@@ -95,7 +95,7 @@ public class GeneralizationVisibilityDiagramCommand extends DiagramCommand{
 		}
 		
 		if(notifier!=null)
-			notifier.notify(this,diagramElementList, ActionType.UNDO);
+			notifier.notifyChangeOnView(this,ActionType.UNDO,diagramElementList);
 
 	}
 	
@@ -112,7 +112,7 @@ public class GeneralizationVisibilityDiagramCommand extends DiagramCommand{
 		
 		//notify
 		if (notifier!=null) {
-			notifier.notify(this,diagramElementList, isRedo ? ActionType.REDO : ActionType.DO);			
+			notifier.notifyChangeOnView(this,isRedo ? ActionType.REDO : ActionType.DO,diagramElementList);			
 						
 		}	
 		

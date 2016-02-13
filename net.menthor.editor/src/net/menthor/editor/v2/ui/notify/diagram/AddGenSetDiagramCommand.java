@@ -68,7 +68,7 @@ public class AddGenSetDiagramCommand extends AddGenSetModelCommand implements ID
 		super.undoWithoutNotifying();
 		List<DiagramElement> list = new ArrayList<>();
 		list.addAll(diagramGeneralizations);
-		notifier.notify(this, list, ActionType.UNDO);
+		notifier.notifyChangeOnView(this, ActionType.UNDO,list);
 	}
 	
 	@Override
@@ -76,6 +76,6 @@ public class AddGenSetDiagramCommand extends AddGenSetModelCommand implements ID
 		super.runWithoutNotifying();
 		List<DiagramElement> list = new ArrayList<DiagramElement>();						
 		list.addAll(diagramGeneralizations);		
-		notifier.notify(this, list, isRedo ? ActionType.REDO : ActionType.DO);			
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,list);			
 	}
 }

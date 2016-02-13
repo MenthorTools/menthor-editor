@@ -77,7 +77,7 @@ public class DeleteElementDiagramCommand extends DeleteElementModelCommand imple
 	@Override
 	public void run(){
 		runWithoutNotifying();
-		notifier.notify(this,getAllDiagramElements(), isRedo ? ActionType.REDO : ActionType.DO);		
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,getAllDiagramElements());		
 	}
 
 	protected void runWithoutNotifying(){
@@ -99,7 +99,7 @@ public class DeleteElementDiagramCommand extends DeleteElementModelCommand imple
 	@Override
 	public void undo(){		
 		undoWithoutNotifying();
-		notifier.notify(this,getAllDiagramElements(), ActionType.UNDO);		
+		notifier.notifyChangeOnView(this,ActionType.UNDO,getAllDiagramElements());		
 	}
 	
 	protected void undoWithoutNotifying(){

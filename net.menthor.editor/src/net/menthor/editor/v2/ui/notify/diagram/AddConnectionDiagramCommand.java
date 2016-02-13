@@ -67,7 +67,7 @@ public class AddConnectionDiagramCommand extends AddRelationshipModelCommand imp
 		parent.removeChild(diagramElement);
 		System.out.println("[undo add] - "+parent.getName()+" - "+diagramElement);
 		OccurenceManager.get().remove(diagramElement);		
-		notifier.notify(this, diagramElement, ActionType.UNDO);			
+		notifier.notifyChangeOnView(this, ActionType.UNDO,diagramElement);			
 	}
 
 	public void run() {	    
@@ -76,7 +76,7 @@ public class AddConnectionDiagramCommand extends AddRelationshipModelCommand imp
 		System.out.println("[add] - "+parent.getName()+" - "+diagramElement);
 		// small bug on drawing a derivation line. Not best solution, but it works...				
 		if (source instanceof Relationship || target instanceof Relationship)  diagramElement.invalidate();
-		notifier.notify(this, diagramElement, isRedo ? ActionType.REDO : ActionType.DO);				
+		notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,diagramElement);				
 	}		
 }
 

@@ -77,7 +77,7 @@ public class ResizeDiagramCommand extends DiagramCommand {
 
 		//notify
 		if (notifier!=null) {
-			notifier.notify(this, (List<DiagramElement>) elements, isRedo ? ActionType.REDO : ActionType.DO);			
+			notifier.notifyChangeOnView(this, isRedo ? ActionType.REDO : ActionType.DO,(List<DiagramElement>) elements);			
 						
 		}		
 	}
@@ -93,6 +93,6 @@ public class ResizeDiagramCommand extends DiagramCommand {
 		
 		List<DiagramElement> elements = new ArrayList<DiagramElement>();
 		elements.add(element);
-		notifier.notify(this, elements, ActionType.UNDO);
+		notifier.notifyChangeOnView(this, ActionType.UNDO,elements);
 	}
 }
