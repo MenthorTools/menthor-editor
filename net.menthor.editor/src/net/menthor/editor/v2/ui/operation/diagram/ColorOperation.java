@@ -29,7 +29,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -62,6 +61,7 @@ public class ColorOperation extends DiagramOperation {
 			ce.setBackgroundColor(oldColorList.get(i));
 			i++;
 		}
+		System.out.println(undoMessage());
 	}
 
 	protected void runWithoutNotifying(){		
@@ -71,29 +71,30 @@ public class ColorOperation extends DiagramOperation {
 				ce.setBackgroundColor(color);				
 			}
 		}
+		System.out.println(runMessage());
 	}
 	
 	@Override
 	public void run() {
 		super.run();		
-		runWithoutNotifying();
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this, isRedo ? ActionType.REDO : ActionType.DO,elementList);			
+		runWithoutNotifying();		
+		notifier.notifyViewChange(this, actionType,elementList);			
 	}
 	
 	@Override
 	public void undo() {
 		super.undo();	
-		undoWithoutNotifying();
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO,elementList);		
+		undoWithoutNotifying();		
+		notifier.notifyViewChange(this, actionType, elementList);		
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(classList);
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+asString(classList)+" to "+asString(oldColorList);
 	}	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(classList);
+	
+	@Override
+	public String runMessage(){
+		return super.runMessage()+asString(classList)+" to "+color;
 	}
-
 }

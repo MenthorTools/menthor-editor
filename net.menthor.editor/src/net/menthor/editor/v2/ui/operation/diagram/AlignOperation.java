@@ -29,7 +29,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -68,11 +67,8 @@ public class AlignOperation extends DiagramOperation {
 	@Override
 	public void undo() {
 		super.undo();				
-		
-		undoWithoutNotifying();			
-		
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO,selected);		
+		undoWithoutNotifying();		
+		notifier.notifyViewChange(this, actionType,selected);		
 	}
 	
 	protected void undoWithoutNotifying(){				
@@ -83,24 +79,25 @@ public class AlignOperation extends DiagramOperation {
 				ce.setAbsolutePos(oldPosXList.get(i), oldPosYList.get(i));				
 				i++;
 			}
-		}				
+		}
+		System.out.println(undoMessage());
 	}
 	
 	@Override
 	public void run() {		
 		super.run();
-		
 		runWithoutNotifying();
-		
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this, isRedo ? ActionType.REDO : ActionType.DO,selected);		
+		notifier.notifyViewChange(this, actionType,selected);		
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(selected);
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+asString(selected);
 	}	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(selected);
+	
+	@Override
+	public String runMessage(){
+		return super.runMessage()+asString(selected)+" to "+direction;
 	}
 	
 	protected void runWithoutNotifying(){		
@@ -110,6 +107,7 @@ public class AlignOperation extends DiagramOperation {
 		else if(direction==Alignment.RIGHT) alignRight(this.ontoumlEditor);
 		else if(direction==Alignment.CENTER_VERTICAL) alignCenterVertically(this.ontoumlEditor);
 		else if(direction==Alignment.CENTER_HORIZONTAL) alignCenterHorizontally(this.ontoumlEditor);
+		System.out.println(runMessage());
 	}
 	
 	private void alignBottom(OntoumlEditor de){		

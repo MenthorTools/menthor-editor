@@ -30,7 +30,6 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Generalization;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 import net.menthor.editor.v2.ui.operation.model.AddGeneralizationSetModelOperation;
@@ -71,26 +70,26 @@ public class AddGeneralizationSetOperation extends AddGeneralizationSetModelOper
 		List<DiagramElement> list = new ArrayList<>();
 		list.addAll(diagramGeneralizations);
 		
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO, list);
+		notifier.notifyViewChange(this, actionType, list);
 	}
-	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+parent.getName()+": "+element;
+			
+	@Override
+	public String undoMessage(){
+		return super.undoMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());		
 	}
-	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+parent.getName()+": "+element;
-	}
+		
+	@Override
+	public String runMessage(){
+		return super.runMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());
+	}	
 	
 	@Override
-	public void run() {
+	public void run() {		
 		super.runWithoutNotifying();
 		
 		List<DiagramElement> list = new ArrayList<DiagramElement>();						
 		list.addAll(diagramGeneralizations);		
 		
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this, isRedo ? ActionType.REDO : ActionType.DO,list);			
+		notifier.notifyViewChange(this, actionType,list);			
 	}
 }

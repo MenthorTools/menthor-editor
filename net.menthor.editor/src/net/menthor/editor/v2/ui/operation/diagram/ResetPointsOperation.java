@@ -28,7 +28,6 @@ import java.util.List;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -47,14 +46,14 @@ public class ResetPointsOperation extends DiagramOperation {
 	
 	public void run() {
 		super.run();
-		runWithoutNotifying();
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this,  isRedo ? ActionType.REDO : ActionType.DO, connection);		
+		runWithoutNotifying();		
+		notifier.notifyViewChange(this,  actionType, connection);		
 	}
 	
 	protected void runWithoutNotifying(){
 		originalPoints = clone(connection.getPoints());
-		connection.resetPoints();		
+		connection.resetPoints();	
+		System.out.println(runMessage());
 	}
 	
 	private List<Point2D> clone(List<Point2D> points) {
@@ -67,21 +66,23 @@ public class ResetPointsOperation extends DiagramOperation {
 	
 	protected void undoWithoutNotifying(){
 		connection.setPoints(originalPoints);		
+		System.out.println(undoMessage());
 	}
 	
 	@Override
 	public void undo() {
 		super.undo();		
 		undoWithoutNotifying();		
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO,connection);
+		notifier.notifyViewChange(this,actionType,connection);
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+connection;
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+connection+" to "+asString(connection.getPoints());
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+connection;
+	@Override
+	public String runMessage(){
+		return super.runMessage()+connection+" to "+asString(connection.getPoints());
 	}
 }

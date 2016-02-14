@@ -30,7 +30,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.GeneralizationElement;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -75,9 +74,8 @@ public class GeneralizationVisibilityOperation extends DiagramOperation{
 	@Override
 	public void undo() {
 		super.undo();						
-		undoWithoutNotifying();	
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO, diagramElementList);
+		undoWithoutNotifying();		
+		notifier.notifyViewChange(this, actionType, diagramElementList);
 	}
 	
 	protected void undoWithoutNotifying(){
@@ -87,7 +85,8 @@ public class GeneralizationVisibilityOperation extends DiagramOperation{
 				generalization.setShowName(valueMap.get(generalization));
 				break;
 			}
-		}		
+		}	
+		System.out.println(undoMessage());
 	}
 	
 	protected void runWithoutNotifying(){
@@ -98,20 +97,23 @@ public class GeneralizationVisibilityOperation extends DiagramOperation{
 				break;
 			}
 		}		
+		System.out.println(runMessage());
 	}
 	
 	@Override
 	public void run() {
 		super.run();
-		runWithoutNotifying();
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this,isRedo ? ActionType.REDO : ActionType.DO,diagramElementList);			
+		runWithoutNotifying();		
+		notifier.notifyViewChange(this,actionType, diagramElementList);			
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(diagramElementList);
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+asString(diagramElementList);
 	}	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(diagramElementList);
+	
+	@Override
+	public String runMessage(){
+		return super.runMessage()+asString(diagramElementList);
 	}
 }

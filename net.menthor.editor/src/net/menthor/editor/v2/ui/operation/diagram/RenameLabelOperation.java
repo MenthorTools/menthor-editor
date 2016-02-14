@@ -8,7 +8,6 @@ import org.tinyuml.umldraw.ClassElement;
 import RefOntoUML.Element;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -40,6 +39,7 @@ public class RenameLabelOperation extends DiagramOperation {
 				oclDoc.setContentAsString(newConstraints);
 			}									
 		}
+		System.out.println(runMessage());
 	}
 
 	protected void undoWithoutNotifying(){
@@ -52,29 +52,30 @@ public class RenameLabelOperation extends DiagramOperation {
 				oclDoc.setContentAsString(newConstraints);
 			}			
 		}	
+		System.out.println(undoMessage());
 	}
 	
 	@Override
 	public void run() {
 		super.run();						
 		runWithoutNotifying();		
-		System.out.println(runStatus());
-		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, (Element)parent.getModelObject());			
+		notifier.notifyChange(this, actionType, (Element)parent.getModelObject());			
 	}
 	
 	@Override
 	public void undo(){
 		super.undo();		
-		undoWithoutNotifying();
-		System.out.println(undoStatus());
-		notifier.notifyChange(this, ActionType.UNDO, (Element)parent.getModelObject());					
+		undoWithoutNotifying();		
+		notifier.notifyChange(this,actionType, (Element)parent.getModelObject());					
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+parent;
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+parent+" to "+oldText;
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+parent;
+	@Override	
+	public String runMessage(){
+		return super.runMessage()+parent+" to "+text;
 	}
 }

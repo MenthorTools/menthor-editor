@@ -31,7 +31,7 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	
 	protected Notifier notifier = Notifier.get();
 	protected OperationType operationType;
-	protected boolean isRedo = false;
+	protected ActionType actionType;
 	
 	public OperationType getOperationType(){ 
 		return operationType; 
@@ -46,11 +46,27 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	}
 	
 	@Override
-	public void redo(){
-		isRedo = true;
-		super.redo();
+	public void undo(){
+		actionType = ActionType.UNDO;
+		super.undo();		
+	}
+	
+	@Override
+	public void redo(){		
+		actionType = ActionType.REDO;
+		super.redo();		
 		run();	
 	}
 	
-	public void run(){}
+	public String runMessage(){
+		return "["+operationType.pastTense()+"] ";
+	}
+	
+	public String undoMessage(){
+		return "[undo "+operationType.presentTense()+"] ";		
+	}
+	
+	public void run(){
+		actionType = ActionType.DO;
+	}
 }

@@ -33,7 +33,6 @@ import org.tinyuml.draw.TranslateConnectionOperation;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -67,17 +66,15 @@ public class TranslateOperation extends DiagramOperation {
 	@Override
 	public void run() {
 		super.run();
-		runWithoutNotifying();
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this,isRedo ? ActionType.REDO : ActionType.DO,elements);		
+		runWithoutNotifying();		
+		notifier.notifyViewChange(this,actionType,elements);		
 	}
 
 	@Override
 	public void undo() {		
 		super.undo();
-		undoWithoutNotifying();
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this,ActionType.UNDO,elements);		
+		undoWithoutNotifying();		
+		notifier.notifyViewChange(this,actionType,elements);		
 	}
 	
 	protected void runWithoutNotifying(){		
@@ -102,6 +99,7 @@ public class TranslateOperation extends DiagramOperation {
 				}
 			}
 		}
+		System.out.println(runMessage());
 	}
 	
 	protected void undoWithoutNotifying(){		
@@ -116,6 +114,7 @@ public class TranslateOperation extends DiagramOperation {
 				if(node1 != null && node2 !=null && elements.contains(node1) && elements.contains(node2)) moveOperation.undo();				
 			}
 		}
+		System.out.println(undoMessage());
 	}
 	
 	private void resetRelatedConnectionPoints(Connection con){
@@ -127,11 +126,13 @@ public class TranslateOperation extends DiagramOperation {
 		}
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(elements);
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+asString(elements)+" on "+ontoumlEditor.getDiagram();
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(elements);
+	@Override
+	public String runMessage(){
+		return super.runMessage()+asString(elements)+" on "+ontoumlEditor.getDiagram();
 	}
 }

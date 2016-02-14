@@ -28,7 +28,6 @@ import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -53,35 +52,37 @@ public class ResizeOperation extends DiagramOperation {
 	@Override
 	public void run() {
 		super.run();
-		runWithoutNotifying();
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this, isRedo ? ActionType.REDO : ActionType.DO,element);		
+		runWithoutNotifying();		
+		notifier.notifyViewChange(this, actionType,element);		
 				
 	}
 
 	protected void runWithoutNotifying(){
 		element.setAbsolutePos(newpos.getX(), newpos.getY());		
-		element.setSize(newsize.getWidth(), newsize.getHeight());		
+		element.setSize(newsize.getWidth(), newsize.getHeight());
+		System.out.println(runMessage());
 	}
 	
 	protected void undoWithoutNotifying(){
 		element.setAbsolutePos(oldpos.getX(), oldpos.getY());
-		element.setSize(oldsize.getWidth(), oldsize.getHeight());		
+		element.setSize(oldsize.getWidth(), oldsize.getHeight());
+		System.out.println(undoMessage());
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+element;
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+element+" to ("+oldsize.getWidth()+","+oldsize.getHeight()+")";
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+element;
+	@Override
+	public String runMessage(){
+		return super.runMessage()+element+" to ("+newsize.getWidth()+","+newsize.getHeight()+")";
 	}
 	
 	@Override
 	public void undo() {
 		super.undo();
-		undoWithoutNotifying();
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO,element);
+		undoWithoutNotifying();		
+		notifier.notifyViewChange(this, actionType,element);
 	}
 }

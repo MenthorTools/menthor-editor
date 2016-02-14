@@ -32,7 +32,6 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
 
@@ -59,23 +58,22 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 			else this.diagramElement = FactoryManager.get().createNode((RefOntoUML.Type)element, eContainer);					
 		}		
 		element = (RefOntoUML.Element)diagramElement.getModelObject();
-		eContainer = (RefOntoUML.Element)element.eContainer();
+		eContainer = (RefOntoUML.Element)element.eContainer();		
 	}
 
 	public OntoumlEditor getOntoumlEditor(){ return ontoumlEditor; }
 	
 	@Override
 	public void undo(){		
-		super.undo();
+		super.undoWithoutNotifying();
 	
 		parent.removeChild(diagramElement);		
 		OccurenceManager.get().remove(diagramElement);		
 		
-		System.out.println(undoStatus());
-		notifier.notifyChange(this, ActionType.UNDO, (Element)diagramElement.getModelObject());		
+		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());		
 	}
 
-	public void run(){				
+	public void run(){			
 		super.runWithoutNotifying();					
 		
 		parent.addChild(diagramElement);		
@@ -84,17 +82,19 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 			showAttributesCompartment();
 		}				
 		
-		System.out.println(runStatus());
-		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, (Element)diagramElement.getModelObject());		
+		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());		
 	}	
 		
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+parent.getName()+": "+diagramElement;
-	}	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+parent.getName()+": "+diagramElement;
+	@Override
+	public String undoMessage(){
+		return super.undoMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());		
 	}
-	
+		
+	@Override
+	public String runMessage(){
+		return super.runMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());
+	}	
+		
 	private void showAttributesCompartment(){
 		Classifier c = ((ClassElement)diagramElement).getClassifier();
 		if (c instanceof RefOntoUML.Class){

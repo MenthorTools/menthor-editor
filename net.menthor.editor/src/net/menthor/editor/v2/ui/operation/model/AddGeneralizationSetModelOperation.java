@@ -6,7 +6,6 @@ import java.util.List;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import net.menthor.editor.v2.ui.operation.ActionType;
 
 public class AddGeneralizationSetModelOperation extends AddModelOperation {
 
@@ -32,8 +31,18 @@ public class AddGeneralizationSetModelOperation extends AddModelOperation {
 			((Generalization)gen).getGeneralizationSet().remove((GeneralizationSet)element); 		
 		}
 				
-		System.out.println(undoStatus());
-		notifier.notifyChange(this,ActionType.UNDO, element);		
+		System.out.println(undoMessage());
+		notifier.notifyChange(this,actionType, element);		
+	}
+	
+	@Override
+	public String undoMessage(){
+		return super.undoMessage();
+	}
+	
+	@Override
+	public String runMessage(){
+		return super.runMessage();
 	}
 	
 	@Override 
@@ -47,7 +56,7 @@ public class AddGeneralizationSetModelOperation extends AddModelOperation {
 			((Generalization)gen).getGeneralizationSet().add((GeneralizationSet)element); 		
 		}
 		
-		System.out.println(runStatus());
-		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, element);		
+		System.out.println(runMessage());
+		notifier.notifyChange(this, actionType, element);		
 	}	
 }

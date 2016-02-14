@@ -31,6 +31,21 @@ public abstract class ModelOperation extends GenericOperation {
 	}
 	
 	@Override
+	public String undoMessage(){
+		return super.undoMessage();
+	}
+	
+	@Override
+	public void redo(){
+		super.redo();
+	}
+	
+	@Override
+	public String runMessage(){
+		return super.runMessage();
+	}
+	
+	@Override
 	public void run(){
 		super.run();		
 	}

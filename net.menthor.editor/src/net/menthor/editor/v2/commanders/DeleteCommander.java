@@ -144,8 +144,7 @@ public class DeleteCommander {
 		for(OntoumlEditor ed: editors){			
 			DeleteOperation cmd = new DeleteOperation(ed, elements, false);
 			cmd.run();			
-		}
-		
+		}		
 	}
 	
 	/** Erase element from a particular diagram. It does not delete the element from the model. */

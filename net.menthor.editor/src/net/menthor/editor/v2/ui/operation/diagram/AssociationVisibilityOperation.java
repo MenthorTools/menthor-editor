@@ -29,7 +29,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -117,6 +116,7 @@ public class AssociationVisibilityOperation extends DiagramOperation{
 				break;
 			}
 		}
+		System.out.println(undoMessage());
 	}
 	
 	protected void runWithoutNotifying(){		
@@ -142,33 +142,30 @@ public class AssociationVisibilityOperation extends DiagramOperation{
 				break;
 			}
 		}		
+		System.out.println(runMessage());
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(associationList);
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+asString(associationList);
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(associationList);
+	@Override
+	public String runMessage(){
+		return super.runMessage()+asString(associationList);
 	}
 	
 	@Override
 	public void undo() {
-		super.undo();	
-		
+		super.undo();		
 		undoWithoutNotifying();
-		
-		System.out.println(undoStatus());
-		notifier.notifyViewChange(this, ActionType.UNDO,diagramElementList);
+		notifier.notifyViewChange(this, actionType,diagramElementList);
 	}
 	
 	@Override
 	public void run() {
 		super.run();
-		
 		runWithoutNotifying();
-		
-		System.out.println(runStatus());
-		notifier.notifyViewChange(this, isRedo ? ActionType.REDO : ActionType.DO,diagramElementList);		
+		notifier.notifyViewChange(this, actionType,diagramElementList);		
 	}	
 }

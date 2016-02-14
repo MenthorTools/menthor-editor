@@ -9,7 +9,6 @@ import RefOntoUML.Element;
 import RefOntoUML.Property;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -33,29 +32,63 @@ public class AddModelOperation extends ModelOperation {
 	
 	@Override
 	public void undo(){
-		super.undo();	
 		undoWithoutNotifying();
-		notifier.notifyChange(this, ActionType.UNDO,element);
+		notifier.notifyChange(this, actionType, element);
 	}
 	
 	@Override
-	public void run() {	    
-		super.run();
+	public void run() {		
 		runWithoutNotifying();
-		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO,element);
+		notifier.notifyChange(this, actionType, element);
+	}
+	
+	@Override
+	public String runMessage(){
+		return super.runMessage()+element+" to "+eContainer;
+	}
+	
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+element+" to "+eContainer;
 	}
 	
 	public void undoWithoutNotifying(){
+		super.undo();	
 		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		System.out.println(undoStatus());
+		System.out.println(this.undoMessage());
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+eContainer+": "+element;
-	}
-	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+eContainer+": "+element;
+	public void runWithoutNotifying(){	
+		super.run();
+		RefOntoUML.Package model = ProjectManager.get().getProject().getModel();
+		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
+		
+		AddCommand emfCommand = null;
+		if(eContainer==null && !packageContains(model, element)){
+			emfCommand = new AddCommand(domain, model.getPackagedElement(), element);			
+		}
+		else if(isPackage(eContainer) && !(packageContains(eContainer, element))){			
+			emfCommand = new AddCommand(domain, asPackage(eContainer).getPackagedElement(), element);
+		}
+		else if(isClassifier(eContainer) && isGeneralization(element)){
+			emfCommand = new AddCommand(domain, asClassifier(eContainer).getGeneralization(), element);
+		}
+		else if(isElement(eContainer) && isComment(element) && !elementContains(eContainer,asComment(element))){			
+			emfCommand = new AddCommand(domain, asElement(eContainer).getOwnedComment(), element);
+		}
+		else if(isClassifier(eContainer) && isConstraintx(element) && !constraintxContains(element, asClassifier(eContainer))){
+			emfCommand = new AddCommand(domain, asConstraintx(element).getConstrainedElement(), asClassifier(eContainer));					
+		}
+		else if(isClass(eContainer) && isProperty(element) && !classContains(eContainer, asProperty(element))){
+			emfCommand = new AddCommand(domain, ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
+		}
+		else if (isDataType(eContainer) && isProperty(element) && !dataTypeContains(eContainer,asProperty(element))){
+			emfCommand = new AddCommand(domain, ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
+		}		
+		if(emfCommand!=null) {
+			domain.getCommandStack().execute(emfCommand);
+		}		
+		System.out.println(runMessage());
 	}
 	
 	public boolean isClassifier(Object o){ return o instanceof RefOntoUML.Classifier; }	
@@ -96,37 +129,5 @@ public class AddModelOperation extends ModelOperation {
 	
 	public boolean dataTypeContains(Object dataType, Property p){
 		return asDataType(dataType).getOwnedAttribute().contains(p);
-	}
-	
-	public void runWithoutNotifying(){		
-		RefOntoUML.Package model = ProjectManager.get().getProject().getModel();
-		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
-		
-		AddCommand emfCommand = null;
-		if(eContainer==null && !packageContains(model, element)){
-			emfCommand = new AddCommand(domain, model.getPackagedElement(), element);			
-		}
-		else if(isPackage(eContainer) && !(packageContains(eContainer, element))){			
-			emfCommand = new AddCommand(domain, asPackage(eContainer).getPackagedElement(), element);
-		}
-		else if(isClassifier(eContainer) && isGeneralization(element)){
-			emfCommand = new AddCommand(domain, asClassifier(eContainer).getGeneralization(), element);
-		}
-		else if(isElement(eContainer) && isComment(element) && !elementContains(eContainer,asComment(element))){			
-			emfCommand = new AddCommand(domain, asElement(eContainer).getOwnedComment(), element);
-		}
-		else if(isClassifier(eContainer) && isConstraintx(element) && !constraintxContains(element, asClassifier(eContainer))){
-			emfCommand = new AddCommand(domain, asConstraintx(element).getConstrainedElement(), asClassifier(eContainer));					
-		}
-		else if(isClass(eContainer) && isProperty(element) && !classContains(eContainer, asProperty(element))){
-			emfCommand = new AddCommand(domain, ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
-		}
-		else if (isDataType(eContainer) && isProperty(element) && !dataTypeContains(eContainer,asProperty(element))){
-			emfCommand = new AddCommand(domain, ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
-		}		
-		if(emfCommand!=null) {
-			domain.getCommandStack().execute(emfCommand);
-		}
-		System.out.println(runStatus());
 	}
 }

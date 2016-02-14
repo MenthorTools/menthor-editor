@@ -30,7 +30,6 @@ import RefOntoUML.Element;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
 
@@ -64,16 +63,18 @@ public class AddConnectionOperation extends AddModelOperation implements IDiagra
 		parent.removeChild(diagramElement);		
 		OccurenceManager.get().remove(diagramElement);		
 		
-		System.out.println(undoStatus());
-		notifier.notifyChange(this, ActionType.UNDO, (Element)diagramElement.getModelObject());			
+		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());			
 	}
-
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+parent.getName()+": "+diagramElement;
+	
+	@Override
+	public String undoMessage(){
+		return super.undoMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());		
+	}
+		
+	@Override
+	public String runMessage(){
+		return super.runMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());
 	}	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+parent.getName()+": "+diagramElement;
-	}
 	
 	public void run() {	    
 		super.runWithoutNotifying();
@@ -87,8 +88,7 @@ public class AddConnectionOperation extends AddModelOperation implements IDiagra
 			diagramElement.invalidate();
 		}
 		
-		System.out.println(runStatus());
-		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, (Element)diagramElement.getModelObject());				
+		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());				
 	}		
 }
 

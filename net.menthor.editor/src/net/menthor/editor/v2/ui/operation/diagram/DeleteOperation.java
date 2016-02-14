@@ -10,7 +10,6 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
 
@@ -58,7 +57,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 		removeDiagramElements(indirectConnectionsList);
 		removeDiagramElements(directConnectionsList);		
 		removeDiagramElements(requestedDiagramElementList);
-		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, getAllElements());
+		notifier.notifyChange(this, actionType, getAllElements());				
 	}
 	
 	@Override
@@ -69,12 +68,12 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 		undoDiagramElements(requestedParentRelations);		
 		undoDiagramElements(directParentRelations);		
 		undoDiagramElements(indirectParentRelations);
-		notifier.notifyChange(this,ActionType.UNDO, getAllElements());
+		notifier.notifyChange(this,actionType, getAllElements());
 	}
 	
 	private void removeDiagramElements(List<DiagramElement> diagramElemList){
 		for (DiagramElement element : diagramElemList){
-			System.out.println(runStatus(element));
+			if(onlyFromDiagram)System.out.println(runMessage(element));
 			element.getParent().removeChild(element);
 			element.getParent().invalidate();
 			OccurenceManager.get().remove(element);
@@ -83,7 +82,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	
 	private void undoDiagramElements(List<ParentChildRelation> parentChildList){
 		for (ParentChildRelation relation : parentChildList){
-			System.out.println(undoStatus(relation.element));
+			if(onlyFromDiagram)System.out.println(undoMessage(relation.element));
 			parent.addChild(relation.element);
 			parent.invalidate();
 			OccurenceManager.get().add((Element)relation.element.getModelObject(),relation.element);
@@ -114,19 +113,30 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 
 	public boolean isOnlyFromDiagram(){ return onlyFromDiagram; }
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(getAllDiagramElements());
-	}
-
-	private String undoStatus(DiagramElement element){
-		return "[undo "+operationType.presentTense()+"] "+ontoumlEditor.getDiagram()+": "+element;
+	public String undoMessage(){
+		String container = getAllElements().get(0).eContainer().toString();
+		if(onlyFromDiagram) return super.undoMessage().replace(container, parent.toString());
+		else return super.undoMessage().replace(container, parent.toString()+" and "+container);
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+asString(getAllDiagramElements());
+	public String runMessage(){
+		String container = getAllElements().get(0).eContainer().toString();
+		if(onlyFromDiagram) return super.runMessage().replace(container, parent.toString());
+		else return super.runMessage().replace(container, parent.toString()+" and "+container);		
 	}	
-	private String runStatus(DiagramElement element){
-		return "["+operationType.pastTense()+"] "+ontoumlEditor.getDiagram()+": "+element;
+	
+	private String undoMessage(DiagramElement element){
+		Element e = (Element)element.getModelObject();
+		String container = e.eContainer().toString();
+		if(onlyFromDiagram) return super.undoMessage().replace(container, parent.toString());
+		else return super.undoMessage().replace(container, parent.toString()+" and "+container);
+	}
+	
+	private String runMessage(DiagramElement element){
+		Element e = (Element)element.getModelObject();
+		String container = e.eContainer().toString();
+		if(onlyFromDiagram) return super.runMessage().replace(container, parent.toString());
+		else return super.runMessage().replace(container, parent.toString()+" and "+container);
 	}
 	
 	

@@ -1,7 +1,6 @@
 package net.menthor.editor.v2.ui.operation.model;
 
 import RefOntoUML.NamedElement;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.OperationType;
@@ -36,34 +35,36 @@ public class RenameModelOperation extends ModelOperation {
 
 	@Override
 	public void undo() {
-		super.undo();
 		undoWithoutNotifying();
-		Notifier.get().notifyChange(this, ActionType.UNDO, namedElement);
+		Notifier.get().notifyChange(this, actionType, namedElement);
 	}
 	
 	@Override
 	public void run() {
-		super.run();
 		runWithoutNotifying();
-		Notifier.get().notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO, namedElement);
+		Notifier.get().notifyChange(this, actionType, namedElement);
 	}
 	
 	public void undoWithoutNotifying(){
+		super.undo();
 		namedElement.setName(oldName);
-		System.out.println(undoStatus());
+		System.out.println(undoMessage());
 	}
 	
 	public void runWithoutNotifying(){
+		super.run();
 		namedElement.setName(newName);
-		System.out.println(runStatus());
+		System.out.println(runMessage());
 	}
 	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] Model: "+namedElement;
+	@Override
+	public String undoMessage(){
+		return super.undoMessage()+namedElement+" to "+oldName;
 	}
 	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] Model: "+namedElement;
+	@Override
+	public String runMessage(){
+		return super.runMessage()+namedElement+" to "+newName;
 	}
 	
 }

@@ -15,10 +15,8 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -26,8 +24,6 @@ public class DeleteModelOperation extends ModelOperation {
 
 	private static final long serialVersionUID = 3798222350326038273L;
 
-	protected RefOntoUML.Element element;
-	
 	/** requested list for deletion */
 	protected List<Element> requestedList= new ArrayList<Element>();
 	
@@ -53,8 +49,6 @@ public class DeleteModelOperation extends ModelOperation {
 		result.addAll(directRelationshipsList);
 		return result;
 	}
-	
-	
 			
 	public DeleteModelOperation(){
 		super();
@@ -89,49 +83,61 @@ public class DeleteModelOperation extends ModelOperation {
 	}
 	
 	@Override
-	public void undo(){
-		super.undo();		
+	public void undo(){		
 		undoWithoutNotifying();
-		notifier.notifyChange(this,ActionType.UNDO,getAllElements());
+		notifier.notifyChange(this,actionType,getAllElements());
 	}
 
 	@Override
-	public void run(){
-		super.run();
+	public void run(){		
 		runWithoutNotifying();
-		notifier.notifyChange(this,isRedo ? ActionType.REDO : ActionType.DO, getAllElements());
+		notifier.notifyChange(this,actionType, getAllElements());
 	}
 	
-	protected void undoWithoutNotifying(){					
-		undo(requestedList);
-		undo(indirectRelationshipsList);
-		undo(directRelationshipsList);
+	protected void undoWithoutNotifying(){	
+		super.undo();		
+		undoDelete(requestedList);
+		undoDelete(indirectRelationshipsList);
+		undoDelete(directRelationshipsList);
 	}
 	
 	protected void runWithoutNotifying(){
+		super.run();
 		delete(indirectRelationshipsList);
 		delete(directRelationshipsList);
 		delete(requestedList);
 	}
 	
 	private void delete (RefOntoUML.Element elem){		
-		System.out.println(runStatus(elem));
 		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
 		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
-		domain.getCommandStack().execute(emfCommand);		
+		domain.getCommandStack().execute(emfCommand);
+		System.out.println(runMessage(elem));
 	}
 
-	private void undo (RefOntoUML.Element elem){		
-		System.out.println(undoStatus(elem));
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();		
-	}
-
-	protected String undoStatus(Element element){
-		return "[undo "+operationType.presentTense()+"] Model: "+element;
+	private void undoDelete (RefOntoUML.Element elem){		
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		System.out.println(undoMessage(elem));
 	}
 	
-	protected String runStatus(Element element){
-		return "["+operationType.pastTense()+"] Model: "+element;
+	@Override
+	public String undoMessage(){
+		if(requestedList.size()==0) return super.undoMessage();
+		return super.undoMessage()+asString(getAllElements())+" from "+getAllElements().get(0).eContainer();
+	}
+	
+	public String undoMessage(Element element){
+		return super.undoMessage()+element+" from "+element.eContainer();
+	}
+	
+	@Override
+	public String runMessage(){
+		if(requestedList.size()==0) return super.runMessage();
+		return super.runMessage()+asString(getAllElements())+" from "+getAllElements().get(0).eContainer();
+	}
+	
+	public String runMessage(Element element){
+		return super.runMessage()+element+" from "+element.eContainer();
 	}
 	
 	private void delete(List<RefOntoUML.Element> elemList){	
@@ -140,7 +146,7 @@ public class DeleteModelOperation extends ModelOperation {
 		deleteTypes(elemList);
 	}
 	
-	private void undo(List<Element> elemList){
+	private void undoDelete(List<Element> elemList){
 		undoTypes(elemList);		
 		undoRelationships(elemList);
 		undoGeneralizationSets(elemList);
@@ -160,9 +166,9 @@ public class DeleteModelOperation extends ModelOperation {
 	/** undo deletion of derivations, comments and constraints */
 	private void undoLastElements(List<Element> elemList){
 		for(Element elem: elemList) {
-			if (elem instanceof RefOntoUML.Derivation)  undo(elem); 
-			if (elem instanceof RefOntoUML.Comment) undo(elem);
-			if (elem instanceof RefOntoUML.Constraintx) undo(elem);					
+			if (elem instanceof RefOntoUML.Derivation)  undoDelete(elem); 
+			if (elem instanceof RefOntoUML.Comment) undoDelete(elem);
+			if (elem instanceof RefOntoUML.Constraintx) undoDelete(elem);					
 		}	
 	}
 	
@@ -185,7 +191,7 @@ public class DeleteModelOperation extends ModelOperation {
 	/** undo deletion of associations and generalizations */
 	private void undoRelationships(List<Element> elemList){
 		for(Element elem: elemList) {				
-			if ((elem instanceof RefOntoUML.Association) && !(elem instanceof RefOntoUML.Derivation)) undo(elem);
+			if ((elem instanceof RefOntoUML.Association) && !(elem instanceof RefOntoUML.Derivation)) undoDelete(elem);
 			if (elem instanceof RefOntoUML.Generalization) undoGeneralization((Generalization)elem);
 		}
 	}
@@ -200,7 +206,7 @@ public class DeleteModelOperation extends ModelOperation {
 	/** undo deletion of classes and datatypes */
 	private void undoTypes(List<Element> elemList){		
 		for(Element elem: elemList) {
-			if (elem instanceof RefOntoUML.Class || elem instanceof RefOntoUML.DataType) undo(elem);			
+			if (elem instanceof RefOntoUML.Class || elem instanceof RefOntoUML.DataType) undoDelete(elem);			
 		}
 	}
 	
@@ -226,7 +232,7 @@ public class DeleteModelOperation extends ModelOperation {
 	
 	/** undo deletion of a generalization with its generalization sets */
 	private void undoGeneralization(Generalization gen){
-		undo(gen);		
+		undoDelete(gen);		
 		//undo empty generalization sets that were emptied
 		List<GeneralizationSet> genSetsForAddition = new ArrayList<GeneralizationSet>();
 		for(GeneralizationSet genSet: remainingEmptyGenSets) {
@@ -261,20 +267,12 @@ public class DeleteModelOperation extends ModelOperation {
 	
 	/** undo deletion of a generalization set with its generalizations */
 	private void undoGeneralizationSet(GeneralizationSet elem){
-		undo(elem);
+		undoDelete(elem);
 		
 		//couple generalization set and its generalizations again
 		((GeneralizationSet)elem).getGeneralization().addAll(deletedGenSetMap.keySet());		
 		for(Generalization gen: deletedGenSetMap.keySet()) {
 			gen.getGeneralizationSet().add(elem);			
 		}
-	}
-	
-	public String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] Model: "+asString(getAllElements());
-	}
-	
-	public String runStatus(){
-		return "["+operationType.pastTense()+"] Model: "+asString(getAllElements());
-	}
+	}	
 }
