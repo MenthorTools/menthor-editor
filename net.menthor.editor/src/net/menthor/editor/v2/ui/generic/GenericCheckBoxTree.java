@@ -368,7 +368,7 @@ public abstract class GenericCheckBoxTree extends CheckboxTree {
             MutableTreeNode parent = (MutableTreeNode)(currentNode.getParent());
             if (parent != null){
                 treeModel.removeNodeFromParent(currentNode);
-                treeModel.nodeChanged(parent);
+                treeModel.nodeChanged(parent);                
                 return;
             }
         }

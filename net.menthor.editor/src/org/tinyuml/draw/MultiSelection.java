@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.menthor.editor.v2.ui.notify.IUndoableCommand;
+import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 
 
 /**
@@ -108,7 +108,7 @@ public class MultiSelection implements Selection {
 	//Test if there was an effective move or resize
 	if(x != startPos.getX() || y != startPos.getY())
 	{
-	    List<IUndoableCommand> moveOperations = new ArrayList<IUndoableCommand>();
+	    List<IUndoableOperation> moveOperations = new ArrayList<IUndoableOperation>();
 	    double transx = tmpPos.getX() - bounds.getX();
 	    double transy = tmpPos.getY() - bounds.getY();
 	    for (DiagramElement element : elements) {
@@ -135,7 +135,7 @@ public class MultiSelection implements Selection {
    * @param transx the x translation
    * @param transy the y translation
    */
-  private void addMoveNodeOperation(List<IUndoableCommand> moveOperations, Node node, double transx, double transy) {
+  private void addMoveNodeOperation(List<IUndoableOperation> moveOperations, Node node, double transx, double transy) {
     Point2D targetPos = new Point2D.Double(node.getAbsoluteX1() + transx, node.getAbsoluteY1() + transy);
     moveOperations.add(new MoveNodeOperation(node, node.getParent(), targetPos));
   }
@@ -147,7 +147,7 @@ public class MultiSelection implements Selection {
    * @param transx the x translation
    * @param transy the y translation
    */
-  private void addTranslateConnectionOperations(List<IUndoableCommand> moveOperations,
+  private void addTranslateConnectionOperations(List<IUndoableOperation> moveOperations,
     Connection conn, double transx, double transy) {
     moveOperations.add(new TranslateConnectionOperation(conn, transx, transy));
   }

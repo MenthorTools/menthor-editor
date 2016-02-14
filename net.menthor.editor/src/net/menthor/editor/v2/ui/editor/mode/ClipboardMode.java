@@ -35,7 +35,7 @@ import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AddNodeDiagramCommand;
+import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 import net.menthor.editor.v2.util.DrawUtil;
 
 public class ClipboardMode implements IEditorMode {
@@ -147,7 +147,7 @@ public class ClipboardMode implements IEditorMode {
 					ceCenterX = ce.getAbsCenterX()+(ceCenterX - center.getX());
 					ceCenterY = ce.getAbsCenterY()+(ceCenterY - center.getY());
 				}				 
-				AddNodeDiagramCommand cmd = new AddNodeDiagramCommand(de, ce, ceCenterX-40, ceCenterY-20);		
+				AddNodeOperation cmd = new AddNodeOperation(de, ce, ceCenterX-40, ceCenterY-20);		
 				cmd.run();
 			}			
 		}
@@ -184,7 +184,7 @@ public class ClipboardMode implements IEditorMode {
 	private Rectangle2D initClipBounds() {
 		double minx = Double.MAX_VALUE, miny = Double.MAX_VALUE;
 	    double maxy = Double.MIN_VALUE, maxx = Double.MIN_VALUE;
-	    if(clipBounds==null) {
+	    if(clipBounds==null && clipboard.size()>0) {
 	    	clipBounds = clipboard.get(0).getAbsoluteBounds();
 	    }
 		for (DiagramElement element : clipboard) {

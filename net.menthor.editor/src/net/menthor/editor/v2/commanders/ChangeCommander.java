@@ -48,8 +48,8 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
-import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.Notifier;
+import net.menthor.editor.v2.ui.operation.ActionType;
+import net.menthor.editor.v2.ui.operation.Notifier;
 
 public class ChangeCommander {
 	

@@ -22,9 +22,8 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.DeleteElementDiagramCommand;
-import net.menthor.editor.v2.ui.notify.diagram.DeleteGenSetDiagramCommand;
-import net.menthor.editor.v2.ui.notify.model.DeleteElementModelCommand;
+import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
+import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
 
 public class DeleteCommander {
 		
@@ -72,23 +71,21 @@ public class DeleteCommander {
 		for(Object o: elements){
 			delete(o);
 		}
-	}
+	}	
 	
 	/** Delete any element from the application, whether a diagram, document, element or from selection. */
 	public void delete(Object input){
-		Object elem = input;
-		
+		Object elem = input;		
 		if(input instanceof DefaultMutableTreeNode){
 			elem = ((DefaultMutableTreeNode) elem).getUserObject();
 		}
-		
 		if (elem instanceof StructureDiagram){
 			deleteDiagram((StructureDiagram)elem, true);    					
 		} 
 		else if (elem instanceof OclDocument){
 			deleteOclDocument((OclDocument)elem, true);    					
 		}
-		else if (elem instanceof RefOntoUML.Element){				
+		else if (elem instanceof RefOntoUML.Element){			
 			deleteElement((RefOntoUML.Element)elem,true);    					    					
 		} else{ 
 			AppTabManager.get().getCurrentDiagramEditor().deleteSelection(elem);
@@ -138,23 +135,17 @@ public class DeleteCommander {
 	}
 	
 	/** Delete element from the model and from every diagram they might appear. **/
-	public void deleteElements(List<RefOntoUML.Element> elements){
-				
+	public void deleteElements(List<RefOntoUML.Element> elements){		
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
-		for(OntoumlEditor ed: editors){
-			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
-				new DeleteGenSetDiagramCommand(ed, elements.get(0)).run();
-			}else{
-				new DeleteElementDiagramCommand(ed, elements, false).run();
-			}
+		if(editors==null || editors.size()==0) {			
+			new DeleteModelOperation(elements).run();
+			return;
 		}
-		if(editors==null || editors.size()==0) {
-			if(elements.size()==1 && elements.get(0) instanceof GeneralizationSet){
-				new DeleteGenSetDiagramCommand(null, elements.get(0)).run();
-			}else{
-				new DeleteElementModelCommand(elements).run();
-			}
+		for(OntoumlEditor ed: editors){			
+			DeleteOperation cmd = new DeleteOperation(ed, elements, false);
+			cmd.run();			
 		}
+		
 	}
 	
 	/** Erase element from a particular diagram. It does not delete the element from the model. */
@@ -164,7 +155,7 @@ public class DeleteCommander {
 		if(element instanceof Comment) return;
 		List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
 		list.add(element);
-		new DeleteElementDiagramCommand(ed,list,true).run();				
+		new DeleteOperation(ed,list,true).run();				
 	}
 	
 	/** Delete all elements at the diagram */

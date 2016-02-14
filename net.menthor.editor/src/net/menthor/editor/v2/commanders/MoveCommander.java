@@ -51,7 +51,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AddNodeDiagramCommand;
+import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 
 public class MoveCommander {
 	
@@ -181,7 +181,7 @@ public class MoveCommander {
 	/** Move class to a diagram  */
 	public void moveClass(RefOntoUML.Element element, double x, double y, OntoumlEditor d)	{
 		UmlNode node = FactoryManager.get().createNode((RefOntoUML.Type)element, (RefOntoUML.Element)element.eContainer());
-		AddNodeDiagramCommand cmd = new AddNodeDiagramCommand(d,node, x,y);		
+		AddNodeOperation cmd = new AddNodeOperation(d,node, x,y);		
 		cmd.run();
 		moveGeneralizations(element,d);		   
 		moveAssociations(element, d);

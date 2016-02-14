@@ -6,8 +6,8 @@ import java.util.List;
 import org.tinyuml.draw.DiagramElement;
 
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.notify.diagram.AlignDiagramCommand;
-import net.menthor.editor.v2.ui.notify.diagram.AlignDiagramCommand.Alignment;
+import net.menthor.editor.v2.ui.operation.diagram.AlignOperation;
+import net.menthor.editor.v2.ui.operation.diagram.AlignOperation.Alignment;
 
 public class AlignCommander {
 
@@ -50,7 +50,7 @@ public class AlignCommander {
 	}
 	
 	private void executeAlign(List<DiagramElement> diagramElements, Alignment mode ) {
-		AlignDiagramCommand command = new AlignDiagramCommand(AppTabManager.get().getCurrentDiagramEditor(), diagramElements, mode);
+		AlignOperation command = new AlignOperation(AppTabManager.get().getCurrentDiagramEditor(), diagramElements, mode);
 		command.run();
 	}
 	

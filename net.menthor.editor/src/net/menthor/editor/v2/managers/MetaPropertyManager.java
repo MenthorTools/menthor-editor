@@ -18,8 +18,8 @@ import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
-import net.menthor.editor.v2.ui.notify.ActionType;
-import net.menthor.editor.v2.ui.notify.Notifier;
+import net.menthor.editor.v2.ui.operation.ActionType;
+import net.menthor.editor.v2.ui.operation.Notifier;
 
 public class MetaPropertyManager extends AppGenericManager {
 	

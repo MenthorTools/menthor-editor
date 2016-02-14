@@ -1,12 +1,14 @@
 package net.menthor.editor.v2.ui.app.manager;
 
+import java.util.List;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 
+import RefOntoUML.Element;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
-
 import net.menthor.editor.v2.managers.ProjectManager;
 
 public class AppBrowserManager extends AppGenericManager {
@@ -41,8 +43,12 @@ public class AppBrowserManager extends AppGenericManager {
     	browser().getTree().updateUI();
     }
     
-    public void remove(RefOntoUML.Element o){
-    	browser().getTree().remove(o);
+    public void remove(RefOntoUML.Element o){  
+    	browser().getTree().remove(o);    	
+    }
+    
+    public void removeAll(List<RefOntoUML.Element> list){  
+    	for(Element e: list) browser().getTree().remove(e);    	
     }
     
     public void remove(){

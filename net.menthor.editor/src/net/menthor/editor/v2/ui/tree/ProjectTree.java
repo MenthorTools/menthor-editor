@@ -46,7 +46,6 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.Comment;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
 import RefOntoUML.NamedElement;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
@@ -302,15 +301,17 @@ public class ProjectTree extends GenericCheckBoxTree {
     
     public void remove(RefOntoUML.Element deletedElement){
     	/* remove generalizationSets too if the generalization is removed */
-		if(deletedElement instanceof Generalization){
-			checkObject(deletedElement);						
-			removeCurrentNode();
-			for(GeneralizationSet genSet: ((Generalization)deletedElement).getGeneralizationSet()){
-				if(genSet.getGeneralization().size()==1 && genSet.getGeneralization().get(0).equals(deletedElement)) { checkObject(genSet); removeCurrentNode(); }
-				if(genSet.getGeneralization().size()==0) { checkObject(genSet); removeCurrentNode(); }
-			}
-			return;
-		}		
+//    	//it is the delete command who must give the element for deletion. 
+//    	//we cant delete any other element here.
+//		if(deletedElement instanceof Generalization){
+//			checkObject(deletedElement);						
+//			removeCurrentNode();
+//			for(GeneralizationSet genSet: ((Generalization)deletedElement).getGeneralizationSet()){
+//				if(genSet.getGeneralization().size()==1 && genSet.getGeneralization().get(0).equals(deletedElement)) { checkObject(genSet); removeCurrentNode(); }
+//				if(genSet.getGeneralization().size()==0) { checkObject(genSet); removeCurrentNode(); }
+//			}
+//			return;
+//		}		
 		checkObject(deletedElement);		
 		removeCurrentNode();				
 	}    

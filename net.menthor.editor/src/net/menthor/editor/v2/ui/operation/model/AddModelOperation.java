@@ -1,0 +1,132 @@
+package net.menthor.editor.v2.ui.operation.model;
+
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+
+import RefOntoUML.Classifier;
+import RefOntoUML.Comment;
+import RefOntoUML.Element;
+import RefOntoUML.Property;
+import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.operation.ActionType;
+import net.menthor.editor.v2.ui.operation.ModelOperation;
+import net.menthor.editor.v2.ui.operation.OperationType;
+
+public class AddModelOperation extends ModelOperation {
+
+	private static final long serialVersionUID = 7518976801833128513L;
+
+	protected RefOntoUML.Element element;
+	protected RefOntoUML.Element eContainer;	
+	
+	public AddModelOperation(){
+		super();
+		this.operationType = OperationType.ADD;
+	}
+	
+	public AddModelOperation(RefOntoUML.Element element, RefOntoUML.Element eContainer){
+		this();
+		this.element = element;		
+		this.eContainer = eContainer;
+	}
+	
+	@Override
+	public void undo(){
+		super.undo();	
+		undoWithoutNotifying();
+		notifier.notifyChange(this, ActionType.UNDO,element);
+	}
+	
+	@Override
+	public void run() {	    
+		super.run();
+		runWithoutNotifying();
+		notifier.notifyChange(this, isRedo ? ActionType.REDO : ActionType.DO,element);
+	}
+	
+	public void undoWithoutNotifying(){
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		System.out.println(undoStatus());
+	}
+	
+	public String undoStatus(){
+		return "[undo "+operationType.presentTense()+"] "+eContainer+": "+element;
+	}
+	
+	public String runStatus(){
+		return "["+operationType.pastTense()+"] "+eContainer+": "+element;
+	}
+	
+	public boolean isClassifier(Object o){ return o instanceof RefOntoUML.Classifier; }	
+	public boolean isPackage(Object o){ return o instanceof RefOntoUML.Package; }
+	public boolean isComment(Object o){ return o instanceof RefOntoUML.Comment; }
+	public boolean isConstraintx(Object o){ return o instanceof RefOntoUML.Constraintx; }
+	public boolean isProperty(Object o){ return o instanceof RefOntoUML.Property; }
+	public boolean isElement(Object o){ return o instanceof RefOntoUML.Element; }
+	public boolean isClass(Object o){ return o instanceof RefOntoUML.Class; }
+	public boolean isDataType(Object o){ return o instanceof RefOntoUML.DataType; }
+	public boolean isGeneralization(Object o){ return o instanceof RefOntoUML.Generalization; }
+	
+	public RefOntoUML.Classifier asClassifier(Object o){ return (RefOntoUML.Classifier)o; }
+	public RefOntoUML.Package asPackage(Object o){ return (RefOntoUML.Package)o; }
+	public RefOntoUML.Class asClass(Object o){ return (RefOntoUML.Class)o; }
+	public RefOntoUML.DataType asDataType(Object o){ return (RefOntoUML.DataType)o; }
+	public RefOntoUML.Property asProperty(Object o){ return (RefOntoUML.Property)o; }
+	public RefOntoUML.Element asElement(Object o){ return (RefOntoUML.Element)o; }
+	public RefOntoUML.Comment asComment(Object o){ return (RefOntoUML.Comment)o; }
+	public RefOntoUML.Constraintx asConstraintx(Object o){ return (RefOntoUML.Constraintx)o; }
+	public RefOntoUML.Generalization asGeneralization(Object o){ return (RefOntoUML.Generalization)o; }
+	
+	public boolean packageContains(Object pack, Element e){
+		return asPackage(pack).getPackagedElement().contains(e);
+	}
+	
+	public boolean elementContains(Object o, Comment c){
+		return asElement(o).getOwnedComment().contains(c);
+	}
+	
+	public boolean constraintxContains(Object constraint, Classifier e){
+		return asConstraintx(constraint).getConstrainedElement().contains(e);
+	}
+	
+	public boolean classContains(Object class_, Property p){
+		return asClass(class_).getOwnedAttribute().contains(p);
+	}
+	
+	public boolean dataTypeContains(Object dataType, Property p){
+		return asDataType(dataType).getOwnedAttribute().contains(p);
+	}
+	
+	public void runWithoutNotifying(){		
+		RefOntoUML.Package model = ProjectManager.get().getProject().getModel();
+		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
+		
+		AddCommand emfCommand = null;
+		if(eContainer==null && !packageContains(model, element)){
+			emfCommand = new AddCommand(domain, model.getPackagedElement(), element);			
+		}
+		else if(isPackage(eContainer) && !(packageContains(eContainer, element))){			
+			emfCommand = new AddCommand(domain, asPackage(eContainer).getPackagedElement(), element);
+		}
+		else if(isClassifier(eContainer) && isGeneralization(element)){
+			emfCommand = new AddCommand(domain, asClassifier(eContainer).getGeneralization(), element);
+		}
+		else if(isElement(eContainer) && isComment(element) && !elementContains(eContainer,asComment(element))){			
+			emfCommand = new AddCommand(domain, asElement(eContainer).getOwnedComment(), element);
+		}
+		else if(isClassifier(eContainer) && isConstraintx(element) && !constraintxContains(element, asClassifier(eContainer))){
+			emfCommand = new AddCommand(domain, asConstraintx(element).getConstrainedElement(), asClassifier(eContainer));					
+		}
+		else if(isClass(eContainer) && isProperty(element) && !classContains(eContainer, asProperty(element))){
+			emfCommand = new AddCommand(domain, ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
+		}
+		else if (isDataType(eContainer) && isProperty(element) && !dataTypeContains(eContainer,asProperty(element))){
+			emfCommand = new AddCommand(domain, ((RefOntoUML.DataType)eContainer).getOwnedAttribute(), element);
+		}		
+		if(emfCommand!=null) {
+			domain.getCommandStack().execute(emfCommand);
+		}
+		System.out.println(runStatus());
+	}
+}

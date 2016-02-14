@@ -64,7 +64,7 @@ import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.notify.Notifier;
+import net.menthor.editor.v2.ui.operation.Notifier;
 
 public class CommandMap {
 	

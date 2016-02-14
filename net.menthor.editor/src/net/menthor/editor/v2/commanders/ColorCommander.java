@@ -11,7 +11,7 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.ClassElement;
 
 import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.notify.diagram.ColorDiagramCommand;
+import net.menthor.editor.v2.ui.operation.diagram.ColorOperation;
 
 public class ColorCommander extends GenericCommander {
 	
@@ -72,7 +72,7 @@ public class ColorCommander extends GenericCommander {
 	
 
 	private void createAndRunCommand(List<DiagramElement> elementList, Color color){
-		execute(new ColorDiagramCommand(currentEditor(), elementList, color));
+		execute(new ColorOperation(currentEditor(), elementList, color));
 	}
 	
 }
