@@ -42,7 +42,7 @@ public class DeleteModelOperation extends ModelOperation {
 	/** generalization sets to be deleted with their generalizations */
 	protected Map<Generalization, GeneralizationSet> deletedGenSetMap = new HashMap<Generalization,GeneralizationSet>();
 	
-	protected List<Element> getAllElements(){
+	public List<Element> getAllElements(){
 		List<Element> result = new ArrayList<>();
 		result.addAll(requestedList);
 		result.addAll(indirectRelationshipsList);
@@ -109,10 +109,10 @@ public class DeleteModelOperation extends ModelOperation {
 	}
 	
 	private void delete (RefOntoUML.Element elem){		
+		System.out.println(runMessage(elem));
 		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
 		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
-		domain.getCommandStack().execute(emfCommand);
-		System.out.println(runMessage(elem));
+		domain.getCommandStack().execute(emfCommand);		
 	}
 
 	private void undoDelete (RefOntoUML.Element elem){		

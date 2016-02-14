@@ -73,7 +73,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	
 	private void removeDiagramElements(List<DiagramElement> diagramElemList){
 		for (DiagramElement element : diagramElemList){
-			if(onlyFromDiagram)System.out.println(runMessage(element));
+			System.out.println(runMessage(element));
 			element.getParent().removeChild(element);
 			element.getParent().invalidate();
 			OccurenceManager.get().remove(element);
@@ -82,7 +82,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	
 	private void undoDiagramElements(List<ParentChildRelation> parentChildList){
 		for (ParentChildRelation relation : parentChildList){
-			if(onlyFromDiagram)System.out.println(undoMessage(relation.element));
+			System.out.println(undoMessage(relation.element));
 			parent.addChild(relation.element);
 			parent.invalidate();
 			OccurenceManager.get().add((Element)relation.element.getModelObject(),relation.element);
@@ -113,30 +113,32 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 
 	public boolean isOnlyFromDiagram(){ return onlyFromDiagram; }
 	
-	public String undoMessage(){
-		String container = getAllElements().get(0).eContainer().toString();
-		if(onlyFromDiagram) return super.undoMessage().replace(container, parent.toString());
-		else return super.undoMessage().replace(container, parent.toString()+" and "+container);
+	@Override
+	public String undoMessage(){		
+		if(!onlyFromDiagram) return super.undoMessage()+" and "+parent.toString();
+		else {
+			String msg = super.undoMessage();			
+			return msg.substring(0, msg.indexOf("from"))+"from "+parent.toString();
+		}
 	}
 	
-	public String runMessage(){
-		String container = getAllElements().get(0).eContainer().toString();
-		if(onlyFromDiagram) return super.runMessage().replace(container, parent.toString());
-		else return super.runMessage().replace(container, parent.toString()+" and "+container);		
+	@Override
+	public String runMessage(){		
+		if(!onlyFromDiagram) return super.runMessage()+" and "+parent.toString();
+		else{
+			String msg = super.runMessage();
+			return msg.substring(0, msg.indexOf("from"))+"from "+parent.toString();
+		}		
 	}	
 	
-	private String undoMessage(DiagramElement element){
-		Element e = (Element)element.getModelObject();
-		String container = e.eContainer().toString();
-		if(onlyFromDiagram) return super.undoMessage().replace(container, parent.toString());
-		else return super.undoMessage().replace(container, parent.toString()+" and "+container);
+	private String undoMessage(DiagramElement element){				
+		String msg = super.undoMessage();
+		return msg.substring(0, msg.indexOf("from"))+"from "+element.getParent().toString();	
 	}
 	
-	private String runMessage(DiagramElement element){
-		Element e = (Element)element.getModelObject();
-		String container = e.eContainer().toString();
-		if(onlyFromDiagram) return super.runMessage().replace(container, parent.toString());
-		else return super.runMessage().replace(container, parent.toString()+" and "+container);
+	private String runMessage(DiagramElement element){				
+		String msg = super.runMessage();
+		return msg.substring(0, msg.indexOf("from"))+"from "+element.getParent().toString();		
 	}
 	
 	

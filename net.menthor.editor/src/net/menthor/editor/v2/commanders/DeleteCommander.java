@@ -138,7 +138,8 @@ public class DeleteCommander {
 	public void deleteElements(List<RefOntoUML.Element> elements){		
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		if(editors==null || editors.size()==0) {			
-			new DeleteModelOperation(elements).run();
+			DeleteModelOperation cmd = new DeleteModelOperation(elements);
+			cmd.run();			
 			return;
 		}
 		for(OntoumlEditor ed: editors){			

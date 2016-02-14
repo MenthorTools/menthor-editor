@@ -235,9 +235,11 @@ public class Notifier {
 	
 	private String getStatus(GenericOperation op, ActionType actionType,List<Object> elements){
 		StringBuilder sb = new StringBuilder();		
-		sb.append(actionType.getName());		
-		if(actionType==ActionType.DO) sb.append(op.getOperationType().pastTense());
-		else sb.append(" "+op.getOperationType().presentTense());
+		if(actionType!=null){
+			sb.append(actionType.getName());
+			if(actionType==ActionType.DO) sb.append(op.getOperationType().pastTense());
+			else sb.append(" "+op.getOperationType().presentTense());
+		}		
 		if(elements.size()>0) sb.append(": "); else sb.append("[empty]");
 		for (int i = 0; i < elements.size(); i++){
 			Object element = elements.get(i);						

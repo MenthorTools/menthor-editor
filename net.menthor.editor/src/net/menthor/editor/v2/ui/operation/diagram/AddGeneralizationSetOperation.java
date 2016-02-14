@@ -75,12 +75,12 @@ public class AddGeneralizationSetOperation extends AddGeneralizationSetModelOper
 			
 	@Override
 	public String undoMessage(){
-		return super.undoMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());		
+		return super.undoMessage()+" and "+parent.toString();		
 	}
 		
 	@Override
 	public String runMessage(){
-		return super.runMessage().replace(eContainer.toString(), parent.toString()+" and "+eContainer.toString());
+		return super.runMessage()+" and "+parent.toString();
 	}	
 	
 	@Override
