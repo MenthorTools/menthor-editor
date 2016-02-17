@@ -120,9 +120,13 @@ public class Notifier {
 	@SuppressWarnings("unchecked")
 	private void notifyModifications(GenericOperation op, ActionType actionType, Object elements){
 		OperationType operType = getOperationType(op);
-		if(operType!=OperationType.ADD || operType!=OperationType.DELETE) {
-			if(elements instanceof List<?>) UpdateCommander.get().updateFromChange((List<Element>)elements, false);
-			else UpdateCommander.get().updateFromChange((Element)elements, false);
+		if(operType!=OperationType.ADD && operType!=OperationType.DELETE) {
+			if(elements instanceof List<?>) {
+				UpdateCommander.get().updateFromChange((List<Element>)elements, false);
+			}
+			else {
+				UpdateCommander.get().updateFromChange((Element)elements, false);
+			}
 		}
 	}
 	
