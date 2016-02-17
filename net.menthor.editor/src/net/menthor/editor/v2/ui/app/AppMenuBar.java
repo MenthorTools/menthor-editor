@@ -202,11 +202,11 @@ public class AppMenuBar extends GenericMenuBar {
 		edit.addSeparator();
 		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke("BACK_SPACE");
 		else stroke = KeyStroke.getKeyStroke("DELETE");
-		createMenuItem(edit, "Erase", CommandType.ERASE, background, stroke);	
+		createMenuItem(edit, "Erase", CommandType.ERASE_CURRENT, background, stroke);	
 		edit.addSeparator();
 		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK);
-		createMenuItem(edit, "Delete", CommandType.DELETE, background,stroke);	
+		createMenuItem(edit, "Delete", CommandType.DELETE_CURRENT, background, stroke);	
 	}
 	
 	private void createEvaluationMenu(){

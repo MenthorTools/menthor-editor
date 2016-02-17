@@ -353,7 +353,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			public void actionPerformed(ActionEvent e) { 
 				if(OntoumlEditor.this.isFocusable()){
 					Collection<DiagramElement> diagramElementsList = getSelectedElements();
-					DeleteCommander.get().eraseElement(OntoumlEditor.this, diagramElementsList);
+					DeleteCommander.get().deleteFromDiagram(OntoumlEditor.this,diagramElementsList);
 				}
 			}
 		};

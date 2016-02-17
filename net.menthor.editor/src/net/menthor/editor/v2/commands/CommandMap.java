@@ -189,8 +189,14 @@ public class CommandMap {
 				new MethodCall(RenameCommander.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
 				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
+		cmdMap.put(CommandType.DELETE_CURRENT, 
+				new MethodCall(DeleteCommander.class.getMethod("deleteCurrentSelection")));
+		cmdMap.put(CommandType.ERASE_CURRENT, 
+				new MethodCall(DeleteCommander.class.getMethod("deleteCurrentSelectionFromDiagram")));
 		cmdMap.put(CommandType.DELETE, 
-				new MethodCall(DeleteCommander.class.getMethod("delete", Object.class)));		
+				new MethodCall(DeleteCommander.class.getMethod("delete", Object.class)));
+		cmdMap.put(CommandType.ERASE, 
+				new MethodCall(DeleteCommander.class.getMethod("deleteFromDiagram", Object.class)));
 	}
 	
 	private void addition() throws NoSuchMethodException, SecurityException{
@@ -421,8 +427,7 @@ public class CommandMap {
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_GRID,
 				new MethodCall(OntoumlEditor.class.getMethod("showGrid")));
-		cmdMap.put(CommandType.ERASE, 
-				new MethodCall(OntoumlEditor.class.getMethod("excludeSelection", Object.class)));		
+		
 		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
 				new MethodCall(OntoumlEditor.class.getMethod("selectAll")));
 		cmdMap.put(CommandType.REDRAW_DIAGRAM,

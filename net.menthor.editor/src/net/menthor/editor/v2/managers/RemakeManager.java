@@ -108,13 +108,13 @@ public class RemakeManager extends AppGenericManager {
 				showMultiplicities = ae.showMultiplicities();				
 				direction = ae.getReadingDesign();
 			}
-			DeleteCommander.get().eraseElement(d, element);
+			DeleteCommander.get().deleteFromDiagram(d, element);
 			MoveCommander.get().moveAssociation((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
 		}
 		if(element instanceof Generalization){			
 			GeneralizationElement ge = (GeneralizationElement) OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
-			DeleteCommander.get().eraseElement(d, element);
+			DeleteCommander.get().deleteFromDiagram(d, element);
 			MoveCommander.get().moveGeneralization(d,(Generalization) element, isRectilinear);
 		}		
 	}
