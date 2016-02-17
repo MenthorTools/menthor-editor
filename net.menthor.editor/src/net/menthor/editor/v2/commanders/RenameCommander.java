@@ -28,7 +28,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 import net.menthor.editor.v2.ui.operation.model.RenameModelOperation;
 
 //Class to deal with renaning elements on the project browser.

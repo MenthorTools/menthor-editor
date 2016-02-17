@@ -116,6 +116,7 @@ import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ConnectionTypeOperation;
 import net.menthor.editor.v2.ui.operation.diagram.EditPointsOperation;
+import net.menthor.editor.v2.ui.operation.diagram.ReadingDesignOperation;
 import net.menthor.editor.v2.ui.operation.diagram.RenameLabelOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ResetPointsOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ResizeOperation;
@@ -1298,168 +1299,101 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	
 	
-	public void readingDesignToTarget(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setReadingDesign(ReadingDesign.DESTINATION);
-			list.add((DiagramElement)con);
-			notificator.notifyViewChange(null,list);
+	public void readingDesignToTarget(Object input){
+		if (input instanceof AssociationElement) {	
+			setReadingDesign((AssociationElement) input,ReadingDesign.DESTINATION);
 		}
 	}
 	
-	public void readingDesignUnspecified(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setReadingDesign(ReadingDesign.UNDEFINED);
-			list.add((DiagramElement)con);
-			notificator.notifyViewChange(null,list);
+	public void readingDesignUnspecified(Object input){
+		if (input instanceof AssociationElement) {	
+			setReadingDesign((AssociationElement) input,ReadingDesign.UNDEFINED);
 		}
 	}
 		
-	public void readingDesignToSource(Object con){
-		if (con instanceof AssociationElement) {	
-			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
-			((AssociationElement)con).setReadingDesign(ReadingDesign.SOURCE);
-			list.add((DiagramElement)con);
-			notificator.notifyViewChange(null, list);
+	public void readingDesignToSource(Object input){
+		if (input instanceof AssociationElement) {	
+			setReadingDesign((AssociationElement) input,ReadingDesign.SOURCE);
 		}
+	}
+	
+	private void setReadingDesign (AssociationElement association, ReadingDesign newDesign){
+		execute(new ReadingDesignOperation(this, association, newDesign));
 	}
 	
 	/** Switches a direct connection into a rectilinear one. */
 	public void toRectilinear() {
-		for(DiagramElement dElem: getSelectedElements()){
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConnectionTypeOperation(this, conn, new RectilinearConnection(conn)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();		
+		toRectilinear(getSelectedElements());
 	}
-	public void toRectilinear(Object dElem) {		
-		if(dElem instanceof UmlConnection){
-			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConnectionTypeOperation(this, conn, new RectilinearConnection(conn)));
-		}	
-		if(dElem instanceof Collection<?>){
-			for(Object obj: ((Collection<?>)dElem)){
-				if(obj instanceof UmlConnection){
-					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConnectionTypeOperation(this, conn, new RectilinearConnection(conn)));
-				}
-			}
+	public void toRectilinear(Object input) {		
+		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		
+		for(UmlConnection connection: connections){
+			execute(new ConnectionTypeOperation(this, connection, new RectilinearConnection(connection)));
 		}
-		// we can only tell the selection handler to forget about the selection
+		
 		selectionHandler.deselectAll();		
 	}
-
 	
 	/** Switches a direct connection into a tree vertical one. */
 	public void toTreeStyleVertical(){
-		for(DiagramElement dElem: getSelectedElements()){
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConnectionTypeOperation(this, conn, new TreeConnection(conn,true)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();
+		toTreeStyleVertical(getSelectedElements());
 	}
-	public void toTreeStyleVertical(Object dElem){		
-		if(dElem instanceof UmlConnection){
-			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConnectionTypeOperation(this, conn, new TreeConnection(conn,true)));
-		}	
-		if(dElem instanceof Collection<?>){
-			for(Object obj: ((Collection<?>)dElem)){
-				if(obj instanceof UmlConnection){
-					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConnectionTypeOperation(this, conn, new TreeConnection(conn,true)));
-				}
-			}
+	
+	public void toTreeStyleVertical(Object input){		
+		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		
+		for(UmlConnection connection: connections){
+			execute(new ConnectionTypeOperation(this, connection, new TreeConnection(connection,true)));
 		}
-		// we can only tell the selection handler to forget about the selection
+		
 		selectionHandler.deselectAll();
 	}
 	
 	/** Switches a direct connection into a tree horizontal one. */
 	public void toTreeStyleHorizontal(){
-		for(DiagramElement dElem: getSelectedElements()){
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConnectionTypeOperation(this, conn, new TreeConnection(conn,false)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();		
+		toTreeStyleHorizontal(getSelectedElements());		
 	}
-	public void toTreeStyleHorizontal(Object dElem){		
-		if(dElem instanceof UmlConnection){
-			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConnectionTypeOperation(this, conn, new TreeConnection(conn,false)));
+	
+	public void toTreeStyleHorizontal(Object input){		
+		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		
+		for(UmlConnection connection: connections){
+			execute(new ConnectionTypeOperation(this, connection, new TreeConnection(connection,false)));
 		}		
-		if(dElem instanceof Collection<?>){
-			for(Object obj: ((Collection<?>)dElem)){
-				if(obj instanceof UmlConnection){
-					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConnectionTypeOperation(this, conn, new TreeConnection(conn,false)));
-				}
-			}
-		}
-		// we can only tell the selection handler to forget about the selection
+		
 		selectionHandler.deselectAll();		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void toDirect(Object dElem){
-		if(dElem instanceof UmlConnection){
-			UmlConnection conn = (UmlConnection) dElem;
-			execute(new ConnectionTypeOperation(this, conn, new SimpleConnection(conn)));
-		}
-		if(dElem instanceof List<?>){
-			for(Object obj: ((List<Object>)dElem)){
-				if(obj instanceof UmlConnection){
-					UmlConnection conn = (UmlConnection) obj;
-					execute(new ConnectionTypeOperation(this, conn, new SimpleConnection(conn)));
-				}
-			}
-		}
-		selectionHandler.deselectAll();
-	}
 	
 	/** Switches a rectilinear connection to a direct one. */
 	public void toDirect(){
-		for(DiagramElement dElem: getSelectedElements()){
-			if(dElem instanceof UmlConnection){
-				UmlConnection conn = (UmlConnection) dElem;
-				execute(new ConnectionTypeOperation(this, conn, new SimpleConnection(conn)));
-			}
-		}		
-		// we can only tell the selection handler to forget about the selection
-		selectionHandler.deselectAll();		
+		toDirect(getSelectedElements());		
 	}
+	
+	public void toDirect(Object input){
+		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		
+		for(UmlConnection connection: connections){
+			execute(new ConnectionTypeOperation(this, connection, new SimpleConnection(connection)));
+		}
+
+		selectionHandler.deselectAll();
+	}
+	
 	
 	/**
 	 * Resets the current connection's points.
 	 */
 	public void resetConnectionPoints(){
-		DiagramElement elem = selectionHandler.getSelectedElements().get(0);
-		if (elem instanceof Connection) {
-			execute(new ResetPointsOperation(this, (Connection) elem));
-		}
+		resetConnectionPoints(getSelectedElements());
 	}
 
-	public void resetConnectionPoints(Object elem){
-		if (elem instanceof Connection) {
-			execute(new ResetPointsOperation(this, (Connection) elem));
-		}
-		if(elem instanceof Collection<?>){
-			for(Object obj: ((Collection<?>)elem)){
-				if(obj instanceof UmlConnection){
-					UmlConnection conn = (UmlConnection) obj;
-					execute(new ResetPointsOperation(this, conn));
-				}
-			}
+	public void resetConnectionPoints(Object input){
+		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		
+		for(UmlConnection connection: connections){
+			execute(new ResetPointsOperation(this, connection));
 		}
 	}
 	
@@ -1635,5 +1569,19 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	@Override
 	public void dispose() { }
 
+	
+	public <T> List<T> setUpList(Object con, Class<T> type) {
+		ArrayList<T> list = new ArrayList<T>();		
+		if(type.isInstance(con)){
+			list.add(type.cast(con));
+		} else if (con instanceof Collection){
+			for (Object item : (Collection<?>)con) {
+				if(type.isInstance(item)){
+					list.add(type.cast(item));
+				}
+			}
+		}
+		return list;
+	}
 }
 
