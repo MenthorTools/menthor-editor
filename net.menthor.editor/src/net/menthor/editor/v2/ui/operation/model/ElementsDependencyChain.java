@@ -24,6 +24,8 @@ public class ElementsDependencyChain {
 	/** generalizations with their generalization sets */
 	protected Map<Generalization, GeneralizationSet> genMap = new HashMap<Generalization,GeneralizationSet>();
 	
+	protected List<GeneralizationSet> emptyGenSetList = new ArrayList<GeneralizationSet>();
+	
 	public void lookupForDependencies(OntoUMLParser refparser, List<Element> elements){
 		requestedList.clear();
 		requestedList.addAll(elements);
@@ -54,6 +56,8 @@ public class ElementsDependencyChain {
 				}
 			}
 		}
+		
+		emptyGenSetList.clear();
 	}
 	
 	public GeneralizationSet getGeneralizationSet(Generalization gen){		
@@ -70,12 +74,12 @@ public class ElementsDependencyChain {
 		return gens;
 	}
 	
-	public List<GeneralizationSet> getEmptyGeneralizationSets(){
-		List<GeneralizationSet> result = new ArrayList<GeneralizationSet>();
+	public List<GeneralizationSet> getEmptyGeneralizationSets(){	
+		emptyGenSetList.clear();
 		for(GeneralizationSet gs: genMap.values()){
-			if(gs.getGeneralization().size()==0) result.add(gs);
+			if(gs.getGeneralization().size()==0) emptyGenSetList.add(gs);
 		}
-		return result;
+		return emptyGenSetList;
 	}
 	
 	public List<Element> getRequested(){
@@ -95,6 +99,7 @@ public class ElementsDependencyChain {
 		result.addAll(requestedList);
 		result.addAll(indirectRelationshipsList);
 		result.addAll(directRelationshipsList);
+		result.addAll(emptyGenSetList);
 		return result;
 	}
 		

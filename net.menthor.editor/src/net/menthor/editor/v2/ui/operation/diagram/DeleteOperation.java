@@ -58,7 +58,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 		removeDiagramElements(indirectConnectionsList);
 		removeDiagramElements(directConnectionsList);		
 		removeDiagramElements(requestedDiagramElementList);
-		notifier.notifyChange(this, actionType, getAllElements());				
+		notifier.notifyChange(this, getAllElements());				
 	}
 	
 	@Override
@@ -69,7 +69,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 		undoDiagramElements(requestedParentRelations);		
 		undoDiagramElements(directParentRelations);		
 		undoDiagramElements(indirectParentRelations);
-		notifier.notifyChange(this,actionType, getAllElements());
+		notifier.notifyChange(this, getAllElements());
 	}
 	
 	private void removeDiagramElements(List<DiagramElement> diagramElemList){
@@ -114,6 +114,8 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 
 	public boolean isOnlyFromDiagram(){ return onlyFromDiagram; }
 	
+	//----- undo & run messages -----
+	
 	@Override
 	public String undoMessage(){		
 		if(!onlyFromDiagram) return super.undoMessage()+" and "+parent.toString();
@@ -133,12 +135,12 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	}	
 	
 	private String undoMessage(DiagramElement element){				
-		String msg = super.undoMessage();
+		String msg = undoMessage(element);
 		return msg.substring(0, msg.indexOf("from"))+"from "+element.getParent().toString();	
 	}
 	
 	private String runMessage(DiagramElement element){				
-		String msg = super.runMessage();
+		String msg = runMessage(element);
 		return msg.substring(0, msg.indexOf("from"))+"from "+element.getParent().toString();		
 	}
 	

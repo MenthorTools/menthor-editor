@@ -33,13 +33,13 @@ public class AddModelOperation extends ModelOperation {
 	@Override
 	public void undo(){
 		undoWithoutNotifying();
-		notifier.notifyChange(this, actionType, element);
+		notifier.notifyChange(this, element);
 	}
 	
 	@Override
 	public void run() {		
 		runWithoutNotifying();
-		notifier.notifyChange(this, actionType, element);
+		notifier.notifyChange(this, element);
 	}
 	
 	@Override

@@ -111,7 +111,6 @@ import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
@@ -1304,7 +1303,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.DESTINATION);
 			list.add((DiagramElement)con);
-			notificator.notifyViewChange(null, ActionType.DO,list);
+			notificator.notifyViewChange(null,list);
 		}
 	}
 	
@@ -1313,7 +1312,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.UNDEFINED);
 			list.add((DiagramElement)con);
-			notificator.notifyViewChange(null,ActionType.DO,list);
+			notificator.notifyViewChange(null,list);
 		}
 	}
 		
@@ -1322,7 +1321,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			ArrayList<DiagramElement> list = new ArrayList<DiagramElement>();
 			((AssociationElement)con).setReadingDesign(ReadingDesign.SOURCE);
 			list.add((DiagramElement)con);
-			notificator.notifyViewChange(null, ActionType.DO,list);
+			notificator.notifyViewChange(null, list);
 		}
 	}
 	

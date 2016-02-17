@@ -36,13 +36,13 @@ public class RenameModelOperation extends ModelOperation {
 	@Override
 	public void undo() {
 		undoWithoutNotifying();
-		Notifier.get().notifyChange(this, actionType, namedElement);
+		Notifier.get().notifyChange(this, namedElement);
 	}
 	
 	@Override
 	public void run() {
 		runWithoutNotifying();
-		Notifier.get().notifyChange(this, actionType, namedElement);
+		Notifier.get().notifyChange(this, namedElement);
 	}
 	
 	public void undoWithoutNotifying(){

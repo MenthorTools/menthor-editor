@@ -68,7 +68,7 @@ public class AlignOperation extends DiagramOperation {
 	public void undo() {
 		super.undo();				
 		undoWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType,selected);		
+		notifier.notifyViewChange(this, selected);		
 	}
 	
 	protected void undoWithoutNotifying(){				
@@ -87,7 +87,7 @@ public class AlignOperation extends DiagramOperation {
 	public void run() {		
 		super.run();
 		runWithoutNotifying();
-		notifier.notifyViewChange(this, actionType,selected);		
+		notifier.notifyViewChange(this, selected);		
 	}
 	
 	@Override

@@ -48,7 +48,6 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.Notifier;
 
 public class ChangeCommander {
@@ -102,7 +101,7 @@ public class ChangeCommander {
 	/** Change multiplicity from string */
 	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
 		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		Notifier.get().notifyChange(null,ActionType.DO,property.getAssociation());
+		Notifier.get().notifyChange(null,property.getAssociation());
 		AppBrowserManager.get().updateUI();
 	}
 	
@@ -114,7 +113,7 @@ public class ChangeCommander {
 		upper.setValue(upperValue);				
 		property.setLowerValue(lower);			
 		property.setUpperValue(upper);
-		Notifier.get().notifyChange(null, ActionType.DO,property.getAssociation());
+		Notifier.get().notifyChange(null, property.getAssociation());
 		AppBrowserManager.get().updateUI();
 	}
 	

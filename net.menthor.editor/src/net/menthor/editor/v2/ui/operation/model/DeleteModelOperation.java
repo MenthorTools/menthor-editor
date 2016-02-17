@@ -11,7 +11,6 @@ import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
@@ -34,24 +33,27 @@ public class DeleteModelOperation extends ModelOperation {
 	
 	public List<Element> getAllElements(){ return depChain.getAll(); }
 	public ElementsDependencyChain getChain(){ return depChain; }
-	
-	@Override
-	public void undo(){		
-		undoWithoutNotifying();
-		notifier.notifyChange(this,actionType,getAllElements());
+		
+	//------- real deletion happens here -------
+
+	private void delete (RefOntoUML.Element elem){		
+		System.out.println(runMessage(elem));		
+		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
+		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
+		domain.getCommandStack().execute(emfCommand);		
 	}
 
+	private void undoDelete (RefOntoUML.Element elem){		
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		System.out.println(undoMessage(elem));
+	}
+	
+	//------- delete (run) -------
+	
 	@Override
 	public void run(){		
 		runWithoutNotifying();
-		notifier.notifyChange(this,actionType, getAllElements());
-	}
-	
-	protected void undoWithoutNotifying(){	
-		super.undo();		
-		undoDelete(depChain.getRequested());
-		undoDelete(depChain.getDirectRelationshipDependencies());
-		undoDelete(depChain.getIndirectRelationshipDependencies());
+		notifier.notifyChange(this,getAllElements());
 	}
 	
 	protected void runWithoutNotifying(){
@@ -65,17 +67,8 @@ public class DeleteModelOperation extends ModelOperation {
 		deleteFirstElements(elemList);		
 		deleteRelationships(elemList);	
 		deleteTypes(elemList);
-		deleteEmptyGeneralizationSets();
+		deleteEmptyGeneralizationSets();		
 	}
-		
-	private void undoDelete(List<Element> elemList){
-		undoEmptyGeneralizationSets();
-		undoTypes(elemList);		
-		undoRelationships(elemList);		
-		undoLastElements(elemList);
-	}
-	
-	//----- auxiliary delete/undo methods ------
 	
 	/** delete derivations, constraints, comments and generalization sets */
 	private void deleteFirstElements(List<RefOntoUML.Element> elemList){	
@@ -85,6 +78,70 @@ public class DeleteModelOperation extends ModelOperation {
 			if (elem instanceof RefOntoUML.Constraintx) delete(elem);
 			if (elem instanceof RefOntoUML.GeneralizationSet) deleteGeneralizationSet((GeneralizationSet)elem);
 		}				
+	}
+	
+	private void deleteGeneralizationSet(GeneralizationSet elem){
+		//erase the dependencies between generalizations of the model that pointed to this genSet				
+		for(Generalization gen: depChain.getGeneralizations(elem)){
+			gen.getGeneralizationSet().remove(elem);
+			((GeneralizationSet)elem).getGeneralization().remove(gen);
+		}				
+		delete(elem);		
+	}
+	
+	/** delete associations and generalizations */
+	private void deleteRelationships(List<RefOntoUML.Element> elemList){
+		for(Element elem: elemList) {				
+			if (elem instanceof RefOntoUML.Association) delete(elem);
+			if (elem instanceof RefOntoUML.Generalization) deleteGeneralization((Generalization)elem);
+		}
+	}
+	
+	/** delete a generalization along with its generalization sets */
+	private void deleteGeneralization(Generalization gen){		
+		//delete the dependency between this generalization and its generalization set
+		GeneralizationSet genSet = depChain.getGeneralizationSet(gen); 
+		if(genSet!=null){
+			genSet.getGeneralization().remove(gen); 
+			gen.getGeneralizationSet().remove(genSet);
+		}
+		
+		delete(gen);
+	}
+		
+	/** delete classes and datatypes */
+	private void deleteTypes(List<RefOntoUML.Element> elemList){
+		for(Element elem: elemList) {
+			if (elem instanceof RefOntoUML.Class || elem instanceof RefOntoUML.DataType) delete(elem);			
+		}	
+	}
+	
+	private void deleteEmptyGeneralizationSets(){				
+		for(GeneralizationSet gs: depChain.getEmptyGeneralizationSets()){
+			if(gs.eContainer()!=null) deleteGeneralizationSet(gs);
+		}
+	}
+	
+	//----- undo -----
+	
+	@Override
+	public void undo(){		
+		undoWithoutNotifying();
+		notifier.notifyChange(this,getAllElements());
+	}
+
+	protected void undoWithoutNotifying(){	
+		super.undo();		
+		undoDelete(depChain.getRequested());
+		undoDelete(depChain.getDirectRelationshipDependencies());
+		undoDelete(depChain.getIndirectRelationshipDependencies());
+	}
+	
+	private void undoDelete(List<Element> elemList){
+		undoEmptyGeneralizationSets();
+		undoTypes(elemList);		
+		undoRelationships(elemList);		
+		undoLastElements(elemList);
 	}
 	
 	/** undo deletion of derivations, comments and constraints */
@@ -97,28 +154,13 @@ public class DeleteModelOperation extends ModelOperation {
 		}	
 	}
 	
-	/** delete associations and generalizations */
-	private void deleteRelationships(List<RefOntoUML.Element> elemList){
-		for(Element elem: elemList) {				
-			if (elem instanceof RefOntoUML.Association) delete(elem);
-			if (elem instanceof RefOntoUML.Generalization) deleteGeneralization((Generalization)elem);
-		}
-	}
-	
 	/** undo deletion of associations and generalizations */
 	private void undoRelationships(List<Element> elemList){
 		for(Element elem: elemList) {				
 			if ((elem instanceof RefOntoUML.Association) && !(elem instanceof RefOntoUML.Derivation)) undoDelete(elem);
 			if (elem instanceof RefOntoUML.Generalization) undoGeneralization((Generalization)elem);
 		}
-	}
-	
-	/** delete classes and datatypes */
-	private void deleteTypes(List<RefOntoUML.Element> elemList){
-		for(Element elem: elemList) {
-			if (elem instanceof RefOntoUML.Class || elem instanceof RefOntoUML.DataType) delete(elem);			
-		}	
-	}
+	}	
 	
 	/** undo deletion of classes and datatypes */
 	private void undoTypes(List<Element> elemList){		
@@ -127,47 +169,23 @@ public class DeleteModelOperation extends ModelOperation {
 		}
 	}
 	
-	private void deleteEmptyGeneralizationSets(){				
-		for(GeneralizationSet gs: depChain.getEmptyGeneralizationSets()){
-			deleteGeneralizationSet(gs);
-		}
-	}
-	
 	private void undoEmptyGeneralizationSets(){				
 		for(GeneralizationSet gs: depChain.getEmptyGeneralizationSets()){
-			undoGeneralizationSet(gs);
+			if(gs.eContainer()==null) undoGeneralizationSet(gs);
 		}
-	}
-	
-	/** delete a generalization along with its generalization sets */
-	private void deleteGeneralization(Generalization gen){		
-		//delete the dependency between this generalization and its generalization set
-		GeneralizationSet genSet = depChain.getGeneralizationSet(gen); 
-		genSet.getGeneralization().remove(gen); 
-		gen.getGeneralizationSet().remove(genSet);
-		
-		delete(gen);
-	}
+	}	
 	
 	/** undo deletion of a generalization with its generalization sets */
 	private void undoGeneralization(Generalization gen){
 		undoDelete(gen);	
 
 		GeneralizationSet genSet = depChain.getGeneralizationSet(gen);
-		genSet.getGeneralization().add(gen); 
-		gen.getGeneralizationSet().add(genSet);		
+		if(genSet!=null){
+			genSet.getGeneralization().add(gen); 
+			gen.getGeneralizationSet().add(genSet);
+		}
 	}
-	
-	/** delete generalization set along with its generalizations */
-	private void deleteGeneralizationSet(GeneralizationSet elem){
-		//erase the dependencies between generalizations of the model that pointed to this genSet				
-		for(Generalization gen: depChain.getGeneralizations(elem)){
-			gen.getGeneralizationSet().remove(elem);
-			((GeneralizationSet)elem).getGeneralization().remove(gen);
-		}				
-		delete(elem);		
-	}
-	
+		
 	/** undo deletion of a generalization set with its generalizations */
 	private void undoGeneralizationSet(GeneralizationSet elem){
 		undoDelete(elem);		
@@ -177,20 +195,6 @@ public class DeleteModelOperation extends ModelOperation {
 			((GeneralizationSet)elem).getGeneralization().add(gen);
 		}
 	}	
-	
-	//------- real deletion happens here -------
-	
-	private void delete (RefOntoUML.Element elem){		
-		System.out.println(runMessage(elem));		
-		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
-		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
-		domain.getCommandStack().execute(emfCommand);		
-	}
-
-	private void undoDelete (RefOntoUML.Element elem){		
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		System.out.println(undoMessage(elem));
-	}
 	
 	//------- undo & redo messages -------
 	
@@ -212,6 +216,5 @@ public class DeleteModelOperation extends ModelOperation {
 	
 	public String runMessage(Element element){
 		return super.runMessage()+element+" from "+element.eContainer();
-	}
-		
+	}		
 }

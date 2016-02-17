@@ -63,7 +63,7 @@ public class AddConnectionOperation extends AddModelOperation implements IDiagra
 		parent.removeChild(diagramElement);		
 		OccurenceManager.get().remove(diagramElement);		
 		
-		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());			
+		notifier.notifyChange(this, (Element)diagramElement.getModelObject());			
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class AddConnectionOperation extends AddModelOperation implements IDiagra
 			diagramElement.invalidate();
 		}
 		
-		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());				
+		notifier.notifyChange(this, (Element)diagramElement.getModelObject());				
 	}		
 }
 

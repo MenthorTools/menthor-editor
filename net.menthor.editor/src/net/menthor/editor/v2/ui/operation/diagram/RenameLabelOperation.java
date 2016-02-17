@@ -59,14 +59,14 @@ public class RenameLabelOperation extends DiagramOperation {
 	public void run() {
 		super.run();						
 		runWithoutNotifying();		
-		notifier.notifyChange(this, actionType, (Element)parent.getModelObject());			
+		notifier.notifyChange(this, (Element)parent.getModelObject());			
 	}
 	
 	@Override
 	public void undo(){
 		super.undo();		
 		undoWithoutNotifying();		
-		notifier.notifyChange(this,actionType, (Element)parent.getModelObject());					
+		notifier.notifyChange(this, (Element)parent.getModelObject());					
 	}
 	
 	@Override

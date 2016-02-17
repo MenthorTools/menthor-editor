@@ -70,7 +70,7 @@ public class AddGeneralizationSetOperation extends AddGeneralizationSetModelOper
 		List<DiagramElement> list = new ArrayList<>();
 		list.addAll(diagramGeneralizations);
 		
-		notifier.notifyViewChange(this, actionType, list);
+		notifier.notifyViewChange(this, list);
 	}
 			
 	@Override
@@ -90,6 +90,6 @@ public class AddGeneralizationSetOperation extends AddGeneralizationSetModelOper
 		List<DiagramElement> list = new ArrayList<DiagramElement>();						
 		list.addAll(diagramGeneralizations);		
 		
-		notifier.notifyViewChange(this, actionType,list);			
+		notifier.notifyViewChange(this, list);			
 	}
 }

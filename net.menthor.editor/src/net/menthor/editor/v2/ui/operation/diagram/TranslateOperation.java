@@ -67,14 +67,14 @@ public class TranslateOperation extends DiagramOperation {
 	public void run() {
 		super.run();
 		runWithoutNotifying();		
-		notifier.notifyViewChange(this,actionType,elements);		
+		notifier.notifyViewChange(this,elements);		
 	}
 
 	@Override
 	public void undo() {		
 		super.undo();
 		undoWithoutNotifying();		
-		notifier.notifyViewChange(this,actionType,elements);		
+		notifier.notifyViewChange(this,elements);		
 	}
 	
 	protected void runWithoutNotifying(){		

@@ -35,7 +35,6 @@ import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
-
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
@@ -80,30 +79,30 @@ public class Notifier {
 	
 	//--- Notify application ---
 	
-	public void notifyViewChange(GenericOperation op, ActionType actionType, List<DiagramElement> elements){
-		registerUndoableOperation(op, actionType);
+	public void notifyViewChange(GenericOperation op, List<DiagramElement> elements){
+		registerUndoableOperation(op);
 		notifyDiagrams(elements);
-		reportStatus(op, actionType, elements);
+		reportStatus(op, elements);
 	}
 	
-	public void notifyViewChange(final GenericOperation op, final ActionType actionType, final DiagramElement element){
-		registerUndoableOperation(op, actionType);		
+	public void notifyViewChange(final GenericOperation op, final DiagramElement element){
+		registerUndoableOperation(op);		
 		notifyDiagrams(element);
-		reportStatus(op, actionType, element);		
+		reportStatus(op, element);		
 	}
 	
-	public void notifyChange(final GenericOperation op, final ActionType actionType, final List<Element> elements){		
-		registerUndoableOperation(op, actionType);
+	public void notifyChange(final GenericOperation op, final List<Element> elements){		
+		registerUndoableOperation(op);
 		notifyDiagrams(elements);			
-		notifyApplication(op, actionType, elements);		
-		reportStatus(op, actionType, elements);	
+		notifyApplication(op, elements);		
+		reportStatus(op, elements);	
 	}
 	
-	public void notifyChange(final GenericOperation op, final ActionType actionType, final Element element){		
-		registerUndoableOperation(op, actionType);		
+	public void notifyChange(final GenericOperation op, final Element element){		
+		registerUndoableOperation(op);		
 		notifyDiagrams(element);
-		notifyApplication(op, actionType, element);
-		reportStatus(op, actionType, element);		
+		notifyApplication(op, element);
+		reportStatus(op, element);		
 	}		
 
 	//--- notify application a change has happened on element(s)
@@ -111,15 +110,15 @@ public class Notifier {
 	//--- and all tabs according to the operation executed
 	
 	/** notify application a change has happened from a operation */
-	private void notifyApplication(GenericOperation op, ActionType actionType, Object elements){						
-		notifyAdditions(op, actionType, elements); 
-		notifyDeletions(op, actionType, elements);
-		notifyModifications(op, actionType, elements);
+	private void notifyApplication(GenericOperation op, Object elements){						
+		notifyAdditions(op, elements); 
+		notifyDeletions(op, elements);
+		notifyModifications(op, elements);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void notifyModifications(GenericOperation op, ActionType actionType, Object elements){
-		OperationType operType = getOperationType(op);
+	private void notifyModifications(GenericOperation op, Object elements){
+		OperationType operType = getOperationType(op);		
 		if(operType!=OperationType.ADD && operType!=OperationType.DELETE) {
 			if(elements instanceof List<?>) {
 				UpdateCommander.get().updateFromChange((List<Element>)elements, false);
@@ -131,8 +130,9 @@ public class Notifier {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void notifyDeletions(GenericOperation op, ActionType actionType, Object elements){
+	private void notifyDeletions(GenericOperation op, Object elements){
 		OperationType operType = getOperationType(op);
+		ActionType actionType = getActionType(op);
 		if(operType==OperationType.DELETE){			
 			if(op instanceof DeleteOperation) {
 				boolean isAChangeOnly = ((DeleteOperation)op).isOnlyFromDiagram();
@@ -153,8 +153,9 @@ public class Notifier {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void notifyAdditions(GenericOperation op, ActionType actionType, Object elements){
+	private void notifyAdditions(GenericOperation op, Object elements){
 		OperationType operType = getOperationType(op);
+		ActionType actionType = getActionType(op);
 		if(operType==OperationType.ADD){
 			if(actionType==ActionType.UNDO) {
 				if(elements instanceof List<?>) UpdateCommander.get().updateFromDeletion((List<Element>)elements);
@@ -192,7 +193,7 @@ public class Notifier {
 		}
 	}
 	
-	//--- operation type for a command ---
+	//--- type of operation  ---
 	
 	private OperationType getOperationType(GenericOperation op){
 		OperationType changeType = op.getOperationType();
@@ -200,9 +201,18 @@ public class Notifier {
 		return changeType;
 	}
 	
+	private ActionType getActionType(GenericOperation op){
+		ActionType actionType = ActionType.DO;
+		if(op!=null && op.getActionType()!=null){
+			actionType = op.getActionType();			
+		}
+		return actionType;
+	}
+	
 	//--- register undoable event ---
 	
-	private void registerUndoableOperation(GenericOperation op, ActionType actionType){
+	private void registerUndoableOperation(GenericOperation op){
+		ActionType actionType = getActionType(op);
 		if(op instanceof ModelOperation) {
 			registerUndoableEvent(AppBrowser.get(), op, actionType);
 		}
@@ -220,8 +230,8 @@ public class Notifier {
 
 	//--- status ---
 	
-	private void reportStatus(GenericOperation op, ActionType actionType, Object element){	
-		String status = getStatus(op, actionType, element);
+	private void reportStatus(GenericOperation op, Object element){	
+		String status = getStatus(op, element);
 		if(op !=null && op instanceof IDiagramOperation){
 			IDiagramOperation diagramCmd = (IDiagramOperation)op;
 			if(diagramCmd.getOntoumlEditor()!=null){
@@ -231,14 +241,15 @@ public class Notifier {
 		}
 	}
 	
-	private String getStatus(GenericOperation op, ActionType actionType, Object element){
+	private String getStatus(GenericOperation op, Object element){
 		List<Object> l = new ArrayList<>();
 		l.add(element);
-		return getStatus(op,actionType, l);
+		return getStatus(op, l);
 	}
 	
-	private String getStatus(GenericOperation op, ActionType actionType,List<Object> elements){
-		StringBuilder sb = new StringBuilder();		
+	private String getStatus(GenericOperation op, List<Object> elements){
+		StringBuilder sb = new StringBuilder();	
+		ActionType actionType = getActionType(op);
 		if(actionType!=null){
 			sb.append(actionType.getName());
 			if(actionType==ActionType.DO) sb.append(op.getOperationType().pastTense());

@@ -70,7 +70,7 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 		parent.removeChild(diagramElement);		
 		OccurenceManager.get().remove(diagramElement);		
 		
-		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());		
+		notifier.notifyChange(this, (Element)diagramElement.getModelObject());		
 	}
 
 	public void run(){			
@@ -82,7 +82,7 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 			showAttributesCompartment();
 		}				
 		
-		notifier.notifyChange(this, actionType, (Element)diagramElement.getModelObject());		
+		notifier.notifyChange(this, (Element)diagramElement.getModelObject());		
 	}	
 		
 	@Override
