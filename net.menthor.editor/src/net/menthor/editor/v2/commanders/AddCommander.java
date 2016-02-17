@@ -1,6 +1,7 @@
 
 package net.menthor.editor.v2.commanders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -19,6 +20,7 @@ import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -32,7 +34,7 @@ import net.menthor.editor.v2.ui.operation.diagram.AddGeneralizationSetOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
 import net.menthor.editor.v2.util.Util;
 
-public class AddCommander {
+public class AddCommander extends GenericCommander {
 
 	// -------- Lazy Initialization
 	
@@ -126,6 +128,8 @@ public class AddCommander {
 		return null;
 	}
 	
+	
+	
 	/** Add class to the model */
 	public RefOntoUML.Element addClass(ClassType stereotype, Object input){	
 		Element container = getContainer(input);			
@@ -150,6 +154,13 @@ public class AddCommander {
 		return null;
 	}
 	
+	/** Create a generalizations from selected elements in the diagram */
+	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
+		GeneralizationSet genSet = addGeneralizationSet(currentEditor(),(List<DiagramElement>)genElems);		
+		if(genSet!=null){		
+			EditManager.get().callGeneralizationSetDialog(genSet,true);
+		}	
+	}
 	
 	/** Add generalization set to generalization diagram elements */
 	public GeneralizationSet addGeneralizationSet(OntoumlEditor d, List<DiagramElement> diagramElements){		

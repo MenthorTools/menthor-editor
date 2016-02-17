@@ -1382,32 +1382,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	}
 	
 
-	/** Create a generalizations from selected elements in the diagram */
-	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
-		GeneralizationSet genSet = AddCommander.get().addGeneralizationSet(this,(List<DiagramElement>)genElems);		
-		if(genSet!=null){		
-			deselectAll();
-			cancelEditing();
-			EditManager.get().callGeneralizationSetDialog(genSet,true);
-			deselectAll();
-			cancelEditing();
-		}	
-	}
-			
-	/** Delete generalization Set from selected elements in the diagram */
-	public void deleteGeneralizationSet(){
-		Collection<DiagramElement> diagramElementsList = getSelectedElements();
-		deleteGeneralizationSet(diagramElementsList);
-	}
 	
-	@SuppressWarnings("unchecked")
-	public void deleteGeneralizationSet(Object genElems){
-		if(genElems instanceof Collection<?>){
-			DeleteCommander.get().deleteGeneralizationSet(this,(List<DiagramElement>)genElems);		
-			deselectAll();
-			cancelEditing();	
-		}
-	}
+			
+	
 	
 	
 	//============================================================

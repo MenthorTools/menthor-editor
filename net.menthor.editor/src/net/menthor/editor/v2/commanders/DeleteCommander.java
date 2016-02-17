@@ -1,6 +1,7 @@
 package net.menthor.editor.v2.commanders;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -231,7 +232,17 @@ public class DeleteCommander extends GenericCommander {
 		deleteFromDiagram(ed,diagram.getChildren());
 	}
 	
+	/** Delete generalization Set from selected elements in the diagram */
+	public void deleteGeneralizationSet(){
+		Collection<DiagramElement> diagramElementsList = currentEditor().getSelectedElements();
+		deleteGeneralizationSet(diagramElementsList);
+	}
 	
+	@SuppressWarnings("unchecked")
+	public void deleteGeneralizationSet(Object genElems){
+		if(genElems instanceof Collection<?>){
+			deleteGeneralizationSet(currentEditor(),(List<DiagramElement>)genElems);		
+		}
+	}
 	
-	//TODO: TEST THIS!
 }

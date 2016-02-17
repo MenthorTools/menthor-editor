@@ -450,10 +450,9 @@ public class CommandMap {
 				new MethodCall(OntoumlEditor.class.getMethod("addAllRelatedElements", Object.class)));
 		
 		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
-				new MethodCall(OntoumlEditor.class.getMethod("addGeneralizationSet", ArrayList.class)));
+				new MethodCall(AddCommander.class.getMethod("addGeneralizationSet", ArrayList.class)));
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
-				new MethodCall(OntoumlEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
-		
+				new MethodCall(DeleteCommander.class.getMethod("deleteGeneralizationSet", Object.class)));
 	}
 
 	private void lineCommander() throws NoSuchMethodException {
