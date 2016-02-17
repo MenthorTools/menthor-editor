@@ -10,7 +10,7 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
-public class ConnectionTypeOperation extends DiagramOperation {
+public class LineStyleOperation extends DiagramOperation {
 
 	private static final long serialVersionUID = -8661812094443443847L;
 	
@@ -18,7 +18,7 @@ public class ConnectionTypeOperation extends DiagramOperation {
 	protected Connection newconnection;
 	protected Connection oldconnection;
 
-	public ConnectionTypeOperation(OntoumlEditor editor, UmlConnection umlconn, Connection theNewConnection) {
+	public LineStyleOperation(OntoumlEditor editor, UmlConnection umlconn, Connection theNewConnection) {
 		super();
 		this.ontoumlEditor = editor;
 		this.connection = umlconn;		

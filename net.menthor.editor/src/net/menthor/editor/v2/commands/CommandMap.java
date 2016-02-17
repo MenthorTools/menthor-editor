@@ -40,6 +40,7 @@ import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
+import net.menthor.editor.v2.commanders.LineCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
@@ -290,6 +291,7 @@ public class CommandMap {
 			colorCommander();
 			alignCommander();
 			visibilityCommander();
+			lineCommander();
 			palleteDragAndDrop();
 			
 			exportManager();
@@ -444,16 +446,6 @@ public class CommandMap {
 				new MethodCall(OntoumlEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
 				new MethodCall(OntoumlEditor.class.getMethod("bringToFront")));
-		cmdMap.put(CommandType.RESET_POINTS, 
-			new MethodCall(OntoumlEditor.class.getMethod("resetConnectionPoints", Object.class)));
-		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
-			new MethodCall(OntoumlEditor.class.getMethod("toDirect", Object.class)));
-		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
-			new MethodCall(OntoumlEditor.class.getMethod("toRectilinear", Object.class)));
-		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
-			new MethodCall(OntoumlEditor.class.getMethod("toTreeStyleVertical", Object.class)));		
-		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
-			new MethodCall(OntoumlEditor.class.getMethod("toTreeStyleHorizontal", Object.class)));		
 		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
 				new MethodCall(OntoumlEditor.class.getMethod("addAllRelatedElements", Object.class)));
 		
@@ -462,13 +454,25 @@ public class CommandMap {
 		cmdMap.put(CommandType.DELETE_GEN_SET_DIAGRAM,
 				new MethodCall(OntoumlEditor.class.getMethod("deleteGeneralizationSet", Object.class)));
 		
+	}
+
+	private void lineCommander() throws NoSuchMethodException {
 		cmdMap.put(CommandType.READING_DIRECTION_SOURCE,
-				new MethodCall(OntoumlEditor.class.getMethod("readingDesignToSource",Object.class)));
+				new MethodCall(LineCommander.class.getMethod("readingDesignToSource",Object.class)));
 		cmdMap.put(CommandType.READING_DIRECTION_TARGET,
-				new MethodCall(OntoumlEditor.class.getMethod("readingDesignToTarget",Object.class)));
+				new MethodCall(LineCommander.class.getMethod("readingDesignToTarget",Object.class)));
 		cmdMap.put(CommandType.READING_DIRECTION_UNSPECIFIED,
-				new MethodCall(OntoumlEditor.class.getMethod("readingDesignUnspecified",Object.class)));
-					
+				new MethodCall(LineCommander.class.getMethod("readingDesignUnspecified",Object.class)));
+		cmdMap.put(CommandType.RESET_POINTS, 
+				new MethodCall(LineCommander.class.getMethod("resetConnectionPoints", Object.class)));
+		cmdMap.put(CommandType.APPLY_DIRECT_STYLE, 
+			new MethodCall(LineCommander.class.getMethod("toDirect", Object.class)));
+		cmdMap.put(CommandType.APPLY_RECTILINEAR_STYLE, 
+			new MethodCall(LineCommander.class.getMethod("toRectilinear", Object.class)));
+		cmdMap.put(CommandType.APPLY_VERTICAL_STYLE, 
+			new MethodCall(LineCommander.class.getMethod("toTreeStyleVertical", Object.class)));		
+		cmdMap.put(CommandType.APPLY_HORIZONTAL_STYLE,
+			new MethodCall(LineCommander.class.getMethod("toTreeStyleHorizontal", Object.class)));
 	}
 	
 	private void palleteDragAndDrop() throws NoSuchMethodException, SecurityException{

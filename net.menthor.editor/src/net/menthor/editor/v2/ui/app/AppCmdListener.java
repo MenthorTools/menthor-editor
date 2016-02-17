@@ -8,6 +8,7 @@ import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
+import net.menthor.editor.v2.commanders.LineCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
@@ -122,6 +123,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(AddCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AlignCommander.class){
 				return methodcall.call(AlignCommander.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == LineCommander.class){
+				return methodcall.call(LineCommander.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == AlloyFeature.class){
 				return methodcall.call(AlloyFeature.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AntiPatternManager.class){

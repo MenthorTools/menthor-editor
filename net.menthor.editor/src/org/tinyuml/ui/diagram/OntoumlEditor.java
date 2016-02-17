@@ -114,7 +114,7 @@ import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
-import net.menthor.editor.v2.ui.operation.diagram.ConnectionTypeOperation;
+import net.menthor.editor.v2.ui.operation.diagram.LineStyleOperation;
 import net.menthor.editor.v2.ui.operation.diagram.EditPointsOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ReadingDesignOperation;
 import net.menthor.editor.v2.ui.operation.diagram.RenameLabelOperation;
@@ -1228,13 +1228,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void setLineStyle(UmlConnection connection, LineStyle style)
 	{
 		if(style == LineStyle.RECTILINEAR){
-			execute(new ConnectionTypeOperation(this, connection, new RectilinearConnection(connection)));
+			execute(new LineStyleOperation(this, connection, new RectilinearConnection(connection)));
 		} else if (style == LineStyle.DIRECT) {
-			execute(new ConnectionTypeOperation(this, connection, new SimpleConnection(connection)));
+			execute(new LineStyleOperation(this, connection, new SimpleConnection(connection)));
 		} else if (style == LineStyle.TREESTYLE_VERTICAL) {
-			execute(new ConnectionTypeOperation(this, connection, new TreeConnection(connection,true)));
+			execute(new LineStyleOperation(this, connection, new TreeConnection(connection,true)));
 		} else if (style == LineStyle.TREESTYLE_HORIZONTAL) {
-			execute(new ConnectionTypeOperation(this, connection, new TreeConnection(connection,false)));
+			execute(new LineStyleOperation(this, connection, new TreeConnection(connection,false)));
 		}
 	}
 
@@ -1299,103 +1299,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	
 	
-	public void readingDesignToTarget(Object input){
-		if (input instanceof AssociationElement) {	
-			setReadingDesign((AssociationElement) input,ReadingDesign.DESTINATION);
-		}
-	}
 	
-	public void readingDesignUnspecified(Object input){
-		if (input instanceof AssociationElement) {	
-			setReadingDesign((AssociationElement) input,ReadingDesign.UNDEFINED);
-		}
-	}
-		
-	public void readingDesignToSource(Object input){
-		if (input instanceof AssociationElement) {	
-			setReadingDesign((AssociationElement) input,ReadingDesign.SOURCE);
-		}
-	}
-	
-	private void setReadingDesign (AssociationElement association, ReadingDesign newDesign){
-		execute(new ReadingDesignOperation(this, association, newDesign));
-	}
-	
-	/** Switches a direct connection into a rectilinear one. */
-	public void toRectilinear() {
-		toRectilinear(getSelectedElements());
-	}
-	public void toRectilinear(Object input) {		
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
-		
-		for(UmlConnection connection: connections){
-			execute(new ConnectionTypeOperation(this, connection, new RectilinearConnection(connection)));
-		}
-		
-		selectionHandler.deselectAll();		
-	}
-	
-	/** Switches a direct connection into a tree vertical one. */
-	public void toTreeStyleVertical(){
-		toTreeStyleVertical(getSelectedElements());
-	}
-	
-	public void toTreeStyleVertical(Object input){		
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
-		
-		for(UmlConnection connection: connections){
-			execute(new ConnectionTypeOperation(this, connection, new TreeConnection(connection,true)));
-		}
-		
-		selectionHandler.deselectAll();
-	}
-	
-	/** Switches a direct connection into a tree horizontal one. */
-	public void toTreeStyleHorizontal(){
-		toTreeStyleHorizontal(getSelectedElements());		
-	}
-	
-	public void toTreeStyleHorizontal(Object input){		
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
-		
-		for(UmlConnection connection: connections){
-			execute(new ConnectionTypeOperation(this, connection, new TreeConnection(connection,false)));
-		}		
-		
-		selectionHandler.deselectAll();		
-	}
-	
-	
-	/** Switches a rectilinear connection to a direct one. */
-	public void toDirect(){
-		toDirect(getSelectedElements());		
-	}
-	
-	public void toDirect(Object input){
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
-		
-		for(UmlConnection connection: connections){
-			execute(new ConnectionTypeOperation(this, connection, new SimpleConnection(connection)));
-		}
-
-		selectionHandler.deselectAll();
-	}
-	
-	
-	/**
-	 * Resets the current connection's points.
-	 */
-	public void resetConnectionPoints(){
-		resetConnectionPoints(getSelectedElements());
-	}
-
-	public void resetConnectionPoints(Object input){
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
-		
-		for(UmlConnection connection: connections){
-			execute(new ResetPointsOperation(this, connection));
-		}
-	}
 	
 	
 	
@@ -1476,8 +1380,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public void editProperties(){
 		if (getSelectedElements().size() > 0) EditManager.get().edit(getSelectedElements().get(0));		
 	}
-	
-	
 	
 
 	/** Create a generalizations from selected elements in the diagram */
