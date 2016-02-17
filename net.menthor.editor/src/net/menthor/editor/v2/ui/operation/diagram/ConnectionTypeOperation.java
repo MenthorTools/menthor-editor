@@ -30,7 +30,7 @@ public class ConnectionTypeOperation extends DiagramOperation {
 	public void run() {
 		super.run();
 		runWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType,connection);
+		notifier.notifyViewChange(this, connection);
 	}
 
 	protected void runWithoutNotifying(){
@@ -70,6 +70,6 @@ public class ConnectionTypeOperation extends DiagramOperation {
 	public void undo() {
 		super.undo();
 		undoWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType, connection);
+		notifier.notifyViewChange(this, connection);
 	}
 }

@@ -107,7 +107,7 @@ public class MetaPropertyModelOperation extends ModelOperation {
 		super.undo();
 		setValue();
 		System.out.println(undoStatus());
-		notifier.notifyChange(this, actionType, element);
+		notifier.notifyChange(this, element);
 	}
 	
 	@Override
@@ -115,7 +115,7 @@ public class MetaPropertyModelOperation extends ModelOperation {
 		super.run();
 		setValue();
 		System.out.println(runStatus());
-		notifier.notifyChange(this, actionType, element);
+		notifier.notifyChange(this, element);
 	}
 	
 	public String undoStatus(){

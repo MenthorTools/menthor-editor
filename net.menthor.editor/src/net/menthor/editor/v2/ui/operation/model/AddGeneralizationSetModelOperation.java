@@ -32,7 +32,7 @@ public class AddGeneralizationSetModelOperation extends AddModelOperation {
 		}
 				
 		System.out.println(undoMessage());
-		notifier.notifyChange(this,actionType, element);		
+		notifier.notifyChange(this, element);		
 	}
 	
 	@Override
@@ -57,6 +57,6 @@ public class AddGeneralizationSetModelOperation extends AddModelOperation {
 		}
 		
 		System.out.println(runMessage());
-		notifier.notifyChange(this, actionType, element);		
+		notifier.notifyChange(this, element);		
 	}	
 }

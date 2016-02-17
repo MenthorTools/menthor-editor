@@ -159,13 +159,13 @@ public class AssociationVisibilityOperation extends DiagramOperation{
 	public void undo() {
 		super.undo();		
 		undoWithoutNotifying();
-		notifier.notifyViewChange(this, actionType,diagramElementList);
+		notifier.notifyViewChange(this, diagramElementList);
 	}
 	
 	@Override
 	public void run() {
 		super.run();
 		runWithoutNotifying();
-		notifier.notifyViewChange(this, actionType,diagramElementList);		
+		notifier.notifyViewChange(this, diagramElementList);		
 	}	
 }

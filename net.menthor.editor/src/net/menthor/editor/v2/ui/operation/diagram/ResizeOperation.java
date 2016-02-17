@@ -53,7 +53,7 @@ public class ResizeOperation extends DiagramOperation {
 	public void run() {
 		super.run();
 		runWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType,element);		
+		notifier.notifyViewChange(this, element);		
 				
 	}
 
@@ -83,6 +83,6 @@ public class ResizeOperation extends DiagramOperation {
 	public void undo() {
 		super.undo();
 		undoWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType,element);
+		notifier.notifyViewChange(this, element);
 	}
 }

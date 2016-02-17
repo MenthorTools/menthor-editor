@@ -34,7 +34,6 @@ import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.model.MetaPropertyModelOperation;
 import net.menthor.editor.v2.ui.operation.model.MetaPropertyModelOperation.MetaProperty;
@@ -86,12 +85,7 @@ public class ChangeCommander {
    		}
   		UpdateCommander.get().update(fix);
 	}
-	
-	
-	
-	
-	
-	
+		
 	/** Invert end points of an association. */
 	public void invertEndPoints(BaseConnection connection){
 		if(connection instanceof AssociationElement){
@@ -353,7 +347,7 @@ public class ChangeCommander {
   		if (containsCollective(con)) {
   			Collective collective = getCollective(con);
   			collective.setIsExtensional(!collective.isIsExtensional());
-  			Notifier.get().notifyChange(null,ActionType.DO,collective);
+  			Notifier.get().notifyChange(null,collective);
   		}
   	}
     
@@ -361,7 +355,7 @@ public class ChangeCommander {
   		if (containsClassifier(con)) {
   			Classifier classifier = getClassifier(con);
   			classifier.setIsAbstract(!classifier.isIsAbstract());
-  			Notifier.get().notifyChange(null,ActionType.DO,classifier);
+  			Notifier.get().notifyChange(null,classifier);
   		}
   	}
     
@@ -369,7 +363,7 @@ public class ChangeCommander {
 		if (containsAssociation(con)) {
 			Association association = getAssociation(con);
 			association.setIsDerived(!association.isIsDerived());
-			Notifier.get().notifyChange(null,ActionType.DO,association);
+			Notifier.get().notifyChange(null,association);
 		}
 	}
 	
@@ -377,7 +371,7 @@ public class ChangeCommander {
 		if (containsMeronymic(con)) {
 			Meronymic meronymic = getMeronymic(con);
 			meronymic.setIsShareable(!meronymic.isIsShareable());
-			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+			Notifier.get().notifyChange(null,meronymic);
 		}
 	}
 	
@@ -385,7 +379,7 @@ public class ChangeCommander {
 		if (containsMeronymic(con)) {
 			Meronymic meronymic = getMeronymic(con);
 			meronymic.setIsImmutablePart(!meronymic.isIsImmutablePart());
-			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+			Notifier.get().notifyChange(null,meronymic);
 		}
 	}
 	
@@ -393,7 +387,7 @@ public class ChangeCommander {
 		if (containsMeronymic(con)) {
 			Meronymic meronymic = getMeronymic(con);
 			meronymic.setIsImmutableWhole(!meronymic.isIsImmutableWhole());
-			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+			Notifier.get().notifyChange(null,meronymic);
 		}
 	}
 	
@@ -406,7 +400,7 @@ public class ChangeCommander {
 			if(meronymic.isIsInseparable())
 				meronymic.setIsImmutableWhole(true);
 			
-			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+			Notifier.get().notifyChange(null,meronymic);
 		}
 	}
 	
@@ -419,7 +413,7 @@ public class ChangeCommander {
 				if(meronymic.isIsEssential())
 					meronymic.setIsImmutablePart(true);
 				
-				Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+				Notifier.get().notifyChange(null,meronymic);
 			}
 		}
 	

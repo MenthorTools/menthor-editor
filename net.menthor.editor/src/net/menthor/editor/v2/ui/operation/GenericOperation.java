@@ -37,6 +37,10 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 		return operationType; 
 	}
 	
+	public ActionType getActionType(){
+		return actionType;
+	}
+	
 	public String asString(List<?> list){
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < list.size(); i++){			
@@ -58,16 +62,16 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 		run();	
 	}
 	
+	public void run(){
+		actionType = ActionType.DO;
+	}
+	
 	public String runMessage(){
 		return "["+operationType.pastTense()+"] ";
 	}
 	
 	public String undoMessage(){
 		return "[undo "+operationType.presentTense()+"] ";		
-	}
-	
-	public void run(){
-		actionType = ActionType.DO;
 	}
 	
 	public boolean isRedo(){

@@ -78,14 +78,14 @@ public class ColorOperation extends DiagramOperation {
 	public void run() {
 		super.run();		
 		runWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType,elementList);			
+		notifier.notifyViewChange(this, elementList);			
 	}
 	
 	@Override
 	public void undo() {
 		super.undo();	
 		undoWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType, elementList);		
+		notifier.notifyViewChange(this, elementList);		
 	}
 	
 	@Override

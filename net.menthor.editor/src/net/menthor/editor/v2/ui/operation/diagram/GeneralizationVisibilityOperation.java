@@ -75,7 +75,7 @@ public class GeneralizationVisibilityOperation extends DiagramOperation{
 	public void undo() {
 		super.undo();						
 		undoWithoutNotifying();		
-		notifier.notifyViewChange(this, actionType, diagramElementList);
+		notifier.notifyViewChange(this, diagramElementList);
 	}
 	
 	protected void undoWithoutNotifying(){
@@ -104,7 +104,7 @@ public class GeneralizationVisibilityOperation extends DiagramOperation{
 	public void run() {
 		super.run();
 		runWithoutNotifying();		
-		notifier.notifyViewChange(this,actionType, diagramElementList);			
+		notifier.notifyViewChange(this, diagramElementList);			
 	}
 	
 	@Override
