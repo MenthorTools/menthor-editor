@@ -7,14 +7,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import RefOntoUML.Comment;
-import RefOntoUML.Constraintx;
+import RefOntoUML.Classifier;
 import RefOntoUML.Element;
+import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
@@ -25,7 +22,7 @@ import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
 import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
 
-public class DeleteCommander {
+public class DeleteCommander extends GenericCommander {
 		
 	// -------- Lazy Initialization
 	
@@ -40,9 +37,15 @@ public class DeleteCommander {
     }		
     
     // ----------------------------
-	    
+	
+    public boolean confirmDeleteFromDiagram(){    	
+		return AppMessageManager.get().confirm("Delete from Diagram",
+			"WARNING - Are you sure you want to delete the selected items from the diagram?\n"
+					+ "They will remain available in the project browser?");
+	}
+    
 	public boolean confirmElementDeletion(){
-		return AppMessageManager.get().confirm("Delete Element",
+		return AppMessageManager.get().confirm("Delete from Model",
 			"WARNING - Are you sure you want to delete the selected items from the model \n"
 					+ "and from all the diagrams they might appear?");
 	}
@@ -87,8 +90,6 @@ public class DeleteCommander {
 		}
 		else if (elem instanceof RefOntoUML.Element){			
 			deleteElement((RefOntoUML.Element)elem,true);    					    					
-		} else{ 
-			AppTabManager.get().getCurrentDiagramEditor().deleteSelection(elem);
 		}
 	}
 	
@@ -149,23 +150,33 @@ public class DeleteCommander {
 	}
 	
 	/** Erase element from a particular diagram. It does not delete the element from the model. */
-	public void eraseElement(OntoumlEditor ed, RefOntoUML.Element element){		
-		if(element instanceof GeneralizationSet) return;
-		if(element instanceof Constraintx) return;
-		if(element instanceof Comment) return;
-		List<RefOntoUML.Element> list = new ArrayList<RefOntoUML.Element>();
-		list.add(element);
-		new DeleteOperation(ed,list,true).run();				
+	public void eraseElement(OntoumlEditor editor, Object input){		
+		
+		List<DiagramElement> diagramElements = setUpList(input, DiagramElement.class);
+		
+		//no diagram in the list...
+		List<DiagramElement> diagrams = new ArrayList<DiagramElement>();
+		for(DiagramElement de: diagramElements){
+			if(de instanceof StructureDiagram){
+				diagrams.add(de);
+			}
+		}
+		diagramElements.removeAll(diagrams);
+		
+		List<Element> modelElements = new ArrayList<Element>();
+		for (DiagramElement de : diagramElements) {
+			Object modelElement = de.getModelObject();
+			if(modelElement instanceof Classifier || modelElement instanceof Generalization)
+				modelElements.add((Element) modelElement);
+		}
+		
+		new DeleteOperation(editor,modelElements,true).run();				
 	}
 	
 	/** Delete all elements at the diagram */
 	public void eraseAllElements(StructureDiagram diagram){
 		OntoumlEditor ed = AppTabManager.get().getDiagramEditor(diagram);
-		for(DiagramElement delem: diagram.getChildren()) {
-			if(delem instanceof ClassElement) eraseElement(ed,((ClassElement)delem).getClassifier());
-			if(delem instanceof AssociationElement) eraseElement(ed,((AssociationElement)delem).getRelationship());
-			if(delem instanceof GeneralizationElement) eraseElement(ed,((GeneralizationElement)delem).getRelationship());
-		}
+		eraseElement(ed,diagram.getChildren());
 	}
 	
 	/** Delete a generalization set from a list of selected diagram elements */
@@ -179,4 +190,6 @@ public class DeleteCommander {
 			if(chosen!=null) deleteElement(chosen,true);
 		}			
 	}
+	
+	//TODO: TEST THIS!
 }

@@ -49,13 +49,11 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.window.Window;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DiagramOperations;
@@ -118,7 +116,6 @@ import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ConnectionTypeOperation;
-import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
 import net.menthor.editor.v2.ui.operation.diagram.EditPointsOperation;
 import net.menthor.editor.v2.ui.operation.diagram.RenameLabelOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ResetPointsOperation;
@@ -349,47 +346,45 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			/** {@inheritDoc} */
 			public void actionPerformed(ActionEvent e) { cancelEditing(); }
 		});
-
+		
+		AbstractAction excludeAction = new AbstractAction() {
+			private static final long serialVersionUID = -6375878624042384546L;
+			/** {@inheritDoc} */
+			public void actionPerformed(ActionEvent e) { 
+				if(OntoumlEditor.this.isFocusable()){
+					Collection<DiagramElement> diagramElementsList = getSelectedElements();
+					DeleteCommander.get().eraseElement(OntoumlEditor.this, diagramElementsList);
+				}
+			}
+		};
+		
+		AbstractAction deleteAction = new AbstractAction() {
+			private static final long serialVersionUID = -6375878624042384546L;
+			/** {@inheritDoc} */
+			public void actionPerformed(ActionEvent e) { 
+				if(OntoumlEditor.this.isFocusable()){
+					Collection<DiagramElement> diagramElementsList = getSelectedElements();
+					DeleteCommander.get().delete(diagramElementsList);
+				}
+			}
+		};
+		
 		// install Erase KeyBinding
 		if(onMac()){
 			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("BACK_SPACE"),"excludeSelection");
-			getActionMap().put("excludeSelection", new AbstractAction() {
-						
-				private static final long serialVersionUID = -6375878624042384546L;
-			
-				/** {@inheritDoc} */
-				public void actionPerformed(ActionEvent e) { excludeSelection(); }
-			});	
+			getActionMap().put("excludeSelection", excludeAction);	
 		}else{
 			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"),"excludeSelection");		
-			getActionMap().put("excludeSelection", new AbstractAction() {
-
-				private static final long serialVersionUID = -6375878624042384546L;
-				
-				/** {@inheritDoc} */
-				public void actionPerformed(ActionEvent e) { excludeSelection(); }
-			});				
+			getActionMap().put("excludeSelection", excludeAction);				
 		}
 				
 		if(onMac()){
 			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK),"deleteSelection");
-			getActionMap().put("deleteSelection", new AbstractAction() {
-						
-				private static final long serialVersionUID = -6375878624042384546L;
-			
-				/** {@inheritDoc} */
-				public void actionPerformed(ActionEvent e) { deleteSelection(); }
-			});
+			getActionMap().put("deleteSelection", deleteAction);
 		}else{
 			// install Delete KeyBinding
 			getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, ActionEvent.CTRL_MASK),"deleteSelection");		
-			getActionMap().put("deleteSelection", new AbstractAction() {
-
-				private static final long serialVersionUID = -6375878624042384546L;
-				
-				/** {@inheritDoc} */
-				public void actionPerformed(ActionEvent e) { deleteSelection(); }
-			});					
+			getActionMap().put("deleteSelection", deleteAction);					
 		}
 	}
 
@@ -1542,68 +1537,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public void deleteSelection(Object element){
-		if(element instanceof DiagramElement){
-			DiagramElement ce = ((DiagramElement)element);
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add(ce);
-			DeleteCommander.get().deleteElements(list,true);
-		}else if (element instanceof Collection<?>){
-			DeleteCommander.get().deleteElements((List<DiagramElement>)element,true);
-		}else{
-			DeleteCommander.get().delete(element);
-		}
-	}
 	
-	/**
-	 * Removes the elements selected. From the diagram and the model.
-	 */
-	public void deleteSelection() {
-				
-		if(this.isFocusable()){
-			List<DiagramElement> diagramElementsList = getSelectedElements();
-			DeleteCommander.get().deleteElements(diagramElementsList,true);
-		}
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	@SuppressWarnings("unchecked")
-	public void excludeSelection(Object element){
-		if(element instanceof DiagramElement){
-			DiagramElement ce = ((DiagramElement)element);
-			List<DiagramElement> list = new ArrayList<DiagramElement>();
-			list.add(ce);
-			excludeSelection(list);
-		}else if (element instanceof Collection<?>){			
-			excludeSelection((List<DiagramElement>)element);			
-		}
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection(List<DiagramElement> diagramElementsList){
-		//no diagram in the list...
-		List<DiagramElement> diagrams=new ArrayList<DiagramElement>();
-		for(DiagramElement de: diagramElementsList) if(de instanceof StructureDiagram) diagrams.add(de);
-		diagramElementsList.removeAll(diagrams);
-		if(diagramElementsList.size()>0){
-			
-			int response = JOptionPane.showConfirmDialog(frame, "WARNING: Are you sure you want to delete the element(s) from the diagram?\n If so, note that the element(s) will still exist in the project browser. \nYou can still move the element back to the diagram again.\n", "Delete from Diagram", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-			if(response==Window.OK)
-			{
-				execute(new DeleteOperation(this, OccurenceManager.get().getElements(diagramElementsList), true));
-			}
-		}
-	}
-	
-	/** Removes the elements selected only from the diagram  */
-	public void excludeSelection() 
-	{
-		if(this.isFocusable()){
-			Collection<DiagramElement> diagramElementsList = getSelectedElements();
-			excludeSelection(diagramElementsList);
-		}
-	}
 
 	/** Edits the current selection's properties. */
 	public void editProperties(){
