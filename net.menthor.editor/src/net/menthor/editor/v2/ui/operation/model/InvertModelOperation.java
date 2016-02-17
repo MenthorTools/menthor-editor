@@ -30,6 +30,8 @@ public class InvertModelOperation extends ModelOperation {
 		this.operationType = OperationType.MODIFY;
 		this.metaProperty = metaProperty;
 		
+		this.relationship = relationship;
+		
 		if(relationship instanceof Generalization) {
 			generalization = (Generalization) relationship;
 		}
