@@ -31,7 +31,6 @@ import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
-import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
@@ -163,8 +162,6 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ImportManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AppMessageManager.class){
 				return methodcall.call(AppMessageManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == MetaPropertyManager.class){
-				return methodcall.call(MetaPropertyManager.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
 				return methodcall.call(VisibilityCommander.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == MoveCommander.class){

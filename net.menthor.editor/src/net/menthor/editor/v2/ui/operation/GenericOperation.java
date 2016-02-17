@@ -69,4 +69,12 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	public void run(){
 		actionType = ActionType.DO;
 	}
+	
+	public boolean isRedo(){
+		if(actionType!=null && actionType==ActionType.UNDO){
+			return true;
+		}
+		
+		return false;
+	}
 }

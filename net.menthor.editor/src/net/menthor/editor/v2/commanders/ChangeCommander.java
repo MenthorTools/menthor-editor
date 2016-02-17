@@ -1,29 +1,9 @@
 
 package net.menthor.editor.v2.commanders;
 
-/**
- * ============================================================================================
- * Menthor Editor -- Copyright (c) 2015 
- *
- * This file is part of Menthor Editor. Menthor Editor is based on TinyUML and as so it is 
- * distributed under the same license terms.
- *
- * Menthor Editor is free software; you can redistribute it and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation; either 
- * version 2 of the License, or (at your option) any later version.
- *
- * Menthor Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Menthor Editor; 
- * if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, 
- * MA  02110-1301  USA
- * ============================================================================================
- */
-
-import java.text.ParseException;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.AssociationElement;
@@ -33,23 +13,31 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
+import RefOntoUML.Collective;
 import RefOntoUML.Generalization;
 import RefOntoUML.LiteralInteger;
 import RefOntoUML.LiteralUnlimitedNatural;
+import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.common.ontoumlverificator.MultiplicityValidator;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
+import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.Notifier;
+import net.menthor.editor.v2.ui.operation.model.MetaPropertyModelOperation;
+import net.menthor.editor.v2.ui.operation.model.MetaPropertyModelOperation.MetaProperty;
 
 public class ChangeCommander {
 	
@@ -99,24 +87,10 @@ public class ChangeCommander {
   		UpdateCommander.get().update(fix);
 	}
 	
-	/** Change multiplicity from string */
-	public void changeMultiplicity(RefOntoUML.Property property, String multiplicity) throws ParseException {
-		RefOntoUMLFactoryUtil.setMultiplicityFromString(property, multiplicity);
-		Notifier.get().notifyChange(null,ActionType.DO,property.getAssociation());
-		AppBrowserManager.get().updateUI();
-	}
 	
-	/** Change multiplicity from integer values */
-	public void changeMultiplicity(RefOntoUML.Property property, int lowerValue, int upperValue){
-		LiteralInteger lower = FactoryManager.get().createLiteralInteger();
-		lower.setValue(lowerValue);
-		LiteralUnlimitedNatural upper =  FactoryManager.get().createLiteralUnlimitedNatural();
-		upper.setValue(upperValue);				
-		property.setLowerValue(lower);			
-		property.setUpperValue(upper);
-		Notifier.get().notifyChange(null, ActionType.DO,property.getAssociation());
-		AppBrowserManager.get().updateUI();
-	}
+	
+	
+	
 	
 	/** Invert end points of an association. */
 	public void invertEndPoints(BaseConnection connection){
@@ -192,5 +166,305 @@ public class ChangeCommander {
    		source.setType(targetType);
    		target.setType(sourceType);
    		UpdateCommander.get().updateFromChange(association, true);
+	}
+	
+ // ACTIONS
+    
+	// End-point meta-properties
+	
+	public void endPointNameOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			setEndPointName(con,endpoint);
+		}
+	}
+
+	public void endPointNameOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			setEndPointName(con,endpoint);
+		}
+	}
+	
+	public void setEndPointName(DiagramElement con, RefOntoUML.Property endpoint){
+		Object newName = AppMessageManager.get().input("End-point name", "Input the a new name for the end-point:", null, endpoint.getType().getName().toLowerCase().trim());
+		if(newName!=null && newName instanceof String){
+			new MetaPropertyModelOperation(endpoint, MetaProperty.NAME, newName).run();;
+		}
+	}
+	
+	/** Change multiplicity from string */
+	public void changeMultiplicity(RefOntoUML.Property endpoint, String newMultiplicity) {
+		new MetaPropertyModelOperation(endpoint, MetaProperty.MULTIPLICITY, newMultiplicity).run();
+	}
+	
+	private void changeMultiplicityOnSource(Object element, String value){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			changeMultiplicity(endpoint, value);
+		}
+	}
+    
+	public void twoAtLeastOnSource(Object element){
+		changeMultiplicityOnSource(element, "2..*");
+	}
+	
+	public void twoOnSource(Object element){
+		changeMultiplicityOnSource(element, "2");
+	}
+	
+	public void anyOnSource(Object element){
+		changeMultiplicityOnSource(element, "0..*");
+	}
+	
+	public void someOnSource(Object element){
+		changeMultiplicityOnSource(element, "1..*");
+	}
+	
+	public void optionalOnSource(Object element){
+		changeMultiplicityOnSource(element, "0..1");
+	}
+	
+	public void singularOnSource(Object element){
+		changeMultiplicityOnSource(element, "1");
+	}
+	
+
+	private void changeMultiplicityOnTarget(Object element, String value){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			changeMultiplicity(endpoint, value);
+		}
+	}
+    
+	public void twoAtLeastOnTarget(Object element){
+		changeMultiplicityOnTarget(element, "2..*");
+	}
+	
+	public void twoOnTarget(Object element){
+		changeMultiplicityOnTarget(element, "2");
+	}
+	
+	public void anyOnTarget(Object element){
+		changeMultiplicityOnTarget(element, "0..*");
+	}
+	
+	public void someOnTarget(Object element){
+		changeMultiplicityOnTarget(element, "1..*");
+	}
+	
+	public void optionalOnTarget(Object element){
+		changeMultiplicityOnTarget(element, "0..1");
+	}
+	
+	public void singularOnTarget(Object element){
+		changeMultiplicityOnSource(element, "1");
+	}
+	
+	
+	public void otherOnTarget(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			requestOtherMultiplicity(endpoint);
+		}
+	}
+	
+	public void otherOnSource(Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			requestOtherMultiplicity(endpoint);
+		}
+	}
+	
+	public void requestOtherMultiplicity(RefOntoUML.Property endpoint){
+		Object newMultiplicity = AppMessageManager.get().input("End-point multiplicity","Input the new multiplicity for the end-point:",null,RefOntoUMLFactoryUtil.getMultiplicityAsString(endpoint)); 
+		 if(newMultiplicity!=null && newMultiplicity instanceof String){
+			 MultiplicityValidator validator = new MultiplicityValidator((String) newMultiplicity);
+			 if(validator.isValid()){
+				 changeMultiplicity(endpoint, (String) newMultiplicity);
+			 }
+			 else {
+				 AppMessageManager.get().showError("End-point Multiplicity","Could not change the multiplicity");
+			 }
+		 }	
+	}
+	
+	
+	public void subsetsSource(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			subsets(con, endpoint);
+		}
+	}
+
+	public void subsetsTarget(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			subsets(con, endpoint);
+		}
+	}
+	
+	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
+		PropertyListEditDialog.open(AppFrame.get(),null, "Subsetted", endpoint, ProjectManager.get().getProject().getRefParser());
+		SwingUtilities.invokeLater(new Runnable() {						
+			@Override
+			public void run() {
+				VisibilityCommander.get().showSubsetting(association);
+			}
+		});
+	}
+	
+	public void redefinesSource(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(0);
+			redefines(con, endpoint);
+		}
+	}
+
+	public void redefinesTarget(final Object element){
+		if(element instanceof AssociationElement){
+			AssociationElement con = (AssociationElement)element;
+			RefOntoUML.Property endpoint = ((RefOntoUML.Association)con.getRelationship()).getMemberEnd().get(1);
+			redefines(con, endpoint);
+		}
+	}
+	
+	public void redefines(final AssociationElement association, final RefOntoUML.Property endpoint){
+		PropertyListEditDialog.open(AppFrame.get(),null, "Redefined", endpoint,ProjectManager.get().getProject().getRefParser());		
+		
+		SwingUtilities.invokeLater(new Runnable() {						
+			@Override
+			public void run() {
+				VisibilityCommander.get().showRedefinitions(association);
+			}
+		});
+	}
+    
+    public void setExtensional(Object con){
+  		if (containsCollective(con)) {
+  			Collective collective = getCollective(con);
+  			collective.setIsExtensional(!collective.isIsExtensional());
+  			Notifier.get().notifyChange(null,ActionType.DO,collective);
+  		}
+  	}
+    
+    public void setAbstract(Object con){
+  		if (containsClassifier(con)) {
+  			Classifier classifier = getClassifier(con);
+  			classifier.setIsAbstract(!classifier.isIsAbstract());
+  			Notifier.get().notifyChange(null,ActionType.DO,classifier);
+  		}
+  	}
+    
+    public void setDerived(Object con){
+		if (containsAssociation(con)) {
+			Association association = getAssociation(con);
+			association.setIsDerived(!association.isIsDerived());
+			Notifier.get().notifyChange(null,ActionType.DO,association);
+		}
+	}
+	
+	public void setShareable(Object con){
+		if (containsMeronymic(con)) {
+			Meronymic meronymic = getMeronymic(con);
+			meronymic.setIsShareable(!meronymic.isIsShareable());
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+		}
+	}
+	
+	public void setImmutablePart(Object con){
+		if (containsMeronymic(con)) {
+			Meronymic meronymic = getMeronymic(con);
+			meronymic.setIsImmutablePart(!meronymic.isIsImmutablePart());
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+		}
+	}
+	
+	public void setImmutableWhole(Object con){
+		if (containsMeronymic(con)) {
+			Meronymic meronymic = getMeronymic(con);
+			meronymic.setIsImmutableWhole(!meronymic.isIsImmutableWhole());
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+		}
+	}
+	
+	public void setInseparable(Object con){
+		if (containsMeronymic(con)) {
+			Meronymic meronymic = getMeronymic(con);
+			
+			meronymic.setIsInseparable(!meronymic.isIsInseparable());
+			//inserparable implies immutableWhole
+			if(meronymic.isIsInseparable())
+				meronymic.setIsImmutableWhole(true);
+			
+			Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+		}
+	}
+	
+	 public void setEssential(Object con){
+		 if (containsMeronymic(con)) {
+				Meronymic meronymic = getMeronymic(con);
+				
+				meronymic.setIsEssential(!meronymic.isIsEssential());
+				//inserparable implies immutableWhole
+				if(meronymic.isIsEssential())
+					meronymic.setIsImmutablePart(true);
+				
+				Notifier.get().notifyChange(null,ActionType.DO,meronymic);
+			}
+		}
+	
+	
+	// HELPERS 
+	
+	private boolean containsClassifier(Object diagramElement){
+		return (diagramElement instanceof AssociationElement && ((AssociationElement) diagramElement).getAssociation() instanceof Association) || 
+				(diagramElement instanceof ClassElement && ((ClassElement)diagramElement).getClassifier() instanceof Classifier);
+	}
+	
+	private boolean containsMeronymic(Object con){
+		return con instanceof AssociationElement && ((AssociationElement) con).getAssociation() instanceof Meronymic;
+	}
+	
+	private boolean containsAssociation(Object con){
+		return con instanceof AssociationElement && ((AssociationElement) con).getAssociation() instanceof Association;
+	}
+	
+	private boolean containsCollective(Object con){
+		return con instanceof ClassElement && ((ClassElement) con).getClassifier() instanceof Collective;
+	}
+	
+	private Classifier getClassifier(Object diagramElement){
+		if(diagramElement instanceof AssociationElement)
+			return getAssociation(diagramElement);
+		if(diagramElement instanceof ClassElement)
+			return getClassElement(diagramElement);
+		
+		return null;
+	}
+	
+	private Classifier getClassElement(Object diagramElement){
+		return ((ClassElement)diagramElement).getClassifier();
+	}
+	
+	private Collective getCollective(Object diagramElement){
+		return (Collective) ((ClassElement)diagramElement).getClassifier();
+	}
+	
+	private Meronymic getMeronymic(Object con) {
+		return (Meronymic) ((AssociationElement) con).getAssociation();
+	}
+	
+	private Association getAssociation(Object con) {
+		return ((AssociationElement) con).getAssociation();
 	}
 }

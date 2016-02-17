@@ -53,7 +53,6 @@ import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
-import net.menthor.editor.v2.managers.MetaPropertyManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.types.ClassType;
@@ -350,61 +349,61 @@ public class CommandMap {
 
 	private void metaPropertyManager() throws NoSuchMethodException, SecurityException {
 		cmdMap.put(CommandType.SUBSETS_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("subsetsSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("subsetsSource", Object.class)));
 		cmdMap.put(CommandType.SUBSETS_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("subsetsTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("subsetsTarget", Object.class)));
 		cmdMap.put(CommandType.REDEFINES_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("redefinesSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("redefinesSource", Object.class)));
 		cmdMap.put(CommandType.REDEFINES_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("redefinesTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("redefinesTarget", Object.class)));
 		cmdMap.put(CommandType.SET_ESSENTIAL,
-				new MethodCall(MetaPropertyManager.class.getMethod("setEssential", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setEssential", Object.class)));
 		cmdMap.put(CommandType.SET_INSEPARABLE,
-				new MethodCall(MetaPropertyManager.class.getMethod("setInseparable", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setInseparable", Object.class)));
 		cmdMap.put(CommandType.SET_IMMUTABLEPART,
-				new MethodCall(MetaPropertyManager.class.getMethod("setImmutablePart", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setImmutablePart", Object.class)));
 		cmdMap.put(CommandType.SET_IMMUTABLEWHOLE,
-				new MethodCall(MetaPropertyManager.class.getMethod("setImmutableWhole", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setImmutableWhole", Object.class)));
 		cmdMap.put(CommandType.SET_SHAREABLE,
-				new MethodCall(MetaPropertyManager.class.getMethod("setShareable", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setShareable", Object.class)));
 		cmdMap.put(CommandType.SET_ABSTRACT,
-				new MethodCall(MetaPropertyManager.class.getMethod("setAbstract", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setAbstract", Object.class)));
 		cmdMap.put(CommandType.SET_DERIVED,
-				new MethodCall(MetaPropertyManager.class.getMethod("setDerived", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setDerived", Object.class)));
 		cmdMap.put(CommandType.SET_EXTENSIONAL,
-				new MethodCall(MetaPropertyManager.class.getMethod("setExtensional", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("setExtensional", Object.class)));
 		cmdMap.put(CommandType.OPTIONAL_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("optionalOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("optionalOnSource", Object.class)));
 		cmdMap.put(CommandType.OPTIONAL_ON_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("optionalOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("optionalOnTarget", Object.class)));
 		cmdMap.put(CommandType.SINGULAR_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("singularOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("singularOnSource", Object.class)));
 		cmdMap.put(CommandType.SINGULAR_ON_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("singularOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("singularOnTarget", Object.class)));
 		cmdMap.put(CommandType.SOME_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("someOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("someOnSource", Object.class)));
 		cmdMap.put(CommandType.SOME_ON_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("someOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("someOnTarget", Object.class)));
 		cmdMap.put(CommandType.ANY_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("anyOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("anyOnSource", Object.class)));
 		cmdMap.put(CommandType.ANY_ON_TARGET,				
-				new MethodCall(MetaPropertyManager.class.getMethod("anyOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("anyOnTarget", Object.class)));
 		cmdMap.put(CommandType.TWO_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("twoOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("twoOnSource", Object.class)));
 		cmdMap.put(CommandType.TWO_ON_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("twoOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("twoOnTarget", Object.class)));
 		cmdMap.put(CommandType.TWO_AT_LEAST_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("twoAtLeastOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("twoAtLeastOnSource", Object.class)));
 		cmdMap.put(CommandType.TWO_AT_LEAST_ON_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("twoAtLeastOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("twoAtLeastOnTarget", Object.class)));
 		cmdMap.put(CommandType.OTHER_ON_SOURCE,
-				new MethodCall(MetaPropertyManager.class.getMethod("otherOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("otherOnSource", Object.class)));
 		cmdMap.put(CommandType.OTHER_ON_TARGET,
-				new MethodCall(MetaPropertyManager.class.getMethod("otherOnTarget", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("otherOnTarget", Object.class)));
 		cmdMap.put(CommandType.SET_SOURCE_END_POINT_NAME,
-				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnSource", Object.class)));
+				new MethodCall(ChangeCommander.class.getMethod("endPointNameOnSource", Object.class)));
 		cmdMap.put(CommandType.SET_TARGET_END_POINT_NAME,
-				new MethodCall(MetaPropertyManager.class.getMethod("endPointNameOnTarget", Object.class)));	
+				new MethodCall(ChangeCommander.class.getMethod("endPointNameOnTarget", Object.class)));	
 		
 	}
 
