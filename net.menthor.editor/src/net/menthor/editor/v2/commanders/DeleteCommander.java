@@ -69,34 +69,35 @@ public class DeleteCommander extends GenericCommander {
 		);
 	}
 	
-	/** Delete any elements from the application, whether diagrams, documents, elements or from diagrma selection */
-	public void delete(List<Object> elements){
-		for(Object o: elements){
-			delete(o);
-		}
-	}	
-	
 	/** Delete any element from the application, whether a diagram, document, element or from selection. */
 	public void delete(Object input){
 		Object elem = input;		
 		if(input instanceof DefaultMutableTreeNode){
 			elem = ((DefaultMutableTreeNode) elem).getUserObject();
 		}
+		
 		if (elem instanceof StructureDiagram){
 			deleteDiagram((StructureDiagram)elem, true);    					
 		} 
 		else if (elem instanceof OclDocument){
 			deleteOclDocument((OclDocument)elem, true);    					
 		}
-		else if (elem instanceof RefOntoUML.Element){			
-			deleteElement((RefOntoUML.Element)elem,true);    					    					
+		else if (elem instanceof Element){
+			deleteElement((Element) elem, true);
+		}
+		//if method is called from diagram
+		else{
+			List<DiagramElement> elements = setUpList(input, DiagramElement.class);
+			deleteElements(elements, true);
 		}
 	}
 	
 	/** Delete Ocl document from the browser, tab pane and application */
 	public void deleteOclDocument(OclDocument doc, boolean showwarning){
 		boolean response = true;
-		if (showwarning) response = confirmOclDocDeletion();		
+		if (showwarning) {
+			response = confirmOclDocDeletion();		
+		}
 		if(response) {
 			ProjectManager.get().getProject().getOclDocList().remove(doc);
 			AppTabManager.get().removeEditor(doc);		
@@ -106,9 +107,11 @@ public class DeleteCommander extends GenericCommander {
 	
 	public void deleteDiagram(StructureDiagram diagram, boolean showwarning){
 		boolean response = true;
-		if (showwarning) response = confirmDiagramDeletion();		
+		if (showwarning) {
+			response = confirmDiagramDeletion();		
+		}
 		if(response){
-			eraseAllElements(diagram);
+			deleteAllElementsFromDiagram(diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
 			AppTabManager.get().removeEditor(diagram);
 			AppBrowserManager.get().remove();
@@ -129,6 +132,9 @@ public class DeleteCommander extends GenericCommander {
 	/** Delete elements from the model and from every diagram they might appear. 
 	 *  It shows a message before deletion. */
 	public void deleteElements(List<DiagramElement> diagramElements, boolean showmessage){	
+		if(diagramElements==null || diagramElements.size()==0)
+			return;
+		
 		List<RefOntoUML.Element> list = (List<Element>) OccurenceManager.get().getElements(diagramElements);
 		boolean response = true;
 		if(showmessage) response = confirmElementDeletion();
@@ -136,7 +142,8 @@ public class DeleteCommander extends GenericCommander {
 	}
 	
 	/** Delete element from the model and from every diagram they might appear. **/
-	public void deleteElements(List<RefOntoUML.Element> elements){		
+	public void deleteElements(List<RefOntoUML.Element> elements){
+		//TODO: I guess this is not right. Why get the editors from a single element?
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		if(editors==null || editors.size()==0) {			
 			new DeleteModelOperation(elements).run();
@@ -146,37 +153,12 @@ public class DeleteCommander extends GenericCommander {
 			DeleteOperation cmd = new DeleteOperation(ed, elements, false);
 			cmd.run();			
 		}
-		
 	}
 	
-	/** Erase element from a particular diagram. It does not delete the element from the model. */
-	public void eraseElement(OntoumlEditor editor, Object input){		
-		
-		List<DiagramElement> diagramElements = setUpList(input, DiagramElement.class);
-		
-		//no diagram in the list...
-		List<DiagramElement> diagrams = new ArrayList<DiagramElement>();
-		for(DiagramElement de: diagramElements){
-			if(de instanceof StructureDiagram){
-				diagrams.add(de);
-			}
-		}
-		diagramElements.removeAll(diagrams);
-		
-		List<Element> modelElements = new ArrayList<Element>();
-		for (DiagramElement de : diagramElements) {
-			Object modelElement = de.getModelObject();
-			if(modelElement instanceof Classifier || modelElement instanceof Generalization)
-				modelElements.add((Element) modelElement);
-		}
-		
-		new DeleteOperation(editor,modelElements,true).run();				
-	}
-	
-	/** Delete all elements at the diagram */
-	public void eraseAllElements(StructureDiagram diagram){
-		OntoumlEditor ed = AppTabManager.get().getDiagramEditor(diagram);
-		eraseElement(ed,diagram.getChildren());
+	/** Deletes currently selected elements from the model and all diagrams they appear in */
+	public void deleteCurrentSelection(){
+		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		deleteElements(editor.getSelectedElements(),true);
 	}
 	
 	/** Delete a generalization set from a list of selected diagram elements */
@@ -190,6 +172,62 @@ public class DeleteCommander extends GenericCommander {
 			if(chosen!=null) deleteElement(chosen,true);
 		}			
 	}
+
+	
+	
+	// DELETE FROM DIAGRAM METHODS
+	
+	
+	/** Erase elements from a particular diagram. It does not delete the element from the model. */
+	public void deleteFromDiagram(OntoumlEditor editor, Object input){		
+		List<DiagramElement> diagramElements = setUpList(input, DiagramElement.class);
+		
+		//Removes all diagrams in the input
+		List<DiagramElement> diagrams = new ArrayList<DiagramElement>();
+		for(DiagramElement de: diagramElements){
+			if(de instanceof StructureDiagram){
+				diagrams.add(de);
+			}
+		}
+		diagramElements.removeAll(diagrams);
+		
+		//Removes all the elements in the input that are not contained by the diagram editor
+		List<DiagramElement> elementsNotInTheCurrentEditor = new ArrayList<DiagramElement>();
+		List<DiagramElement> containedByCurrentDiagram = editor.getDiagram().getChildren();
+		for (DiagramElement de : diagramElements) {
+			if(!containedByCurrentDiagram.contains(de)){
+				elementsNotInTheCurrentEditor.add(de);
+			}
+		}
+		diagramElements.removeAll(elementsNotInTheCurrentEditor);
+		
+		List<Element> modelElements = new ArrayList<Element>();
+		for (DiagramElement de : diagramElements) {
+			Object modelElement = de.getModelObject();
+			if(modelElement instanceof Classifier || modelElement instanceof Generalization)
+				modelElements.add((Element) modelElement);
+		}
+		
+		new DeleteOperation(editor,modelElements,true).run();				
+	}
+	
+	public void deleteFromDiagram(Object input){
+		deleteFromDiagram(AppTabManager.get().getCurrentDiagramEditor(),input);
+	}
+	
+	/** Deletes currently selected elements from the current diagram */
+	public void deleteCurrentSelectionFromDiagram(){
+		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		deleteFromDiagram(editor, editor.getSelectedElements());
+	}
+	
+	/** Delete all elements at the diagram */
+	public void deleteAllElementsFromDiagram(StructureDiagram diagram){
+		OntoumlEditor ed = AppTabManager.get().getDiagramEditor(diagram);
+		deleteFromDiagram(ed,diagram.getChildren());
+	}
+	
+	
 	
 	//TODO: TEST THIS!
 }

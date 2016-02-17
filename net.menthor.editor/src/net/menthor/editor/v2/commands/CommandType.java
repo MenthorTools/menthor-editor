@@ -45,7 +45,9 @@ public enum CommandType {
 	EDIT("Edit selected element(s)"),
 	RENAME("Rename selected element"),
 	DELETE("Delete selected element(s)"),
-	ERASE("Erase selected element(s)"),
+	ERASE("Erase selected element(s) from diagram"),
+	DELETE_CURRENT("Delete selected element(s)"), 
+	ERASE_CURRENT("Delete selected element(s) from diagram"),
 	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
 		
 	NEW_OCLDOCUMENT("Createa a new rules document"),
