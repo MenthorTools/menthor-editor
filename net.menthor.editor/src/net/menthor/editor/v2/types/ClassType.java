@@ -130,4 +130,12 @@ public enum ClassType implements OntoUMLMetatype {
 		}
 		return CLASS;
 	}
+
+	public static ClassType getClassEnum(String value) {
+		for (ClassType item : ClassType.values()) {
+			if(item.getName().compareToIgnoreCase(value)==0)
+				return item;
+		}
+		return CLASS;
+	}
 }

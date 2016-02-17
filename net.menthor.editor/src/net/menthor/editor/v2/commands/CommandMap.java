@@ -33,6 +33,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
+import RefOntoUML.Classifier;
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
@@ -239,7 +240,7 @@ public class CommandMap {
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeClassStereotype", ClassType.class, RefOntoUML.Element.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeClassStereotype", ClassType.class, Classifier.class), ct));
 			}
 		}
 		for(RelationshipType rt: RelationshipType.values()){		

@@ -10,7 +10,6 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Property;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -91,7 +90,7 @@ public class MetaPropertyModelOperation extends ModelOperation {
 	private void setValue(){
 		Object value;
 		
-		if(actionType==ActionType.UNDO){
+		if(isUndo()){
 			value = oldValue;
 		}
 		else{

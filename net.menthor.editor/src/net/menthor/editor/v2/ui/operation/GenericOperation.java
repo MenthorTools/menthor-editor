@@ -75,7 +75,23 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	}
 	
 	public boolean isRedo(){
+		if(actionType!=null && actionType==ActionType.REDO){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isUndo(){
 		if(actionType!=null && actionType==ActionType.UNDO){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isDo(){
+		if(actionType!=null && actionType==ActionType.DO){
 			return true;
 		}
 		

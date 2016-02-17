@@ -135,12 +135,12 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	}	
 	
 	private String undoMessage(DiagramElement element){				
-		String msg = undoMessage(element);
+		String msg = super.undoMessage();
 		return msg.substring(0, msg.indexOf("from"))+"from "+element.getParent().toString();	
 	}
 	
 	private String runMessage(DiagramElement element){				
-		String msg = runMessage(element);
+		String msg = super.runMessage();
 		return msg.substring(0, msg.indexOf("from"))+"from "+element.getParent().toString();		
 	}
 	

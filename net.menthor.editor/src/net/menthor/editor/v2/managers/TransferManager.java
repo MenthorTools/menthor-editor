@@ -57,6 +57,7 @@ import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 
 public class TransferManager extends AppGenericManager {
@@ -272,11 +273,17 @@ public class TransferManager extends AppGenericManager {
 	
 	public void transferClass(RefOntoUML.Classifier element, String name, boolean isExtensional, boolean isAbstract, String newStereotype){
 		element.setName(name);
-		if (element instanceof Collective) ((Collective) element).setIsExtensional(isExtensional);
+		if (element instanceof Collective) {
+			((Collective) element).setIsExtensional(isExtensional);
+		}
 		element.setIsAbstract(isAbstract);		
-		UpdateCommander.get().updateFromChange(element,false);		
-		if(OntoUMLParser.getStereotype(element).compareTo(newStereotype)!=0)	{
-			ChangeCommander.get().changeClassStereotype(element, newStereotype);
+		UpdateCommander.get().updateFromChange(element,false);
+		
+		ClassType newClassType = ClassType.getClassEnum(newStereotype);
+		ClassType currentClassType = ClassType.getClassEnum(element);
+		
+		if(newClassType!=currentClassType)	{
+			ChangeCommander.get().changeClassStereotype(newClassType, element);
 		}
 	}
 	
