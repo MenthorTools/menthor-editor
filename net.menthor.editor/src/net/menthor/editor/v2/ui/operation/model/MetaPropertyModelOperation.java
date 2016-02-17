@@ -2,6 +2,7 @@ package net.menthor.editor.v2.ui.operation.model;
 
 import java.text.ParseException;
 
+import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Element;
@@ -17,43 +18,71 @@ public class MetaPropertyModelOperation extends ModelOperation {
 
 	private static final long serialVersionUID = 7518976801833128513L;
 	
-	public enum MetaProperty {MULTIPLICITY, NAME, ABSTRACT, EXTENSIONAL, ESSENTIAL, INSEPARABLE, IMMUTABLE_PART, IMMUTABLE_WHOLE, SHAREABLE};
+	public enum MetaProperty {MULTIPLICITY, NAME, ABSTRACT, DERIVED, EXTENSIONAL, ESSENTIAL, INSEPARABLE, IMMUTABLE_PART, IMMUTABLE_WHOLE, SHAREABLE};
 	
 	private Element element;
-	private MetaProperty metaProperty;
+	private Meronymic meronymic;
+	private Property property;
+	private Collective collective;
+	private Classifier classifier;
+	private Association association;
+	private NamedElement namedElement;
 	
+	private MetaProperty metaProperty;
 	private Object newValue, oldValue;
 	
-	public MetaPropertyModelOperation(Element element, MetaProperty metaProperty, Object newValue){
+	private MetaPropertyModelOperation(Element element){
 		super();
 		this.operationType = OperationType.MODIFY;
-		
 		this.element = element;	
-		this.metaProperty = metaProperty;
-		this.newValue = newValue;
-		this.oldValue = getCurrentValue();
 	}
 	
+	public MetaPropertyModelOperation(Element element, MetaProperty metaProperty, Object newValue){
+		this(element);
+		this.metaProperty = metaProperty;
+		this.oldValue = getCurrentValue();
+		this.newValue = newValue;
+	}
+	
+	public MetaPropertyModelOperation(Element element, MetaProperty metaProperty){
+		this(element);
+		this.metaProperty = metaProperty;
+		this.oldValue = getCurrentValue();
+		this.newValue = !((boolean)oldValue);
+	}
+		
 	private Object getCurrentValue(){
 		switch (metaProperty) {
 			case MULTIPLICITY:
-				return RefOntoUMLFactoryUtil.getMultiplicityAsString((Property) element);
+				property = (Property) element;
+				return RefOntoUMLFactoryUtil.getMultiplicityAsString(property);
 			case NAME:
-				return ((NamedElement)element).getName();
+				namedElement = (NamedElement)element; 
+				return namedElement.getName();
 			case ABSTRACT:
-				return ((Classifier)element).isIsAbstract();
+				classifier = (Classifier)element;
+				return classifier.isIsAbstract();
 			case EXTENSIONAL:
-				return ((Collective)element).isIsExtensional();
+				collective = (Collective)element;
+				return collective.isIsExtensional();
 			case ESSENTIAL:
-				return ((Meronymic)element).isIsEssential();
+				meronymic = (Meronymic)element;
+				return meronymic.isIsEssential();
 			case INSEPARABLE:
-				return ((Meronymic)element).isIsInseparable();
+				meronymic = (Meronymic)element;
+				return meronymic.isIsInseparable();
 			case IMMUTABLE_PART:
-				return ((Meronymic)element).isIsImmutablePart();
+				meronymic = (Meronymic)element;
+				return meronymic.isIsImmutablePart();
 			case IMMUTABLE_WHOLE:
-				return ((Meronymic)element).isIsImmutableWhole();
+				meronymic = (Meronymic)element;
+				return meronymic.isIsImmutableWhole();
 			case SHAREABLE:
-				return ((Meronymic)element).isIsShareable();
+				meronymic = (Meronymic)element;
+				return meronymic.isIsShareable();
+			case DERIVED:
+				association = (Association)element;
+				return association.isIsDerived();
 		}
 		
 		return null;
@@ -69,6 +98,7 @@ public class MetaPropertyModelOperation extends ModelOperation {
 			value = newValue;
 		}
 		
+		
 		switch (metaProperty) {
 			case MULTIPLICITY:
 				try {
@@ -76,28 +106,31 @@ public class MetaPropertyModelOperation extends ModelOperation {
 				} catch (ParseException e) { }
 				break;
 			case NAME:
-				((NamedElement)element).setName((String) value);
+				namedElement.setName((String) value);
 				break;
 			case ABSTRACT:
-				((Classifier)element).setIsAbstract((boolean)value);
+				classifier.setIsAbstract((boolean)value);
 				break;
 			case EXTENSIONAL:
-				((Collective)element).setIsExtensional((boolean)value);
+				collective.setIsExtensional((boolean)value);
 				break;
 			case ESSENTIAL:
-				((Meronymic)element).setIsEssential((boolean)value);
+				meronymic.setIsEssential((boolean)value);
 				break;
 			case INSEPARABLE:
-				((Meronymic)element).setIsInseparable((boolean)value);
+				meronymic.setIsInseparable((boolean)value);
 				break;
 			case IMMUTABLE_PART:
-				((Meronymic)element).setIsImmutablePart((boolean)value);
+				meronymic.setIsImmutablePart((boolean)value);
 				break;
 			case IMMUTABLE_WHOLE:
-				((Meronymic)element).setIsImmutableWhole((boolean)value);
+				meronymic.setIsImmutableWhole((boolean)value);
 				break;
 			case SHAREABLE:
-				((Meronymic)element).setIsShareable((boolean)value);
+				meronymic.setIsShareable((boolean)value);
+				break;
+			case DERIVED:
+				association.setIsDerived((boolean)value);
 				break;
 		}
 	}

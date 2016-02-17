@@ -3,8 +3,6 @@ package net.menthor.editor.v2.commanders;
 
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
@@ -34,7 +32,6 @@ import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
-import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.model.MetaPropertyModelOperation;
 import net.menthor.editor.v2.ui.operation.model.MetaPropertyModelOperation.MetaProperty;
 
@@ -290,6 +287,59 @@ public class ChangeCommander {
 	}
 	
 	
+	// Classifier Meta-Properties
+	public void setExtensional(Object con){
+  		if (containsCollective(con)) {
+  			new MetaPropertyModelOperation(getCollective(con), MetaProperty.EXTENSIONAL).run();
+  		}
+  	}
+    
+    public void setAbstract(Object con){
+  		if (containsClassifier(con)) {
+  			new MetaPropertyModelOperation(getClassifier(con), MetaProperty.ABSTRACT).run();
+  		}
+  	}
+    
+    public void setDerived(Object con){
+    	if (containsAssociation(con)) {
+  			new MetaPropertyModelOperation(getAssociation(con), MetaProperty.DERIVED).run();
+  		}
+	}
+	
+	public void setShareable(Object con){
+		if (containsMeronymic(con)) {
+			new MetaPropertyModelOperation(getMeronymic(con), MetaProperty.SHAREABLE).run();
+		}
+	}
+	
+	public void setImmutablePart(Object con){
+		if (containsMeronymic(con)) {
+			new MetaPropertyModelOperation(getMeronymic(con), MetaProperty.IMMUTABLE_PART).run();
+		}
+	}
+	
+	public void setImmutableWhole(Object con){
+		if (containsMeronymic(con)) {
+			new MetaPropertyModelOperation(getMeronymic(con), MetaProperty.IMMUTABLE_WHOLE).run();
+		}
+	}
+	
+	public void setInseparable(Object con){
+		if (containsMeronymic(con)) {
+			new MetaPropertyModelOperation(getMeronymic(con), MetaProperty.INSEPARABLE).run();
+		}
+	}
+	
+	 public void setEssential(Object con){
+		 if (containsMeronymic(con)) {
+			 new MetaPropertyModelOperation(getMeronymic(con), MetaProperty.ESSENTIAL).run();
+		}
+	 }
+	
+	
+	
+	// THE ACTIONS BELOW (SUBSETTING AND REDEFINITION) DO NOT MAKE ANY DIRECT CHANGES IN THE MODEL 
+	
 	public void subsetsSource(final Object element){
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
@@ -306,16 +356,6 @@ public class ChangeCommander {
 		}
 	}
 	
-	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(AppFrame.get(),null, "Subsetted", endpoint, ProjectManager.get().getProject().getRefParser());
-		SwingUtilities.invokeLater(new Runnable() {						
-			@Override
-			public void run() {
-				VisibilityCommander.get().showSubsetting(association);
-			}
-		});
-	}
-	
 	public void redefinesSource(final Object element){
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
@@ -323,7 +363,7 @@ public class ChangeCommander {
 			redefines(con, endpoint);
 		}
 	}
-
+	
 	public void redefinesTarget(final Object element){
 		if(element instanceof AssociationElement){
 			AssociationElement con = (AssociationElement)element;
@@ -332,92 +372,17 @@ public class ChangeCommander {
 		}
 	}
 	
+	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
+		PropertyListEditDialog.open(AppFrame.get(),null, "Subsetted", endpoint, ProjectManager.get().getProject().getRefParser());
+		VisibilityCommander.get().showSubsetting(association);
+	}
+	
 	public void redefines(final AssociationElement association, final RefOntoUML.Property endpoint){
 		PropertyListEditDialog.open(AppFrame.get(),null, "Redefined", endpoint,ProjectManager.get().getProject().getRefParser());		
-		
-		SwingUtilities.invokeLater(new Runnable() {						
-			@Override
-			public void run() {
-				VisibilityCommander.get().showRedefinitions(association);
-			}
-		});
+		VisibilityCommander.get().showRedefinitions(association);
 	}
     
-    public void setExtensional(Object con){
-  		if (containsCollective(con)) {
-  			Collective collective = getCollective(con);
-  			collective.setIsExtensional(!collective.isIsExtensional());
-  			Notifier.get().notifyChange(null,collective);
-  		}
-  	}
-    
-    public void setAbstract(Object con){
-  		if (containsClassifier(con)) {
-  			Classifier classifier = getClassifier(con);
-  			classifier.setIsAbstract(!classifier.isIsAbstract());
-  			Notifier.get().notifyChange(null,classifier);
-  		}
-  	}
-    
-    public void setDerived(Object con){
-		if (containsAssociation(con)) {
-			Association association = getAssociation(con);
-			association.setIsDerived(!association.isIsDerived());
-			Notifier.get().notifyChange(null,association);
-		}
-	}
-	
-	public void setShareable(Object con){
-		if (containsMeronymic(con)) {
-			Meronymic meronymic = getMeronymic(con);
-			meronymic.setIsShareable(!meronymic.isIsShareable());
-			Notifier.get().notifyChange(null,meronymic);
-		}
-	}
-	
-	public void setImmutablePart(Object con){
-		if (containsMeronymic(con)) {
-			Meronymic meronymic = getMeronymic(con);
-			meronymic.setIsImmutablePart(!meronymic.isIsImmutablePart());
-			Notifier.get().notifyChange(null,meronymic);
-		}
-	}
-	
-	public void setImmutableWhole(Object con){
-		if (containsMeronymic(con)) {
-			Meronymic meronymic = getMeronymic(con);
-			meronymic.setIsImmutableWhole(!meronymic.isIsImmutableWhole());
-			Notifier.get().notifyChange(null,meronymic);
-		}
-	}
-	
-	public void setInseparable(Object con){
-		if (containsMeronymic(con)) {
-			Meronymic meronymic = getMeronymic(con);
-			
-			meronymic.setIsInseparable(!meronymic.isIsInseparable());
-			//inserparable implies immutableWhole
-			if(meronymic.isIsInseparable())
-				meronymic.setIsImmutableWhole(true);
-			
-			Notifier.get().notifyChange(null,meronymic);
-		}
-	}
-	
-	 public void setEssential(Object con){
-		 if (containsMeronymic(con)) {
-				Meronymic meronymic = getMeronymic(con);
-				
-				meronymic.setIsEssential(!meronymic.isIsEssential());
-				//inserparable implies immutableWhole
-				if(meronymic.isIsEssential())
-					meronymic.setIsImmutablePart(true);
-				
-				Notifier.get().notifyChange(null,meronymic);
-			}
-		}
-	
-	
+
 	// HELPERS 
 	
 	private boolean containsClassifier(Object diagramElement){
