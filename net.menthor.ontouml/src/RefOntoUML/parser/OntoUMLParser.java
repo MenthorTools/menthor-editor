@@ -1424,6 +1424,19 @@ public class OntoUMLParser {
 		return genList;
 	}
 	
+	public List<Element> getDirectRelationships(List<Element> requestedList){		
+		List<Element> result = new ArrayList<Element>();
+		for (Element elem : requestedList){			
+			List<Relationship> list1 = getDirectRelationships(elem);			
+			list1.removeAll(requestedList);
+			for(Element e: list1) { 
+				if(!result.contains(e)) result.add(e); 
+			}
+		}
+		return result;
+	}
+	
+		
 	/** Return all selected, direct relationships (i.e. generalizations and associations) of a given element */
 	public ArrayList<Relationship> getDirectRelationships(EObject eObject)
 	{

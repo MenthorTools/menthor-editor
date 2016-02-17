@@ -13,6 +13,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
@@ -139,7 +140,8 @@ public class DeleteCommander extends GenericCommander {
 	public void deleteElements(List<RefOntoUML.Element> elements){		
 		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
 		if(editors==null || editors.size()==0) {			
-			DeleteModelOperation cmd = new DeleteModelOperation(elements);
+			OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+			DeleteModelOperation cmd = new DeleteModelOperation(refparser, elements);
 			cmd.run();			
 			return;
 		}

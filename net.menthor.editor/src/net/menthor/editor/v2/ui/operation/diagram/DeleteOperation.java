@@ -10,6 +10,7 @@ import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
 import net.menthor.editor.v2.managers.OccurenceManager;
+import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
 
@@ -29,14 +30,14 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	private List<ParentChildRelation> indirectParentRelations = new ArrayList<ParentChildRelation>();
 	
 	public DeleteOperation(OntoumlEditor editor, List<Element> theElements, boolean onlyFromDiagram)	{
-		super(theElements);
+		super(ProjectManager.get().getProject().getRefParser(),theElements);
 		this.ontoumlEditor = editor;	
 		this.onlyFromDiagram = onlyFromDiagram;
 		if(ontoumlEditor!=null) parent = ontoumlEditor.getDiagram();
 		if(parent!=null){
-			requestedDiagramElementList.addAll(OccurenceManager.get().getDiagramElements(requestedList, parent));
-			directConnectionsList.addAll(OccurenceManager.get().getDiagramElements(directRelationshipsList, parent));		
-			indirectConnectionsList.addAll(OccurenceManager.get().getDiagramElements(indirectRelationshipsList, parent));
+			requestedDiagramElementList.addAll(OccurenceManager.get().getDiagramElements(getChain().getRequested(), parent));
+			directConnectionsList.addAll(OccurenceManager.get().getDiagramElements(getChain().getDirectRelationshipDependencies(), parent));		
+			indirectConnectionsList.addAll(OccurenceManager.get().getDiagramElements(getChain().getIndirectRelationshipDependencies(), parent));
 		}		
 		for (DiagramElement elem : requestedDiagramElementList){
 			requestedParentRelations.add(new ParentChildRelation(elem, elem.getParent()));

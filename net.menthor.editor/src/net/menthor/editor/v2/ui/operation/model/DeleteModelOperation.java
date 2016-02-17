@@ -2,10 +2,7 @@
 
 package net.menthor.editor.v2.ui.operation.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -13,9 +10,8 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.ProjectManager;
+
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
@@ -24,63 +20,20 @@ public class DeleteModelOperation extends ModelOperation {
 
 	private static final long serialVersionUID = 3798222350326038273L;
 
-	/** requested list for deletion */
-	protected List<Element> requestedList= new ArrayList<Element>();
-	
-	/** not requested for deletion but connected to some of the elements requested  */
-	protected List<Element> directRelationshipsList = new ArrayList<Element>(); 
-	
-	/** not requested but connected to an element which is also connected to a requested element */
-	protected List<Element> indirectRelationshipsList = new ArrayList<Element>();
-	
-	/** remaining empty generalization sets to be deleted afterwards */
-	protected List<GeneralizationSet> remainingEmptyGenSets = new ArrayList<GeneralizationSet>();
-	
-	/** generalizations to be deleted with their generalization sets */
-	protected Map<GeneralizationSet, Generalization> deletedGenMap = new HashMap<GeneralizationSet,Generalization>();
-	
-	/** generalization sets to be deleted with their generalizations */
-	protected Map<Generalization, GeneralizationSet> deletedGenSetMap = new HashMap<Generalization,GeneralizationSet>();
-	
-	public List<Element> getAllElements(){
-		List<Element> result = new ArrayList<>();
-		result.addAll(requestedList);
-		result.addAll(indirectRelationshipsList);
-		result.addAll(directRelationshipsList);
-		return result;
-	}
-			
+	protected ElementsDependencyChain depChain = new ElementsDependencyChain();
+				
 	public DeleteModelOperation(){
 		super();
 		this.operationType = OperationType.DELETE;
 	}
 	
-	public DeleteModelOperation(List<Element> elements){
-		this();
-		requestedList.addAll(elements);	
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
-		for (Element elem : requestedList){
-			
-			//get relationships which were not requested for deletion
-			//but which are connected to some of the elements requested
-			List<Relationship> list1 = refparser.getDirectRelationships(elem);			
-			list1.removeAll(requestedList);
-			for(Element e: list1) { 
-				if(!directRelationshipsList.contains(e)) directRelationshipsList.add(e); 
-			}	
-			
-			//get relationships which were not requested and which are not in the list of direct dependency
-			//such as derivations or any other relationship between relationship		
-			for(Element r: directRelationshipsList){ 
-				List<Relationship> list2 = refparser.getDirectRelationships(r);
-				list2.removeAll(requestedList);
-				list2.removeAll(directRelationshipsList);
-				for(Element e: list2){
-					if(!indirectRelationshipsList.contains(e)) indirectRelationshipsList.add(e);						
-				}				
-			}	
-		}			
-	}
+	public DeleteModelOperation(OntoUMLParser refparser, List<Element> elements){
+		this();		
+		depChain.lookupForDependencies(refparser, elements);					
+	}	
+	
+	public List<Element> getAllElements(){ return depChain.getAll(); }
+	public ElementsDependencyChain getChain(){ return depChain; }
 	
 	@Override
 	public void undo(){		
@@ -96,62 +49,33 @@ public class DeleteModelOperation extends ModelOperation {
 	
 	protected void undoWithoutNotifying(){	
 		super.undo();		
-		undoDelete(requestedList);
-		undoDelete(indirectRelationshipsList);
-		undoDelete(directRelationshipsList);
+		undoDelete(depChain.getRequested());
+		undoDelete(depChain.getDirectRelationshipDependencies());
+		undoDelete(depChain.getIndirectRelationshipDependencies());
 	}
 	
 	protected void runWithoutNotifying(){
 		super.run();
-		delete(indirectRelationshipsList);
-		delete(directRelationshipsList);
-		delete(requestedList);
-	}
-	
-	private void delete (RefOntoUML.Element elem){		
-		System.out.println(runMessage(elem));
-		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
-		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
-		domain.getCommandStack().execute(emfCommand);		
-	}
-
-	private void undoDelete (RefOntoUML.Element elem){		
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
-		System.out.println(undoMessage(elem));
-	}
-	
-	@Override
-	public String undoMessage(){
-		if(requestedList.size()==0) return super.undoMessage();
-		return super.undoMessage()+asString(getAllElements())+" from "+getAllElements().get(0).eContainer();
-	}
-	
-	public String undoMessage(Element element){
-		return super.undoMessage()+element+" from "+element.eContainer();
-	}
-	
-	@Override
-	public String runMessage(){
-		if(requestedList.size()==0) return super.runMessage();
-		return super.runMessage()+asString(getAllElements())+" from "+getAllElements().get(0).eContainer();
-	}
-	
-	public String runMessage(Element element){
-		return super.runMessage()+element+" from "+element.eContainer();
+		delete(depChain.getIndirectRelationshipDependencies());
+		delete(depChain.getDirectRelationshipDependencies());
+		delete(depChain.getRequested());
 	}
 	
 	private void delete(List<RefOntoUML.Element> elemList){	
 		deleteFirstElements(elemList);		
 		deleteRelationships(elemList);	
 		deleteTypes(elemList);
+		deleteEmptyGeneralizationSets();
 	}
-	
+		
 	private void undoDelete(List<Element> elemList){
+		undoEmptyGeneralizationSets();
 		undoTypes(elemList);		
-		undoRelationships(elemList);
-		undoGeneralizationSets(elemList);
+		undoRelationships(elemList);		
 		undoLastElements(elemList);
 	}
+	
+	//----- auxiliary delete/undo methods ------
 	
 	/** delete derivations, constraints, comments and generalization sets */
 	private void deleteFirstElements(List<RefOntoUML.Element> elemList){	
@@ -168,16 +92,9 @@ public class DeleteModelOperation extends ModelOperation {
 		for(Element elem: elemList) {
 			if (elem instanceof RefOntoUML.Derivation)  undoDelete(elem); 
 			if (elem instanceof RefOntoUML.Comment) undoDelete(elem);
-			if (elem instanceof RefOntoUML.Constraintx) undoDelete(elem);					
+			if (elem instanceof RefOntoUML.Constraintx) undoDelete(elem);
+			if (elem instanceof RefOntoUML.GeneralizationSet) undoGeneralizationSet((GeneralizationSet)elem);			
 		}	
-	}
-	
-	private void undoGeneralizationSets(List<Element> elemList){		
-		for(Element elem: elemList) {			
-			if (elem instanceof RefOntoUML.GeneralizationSet) {			
-				undoGeneralizationSet((GeneralizationSet)elem);			
-			}
-		}
 	}
 	
 	/** delete associations and generalizations */
@@ -210,69 +127,91 @@ public class DeleteModelOperation extends ModelOperation {
 		}
 	}
 	
+	private void deleteEmptyGeneralizationSets(){				
+		for(GeneralizationSet gs: depChain.getEmptyGeneralizationSets()){
+			deleteGeneralizationSet(gs);
+		}
+	}
+	
+	private void undoEmptyGeneralizationSets(){				
+		for(GeneralizationSet gs: depChain.getEmptyGeneralizationSets()){
+			undoGeneralizationSet(gs);
+		}
+	}
+	
 	/** delete a generalization along with its generalization sets */
 	private void deleteGeneralization(Generalization gen){		
-		//decouple generalization and its generalization sets		
-		for(GeneralizationSet genSet: gen.getGeneralizationSet()) {			
-			deletedGenMap.put(genSet,gen);
-		}
-		for(GeneralizationSet genSet: deletedGenMap.keySet()) { 
-			genSet.getGeneralization().remove(gen); 
-			gen.getGeneralizationSet().remove(genSet); 
-		}		
-		//delete remaining empty generalization sets		
-		for(GeneralizationSet genSet: deletedGenMap.keySet()) {
-			if(genSet.getGeneralization().size()==0) remainingEmptyGenSets.add(genSet);
-		}				
-		for(GeneralizationSet genSet: remainingEmptyGenSets) {
-			deleteGeneralizationSet(genSet);			
-		}		
+		//delete the dependency between this generalization and its generalization set
+		GeneralizationSet genSet = depChain.getGeneralizationSet(gen); 
+		genSet.getGeneralization().remove(gen); 
+		gen.getGeneralizationSet().remove(genSet);
+		
 		delete(gen);
 	}
 	
 	/** undo deletion of a generalization with its generalization sets */
 	private void undoGeneralization(Generalization gen){
-		undoDelete(gen);		
-		//undo empty generalization sets that were emptied
-		List<GeneralizationSet> genSetsForAddition = new ArrayList<GeneralizationSet>();
-		for(GeneralizationSet genSet: remainingEmptyGenSets) {
-			if(genSet.getGeneralization().size()==0) genSetsForAddition.add(genSet);
-		}	
-		for(GeneralizationSet genSet: genSetsForAddition) {
-			undoGeneralizationSet(genSet);			
-		}		
-		//couple generalization and its generalization sets again
-		List<GeneralizationSet> genSets = new ArrayList<GeneralizationSet>();
-		for(GeneralizationSet genSet: deletedGenMap.keySet()) {			
-			genSets.add(genSet);
-		}
-		for(GeneralizationSet genSet: genSets) { 
-			genSet.getGeneralization().add(gen); 
-			gen.getGeneralizationSet().add(genSet); 		
-		}
+		undoDelete(gen);	
+
+		GeneralizationSet genSet = depChain.getGeneralizationSet(gen);
+		genSet.getGeneralization().add(gen); 
+		gen.getGeneralizationSet().add(genSet);		
 	}
 	
 	/** delete generalization set along with its generalizations */
 	private void deleteGeneralizationSet(GeneralizationSet elem){
-		//decouple generalization sets and its generalizations before deletion
-		for(Generalization gen: ((GeneralizationSet)elem).getGeneralization()){				
-			if(gen!=null) deletedGenSetMap.put(gen,elem);			
-		}			
-		((GeneralizationSet)elem).getGeneralization().removeAll(deletedGenSetMap.keySet());		
-		for(Generalization gen: deletedGenSetMap.keySet()){
-			gen.getGeneralizationSet().remove(elem);			
-		}		
+		//erase the dependencies between generalizations of the model that pointed to this genSet				
+		for(Generalization gen: depChain.getGeneralizations(elem)){
+			gen.getGeneralizationSet().remove(elem);
+			((GeneralizationSet)elem).getGeneralization().remove(gen);
+		}				
 		delete(elem);		
 	}
 	
 	/** undo deletion of a generalization set with its generalizations */
 	private void undoGeneralizationSet(GeneralizationSet elem){
-		undoDelete(elem);
-		
-		//couple generalization set and its generalizations again
-		((GeneralizationSet)elem).getGeneralization().addAll(deletedGenSetMap.keySet());		
-		for(Generalization gen: deletedGenSetMap.keySet()) {
-			gen.getGeneralizationSet().add(elem);			
+		undoDelete(elem);		
+		//bring back the dependencies between the generalizations of the model that pointed to this genSet				
+		for(Generalization gen: depChain.getGeneralizations(elem)) {
+			gen.getGeneralizationSet().add(elem);	
+			((GeneralizationSet)elem).getGeneralization().add(gen);
 		}
 	}	
+	
+	//------- real deletion happens here -------
+	
+	private void delete (RefOntoUML.Element elem){		
+		System.out.println(runMessage(elem));		
+		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
+		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
+		domain.getCommandStack().execute(emfCommand);		
+	}
+
+	private void undoDelete (RefOntoUML.Element elem){		
+		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		System.out.println(undoMessage(elem));
+	}
+	
+	//------- undo & redo messages -------
+	
+	@Override
+	public String undoMessage(){
+		if(depChain.getRequested().size()==0) return super.undoMessage();
+		return super.undoMessage()+asString(getAllElements())+" from "+getAllElements().get(0).eContainer();
+	}
+	
+	public String undoMessage(Element element){
+		return super.undoMessage()+element+" from "+element.eContainer();
+	}
+	
+	@Override
+	public String runMessage(){
+		if(depChain.getRequested().size()==0) return super.runMessage();
+		return super.runMessage()+asString(getAllElements())+" from "+getAllElements().get(0).eContainer();
+	}
+	
+	public String runMessage(Element element){
+		return super.runMessage()+element+" from "+element.eContainer();
+	}
+		
 }
