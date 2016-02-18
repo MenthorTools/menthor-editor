@@ -24,8 +24,7 @@ public class AppSplitPane extends GenericMultiSplitPane {
     // ----------------------------
 	    
 	private AppMenuBar appMenu;
-	
-	
+		
 	public boolean isShowPalette(){
 		return isShowLeftPane();
 	}

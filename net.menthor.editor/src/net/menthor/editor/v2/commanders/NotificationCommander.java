@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.operation;
+package net.menthor.editor.v2.commanders;
 
 /**
  * ============================================================================================
@@ -24,82 +24,53 @@ package net.menthor.editor.v2.ui.operation;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.undo.UndoManager;
-import javax.swing.undo.UndoableEdit;
-
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
-import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.AppBrowser;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.operation.ActionType;
+import net.menthor.editor.v2.ui.operation.GenericOperation;
+import net.menthor.editor.v2.ui.operation.IDiagramOperation;
+import net.menthor.editor.v2.ui.operation.OperationType;
 import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
 
-public class Notifier {
+public class NotificationCommander {
 
 	// -------- Lazy Initialization
 	
 	private static class NotificationLoader {
-        private static final Notifier INSTANCE = new Notifier();
+        private static final NotificationCommander INSTANCE = new NotificationCommander();
     }	
-	public static Notifier get() { 
+	public static NotificationCommander get() { 
 		return NotificationLoader.INSTANCE; 
 	}	
-    private Notifier() {
-    	editListeners.add(undoManager);
+    private NotificationCommander() {
         if (NotificationLoader.INSTANCE != null) throw new IllegalStateException("Notifier already instantiated");
     }		
     
-    // ----------------------------
-    
-	private List<UndoableEditListener> editListeners = new ArrayList<UndoableEditListener>();
-	private UndoManager undoManager = new UndoManager(); 
-	
-	public UndoManager getUndoManager(){ return undoManager; }		
-	public List<UndoableEditListener> getUndoableEditListeners(){ return editListeners; }
-	
-	//--- undo & redo ---
-	
-	public void undo(){	
-		if(getUndoManager().canUndo()) getUndoManager().undo();						
-		else AppMessageManager.get().showInfo("Cannot Undo", "No other action to be undone.\n\n");
-	}
-	
-	public void redo(){	
-		if(getUndoManager().canRedo()) getUndoManager().redo();						
-		else AppMessageManager.get().showInfo("Cannot Redo", "No other action to be redone.\n\n");
-	}
-	
-	//--- Notify application ---
+    //--- Notify application ---
 	
 	public void notifyViewChange(GenericOperation op, List<DiagramElement> elements){
-		registerUndoableOperation(op);
 		notifyDiagrams(elements);
 		reportStatus(op, elements);
 	}
 	
 	public void notifyViewChange(final GenericOperation op, final DiagramElement element){
-		registerUndoableOperation(op);		
 		notifyDiagrams(element);
 		reportStatus(op, element);		
 	}
 	
 	public void notifyChange(final GenericOperation op, final List<Element> elements){		
-		registerUndoableOperation(op);
 		notifyDiagrams(elements);			
 		notifyApplication(op, elements);		
 		reportStatus(op, elements);	
 	}
 	
 	public void notifyChange(final GenericOperation op, final Element element){		
-		registerUndoableOperation(op);		
 		notifyDiagrams(element);
 		notifyApplication(op, element);
 		reportStatus(op, element);		
@@ -209,25 +180,7 @@ public class Notifier {
 		return actionType;
 	}
 	
-	//--- register undoable event ---
 	
-	private void registerUndoableOperation(GenericOperation op){
-		ActionType actionType = getActionType(op);
-		if(op instanceof ModelOperation) {
-			registerUndoableEvent(AppBrowser.get(), op, actionType);
-		}
-		if(op instanceof IDiagramOperation) {
-			registerUndoableEvent(((IDiagramOperation)op).getOntoumlEditor(), op, actionType);
-		}
-	}
-	
-	private void registerUndoableEvent(Object sourceComponent, UndoableEdit op, ActionType actionType){
-		if(op !=null && actionType!=ActionType.UNDO){			
-			UndoableEditEvent event = new UndoableEditEvent(sourceComponent, op);
-			for (UndoableEditListener l : getUndoableEditListeners())  l.undoableEditHappened(event);
-		}
-	}
-
 	//--- status ---
 	
 	private void reportStatus(GenericOperation op, Object element){	

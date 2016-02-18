@@ -150,8 +150,7 @@ public class AppTabManager extends AppGenericManager {
 					return ((OntoumlWrapper)c).getDiagramEditor();
 			}
 		}
-		OntoumlEditor editor = new OntoumlEditor(frame(),listener(), editorsPane(),diagram);
-		editor.addAppCommandListener(listener());
+		OntoumlEditor editor = new OntoumlEditor(frame(),listener(), editorsPane(),diagram);		
 		return editor;
 	}
 	
@@ -398,7 +397,6 @@ public class AppTabManager extends AppGenericManager {
 	
 	public OntoumlEditor addDiagramEditor(OntoumlDiagram diagram){		
 		OntoumlEditor editor = new OntoumlEditor(frame(), listener(), editorsPane(), diagram);	
-		editor.addAppCommandListener(listener());
 		OccurenceManager.get().add(editor.getDiagram());
 		OntoumlWrapper wrapper = new OntoumlWrapper(editor, listener());
 		editor.setWrapper(wrapper);

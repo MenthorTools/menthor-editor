@@ -65,7 +65,8 @@ import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.operation.Notifier;
+import net.menthor.editor.v2.ui.editor.mode.SelectMode;
+import net.menthor.editor.v2.ui.operation.ActionStack;
 
 public class CommandMap {
 	
@@ -177,15 +178,17 @@ public class CommandMap {
 	
 	private void edit() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.REDO,
-				new MethodCall(Notifier.class.getMethod("redo")));
+				new MethodCall(ActionStack.class.getMethod("redo")));
 		cmdMap.put(CommandType.UNDO,
-				new MethodCall(Notifier.class.getMethod("undo")));
+				new MethodCall(ActionStack.class.getMethod("undo")));
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateCommander.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
 				new MethodCall(ClipboardMode.class.getMethod("cloneSelectedAndPutToClipboard")));
 		cmdMap.put(CommandType.PASTE,
 				new MethodCall(ClipboardMode.class.getMethod("pasteClipboard")));
+		cmdMap.put(CommandType.SELECT_ALL,
+				new MethodCall(SelectMode.class.getMethod("selectAll")));
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(RenameCommander.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
@@ -429,9 +432,6 @@ public class CommandMap {
 	private void diagramEditor() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_GRID,
 				new MethodCall(OntoumlEditor.class.getMethod("showGrid")));
-		
-		cmdMap.put(CommandType.SELECT_ALL_DIAGRAM,
-				new MethodCall(OntoumlEditor.class.getMethod("selectAll")));
 		cmdMap.put(CommandType.REDRAW_DIAGRAM,
 				new MethodCall(OntoumlEditor.class.getMethod("redraw")));
 		cmdMap.put(CommandType.FIT_TO_WINDOW,

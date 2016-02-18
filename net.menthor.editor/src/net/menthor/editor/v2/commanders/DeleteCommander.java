@@ -21,6 +21,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
 import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
 
@@ -161,9 +162,8 @@ public class DeleteCommander extends GenericCommander {
 	}
 	
 	/** Deletes currently selected elements from the model and all diagrams they appear in */
-	public void deleteCurrentSelection(){
-		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
-		deleteElements(editor.getSelectedElements(),true);
+	public void deleteCurrentSelection(){		
+		deleteElements(SelectMode.get().getSelectedElements(),true);
 	}
 	
 	/** Delete a generalization set from a list of selected diagram elements */
@@ -223,7 +223,7 @@ public class DeleteCommander extends GenericCommander {
 	/** Deletes currently selected elements from the current diagram */
 	public void deleteCurrentSelectionFromDiagram(){
 		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
-		deleteFromDiagram(editor, editor.getSelectedElements());
+		deleteFromDiagram(editor, SelectMode.get().getSelectedElements());
 	}
 	
 	/** Delete all elements at the diagram */
@@ -234,7 +234,7 @@ public class DeleteCommander extends GenericCommander {
 	
 	/** Delete generalization Set from selected elements in the diagram */
 	public void deleteGeneralizationSet(){
-		Collection<DiagramElement> diagramElementsList = currentEditor().getSelectedElements();
+		Collection<DiagramElement> diagramElementsList = SelectMode.get().getSelectedElements();
 		deleteGeneralizationSet(diagramElementsList);
 	}
 	

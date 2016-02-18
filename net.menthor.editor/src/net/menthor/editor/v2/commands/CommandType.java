@@ -57,7 +57,7 @@ public enum CommandType {
 	NEW_DIAGRAM("Create a new class diagram"), 
 	CLOSE_DIAGRAM_EDITOR("Close current class diagram"),	
 	REDRAW_DIAGRAM("Redraw the current class diagram"),
-	SELECT_ALL_DIAGRAM("Select all elements on current diagram"),
+	SELECT_ALL("Select all elements on current diagram"),
 	EXPORT_TO_PNG("<html>Save diagram as PNG<br><br>TIP: Move your diagram as close as possible <br>to the upper left side of the grid.</hmtl>"),
 	SHOW_GRID("Show grid in the diagram"),
 	FIT_TO_WINDOW("Fit the diagram into the visible area of the grid"), 

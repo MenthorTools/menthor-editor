@@ -25,11 +25,13 @@ import java.util.List;
 
 import javax.swing.undo.AbstractUndoableEdit;
 
+import net.menthor.editor.v2.commanders.NotificationCommander;
+
 public abstract class GenericOperation extends AbstractUndoableEdit implements IUndoableOperation {
 
 	private static final long serialVersionUID = 2761186015906877743L;
 	
-	protected Notifier notifier = Notifier.get();
+	protected NotificationCommander notifier = NotificationCommander.get();
 	protected OperationType operationType;
 	protected ActionType actionType;
 	
@@ -52,6 +54,7 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	@Override
 	public void undo(){
 		actionType = ActionType.UNDO;
+		ActionStack.get().register(this);
 		super.undo();		
 	}
 	
@@ -64,6 +67,7 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	
 	public void run(){
 		actionType = ActionType.DO;
+		ActionStack.get().register(this);
 	}
 	
 	public String runMessage(){
@@ -85,16 +89,14 @@ public abstract class GenericOperation extends AbstractUndoableEdit implements I
 	public boolean isUndo(){
 		if(actionType!=null && actionType==ActionType.UNDO){
 			return true;
-		}
-		
+		}		
 		return false;
 	}
 	
 	public boolean isDo(){
 		if(actionType!=null && actionType==ActionType.DO){
 			return true;
-		}
-		
+		}		
 		return false;
 	}
 }

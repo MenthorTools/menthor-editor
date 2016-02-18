@@ -45,7 +45,8 @@ import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
-import net.menthor.editor.v2.ui.operation.Notifier;
+import net.menthor.editor.v2.ui.editor.mode.SelectMode;
+import net.menthor.editor.v2.ui.operation.ActionStack;
 
 public class AppCmdListener implements ICommandListener {
 
@@ -135,6 +136,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ClipboardMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ConnectMode.class){
 				return methodcall.call(ConnectMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == SelectMode.class){
+				return methodcall.call(SelectMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ColorCommander.class){
 				return methodcall.call(ColorCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == AppCursorManager.class){
@@ -177,8 +180,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(ParthoodFeature.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ProjectManager.class){
 				return methodcall.call(ProjectManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == Notifier.class){
-				return methodcall.call(Notifier.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ActionStack.class){
+				return methodcall.call(ActionStack.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
 				return methodcall.call(RemakeManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RenameCommander.class){

@@ -29,6 +29,7 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
 
+import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -111,8 +112,8 @@ public class AlignOperation extends DiagramOperation {
 	}
 	
 	private void alignBottom(OntoumlEditor de){		
-		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
-		ClassElement atbottom = de.getClassElementAtBottom(classElements);						
+		List<ClassElement> classElements = new ArrayList<ClassElement>(SelectMode.get().getSelectedClassElements());		
+		ClassElement atbottom = SelectMode.get().getNodeAtBottom(classElements);						
 		if(atbottom!=null){
 			double atbottomY2 = atbottom.getAbsoluteY2();
 			for(ClassElement element: classElements){					
@@ -126,8 +127,8 @@ public class AlignOperation extends DiagramOperation {
 	}
 	
 	private void alignTop(OntoumlEditor de){		
-		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
-		ClassElement attop = de.getClassElementAtTop(classElements);						
+		List<ClassElement> classElements = new ArrayList<ClassElement>(SelectMode.get().getSelectedClassElements());		
+		ClassElement attop = SelectMode.get().getNodeAtTop(classElements);						
 		if(attop!=null){
 			double attopY1 = attop.getAbsoluteY1();
 			for(ClassElement element: classElements){					
@@ -140,8 +141,8 @@ public class AlignOperation extends DiagramOperation {
 	}	
 	
 	private void alignLeft(OntoumlEditor de){		
-		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
-		ClassElement atleft = de.getClassElementAtLeft(classElements);				
+		List<ClassElement> classElements = new ArrayList<ClassElement>(SelectMode.get().getSelectedClassElements());		
+		ClassElement atleft = SelectMode.get().getNodeAtLeft(classElements);				
 		if(atleft!=null){
 			double atrightX1 = atleft.getAbsoluteX1();
 			for(ClassElement element: classElements){					
@@ -154,8 +155,8 @@ public class AlignOperation extends DiagramOperation {
 	}
 	
 	private void alignRight(OntoumlEditor de){		
-		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
-		ClassElement atright = de.getClassElementAtRight(classElements);				
+		List<ClassElement> classElements = new ArrayList<ClassElement>(SelectMode.get().getSelectedClassElements());		
+		ClassElement atright = SelectMode.get().getNodeAtRight(classElements);				
 		if(atright!=null){
 			double atrightX2 = atright.getAbsoluteX2();
 			for(ClassElement element: classElements){					
@@ -169,7 +170,7 @@ public class AlignOperation extends DiagramOperation {
 	}
 		
 	private void alignCenterVertically(OntoumlEditor de){		
-		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(SelectMode.get().getSelectedClassElements());		
 		if (classElements.size() > 0){
 			ArrayList<Double> coordList = new ArrayList<Double>();			
 			for(DiagramElement elements: classElements){				
@@ -193,7 +194,7 @@ public class AlignOperation extends DiagramOperation {
 	}
 
 	protected void alignCenterHorizontally (OntoumlEditor de){		
-		List<ClassElement> classElements = new ArrayList<ClassElement>(de.getSelectedClassElements());		
+		List<ClassElement> classElements = new ArrayList<ClassElement>(SelectMode.get().getSelectedClassElements());		
 		if (classElements.size() > 0){
 			ArrayList<Double> coordList = new ArrayList<Double>();			
 			for(ClassElement element: classElements){				

@@ -51,6 +51,7 @@ import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
 import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 
 public class MoveCommander {
@@ -105,7 +106,7 @@ public class MoveCommander {
 				AppMessageManager.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());
-			if(de!=null) d.select(de);
+			if(de!=null) SelectMode.get().select(de);
 			return;			
 		}
 		if((element instanceof RefOntoUML.Class) || (element instanceof RefOntoUML.DataType)){			

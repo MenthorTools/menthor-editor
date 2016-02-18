@@ -1,8 +1,8 @@
 package net.menthor.editor.v2.ui.operation.model;
 
 import RefOntoUML.NamedElement;
+import net.menthor.editor.v2.commanders.NotificationCommander;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
-import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
 public class RenameModelOperation extends ModelOperation {
@@ -36,13 +36,13 @@ public class RenameModelOperation extends ModelOperation {
 	@Override
 	public void undo() {
 		undoWithoutNotifying();
-		Notifier.get().notifyChange(this, namedElement);
+		NotificationCommander.get().notifyChange(this, namedElement);
 	}
 	
 	@Override
 	public void run() {
 		runWithoutNotifying();
-		Notifier.get().notifyChange(this, namedElement);
+		NotificationCommander.get().notifyChange(this, namedElement);
 	}
 	
 	public void undoWithoutNotifying(){

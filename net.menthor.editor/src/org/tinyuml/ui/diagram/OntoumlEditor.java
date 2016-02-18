@@ -1,3 +1,4 @@
+
 package org.tinyuml.ui.diagram;
 
 /**
@@ -39,7 +40,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -58,19 +58,20 @@ import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DiagramOperations;
 import org.tinyuml.draw.DrawingContext.FontType;
+import org.tinyuml.draw.IEditField;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LineStyle;
 import org.tinyuml.draw.MoveOperation;
 import org.tinyuml.draw.MultiLineLabel;
+import org.tinyuml.draw.MultilineEditField;
 import org.tinyuml.draw.Node;
 import org.tinyuml.draw.NodeChangeListener;
 import org.tinyuml.draw.NullElement;
 import org.tinyuml.draw.RectilinearConnection;
 import org.tinyuml.draw.Scaling;
 import org.tinyuml.draw.SimpleConnection;
+import org.tinyuml.draw.SingleLineEditField;
 import org.tinyuml.draw.TreeConnection;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
@@ -85,7 +86,6 @@ import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
@@ -109,16 +109,15 @@ import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
 import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
+import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
+import net.menthor.editor.v2.ui.operation.ActionStack;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
-import net.menthor.editor.v2.ui.operation.Notifier;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
-import net.menthor.editor.v2.ui.operation.diagram.LineStyleOperation;
 import net.menthor.editor.v2.ui.operation.diagram.EditPointsOperation;
-import net.menthor.editor.v2.ui.operation.diagram.ReadingDesignOperation;
+import net.menthor.editor.v2.ui.operation.diagram.LineStyleOperation;
 import net.menthor.editor.v2.ui.operation.diagram.RenameLabelOperation;
-import net.menthor.editor.v2.ui.operation.diagram.ResetPointsOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ResizeOperation;
 import net.menthor.editor.v2.ui.operation.diagram.TranslateOperation;
 import net.menthor.editor.v2.util.DrawUtil;
@@ -142,13 +141,12 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	private AppEditorsPane diagramManager;
 	private OntoumlWrapper wrapper;
 	
-	private Notifier notificator = Notifier.get();
+	private ActionStack actionStack = ActionStack.get();
 	private transient IEditorMode editorMode;
-	private transient SelectionHandler selectionHandler;
+	//private transient SelectionMode selectionHandler;
 	
-	//public Notifier getNotificator(){ return notificator; }
 	public IEditorMode getEditorMode(){ return editorMode; }
-	public SelectionHandler getSelectionHandler(){ return selectionHandler; }
+	//public SelectionMode getSelectionHandler(){ return selectionHandler; }
 	
 	private transient Scaling scaling = Scaling.SCALING_100;		
 	private static final double MARGIN_TOP=0;
@@ -165,8 +163,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	
 	// To edit the captions in the diagram. 
-	private CaptionEditor captionEditor = new CaptionEditor(this);
-	private MultilineEditor multilineEditor = new MultilineEditor();
+	private SingleLineEditField captionEditor = new SingleLineEditField();
+	private MultilineEditField multilineEditor = new MultilineEditField();
 	
 	// This is the root of the shape hierarchy. 
 	private StructureDiagram diagram;
@@ -197,9 +195,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * Initializes the transient editor members.
 	 */
 	private void initEditorMembers() 
-	{		
-		selectionHandler = new SelectionHandler(this);
-		editorMode = selectionHandler;
+	{	
+		editorMode = SelectMode.get();
 		mouseEvent = new EditorMouseEvent();
 		scaling = Scaling.SCALING_100;
 	}
@@ -241,8 +238,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		
 		add(captionEditor);
 		add(multilineEditor);		
-		captionEditor.getDocument().addUndoableEditListener(notificator.getUndoManager());
-		multilineEditor.getDocument().addUndoableEditListener(notificator.getUndoManager());
+		captionEditor.getDocument().addUndoableEditListener(actionStack.getUndoManager());
+		multilineEditor.getDocument().addUndoableEditListener(actionStack.getUndoManager());
 		this.diagram.setOrigin(MARGIN_LEFT, MARGIN_TOP);
 
 		installHandlers();
@@ -352,7 +349,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			/** {@inheritDoc} */
 			public void actionPerformed(ActionEvent e) { 
 				if(OntoumlEditor.this.isFocusable()){
-					Collection<DiagramElement> diagramElementsList = getSelectedElements();
+					Collection<DiagramElement> diagramElementsList = SelectMode.get().getSelectedElements();
 					DeleteCommander.get().deleteFromDiagram(OntoumlEditor.this,diagramElementsList);
 				}
 			}
@@ -363,7 +360,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			/** {@inheritDoc} */
 			public void actionPerformed(ActionEvent e) { 
 				if(OntoumlEditor.this.isFocusable()){
-					Collection<DiagramElement> diagramElementsList = getSelectedElements();
+					Collection<DiagramElement> diagramElementsList = SelectMode.get().getSelectedElements();
 					DeleteCommander.get().delete(diagramElementsList);
 				}
 			}
@@ -434,10 +431,10 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	{				
 		if (captionEditor.isVisible()) 
 		{
-			captionEditor.hideEditor();
+			captionEditor.hideField();
 		}
 		editorMode.cancel();
-		selectionHandler.deselectAll();
+		SelectMode.get().deselectAll();
 		AppPalette.get().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
@@ -471,17 +468,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		return genSets;
 	}
 	
-	public void select(List<DiagramElement> elements)
-	{
-		selectionHandler.deselectAll();
-		selectionHandler.select(elements);
-	}
 	
-	public void select(DiagramElement element)
-	{
-		selectionHandler.deselectAll();
-		selectionHandler.select(element);
-	}
 		
 	/** Open ToolBox Menu. */
 	public void openToolBoxPopupMenu()
@@ -639,7 +626,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	private boolean stopEditing() 
 	{
-		BaseTextEditor currentEditor = null;
+		IEditField currentEditor = null;
 		if (captionEditor.isVisible()) currentEditor = captionEditor;		
 		if (multilineEditor.isVisible()) currentEditor = multilineEditor;
 				
@@ -650,7 +637,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			Label label = currentEditor.getLabel();
 			RenameLabelOperation command = new RenameLabelOperation(this, label, text);
 			execute(command);
-			currentEditor.hideEditor();				
+			currentEditor.hideField();				
 //			repaint();
 			return true;
 		}
@@ -747,29 +734,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * @return the diagram
 	 */
 	public StructureDiagram getDiagram() { return diagram; }
-
-	/**
-	 * Returns the canUndo status.
-	 * @return true if can undo, false otherwise
-	 */
-	public boolean canUndo() { return notificator.getUndoManager().canUndo(); }
-
-	/**
-	 * Returns the canRedo status.
-	 * @return true if can redo, false otherwise
-	 */
-	public boolean canRedo() { return notificator.getUndoManager().canRedo(); }
-
-	/**
-	 * Clears the undo diagramManager.
-	 */
-	public void clearUndoManager() { notificator.getUndoManager().discardAllEdits(); }
-
-	/**
-	 * Returns the current selection.
-	 * @return the selected element
-	 */
-	public List<DiagramElement> getSelectedElements() { return selectionHandler.getSelectedElements(); }
 
 	/**
 	 * Returns the total canvas size for export functions. The total size
@@ -936,9 +900,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	}
 	
 	/** Sets the editor into selection mode. */
-	public void setSelectionMode() 
-	{		
-		editorMode = selectionHandler;		
+	public void setSelectionMode(){		
+		editorMode = SelectMode.get();		
 	}
 
 	/**
@@ -1057,144 +1020,26 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	}
 		
 	/** Brings the current selection to the front. */
-	public void bringToFront() 
-	{
-		if (selectionHandler.getSelectedElements().size() > 0) 
+	public void bringToFront(){
+		if (SelectMode.get().getSelectedElements().size() > 0) 
 		{
-			for(DiagramElement de: getSelectedElements()){
+			for(DiagramElement de: SelectMode.get().getSelectedElements()){
 				if(!(de instanceof StructureDiagram)) diagram.bringChildToFront(de);				
 			}			
 			redraw();
 		}
 	}
 
-	
-	
-	
 	/** Set the background color of the selected elements */
 	public void setBackgroundInSelected(Color color)
 	{
-		for(DiagramElement de: getSelectedElements()){
+		for(DiagramElement de: SelectMode.get().getSelectedElements()){
 			if(de instanceof ClassElement){
 				ClassElement ce = (ClassElement)de;
 				ce.setBackgroundColor(color);
 			}
 		}
 		wrapper.getScrollPane().updateUI();
-	}
-	
-	/** Returns all selected association elements */
-	public List<AssociationElement> getSelectedAssociationElements()
-	{
-		List<AssociationElement> result = new ArrayList<AssociationElement>();
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof AssociationElement){
-				result.add((AssociationElement)de);
-			}
-		}	
-		return result;
-	}
-	
-	/** Returns all selected class elements */
-	public List<ClassElement>getSelectedClassElements()
-	{
-		List<ClassElement> result = new ArrayList<ClassElement>();
-		for(DiagramElement de: selectionHandler.getSelectedElements())
-		{
-			if(de instanceof ClassElement){
-				result.add((ClassElement)de);
-			}
-		}	
-		return result;
-	}
-	
-	/** Return the center point of these selected elements */
-	public Point2D.Double getCenterPointOnSelected(){
-		double y = 0; double x = 0;
-		List<ClassElement> list = getSelectedClassElements();
-		Point2D.Double centerPoint = new Point2D.Double();
-		if(list.size()==1) {
-			centerPoint.x = list.get(0).getAbsCenterX();
-			centerPoint.y = list.get(0).getAbsCenterY();
-			return centerPoint;
-		}				
-		ClassElement top = getClassElementAtTop(list);
-		ClassElement right = getClassElementAtRight(list);
-		ClassElement left = getClassElementAtLeft(list);
-		ClassElement bottom = getClassElementAtBottom(list);
-		if(top!=null && bottom !=null) y = top.getAbsCenterY()+((bottom.getAbsCenterY()-top.getAbsCenterY())/2);
-		if(left!=null && right !=null) x = right.getAbsCenterX()-((right.getAbsCenterX()-left.getAbsCenterX())/2);
-		centerPoint.x = x; 
-		centerPoint.y = y;
-		return centerPoint;
-	}
-	
-	/** Return the center point of these selected elements */
-	public Rectangle2D getSelectedBounds(){
-		List<ClassElement> list = getSelectedClassElements();		
-		ClassElement top = getClassElementAtTop(list);
-		ClassElement right = getClassElementAtRight(list);
-		ClassElement left = getClassElementAtLeft(list);
-		ClassElement bottom = getClassElementAtBottom(list);
-		Rectangle2D bounds = top.getAbsoluteBounds();
-		bounds.setRect(left.getAbsoluteX1(), top.getAbsoluteY1(),
-			right.getAbsoluteX2() - left.getAbsoluteX1(), 
-			bottom.getAbsoluteY2() - top.getAbsoluteY1()
-		);		
-		return bounds;
-	}
-	
-	/** Return the class element most located at the bottom of the diagram */
-	public ClassElement getClassElementAtBottom(List<ClassElement> list){
-		double maxY2 = 0;
-		ClassElement atBottomElement = null;
-		for(DiagramElement de: list){
-			if(((ClassElement)de).getAbsoluteY2()>maxY2) {
-				maxY2 = ((ClassElement)de).getAbsoluteY2();
-				atBottomElement = (ClassElement)de;				
-			}
-		}
-		return atBottomElement;
-	}
-	
-	/** Return the class element most located at the top of the diagram */
-	public ClassElement getClassElementAtTop(List<ClassElement> list){
-		double maxY1 = getSize().getWidth();
-		ClassElement atTopElement = null;
-		for(DiagramElement de: list){
-			if(((ClassElement)de).getAbsoluteY1()<maxY1) {
-				maxY1 = ((ClassElement)de).getAbsoluteY1();
-				atTopElement = (ClassElement)de;				
-			}
-		}
-		return atTopElement;
-	}
-	
-	/** Return the class element most located at the left of the diagram */
-	public ClassElement getClassElementAtLeft(List<ClassElement> list){
-		double maxX1 = getSize().getWidth();
-		ClassElement atLeftElement = null;
-		for(ClassElement de: list){
-			if(((ClassElement)de).getAbsoluteX1()<maxX1) {
-				maxX1 = ((ClassElement)de).getAbsoluteX1();
-				atLeftElement = (ClassElement)de;				
-			}
-		}
-		return atLeftElement;
-	}
-	
-	/** Return the class element most located at the right of the diagram */
-	public ClassElement getClassElementAtRight(List<ClassElement> list){
-		double maxX2 = 0;
-		ClassElement atRightElement = null;
-		for(DiagramElement de: list){
-			if(((ClassElement)de).getAbsoluteX2()>maxX2) {
-				maxX2 = ((ClassElement)de).getAbsoluteX2();
-				atRightElement = (ClassElement)de;				
-			}
-		}
-		return atRightElement;
 	}
 	
 	
@@ -1206,23 +1051,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** Puts the current selection to the back. */
 	public void putToBack() 
 	{
-		if (getSelectedElements().size() > 0) 
+		if (SelectMode.get().getSelectedElements().size() > 0) 
 		{
-			for(DiagramElement de: getSelectedElements()){
+			for(DiagramElement de: SelectMode.get().getSelectedElements()){
 				if(!(de instanceof StructureDiagram)) diagram.putChildToBack(de);				
 			}
 			redraw();
 		}
-	}
-
-	public void deselectAll()
-	{
-		selectionHandler.deselectAll();
-	}
-	
-	public void selectAll()
-	{		
-		selectionHandler.selectAll();
 	}
 	
 	public void setLineStyle(UmlConnection connection, LineStyle style)
@@ -1262,23 +1097,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// ***** BaseEditor callback
 	// *********************************
 
-	/**
-	 * Adds the specified SelectionListener.
-	 * @param l the SelectionListener to add
-	 */
-	public void addSelectionListener(SelectionListener l) 
-	{
-		selectionHandler.addSelectionListener(l);
-	}
-
-	/**
-	 * Adds the specified AppCommandListener.
-	 * @param l the AppCommandListener to add
-	 */
-	public void addAppCommandListener(ICommandListener l) 
-	{
-		selectionHandler.addAppCommandListener(l);
-	}
+	
 
 	// *************************************************************************
 	// ***** ModelNotification
@@ -1378,14 +1197,10 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	/** Edits the current selection's properties. */
 	public void editProperties(){
-		if (getSelectedElements().size() > 0) EditManager.get().edit(getSelectedElements().get(0));		
+		if (SelectMode.get().getSelectedElements().size() > 0) {
+			EditManager.get().edit(SelectMode.get().getSelectedElements().get(0));		
+		}
 	}
-	
-
-	
-			
-	
-	
 	
 	//============================================================
 	
@@ -1420,9 +1235,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			if (label instanceof MultiLineLabel) 
 			{
 				multilineEditor.setFont(DrawUtil.getDrawingContext().getFont(FontType.DEFAULT));
-				multilineEditor.showEditor(label, getGraphics());
+				multilineEditor.showField(label, getGraphics());
 			} else {
-				captionEditor.showEditor(label, getGraphics());				
+				captionEditor.showField(label, getGraphics());				
 			}			
 		}
 		

@@ -292,7 +292,7 @@ public class AppMenuBar extends GenericMenuBar {
 		diagram.addSeparator();		
 		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK);
-		createMenuItem(diagram, "Select All", CommandType.SELECT_ALL_DIAGRAM, background,stroke);
+		createMenuItem(diagram, "Select All", CommandType.SELECT_ALL, background,stroke);
 		createMenuItem(diagram, "Redraw", CommandType.REDRAW_DIAGRAM, background);		
 		createCheckBoxMenuItem(diagram, "Show Grid", CommandType.SHOW_GRID, background);
 		diagram.addSeparator();

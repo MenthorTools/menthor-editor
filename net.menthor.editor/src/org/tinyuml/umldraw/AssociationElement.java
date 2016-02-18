@@ -1286,5 +1286,4 @@ public final class AssociationElement extends BaseConnection {
 	{
 		return getRelationship().toString();
 	}
-	
 }

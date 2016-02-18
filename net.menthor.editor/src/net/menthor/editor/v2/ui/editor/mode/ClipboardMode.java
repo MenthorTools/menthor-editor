@@ -66,9 +66,8 @@ public class ClipboardMode implements IEditorMode {
 	  isActive=false;
 	}
 	
-	public void cloneSelectedAndPutToClipboard(){
-		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();
-		cloneAndPutToClipboard(de.getSelectedElements());
+	public void cloneSelectedAndPutToClipboard(){		
+		cloneAndPutToClipboard(SelectMode.get().getSelectedElements());
 	}
 	
 	public void cloneAndPutToClipboard(List<DiagramElement> diagramElementList){	
@@ -143,7 +142,7 @@ public class ClipboardMode implements IEditorMode {
 				double ceCenterX = tmpPos.getX(); 
 				double ceCenterY = tmpPos.getY();
 				if(clipboard.size()>1) {
-					Point2D.Double center = de.getCenterPointOnSelected();
+					Point2D.Double center = SelectMode.get().getCenterPointOnSelected();
 					ceCenterX = ce.getAbsCenterX()+(ceCenterX - center.getX());
 					ceCenterY = ce.getAbsCenterY()+(ceCenterY - center.getY());
 				}				 

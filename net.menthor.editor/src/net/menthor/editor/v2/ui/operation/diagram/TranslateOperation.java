@@ -66,7 +66,7 @@ public class TranslateOperation extends DiagramOperation {
 	@Override
 	public void run() {
 		super.run();
-		runWithoutNotifying();		
+		runWithoutNotifying();
 		notifier.notifyViewChange(this,elements);		
 	}
 
