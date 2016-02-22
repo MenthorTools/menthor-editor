@@ -39,10 +39,13 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
+import RefOntoUML.Association;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
+import RefOntoUML.Property;
+import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -424,6 +427,7 @@ public class FactoryManager {
 	      if(conn.getRelationship()!=null && conn.getRelationship() instanceof RefOntoUML.Association){
 	    	  RefOntoUML.Association rel = (RefOntoUML.Association)conn.getRelationship();	    	  
 	    	  rel.setName(rel.getName() + nextRelationshipCount(relationType));
+	    	  setDefaultEndPointNames(rel);
 	    	  if(diagram!=null && diagram.getContainer()!=null && diagram.getContainer() instanceof RefOntoUML.Package){	      	
 	  			Package container = (RefOntoUML.Package)de1.getDiagram().getContainer();
 	  			EList<PackageableElement> packagedElement = container.getPackagedElement();
@@ -437,6 +441,27 @@ public class FactoryManager {
       OccurenceManager.get().add(conn.getRelationship(), conn);
       return conn;
   }
+  
+  private void setDefaultEndPointNames(Association rel) {
+	  setDefaultPropertyName(rel.getMemberEnd().get(0));
+	  setDefaultPropertyName(rel.getMemberEnd().get(1));
+  }
+  
+  private void setDefaultPropertyName(Property p) {
+		if(p==null || p.getType()==null)
+			return;
+		
+	  	String typeName = p.getType().getName();  
+		
+	  	if(typeName==null) { 
+	  		typeName = "";
+	  	}
+	  	else {
+	  		typeName = typeName.trim().replaceAll(" ", "").toLowerCase();
+	  	}
+	  	
+	  	p.setName(typeName);
+	  }
   
   public UmlConnection createConnection(RelationshipType relationType, RefOntoUML.Relationship toBeCloned, StructureDiagram diagram){
 	  UmlConnection prototype = relationPrototypes.get(relationType);	
