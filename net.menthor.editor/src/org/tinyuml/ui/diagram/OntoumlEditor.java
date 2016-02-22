@@ -44,7 +44,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -77,22 +76,16 @@ import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
-import RefOntoUML.Association;
-import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import RefOntoUML.Relationship;
-import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commanders.DeleteCommander;
-import net.menthor.editor.v2.commanders.MoveCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -101,7 +94,6 @@ import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppPalette;
 import net.menthor.editor.v2.ui.app.AppSplitPane;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -1122,76 +1114,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	
 	
-	/** Bring related elements to diagram */
-	public void addAllRelatedElements(Object diagramElement)
-	{
-		if(diagramElement instanceof Node){
-			ClassElement ce = (ClassElement)diagramElement;
-			Classifier element = ce.getClassifier();
-			double x = ce.getAbsoluteX2()+30;
-			double y = ce.getAbsoluteY1()-30;
-			int row = 0;
-			int column = 0;
-			OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();			
-			HashSet<Type> addedTypes = new HashSet<Type>();			
-			ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
-			relatedAssociations.addAll(refparser.getDirectAssociations(element));
-			relatedAssociations.addAll(refparser.getDirectGeneralizations(element));		
-			for(Relationship rel: relatedAssociations){
-				try{
-					if(getDiagram().containsChild(rel)) continue;					
-					Classifier source = null, target = null;					
-					if(rel instanceof Association){
-						source = (Classifier)((Association)rel).getMemberEnd().get(0).getType();
-						target = (Classifier)((Association)rel).getMemberEnd().get(1).getType();
-						addedTypes.add((Association)rel);
-					}					
-					if(rel instanceof Generalization){
-						source = (Classifier)((Generalization)rel).getGeneral();
-						target = (Classifier)((Generalization)rel).getSpecific();
-					}					
-					if(source!=null && !getDiagram().containsChild(source)) { 
-						MoveCommander.get().move(source,x+100*column,y+75*row,this,false); 
-						row++; 						
-						if(row>2) {
-							row=0; column++;
-						} 
-						addedTypes.add(source);
-					}						
-					if(target!=null && !getDiagram().containsChild(target)) {  
-						MoveCommander.get().move(target,x+100*column,y+75*row,this,false); 
-						row++;						
-						if(row>2) {
-							row=0; 
-							column++;
-						}
-						addedTypes.add(target);
-					}					
-					if(getDiagram().containsChild(source) && getDiagram().containsChild(target)) 
-						MoveCommander.get().move(rel, -1, -1, this, false);					
-				}catch(Exception e){					
-					AppMessageManager.get().showError(e, "Related Elements", "Could not add all related elements.");
-				}
-			}			
-			HashSet<Type> typesInDiagram = new HashSet<Type>();
-			for (DiagramElement de : getDiagram().getChildren()) {
-				if(de instanceof ClassElement)
-					typesInDiagram.add(((ClassElement) de).getClassifier());
-			}			
-			for (Association a : refparser.getAssociationsBetween(typesInDiagram)) {
-				Type source = a.getMemberEnd().get(0).getType();
-				Type target = a.getMemberEnd().get(1).getType();				
-				if(!getDiagram().containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
-					MoveCommander.get().move(a, -1, -1,this, false);
-			}			
-			for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
-				RefOntoUML.Type specific = g.getSpecific();
-				RefOntoUML.Type general = g.getGeneral();			
-				if(!getDiagram().containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
-					MoveCommander.get().move(g,-1,-1,this, false);
-			}			
-		}
-	}
+	
 
 	
 
@@ -1263,19 +1186,5 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	@Override
 	public void dispose() { }
 
-	
-	public <T> List<T> setUpList(Object con, Class<T> type) {
-		ArrayList<T> list = new ArrayList<T>();		
-		if(type.isInstance(con)){
-			list.add(type.cast(con));
-		} else if (con instanceof Collection){
-			for (Object item : (Collection<?>)con) {
-				if(type.isInstance(item)){
-					list.add(type.cast(item));
-				}
-			}
-		}
-		return list;
-	}
 }
 

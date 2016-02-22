@@ -22,6 +22,8 @@ package net.menthor.editor.v2.commanders;
  */
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -32,6 +34,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 import org.tinyuml.umldraw.shared.UmlNode;
 
@@ -54,7 +57,7 @@ import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 
-public class MoveCommander {
+public class MoveCommander extends GenericCommander {
 	
 	// -------- Lazy Initialization
 	
@@ -186,5 +189,81 @@ public class MoveCommander {
 		cmd.run();
 		moveGeneralizations(element,d);		   
 		moveAssociations(element, d);
-	}	
+	}
+	
+	/** Bring related elements to diagram */
+	public void addAllRelatedElements(Object diagramElement) {
+		
+		if(!(diagramElement instanceof ClassElement) || ((DiagramElement) diagramElement).getDiagram() instanceof StructureDiagram)
+			return;
+		
+		ClassElement ce = (ClassElement)diagramElement;
+		StructureDiagram diagram = (StructureDiagram) ce.getDiagram();
+		
+		Classifier element = ce.getClassifier();
+		
+		double x = ce.getAbsoluteX2()+30;
+		double y = ce.getAbsoluteY1()-30;
+		int row = 0;
+		int column = 0;
+		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();			
+		HashSet<Type> addedTypes = new HashSet<Type>();			
+		ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
+		relatedAssociations.addAll(refparser.getDirectAssociations(element));
+		relatedAssociations.addAll(refparser.getDirectGeneralizations(element));		
+		for(Relationship rel: relatedAssociations){
+			try{
+				if(diagram.containsChild(rel)) continue;					
+				Classifier source = null, target = null;					
+				if(rel instanceof Association){
+					source = (Classifier)((Association)rel).getMemberEnd().get(0).getType();
+					target = (Classifier)((Association)rel).getMemberEnd().get(1).getType();
+					addedTypes.add((Association)rel);
+				}					
+				if(rel instanceof Generalization){
+					source = (Classifier)((Generalization)rel).getGeneral();
+					target = (Classifier)((Generalization)rel).getSpecific();
+				}					
+				if(source!=null && !diagram.containsChild(source)) { 
+					move(source,x+100*column,y+75*row,currentEditor(),false); 
+					row++; 						
+					if(row>2) {
+						row=0; column++;
+					} 
+					addedTypes.add(source);
+				}						
+				if(target!=null && !diagram.containsChild(target)) {  
+					move(target,x+100*column,y+75*row,currentEditor(),false); 
+					row++;						
+					if(row>2) {
+						row=0; 
+						column++;
+					}
+					addedTypes.add(target);
+				}					
+				if(diagram.containsChild(source) && diagram.containsChild(target)) 
+					move(rel, -1, -1, currentEditor(), false);					
+			}catch(Exception e){					
+				AppMessageManager.get().showError(e, "Related Elements", "Could not add all related elements.");
+			}
+		}			
+		HashSet<Type> typesInDiagram = new HashSet<Type>();
+		for (DiagramElement de : diagram.getChildren()) {
+			if(de instanceof ClassElement)
+				typesInDiagram.add(((ClassElement) de).getClassifier());
+		}			
+		for (Association a : refparser.getAssociationsBetween(typesInDiagram)) {
+			Type source = a.getMemberEnd().get(0).getType();
+			Type target = a.getMemberEnd().get(1).getType();				
+			if(!diagram.containsChild(a) && (addedTypes.contains(source) || addedTypes.contains(target)))
+				move(a, -1, -1,currentEditor(), false);
+		}			
+		for (Generalization g : refparser.getGeneralizationsBetween(typesInDiagram)) {
+			RefOntoUML.Type specific = g.getSpecific();
+			RefOntoUML.Type general = g.getGeneral();			
+			if(!diagram.containsChild(g) && (addedTypes.contains(specific) || addedTypes.contains(general)))
+				move(g,-1,-1,currentEditor(), false);
+		}			
+		
+	}
 }
