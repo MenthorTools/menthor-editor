@@ -73,6 +73,7 @@ public class ClipboardMode implements IEditorMode {
 	public void cloneAndPutToClipboard(List<DiagramElement> diagramElementList){	
 		isActive=true;
 		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();		
+		if(de==null) return;
 		de.setEditorMode(this);
 		clipboard.clear();		
 		for(DiagramElement s: diagramElementList){
@@ -88,6 +89,7 @@ public class ClipboardMode implements IEditorMode {
 	public void cloneAndPutToClipboard(DiagramElement element){
 		isActive=true;
 		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();		
+		if(de==null) return;
 		de.setEditorMode(this);
 		clipboard.clear();
 		if(element instanceof UmlNode) {
@@ -101,6 +103,7 @@ public class ClipboardMode implements IEditorMode {
 	public void createAndPutToClipboard(ClassType elementType){
 		isActive=true;
 		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();		
+		if(de==null) return;
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
@@ -110,8 +113,9 @@ public class ClipboardMode implements IEditorMode {
 	}
 	
 	public void createAndPutToClipboard(DataType elementType){
-		isActive=true;
+		isActive=true;		
 		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();		
+		if(de==null) return;
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(elementType, de.getDiagram());	        
@@ -123,6 +127,7 @@ public class ClipboardMode implements IEditorMode {
 	public UmlNode putToClipboard(RefOntoUML.Type type, boolean drawClipBounds) {
 		isActive=true;
 		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();		
+		if(de==null) return null;
 		de.setEditorMode(this);
 		clipboard.clear();
 	    UmlNode node = FactoryManager.get().createNode(type, de.getDiagram());
@@ -136,6 +141,7 @@ public class ClipboardMode implements IEditorMode {
 	
 	public void pasteClipboard(){
 		OntoumlEditor de = AppTabManager.get().getCurrentDiagramEditor();
+		if(de==null) return;
 		for(Object o: clipboard){
 			if(o instanceof UmlNode){				
 				UmlNode ce = (UmlNode)o;				

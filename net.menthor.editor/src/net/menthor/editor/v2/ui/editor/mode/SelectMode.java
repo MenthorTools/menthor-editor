@@ -70,17 +70,17 @@ public class SelectMode implements IEditorMode {
     
     public OntoumlEditor currentEditor(){
     	OntoumlEditor currentEditor = AppTabManager.get().getCurrentDiagramEditor();
-    	selector.setDiagram(currentEditor.getDiagram());
+    	if(currentEditor!=null) rubberSelector.setDiagram(currentEditor.getDiagram());
     	return currentEditor;
     }
     
 	protected Selection selection = NullSelection.getInstance();	
 	protected Point2D startPoint = new Point2D.Double();	
-	protected RubberbandSelector selector = new RubberbandSelector();
+	protected RubberbandSelector rubberSelector = new RubberbandSelector();
 
 	/** This should be done with MultiSelection instead of a RubberBand... */
 	public void selectAll(){
-		selection = selector;
+		selection = rubberSelector;
 		selection.updatePosition(0,0);
 		selection.startDragging(0,0);
 		selection.updatePosition(currentEditor().getDiagramWidth(), currentEditor().getDiagramHeight());
@@ -102,8 +102,16 @@ public class SelectMode implements IEditorMode {
 	}
 
 	public void draw(DrawingContext drawingContext) {
-		selection.draw(drawingContext);
-		selector.draw(drawingContext);
+		List<DiagramElement> list = getSelectedElements();
+		if(list.size()>0) {
+			//only draw the selection cubes if the diagram on the tab open 
+			//is the same diagram of the selected elements
+			Object diagramWithSelection = list.get(0).getDiagram();
+			if(currentEditor().getDiagram().equals(diagramWithSelection)){
+				selection.draw(drawingContext);						
+			}				
+		}		
+		rubberSelector.draw(drawingContext);
 	}
 	
 	public void stateChanged() { 
@@ -313,9 +321,7 @@ public class SelectMode implements IEditorMode {
 			
 		if(e.getMouseEvent().isControlDown()) {
 			return;
-		}
-		
-		
+		}		
 		boolean focusEditor = true;
 		double mx = e.getX(), my = e.getY();
 		
@@ -388,7 +394,7 @@ public class SelectMode implements IEditorMode {
 		// Dragging only if left mouse button was pressed
 		if (e.isMainButton()){			
 			if (nothingSelected() && currentEditor().getDiagram().contains(mx, my)) {
-				selection = selector;
+				selection = rubberSelector;
 				selection.updatePosition(mx, my);
 			}			
 			startPoint.setLocation(mx,my);
