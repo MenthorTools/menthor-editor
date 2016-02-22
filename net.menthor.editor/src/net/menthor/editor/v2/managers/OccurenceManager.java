@@ -182,10 +182,16 @@ public class OccurenceManager {
 	
 	/** get diagram elements */
 	public List<DiagramElement> getDiagramElements (Element element){	
-		if(map.get(element)!=null) return map.get(element);		
-		if(element instanceof Property) return getDiagramElements((RefOntoUML.Element)element.eContainer());
-		if(element instanceof EnumerationLiteral) return getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
-		if (element instanceof GeneralizationSet){
+		if(map.get(element)!=null) {
+			return map.get(element);		
+		}
+		if(element instanceof Property) {
+			return getDiagramElements((RefOntoUML.Element)element.eContainer());
+		}
+		if(element instanceof EnumerationLiteral) {
+			return getDiagramElements(((RefOntoUML.EnumerationLiteral)element).getEnumeration());
+		}
+		if (element instanceof GeneralizationSet) {
 			List<DiagramElement> result = new ArrayList<DiagramElement>();
 			for(Generalization gen: ((RefOntoUML.GeneralizationSet)element).getGeneralization()){
 				result.addAll(getDiagramElements(gen));
@@ -230,17 +236,12 @@ public class OccurenceManager {
 	/** get diagrams */
 	public List<OntoumlDiagram> getDiagrams(RefOntoUML.Element element){
 		List<OntoumlDiagram> list = new ArrayList<OntoumlDiagram>();
-		for(OntoumlDiagram d: ProjectManager.get().getProject().getDiagrams()){
-			if(d instanceof StructureDiagram){
-				StructureDiagram diagram = (StructureDiagram)d;				
-				List<DiagramElement> dElems= getDiagramElements(element);
-				for(DiagramElement elem: dElems){
-					if (diagram.containsChild(elem)) {											
-						list.add(diagram);
-					}	
-				}				
-			}
+		List<DiagramElement> dElems= getDiagramElements(element);
+		
+		for (DiagramElement diagramElement : dElems) {
+			list.add(diagramElement.getDiagram());
 		}
+	
 		return list;
 	}
 

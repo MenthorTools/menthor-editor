@@ -79,7 +79,13 @@ public class AppTabManager extends AppGenericManager {
     // ----------------------------
 	
 	/** add diagrams recorded as open in the project */
-	public void initialize(UmlProject project){		
+	public void initialize(UmlProject project){
+		
+		//register all diagrams in the occurrence manager
+		for (OntoumlDiagram diagram : project.getDiagrams()) {
+			OccurenceManager.get().add((StructureDiagram) diagram);
+		}
+		
 		if(project.isAllClosed() && project.getDiagrams().size()>0){				
 			AppTabManager.get().addDiagramEditor((StructureDiagram)project.getDiagrams().get(0));
 		}else{
