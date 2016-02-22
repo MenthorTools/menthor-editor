@@ -255,34 +255,34 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		// BaseEditor listeners
 		captionEditor.addActionListener(this);
 		
-		addMouseListener(new MouseAdapter()
-	    {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if(e.isPopupTrigger()){
-					
-				}
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if(e.isPopupTrigger()){
-					
-				}
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) 
-			{			
-			    if (SwingUtilities.isLeftMouseButton(e))
-	            {	            	  
-			    	if(e.getClickCount()==2){
-			    		if(diagram.getChildAt(e.getX(), e.getY()).equals(NullElement.getInstance()))
-			    			openToolBoxPopupMenu();
-			    	}	
-	            }			    
-			}	       
-	    });					
+//		addMouseListener(new MouseAdapter()
+//	    {
+//			@Override
+//			public void mousePressed(MouseEvent e) {
+//				if(e.isPopupTrigger()){
+//					
+//				}
+//			}
+//			
+//			@Override
+//			public void mouseReleased(MouseEvent e) {
+//				if(e.isPopupTrigger()){
+//					
+//				}
+//			}
+//			
+////			@Override
+////			public void mouseClicked(MouseEvent e) 
+////			{			
+////			    if (SwingUtilities.isLeftMouseButton(e))
+////	            {	            	  
+////			    	if(e.getClickCount()==2){
+////			    		if(diagram.getChildAt(e.getX(), e.getY()).equals(NullElement.getInstance()))
+////			    			openToolBoxPopupMenu();
+////			    	}	
+////	            }			    
+////			}	       
+//	    });					
 				
 		// install Space KeyBinding
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(' '),"openToolBoxMenu");
@@ -291,7 +291,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			private static final long serialVersionUID = 4266982722845577768L;
 
 			/** {@inheritDoc} */
-			public void actionPerformed(ActionEvent e) { openToolBoxPopupMenu(); }
+			public void actionPerformed(ActionEvent e) { 
+				openToolBoxPopupMenu(); 
+			}
 		});
 		
 		// install Escape (ESC) KeyBinding

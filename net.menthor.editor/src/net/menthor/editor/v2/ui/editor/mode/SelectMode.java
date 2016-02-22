@@ -43,6 +43,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.DiagramSelection;
 import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
@@ -292,9 +293,9 @@ public class SelectMode implements IEditorMode {
 			handleSelectionOnMouseClicked(e);
 		}
 		if (SwingUtilities.isRightMouseButton(e.getMouseEvent())){
-			handleSelectionOnMousePress(e);
+//			handleSelectionOnMousePress(e);
 			displayContextMenu(e);
-			handleSelectionOnMouseReleased(e);	
+//			handleSelectionOnMouseReleased(e);	
         }
 	}
 	
@@ -303,12 +304,6 @@ public class SelectMode implements IEditorMode {
 	 */
 	public void mousePressed(EditorMouseEvent e) {		
 		handleSelectionOnMousePress(e);
-		if (e.isPopupTrigger()) {
-			//this was not working in Mac. I moved it to mouseClicked(e)
-			displayContextMenu(e);
-		}else{
-			
-		}
 	}
 
 	/**
@@ -316,12 +311,6 @@ public class SelectMode implements IEditorMode {
 	 */
 	public void mouseReleased(EditorMouseEvent e) {						
 		handleSelectionOnMouseReleased(e);		
-		if (e.isPopupTrigger()) {
-			//this was not working in Mac. I moved it to mouseClicked(e)
-			displayContextMenu(e);
-		}else{
-			
-		}
 	}
 		
 	/**
@@ -369,16 +358,15 @@ public class SelectMode implements IEditorMode {
 		double mx = e.getX(), my = e.getY();
 		
 		Selection newSelection = getSelection(mx, my);
-
-		if(e.getMouseEvent().isControlDown())
-		{			
-			if (newSelection instanceof NodeSelection || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector )
-			{
+		
+		if(e.getMouseEvent().isControlDown()) {			
+			if ((newSelection instanceof NodeSelection && !(newSelection instanceof DiagramSelection)) || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector ) {
 				if(selection.getElements().size()>0){				
 					ArrayList<DiagramElement> allElement = new ArrayList<DiagramElement>();
 					List<DiagramElement> selectedElement = selection.getElements();	
 					allElement.addAll(selectedElement);
 					List<DiagramElement> newSelectedElement = newSelection.getElements();
+					
 					// select new elements...
 					for(DiagramElement elem: newSelectedElement){
 						if (!selectedElement.contains(elem)) allElement.add(elem);						
