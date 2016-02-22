@@ -65,7 +65,8 @@ public class FindManager extends AppGenericManager {
 		else if(element instanceof RefOntoUML.Element) 
 			refElem = (RefOntoUML.Element)element;
 		else if(element instanceof FoundElement) 
-			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();		
+			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();	
+		
 		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(refElem);
 		DiagramListDialog.open(frame(), listener(), diagrams);
 	}

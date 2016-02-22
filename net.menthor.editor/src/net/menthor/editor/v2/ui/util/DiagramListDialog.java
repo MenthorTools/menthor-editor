@@ -22,7 +22,6 @@ package net.menthor.editor.v2.ui.util;
  */
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -72,7 +71,7 @@ public class DiagramListDialog extends JDialog {
 			DiagramListDialog dialog = new DiagramListDialog(frame, listener,diagrams);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			dialog.setLocationRelativeTo((Component)listener);			
+			dialog.setLocationRelativeTo(frame);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
