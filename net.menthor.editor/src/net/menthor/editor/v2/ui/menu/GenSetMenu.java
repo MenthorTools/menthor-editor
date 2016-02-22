@@ -22,6 +22,7 @@ package net.menthor.editor.v2.ui.menu;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JMenuItem;
@@ -52,7 +53,7 @@ public class GenSetMenu extends MultiElementMenu {
 	protected GenericMenu<ArrayList<Generalization>> addMenu;
 	protected JMenuItem newMenuItem;
 	
-	public GenSetMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public GenSetMenu(ICommandListener listener, String text, List<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);	
 		ArrayList<Generalization> gList = filterGeneralizations();
 		Set<GeneralizationSet> gsList = ProjectManager.get().getProject().getRefParser().getGeneralizationSets(gList);
@@ -97,7 +98,7 @@ public class GenSetMenu extends MultiElementMenu {
 		parent.add(this);
 	}
 	
-	public GenSetMenu(ICommandListener listener, ArrayList<UmlDiagramElement> elements, JPopupMenu parent){
+	public GenSetMenu(ICommandListener listener, List<UmlDiagramElement> elements, JPopupMenu parent){
 		this(listener, "Generalization Set", elements, parent);		
   	}
 	

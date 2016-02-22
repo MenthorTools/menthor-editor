@@ -22,6 +22,7 @@ package net.menthor.editor.v2.ui.menu;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.tinyuml.umldraw.MultiElementHelper;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
@@ -29,19 +30,19 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.generic.GenericMenu;
 
-public class MultiElementMenu extends GenericMenu<ArrayList<UmlDiagramElement>> {
+public class MultiElementMenu extends GenericMenu<List<UmlDiagramElement>> {
 
 	private static final long serialVersionUID = -1814132796163307505L;
 	
 	public MultiElementHelper helper;
 	
-	public MultiElementMenu(ICommandListener listener, String text, ArrayList<UmlDiagramElement> elements) {
+	public MultiElementMenu(ICommandListener listener, String text, List<UmlDiagramElement> elements) {
 		super(listener, text, elements);
 		helper = new MultiElementHelper(elements);
 	}
 	
-	static ArrayList<UmlDiagramElement> setUpList(UmlDiagramElement element){
-		ArrayList<UmlDiagramElement> elements = new ArrayList<UmlDiagramElement>();
+	static List<UmlDiagramElement> setUpList(UmlDiagramElement element){
+		List<UmlDiagramElement> elements = new ArrayList<UmlDiagramElement>();
 		elements.add(element);
 		return elements;
 	}

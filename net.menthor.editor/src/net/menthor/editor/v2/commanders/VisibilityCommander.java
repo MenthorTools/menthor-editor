@@ -34,67 +34,67 @@ public class VisibilityCommander extends GenericCommander {
     // Methods to prepare ClassVisibilityCommands
     
 	public void showAttributes(Object obj){
-		ArrayList<ClassElement> list = setUpList(obj, ClassElement.class);
+		ArrayList<ClassElement> list = setUpAsList(obj, ClassElement.class);
 		createAndRunVisibilityCommand(list, ClassVisibility.ATTRIBUTES, !hasVisibleAttribute(list));
 	}
 	
 	public void showClassStereotype(Object obj){
-		ArrayList<ClassElement> list = setUpList(obj, ClassElement.class);
+		ArrayList<ClassElement> list = setUpAsList(obj, ClassElement.class);
 		createAndRunVisibilityCommand(list, ClassVisibility.STEREOTYPE, !hasVisibleAttribute(list));
 	}
 	
 	public void showNamespace(Object obj){
-		ArrayList<ClassElement> list = setUpList(obj, ClassElement.class);
+		ArrayList<ClassElement> list = setUpAsList(obj, ClassElement.class);
 		createAndRunVisibilityCommand(list, ClassVisibility.NAMESPACE, !hasVisibleAttribute(list));
 	}
 	
 	public void showParents(Object obj){
-		ArrayList<ClassElement> list = setUpList(obj, ClassElement.class);
+		ArrayList<ClassElement> list = setUpAsList(obj, ClassElement.class);
 		createAndRunVisibilityCommand(list, ClassVisibility.PARENTS, !hasVisibleAttribute(list));
 	}
    
 	// Methods to prepare AssociationVisibilityCommands
 	
 	public void showEndPointNames(Object input){
-		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
+		ArrayList<AssociationElement> list = setUpAsList(input, AssociationElement.class);			
 		createAndRunVisibilityCommand(list, AssociationVisibility.ENDPOINTS, !hasVisibleEndName(list));
 	}
 	
 	public void showSubsetting(Object input){
-		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
+		ArrayList<AssociationElement> list = setUpAsList(input, AssociationElement.class);			
 		createAndRunVisibilityCommand(list, AssociationVisibility.SUBSETS, !hasVisibleSubsetting(list));
 	}
 	
 	public void showRedefinitions(Object input){
-		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
+		ArrayList<AssociationElement> list = setUpAsList(input, AssociationElement.class);			
 		createAndRunVisibilityCommand(list, AssociationVisibility.REDEFINES,!hasVisibleRedefinition(list));
 	}
 
 	public void showMultiplicities(Object input){
-		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);			
+		ArrayList<AssociationElement> list = setUpAsList(input, AssociationElement.class);			
 		createAndRunVisibilityCommand(list, AssociationVisibility.MULTIPLICITY, !hasVisibleMultiplicity(list));
 	}
 	
 	public void showStereotype(Object input){
-		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);
+		ArrayList<AssociationElement> list = setUpAsList(input, AssociationElement.class);
 		createAndRunVisibilityCommand(list, AssociationVisibility.STEREOTYPE, !hasVisibleStereotype(list));				
 	}
 	
 	public void showName(Object input){
-		ArrayList<AssociationElement> list = setUpList(input, AssociationElement.class);
+		ArrayList<AssociationElement> list = setUpAsList(input, AssociationElement.class);
 		createAndRunVisibilityCommand(list, AssociationVisibility.NAME, !hasVisibleName(list));
 	}
 	
 	public void showGeneralizationSet(Object input){
-		ArrayList<GeneralizationElement> list = setUpList(input, GeneralizationElement.class);
+		ArrayList<GeneralizationElement> list = setUpAsList(input, GeneralizationElement.class);
 		createAndRunVisibilityCommand(list, GeneralizationVisibility.GENSET, !hasVisibleGeneralizationSet(list));
 	}
 	
 	
 	public void showAll(Object input){
 		
-		ArrayList<AssociationElement> associations = setUpList(input, AssociationElement.class);
-		ArrayList<ClassElement> classes = setUpList(input, ClassElement.class);
+		ArrayList<AssociationElement> associations = setUpAsList(input, AssociationElement.class);
+		ArrayList<ClassElement> classes = setUpAsList(input, ClassElement.class);
 		boolean newValue;
 		
 		if(associations.size()>0){

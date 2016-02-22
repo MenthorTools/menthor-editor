@@ -58,7 +58,7 @@ public class LineCommander extends GenericCommander {
 		toRectilinear(SelectMode.get().getSelectedElements());
 	}
 	public void toRectilinear(Object input) {		
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		List<UmlConnection> connections = setUpAsList(input, UmlConnection.class);
 		
 		for(UmlConnection connection: connections){
 			execute(new LineStyleOperation(currentEditor(), connection, new RectilinearConnection(connection)));
@@ -73,7 +73,7 @@ public class LineCommander extends GenericCommander {
 	}
 	
 	public void toTreeStyleVertical(Object input){		
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		List<UmlConnection> connections = setUpAsList(input, UmlConnection.class);
 		
 		for(UmlConnection connection: connections){
 			execute(new LineStyleOperation(currentEditor(), connection, new TreeConnection(connection,true)));
@@ -88,7 +88,7 @@ public class LineCommander extends GenericCommander {
 	}
 	
 	public void toTreeStyleHorizontal(Object input){		
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		List<UmlConnection> connections = setUpAsList(input, UmlConnection.class);
 		
 		for(UmlConnection connection: connections){
 			execute(new LineStyleOperation(currentEditor(), connection, new TreeConnection(connection,false)));
@@ -104,7 +104,7 @@ public class LineCommander extends GenericCommander {
 	}
 	
 	public void toDirect(Object input){
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		List<UmlConnection> connections = setUpAsList(input, UmlConnection.class);
 		
 		for(UmlConnection connection: connections){
 			execute(new LineStyleOperation(currentEditor(), connection, new SimpleConnection(connection)));
@@ -122,7 +122,7 @@ public class LineCommander extends GenericCommander {
 	}
 
 	public void resetConnectionPoints(Object input){
-		List<UmlConnection> connections = setUpList(input, UmlConnection.class);
+		List<UmlConnection> connections = setUpAsList(input, UmlConnection.class);
 		
 		for(UmlConnection connection: connections){
 			execute(new ResetPointsOperation(currentEditor(), connection));

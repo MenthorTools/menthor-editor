@@ -78,19 +78,42 @@ public class SelectMode implements IEditorMode {
 	protected Point2D startPoint = new Point2D.Double();	
 	protected RubberbandSelector rubberSelector = new RubberbandSelector();
 
-	/** This should be done with MultiSelection instead of a RubberBand... */
+	/** select all elements using implicitly the rubber-band selector */
 	public void selectAll(){
 		selection = rubberSelector;
 		selection.updatePosition(0,0);
 		selection.startDragging(0,0);
 		selection.updatePosition(currentEditor().getDiagramWidth(), currentEditor().getDiagramHeight());
 		selection.stopDragging(currentEditor().getDiagramWidth(),  currentEditor().getDiagramHeight());
-		if (selection instanceof RubberbandSelector) setRubberbandSelection((RubberbandSelector) selection);
+		if (selection instanceof RubberbandSelector) {
+			select((RubberbandSelector) selection);
+		}
 		
 		currentEditor().redraw();
 		currentEditor().requestFocusInEditor();
 	}
 	 
+	private void select(RubberbandSelector rubberband) {
+		if (rubberband.getSelectedElements().size() == 1) { 
+			selection = rubberband.getSelectedElements().get(0).getSelection(currentEditor());
+		} else if (rubberband.getSelectedElements().size() > 1) {
+			selection = new MultiSelection(currentEditor(), rubberband.getSelectedElements());
+		} else {
+			selection = currentEditor().getDiagram().getSelection(currentEditor());
+		}
+	}	
+		
+	private Selection select(double mx, double my) {
+		if (!isNothingSelected() && selection.contains(mx, my)) {
+			return selection;
+		}
+		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);			
+		if (element != NullElement.getInstance()) {
+			return element.getSelection(currentEditor());
+		}
+		return currentEditor().getDiagram().getSelection(currentEditor());
+	}
+
 	public void select(List<DiagramElement> elements){
 		deselectAll();
 		selection = new MultiSelection(currentEditor(), elements);
@@ -134,7 +157,7 @@ public class SelectMode implements IEditorMode {
 		selection = NullSelection.getInstance(); 
 	}
 	
-	public boolean nothingSelected() {
+	public boolean isNothingSelected() {
 		return selection == NullSelection.getInstance() || selection.getElement() == currentEditor().getDiagram();
 	}
 
@@ -145,6 +168,113 @@ public class SelectMode implements IEditorMode {
 			}
 		}
 	}
+	
+	//---- Editor mouse events ---
+	
+	public void mouseMoved(EditorMouseEvent e) {
+		double mx = e.getX();
+		double my = e.getY();
+		if(currentEditor()==null) return;
+		if (selection.contains(mx, my)) {
+			currentEditor().setCursor(selection.getCursorForPosition(mx, my));
+		} else {
+			currentEditor().setCursor(Cursor.getDefaultCursor());
+		}
+	}
+
+	public void mouseDragged(EditorMouseEvent e) {
+		double mx = e.getX();
+		double my = e.getY();
+		if(currentEditor()==null) return;
+		if (selection.isDragging()) {
+			selection.updatePosition(mx, my);
+			currentEditor().repaint();
+		}
+	}
+	
+	public void mouseReleased(EditorMouseEvent e) {						
+		double mx = e.getX(), my = e.getY();				
+		if (selection.isDragging()) {	
+			selection.updatePosition(mx, my);
+			selection.stopDragging(mx, my);			
+			if (selection instanceof RubberbandSelector) {				
+				select((RubberbandSelector) selection);
+			}	
+			currentEditor().redraw();
+		}		
+	}
+	
+	public void mousePressed(EditorMouseEvent e) {		
+		pressed(e);
+	}
+		
+	public void mouseClicked(EditorMouseEvent e) {		
+		if (e.isMainButton()) {
+			clicked(e);
+		}
+		if (SwingUtilities.isRightMouseButton(e.getMouseEvent())){
+			showSelectionPopupMenu(e);
+        }
+	}
+	
+	public void clicked(EditorMouseEvent e){
+		if(currentEditor()==null) return; 
+		if(e.getMouseEvent().isControlDown()) return;
+		DiagramElement elemClicked = currentEditor().getDiagram().getChildAt(e.getX(), e.getY());		
+		if(!getSelectedElements().contains(elemClicked)) return;		 
+		if(currentEditor()==null) return;
+		if (elemClicked instanceof UmlDiagramElement){						
+			Label label = elemClicked.getLabelAt(e.getX(),e.getY());
+			if (label != null && label.isEditable()) {
+				currentEditor().editLabel(label); 		
+			} else if (e.getClickCount() >= 2) {
+				EditManager.get().edit(elemClicked);
+			}			
+		}
+		if(elemClicked instanceof NullElement) {
+			selection = currentEditor().getDiagram().getSelection(currentEditor()); 			
+		}
+		currentEditor().redraw();
+		currentEditor().requestFocusInEditor();
+	}
+
+	public void pressed(EditorMouseEvent e) {
+		double mx = e.getX(), my = e.getY();		
+		Selection newSelection = select(mx, my);		
+		if(e.getMouseEvent().isControlDown()){			
+			if (newSelection instanceof NodeSelection || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector ) {
+				ArrayList<DiagramElement> allElement = new ArrayList<DiagramElement>();				
+				List<DiagramElement> selectedElement = selection.getElements();	
+				allElement.addAll(selectedElement);
+				List<DiagramElement> newSelectedElement = newSelection.getElements();				
+				// select new elements...
+				for(DiagramElement elem: newSelectedElement){
+					if (!selectedElement.contains(elem)) allElement.add(elem);						
+				}
+				// in case of clicking in an already selected element: deselect it.					
+				if(selectedElement.containsAll(newSelectedElement)){
+					DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
+					allElement.remove(deselection);
+				}										
+				selection = new MultiSelection(currentEditor(), allElement);			
+			}else{
+				selection = newSelection;
+			}
+		}else{
+			selection = newSelection;
+		}		
+		// Dragging only if left mouse button was pressed
+		if (e.isMainButton()){			
+			if (isNothingSelected() && currentEditor().getDiagram().contains(mx, my)) {
+				selection = rubberSelector;
+				selection.updatePosition(mx, my);
+			}			
+			startPoint.setLocation(mx,my);
+			selection.startDragging(mx, my);
+		}
+	}
+
+	//---- selection mode utilities ---
 	
 	public List<AssociationElement> getSelectedAssociationElements(){
 		List<AssociationElement> result = new ArrayList<AssociationElement>();
@@ -249,271 +379,35 @@ public class SelectMode implements IEditorMode {
 		}
 		return atRightElement;
 	}
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void mouseClicked(EditorMouseEvent e) {		
-		if (e.isMainButton()) {
-			handleSelectionOnMouseClicked(e);
-		}
-		if (SwingUtilities.isRightMouseButton(e.getMouseEvent())){
-//			handleSelectionOnMousePress(e);
-			displayContextMenu(e);
-//			handleSelectionOnMouseReleased(e);	
-        }
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void mousePressed(EditorMouseEvent e) {		
-		handleSelectionOnMousePress(e);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void mouseReleased(EditorMouseEvent e) {						
-		handleSelectionOnMouseReleased(e);		
-	}
 		
-	/**
-	 * Displays the context menu.
-	 * @param e the EditorMouseEvent
-	 */
-	private void displayContextMenu(EditorMouseEvent e) {
+	private void showSelectionPopupMenu(EditorMouseEvent e) {
 		double mx = e.getX(), my = e.getY();
-		Selection selection = getSelection(mx, my);
-		
-		if (!nothingSelected()) {
-			if(selection.getElement() instanceof StructureDiagram == false)
-			{
-				final JPopupMenu menu = createDiagramPopupMenu(selection,mx,my);
-				menu.show(e.getMouseEvent().getComponent(), e.getMouseEvent().getX(), e.getMouseEvent().getY());
-			}
-		}	
+		Selection selection = select(mx, my);		
+		if (isNothingSelected()) return;
+		if(selection.getElement() instanceof StructureDiagram) return;			
+		final JPopupMenu menu = createSelectionPopupMenu(selection,mx,my);
+		menu.show(e.getMouseEvent().getComponent(), e.getMouseEvent().getX(), e.getMouseEvent().getY());
 	}
 	
-	public JPopupMenu createDiagramPopupMenu(Selection selection, double x, double y) {		
-		ArrayList<UmlDiagramElement> filteredSelection = filterUmlDiagramElements(selection.getElements());		
-		if(filteredSelection.size()==1)
+	private JPopupMenu createSelectionPopupMenu(Selection selection, double x, double y) {		
+		List<UmlDiagramElement> filteredSelection = retainOnly(selection.getElements(), UmlDiagramElement.class);		
+		if(filteredSelection.size()==1) {
 			return new SingleElementPopupMenu(AppCmdListener.get(), filteredSelection.get(0));		
-		if (selection.getElements().size() > 1) 			
-			return new MultiElementPopupMenu(AppCmdListener.get(), filteredSelection);		
+		}
+		if (selection.getElements().size() > 1){ 			
+			return new MultiElementPopupMenu(AppCmdListener.get(), filteredSelection);
+		}
 		return new JPopupMenu("No Action Available");
 	}
 	
-	private ArrayList<UmlDiagramElement> filterUmlDiagramElements(List<DiagramElement> original){
-		ArrayList<UmlDiagramElement> filteredList = new ArrayList<UmlDiagramElement>();
-		
-		for (DiagramElement diagramElement : original) {
-			if(diagramElement instanceof UmlDiagramElement)
-				filteredList.add((UmlDiagramElement) diagramElement);
-		}
-		
-		return filteredList;
-	}
-	
-
-	public void handleSelectionOnMouseClicked(EditorMouseEvent e) {
-			
-		if(e.getMouseEvent().isControlDown()) {
-			return;
+	@SuppressWarnings("unchecked")
+	private <T> List<T> retainOnly(List<?> objectList, Class<T> type_){
+		List<T> filteredList = new ArrayList<>();		
+		for (Object diagramElement : objectList) {
+			if(type_.isInstance(diagramElement)){
+				filteredList.add((T) diagramElement);
+			}
 		}		
-		boolean focusEditor = true;
-		double mx = e.getX(), my = e.getY();
-		
-		List<DiagramElement> previousSelected = selection.getElements();
-				
-		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);
-			
-		if (element instanceof UmlDiagramElement && previousSelected.contains(element)) {	
-			Label label = element.getLabelAt(mx, my);
-			if (label != null && label.isEditable()) {
-				focusEditor = false;
-				currentEditor().editLabel(label);				
-			} else if (e.getClickCount() >= 2) {
-				EditManager.get().edit(element);
-			}
-		}
-						
-		else if (currentEditor().getDiagram().getLabelAt(mx, my) != null) {
-			// Edit the diagram name
-			focusEditor = false;
-			currentEditor().editLabel(currentEditor().getDiagram().getLabelAt(mx, my));
-		} 
-				
-		else {
-			if (element == NullElement.getInstance()) {
-				element = currentEditor().getDiagram();
-			}			
-			selection = element.getSelection(currentEditor());			
-		}
-		currentEditor().redraw();
-		if(focusEditor)
-			currentEditor().requestFocusInEditor();
-	}
-	
-	/**
-	 * Handle the selection on a mousePressed event.
-	 * @param e the EditorMouseEvent
-	 */
-	public void handleSelectionOnMousePress(EditorMouseEvent e) {
-		double mx = e.getX(), my = e.getY();
-		
-		Selection newSelection = getSelection(mx, my);
-		
-		if(e.getMouseEvent().isControlDown()) {	
-			
-			if (newSelection instanceof NodeSelection || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector ) {
-				ArrayList<DiagramElement> allElement = new ArrayList<DiagramElement>();
-				
-				List<DiagramElement> selectedElement = selection.getElements();	
-				allElement.addAll(selectedElement);
-				List<DiagramElement> newSelectedElement = newSelection.getElements();
-				
-				// select new elements...
-				for(DiagramElement elem: newSelectedElement){
-					if (!selectedElement.contains(elem)) allElement.add(elem);						
-				}
-				// in case of clicking in an already selected element: deselect it.					
-				if(selectedElement.containsAll(newSelectedElement)){
-					DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
-					allElement.remove(deselection);
-				}										
-				selection = new MultiSelection(currentEditor(), allElement);			
-			}else{
-				selection = newSelection;
-			}
-		}else{
-			selection = newSelection;
-		}
-		
-		// Dragging only if left mouse button was pressed
-		if (e.isMainButton()){			
-			if (nothingSelected() && currentEditor().getDiagram().contains(mx, my)) {
-				selection = rubberSelector;
-				selection.updatePosition(mx, my);
-			}			
-			startPoint.setLocation(mx,my);
-			selection.startDragging(mx, my);
-		}
-	}
-
-
-	/**
-	 * Handles the current selection on a mouse released.
-	 * @param e the EditorMouseEvent
-	 */
-	public void handleSelectionOnMouseReleased(EditorMouseEvent e) {
-		double mx = e.getX(), my = e.getY();
-				
-		if (selection.isDragging()) {
-	
-			selection.updatePosition(mx, my);
-			selection.stopDragging(mx, my);
-			
-			//TODO implement select/unselect holding shift
-			/*Selection newSelection = getSelection(mx, my);
-			
-			if(e.getMouseEvent().isShiftDown())
-			{
-				if (selection instanceof NodeSelection)
-				{
-					ArrayList<DiagramElement> allElements = new ArrayList<DiagramElement>();
-					DiagramElement selectedElement = selection.getElement();
-					allElements.add(selectedElement);
-					DiagramElement newSelectedElement = newSelection.getElement();
-					allElements.add(newSelectedElement);
-					selection = new MultiSelection(editor(), allElements);
-					
-					//selection = selection;
-				}
-				
-				else if(selection instanceof MultiSelection)
-				{
-					//TODO create the add and remove methods in multi selection
-					if (selection.getElements().contains(newSelection.getElement()))
-					{
-						selection.getElements().remove(newSelection.getElement());
-					}
-					else
-					{
-						selection.getElements().add(newSelection.getElement());
-					}
-				}
-			}*/
-			
-			if (selection instanceof RubberbandSelector) {
-				
-				setRubberbandSelection((RubberbandSelector) selection);
-			}
-	
-			currentEditor().redraw();
-		}
-		 
-		// notify selection listeners
-		//notifyListeners();
-		//currentEditor().requestFocusInEditor();
-	}
-	/**
-	 * Sets the current selection for the specified mouse coordinates. Returns
-	 * true if an element was clicked, false otherwise
-	 * @param mx the mapped x coordinate
-	 * @param my the mapped y coordinate
-	 * @return the selection object, a NullSelection instance otherwise
-	 */
-	private Selection getSelection(double mx, double my) {
-		if (!nothingSelected() && selection.contains(mx, my)) {
-			return selection;
-		}
-		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);			
-		if (element != NullElement.getInstance()) {
-			// select the element
-			return element.getSelection(currentEditor());
-		}
-		return currentEditor().getDiagram().getSelection(currentEditor());
-	}
-
-	/**
-	 * Sets the current selection to a rubber band selection if available.
-	 * @param rubberband the RubberbandSelector
-	 */
-	private void setRubberbandSelection(RubberbandSelector rubberband) {
-		if (rubberband.getSelectedElements().size() == 1) {
-			selection = rubberband.getSelectedElements().get(0).getSelection(currentEditor());
-		} 
-		else if (rubberband.getSelectedElements().size() > 1) {
-			selection = new MultiSelection(currentEditor(), rubberband.getSelectedElements());
-		} 
-		else {
-			selection = currentEditor().getDiagram().getSelection(currentEditor());
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void mouseMoved(EditorMouseEvent e) {
-		double mx = e.getX(), my = e.getY();
-		if (selection.contains(mx, my)) {
-			currentEditor().setCursor(selection.getCursorForPosition(mx, my));
-		} else {
-			currentEditor().setCursor(Cursor.getDefaultCursor());
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void mouseDragged(EditorMouseEvent e) {
-		double mx = e.getX(), my = e.getY();		
-		if (selection.isDragging()) {
-			selection.updatePosition(mx, my);
-			currentEditor().repaint();
-		}
-	}
-	
+		return filteredList;
+	}	
 }

@@ -2,6 +2,7 @@ package net.menthor.editor.v2.commanders;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
@@ -14,7 +15,7 @@ public abstract class GenericCommander {
 		
 	}
 	
-	public <T> ArrayList<T> setUpList(Object con, Class<T> type) {
+	public <T> ArrayList<T> setUpAsList(Object con, Class<T> type) {
 		ArrayList<T> list = new ArrayList<T>();		
 		if(type.isInstance(con)){
 			list.add(type.cast(con));
@@ -26,6 +27,18 @@ public abstract class GenericCommander {
 			}
 		}
 		return list;
+	}
+	
+	@SuppressWarnings({ "unchecked", "unused" })
+	/** useful method to retain in a list only objects of a certain type */
+	private <T> List<T> retainOnly(List<?> objectList, Class<T> type_){
+		List<T> filteredList = new ArrayList<>();		
+		for (Object diagramElement : objectList) {
+			if(type_.isInstance(diagramElement)){
+				filteredList.add((T) diagramElement);
+			}
+		}		
+		return filteredList;
 	}
 	
 	public OntoumlEditor currentEditor(){

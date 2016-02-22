@@ -35,20 +35,20 @@ public class ColorCommander extends GenericCommander {
     // Methods to prepare SetColorCommands
     
 	public void copyBackgroundColor(Object obj){
-		ArrayList<ClassElement> elements = setUpList(obj,ClassElement.class);
+		ArrayList<ClassElement> elements = setUpAsList(obj,ClassElement.class);
 		if(elements.size()>0)
 			copiedColor = elements.get(0).getBackgroundColor();
 	}
 
 	public void pasteBackgroundColor(Object obj){
-		List<DiagramElement> classElements = setUpList(obj, DiagramElement.class);	
+		List<DiagramElement> classElements = setUpAsList(obj, DiagramElement.class);	
 		if (copiedColor != null)
 			createAndRunCommand(classElements, copiedColor);
 	}
 	
 	public void setBackgroundColor(Object obj)
 	{
-		ArrayList<DiagramElement> elements = setUpList(obj,DiagramElement.class);
+		ArrayList<DiagramElement> elements = setUpAsList(obj,DiagramElement.class);
 		setBackgroundColor(elements);
 	}
 	

@@ -90,7 +90,7 @@ public class DeleteCommander extends GenericCommander {
 		}
 		//if method is called from diagram
 		else{
-			List<DiagramElement> elements = setUpList(input, DiagramElement.class);
+			List<DiagramElement> elements = setUpAsList(input, DiagramElement.class);
 			deleteElements(elements, true);
 		}
 	}
@@ -185,7 +185,7 @@ public class DeleteCommander extends GenericCommander {
 	
 	/** Erase elements from a particular diagram. It does not delete the element from the model. */
 	public void deleteFromDiagram(OntoumlEditor editor, Object input){		
-		List<DiagramElement> diagramElements = setUpList(input, DiagramElement.class);
+		List<DiagramElement> diagramElements = setUpAsList(input, DiagramElement.class);
 		
 		//Removes all diagrams in the input
 		List<DiagramElement> diagrams = new ArrayList<DiagramElement>();
