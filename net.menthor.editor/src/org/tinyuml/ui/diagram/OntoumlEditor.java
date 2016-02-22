@@ -48,7 +48,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
-import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
@@ -67,17 +66,13 @@ import org.tinyuml.draw.Node;
 import org.tinyuml.draw.NodeChangeListener;
 import org.tinyuml.draw.NullElement;
 import org.tinyuml.draw.RectilinearConnection;
-import org.tinyuml.draw.Scaling;
 import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SingleLineEditField;
 import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
-import RefOntoUML.Generalization;
-import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -93,7 +88,6 @@ import net.menthor.editor.v2.ui.app.AppEditorsPane;
 import net.menthor.editor.v2.ui.app.AppFrame;
 import net.menthor.editor.v2.ui.app.AppMenuBar;
 import net.menthor.editor.v2.ui.app.AppPalette;
-import net.menthor.editor.v2.ui.app.AppSplitPane;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -113,7 +107,6 @@ import net.menthor.editor.v2.ui.operation.diagram.RenameLabelOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ResizeOperation;
 import net.menthor.editor.v2.ui.operation.diagram.TranslateOperation;
 import net.menthor.editor.v2.util.DrawUtil;
-import net.menthor.editor.v2.util.Util;
 
 /**
  * This class represents the diagram editor. It mainly acts as the
@@ -132,27 +125,21 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	public ICommandListener listener;
 	private AppEditorsPane diagramManager;
 	private OntoumlWrapper wrapper;
+	private PalettePopupMenu popupmenu;
 	
 	private ActionStack actionStack = ActionStack.get();
 	private transient IEditorMode editorMode;
+	private transient ScalingComponent scalingComponent;
 	//private transient SelectionMode selectionHandler;
 	
 	public IEditorMode getEditorMode(){ return editorMode; }
 	//public SelectionMode getSelectionHandler(){ return selectionHandler; }
 	
-	private transient Scaling scaling = Scaling.SCALING_100;		
-	private static final double MARGIN_TOP=0;
-	private static final double MARGIN_LEFT=0;
-	private static final double MARGIN_RIGHT=0;//AppFrame.GetScreenWorkingWidth();
-	private static final double MARGIN_BOTTOM=0;//AppFrame.GetScreenWorkingHeight();
-	private static final double ADDSCROLL_HORIZONTAL=0;
-	private static final double ADDSCROLL_VERTICAL=0;
+	protected static final double MARGIN_TOP=0, MARGIN_LEFT=0, MARGIN_RIGHT=0,//AppFrame.GetScreenWorkingWidth();
+								  MARGIN_BOTTOM=0,//AppFrame.GetScreenWorkingHeight();
+								  ADDSCROLL_HORIZONTAL=0,
+								  ADDSCROLL_VERTICAL=0;
 		
-	
-	PalettePopupMenu popupmenu;
-	
-	// It is nice to report the mapped coordinates to listeners, so it can be used for debug output. 
-	
 	
 	// To edit the captions in the diagram. 
 	private SingleLineEditField captionEditor = new SingleLineEditField();
@@ -163,42 +150,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	// MouseEvent wrapper
 	private transient EditorMouseEvent mouseEvent = new EditorMouseEvent();
-	
+
 	// this might be null when the application is started and the pointer still did not move or had the focus of the editor
 	private static MouseEvent currentPointerPosition;
-	
-
-	public ICommandListener getListener() { return listener; }
-	//public DrawingContext getDrawingContext() { return MenthorEditor.getFrame().getDrawingContext(); }
-	
-	/**
-	 * Reset the transient values for serialization.
-	 * 
-	 * @param stream an ObjectInputStream
-	 * @throws IOException if I/O error occured
-	 * @throws ClassNotFoundException if class was not found
-	 */
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException 
-	{
-		initEditorMembers();
-	}
-
-	/**
-	 * Initializes the transient editor members.
-	 */
-	private void initEditorMembers() 
-	{	
-		editorMode = SelectMode.get();
-		mouseEvent = new EditorMouseEvent();
-		scaling = Scaling.SCALING_100;
-	}
-	
-	public void setWrapper(OntoumlWrapper wrapper)
-	{
-		this.wrapper = wrapper;
-	}
-	
-	public OntoumlWrapper getWrapper() { return wrapper; }
 	
 	/** Empty constructor for testing. Do not use !  */
 	public OntoumlEditor() { }
@@ -242,35 +196,49 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		setSize(new Dimension((int)width,(int)height));		
 	}
 
+	public ICommandListener getListener() { return listener; }
+	//public DrawingContext getDrawingContext() { return MenthorEditor.getFrame().getDrawingContext(); }
+	
+	/**
+	 * Reset the transient values for serialization.
+	 * 
+	 * @param stream an ObjectInputStream
+	 * @throws IOException if I/O error occured
+	 * @throws ClassNotFoundException if class was not found
+	 */
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException 
+	{
+		initEditorMembers();
+	}
+
+	/**
+	 * Initializes the transient editor members.
+	 */
+	private void initEditorMembers() 
+	{	
+		editorMode = SelectMode.get();
+		mouseEvent = new EditorMouseEvent();
+		scalingComponent = new ScalingComponent(this);
+	}
+	
+	public void setWrapper(OntoumlWrapper wrapper)
+	{
+		this.wrapper = wrapper;
+	}
+	
+	public OntoumlWrapper getWrapper() { 
+		return wrapper; 
+	}
+	
+	
+
 	public AppEditorsPane getManager() { return diagramManager; }
 	public AppEditorsPane getDiagramManager() { return diagramManager; }
 	public UmlProject getProject() { return diagram.getProject(); }
 		
-	public int getScalingPercentual() { return (int)((scaling.getScaleFactor()*100)/100); }
+	
 
-	/**
-	 * Adjusts this component's preferredSize attribute to the diagram's size.
-	 * This also influences the scroll pane which the component is contained in.
-	 */
-	private void recalculateSize() 
-	{
-		double diagramWidth = diagram.getSize().getWidth()*scaling.getScaleFactor();		
-		double diagramHeight = diagram.getSize().getHeight()*scaling.getScaleFactor();
-		double width = (diagramWidth+MARGIN_RIGHT + MARGIN_LEFT + ADDSCROLL_HORIZONTAL);
-		double height = (diagramHeight+MARGIN_BOTTOM + MARGIN_TOP + ADDSCROLL_VERTICAL);
-		setPreferredSize(new Dimension((int)width,(int)height));		
-		setSize(new Dimension((int)width,(int)height));		
-		if(wrapper!=null){
-			if(scaling == Scaling.SCALING_50) {
-				wrapper.getScrollPane().setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-				wrapper.getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-			}else{
-				wrapper.getScrollPane().setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				wrapper.getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			}
-			wrapper.getScrollPane().updateUI();								
-		}		
-	}
+	
 
 	/** Returns true iff running on Mac OS X. **/
 	public static boolean onMac() {
@@ -385,14 +353,14 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
             if (e.getWheelRotation() < 0)
             {
             	for (int i = 0; i< Math.abs(e.getWheelRotation());i++) {
-            		zoomIn();
+            		scalingComponent.zoomIn();
 //            		centeredZoomIn(e.getPoint());
             	}
             }
             if (e.getWheelRotation() > 0)
             {
             	for (int i = 0; i< Math.abs(e.getWheelRotation());i++) {
-            		zoomOut();
+            		scalingComponent.zoomOut();
 //            		centeredZoomOut(e.getPoint());
             	}
             }
@@ -432,34 +400,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		redraw();
 		requestFocusInEditor();
 	}
-	
-	public List<Generalization> getGeneralizations(List<DiagramElement> diagramElements){
-		List<Generalization> gens = new ArrayList<Generalization>();		
-		for(DiagramElement dElem: diagramElements){
-			if (dElem instanceof GeneralizationElement){
-				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();				
-				if(gen!=null) gens.add(gen);
-			}
-		}
-		return gens;
-	}
-
-	public List<GeneralizationSet> getGeneralizationSets(List<DiagramElement> diagramElements){
-		// retain only generalization sets from selected
-		List<GeneralizationSet> genSets = new ArrayList<GeneralizationSet>();		
-		for(DiagramElement dElem: diagramElements){
-			if (dElem instanceof GeneralizationElement){
-				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
-				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) {
-					for(GeneralizationSet gs: gen.getGeneralizationSet()) {
-						if (!genSets.contains(gs)) genSets.add(gs);				
-					}
-				}
-			}
-		}
-		return genSets;
-	}
-	
 	
 		
 	/** Open ToolBox Menu. */
@@ -514,7 +454,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	{
 		Graphics2D g2d = (Graphics2D) g;
 		setRenderingHints(g2d);
-		if (scaling.getScaleFactor() != 1.0) 
+		if (scalingComponent.getScaleFactor() != 1.0) 
 		{
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -522,7 +462,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		//boolean gridVisible = diagram.isGridVisible();
 		Color background = ColorMap.getInstance().getColor(ColorType.MENTHOR_BLUE_LIGHTEST);
 		if (toScreen) {
-			scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
+			scalingComponent.scaleDiagram(g2d); // Scaling is only interesting if rendering to screen			
 		} 
 //		else {
 //			diagram.setGridVisible(gridVisible);
@@ -545,13 +485,13 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** Get the width of the diagram considering the zoom */
 	public double getDiagramWidth()
 	{
-		return diagram.getSize().getWidth()*scaling.getScaleFactor();
+		return diagram.getSize().getWidth()*scalingComponent.getScaleFactor();
 	}
 	
 	/** Get the height of the diagram considering the zoom */
 	public double getDiagramHeight()
 	{
-		return diagram.getSize().getHeight()*scaling.getScaleFactor();		
+		return diagram.getSize().getHeight()*scalingComponent.getScaleFactor();		
 	}
 	
 	/**
@@ -590,15 +530,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 	}
 
-	/**
-	 * Scales the diagram.
-	 * @param g2d the Graphics2D object
-	 */
-	private void scaleDiagram(Graphics2D g2d) 
-	{
-		double scaleFactor = scaling.getScaleFactor();
-		g2d.scale(scaleFactor, scaleFactor);		
-	}
+	
 
 	// ************************************************************************
 	// ***** ActionListener
@@ -713,7 +645,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	private EditorMouseEvent convertMouseEvent(MouseEvent e) 
 	{
-		mouseEvent.setMouseEvent(e, scaling);
+		mouseEvent.setMouseEvent(e, scalingComponent.getScaling());
 		return mouseEvent;
 	}
 
@@ -751,145 +683,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// ***** and sorts.
 	// ************************************************************************
 
-	/**
-	 * Rescales the view.
-	 * @param aScaling a Scaling object
-	 */
-	public void setScaling(Scaling aScaling) 
-	{
-		scaling = aScaling;
-		recalculateSize();				
-	}
-		
-	public void fitToWindow()
-	{		
-		double waste = 20;
-		if(AppSplitPane.get().isShowProjectBrowser()) waste+=240;
-		if(AppSplitPane.get().isShowPalette()) waste+=240;
-		double offx = (Util.getScreenWorkingWidth()-waste)/getUsedCanvasSize().get(1).getX();
-		double offy = (Util.getScreenWorkingHeight()-200)/getUsedCanvasSize().get(1).getY();
-		double diffx = (getUsedCanvasSize().get(1).getX()-(Util.getScreenWorkingWidth()-waste));
-		double diffy = (getUsedCanvasSize().get(1).getY()-(Util.getScreenWorkingHeight()-200));
-		if(diffx < 0)diffx=0;
-		if(diffy < 0)diffy=0;
-		if(diffx > diffy){	
-			setScaling(getScaling(offx));			
-			wrapper.getToolBar().update(getZoomPercentualValue());
-		}else if (diffx < diffy){
-			setScaling(getScaling(offy));			
-			wrapper.getToolBar().update(getZoomPercentualValue());
-		}
-	}
 	
-	public String getZoomPercentualValue()
-	{
-		return scaling.toString().replace(".0","");
-	}
-	
-	public void zoom100()
-	{
-		setScaling(Scaling.SCALING_100);	
-		wrapper.getToolBar().update(getZoomPercentualValue());
-	}
-	
-	public Scaling getScaling(double value)
-	{
-		if (value >= 1.50) return Scaling.SCALING_150; 
-		else if (value < 1.50 && value >= 1.45) return Scaling.SCALING_145;
-		else if (value < 1.45 && value >= 1.40) return Scaling.SCALING_140;
-		else if (value < 1.40 && value >= 1.35) return Scaling.SCALING_135;
-		else if (value < 1.35 && value >= 1.30) return Scaling.SCALING_130;
-		else if (value < 1.30 && value >= 1.25) return Scaling.SCALING_125;
-		else if (value < 1.25 && value >= 1.20) return Scaling.SCALING_120;
-		else if (value < 1.20 && value >= 1.15) return Scaling.SCALING_115;
-		else if (value < 1.15 && value >= 1.10) return Scaling.SCALING_110;
-		else if (value < 1.10 && value >= 1.05) return Scaling.SCALING_105;
-		else if (value < 1.05 && value >= 1.00) return Scaling.SCALING_100;
-		else if (value < 1.00 && value >= 0.95) return Scaling.SCALING_95;
-		else if (value < 0.95 && value >= 0.90) return Scaling.SCALING_90;
-		else if (value < 0.90 && value >= 0.85) return Scaling.SCALING_85;
-		else if (value < 0.85 && value >= 0.80) return Scaling.SCALING_80;
-		else if (value < 0.80 && value >= 0.75) return Scaling.SCALING_75;
-		else if (value < 0.75 && value >= 0.70) return Scaling.SCALING_70;
-		else if (value < 0.70 && value >= 0.65) return Scaling.SCALING_65;
-		else if (value < 0.65 && value >= 0.60) return Scaling.SCALING_60;
-		else if (value < 0.60 && value >= 0.55) return Scaling.SCALING_55;
-		else if (value < 0.55) return Scaling.SCALING_50;
-		return Scaling.SCALING_100;
-	}
-	
-	public void zoomOut()
-	{			
-		if (scaling.equals(Scaling.SCALING_150)) setScaling(Scaling.SCALING_145); 
-		else if (scaling.equals(Scaling.SCALING_145)) setScaling(Scaling.SCALING_140);
-		else if (scaling.equals(Scaling.SCALING_140)) setScaling(Scaling.SCALING_135);
-		else if (scaling.equals(Scaling.SCALING_135)) setScaling(Scaling.SCALING_130);
-		else if (scaling.equals(Scaling.SCALING_130)) setScaling(Scaling.SCALING_125);
-		else if (scaling.equals(Scaling.SCALING_125)) setScaling(Scaling.SCALING_120);
-		else if (scaling.equals(Scaling.SCALING_120)) setScaling(Scaling.SCALING_115);
-		else if (scaling.equals(Scaling.SCALING_115)) setScaling(Scaling.SCALING_110);
-		else if (scaling.equals(Scaling.SCALING_110)) setScaling(Scaling.SCALING_105);
-		else if (scaling.equals(Scaling.SCALING_105)) setScaling(Scaling.SCALING_100);		
-		else if (scaling.equals(Scaling.SCALING_100)) setScaling(Scaling.SCALING_95);
-		else if (scaling.equals(Scaling.SCALING_95)) setScaling(Scaling.SCALING_90);
-		else if (scaling.equals(Scaling.SCALING_90)) setScaling(Scaling.SCALING_85);
-		else if (scaling.equals(Scaling.SCALING_85)) setScaling(Scaling.SCALING_80);
-		else if (scaling.equals(Scaling.SCALING_80)) setScaling(Scaling.SCALING_75);
-		else if (scaling.equals(Scaling.SCALING_75)) setScaling(Scaling.SCALING_70);
-		else if (scaling.equals(Scaling.SCALING_70)) setScaling(Scaling.SCALING_65);
-		else if (scaling.equals(Scaling.SCALING_65)) setScaling(Scaling.SCALING_60);
-		else if (scaling.equals(Scaling.SCALING_60)) setScaling(Scaling.SCALING_55);
-		else if (scaling.equals(Scaling.SCALING_55)) setScaling(Scaling.SCALING_50);
-		wrapper.getToolBar().update(getZoomPercentualValue());
-	}
-
-//	public void centeredZoomOut(Point point) {
-//	    zoomOut();
-//	    Point pos = wrapper.getScrollPane().getViewport().getViewPosition();
-//	    double diff = (scaling.getScaleFactor()-1f);	    
-//	    double rest = 1f - diff;
-//	    int newX = (int)((point.x*diff)+(rest*pos.x));
-//	    int newY = (int)((point.y*diff)+(rest*pos.y));
-//	    wrapper.getScrollPane().getViewport().setViewPosition(new Point(newX, newY));
-//	    revalidate();
-//	    repaint();
-//	}
-//
-//	public void centeredZoomIn(Point point) {
-//	    zoomIn();
-//	    Point pos = wrapper.getScrollPane().getViewport().getViewPosition();
-//	    double diff = (scaling.getScaleFactor()-1f);	    	    
-//	    int newX = (int)((point.x*diff)+(scaling.getScaleFactor()*pos.x));
-//	    int newY = (int)((point.y*diff)+(scaling.getScaleFactor()*pos.y));
-//	    wrapper.getScrollPane().getViewport().setViewPosition(new Point(newX, newY));
-//	    revalidate();
-//	    repaint();
-//	}
-	
-	public void zoomIn()
-	{	
-		if (scaling.equals(Scaling.SCALING_50)) setScaling(Scaling.SCALING_55);
-		else if (scaling.equals(Scaling.SCALING_55)) setScaling(Scaling.SCALING_60);
-		else if (scaling.equals(Scaling.SCALING_60)) setScaling(Scaling.SCALING_65);
-		else if (scaling.equals(Scaling.SCALING_65)) setScaling(Scaling.SCALING_70);
-		else if (scaling.equals(Scaling.SCALING_70)) setScaling(Scaling.SCALING_75);
-		else if (scaling.equals(Scaling.SCALING_75)) setScaling(Scaling.SCALING_80);
-		else if (scaling.equals(Scaling.SCALING_80)) setScaling(Scaling.SCALING_85);
-		else if (scaling.equals(Scaling.SCALING_85)) setScaling(Scaling.SCALING_90);
-		else if (scaling.equals(Scaling.SCALING_90)) setScaling(Scaling.SCALING_95);
-		else if (scaling.equals(Scaling.SCALING_95)) setScaling(Scaling.SCALING_100);
-		else if (scaling.equals(Scaling.SCALING_100)) setScaling(Scaling.SCALING_105);
-		else if (scaling.equals(Scaling.SCALING_105)) setScaling(Scaling.SCALING_110);
-		else if (scaling.equals(Scaling.SCALING_110)) setScaling(Scaling.SCALING_115);
-		else if (scaling.equals(Scaling.SCALING_115)) setScaling(Scaling.SCALING_120);		
-		else if (scaling.equals(Scaling.SCALING_120)) setScaling(Scaling.SCALING_125);
-		else if (scaling.equals(Scaling.SCALING_125)) setScaling(Scaling.SCALING_130);
-		else if (scaling.equals(Scaling.SCALING_130)) setScaling(Scaling.SCALING_135);
-		else if (scaling.equals(Scaling.SCALING_135)) setScaling(Scaling.SCALING_140);
-		else if (scaling.equals(Scaling.SCALING_140)) setScaling(Scaling.SCALING_145);
-		else if (scaling.equals(Scaling.SCALING_145)) setScaling(Scaling.SCALING_150);	
-		wrapper.getToolBar().update(getZoomPercentualValue());
-	}
 	
 	/** Sets the editor into selection mode. */
 	public void setSelectionMode(){		
@@ -1107,15 +901,6 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// *************************************************************************
 	// ***** Diagram Editor Operations
 	// *************************************************************************
-
-	
-	
-	
-	
-	
-	
-	
-
 	
 
 	/** Edits the current selection's properties. */
@@ -1166,9 +951,15 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		
 	}
 
+	
 	/*** {@inheritDoc} */
-	public void nodeResized(Node node) { recalculateSize(); }
+	@Override
+	public void nodeResized(Node node) { 
+		scalingComponent.recalculateSize(); 
+	}
+	
 	/** {@inheritDoc} */
+	@Override
 	public void nodeMoved(Node node) { }
 	
 	public void requestFocusInEditor() { diagramManager.requestFocus(); }
@@ -1185,6 +976,10 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	@Override
 	public void dispose() { }
+
+	public ScalingComponent getScalingComponent() {
+		return scalingComponent;
+	}
 
 }
 

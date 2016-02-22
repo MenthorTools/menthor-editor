@@ -1,6 +1,7 @@
 package net.menthor.editor.v2.ui.app;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.ui.diagram.ScalingComponent;
 
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
@@ -112,6 +113,8 @@ public class AppCmdListener implements ICommandListener {
 			//----------------
 			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
 				return methodcall.call(AppTabManager.get().getCurrentDiagramEditor());
+			} else if(methodcall.getMethod().getDeclaringClass() == ScalingComponent.class){
+				return methodcall.call(AppTabManager.get().getCurrentDiagramEditor().getScalingComponent());
 			//----------------
 			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
 				return methodcall.call(AppFrame.get());				

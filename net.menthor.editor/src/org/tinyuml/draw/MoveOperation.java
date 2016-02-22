@@ -29,8 +29,7 @@ import net.menthor.editor.v2.ui.operation.IUndoableOperation;
  *
  * @author Wei-ju Wu
  */
-public abstract class MoveOperation extends AbstractUndoableEdit
-implements IUndoableOperation {
+public abstract class MoveOperation extends AbstractUndoableEdit implements IUndoableOperation {
 
 	private static final long serialVersionUID = 1L;
 

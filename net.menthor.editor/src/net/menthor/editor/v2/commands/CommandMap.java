@@ -31,6 +31,7 @@ import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.ui.diagram.ScalingComponent;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
@@ -436,14 +437,16 @@ public class CommandMap {
 				new MethodCall(OntoumlEditor.class.getMethod("showGrid")));
 		cmdMap.put(CommandType.REDRAW_DIAGRAM,
 				new MethodCall(OntoumlEditor.class.getMethod("redraw")));
+	
 		cmdMap.put(CommandType.FIT_TO_WINDOW,
-				new MethodCall(OntoumlEditor.class.getMethod("fitToWindow")));
+				new MethodCall(ScalingComponent.class.getMethod("fitToWindow")));
 		cmdMap.put(CommandType.ZOOM_OUT,
-				new MethodCall(OntoumlEditor.class.getMethod("zoomOut")));
+				new MethodCall(ScalingComponent.class.getMethod("zoomOut")));
 		cmdMap.put(CommandType.ZOOM_AT_100,
-				new MethodCall(OntoumlEditor.class.getMethod("zoom100")));
+				new MethodCall(ScalingComponent.class.getMethod("zoom100")));
 		cmdMap.put(CommandType.ZOOM_IN,
-				new MethodCall(OntoumlEditor.class.getMethod("zoomIn")));
+				new MethodCall(ScalingComponent.class.getMethod("zoomIn")));
+		
 		cmdMap.put(CommandType.PUT_BACK,
 				new MethodCall(OntoumlEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
