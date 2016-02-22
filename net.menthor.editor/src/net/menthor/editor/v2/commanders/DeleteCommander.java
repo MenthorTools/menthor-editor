@@ -168,7 +168,7 @@ public class DeleteCommander extends GenericCommander {
 	
 	/** Delete a generalization set from a list of selected diagram elements */
 	public void deleteGeneralizationSet(OntoumlEditor d, List<DiagramElement> selectedElements){	
-		List<GeneralizationSet> genSets = d.getGeneralizationSets(selectedElements);
+		List<GeneralizationSet> genSets = OccurenceManager.get().getGeneralizationSets(selectedElements);
 		if(genSets.size()==0) return;
 		if(genSets.size()==1){
 			deleteElement(genSets.get(0),true);

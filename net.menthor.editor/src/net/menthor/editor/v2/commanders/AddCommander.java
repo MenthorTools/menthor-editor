@@ -22,6 +22,7 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
+import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -165,7 +166,7 @@ public class AddCommander extends GenericCommander {
 	/** Add generalization set to generalization diagram elements */
 	public GeneralizationSet addGeneralizationSet(OntoumlEditor d, List<DiagramElement> diagramElements){		
 		UmlProject project = ProjectManager.get().getProject();
-		List<Generalization> gens = d.getGeneralizations(diagramElements);
+		List<Generalization> gens = OccurenceManager.get().getGeneralizations(diagramElements);
 		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);		
 		if(gens.size()<1) return null;		
 		if(haveGenSet){

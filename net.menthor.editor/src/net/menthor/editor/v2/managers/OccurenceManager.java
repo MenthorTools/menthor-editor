@@ -244,5 +244,32 @@ public class OccurenceManager {
 	
 		return list;
 	}
+	
+	public List<Generalization> getGeneralizations(List<DiagramElement> diagramElements){
+		List<Generalization> gens = new ArrayList<Generalization>();		
+		for(DiagramElement dElem: diagramElements){
+			if (dElem instanceof GeneralizationElement){
+				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();				
+				if(gen!=null) gens.add(gen);
+			}
+		}
+		return gens;
+	}
+
+	public List<GeneralizationSet> getGeneralizationSets(List<DiagramElement> diagramElements){
+		// retain only generalization sets from selected
+		List<GeneralizationSet> genSets = new ArrayList<GeneralizationSet>();		
+		for(DiagramElement dElem: diagramElements){
+			if (dElem instanceof GeneralizationElement){
+				Generalization gen = ((GeneralizationElement)dElem).getGeneralization();
+				if (gen.getGeneralizationSet()!=null && !gen.getGeneralizationSet().isEmpty()) {
+					for(GeneralizationSet gs: gen.getGeneralizationSet()) {
+						if (!genSets.contains(gs)) genSets.add(gs);				
+					}
+				}
+			}
+		}
+		return genSets;
+	}
 
 }
