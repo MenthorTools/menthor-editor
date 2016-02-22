@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.shared.DiagramSelection;
+
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 
 
@@ -91,12 +95,17 @@ public class MultiSelection implements Selection {
     anchor.setLocation(x, y);
     double minx = Double.MAX_VALUE, miny = Double.MAX_VALUE;
     double maxy = Double.MIN_VALUE, maxx = Double.MIN_VALUE;
+    
     for (DiagramElement element : elements) {
-      Rectangle2D elemBounds = element.getAbsoluteBounds();
-      minx = Math.min(minx, elemBounds.getX());
-      miny = Math.min(miny, elemBounds.getY());
-      maxx = Math.max(maxx, elemBounds.getX() + elemBounds.getWidth());
-      maxy = Math.max(maxy, elemBounds.getY() + elemBounds.getHeight());
+    	if(element instanceof StructureDiagram)
+    		continue;
+    	
+    	Rectangle2D elemBounds = element.getAbsoluteBounds();
+    	minx = Math.min(minx, elemBounds.getX());
+    	miny = Math.min(miny, elemBounds.getY());
+    	maxx = Math.max(maxx, elemBounds.getX() + elemBounds.getWidth());
+    	maxy = Math.max(maxy, elemBounds.getY() + elemBounds.getHeight());
+
     }
     bounds.setRect(minx, miny, maxx - minx, maxy - miny);
   }
@@ -112,11 +121,10 @@ public class MultiSelection implements Selection {
 	    double transx = tmpPos.getX() - bounds.getX();
 	    double transy = tmpPos.getY() - bounds.getY();
 	    for (DiagramElement element : elements) {
-	      if (element instanceof Node) {
+	      if (element instanceof ClassElement) {
 	        addMoveNodeOperation(moveOperations, (Node) element, transx, transy);
 	      } else if (element instanceof Connection) {
-	        addTranslateConnectionOperations(moveOperations, (Connection) element,
-	          transx, transy);	        
+	        addTranslateConnectionOperations(moveOperations, (Connection) element, transx, transy);	        
 	      }
 	    }
 	    
@@ -196,7 +204,8 @@ public class MultiSelection implements Selection {
    */
   public boolean contains(double xcoord, double ycoord) {
     for (Selection selection : selections) {
-      if (selection.contains(xcoord, ycoord)) return true;
+      if (!(selection instanceof DiagramSelection) && selection.contains(xcoord, ycoord)) 
+    	  return true;
     }
     return false;
   }

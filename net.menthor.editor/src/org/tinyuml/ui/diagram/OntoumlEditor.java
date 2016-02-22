@@ -32,7 +32,6 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -49,7 +48,6 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.Connection;
@@ -396,7 +394,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			captionEditor.hideField();
 		}
 		editorMode.cancel();
-		SelectMode.get().deselectAll();
+//		SelectMode.get().deselectAll();
 		AppPalette.get().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
@@ -575,21 +573,24 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// ************************************************************************
 
 	/** {@inheritDoc} */
-	public void mousePressed(MouseEvent e) 
-	{
-		if (!stopEditing()) editorMode.mousePressed(convertMouseEvent(e));		
+	public void mousePressed(MouseEvent e) {
+		if (!stopEditing()) {
+			editorMode.mousePressed(convertMouseEvent(e));		
+		}
 	}
 
 	/** {@inheritDoc} */
-	public void mouseReleased(MouseEvent e) 
-	{
-		if (!stopEditing()) editorMode.mouseReleased(convertMouseEvent(e));
+	public void mouseReleased(MouseEvent e) {
+		if (!stopEditing()){
+			editorMode.mouseReleased(convertMouseEvent(e));
+		}
 	}
 
 	/** {@inheritDoc} */
-	public void mouseClicked(MouseEvent e) 
-	{
-		if (!stopEditing()) editorMode.mouseClicked(convertMouseEvent(e));		
+	public void mouseClicked(MouseEvent e) {
+		if (!stopEditing()){
+			editorMode.mouseClicked(convertMouseEvent(e));		
+		}
 	}
 	
 	// ************************************************************************
@@ -597,48 +598,30 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	// ************************************************************************
 
 	/** {@inheritDoc} */
-	public void mouseExited(MouseEvent e) 
-	{ 
+	public void mouseExited(MouseEvent e) { 
 		EditorMouseEvent evt = convertMouseEvent(e);
 		currentPointerPosition = evt.getMouseEvent();
 	}
 
 	/** {@inheritDoc} */
-	public void mouseEntered(MouseEvent e) 
-	{
+	public void mouseEntered(MouseEvent e) {
 		EditorMouseEvent evt = convertMouseEvent(e);
 		currentPointerPosition = evt.getMouseEvent();
 	}
 
 	/** {@inheritDoc} */
-	public void mouseMoved(MouseEvent e) 
-	{
+	public void mouseMoved(MouseEvent e) {
 		EditorMouseEvent evt = convertMouseEvent(e);
 		currentPointerPosition = evt.getMouseEvent();		
 		editorMode.mouseMoved(evt);
-		//notifyCoordinateListeners();		
 	}
 	
 	/** {@inheritDoc} */
-	public void mouseDragged(MouseEvent e) 
-	{		
+	public void mouseDragged(MouseEvent e) {
 		EditorMouseEvent evt = convertMouseEvent(e);
 		currentPointerPosition = evt.getMouseEvent();
 		editorMode.mouseDragged(evt);
-		//notifyCoordinateListeners();
 	}
-
-	/**
-	 * Notifies the coordinate listeners.
-	 * Precondition: Mouse coordinates have been previously transformed.
-	 */
-//	private void notifyCoordinateListeners() 
-//	{
-//		for (EditorStateListener l : notificator.getEditorStateListeners()) 
-//		{
-//			l.mouseMoved(mouseEvent);
-//		}
-//	}
 
 	/**
 	 * Converts the java.awt.MouseEvent into an EditorMouseEvent.

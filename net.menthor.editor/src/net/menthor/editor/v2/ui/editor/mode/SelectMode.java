@@ -43,7 +43,6 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.StructureDiagram;
-import org.tinyuml.umldraw.shared.DiagramSelection;
 import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
@@ -244,47 +243,6 @@ public class SelectMode implements IEditorMode {
 	}
 	
 	
-	public void handleSelectionOnMouseClicked(EditorMouseEvent e) {
-		
-		boolean focusEditor = true;
-		double mx = e.getX(), my = e.getY();
-		
-		if(e.getMouseEvent().isControlDown()) return;
-		
-		// this is a pretty ugly cast, it is needed in order to use the getLabel()
-		// method which is not a base DiagramElement method
-		List<DiagramElement> previousSelected = selection.getElements();
-				
-		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);
-			
-		if (element instanceof UmlDiagramElement && previousSelected.contains(element)) {	
-			Label label = element.getLabelAt(mx, my);
-			if (label != null && label.isEditable()) {
-				focusEditor = false;
-				currentEditor().editLabel(label);				
-			} else if (e.getClickCount() >= 2) {
-				EditManager.get().edit(element);
-			}
-		}
-						
-		else if (currentEditor().getDiagram().getLabelAt(mx, my) != null) {
-			// Edit the diagram name
-			focusEditor = false;
-			currentEditor().editLabel(currentEditor().getDiagram().getLabelAt(mx, my));
-		} 
-				
-		else {
-			if (element == NullElement.getInstance()) {
-				element = currentEditor().getDiagram();
-			}			
-			selection = element.getSelection(currentEditor());			
-		}
-		currentEditor().redraw();
-		//notifyListeners();
-		if(focusEditor)
-			currentEditor().requestFocusInEditor();
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -320,6 +278,7 @@ public class SelectMode implements IEditorMode {
 	private void displayContextMenu(EditorMouseEvent e) {
 		double mx = e.getX(), my = e.getY();
 		Selection selection = getSelection(mx, my);
+		
 		if (!nothingSelected()) {
 			if(selection.getElement() instanceof StructureDiagram == false)
 			{
@@ -350,6 +309,47 @@ public class SelectMode implements IEditorMode {
 	}
 	
 
+	public void handleSelectionOnMouseClicked(EditorMouseEvent e) {
+			
+		if(e.getMouseEvent().isControlDown()) {
+			return;
+		}
+		
+		
+		boolean focusEditor = true;
+		double mx = e.getX(), my = e.getY();
+		
+		List<DiagramElement> previousSelected = selection.getElements();
+				
+		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);
+			
+		if (element instanceof UmlDiagramElement && previousSelected.contains(element)) {	
+			Label label = element.getLabelAt(mx, my);
+			if (label != null && label.isEditable()) {
+				focusEditor = false;
+				currentEditor().editLabel(label);				
+			} else if (e.getClickCount() >= 2) {
+				EditManager.get().edit(element);
+			}
+		}
+						
+		else if (currentEditor().getDiagram().getLabelAt(mx, my) != null) {
+			// Edit the diagram name
+			focusEditor = false;
+			currentEditor().editLabel(currentEditor().getDiagram().getLabelAt(mx, my));
+		} 
+				
+		else {
+			if (element == NullElement.getInstance()) {
+				element = currentEditor().getDiagram();
+			}			
+			selection = element.getSelection(currentEditor());			
+		}
+		currentEditor().redraw();
+		if(focusEditor)
+			currentEditor().requestFocusInEditor();
+	}
+	
 	/**
 	 * Handle the selection on a mousePressed event.
 	 * @param e the EditorMouseEvent
@@ -359,27 +359,25 @@ public class SelectMode implements IEditorMode {
 		
 		Selection newSelection = getSelection(mx, my);
 		
-		if(e.getMouseEvent().isControlDown()) {			
-			if ((newSelection instanceof NodeSelection && !(newSelection instanceof DiagramSelection)) || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector ) {
-				if(selection.getElements().size()>0){				
-					ArrayList<DiagramElement> allElement = new ArrayList<DiagramElement>();
-					List<DiagramElement> selectedElement = selection.getElements();	
-					allElement.addAll(selectedElement);
-					List<DiagramElement> newSelectedElement = newSelection.getElements();
-					
-					// select new elements...
-					for(DiagramElement elem: newSelectedElement){
-						if (!selectedElement.contains(elem)) allElement.add(elem);						
-					}
-					// in case of clicking in an already selected element: deselect it.					
-					if(selectedElement.containsAll(newSelectedElement)){
-						DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
-						allElement.remove(deselection);
-					}										
-					selection = new MultiSelection(currentEditor(), allElement);			
-				}else{
-					selection = newSelection;
+		if(e.getMouseEvent().isControlDown()) {	
+			
+			if (newSelection instanceof NodeSelection || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector ) {
+				ArrayList<DiagramElement> allElement = new ArrayList<DiagramElement>();
+				
+				List<DiagramElement> selectedElement = selection.getElements();	
+				allElement.addAll(selectedElement);
+				List<DiagramElement> newSelectedElement = newSelection.getElements();
+				
+				// select new elements...
+				for(DiagramElement elem: newSelectedElement){
+					if (!selectedElement.contains(elem)) allElement.add(elem);						
 				}
+				// in case of clicking in an already selected element: deselect it.					
+				if(selectedElement.containsAll(newSelectedElement)){
+					DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
+					allElement.remove(deselection);
+				}										
+				selection = new MultiSelection(currentEditor(), allElement);			
 			}else{
 				selection = newSelection;
 			}
@@ -400,34 +398,14 @@ public class SelectMode implements IEditorMode {
 
 
 	/**
-	 * Sets the current selection for the specified mouse coordinates. Returns
-	 * true if an element was clicked, false otherwise
-	 * @param mx the mapped x coordinate
-	 * @param my the mapped y coordinate
-	 * @return the selection object, a NullSelection instance otherwise
-	 */
-	private Selection getSelection(double mx, double my) {
-		if (!nothingSelected() && selection.contains(mx, my)) {
-			return selection;
-		}
-		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);			
-		if (element != NullElement.getInstance()) {
-			// select the element
-			return element.getSelection(currentEditor());
-		}
-		return currentEditor().getDiagram().getSelection(currentEditor());
-	}
-
-	/**
 	 * Handles the current selection on a mouse released.
 	 * @param e the EditorMouseEvent
 	 */
 	public void handleSelectionOnMouseReleased(EditorMouseEvent e) {
-		
 		double mx = e.getX(), my = e.getY();
 				
 		if (selection.isDragging()) {
-
+	
 			selection.updatePosition(mx, my);
 			selection.stopDragging(mx, my);
 			
@@ -466,13 +444,31 @@ public class SelectMode implements IEditorMode {
 				
 				setRubberbandSelection((RubberbandSelector) selection);
 			}
-
+	
 			currentEditor().redraw();
 		}
 		 
 		// notify selection listeners
 		//notifyListeners();
-		currentEditor().requestFocusInEditor();
+		//currentEditor().requestFocusInEditor();
+	}
+	/**
+	 * Sets the current selection for the specified mouse coordinates. Returns
+	 * true if an element was clicked, false otherwise
+	 * @param mx the mapped x coordinate
+	 * @param my the mapped y coordinate
+	 * @return the selection object, a NullSelection instance otherwise
+	 */
+	private Selection getSelection(double mx, double my) {
+		if (!nothingSelected() && selection.contains(mx, my)) {
+			return selection;
+		}
+		DiagramElement element = currentEditor().getDiagram().getChildAt(mx, my);			
+		if (element != NullElement.getInstance()) {
+			// select the element
+			return element.getSelection(currentEditor());
+		}
+		return currentEditor().getDiagram().getSelection(currentEditor());
 	}
 
 	/**

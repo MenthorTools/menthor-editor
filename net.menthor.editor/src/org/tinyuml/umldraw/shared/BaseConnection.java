@@ -364,8 +364,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 	 * {@inheritDoc}
 	 */
 	public Selection getSelection(DiagramOperations operations) {
-		return new UmlConnectionSelection(this,
-				connection.getSelection(operations));
+		return new UmlConnectionSelection(this,	connection.getSelection(operations));
 	}
 
 	/**
