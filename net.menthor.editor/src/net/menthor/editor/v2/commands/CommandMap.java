@@ -41,7 +41,7 @@ import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
-import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.feature.AlloyFeature;
@@ -158,13 +158,15 @@ public class CommandMap {
 		
 	private void move() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.MOVE_UP_TREE,
-				new MethodCall(MoveCommander.class.getMethod("moveUpSelectedOnTree")));
+				new MethodCall(AddToDiagramCommander.class.getMethod("moveUpSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_DOWN_TREE,
-				new MethodCall(MoveCommander.class.getMethod("moveDownSelectedOnTree")));
+				new MethodCall(AddToDiagramCommander.class.getMethod("moveDownSelectedOnTree")));
 		cmdMap.put(CommandType.MOVE_SELECTED_TREE_TO_DIAGRAM,
-				new MethodCall(MoveCommander.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
-		cmdMap.put(CommandType.MOVE_TREE_NODE_TO_DIAGRAM,
-				new MethodCall(MoveCommander.class.getMethod("move", DefaultMutableTreeNode.class)));		
+				new MethodCall(AddToDiagramCommander.class.getMethod("moveSelectedOnTreeToDiagram", Point.class)));
+		cmdMap.put(CommandType.ADD_TREE_NODE_TO_DIAGRAM,
+				new MethodCall(AddToDiagramCommander.class.getMethod("addToDiagram", DefaultMutableTreeNode.class)));
+		cmdMap.put(CommandType.ADD_RELATED_ELEMENTS_TO_DIAGRAM,
+				new MethodCall(AddToDiagramCommander.class.getMethod("addRelatedElementsToDiagram", Object.class)));
 	}
 		
 	private void find()throws NoSuchMethodException, SecurityException{
@@ -446,8 +448,7 @@ public class CommandMap {
 				new MethodCall(OntoumlEditor.class.getMethod("putToBack")));
 		cmdMap.put(CommandType.BRING_TO_FRONT,
 				new MethodCall(OntoumlEditor.class.getMethod("bringToFront")));
-		cmdMap.put(CommandType.ADD_ALL_RELATED_ELEMENTS,
-				new MethodCall(OntoumlEditor.class.getMethod("addAllRelatedElements", Object.class)));
+		
 		
 		cmdMap.put(CommandType.NEW_GEN_SET_DIAGRAM, 
 				new MethodCall(AddCommander.class.getMethod("addGeneralizationSet", ArrayList.class)));

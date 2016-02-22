@@ -9,7 +9,7 @@ import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
-import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
@@ -170,8 +170,8 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(AppMessageManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
 				return methodcall.call(VisibilityCommander.get());	
-			}else if(methodcall.getMethod().getDeclaringClass() == MoveCommander.class){
-				return methodcall.call(MoveCommander.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == AddToDiagramCommander.class){
+				return methodcall.call(AddToDiagramCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
 				return methodcall.call(OccurenceManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == OwlFeature.class){

@@ -212,7 +212,7 @@ public class UpdateCommander {
 		for(Object obj: fix.getAdded()) { 
 			if (obj instanceof RefOntoUML.Relationship) {
 				updateFromAddition((RefOntoUML.Element)obj);
-				MoveCommander.get().move((RefOntoUML.Element)obj, -1, -1, ed,false);
+				AddToDiagramCommander.get().addToDiagram((RefOntoUML.Element)obj, -1, -1, ed,false);
 			}
 			if(obj instanceof RefOntoUML.Property){		
 				updateFromAddition((RefOntoUML.Element)obj);

@@ -83,7 +83,7 @@ public class SingleElementPopupMenu extends GenericPopupMenu<UmlDiagramElement> 
 		addSeparator();		
 		if(diagramElement instanceof UmlNode){
 			UmlNode node = (UmlNode) diagramElement;			
-			createMenuItem("Add All Related Elements", CommandType.ADD_ALL_RELATED_ELEMENTS);
+			createMenuItem("Add All Related Elements", CommandType.ADD_RELATED_ELEMENTS_TO_DIAGRAM);
 			addSeparator();			
 			visibilityMenu = new VisibilityMenu(listener, node, this);
 			colorMenu = new ColorMenu(listener,node,this);					

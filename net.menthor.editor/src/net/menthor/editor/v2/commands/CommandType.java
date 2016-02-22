@@ -48,7 +48,7 @@ public enum CommandType {
 	ERASE("Erase selected element(s) from diagram"),
 	DELETE_CURRENT("Delete selected element(s)"), 
 	ERASE_CURRENT("Delete selected element(s) from diagram"),
-	ADD_ALL_RELATED_ELEMENTS("Add all related elements"),
+	ADD_RELATED_ELEMENTS_TO_DIAGRAM("Add all related elements"),
 		
 	NEW_OCLDOCUMENT("Createa a new rules document"),
 	CLOSE_OCL_EDITOR("Createa a new rules document"),
@@ -128,7 +128,7 @@ public enum CommandType {
 	
 	MOVE_DOWN_TREE(null),
 	MOVE_UP_TREE(null),
-	MOVE_TREE_NODE_TO_DIAGRAM(null),
+	ADD_TREE_NODE_TO_DIAGRAM(null),
 	FIND_IN_DIAGRAMS(null),
 	
 	VERIFY_MODEL("Check syntax of the entire model"), 

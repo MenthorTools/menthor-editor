@@ -33,7 +33,7 @@ import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
 import net.menthor.editor.v2.commanders.DeleteCommander;
-import net.menthor.editor.v2.commanders.MoveCommander;
+import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 
@@ -109,13 +109,13 @@ public class RemakeManager extends AppGenericManager {
 				direction = ae.getReadingDesign();
 			}
 			DeleteCommander.get().deleteFromDiagram(d, element);
-			MoveCommander.get().moveAssociation((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
+			AddToDiagramCommander.get().addAssociationToDiagram((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
 		}
 		if(element instanceof Generalization){			
 			GeneralizationElement ge = (GeneralizationElement) OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
 			DeleteCommander.get().deleteFromDiagram(d, element);
-			MoveCommander.get().moveGeneralization(d,(Generalization) element, isRectilinear);
+			AddToDiagramCommander.get().addGeneralizationToDiagram(d,(Generalization) element, isRectilinear);
 		}		
 	}
 }
