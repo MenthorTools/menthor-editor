@@ -70,8 +70,15 @@ public class EditManager extends AppGenericManager {
 	
 	/** edit */
 	public void edit(Object input){
-		Object element = input;
-
+		if (input instanceof StructureDiagram){    		
+			AppTabManager.get().addEditor(input);
+    	} 
+    	else if (input instanceof OclDocument){
+    		AppTabManager.get().addEditor(input);
+    	}
+		
+		Object element = null;
+		
 		//gets element if the call is made from the diagram or error/warning/find tables
 		if(input instanceof DiagramElement) {
 			element = ((DiagramElement) input).getModelObject();
@@ -81,15 +88,10 @@ public class EditManager extends AppGenericManager {
 		}
 		
 		//runs appropriate action
-    	if(element instanceof Element){
+    	if(element!=null && element instanceof Element){
     		openDialog((Element)element);
     	}    	
-    	else if (element instanceof StructureDiagram){    		
-			AppTabManager.get().addEditor(element);
-    	} 
-    	else if (element instanceof OclDocument){
-    		AppTabManager.get().addEditor(element);
-    	}
+    	
 	}
 	
 	/** Edit class */
