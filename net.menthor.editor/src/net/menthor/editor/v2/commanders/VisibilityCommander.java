@@ -98,8 +98,8 @@ public class VisibilityCommander extends GenericCommander {
 		boolean newValue;
 		
 		if(associations.size()>0){
-			newValue = !hasVisibleName(associations) && !hasVisibleStereotype(associations) && !hasVisibleMultiplicity(associations) && 
-					!hasVisibleRedefinition(associations) && !hasVisibleSubsetting(associations) && !hasVisibleEndName(associations);
+			newValue = !hasVisibleName(associations) || !hasVisibleStereotype(associations) || !hasVisibleMultiplicity(associations) || 
+					!hasVisibleRedefinition(associations) || !hasVisibleSubsetting(associations) || !hasVisibleEndName(associations);
 			
 			createAndRunVisibilityCommand(associations, AssociationVisibility.NAME, newValue);
 			createAndRunVisibilityCommand(associations, AssociationVisibility.STEREOTYPE, newValue);
