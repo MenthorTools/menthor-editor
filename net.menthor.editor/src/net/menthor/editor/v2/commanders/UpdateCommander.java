@@ -157,6 +157,7 @@ public class UpdateCommander {
     
 	/** Update application from a set of fixes on the model */
 	public void update(Fix fix){		
+		
 		if (fix==null) return;			
 		updateFromAddition(fix);				
 		updateFromChange(fix);		

@@ -42,10 +42,12 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import RefOntoUML.Association;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
+import RefOntoUML.IntrinsicMomentClass;
+import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
-import RefOntoUML.Type;
+import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -487,13 +489,15 @@ public class FactoryManager {
   
   private boolean shouldInvert(UmlConnection conn, DiagramElement source, DiagramElement target){
 	  RefOntoUML.Relationship relationship = conn.getRelationship();
-	  if((relationship instanceof RefOntoUML.Derivation) ||
-	    ((relationship instanceof RefOntoUML.Characterization) && ! (source.getModelObject() instanceof RefOntoUML.Mode) && (source.getModelObject()  instanceof RefOntoUML.Mode)) ||  
-		((relationship instanceof RefOntoUML.Characterization) && ! (source.getModelObject()  instanceof RefOntoUML.Quality) && (source.getModelObject()  instanceof RefOntoUML.Quality)) ||
-		((relationship instanceof RefOntoUML.Mediation) && ! (source.getModelObject() instanceof RefOntoUML.Relator) && (source.getModelObject()  instanceof RefOntoUML.Relator)) ||
-		((relationship instanceof RefOntoUML.Structuration) && (source.getModelObject()  instanceof RefOntoUML.ReferenceStructure) && (source.getModelObject()  instanceof RefOntoUML.Quality))		      
-	  ) return true;
-	  return false;
+	  Object srcElement = source.getModelObject(),
+			 tgtElement = target.getModelObject();
+	  
+	  boolean isInvertedDerivation = relationship instanceof RefOntoUML.Derivation && srcElement instanceof MaterialAssociation && tgtElement instanceof Relator,
+			  isInvertedCharacterization = relationship instanceof RefOntoUML.Characterization && !(srcElement instanceof IntrinsicMomentClass) && tgtElement instanceof IntrinsicMomentClass,
+			  isInvertedMediation = relationship instanceof RefOntoUML.Mediation && !(srcElement instanceof RefOntoUML.Relator) && tgtElement instanceof RefOntoUML.Relator,
+			  isInvertedStructuration = relationship instanceof RefOntoUML.Structuration && (srcElement instanceof RefOntoUML.ReferenceStructure) && srcElement instanceof RefOntoUML.Quality;
+	  
+	  return isInvertedDerivation || isInvertedCharacterization || isInvertedMediation || isInvertedStructuration;
   }
   
   private void bind(UmlConnection conn, DiagramElement de1, DiagramElement de2){	  
