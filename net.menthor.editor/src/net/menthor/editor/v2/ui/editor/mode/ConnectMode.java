@@ -32,7 +32,7 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
 
 public class ConnectMode implements IEditorMode {
@@ -66,7 +66,7 @@ public class ConnectMode implements IEditorMode {
 	
 	@Override
 	public void mousePressed(EditorMouseEvent event) {
-		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
 		double mx = event.getX(), my = event.getY();
 		sourceElem = editor.getDiagram().getChildAt(mx, my);
 		if (sourceElem!=null && ! (sourceElem instanceof NullElement)) {
@@ -78,7 +78,7 @@ public class ConnectMode implements IEditorMode {
 	
 	@Override
 	public void mouseReleased(EditorMouseEvent event) {
-		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
 		double mx = event.getX(), my = event.getY();
 	    targetElem = editor.getDiagram().getChildAt(mx, my);	
 	    tmpPos.setLocation(mx, my);
@@ -96,7 +96,7 @@ public class ConnectMode implements IEditorMode {
 	public void mouseDragged(EditorMouseEvent event) {
 		double mx = event.getX(), my = event.getY();
 	    tmpPos.setLocation(mx, my);
-	    AppTabManager.get().getCurrentDiagramEditor().redraw();	    
+	    TabbedAreaController.get().selectedTopOntoumlEditor().redraw();	    
 	}
 
 	@Override

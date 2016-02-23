@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.Frame;
 
 public class GeneralizationSetEditDialog extends GenericEditDialog {
 
@@ -35,7 +35,7 @@ public class GeneralizationSetEditDialog extends GenericEditDialog {
 	private GeneralizationSet genSet;
 	private GeneralizationSetEditPane genSetEdition;
 	
-	public GeneralizationSetEditDialog(final AppFrame parent, final GeneralizationSet genSet, boolean modal){
+	public GeneralizationSetEditDialog(final Frame parent, final GeneralizationSet genSet, boolean modal){
 		super(parent, modal);
 		this.genSet=genSet;
 		initUI();

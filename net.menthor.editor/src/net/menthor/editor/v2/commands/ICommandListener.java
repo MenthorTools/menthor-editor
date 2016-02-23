@@ -27,5 +27,6 @@ public interface ICommandListener {
   /** Handles the specified action command string. */  
   Object handleCommand(String command, Object[] parameters);
   Object handleCommand(String command);
+  Object callMethod(MethodCall methodcall);
   
  }

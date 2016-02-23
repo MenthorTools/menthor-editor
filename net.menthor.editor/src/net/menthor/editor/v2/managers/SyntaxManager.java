@@ -36,14 +36,15 @@ import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 import net.menthor.editor.v2.feature.AlloyFeature;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppSplitPaneManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
+import net.menthor.editor.v2.ui.controller.CursorController;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.SplitPaneController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-public class SyntaxManager {
+public class SyntaxManager extends AbstractManager {
 
 	// -------- Lazy Initialization
 
@@ -69,22 +70,22 @@ public class SyntaxManager {
 			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
-			toclparser.parseTemporalOCL(AppTabManager.get().getConstraints());			
+			toclparser.parseTemporalOCL(TabbedAreaController.get().getConstraints());			
 			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
-			if(showSuccesfullyMessage) AppMessageManager.get().showSuccess("Constraints Parse",msg);			
+			if(showSuccesfullyMessage) MessageController.get().showSuccess("Constraints Parse",msg);			
 		}catch(SemanticException e2){
-			AppMessageManager.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
+			MessageController.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
 		}catch(ParserException e1){
-			AppMessageManager.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
+			MessageController.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
 		}catch(Exception e4){
-			AppMessageManager.get().showError(e4, "OCL", "Could not parse OCl constraints");			
+			MessageController.get().showError(e4, "OCL", "Could not parse OCl constraints");			
 		}				
 	}
 	
 	//we want warnings and errors all together with the model verification
 	public void verifyModel(){
-		AppCursorManager.get().waitCursor();		
+		CursorController.get().waitCursor();		
 		double start = System.currentTimeMillis();
 		
 		//application warnings
@@ -99,23 +100,23 @@ public class SyntaxManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
-		AppTabManager.get().addErrorsEditor(start, end, errors);		
-		AppSplitPaneManager.get().forceShowInfo();
+		TabbedAreaController.get().addErrorsEditor(start, end, errors);		
+		SplitPaneController.get().forceShowInfo();
 		if(errors.size()>0 && warnings.size()>0) {
-			AppTabManager.get().selectErrorEditor();
-			AppMessageManager.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
+			TabbedAreaController.get().select(EditorType.ERRORS_EDITOR);
+			MessageController.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
 		}
 		else if(errors.size()>0 && warnings.size()==0) {
-			AppTabManager.get().selectErrorEditor();
-			AppMessageManager.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
+			TabbedAreaController.get().select(EditorType.ERRORS_EDITOR);
+			MessageController.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
 		}
 		else if(errors.size()==0 && warnings.size()>0) {
-			AppTabManager.get().selectWarningEditor();
-			AppMessageManager.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
+			TabbedAreaController.get().select(EditorType.WARNING_EDITOR);
+			MessageController.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
 		} else {
-			AppMessageManager.get().showSuccess("Model Verified", "Model is syntactically correct");
+			MessageController.get().showSuccess("Model Verified", "Model is syntactically correct");
 		}
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}
 	
 	private List<ProblemElement> getMetamodelErrors(){

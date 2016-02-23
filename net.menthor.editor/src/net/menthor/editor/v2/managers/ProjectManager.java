@@ -34,16 +34,16 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
 import net.menthor.editor.v2.commanders.AddCommander;
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
-import net.menthor.editor.v2.ui.editor.OclEditor;
+import net.menthor.editor.v2.ui.controller.BrowserController;
+import net.menthor.editor.v2.ui.controller.CursorController;
+import net.menthor.editor.v2.ui.controller.FrameController;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.StartEditor;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
-public class ProjectManager extends AppGenericManager {
+public class ProjectManager extends AbstractManager {
 	
 	// -------- Lazy Initialization
 
@@ -68,12 +68,14 @@ public class ProjectManager extends AppGenericManager {
 	
 	public UmlProject getProject(){ return project; }
 	
-	
 	public void setProject(UmlProject project){
 		this.project = project;
 		this.project.setSaveModelNeeded(false);
-		browser().initialize(project);		
-		AppTabManager.get().initialize(project);
+		//register elements
+		OccurenceManager.get().addAll(project.getDiagrams());
+		//initialize GUI
+		BrowserController.get().initialize(project, listener());		
+		TabbedAreaController.get().initialize(project);		
 	}
 	
 	public File getProjectFile(){ return projectFile; }
@@ -95,7 +97,7 @@ public class ProjectManager extends AppGenericManager {
 	}
 	
 	public boolean confirmClose(Component parentWindow){
-		 return AppMessageManager.get().option(parentWindow,
+		 return MessageController.get().option(parentWindow,
 			"Close Project",
 			"Do you really want to close the current project?",
 			new String[]{"Save and Close", "Close", "Cancel"}
@@ -146,12 +148,12 @@ public class ProjectManager extends AppGenericManager {
 			if(confirmClose(frame())) saveProject();							
 		}		
 		project=null;
-		infoPane().empty();		
-		AppTabManager.get().backToInitialState();
+		infoPane().emptyOutput();		
+		TabbedAreaController.get().backToInitialState();
 	}
 	
 	public void openRecentProject(){
-		StartEditor startPanel = (StartEditor) AppTabManager.get().getCurrentEditor();
+		StartEditor startPanel = (StartEditor) TabbedAreaController.get().selectedTopEditor();
 		if(startPanel != null){
 			openProjectFromFile(startPanel.getSelectedRecentFile());
 		}
@@ -167,15 +169,15 @@ public class ProjectManager extends AppGenericManager {
 			File file = chooseNewFile();
 			if(file==null) return;
 			projectFile = file;
-			AppCursorManager.get().waitCursor();
+			CursorController.get().waitCursor();
 			closeProject();
 			createEmptyProject(false,true);				
 			serializeProject(file);			
-			frame().initializeFrame(file);														
+			FrameController.get().initializeFrame(file);														
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "New Project", "Could not create new project");
+			MessageController.get().showError(ex, "New Project", "Could not create new project");
 		}		
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}	
 
 	@SuppressWarnings("unchecked")
@@ -202,14 +204,14 @@ public class ProjectManager extends AppGenericManager {
 			if(file==null) return;
 			projectFile = file;
 			lastOpenPath = file.getAbsolutePath();
-			AppCursorManager.get().waitCursor();			
+			CursorController.get().waitCursor();			
 			closeProject();
 			deserializeProject(projectFile);
-			frame().initializeFrame(file);			
+			FrameController.get().initializeFrame(file);			
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "Open Project", "Could not open existing project");
+			MessageController.get().showError(ex, "Open Project", "Could not open existing project");
 		}
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}
 	
 	public void openProjectFromArgs(String[] args){		
@@ -226,31 +228,31 @@ public class ProjectManager extends AppGenericManager {
 	}
 	
 	public void openProjectFromFile(String filePath){
-		AppCursorManager.get().waitCursor();
+		CursorController.get().waitCursor();
 		try {
 			closeProject();
 			File file = new File(filePath);
 			projectFile = file;						
 			deserializeProject(projectFile);	
-			frame().initializeFrame(file);
+			FrameController.get().initializeFrame(file);
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "Open Project", "Could not open existing project from a file path");
+			MessageController.get().showError(ex, "Open Project", "Could not open existing project from a file path");
 		}
-		AppCursorManager.get().defaultCursor();		
+		CursorController.get().defaultCursor();		
 	}
 	
 	public void saveProjectAs(){
 		try{
 			File file = chooseSaveAsFile();
 			if(file==null) return;	
-			AppCursorManager.get().waitCursor();
+			CursorController.get().waitCursor();
 			projectFile = serializeProject(file);			
 			lastSavePath = file.getAbsolutePath();
-			frame().initializeFrame(projectFile, false);			
+			FrameController.get().initializeFrame(projectFile, false);			
 		}catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "Save Project As", "Could not save project");
+			MessageController.get().showError(ex, "Save Project As", "Could not save project");
 		}		
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}
 	
 	public void importModelContent() {
@@ -259,17 +261,17 @@ public class ProjectManager extends AppGenericManager {
 			if(file==null) return;				
 			projectFile = new File(file.getAbsolutePath().replace(".refontouml", ".menthor"));
 			lastImportPath = projectFile.getAbsolutePath();
-			AppCursorManager.get().waitCursor();
+			CursorController.get().waitCursor();
 			closeProject();
 			Resource resource = RefOntoUMLResourceUtil.loadModel(file.getAbsolutePath());
 			RefOntoUML.Package model = (RefOntoUML.Package)resource.getContents().get(0);
 			createProject(model, true, false);
 			serializeProject(projectFile);
-			frame().initializeFrame(projectFile);			
+			FrameController.get().initializeFrame(projectFile);			
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
+			MessageController.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
 		}		
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}
 
 	/**serialize project */
@@ -278,21 +280,19 @@ public class ProjectManager extends AppGenericManager {
 		try {
 			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
 			if (file.exists()) file.delete();
-			for(OclEditor ce: AppTabManager.get().getOclEditors()){				
-				if(ce!=null) ce.getOclDocument().setContentAsString(ce.getText());
-			}
+			TabbedAreaController.get().saveOclContents();				
 			project.clearOpenedDiagrams();
-			for(OntoumlEditor editor: AppTabManager.get().getDiagramEditors()){
+			for(OntoumlEditor editor: TabbedAreaController.get().getOntoumlEditors()){
 				project.saveAsOpened(editor.getDiagram());
 			}			
 			result = SerializationManager.get().serializeMenthorFile(file, project, project.getOclDocList());
 			project.setName(file.getName().replace(".menthor",""));
 			browser().getTree().updateUI();
 			project.saveAllDiagramNeeded(false);
-			frame().initializeFrame(file, false);			
+			FrameController.get().initializeFrame(file, false);			
 			Settings.addRecentProject(file.getCanonicalPath());
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "Write Project", "Could not serialize current project to a file");
+			MessageController.get().showError(ex, "Write Project", "Could not serialize current project to a file");
 		}				
 		return result;
 	}
@@ -301,12 +301,12 @@ public class ProjectManager extends AppGenericManager {
 	 * @throws IOException 
 	 * @throws ZipException */
 	public void deserializeProject(File file) throws ZipException, IOException {
-		AppCursorManager.get().waitCursor();
+		CursorController.get().waitCursor();
 
 		setProject(DeserializationManager.get().deserializeMenthorFile(file));
 			
-		frame().initializeFrame(file, false);
-		AppCursorManager.get().defaultCursor();
+		FrameController.get().initializeFrame(file, false);
+		CursorController.get().defaultCursor();
 		Settings.addRecentProject(file.getCanonicalPath());
 	}
 }

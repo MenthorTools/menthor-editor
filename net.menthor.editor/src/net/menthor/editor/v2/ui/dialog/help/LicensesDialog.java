@@ -42,7 +42,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.controller.MessageController;
 
 public class LicensesDialog extends JDialog {
 
@@ -129,7 +129,7 @@ public class LicensesDialog extends JDialog {
 			textArea.setText(text);
 			textArea.setCaretPosition(0);			
 		}catch(IOException e){
-			AppMessageManager.get().showError(e, "Reading License", "Could not display any license due to an internal error.");
+			MessageController.get().showError(e, "Reading License", "Could not display any license due to an internal error.");
 		}
 	}
 }

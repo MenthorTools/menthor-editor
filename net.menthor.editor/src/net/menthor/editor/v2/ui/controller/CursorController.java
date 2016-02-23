@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app.manager;
+package net.menthor.editor.v2.ui.controller;
 
 /**
  * ============================================================================================
@@ -26,46 +26,50 @@ import java.awt.Cursor;
 
 import javax.swing.RootPaneContainer;
 
-public class AppCursorManager extends AppGenericManager {
+import net.menthor.editor.v2.ui.TopTabbedPane;
 
+public class CursorController  {
+
+	TopTabbedPane pane = TopTabbedPane.get();
+	
 	// -------- Lazy Initialization
 
 	private static class CursorLoader {
-        private static final AppCursorManager INSTANCE = new AppCursorManager();
+        private static final CursorController INSTANCE = new CursorController();
     }	
-	public static AppCursorManager get() { 
+	public static CursorController get() { 
 		return CursorLoader.INSTANCE; 
 	}	
-    private AppCursorManager() {
-        if (CursorLoader.INSTANCE != null) throw new IllegalStateException("CursorManager already instantiated");
+    private CursorController() {
+        if (CursorLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------
 		
 	public void waitCursor(){
 		int cursorType = Cursor.WAIT_CURSOR;
-		Component glassPane = ((RootPaneContainer)editorsPane().getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)pane.getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 	
 	public void defaultCursor(){
 		int cursorType = Cursor.DEFAULT_CURSOR;
-		Component glassPane = ((RootPaneContainer)editorsPane().getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)pane.getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 	
 	public void handCursor(){
 		int cursorType = Cursor.HAND_CURSOR;
-		Component glassPane = ((RootPaneContainer)editorsPane().getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)pane.getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}
 	
 	public void crossHairCursor(){
 		int cursorType = Cursor.CROSSHAIR_CURSOR;
-		Component glassPane = ((RootPaneContainer)editorsPane().getTopLevelAncestor()).getGlassPane();
+		Component glassPane = ((RootPaneContainer)pane.getTopLevelAncestor()).getGlassPane();
 		glassPane.setCursor(Cursor.getPredefinedCursor(cursorType));
 		glassPane.setVisible(cursorType != Cursor.DEFAULT_CURSOR);
 	}

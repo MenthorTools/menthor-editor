@@ -27,7 +27,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.Frame;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
 public class ParthoodFeature {
@@ -43,7 +43,7 @@ public class ParthoodFeature {
 		return ParthoodLoader.INSTANCE; 
 	}	
     private ParthoodFeature() {
-    	parent = AppFrame.get();
+    	parent = Frame.get();
         if (ParthoodLoader.INSTANCE != null) throw new IllegalStateException("ParthoodManager already instantiated");
     }		
     

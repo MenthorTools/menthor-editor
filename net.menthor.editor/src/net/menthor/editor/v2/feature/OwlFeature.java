@@ -32,13 +32,13 @@ import net.menthor.common.settings.owl.OWL2Approach;
 import net.menthor.common.settings.owl.OWL2Destination;
 import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.app.AppCmdListener;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
@@ -62,8 +62,8 @@ public class OwlFeature {
 		return OwlLoader.INSTANCE; 
 	}	
     private OwlFeature() {
-    	parent = AppFrame.get();
-    	listener = AppCmdListener.get();
+    	parent = Frame.get();
+    	listener = CommandListener.get();
         if (OwlLoader.INSTANCE != null) throw new IllegalStateException("OwlManager already instantiated");
     }		
     
@@ -93,18 +93,18 @@ public class OwlFeature {
 	
 	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt){
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = generateOwl(filteredParser, model, AppTabManager.get().getConstraints(), trOpt);
+		ResultType result = generateOwl(filteredParser, model, TabbedAreaController.get().getConstraints(), trOpt);
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
-				AppTabManager.get().showOutputInfo(result.toString(), true, false);
-				AppTabManager.get().addTextEditor((String)result.getData()[0]);
+				TabbedAreaController.get().showOutputInfo(result.toString(), true, false);
+				TabbedAreaController.get().addTextEditor((String)result.getData()[0]);
 			}else{
-				AppTabManager.get().showOutputInfo(result.toString(), true, true);
+				TabbedAreaController.get().showOutputInfo(result.toString(), true, true);
 			}			
 			return "SUCCESS. Project successfully transformed.";
 		}else{
-			AppTabManager.get().showOutputInfo(result.toString(), true, true);			
+			TabbedAreaController.get().showOutputInfo(result.toString(), true, true);			
 			return "FAILURE. Project could not be transformed.";
 		}
 	}

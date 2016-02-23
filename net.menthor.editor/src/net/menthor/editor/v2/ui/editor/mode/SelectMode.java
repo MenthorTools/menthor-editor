@@ -46,14 +46,17 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnectionSelection;
 import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.ui.app.AppCmdListener;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.popupmenu.MultiElementPopupMenu;
 import net.menthor.editor.v2.ui.popupmenu.SingleElementPopupMenu;
 
 public class SelectMode implements IEditorMode {
 
+	protected ICommandListener listener; 
+	
 	// -------- Lazy Initialization
 
 	private static class SelectionModeLoader {
@@ -63,13 +66,14 @@ public class SelectMode implements IEditorMode {
 		return SelectionModeLoader.INSTANCE; 
 	}	
     private SelectMode() {
+    	listener = CommandListener.get();
         if (SelectionModeLoader.INSTANCE != null) throw new IllegalStateException("SelectionMode already instantiated");
     }
     
     // ----------------------------
     
     public OntoumlEditor currentEditor(){
-    	OntoumlEditor currentEditor = AppTabManager.get().getCurrentDiagramEditor();
+    	OntoumlEditor currentEditor = TabbedAreaController.get().selectedTopOntoumlEditor();
     	if(currentEditor!=null) rubberSelector.setDiagram(currentEditor.getDiagram());
     	return currentEditor;
     }
@@ -145,6 +149,13 @@ public class SelectMode implements IEditorMode {
 		selection.cancelDragging(); 
 	}
 	
+	public boolean isAllowedSelection(Selection sel){
+		return  sel instanceof NodeSelection || 
+				sel instanceof UmlConnectionSelection || 
+				sel instanceof MultiSelection || 
+				sel instanceof RubberbandSelector;
+	}
+	
 	public List<DiagramElement> getSelectedElements() { 
 		return selection.getElements(); 
 	}
@@ -172,28 +183,25 @@ public class SelectMode implements IEditorMode {
 	//---- Editor mouse events ---
 	
 	public void mouseMoved(EditorMouseEvent e) {
-		double mx = e.getX();
-		double my = e.getY();
 		if(currentEditor()==null) return;
-		if (selection.contains(mx, my)) {
-			currentEditor().setCursor(selection.getCursorForPosition(mx, my));
-		} else {
+		if(selection.contains(e.getX(), e.getY())) {
+			currentEditor().setCursor(selection.getCursorForPosition(e.getX(), e.getY()));
+		}else{
 			currentEditor().setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
 	public void mouseDragged(EditorMouseEvent e) {
-		double mx = e.getX();
-		double my = e.getY();
 		if(currentEditor()==null) return;
 		if (selection.isDragging()) {
-			selection.updatePosition(mx, my);
+			selection.updatePosition(e.getX(), e.getY());
 			currentEditor().repaint();
 		}
 	}
 	
 	public void mouseReleased(EditorMouseEvent e) {						
-		double mx = e.getX(), my = e.getY();				
+		double mx = e.getX();
+		double my = e.getY();				
 		if (selection.isDragging()) {	
 			selection.updatePosition(mx, my);
 			selection.stopDragging(mx, my);			
@@ -205,58 +213,18 @@ public class SelectMode implements IEditorMode {
 	}
 	
 	public void mousePressed(EditorMouseEvent e) {		
-		pressed(e);
-	}
-		
-	public void mouseClicked(EditorMouseEvent e) {		
-		if (e.isMainButton()) {
-			clicked(e);
-		}
-		if (SwingUtilities.isRightMouseButton(e.getMouseEvent())){
-			showSelectionPopupMenu(e);
-        }
-	}
-	
-	public void clicked(EditorMouseEvent e){
-		if(currentEditor()==null) return; 
-		if(e.getMouseEvent().isControlDown()) return;
-		DiagramElement elemClicked = currentEditor().getDiagram().getChildAt(e.getX(), e.getY());		
-		if(!getSelectedElements().contains(elemClicked)) return;		 
-		if(currentEditor()==null) return;
-		if (elemClicked instanceof UmlDiagramElement){						
-			Label label = elemClicked.getLabelAt(e.getX(),e.getY());
-			if (label != null && label.isEditable()) {
-				currentEditor().editLabel(label); 		
-			} else if (e.getClickCount() >= 2) {
-				EditManager.get().edit(elemClicked);
-			}			
-		}
-		if(elemClicked instanceof NullElement) {
-			selection = currentEditor().getDiagram().getSelection(currentEditor()); 			
-		}
-		currentEditor().redraw();
-		currentEditor().requestFocusInEditor();
-	}
-
-	public void pressed(EditorMouseEvent e) {
 		double mx = e.getX(), my = e.getY();		
-		Selection newSelection = select(mx, my);		
+		Selection newSelection = select(mx, my);	
 		if(e.getMouseEvent().isControlDown()){			
-			if (newSelection instanceof NodeSelection || newSelection instanceof UmlConnectionSelection || newSelection instanceof MultiSelection || newSelection instanceof RubberbandSelector ) {
-				ArrayList<DiagramElement> allElement = new ArrayList<DiagramElement>();				
-				List<DiagramElement> selectedElement = selection.getElements();	
-				allElement.addAll(selectedElement);
-				List<DiagramElement> newSelectedElement = newSelection.getElements();				
-				// select new elements...
-				for(DiagramElement elem: newSelectedElement){
-					if (!selectedElement.contains(elem)) allElement.add(elem);						
-				}
+			if (isAllowedSelection(newSelection)) {
+				List<DiagramElement> allElements = merge(selection, newSelection);
+				if(currentEditor()==null) return;
 				// in case of clicking in an already selected element: deselect it.					
-				if(selectedElement.containsAll(newSelectedElement)){
+				if(selection.getElements().containsAll(newSelection.getElements())){
 					DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
-					allElement.remove(deselection);
+					allElements.remove(deselection);
 				}										
-				selection = new MultiSelection(currentEditor(), allElement);			
+				selection = new MultiSelection(currentEditor(), allElements);			
 			}else{
 				selection = newSelection;
 			}
@@ -268,13 +236,39 @@ public class SelectMode implements IEditorMode {
 			if (isNothingSelected() && currentEditor().getDiagram().contains(mx, my)) {
 				selection = rubberSelector;
 				selection.updatePosition(mx, my);
-			}			
+			}
 			startPoint.setLocation(mx,my);
 			selection.startDragging(mx, my);
 		}
 	}
+		
+	public void mouseClicked(EditorMouseEvent e) {		
+		if (e.isMainButton()) {
+			if(currentEditor()==null) return; 
+			if(e.getMouseEvent().isControlDown()) return;
+			DiagramElement elemClicked = currentEditor().getDiagram().getChildAt(e.getX(), e.getY());		
+			if(!getSelectedElements().contains(elemClicked)) return;		 
+			if(currentEditor()==null) return;
+			if (elemClicked instanceof UmlDiagramElement){						
+				Label label = elemClicked.getLabelAt(e.getX(),e.getY());
+				if (label != null && label.isEditable()) {
+					currentEditor().editLabel(label); 		
+				} else if (e.getClickCount() >= 2) {
+					EditManager.get().edit(elemClicked);
+				}			
+			}
+			if(elemClicked instanceof NullElement) {
+				selection = currentEditor().getDiagram().getSelection(currentEditor()); 			
+			}
+			currentEditor().redraw();
+			currentEditor().requestFocusInEditor();
+		}
+		if (SwingUtilities.isRightMouseButton(e.getMouseEvent())){
+			showSelectionPopupMenu(e);
+        }
+	}
 
-	//---- selection mode utilities ---
+	//---- utilities ---
 	
 	public List<AssociationElement> getSelectedAssociationElements(){
 		List<AssociationElement> result = new ArrayList<AssociationElement>();
@@ -294,6 +288,18 @@ public class SelectMode implements IEditorMode {
 			}
 		}	
 		return result;
+	}
+	
+	private List<DiagramElement> merge(Selection oldselection, Selection newselection){
+		List<DiagramElement> all = new ArrayList<DiagramElement>();				
+		List<DiagramElement> selectedElement = oldselection.getElements();	
+		all.addAll(selectedElement);
+		List<DiagramElement> newSelectedElement = newselection.getElements();				
+		// select new elements...
+		for(DiagramElement elem: newSelectedElement){
+			if (!selectedElement.contains(elem)) all.add(elem);						
+		}
+		return all;
 	}
 	
 	public Point2D.Double getCenterPointOnSelected(){
@@ -343,7 +349,7 @@ public class SelectMode implements IEditorMode {
 	}
 	
 	public ClassElement getNodeAtTop(List<ClassElement> list){
-		StructureDiagram diagram = AppTabManager.get().getCurrentDiagramEditor().getDiagram();
+		StructureDiagram diagram = TabbedAreaController.get().selectedTopOntoumlEditor().getDiagram();
 		double maxY1 = diagram.getSize().getWidth();
 		ClassElement atTopElement = null;
 		for(DiagramElement de: list){
@@ -356,7 +362,7 @@ public class SelectMode implements IEditorMode {
 	}
 
 	public ClassElement getNodeAtLeft(List<ClassElement> list){
-		StructureDiagram diagram = AppTabManager.get().getCurrentDiagramEditor().getDiagram();
+		StructureDiagram diagram = TabbedAreaController.get().selectedTopOntoumlEditor().getDiagram();
 		double maxX1 = diagram.getSize().getWidth();
 		ClassElement atLeftElement = null;
 		for(ClassElement de: list){
@@ -392,10 +398,10 @@ public class SelectMode implements IEditorMode {
 	private JPopupMenu createSelectionPopupMenu(Selection selection, double x, double y) {		
 		List<UmlDiagramElement> filteredSelection = retainOnly(selection.getElements(), UmlDiagramElement.class);		
 		if(filteredSelection.size()==1) {
-			return new SingleElementPopupMenu(AppCmdListener.get(), filteredSelection.get(0));		
+			return new SingleElementPopupMenu(listener, filteredSelection.get(0));		
 		}
 		if (selection.getElements().size() > 1){ 			
-			return new MultiElementPopupMenu(AppCmdListener.get(), filteredSelection);
+			return new MultiElementPopupMenu(listener, filteredSelection);
 		}
 		return new JPopupMenu("No Action Available");
 	}

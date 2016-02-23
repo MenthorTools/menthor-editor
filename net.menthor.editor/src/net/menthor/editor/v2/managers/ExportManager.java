@@ -33,17 +33,16 @@ import javax.imageio.ImageIO;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
 import RefOntoUML.util.RefOntoUMLResourceUtil;
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
-import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
+import net.menthor.editor.v2.ui.controller.CursorController;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
 import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
 import net.menthor.ontouml2uml.OntoUML2UML;
 import net.menthor.ontouml2uml.OntoUML2UMLOption;
 
-public class ExportManager extends AppGenericManager {
+public class ExportManager extends AbstractManager {
 
 	// -------- Lazy Initialization
 
@@ -84,66 +83,66 @@ public class ExportManager extends AppGenericManager {
 		try {
 			File file = chooseRefOntoumlFile();
 			if(file==null) return;
-			AppCursorManager.get().waitCursor();			
+			CursorController.get().waitCursor();			
 			RefOntoUMLResourceUtil.saveModel(file.getAbsolutePath(), ProjectManager.get().getProject().getModel());		
 			lastRefOntoPath = file.getAbsolutePath();			
-			AppMessageManager.get().showSuccess("Export - RefOntouml", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
+			MessageController.get().showSuccess("Export - RefOntouml", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex,"Export - RefOntouml","Current project could not be exported to Reference OntoUML.");
+			MessageController.get().showError(ex,"Export - RefOntouml","Current project could not be exported to Reference OntoUML.");
 		}		
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}	
 		
 	public void exportToEcore(){
 		try {
 			File file = chooseEcoreFile();
 			if(file==null) return;
-			AppCursorManager.get().waitCursor();				
+			CursorController.get().waitCursor();				
 			OntoUML2EcoreOption opt = new OntoUML2EcoreOption(false,false);
 			OntoUML2Ecore.convertToEcore(ProjectManager.get().getProject().getRefParser(), file.getAbsolutePath(), opt);
 			lastEcorePath = file.getAbsolutePath();				
-			AppMessageManager.get().showSuccess("Export - Ecore", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
+			MessageController.get().showSuccess("Export - Ecore", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex, "Export - Ecore", "Current project could not be exported to Ecore");									
+			MessageController.get().showError(ex, "Export - Ecore", "Current project could not be exported to Ecore");									
 		}		
-		AppCursorManager.get().defaultCursor();		
+		CursorController.get().defaultCursor();		
 	}
 	
 	public void exportToProfileUML(){		
 		try {
 			File file = chooseUMLFile();
 			if(file==null) return;
-			AppCursorManager.get().waitCursor();				
+			CursorController.get().waitCursor();				
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
 			OntoUML2UML.convertToUMLProfile(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);							
 			lastUmlPath = file.getAbsolutePath();				
-			AppMessageManager.get().showSuccess("Export - UML Profile", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
+			MessageController.get().showSuccess("Export - UML Profile", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
 		} catch (Exception ex) {
-			AppMessageManager.get().showError(ex,"Export - UML Profile", "Current project could not be exported to UML Profile");
+			MessageController.get().showError(ex,"Export - UML Profile", "Current project could not be exported to UML Profile");
 		}		
-		AppCursorManager.get().defaultCursor();
+		CursorController.get().defaultCursor();
 	}	
 	
 	public void exportToUML(){
 		try {
 			File file = chooseUMLFile();
 			if(file==null) return;
-			AppCursorManager.get().waitCursor();			
+			CursorController.get().waitCursor();			
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
 			OntoUML2UML.convertToUML(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);			
 			lastUmlPath = file.getAbsolutePath();				
-			AppMessageManager.get().showSuccess("Export - UML", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
+			MessageController.get().showSuccess("Export - UML", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
 		} catch (Exception ex) {					
-			AppMessageManager.get().showError(ex, "Export - UML", "Current project could not be exported to UML.");			
+			MessageController.get().showError(ex, "Export - UML", "Current project could not be exported to UML.");			
 		}		
-		AppCursorManager.get().defaultCursor();		
+		CursorController.get().defaultCursor();		
 	}
 	
 	public void exportToPng(){		
 		try {
 			File file = choosePNGFile();
 			if(file==null) return;			
-			OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+			OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
 			List<Point> points = editor.getUsedCanvasSize();
 			Point origin = points.get(0);
 			Point end = points.get(1);			
@@ -152,7 +151,7 @@ public class ExportManager extends AppGenericManager {
 			BufferedImage croped = image.getSubimage(origin.x - 20, origin.y - 20, (end.x + 40 - origin.x), (end.y + 40 - origin.y));
 			ImageIO.write(croped, "png", file);
 		} catch (IOException ex) {
-			AppMessageManager.get().showError(ex, "Export - PNG", "Could not export current diagram into a PNG image.");
+			MessageController.get().showError(ex, "Export - PNG", "Could not export current diagram into a PNG image.");
 		}		
 	}
 }

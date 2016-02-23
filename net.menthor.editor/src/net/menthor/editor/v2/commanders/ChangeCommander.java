@@ -16,8 +16,8 @@ import net.menthor.common.ontoumlverificator.MultiplicityValidator;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.MessageController;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 import net.menthor.editor.v2.ui.operation.model.ChangeStereotypeModelOperation;
 import net.menthor.editor.v2.ui.operation.model.InvertModelOperation;
@@ -103,7 +103,7 @@ public class ChangeCommander {
 	}
 	
 	public void setEndPointName(DiagramElement con, RefOntoUML.Property endpoint){
-		Object newName = AppMessageManager.get().input("End-point name", "Input the a new name for the end-point:", null, endpoint.getType().getName().toLowerCase().trim());
+		Object newName = MessageController.get().input("End-point name", "Input the a new name for the end-point:", null, endpoint.getType().getName().toLowerCase().trim());
 		if(newName!=null && newName instanceof String){
 			new MetaPropertyModelOperation(endpoint, MetaProperty.NAME, newName).run();
 		}
@@ -197,14 +197,14 @@ public class ChangeCommander {
 	}
 	
 	public void requestOtherMultiplicity(RefOntoUML.Property endpoint){
-		Object newMultiplicity = AppMessageManager.get().input("End-point multiplicity","Input the new multiplicity for the end-point:",null,RefOntoUMLFactoryUtil.getMultiplicityAsString(endpoint)); 
+		Object newMultiplicity = MessageController.get().input("End-point multiplicity","Input the new multiplicity for the end-point:",null,RefOntoUMLFactoryUtil.getMultiplicityAsString(endpoint)); 
 		 if(newMultiplicity!=null && newMultiplicity instanceof String){
 			 MultiplicityValidator validator = new MultiplicityValidator((String) newMultiplicity);
 			 if(validator.isValid()){
 				 changeMultiplicity(endpoint, (String) newMultiplicity);
 			 }
 			 else {
-				 AppMessageManager.get().showError("End-point Multiplicity","Could not change the multiplicity");
+				 MessageController.get().showError("End-point Multiplicity","Could not change the multiplicity");
 			 }
 		 }	
 	}
@@ -296,12 +296,12 @@ public class ChangeCommander {
 	}
 	
 	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(AppFrame.get(),null, "Subsetted", endpoint, ProjectManager.get().getProject().getRefParser());
+		PropertyListEditDialog.open(Frame.get(),null, "Subsetted", endpoint, ProjectManager.get().getProject().getRefParser());
 		VisibilityCommander.get().showSubsetting(association);
 	}
 	
 	public void redefines(final AssociationElement association, final RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(AppFrame.get(),null, "Redefined", endpoint,ProjectManager.get().getProject().getRefParser());		
+		PropertyListEditDialog.open(Frame.get(),null, "Redefined", endpoint,ProjectManager.get().getProject().getRefParser());		
 		VisibilityCommander.get().showRedefinitions(association);
 	}
     

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui;
 
 /**
  * ============================================================================================
@@ -23,26 +23,27 @@ package net.menthor.editor.v2.ui.app;
 
 import java.awt.Color;
 
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.generic.GenericToolBar;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.toolbar.ToolBarButton;
 
-public class AppToolBar extends GenericToolBar {
+public class ToolBar extends GenericToolBar {
 
 	private static final long serialVersionUID = 8870790907921523710L;
 	
 	// -------- Lazy Initialization
 
-	private static class AppToolBarLoader {
-        private static final AppToolBar INSTANCE = new AppToolBar();
+	private static class GUIToolBarLoader {
+        private static final ToolBar INSTANCE = new ToolBar();
     }	
-	public static AppToolBar get() { 
-		return AppToolBarLoader.INSTANCE; 
+	public static ToolBar get() { 
+		return GUIToolBarLoader.INSTANCE; 
 	}	
-    private AppToolBar() {
-    	super(AppCmdListener.get(), background);
-    	if (AppToolBarLoader.INSTANCE != null) throw new IllegalStateException("AppToolBar already instantiated");
+    private ToolBar() {
+    	super(CommandListener.get(), background);
+    	if (GUIToolBarLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
         buildUI();
     }		
     

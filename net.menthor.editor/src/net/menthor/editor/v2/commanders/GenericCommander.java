@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 
 public abstract class GenericCommander {
@@ -42,7 +42,7 @@ public abstract class GenericCommander {
 	}
 	
 	public OntoumlEditor currentEditor(){
-		return AppTabManager.get().getCurrentDiagramEditor();
+		return TabbedAreaController.get().selectedTopOntoumlEditor();
 	}
 	
 	public void execute(IUndoableOperation command){

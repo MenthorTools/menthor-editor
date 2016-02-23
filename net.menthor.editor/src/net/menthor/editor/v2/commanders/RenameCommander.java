@@ -26,8 +26,8 @@ import java.awt.Component;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import RefOntoUML.NamedElement;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.MessageController;
 import net.menthor.editor.v2.ui.operation.model.RenameModelOperation;
 
 //Class to deal with renaning elements on the project browser.
@@ -48,7 +48,7 @@ public class RenameCommander extends GenericCommander {
     // ----------------------------
 	
 	public String askForElementName(Component parentWindow, String oldName){
-		return (String)AppMessageManager.get().input(parentWindow,
+		return (String)MessageController.get().input(parentWindow,
 			"Please, enter a new name for the this element:",
 			"Rename Manager",			
 			null,
@@ -67,7 +67,7 @@ public class RenameCommander extends GenericCommander {
 		
 		if (element instanceof NamedElement){
 			namedElement = (NamedElement) element;
-			String newName = askForElementName(AppFrame.get(), namedElement.getName());
+			String newName = askForElementName(Frame.get(), namedElement.getName());
 			RenameModelOperation command = new RenameModelOperation(namedElement, newName);
 			command.run();
 		}

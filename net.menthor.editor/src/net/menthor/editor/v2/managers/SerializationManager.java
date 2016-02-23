@@ -14,11 +14,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.util.Settings;
 
-public class SerializationManager extends AppGenericManager {
+public class SerializationManager extends AbstractManager {
 	
 	// -------- Lazy Initialization
 

@@ -41,16 +41,15 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.element.FoundElement;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationSetEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GenericEditDialog;
 
-public class EditManager extends AppGenericManager {
+public class EditManager extends AbstractManager {
 
 	// -------- Lazy Initialization
 
@@ -66,15 +65,15 @@ public class EditManager extends AppGenericManager {
     
     // ----------------------------
 	
-	public AppFrame getParent(){ return frame(); }
+	public Frame getParent(){ return frame(); }
 	
 	/** edit */
 	public void edit(Object input){
 		if (input instanceof StructureDiagram){    		
-			AppTabManager.get().addEditor(input);
+			TabbedAreaController.get().addEditor(input);
     	} 
     	else if (input instanceof OclDocument){
-    		AppTabManager.get().addEditor(input);
+    		TabbedAreaController.get().addEditor(input);
     	}
 		
 		Object element = null;
@@ -218,7 +217,7 @@ public class EditManager extends AppGenericManager {
 	
 	private <T extends DiagramElement> T getDiagramElement(Element element, Class<T> elementType) {
 		
-		OntoumlEditor diagEditor = AppTabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor diagEditor = TabbedAreaController.get().selectedTopOntoumlEditor();
 		StructureDiagram diagram = null;
 		DiagramElement diagramElement = null;
 		

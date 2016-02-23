@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui;
 
 /**
  * ============================================================================================
@@ -36,35 +36,33 @@ import net.menthor.editor.v2.ui.tree.TreeVisibility;
 import net.menthor.editor.v2.ui.util.RoundedPanel;
 import net.menthor.editor.v2.ui.util.TitlePane;
 
-public class AppBrowser extends RoundedPanel{
+public class Browser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
 	// -------- Lazy Initialization
 
-	private static class AppProjectBrowserLoader {
-        private static final AppBrowser INSTANCE = new AppBrowser();
+	private static class GUIBrowserLoader {
+        private static final Browser INSTANCE = new Browser();
     }	
-	public static AppBrowser get() { 
-		return AppProjectBrowserLoader.INSTANCE; 
+	public static Browser get() { 
+		return GUIBrowserLoader.INSTANCE; 
 	}	
-    private AppBrowser() {
-    	super();
-    	this.listener = AppCmdListener.get();
-    	if (AppProjectBrowserLoader.INSTANCE != null) throw new IllegalStateException("AppProjectBrowser already instantiated");
+    private Browser() {
+    	super();    	
+    	if (GUIBrowserLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
         buildUI();
     }		
     
     // ----------------------------
 	    
-	private ICommandListener listener;
 	private TitlePane titlePane;
 	private JScrollPane scrollPane;
 	private ProjectTree tree;
 	
 	public ProjectTree getTree() { return tree; }	
 	
-	public void buildUI(){
+	private void buildUI(){
 		scrollPane = new JScrollPane();		
 		scrollPane.setBorder(null);		
 		add(scrollPane, BorderLayout.CENTER);
@@ -75,7 +73,7 @@ public class AppBrowser extends RoundedPanel{
 		add(roundTitlePane, BorderLayout.NORTH);	
 	}
 	
-	public void initialize(UmlProject project){	
+	public void initialize(UmlProject project, ICommandListener listener){	
 		TreeVisibility viz = new TreeVisibility();
 		viz.hideEnds();
 		tree = ProjectTree.create(listener,project.getRefParser(),project.getOclDocList(),project, viz, false);

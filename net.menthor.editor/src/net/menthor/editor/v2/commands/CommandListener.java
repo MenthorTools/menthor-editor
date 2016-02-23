@@ -1,23 +1,19 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.commands;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.ScalingComponent;
 
 import net.menthor.editor.v2.commanders.AddCommander;
+import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
-import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
-import net.menthor.editor.v2.commands.CommandMap;
-import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.commands.MethodCall;
 import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.feature.OwlFeature;
 import net.menthor.editor.v2.feature.ParthoodFeature;
@@ -41,87 +37,66 @@ import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.WarningManager;
-import net.menthor.editor.v2.ui.app.manager.AppCursorManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.CursorController;
+import net.menthor.editor.v2.ui.controller.FrameController;
+import net.menthor.editor.v2.ui.controller.MenuBarController;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.SplitPaneController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.ActionStack;
 
-public class AppCmdListener implements ICommandListener {
+public class CommandListener extends AbstractCommandListener {
 
 	// -------- Lazy Initialization
 
 	private static class CommandListenerLoader {
-        private static final AppCmdListener INSTANCE = new AppCmdListener();
+        private static final CommandListener INSTANCE = new CommandListener();
     }	
-	public static AppCmdListener get() { 
+	public static CommandListener get() { 
 		return CommandListenerLoader.INSTANCE; 
 	}	
-    private AppCmdListener() {
+    private CommandListener() {
         if (CommandListenerLoader.INSTANCE != null) throw new IllegalStateException("AppCommandListener already instantiated");
     }		
     
     // ----------------------------
 	    
-	@Override
-	public Object handleCommand(String command, Object[] parameters) {	
-		AppCursorManager.get().waitCursor();		
-		MethodCall methodcall = getMethodCall(command,parameters);
-		System.out.println(methodcall);
-		Object result=null;
-		if(methodcall!=null) result = callMethod(methodcall);
-		AppCursorManager.get().defaultCursor();
-		return result;		
-	}
-	
-	@Override
-	
-	public Object handleCommand(String command) {	
-		AppCursorManager.get().waitCursor();
-		MethodCall methodcall = getMethodCall(command,null);
-		System.out.println(methodcall);
-		Object result=null;
-		
-		if(methodcall!=null) {
-			result = callMethod(methodcall);
+    public Object callManagers(MethodCall methodcall){	
+		try{
+			if(methodcall.getMethod().getDeclaringClass() == SplitPaneController.class){
+				return methodcall.call(SplitPaneController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == CursorController.class){
+				return methodcall.call(CursorController.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == MenuBarController.class){
+				return methodcall.call(MenuBarController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == MessageController.class){
+				return methodcall.call(MessageController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == TabbedAreaController.class){
+				return methodcall.call(TabbedAreaController.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == FrameController.class){
+				return methodcall.call(FrameController.get());
+			}		
+		}catch(java.lang.IllegalArgumentException e){
+			System.err.println("Method not called. Reason: "+e.getLocalizedMessage());
+			System.err.println(methodcall);			
 		}
-		
-		AppCursorManager.get().defaultCursor();
-		return result;		
+		return null;
 	}
-	
-	private MethodCall getMethodCall(String command, Object[] parameters){
-		MethodCall methodcall=null;		
-		CommandType cmdType = CommandType.valueOf(command);
-		if(CommandType.isValueOf(command)){
-			if(parameters!=null) {
-				CommandMap.getInstance().addParameters(cmdType, parameters);			
-			}
-			methodcall = CommandMap.getInstance().getMethodCall(cmdType);
-		}
-		if(methodcall==null){
-			System.err.println("A method call could not be found for command type: "+cmdType);
-			return null;
-		}
-		return methodcall;
-	}
-	
-	private Object callMethod(MethodCall methodcall){
+    
+    @Override
+	public Object callMethod(MethodCall methodcall){
+    	callManagers(methodcall);
 		try{
 			//----------------
 			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
-				return methodcall.call(AppTabManager.get().getCurrentDiagramEditor());
+				return methodcall.call(TabbedAreaController.get().selectedTopOntoumlEditor());
 			} else if(methodcall.getMethod().getDeclaringClass() == ScalingComponent.class){
-				return methodcall.call(AppTabManager.get().getCurrentDiagramEditor().getScalingComponent());
-			//----------------
-			}else if(methodcall.getMethod().getDeclaringClass() == AppFrame.class){
-				return methodcall.call(AppFrame.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == AppSplitPane.class){
-				return methodcall.call(AppSplitPane.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == AppMenuBar.class){
-				return methodcall.call(AppMenuBar.get());
+				return methodcall.call(TabbedAreaController.get().selectedTopOntoumlEditor().getScalingComponent());
+			//-----=----------
+				
 			//----------------				
 			}else if(methodcall.getMethod().getDeclaringClass() == AddCommander.class){
 				return methodcall.call(AddCommander.get());
@@ -143,8 +118,9 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(SelectMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ColorCommander.class){
 				return methodcall.call(ColorCommander.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == AppCursorManager.class){
-				return methodcall.call(AppCursorManager.get());				
+			
+			
+				
 			}else if(methodcall.getMethod().getDeclaringClass() == DeleteCommander.class){
 				return methodcall.call(DeleteCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DeserializationManager.class){
@@ -169,8 +145,7 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(HelpManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ImportManager.class){
 				return methodcall.call(ImportManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == AppMessageManager.class){
-				return methodcall.call(AppMessageManager.get());
+			
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
 				return methodcall.call(VisibilityCommander.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == AddToDiagramCommander.class){
@@ -197,8 +172,7 @@ public class AppCmdListener implements ICommandListener {
 				return methodcall.call(StatisticsManager.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){
 				return methodcall.call(SyntaxManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == AppTabManager.class){
-				return methodcall.call(AppTabManager.get());				
+						
 			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
 				return methodcall.call(TransferManager.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == UpdateCommander.class){

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app.manager;
+package net.menthor.editor.v2.ui.controller;
 
 /**
  * ============================================================================================
@@ -25,20 +25,23 @@ import java.awt.Component;
 
 import javax.swing.JOptionPane;
 
+import net.menthor.editor.v2.ui.Frame;
 import net.menthor.editor.v2.util.Util;
 
-public class AppMessageManager extends AppGenericManager {
+public class MessageController {
 
+	Frame frame = Frame.get();
+	
 	// -------- Lazy Initialization
 
 	private static class MessageLoader {
-        private static final AppMessageManager INSTANCE = new AppMessageManager();
+        private static final MessageController INSTANCE = new MessageController();
     }	
-	public static AppMessageManager get() { 
+	public static MessageController get() { 
 		return MessageLoader.INSTANCE; 
 	}	
-    private AppMessageManager() {
-        if (MessageLoader.INSTANCE != null) throw new IllegalStateException("MessageManager already instantiated");
+    private MessageController() {
+        if (MessageLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------
@@ -62,7 +65,7 @@ public class AppMessageManager extends AppGenericManager {
 	//------- INPUT -------
 	
 	public Object input(String title, String customMessage, Object[] values, Object selected){
-		return JOptionPane.showInputDialog(frame(), 
+		return JOptionPane.showInputDialog(frame, 
 			customMessage, 
 			"Input - "+title,
 		    JOptionPane.QUESTION_MESSAGE, null, values, selected
@@ -80,7 +83,7 @@ public class AppMessageManager extends AppGenericManager {
 	//------- CONFIRM -------
 	
 	public boolean confirm(String title, String customMessage){
-		return confirm(frame(), title, customMessage);
+		return confirm(frame, title, customMessage);
 	}
 	
 	public boolean confirm(Component parent, String title, String customMessage){
@@ -96,7 +99,7 @@ public class AppMessageManager extends AppGenericManager {
 	//------- ERROR -------
 	
 	public void showError(Exception e, String dialogName, String customMessage){
-		showError(frame(), e, dialogName, customMessage);
+		showError(frame, e, dialogName, customMessage);
 	}
 	
 	public void showError(Component parent, Exception e, String dialogName, String customMessage){
@@ -108,7 +111,7 @@ public class AppMessageManager extends AppGenericManager {
 	}
 	
 	public void showError(String dialogName, String customMessage){
-		showError(frame(), dialogName, customMessage);
+		showError(frame, dialogName, customMessage);
 	}
 	
 	public void showError(Component parent, String dialogName, String customMessage){
@@ -122,7 +125,7 @@ public class AppMessageManager extends AppGenericManager {
 	//------- WARNING -------
 	
 	public void showWarning(String dialogName, String customMessage){
-		showWarning(frame(), dialogName, customMessage);
+		showWarning(frame, dialogName, customMessage);
 	}
 	
 	public void showWarning(Component parent, String dialogName, String customMessage){
@@ -136,7 +139,7 @@ public class AppMessageManager extends AppGenericManager {
 	//------- INFO -------
 	
 	public void showInfo(String dialogName, String customMessage){
-		showInfo(frame(), dialogName, customMessage);
+		showInfo(frame, dialogName, customMessage);
 	}
 		
 	public void showInfo(Component parent, String dialogName, String customMessage){
@@ -158,6 +161,6 @@ public class AppMessageManager extends AppGenericManager {
 	}
 	
 	public void showSuccess(String dialogName, String customMessage){
-		showSuccess(frame(),dialogName, customMessage);
+		showSuccess(frame,dialogName, customMessage);
 	}
 }

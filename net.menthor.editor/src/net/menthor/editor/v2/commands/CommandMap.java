@@ -36,13 +36,13 @@ import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
 import net.menthor.editor.v2.commanders.AddCommander;
+import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
-import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.feature.AlloyFeature;
@@ -61,10 +61,10 @@ import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.AppMenuBar;
-import net.menthor.editor.v2.ui.app.AppSplitPane;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.FrameController;
+import net.menthor.editor.v2.ui.controller.MenuBarController;
+import net.menthor.editor.v2.ui.controller.SplitPaneController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.ActionStack;
@@ -103,19 +103,19 @@ public class CommandMap {
 	
 	private void appMenuBar() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
-				new MethodCall(AppMenuBar.class.getMethod("initializeShowGrid")));		
+				new MethodCall(MenuBarController.class.getMethod("initializeShowGrid")));		
 	}
 	private void appFrame() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.QUIT_APPLICATION,
-				new MethodCall(AppFrame.class.getMethod("quitApplication")));
+				new MethodCall(FrameController.class.getMethod("quitApplication")));
 	}
 	private void appSplitPane() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_PALETTE,
-				new MethodCall(AppSplitPane.class.getMethod("showPalette")));
+				new MethodCall(SplitPaneController.class.getMethod("showPalette")));
 		cmdMap.put(CommandType.SHOW_PROJECT_BROWSER,
-				new MethodCall(AppSplitPane.class.getMethod("showProjectBrowser")));
+				new MethodCall(SplitPaneController.class.getMethod("showProjectBrowser")));
 		cmdMap.put(CommandType.SHOW_INFO_TABBED_PANE,
-				new MethodCall(AppSplitPane.class.getMethod("showInfoTabbedPane")));		
+				new MethodCall(SplitPaneController.class.getMethod("showInfoTabbedPane")));		
 	}
 	
 	//-------------- essential manager operations --------------
@@ -268,23 +268,23 @@ public class CommandMap {
 	
 	private void tabs() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS,
-				new MethodCall(AppTabManager.class.getMethod("closeThis", Component.class)));
+				new MethodCall(TabbedAreaController.class.getMethod("closeThis", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER,
-				new MethodCall(AppTabManager.class.getMethod("closeOthers", Component.class)));
+				new MethodCall(TabbedAreaController.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL,
-				new MethodCall(AppTabManager.class.getMethod("closeAll", Component.class)));
+				new MethodCall(TabbedAreaController.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_EDITOR,
-				new MethodCall(AppTabManager.class.getMethod("selectEditor", Object.class)));
+				new MethodCall(TabbedAreaController.class.getMethod("selectEditor", Object.class)));
 		cmdMap.put(CommandType.ADD_EDITOR,
-				new MethodCall(AppTabManager.class.getMethod("addEditor", Object.class)));		
+				new MethodCall(TabbedAreaController.class.getMethod("addEditor", Object.class)));		
 		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
-				new MethodCall(AppTabManager.class.getMethod("closeCurrentOclEditor")));
+				new MethodCall(TabbedAreaController.class.getMethod("closeCurrentOclEditor")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
-				new MethodCall(AppTabManager.class.getMethod("closeCurrentDiagramEditor")));		
+				new MethodCall(TabbedAreaController.class.getMethod("closeCurrentDiagramEditor")));		
 		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
-				new MethodCall(AppTabManager.class.getMethod("addFinderEditor")));		
+				new MethodCall(TabbedAreaController.class.getMethod("addFinderEditor")));		
 		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
-				new MethodCall(AppTabManager.class.getMethod("addStatisticsEditor")));
+				new MethodCall(TabbedAreaController.class.getMethod("addStatisticsEditor")));
 	}
 	
 	/** constructor */

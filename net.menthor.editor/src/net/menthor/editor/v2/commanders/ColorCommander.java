@@ -10,7 +10,7 @@ import javax.swing.JColorChooser;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.umldraw.ClassElement;
 
-import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.Frame;
 import net.menthor.editor.v2.ui.operation.diagram.ColorOperation;
 
 public class ColorCommander extends GenericCommander {
@@ -57,7 +57,7 @@ public class ColorCommander extends GenericCommander {
 		if(elements.size()==0)
 			return;
 		
-		Color selectedColor = JColorChooser.showDialog(AppFrame.get(), "Select a Background Color", lastSelectedColor);
+		Color selectedColor = JColorChooser.showDialog(Frame.get(), "Select a Background Color", lastSelectedColor);
 		
 		if (selectedColor != null){
 			lastSelectedColor = selectedColor;

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui;
 
 /**
  * ============================================================================================
@@ -24,39 +24,40 @@ package net.menthor.editor.v2.ui.app;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.ui.editor.ConsoleEditor;
 import net.menthor.editor.v2.ui.editor.ProblemEditor;
+import net.menthor.editor.v2.ui.generic.GenericTabbedPane;
 
-public class AppInfoPane extends JTabbedPane {
+public class BottomTabbedPane extends GenericTabbedPane {
 
 	private static final long serialVersionUID = 1L;	
 	
+	protected static ConsoleEditor consoleEditor;
+	
 	// -------- Lazy Initialization
 
-	private static class AppInfoTabbedPaneLoader {
-        private static final AppInfoPane INSTANCE = new AppInfoPane();
+	private static class GUIInfoPaneLoader {
+        private static final BottomTabbedPane INSTANCE = new BottomTabbedPane();
     }	
-	public static AppInfoPane get() { 
-		return AppInfoTabbedPaneLoader.INSTANCE; 
+	public static BottomTabbedPane get() { 
+		return GUIInfoPaneLoader.INSTANCE; 
 	}	
-    private AppInfoPane() {
-        if (AppInfoTabbedPaneLoader.INSTANCE != null) throw new IllegalStateException("AppInfoTabbedPane already instantiated");
+    private BottomTabbedPane() {
+    	super(CommandListener.get());
+        if (GUIInfoPaneLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
         buildUI();
     }		
     
     // ----------------------------
-	    
-	protected static ConsoleEditor consoleEditor;	
 	
-	public void buildUI(){						
-		consoleEditor = new ConsoleEditor();		
+	private void buildUI(){
 		setBorder(null);
 		setBackground(UIManager.getColor("Panel.background"));
-		setMinimumSize(new Dimension(0,0));				
+		setMinimumSize(new Dimension(0,0));
+		consoleEditor = new ConsoleEditor();						
 		addTab(" Console ",consoleEditor);						
 	}
 	
@@ -66,12 +67,11 @@ public class AppInfoPane extends JTabbedPane {
 		if(clear) consoleEditor.write(text);
 		else consoleEditor.append(text);				
 		if(showOutput){
-			consoleEditor.setVisible(true);
-			AppTabManager.get().selectConsoleEditor();
+			consoleEditor.setVisible(true);			
 		}		
 	}
 	
-	public void empty(){		
+	public void emptyOutput(){		
 		consoleEditor.write("");		
 		for(Component c: getComponents()){
 			if(c instanceof ProblemEditor) remove(((ProblemEditor)c));

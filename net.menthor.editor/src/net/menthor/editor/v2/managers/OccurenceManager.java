@@ -81,6 +81,10 @@ public class OccurenceManager {
 	}
 	
 	/** add */
+	public void addAll(List<OntoumlDiagram> diagrams){		
+		for(OntoumlDiagram sd: diagrams) add((StructureDiagram)sd);
+	}
+	
 	public boolean add (StructureDiagram diagram){
 		boolean succeeds=false;		
 		for(DiagramElement dElem: diagram.getChildren()){

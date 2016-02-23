@@ -1,29 +1,29 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui;
 
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.generic.GenericMultiSplitPane;
 
-public class AppSplitPane extends GenericMultiSplitPane {
+public class SplitPane extends GenericMultiSplitPane {
 
 	private static final long serialVersionUID = -5413026364779814341L;
 
+	private MenuBar appMenu;
+	
 	// -------- Lazy Initialization
 
-	private static class AppMultiSplitPaneLoader {
-        private static final AppSplitPane INSTANCE = new AppSplitPane();
+	private static class GUISplitPaneLoader {
+        private static final SplitPane INSTANCE = new SplitPane();
     }	
-	public static AppSplitPane get() { 
-		return AppMultiSplitPaneLoader.INSTANCE; 
+	public static SplitPane get() { 
+		return GUISplitPaneLoader.INSTANCE; 
 	}	
-    private AppSplitPane() {
-		super(AppPalette.get(), AppEditorsPane.get(), AppInfoPane.get(), AppBrowser.get());
-		this.appMenu = AppMenuBar.get();
-        if (AppMultiSplitPaneLoader.INSTANCE != null) throw new IllegalStateException("AppMultiSplitPane already instantiated");
+    private SplitPane() {
+		super(Palette.get(), TopTabbedPane.get(), BottomTabbedPane.get(), Browser.get());
+		this.appMenu = MenuBar.get();
+        if (GUISplitPaneLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------
-	    
-	private AppMenuBar appMenu;
 		
 	public boolean isShowPalette(){
 		return isShowLeftPane();

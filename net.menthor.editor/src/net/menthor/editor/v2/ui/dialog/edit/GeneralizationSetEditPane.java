@@ -45,7 +45,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElementCustom;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
+import net.menthor.editor.v2.ui.controller.MessageController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -113,9 +113,9 @@ public class GeneralizationSetEditPane extends JPanel {
 			if (!(genSet.getGeneralization().contains(g))) list.add(new RefOntoUMLElementCustom(g,""));
 		}				
 		if (list.size()==0) {
-			AppMessageManager.get().showInfo(GeneralizationSetEditPane.this, "Generalization Set", "No generalization left in the model.");
+			MessageController.get().showInfo(GeneralizationSetEditPane.this, "Generalization Set", "No generalization left in the model.");
 		}else{
-			RefOntoUMLElementCustom selected = (RefOntoUMLElementCustom) AppMessageManager.get().input(
+			RefOntoUMLElementCustom selected = (RefOntoUMLElementCustom) MessageController.get().input(
 				GeneralizationSetEditPane.this, 
 				"Generalization Set",
 		        "Which generalization do you want to include in Generalization Set"+genSet.getName(),		         

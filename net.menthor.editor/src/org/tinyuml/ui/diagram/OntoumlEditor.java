@@ -82,10 +82,9 @@ import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.app.AppEditorsPane;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.AppMenuBar;
-import net.menthor.editor.v2.ui.app.AppPalette;
+import net.menthor.editor.v2.ui.MenuBar;
+import net.menthor.editor.v2.ui.Palette;
+import net.menthor.editor.v2.ui.TopTabbedPane;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -95,6 +94,7 @@ import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
+import net.menthor.editor.v2.ui.generic.GenericTabbedPane;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.ui.operation.ActionStack;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
@@ -119,9 +119,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	private static final long serialVersionUID = 4210158437374056534L;
 
-	public AppFrame frame;
+	//public Frame frame;
 	public ICommandListener listener;
-	private AppEditorsPane diagramManager;
+	private GenericTabbedPane diagramManager;
 	private OntoumlWrapper wrapper;
 	private PalettePopupMenu popupmenu;
 	
@@ -161,9 +161,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * @param diagramManager 
 	 * @param diagram the diagram
 	 */
-	public OntoumlEditor(AppFrame frame, ICommandListener listener, AppEditorsPane diagramManager, OntoumlDiagram diagram) 
+	public OntoumlEditor(ICommandListener listener, GenericTabbedPane diagramManager, OntoumlDiagram diagram) 
 	{
-		this.frame = frame;
+		//this.frame = frame;
 		this.listener = listener;
 		this.diagramManager = diagramManager;
 		this.diagram = (StructureDiagram)diagram;
@@ -230,8 +230,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	
 
-	public AppEditorsPane getManager() { return diagramManager; }
-	public AppEditorsPane getDiagramManager() { return diagramManager; }
+	public TopTabbedPane getManager() { return  (TopTabbedPane)diagramManager; }
+	public TopTabbedPane getDiagramManager() { return (TopTabbedPane)diagramManager; }
 	public UmlProject getProject() { return diagram.getProject(); }
 		
 	
@@ -395,7 +395,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		}
 		editorMode.cancel();
 //		SelectMode.get().deselectAll();
-		AppPalette.get().getClassPalette().selectMousePointer();
+		Palette.get().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
 		requestFocusInEditor();
@@ -758,10 +758,10 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	{
 		if(isShownGrid()){
 			showGrid(false);
-			AppMenuBar.get().selectShowGrid(false);
+			MenuBar.get().selectShowGrid(false);
 		}else{
 			showGrid(true);
-			AppMenuBar.get().selectShowGrid(true);
+			MenuBar.get().selectShowGrid(true);
 		}
 	}
 

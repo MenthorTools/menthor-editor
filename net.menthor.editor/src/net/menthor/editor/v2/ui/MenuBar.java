@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui;
 
 /**
  * ============================================================================================
@@ -31,29 +31,27 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import org.tinyuml.ui.diagram.OntoumlEditor;
-
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
 import net.menthor.editor.v2.ui.generic.GenericMenuBar;
 import net.menthor.editor.v2.util.SystemUtil;
 
-public class AppMenuBar extends GenericMenuBar {
+public class MenuBar extends GenericMenuBar {
 
 	private static final long serialVersionUID = 2698337212571991120L;
 
 	// -------- Lazy Initialization
 
-	private static class AppMenuBarLoader {
-        private static final AppMenuBar INSTANCE = new AppMenuBar();
+	private static class GUIMenuBarLoader {
+        private static final MenuBar INSTANCE = new MenuBar();
     }	
-	public static AppMenuBar get() { 
-		return AppMenuBarLoader.INSTANCE; 
+	public static MenuBar get() { 
+		return GUIMenuBarLoader.INSTANCE; 
 	}	
-    private AppMenuBar() {
-    	super(AppCmdListener.get(), background);
-    	if (AppMenuBarLoader.INSTANCE != null) throw new IllegalStateException("AppMenuBar already instantiated");
+    private MenuBar() {
+    	super(CommandListener.get(), background);
+    	if (GUIMenuBarLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
         buildUI();
     }		
     
@@ -129,7 +127,7 @@ public class AppMenuBar extends GenericMenuBar {
 //		window.setVisible(true);
 		window.setEnabled(true);
 		
-		SwingUtilities.updateComponentTreeUI(AppMenuBar.get());
+		SwingUtilities.updateComponentTreeUI(MenuBar.get());
 	}
 	
 	private void createFileMenu(){
@@ -324,14 +322,6 @@ public class AppMenuBar extends GenericMenuBar {
 			createMenuItem(help, "About", CommandType.ABOUT, background);
 		//}	
 		createMenuItem(help, "Licenses", CommandType.LICENSES, background);
-	}
-	
-	public void initializeShowGrid(){
-		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
-		if(editor!=null){
-			getMenuItem(CommandType.SHOW_GRID).setSelected(editor.isShownGrid());
-		}
-		
 	}
 	
 	public void selectShowGrid(boolean value){

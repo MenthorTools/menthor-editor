@@ -37,9 +37,8 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 
-public class FilterManager extends AppGenericManager {
+public class FilterManager extends AbstractManager {
 
 	// -------- Lazy Initialization
 

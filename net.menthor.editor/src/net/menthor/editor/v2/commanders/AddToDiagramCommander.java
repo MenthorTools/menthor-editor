@@ -51,9 +51,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.BrowserController;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 
@@ -74,16 +74,16 @@ public class AddToDiagramCommander extends GenericCommander {
     // ----------------------------
 		
 	public void moveDownSelectedOnTree(){
-		AppBrowserManager.get().moveDown();
+		BrowserController.get().moveDown();
 	}
 	
 	public void moveUpSelectedOnTree(){
-		AppBrowserManager.get().moveUp();
+		BrowserController.get().moveUp();
 	}
 	
 	public void moveSelectedOnTreeToDiagram(Point p){
-		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
-		DefaultMutableTreeNode node = AppBrowserManager.get().selected();
+		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
+		DefaultMutableTreeNode node = BrowserController.get().selected();
 		Object obj = node.getUserObject();				
 		addToDiagram((RefOntoUML.Element)obj, p.x, p.y, editor, true);	
 	}
@@ -92,7 +92,7 @@ public class AddToDiagramCommander extends GenericCommander {
 	public void addToDiagram(DefaultMutableTreeNode treeNode){
 		Object modelElement = treeNode.getUserObject();
 		if(modelElement instanceof RefOntoUML.Class || modelElement instanceof Relationship || modelElement instanceof DataType)
-			addToDiagram((RefOntoUML.Element)modelElement,40,40, AppTabManager.get().getCurrentDiagramEditor(),true);
+			addToDiagram((RefOntoUML.Element)modelElement,40,40, TabbedAreaController.get().selectedTopOntoumlEditor(),true);
 	}
 	
 	public void addToDiagram(Object element, OntoumlEditor editor){
@@ -103,10 +103,10 @@ public class AddToDiagramCommander extends GenericCommander {
 	public void addToDiagram(RefOntoUML.Element element, double x, double y, OntoumlEditor d, boolean showmessage){
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
-				AppMessageManager.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
+				MessageController.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
 			}
 			else if (element instanceof Generalization) {
-				AppMessageManager.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
+				MessageController.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceManager.get().getDiagramElement(element, d.getDiagram());
 			if(de!=null) SelectMode.get().select(de);
@@ -244,7 +244,7 @@ public class AddToDiagramCommander extends GenericCommander {
 				if(diagram.containsChild(source) && diagram.containsChild(target)) 
 					addToDiagram(rel, -1, -1, currentEditor(), false);					
 			}catch(Exception e){					
-				AppMessageManager.get().showError(e, "Related Elements", "Could not add all related elements.");
+				MessageController.get().showError(e, "Related Elements", "Could not add all related elements.");
 			}
 		}			
 		HashSet<Type> typesInDiagram = new HashSet<Type>();

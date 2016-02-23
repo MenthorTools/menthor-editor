@@ -29,7 +29,7 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
@@ -71,7 +71,7 @@ public class SbvrFeature {
 			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			AppTabManager.get().showOutputInfo("SBVR generated successfully", true, true); 
+			TabbedAreaController.get().showOutputInfo("SBVR generated successfully", true, true); 
 			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -79,12 +79,12 @@ public class SbvrFeature {
 		}		
 		if(result.getResultType() != Result.ERROR)
 		{
-			AppTabManager.get().showOutputInfo(result.toString(), true, true);			
+			TabbedAreaController.get().showOutputInfo(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
 			File file = new File(htmlFilePath);
 			openLinkWithBrowser(file.toURI().toString());
 		}else{
-			AppTabManager.get().showOutputInfo(result.toString(), true, true); 
+			TabbedAreaController.get().showOutputInfo(result.toString(), true, true); 
 		}
 	}
 	

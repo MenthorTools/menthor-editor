@@ -18,9 +18,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.BrowserController;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
 import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
@@ -42,29 +42,29 @@ public class DeleteCommander extends GenericCommander {
     // ----------------------------
 	
     public boolean confirmDeleteFromDiagram(){    	
-		return AppMessageManager.get().confirm("Delete from Diagram",
+		return MessageController.get().confirm("Delete from Diagram",
 			"WARNING - Are you sure you want to delete the selected items from the diagram?\n"
 					+ "They will remain available in the project browser?");
 	}
     
 	public boolean confirmElementDeletion(){
-		return AppMessageManager.get().confirm("Delete from Model",
+		return MessageController.get().confirm("Delete from Model",
 			"WARNING - Are you sure you want to delete the selected items from the model \n"
 					+ "and from all the diagrams they might appear?");
 	}
 	
 	public boolean confirmDiagramDeletion(){
-		return AppMessageManager.get().confirm("Delete Diagram", 
+		return MessageController.get().confirm("Delete Diagram", 
 			"WARNING - Are you sure you want to delete this diagram?\nThis action CANNOT be undone.");
 	}
 	
 	public boolean confirmOclDocDeletion(){
-		return AppMessageManager.get().confirm("Delete Ocl Document", 
+		return MessageController.get().confirm("Delete Ocl Document", 
 			"WARNING - Are you sure you want to delete this document?\nThis action CANNOT be undone.");
 	}
 	
 	public GeneralizationSet confirmGenSetDeletion(List<GeneralizationSet> genSets){
-		return (GeneralizationSet) AppMessageManager.get().input(			
+		return (GeneralizationSet) MessageController.get().input(			
 			"Delete Generalization Set",
 			"Which generalization set do you want to delete?",			 
 			genSets.toArray(), 
@@ -103,8 +103,8 @@ public class DeleteCommander extends GenericCommander {
 		}
 		if(response) {
 			ProjectManager.get().getProject().getOclDocList().remove(doc);
-			AppTabManager.get().removeEditor(doc);		
-			AppBrowserManager.get().remove();
+			TabbedAreaController.get().removeEditor(doc);		
+			BrowserController.get().remove();
 		}
 	}
 	
@@ -116,8 +116,8 @@ public class DeleteCommander extends GenericCommander {
 		if(response){
 			deleteAllElementsFromDiagram(diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
-			AppTabManager.get().removeEditor(diagram);
-			AppBrowserManager.get().remove();
+			TabbedAreaController.get().removeEditor(diagram);
+			BrowserController.get().remove();
 		}	
 	}
 
@@ -147,7 +147,7 @@ public class DeleteCommander extends GenericCommander {
 	/** Delete element from the model and from every diagram they might appear. **/
 	public void deleteElements(List<RefOntoUML.Element> elements){
 		//TODO: I guess this is not right. Why get the editors from a single element?
-		List<OntoumlEditor> editors = AppTabManager.get().getDiagramEditors(elements.get(0));		
+		List<OntoumlEditor> editors = TabbedAreaController.get().getDiagramEditors(elements.get(0));		
 		if(editors==null || editors.size()==0) {			
 			OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 			DeleteModelOperation cmd = new DeleteModelOperation(refparser, elements);
@@ -217,18 +217,18 @@ public class DeleteCommander extends GenericCommander {
 	}
 	
 	public void deleteFromDiagram(Object input){
-		deleteFromDiagram(AppTabManager.get().getCurrentDiagramEditor(),input);
+		deleteFromDiagram(TabbedAreaController.get().selectedTopOntoumlEditor(),input);
 	}
 	
 	/** Deletes currently selected elements from the current diagram */
 	public void deleteCurrentSelectionFromDiagram(){
-		OntoumlEditor editor = AppTabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
 		deleteFromDiagram(editor, SelectMode.get().getSelectedElements());
 	}
 	
 	/** Delete all elements at the diagram */
 	public void deleteAllElementsFromDiagram(StructureDiagram diagram){
-		OntoumlEditor ed = AppTabManager.get().getDiagramEditor(diagram);
+		OntoumlEditor ed = TabbedAreaController.get().getOntoumlEditor(diagram);
 		deleteFromDiagram(ed,diagram.getChildren());
 	}
 	

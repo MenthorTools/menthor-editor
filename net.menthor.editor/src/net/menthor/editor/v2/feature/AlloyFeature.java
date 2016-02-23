@@ -35,8 +35,8 @@ import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.ontouml2alloy.OntoUML2Alloy;
@@ -96,13 +96,13 @@ public class AlloyFeature extends GenericFeature {
 				openAnalyzer(alloySpec,true, -1);			
 			}
 			if(to.getDestination()==ALS4Destination.TAB){ //open it in a tab		
-				AppTabManager.get().addTextEditor(alloySpec.getContent());
+				TabbedAreaController.get().addTextEditor(alloySpec.getContent());
 			}
 			if(to.getDestination()==ALS4Destination.FILE){ //print to a file
-				AppMessageManager.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");
+				MessageController.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");
 			}
 		}catch(Exception e){
-			AppMessageManager.get().showError(e, 
+			MessageController.get().showError(e, 
 				"Alloy Manager", "Current project could not be transformed to Alloy."
 			);				 
 		}
@@ -117,10 +117,10 @@ public class AlloyFeature extends GenericFeature {
 		try {						
 			String logMessage = alloySpec.transformConstraints(refparser, oclOptions.getParser(),oclOptions);
 			if (!logMessage.isEmpty() && logMessage!=null){				
-				AppMessageManager.get().showWarning("Alloy Manager", logMessage);
+				MessageController.get().showWarning("Alloy Manager", logMessage);
 			}
 		} catch (Exception e) {	
-			AppMessageManager.get().showError(e, "Alloy Manager", "Current OCL constraints could not be transformed to Alloy.");
+			MessageController.get().showError(e, "Alloy Manager", "Current OCL constraints could not be transformed to Alloy.");
 		}		
 	}
 		
@@ -144,7 +144,7 @@ public class AlloyFeature extends GenericFeature {
 			timer.addActionListener(listener);
 			timer.start();
 		}catch(Exception e){
-			AppMessageManager.get().showError(e, "Alloy Manager", "Could not open the Alloy Analyzer tool.");				
+			MessageController.get().showError(e, "Alloy Manager", "Could not open the Alloy Analyzer tool.");				
 		}
 	}
 	

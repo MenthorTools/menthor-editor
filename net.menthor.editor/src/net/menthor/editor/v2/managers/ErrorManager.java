@@ -20,10 +20,9 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 
-public class ErrorManager extends AppGenericManager {
+public class ErrorManager extends AbstractManager {
 
 	// -------- Lazy Initialization
 
@@ -51,7 +50,7 @@ public class ErrorManager extends AppGenericManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
-		AppTabManager.get().addErrorsEditor(start, end, problems);
+		TabbedAreaController.get().addErrorsEditor(start, end, problems);
 		return problems;
 	}
 	

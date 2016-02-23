@@ -53,9 +53,9 @@ import org.eclipse.emf.edit.provider.IDisposable;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
+import net.menthor.editor.v2.ui.controller.MessageController;
 import net.menthor.editor.v2.ui.editor.IEditor;
 import net.menthor.editor.v2.ui.menu.TabPopupMenu;
 
@@ -162,7 +162,7 @@ public class ClosableTab extends JPanel {
 		String tabName = pane.getTitleAt(index);
 		boolean isSaveNeeded = ((IEditor) pane.getComponentAt(index)).isSaveNeeded();
 		if(isSaveNeeded){
-			boolean response = AppMessageManager.get().confirm("Save", "'"+tabName+"' has been modified. Save changes?");
+			boolean response = MessageController.get().confirm("Save", "'"+tabName+"' has been modified. Save changes?");
 			if(response) { ProjectManager.get().saveProject(); }
 			else { return; }
 		}			

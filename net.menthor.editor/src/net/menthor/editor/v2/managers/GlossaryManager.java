@@ -23,10 +23,9 @@ package net.menthor.editor.v2.managers;
 
 import javax.swing.SwingUtilities;
 
-import net.menthor.editor.v2.ui.app.manager.AppGenericManager;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 
-public class GlossaryManager extends AppGenericManager {
+public class GlossaryManager extends AbstractManager {
 
 	// -------- Lazy Initialization
 

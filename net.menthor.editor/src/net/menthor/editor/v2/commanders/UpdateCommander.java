@@ -20,8 +20,8 @@ import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.ui.app.manager.AppBrowserManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.controller.BrowserController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.operation.diagram.AddGeneralizationSetOperation;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
@@ -109,7 +109,7 @@ public class UpdateCommander {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				AppBrowserManager.get().add(addedElement);				
+				BrowserController.get().add(addedElement, ProjectManager.get().getProject().getModel());				
 			}
 		});		
 	}
@@ -121,7 +121,7 @@ public class UpdateCommander {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				AppBrowserManager.get().remove(deletedElement);
+				BrowserController.get().remove(deletedElement);
 			}
 		});
 	}
@@ -146,9 +146,9 @@ public class UpdateCommander {
 					}
 				}				
 				if(element instanceof OclDocument || element instanceof StructureDiagram){					
-					AppTabManager.get().refreshTabTitle((RefOntoUML.NamedElement)element);
+					TabbedAreaController.get().refreshTabTitle((RefOntoUML.NamedElement)element);
 				}
-				AppBrowserManager.get().updateUI();
+				BrowserController.get().updateUI();
 			}
 		});
 	}
@@ -192,7 +192,7 @@ public class UpdateCommander {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		OntoumlEditor ed = AppTabManager.get().getCurrentDiagramEditor();
+		OntoumlEditor ed = TabbedAreaController.get().selectedTopOntoumlEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
@@ -244,6 +244,6 @@ public class UpdateCommander {
 	}
 	
 	public void updateProjectTree(){
-		AppBrowserManager.get().updateUI();
+		BrowserController.get().updateUI();
 	}
 }

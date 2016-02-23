@@ -2,12 +2,12 @@ package net.menthor.editor.v2.feature;
 
 import javax.swing.JFrame;
 
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.app.AppCmdListener;
-import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.Frame;
 
 public abstract class GenericFeature {
 	
-	public JFrame parent(){ return AppFrame.get(); }
-	public ICommandListener listener(){ return AppCmdListener.get(); }	
+	public JFrame parent(){ return Frame.get(); }
+	public ICommandListener listener(){ return CommandListener.get(); }	
 }

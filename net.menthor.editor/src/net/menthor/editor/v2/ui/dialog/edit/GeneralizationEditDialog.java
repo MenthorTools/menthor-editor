@@ -30,7 +30,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.Frame;
 
 public class GeneralizationEditDialog extends GenericEditDialog {
 
@@ -40,7 +40,7 @@ public class GeneralizationEditDialog extends GenericEditDialog {
 			
 	private GeneralizationEditPane genEdition;
 	
-	public GeneralizationEditDialog(final AppFrame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship, boolean modal){
+	public GeneralizationEditDialog(final Frame parent, final GeneralizationElement genElement, RefOntoUML.Relationship relationship, boolean modal){
 		super(parent, modal);		
 		this.relationship = relationship;
 		initUI();

@@ -1,9 +1,9 @@
 package net.menthor.editor.v2;
 
 import net.menthor.editor.v2.managers.ProjectManager;
-import net.menthor.editor.v2.ui.app.AppFrame;
-import net.menthor.editor.v2.ui.app.manager.AppMessageManager;
-import net.menthor.editor.v2.ui.app.manager.AppTabManager;
+import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.util.SplashScreen;
 import net.menthor.editor.v2.util.DirectoryUtil;
@@ -34,18 +34,18 @@ public final class MenthorEditor {
 			OwlSettingsMap.getInstance();														
 			
 			//create application frame
-			AppFrame.get();	
+			Frame.get();	
 			
 			//these must be called after AppFrame is constructed...
-			AppTabManager.get().addStartEditor(false);								
+			TabbedAreaController.get().addStartEditor(false);								
 			ProjectManager.get().openProjectFromArgs(args);		
 			
-			AppFrame.get().setLocationByPlatform(true);
-			AppFrame.get().setVisible(true);
-			AppFrame.get().toFront();
+			Frame.get().setLocationByPlatform(true);
+			Frame.get().setVisible(true);
+			Frame.get().toFront();
 			
 		}catch(Exception ex){
-			AppMessageManager.get().showError(ex, 
+			MessageController.get().showError(ex, 
 			"Menthor Editor", "Could not start application due to an internal error.");
 		}	
 		splashScreen.close();

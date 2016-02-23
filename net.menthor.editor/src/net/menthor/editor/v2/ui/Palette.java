@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.app;
+package net.menthor.editor.v2.ui;
 
 /**
  * ============================================================================================
@@ -27,26 +27,27 @@ import java.awt.Dimension;
 
 import javax.swing.border.EmptyBorder;
 
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.ui.palette.PaletteAccordion;
 import net.menthor.editor.v2.ui.palette.PaletteGrouping;
 import net.menthor.editor.v2.ui.util.RoundedPanel;
 
-public class AppPalette extends RoundedPanel {
+public class Palette extends RoundedPanel {
 
 	private static final long serialVersionUID = 1752050268631906319L;
 	
 	// -------- Lazy Initialization
 
-	private static class AppPaletteLoader {
-        private static final AppPalette INSTANCE = new AppPalette();
+	private static class GUIPaletteLoader {
+        private static final Palette INSTANCE = new Palette();
     }	
-	public static AppPalette get() { 
-		return AppPaletteLoader.INSTANCE; 
+	public static Palette get() { 
+		return GUIPaletteLoader.INSTANCE; 
 	}	
-    private AppPalette() {
+    private Palette() {
     	super();
-    	palettes = new PaletteAccordion(AppCmdListener.get());
-        if (AppPaletteLoader.INSTANCE != null) throw new IllegalStateException("AppPalette already instantiated");
+    	palettes = new PaletteAccordion(CommandListener.get());
+        if (GUIPaletteLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
         buildUI();
     }		
     

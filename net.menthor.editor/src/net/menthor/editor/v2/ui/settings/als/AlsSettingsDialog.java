@@ -35,7 +35,7 @@ import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.feature.AlloyFeature;
-import net.menthor.editor.v2.ui.app.AppFrame;
+import net.menthor.editor.v2.ui.Frame;
 import net.menthor.editor.v2.ui.generic.GenericSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -117,7 +117,7 @@ public class AlsSettingsDialog extends GenericSettingsDialog {
 		ontoumlOptions.weakSupplementation = modelSimulationPanel.isSelectedWeakSupplementation();
 		ontoumlOptions.relatorConstraint = modelSimulationPanel.isSelectedRelatorConstraint();			    	
 		
-		if(getOwner() instanceof AppFrame){
+		if(getOwner() instanceof Frame){
 			AlloyFeature.get().refOptions = ontoumlOptions;
 		}
 				
@@ -128,13 +128,13 @@ public class AlsSettingsDialog extends GenericSettingsDialog {
     	oclOptions.setWorldScope(constraintSimulationPanel.getWorldScopeListSelected());
 		oclOptions.setConstraintList(constraintSimulationPanel.getConstraintListSelected());
     	
-		if(getOwner() instanceof AppFrame){
+		if(getOwner() instanceof Frame){
 			AlloyFeature.get().oclOptions = oclOptions;
 		}		  
 		
 		//dispose();
 		
-		if(getOwner() instanceof AppFrame)
+		if(getOwner() instanceof Frame)
 		{		
 			ALS4TransformationOption options = new ALS4TransformationOption(
 				mapPane.getApproach(),
