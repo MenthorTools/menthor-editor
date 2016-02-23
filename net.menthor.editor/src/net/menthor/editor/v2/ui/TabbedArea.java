@@ -95,7 +95,8 @@ public class TabbedArea {
 	
 	public OntoumlEditor selectedTopOntoumlEditor(){				
 		IEditor editor = selectedTopEditor(EditorType.ONTOUML_EDITOR);
-		return (OntoumlEditor)editor;						
+		if(editor instanceof OntoumlWrapper) return ((OntoumlWrapper)editor).getDiagramEditor();
+		return null;						
 	}
 	
 	public IEditor selectedBottomEditor(){
