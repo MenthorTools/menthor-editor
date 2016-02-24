@@ -70,7 +70,7 @@ public class SyntaxManager extends AbstractManager {
 			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
-			toclparser.parseTemporalOCL(TabbedAreaController.get().getConstraints());			
+			toclparser.parseTemporalOCL(TabbedAreaController.get().getWorkingOclText());			
 			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
 			if(showSuccesfullyMessage) MessageController.get().showSuccess("Constraints Parse",msg);			
@@ -100,7 +100,7 @@ public class SyntaxManager extends AbstractManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
-		TabbedAreaController.get().addErrorsEditor(start, end, errors);		
+		TabbedAreaController.get().addErrors(start, end, errors);		
 		SplitPaneController.get().forceShowInfo();
 		if(errors.size()>0 && warnings.size()>0) {
 			TabbedAreaController.get().select(EditorType.ERRORS_EDITOR);

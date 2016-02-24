@@ -274,17 +274,17 @@ public class CommandMap {
 		cmdMap.put(CommandType.CLOSE_ALL,
 				new MethodCall(TabbedAreaController.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("selectEditor", Object.class)));
+				new MethodCall(TabbedAreaController.class.getMethod("select", Object.class)));
 		cmdMap.put(CommandType.ADD_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("addEditor", Object.class)));		
-		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("closeCurrentOclEditor")));
-		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("closeCurrentDiagramEditor")));		
+				new MethodCall(TabbedAreaController.class.getMethod("add", Object.class)));		
 		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("addFinderEditor")));		
+				new MethodCall(TabbedAreaController.class.getMethod("addFinder")));		
 		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("addStatisticsEditor")));
+				new MethodCall(TabbedAreaController.class.getMethod("addStatistics")));
+		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
+				new MethodCall(TabbedAreaController.class.getMethod("closeSelectedOclEditor")));
+		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
+				new MethodCall(TabbedAreaController.class.getMethod("closeSelectedOntoumlEditor")));		
 	}
 	
 	/** constructor */

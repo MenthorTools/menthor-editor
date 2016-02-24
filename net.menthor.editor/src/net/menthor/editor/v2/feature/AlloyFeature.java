@@ -96,7 +96,7 @@ public class AlloyFeature extends GenericFeature {
 				openAnalyzer(alloySpec,true, -1);			
 			}
 			if(to.getDestination()==ALS4Destination.TAB){ //open it in a tab		
-				TabbedAreaController.get().addTextEditor(alloySpec.getContent());
+				TabbedAreaController.get().addText(alloySpec.getContent());
 			}
 			if(to.getDestination()==ALS4Destination.FILE){ //print to a file
 				MessageController.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");

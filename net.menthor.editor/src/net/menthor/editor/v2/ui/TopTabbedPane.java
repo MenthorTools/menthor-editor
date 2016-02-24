@@ -19,4 +19,10 @@ public class TopTabbedPane extends GenericTabbedPane {
     	super(CommandListener.get());
         if (GUIEditorsPaneLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }	
+    
+    public void initialState(){
+    	removeAll();		
+		repaint();
+		revalidate();
+    }
 }

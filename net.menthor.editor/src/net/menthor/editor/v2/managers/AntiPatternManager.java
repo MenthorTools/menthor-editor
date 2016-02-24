@@ -35,8 +35,8 @@ public class AntiPatternManager extends AbstractManager {
 		if(fix.getAddedRules().size()>0){
 			OclDocument oclDoc = ProjectManager.get().getProject().getOclDocList().get(0);
 			
-			if(TabbedAreaController.get().isEditorOpen(oclDoc))
-				TabbedAreaController.get().selectEditor(oclDoc);
+			if(TabbedAreaController.get().isOpen(oclDoc))
+				TabbedAreaController.get().select(oclDoc);
 			//TODO: open tab
 //			else 
 //				TabManager.get().addOclEditor(oclDoc);

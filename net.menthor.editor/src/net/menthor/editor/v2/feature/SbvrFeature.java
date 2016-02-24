@@ -71,7 +71,7 @@ public class SbvrFeature {
 			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			TabbedAreaController.get().showOutputInfo("SBVR generated successfully", true, true); 
+			TabbedAreaController.get().showConsoleText("SBVR generated successfully", true, true); 
 			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -79,12 +79,12 @@ public class SbvrFeature {
 		}		
 		if(result.getResultType() != Result.ERROR)
 		{
-			TabbedAreaController.get().showOutputInfo(result.toString(), true, true);			
+			TabbedAreaController.get().showConsoleText(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
 			File file = new File(htmlFilePath);
 			openLinkWithBrowser(file.toURI().toString());
 		}else{
-			TabbedAreaController.get().showOutputInfo(result.toString(), true, true); 
+			TabbedAreaController.get().showConsoleText(result.toString(), true, true); 
 		}
 	}
 	

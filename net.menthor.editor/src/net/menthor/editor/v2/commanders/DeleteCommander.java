@@ -103,7 +103,7 @@ public class DeleteCommander extends GenericCommander {
 		}
 		if(response) {
 			ProjectManager.get().getProject().getOclDocList().remove(doc);
-			TabbedAreaController.get().removeEditor(doc);		
+			TabbedAreaController.get().remove(doc);		
 			BrowserController.get().remove();
 		}
 	}
@@ -116,7 +116,7 @@ public class DeleteCommander extends GenericCommander {
 		if(response){
 			deleteAllElementsFromDiagram(diagram);
 			ProjectManager.get().getProject().getDiagrams().remove(diagram);
-			TabbedAreaController.get().removeEditor(diagram);
+			TabbedAreaController.get().remove(diagram);
 			BrowserController.get().remove();
 		}	
 	}
@@ -147,7 +147,7 @@ public class DeleteCommander extends GenericCommander {
 	/** Delete element from the model and from every diagram they might appear. **/
 	public void deleteElements(List<RefOntoUML.Element> elements){
 		//TODO: I guess this is not right. Why get the editors from a single element?
-		List<OntoumlEditor> editors = TabbedAreaController.get().getDiagramEditors(elements.get(0));		
+		List<OntoumlEditor> editors = TabbedAreaController.get().getOntoumlEditors(elements.get(0));		
 		if(editors==null || editors.size()==0) {			
 			OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
 			DeleteModelOperation cmd = new DeleteModelOperation(refparser, elements);

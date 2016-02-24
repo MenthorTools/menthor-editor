@@ -50,7 +50,7 @@ public class ErrorManager extends AbstractManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
-		TabbedAreaController.get().addErrorsEditor(start, end, problems);
+		TabbedAreaController.get().addErrors(start, end, problems);
 		return problems;
 	}
 	

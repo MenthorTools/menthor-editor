@@ -41,7 +41,7 @@ public class WarningManager extends AbstractManager {
 		Collections.sort(result,new ProblemComparator());		
 		int count=0;
 		for(ProblemElement pe: result) { count++; pe.setIdentifier(count); }
-		TabbedAreaController.get().addWarningsEditor(getTimingMessage(), result);
+		TabbedAreaController.get().addWarnings(getTimingMessage(), result);
 		return result;
 	}
 	

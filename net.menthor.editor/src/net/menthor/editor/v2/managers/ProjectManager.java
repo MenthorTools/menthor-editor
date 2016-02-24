@@ -280,7 +280,7 @@ public class ProjectManager extends AbstractManager {
 		try {
 			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
 			if (file.exists()) file.delete();
-			TabbedAreaController.get().saveOclContents();				
+			TabbedAreaController.get().saveAllWorkingOclTexts();				
 			project.clearOpenedDiagrams();
 			for(OntoumlEditor editor: TabbedAreaController.get().getOntoumlEditors()){
 				project.saveAsOpened(editor.getDiagram());

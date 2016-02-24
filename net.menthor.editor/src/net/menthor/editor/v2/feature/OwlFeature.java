@@ -93,18 +93,18 @@ public class OwlFeature {
 	
 	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt){
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = generateOwl(filteredParser, model, TabbedAreaController.get().getConstraints(), trOpt);
+		ResultType result = generateOwl(filteredParser, model, TabbedAreaController.get().getWorkingOclText(), trOpt);
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
-				TabbedAreaController.get().showOutputInfo(result.toString(), true, false);
-				TabbedAreaController.get().addTextEditor((String)result.getData()[0]);
+				TabbedAreaController.get().showConsoleText(result.toString(), true, false);
+				TabbedAreaController.get().addText((String)result.getData()[0]);
 			}else{
-				TabbedAreaController.get().showOutputInfo(result.toString(), true, true);
+				TabbedAreaController.get().showConsoleText(result.toString(), true, true);
 			}			
 			return "SUCCESS. Project successfully transformed.";
 		}else{
-			TabbedAreaController.get().showOutputInfo(result.toString(), true, true);			
+			TabbedAreaController.get().showConsoleText(result.toString(), true, true);			
 			return "FAILURE. Project could not be transformed.";
 		}
 	}

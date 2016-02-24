@@ -211,7 +211,7 @@ public class AddCommander extends GenericCommander {
 		oclDoc.setName("OclDocument"+ProjectManager.get().getProject().getOclDocList().size());		
 		ProjectManager.get().getProject().getOclDocList().add(oclDoc);		
 		BrowserController.get().add((DefaultMutableTreeNode)treeNode, oclDoc);		
-		if(createTab) TabbedAreaController.get().addOclEditor(oclDoc);
+		if(createTab) TabbedAreaController.get().add(oclDoc);
 	}
 	
 	public void newDiagram(){
@@ -229,7 +229,7 @@ public class AddCommander extends GenericCommander {
 		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
 		ProjectManager.get().getProject().addDiagram(diagram);
 		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
-		TabbedAreaController.get().addDiagramEditor(diagram);				
+		TabbedAreaController.get().add(diagram);				
 		if(treeNode!=null) BrowserController.get().add((DefaultMutableTreeNode)treeNode,diagram);
 	}
 	

@@ -37,7 +37,7 @@ public final class MenthorEditor {
 			Frame.get();	
 			
 			//these must be called after AppFrame is constructed...
-			TabbedAreaController.get().addStartEditor(false);								
+			TabbedAreaController.get().addWelcome(false);		
 			ProjectManager.get().openProjectFromArgs(args);		
 			
 			Frame.get().setLocationByPlatform(true);

@@ -70,10 +70,10 @@ public class EditManager extends AbstractManager {
 	/** edit */
 	public void edit(Object input){
 		if (input instanceof StructureDiagram){    		
-			TabbedAreaController.get().addEditor(input);
+			TabbedAreaController.get().add(input);
     	} 
     	else if (input instanceof OclDocument){
-    		TabbedAreaController.get().addEditor(input);
+    		TabbedAreaController.get().add(input);
     	}
 		
 		Object element = null;
