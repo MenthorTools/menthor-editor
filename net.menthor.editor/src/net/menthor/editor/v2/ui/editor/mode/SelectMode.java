@@ -131,7 +131,7 @@ public class SelectMode implements IEditorMode {
 	public void draw(DrawingContext drawingContext) {
 		List<DiagramElement> list = getSelectedElements();
 		if(list.size()>0) {
-			//only draw the selection cubes if the diagram on the tab open 
+			//only draw the selection if the diagram on the tab open 
 			//is the same diagram of the selected elements
 			Object diagramWithSelection = list.get(0).getDiagram();
 			if(currentEditor().getDiagram().equals(diagramWithSelection)){
@@ -147,6 +147,11 @@ public class SelectMode implements IEditorMode {
 	
 	public void cancel() { 
 		selection.cancelDragging(); 
+		//if elements in selection do not exist anymore then
+		//remove them from selection
+		for(DiagramElement de: selection.getElements()){
+			if(!currentEditor().getDiagram().containsChild(de)) remove(de);
+		}
 	}
 	
 	public boolean isAllowedSelection(Selection sel){
@@ -177,6 +182,12 @@ public class SelectMode implements IEditorMode {
 			if (selection.getElements().contains(element)) {
 				selection = NullSelection.getInstance();
 			}
+		}
+	}
+	
+	public void remove(DiagramElement element) {
+		if (selection.getElements().contains(element)) {
+			selection = NullSelection.getInstance();
 		}
 	}
 	

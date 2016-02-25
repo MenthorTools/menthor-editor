@@ -145,7 +145,7 @@ public class AttributesEditPane extends JPanel {
 		for (Property property : tablemodel.getEntries()){	
 			if(property.getType()!=null){
 				if(datatypes.keySet().contains(property.getType().getName().trim())==false)
-					result.add(property.getType());
+					if(!result.contains(property.getType())) result.add(property.getType());
 			}
 		}
 		return result;

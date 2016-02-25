@@ -163,6 +163,7 @@ public class AttributeTableModel extends GenericTableModel {
 				DataType type = RefOntoUMLFactoryUtil.factory.createPrimitiveType();
 				type.setName((String) value);
 				property.setType(type);
+				if(!datatypes.contains(type)) datatypes.add(type);
 			}
 		}
 		if(columnIndex == 2){
