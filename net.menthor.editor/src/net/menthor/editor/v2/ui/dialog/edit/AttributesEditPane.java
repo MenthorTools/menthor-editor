@@ -60,10 +60,10 @@ import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Property;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.table.AttributeTableModel;
@@ -98,7 +98,7 @@ public class AttributesEditPane extends JPanel {
 	
 	public void initDataTypesMap(){
 		datatypes = new HashMap<String, DataType>();		
-		for (DataType item : ProjectManager.get().getProject().getRefParser().getAllInstances(RefOntoUML.DataType.class)) {			
+		for (DataType item : ProjectController.get().getProject().getRefParser().getAllInstances(RefOntoUML.DataType.class)) {			
 			datatypes.put(item.getName(), item);
 		}
 		tablemodel.setDataTypes(datatypes.values());

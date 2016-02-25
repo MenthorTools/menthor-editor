@@ -28,11 +28,13 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.OccurenceMap;
 
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
 import net.menthor.editor.v2.commanders.DeleteCommander;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 
@@ -54,7 +56,7 @@ public class RemakeManager extends AbstractManager {
 	
 	/** Re-make all associations in all diagrams they appear. */
 	public void remakeAllAssociations(){
-		Set<Association> list = ProjectManager.get().getProject().getRefParser().getAllInstances(Association.class);
+		Set<Association> list = ProjectController.get().getProject().getRefParser().getAllInstances(Association.class);
 		for(Association a: list){
 			remakeRelationship(a);
 		}
@@ -98,7 +100,7 @@ public class RemakeManager extends AbstractManager {
 		boolean showRoles = false;
 		ReadingDesign direction = ReadingDesign.UNDEFINED;		
 		if(element instanceof Association){
-			AssociationElement ae = (AssociationElement) OccurenceManager.get().getDiagramElement(element, d.getDiagram());
+			AssociationElement ae = (AssociationElement) OccurenceMap.get().getDiagramElement(element, d.getDiagram());
 			if(ae!=null){
 				isRectilinear = ae.isTreeStyle();			
 				showName = ae.showName();
@@ -111,7 +113,7 @@ public class RemakeManager extends AbstractManager {
 			AddToDiagramCommander.get().addAssociationToDiagram((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
 		}
 		if(element instanceof Generalization){			
-			GeneralizationElement ge = (GeneralizationElement) OccurenceManager.get().getDiagramElement(element, d.getDiagram());
+			GeneralizationElement ge = (GeneralizationElement) OccurenceMap.get().getDiagramElement(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
 			DeleteCommander.get().deleteFromDiagram(d, element);
 			AddToDiagramCommander.get().addGeneralizationToDiagram(d,(Generalization) element, isRectilinear);

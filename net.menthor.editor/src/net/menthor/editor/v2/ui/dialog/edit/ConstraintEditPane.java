@@ -46,8 +46,8 @@ import RefOntoUML.Constraintx;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -85,7 +85,7 @@ public class ConstraintEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void setData(){		
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		for(Constraintx c: refparser.getAllInstances(RefOntoUML.Constraintx.class)){		
 			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
 				if (elem.equals(element)) comboConstraint.addItem(new ConstraintElement(c));

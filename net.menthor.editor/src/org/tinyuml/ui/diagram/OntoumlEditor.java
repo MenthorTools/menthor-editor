@@ -68,6 +68,7 @@ import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SingleLineEditField;
 import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
@@ -76,9 +77,7 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -87,6 +86,7 @@ import net.menthor.editor.v2.ui.Palette;
 import net.menthor.editor.v2.ui.TopTabbedPane;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
+import net.menthor.editor.v2.ui.controller.EditDialogController;
 import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
@@ -735,8 +735,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			if(source==null || target==null) return null;		  
 		}
 		  
-		DiagramElement src = OccurenceManager.get().getDiagramElement(source,getDiagram());
-		DiagramElement tgt = OccurenceManager.get().getDiagramElement(target,getDiagram());		
+		DiagramElement src = OccurenceMap.get().getDiagramElement(source,getDiagram());
+		DiagramElement tgt = OccurenceMap.get().getDiagramElement(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
 		UmlConnection conn = FactoryManager.get().createVisualConnectionFromModelRelationship(relationship, src, tgt);
@@ -891,7 +891,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** Edits the current selection's properties. */
 	public void editProperties(){
 		if (SelectMode.get().getSelectedElements().size() > 0) {
-			EditManager.get().edit(SelectMode.get().getSelectedElements().get(0));		
+			EditDialogController.get().edit(SelectMode.get().getSelectedElements().get(0));		
 		}
 	}
 	

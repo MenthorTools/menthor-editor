@@ -27,11 +27,11 @@ import java.util.List;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.SimpleLabel;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.GenericOperation;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
@@ -143,17 +143,17 @@ public class NotificationCommander {
 	
 	/** diagrams in which this element appear must be notified. */
 	private void notifyDiagrams(Element element){		
-		List<DiagramElement> deList = OccurenceManager.get().getDiagramElements(element);
+		List<DiagramElement> deList = OccurenceMap.get().getDiagramElements(element);
 		for(DiagramElement elem: deList){
 			StructureDiagram diagram = (StructureDiagram)elem.getDiagram();
-			ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);
+			ProjectController.get().getProject().saveDiagramNeeded(diagram,true);
 		}
 	}
 	
 	/** diagrams in which this element appear must be notified. */
 	private void notifyDiagrams(DiagramElement de){
 		StructureDiagram diagram = (StructureDiagram) de.getDiagram();
-		ProjectManager.get().getProject().saveDiagramNeeded(diagram,true);
+		ProjectController.get().getProject().saveDiagramNeeded(diagram,true);
 	}
 
 	/** diagrams in which these elements appear must be notified. */

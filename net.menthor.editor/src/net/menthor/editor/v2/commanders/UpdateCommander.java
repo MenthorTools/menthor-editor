@@ -18,9 +18,9 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.controller.BrowserController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.operation.diagram.AddGeneralizationSetOperation;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
@@ -104,19 +104,19 @@ public class UpdateCommander {
     
     public void updateFromAddition(final Element addedElement){	
 		if(!(addedElement instanceof OntoumlDiagram || addedElement instanceof OclDocument)){			
-			ProjectManager.get().getProject().getRefParser().addElement(addedElement);
+			ProjectController.get().getProject().getRefParser().addElement(addedElement);
 		}
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				BrowserController.get().add(addedElement, ProjectManager.get().getProject().getModel());				
+				BrowserController.get().add(addedElement, ProjectController.get().getProject().getModel());				
 			}
 		});		
 	}
     
     public void updateFromDeletion(final RefOntoUML.Element deletedElement){	
     	if(!(deletedElement instanceof OntoumlDiagram || deletedElement instanceof OclDocument)){
-    		ProjectManager.get().getProject().getRefParser().removeElement(deletedElement);
+    		ProjectController.get().getProject().getRefParser().removeElement(deletedElement);
     	}
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
@@ -163,10 +163,10 @@ public class UpdateCommander {
 		updateFromChange(fix);		
 		updateFromDeletion(fix);
 		
-		List<OclDocument> oclDocs = ProjectManager.get().getProject().getOclDocList();
+		List<OclDocument> oclDocs = ProjectController.get().getProject().getOclDocList();
 		
 		if(fix.getAddedRules().size()>0 && oclDocs.size()==0){
-			AddCommander.get().newOclDocument("", true);
+			ProjectController.get().addOclDocument("", true);
 		}
 		
 		for(String str: fix.getAddedRules()){
@@ -192,7 +192,7 @@ public class UpdateCommander {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		OntoumlEditor ed = TabbedAreaController.get().selectedTopOntoumlEditor();
+		OntoumlEditor ed = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			

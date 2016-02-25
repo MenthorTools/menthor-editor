@@ -23,13 +23,13 @@ package net.menthor.editor.v2.ui.operation.diagram;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.Element;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
 
@@ -46,8 +46,8 @@ public class AddConnectionOperation extends AddModelOperation implements IDiagra
 		ontoumlEditor = editor;
 		if(ontoumlEditor!=null) parent = ontoumlEditor.getDiagram();
 		diagramElement = conn;			
-		if(diagramElement==null) diagramElement = OccurenceManager.get().getDiagramElement(element, parent);			
-		if(diagramElement==null) diagramElement = OccurenceManager.get().getDiagramElement(element);
+		if(diagramElement==null) diagramElement = OccurenceMap.get().getDiagramElement(element, parent);			
+		if(diagramElement==null) diagramElement = OccurenceMap.get().getDiagramElement(element);
 		element = (RefOntoUML.Element)diagramElement.getModelObject();		
 		if(element!=null) {			 
 			eContainer = (RefOntoUML.Element)element.eContainer();
@@ -61,7 +61,7 @@ public class AddConnectionOperation extends AddModelOperation implements IDiagra
 		super.undo();					
 		
 		parent.removeChild(diagramElement);		
-		OccurenceManager.get().remove(diagramElement);		
+		OccurenceMap.get().remove(diagramElement);		
 		
 		notifier.notifyChange(this, (Element)diagramElement.getModelObject());			
 	}

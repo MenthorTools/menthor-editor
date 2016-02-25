@@ -28,12 +28,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.FoundElement;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.util.DiagramListDialog;
 
 public class FindManager extends AbstractManager {
@@ -66,7 +68,7 @@ public class FindManager extends AbstractManager {
 		else if(element instanceof FoundElement) 
 			refElem = (RefOntoUML.Element)((FoundElement)element).getElement();	
 		
-		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(refElem);
+		List<OntoumlDiagram> diagrams = OccurenceMap.get().getDiagrams(refElem);
 		DiagramListDialog.open(frame(), listener(), diagrams);
 	}
 	
@@ -88,7 +90,7 @@ public class FindManager extends AbstractManager {
 	
 	public List<FoundElement> findByName(String text){		
 		List<FoundElement> result = new ArrayList<FoundElement>();
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		if(refparser!=null && text!=null /*&& !text.isEmpty()*/){
 			for(EObject eobj: refparser.getAllInstances(EObject.class)){
 				if (eobj instanceof NamedElement){

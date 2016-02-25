@@ -13,11 +13,11 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlverificator.MultiplicityValidator;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.Frame;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.dialog.edit.PropertyListEditDialog;
 import net.menthor.editor.v2.ui.operation.model.ChangeStereotypeModelOperation;
 import net.menthor.editor.v2.ui.operation.model.InvertModelOperation;
@@ -296,12 +296,12 @@ public class ChangeCommander {
 	}
 	
 	public void subsets(final AssociationElement association, final RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(Frame.get(),null, "Subsetted", endpoint, ProjectManager.get().getProject().getRefParser());
+		PropertyListEditDialog.open(Frame.get(),null, "Subsetted", endpoint, ProjectController.get().getProject().getRefParser());
 		VisibilityCommander.get().showSubsetting(association);
 	}
 	
 	public void redefines(final AssociationElement association, final RefOntoUML.Property endpoint){
-		PropertyListEditDialog.open(Frame.get(),null, "Redefined", endpoint,ProjectManager.get().getProject().getRefParser());		
+		PropertyListEditDialog.open(Frame.get(),null, "Redefined", endpoint,ProjectController.get().getProject().getRefParser());		
 		VisibilityCommander.get().showRedefinitions(association);
 	}
     

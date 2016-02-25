@@ -259,7 +259,7 @@ public class MenuBar extends GenericMenuBar {
 	private void createRulesMenu(){
 		rules = new JMenu("Rules");
 		add(rules);
-		createMenuItem(rules, "New", CommandType.NEW_OCLDOCUMENT, background);
+		createMenuItem(rules, "New", CommandType.ADD_OCLDOCUMENT, background);
 		rules.addSeparator();
 		createMenuItem(rules, "Close", CommandType.CLOSE_OCL_EDITOR, background);
 	}
@@ -282,7 +282,7 @@ public class MenuBar extends GenericMenuBar {
 		KeyStroke stroke;
 		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK);
-		createMenuItem(diagram, "New", CommandType.NEW_DIAGRAM, background,stroke);
+		createMenuItem(diagram, "New", CommandType.ADD_DIAGRAM, background,stroke);
 		diagram.addSeparator();
 		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.META_MASK);
 		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK);

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.controller;
 
 /**
  * ============================================================================================
@@ -27,41 +27,45 @@ import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipException;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.OccurenceMap;
+import org.tinyuml.umldraw.StructureDiagram;
 
+import RefOntoUML.Package;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorEditor;
-import net.menthor.editor.v2.commanders.AddCommander;
-import net.menthor.editor.v2.ui.controller.BrowserController;
-import net.menthor.editor.v2.ui.controller.CursorController;
-import net.menthor.editor.v2.ui.controller.FrameController;
-import net.menthor.editor.v2.ui.controller.MessageController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.OclDocument;
+import net.menthor.editor.v2.ui.Frame;
 import net.menthor.editor.v2.ui.editor.StartEditor;
+import net.menthor.editor.v2.util.DeserializationUtil;
+import net.menthor.editor.v2.util.SerializationUtil;
 import net.menthor.editor.v2.util.Settings;
 import net.menthor.editor.v2.util.Util;
 
-public class ProjectManager extends AbstractManager {
+public class ProjectController {
+	
+	Frame frame = Frame.get();
+	UmlProject project;
+	File projectFile;
 	
 	// -------- Lazy Initialization
 
 	private static class ProjectLoader {
-        private static final ProjectManager INSTANCE = new ProjectManager();
+        private static final ProjectController INSTANCE = new ProjectController();
     }	
-	public static ProjectManager get() { 
+	public static ProjectController get() { 
 		return ProjectLoader.INSTANCE; 
 	}	
-    private ProjectManager() {
+    private ProjectController() {
         if (ProjectLoader.INSTANCE != null) throw new IllegalStateException("ProjectManager already instantiated");
     }		
     
     // ----------------------------
 		
-	private UmlProject project;
-	private File projectFile;
-	
 	private String lastOpenPath = new String();
 	private String lastSavePath = new String();
 	private String lastImportPath = new String();
@@ -70,30 +74,43 @@ public class ProjectManager extends AbstractManager {
 	
 	public void setProject(UmlProject project){
 		this.project = project;
+		this.project.setVersion(MenthorEditor.MENTHOR_VERSION);
 		this.project.setSaveModelNeeded(false);
 		//register elements
-		OccurenceManager.get().addAll(project.getDiagrams());
+		OccurenceMap.get().addAll(project.getDiagrams());
 		//initialize GUI
-		BrowserController.get().initialize(project, listener());		
+		BrowserController.get().initialize(project);		
 		TabbedAreaController.get().initialize(project);		
+	}
+	
+	public void saveProjectDataBeforeSerialize(){
+		TabbedAreaController.get().saveAllWorkingOclTexts();
+		if (projectFile.exists()) projectFile.delete();
+		this.project.clearOpenedDiagrams();
+		for(OntoumlEditor editor: TabbedAreaController.get().getOntoumlEditors()){
+			this.project.saveAsOpened(editor.getDiagram());
+		}
+		String name = projectFile.getName().replace(".menthor","");
+		this.project.setName(name);			
+		this.project.saveAllDiagramNeeded(false);
 	}
 	
 	public File getProjectFile(){ return projectFile; }
 	
 	public File chooseNewFile() throws IOException{
-		return Util.chooseFile(frame(), null, "New Project", "Menthor Project (*.menthor)", "menthor",true);
+		return Util.chooseFile(frame, null, "New Project", "Menthor Project (*.menthor)", "menthor",true);
 	}
 	
 	public File chooseOpenFile()throws IOException{
-		return Util.chooseFile(frame(), lastOpenPath, "Open Project", "Menthor Project (*.menthor)", "menthor",false);
+		return Util.chooseFile(frame, lastOpenPath, "Open Project", "Menthor Project (*.menthor)", "menthor",false);
 	}
 	
 	public File chooseSaveAsFile()throws IOException{
-		return Util.chooseFile(frame(), lastSavePath, "Save Project As", "Menthor Project (*.menthor)", "menthor",true);
+		return Util.chooseFile(frame, lastSavePath, "Save Project As", "Menthor Project (*.menthor)", "menthor",true);
 	}
 	
 	public File chooseImportFile()throws IOException{
-		return Util.chooseFile(frame(), lastImportPath, "Import Model Content", "Reference Ontouml (*.refontouml)", "refontouml",false);
+		return Util.chooseFile(frame, lastImportPath, "Import Model Content", "Reference Ontouml (*.refontouml)", "refontouml",false);
 	}
 	
 	public boolean confirmClose(Component parentWindow){
@@ -104,6 +121,57 @@ public class ProjectManager extends AbstractManager {
 		);
 	}
 	
+	public void addOclDocument(){
+		addOclDocument(null, false);		
+	}
+	
+	public OclDocument addOclDocument(String oclcontent, boolean createTab){
+		OclDocument oclDoc = new OclDocument();
+		Package pack = (Package) (BrowserController.get().root()).getUserObject();
+		oclDoc.setContainer(pack);		
+		if(oclcontent!=null) oclDoc.setContentAsString(oclcontent);
+		oclDoc.setName("OclDocument"+project.getOclDocList().size());		
+		project.getOclDocList().add(oclDoc);				
+		if(createTab) TabbedAreaController.get().add(oclDoc);
+		return oclDoc;
+	}
+	
+	public void addOclDocument(Object treeNode){
+		OclDocument oclDoc = addOclDocument("", false);
+		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || 
+		!(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
+			treeNode = BrowserController.get().root();
+		}
+		BrowserController.get().add((DefaultMutableTreeNode)treeNode, oclDoc);
+	}	
+	
+	public StructureDiagram addDiagram(){
+		StructureDiagram diagram = new StructureDiagram(project);		
+		Package epackage = (Package) (BrowserController.get().root()).getUserObject();
+		diagram.setContainer(epackage);		
+		setDefaultDiagramSize(diagram);
+		diagram.setLabelText("Diagram"+project.getDiagrams().size());
+		project.addDiagram(diagram);
+		project.saveDiagramNeeded(diagram,false);
+		TabbedAreaController.get().add(diagram);
+		return diagram;
+	}
+
+	private void setDefaultDiagramSize(StructureDiagram diagram){
+		double waste = 0;
+		if(SplitPaneController.get().isShowProjectBrowser()) waste+=240;
+		if(SplitPaneController.get().isShowPalette()) waste+=240;
+		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
+	}
+	
+	public void addDiagram(Object treeNode){
+		StructureDiagram diagram = addDiagram();
+		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
+			treeNode = BrowserController.get().root();
+		}		
+		if(treeNode!=null) BrowserController.get().add((DefaultMutableTreeNode)treeNode,diagram);
+	}
+	
 	public void createEmptyProject(){
 		createEmptyProject(true,true);
 	}
@@ -111,8 +179,8 @@ public class ProjectManager extends AbstractManager {
 	public void createEmptyProject(boolean createRulesDocument, boolean createDiagram){
 		project = new UmlProject();
 		setProject(project);		
-		if(createDiagram) AddCommander.get().newDiagram();
-		if(createRulesDocument) AddCommander.get().newOclDocument();
+		if(createDiagram) addDiagram();
+		if(createRulesDocument) addOclDocument();
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, String oclContent){		
@@ -130,30 +198,29 @@ public class ProjectManager extends AbstractManager {
 	public UmlProject createProject(RefOntoUML.Package model, String oclContent, boolean createDefaultDiagram, boolean createDefaultRules){		
 		project = new UmlProject(model);
 		setProject(project);
-		if(createDefaultDiagram && project.getDiagrams().size()==0) AddCommander.get().newDiagram();		
-		if(createDefaultRules) AddCommander.get().newOclDocument(oclContent,false);		
+		if(createDefaultDiagram && project.getDiagrams().size()==0) addDiagram();		
+		if(createDefaultRules) addOclDocument(oclContent,false);		
 		return project;
 	}
 	
 	public UmlProject createProject(RefOntoUML.Package model, List<String> oclContent){		
 		project = new UmlProject(model);
 		setProject(project);
-		if(project.getDiagrams().size()==0) AddCommander.get().newDiagram();
-		for(String str: oclContent) AddCommander.get().newOclDocument(str,false);		
+		if(project.getDiagrams().size()==0) addDiagram();
+		for(String str: oclContent) addOclDocument(str,false);		
 		return project;
 	}
 	
 	public void closeProject(){					
 		if(project!=null && project.isSaveModelNeeded()){ 
-			if(confirmClose(frame())) saveProject();							
+			if(confirmClose(frame)) saveProject();							
 		}		
-		project=null;
-		infoPane().emptyOutput();		
+		project=null;				
 		TabbedAreaController.get().backToInitialState();
 	}
 	
 	public void openRecentProject(){
-		StartEditor startPanel = (StartEditor) TabbedAreaController.get().selectedTopEditor();
+		StartEditor startPanel = (StartEditor) TabbedAreaController.get().getSelectedTopEditor();
 		if(startPanel != null){
 			openProjectFromFile(startPanel.getSelectedRecentFile());
 		}
@@ -161,7 +228,7 @@ public class ProjectManager extends AbstractManager {
 	
 	public void saveProject() {
 		if (projectFile == null) saveProjectAs();			
-		else serializeProject(projectFile);
+		else serializeProject();
 	}
 	
 	public void newProject(){		
@@ -172,7 +239,7 @@ public class ProjectManager extends AbstractManager {
 			CursorController.get().waitCursor();
 			closeProject();
 			createEmptyProject(false,true);				
-			serializeProject(file);			
+			serializeProject();			
 			FrameController.get().initializeFrame(file);														
 		} catch (Exception ex) {
 			MessageController.get().showError(ex, "New Project", "Could not create new project");
@@ -195,7 +262,7 @@ public class ProjectManager extends AbstractManager {
 			createProject(model, "",true,true);
 		}
 		
-		splitPane().forceDefaultState();
+		SplitPaneController.get().forceDefaultState();
 	}
 	
 	public void openProject(){
@@ -206,7 +273,7 @@ public class ProjectManager extends AbstractManager {
 			lastOpenPath = file.getAbsolutePath();
 			CursorController.get().waitCursor();			
 			closeProject();
-			deserializeProject(projectFile);
+			deserializeProject();
 			FrameController.get().initializeFrame(file);			
 		} catch (Exception ex) {
 			MessageController.get().showError(ex, "Open Project", "Could not open existing project");
@@ -233,7 +300,7 @@ public class ProjectManager extends AbstractManager {
 			closeProject();
 			File file = new File(filePath);
 			projectFile = file;						
-			deserializeProject(projectFile);	
+			deserializeProject();	
 			FrameController.get().initializeFrame(file);
 		} catch (Exception ex) {
 			MessageController.get().showError(ex, "Open Project", "Could not open existing project from a file path");
@@ -246,7 +313,8 @@ public class ProjectManager extends AbstractManager {
 			File file = chooseSaveAsFile();
 			if(file==null) return;	
 			CursorController.get().waitCursor();
-			projectFile = serializeProject(file);			
+			projectFile = file;
+			serializeProject();
 			lastSavePath = file.getAbsolutePath();
 			FrameController.get().initializeFrame(projectFile, false);			
 		}catch (Exception ex) {
@@ -266,7 +334,7 @@ public class ProjectManager extends AbstractManager {
 			Resource resource = RefOntoUMLResourceUtil.loadModel(file.getAbsolutePath());
 			RefOntoUML.Package model = (RefOntoUML.Package)resource.getContents().get(0);
 			createProject(model, true, false);
-			serializeProject(projectFile);
+			serializeProject();
 			FrameController.get().initializeFrame(projectFile);			
 		} catch (Exception ex) {
 			MessageController.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
@@ -274,39 +342,28 @@ public class ProjectManager extends AbstractManager {
 		CursorController.get().defaultCursor();
 	}
 
-	/**serialize project */
-	public File serializeProject(File file){
+	public File serializeProject(){
 		File result = null;
 		try {
-			project.setVersion(MenthorEditor.MENTHOR_VERSION);		
-			if (file.exists()) file.delete();
-			TabbedAreaController.get().saveAllWorkingOclTexts();				
-			project.clearOpenedDiagrams();
-			for(OntoumlEditor editor: TabbedAreaController.get().getOntoumlEditors()){
-				project.saveAsOpened(editor.getDiagram());
-			}			
-			result = SerializationManager.get().serializeMenthorFile(file, project, project.getOclDocList());
-			project.setName(file.getName().replace(".menthor",""));
-			browser().getTree().updateUI();
-			project.saveAllDiagramNeeded(false);
-			FrameController.get().initializeFrame(file, false);			
-			Settings.addRecentProject(file.getCanonicalPath());
+			CursorController.get().waitCursor();						
+			saveProjectDataBeforeSerialize();
+			result = SerializationUtil.get().serializeMenthorFile(projectFile, project, project.getOclDocList());
+			Settings.addRecentProject(projectFile.getCanonicalPath());
+			BrowserController.get().updateUI();
+			FrameController.get().initializeFrame(projectFile, false);			
+			CursorController.get().defaultCursor();		
 		} catch (Exception ex) {
 			MessageController.get().showError(ex, "Write Project", "Could not serialize current project to a file");
 		}				
 		return result;
 	}
-	
-	/**deserialize project 
-	 * @throws IOException 
-	 * @throws ZipException */
-	public void deserializeProject(File file) throws ZipException, IOException {
-		CursorController.get().waitCursor();
 
-		setProject(DeserializationManager.get().deserializeMenthorFile(file));
-			
-		FrameController.get().initializeFrame(file, false);
-		CursorController.get().defaultCursor();
-		Settings.addRecentProject(file.getCanonicalPath());
+	public void deserializeProject() throws ZipException, IOException {
+		CursorController.get().waitCursor();
+		UmlProject project = DeserializationUtil.get().deserialize(projectFile);
+		setProject(project);			
+		Settings.addRecentProject(projectFile.getCanonicalPath());
+		FrameController.get().initializeFrame(projectFile, false);
+		CursorController.get().defaultCursor();		
 	}
 }

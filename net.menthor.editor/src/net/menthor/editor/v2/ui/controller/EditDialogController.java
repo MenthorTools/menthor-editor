@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.ui.controller;
 
 /**
  * ============================================================================================
@@ -29,6 +29,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
@@ -39,41 +40,46 @@ import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
+
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.element.FoundElement;
+
 import net.menthor.editor.v2.ui.Frame;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.dialog.edit.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.ClassEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GeneralizationSetEditDialog;
 import net.menthor.editor.v2.ui.dialog.edit.GenericEditDialog;
 
-public class EditManager extends AbstractManager {
+public class EditDialogController {
 
+	Frame frame = Frame.get();
+	
 	// -------- Lazy Initialization
 
 	private static class EditLoader {
-        private static final EditManager INSTANCE = new EditManager();
+        private static final EditDialogController INSTANCE = new EditDialogController();
     }	
-	public static EditManager get() { 
+	public static EditDialogController get() { 
 		return EditLoader.INSTANCE; 
 	}	
-    private EditManager() {
+    private EditDialogController() {
         if (EditLoader.INSTANCE != null) throw new IllegalStateException("EditManager already instantiated");
     }		
     
     // ----------------------------
 	
-	public Frame getParent(){ return frame(); }
+	public Frame getParent(){ return frame; }
 	
 	/** edit */
 	public void edit(Object input){
 		if (input instanceof StructureDiagram){    		
 			TabbedAreaController.get().add(input);
+			return;
     	} 
     	else if (input instanceof OclDocument){
     		TabbedAreaController.get().add(input);
+    		return;
     	}
 		
 		Object element = null;
@@ -217,13 +223,13 @@ public class EditManager extends AbstractManager {
 	
 	private <T extends DiagramElement> T getDiagramElement(Element element, Class<T> elementType) {
 		
-		OntoumlEditor diagEditor = TabbedAreaController.get().selectedTopOntoumlEditor();
+		OntoumlEditor diagEditor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 		StructureDiagram diagram = null;
 		DiagramElement diagramElement = null;
 		
 		if(diagEditor != null) {
 			diagram = diagEditor.getDiagram();
-			diagramElement = OccurenceManager.get().getDiagramElement((RefOntoUML.Element)element,diagram);
+			diagramElement = OccurenceMap.get().getDiagramElement((RefOntoUML.Element)element,diagram);
 			if (diagramElement!=null && elementType.isInstance(diagramElement)){
 				return elementType.cast(diagramElement);
 			}

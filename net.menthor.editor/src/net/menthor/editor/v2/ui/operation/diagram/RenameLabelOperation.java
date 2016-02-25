@@ -7,7 +7,7 @@ import org.tinyuml.umldraw.ClassElement;
 
 import RefOntoUML.Element;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.operation.DiagramOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -33,7 +33,7 @@ public class RenameLabelOperation extends DiagramOperation {
 		label.setNameLabelText(text);		
 		// replace all references in constraints
 		if (parent instanceof ClassElement){			
-			for(OclDocument oclDoc: ProjectManager.get().getProject().getOclDocList()){
+			for(OclDocument oclDoc: ProjectController.get().getProject().getOclDocList()){
 				String currentConstraints = oclDoc.getContentAsString();
 				String newConstraints = currentConstraints.replaceAll(oldName,text);
 				oclDoc.setContentAsString(newConstraints);
@@ -46,7 +46,7 @@ public class RenameLabelOperation extends DiagramOperation {
 		label.setNameLabelText(oldText);				
 		// replace all references in constraints
 		if (parent instanceof ClassElement){	
-			for(OclDocument oclDoc: ProjectManager.get().getProject().getOclDocList()){
+			for(OclDocument oclDoc: ProjectController.get().getProject().getOclDocList()){
 				String currentConstraints = oclDoc.getContentAsString();
 				String newConstraints = currentConstraints.replaceAll(text,oldText);
 				oclDoc.setContentAsString(newConstraints);

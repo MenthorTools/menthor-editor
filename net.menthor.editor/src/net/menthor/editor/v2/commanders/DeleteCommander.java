@@ -8,6 +8,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Classifier;
@@ -16,10 +17,9 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.controller.BrowserController;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.diagram.DeleteOperation;
@@ -102,7 +102,7 @@ public class DeleteCommander extends GenericCommander {
 			response = confirmOclDocDeletion();		
 		}
 		if(response) {
-			ProjectManager.get().getProject().getOclDocList().remove(doc);
+			ProjectController.get().getProject().getOclDocList().remove(doc);
 			TabbedAreaController.get().remove(doc);		
 			BrowserController.get().remove();
 		}
@@ -115,7 +115,7 @@ public class DeleteCommander extends GenericCommander {
 		}
 		if(response){
 			deleteAllElementsFromDiagram(diagram);
-			ProjectManager.get().getProject().getDiagrams().remove(diagram);
+			ProjectController.get().getProject().getDiagrams().remove(diagram);
 			TabbedAreaController.get().remove(diagram);
 			BrowserController.get().remove();
 		}	
@@ -138,7 +138,7 @@ public class DeleteCommander extends GenericCommander {
 		if(diagramElements==null || diagramElements.size()==0)
 			return;
 		
-		List<RefOntoUML.Element> list = (List<Element>) OccurenceManager.get().getElements(diagramElements);
+		List<RefOntoUML.Element> list = (List<Element>) OccurenceMap.get().getElements(diagramElements);
 		boolean response = true;
 		if(showmessage) response = confirmElementDeletion();
 		if(response) deleteElements(list);		
@@ -149,7 +149,7 @@ public class DeleteCommander extends GenericCommander {
 		//TODO: I guess this is not right. Why get the editors from a single element?
 		List<OntoumlEditor> editors = TabbedAreaController.get().getOntoumlEditors(elements.get(0));		
 		if(editors==null || editors.size()==0) {			
-			OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+			OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 			DeleteModelOperation cmd = new DeleteModelOperation(refparser, elements);
 			cmd.run();			
 			return;
@@ -168,7 +168,7 @@ public class DeleteCommander extends GenericCommander {
 	
 	/** Delete a generalization set from a list of selected diagram elements */
 	public void deleteGeneralizationSet(OntoumlEditor d, List<DiagramElement> selectedElements){	
-		List<GeneralizationSet> genSets = OccurenceManager.get().getGeneralizationSets(selectedElements);
+		List<GeneralizationSet> genSets = OccurenceMap.get().getGeneralizationSets(selectedElements);
 		if(genSets.size()==0) return;
 		if(genSets.size()==1){
 			deleteElement(genSets.get(0),true);
@@ -217,12 +217,12 @@ public class DeleteCommander extends GenericCommander {
 	}
 	
 	public void deleteFromDiagram(Object input){
-		deleteFromDiagram(TabbedAreaController.get().selectedTopOntoumlEditor(),input);
+		deleteFromDiagram(TabbedAreaController.get().getSelectedTopOntoumlEditor(),input);
 	}
 	
 	/** Deletes currently selected elements from the current diagram */
 	public void deleteCurrentSelectionFromDiagram(){
-		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
+		OntoumlEditor editor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 		deleteFromDiagram(editor, SelectMode.get().getSelectedElements());
 	}
 	

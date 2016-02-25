@@ -26,8 +26,8 @@ import java.awt.Component;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.commanders.UpdateCommander;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
 public class ParthoodFeature {
@@ -50,7 +50,7 @@ public class ParthoodFeature {
     // ----------------------------
 	
 	public void evaluateParthoods() {
-		ParthoodDialog.open(ProjectManager.get().getProject().getRefParser(), parent);
+		ParthoodDialog.open(ProjectController.get().getProject().getRefParser(), parent);
 	}	
 	
 	class ParthoodDialog extends ValidationDialog {

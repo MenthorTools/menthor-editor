@@ -26,6 +26,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.NamedElement;
@@ -33,8 +34,6 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.ProblemElement;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.TabbedArea;
 import net.menthor.editor.v2.ui.TabbedArea.TabPositionType;
 import net.menthor.editor.v2.ui.TopTabbedPane;
@@ -89,7 +88,7 @@ public class TabbedAreaController {
 	
 	public String getWorkingOclText(){
 		String result = new String();
-		for(OclDocument oclmodel: ProjectManager.get().getProject().getOclDocList()){				
+		for(OclDocument oclmodel: ProjectController.get().getProject().getOclDocList()){				
 			OclEditor ce = getOclEditor(oclmodel);
 			if(ce!=null) result+=ce.getText();
 			else result+=oclmodel.getContentAsString();
@@ -115,15 +114,15 @@ public class TabbedAreaController {
 		return (StartEditor)tabbedArea.getEditor(EditorType.START_EDITOR);
 	}
 	
-	public IEditor selectedTopEditor(){
+	public IEditor getSelectedTopEditor(){
 		return tabbedArea.getSelectedTopEditor();
 	}
 	
-	public OntoumlEditor selectedTopOntoumlEditor(){		
+	public OntoumlEditor getSelectedTopOntoumlEditor(){		
 		return tabbedArea.getSelectedTopOntoumlEditor();
 	}
 	
-	public OclEditor selectedTopOclEditor(){
+	public OclEditor getSelectedTopOclEditor(){
 		return tabbedArea.getSelectedTopOclEditor();
 	}
 	
@@ -144,7 +143,7 @@ public class TabbedAreaController {
 	}
 	
 	public List<OntoumlEditor> getOntoumlEditors(RefOntoUML.Element element){		
-		List<OntoumlDiagram> diagrams = OccurenceManager.get().getDiagrams(element);
+		List<OntoumlDiagram> diagrams = OccurenceMap.get().getDiagrams(element);
 		return tabbedArea.getOntoumlEditors(diagrams);	
 	}
 	
@@ -226,7 +225,7 @@ public class TabbedAreaController {
 			boolean response = MessageController.get().confirm("Save", 
 			"Your rules document has been modified. Save changes?");
 			if(response) { 
-				ProjectManager.get().saveProject();
+				ProjectController.get().saveProject();
 				closeThis((Component)editor);
 				return true; 
 			}else{ 
@@ -243,7 +242,7 @@ public class TabbedAreaController {
 			boolean response = MessageController.get().confirm("Save", 
 			"Your diagram has been modified. Save changes?");
 			if(response){
-				ProjectManager.get().saveProject();
+				ProjectController.get().saveProject();
 				closeThis((Component)editor);
 				return true; 
 			}else{ 

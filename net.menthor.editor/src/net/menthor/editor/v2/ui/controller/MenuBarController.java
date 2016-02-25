@@ -24,7 +24,7 @@ public class MenuBarController {
     // ----------------------------
 
     public void initializeShowGrid(){
-		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
+		OntoumlEditor editor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 		if(editor!=null){
 			menubar.getMenuItem(CommandType.SHOW_GRID).setSelected(editor.isShownGrid());
 		}		

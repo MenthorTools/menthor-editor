@@ -2,6 +2,7 @@ package net.menthor.editor.v2.commands;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.ScalingComponent;
+import org.tinyuml.umldraw.OccurenceMap;
 
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AddToDiagramCommander;
@@ -19,8 +20,6 @@ import net.menthor.editor.v2.feature.OwlFeature;
 import net.menthor.editor.v2.feature.ParthoodFeature;
 import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
-import net.menthor.editor.v2.managers.DeserializationManager;
-import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ErrorManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FactoryManager;
@@ -29,24 +28,25 @@ import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.managers.SerializationManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.controller.CursorController;
+import net.menthor.editor.v2.ui.controller.EditDialogController;
 import net.menthor.editor.v2.ui.controller.FrameController;
 import net.menthor.editor.v2.ui.controller.MenuBarController;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.SplitPaneController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
 import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
 import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.ActionStack;
+import net.menthor.editor.v2.util.DeserializationUtil;
+import net.menthor.editor.v2.util.SerializationUtil;
 
 public class CommandListener extends AbstractCommandListener {
 
@@ -92,9 +92,9 @@ public class CommandListener extends AbstractCommandListener {
 		try{
 			//----------------
 			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
-				return methodcall.call(TabbedAreaController.get().selectedTopOntoumlEditor());
+				return methodcall.call(TabbedAreaController.get().getSelectedTopOntoumlEditor());
 			} else if(methodcall.getMethod().getDeclaringClass() == ScalingComponent.class){
-				return methodcall.call(TabbedAreaController.get().selectedTopOntoumlEditor().getScalingComponent());
+				return methodcall.call(TabbedAreaController.get().getSelectedTopOntoumlEditor().getScalingComponent());
 			//-----=----------
 				
 			//----------------				
@@ -123,12 +123,12 @@ public class CommandListener extends AbstractCommandListener {
 				
 			}else if(methodcall.getMethod().getDeclaringClass() == DeleteCommander.class){
 				return methodcall.call(DeleteCommander.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == DeserializationManager.class){
-				return methodcall.call(DeserializationManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == DeserializationUtil.class){
+				return methodcall.call(DeserializationUtil.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateCommander.class){
 				return methodcall.call(DuplicateCommander.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == EditManager.class){
-				return methodcall.call(EditManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == EditDialogController.class){
+				return methodcall.call(EditDialogController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ErrorManager.class){
 				return methodcall.call(ErrorManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ExportManager.class){
@@ -150,14 +150,14 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(VisibilityCommander.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == AddToDiagramCommander.class){
 				return methodcall.call(AddToDiagramCommander.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceManager.class){
-				return methodcall.call(OccurenceManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == OccurenceMap.class){
+				return methodcall.call(OccurenceMap.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == OwlFeature.class){
 				return methodcall.call(OwlFeature.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ParthoodFeature.class){
 				return methodcall.call(ParthoodFeature.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == ProjectManager.class){
-				return methodcall.call(ProjectManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ProjectController.class){
+				return methodcall.call(ProjectController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ActionStack.class){
 				return methodcall.call(ActionStack.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
@@ -166,8 +166,8 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(RenameCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == SbvrFeature.class){
 				return methodcall.call(SbvrFeature.get());	
-			}else if(methodcall.getMethod().getDeclaringClass() == SerializationManager.class){
-				return methodcall.call(SerializationManager.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == SerializationUtil.class){
+				return methodcall.call(SerializationUtil.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == StatisticsManager.class){
 				return methodcall.call(StatisticsManager.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){

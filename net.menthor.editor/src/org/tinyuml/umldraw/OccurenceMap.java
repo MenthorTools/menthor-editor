@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package org.tinyuml.umldraw;
 
 /**
  * ============================================================================================
@@ -28,10 +28,6 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
-import org.tinyuml.umldraw.AssociationElement;
-import org.tinyuml.umldraw.ClassElement;
-import org.tinyuml.umldraw.GeneralizationElement;
-import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -41,19 +37,20 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
+
 import net.menthor.editor.v2.OntoumlDiagram;
 
-public class OccurenceManager {
+public class OccurenceMap {
 
 	// -------- Lazy Initialization
 	
 	private static class OccurenceLoader {
-        private static final OccurenceManager INSTANCE = new OccurenceManager();
+        private static final OccurenceMap INSTANCE = new OccurenceMap();
     }	
-	public static OccurenceManager get() { 
+	public static OccurenceMap get() { 
 		return OccurenceLoader.INSTANCE; 
 	}	
-    private OccurenceManager() {
+    private OccurenceMap() {
         if (OccurenceLoader.INSTANCE != null) throw new IllegalStateException("OccurenceManager already instantiated");
     }	
     

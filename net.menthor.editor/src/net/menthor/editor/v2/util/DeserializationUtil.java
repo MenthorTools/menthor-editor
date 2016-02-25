@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,27 +23,26 @@ import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.util.Settings;
 
-public class DeserializationManager extends AbstractManager {
+public class DeserializationUtil {
 
 	// -------- Lazy Initialization
 
 	private static final String LOADING_ERROR_TITLE = "Loading error";
 
 	private static class DeserializationLoader {
-        private static final DeserializationManager INSTANCE = new DeserializationManager();
+        private static final DeserializationUtil INSTANCE = new DeserializationUtil();
     }	
-	public static DeserializationManager get() { 
+	public static DeserializationUtil get() { 
 		return DeserializationLoader.INSTANCE; 
 	}	
-    private DeserializationManager() {
+    private DeserializationUtil() {
         if (DeserializationLoader.INSTANCE != null) throw new IllegalStateException("DeserializationManager already instantiated");
     }		
     
     // ----------------------------
     
-	public UmlProject deserializeMenthorFile(File file) throws ZipException, IOException {		
+	public UmlProject deserialize(File file) throws ZipException, IOException {		
 		Resource resource = RefOntoUMLEditingDomain.getInstance().createResource();
 		
 		ZipFile zipFile = new ZipFile(file);		

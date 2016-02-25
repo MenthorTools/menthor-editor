@@ -4,6 +4,7 @@ import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.ui.antipattern.AntiPatternSearchDialog;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 
 public class AntiPatternManager extends AbstractManager {
@@ -23,7 +24,7 @@ public class AntiPatternManager extends AbstractManager {
     // ----------------------------
 	
 	public void detectAntiPatterns(){					
-		AntiPatternSearchDialog.open(frame(), ProjectManager.get().getProject().getRefParser());		
+		AntiPatternSearchDialog.open(frame(), ProjectController.get().getProject().getRefParser());		
 	}	
 	
 	/** Transfer fixes made on the model to an application. 
@@ -33,7 +34,7 @@ public class AntiPatternManager extends AbstractManager {
 		
 		//if there are rules, the update action opens a tab to show the ocl document to the user;
 		if(fix.getAddedRules().size()>0){
-			OclDocument oclDoc = ProjectManager.get().getProject().getOclDocList().get(0);
+			OclDocument oclDoc = ProjectController.get().getProject().getOclDocList().get(0);
 			
 			if(TabbedAreaController.get().isOpen(oclDoc))
 				TabbedAreaController.get().select(oclDoc);
@@ -41,7 +42,7 @@ public class AntiPatternManager extends AbstractManager {
 //			else 
 //				TabManager.get().addOclEditor(oclDoc);
 			
-			TabbedAreaController.get().selectedTopOclEditor().reloadText();
+			TabbedAreaController.get().getSelectedTopOclEditor().reloadText();
 		}
 	}
 	

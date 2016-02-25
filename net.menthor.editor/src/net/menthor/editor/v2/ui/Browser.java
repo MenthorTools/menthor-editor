@@ -28,6 +28,7 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -40,6 +41,8 @@ public class Browser extends RoundedPanel{
 
 	private static final long serialVersionUID = 5598591779372431118L;	
 	
+	private ICommandListener listener; 
+	
 	// -------- Lazy Initialization
 
 	private static class GUIBrowserLoader {
@@ -49,7 +52,8 @@ public class Browser extends RoundedPanel{
 		return GUIBrowserLoader.INSTANCE; 
 	}	
     private Browser() {
-    	super();    	
+    	super();
+    	listener = CommandListener.get();
     	if (GUIBrowserLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
         buildUI();
     }		
@@ -73,7 +77,7 @@ public class Browser extends RoundedPanel{
 		add(roundTitlePane, BorderLayout.NORTH);	
 	}
 	
-	public void initialize(UmlProject project, ICommandListener listener){	
+	public void initialize(UmlProject project){	
 		TreeVisibility viz = new TreeVisibility();
 		viz.hideEnds();
 		tree = ProjectTree.create(listener,project.getRefParser(),project.getOclDocList(),project, viz, false);

@@ -20,6 +20,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 
 public class ErrorManager extends AbstractManager {
@@ -64,7 +65,7 @@ public class ErrorManager extends AbstractManager {
 		errors = new ArrayList<ErrorElement>();
 		start = System.currentTimeMillis();		
 		List<String> names = new ArrayList<String>();
-		for(EObject c: ProjectManager.get().getProject().getRefParser().getElements()){			
+		for(EObject c: ProjectController.get().getProject().getRefParser().getElements()){			
 			checkInvalidStereotype(c);
 			checkOclKeyword(c);
 			checkMixinsNotAbstract(c);
@@ -78,7 +79,7 @@ public class ErrorManager extends AbstractManager {
 	}
 	
 	private void checkInvalidStereotype(EObject c){
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		if(c instanceof RefOntoUML.Class || c instanceof RefOntoUML.Relationship || c instanceof RefOntoUML.DataType){
 			if (!refparser.isValidStereotype(c)){
 				String message = "Invalid stereotype";
@@ -88,7 +89,7 @@ public class ErrorManager extends AbstractManager {
 	}
 	
 	private void checkOclKeyword(EObject c){
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		if(!(c instanceof PrimitiveType) && (c instanceof NamedElement)){
 			if(refparser.isOCLkeyword(((NamedElement)c).getName())){
 				String message = "Name contains an OCL keyword";

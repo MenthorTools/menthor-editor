@@ -33,6 +33,7 @@ import org.tinyuml.draw.LineConnectMethod;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.GeneralizationElement;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.BaseConnection;
 import org.tinyuml.umldraw.shared.UmlConnection;
@@ -50,6 +51,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -314,7 +316,7 @@ public class FactoryManager {
     //in order for it to draw its absolute bounds
     umlnode.setParent(container); 
     //umlnode.addNodeChangeListener(diagram); (unnecessary I suspect)
-    OccurenceManager.get().add(umlnode.getClassifier(), umlnode);
+    OccurenceMap.get().add(umlnode.getClassifier(), umlnode);
     return umlnode;
   }
   
@@ -330,7 +332,7 @@ public class FactoryManager {
     //in order for it to draw its absolute bounds
     umlnode.setParent(container);
     //umlnode.addNodeChangeListener(diagram);  (unnecessary I suspect) 
-    OccurenceManager.get().add(umlnode.getClassifier(), umlnode);
+    OccurenceMap.get().add(umlnode.getClassifier(), umlnode);
     return umlnode;
   }
   
@@ -349,7 +351,7 @@ public class FactoryManager {
 		  pack.getPackagedElement().add((RefOntoUML.PackageableElement)umlnode.getClassifier());			 
 	  }
 	  //umlnode.addNodeChangeListener(diagram); (unnecessary I suspect)
-	  OccurenceManager.get().add(umlnode.getClassifier(), umlnode);
+	  OccurenceMap.get().add(umlnode.getClassifier(), umlnode);
 	  return umlnode;
   }
   
@@ -367,14 +369,14 @@ public class FactoryManager {
 		  RefOntoUML.Package pack = (RefOntoUML.Package)eContainer;
 		  pack.getPackagedElement().add((RefOntoUML.PackageableElement)umlnode.getClassifier());			 
 	  }
-	  OccurenceManager.get().add(umlnode.getClassifier(), umlnode);
+	  OccurenceMap.get().add(umlnode.getClassifier(), umlnode);
 	  return umlnode;
   }
   
   public UmlNode cloneNode(UmlNode node){
 	  UmlNode ce = (UmlNode)node.clone();	        
 	  //ce.addNodeChangeListener((StructureDiagram)node.getDiagram());
-	  OccurenceManager.get().add(ce.getClassifier(), ce);
+	  OccurenceMap.get().add(ce.getClassifier(), ce);
 	  return ce;
   }
   
@@ -392,7 +394,7 @@ public class FactoryManager {
 	    if(conn!=null) 
 	    	conn.setPoints();
 	    
-	    OccurenceManager.get().add(conn.getRelationship(), conn);
+	    OccurenceMap.get().add(conn.getRelationship(), conn);
 	    
 	    return conn;
 	}
@@ -414,7 +416,7 @@ public class FactoryManager {
 	    }
     }
     if(conn!=null) conn.setPoints();
-    OccurenceManager.get().add(conn.getRelationship(), conn);
+    OccurenceMap.get().add(conn.getRelationship(), conn);
     return conn;
   }
     
@@ -440,7 +442,7 @@ public class FactoryManager {
 		  	      	      
       }	    
       if(conn!=null) conn.setPoints();
-      OccurenceManager.get().add(conn.getRelationship(), conn);
+      OccurenceMap.get().add(conn.getRelationship(), conn);
       return conn;
   }
   
@@ -473,12 +475,12 @@ public class FactoryManager {
 	      RefOntoUMLFactoryUtil.cloneRelationship(conn.getRelationship(), toBeCloned);
 	      RefOntoUML.Classifier sourceType = OntoUMLParser.getSourceType(conn.getRelationship());
 	      RefOntoUML.Classifier targetType = OntoUMLParser.getTargetType(conn.getRelationship());
-	      DiagramElement source = OccurenceManager.get().getDiagramElement(sourceType,diagram);
-	      DiagramElement target = OccurenceManager.get().getDiagramElement(targetType,diagram);
+	      DiagramElement source = OccurenceMap.get().getDiagramElement(sourceType,diagram);
+	      DiagramElement target = OccurenceMap.get().getDiagramElement(targetType,diagram);
 	      bind(conn, source, target);	      			   
 	      conn.setPoints();			  
 	  }	  
-      OccurenceManager.get().add(conn.getRelationship(), conn);
+      OccurenceMap.get().add(conn.getRelationship(), conn);
 	  return conn;
   }
   

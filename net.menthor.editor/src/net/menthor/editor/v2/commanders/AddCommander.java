@@ -9,31 +9,24 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
-import org.tinyuml.umldraw.StructureDiagram;
+import org.tinyuml.umldraw.OccurenceMap;
 
 import RefOntoUML.Constraintx;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
-import RefOntoUML.Package;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.controller.BrowserController;
+import net.menthor.editor.v2.ui.controller.EditDialogController;
 import net.menthor.editor.v2.ui.controller.MessageController;
-import net.menthor.editor.v2.ui.controller.SplitPaneController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.operation.diagram.AddGeneralizationSetOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
-import net.menthor.editor.v2.util.Util;
 
 public class AddCommander extends GenericCommander {
 
@@ -159,14 +152,14 @@ public class AddCommander extends GenericCommander {
 	public void addGeneralizationSet(ArrayList<DiagramElement> genElems){
 		GeneralizationSet genSet = addGeneralizationSet(currentEditor(),(List<DiagramElement>)genElems);		
 		if(genSet!=null){		
-			EditManager.get().callGeneralizationSetDialog(genSet,true);
+			EditDialogController.get().callGeneralizationSetDialog(genSet,true);
 		}	
 	}
 	
 	/** Add generalization set to generalization diagram elements */
 	public GeneralizationSet addGeneralizationSet(OntoumlEditor d, List<DiagramElement> diagramElements){		
-		UmlProject project = ProjectManager.get().getProject();
-		List<Generalization> gens = OccurenceManager.get().getGeneralizations(diagramElements);
+		UmlProject project = ProjectController.get().getProject();
+		List<Generalization> gens = OccurenceMap.get().getGeneralizations(diagramElements);
 		boolean haveGenSet = OntoUMLParser.haveGeneralizationSet(gens);		
 		if(gens.size()<1) return null;		
 		if(haveGenSet){
@@ -182,62 +175,6 @@ public class AddCommander extends GenericCommander {
 		((GeneralizationSet)newgenset).setName("gs");
 		new AddGeneralizationSetOperation(d, newgenset, gens, project.getModel()).run();
 		return (GeneralizationSet)newgenset;
-	}
-	
-	/** New ocl document */
-	public void newOclDocument(){
-		newOclDocument(null, false);		
-	}
-	
-	/** New ocl document */
-	public void newOclDocument(String oclcontent, boolean createTab){
-		addOclDocument(null, oclcontent, createTab);		
-	}
-	
-	/** Add ocl document to a container */
-	public void addOclDocument(Object treeNode){
-		addOclDocument(treeNode, "", false);
-	}
-	
-	/** Add ocl document to a container */
-	public void addOclDocument(Object treeNode, String oclContent, boolean createTab){				
-		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
-			treeNode = BrowserController.get().root();
-		}
-		OclDocument oclDoc = new OclDocument();
-		Package pack = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
-		oclDoc.setContainer(pack);		
-		if(oclContent!=null) oclDoc.setContentAsString(oclContent);
-		oclDoc.setName("OclDocument"+ProjectManager.get().getProject().getOclDocList().size());		
-		ProjectManager.get().getProject().getOclDocList().add(oclDoc);		
-		BrowserController.get().add((DefaultMutableTreeNode)treeNode, oclDoc);		
-		if(createTab) TabbedAreaController.get().add(oclDoc);
-	}
-	
-	public void newDiagram(){
-		addDiagram(null);
-	}
-
-	public void addDiagram(Object treeNode){
-		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
-			treeNode = BrowserController.get().root();
-		}
-		StructureDiagram diagram = new StructureDiagram(ProjectManager.get().getProject());		
-		Package epackage = (Package) ((DefaultMutableTreeNode) treeNode).getUserObject();
-		diagram.setContainer(epackage);		
-		setDefaultDiagramSize(diagram);
-		diagram.setLabelText("Diagram"+ProjectManager.get().getProject().getDiagrams().size());
-		ProjectManager.get().getProject().addDiagram(diagram);
-		ProjectManager.get().getProject().saveDiagramNeeded(diagram,false);
-		TabbedAreaController.get().add(diagram);				
-		if(treeNode!=null) BrowserController.get().add((DefaultMutableTreeNode)treeNode,diagram);
-	}
-	
-	public void setDefaultDiagramSize(StructureDiagram diagram){
-		double waste = 0;
-		if(SplitPaneController.get().isShowProjectBrowser()) waste+=240;
-		if(SplitPaneController.get().isShowPalette()) waste+=240;
-		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 	
 	private Element getContainer(Object input){				

@@ -74,6 +74,7 @@ public class BottomTabbedPane extends GenericTabbedPane {
 	public void initialState(){
 		removeAll();
 		addTab(" Console ",consoleEditor);
+		emptyOutput();
 	}
 	
 	public void emptyOutput(){		

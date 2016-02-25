@@ -43,9 +43,9 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLElementCustom;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -107,7 +107,7 @@ public class GeneralizationSetEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void addGen(){
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		ArrayList<RefOntoUMLElementCustom> list = new ArrayList<RefOntoUMLElementCustom>();
 		for(Generalization g: refparser.getAllInstances(Generalization.class)){
 			if (!(genSet.getGeneralization().contains(g))) list.add(new RefOntoUMLElementCustom(g,""));

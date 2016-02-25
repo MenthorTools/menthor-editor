@@ -58,6 +58,7 @@ import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 
 public class TransferManager extends AbstractManager {
 	
@@ -119,7 +120,7 @@ public class TransferManager extends AbstractManager {
 	
 	public void transferNewDataTypes(List<RefOntoUML.Type> newDataTypes){
 		for(Element dt: newDataTypes) {
-			UmlProject project = ProjectManager.get().getProject();				
+			UmlProject project = ProjectController.get().getProject();				
 			AddCommand cmd = new AddCommand(RefOntoUMLEditingDomain.getInstance().createDomain(), project.getModel().getPackagedElement(), dt);
 			RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().execute(cmd);				
 			UpdateCommander.get().updateFromAddition(dt);		
@@ -228,14 +229,14 @@ public class TransferManager extends AbstractManager {
 		// added
 		ArrayList<Constraintx> toBeAdded = new ArrayList<Constraintx>();
 		for(Constraintx c: constraints){			
-			if (!ProjectManager.get().getProject().getRefParser().getConstraints(element).contains(c)){				
+			if (!ProjectController.get().getProject().getRefParser().getConstraints(element).contains(c)){				
 				toBeAdded.add(c);
 			}
 		}
 		for(Constraintx cmt: toBeAdded) { AddCommander.get().addConstraintx(cmt, (RefOntoUML.Element)element); }			
 		//deleted
 		ArrayList<Constraintx> toBeDeleted = new ArrayList<Constraintx>();
-		for(Constraintx c: ProjectManager.get().getProject().getRefParser().getConstraints(element)){
+		for(Constraintx c: ProjectController.get().getProject().getRefParser().getConstraints(element)){
 			if (!constraints.contains(c)){
 				toBeDeleted.add(c);
 			}

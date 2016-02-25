@@ -48,7 +48,7 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.EditManager;
+import net.menthor.editor.v2.ui.controller.EditDialogController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.popupmenu.MultiElementPopupMenu;
 import net.menthor.editor.v2.ui.popupmenu.SingleElementPopupMenu;
@@ -73,7 +73,7 @@ public class SelectMode implements IEditorMode {
     // ----------------------------
     
     public OntoumlEditor currentEditor(){
-    	OntoumlEditor currentEditor = TabbedAreaController.get().selectedTopOntoumlEditor();
+    	OntoumlEditor currentEditor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
     	if(currentEditor!=null) rubberSelector.setDiagram(currentEditor.getDiagram());
     	return currentEditor;
     }
@@ -265,7 +265,7 @@ public class SelectMode implements IEditorMode {
 				if (label != null && label.isEditable()) {
 					currentEditor().editLabel(label); 		
 				} else if (e.getClickCount() >= 2) {
-					EditManager.get().edit(elemClicked);
+					EditDialogController.get().edit(elemClicked);
 				}			
 			}
 			if(elemClicked instanceof NullElement) {
@@ -360,7 +360,7 @@ public class SelectMode implements IEditorMode {
 	}
 	
 	public ClassElement getNodeAtTop(List<ClassElement> list){
-		StructureDiagram diagram = TabbedAreaController.get().selectedTopOntoumlEditor().getDiagram();
+		StructureDiagram diagram = TabbedAreaController.get().getSelectedTopOntoumlEditor().getDiagram();
 		double maxY1 = diagram.getSize().getWidth();
 		ClassElement atTopElement = null;
 		for(DiagramElement de: list){
@@ -373,7 +373,7 @@ public class SelectMode implements IEditorMode {
 	}
 
 	public ClassElement getNodeAtLeft(List<ClassElement> list){
-		StructureDiagram diagram = TabbedAreaController.get().selectedTopOntoumlEditor().getDiagram();
+		StructureDiagram diagram = TabbedAreaController.get().getSelectedTopOntoumlEditor().getDiagram();
 		double maxX1 = diagram.getSize().getWidth();
 		ClassElement atLeftElement = null;
 		for(ClassElement de: list){

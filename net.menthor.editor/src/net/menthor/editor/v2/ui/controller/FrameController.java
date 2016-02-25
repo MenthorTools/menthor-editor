@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.Frame;
 
 public class FrameController {
@@ -79,7 +78,7 @@ public class FrameController {
 			"default"
 		);		
 		if(response==JOptionPane.YES_OPTION){			
-			ProjectManager.get().saveProject();
+			ProjectController.get().saveProject();
 			return true;
 		}
 		if(response==JOptionPane.NO_OPTION){

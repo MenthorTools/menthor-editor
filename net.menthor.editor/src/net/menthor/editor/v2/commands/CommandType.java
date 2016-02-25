@@ -50,11 +50,11 @@ public enum CommandType {
 	ERASE_CURRENT("Delete selected element(s) from diagram"),
 	ADD_RELATED_ELEMENTS_TO_DIAGRAM("Add all related elements"),
 		
-	NEW_OCLDOCUMENT("Createa a new rules document"),
+	ADD_OCLDOCUMENT("Createa a new rules document"),
 	CLOSE_OCL_EDITOR("Createa a new rules document"),
 		
 	INITIALIZE_SHOWGRID_MENUITEM(null),
-	NEW_DIAGRAM("Create a new class diagram"), 
+	ADD_DIAGRAM("Create a new class diagram"), 
 	CLOSE_DIAGRAM_EDITOR("Close current class diagram"),	
 	REDRAW_DIAGRAM("Redraw the current class diagram"),
 	SELECT_ALL("Select all elements on current diagram"),
@@ -239,8 +239,8 @@ public enum CommandType {
 	ADD_COMMENT(null),
 	ADD_CONSTRAINT(null),
 	
-	ADD_DIAGRAM(null),
-	ADD_OCLDOCUMENT(null),
+	ADD_DIAGRAM_TO_TREE_NODE(null),
+	ADD_OCLDOCUMENT_TO_TREE_NODE(null),
 	
 	CHANGE_TO_GENERALIZATION(null),
 	CHANGE_TO_GENERALIZATIONSET(null),

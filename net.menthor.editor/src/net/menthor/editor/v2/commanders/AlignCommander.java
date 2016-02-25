@@ -50,7 +50,7 @@ public class AlignCommander {
 	}
 	
 	private void executeAlign(List<DiagramElement> diagramElements, Alignment mode ) {
-		AlignOperation command = new AlignOperation(TabbedAreaController.get().selectedTopOntoumlEditor(), diagramElements, mode);
+		AlignOperation command = new AlignOperation(TabbedAreaController.get().getSelectedTopOntoumlEditor(), diagramElements, mode);
 		command.run();
 	}
 	

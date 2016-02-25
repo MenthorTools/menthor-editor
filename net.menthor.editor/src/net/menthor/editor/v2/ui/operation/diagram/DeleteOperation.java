@@ -6,11 +6,11 @@ import java.util.List;
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
-import net.menthor.editor.v2.managers.OccurenceManager;
-import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.DeleteModelOperation;
 
@@ -30,14 +30,14 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 	private List<ParentChildRelation> indirectParentRelations = new ArrayList<ParentChildRelation>();
 	
 	public DeleteOperation(OntoumlEditor editor, List<Element> theElements, boolean onlyFromDiagram)	{
-		super(ProjectManager.get().getProject().getRefParser(),theElements);
+		super(ProjectController.get().getProject().getRefParser(),theElements);
 		this.ontoumlEditor = editor;	
 		this.onlyFromDiagram = onlyFromDiagram;
 		if(ontoumlEditor!=null) parent = ontoumlEditor.getDiagram();
 		if(parent!=null){
-			requestedDiagramElementList.addAll(OccurenceManager.get().getDiagramElements(getChain().getRequested(), parent));
-			directConnectionsList.addAll(OccurenceManager.get().getDiagramElements(getChain().getDirectRelationshipDependencies(), parent));		
-			indirectConnectionsList.addAll(OccurenceManager.get().getDiagramElements(getChain().getIndirectRelationshipDependencies(), parent));
+			requestedDiagramElementList.addAll(OccurenceMap.get().getDiagramElements(getChain().getRequested(), parent));
+			directConnectionsList.addAll(OccurenceMap.get().getDiagramElements(getChain().getDirectRelationshipDependencies(), parent));		
+			indirectConnectionsList.addAll(OccurenceMap.get().getDiagramElements(getChain().getIndirectRelationshipDependencies(), parent));
 		}		
 		for (DiagramElement elem : requestedDiagramElementList){
 			requestedParentRelations.add(new ParentChildRelation(elem, elem.getParent()));
@@ -77,7 +77,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 			System.out.println(runMessage(element));
 			element.getParent().removeChild(element);
 			element.getParent().invalidate();
-			OccurenceManager.get().remove(element);
+			OccurenceMap.get().remove(element);
 		}		
 	}
 	
@@ -86,7 +86,7 @@ public class DeleteOperation extends DeleteModelOperation implements IDiagramOpe
 			System.out.println(undoMessage(relation.element));
 			parent.addChild(relation.element);
 			parent.invalidate();
-			OccurenceManager.get().add((Element)relation.element.getModelObject(),relation.element);
+			OccurenceMap.get().add((Element)relation.element.getModelObject(),relation.element);
 		}
 	}
 	

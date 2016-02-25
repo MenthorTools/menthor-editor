@@ -33,9 +33,9 @@ import net.menthor.alloy.AlloyModule;
 import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
@@ -67,16 +67,16 @@ public class AlloyFeature extends GenericFeature {
 	
 	/** open alloy settings dialog */
 	public void openAlloySettings(){
-		alloySpec = new AlloySpec(ProjectManager.get().getProject().getTempDir()+
-			    	File.separator+ProjectManager.get().getProject().getName().toLowerCase()+".als");
+		alloySpec = new AlloySpec(ProjectController.get().getProject().getTempDir()+
+			    	File.separator+ProjectController.get().getProject().getName().toLowerCase()+".als");
 		SyntaxManager.get().verifyConstraints(false);
 		
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		refOptions.check(refparser);
 		
 		AlsSettingsDialog.open(parent(), listener(),
-			ProjectManager.get().getProject().getRefParser(),
-			ProjectManager.get().getProject().getDiagrams(),
+			ProjectController.get().getProject().getRefParser(),
+			ProjectController.get().getProject().getDiagrams(),
 			refOptions, 
 			oclOptions
 		);	

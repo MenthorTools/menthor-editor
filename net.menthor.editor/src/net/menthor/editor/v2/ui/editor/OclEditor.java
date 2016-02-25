@@ -32,8 +32,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.tocl.editor.TOCLEditorPanel;
 
 public class OclEditor extends TOCLEditorPanel implements IEditor {
@@ -49,7 +49,7 @@ public class OclEditor extends TOCLEditorPanel implements IEditor {
 	public void saveOcl(String content) { }
 	public String openOcl() { return ""; }
 	public void verifyOcl() { SyntaxManager.get().verifyConstraints(true); }
-	public void changeUpdate() { ProjectManager.get().getProject().setSaveModelNeeded(true); }
+	public void changeUpdate() { ProjectController.get().getProject().setSaveModelNeeded(true); }
 	
 	public OclEditor(Component parent, OclDocument oclDoc) {
 		this(parent);

@@ -25,13 +25,13 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Element;
 import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.managers.OccurenceManager;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
 
@@ -52,7 +52,7 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 		absx = x;
 		absy = y;
 		diagramElement = node;		
-		if(diagramElement==null) diagramElement = OccurenceManager.get().getDiagramElement(element, parent);		
+		if(diagramElement==null) diagramElement = OccurenceMap.get().getDiagramElement(element, parent);		
 		if(diagramElement==null){			
 			if(parent!=null) this.diagramElement = FactoryManager.get().createNode((RefOntoUML.Type)element, parent);
 			else this.diagramElement = FactoryManager.get().createNode((RefOntoUML.Type)element, eContainer);					
@@ -68,7 +68,7 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 		super.undoWithoutNotifying();
 	
 		parent.removeChild(diagramElement);		
-		OccurenceManager.get().remove(diagramElement);		
+		OccurenceMap.get().remove(diagramElement);		
 		
 		notifier.notifyChange(this, (Element)diagramElement.getModelObject());		
 	}

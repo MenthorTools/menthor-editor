@@ -42,7 +42,7 @@ public abstract class GenericCommander {
 	}
 	
 	public OntoumlEditor currentEditor(){
-		return TabbedAreaController.get().selectedTopOntoumlEditor();
+		return TabbedAreaController.get().getSelectedTopOntoumlEditor();
 	}
 	
 	public void execute(IUndoableOperation command){

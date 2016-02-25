@@ -38,6 +38,7 @@ import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.ui.controller.CursorController;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.SplitPaneController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.EditorType;
@@ -65,11 +66,11 @@ public class SyntaxManager extends AbstractManager {
 	}
 	
 	public void verifyConstraints(boolean showSuccesfullyMessage){
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();				
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();				
 		try { 
-			String name = ((RefOntoUML.Package)ProjectManager.get().getProject().getResource().getContents().get(0)).getName();
+			String name = ((RefOntoUML.Package)ProjectController.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
-			TOCLParser toclparser = new TOCLParser(refparser,ProjectManager.get().getProject().getTempDir()+File.separator,name.toLowerCase());
+			TOCLParser toclparser = new TOCLParser(refparser,ProjectController.get().getProject().getTempDir()+File.separator,name.toLowerCase());
 			toclparser.parseTemporalOCL(TabbedAreaController.get().getWorkingOclText());			
 			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
@@ -122,7 +123,7 @@ public class SyntaxManager extends AbstractManager {
 	private List<ProblemElement> getMetamodelErrors(){
 		List<ProblemElement> result = new ArrayList<ProblemElement>();
 		SyntacticVerificator verificator = new SyntacticVerificator();
-		verificator.run(ProjectManager.get().getProject().getModel());			
+		verificator.run(ProjectController.get().getProject().getModel());			
 		for(RefOntoUML.Element elem: verificator.getMap().keySet()){
 			for(String message: verificator.getMap().get(elem)){					
 				result.add(new ErrorElement(elem,0,message,TypeProblem.SYNTACTIC));

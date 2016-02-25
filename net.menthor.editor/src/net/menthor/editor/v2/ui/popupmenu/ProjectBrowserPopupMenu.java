@@ -77,8 +77,8 @@ public class ProjectBrowserPopupMenu extends GenericPopupMenu<DefaultMutableTree
     	if(element instanceof RefOntoUML.Package){
     		addSeparator();
     		addPackageMenuItem = createMenuItem("Add Package", CommandType.ADD_PACKAGE); 
-    		addDiagramMenuItem = createMenuItem("Add Diagram", CommandType.ADD_DIAGRAM);
-        	addOCLDocument = createMenuItem("Add Rules Document", CommandType.ADD_OCLDOCUMENT);        	
+    		addDiagramMenuItem = createMenuItem("Add Diagram", CommandType.ADD_DIAGRAM_TO_TREE_NODE);
+        	addOCLDocument = createMenuItem("Add Rules Document", CommandType.ADD_OCLDOCUMENT_TO_TREE_NODE);        	
         	addSeparator();
     		addClassMenu = new AddClassMenu(listener, treeNode, this);
     		addDataTypeMenu = new AddDataTypeMenu(listener, treeNode, this);    		

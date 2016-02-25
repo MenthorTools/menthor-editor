@@ -48,8 +48,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -92,7 +92,7 @@ public class PropertyEditPane extends JPanel {
 	public PropertyEditPane(Component parent, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parent=parent;		
-		this.refparser = ProjectManager.get().getProject().getRefParser();
+		this.refparser = ProjectController.get().getProject().getRefParser();
 		this.property = property;		
 		this.ownerElement = ownerElem;	
 		initGUI();		

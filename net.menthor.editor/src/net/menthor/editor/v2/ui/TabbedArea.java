@@ -114,6 +114,13 @@ public class TabbedArea {
     // select ------------------
 	
 	public boolean select(Object obj){
+		if(obj==null) return false;
+		if(obj instanceof OclDocument) {
+			return select((OclDocument)obj);			
+		}
+		if(obj instanceof StructureDiagram) {
+			return select((StructureDiagram)obj);			
+		}
 		for(Component c: getComponents()){
 			if(c.equals(obj)) {
 				setSelectedComponent(c);
@@ -130,7 +137,7 @@ public class TabbedArea {
 					setSelectedComponent(c);	
 					return true;
 				}
-			}
+			}			
 		}	
 		return false;
 	}
@@ -413,8 +420,7 @@ public class TabbedArea {
     // refresh/update ------------------
     
     public void initialState(){
-    	topPane.initialState();
-    	add(TabPositionType.TOP,false, EditorType.START_EDITOR);
+    	topPane.initialState();    	
     	bottomPane.initialState();
     }
     
@@ -474,12 +480,13 @@ public class TabbedArea {
     }
     
     public Component add(TabPositionType position, boolean closable, EditorType editorType, NamedElement content){
-    	Component editor = select(editorType);
+    	if(select(content)) return null;
+    	Component editor = null;
     	GenericTabbedPane tabbedpane = bottomPane;
     	if(position.equals(TabPositionType.TOP)) tabbedpane = topPane;
     	String title = "<empty>";
     	IconType icontype = null;
-    	if(editor==null){
+//    	if(editor==null){
 			if(editorType.equals(EditorType.WARNING_EDITOR)) {
 				editor = new WarningEditor(tabbedpane.getListener());
 				title = "Warnings";
@@ -524,7 +531,7 @@ public class TabbedArea {
 			}	
 			if(closable) tabbedpane.addClosableTab(title,icontype, editor);
 			else tabbedpane.addNonClosableTab(title, icontype, editor);
-    	}		    	
+//    	}		    	
     	return editor;
     }
     

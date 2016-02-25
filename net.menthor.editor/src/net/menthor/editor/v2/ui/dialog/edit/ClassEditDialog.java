@@ -36,7 +36,7 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Enumeration;
 import RefOntoUML.MeasurementDimension;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.ProjectManager;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 
 public class ClassEditDialog extends GenericEditDialog {
 
@@ -94,7 +94,7 @@ public class ClassEditDialog extends GenericEditDialog {
 		constraintsEdition = new ConstraintEditPane(element);
 		tabbedPane.addTab("Constraints", constraintsEdition);
 		
-		relatedElements = new RelatedElementsPane(element, ProjectManager.get().getProject().getRefParser());
+		relatedElements = new RelatedElementsPane(element, ProjectController.get().getProject().getRefParser());
 		tabbedPane.addTab("Related Elements", relatedElements);
 		
 		classEdition.selectNameText();

@@ -1,8 +1,8 @@
 package net.menthor.editor.v2;
 
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.ui.Frame;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.util.SplashScreen;
@@ -38,7 +38,7 @@ public final class MenthorEditor {
 			
 			//these must be called after AppFrame is constructed...
 			TabbedAreaController.get().addWelcome(false);		
-			ProjectManager.get().openProjectFromArgs(args);		
+			ProjectController.get().openProjectFromArgs(args);		
 			
 			Frame.get().setLocationByPlatform(true);
 			Frame.get().setVisible(true);

@@ -50,19 +50,19 @@ import net.menthor.editor.v2.feature.OwlFeature;
 import net.menthor.editor.v2.feature.ParthoodFeature;
 import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
-import net.menthor.editor.v2.managers.EditManager;
 import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.ImportManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.ui.controller.EditDialogController;
 import net.menthor.editor.v2.ui.controller.FrameController;
 import net.menthor.editor.v2.ui.controller.MenuBarController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.SplitPaneController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
@@ -133,21 +133,29 @@ public class CommandMap {
 	
 	private void project() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("newProject")));
+				new MethodCall(ProjectController.class.getMethod("newProject")));
 		cmdMap.put(CommandType.NEW_PROJECT_FROM_MODEL,
-				new MethodCall(ProjectManager.class.getMethod("newProject", Object.class)));
+				new MethodCall(ProjectController.class.getMethod("newProject", Object.class)));
 		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("openProject")));		
+				new MethodCall(ProjectController.class.getMethod("openProject")));		
 		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("openRecentProject")));
+				new MethodCall(ProjectController.class.getMethod("openRecentProject")));
 		cmdMap.put(CommandType.CLOSE_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("closeProject")));
+				new MethodCall(ProjectController.class.getMethod("closeProject")));
 		cmdMap.put(CommandType.SAVE_PROJECT_AS,
-				new MethodCall(ProjectManager.class.getMethod("saveProjectAs")));
+				new MethodCall(ProjectController.class.getMethod("saveProjectAs")));
 		cmdMap.put(CommandType.SAVE_PROJECT,
-				new MethodCall(ProjectManager.class.getMethod("saveProject")));		
+				new MethodCall(ProjectController.class.getMethod("saveProject")));		
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
-				new MethodCall(ProjectManager.class.getMethod("importModelContent")));
+				new MethodCall(ProjectController.class.getMethod("importModelContent")));
+		cmdMap.put(CommandType.ADD_OCLDOCUMENT_TO_TREE_NODE, 
+				new MethodCall(ProjectController.class.getMethod("addOclDocument", Object.class)));		
+		cmdMap.put(CommandType.ADD_OCLDOCUMENT,
+				new MethodCall(ProjectController.class.getMethod("addOclDocument")));		
+		cmdMap.put(CommandType.ADD_DIAGRAM_TO_TREE_NODE, 
+				new MethodCall(ProjectController.class.getMethod("addDiagram", Object.class)));		
+		cmdMap.put(CommandType.ADD_DIAGRAM,
+				new MethodCall(ProjectController.class.getMethod("addDiagram")));
 	}
 	
 	private void help() throws NoSuchMethodException, SecurityException{
@@ -195,7 +203,7 @@ public class CommandMap {
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(RenameCommander.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(EditManager.class.getMethod("edit", Object.class)));		
+				new MethodCall(EditDialogController.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE_CURRENT, 
 				new MethodCall(DeleteCommander.class.getMethod("deleteCurrentSelection")));
 		cmdMap.put(CommandType.ERASE_CURRENT, 
@@ -233,14 +241,6 @@ public class CommandMap {
 				new MethodCall(AddCommander.class.getMethod("addComment", Object.class)));
 		cmdMap.put(CommandType.ADD_CONSTRAINT, 
 				new MethodCall(AddCommander.class.getMethod("addConstraintx", Object.class)));		
-		cmdMap.put(CommandType.ADD_OCLDOCUMENT, 
-				new MethodCall(AddCommander.class.getMethod("addOclDocument", Object.class))); //TODO: Qual a diferença entre addOclDocument e newOclDocument?		
-		cmdMap.put(CommandType.ADD_DIAGRAM, 
-				new MethodCall(AddCommander.class.getMethod("addDiagram", Object.class)));		
-		cmdMap.put(CommandType.NEW_OCLDOCUMENT,
-				new MethodCall(AddCommander.class.getMethod("newOclDocument")));
-		cmdMap.put(CommandType.NEW_DIAGRAM,
-				new MethodCall(AddCommander.class.getMethod("newDiagram")));
 	}
 	
 	private void change() throws NoSuchMethodException, SecurityException{

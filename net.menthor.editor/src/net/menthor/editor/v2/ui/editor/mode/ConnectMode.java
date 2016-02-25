@@ -66,7 +66,7 @@ public class ConnectMode implements IEditorMode {
 	
 	@Override
 	public void mousePressed(EditorMouseEvent event) {
-		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
+		OntoumlEditor editor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 		double mx = event.getX(), my = event.getY();
 		sourceElem = editor.getDiagram().getChildAt(mx, my);
 		if (sourceElem!=null && ! (sourceElem instanceof NullElement)) {
@@ -78,7 +78,7 @@ public class ConnectMode implements IEditorMode {
 	
 	@Override
 	public void mouseReleased(EditorMouseEvent event) {
-		OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
+		OntoumlEditor editor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 		double mx = event.getX(), my = event.getY();
 	    targetElem = editor.getDiagram().getChildAt(mx, my);	
 	    tmpPos.setLocation(mx, my);
@@ -96,7 +96,7 @@ public class ConnectMode implements IEditorMode {
 	public void mouseDragged(EditorMouseEvent event) {
 		double mx = event.getX(), my = event.getY();
 	    tmpPos.setLocation(mx, my);
-	    TabbedAreaController.get().selectedTopOntoumlEditor().redraw();	    
+	    TabbedAreaController.get().getSelectedTopOntoumlEditor().redraw();	    
 	}
 
 	@Override

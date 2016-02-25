@@ -34,10 +34,10 @@ import net.menthor.common.settings.owl.OwlAxioms;
 import net.menthor.common.settings.owl.OwlOptions;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
 import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
@@ -71,8 +71,8 @@ public class OwlFeature {
 	
 	public void callOwlSettings(){		
 		OwlSettingsDialog dialog = new OwlSettingsDialog(parent,listener, 
-			ProjectManager.get().getProject().getRefParser(),
-			ProjectManager.get().getProject().getDiagrams()
+			ProjectController.get().getProject().getRefParser(),
+			ProjectController.get().getProject().getDiagrams()
 		);
 		dialog.setLocationRelativeTo(parent);
 		dialog.setVisible(true);

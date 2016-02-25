@@ -35,6 +35,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.v2.ui.controller.CursorController;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaController;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
@@ -84,7 +85,7 @@ public class ExportManager extends AbstractManager {
 			File file = chooseRefOntoumlFile();
 			if(file==null) return;
 			CursorController.get().waitCursor();			
-			RefOntoUMLResourceUtil.saveModel(file.getAbsolutePath(), ProjectManager.get().getProject().getModel());		
+			RefOntoUMLResourceUtil.saveModel(file.getAbsolutePath(), ProjectController.get().getProject().getModel());		
 			lastRefOntoPath = file.getAbsolutePath();			
 			MessageController.get().showSuccess("Export - RefOntouml", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
 		} catch (Exception ex) {
@@ -99,7 +100,7 @@ public class ExportManager extends AbstractManager {
 			if(file==null) return;
 			CursorController.get().waitCursor();				
 			OntoUML2EcoreOption opt = new OntoUML2EcoreOption(false,false);
-			OntoUML2Ecore.convertToEcore(ProjectManager.get().getProject().getRefParser(), file.getAbsolutePath(), opt);
+			OntoUML2Ecore.convertToEcore(ProjectController.get().getProject().getRefParser(), file.getAbsolutePath(), opt);
 			lastEcorePath = file.getAbsolutePath();				
 			MessageController.get().showSuccess("Export - Ecore", "Project successfully exported to Ecore.\nLocation: "+lastEcorePath);										
 		} catch (Exception ex) {
@@ -114,7 +115,7 @@ public class ExportManager extends AbstractManager {
 			if(file==null) return;
 			CursorController.get().waitCursor();				
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
-			OntoUML2UML.convertToUMLProfile(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);							
+			OntoUML2UML.convertToUMLProfile(ProjectController.get().getProject().getRefParser(),file.getAbsolutePath(),opt);							
 			lastUmlPath = file.getAbsolutePath();				
 			MessageController.get().showSuccess("Export - UML Profile", "Project successfully exported to Profile UML.\nLocation: "+lastUmlPath);										
 		} catch (Exception ex) {
@@ -129,7 +130,7 @@ public class ExportManager extends AbstractManager {
 			if(file==null) return;
 			CursorController.get().waitCursor();			
 			OntoUML2UMLOption opt = new OntoUML2UMLOption(false,false);
-			OntoUML2UML.convertToUML(ProjectManager.get().getProject().getRefParser(),file.getAbsolutePath(),opt);			
+			OntoUML2UML.convertToUML(ProjectController.get().getProject().getRefParser(),file.getAbsolutePath(),opt);			
 			lastUmlPath = file.getAbsolutePath();				
 			MessageController.get().showSuccess("Export - UML", "Project successfully exported to UML.\nLocation: "+lastUmlPath);																			
 		} catch (Exception ex) {					
@@ -142,7 +143,7 @@ public class ExportManager extends AbstractManager {
 		try {
 			File file = choosePNGFile();
 			if(file==null) return;			
-			OntoumlEditor editor = TabbedAreaController.get().selectedTopOntoumlEditor();
+			OntoumlEditor editor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
 			List<Point> points = editor.getUsedCanvasSize();
 			Point origin = points.get(0);
 			Point end = points.get(1);			

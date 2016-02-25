@@ -7,8 +7,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import RefOntoUML.Element;
 import RefOntoUML.Property;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -60,7 +60,7 @@ public class AddModelOperation extends ModelOperation {
 	
 	public void runWithoutNotifying(){	
 		super.run();
-		RefOntoUML.Package model = ProjectManager.get().getProject().getModel();
+		RefOntoUML.Package model = ProjectController.get().getProject().getModel();
 		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
 		
 		AddCommand emfCommand = null;

@@ -49,10 +49,10 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.commanders.AddCommander;
-import net.menthor.editor.v2.managers.EditManager;
-import net.menthor.editor.v2.managers.ProjectManager;
 import net.menthor.editor.v2.managers.TransferManager;
+import net.menthor.editor.v2.ui.controller.EditDialogController;
 import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -111,7 +111,7 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setData(){
-		List<RefOntoUML.PackageableElement> types = ProjectManager.get().getProject().getRefParser().getAllTypesSorted();				
+		List<RefOntoUML.PackageableElement> types = ProjectController.get().getProject().getRefParser().getAllTypesSorted();				
     	generalCombo.setModel(new DefaultComboBoxModel(types.toArray()));
     	generalCombo.setSelectedItem(element.getGeneral());	
     	specificCombo.setModel(new DefaultComboBoxModel(types.toArray()));
@@ -121,7 +121,7 @@ public class GeneralizationEditPane extends JPanel {
 	public void editGenSet(){
 		if(genSetModel.size()>0){
 			GeneralizationSet genSet = (GeneralizationSet)genSetList.getSelectedValue();
-			EditManager.get().callGeneralizationSetDialog(genSet,true);
+			EditDialogController.get().callGeneralizationSetDialog(genSet,true);
 		}
 	}
 	
@@ -135,7 +135,7 @@ public class GeneralizationEditPane extends JPanel {
 			((GeneralizationSet)genSet).setIsDisjoint(true);
 			((GeneralizationSet)genSet).getGeneralization().add(element);
 			element.getGeneralizationSet().add((GeneralizationSet)genSet);					
-			EditManager.get().callGeneralizationSetDialog((GeneralizationSet)genSet,true);
+			EditDialogController.get().callGeneralizationSetDialog((GeneralizationSet)genSet,true);
 			genSetModel.addElement(genSet);				
 		}
 	}
@@ -151,7 +151,7 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void addGenSet(){
-		OntoUMLParser refparser = ProjectManager.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
 		ArrayList<RefOntoUML.GeneralizationSet> genSetList = new ArrayList<RefOntoUML.GeneralizationSet>();
 		for(GeneralizationSet gs: refparser.getAllInstances(GeneralizationSet.class)){
 			if (!(element.getGeneralizationSet().contains(gs))) genSetList.add(gs);

@@ -23,6 +23,7 @@ package net.menthor.editor.v2.managers;
 
 import javax.swing.SwingUtilities;
 
+import net.menthor.editor.v2.ui.controller.ProjectController;
 import net.menthor.ontouml2text.ontoUmlGlossary.ui.GlossaryGeneratorUI;
 
 public class GlossaryManager extends AbstractManager {
@@ -45,7 +46,7 @@ public class GlossaryManager extends AbstractManager {
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				GlossaryGeneratorUI settings = new GlossaryGeneratorUI(ProjectManager.get().getProject().getRefParser());
+				GlossaryGeneratorUI settings = new GlossaryGeneratorUI(ProjectController.get().getProject().getRefParser());
 				settings.setVisible(true);
 			}
 		});

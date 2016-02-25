@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -15,19 +15,18 @@ import org.eclipse.emf.ecore.resource.Resource;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.util.Settings;
 
-public class SerializationManager extends AbstractManager {
+public class SerializationUtil {
 	
 	// -------- Lazy Initialization
 
 	private static class SerializationLoader {
-        private static final SerializationManager INSTANCE = new SerializationManager();
+        private static final SerializationUtil INSTANCE = new SerializationUtil();
     }	
-	public static SerializationManager get() { 
+	public static SerializationUtil get() { 
 		return SerializationLoader.INSTANCE; 
 	}	
-    private SerializationManager() {
+    private SerializationUtil() {
         if (SerializationLoader.INSTANCE != null) throw new IllegalStateException("SerializationManager already instantiated");
     }		
     

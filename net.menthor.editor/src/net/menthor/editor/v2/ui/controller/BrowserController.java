@@ -9,9 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.Element;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
-
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.Browser;
 
 public class BrowserController {
@@ -32,8 +30,8 @@ public class BrowserController {
     
     // ----------------------------
     
-    public void initialize(UmlProject project, ICommandListener listener){
-    	browser.initialize(project, listener);
+    public void initialize(UmlProject project){
+    	browser.initialize(project);
     }
     
     public DefaultMutableTreeNode add(DefaultMutableTreeNode node, Object child){
