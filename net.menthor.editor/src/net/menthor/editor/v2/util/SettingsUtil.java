@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 
 import java.util.Properties;
 
-public enum Settings {
+public enum SettingsUtil {
 	
 	USER_LOCALE("USER_LOCALE", "en-US"),	
 	SETTINGS_FILE("SETTINGS_FILE", "settings.xml"),
@@ -52,7 +52,7 @@ public enum Settings {
 	private static Properties properties;
 	
 	/** Constructor */
-	private Settings(String key, String value) {
+	private SettingsUtil(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}
@@ -83,7 +83,7 @@ public enum Settings {
 		
 	public static boolean saveProperties(){
 		if(properties != null) {
-			File file = new File(Util.getCanonPath(DirectoryUtil.getTempDir(), Settings.SETTINGS_FILE.getValue()));
+			File file = new File(Util.getCanonPath(DirectoryUtil.getTempDir(), SettingsUtil.SETTINGS_FILE.getValue()));
 			try {
 				FileOutputStream out = new FileOutputStream(file);
 				properties.storeToXML(out, "Menthor Configuration File", "UTF-8");
@@ -97,7 +97,7 @@ public enum Settings {
 	public static Properties getProperties() {
 		if(properties != null) return properties;		
 		properties = new Properties();		
-		File file = new File(Util.getCanonPath(DirectoryUtil.getTempDir(), Settings.SETTINGS_FILE.getValue()));
+		File file = new File(Util.getCanonPath(DirectoryUtil.getTempDir(), SettingsUtil.SETTINGS_FILE.getValue()));
 		if(file.exists()) {
 			try {
 				FileInputStream in = new FileInputStream(file);
@@ -109,14 +109,14 @@ public enum Settings {
 	}
 
 	public static void addRecentProject(String path) {
-		if(!Settings.RECENT_PROJECT_1.getValue().equals(path)) {
+		if(!SettingsUtil.RECENT_PROJECT_1.getValue().equals(path)) {
 			int histSize = 10;		
 			for (int i = histSize-1; i > 0; i--) {
-				Settings setting = Settings.valueOf("RECENT_PROJECT_" + i); 
-				Settings nextSetting = Settings.valueOf("RECENT_PROJECT_" + (i + 1));
+				SettingsUtil setting = SettingsUtil.valueOf("RECENT_PROJECT_" + i); 
+				SettingsUtil nextSetting = SettingsUtil.valueOf("RECENT_PROJECT_" + (i + 1));
 				nextSetting.setValue(setting.getValue());
 			}			
-			Settings.RECENT_PROJECT_1.setValue(path);
+			SettingsUtil.RECENT_PROJECT_1.setValue(path);
 			saveProperties();
 		}
 	}
@@ -125,7 +125,7 @@ public enum Settings {
 		int histSize = 10;
 		String[] ans = new String[histSize];		
 		for (int i = 1; i < histSize; i++) {
-			ans[i] = Settings.valueOf("RECENT_PROJECT_" + i).getValue();
+			ans[i] = SettingsUtil.valueOf("RECENT_PROJECT_" + i).getValue();
 		}		
 		return ans;
 	}

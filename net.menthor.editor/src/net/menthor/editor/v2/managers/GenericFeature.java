@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.feature;
+package net.menthor.editor.v2.managers;
 
 import javax.swing.JFrame;
 

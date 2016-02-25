@@ -26,7 +26,7 @@ import java.io.IOException;
 
 import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.editor.v2.ui.settings.ea.EASettingsDialog;
-import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.SettingsUtil;
 import net.menthor.editor.v2.util.Util;
 
 public class ImportUIController {
@@ -57,7 +57,7 @@ public class ImportUIController {
 	public void importFromEARecent() throws IOException {		
 		lastImportEAPath = TabbedAreaUIController.get().getStartEditor().getSelectedRecentFile();
 		new EASettingsDialog(frame, true,  lastImportEAPath);
-		Settings.addRecentProject(lastImportEAPath);				
+		SettingsUtil.addRecentProject(lastImportEAPath);				
 	}
 
 	public void importFromEA() throws IOException{		
@@ -65,7 +65,7 @@ public class ImportUIController {
 		if(file!=null){
 			lastImportEAPath = file.getAbsolutePath();
 			new EASettingsDialog(frame, true, lastImportEAPath);
-			Settings.addRecentProject(file.getCanonicalPath());
+			SettingsUtil.addRecentProject(file.getCanonicalPath());
 		}
 	}
 }

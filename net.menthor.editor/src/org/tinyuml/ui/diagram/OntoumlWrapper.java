@@ -37,7 +37,7 @@ import net.menthor.editor.v2.ui.editor.IEditor;
 import net.menthor.editor.v2.ui.statusbar.StatusBar;
 import net.menthor.editor.v2.ui.toolbar.DiagramToolBar;
 import net.menthor.editor.v2.ui.tree.DiagramDropListener;
-import net.menthor.editor.v2.ui.util.RoundedPanel;
+import net.menthor.editor.v2.ui.utilities.RoundedPanel;
 
 public class OntoumlWrapper extends RoundedPanel implements IEditor{
 

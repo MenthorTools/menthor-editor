@@ -81,7 +81,7 @@ public class DeserializationUtil {
 	
 	private void deserializeOWLConfigurations(ZipFile zipFile) {
 		try{
-			InputStream is = getInputStream(zipFile,Settings.OWL_CONFIG_FILE);
+			InputStream is = getInputStream(zipFile,SettingsUtil.OWL_CONFIG_FILE);
 			OwlSettingsMap.getInstance().load(is);
 			is.close();
 		}catch(Exception e){
@@ -92,14 +92,14 @@ public class DeserializationUtil {
 		
 	}
 	
-	private InputStream getInputStream(ZipFile zipFile, Settings entry) throws IOException{
+	private InputStream getInputStream(ZipFile zipFile, SettingsUtil entry) throws IOException{
 		return zipFile.getInputStream(zipFile.getEntry(entry.getValue()));
 	}
 	
 	public void deserializeModel(ZipFile zipFile, Resource resource) {		
 		
 		try{
-			InputStream is = getInputStream(zipFile,Settings.MODEL_FILE);
+			InputStream is = getInputStream(zipFile,SettingsUtil.MODEL_FILE);
 			Map<Object,Object> loadOptions = ((XMLResourceImpl)resource).getDefaultLoadOptions();
 			loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
 			loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
@@ -117,7 +117,7 @@ public class DeserializationUtil {
 		UmlProject project = null;
 		
 		try{
-			InputStream is = getInputStream(zipFile,Settings.PROJECT_FILE);
+			InputStream is = getInputStream(zipFile,SettingsUtil.PROJECT_FILE);
 			try{
 				ObjectInputStream ois = new ObjectInputStream(is);
 				project = (UmlProject) ois.readObject();			        

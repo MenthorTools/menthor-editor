@@ -34,8 +34,8 @@ import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.tree.ProjectTree;
 import net.menthor.editor.v2.ui.tree.TreeVisibility;
-import net.menthor.editor.v2.ui.util.RoundedPanel;
-import net.menthor.editor.v2.ui.util.TitlePane;
+import net.menthor.editor.v2.ui.utilities.RoundedPanel;
+import net.menthor.editor.v2.ui.utilities.TitlePane;
 
 public class BrowserUI extends RoundedPanel{
 

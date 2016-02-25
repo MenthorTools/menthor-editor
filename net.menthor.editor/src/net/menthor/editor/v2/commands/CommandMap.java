@@ -47,15 +47,15 @@ import net.menthor.editor.v2.commanders.LineCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.SelectCommanderMode;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
-import net.menthor.editor.v2.feature.AlloyFeature;
-import net.menthor.editor.v2.feature.OwlFeature;
-import net.menthor.editor.v2.feature.ParthoodFeature;
-import net.menthor.editor.v2.feature.SbvrFeature;
+import net.menthor.editor.v2.evaluator.SyntaxEvaluator;
+import net.menthor.editor.v2.managers.AlloyFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
-import net.menthor.editor.v2.managers.SyntaxManager;
+import net.menthor.editor.v2.managers.OwlFeature;
+import net.menthor.editor.v2.managers.ParthoodFeature;
+import net.menthor.editor.v2.managers.SbvrFeature;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
@@ -540,9 +540,9 @@ public class CommandMap {
 	
 	private void syntaxManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.VERIFY_CONSTRAINTS, 
-			new MethodCall(SyntaxManager.class.getMethod("verifyConstraints")));
+			new MethodCall(SyntaxEvaluator.class.getMethod("verifyConstraints")));
 		cmdMap.put(CommandType.VERIFY_MODEL,
-				new MethodCall(SyntaxManager.class.getMethod("verifyModel")));		
+				new MethodCall(SyntaxEvaluator.class.getMethod("verifyModel")));		
 	}
 	
 	private void exportManager() throws NoSuchMethodException, SecurityException{

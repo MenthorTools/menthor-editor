@@ -30,7 +30,7 @@ import javax.swing.border.EmptyBorder;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.ui.palette.PaletteAccordion;
 import net.menthor.editor.v2.ui.palette.PaletteGrouping;
-import net.menthor.editor.v2.ui.util.RoundedPanel;
+import net.menthor.editor.v2.ui.utilities.RoundedPanel;
 
 public class PaletteUI extends RoundedPanel {
 

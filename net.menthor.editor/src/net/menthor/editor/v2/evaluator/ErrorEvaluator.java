@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.evaluator;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -17,23 +17,25 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
+
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 
-public class ErrorManager extends AbstractManager {
+public class ErrorEvaluator {
 
 	// -------- Lazy Initialization
 
 	private static class ErrorLoader {
-        private static final ErrorManager INSTANCE = new ErrorManager();
+        private static final ErrorEvaluator INSTANCE = new ErrorEvaluator();
     }	
-	public static ErrorManager get() { 
+	public static ErrorEvaluator get() { 
 		return ErrorLoader.INSTANCE; 
 	}	
-    protected ErrorManager() {
+    protected ErrorEvaluator() {
         if (ErrorLoader.INSTANCE != null) throw new IllegalStateException("ErrorManager already instantiated");
     }		
 	   

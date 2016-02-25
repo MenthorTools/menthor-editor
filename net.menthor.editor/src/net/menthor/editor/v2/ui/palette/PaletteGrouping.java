@@ -44,7 +44,7 @@ import javax.swing.JPanel;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.util.TitlePane;
+import net.menthor.editor.v2.ui.utilities.TitlePane;
 
 public class PaletteGrouping extends JPanel
 {

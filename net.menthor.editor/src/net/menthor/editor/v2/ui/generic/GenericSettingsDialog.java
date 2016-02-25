@@ -36,7 +36,7 @@ import net.menthor.editor.v2.OntoumlDiagram;
 
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.tree.TreeFilterPane;
-import net.menthor.editor.v2.ui.util.ProgressPane;
+import net.menthor.editor.v2.ui.utilities.ProgressPane;
 
 public class GenericSettingsDialog extends javax.swing.JDialog {
 

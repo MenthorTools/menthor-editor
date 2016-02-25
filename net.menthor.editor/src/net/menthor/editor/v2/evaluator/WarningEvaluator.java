@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.evaluator;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -15,17 +15,17 @@ import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.element.WarningElement;
 
-public class WarningManager extends AbstractManager {
+public class WarningEvaluator {
 
 	// -------- Lazy Initialization
 
 	private static class WarningLoader {
-        private static final WarningManager INSTANCE = new WarningManager();
+        private static final WarningEvaluator INSTANCE = new WarningEvaluator();
     }	
-	public static WarningManager get() { 
+	public static WarningEvaluator get() { 
 		return WarningLoader.INSTANCE; 
 	}	
-    protected WarningManager() {
+    protected WarningEvaluator() {
         if (WarningLoader.INSTANCE != null) throw new IllegalStateException("WarningManager already instantiated");
     }		
 	   

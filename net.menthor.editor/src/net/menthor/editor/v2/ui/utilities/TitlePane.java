@@ -1,5 +1,4 @@
-
-package net.menthor.editor.v2.util;
+package net.menthor.editor.v2.ui.utilities;
 
 /**
  * ============================================================================================
@@ -22,11 +21,30 @@ package net.menthor.editor.v2.util;
  * ============================================================================================
  */
 
-import edu.mit.csail.sdg.alloy4whole.SimpleGUICustom;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-public class AlloyAnalyzer {
+import javax.swing.Icon;
+import javax.swing.JLabel;
 
-	private static SimpleGUICustom tool = new SimpleGUICustom(new String[]{""},true,"");
-
-	public static SimpleGUICustom tool() { return tool; }
+public class TitlePane extends RoundedPanel {
+	
+	private static final long serialVersionUID = -531131162599115843L;
+	
+	private JLabel titleLabel;
+	
+	public TitlePane(String name, Icon icon){		
+		setLayout(new BorderLayout());
+		titleLabel = new JLabel(name, icon, JLabel.LEFT);		
+		titleLabel.setFocusable(false);		
+		add(titleLabel, BorderLayout.CENTER);
+		setMaximumSize(new Dimension(32767, 24));
+		Dimension size = new Dimension(200, 24);
+		setSize(size);
+		setPreferredSize(size);		
+	}
+	
+	public void setIcon(Icon icon){
+		titleLabel.setIcon(icon);
+	}
 }

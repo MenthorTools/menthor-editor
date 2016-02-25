@@ -34,7 +34,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.feature.AlloyFeature;
+import net.menthor.editor.v2.managers.AlloyFeature;
 import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.editor.v2.ui.generic.GenericSettingsDialog;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;

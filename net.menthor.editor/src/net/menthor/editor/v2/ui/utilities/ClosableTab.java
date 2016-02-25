@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.util;
+package net.menthor.editor.v2.ui.utilities;
 
 /**
  * ============================================================================================

@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.evaluator;
 
 /**
  * ============================================================================================
@@ -32,30 +32,34 @@ import org.eclipse.ocl.SemanticException;
 
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.parser.SyntacticVerificator;
+
 import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
-import net.menthor.editor.v2.feature.AlloyFeature;
+
+import net.menthor.editor.v2.managers.AlloyFeature;
+
 import net.menthor.editor.v2.ui.controller.CursorUIController;
 import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.SplitPaneUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.editor.EditorType;
+
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
-public class SyntaxManager extends AbstractManager {
+public class SyntaxEvaluator {
 
 	// -------- Lazy Initialization
 
 	private static class SyntaxLoader {
-        private static final SyntaxManager INSTANCE = new SyntaxManager();
+        private static final SyntaxEvaluator INSTANCE = new SyntaxEvaluator();
     }	
-	public static SyntaxManager get() { 
+	public static SyntaxEvaluator get() { 
 		return SyntaxLoader.INSTANCE; 
 	}	
-    private SyntaxManager() {
+    private SyntaxEvaluator() {
         if (SyntaxLoader.INSTANCE != null) throw new IllegalStateException("SyntaxManager already instantiated");
     }		
     
@@ -90,10 +94,10 @@ public class SyntaxManager extends AbstractManager {
 		double start = System.currentTimeMillis();
 		
 		//application warnings
-		List<ProblemElement> warnings = WarningManager.get().verifyWarnings();
+		List<ProblemElement> warnings = WarningEvaluator.get().verifyWarnings();
 		//application errors
 		List<ProblemElement> errors = new ArrayList<ProblemElement>();		
-		errors.addAll(ErrorManager.get().getErrors());		
+		errors.addAll(ErrorEvaluator.get().getErrors());		
 		//meta-model issues
 		errors.addAll(getMetamodelErrors());
 		

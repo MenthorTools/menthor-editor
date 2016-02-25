@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.feature;
+package net.menthor.editor.v2.managers;
 
 /**
  * ============================================================================================
@@ -30,15 +30,20 @@ import javax.swing.Timer;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.alloy.AlloyModule;
+
 import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
-import net.menthor.editor.v2.managers.SyntaxManager;
+
+import net.menthor.editor.v2.evaluator.SyntaxEvaluator;
+
 import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
-import net.menthor.editor.v2.util.AlloyAnalyzer;
+
+import net.menthor.editor.v2.util.AlloyAnalyzerUtil;
+
 import net.menthor.ontouml2alloy.OntoUML2Alloy;
 import net.menthor.ontouml2alloy.OntoUML2AlloyOptions;
 import net.menthor.tocl.parser.TOCLParser;
@@ -69,7 +74,7 @@ public class AlloyFeature extends GenericFeature {
 	public void openAlloySettings(){
 		alloySpec = new AlloySpec(ProjectUIController.get().getProject().getTempDir()+
 			    	File.separator+ProjectUIController.get().getProject().getName().toLowerCase()+".als");
-		SyntaxManager.get().verifyConstraints(false);
+		SyntaxEvaluator.get().verifyConstraints(false);
 		
 		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		refOptions.check(refparser);
@@ -132,11 +137,11 @@ public class AlloyFeature extends GenericFeature {
 			ActionListener listener = new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if (AlloyAnalyzer.tool().isInitialized())
+					if (AlloyAnalyzerUtil.tool().isInitialized())
 					{
-						AlloyAnalyzer.tool().setTheme(alloymodel.getDirectory() + "standart_theme.thm");				
-						AlloyAnalyzer.tool().doOpenFile(alloymodel.getAlloyPath());				
-						if (cmdIndexToExecute>=0)AlloyAnalyzer.tool().doRun(cmdIndexToExecute);						
+						AlloyAnalyzerUtil.tool().setTheme(alloymodel.getDirectory() + "standart_theme.thm");				
+						AlloyAnalyzerUtil.tool().doOpenFile(alloymodel.getAlloyPath());				
+						if (cmdIndexToExecute>=0)AlloyAnalyzerUtil.tool().doRun(cmdIndexToExecute);						
 						timer.stop();
 					}
 				}

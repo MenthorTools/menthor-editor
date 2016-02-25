@@ -38,9 +38,8 @@ public class AntiPatternManager extends AbstractManager {
 			
 			if(TabbedAreaUIController.get().isOpen(oclDoc))
 				TabbedAreaUIController.get().select(oclDoc);
-			//TODO: open tab
-//			else 
-//				TabManager.get().addOclEditor(oclDoc);
+			else 
+				TabbedAreaUIController.get().add(oclDoc);
 			
 			TabbedAreaUIController.get().getSelectedTopOclEditor().reloadText();
 		}

@@ -4,7 +4,7 @@ import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
-import net.menthor.editor.v2.ui.util.SplashScreen;
+import net.menthor.editor.v2.ui.utilities.SplashScreen;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.SystemUtil;
 import net.menthor.editor.v2.util.UIFontUtil;

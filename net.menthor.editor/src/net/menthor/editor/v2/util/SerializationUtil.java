@@ -33,7 +33,7 @@ public class SerializationUtil {
     // ----------------------------
     
     public void serializeModel(Resource resource, ZipOutputStream out) throws IOException{
-    	ZipEntry modelEntry = new ZipEntry(Settings.MODEL_FILE.getValue());			
+    	ZipEntry modelEntry = new ZipEntry(SettingsUtil.MODEL_FILE.getValue());			
 		out.putNextEntry(modelEntry);
 		resource.save(out, Collections.EMPTY_MAP);
 		out.closeEntry();
@@ -47,7 +47,7 @@ public class SerializationUtil {
     }
     
     public void serializeUmlProject(UmlProject project, ZipOutputStream out) throws IOException{
-    	ZipEntry projectEntry = new ZipEntry(Settings.PROJECT_FILE.getValue());
+    	ZipEntry projectEntry = new ZipEntry(SettingsUtil.PROJECT_FILE.getValue());
 		out.putNextEntry(projectEntry);
 		ObjectOutputStream oos = new ObjectOutputStream(out);
 		oos.writeObject(project); 

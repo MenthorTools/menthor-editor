@@ -21,18 +21,18 @@ import net.menthor.editor.v2.commanders.SelectCommanderMode;
 import net.menthor.editor.v2.commanders.TransferCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
-import net.menthor.editor.v2.feature.AlloyFeature;
-import net.menthor.editor.v2.feature.OwlFeature;
-import net.menthor.editor.v2.feature.ParthoodFeature;
-import net.menthor.editor.v2.feature.SbvrFeature;
+import net.menthor.editor.v2.evaluator.ErrorEvaluator;
+import net.menthor.editor.v2.evaluator.SyntaxEvaluator;
+import net.menthor.editor.v2.evaluator.WarningEvaluator;
+import net.menthor.editor.v2.managers.AlloyFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
-import net.menthor.editor.v2.managers.ErrorManager;
 import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
+import net.menthor.editor.v2.managers.OwlFeature;
+import net.menthor.editor.v2.managers.ParthoodFeature;
+import net.menthor.editor.v2.managers.SbvrFeature;
 import net.menthor.editor.v2.managers.StatisticsManager;
-import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.managers.WarningManager;
 import net.menthor.editor.v2.ui.controller.CursorUIController;
 import net.menthor.editor.v2.ui.controller.DialogUIController;
 import net.menthor.editor.v2.ui.controller.ExportUIController;
@@ -128,8 +128,8 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(DuplicateCommander.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == DialogUIController.class){
 				return methodcall.call(DialogUIController.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ErrorManager.class){
-				return methodcall.call(ErrorManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ErrorEvaluator.class){
+				return methodcall.call(ErrorEvaluator.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ExportUIController.class){
 				return methodcall.call(ExportUIController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MenthorFactory.class){
@@ -167,15 +167,15 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(SerializationUtil.get());	
 			}else if(methodcall.getMethod().getDeclaringClass() == StatisticsManager.class){
 				return methodcall.call(StatisticsManager.get());	
-			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){
-				return methodcall.call(SyntaxManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxEvaluator.class){
+				return methodcall.call(SyntaxEvaluator.get());
 						
 			}else if(methodcall.getMethod().getDeclaringClass() == TransferCommander.class){
 				return methodcall.call(TransferCommander.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == UpdateCommander.class){
 				return methodcall.call(UpdateCommander.get());		
-			}else if(methodcall.getMethod().getDeclaringClass() == WarningManager.class){
-				return methodcall.call(WarningManager.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == WarningEvaluator.class){
+				return methodcall.call(WarningEvaluator.get());	
 			}
 		}catch(java.lang.IllegalArgumentException e){
 			System.err.println("Method not called. Reason: "+e.getLocalizedMessage());

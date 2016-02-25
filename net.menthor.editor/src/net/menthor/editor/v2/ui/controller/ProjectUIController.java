@@ -43,7 +43,7 @@ import net.menthor.editor.v2.ui.MenthorEditor;
 import net.menthor.editor.v2.ui.editor.StartEditor;
 import net.menthor.editor.v2.util.DeserializationUtil;
 import net.menthor.editor.v2.util.SerializationUtil;
-import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.util.SettingsUtil;
 import net.menthor.editor.v2.util.Util;
 
 public class ProjectUIController {
@@ -348,7 +348,7 @@ public class ProjectUIController {
 			CursorUIController.get().waitCursor();						
 			saveProjectDataBeforeSerialize();
 			result = SerializationUtil.get().serializeMenthorFile(projectFile, project, project.getOclDocList());
-			Settings.addRecentProject(projectFile.getCanonicalPath());
+			SettingsUtil.addRecentProject(projectFile.getCanonicalPath());
 			BrowserUIController.get().updateUI();
 			FrameUIController.get().initializeFrame(projectFile, false);			
 			CursorUIController.get().defaultCursor();		
@@ -362,7 +362,7 @@ public class ProjectUIController {
 		CursorUIController.get().waitCursor();
 		UmlProject project = DeserializationUtil.get().deserialize(projectFile);
 		setProject(project);			
-		Settings.addRecentProject(projectFile.getCanonicalPath());
+		SettingsUtil.addRecentProject(projectFile.getCanonicalPath());
 		FrameUIController.get().initializeFrame(projectFile, false);
 		CursorUIController.get().defaultCursor();		
 	}

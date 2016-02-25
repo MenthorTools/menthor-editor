@@ -44,7 +44,7 @@ import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.util.JHyperLinkLabel;
+import net.menthor.editor.v2.ui.utilities.JHyperLinkLabel;
 
 public class AboutDialog extends JDialog{
 

@@ -59,8 +59,8 @@ import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.util.BackgroundPanel;
-import net.menthor.editor.v2.util.Settings;
+import net.menthor.editor.v2.ui.utilities.BackgroundPanel;
+import net.menthor.editor.v2.util.SettingsUtil;
 import net.menthor.editor.v2.util.Util;
 
 public class StartEditor extends BackgroundPanel implements IEditor {
@@ -145,7 +145,7 @@ public class StartEditor extends BackgroundPanel implements IEditor {
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	private void populateRecentProjects(){
-		recentList.setModel(new DefaultComboBoxModel(Settings.getRecentProjects()));
+		recentList.setModel(new DefaultComboBoxModel(SettingsUtil.getRecentProjects()));
 		recentList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 		        if (evt.getClickCount() >= 2) 

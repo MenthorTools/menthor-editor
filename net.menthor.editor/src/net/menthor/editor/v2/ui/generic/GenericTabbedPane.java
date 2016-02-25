@@ -17,7 +17,7 @@ import org.eclipse.emf.edit.provider.IDisposable;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
-import net.menthor.editor.v2.ui.util.ClosableTab;
+import net.menthor.editor.v2.ui.utilities.ClosableTab;
 
 public abstract class GenericTabbedPane extends JTabbedPane  implements IDisposable {
 
