@@ -42,7 +42,7 @@ public class ImportUIController {
 		return ImportLoader.INSTANCE; 
 	}	
     private ImportUIController() {
-        if (ImportLoader.INSTANCE != null) throw new IllegalStateException("ImportManager already instantiated");
+        if (ImportLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------

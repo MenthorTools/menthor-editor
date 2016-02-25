@@ -61,7 +61,7 @@ public class ProjectUIController {
 		return ProjectLoader.INSTANCE; 
 	}	
     private ProjectUIController() {
-        if (ProjectLoader.INSTANCE != null) throw new IllegalStateException("ProjectManager already instantiated");
+        if (ProjectLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------

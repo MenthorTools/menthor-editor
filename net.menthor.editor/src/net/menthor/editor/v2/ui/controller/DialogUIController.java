@@ -40,10 +40,8 @@ import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Property;
-
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.element.FoundElement;
-
 import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.editor.v2.ui.dialog.AssociationEditDialog;
 import net.menthor.editor.v2.ui.dialog.ClassEditDialog;
@@ -57,14 +55,14 @@ public class DialogUIController {
 	
 	// -------- Lazy Initialization
 
-	private static class EditLoader {
+	private static class DialogLoader {
         private static final DialogUIController INSTANCE = new DialogUIController();
     }	
 	public static DialogUIController get() { 
-		return EditLoader.INSTANCE; 
+		return DialogLoader.INSTANCE; 
 	}	
     private DialogUIController() {
-        if (EditLoader.INSTANCE != null) throw new IllegalStateException("EditManager already instantiated");
+        if (DialogLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------

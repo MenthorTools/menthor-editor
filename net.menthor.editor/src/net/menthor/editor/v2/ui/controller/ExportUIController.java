@@ -54,7 +54,7 @@ public class ExportUIController {
 		return ExportLoader.INSTANCE; 
 	}	
     private ExportUIController() {
-        if (ExportLoader.INSTANCE != null) throw new IllegalStateException("ExportManager already instantiated");
+        if (ExportLoader.INSTANCE != null) throw new IllegalStateException(this.getClass().getName()+" already instantiated");
     }		
     
     // ----------------------------
