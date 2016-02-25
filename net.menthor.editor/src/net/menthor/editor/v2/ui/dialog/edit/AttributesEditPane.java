@@ -142,9 +142,11 @@ public class AttributesEditPane extends JPanel {
 		
 	public List<RefOntoUML.Type> getNewDataTypes(){		
 		List<RefOntoUML.Type> result = new ArrayList<RefOntoUML.Type>();
-		for (Property property : tablemodel.getEntries()){			
-			if(datatypes.keySet().contains(property.getType().getName().trim()) == false)
-				result.add(property.getType());
+		for (Property property : tablemodel.getEntries()){	
+			if(property.getType()!=null){
+				if(datatypes.keySet().contains(property.getType().getName().trim())==false)
+					result.add(property.getType());
+			}
 		}
 		return result;
 	}
