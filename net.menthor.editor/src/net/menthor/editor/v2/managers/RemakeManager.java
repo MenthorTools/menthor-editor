@@ -33,9 +33,12 @@ import org.tinyuml.umldraw.OccurenceMap;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
+
 import net.menthor.editor.v2.commanders.DeleteCommander;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
+
 import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 
 public class RemakeManager extends AbstractManager {
@@ -56,7 +59,7 @@ public class RemakeManager extends AbstractManager {
 	
 	/** Re-make all associations in all diagrams they appear. */
 	public void remakeAllAssociations(){
-		Set<Association> list = ProjectController.get().getProject().getRefParser().getAllInstances(Association.class);
+		Set<Association> list = ProjectUIController.get().getProject().getRefParser().getAllInstances(Association.class);
 		for(Association a: list){
 			remakeRelationship(a);
 		}
@@ -65,7 +68,7 @@ public class RemakeManager extends AbstractManager {
 	
 	/** Re-make element in all diagrams they appear */
 	public void remakeRelationship(RefOntoUML.Element element){
-		List<OntoumlEditor> editors = TabbedAreaController.get().getOntoumlEditors(element);
+		List<OntoumlEditor> editors = TabbedAreaUIController.get().getOntoumlEditors(element);
 		for(OntoumlEditor diagramEditor: editors ){
 			remakeRelationship(element,diagramEditor);
 		}
@@ -73,8 +76,8 @@ public class RemakeManager extends AbstractManager {
 			if (element instanceof RefOntoUML.Association){
 				Type source = ((Association)element).getMemberEnd().get(0).getType();
 				Type target = ((Association)element).getMemberEnd().get(1).getType();				
-				for(OntoumlEditor ed: TabbedAreaController.get().getOntoumlEditors(source)){
-					if (TabbedAreaController.get().getOntoumlEditors(target).contains(ed)){						
+				for(OntoumlEditor ed: TabbedAreaUIController.get().getOntoumlEditors(source)){
+					if (TabbedAreaUIController.get().getOntoumlEditors(target).contains(ed)){						
 						remakeRelationship(element, ed);
 					}
 				}				
@@ -82,8 +85,8 @@ public class RemakeManager extends AbstractManager {
 			if (element instanceof RefOntoUML.Generalization){
 				Type general = ((Generalization)element).getGeneral();
 				Type specific = ((Generalization)element).getSpecific();
-				for(OntoumlEditor ed: TabbedAreaController.get().getOntoumlEditors(general)){
-					if (TabbedAreaController.get().getOntoumlEditors(specific).contains(ed)){
+				for(OntoumlEditor ed: TabbedAreaUIController.get().getOntoumlEditors(general)){
+					if (TabbedAreaUIController.get().getOntoumlEditors(specific).contains(ed)){
 						remakeRelationship(element, ed);
 					}
 				}	

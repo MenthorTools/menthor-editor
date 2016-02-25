@@ -7,7 +7,7 @@ import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic;
 import net.menthor.common.ontoumlparser.OntoUMLModelStatistic.TypeDetail;
 import net.menthor.editor.v2.element.StatisticalElement;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 
 public class StatisticsManager extends AbstractManager {
 
@@ -26,7 +26,7 @@ public class StatisticsManager extends AbstractManager {
     // ----------------------------
     
     public List<StatisticalElement> getStatistic(){
-    	OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
+    	OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		List<StatisticalElement> result = new ArrayList<StatisticalElement>();		
 		if(refparser!=null){
 			OntoUMLModelStatistic diagnostic = new OntoUMLModelStatistic(refparser);

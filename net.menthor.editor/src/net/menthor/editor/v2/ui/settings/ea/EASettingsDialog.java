@@ -61,7 +61,8 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import RefOntoUML.Model;
 import it.cnr.imaa.essi.lablib.gui.checkboxtree.CheckboxTree;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
+import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.xmi2ontouml.Creator;
 import net.menthor.xmi2ontouml.framework.XMI2RefConstraint;
@@ -92,6 +93,10 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 	private JButton btnRun;
 	private JButton btnFilter;
 	private JPanel panel_5;
+	
+	public EASettingsDialog(JFrame owner, boolean modal, String filePath){
+		this(owner, modal, CommandListener.get(),filePath);
+	}
 	
 	/** @wbp.parser.constructor */
 	public EASettingsDialog(JFrame owner, boolean modal, ICommandListener listener){
@@ -347,7 +352,7 @@ public class EASettingsDialog extends JDialog implements ActionListener, TreeSel
 		{
 			if (filePathField.getText().length() == 0)
 			{
-				MessageController.get().showInfo(this, "EA Settings", "Please select a file");
+				MessageUIController.get().showInfo(this, "EA Settings", "Please select a file");
 			}
 			else if (trees == null)
 			{

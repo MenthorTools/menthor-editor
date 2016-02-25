@@ -40,7 +40,7 @@ import javax.swing.ScrollPaneConstants;
 
 import org.eclipse.uml2.uml.Constraint;
 
-import net.menthor.editor.v2.ui.Frame;
+import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
 
 /**
@@ -64,7 +64,7 @@ public class AlsConstraintSimulationPanel extends JPanel {
 	private JLabel lblChooseWhichConstraints;
 	private JButton btndefault;
 
-	public AlsConstraintSimulationPanel (TOCL2AlloyOption oclOptions,Frame frame)
+	public AlsConstraintSimulationPanel (TOCL2AlloyOption oclOptions,FrameUI frame)
 	{		
 		this();
 	

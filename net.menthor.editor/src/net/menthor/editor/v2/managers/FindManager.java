@@ -35,8 +35,8 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.element.FoundElement;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.util.DiagramListDialog;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.dialog.DiagramListDialog;
 
 public class FindManager extends AbstractManager {
 
@@ -90,7 +90,7 @@ public class FindManager extends AbstractManager {
 	
 	public List<FoundElement> findByName(String text){		
 		List<FoundElement> result = new ArrayList<FoundElement>();
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		if(refparser!=null && text!=null /*&& !text.isEmpty()*/){
 			for(EObject eobj: refparser.getAllInstances(EObject.class)){
 				if (eobj instanceof NamedElement){

@@ -2,17 +2,22 @@ package net.menthor.editor.v2.commands;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.ui.diagram.ScalingComponent;
+import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.OccurenceMap;
 
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
+import net.menthor.editor.v2.commanders.ClipboardCommanderMode;
 import net.menthor.editor.v2.commanders.ColorCommander;
+import net.menthor.editor.v2.commanders.ConnectCommanderMode;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
+import net.menthor.editor.v2.commanders.SelectCommanderMode;
+import net.menthor.editor.v2.commanders.TransferCommander;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.feature.AlloyFeature;
@@ -21,29 +26,24 @@ import net.menthor.editor.v2.feature.ParthoodFeature;
 import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ErrorManager;
-import net.menthor.editor.v2.managers.ExportManager;
-import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.FilterManager;
 import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
-import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.managers.TransferManager;
 import net.menthor.editor.v2.managers.WarningManager;
-import net.menthor.editor.v2.ui.controller.CursorController;
-import net.menthor.editor.v2.ui.controller.EditDialogController;
-import net.menthor.editor.v2.ui.controller.FrameController;
-import net.menthor.editor.v2.ui.controller.MenuBarController;
-import net.menthor.editor.v2.ui.controller.MessageController;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.SplitPaneController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
-import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
-import net.menthor.editor.v2.ui.editor.mode.SelectMode;
+import net.menthor.editor.v2.ui.controller.CursorUIController;
+import net.menthor.editor.v2.ui.controller.DialogUIController;
+import net.menthor.editor.v2.ui.controller.ExportUIController;
+import net.menthor.editor.v2.ui.controller.FrameUIController;
+import net.menthor.editor.v2.ui.controller.ImportUIController;
+import net.menthor.editor.v2.ui.controller.MenuBarUIController;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.SplitPaneUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.operation.ActionStack;
 import net.menthor.editor.v2.util.DeserializationUtil;
 import net.menthor.editor.v2.util.SerializationUtil;
@@ -66,18 +66,18 @@ public class CommandListener extends AbstractCommandListener {
 	    
     public Object callManagers(MethodCall methodcall){	
 		try{
-			if(methodcall.getMethod().getDeclaringClass() == SplitPaneController.class){
-				return methodcall.call(SplitPaneController.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == CursorController.class){
-				return methodcall.call(CursorController.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == MenuBarController.class){
-				return methodcall.call(MenuBarController.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == MessageController.class){
-				return methodcall.call(MessageController.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == TabbedAreaController.class){
-				return methodcall.call(TabbedAreaController.get());	
-			}else if(methodcall.getMethod().getDeclaringClass() == FrameController.class){
-				return methodcall.call(FrameController.get());
+			if(methodcall.getMethod().getDeclaringClass() == SplitPaneUIController.class){
+				return methodcall.call(SplitPaneUIController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == CursorUIController.class){
+				return methodcall.call(CursorUIController.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == MenuBarUIController.class){
+				return methodcall.call(MenuBarUIController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == MessageUIController.class){
+				return methodcall.call(MessageUIController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == TabbedAreaUIController.class){
+				return methodcall.call(TabbedAreaUIController.get());	
+			}else if(methodcall.getMethod().getDeclaringClass() == FrameUIController.class){
+				return methodcall.call(FrameUIController.get());
 			}		
 		}catch(java.lang.IllegalArgumentException e){
 			System.err.println("Method not called. Reason: "+e.getLocalizedMessage());
@@ -92,9 +92,9 @@ public class CommandListener extends AbstractCommandListener {
 		try{
 			//----------------
 			if(methodcall.getMethod().getDeclaringClass() == OntoumlEditor.class){
-				return methodcall.call(TabbedAreaController.get().getSelectedTopOntoumlEditor());
+				return methodcall.call(TabbedAreaUIController.get().getSelectedTopOntoumlEditor());
 			} else if(methodcall.getMethod().getDeclaringClass() == ScalingComponent.class){
-				return methodcall.call(TabbedAreaController.get().getSelectedTopOntoumlEditor().getScalingComponent());
+				return methodcall.call(TabbedAreaUIController.get().getSelectedTopOntoumlEditor().getScalingComponent());
 			//-----=----------
 				
 			//----------------				
@@ -110,12 +110,12 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(AntiPatternManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == ChangeCommander.class){
 				return methodcall.call(ChangeCommander.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ClipboardMode.class){
-				return methodcall.call(ClipboardMode.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ConnectMode.class){
-				return methodcall.call(ConnectMode.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == SelectMode.class){
-				return methodcall.call(SelectMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ClipboardCommanderMode.class){
+				return methodcall.call(ClipboardCommanderMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ConnectCommanderMode.class){
+				return methodcall.call(ConnectCommanderMode.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == SelectCommanderMode.class){
+				return methodcall.call(SelectCommanderMode.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ColorCommander.class){
 				return methodcall.call(ColorCommander.get());
 			
@@ -127,14 +127,14 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(DeserializationUtil.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == DuplicateCommander.class){
 				return methodcall.call(DuplicateCommander.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == EditDialogController.class){
-				return methodcall.call(EditDialogController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == DialogUIController.class){
+				return methodcall.call(DialogUIController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ErrorManager.class){
 				return methodcall.call(ErrorManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ExportManager.class){
-				return methodcall.call(ExportManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == FactoryManager.class){
-				return methodcall.call(FactoryManager.get());				
+			}else if(methodcall.getMethod().getDeclaringClass() == ExportUIController.class){
+				return methodcall.call(ExportUIController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == MenthorFactory.class){
+				return methodcall.call(MenthorFactory.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == FilterManager.class){
 				return methodcall.call(FilterManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == FindManager.class){
@@ -143,8 +143,8 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(GlossaryManager.get());				
 			}else if(methodcall.getMethod().getDeclaringClass() == HelpManager.class){
 				return methodcall.call(HelpManager.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == ImportManager.class){
-				return methodcall.call(ImportManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ImportUIController.class){
+				return methodcall.call(ImportUIController.get());
 			
 			}else if(methodcall.getMethod().getDeclaringClass() == VisibilityCommander.class){
 				return methodcall.call(VisibilityCommander.get());	
@@ -156,8 +156,8 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(OwlFeature.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ParthoodFeature.class){
 				return methodcall.call(ParthoodFeature.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == ProjectController.class){
-				return methodcall.call(ProjectController.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == ProjectUIController.class){
+				return methodcall.call(ProjectUIController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ActionStack.class){
 				return methodcall.call(ActionStack.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
@@ -173,8 +173,8 @@ public class CommandListener extends AbstractCommandListener {
 			}else if(methodcall.getMethod().getDeclaringClass() == SyntaxManager.class){
 				return methodcall.call(SyntaxManager.get());
 						
-			}else if(methodcall.getMethod().getDeclaringClass() == TransferManager.class){
-				return methodcall.call(TransferManager.get());		
+			}else if(methodcall.getMethod().getDeclaringClass() == TransferCommander.class){
+				return methodcall.call(TransferCommander.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == UpdateCommander.class){
 				return methodcall.call(UpdateCommander.get());		
 			}else if(methodcall.getMethod().getDeclaringClass() == WarningManager.class){

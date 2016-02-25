@@ -14,7 +14,7 @@ import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -93,7 +93,7 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 			stereotype = newRelationshipType;
 		}
 		
-   		OutcomeFixer fixer = new OutcomeFixer(ProjectController.get().getProject().getModel());
+   		OutcomeFixer fixer = new OutcomeFixer(ProjectUIController.get().getProject().getModel());
    		Fix fix = fixer.changeRelationStereotypeTo(relationship, fixer.getRelationshipStereotype(stereotype.getName()));
    		relationship = fix.getAddedByType(Relationship.class).get(0);
    		
@@ -114,7 +114,7 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 		//gets existing diagram occurrences for the class subject to change
 		List<DiagramElement> diagramElements = OccurenceMap.get().getDiagramElements(_class);		
    		
-		OutcomeFixer fixer = new OutcomeFixer(ProjectController.get().getProject().getModel());
+		OutcomeFixer fixer = new OutcomeFixer(ProjectUIController.get().getProject().getModel());
    		Fix fix = fixer.changeClassStereotypeTo(_class, fixer.getClassStereotype(stereotype.getName()));   	
    		_class = fix.getAddedByType(Class.class).get(0);
    		

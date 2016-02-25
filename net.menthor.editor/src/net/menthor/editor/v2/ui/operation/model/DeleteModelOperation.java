@@ -11,7 +11,7 @@ import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.MenthorDomain;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -38,13 +38,13 @@ public class DeleteModelOperation extends ModelOperation {
 
 	private void delete (RefOntoUML.Element elem){		
 		System.out.println(runMessage(elem));		
-		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
+		AdapterFactoryEditingDomain domain = MenthorDomain.get().createDomain();
 		DeleteCommand emfCommand = (DeleteCommand) DeleteCommand.create(domain, elem);
 		domain.getCommandStack().execute(emfCommand);		
 	}
 
 	private void undoDelete (RefOntoUML.Element elem){		
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		MenthorDomain.get().createDomain().getCommandStack().undo();
 		System.out.println(undoMessage(elem));
 	}
 	

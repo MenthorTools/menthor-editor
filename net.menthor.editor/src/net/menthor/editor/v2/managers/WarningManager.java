@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import RefOntoUML.NamedElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.element.WarningElement;
 
 public class WarningManager extends AbstractManager {
@@ -42,7 +42,7 @@ public class WarningManager extends AbstractManager {
 		Collections.sort(result,new ProblemComparator());		
 		int count=0;
 		for(ProblemElement pe: result) { count++; pe.setIdentifier(count); }
-		TabbedAreaController.get().addWarnings(getTimingMessage(), result);
+		TabbedAreaUIController.get().addWarnings(getTimingMessage(), result);
 		return result;
 	}
 	
@@ -61,7 +61,7 @@ public class WarningManager extends AbstractManager {
 	}
 	 
 	private void checkUnnamedElements(){		
-		for(EObject c: ProjectController.get().getProject().getRefParser().getElements()){			
+		for(EObject c: ProjectUIController.get().getProject().getRefParser().getElements()){			
 			if(c instanceof NamedElement){
 				NamedElement ne = (NamedElement)c;
 				if (ne.getName()==null || ne.getName().trim().isEmpty()){ 				

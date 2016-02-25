@@ -25,13 +25,13 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.Node;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Element;
-import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
 
@@ -54,8 +54,8 @@ public class AddNodeOperation extends AddModelOperation implements IDiagramOpera
 		diagramElement = node;		
 		if(diagramElement==null) diagramElement = OccurenceMap.get().getDiagramElement(element, parent);		
 		if(diagramElement==null){			
-			if(parent!=null) this.diagramElement = FactoryManager.get().createNode((RefOntoUML.Type)element, parent);
-			else this.diagramElement = FactoryManager.get().createNode((RefOntoUML.Type)element, eContainer);					
+			if(parent!=null) this.diagramElement = MenthorFactory.get().createNode((RefOntoUML.Type)element, parent);
+			else this.diagramElement = MenthorFactory.get().createNode((RefOntoUML.Type)element, eContainer);					
 		}		
 		element = (RefOntoUML.Element)diagramElement.getModelObject();
 		eContainer = (RefOntoUML.Element)element.eContainer();		

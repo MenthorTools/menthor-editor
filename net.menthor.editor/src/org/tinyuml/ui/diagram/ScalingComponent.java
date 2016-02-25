@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import org.tinyuml.draw.Scaling;
 import org.tinyuml.umldraw.StructureDiagram;
 
-import net.menthor.editor.v2.ui.SplitPane;
+import net.menthor.editor.v2.ui.SplitPaneUI;
 import net.menthor.editor.v2.util.Util;
 
 public class ScalingComponent {
@@ -54,10 +54,10 @@ public class ScalingComponent {
 	public void fitToWindow()
 	{		
 		double waste = 20;
-		if(SplitPane.get().isShowProjectBrowser()) {
+		if(SplitPaneUI.get().isShowProjectBrowser()) {
 			waste+=240;
 		}
-		if(SplitPane.get().isShowPalette()) {
+		if(SplitPaneUI.get().isShowPalette()) {
 			waste+=240;
 		}
 		double offx = (Util.getScreenWorkingWidth()-waste)/diagram().getUsedCanvasSize().get(1).getX();

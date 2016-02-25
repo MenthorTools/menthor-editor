@@ -1,21 +1,21 @@
 package net.menthor.editor.v2.managers;
 
 import net.menthor.editor.v2.commands.CommandListener;
-import net.menthor.editor.v2.ui.Browser;
-import net.menthor.editor.v2.ui.Frame;
-import net.menthor.editor.v2.ui.MenuBar;
-import net.menthor.editor.v2.ui.SplitPane;
-import net.menthor.editor.v2.ui.TopTabbedPane;
-import net.menthor.editor.v2.ui.BottomTabbedPane;
+import net.menthor.editor.v2.ui.BrowserUI;
+import net.menthor.editor.v2.ui.FrameUI;
+import net.menthor.editor.v2.ui.MenuBarUI;
+import net.menthor.editor.v2.ui.SplitPaneUI;
+import net.menthor.editor.v2.ui.TopTabbedPaneUI;
+import net.menthor.editor.v2.ui.BottomTabbedPaneUI;
 
 public abstract class AbstractManager {
 
 	public CommandListener listener(){ return CommandListener.get(); }
-	public Frame frame(){ return Frame.get(); }
-	public Browser browser(){ return Browser.get(); }
-	public SplitPane splitPane(){ return SplitPane.get(); }
-	public TopTabbedPane editorsPane(){ return TopTabbedPane.get(); }
-	public BottomTabbedPane infoPane(){ return BottomTabbedPane.get(); }
-	public MenuBar menubar(){ return MenuBar.get(); }
+	public FrameUI frame(){ return FrameUI.get(); }
+	public BrowserUI browser(){ return BrowserUI.get(); }
+	public SplitPaneUI splitPane(){ return SplitPaneUI.get(); }
+	public TopTabbedPaneUI editorsPane(){ return TopTabbedPaneUI.get(); }
+	public BottomTabbedPaneUI infoPane(){ return BottomTabbedPaneUI.get(); }
+	public MenuBarUI menubar(){ return MenuBarUI.get(); }
 	
 }

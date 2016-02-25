@@ -1,6 +1,6 @@
 package net.menthor.editor.v2.commands;
 
-import net.menthor.editor.v2.ui.controller.CursorController;
+import net.menthor.editor.v2.ui.controller.CursorUIController;
 
 public class AbstractCommandListener implements ICommandListener{
 
@@ -10,18 +10,18 @@ public class AbstractCommandListener implements ICommandListener{
 			
 	@Override
 	public Object handleCommand(String command, Object[] parameters) {	
-		CursorController.get().waitCursor();		
+		CursorUIController.get().waitCursor();		
 		MethodCall methodcall = getMethodCall(command,parameters);
 		System.out.println(methodcall);
 		Object result=null;
 		if(methodcall!=null) result = callMethod(methodcall);
-		CursorController.get().defaultCursor();
+		CursorUIController.get().defaultCursor();
 		return result;		
 	}
 	
 	@Override	
 	public Object handleCommand(String command) {	
-		CursorController.get().waitCursor();
+		CursorUIController.get().waitCursor();
 		MethodCall methodcall = getMethodCall(command,null);
 		System.out.println(methodcall);
 		Object result=null;
@@ -30,7 +30,7 @@ public class AbstractCommandListener implements ICommandListener{
 			result = callMethod(methodcall);
 		}
 		
-		CursorController.get().defaultCursor();
+		CursorUIController.get().defaultCursor();
 		return result;		
 	}
 	

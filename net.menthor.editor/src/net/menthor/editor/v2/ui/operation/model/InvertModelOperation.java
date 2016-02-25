@@ -1,5 +1,7 @@
 package net.menthor.editor.v2.ui.operation.model;
 
+import org.tinyuml.umldraw.MenthorFactory;
+
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
@@ -8,7 +10,6 @@ import RefOntoUML.LiteralUnlimitedNatural;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
-import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -95,12 +96,12 @@ public class InvertModelOperation extends ModelOperation {
 	public void invertEndMultiplicities(){
 		Property source = association.getMemberEnd().get(0);
    		Property target = association.getMemberEnd().get(1);
-   		LiteralInteger sourceLower = FactoryManager.get().createLiteralInteger();
-   		LiteralUnlimitedNatural sourceUpper = FactoryManager.get().createLiteralUnlimitedNatural();
+   		LiteralInteger sourceLower = MenthorFactory.get().createLiteralInteger();
+   		LiteralUnlimitedNatural sourceUpper = MenthorFactory.get().createLiteralUnlimitedNatural();
    		sourceLower.setValue(target.getLower());
    		sourceUpper.setValue(target.getUpper());   		
-   		LiteralInteger targetLower = FactoryManager.get().createLiteralInteger();
-   		LiteralUnlimitedNatural targetUpper = FactoryManager.get().createLiteralUnlimitedNatural();
+   		LiteralInteger targetLower = MenthorFactory.get().createLiteralInteger();
+   		LiteralUnlimitedNatural targetUpper = MenthorFactory.get().createLiteralUnlimitedNatural();
    		targetUpper.setValue(source.getUpper());
    		targetLower.setValue(source.getLower());  	
    		source.setUpperValue(sourceUpper);

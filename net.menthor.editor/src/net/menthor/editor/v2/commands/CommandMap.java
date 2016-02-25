@@ -39,34 +39,34 @@ import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
 import net.menthor.editor.v2.commanders.ChangeCommander;
+import net.menthor.editor.v2.commanders.ClipboardCommanderMode;
 import net.menthor.editor.v2.commanders.ColorCommander;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
+import net.menthor.editor.v2.commanders.SelectCommanderMode;
 import net.menthor.editor.v2.commanders.VisibilityCommander;
 import net.menthor.editor.v2.feature.AlloyFeature;
 import net.menthor.editor.v2.feature.OwlFeature;
 import net.menthor.editor.v2.feature.ParthoodFeature;
 import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
-import net.menthor.editor.v2.managers.ExportManager;
 import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
-import net.menthor.editor.v2.managers.ImportManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.controller.EditDialogController;
-import net.menthor.editor.v2.ui.controller.FrameController;
-import net.menthor.editor.v2.ui.controller.MenuBarController;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.SplitPaneController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
-import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.editor.mode.SelectMode;
+import net.menthor.editor.v2.ui.controller.DialogUIController;
+import net.menthor.editor.v2.ui.controller.ExportUIController;
+import net.menthor.editor.v2.ui.controller.FrameUIController;
+import net.menthor.editor.v2.ui.controller.ImportUIController;
+import net.menthor.editor.v2.ui.controller.MenuBarUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.SplitPaneUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.operation.ActionStack;
 
 public class CommandMap {
@@ -103,19 +103,19 @@ public class CommandMap {
 	
 	private void appMenuBar() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.INITIALIZE_SHOWGRID_MENUITEM,
-				new MethodCall(MenuBarController.class.getMethod("initializeShowGrid")));		
+				new MethodCall(MenuBarUIController.class.getMethod("initializeShowGrid")));		
 	}
 	private void appFrame() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.QUIT_APPLICATION,
-				new MethodCall(FrameController.class.getMethod("quitApplication")));
+				new MethodCall(FrameUIController.class.getMethod("quitApplication")));
 	}
 	private void appSplitPane() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.SHOW_PALETTE,
-				new MethodCall(SplitPaneController.class.getMethod("showPalette")));
+				new MethodCall(SplitPaneUIController.class.getMethod("showPalette")));
 		cmdMap.put(CommandType.SHOW_PROJECT_BROWSER,
-				new MethodCall(SplitPaneController.class.getMethod("showProjectBrowser")));
+				new MethodCall(SplitPaneUIController.class.getMethod("showProjectBrowser")));
 		cmdMap.put(CommandType.SHOW_INFO_TABBED_PANE,
-				new MethodCall(SplitPaneController.class.getMethod("showInfoTabbedPane")));		
+				new MethodCall(SplitPaneUIController.class.getMethod("showInfoTabbedPane")));		
 	}
 	
 	//-------------- essential manager operations --------------
@@ -133,29 +133,29 @@ public class CommandMap {
 	
 	private void project() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.NEW_PROJECT,
-				new MethodCall(ProjectController.class.getMethod("newProject")));
+				new MethodCall(ProjectUIController.class.getMethod("newProject")));
 		cmdMap.put(CommandType.NEW_PROJECT_FROM_MODEL,
-				new MethodCall(ProjectController.class.getMethod("newProject", Object.class)));
+				new MethodCall(ProjectUIController.class.getMethod("newProject", Object.class)));
 		cmdMap.put(CommandType.OPEN_EXISTING_PROJECT,
-				new MethodCall(ProjectController.class.getMethod("openProject")));		
+				new MethodCall(ProjectUIController.class.getMethod("openProject")));		
 		cmdMap.put(CommandType.OPEN_RECENT_PROJECT,
-				new MethodCall(ProjectController.class.getMethod("openRecentProject")));
+				new MethodCall(ProjectUIController.class.getMethod("openRecentProject")));
 		cmdMap.put(CommandType.CLOSE_PROJECT,
-				new MethodCall(ProjectController.class.getMethod("closeProject")));
+				new MethodCall(ProjectUIController.class.getMethod("closeProject")));
 		cmdMap.put(CommandType.SAVE_PROJECT_AS,
-				new MethodCall(ProjectController.class.getMethod("saveProjectAs")));
+				new MethodCall(ProjectUIController.class.getMethod("saveProjectAs")));
 		cmdMap.put(CommandType.SAVE_PROJECT,
-				new MethodCall(ProjectController.class.getMethod("saveProject")));		
+				new MethodCall(ProjectUIController.class.getMethod("saveProject")));		
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EMF,
-				new MethodCall(ProjectController.class.getMethod("importModelContent")));
+				new MethodCall(ProjectUIController.class.getMethod("importModelContent")));
 		cmdMap.put(CommandType.ADD_OCLDOCUMENT_TO_TREE_NODE, 
-				new MethodCall(ProjectController.class.getMethod("addOclDocument", Object.class)));		
+				new MethodCall(ProjectUIController.class.getMethod("addOclDocument", Object.class)));		
 		cmdMap.put(CommandType.ADD_OCLDOCUMENT,
-				new MethodCall(ProjectController.class.getMethod("addOclDocument")));		
+				new MethodCall(ProjectUIController.class.getMethod("addOclDocument")));		
 		cmdMap.put(CommandType.ADD_DIAGRAM_TO_TREE_NODE, 
-				new MethodCall(ProjectController.class.getMethod("addDiagram", Object.class)));		
+				new MethodCall(ProjectUIController.class.getMethod("addDiagram", Object.class)));		
 		cmdMap.put(CommandType.ADD_DIAGRAM,
-				new MethodCall(ProjectController.class.getMethod("addDiagram")));
+				new MethodCall(ProjectUIController.class.getMethod("addDiagram")));
 	}
 	
 	private void help() throws NoSuchMethodException, SecurityException{
@@ -195,15 +195,15 @@ public class CommandMap {
 		cmdMap.put(CommandType.DUPLICATE,
 				new MethodCall(DuplicateCommander.class.getMethod("duplicate", Object.class)));
 		cmdMap.put(CommandType.COPY,
-				new MethodCall(ClipboardMode.class.getMethod("cloneSelectedAndPutToClipboard")));
+				new MethodCall(ClipboardCommanderMode.class.getMethod("cloneSelectedAndPutToClipboard")));
 		cmdMap.put(CommandType.PASTE,
-				new MethodCall(ClipboardMode.class.getMethod("pasteClipboard")));
+				new MethodCall(ClipboardCommanderMode.class.getMethod("pasteClipboard")));
 		cmdMap.put(CommandType.SELECT_ALL,
-				new MethodCall(SelectMode.class.getMethod("selectAll")));
+				new MethodCall(SelectCommanderMode.class.getMethod("selectAll")));
 		cmdMap.put(CommandType.RENAME,
 				new MethodCall(RenameCommander.class.getMethod("rename", Object.class)));
 		cmdMap.put(CommandType.EDIT, 
-				new MethodCall(EditDialogController.class.getMethod("edit", Object.class)));		
+				new MethodCall(DialogUIController.class.getMethod("edit", Object.class)));		
 		cmdMap.put(CommandType.DELETE_CURRENT, 
 				new MethodCall(DeleteCommander.class.getMethod("deleteCurrentSelection")));
 		cmdMap.put(CommandType.ERASE_CURRENT, 
@@ -268,23 +268,23 @@ public class CommandMap {
 	
 	private void tabs() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS,
-				new MethodCall(TabbedAreaController.class.getMethod("closeThis", Component.class)));
+				new MethodCall(TabbedAreaUIController.class.getMethod("closeThis", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER,
-				new MethodCall(TabbedAreaController.class.getMethod("closeOthers", Component.class)));
+				new MethodCall(TabbedAreaUIController.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL,
-				new MethodCall(TabbedAreaController.class.getMethod("closeAll", Component.class)));
+				new MethodCall(TabbedAreaUIController.class.getMethod("closeAll", Component.class)));
 		cmdMap.put(CommandType.SELECT_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("select", Object.class)));
+				new MethodCall(TabbedAreaUIController.class.getMethod("select", Object.class)));
 		cmdMap.put(CommandType.ADD_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("add", Object.class)));		
+				new MethodCall(TabbedAreaUIController.class.getMethod("add", Object.class)));		
 		cmdMap.put(CommandType.ADD_FINDER_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("addFinder")));		
+				new MethodCall(TabbedAreaUIController.class.getMethod("addFinder")));		
 		cmdMap.put(CommandType.ADD_STATISTICS_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("addStatistics")));
+				new MethodCall(TabbedAreaUIController.class.getMethod("addStatistics")));
 		cmdMap.put(CommandType.CLOSE_OCL_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("closeSelectedOclEditor")));
+				new MethodCall(TabbedAreaUIController.class.getMethod("closeSelectedOclEditor")));
 		cmdMap.put(CommandType.CLOSE_DIAGRAM_EDITOR,
-				new MethodCall(TabbedAreaController.class.getMethod("closeSelectedOntoumlEditor")));		
+				new MethodCall(TabbedAreaUIController.class.getMethod("closeSelectedOntoumlEditor")));		
 	}
 	
 	/** constructor */
@@ -486,13 +486,13 @@ public class CommandMap {
 		for(ClassType ct: ClassType.values()){		
 			CommandType cmdType = CommandType.getPalleteCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardMode.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ClipboardCommanderMode.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
 			}
 		}
 		for(DataType dt: DataType.values()){
 			CommandType cmdType = CommandType.getPalleteCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardMode.class.getMethod("createAndPutToClipboard", DataType.class), dt));
+				cmdMap.put(cmdType, new MethodCall(ClipboardCommanderMode.class.getMethod("createAndPutToClipboard", DataType.class), dt));
 			}
 		}	
 		for(RelationshipType dt: RelationshipType.values()){
@@ -547,23 +547,23 @@ public class CommandMap {
 	
 	private void exportManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.EXPORT_TO_ECORE,
-				new MethodCall(ExportManager.class.getMethod("exportToEcore")));
+				new MethodCall(ExportUIController.class.getMethod("exportToEcore")));
 		cmdMap.put(CommandType.EXPORT_TO_UML,
-				new MethodCall(ExportManager.class.getMethod("exportToUML")));
+				new MethodCall(ExportUIController.class.getMethod("exportToUML")));
 		cmdMap.put(CommandType.EXPORT_TO_PROFILE_UML,
-				new MethodCall(ExportManager.class.getMethod("exportToProfileUML")));		
+				new MethodCall(ExportUIController.class.getMethod("exportToProfileUML")));		
 		cmdMap.put(CommandType.EXPORT_TO_REFERENCE_ONTOUML,
-				new MethodCall(ExportManager.class.getMethod("exportToReferenceOntouml")));		
+				new MethodCall(ExportUIController.class.getMethod("exportToReferenceOntouml")));		
 		cmdMap.put(CommandType.EXPORT_TO_PNG,
-				new MethodCall(ExportManager.class.getMethod("exportToPng")));
+				new MethodCall(ExportUIController.class.getMethod("exportToPng")));
 	}
 	
 		
 	private void importManager() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA,
-				new MethodCall(ImportManager.class.getMethod("importFromEA")));
+				new MethodCall(ImportUIController.class.getMethod("importFromEA")));
 		cmdMap.put(CommandType.IMPORT_FROM_XMI_EA_FILE,
-				new MethodCall(ImportManager.class.getMethod("importFromEARecent")));
+				new MethodCall(ImportUIController.class.getMethod("importFromEARecent")));
 	}
 	
 	

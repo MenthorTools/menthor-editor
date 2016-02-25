@@ -34,9 +34,9 @@ import net.menthor.common.file.FileUtil;
 import net.menthor.common.settings.als.ALS4Destination;
 import net.menthor.common.settings.als.ALS4TransformationOption;
 import net.menthor.editor.v2.managers.SyntaxManager;
-import net.menthor.editor.v2.ui.controller.MessageController;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.settings.als.AlsSettingsDialog;
 import net.menthor.editor.v2.util.AlloyAnalyzer;
 import net.menthor.ontouml2alloy.OntoUML2Alloy;
@@ -67,16 +67,16 @@ public class AlloyFeature extends GenericFeature {
 	
 	/** open alloy settings dialog */
 	public void openAlloySettings(){
-		alloySpec = new AlloySpec(ProjectController.get().getProject().getTempDir()+
-			    	File.separator+ProjectController.get().getProject().getName().toLowerCase()+".als");
+		alloySpec = new AlloySpec(ProjectUIController.get().getProject().getTempDir()+
+			    	File.separator+ProjectUIController.get().getProject().getName().toLowerCase()+".als");
 		SyntaxManager.get().verifyConstraints(false);
 		
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		refOptions.check(refparser);
 		
 		AlsSettingsDialog.open(parent(), listener(),
-			ProjectController.get().getProject().getRefParser(),
-			ProjectController.get().getProject().getDiagrams(),
+			ProjectUIController.get().getProject().getRefParser(),
+			ProjectUIController.get().getProject().getDiagrams(),
 			refOptions, 
 			oclOptions
 		);	
@@ -96,13 +96,13 @@ public class AlloyFeature extends GenericFeature {
 				openAnalyzer(alloySpec,true, -1);			
 			}
 			if(to.getDestination()==ALS4Destination.TAB){ //open it in a tab		
-				TabbedAreaController.get().addText(alloySpec.getContent());
+				TabbedAreaUIController.get().addText(alloySpec.getContent());
 			}
 			if(to.getDestination()==ALS4Destination.FILE){ //print to a file
-				MessageController.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");
+				MessageUIController.get().showInfo("Alloy Manager", "Project successfully transformed to Alloy file.");
 			}
 		}catch(Exception e){
-			MessageController.get().showError(e, 
+			MessageUIController.get().showError(e, 
 				"Alloy Manager", "Current project could not be transformed to Alloy."
 			);				 
 		}
@@ -117,10 +117,10 @@ public class AlloyFeature extends GenericFeature {
 		try {						
 			String logMessage = alloySpec.transformConstraints(refparser, oclOptions.getParser(),oclOptions);
 			if (!logMessage.isEmpty() && logMessage!=null){				
-				MessageController.get().showWarning("Alloy Manager", logMessage);
+				MessageUIController.get().showWarning("Alloy Manager", logMessage);
 			}
 		} catch (Exception e) {	
-			MessageController.get().showError(e, "Alloy Manager", "Current OCL constraints could not be transformed to Alloy.");
+			MessageUIController.get().showError(e, "Alloy Manager", "Current OCL constraints could not be transformed to Alloy.");
 		}		
 	}
 		
@@ -144,7 +144,7 @@ public class AlloyFeature extends GenericFeature {
 			timer.addActionListener(listener);
 			timer.start();
 		}catch(Exception e){
-			MessageController.get().showError(e, "Alloy Manager", "Could not open the Alloy Analyzer tool.");				
+			MessageUIController.get().showError(e, "Alloy Manager", "Could not open the Alloy Analyzer tool.");				
 		}
 	}
 	

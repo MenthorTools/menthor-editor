@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlNode;
 
@@ -17,11 +18,10 @@ import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.managers.RemakeManager;
-import net.menthor.editor.v2.ui.controller.BrowserController;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.controller.BrowserUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.operation.diagram.AddGeneralizationSetOperation;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 import net.menthor.editor.v2.ui.operation.model.AddModelOperation;
@@ -104,24 +104,24 @@ public class UpdateCommander {
     
     public void updateFromAddition(final Element addedElement){	
 		if(!(addedElement instanceof OntoumlDiagram || addedElement instanceof OclDocument)){			
-			ProjectController.get().getProject().getRefParser().addElement(addedElement);
+			ProjectUIController.get().getProject().getRefParser().addElement(addedElement);
 		}
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {								
-				BrowserController.get().add(addedElement, ProjectController.get().getProject().getModel());				
+				BrowserUIController.get().add(addedElement, ProjectUIController.get().getProject().getModel());				
 			}
 		});		
 	}
     
     public void updateFromDeletion(final RefOntoUML.Element deletedElement){	
     	if(!(deletedElement instanceof OntoumlDiagram || deletedElement instanceof OclDocument)){
-    		ProjectController.get().getProject().getRefParser().removeElement(deletedElement);
+    		ProjectUIController.get().getProject().getRefParser().removeElement(deletedElement);
     	}
 		SwingUtilities.invokeLater(new Runnable() {			
 			@Override
 			public void run() {						
-				BrowserController.get().remove(deletedElement);
+				BrowserUIController.get().remove(deletedElement);
 			}
 		});
 	}
@@ -146,9 +146,9 @@ public class UpdateCommander {
 					}
 				}				
 				if(element instanceof OclDocument || element instanceof StructureDiagram){					
-					TabbedAreaController.get().refreshTabTitle((RefOntoUML.NamedElement)element);
+					TabbedAreaUIController.get().refreshTabTitle((RefOntoUML.NamedElement)element);
 				}
-				BrowserController.get().updateUI();
+				BrowserUIController.get().updateUI();
 			}
 		});
 	}
@@ -163,10 +163,10 @@ public class UpdateCommander {
 		updateFromChange(fix);		
 		updateFromDeletion(fix);
 		
-		List<OclDocument> oclDocs = ProjectController.get().getProject().getOclDocList();
+		List<OclDocument> oclDocs = ProjectUIController.get().getProject().getOclDocList();
 		
 		if(fix.getAddedRules().size()>0 && oclDocs.size()==0){
-			ProjectController.get().addOclDocument("", true);
+			ProjectUIController.get().addOclDocument("", true);
 		}
 		
 		for(String str: fix.getAddedRules()){
@@ -192,13 +192,13 @@ public class UpdateCommander {
 	
 	/** Update application from a set of additions (fix) on the model */
 	public void updateFromAddition(Fix fix){
-		OntoumlEditor ed = TabbedAreaController.get().getSelectedTopOntoumlEditor();
+		OntoumlEditor ed = TabbedAreaUIController.get().getSelectedTopOntoumlEditor();
 		
 		//classes and datatypes with position set need to be added
 		for(Object obj: fix.getAdded()){			
 			if (obj instanceof RefOntoUML.Class||obj instanceof RefOntoUML.DataType) {	
 				if (fix.getAddedPosition(obj).x!=-1 && fix.getAddedPosition(obj).y!=-1){
-					UmlNode node = FactoryManager.get().createNode((RefOntoUML.Type)obj,  (RefOntoUML.Element)((EObject)obj).eContainer());
+					UmlNode node = MenthorFactory.get().createNode((RefOntoUML.Type)obj,  (RefOntoUML.Element)((EObject)obj).eContainer());
 					AddNodeOperation cmd = new AddNodeOperation(ed,node, fix.getAddedPosition(obj).x,fix.getAddedPosition(obj).y);		
 					cmd.run();
 				}else{
@@ -244,6 +244,6 @@ public class UpdateCommander {
 	}
 	
 	public void updateProjectTree(){
-		BrowserController.get().updateUI();
+		BrowserUIController.get().updateUI();
 	}
 }

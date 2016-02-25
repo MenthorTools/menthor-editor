@@ -34,6 +34,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
@@ -49,12 +50,10 @@ import RefOntoUML.NamedElement;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.managers.FactoryManager;
-import net.menthor.editor.v2.ui.controller.BrowserController;
-import net.menthor.editor.v2.ui.controller.MessageController;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
-import net.menthor.editor.v2.ui.editor.mode.SelectMode;
+import net.menthor.editor.v2.ui.controller.BrowserUIController;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
 
 public class AddToDiagramCommander extends GenericCommander {
@@ -74,16 +73,16 @@ public class AddToDiagramCommander extends GenericCommander {
     // ----------------------------
 		
 	public void moveDownSelectedOnTree(){
-		BrowserController.get().moveDown();
+		BrowserUIController.get().moveDown();
 	}
 	
 	public void moveUpSelectedOnTree(){
-		BrowserController.get().moveUp();
+		BrowserUIController.get().moveUp();
 	}
 	
 	public void moveSelectedOnTreeToDiagram(Point p){
-		OntoumlEditor editor = TabbedAreaController.get().getSelectedTopOntoumlEditor();
-		DefaultMutableTreeNode node = BrowserController.get().selected();
+		OntoumlEditor editor = TabbedAreaUIController.get().getSelectedTopOntoumlEditor();
+		DefaultMutableTreeNode node = BrowserUIController.get().selected();
 		Object obj = node.getUserObject();				
 		addToDiagram((RefOntoUML.Element)obj, p.x, p.y, editor, true);	
 	}
@@ -92,7 +91,7 @@ public class AddToDiagramCommander extends GenericCommander {
 	public void addToDiagram(DefaultMutableTreeNode treeNode){
 		Object modelElement = treeNode.getUserObject();
 		if(modelElement instanceof RefOntoUML.Class || modelElement instanceof Relationship || modelElement instanceof DataType)
-			addToDiagram((RefOntoUML.Element)modelElement,40,40, TabbedAreaController.get().getSelectedTopOntoumlEditor(),true);
+			addToDiagram((RefOntoUML.Element)modelElement,40,40, TabbedAreaUIController.get().getSelectedTopOntoumlEditor(),true);
 	}
 	
 	public void addToDiagram(Object element, OntoumlEditor editor){
@@ -103,13 +102,13 @@ public class AddToDiagramCommander extends GenericCommander {
 	public void addToDiagram(RefOntoUML.Element element, double x, double y, OntoumlEditor d, boolean showmessage){
 		if (d!=null && d.getDiagram().containsChild(element) && showmessage){
 			if (element instanceof NamedElement) {
-				MessageController.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
+				MessageUIController.get().showInfo("Move Element", element+"\" already exists in diagram "+d.getDiagram().getName());			
 			}
 			else if (element instanceof Generalization) {
-				MessageController.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
+				MessageUIController.get().showInfo("Move Generalization", element+" already exists in diagram "+d.getDiagram().getName());
 			}
 			DiagramElement de = OccurenceMap.get().getDiagramElement(element, d.getDiagram());
-			if(de!=null) SelectMode.get().select(de);
+			if(de!=null) SelectCommanderMode.get().select(de);
 			return;			
 		}
 		if((element instanceof RefOntoUML.Class) || (element instanceof RefOntoUML.DataType)){			
@@ -155,7 +154,7 @@ public class AddToDiagramCommander extends GenericCommander {
 			conn.setShowRoles(showRoles);
 			conn.setReadingDesign(direction);			
 			if(association instanceof MaterialAssociation){				
-				OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
+				OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 				Derivation deriv = refparser.getDerivation((MaterialAssociation)association);
 				if(deriv!=null) addAssociationToDiagram(deriv, d, false, false, false, true, false, direction);
 			}
@@ -164,7 +163,7 @@ public class AddToDiagramCommander extends GenericCommander {
 	
 	/** Move associations of an element to the diagram. */
 	public void addAssociationsToDiagram(RefOntoUML.Element element, OntoumlEditor d){
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();		
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();		
 		for(RefOntoUML.Association a: refparser.getDirectAssociations((RefOntoUML.Classifier)element)){
 			if(a instanceof MaterialAssociation){						
 				Derivation deriv = refparser.getDerivation((MaterialAssociation)a);
@@ -176,7 +175,7 @@ public class AddToDiagramCommander extends GenericCommander {
 	
 	/** Move generalizations of an element to the diagram. */
 	public void addGeneralizationsToDiagram(RefOntoUML.Element element, OntoumlEditor d){
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		for(RefOntoUML.Generalization gen: refparser.getGeneralizations((RefOntoUML.Classifier)element)){
 			if(!d.getDiagram().containsChild(gen)) addGeneralizationToDiagram(d, gen, false);
 		}
@@ -184,7 +183,7 @@ public class AddToDiagramCommander extends GenericCommander {
 	
 	/** Move class to a diagram  */
 	public void addClassToDiagram(RefOntoUML.Element element, double x, double y, OntoumlEditor d)	{
-		UmlNode node = FactoryManager.get().createNode((RefOntoUML.Type)element, (RefOntoUML.Element)element.eContainer());
+		UmlNode node = MenthorFactory.get().createNode((RefOntoUML.Type)element, (RefOntoUML.Element)element.eContainer());
 		AddNodeOperation cmd = new AddNodeOperation(d,node, x,y);		
 		cmd.run();
 		addGeneralizationsToDiagram(element,d);		   
@@ -206,7 +205,7 @@ public class AddToDiagramCommander extends GenericCommander {
 		double y = ce.getAbsoluteY1()-30;
 		int row = 0;
 		int column = 0;
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();			
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();			
 		HashSet<Type> addedTypes = new HashSet<Type>();			
 		ArrayList<Relationship> relatedAssociations = new ArrayList<Relationship>();
 		relatedAssociations.addAll(refparser.getDirectAssociations(element));
@@ -244,7 +243,7 @@ public class AddToDiagramCommander extends GenericCommander {
 				if(diagram.containsChild(source) && diagram.containsChild(target)) 
 					addToDiagram(rel, -1, -1, currentEditor(), false);					
 			}catch(Exception e){					
-				MessageController.get().showError(e, "Related Elements", "Could not add all related elements.");
+				MessageUIController.get().showError(e, "Related Elements", "Could not add all related elements.");
 			}
 		}			
 		HashSet<Type> typesInDiagram = new HashSet<Type>();

@@ -38,7 +38,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 
 public class FilterManager extends AbstractManager {
 
@@ -59,7 +59,7 @@ public class FilterManager extends AbstractManager {
 	/** Tell the application to work only with the set of elements contained in the diagram. */
 	public void workingOnlyWith(StructureDiagram diagram){
 		List<EObject> elements = OccurenceMap.get().getElements(diagram);
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();				
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
 		elements.removeAll(added);
@@ -70,7 +70,7 @@ public class FilterManager extends AbstractManager {
 	
 	/** Tell the application to work with all elements in the model. */
 	public void workingWithAll(){
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();					
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();					
 		//pb.getTree().checkModelElement(currentProject.getModel()); //no checkbox on the browser
 		refparser.selectAll();		
 		browser().getTree().updateUI();	
@@ -78,7 +78,7 @@ public class FilterManager extends AbstractManager {
 	
 	/** Tell the application to work only with the checked elements in the tree. */
 	public List<Object> workingOnlyWithChecked(){ //takes too long
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		List<Object> selected = browser().getTree().getCheckedObjects();
 		List<EObject> result = new ArrayList<EObject>();
 		for(Object c: selected) result.add((EObject)c);
@@ -126,7 +126,7 @@ public class FilterManager extends AbstractManager {
 			}		
 		}
 		//complete missing/mandatory dependencies on the parser
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();				
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();				
 		refparser.select((ArrayList<EObject>)elements,true);
 		List<EObject> added = refparser.autoSelectDependencies(OntoUMLParser.NO_HIERARCHY,false);
 		elements.removeAll(added);

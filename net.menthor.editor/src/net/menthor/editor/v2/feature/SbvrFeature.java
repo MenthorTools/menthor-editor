@@ -28,8 +28,8 @@ import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.ontouml2sbvr.OntoUML2SBVR;
@@ -53,7 +53,7 @@ public class SbvrFeature {
 	/**  Generate SBVR documentation.
 	 *   In order to use the plug-in, we need to store the model into a file before. */
 	public void generateSbvr(){
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();		
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();		
 		generateSbvr(refparser.getModel());
 	}
 	
@@ -71,7 +71,7 @@ public class SbvrFeature {
 			RefOntoUMLResourceUtil.saveModel(modelFileName, refpackage);
 			OntoUML2SBVR.Transformation(modelFileName);			
 			String docPage = modelFile.getPath().replace(".refontouml", ".html");			
-			TabbedAreaController.get().showConsoleText("SBVR generated successfully", true, true); 
+			TabbedAreaUIController.get().showConsoleText("SBVR generated successfully", true, true); 
 			result = new ResultType(Result.SUCESS, "SBVR generated successfully", new Object[] { docPage });			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -79,12 +79,12 @@ public class SbvrFeature {
 		}		
 		if(result.getResultType() != Result.ERROR)
 		{
-			TabbedAreaController.get().showConsoleText(result.toString(), true, true);			
+			TabbedAreaUIController.get().showConsoleText(result.toString(), true, true);			
 			String htmlFilePath = (String) result.getData()[0];
 			File file = new File(htmlFilePath);
 			openLinkWithBrowser(file.toURI().toString());
 		}else{
-			TabbedAreaController.get().showConsoleText(result.toString(), true, true); 
+			TabbedAreaUIController.get().showConsoleText(result.toString(), true, true); 
 		}
 	}
 	

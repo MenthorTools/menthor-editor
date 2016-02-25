@@ -8,8 +8,8 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
-import net.menthor.editor.v2.ui.Browser;
-import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.BrowserUI;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
 
 public class ActionStack {
 
@@ -37,7 +37,7 @@ public class ActionStack {
 	public void register(GenericOperation op){
 		ActionType actionType = getActionType(op);
 		if(op instanceof ModelOperation) {
-			register(Browser.get(), op, actionType);
+			register(BrowserUI.get(), op, actionType);
 		}
 		if(op instanceof IDiagramOperation) {
 			register(((IDiagramOperation)op).getOntoumlEditor(), op, actionType);
@@ -46,12 +46,12 @@ public class ActionStack {
 	
 	public void undo(){	
 		if(getUndoManager().canUndo()) getUndoManager().undo();						
-		else MessageController.get().showInfo("Cannot Undo", "No other action to be undone.\n\n");
+		else MessageUIController.get().showInfo("Cannot Undo", "No other action to be undone.\n\n");
 	}
 	
 	public void redo(){	
 		if(getUndoManager().canRedo()) getUndoManager().redo();						
-		else MessageController.get().showInfo("Cannot Redo", "No other action to be redone.\n\n");
+		else MessageUIController.get().showInfo("Cannot Redo", "No other action to be redone.\n\n");
 	}
 	
 	private void register(Object sourceComponent, UndoableEdit op, ActionType actionType){

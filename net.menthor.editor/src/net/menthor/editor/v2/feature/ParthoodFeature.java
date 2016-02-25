@@ -26,8 +26,8 @@ import java.awt.Component;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.commanders.UpdateCommander;
-import net.menthor.editor.v2.ui.Frame;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.FrameUI;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.validator.meronymic.application.ValidationDialog;
 
 public class ParthoodFeature {
@@ -43,14 +43,14 @@ public class ParthoodFeature {
 		return ParthoodLoader.INSTANCE; 
 	}	
     private ParthoodFeature() {
-    	parent = Frame.get();
+    	parent = FrameUI.get();
         if (ParthoodLoader.INSTANCE != null) throw new IllegalStateException("ParthoodManager already instantiated");
     }		
     
     // ----------------------------
 	
 	public void evaluateParthoods() {
-		ParthoodDialog.open(ProjectController.get().getProject().getRefParser(), parent);
+		ParthoodDialog.open(ProjectUIController.get().getProject().getRefParser(), parent);
 	}	
 	
 	class ParthoodDialog extends ValidationDialog {

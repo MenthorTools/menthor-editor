@@ -35,7 +35,7 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import net.menthor.editor.v2.commands.CommandType;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.generic.GenericMenu;
 
 /** 
@@ -56,8 +56,8 @@ public class GenSetMenu extends MultiElementMenu {
 	public GenSetMenu(ICommandListener listener, String text, List<UmlDiagramElement> elements, JPopupMenu parent){
 		super(listener, text, elements);	
 		ArrayList<Generalization> gList = filterGeneralizations();
-		Set<GeneralizationSet> gsList = ProjectController.get().getProject().getRefParser().getGeneralizationSets(gList);
-		Set<GeneralizationSet> gsToAdd = ProjectController.get().getProject().getRefParser().getAvailableGeneralizations(gsList, gList);
+		Set<GeneralizationSet> gsList = ProjectUIController.get().getProject().getRefParser().getGeneralizationSets(gList);
+		Set<GeneralizationSet> gsToAdd = ProjectUIController.get().getProject().getRefParser().getAvailableGeneralizations(gsList, gList);
 		newMenuItem = createMenuItem("New", CommandType.NEW_GEN_SET_DIAGRAM); 
 		addMenu = new GenericMenu<ArrayList<Generalization>>(listener,"Add to",gList);
 		removeMenu = new GenericMenu<Set<GeneralizationSet>>(listener,"Remove from",gsList);
@@ -67,7 +67,7 @@ public class GenSetMenu extends MultiElementMenu {
 		add(deleteMenu);
 		
 		//Can only create a new GS if all generalizations lead to the same classifier
-		if(ProjectController.get().getProject().getRefParser().sameGeneralOnGeneralizationList(gList))
+		if(ProjectUIController.get().getProject().getRefParser().sameGeneralOnGeneralizationList(gList))
 			newMenuItem.setEnabled(true);
 		else
 			newMenuItem.setEnabled(false);

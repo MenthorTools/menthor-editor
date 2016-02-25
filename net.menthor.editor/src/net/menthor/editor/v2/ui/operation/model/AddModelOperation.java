@@ -7,8 +7,8 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import RefOntoUML.Element;
 import RefOntoUML.Property;
-import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.MenthorDomain;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -54,14 +54,14 @@ public class AddModelOperation extends ModelOperation {
 	
 	public void undoWithoutNotifying(){
 		super.undo();	
-		RefOntoUMLEditingDomain.getInstance().createDomain().getCommandStack().undo();
+		MenthorDomain.get().createDomain().getCommandStack().undo();
 		System.out.println(this.undoMessage());
 	}
 	
 	public void runWithoutNotifying(){	
 		super.run();
-		RefOntoUML.Package model = ProjectController.get().getProject().getModel();
-		AdapterFactoryEditingDomain domain = RefOntoUMLEditingDomain.getInstance().createDomain();
+		RefOntoUML.Package model = ProjectUIController.get().getProject().getModel();
+		AdapterFactoryEditingDomain domain = MenthorDomain.get().createDomain();
 		
 		AddCommand emfCommand = null;
 		if(eContainer==null && !packageContains(model, element)){

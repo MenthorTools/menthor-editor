@@ -36,11 +36,11 @@ import net.menthor.editor.v2.element.ErrorElement;
 import net.menthor.editor.v2.element.ProblemElement;
 import net.menthor.editor.v2.element.ProblemElement.TypeProblem;
 import net.menthor.editor.v2.feature.AlloyFeature;
-import net.menthor.editor.v2.ui.controller.CursorController;
-import net.menthor.editor.v2.ui.controller.MessageController;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.SplitPaneController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.controller.CursorUIController;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.SplitPaneUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.tocl.parser.TOCLParser;
 import net.menthor.tocl.tocl2alloy.TOCL2AlloyOption;
@@ -66,27 +66,27 @@ public class SyntaxManager extends AbstractManager {
 	}
 	
 	public void verifyConstraints(boolean showSuccesfullyMessage){
-		OntoUMLParser refparser = ProjectController.get().getProject().getRefParser();				
+		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();				
 		try { 
-			String name = ((RefOntoUML.Package)ProjectController.get().getProject().getResource().getContents().get(0)).getName();
+			String name = ((RefOntoUML.Package)ProjectUIController.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
-			TOCLParser toclparser = new TOCLParser(refparser,ProjectController.get().getProject().getTempDir()+File.separator,name.toLowerCase());
-			toclparser.parseTemporalOCL(TabbedAreaController.get().getWorkingOclText());			
+			TOCLParser toclparser = new TOCLParser(refparser,ProjectUIController.get().getProject().getTempDir()+File.separator,name.toLowerCase());
+			toclparser.parseTemporalOCL(TabbedAreaUIController.get().getWorkingOclText());			
 			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
-			if(showSuccesfullyMessage) MessageController.get().showSuccess("Constraints Parse",msg);			
+			if(showSuccesfullyMessage) MessageUIController.get().showSuccess("Constraints Parse",msg);			
 		}catch(SemanticException e2){
-			MessageController.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
+			MessageUIController.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
 		}catch(ParserException e1){
-			MessageController.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
+			MessageUIController.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
 		}catch(Exception e4){
-			MessageController.get().showError(e4, "OCL", "Could not parse OCl constraints");			
+			MessageUIController.get().showError(e4, "OCL", "Could not parse OCl constraints");			
 		}				
 	}
 	
 	//we want warnings and errors all together with the model verification
 	public void verifyModel(){
-		CursorController.get().waitCursor();		
+		CursorUIController.get().waitCursor();		
 		double start = System.currentTimeMillis();
 		
 		//application warnings
@@ -101,29 +101,29 @@ public class SyntaxManager extends AbstractManager {
 		double end = System.currentTimeMillis();				
 		int count=0;
 		for(ProblemElement pe: errors) { count++; pe.setIdentifier(count); }		
-		TabbedAreaController.get().addErrors(start, end, errors);		
-		SplitPaneController.get().forceShowInfo();
+		TabbedAreaUIController.get().addErrors(start, end, errors);		
+		SplitPaneUIController.get().forceShowInfo();
 		if(errors.size()>0 && warnings.size()>0) {
-			TabbedAreaController.get().select(EditorType.ERRORS_EDITOR);
-			MessageController.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
+			TabbedAreaUIController.get().select(EditorType.ERRORS_EDITOR);
+			MessageUIController.get().showError("Model Verified", "Model verified with "+errors.size()+" errors(s) and "+warnings.size()+" warning(s).");				
 		}
 		else if(errors.size()>0 && warnings.size()==0) {
-			TabbedAreaController.get().select(EditorType.ERRORS_EDITOR);
-			MessageController.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
+			TabbedAreaUIController.get().select(EditorType.ERRORS_EDITOR);
+			MessageUIController.get().showError("Model Verified", "Model verified "+errors.size()+" errors(s).");				
 		}
 		else if(errors.size()==0 && warnings.size()>0) {
-			TabbedAreaController.get().select(EditorType.WARNING_EDITOR);
-			MessageController.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
+			TabbedAreaUIController.get().select(EditorType.WARNING_EDITOR);
+			MessageUIController.get().showError("Model Verified", "Model verified with "+warnings.size()+" warning(s).");				
 		} else {
-			MessageController.get().showSuccess("Model Verified", "Model is syntactically correct");
+			MessageUIController.get().showSuccess("Model Verified", "Model is syntactically correct");
 		}
-		CursorController.get().defaultCursor();
+		CursorUIController.get().defaultCursor();
 	}
 	
 	private List<ProblemElement> getMetamodelErrors(){
 		List<ProblemElement> result = new ArrayList<ProblemElement>();
 		SyntacticVerificator verificator = new SyntacticVerificator();
-		verificator.run(ProjectController.get().getProject().getModel());			
+		verificator.run(ProjectUIController.get().getProject().getModel());			
 		for(RefOntoUML.Element elem: verificator.getMap().keySet()){
 			for(String message: verificator.getMap().get(elem)){					
 				result.add(new ErrorElement(elem,0,message,TypeProblem.SYNTACTIC));

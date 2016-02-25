@@ -31,7 +31,7 @@ import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.GenericOperation;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
@@ -146,14 +146,14 @@ public class NotificationCommander {
 		List<DiagramElement> deList = OccurenceMap.get().getDiagramElements(element);
 		for(DiagramElement elem: deList){
 			StructureDiagram diagram = (StructureDiagram)elem.getDiagram();
-			ProjectController.get().getProject().saveDiagramNeeded(diagram,true);
+			ProjectUIController.get().getProject().saveDiagramNeeded(diagram,true);
 		}
 	}
 	
 	/** diagrams in which this element appear must be notified. */
 	private void notifyDiagrams(DiagramElement de){
 		StructureDiagram diagram = (StructureDiagram) de.getDiagram();
-		ProjectController.get().getProject().saveDiagramNeeded(diagram,true);
+		ProjectUIController.get().getProject().saveDiagramNeeded(diagram,true);
 	}
 
 	/** diagrams in which these elements appear must be notified. */

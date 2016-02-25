@@ -20,8 +20,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 import net.menthor.editor.ui.UmlProject;
+import net.menthor.editor.v2.MenthorDomain;
 import net.menthor.editor.v2.OclDocument;
-import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 
 public class DeserializationUtil {
@@ -43,7 +43,7 @@ public class DeserializationUtil {
     // ----------------------------
     
 	public UmlProject deserialize(File file) throws ZipException, IOException {		
-		Resource resource = RefOntoUMLEditingDomain.getInstance().createResource();
+		Resource resource = MenthorDomain.get().createResource();
 		
 		ZipFile zipFile = new ZipFile(file);		
 		Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();

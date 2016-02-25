@@ -9,7 +9,6 @@ import org.tinyuml.umldraw.AssociationElement;
 import org.tinyuml.umldraw.AssociationElement.ReadingDesign;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
-import net.menthor.editor.v2.ui.editor.mode.SelectMode;
 import net.menthor.editor.v2.ui.operation.IDiagramOperation;
 import net.menthor.editor.v2.ui.operation.diagram.LineStyleOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ReadingDesignOperation;
@@ -55,7 +54,7 @@ public class LineCommander extends GenericCommander {
 	
 	/** Switches a direct connection into a rectilinear one. */
 	public void toRectilinear() {
-		toRectilinear(SelectMode.get().getSelectedElements());
+		toRectilinear(SelectCommanderMode.get().getSelectedElements());
 	}
 	public void toRectilinear(Object input) {		
 		List<UmlConnection> connections = setUpAsList(input, UmlConnection.class);
@@ -64,12 +63,12 @@ public class LineCommander extends GenericCommander {
 			execute(new LineStyleOperation(currentEditor(), connection, new RectilinearConnection(connection)));
 		}
 		
-		SelectMode.get().deselectAll();	
+		SelectCommanderMode.get().deselectAll();	
 	}
 	
 	/** Switches a direct connection into a tree vertical one. */
 	public void toTreeStyleVertical(){
-		toTreeStyleVertical(SelectMode.get().getSelectedElements());
+		toTreeStyleVertical(SelectCommanderMode.get().getSelectedElements());
 	}
 	
 	public void toTreeStyleVertical(Object input){		
@@ -79,12 +78,12 @@ public class LineCommander extends GenericCommander {
 			execute(new LineStyleOperation(currentEditor(), connection, new TreeConnection(connection,true)));
 		}
 		
-		SelectMode.get().deselectAll();
+		SelectCommanderMode.get().deselectAll();
 	}
 	
 	/** Switches a direct connection into a tree horizontal one. */
 	public void toTreeStyleHorizontal(){
-		toTreeStyleHorizontal(SelectMode.get().getSelectedElements());		
+		toTreeStyleHorizontal(SelectCommanderMode.get().getSelectedElements());		
 	}
 	
 	public void toTreeStyleHorizontal(Object input){		
@@ -94,13 +93,13 @@ public class LineCommander extends GenericCommander {
 			execute(new LineStyleOperation(currentEditor(), connection, new TreeConnection(connection,false)));
 		}		
 		
-		SelectMode.get().deselectAll();		
+		SelectCommanderMode.get().deselectAll();		
 	}
 	
 	
 	/** Switches a rectilinear connection to a direct one. */
 	public void toDirect(){
-		toDirect(SelectMode.get().getSelectedElements());		
+		toDirect(SelectCommanderMode.get().getSelectedElements());		
 	}
 	
 	public void toDirect(Object input){
@@ -110,7 +109,7 @@ public class LineCommander extends GenericCommander {
 			execute(new LineStyleOperation(currentEditor(), connection, new SimpleConnection(connection)));
 		}
 
-		SelectMode.get().deselectAll();
+		SelectCommanderMode.get().deselectAll();
 	}
 	
 	
@@ -118,7 +117,7 @@ public class LineCommander extends GenericCommander {
 	 * Resets the current connection's points.
 	 */
 	public void resetConnectionPoints(){
-		resetConnectionPoints(SelectMode.get().getSelectedElements());
+		resetConnectionPoints(SelectCommanderMode.get().getSelectedElements());
 	}
 
 	public void resetConnectionPoints(Object input){

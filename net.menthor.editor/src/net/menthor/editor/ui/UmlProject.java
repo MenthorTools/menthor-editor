@@ -41,10 +41,10 @@ import RefOntoUML.impl.GeneralizationSetImpl;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.antipattern.AntiPatternList;
-import net.menthor.editor.v2.MenthorEditor;
+import net.menthor.editor.v2.MenthorDomain;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.resource.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.MenthorEditor;
 import net.menthor.editor.v2.util.DirectoryUtil;
 
 /** The UmlProject is serialized to a binary file in order to store the diagrams and its graphics allElements. */
@@ -114,9 +114,9 @@ public class UmlProject implements Serializable {
 	public UmlProject(RefOntoUML.Package model) {
 		super();
 		properties = new Properties();		
-		resource = RefOntoUMLEditingDomain.getInstance().createResource();
+		resource = MenthorDomain.get().createResource();
 		resource.getContents().add(model);		
-		RefOntoUMLEditingDomain.getInstance().createDomain();
+		MenthorDomain.get().createDomain();
 		name = "New Project";
 		version = MenthorEditor.MENTHOR_VERSION;
 		refparser = new OntoUMLParser(model);
@@ -126,9 +126,9 @@ public class UmlProject implements Serializable {
 	public UmlProject() {
 		super();
 		properties = new Properties();
-		resource = RefOntoUMLEditingDomain.getInstance().createResource();		
+		resource = MenthorDomain.get().createResource();		
 		RefOntoUML.Package model = createAndAddRootModel();		
-		RefOntoUMLEditingDomain.getInstance().createDomain();
+		MenthorDomain.get().createDomain();
 		name = "New Project";		
 		version = MenthorEditor.MENTHOR_VERSION;
 		refparser = new OntoUMLParser(model);

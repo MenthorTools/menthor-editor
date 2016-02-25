@@ -43,7 +43,7 @@ import RefOntoUML.IntegerOrdinalDimension;
 import RefOntoUML.IntegerRationalDimension;
 import RefOntoUML.PrimitiveType;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.v2.ui.controller.MessageController;
+import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.icon.IconType;
 import net.menthor.editor.v2.ui.table.MappingTableModel;
 import net.menthor.editor.v2.ui.table.MappingTablePane;
@@ -84,7 +84,7 @@ public class OwlPrimitiveTablePane extends MappingTablePane {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!tableModel.hasNullEntry()) loadDefaultMappings();
 				else{
-					MessageController.get().showError(OwlPrimitiveTablePane.this,"Table Entry","Please, fill the <no value> cells before move on.");
+					MessageUIController.get().showError(OwlPrimitiveTablePane.this,"Table Entry","Please, fill the <no value> cells before move on.");
 				}
 			}});
 	}	

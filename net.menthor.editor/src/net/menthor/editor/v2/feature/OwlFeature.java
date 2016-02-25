@@ -36,9 +36,9 @@ import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.types.ResultType;
 import net.menthor.editor.v2.types.ResultType.Result;
-import net.menthor.editor.v2.ui.Frame;
-import net.menthor.editor.v2.ui.controller.ProjectController;
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.ui.FrameUI;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsDialog;
 import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.ontouml2simpleowl.OntoUML2SimpleOWL;
@@ -62,7 +62,7 @@ public class OwlFeature {
 		return OwlLoader.INSTANCE; 
 	}	
     private OwlFeature() {
-    	parent = Frame.get();
+    	parent = FrameUI.get();
     	listener = CommandListener.get();
         if (OwlLoader.INSTANCE != null) throw new IllegalStateException("OwlManager already instantiated");
     }		
@@ -71,8 +71,8 @@ public class OwlFeature {
 	
 	public void callOwlSettings(){		
 		OwlSettingsDialog dialog = new OwlSettingsDialog(parent,listener, 
-			ProjectController.get().getProject().getRefParser(),
-			ProjectController.get().getProject().getDiagrams()
+			ProjectUIController.get().getProject().getRefParser(),
+			ProjectUIController.get().getProject().getDiagrams()
 		);
 		dialog.setLocationRelativeTo(parent);
 		dialog.setVisible(true);
@@ -93,18 +93,18 @@ public class OwlFeature {
 	
 	private String generateOwl(OntoUMLParser filteredParser, OwlOptions trOpt){
 		RefOntoUML.Package model = filteredParser.createModelFromSelections(new Copier());
-		ResultType result = generateOwl(filteredParser, model, TabbedAreaController.get().getWorkingOclText(), trOpt);
+		ResultType result = generateOwl(filteredParser, model, TabbedAreaUIController.get().getWorkingOclText(), trOpt);
 		if(result.getResultType() != Result.ERROR){	
 			if(trOpt.getDestination()==OWL2Destination.TAB)
 			{
-				TabbedAreaController.get().showConsoleText(result.toString(), true, false);
-				TabbedAreaController.get().addText((String)result.getData()[0]);
+				TabbedAreaUIController.get().showConsoleText(result.toString(), true, false);
+				TabbedAreaUIController.get().addText((String)result.getData()[0]);
 			}else{
-				TabbedAreaController.get().showConsoleText(result.toString(), true, true);
+				TabbedAreaUIController.get().showConsoleText(result.toString(), true, true);
 			}			
 			return "SUCCESS. Project successfully transformed.";
 		}else{
-			TabbedAreaController.get().showConsoleText(result.toString(), true, true);			
+			TabbedAreaUIController.get().showConsoleText(result.toString(), true, true);			
 			return "FAILURE. Project could not be transformed.";
 		}
 	}

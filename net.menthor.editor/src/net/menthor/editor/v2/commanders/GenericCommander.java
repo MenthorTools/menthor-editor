@@ -6,14 +6,14 @@ import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import net.menthor.editor.v2.ui.controller.TabbedAreaController;
+import net.menthor.editor.v2.commands.CommandListener;
+import net.menthor.editor.v2.ui.controller.DialogUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 
 public abstract class GenericCommander {
 	
-	public GenericCommander(){
-		
-	}
+	public GenericCommander(){}
 	
 	public <T> ArrayList<T> setUpAsList(Object con, Class<T> type) {
 		ArrayList<T> list = new ArrayList<T>();		
@@ -42,11 +42,18 @@ public abstract class GenericCommander {
 	}
 	
 	public OntoumlEditor currentEditor(){
-		return TabbedAreaController.get().getSelectedTopOntoumlEditor();
+		return TabbedAreaUIController.get().getSelectedTopOntoumlEditor();
+	}
+	
+	public void edit(Object obj){
+		DialogUIController.get().edit(obj);
 	}
 	
 	public void execute(IUndoableOperation command){
 		currentEditor().execute(command);
-	}
+	}	
 	
+	public CommandListener listener(){
+		return CommandListener.get();
+	}
 }

@@ -68,6 +68,7 @@ import org.tinyuml.draw.SimpleConnection;
 import org.tinyuml.draw.SingleLineEditField;
 import org.tinyuml.draw.TreeConnection;
 import org.tinyuml.umldraw.ClassElement;
+import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
@@ -75,24 +76,23 @@ import org.tinyuml.umldraw.shared.UmlConnection;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
+import net.menthor.editor.v2.commanders.ClipboardCommanderMode;
+import net.menthor.editor.v2.commanders.ConnectCommanderMode;
 import net.menthor.editor.v2.commanders.DeleteCommander;
+import net.menthor.editor.v2.commanders.SelectCommanderMode;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.managers.FactoryManager;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
 import net.menthor.editor.v2.types.RelationshipType;
-import net.menthor.editor.v2.ui.MenuBar;
-import net.menthor.editor.v2.ui.Palette;
-import net.menthor.editor.v2.ui.TopTabbedPane;
+import net.menthor.editor.v2.ui.MenuBarUI;
+import net.menthor.editor.v2.ui.PaletteUI;
+import net.menthor.editor.v2.ui.TopTabbedPaneUI;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
-import net.menthor.editor.v2.ui.controller.EditDialogController;
+import net.menthor.editor.v2.ui.controller.DialogUIController;
+import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.EditorType;
-import net.menthor.editor.v2.ui.editor.mode.ClipboardMode;
-import net.menthor.editor.v2.ui.editor.mode.ConnectMode;
-import net.menthor.editor.v2.ui.editor.mode.EditorMouseEvent;
-import net.menthor.editor.v2.ui.editor.mode.IEditorMode;
-import net.menthor.editor.v2.ui.editor.mode.SelectMode;
+import net.menthor.editor.v2.ui.editor.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.generic.GenericTabbedPane;
 import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
@@ -214,7 +214,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	private void initEditorMembers() 
 	{	
-		editorMode = SelectMode.get();
+		editorMode = SelectCommanderMode.get();
 		mouseEvent = new EditorMouseEvent();
 		scalingComponent = new ScalingComponent(this);
 	}
@@ -230,8 +230,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	
 
-	public TopTabbedPane getManager() { return  (TopTabbedPane)diagramManager; }
-	public TopTabbedPane getDiagramManager() { return (TopTabbedPane)diagramManager; }
+	public TopTabbedPaneUI getManager() { return  (TopTabbedPaneUI)diagramManager; }
+	public TopTabbedPaneUI getDiagramManager() { return (TopTabbedPaneUI)diagramManager; }
 	public UmlProject getProject() { return diagram.getProject(); }
 		
 	
@@ -309,7 +309,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			/** {@inheritDoc} */
 			public void actionPerformed(ActionEvent e) { 
 				if(OntoumlEditor.this.isFocusable()){
-					Collection<DiagramElement> diagramElementsList = SelectMode.get().getSelectedElements();
+					Collection<DiagramElement> diagramElementsList = SelectCommanderMode.get().getSelectedElements();
 					DeleteCommander.get().deleteFromDiagram(OntoumlEditor.this,diagramElementsList);
 				}
 			}
@@ -320,7 +320,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 			/** {@inheritDoc} */
 			public void actionPerformed(ActionEvent e) { 
 				if(OntoumlEditor.this.isFocusable()){
-					Collection<DiagramElement> diagramElementsList = SelectMode.get().getSelectedElements();
+					Collection<DiagramElement> diagramElementsList = SelectCommanderMode.get().getSelectedElements();
 					DeleteCommander.get().delete(diagramElementsList);
 				}
 			}
@@ -395,7 +395,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		}
 		editorMode.cancel();
 //		SelectMode.get().deselectAll();
-		Palette.get().getClassPalette().selectMousePointer();
+		PaletteUI.get().getClassPalette().selectMousePointer();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 		redraw();
 		requestFocusInEditor();
@@ -672,7 +672,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	
 	/** Sets the editor into selection mode. */
 	public void setSelectionMode(){		
-		editorMode = SelectMode.get();		
+		editorMode = SelectCommanderMode.get();		
 	}
 
 	/**
@@ -681,8 +681,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	public void setCreationMode(ClassType elementType) 
 	{
-		ClipboardMode.get().createAndPutToClipboard(elementType);
-		editorMode = ClipboardMode.get();
+		ClipboardCommanderMode.get().createAndPutToClipboard(elementType);
+		editorMode = ClipboardCommanderMode.get();
 	}
 	
 	public void setEditorMode(IEditorMode mode){		
@@ -695,14 +695,14 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	public void setCreationMode(DataType elementType) 
 	{		
-		ClipboardMode.get().createAndPutToClipboard(elementType);
-		editorMode = ClipboardMode.get();
+		ClipboardCommanderMode.get().createAndPutToClipboard(elementType);
+		editorMode = ClipboardCommanderMode.get();
 	}
 	
 	public void setDragElementMode(RefOntoUML.Type type)
 	{		
-		ClipboardMode.get().putToClipboard(type, true);
-		editorMode = ClipboardMode.get();
+		ClipboardCommanderMode.get().putToClipboard(type, true);
+		editorMode = ClipboardCommanderMode.get();
 	}
 	
 	/**
@@ -711,15 +711,15 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 */
 	public void setCreateConnectionMode(RelationshipType relationType) 
 	{	
-		ConnectMode.get().setRelationshipType(relationType);
-		editorMode = ConnectMode.get();
+		ConnectCommanderMode.get().setRelationshipType(relationType);
+		editorMode = ConnectCommanderMode.get();
 	}
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
 		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
-		ConnectMode.get().setRelationshipType(relationType);
-		editorMode = ConnectMode.get();
+		ConnectCommanderMode.get().setRelationshipType(relationType);
+		editorMode = ConnectCommanderMode.get();
 		RefOntoUML.Type source = null;
 		RefOntoUML.Type target = null;
 		if(relationship instanceof RefOntoUML.Association){
@@ -739,7 +739,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		DiagramElement tgt = OccurenceMap.get().getDiagramElement(target,getDiagram());		
 		if(src==null || tgt==null) return null;
 		
-		UmlConnection conn = FactoryManager.get().createVisualConnectionFromModelRelationship(relationship, src, tgt);
+		UmlConnection conn = MenthorFactory.get().createVisualConnectionFromModelRelationship(relationship, src, tgt);
 		AddConnectionOperation command = new AddConnectionOperation(this, conn);
 	  	command.run();	    	 
 		this.cancelEditing();
@@ -758,10 +758,10 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	{
 		if(isShownGrid()){
 			showGrid(false);
-			MenuBar.get().selectShowGrid(false);
+			MenuBarUI.get().selectShowGrid(false);
 		}else{
 			showGrid(true);
-			MenuBar.get().selectShowGrid(true);
+			MenuBarUI.get().selectShowGrid(true);
 		}
 	}
 
@@ -792,9 +792,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 		
 	/** Brings the current selection to the front. */
 	public void bringToFront(){
-		if (SelectMode.get().getSelectedElements().size() > 0) 
+		if (SelectCommanderMode.get().getSelectedElements().size() > 0) 
 		{
-			for(DiagramElement de: SelectMode.get().getSelectedElements()){
+			for(DiagramElement de: SelectCommanderMode.get().getSelectedElements()){
 				if(!(de instanceof StructureDiagram)) diagram.bringChildToFront(de);				
 			}			
 			redraw();
@@ -804,7 +804,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** Set the background color of the selected elements */
 	public void setBackgroundInSelected(Color color)
 	{
-		for(DiagramElement de: SelectMode.get().getSelectedElements()){
+		for(DiagramElement de: SelectCommanderMode.get().getSelectedElements()){
 			if(de instanceof ClassElement){
 				ClassElement ce = (ClassElement)de;
 				ce.setBackgroundColor(color);
@@ -822,9 +822,9 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	/** Puts the current selection to the back. */
 	public void putToBack() 
 	{
-		if (SelectMode.get().getSelectedElements().size() > 0) 
+		if (SelectCommanderMode.get().getSelectedElements().size() > 0) 
 		{
-			for(DiagramElement de: SelectMode.get().getSelectedElements()){
+			for(DiagramElement de: SelectCommanderMode.get().getSelectedElements()){
 				if(!(de instanceof StructureDiagram)) diagram.putChildToBack(de);				
 			}
 			redraw();
@@ -890,8 +890,8 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	/** Edits the current selection's properties. */
 	public void editProperties(){
-		if (SelectMode.get().getSelectedElements().size() > 0) {
-			EditDialogController.get().edit(SelectMode.get().getSelectedElements().get(0));		
+		if (SelectCommanderMode.get().getSelectedElements().size() > 0) {
+			DialogUIController.get().edit(SelectCommanderMode.get().getSelectedElements().get(0));		
 		}
 	}
 	

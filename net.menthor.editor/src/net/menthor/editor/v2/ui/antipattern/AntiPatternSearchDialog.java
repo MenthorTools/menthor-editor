@@ -76,7 +76,7 @@ import net.menthor.antipattern.reprel.RepRelAntipattern;
 import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
-import net.menthor.editor.v2.ui.controller.ProjectController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 
 /**
  * @author Tiago Sales
@@ -197,7 +197,7 @@ public class AntiPatternSearchDialog extends JDialog {
 
 	/** transfer result of search to an application */
 	public void transferResult(AntiPatternList list){
-		ProjectController.get().getProject().setAntipatterns(list);
+		ProjectUIController.get().getProject().setAntipatterns(list);
 	}
 	
 	/** open the result which in turn can call the wizards */
