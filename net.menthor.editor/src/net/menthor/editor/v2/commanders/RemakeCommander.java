@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.managers;
+package net.menthor.editor.v2.commanders;
 
 /**
  * ============================================================================================
@@ -33,25 +33,19 @@ import org.tinyuml.umldraw.OccurenceMap;
 import RefOntoUML.Association;
 import RefOntoUML.Generalization;
 import RefOntoUML.Type;
-
-import net.menthor.editor.v2.commanders.DeleteCommander;
-
-import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 
-import net.menthor.editor.v2.commanders.AddToDiagramCommander;
-
-public class RemakeManager extends AbstractManager {
+public class RemakeCommander extends GenericCommander {
 
 	// -------- Lazy Initialization
 	
 	private static class RemakeLoader {
-        private static final RemakeManager INSTANCE = new RemakeManager();
+        private static final RemakeCommander INSTANCE = new RemakeCommander();
     }	
-	public static RemakeManager get() { 
+	public static RemakeCommander get() { 
 		return RemakeLoader.INSTANCE; 
 	}	
-    private RemakeManager() {
+    private RemakeCommander() {
         if (RemakeLoader.INSTANCE != null) throw new IllegalStateException("RemakeManager already instantiated");
     }		
     
@@ -59,7 +53,7 @@ public class RemakeManager extends AbstractManager {
 	
 	/** Re-make all associations in all diagrams they appear. */
 	public void remakeAllAssociations(){
-		Set<Association> list = ProjectUIController.get().getProject().getRefParser().getAllInstances(Association.class);
+		Set<Association> list = project().getRefParser().getAllInstances(Association.class);
 		for(Association a: list){
 			remakeRelationship(a);
 		}

@@ -15,6 +15,7 @@ import net.menthor.editor.v2.commanders.ConnectCommanderMode;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.DuplicateCommander;
 import net.menthor.editor.v2.commanders.LineCommander;
+import net.menthor.editor.v2.commanders.RemakeCommander;
 import net.menthor.editor.v2.commanders.RenameCommander;
 import net.menthor.editor.v2.commanders.SelectCommanderMode;
 import net.menthor.editor.v2.commanders.TransferCommander;
@@ -26,11 +27,9 @@ import net.menthor.editor.v2.feature.ParthoodFeature;
 import net.menthor.editor.v2.feature.SbvrFeature;
 import net.menthor.editor.v2.managers.AntiPatternManager;
 import net.menthor.editor.v2.managers.ErrorManager;
-import net.menthor.editor.v2.managers.FilterManager;
 import net.menthor.editor.v2.managers.FindManager;
 import net.menthor.editor.v2.managers.GlossaryManager;
 import net.menthor.editor.v2.managers.HelpManager;
-import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.managers.StatisticsManager;
 import net.menthor.editor.v2.managers.SyntaxManager;
 import net.menthor.editor.v2.managers.WarningManager;
@@ -135,8 +134,6 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(ExportUIController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == MenthorFactory.class){
 				return methodcall.call(MenthorFactory.get());				
-			}else if(methodcall.getMethod().getDeclaringClass() == FilterManager.class){
-				return methodcall.call(FilterManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == FindManager.class){
 				return methodcall.call(FindManager.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == GlossaryManager.class){
@@ -160,8 +157,8 @@ public class CommandListener extends AbstractCommandListener {
 				return methodcall.call(ProjectUIController.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == ActionStack.class){
 				return methodcall.call(ActionStack.get());
-			}else if(methodcall.getMethod().getDeclaringClass() == RemakeManager.class){
-				return methodcall.call(RemakeManager.get());
+			}else if(methodcall.getMethod().getDeclaringClass() == RemakeCommander.class){
+				return methodcall.call(RemakeCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == RenameCommander.class){
 				return methodcall.call(RenameCommander.get());
 			}else if(methodcall.getMethod().getDeclaringClass() == SbvrFeature.class){

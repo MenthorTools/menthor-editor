@@ -18,7 +18,6 @@ import RefOntoUML.GeneralizationSet;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.managers.RemakeManager;
 import net.menthor.editor.v2.ui.controller.BrowserUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
@@ -132,7 +131,7 @@ public class UpdateCommander {
 			@Override
 			public void run() {				
 				if (element instanceof RefOntoUML.Relationship){
-					if(remakeIt) RemakeManager.get().remakeRelationship((RefOntoUML.Element)element);					
+					if(remakeIt) RemakeCommander.get().remakeRelationship((RefOntoUML.Element)element);					
 				}
 				if(element instanceof RefOntoUML.GeneralizationSet){
 					for(Generalization gen: ((RefOntoUML.GeneralizationSet) element).getGeneralization()) {
@@ -142,7 +141,7 @@ public class UpdateCommander {
 				if (element instanceof RefOntoUML.Property){
 					Association assoc = ((RefOntoUML.Property)element).getAssociation();								
 					if (assoc!=null && remakeIt){
-						RemakeManager.get().remakeRelationship((RefOntoUML.Element)assoc);						
+						RemakeCommander.get().remakeRelationship((RefOntoUML.Element)assoc);						
 					}
 				}				
 				if(element instanceof OclDocument || element instanceof StructureDiagram){					

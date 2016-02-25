@@ -6,8 +6,10 @@ import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
+import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.commands.CommandListener;
 import net.menthor.editor.v2.ui.controller.DialogUIController;
+import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 
@@ -45,13 +47,17 @@ public abstract class GenericCommander {
 		return TabbedAreaUIController.get().getSelectedTopOntoumlEditor();
 	}
 	
+	public void execute(IUndoableOperation command){
+		currentEditor().execute(command);
+	}
+	
+	public UmlProject project(){
+		return ProjectUIController.get().getProject();
+	}
+	
 	public void edit(Object obj){
 		DialogUIController.get().edit(obj);
 	}
-	
-	public void execute(IUndoableOperation command){
-		currentEditor().execute(command);
-	}	
 	
 	public CommandListener listener(){
 		return CommandListener.get();
