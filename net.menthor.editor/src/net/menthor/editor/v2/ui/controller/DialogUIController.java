@@ -44,6 +44,7 @@ import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.element.FoundElement;
 import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.editor.v2.ui.dialog.AssociationEditDialog;
+import net.menthor.editor.v2.ui.dialog.AttributeEditDialog;
 import net.menthor.editor.v2.ui.dialog.ClassEditDialog;
 import net.menthor.editor.v2.ui.dialog.GeneralizationEditDialog;
 import net.menthor.editor.v2.ui.dialog.GeneralizationSetEditDialog;
@@ -71,35 +72,35 @@ public class DialogUIController {
 	
 	/** edit */
 	public void edit(Object input){
-		if (input instanceof StructureDiagram){    		
-			TabbedAreaUIController.get().add(input);
-			return;
-    	} 
-    	else if (input instanceof OclDocument){
-    		TabbedAreaUIController.get().add(input);
-    		return;
-    	}
 		
-		Object element = null;
+		if(input==null)
+			return;
 		
 		//gets element if the call is made from the diagram or error/warning/find tables
 		if(input instanceof DiagramElement) {
-			element = ((DiagramElement) input).getModelObject();
+			input = ((DiagramElement) input).getModelObject();
 		}
 		else if (input instanceof FoundElement) {
-			element = ((FoundElement) input).getElement();
+			input = ((FoundElement) input).getElement();
 		}
 		
 		//runs appropriate action
-    	if(element!=null && element instanceof Element){
-    		openDialog((Element)element);
-    	}    	
-    	
+    	if(input instanceof Element){
+    		openDialog((Element)input);
+    	} 
+		
 	}
 	
 	/** Edit class */
 	public ClassEditDialog callClassDialog(Classifier element, boolean modal){
 		ClassEditDialog dialog = new ClassEditDialog(getParent(), getDiagramElement(element, ClassElement.class), (RefOntoUML.Classifier)element, true);
+		showEditDialog(dialog);
+		return dialog;
+	}
+	
+	/** Edit class */
+	public ClassEditDialog callClassDialog(JDialog parent, Classifier element, boolean modal){
+		ClassEditDialog dialog = new ClassEditDialog(parent, getDiagramElement(element, ClassElement.class), (RefOntoUML.Classifier)element, true);
 		showEditDialog(dialog);
 		return dialog;
 	}
@@ -185,7 +186,7 @@ public class DialogUIController {
 		// if property is an attribute
 		else if (container instanceof RefOntoUML.Class){
 			RefOntoUML.Class _class = (RefOntoUML.Class) container;
-			dialog = new ClassEditDialog(getParent(), getDiagramElement(_class, ClassElement.class), _class, true);
+			dialog = new AttributeEditDialog(getParent(), getDiagramElement(_class, ClassElement.class), _class, property, true);
 			showEditDialog(dialog, 0);
 		}
 		
@@ -193,7 +194,15 @@ public class DialogUIController {
 	}
 	
 	private void openDialog(RefOntoUML.Element element){
-		if (element instanceof RefOntoUML.Class) {
+		if (element instanceof StructureDiagram){    		
+			TabbedAreaUIController.get().add(element);
+			return;
+    	} 
+    	else if (element instanceof OclDocument){
+    		TabbedAreaUIController.get().add(element);
+    		return;
+    	}
+    	else if (element instanceof RefOntoUML.Class) {
 			callClassDialog((RefOntoUML.Classifier)element, true);
 		}
 		else if (element instanceof RefOntoUML.DataType) {

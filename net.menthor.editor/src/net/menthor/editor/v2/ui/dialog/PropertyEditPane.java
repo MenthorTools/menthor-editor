@@ -42,8 +42,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import org.tinyuml.draw.DiagramElement;
-
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
@@ -89,7 +87,7 @@ public class PropertyEditPane extends JPanel {
 	private JTextField subsettedText;
 	private JTextField redefinedText;
 	
-	public PropertyEditPane(Component parent, DiagramElement ownerDiagramElement, RefOntoUML.Classifier ownerElem, final Property property){
+	public PropertyEditPane(Component parent, RefOntoUML.Classifier ownerElem, final Property property){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parent=parent;		
 		this.refparser = ProjectUIController.get().getProject().getRefParser();
@@ -144,7 +142,8 @@ public class PropertyEditPane extends JPanel {
 		RefOntoUML.PackageableElement value = property.getType();									    	
 		List<RefOntoUML.PackageableElement> types = refparser.getAllTypesSorted();
     	typeCombo.setModel(new DefaultComboBoxModel(types.toArray()));
-    	typeCombo.setSelectedItem(value);    	
+    	typeCombo.setSelectedItem(value);
+    	
 	}
 	
 	public void editRedefined(){

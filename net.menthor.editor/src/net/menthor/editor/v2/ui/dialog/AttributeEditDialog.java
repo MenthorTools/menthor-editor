@@ -37,15 +37,14 @@ public class AttributeEditDialog extends GenericEditDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private ClassElement classElement;
 	private Classifier element;	
 	private Property attribute;
 	
 	private PropertyEditPane propertyEdition;
 	
+	// constructors used when the property is already created
 	public AttributeEditDialog(final JFrame parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
 		super(parent, modal);				
-		this.classElement = classElement;		
 		this.element = element;		
 		this.attribute = attribute;		
 		initUI();		
@@ -56,11 +55,12 @@ public class AttributeEditDialog extends GenericEditDialog {
 	 */
 	public AttributeEditDialog(final JDialog parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
 		super(parent, modal);				
-		this.classElement = classElement;		
 		this.element = element;		
 		this.attribute = attribute;		
 		initUI();		
 	}
+	
+	// constructors used the attribute is being created
 	
 	@Override 
 	public void confirm(ActionEvent arg0){
@@ -74,7 +74,7 @@ public class AttributeEditDialog extends GenericEditDialog {
 	
 	public void initUI(){
 		setTitle(OntoUMLParser.getStereotype(attribute)+" "+attribute.getName()+": "+attribute.getType().getName());		
-		propertyEdition = new PropertyEditPane(this.getParent(), classElement, element, attribute);		
+		propertyEdition = new PropertyEditPane(this.getParent(),element, attribute);		
 		tabbedPane.addTab("Attribute", null, propertyEdition, null);	
 		setSize(new Dimension(450, 380));
 	}

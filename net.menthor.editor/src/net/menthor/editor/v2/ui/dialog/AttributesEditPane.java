@@ -22,7 +22,6 @@ package net.menthor.editor.v2.ui.dialog;
  */
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +39,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -59,10 +57,13 @@ import org.tinyuml.umldraw.ClassElement;
 import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
+import RefOntoUML.Element;
 import RefOntoUML.Property;
+import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.TransferCommander;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
+import net.menthor.editor.v2.ui.controller.DialogUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.icon.IconMap;
 import net.menthor.editor.v2.ui.icon.IconType;
@@ -72,7 +73,7 @@ public class AttributesEditPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Component parent;
+	private JDialog parent;
 
 	private ClassElement classElement;	
 	private Classifier element;	
@@ -83,13 +84,14 @@ public class AttributesEditPane extends JPanel {
 	private JButton btnCreate;
 	private JButton btnUp;
 	private JButton btnDown;
+	private JButton btnNewDatatype;
 	private JScrollPane scrollpane;
 	private JTable table;	
 	private JPanel panel;
 	private JButton btnEdit;
 	private JCheckBox cbxVisible;
 			
-	public AttributesEditPane(final Component parent, final ClassElement classElement, final Classifier element){
+	public AttributesEditPane(final JDialog parent, final ClassElement classElement, final Classifier element){
 		this.classElement = classElement;
 		this.element = element;
 		this.parent=parent;
@@ -182,15 +184,13 @@ public class AttributesEditPane extends JPanel {
 		int row = table.getSelectedRow();
 		if(row>=0){
 			Property p = tablemodel.getEntry(row);
-			AttributeEditDialog dialog = null;
-			if (parent instanceof JFrame){
-				dialog = new AttributeEditDialog((JFrame)parent,classElement, element, p, false);    				
-			}else if (parent instanceof JDialog) {
-				dialog = new AttributeEditDialog((JDialog)parent, classElement, element, p, false);    			
-			}
-			dialog.setLocationRelativeTo(parent);
-			dialog.setVisible(true);
+			DialogUIController.get().callPropertyDialog(p, true);
 		}
+	}
+	
+	public void createDatatypeAndOpenDialog(){
+		Element newDatatype = AddCommander.get().addDataType(net.menthor.editor.v2.types.DataType.DATATYPE, element);
+		DialogUIController.get().callClassDialog(parent, (Classifier) newDatatype, true);
 	}
 	
 	public void refreshData(){
@@ -198,10 +198,10 @@ public class AttributesEditPane extends JPanel {
 	}
 	
 	public void initUI(){
-		setSize(450,221);
+		setSize(515,221);
 		tablemodel = new AttributeTableModel(element);		
 		panel = new JPanel();
-		panel.setBounds(0, 0, 450, 221);
+		panel.setBounds(0, 0, 515, 221);
 		panel.setBorder(BorderFactory.createTitledBorder(""));
 		scrollpane = new JScrollPane();		
 		scrollpane.setMinimumSize(new Dimension(0, 0));
@@ -273,20 +273,34 @@ public class AttributesEditPane extends JPanel {
 		cbxVisible = new JCheckBox("Turn attributes visible");
 		cbxVisible.setPreferredSize(new Dimension(140, 20));
 		cbxVisible.setHorizontalAlignment(SwingConstants.LEFT);		
+		
+		btnNewDatatype = new JButton("New Datatype");
+		btnNewDatatype.setEnabled(true);
+		btnNewDatatype.setFocusable(false);
+		btnNewDatatype.setToolTipText("Create new Data Type");
+		btnNewDatatype.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createDatatypeAndOpenDialog();
+			}
+		});
+	
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollpane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+						.addComponent(scrollpane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(btnUp, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnDown, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cbxVisible, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-							.addGap(10)
+							.addComponent(cbxVisible, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewDatatype, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnCreate, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
@@ -304,9 +318,10 @@ public class AttributesEditPane extends JPanel {
 						.addComponent(cbxVisible, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCreate, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewDatatype, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollpane, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+					.addComponent(scrollpane, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
 					.addGap(10))
 		);
 		panel.setLayout(gl_panel);

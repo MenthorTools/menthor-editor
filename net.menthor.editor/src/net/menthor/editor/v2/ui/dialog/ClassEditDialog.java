@@ -26,6 +26,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -64,6 +65,15 @@ public class ClassEditDialog extends GenericEditDialog {
 	
 	public ClassEditDialog(final JFrame parent, final ClassElement classElement, Classifier element, boolean modal){
 		super(parent, modal);				
+		initUI(classElement, element);
+	}
+	
+	public ClassEditDialog(final JDialog parent, final ClassElement classElement, Classifier element, boolean modal){
+		super(parent, modal);				
+		initUI(classElement, element);
+	}
+
+	private void initUI(final ClassElement classElement, Classifier element) {
 		this.element = element;
 		setTitle(""+""+OntoUMLParser.getStereotype(element)+" "+element.getName());
 		setSize(new Dimension(500, 452));
