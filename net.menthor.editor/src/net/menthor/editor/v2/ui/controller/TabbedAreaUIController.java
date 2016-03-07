@@ -300,15 +300,34 @@ public class TabbedAreaUIController {
 	}
 	
 	public void addWarnings(String message, List<ProblemElement> warnings){
-		WarningEditor warningsPane = (WarningEditor)tabbedArea.add(TabPositionType.BOTTOM,true, EditorType.WARNING_EDITOR);
+		IEditor editor = tabbedArea.getEditor(EditorType.WARNING_EDITOR);
+		WarningEditor warningsPane = null;
+		
+		if(editor!=null && editor instanceof WarningEditor){
+			warningsPane = (WarningEditor) editor;
+		}
+		else {
+			warningsPane = (WarningEditor)tabbedArea.add(TabPositionType.BOTTOM,true, EditorType.WARNING_EDITOR);
+		}
+		
 		warningsPane.setData(warnings);
 		warningsPane.setStatus(message);
 	}
 	
 	public void addErrors(double startTime, double endTime, List<ProblemElement> errors){
-		ErrorEditor errorPane = (ErrorEditor)tabbedArea.add(TabPositionType.BOTTOM,true, EditorType.ERRORS_EDITOR);
+		IEditor editor = tabbedArea.getEditor(EditorType.ERRORS_EDITOR);
+		ErrorEditor errorPane = null;
+		
+		if(editor!=null && editor instanceof ErrorEditor){
+			errorPane = (ErrorEditor) editor;
+		}
+		else {
+			errorPane = (ErrorEditor)tabbedArea.add(TabPositionType.BOTTOM,true, EditorType.ERRORS_EDITOR);
+		}
+		
 		errorPane.setData(errors);
 		errorPane.setStatus(MessageFormat.format("Model verified in {0} ms, {1} error(s) found", (startTime - endTime),  errors.size()));
+		
 	}
 		
 	public TextEditor addText(String text){		

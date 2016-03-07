@@ -52,7 +52,9 @@ public class ErrorEvaluator {
 		Collections.sort(problems,new ProblemComparator());
 		double end = System.currentTimeMillis();				
 		int count=0;
-		for(ProblemElement pe: problems) { count++; pe.setIdentifier(count); }		
+		for(ProblemElement pe: problems) { 
+			count++; pe.setIdentifier(count); 
+		}		
 		TabbedAreaUIController.get().addErrors(start, end, problems);
 		return problems;
 	}
