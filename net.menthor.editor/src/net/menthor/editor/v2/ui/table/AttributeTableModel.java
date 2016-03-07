@@ -64,7 +64,18 @@ public class AttributeTableModel extends GenericTableModel {
 	
 	public EList<Property> getEntries(){ 
 		return attributes; 
-	}	
+	}
+	
+	public EList<Property> getValidEntries() {
+		EList<Property> validAttributes = new BasicEList<Property>();
+		for (Property attribute : attributes) {
+			if(attribute.getType()!=null){
+				validAttributes.add(attribute);
+			}
+		}
+		return validAttributes;
+	}
+	
 	public Property getEntry(int index) { 
 		return attributes.get(index); 
 	}
@@ -151,6 +162,9 @@ public class AttributeTableModel extends GenericTableModel {
 		
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		if(value==null)
+			return;
+		
 		Property property = (Property) attributes.get(rowIndex);
 		if(columnIndex == 0) {
 			property.setName((String) value);

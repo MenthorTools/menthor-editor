@@ -26,9 +26,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -107,9 +107,10 @@ public class AttributesEditPane extends JPanel {
 	}
 	
 	public void transferData(){
-		if (classElement !=null) classElement.setShowAttributes(cbxVisible.isSelected());
-		TransferCommander.get().transferNewDataTypes(getNewDataTypes());	
-		TransferCommander.get().transferAttributes(element, tablemodel.getEntries());
+		if (classElement !=null) {
+			classElement.setShowAttributes(cbxVisible.isSelected());
+		}
+		TransferCommander.get().transferAttributes(element, tablemodel.getValidEntries());
 		if(classElement!=null){
 			classElement.reinitAttributesCompartment();
 			classElement.invalidate();
@@ -141,21 +142,10 @@ public class AttributesEditPane extends JPanel {
 			cbxVisible.setEnabled(false); 
 		}
 	}
-		
-	public List<RefOntoUML.Type> getNewDataTypes(){		
-		List<RefOntoUML.Type> result = new ArrayList<RefOntoUML.Type>();
-		for (Property property : tablemodel.getEntries()){	
-			if(property.getType()!=null){
-				if(datatypes.keySet().contains(property.getType().getName().trim())==false)
-					if(!result.contains(property.getType())) result.add(property.getType());
-			}
-		}
-		return result;
-	}
 	
 	public void moveUpAttribute(){
 		int row = table.getSelectedRow();
-		if (row >=0  && row < table.getRowCount()){
+		if (row >0  && row < table.getRowCount()){
 			tablemodel.moveUpEntry(row);
 			table.setRowSelectionInterval(row - 1, row - 1);
 		}
@@ -163,7 +153,7 @@ public class AttributesEditPane extends JPanel {
 
 	public void moveDownAttribute(){
 		int row = table.getSelectedRow();
-		if (row >=0  && row < table.getRowCount()){
+		if (row >=0  && row < table.getRowCount()-1){
 			tablemodel.moveDownEntry(row);
 			table.setRowSelectionInterval(row + 1, row + 1);
 		}
@@ -189,8 +179,15 @@ public class AttributesEditPane extends JPanel {
 	}
 	
 	public void createDatatypeAndOpenDialog(){
+		table.getSelectionModel().clearSelection();
 		Element newDatatype = AddCommander.get().addDataType(net.menthor.editor.v2.types.DataType.DATATYPE, element);
-		DialogUIController.get().callClassDialog(parent, (Classifier) newDatatype, true);
+		ClassEditDialog newDialog = DialogUIController.get().callClassDialog(parent, (Classifier) newDatatype, true);
+		newDialog.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosed(WindowEvent e) {
+		    	setData();
+		    }
+		});
 	}
 	
 	public void refreshData(){
@@ -201,7 +198,6 @@ public class AttributesEditPane extends JPanel {
 		setSize(515,221);
 		tablemodel = new AttributeTableModel(element);		
 		panel = new JPanel();
-		panel.setBounds(0, 0, 515, 221);
 		panel.setBorder(BorderFactory.createTitledBorder(""));
 		scrollpane = new JScrollPane();		
 		scrollpane.setMinimumSize(new Dimension(0, 0));
@@ -268,9 +264,8 @@ public class AttributesEditPane extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				editAttribute();
 			}
-		});		
-		setLayout(null);
-		cbxVisible = new JCheckBox("Turn attributes visible");
+		});
+		cbxVisible = new JCheckBox("Visible attributes?");
 		cbxVisible.setPreferredSize(new Dimension(140, 20));
 		cbxVisible.setHorizontalAlignment(SwingConstants.LEFT);		
 		
@@ -325,7 +320,16 @@ public class AttributesEditPane extends JPanel {
 					.addGap(10))
 		);
 		panel.setLayout(gl_panel);
-		add(panel);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		);
+		setLayout(groupLayout);
 		
 		setData();
 	}	
@@ -350,7 +354,7 @@ public class AttributesEditPane extends JPanel {
                 return table != null && table.isFocusOwner() && !Boolean.FALSE.equals((Boolean)table.getClientProperty("JTable.autoStartsEdit"));
             }
         };        
-        combo.setEditable(true);
+        combo.setEditable(false);
         return new DefaultCellEditor(combo);
     }
 }

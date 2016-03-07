@@ -63,6 +63,9 @@ public class ClassEditDialog extends GenericEditDialog {
 		classEdition.transferData();
 	}
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public ClassEditDialog(final JFrame parent, final ClassElement classElement, Classifier element, boolean modal){
 		super(parent, modal);				
 		initUI(classElement, element);
@@ -76,7 +79,7 @@ public class ClassEditDialog extends GenericEditDialog {
 	private void initUI(final ClassElement classElement, Classifier element) {
 		this.element = element;
 		setTitle(""+""+OntoUMLParser.getStereotype(element)+" "+element.getName());
-		setSize(new Dimension(500, 452));
+		setSize(new Dimension(537, 410));
 		
 		JPanel classTab = new JPanel();
 		classTab.setBorder(new EmptyBorder(0, 0, 0, 0));
