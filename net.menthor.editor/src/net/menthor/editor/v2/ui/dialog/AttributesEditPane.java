@@ -174,13 +174,13 @@ public class AttributesEditPane extends JPanel {
 		int row = table.getSelectedRow();
 		if(row>=0){
 			Property p = tablemodel.getEntry(row);
-			DialogUIController.get().callPropertyDialog(p, true);
+			DialogUIController.get().callPropertyDialog(p, true, true);
 		}
 	}
 	
 	public void createDatatypeAndOpenDialog(){
 		table.getSelectionModel().clearSelection();
-		Element newDatatype = AddCommander.get().addDataType(net.menthor.editor.v2.types.DataType.DATATYPE, element);
+		Element newDatatype = AddCommander.get().addDataType(net.menthor.editor.v2.types.DataType.DATATYPE, element.eContainer());
 		ClassEditDialog newDialog = DialogUIController.get().callClassDialog(parent, (Classifier) newDatatype, true);
 		newDialog.addWindowListener(new WindowAdapter() {
 		    @Override

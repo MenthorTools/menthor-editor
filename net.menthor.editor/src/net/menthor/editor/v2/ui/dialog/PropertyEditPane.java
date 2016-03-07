@@ -42,9 +42,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
+import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.commanders.TransferCommander;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
@@ -58,7 +58,7 @@ public class PropertyEditPane extends JPanel {
 	private Component parent;
 		
 	private OntoUMLParser refparser;
-	private Classifier ownerElement;
+	private Type ownerElement;
 	private Property property;	
 	
 	private JTextField nameField;
@@ -87,12 +87,12 @@ public class PropertyEditPane extends JPanel {
 	private JTextField subsettedText;
 	private JTextField redefinedText;
 	
-	public PropertyEditPane(Component parent, RefOntoUML.Classifier ownerElem, final Property property){
+	public PropertyEditPane(Component parent, final Property property){
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.parent=parent;		
 		this.refparser = ProjectUIController.get().getProject().getRefParser();
-		this.property = property;		
-		this.ownerElement = ownerElem;	
+		this.property = property;
+		this.ownerElement = property.getType();
 		initGUI();		
 	}
 	
@@ -123,10 +123,17 @@ public class PropertyEditPane extends JPanel {
 		cbxUnique.setSelected(property.isIsUnique());
 		aggregCombo.setSelectedItem(property.getAggregation().getName());		
 						
-		if (ownerElement instanceof Meronymic) aggregCombo.setEnabled(true);
-		else aggregCombo.setEnabled(false);
+		if (ownerElement!=null && ownerElement instanceof Meronymic){
+			aggregCombo.setEnabled(true);
+		}
+		else{
+			aggregCombo.setEnabled(false);
+		}
+		
 		String multiplicity = new String();
-		if (property.getLower()==property.getUpper() && property.getUpper()!=-1) multiplicity = Integer.toString(property.getLower());
+		if (property.getLower()==property.getUpper() && property.getUpper()!=-1) {
+			multiplicity = Integer.toString(property.getLower());
+		}
 		else if (property.getLower()==property.getUpper() && property.getUpper()==-1) multiplicity = "*";
 		else if (property.getUpper()==-1) multiplicity = property.getLower()+".."+"*";
 		else multiplicity = property.getLower()+".."+property.getUpper();		

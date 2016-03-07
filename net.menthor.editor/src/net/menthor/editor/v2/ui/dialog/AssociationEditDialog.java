@@ -62,10 +62,10 @@ public class AssociationEditDialog extends GenericEditDialog {
 		assocEdition = new AssociationEditPane (this.assocElement,(Classifier)relationship,modal);
 		tabbedPane.addTab("Association", assocEdition);				
 		
-		end1Edition = new PropertyEditPane(this,(Classifier)relationship,((Association)relationship).getMemberEnd().get(0));
+		end1Edition = new PropertyEditPane(this,((Association)relationship).getMemberEnd().get(0));
 		tabbedPane.addTab("Source End",end1Edition);		
 		
-		end2Edition = new PropertyEditPane(this,(Classifier)relationship,((Association)relationship).getMemberEnd().get(1));
+		end2Edition = new PropertyEditPane(this,((Association)relationship).getMemberEnd().get(1));
 		tabbedPane.addTab("Target End", end2Edition);		
 		
 		commentsEdition = new CommentsEditPane ((Classifier)relationship);

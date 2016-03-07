@@ -42,6 +42,8 @@ public class AttributeTableModel extends GenericTableModel {
 	
 	private EList<Property> attributes = new BasicEList<Property>();
 	private List<DataType> datatypes = new ArrayList<DataType>();
+
+	private Classifier owner;
 	
 	//==========================================================
 	//CONSTRUCTOR
@@ -49,8 +51,15 @@ public class AttributeTableModel extends GenericTableModel {
 	
 	public AttributeTableModel(Classifier owner){
 		super(new String[]{"Name", "Type", "Multiplicity"});		
-		if(owner instanceof DataTypeImpl) attributes.addAll(((DataType) owner).getOwnedAttribute());
-		else attributes.addAll(((RefOntoUML.Class) owner).getOwnedAttribute());
+		
+		this.owner = owner;
+		
+		if(owner instanceof DataTypeImpl) {
+			attributes.addAll(((DataType) owner).getOwnedAttribute());
+		}
+		else {
+			attributes.addAll(((RefOntoUML.Class) owner).getOwnedAttribute());
+		}
 	}
 	
 	//==========================================================
@@ -129,10 +138,25 @@ public class AttributeTableModel extends GenericTableModel {
 	@Override
 	public void addEmptyEntry() {
 		Property property = RefOntoUMLFactoryUtil.factory.createProperty();
+		
+		addAttribute(property);
+		
 		property.setType(null);
 		property.setName("");
 		RefOntoUMLFactoryUtil.setMultiplicity(property, 1, 1);		
 		addEntry(property);
+	}
+
+	private void addAttribute(Property property) {
+		if(owner == null)
+			return;
+		
+		if(owner instanceof RefOntoUML.Class){
+			((RefOntoUML.Class)owner).getOwnedAttribute().add(property);
+		}
+		else if (owner instanceof DataType){
+			((DataType)owner).getOwnedAttribute().add(property);
+		}
 	}
 
 	//==========================================================

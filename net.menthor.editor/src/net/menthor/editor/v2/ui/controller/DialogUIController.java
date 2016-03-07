@@ -161,36 +161,42 @@ public class DialogUIController {
 		return dialog;
 	}
 	
-	/** Edit attribute or endpoint */
 	public JDialog callPropertyDialog(Property property, boolean modal){
+		return callPropertyDialog(property, modal, false);
+	}
+	
+	/** Edit attribute or endpoint */
+	public JDialog callPropertyDialog(Property property, boolean modal, boolean openWithoutContainer){
 		GenericEditDialog dialog = null;
 		EObject container = property.eContainer();
 		
-		if(container==null)
-			return dialog;
-		
-		//if property is an end-point
-		if(container instanceof Association ){
-			Association association = (Association) container;
-			dialog = new AssociationEditDialog(getParent(), getDiagramElement(association, AssociationElement.class), association, true);
-			int tabIndex = 0;
-			if(association.getMemberEnd().get(0).equals(property)) {
-				tabIndex = 1;
-			}
-			else { 
-				tabIndex = 2;
-			}
-			
-			showEditDialog(dialog, tabIndex);
-		}
-		// if property is an attribute
-		else if (container instanceof RefOntoUML.Class){
-			RefOntoUML.Class _class = (RefOntoUML.Class) container;
-			dialog = new AttributeEditDialog(getParent(), getDiagramElement(_class, ClassElement.class), _class, property, true);
+		if(openWithoutContainer && container==null){
+			dialog = new AttributeEditDialog(getParent(), property, true);
 			showEditDialog(dialog, 0);
+		}
+		else if (container!=null) {
+			//if property is an end-point
+			if(container instanceof Association ){
+				Association association = (Association) container;
+				dialog = new AssociationEditDialog(getParent(), getDiagramElement(association, AssociationElement.class), association, true);
+				int tabIndex = 0;
+				if(association.getMemberEnd().get(0).equals(property)) {
+					tabIndex = 1;
+				}
+				else { 
+					tabIndex = 2;
+				}
+				showEditDialog(dialog, tabIndex);
+			}
+			// if property is an attribute
+			else if (container instanceof RefOntoUML.Class){
+				dialog = new AttributeEditDialog(getParent(), property, true);
+				showEditDialog(dialog, 0);
+			}
 		}
 		
 		return dialog;
+		
 	}
 	
 	private void openDialog(RefOntoUML.Element element){

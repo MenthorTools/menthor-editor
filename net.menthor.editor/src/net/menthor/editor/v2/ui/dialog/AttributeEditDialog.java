@@ -27,9 +27,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import org.tinyuml.umldraw.ClassElement;
-
-import RefOntoUML.Classifier;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
 
@@ -37,15 +34,13 @@ public class AttributeEditDialog extends GenericEditDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private Classifier element;	
 	private Property attribute;
 	
 	private PropertyEditPane propertyEdition;
 	
 	// constructors used when the property is already created
-	public AttributeEditDialog(final JFrame parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
+	public AttributeEditDialog(final JFrame parent, Property attribute, boolean modal){
 		super(parent, modal);				
-		this.element = element;		
 		this.attribute = attribute;		
 		initUI();		
 	}
@@ -53,9 +48,8 @@ public class AttributeEditDialog extends GenericEditDialog {
 	/**
 	 * @wbp.parser.constructor 
 	 */
-	public AttributeEditDialog(final JDialog parent, final ClassElement classElement, Classifier element, Property attribute, boolean modal){
+	public AttributeEditDialog(final JDialog parent, Property attribute, boolean modal){
 		super(parent, modal);				
-		this.element = element;		
 		this.attribute = attribute;		
 		initUI();		
 	}
@@ -73,8 +67,12 @@ public class AttributeEditDialog extends GenericEditDialog {
 	}
 	
 	public void initUI(){
-		setTitle(OntoUMLParser.getStereotype(attribute)+" "+attribute.getName()+": "+attribute.getType().getName());		
-		propertyEdition = new PropertyEditPane(this.getParent(),element, attribute);		
+		String typeName = "";
+		if(attribute.getType()!=null){
+			typeName = attribute.getType().getName();
+		}
+		setTitle(OntoUMLParser.getStereotype(attribute)+" "+attribute.getName()+": "+typeName);		
+		propertyEdition = new PropertyEditPane(this.getParent(), attribute);		
 		tabbedPane.addTab("Attribute", null, propertyEdition, null);	
 		setSize(new Dimension(450, 380));
 	}
