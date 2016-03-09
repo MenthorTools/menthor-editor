@@ -181,6 +181,32 @@ public class ProjectTree extends GenericCheckBoxTree {
 	
 	//------- Add ---------
 	
+	protected boolean shouldAdd(Object child){
+		if (child instanceof RefOntoUML.GeneralizationSet && opt.isHiddenGeneralizationSets()) return false;
+		if (child instanceof RefOntoUML.Generalization && opt.isHiddenGeneralizations()) return false;
+		if (child instanceof RefOntoUML.Comment && opt.isHiddenComments()) return false;
+		if (child instanceof RefOntoUML.EnumerationLiteral && opt.isHiddenLiterals()) return false;
+		if (child instanceof RefOntoUML.Property && opt.isHiddenProperties()) return false;
+		if (child instanceof RefOntoUML.Property && ((RefOntoUML.Property)child).getAssociation()!=null && opt.isHiddenEnds()) return false;
+		if (child instanceof RefOntoUML.Property && ((RefOntoUML.Property)child).getAssociation()==null && opt.isHiddenAttributes()) return false;
+		if (child instanceof RefOntoUML.Constraintx && opt.isHiddenConstraints()) return false;
+		if (child instanceof RefOntoUML.Class && opt.isHiddenClasses()) return false;
+		if (child instanceof RefOntoUML.DataType && opt.isHiddenDataTypes()) return false;
+		if (child instanceof RefOntoUML.Association && opt.isHiddenAssociations()) return false;
+		return true;
+	}
+	@Override
+	public DefaultMutableTreeNode addChild(DefaultMutableTreeNode parent, Object child){
+		if(shouldAdd(child)) return super.addChild(parent, child);
+		else return null;
+	}
+	
+	@Override
+	public DefaultMutableTreeNode addChild(Object child){    		
+		if(shouldAdd(child)) return super.addChild(child);
+		else return null;
+    }   
+	
     public void addOclDocuments(List<OclDocument> oclDocList){    			
 		for(OclDocument c: oclDocList){
 			PackageableElement refContainer = (PackageableElement)c.getContainer();

@@ -106,13 +106,13 @@ public class RemakeCommander extends GenericCommander {
 				showMultiplicities = ae.showMultiplicities();				
 				direction = ae.getReadingDesign();
 			}
-			DeleteCommander.get().deleteFromDiagram(d, element);
+			DeleteCommander.get().deleteFromDiagram(d, ae);
 			AddToDiagramCommander.get().addAssociationToDiagram((Association) element, d, isRectilinear, showName, showOntoUMLStereotype, showMultiplicities, showRoles, direction);
 		}
 		if(element instanceof Generalization){			
 			GeneralizationElement ge = (GeneralizationElement) OccurenceMap.get().getDiagramElement(element, d.getDiagram());
 			if (ge!=null) isRectilinear = ge.isTreeStyle();			
-			DeleteCommander.get().deleteFromDiagram(d, element);
+			DeleteCommander.get().deleteFromDiagram(d, ge);
 			AddToDiagramCommander.get().addGeneralizationToDiagram(d,(Generalization) element, isRectilinear);
 		}		
 	}

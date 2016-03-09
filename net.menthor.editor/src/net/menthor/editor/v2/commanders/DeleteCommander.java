@@ -184,6 +184,9 @@ public class DeleteCommander extends GenericCommander {
 	
 	/** Erase elements from a particular diagram. It does not delete the element from the model. */
 	public void deleteFromDiagram(OntoumlEditor editor, Object input){		
+		if(input instanceof RefOntoUML.Element){
+			input = OccurenceMap.get().getDiagramElement((RefOntoUML.Element)input, editor.getDiagram());
+		}
 		List<DiagramElement> diagramElements = setUpAsList(input, DiagramElement.class);
 		
 		//Removes all diagrams in the input
