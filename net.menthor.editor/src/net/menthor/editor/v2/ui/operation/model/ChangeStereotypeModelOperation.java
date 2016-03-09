@@ -28,7 +28,7 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 	private static final long serialVersionUID = 7518976801833128513L;
 	
 	private Element element;
-	private List<DiagramElement> diagramElements;
+	
 	private OntoUMLMetatype newType, oldType;	
 	private RefOntoUML.Package model = ProjectUIController.get().getProject().getModel();
 	
@@ -40,7 +40,6 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 	public ChangeStereotypeModelOperation(RefOntoUML.Relationship element, RelationshipType newStereotype){
 		this();
 		this.element = element;
-		diagramElements = OccurenceMap.get().getDiagramElements(element);
 		this.newType = newStereotype;
 		this.oldType = RelationshipType.getRelationshipType(element);
 	}
@@ -48,7 +47,6 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 	public ChangeStereotypeModelOperation(RefOntoUML.Classifier class_, ClassType newStereotype){
 		this();
 		this.element = class_;
-		diagramElements = OccurenceMap.get().getDiagramElements(element);
 		this.newType = newStereotype;
 		this.oldType = ClassType.getClassType(class_);
 	}
@@ -56,7 +54,6 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 	public ChangeStereotypeModelOperation(RefOntoUML.Classifier datatype, DataType newStereotype){
 		this();
 		this.element = datatype;
-		diagramElements = OccurenceMap.get().getDiagramElements(element);
 		this.newType = newStereotype;
 		this.oldType = DataType.getDataType(datatype);
 	}
@@ -114,10 +111,10 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 	public Fix changeClassStereotype(){
 		ClassType stereotype = (ClassType)newType;		
 		if(isUndo()) stereotype = (ClassType)oldType;   		
-		OutcomeFixer fixer = new OutcomeFixer(model);
-   		Fix fix = fixer.changeClassStereotypeTo(element, fixer.getClassStereotype(stereotype.getName()));   	
-   		element = fix.getAddedByType(Class.class).get(0);   		
-   		diagramElements = OccurenceMap.get().getDiagramElements(element);   		
+		List<DiagramElement> diagramElements = OccurenceMap.get().getDiagramElements(element);
+		OutcomeFixer fixer = new OutcomeFixer(model);   		
+		Fix fix = fixer.changeClassStereotypeTo(element, fixer.getClassStereotype(stereotype.getName()));   	
+   		element = fix.getAddedByType(Class.class).get(0);
    		for(DiagramElement de: diagramElements){
 	   		if (de !=null && de instanceof ClassElement) {
 	   			double x = ((ClassElement)de).getAbsoluteX1();
