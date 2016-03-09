@@ -89,7 +89,14 @@ public class FindEditor extends JPanel implements IEditor {
 	}
 	
 	@Override
-	public boolean isSaveNeeded() { return false; }
+	public boolean isSaveNeeded() { 
+		return false; 
+	}
+	
+	@Override
+	public void setSaveNeeded(boolean value) { 
+		return; 
+	}
 
 	@Override
 	public EditorType getEditorType() { return EditorType.FINDER_EDITOR; }

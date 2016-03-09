@@ -145,18 +145,32 @@ public class ProjectUIController {
 		BrowserUIController.get().add((DefaultMutableTreeNode)treeNode, oclDoc);
 	}	
 	
-	public StructureDiagram addDiagram(){
+	
+	public void addDiagram(){
+		createDiagram((Package) (BrowserUIController.get().root()).getUserObject());
+	}
+	
+	public void addDiagram(Object treeNode){
+		Package container = (Package) (BrowserUIController.get().root()).getUserObject();
+		
+		if(treeNode!=null && treeNode instanceof DefaultMutableTreeNode && (((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
+			container = (Package) ((DefaultMutableTreeNode)treeNode).getUserObject();
+		}
+		
+		createDiagram(container);
+	}
+	
+	private void createDiagram(Package container){
 		StructureDiagram diagram = new StructureDiagram(project);		
-		Package epackage = (Package) (BrowserUIController.get().root()).getUserObject();
-		diagram.setContainer(epackage);		
+		diagram.setContainer(container);		
 		setDefaultDiagramSize(diagram);
 		diagram.setLabelText("Diagram"+project.getDiagrams().size());
 		project.addDiagram(diagram);
 		project.saveDiagramNeeded(diagram,false);
 		TabbedAreaUIController.get().add(diagram);
-		return diagram;
+		BrowserUIController.get().add(diagram, container);
 	}
-
+	
 	private void setDefaultDiagramSize(StructureDiagram diagram){
 		double waste = 0;
 		if(SplitPaneUIController.get().isShowProjectBrowser()) waste+=240;
@@ -164,13 +178,7 @@ public class ProjectUIController {
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
 	
-	public void addDiagram(Object treeNode){
-		StructureDiagram diagram = addDiagram();
-		if(treeNode==null || !(treeNode instanceof DefaultMutableTreeNode) || !(((DefaultMutableTreeNode)treeNode).getUserObject() instanceof Package)){
-			treeNode = BrowserUIController.get().root();
-		}		
-		if(treeNode!=null) BrowserUIController.get().add((DefaultMutableTreeNode)treeNode,diagram);
-	}
+	
 	
 	public void createEmptyProject(){
 		createEmptyProject(true,true);

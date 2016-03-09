@@ -23,9 +23,11 @@ package net.menthor.editor.v2.ui.controller;
 
 import java.awt.Component;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.tinyuml.ui.diagram.OntoumlEditor;
+import org.tinyuml.ui.diagram.OntoumlWrapper;
 import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
@@ -207,50 +209,105 @@ public class TabbedAreaUIController {
 
 	//----- close -----
 	
-	public void closeThis(Component c)	{
-		tabbedArea.closeThis(c);
+	public void closeEditor(Component editor){
+		
+		if(editor instanceof OntoumlWrapper){
+			editor = ((OntoumlWrapper)editor).getDiagramEditor();
+		}
+		
+		if(editor instanceof OntoumlEditor){
+			closeOntoumlEditor((OntoumlEditor) editor);
+		}
+		else if(editor instanceof OclEditor){
+			closeOclEditor((OclEditor) editor);
+		}
+		else {
+			closeTab(editor);
+		}
+	}
+	
+	public void closeSelectedOclEditor(){
+		closeOclEditor(tabbedArea.getSelectedOclEditor());
+	}
+	
+	public void closeSelectedOntoumlEditor(){
+		closeOntoumlEditor(tabbedArea.getSelectedOntoumlEditor());
 	}
 	
 	public void closeOthers(Component c){
-		tabbedArea.closeOthers(c);
+		closeMultipleEditors(getSiblingEditors(c, false));
 	}
 	
 	public void closeAll(Component c){
-		tabbedArea.closeAll(c);
+		closeMultipleEditors(getSiblingEditors(c, true));
 	}
 	
-	public boolean closeSelectedOclEditor(){
-		IEditor editor = tabbedArea.getSelectedOclEditor();
-		if(editor !=null && editor.isSaveNeeded()){
-			boolean response = MessageUIController.get().confirm("Save", 
-			"Your rules document has been modified. Save changes?");
-			if(response) { 
-				ProjectUIController.get().saveProject();
-				closeThis((Component)editor);
-				return true; 
-			}else{ 
-				return false;
-			}			
-		}		
-		closeThis((Component)editor);
-		return true;
-	}
-	
-	public boolean closeSelectedOntoumlEditor(){
-		IEditor editor = tabbedArea.getSelectedOntoumlEditor();
-		if(editor!=null && editor.isSaveNeeded()){
-			boolean response = MessageUIController.get().confirm("Save", 
-			"Your diagram has been modified. Save changes?");
-			if(response){
-				ProjectUIController.get().saveProject();
-				closeThis((Component)editor);
-				return true; 
-			}else{ 
-				return false; 
-			}				
+	private void closeMultipleEditors(List<Component> editorList) {
+		for (Component editor : editorList) {
+			if(!(editor instanceof StartEditor)){
+				closeEditor(editor);
+			}
 		}
-		closeThis((Component)editor);
-		return true;
+	}
+	
+	private List<Component> getSiblingEditors(Component c, boolean keepInputComponent) {
+		List<Component> topEditors = tabbedArea.getTopComponents();
+		List<Component> bottomEditors = tabbedArea.getBottomComponents();
+		List<Component> siblings = null;
+		
+		if(topEditors.contains(c)){
+			siblings = topEditors;
+		}
+		else if (bottomEditors.contains(c)){
+			siblings = bottomEditors;
+		}
+		else {	
+			siblings = new ArrayList<Component>();
+		}
+		
+		if(!keepInputComponent){
+			siblings.remove(c);
+		}
+		
+		return siblings;
+	}
+	
+	private void closeOclEditor(OclEditor editor){
+		closeEditor(editor, "Your rules document has been modified. Save changes?");
+	}
+	
+	private void closeOntoumlEditor(OntoumlEditor editor){
+		closeEditor(editor, "Your diagram has been modified. Save changes?");
+	}
+	
+	private void closeEditor(IEditor editor, String message) {
+		boolean confirmClose = true;
+		
+		//If the editor needs saving, ask for confirmation
+		if(editor !=null && editor.isSaveNeeded()){
+			int response = MessageUIController.get().confirm("Save", message);
+			
+			if(response==0){
+				ProjectUIController.get().saveProject();
+			}
+			if(response==1){
+				editor.setSaveNeeded(false);
+			}
+			
+			confirmClose = response==0 || response==1; 
+		}
+		
+		if(editor instanceof OntoumlEditor){
+			editor = ((OntoumlEditor) editor).getWrapper();
+		}
+		
+		if(confirmClose) {
+			closeTab((Component) editor);
+		}
+	}
+	
+	public void closeTab(Component c)	{
+		tabbedArea.closeThis(c);
 	}
 	
 	//----- remove -----

@@ -9,5 +9,7 @@ public interface IEditor extends IDisposable {
 	
 	public boolean isSaveNeeded();
 	
+	public void setSaveNeeded(boolean value);
+	
 	abstract EditorType getEditorType();
 }

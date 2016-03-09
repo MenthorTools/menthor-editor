@@ -82,18 +82,18 @@ public class MessageUIController {
 	
 	//------- CONFIRM -------
 	
-	public boolean confirm(String title, String customMessage){
+	public int confirm(String title, String customMessage){
 		return confirm(frame, title, customMessage);
 	}
 	
-	public boolean confirm(Component parent, String title, String customMessage){
-		int option = JOptionPane.showConfirmDialog(parent, 
+	public int confirm(Component parent, String title, String customMessage){
+		return JOptionPane.showConfirmDialog(parent, 
 			customMessage,
 			"Confirmation - "+title, 
 			JOptionPane.YES_NO_CANCEL_OPTION
 		);
-		if (option== JOptionPane.YES_OPTION) { return true; }
-		else return false;
+		
+		
 	}	
 	
 	//------- ERROR -------

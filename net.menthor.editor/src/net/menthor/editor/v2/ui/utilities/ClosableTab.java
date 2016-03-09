@@ -48,14 +48,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import org.eclipse.emf.edit.provider.IDisposable;
-
 import net.menthor.editor.v2.commanders.UpdateCommander;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.color.ColorMap;
 import net.menthor.editor.v2.ui.color.ColorType;
-import net.menthor.editor.v2.ui.controller.MessageUIController;
-import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.editor.IEditor;
 import net.menthor.editor.v2.ui.popupmenu.TabPopupMenu;
 
@@ -159,18 +156,7 @@ public class ClosableTab extends JPanel {
     } 
 		
 	public void closeTab(JTabbedPane tabbedpane, int index){		
-		String tabName = pane.getTitleAt(index);
-		boolean isSaveNeeded = ((IEditor) pane.getComponentAt(index)).isSaveNeeded();
-		if(isSaveNeeded){
-			boolean response = MessageUIController.get().confirm("Save", "'"+tabName+"' has been modified. Save changes?");
-			if(response) { ProjectUIController.get().saveProject(); }
-			else { return; }
-		}			
-		if(index!= -1){
-			IDisposable disposable = (IDisposable) pane.getComponentAt(index);
-			if(disposable != null) disposable.dispose();
-			pane.remove(index);
-		}
+		TabbedAreaUIController.get().closeEditor(pane.getComponentAt(index));
 	}
 	
 	/** Internal class representing the "X" button in the right side of the tab. */

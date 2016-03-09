@@ -91,6 +91,11 @@ public class OntoumlWrapper extends RoundedPanel implements IEditor{
 		
 	@Override
 	public boolean isSaveNeeded() { return diagramEditor.isSaveNeeded(); }
+	
+		@Override
+	public void setSaveNeeded(boolean value) { 
+		diagramEditor.setSaveNeeded(value); 
+	}
 
 	@Override
 	public EditorType getEditorType() { return diagramEditor.getEditorType(); }

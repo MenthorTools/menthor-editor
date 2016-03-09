@@ -954,8 +954,15 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean isSaveNeeded() { return diagram.isSaveNeeded(); }
-
+	public boolean isSaveNeeded() { 
+		return diagram.isSaveNeeded(); 
+	}
+	
+	@Override
+	public void setSaveNeeded(boolean value) { 
+		diagram.setSaveNeeded(value); 
+	}
+	
 	@Override
 	public void propagateNewTitle(String title) { diagram.setName(title); }
 	

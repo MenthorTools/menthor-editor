@@ -104,6 +104,9 @@ public class OclEditor extends TOCLEditorPanel implements IEditor {
 	public boolean isSaveNeeded() { return false; }
 	
 	@Override
+	public void setSaveNeeded(boolean value) { return; }
+	
+	@Override
 	public EditorType getEditorType() { return EditorType.OCL_EDITOR; }
 	
 	public void reloadText(){

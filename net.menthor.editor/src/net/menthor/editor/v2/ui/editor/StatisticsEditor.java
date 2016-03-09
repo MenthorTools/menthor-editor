@@ -104,7 +104,14 @@ public class StatisticsEditor extends JPanel implements IEditor {
 	}
 	
 	@Override
-	public boolean isSaveNeeded() { return false; }
+	public boolean isSaveNeeded() { 
+		return false; 
+	}
+	
+	@Override
+	public void setSaveNeeded(boolean value) { 
+		return; 
+	}
 
 	@Override
 	public EditorType getEditorType() { return EditorType.STATISTICS_EDITOR; }

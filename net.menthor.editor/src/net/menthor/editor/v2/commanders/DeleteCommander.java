@@ -43,23 +43,23 @@ public class DeleteCommander extends GenericCommander {
     public boolean confirmDeleteFromDiagram(){    	
 		return MessageUIController.get().confirm("Delete from Diagram",
 			"WARNING - Are you sure you want to delete the selected items from the diagram?\n"
-					+ "They will remain available in the project browser?");
+					+ "They will remain available in the project browser?") == 0;
 	}
     
 	public boolean confirmElementDeletion(){
 		return MessageUIController.get().confirm("Delete from Model",
 			"WARNING - Are you sure you want to delete the selected items from the model \n"
-					+ "and from all the diagrams they might appear?");
+					+ "and from all the diagrams they might appear?") == 0;
 	}
 	
 	public boolean confirmDiagramDeletion(){
 		return MessageUIController.get().confirm("Delete Diagram", 
-			"WARNING - Are you sure you want to delete this diagram?\nThis action CANNOT be undone.");
+			"WARNING - Are you sure you want to delete this diagram?\nThis action CANNOT be undone.") == 0;
 	}
 	
 	public boolean confirmOclDocDeletion(){
 		return MessageUIController.get().confirm("Delete Ocl Document", 
-			"WARNING - Are you sure you want to delete this document?\nThis action CANNOT be undone.");
+			"WARNING - Are you sure you want to delete this document?\nThis action CANNOT be undone.") == 0;
 	}
 	
 	public GeneralizationSet confirmGenSetDeletion(List<GeneralizationSet> genSets){

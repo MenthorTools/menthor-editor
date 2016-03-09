@@ -93,7 +93,14 @@ public class TextEditor extends JPanel implements IEditor {
 	public String getTextArea() { return textArea.getText(); }
 
 	@Override
-	public boolean isSaveNeeded() { return false; }
+	public boolean isSaveNeeded() { 
+		return false; 
+	}
+	
+	@Override
+	public void setSaveNeeded(boolean value) { 
+		return; 
+	}
 
 	@Override
 	public EditorType getEditorType() { return EditorType.TXT_EDITOR; }

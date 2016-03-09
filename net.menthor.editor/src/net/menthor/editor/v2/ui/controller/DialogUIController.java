@@ -22,6 +22,7 @@ package net.menthor.editor.v2.ui.controller;
  */
 
 import javax.swing.JDialog;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.draw.DiagramElement;
@@ -76,8 +77,12 @@ public class DialogUIController {
 		if(input==null)
 			return;
 		
+		if(input instanceof DefaultMutableTreeNode){
+			input = ((DefaultMutableTreeNode) input).getUserObject();
+		}
+		
 		//gets element if the call is made from the diagram or error/warning/find tables
-		if(input instanceof DiagramElement) {
+		if(input instanceof DiagramElement && !(input instanceof StructureDiagram)) {
 			input = ((DiagramElement) input).getModelObject();
 		}
 		else if (input instanceof FoundElement) {

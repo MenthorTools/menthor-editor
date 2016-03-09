@@ -66,7 +66,14 @@ public class ConsoleEditor extends RoundedPanel implements IEditor {
 	public void propagateNewTitle(String title) {}
 
 	@Override
-	public boolean isSaveNeeded() { return false; }
+	public boolean isSaveNeeded() { 
+		return false; 
+	}
+	
+	@Override
+	public void setSaveNeeded(boolean value) { 
+		return; 
+	}
 
 	@Override
 	public EditorType getEditorType() { return EditorType.CONSOLE_EDITOR; }

@@ -127,8 +127,8 @@ public class GeneralizationEditPane extends JPanel {
 	
 	@SuppressWarnings("unchecked")
 	public void newGenSet(){
-		boolean response = MessageUIController.get().confirm(GeneralizationEditPane.this, "Add", "Are you sure you want to create a new generalization set?");
-		if(response){
+		int response = MessageUIController.get().confirm(GeneralizationEditPane.this, "Add", "Are you sure you want to create a new generalization set?");
+		if(response==0){
 			PackageableElement genSet = (PackageableElement)AddCommander.get().addGeneralizationSet((RefOntoUML.Package)element.eContainer().eContainer());
 			genSet.setName("gs");
 			((GeneralizationSet)genSet).setIsCovering(true);

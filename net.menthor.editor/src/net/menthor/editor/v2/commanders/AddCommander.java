@@ -47,7 +47,7 @@ public class AddCommander extends GenericCommander {
 	private boolean confirmGenSetAddition(){
 		return MessageUIController.get().confirm("Add Generalization Set",
 			"There is already a generalization set in the selected generalizations.\nAre you sure you want to continue?"
-		);
+		)==0;
 	}
 	
 	/** Add relationship to the model. */

@@ -78,13 +78,21 @@ public class TabbedAreaUI {
     // close ------------------
     
     public void closeThis(Component c)	{
-		if(bottomPane.indexOfComponent(c)!=-1) bottomPane.closeThis(bottomPane.indexOfComponent(c));
-		if(topPane.indexOfComponent(c)!=-1) topPane.closeThis(topPane.indexOfComponent(c));
-	}
+		if(bottomPane.indexOfComponent(c)!=-1) {
+			bottomPane.closeThis(bottomPane.indexOfComponent(c));
+		}
+		if(topPane.indexOfComponent(c)!=-1) {
+			topPane.closeThis(topPane.indexOfComponent(c));
+		}
+ 	}
 	
 	public void closeOthers(Component c){
-		if(bottomPane.indexOfComponent(c)!=-1) bottomPane.closeOthers(c);
-		if(topPane.indexOfComponent(c)!=-1) topPane.closeOthers(c);
+		if(bottomPane.indexOfComponent(c)!=-1) {
+			bottomPane.closeOthers(c);
+		}
+		if(topPane.indexOfComponent(c)!=-1) {
+			topPane.closeOthers(c);
+		}
 	}
 	
 	public void closeAll(Component c){

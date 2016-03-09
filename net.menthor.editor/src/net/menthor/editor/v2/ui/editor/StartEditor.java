@@ -108,8 +108,17 @@ public class StartEditor extends BackgroundPanel implements IEditor {
 	public void dispose() { }	
 	@Override
 	public void propagateNewTitle(String title) { }
+	
 	@Override
-	public boolean isSaveNeeded() { return false; }
+	public boolean isSaveNeeded() { 
+		return false; 
+	}
+	
+	@Override
+	public void setSaveNeeded(boolean value) { 
+		return; 
+	}
+	
 	@Override
 	public EditorType getEditorType() { return EditorType.START_EDITOR; }
 	

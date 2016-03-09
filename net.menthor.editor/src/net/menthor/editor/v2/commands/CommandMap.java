@@ -268,7 +268,7 @@ public class CommandMap {
 	
 	private void tabs() throws NoSuchMethodException, SecurityException{
 		cmdMap.put(CommandType.CLOSE_THIS,
-				new MethodCall(TabbedAreaUIController.class.getMethod("closeThis", Component.class)));
+				new MethodCall(TabbedAreaUIController.class.getMethod("closeEditor", Component.class)));
 		cmdMap.put(CommandType.CLOSE_OTHER,
 				new MethodCall(TabbedAreaUIController.class.getMethod("closeOthers", Component.class)));
 		cmdMap.put(CommandType.CLOSE_ALL,
