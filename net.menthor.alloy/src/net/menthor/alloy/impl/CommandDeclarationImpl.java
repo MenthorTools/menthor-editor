@@ -470,7 +470,7 @@ public class CommandDeclarationImpl extends ParagraphImpl implements CommandDecl
 		if(isRun) 
 		{
 			GenericScope genScope = (GenericScope)scope;
-			result.append("run { } for "+genScope.getScopeSize());
+			result.append("run "+name+" { } for "+genScope.getScopeSize());
 			
 			if (genScope.getScopeable().size()>0)
 			{

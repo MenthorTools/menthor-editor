@@ -708,15 +708,16 @@ public class AlloyAPI {
 	 *	 Creates the default Run command in Alloy.
 	 *	 run { } for 10 but 3 World,7Int
 	 */
-	public static CommandDeclaration createDefaultRunComand(AlloyFactory factory, AlloyModule module) 
+	public static CommandDeclaration createDefaultRunComand(AlloyFactory factory, AlloyModule module, String commandName, int scopeSize, int worldSize) 
 	{
 		CommandDeclaration run = factory.createCommandDeclaration();
-		run.setIsRun(true);		
+		run.setIsRun(true);
+		run.setName(commandName);
 		GenericScope gs = factory.createGenericScope();		
-		gs.setScopeSize(10);		
+		gs.setScopeSize(scopeSize);		
 		Scopeable s1 = factory.createScopeable();		
 		s1.setIsExactly(false);
-		s1.setScopeSize(3);
+		s1.setScopeSize(worldSize);
 		s1.setSignature("World");
 		gs.getScopeable().add(s1);		
 		Scopeable s2 = factory.createScopeable();
