@@ -36,6 +36,7 @@ import org.tinyuml.umldraw.shared.UmlDiagramElement;
 import org.tinyuml.umldraw.shared.UmlNode;
 
 import RefOntoUML.Association;
+import RefOntoUML.Characterization;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
 import RefOntoUML.Derivation;
@@ -487,15 +488,15 @@ public class MenthorFactory {
     return (connPrototype == null) ? null : connPrototype.getConnectMethod();
   }
   
-  private boolean shouldInvert(UmlConnection conn, DiagramElement source, DiagramElement target){
+  private boolean shouldInvert(UmlConnection conn, DiagramElement sourceElement, DiagramElement targetElement){
 	  RefOntoUML.Relationship relationship = conn.getRelationship();
-	  Object srcElement = source.getModelObject(),
-			 tgtElement = target.getModelObject();
+	  Object source = sourceElement.getModelObject(),
+			 target = targetElement.getModelObject();
 	  
-	  boolean isInvertedDerivation = relationship instanceof Derivation && !(srcElement instanceof MaterialAssociation) && tgtElement instanceof MaterialAssociation,
-			  isInvertedCharacterization = relationship instanceof RefOntoUML.Characterization && !(srcElement instanceof IntrinsicMomentClass) && tgtElement instanceof IntrinsicMomentClass,
-			  isInvertedMediation = relationship instanceof Mediation && !(srcElement instanceof Relator) && tgtElement instanceof Relator,
-			  isInvertedStructuration = relationship instanceof Structuration && !(srcElement instanceof ReferenceStructure) && tgtElement instanceof ReferenceStructure;
+	  boolean isInvertedDerivation = relationship instanceof Derivation && !(source instanceof MaterialAssociation) && target instanceof MaterialAssociation,
+			  isInvertedCharacterization = relationship instanceof Characterization && !(source instanceof IntrinsicMomentClass) && target instanceof IntrinsicMomentClass,
+			  isInvertedMediation = relationship instanceof Mediation && !(source instanceof Relator) && target instanceof Relator,
+			  isInvertedStructuration = relationship instanceof Structuration && !(source instanceof ReferenceStructure) && target instanceof ReferenceStructure;
 	  
 	  return isInvertedDerivation || isInvertedCharacterization || isInvertedMediation || isInvertedStructuration;
   }
