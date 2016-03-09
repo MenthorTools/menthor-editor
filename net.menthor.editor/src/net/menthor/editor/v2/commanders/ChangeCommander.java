@@ -176,7 +176,7 @@ public class ChangeCommander {
 	}
 	
 	public void singularOnTarget(Object element){
-		changeMultiplicityOnSource(element, "1");
+		changeMultiplicityOnTarget(element, "1");
 	}
 	
 	
