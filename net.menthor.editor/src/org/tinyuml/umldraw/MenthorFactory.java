@@ -38,11 +38,16 @@ import org.tinyuml.umldraw.shared.UmlNode;
 import RefOntoUML.Association;
 import RefOntoUML.Comment;
 import RefOntoUML.Constraintx;
+import RefOntoUML.Derivation;
 import RefOntoUML.IntrinsicMomentClass;
 import RefOntoUML.MaterialAssociation;
+import RefOntoUML.Mediation;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
+import RefOntoUML.ReferenceStructure;
+import RefOntoUML.Relator;
+import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.OntoumlDiagram;
@@ -487,10 +492,10 @@ public class MenthorFactory {
 	  Object srcElement = source.getModelObject(),
 			 tgtElement = target.getModelObject();
 	  
-	  boolean isInvertedDerivation = relationship instanceof RefOntoUML.Derivation && !(srcElement instanceof MaterialAssociation) && tgtElement instanceof MaterialAssociation,
+	  boolean isInvertedDerivation = relationship instanceof Derivation && !(srcElement instanceof MaterialAssociation) && tgtElement instanceof MaterialAssociation,
 			  isInvertedCharacterization = relationship instanceof RefOntoUML.Characterization && !(srcElement instanceof IntrinsicMomentClass) && tgtElement instanceof IntrinsicMomentClass,
-			  isInvertedMediation = relationship instanceof RefOntoUML.Mediation && !(srcElement instanceof RefOntoUML.Relator) && tgtElement instanceof RefOntoUML.Relator,
-			  isInvertedStructuration = relationship instanceof RefOntoUML.Structuration && (srcElement instanceof RefOntoUML.ReferenceStructure) && srcElement instanceof RefOntoUML.Quality;
+			  isInvertedMediation = relationship instanceof Mediation && !(srcElement instanceof Relator) && tgtElement instanceof Relator,
+			  isInvertedStructuration = relationship instanceof Structuration && !(srcElement instanceof ReferenceStructure) && tgtElement instanceof ReferenceStructure;
 	  
 	  return isInvertedDerivation || isInvertedCharacterization || isInvertedMediation || isInvertedStructuration;
   }
