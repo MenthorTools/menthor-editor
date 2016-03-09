@@ -135,6 +135,7 @@ public final class GeneralizationElement extends BaseConnection {
 	public void draw(DrawingContext drawingContext) {
 		super.draw(drawingContext);
 		drawInheritanceArrow(drawingContext, calculateRotationInEndPoint2());
+		if(getGeneralization()==null || getGeneralization().getGeneralizationSet()==null) return;
 		if(getGeneralization().getGeneralizationSet().size() > 0 && showName)
 			drawNameLabel(drawingContext);
 	}

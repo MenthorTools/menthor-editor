@@ -26,6 +26,7 @@ import java.awt.geom.Dimension2D;
 import org.tinyuml.draw.AbstractCompositeNode;
 import org.tinyuml.draw.Compartment;
 import org.tinyuml.draw.Compartment.Alignment;
+import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.DrawingContext;
@@ -46,6 +47,7 @@ import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.DrawUtil;
 
 /**
  * This class represents a Class element in the editor. It is responsible for
@@ -439,7 +441,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	public void invalidate() {
 		mainCompartment.invalidate();
 		attributesCompartment.invalidate();
-		operationsCompartment.invalidate();
+		operationsCompartment.invalidate();		
 	}
 
 	/**
@@ -496,6 +498,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 		mainCompartment.removeAllLabels();
 		mainCompartment.addLabel(ontoUmlLabel);
 		mainCompartment.addLabel(mainLabel);
+		recalculateSize(DrawUtil.getDrawingContext());
 	}
 
 	public void reinitAttributesCompartment() 
@@ -506,7 +509,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 			for (Property property : aclass.getOwnedAttribute()) {
  				Label label = new SimpleLabel();				
 				label.setSource(new UmlModelElementLabelSource((StructureDiagram)getDiagram(),property));
-				attributesCompartment.addLabel(label);
+				attributesCompartment.addLabel(label);				
 			}
 		} else if(getClassifier() instanceof Enumeration) 
 		{
@@ -524,7 +527,15 @@ public final class ClassElement extends AbstractCompositeNode implements
 				label.setSource(new UmlModelElementLabelSource((StructureDiagram)getDiagram(),property));
 				attributesCompartment.addLabel(label);
 			}	
-		}		
+		}
+		recalculateSize(DrawUtil.getDrawingContext());
+		refreshConnectionsPoints();
+	}
+	
+	public void refreshConnectionsPoints(){
+		for(Connection c: getConnections()){
+			c.resetPoints();
+		}
 	}
 	
 	/**
