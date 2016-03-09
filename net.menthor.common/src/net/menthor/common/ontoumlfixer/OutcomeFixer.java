@@ -141,6 +141,7 @@ public class OutcomeFixer{
 		if (stereo.equals(RelationStereotype.SUBCOLLECTIONOF)) { rel = factory.createsubCollectionOf(); ((subCollectionOf) rel).setIsShareable(true); }
 		if (stereo.equals(RelationStereotype.COMPONENTOF)) { rel = factory.createcomponentOf(); ((componentOf) rel).setIsShareable(true); }
 		if (stereo.equals(RelationStereotype.DERIVATION)) rel = factory.createDerivation();
+		if (stereo.equals(RelationStereotype.STRUCTURATION)) rel = factory.createStructuration();
 		if (stereo.equals(RelationStereotype.ASSOCIATION)) rel = factory.createAssociation();
 		if (rel instanceof Classifier) {
 			((Classifier) rel).setName("");
