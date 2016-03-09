@@ -338,7 +338,7 @@ public class MenthorFactory {
   public UmlNode createNode(RefOntoUML.Type type, StructureDiagram container){
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  ClassType classType = ClassType.getClassEnum((RefOntoUML.Class)type);
+		  ClassType classType = ClassType.getClassType((RefOntoUML.Class)type);
 		  umlnode = (UmlNode) classPrototypes.get(classType).clone();
 	  }else{ 
 		  DataType dataType = DataType.getDataType((RefOntoUML.DataType)type);
@@ -357,7 +357,7 @@ public class MenthorFactory {
   public UmlNode createNode(RefOntoUML.Type type, EObject eContainer){
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  ClassType classType = ClassType.getClassEnum((RefOntoUML.Class)type);
+		  ClassType classType = ClassType.getClassType((RefOntoUML.Class)type);
 		  umlnode = (UmlNode) classPrototypes.get(classType).clone();
 	  }else{ 
 		  DataType dataType = DataType.getDataType((RefOntoUML.DataType)type);
@@ -383,7 +383,7 @@ public class MenthorFactory {
  
  //Creates a visual representation for a relation (on the diagram) from an existing relation on the model. Called when draging and droping from the project browser.
   public UmlConnection createVisualConnectionFromModelRelationship(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
-	    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationEnum(relationship));    
+	    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
 	    UmlConnection conn = null;
 	    if (prototype != null){
 			conn = (UmlConnection) prototype.clone();
@@ -400,7 +400,7 @@ public class MenthorFactory {
 		  
   
   public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement de1, DiagramElement de2){	
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationEnum(relationship));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
     UmlConnection conn = null;
     if (prototype != null){
 		conn = (UmlConnection) prototype.clone();

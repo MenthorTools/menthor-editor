@@ -31,6 +31,7 @@ import org.tinyuml.umldraw.OccurenceMap;
 import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Element;
+import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.operation.ActionType;
 import net.menthor.editor.v2.ui.operation.GenericOperation;
@@ -64,6 +65,12 @@ public class NotificationCommander {
 		reportStatus(op, element);		
 	}
 	
+	public void notifyChange(final GenericOperation op, Fix fix){
+		notifyDiagrams(fix.getAll());
+		UpdateCommander.get().update(fix);
+		reportStatus(op, fix.getAll());
+	}
+	
 	public void notifyChange(final GenericOperation op, final List<Element> elements){		
 		notifyDiagrams(elements);			
 		notifyApplication(op, elements);		
@@ -85,6 +92,20 @@ public class NotificationCommander {
 		notifyAdditions(op, elements); 
 		notifyDeletions(op, elements);
 		notifyModifications(op, elements);
+		notifySubstitutions(op, elements);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void notifySubstitutions(GenericOperation op, Object elements){
+		OperationType operType = getOperationType(op);		
+		if(operType.equals(OperationType.SUBSTITUTE)){
+			if(elements instanceof List<?>) {
+				UpdateCommander.get().updateFromChange((List<Element>)elements, true);
+			}
+			else {
+				UpdateCommander.get().updateFromChange((Element)elements, true);
+			}
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

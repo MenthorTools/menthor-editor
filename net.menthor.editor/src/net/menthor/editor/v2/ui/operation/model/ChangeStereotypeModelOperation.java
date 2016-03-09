@@ -7,14 +7,19 @@ import org.tinyuml.umldraw.ClassElement;
 import org.tinyuml.umldraw.OccurenceMap;
 
 import RefOntoUML.Class;
-import RefOntoUML.Classifier;
+import RefOntoUML.Element;
 import RefOntoUML.Relationship;
+
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.editor.v2.commanders.UpdateCommander;
+
 import net.menthor.editor.v2.types.ClassType;
+import net.menthor.editor.v2.types.DataType;
+import net.menthor.editor.v2.types.OntoUMLMetatype;
 import net.menthor.editor.v2.types.RelationshipType;
+
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
+
 import net.menthor.editor.v2.ui.operation.ModelOperation;
 import net.menthor.editor.v2.ui.operation.OperationType;
 
@@ -22,111 +27,104 @@ public class ChangeStereotypeModelOperation extends ModelOperation {
 
 	private static final long serialVersionUID = 7518976801833128513L;
 	
-	public enum InvertMode {ENDPOINTS, MULTIPLICITIES, TYPES, NAMES};
+	private Element element;
+	private List<DiagramElement> diagramElements;
+	private OntoUMLMetatype newType, oldType;	
+	private RefOntoUML.Package model = ProjectUIController.get().getProject().getModel();
 	
-	private Relationship relationship;
-	private Classifier _class; 
-	private RelationshipType newRelationshipType, oldRelationshipType;
-	private ClassType newClassType, oldClassType;
-	private boolean isClass;
-	
-	public ChangeStereotypeModelOperation(Relationship relationship, RelationshipType newRelationshipType){
+	public ChangeStereotypeModelOperation(){
 		super();
-		this.operationType = OperationType.MODIFY;
+		this.operationType = OperationType.SUBSTITUTE;
+	}
+	
+	public ChangeStereotypeModelOperation(RefOntoUML.Relationship element, RelationshipType newStereotype){
+		this();
+		this.element = element;
+		diagramElements = OccurenceMap.get().getDiagramElements(element);
+		this.newType = newStereotype;
+		this.oldType = RelationshipType.getRelationshipType(element);
+	}
+	
+	public ChangeStereotypeModelOperation(RefOntoUML.Classifier class_, ClassType newStereotype){
+		this();
+		this.element = class_;
+		diagramElements = OccurenceMap.get().getDiagramElements(element);
+		this.newType = newStereotype;
+		this.oldType = ClassType.getClassType(class_);
+	}
+		
+	public ChangeStereotypeModelOperation(RefOntoUML.Classifier datatype, DataType newStereotype){
+		this();
+		this.element = datatype;
+		diagramElements = OccurenceMap.get().getDiagramElements(element);
+		this.newType = newStereotype;
+		this.oldType = DataType.getDataType(datatype);
+	}
+	
+	private String undoStatus(){
+		return "[undo "+operationType.presentTense()+"] : "+element;
+	}
 
-		this.relationship = relationship;
-		this.newRelationshipType = newRelationshipType;
-		this.oldRelationshipType = RelationshipType.getRelationEnum(relationship);
-		this.isClass = false;
+	private String runStatus(){
+		return "["+operationType.pastTense()+"] : "+element;
 	}
 	
-	public ChangeStereotypeModelOperation(Classifier _class, ClassType newClassType){
-		super();
-		this.operationType = OperationType.MODIFY;
-		
-		this._class = _class;
-		this.newClassType = newClassType;
-		this.oldClassType = ClassType.getClassEnum(_class);
-		this.isClass = true;
-	}
-		
 	@Override
 	public void undo(){
 		super.undo();
-		changeStereotype();
+		Fix fix = changeStereotype();
 		System.out.println(undoStatus());
+		notifier.notifyChange(this, fix);		
 	}
 	
 	@Override
 	public void run() {	    
 		super.run();
-		changeStereotype();
+		Fix fix = changeStereotype();
 		System.out.println(runStatus());
+		notifier.notifyChange(this, fix);	
 	}
 	
-	private String undoStatus(){
-		return "[undo "+operationType.presentTense()+"] : "+relationship;
-	}
-
-	private String runStatus(){
-		return "["+operationType.pastTense()+"] : "+relationship;
-	}
-	
-	private void changeStereotype(){
-		if(isClass){
-			changeClassStereotype();
-		}
-		else{
-			changeRelationStereotype();
-		}
+	private Fix changeStereotype(){
+		Fix fix = null;
+		if(newType instanceof ClassType) fix = changeClassStereotype();
+		if(newType instanceof DataType) fix = changeDataTypeStereotype();
+		if(newType instanceof RelationshipType) fix = changeRelationshipStereotype();
+		return fix;
 	}
 	
-	/** Change relation stereotype */ 
-	private void changeRelationStereotype(){
-		
-		RelationshipType stereotype;
-		
-		if(isUndo()){
-			stereotype = oldRelationshipType;
-		}
-		else{
-			stereotype = newRelationshipType;
-		}
-		
-   		OutcomeFixer fixer = new OutcomeFixer(ProjectUIController.get().getProject().getModel());
-   		Fix fix = fixer.changeRelationStereotypeTo(relationship, fixer.getRelationshipStereotype(stereotype.getName()));
-   		relationship = fix.getAddedByType(Relationship.class).get(0);
-   		
-   		UpdateCommander.get().update(fix);
+	private Fix changeRelationshipStereotype(){		
+		RelationshipType stereotype = (RelationshipType)newType;		
+		if(isUndo()) stereotype = (RelationshipType)oldType;				
+		OutcomeFixer fixer = new OutcomeFixer(model);
+   		Fix fix = fixer.changeRelationStereotypeTo(element, fixer.getRelationshipStereotype(stereotype.getName()));
+   		element = fix.getAddedByType(Relationship.class).get(0);   		
+   		return fix;   		
    	}
 	
-	/** Change a class stereotype */ 
-	public void changeClassStereotype(){
-		ClassType stereotype;
-		
-		if(isUndo()){
-			stereotype = oldClassType;
-		}
-		else{
-			stereotype = newClassType;
-		}
-		
-		//gets existing diagram occurrences for the class subject to change
-		List<DiagramElement> diagramElements = OccurenceMap.get().getDiagramElements(_class);		
-   		
-		OutcomeFixer fixer = new OutcomeFixer(ProjectUIController.get().getProject().getModel());
-   		Fix fix = fixer.changeClassStereotypeTo(_class, fixer.getClassStereotype(stereotype.getName()));   	
-   		_class = fix.getAddedByType(Class.class).get(0);
-   		
-   		//sets the coordinates to recreate the classes on the diagrams on the same position
+	@SuppressWarnings("unused")
+	public Fix changeDataTypeStereotype(){
+		DataType stereotype = (DataType)newType;		
+		if(isUndo()) stereotype = (DataType)oldType;		
+		OutcomeFixer fixer = new OutcomeFixer(model);
+   		Fix fix = null;   		  		
+		return fix;
+	}
+		 
+	public Fix changeClassStereotype(){
+		ClassType stereotype = (ClassType)newType;		
+		if(isUndo()) stereotype = (ClassType)oldType;   		
+		OutcomeFixer fixer = new OutcomeFixer(model);
+   		Fix fix = fixer.changeClassStereotypeTo(element, fixer.getClassStereotype(stereotype.getName()));   	
+   		element = fix.getAddedByType(Class.class).get(0);   		
+   		diagramElements = OccurenceMap.get().getDiagramElements(element);   		
    		for(DiagramElement de: diagramElements){
 	   		if (de !=null && de instanceof ClassElement) {
 	   			double x = ((ClassElement)de).getAbsoluteX1();
 	   			double y = ((ClassElement)de).getAbsoluteY1();   	   		
 	   	   		fix.setAddedPosition(fix.getAdded().get(0),x,y);
 	   		}
-   		}
-   		
-   		UpdateCommander.get().update(fix);
+   		}   		
+   		return fix;
 	}
 }

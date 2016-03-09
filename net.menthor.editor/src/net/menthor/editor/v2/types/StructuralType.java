@@ -79,6 +79,11 @@ public enum StructuralType implements OntoUMLMetatype {
 	}
 
 	@Override
+	public boolean isDataType() {
+		return false;
+	}
+	
+	@Override
 	public boolean isGeneralizationSet() {
 		return this==GENERALIZATION_SET;
 	}
@@ -93,5 +98,14 @@ public enum StructuralType implements OntoUMLMetatype {
 		for(StructuralType c: StructuralType.values()){
 			System.out.println(c.name);
 		}
+	}
+
+	@Override
+	public OntoUMLMetatype getMetatype(EObject element) {		
+		if(element instanceof RefOntoUML.Package) return PACKAGE;
+		if(element instanceof RefOntoUML.Model) return MODEL;
+		if(element instanceof RefOntoUML.GeneralizationSet) return GENERALIZATION_SET;
+		if(element instanceof RefOntoUML.Property) return PROPERTY;
+		return null;
 	}
 }

@@ -112,6 +112,11 @@ public enum ClassType implements OntoUMLMetatype {
 	}
 
 	@Override
+	public boolean isDataType() {
+		return false;
+	}
+	
+	@Override
 	public boolean isPackage() {
 		return false;
 	}
@@ -122,8 +127,13 @@ public enum ClassType implements OntoUMLMetatype {
 			System.out.println(c.name);
 		}
 	}
+	
+	@Override
+	public OntoUMLMetatype getMetatype(EObject element){
+		return (OntoUMLMetatype)getClassType(element);
+	}
 
-	public static ClassType getClassEnum(EObject element) {
+	public static ClassType getClassType(EObject element) {
 		for (ClassType value : ClassType.values()) {
 			if(value!=CLASS && value.metaClass.isInstance(element))
 				return value;
@@ -131,7 +141,7 @@ public enum ClassType implements OntoUMLMetatype {
 		return CLASS;
 	}
 
-	public static ClassType getClassEnum(String value) {
+	public static ClassType getClassType(String value) {
 		for (ClassType item : ClassType.values()) {
 			if(item.getName().compareToIgnoreCase(value)==0)
 				return item;

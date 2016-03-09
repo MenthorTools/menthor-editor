@@ -21,9 +21,9 @@ public class StereotypeComboBox extends JComboBox{
 	}
 	
 	public void setSelected(RefOntoUML.Element element){
-		if(element instanceof RefOntoUML.Class) setSelectedItem(ClassType.getClassEnum(element));
+		if(element instanceof RefOntoUML.Class) setSelectedItem(ClassType.getClassType(element));
 		else if(element instanceof RefOntoUML.DataType) setSelectedItem(DataType.getDataType((RefOntoUML.DataType)element));
-		else if(element instanceof RefOntoUML.Association) setSelectedItem(RelationshipType.getRelationEnum((RefOntoUML.Association)element));
+		else if(element instanceof RefOntoUML.Association) setSelectedItem(RelationshipType.getRelationshipType((RefOntoUML.Association)element));
 		setEnabled(true);
 	}
 	

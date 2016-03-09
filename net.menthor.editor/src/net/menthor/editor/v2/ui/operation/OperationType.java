@@ -25,7 +25,8 @@ public enum OperationType {
 
 	ADD("added","add"),	 
 	ALIGN("align","aligned"),	
-	DELETE("deleted","delete"),	
+	DELETE("deleted","delete"),
+	SUBSTITUTE("substituted", "substitute"),
 	TRANSLATE("translated","translate"),
 	MODIFY("modified","modify"),
 	RENAME("renamed","rename"),

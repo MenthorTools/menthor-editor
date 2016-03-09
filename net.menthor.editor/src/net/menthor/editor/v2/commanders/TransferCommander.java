@@ -275,8 +275,8 @@ public class TransferCommander extends GenericCommander {
 		element.setIsAbstract(isAbstract);		
 		UpdateCommander.get().updateFromChange(element,false);
 		
-		ClassType newClassType = ClassType.getClassEnum(newStereotype);
-		ClassType currentClassType = ClassType.getClassEnum(element);
+		ClassType newClassType = ClassType.getClassType(newStereotype);
+		ClassType currentClassType = ClassType.getClassType(element);
 		
 		if(newClassType!=currentClassType)	{
 			ChangeCommander.get().changeClassStereotype(newClassType, element);
