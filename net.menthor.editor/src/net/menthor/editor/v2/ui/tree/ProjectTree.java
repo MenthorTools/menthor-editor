@@ -181,7 +181,7 @@ public class ProjectTree extends GenericCheckBoxTree {
 	
 	//------- Add ---------
 	
-	protected boolean shouldAdd(Object child){
+	protected boolean shouldBePresent(Object child){
 		if (child instanceof RefOntoUML.GeneralizationSet && opt.isHiddenGeneralizationSets()) return false;
 		if (child instanceof RefOntoUML.Generalization && opt.isHiddenGeneralizations()) return false;
 		if (child instanceof RefOntoUML.Comment && opt.isHiddenComments()) return false;
@@ -197,13 +197,13 @@ public class ProjectTree extends GenericCheckBoxTree {
 	}
 	@Override
 	public DefaultMutableTreeNode addChild(DefaultMutableTreeNode parent, Object child){
-		if(shouldAdd(child)) return super.addChild(parent, child);
+		if(shouldBePresent(child)) return super.addChild(parent, child);
 		else return null;
 	}
 	
 	@Override
 	public DefaultMutableTreeNode addChild(Object child){    		
-		if(shouldAdd(child)) return super.addChild(child);
+		if(shouldBePresent(child)) return super.addChild(child);
 		else return null;
     }   
 	
@@ -338,8 +338,10 @@ public class ProjectTree extends GenericCheckBoxTree {
 //			}
 //			return;
 //		}		
-		checkObject(deletedElement);		
-		removeCurrentNode();				
+    	if(shouldBePresent(deletedElement)){
+    		checkObject(deletedElement);		
+    		removeCurrentNode();
+    	}
 	}    
 
     //------- Find ---------

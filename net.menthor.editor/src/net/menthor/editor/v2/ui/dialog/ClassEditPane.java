@@ -24,7 +24,6 @@ package net.menthor.editor.v2.ui.dialog;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JCheckBox;
@@ -37,7 +36,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.MixinClass;
-import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.editor.v2.commanders.TransferCommander;
 
 public class ClassEditPane extends JPanel {
@@ -50,9 +48,8 @@ public class ClassEditPane extends JPanel {
 	private JCheckBox btnExtensional;
 	private JTextField nameField;
 	private JPanel contentPane;
-	private JLabel lblStereo;
-	@SuppressWarnings("rawtypes")
-	protected JComboBox stereoCombo;
+	private JLabel lblStereo;	
+	protected StereotypeComboBox stereoCombo;
 	protected JLabel lblName;
 	
 	@SuppressWarnings("rawtypes")
@@ -65,7 +62,7 @@ public class ClassEditPane extends JPanel {
 			nameField.getText(), 
 			btnExtensional.isSelected(), 
 			btnAbstract.isSelected(), 
-			(String) getStereotypeComboBox().getSelectedItem()
+			stereoCombo.getSelectedName()
 		);		
 	}
 	
@@ -87,11 +84,9 @@ public class ClassEditPane extends JPanel {
 		
 		nameField.setText(element.getName());		
 		btnAbstract.setSelected(element.isIsAbstract());
-		stereoCombo.setSelectedItem(OntoUMLParser.getStereotype(element).trim());
-		stereoCombo.setEnabled(true);
+		stereoCombo.setSelected(element);		
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+		
 	public ClassEditPane(RefOntoUML.Classifier element){
 		this.element = element;
 		
@@ -116,8 +111,8 @@ public class ClassEditPane extends JPanel {
 		btnAbstract = new JCheckBox("Abstract");
 		btnExtensional = new JCheckBox("Extensional");		
 		lblStereo = new JLabel("Classifier:");		
-		stereoCombo = new JComboBox();
-		stereoCombo.setModel(new DefaultComboBoxModel(OntoUMLParser.getStereotypes()));
+		
+		stereoCombo = new StereotypeComboBox(element);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
