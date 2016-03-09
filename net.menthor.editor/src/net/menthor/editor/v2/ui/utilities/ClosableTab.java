@@ -57,7 +57,7 @@ import net.menthor.editor.v2.ui.color.ColorType;
 import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.editor.IEditor;
-import net.menthor.editor.v2.ui.menu.TabPopupMenu;
+import net.menthor.editor.v2.ui.popupmenu.TabPopupMenu;
 
 public class ClosableTab extends JPanel {
 

@@ -95,7 +95,6 @@ import net.menthor.editor.v2.ui.editor.EditorType;
 import net.menthor.editor.v2.ui.editor.IEditorMode;
 import net.menthor.editor.v2.ui.generic.GenericEditor;
 import net.menthor.editor.v2.ui.generic.GenericTabbedPane;
-import net.menthor.editor.v2.ui.menu.PalettePopupMenu;
 import net.menthor.editor.v2.ui.operation.ActionStack;
 import net.menthor.editor.v2.ui.operation.IUndoableOperation;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
@@ -104,6 +103,7 @@ import net.menthor.editor.v2.ui.operation.diagram.LineStyleOperation;
 import net.menthor.editor.v2.ui.operation.diagram.RenameLabelOperation;
 import net.menthor.editor.v2.ui.operation.diagram.ResizeOperation;
 import net.menthor.editor.v2.ui.operation.diagram.TranslateOperation;
+import net.menthor.editor.v2.ui.popupmenu.PalettePopupMenu;
 import net.menthor.editor.v2.util.DrawUtil;
 
 /**
