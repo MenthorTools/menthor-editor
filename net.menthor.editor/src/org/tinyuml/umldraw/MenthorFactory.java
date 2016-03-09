@@ -43,10 +43,8 @@ import RefOntoUML.MaterialAssociation;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
-import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.types.DataType;
@@ -489,7 +487,7 @@ public class MenthorFactory {
 	  Object srcElement = source.getModelObject(),
 			 tgtElement = target.getModelObject();
 	  
-	  boolean isInvertedDerivation = relationship instanceof RefOntoUML.Derivation && srcElement instanceof MaterialAssociation && tgtElement instanceof Relator,
+	  boolean isInvertedDerivation = relationship instanceof RefOntoUML.Derivation && !(srcElement instanceof MaterialAssociation) && tgtElement instanceof MaterialAssociation,
 			  isInvertedCharacterization = relationship instanceof RefOntoUML.Characterization && !(srcElement instanceof IntrinsicMomentClass) && tgtElement instanceof IntrinsicMomentClass,
 			  isInvertedMediation = relationship instanceof RefOntoUML.Mediation && !(srcElement instanceof RefOntoUML.Relator) && tgtElement instanceof RefOntoUML.Relator,
 			  isInvertedStructuration = relationship instanceof RefOntoUML.Structuration && (srcElement instanceof RefOntoUML.ReferenceStructure) && srcElement instanceof RefOntoUML.Quality;
