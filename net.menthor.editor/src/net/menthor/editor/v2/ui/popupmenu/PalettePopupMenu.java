@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.ui.menu;
+package net.menthor.editor.v2.ui.popupmenu;
 
 /**
  * ============================================================================================
