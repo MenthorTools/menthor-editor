@@ -186,8 +186,9 @@ public class AttributeTableModel extends GenericTableModel {
 		
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
-		if(value==null)
+		if(value==null || attributes.size()<1) {
 			return;
+		}
 		
 		Property property = (Property) attributes.get(rowIndex);
 		if(columnIndex == 0) {
