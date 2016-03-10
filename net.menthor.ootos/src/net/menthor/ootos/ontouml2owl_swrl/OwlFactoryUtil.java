@@ -434,10 +434,12 @@ public class OwlFactoryUtil {
 				Iterator<OWLClassExpression> i = lstSubClassOfExpression.iterator();
 				while(i.hasNext()) {
 					OWLClassExpression ax = i.next();
-					try{
+
+					try {
 						createSubClassOf(ax.asOWLClass(), currentClass);
-					}catch(Exception e){
-						
+					}
+					catch(Exception e) {
+
 					}
 				}
 			}
