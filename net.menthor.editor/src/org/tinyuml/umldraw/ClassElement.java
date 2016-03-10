@@ -26,6 +26,7 @@ import java.awt.geom.Dimension2D;
 import org.tinyuml.draw.AbstractCompositeNode;
 import org.tinyuml.draw.Compartment;
 import org.tinyuml.draw.Compartment.Alignment;
+import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.Diagram;
 import org.tinyuml.draw.DoubleDimension;
 import org.tinyuml.draw.DrawingContext;
@@ -46,6 +47,7 @@ import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.types.RelationshipType;
+import net.menthor.editor.v2.util.DrawUtil;
 
 /**
  * This class represents a Class element in the editor. It is responsible for
@@ -66,7 +68,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	private Label mainLabel;
 	private Label ontoUmlLabel;
 	private String ontoUmlStereotype;
-	private boolean showOperations = false, showAttributes = false, showStereotypes = true;
+	private boolean showOperations = false, showAttributes = false, showStereotypes = true, showNamespace = false, showParents = false;
 	private static ClassElement prototype = new ClassElement();
 
 	/**
@@ -105,12 +107,10 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 */
 	@Override
 	public Object clone() {
-		ClassElement cloned = (ClassElement) super.clone();
+		ClassElement cloned = (ClassElement) super.clone();		
 		if (classData != null) {
-			//cloned.classData = RefOntoUMLHelper.clone(classData);
-			//cloned.classData.eAdapters().add(cloned);
-			
-			cloned.setClassifier(RefOntoUMLFactoryUtil.clone(classData));
+			RefOntoUML.Classifier classifier = RefOntoUMLFactoryUtil.clone(classData);
+			cloned.setClassifier(classifier);
 		}
 		cloned.mainLabel = (Label) mainLabel.clone();
 		cloned.mainLabel.setSource(cloned);
@@ -125,10 +125,9 @@ public final class ClassElement extends AbstractCompositeNode implements
 		cloned.attributesCompartment = (Compartment) attributesCompartment.clone();
 		cloned.attributesCompartment.setParent(cloned);
 		cloned.operationsCompartment = (Compartment) operationsCompartment.clone();
-		cloned.operationsCompartment.setParent(cloned);
-		
+		cloned.operationsCompartment.setParent(cloned);		
 		cloned.setupOntoUmlLabelSource();
-		
+		cloned.setBackgroundColor(this.getBackgroundColor());		
 		return cloned;
 	}
  
@@ -271,8 +270,13 @@ public final class ClassElement extends AbstractCompositeNode implements
 	 * @param aModelElement
 	 *            the model element
 	 */
-	public void setClassifier(Classifier classifier) {
+	
+	public void setClassData(Classifier classifier){
 		classData = classifier;
+	}
+	
+	public void setClassifier(Classifier classifier) {
+		setClassData(classifier);
 		
 		if(classifier.eResource() != null)
 			classUUID = OntoUMLParser.getUUIDFromElement(classifier);
@@ -371,7 +375,23 @@ public final class ClassElement extends AbstractCompositeNode implements
 		//mainCompartment.addLabel(mainLabel);
 		invalidate();
 	}
-
+	
+	public void setShowNamespace(boolean flag){
+		//TODO: add behaviour;
+	}
+	
+	public boolean showNamespace(){
+		return showNamespace;
+	}
+	
+	public void setShowParents(boolean flag){
+		//TODO: add behaviour;
+	}
+	
+	public boolean showParents(){
+		return showParents;
+	}
+	
 	/**
 	 * Returns the value of the showStereotypes attribute.
 	 * 
@@ -421,7 +441,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	public void invalidate() {
 		mainCompartment.invalidate();
 		attributesCompartment.invalidate();
-		operationsCompartment.invalidate();
+		operationsCompartment.invalidate();		
 	}
 
 	/**
@@ -478,6 +498,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 		mainCompartment.removeAllLabels();
 		mainCompartment.addLabel(ontoUmlLabel);
 		mainCompartment.addLabel(mainLabel);
+		recalculateSize(DrawUtil.getDrawingContext());
 	}
 
 	public void reinitAttributesCompartment() 
@@ -488,7 +509,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 			for (Property property : aclass.getOwnedAttribute()) {
  				Label label = new SimpleLabel();				
 				label.setSource(new UmlModelElementLabelSource((StructureDiagram)getDiagram(),property));
-				attributesCompartment.addLabel(label);
+				attributesCompartment.addLabel(label);				
 			}
 		} else if(getClassifier() instanceof Enumeration) 
 		{
@@ -506,7 +527,15 @@ public final class ClassElement extends AbstractCompositeNode implements
 				label.setSource(new UmlModelElementLabelSource((StructureDiagram)getDiagram(),property));
 				attributesCompartment.addLabel(label);
 			}	
-		}		
+		}
+		recalculateSize(DrawUtil.getDrawingContext());
+		refreshConnectionsPoints();
+	}
+	
+	public void refreshConnectionsPoints(){
+		for(Connection c: getConnections()){
+			c.resetPoints();
+		}
 	}
 	
 	/**
@@ -725,6 +754,11 @@ public final class ClassElement extends AbstractCompositeNode implements
 	@Override
 	public boolean isNestable() {
 		return true;
+	}
+
+	@Override
+	public Object getModelObject() {
+		return getClassifier();
 	}
 }
 

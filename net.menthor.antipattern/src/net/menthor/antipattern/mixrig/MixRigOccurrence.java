@@ -126,7 +126,7 @@ public class MixRigOccurrence extends AntipatternOccurrence {
 	
 	public void addExistingSubtypes(ArrayList<Classifier> existingSubtypes){
 		for (Classifier subtype : existingSubtypes) {
-			fix.addAll(fixer.createGeneralization(subtype, mixin));
+			fix.addAll(fixer.createGeneralizationWithFix(subtype, mixin));
 		}
 	}
 	

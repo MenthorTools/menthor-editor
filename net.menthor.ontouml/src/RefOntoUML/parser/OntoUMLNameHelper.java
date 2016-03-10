@@ -198,8 +198,10 @@ public class OntoUMLNameHelper {
 		    {
 		    	general = genset.getGeneralization().get(0).getGeneral();
 		    }
-		    result += getTypeAndName(elem, false, false) + " / "+getName(general)+" { ";		   	    
+		    
+		    result += getTypeAndName(elem, false, false);		   	    
 		    int i=1;
+		    if(genset.getGeneralization().size()>0) result += " / "+getName(general)+" { ";
 		    for(Generalization gen: genset.getGeneralization())
 		    {
 		    	if(i < genset.getGeneralization().size()) 

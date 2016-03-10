@@ -55,7 +55,7 @@ public class IntegerMeasurementRegionImpl extends BasicMeasurementRegionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IntegerMeasurementRegionImpl() {
+	public IntegerMeasurementRegionImpl() {
 		super();
 	}
 

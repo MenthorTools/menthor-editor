@@ -330,6 +330,7 @@ public class MappingElements {
 	 *
 	 */
 	public void generateAllElementNames(){
+		System.out.println("Generating all class names");
 		Set<RefOntoUML.Class> allClasses = ontoParser.getAllInstances(RefOntoUML.Class.class);
 		for (Class class1 : allClasses) {
 			generateClassName(class1);
@@ -357,11 +358,10 @@ public class MappingElements {
 		String origClassName = ontCls.getName();
 		String newName = origClassName.replaceAll(" ", "_").replaceAll("\n", "_");
 		
-		newName = refactorClassName(origClassName);
+		newName = refactorClassName(newName);
 		MappedElement mappedProperty = new MappedElement(ontCls, newName, newName, origClassName, origClassName);
 		elementByName.put(newName, mappedProperty);
 		elementByAlias.put(ontoParser.getAlias(ontCls), mappedProperty);
-		System.out.println();
 	}
 	
 	private String refactorClassName(String actualName){
@@ -379,12 +379,15 @@ public class MappingElements {
 				
 				oldMappedPElement.setGeneratedName(newName);
 				oldMappedPElement.setInvGeneratedName(newName);
-				elementByName.put(oldMappedPElement.getGeneratedName(), oldMappedPElement);				
+				elementByName.put(oldMappedPElement.getGeneratedName(), oldMappedPElement);		
+				outputMessages += "Warning: The class <"+actualName+"> with duplicated name was renamed to <"+newName+">;\n";
 			}
 			newName = actualName + i;
 			i++;
 		}		
-		
+		if(!actualName.equals(newName)){
+			outputMessages += "Warning: The class <"+actualName+"> with duplicated name was renamed to <"+newName+">;\n";
+		}
 		return newName;
 	}
 

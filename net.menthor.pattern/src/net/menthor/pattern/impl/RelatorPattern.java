@@ -94,11 +94,11 @@ public class RelatorPattern extends AbstractPattern {
 		Association derivation = null;
 
 		if(general1 != null && specific1 != null){
-			fix.addAll(outcomeFixer.createGeneralization(specific1,general1));	
+			fix.addAll(outcomeFixer.createGeneralizationWithFix(specific1,general1));	
 		}
 
 		if(general2 != null && specific2 != null){
-			fix.addAll(outcomeFixer.createGeneralization(specific2,general2));	
+			fix.addAll(outcomeFixer.createGeneralizationWithFix(specific2,general2));	
 		}
 
 		if(specific1 != null && specific2 != null){

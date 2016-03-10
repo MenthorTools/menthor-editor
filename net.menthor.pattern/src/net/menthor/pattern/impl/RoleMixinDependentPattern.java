@@ -93,22 +93,22 @@ public class RoleMixinDependentPattern extends AbstractPattern{
 		Association derivation = null;
 
 		if(sortal1 != null && role1 != null){
-			fix.addAll(outcomeFixer.createGeneralization(role1,sortal1));
+			fix.addAll(outcomeFixer.createGeneralizationWithFix(role1,sortal1));
 		}
 
 		if(sortal2 != null && role2 != null){
-			fix.addAll(outcomeFixer.createGeneralization(role2,sortal2));	
+			fix.addAll(outcomeFixer.createGeneralizationWithFix(role2,sortal2));	
 		}
 
 		if(rolemixin != null){
 			if(role1 != null){
-				_fix.addAll(outcomeFixer.createGeneralization(role1, rolemixin));
+				_fix.addAll(outcomeFixer.createGeneralizationWithFix(role1, rolemixin));
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);		
 				fix.addAll(_fix);
 			}
 			if(role2 != null){
-				_fix = outcomeFixer.createGeneralization(role2, rolemixin);
+				_fix = outcomeFixer.createGeneralizationWithFix(role2, rolemixin);
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);
 				fix.addAll(_fix);
@@ -119,7 +119,7 @@ public class RoleMixinDependentPattern extends AbstractPattern{
 		}
 
 		if(sortal3 != null && role3 != null){
-			fix.addAll(outcomeFixer.createGeneralization(role3,sortal3));	
+			fix.addAll(outcomeFixer.createGeneralizationWithFix(role3,sortal3));	
 		}
 
 		if(rolemixin != null && role3 != null){

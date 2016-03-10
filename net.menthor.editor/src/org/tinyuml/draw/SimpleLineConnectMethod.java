@@ -51,60 +51,18 @@ public final class SimpleLineConnectMethod implements LineConnectMethod {
   {
     drawingContext.drawLine(source.getX(), source.getY(), dest.getX(), dest.getY());
   }
-  
-  /** Node to Node */
-  public void generateAndSetPointsToConnection(Connection conn,  Node node1, Node node2, Point2D point1, Point2D point2) 
-  {
-    double x1 = node1.getAbsCenterX(), y1 = node1.getAbsCenterY();
-    double x2 = node2.getAbsCenterX(), y2 = node2.getAbsCenterY();
-    Line2D segment = new Line2D.Double(x1, y1, x2, y2);
-    List<Point2D> points = new ArrayList<Point2D>();
-    points.add(new Point2D.Double());
-    points.add(new Point2D.Double());
-    node1.calculateIntersection(segment, points.get(0));
-    node2.calculateIntersection(segment, points.get(points.size() - 1));
-    conn.setPoints(points);
-  }
 
-  /** Node to Connection */
-  public void generateAndSetPointsToConnection(Connection conn,  Node node1, Connection c2, Point2D point1, Point2D point2) 
-  {
-    double x1 = node1.getAbsCenterX(), y1 = node1.getAbsCenterY();
-    double x2 = c2.getAbsCenterX(), y2 = c2.getAbsCenterY();
-    Line2D segment = new Line2D.Double(x1, y1, x2, y2);
-    List<Point2D> points = new ArrayList<Point2D>();
-    points.add(new Point2D.Double());
-    points.add(new Point2D.Double());
-    node1.calculateIntersection(segment, points.get(0));
-    c2.calculateIntersection(segment, points.get(points.size() - 1));
-    conn.setPoints(points);
-  }
-
-  /** Connection to Node */
-  public void generateAndSetPointsToConnection(Connection conn, Connection c1, Node node2, Point2D source, Point2D dest) 
-  {
-	double x1 = c1.getAbsCenterX(), y1 = c1.getAbsCenterY();
-	double x2 = node2.getAbsCenterX(), y2 = node2.getAbsCenterY();
+  public void setPoints(Connection conn){
+	DiagramElement de1 = conn.getSourceDiagramElement();
+	DiagramElement de2 = conn.getTargetDiagramElement();
+	double x1 = de1.getAbsCenterX(), y1 = de1.getAbsCenterY();
+	double x2 = de2.getAbsCenterX(), y2 = de2.getAbsCenterY();
 	Line2D segment = new Line2D.Double(x1, y1, x2, y2);
 	List<Point2D> points = new ArrayList<Point2D>();
 	points.add(new Point2D.Double());
 	points.add(new Point2D.Double());
-	c1.calculateIntersection(segment, points.get(0));
-	node2.calculateIntersection(segment, points.get(points.size() - 1));
-	conn.setPoints(points);	
-  }
-  
-  /** Connection to Connection */
-  public void generateAndSetPointsToConnection(Connection conn, Connection c1, Connection c2, Point2D source, Point2D dest) 
-  {
-	double x1 = c1.getAbsCenterX(), y1 = c1.getAbsCenterY();
-	double x2 = c2.getAbsCenterX(), y2 = c2.getAbsCenterY();
-	Line2D segment = new Line2D.Double(x1, y1, x2, y2);
-	List<Point2D> points = new ArrayList<Point2D>();
-	points.add(new Point2D.Double());
-	points.add(new Point2D.Double());
-	c1.calculateIntersection(segment, points.get(0));
-	c2.calculateIntersection(segment, points.get(points.size() - 1));
+	de1.calculateIntersection(segment, points.get(0));
+	de2.calculateIntersection(segment, points.get(points.size() - 1));
 	conn.setPoints(points);	
   }	
 }

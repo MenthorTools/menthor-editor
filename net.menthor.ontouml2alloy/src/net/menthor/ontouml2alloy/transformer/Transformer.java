@@ -249,8 +249,14 @@ public class Transformer {
 		
 		populatesWithTopLevelClassDisjointness();
 		
-		CommandDeclaration cmd = AlloyAPI.createDefaultRunComand(factory, module);	
-		module.getParagraph().add(cmd);				
+		CommandDeclaration cmd = AlloyAPI.createDefaultRunComand(factory, module, "smallSingleWorld", 10, 1);
+		module.getParagraph().add(cmd);
+		cmd = AlloyAPI.createDefaultRunComand(factory, module, "smallMultipleWorlds", 10, 3);	
+		module.getParagraph().add(cmd);
+		cmd = AlloyAPI.createDefaultRunComand(factory, module, "mediumSingleWorld", 15, 1);	
+		module.getParagraph().add(cmd);
+		cmd = AlloyAPI.createDefaultRunComand(factory, module, "mediumMultipleWorlds", 10, 3);	
+		module.getParagraph().add(cmd);
 	}
 		
 	public class DeclarationComparator implements Comparator<Declaration> 

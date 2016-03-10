@@ -43,8 +43,7 @@ public class UIFontUtil {
 	}
 	
     /** Choose the appropriate Font according to the operating system */
-	public static void setDefault()
-	{
+	public static void set(){
 	   // Choose the appropriate font		
 	   int fontSize=11;
        String fontName="Tahoma";

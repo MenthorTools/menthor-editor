@@ -202,6 +202,19 @@ public class RectilinearLineBuilder {
 	}
   }
   
+  public List<Point2D> calculateSelfLineSegments(Connection sourceConnection, Connection targetConnection, Point2D source, Point2D dest) {
+	  if (sourceConnection.equals(targetConnection)){
+		  ArrayList<Point2D> points = new ArrayList<Point2D>();
+		  points.add(new Point2D.Double(sourceConnection.getAbsoluteX1()+13,sourceConnection.getAbsoluteY1()));
+		  points.add(new Point2D.Double(sourceConnection.getAbsoluteX1()+13,sourceConnection.getAbsoluteY1()-55));
+		  points.add(new Point2D.Double(sourceConnection.getAbsoluteX2()-13,sourceConnection.getAbsoluteY1()-55));
+		  points.add(new Point2D.Double(sourceConnection.getAbsoluteX2()-13,sourceConnection.getAbsoluteY1()));
+		  return points;  
+	  }else{
+		  return calculateLineSegments(sourceConnection.getAbsoluteX1(), sourceConnection.getAbsCenterY(), targetConnection.getAbsCenterX(), targetConnection.getAbsoluteY1(), Orientation.HORIZONTAL);
+	  }
+  }
+  
   public List<Point2D> calculateLineSegments(Node node1, Node node2) {	  
 	if(node1.equals(node2)) return calculateSelfLineSegments(node1, node2, node1.getOrigin(), node2.getOrigin());
 	NodeDirection direction = getNodeDirection(node1, node2);	

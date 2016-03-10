@@ -2,12 +2,12 @@ package net.menthor.antipattern.wizard;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.AntipatternOccurrence;
-
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
+
+import net.menthor.antipattern.AntipatternOccurrence;
 
 public abstract class AntipatternWizardPage<T extends AntipatternOccurrence, W extends AntipatternWizard> extends WizardPage {
 

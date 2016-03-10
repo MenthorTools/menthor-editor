@@ -59,7 +59,6 @@ import org.tinyuml.draw.DiagramElement;
 import org.tinyuml.draw.DiagramOperations;
 import org.tinyuml.draw.DrawingContext;
 import org.tinyuml.draw.DrawingContext.FontType;
-import org.tinyuml.draw.DrawingContextImpl;
 import org.tinyuml.draw.Label;
 import org.tinyuml.draw.LabelChangeListener;
 import org.tinyuml.draw.LabelSource;
@@ -68,7 +67,6 @@ import org.tinyuml.draw.NodeChangeListener;
 import org.tinyuml.draw.Selection;
 import org.tinyuml.draw.SimpleLabel;
 import org.tinyuml.umldraw.shared.BaseConnection;
-import org.tinyuml.umldraw.shared.DiagramElementFactoryImpl;
 import org.tinyuml.umldraw.shared.DiagramSelection;
 
 import RefOntoUML.Association;
@@ -86,7 +84,6 @@ import RefOntoUML.Relationship;
 import RefOntoUML.StringExpression;
 import RefOntoUML.VisibilityKind;
 import RefOntoUML.parser.OntoUMLParser;
-import net.menthor.editor.ui.ModelHelper;
 import net.menthor.editor.ui.UmlProject;
 
 /**
@@ -113,8 +110,6 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	private List<Connection> connections = new ArrayList<Connection>();
 	private Label nameLabel = new SimpleLabel();
 	private UmlProject project;
-//	private DiagramElementFactory elementFactory;
-	private DrawingContext drawingContext;	
 	private String uuidContainer = new String();
 	
 	
@@ -168,6 +163,17 @@ public class StructureDiagram extends AbstractCompositeNode implements
 		generateTheme = true;	
 	}
 	
+	public List<GeneralizationElement> getGeneralizations(List<RefOntoUML.Element> gens){
+		List<GeneralizationElement> result = new ArrayList<GeneralizationElement>();
+		for(DiagramElement dElem: getChildren()){
+			if(dElem instanceof GeneralizationElement){
+				GeneralizationElement genElem = (GeneralizationElement)dElem;
+				if(gens.contains(genElem.getRelationship())) result.add(genElem);
+			}
+		}
+		return result;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	/** Delete connections that have a null relationship. This should not happen. */
 	public void eliminateTrash(List<Connection> connections)
@@ -181,7 +187,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 				if (assocElem.getRelationship() ==null) {
 					System.err.println("Draw Exception: Association Element "+assocElem+" cannot be drawed! Cause: null relationship. ");
 					System.err.print("Fixing the problem... ");
-					if(ModelHelper.removeMapping(assocElem)) System.err.print("Association Element "+assocElem+" removed. ");
+					if(OccurenceMap.get().remove(assocElem)) System.err.print("Association Element "+assocElem+" removed. ");
 					else System.err.print("Association Element "+assocElem+" ignored. ");
 					iter.remove();
 				} 
@@ -192,7 +198,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 				if (genElem.getRelationship() ==null) {
 					System.err.println("Draw Exception: Generalization Element "+genElem+" cannot be drawed! Cause: null generalization. ");
 					System.err.print("Fixing the problem... ");
-					if(ModelHelper.removeMapping(genElem)) System.err.print("Generalization Element "+genElem+" removed. ");
+					if(OccurenceMap.get().remove(genElem)) System.err.print("Generalization Element "+genElem+" removed. ");
 					else System.err.print("Generalization Element "+genElem+" ignored. ");
 					iter.remove();
 				}
@@ -215,12 +221,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	/**
 	 * Constructor.
 	 */
-	public StructureDiagram(UmlProject project, DiagramElementFactoryImpl elementFactory, DrawingContext drawingContext) {
+	public StructureDiagram(UmlProject project) {
 		initializeNameLabel();		
 		this.project = project;	
 		this.container=project.getModel();
-		//this.elementFactory = elementFactory;
-		this.drawingContext = drawingContext;
 	}
 
 	/**
@@ -256,12 +260,7 @@ public class StructureDiagram extends AbstractCompositeNode implements
 //		elementFactory.setDiagram(this);
 //		return elementFactory;
 //	}
-	
-	public DrawingContext getDrawingContext() {
-		if(drawingContext==null) drawingContext = new DrawingContextImpl();		
-		return drawingContext;
-	}
-	
+		
 	public List<EObject> getPackageableElements()
 	{	 
    		ArrayList<EObject> elements = new ArrayList<EObject>();   		
@@ -1191,5 +1190,10 @@ public class StructureDiagram extends AbstractCompositeNode implements
 	public int compareTo(Element arg0) {
 		int value = ((StructureDiagram)arg0).getName().compareTo(this.getName());
 		if(value!=0) return -value; else return value;
+	}
+
+	@Override
+	public Object getModelObject() {
+		return null;
 	}
 }

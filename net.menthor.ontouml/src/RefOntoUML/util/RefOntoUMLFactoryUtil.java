@@ -13,7 +13,12 @@ import RefOntoUML.Characterization;
 import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
+import RefOntoUML.Comment;
+import RefOntoUML.Constraintx;
 import RefOntoUML.DataType;
+import RefOntoUML.DecimalIntervalDimension;
+import RefOntoUML.DecimalOrdinalDimension;
+import RefOntoUML.DecimalRationalDimension;
 import RefOntoUML.Derivation;
 import RefOntoUML.DirectedBinaryAssociation;
 import RefOntoUML.Enumeration;
@@ -21,10 +26,14 @@ import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.FormalAssociation;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.IntegerIntervalDimension;
+import RefOntoUML.IntegerOrdinalDimension;
+import RefOntoUML.IntegerRationalDimension;
 import RefOntoUML.Kind;
 import RefOntoUML.LiteralInteger;
 import RefOntoUML.LiteralUnlimitedNatural;
 import RefOntoUML.MaterialAssociation;
+import RefOntoUML.MeasurementDomain;
 import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Mixin;
@@ -41,6 +50,8 @@ import RefOntoUML.Relationship;
 import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
+import RefOntoUML.StringExpression;
+import RefOntoUML.StringNominalStructure;
 import RefOntoUML.Structuration;
 import RefOntoUML.SubKind;
 import RefOntoUML.Type;
@@ -58,6 +69,7 @@ import RefOntoUML.impl.GeneralizationImpl;
 import RefOntoUML.impl.MaterialAssociationImpl;
 import RefOntoUML.impl.MediationImpl;
 import RefOntoUML.impl.MeronymicImpl;
+import RefOntoUML.impl.StructurationImpl;
 
 public class RefOntoUMLFactoryUtil {
 
@@ -119,7 +131,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Association createAssociation (Classifier source, Classifier target, RefOntoUML.Package container)
 	{
 		Association assoc = factory.createAssociation();
-		addAssociationEnds(assoc, source, target);
+		createAssociationEnds(assoc, source, target);
 		if(container!=null)container.getPackagedElement().add(assoc);
 		return assoc;
 	}
@@ -128,7 +140,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Association createAssociation (Classifier source, int srcLower, int srcUpper, String name, Classifier target, int tgtLower, int tgtUpper, RefOntoUML.Package container)
 	{
 		Association assoc = factory.createAssociation();
-		List<Property> ends = addAssociationEnds(assoc, source, target);
+		List<Property> ends = createAssociationEnds(assoc, source, target);
 		setMultiplicity(ends.get(0), srcLower, srcUpper);
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);
 		if(name!=null) assoc.setName(name);
@@ -140,7 +152,8 @@ public class RefOntoUMLFactoryUtil {
 	/** Create a material association between source and target types */
 	public static MaterialAssociation createMaterialAssociation (Classifier source, Classifier target, RefOntoUML.Package container){
 		MaterialAssociation material = factory.createMaterialAssociation();
-		addAssociationEnds(material, source, target);
+		createAssociationEnds(material, source, target);
+		material.setIsDerived(true);
 		if(container!=null)container.getPackagedElement().add(material);
 		return material;
 	}
@@ -149,7 +162,7 @@ public class RefOntoUMLFactoryUtil {
 	public static MaterialAssociation createMaterialAssociation (Classifier source, int srcLower, int srcUpper, String name, Classifier target, int tgtLower, int tgtUpper, RefOntoUML.Package container)
 	{
 		MaterialAssociation material = factory.createMaterialAssociation();
-		List<Property> ends = addAssociationEnds(material, source, target);
+		List<Property> ends = createAssociationEnds(material, source, target);
 		setMultiplicity(ends.get(0), srcLower, srcUpper);
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);
 		if(name!=null) material.setName(name);
@@ -162,7 +175,7 @@ public class RefOntoUMLFactoryUtil {
 	public static FormalAssociation createFormalAssociation (Classifier source, Classifier target, RefOntoUML.Package container)
 	{
 		FormalAssociation formal = factory.createFormalAssociation();
-		addAssociationEnds(formal, source, target);
+		createAssociationEnds(formal, source, target);
 		if(container!=null)container.getPackagedElement().add(formal);
 		return formal;
 	}
@@ -171,7 +184,7 @@ public class RefOntoUMLFactoryUtil {
 	public static FormalAssociation createFormalAssociation (Classifier source, int srcLower, int srcUpper, String name, Classifier target, int tgtLower, int tgtUpper, RefOntoUML.Package container)
 	{
 		FormalAssociation formal = factory.createFormalAssociation();
-		List<Property> ends = addAssociationEnds(formal, source, target);
+		List<Property> ends = createAssociationEnds(formal, source, target);
 		setMultiplicity(ends.get(0), srcLower, srcUpper);
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);
 		if(name!=null) formal.setName(name);
@@ -184,8 +197,8 @@ public class RefOntoUMLFactoryUtil {
 	public static Mediation createMediation (Classifier source, Classifier target, RefOntoUML.Package container)
 	{
 		Mediation mediation = factory.createMediation();		
-		if(target instanceof Relator && !(source instanceof Relator)) addAssociationEnds(mediation, target, source);
-		else addAssociationEnds(mediation, source, target);		
+		if(target instanceof Relator && !(source instanceof Relator)) createAssociationEnds(mediation, target, source);
+		else createAssociationEnds(mediation, source, target);		
 		if(container!=null)container.getPackagedElement().add(mediation);
 		return mediation;
 	}
@@ -195,8 +208,8 @@ public class RefOntoUMLFactoryUtil {
 	{
 		Mediation mediation = factory.createMediation();
 		List<Property> ends = null;		
-		if(target instanceof Relator && !(source instanceof Relator)) ends = addAssociationEnds(mediation, target, source);
-		else ends = addAssociationEnds(mediation, source, target);		
+		if(target instanceof Relator && !(source instanceof Relator)) ends = createAssociationEnds(mediation, target, source);
+		else ends = createAssociationEnds(mediation, source, target);		
 		setMultiplicity(ends.get(0), srcLower, srcUpper);		
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);		
 		if(name!=null) mediation.setName(name);
@@ -205,12 +218,89 @@ public class RefOntoUMLFactoryUtil {
 		return mediation;
 	}
 	
+	public static Characterization createCharacterization (String name, RefOntoUML.Package container)
+	{
+		Characterization c = createCharacterization(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static FormalAssociation createFormalAssociation (String name, RefOntoUML.Package container)
+	{
+		FormalAssociation c = createFormalAssociation(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static MaterialAssociation createMaterialAssociation (String name, RefOntoUML.Package container)
+	{
+		MaterialAssociation c = createMaterialAssociation(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static Mediation createMediation (String name, RefOntoUML.Package container)
+	{
+		Mediation c = createMediation(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static memberOf createMemberOf (String name, RefOntoUML.Package container)
+	{
+		memberOf c = createMemberOf(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static subQuantityOf createSubQuantityOf (String name, RefOntoUML.Package container)
+	{
+		subQuantityOf c = createSubQuantityOf(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static subCollectionOf createSubCollectionOf (String name, RefOntoUML.Package container)
+	{
+		subCollectionOf c = createSubCollectionOf(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static componentOf createComponentOf (String name, RefOntoUML.Package container)
+	{
+		componentOf c = createComponentOf(null, null, container);
+		c.setName(name);
+		return c;
+	}
+		
+	public static Derivation createDerivation (String name, RefOntoUML.Package container)
+	{
+		Derivation c = createDerivation(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static Structuration createStructuration (String name, RefOntoUML.Package container)
+	{
+		Structuration c = createStructuration(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
+	public static Association createAssociation (String name, RefOntoUML.Package container)
+	{
+		Association c = createAssociation(null, null, container);
+		c.setName(name);
+		return c;
+	}
+	
 	/** Create a characterization between source and target types */
 	public static Characterization createCharacterization (Classifier source, Classifier target, RefOntoUML.Package container)
 	{
 		Characterization characterization = factory.createCharacterization();		
-		if(target instanceof Mode && !(source instanceof Mode)) addAssociationEnds(characterization, target, source);
-		else addAssociationEnds(characterization, source, target);	
+		if(target instanceof Mode && !(source instanceof Mode)) createAssociationEnds(characterization, target, source);
+		else createAssociationEnds(characterization, source, target);	
 		if(container!=null)container.getPackagedElement().add(characterization);
 		return characterization;
 	}
@@ -220,8 +310,8 @@ public class RefOntoUMLFactoryUtil {
 	{
 		Characterization characterization = factory.createCharacterization();
 		List<Property> ends = null;				
-		if(target instanceof Mode && !(source instanceof Mode)) ends = addAssociationEnds(characterization, target, source);
-		else ends = addAssociationEnds(characterization, source, target);
+		if(target instanceof Mode && !(source instanceof Mode)) ends = createAssociationEnds(characterization, target, source);
+		else ends = createAssociationEnds(characterization, source, target);
 		setMultiplicity(ends.get(0), srcLower, srcUpper);
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);	
 		if(name!=null) characterization.setName(name);
@@ -234,7 +324,8 @@ public class RefOntoUMLFactoryUtil {
 	public static componentOf createComponentOf (Classifier whole, Classifier part, RefOntoUML.Package container)
 	{
 		componentOf compOf = factory.createcomponentOf();
-		addAssociationEnds(compOf, whole, part);		
+		createAssociationEnds(compOf, whole, part);		
+		compOf.setIsShareable(true);
 		if(container!=null)container.getPackagedElement().add(compOf);
 		return compOf;
 	}
@@ -243,7 +334,7 @@ public class RefOntoUMLFactoryUtil {
 	public static componentOf createComponentOf (Classifier whole, int wholeLower, int wholeUpper, String name, Classifier part, int partLower, int partUpper, RefOntoUML.Package container)
 	{
 		componentOf compOf = factory.createcomponentOf();
-		List<Property> ends = addAssociationEnds(compOf, whole, part);		
+		List<Property> ends = createAssociationEnds(compOf, whole, part);		
 		setMultiplicity(ends.get(0), wholeLower, wholeUpper);
 		setMultiplicity(ends.get(1), partLower, partUpper);
 		if(name!=null) compOf.setName(name);
@@ -256,7 +347,8 @@ public class RefOntoUMLFactoryUtil {
 	public static memberOf createMemberOf (Classifier whole, Classifier part, RefOntoUML.Package container)
 	{
 		memberOf membOf = factory.creatememberOf();
-		addAssociationEnds(membOf, whole, part);		
+		createAssociationEnds(membOf, whole, part);
+		membOf.setIsShareable(true);
 		if(container!=null)container.getPackagedElement().add(membOf);
 		return membOf;
 	}
@@ -265,7 +357,7 @@ public class RefOntoUMLFactoryUtil {
 	public static memberOf createMemberOf (Classifier whole, int wholeLower, int wholeUpper, String name, Classifier part, int partLower, int partUpper, RefOntoUML.Package container)
 	{
 		memberOf membOf = factory.creatememberOf();
-		List<Property> ends = addAssociationEnds(membOf, whole, part);		
+		List<Property> ends = createAssociationEnds(membOf, whole, part);		
 		setMultiplicity(ends.get(0), wholeLower, wholeUpper);
 		setMultiplicity(ends.get(1), partLower, partUpper);	
 		if(name!=null) membOf.setName(name);
@@ -278,7 +370,8 @@ public class RefOntoUMLFactoryUtil {
 	public static subCollectionOf createSubCollectionOf (Classifier whole, Classifier part, RefOntoUML.Package container)
 	{
 		subCollectionOf subColl = factory.createsubCollectionOf();
-		addAssociationEnds(subColl, whole, part);
+		createAssociationEnds(subColl, whole, part);
+		subColl.setIsShareable(true);
 		if(container!=null)container.getPackagedElement().add(subColl);
 		return subColl;
 	}
@@ -287,7 +380,7 @@ public class RefOntoUMLFactoryUtil {
 	public static subCollectionOf createSubCollectionOf (Classifier whole, int wholeLower, int wholeUpper, String name, Classifier part, int partLower, int partUpper, RefOntoUML.Package container)
 	{
 		subCollectionOf subColl = factory.createsubCollectionOf();
-		List<Property> ends = addAssociationEnds(subColl, whole, part);		
+		List<Property> ends = createAssociationEnds(subColl, whole, part);		
 		setMultiplicity(ends.get(0), wholeLower, wholeUpper);
 		setMultiplicity(ends.get(1), partLower, partUpper);
 		if(name!=null) subColl.setName(name);
@@ -300,11 +393,12 @@ public class RefOntoUMLFactoryUtil {
 	public static subQuantityOf createSubQuantityOf (Classifier whole, Classifier part, RefOntoUML.Package container)
 	{
 		subQuantityOf subQuan = factory.createsubQuantityOf();
-		addAssociationEnds(subQuan, whole, part);		
+		createAssociationEnds(subQuan, whole, part);		
 		if(part instanceof Role || part instanceof Phase || part instanceof RoleMixin) subQuan.setIsEssential(false);
 		else subQuan.setIsEssential(true);		
 		subQuan.setIsImmutablePart(true);
-		subQuan.setIsInseparable(false);		
+		subQuan.setIsInseparable(false);
+		subQuan.setIsShareable(false);
 		if(container!=null)container.getPackagedElement().add(subQuan);
 		return subQuan;
 	}
@@ -313,7 +407,7 @@ public class RefOntoUMLFactoryUtil {
 	public static subQuantityOf createSubQuantityOf (Classifier whole, int wholeLower, int wholeUpper, String name, Classifier part, int partLower, int partUpper, RefOntoUML.Package container)
 	{
 		subQuantityOf subQuan = factory.createsubQuantityOf();
-		List<Property> ends = addAssociationEnds(subQuan, whole, part);		
+		List<Property> ends = createAssociationEnds(subQuan, whole, part);		
 		if(part instanceof Role || part instanceof Phase || part instanceof RoleMixin) subQuan.setIsEssential(false);
 		else subQuan.setIsEssential(true);		
 		subQuan.setIsImmutablePart(true);
@@ -330,9 +424,9 @@ public class RefOntoUMLFactoryUtil {
 	public static Derivation createDerivation (Association source, Classifier target, RefOntoUML.Package container)
 	{
 		Derivation derivation = factory.createDerivation();
-		addAssociationEnds(derivation,source,target);
+		createAssociationEnds(derivation,source,target);
 		if(container!=null)container.getPackagedElement().add(derivation);
-		source.setIsDerived(true);
+		if(source!=null) source.setIsDerived(true);
 		return derivation;
 	}
 
@@ -340,13 +434,13 @@ public class RefOntoUMLFactoryUtil {
 	public static Derivation createDerivation (Association source, int srcLower, int srcUpper, String name, Classifier target,int tgtLower, int tgtUpper, RefOntoUML.Package container)
 	{
 		Derivation derivation = factory.createDerivation();
-		List<Property> ends = addAssociationEnds(derivation,source,target);
+		List<Property> ends = createAssociationEnds(derivation,source,target);
 		setMultiplicity(ends.get(0), srcLower, srcUpper);
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);	
 		if(name!=null) derivation.setName(name);
 		else derivation.setName("");
 		if(container!=null)container.getPackagedElement().add(derivation);
-		source.setIsDerived(true);
+		if(source!=null) source.setIsDerived(true);
 		return derivation;
 	}
 
@@ -354,7 +448,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Structuration createStructuration (Classifier source, Classifier target, RefOntoUML.Package container)
 	{
 		Structuration structuration = factory.createStructuration();
-		addAssociationEnds(structuration,source,target);
+		createAssociationEnds(structuration,source,target);
 		if(container!=null)container.getPackagedElement().add(structuration);
 		return structuration;
 	}
@@ -363,7 +457,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Structuration createStructuration (Classifier source, int srcLower, int srcUpper, String name, Classifier target,int tgtLower, int tgtUpper, RefOntoUML.Package container)
 	{
 		Structuration structuration = factory.createStructuration();
-		List<Property> ends = addAssociationEnds(structuration,source,target);
+		List<Property> ends = createAssociationEnds(structuration,source,target);
 		setMultiplicity(ends.get(0), srcLower, srcUpper);
 		setMultiplicity(ends.get(1), tgtLower, tgtUpper);
 		if(name!=null) structuration.setName(name);
@@ -400,6 +494,25 @@ public class RefOntoUMLFactoryUtil {
 		else collective.setName("");
 		if(container!=null)container.getPackagedElement().add(collective);
 		return collective;
+	}
+	
+	/** Create a comment type  */
+	public static Comment createComment(String text, RefOntoUML.Classifier container)
+	{
+		Comment comment = factory.createComment();
+		if(text!=null) comment.setBody(text);
+		if(container!=null)container.getOwnedComment().add(comment);
+		return comment;
+	}
+	
+	public static Constraintx createConstraint(String name, String expression, RefOntoUML.Package container){
+		  Constraintx c = factory.createConstraintx();
+		  c.setName(name);
+		  StringExpression expr = RefOntoUMLFactoryUtil.factory.createStringExpression();
+		  expr.setSymbol(expression);
+		  c.setSpecification(expr);
+		  if(container!=null)container.getPackagedElement().add(c);
+		  return c;
 	}
 	
 	/** Create a quantity type  */
@@ -530,6 +643,78 @@ public class RefOntoUMLFactoryUtil {
 	public static PrimitiveType createPrimitiveType(String name, RefOntoUML.Package container)
 	{
 		PrimitiveType primitive = factory.createPrimitiveType();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static StringNominalStructure createStringNominalStructure(String name, RefOntoUML.Package container)
+	{
+		StringNominalStructure primitive = factory.createStringNominalStructure();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static DecimalIntervalDimension createDecimalIntervalDimension(String name, RefOntoUML.Package container)
+	{
+		DecimalIntervalDimension primitive = factory.createDecimalIntervalDimension();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static DecimalOrdinalDimension createDecimalOrdinalDimension(String name, RefOntoUML.Package container)
+	{
+		DecimalOrdinalDimension primitive = factory.createDecimalOrdinalDimension();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static DecimalRationalDimension createDecimalRationalDimension(String name, RefOntoUML.Package container)
+	{
+		DecimalRationalDimension primitive = factory.createDecimalRationalDimension();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static MeasurementDomain createMeasurementDomain(String name, RefOntoUML.Package container)
+	{
+		MeasurementDomain primitive = factory.createMeasurementDomain();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static IntegerIntervalDimension createIntegerIntervalDimension(String name, RefOntoUML.Package container)
+	{
+		IntegerIntervalDimension primitive = factory.createIntegerIntervalDimension();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static IntegerOrdinalDimension createIntegerOrdinalDimension(String name, RefOntoUML.Package container)
+	{
+		IntegerOrdinalDimension primitive = factory.createIntegerOrdinalDimension();
+		if(name!=null) primitive.setName(name);
+		else primitive.setName("");		
+		if(container!=null)container.getPackagedElement().add(primitive);
+		return primitive;
+	}
+	
+	public static IntegerRationalDimension createIntegerRationalDimension(String name, RefOntoUML.Package container)
+	{
+		IntegerRationalDimension primitive = factory.createIntegerRationalDimension();
 		if(name!=null) primitive.setName(name);
 		else primitive.setName("");		
 		if(container!=null)container.getPackagedElement().add(primitive);
@@ -667,13 +852,13 @@ public class RefOntoUMLFactoryUtil {
 	 * Characterization, mediations and derivations are read only at the target side.
 	 * Meronymics aggregation kind are shared if they are shareable, otherwise they are composite.
 	 */
-	private static List<Property> addAssociationEnds(Association association, Classifier source, Classifier target)
+	private static List<Property> createAssociationEnds(Association association, Classifier source, Classifier target)
 	{
 		List<Property> properties = addAssociationEnds(association);
 		properties.get(0).setType(source);
 		properties.get(1).setType(target);
-		if(source.getName()!=null) properties.get(0).setName(source.getName().trim().toLowerCase());
-		if(target.getName()!=null) properties.get(1).setName(target.getName().trim().toLowerCase());
+		if(source!=null && source.getName()!=null) properties.get(0).setName(source.getName().trim().toLowerCase());
+		if(target!=null && target.getName()!=null) properties.get(1).setName(target.getName().trim().toLowerCase());
 		return properties;
 	}
 	
@@ -686,39 +871,36 @@ public class RefOntoUMLFactoryUtil {
 	private static List<Property> addAssociationEnds(Association association) 
 	{
 		List<Property> properties = new ArrayList<Property>();
-		//create properties
 		Property node1Property, node2Property;
+		//multiplicity		
 		node1Property = createProperty(null, 1, 1);
 		if (association instanceof componentOf) node2Property = createProperty(null, 2, -1);
 		else node2Property = createProperty(null, 1, 1);
-		//set read only
-		if (association instanceof Mediation || association instanceof Characterization	|| association instanceof Derivation){
+		//readOnly
+		if (association instanceof Mediation || association instanceof Structuration || association instanceof Characterization	|| association instanceof Derivation){
 			node2Property.setIsReadOnly(true);
 		}
-		//set aggregation
-		if (association instanceof Meronymic) 
-		{
+		//aggregationKind
+		if (association instanceof Meronymic){
 			if (((Meronymic) association).isIsShareable()) node1Property.setAggregation(AggregationKind.SHARED);
 			else node1Property.setAggregation(AggregationKind.COMPOSITE);
 		}
-		//set name
+		//name
 		String node1Name = new String();
-		if (node1Property.getType() != null) 
-		{
+		if (node1Property.getType() != null){
 			node1Name = node1Property.getType().getName();
 			if (node1Name == null || node1Name.trim().isEmpty()) node1Name = "source";
 			else node1Name = node1Name.trim().toLowerCase();
 		}
+		node1Property.setName(node1Name);
 		String node2Name = new String();
-		if (node2Property.getType() != null) 
-		{
+		if (node2Property.getType() != null){
 			node2Name = node2Property.getType().getName();
 			if (node2Name == null || node2Name.trim().isEmpty()) node2Name = "target";
 			else node2Name = node2Name.trim().toLowerCase();
-		}
-		node1Property.setName(node1Name);
+		}		
 		node2Property.setName(node2Name);
-		//set ends
+		//ends
 		addAssociationEnds(association, node1Property, node2Property);
 		properties.add(node1Property);
 		properties.add(node2Property);
@@ -798,19 +980,24 @@ public class RefOntoUMLFactoryUtil {
 		}
 	}
 	
-	public static Classifier clone(Classifier classifier) 
-	{
-		Classifier cloned = (Classifier) factory.create(classifier.eClass());
+	public static Classifier clone(Classifier c){
+		Classifier cloned = (Classifier) factory.create(c.eClass());
+		return clone(cloned, c);
+	}
+	
+	public static Classifier clone(Classifier cloned, Classifier classifier) 
+	{		
 		cloned.setName(classifier.getName());
 		cloned.setIsAbstract(classifier.isIsAbstract());
 		cloned.setVisibility(classifier.getVisibility());		
 		if(cloned instanceof RefOntoUML.Class){
-			RefOntoUML.Class clonedClass = (RefOntoUML.Class)cloned;
+			RefOntoUML.Class clonedClass = (RefOntoUML.Class)cloned;			
 			RefOntoUML.Class classifierClass = (RefOntoUML.Class)classifier;			
 			for(Property p: classifierClass.getOwnedAttribute()){
 				RefOntoUML.Property clonedAttr = RefOntoUMLFactoryUtil.clone(p);
 				clonedClass.getOwnedAttribute().add(clonedAttr);
 			}
+			return clonedClass;
 		}
 		if(cloned instanceof RefOntoUML.DataType){
 			RefOntoUML.DataType clonedClass = (RefOntoUML.DataType)cloned;
@@ -819,7 +1006,8 @@ public class RefOntoUMLFactoryUtil {
 				RefOntoUML.Property clonedAttr = RefOntoUMLFactoryUtil.clone(p);
 				clonedClass.getOwnedAttribute().add(clonedAttr);
 			}
-		}		
+			return clonedClass;
+		}			
 		return cloned;
 	}
 		
@@ -834,19 +1022,25 @@ public class RefOntoUMLFactoryUtil {
 		upper1Cloned.setValue(property.getUpper());		
 		cloned.setLowerValue(lower1Cloned);			
 		cloned.setUpperValue(upper1Cloned);		
-		String node1Name  = new String();		
-		if(property.getType()!=null){ 
-			node1Name = property.getType().getName();	    		
-			if(node1Name==null || node1Name.trim().isEmpty()) node1Name = "";
-			else node1Name = node1Name.trim().toLowerCase();
+		String node1Name  = property.getName();		
+		if(node1Name==null || node1Name.isEmpty()){
+			if(property.getType()!=null){
+				node1Name = property.getType().getName();	    		
+				if(node1Name==null || node1Name.trim().isEmpty()) node1Name = "";
+				else node1Name = node1Name.trim().toLowerCase();
+			}
 		}
 		cloned.setName(node1Name);
 		return cloned;
 	}
 	
-	public static Relationship clone(Relationship relationship) 
-	{
-		Relationship cloned = (Relationship) factory.create(relationship.eClass());		
+	public static Relationship cloneRelationship(Relationship relationship){
+		Relationship cloned = (Relationship) factory.create(relationship.eClass());
+		return cloneRelationship(cloned, relationship);
+	}
+	
+	public static Relationship cloneRelationship(Relationship cloned, Relationship relationship) 
+	{			
 		if(cloned instanceof GeneralizationImpl){
 			Generalization generalization = (Generalization) relationship;			
 			((Generalization)cloned).getGeneralizationSet().addAll(generalization.getGeneralizationSet());
@@ -878,12 +1072,21 @@ public class RefOntoUMLFactoryUtil {
 			if(association instanceof DirectedBinaryAssociationImpl || association instanceof FormalAssociationImpl || association instanceof MaterialAssociationImpl){
 				associationCloned.getNavigableOwnedEnd().add(p1Cloned);
 				associationCloned.getNavigableOwnedEnd().add(p2Cloned);	    			
-				if(association instanceof MediationImpl || association instanceof CharacterizationImpl || association instanceof DerivationImpl) p2Cloned.setIsReadOnly(true);
+				if(association instanceof MediationImpl || association instanceof CharacterizationImpl || 
+				association instanceof DerivationImpl || association instanceof StructurationImpl) p2Cloned.setIsReadOnly(true);
 			} else {
 				if(p1Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p1Cloned);	    		
 				if(p2Cloned.getType() instanceof DataTypeImpl) associationCloned.getNavigableOwnedEnd().add(p2Cloned);
 			}	
 		}						
 		return cloned;
+	}
+
+	public static LiteralUnlimitedNatural createLiteralUnlimitedNatural() {
+		return factory.createLiteralUnlimitedNatural();	
+	}
+
+	public static LiteralInteger createLiteralInteger() {
+		return factory.createLiteralInteger();
 	}	  
 }

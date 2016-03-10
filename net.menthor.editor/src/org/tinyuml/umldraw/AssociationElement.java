@@ -30,8 +30,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.menthor.editor.v2.types.RelationshipType;
-
 import org.tinyuml.draw.CompositeNode;
 import org.tinyuml.draw.Connection;
 import org.tinyuml.draw.DrawingContext;
@@ -51,6 +49,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class implements an association connection. The association connection
@@ -138,7 +137,7 @@ public final class AssociationElement extends BaseConnection {
 		cloned.redefine2Label.setParent(redefine2Label.getParent());				
 		cloned.localNameLabel.setParent(localNameLabel.getParent());
 		cloned.typeLabel.setParent(typeLabel.getParent());
-		cloned.metapropertyLabel.setParent(metapropertyLabel.getParent());
+		cloned.metapropertyLabel.setParent(metapropertyLabel.getParent());	
 		return cloned;
 	}
 	
@@ -1179,6 +1178,7 @@ public final class AssociationElement extends BaseConnection {
 	private void positionLabel(Label label, Object endPointDiagramElement, Point2D endpoint, DrawingContext drawingContext, boolean roleLabel) 
 	{
 		Direction direction=null;
+		if(endpoint==null) return;
 		if (endPointDiagramElement instanceof Node) direction = getPointDirection((Node)endPointDiagramElement, endpoint);
 		else if (endPointDiagramElement instanceof Connection) direction = getPointDirection((Connection)endPointDiagramElement, endpoint);
 		double labelHeight = label.getSize().getHeight(); 
@@ -1286,5 +1286,4 @@ public final class AssociationElement extends BaseConnection {
 	{
 		return getRelationship().toString();
 	}
-	
 }

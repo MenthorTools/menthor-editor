@@ -1,5 +1,8 @@
 package org.tinyuml.draw;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 /**
  * Copyright 2007 Wei-ju Wu
  *
@@ -36,19 +39,25 @@ public interface DiagramElement extends Serializable, Cloneable {
    * @return the cloned object
    */
   Object clone();
-
+  Object getModelObject();
+  
   /**
    * Returns the element's bounding box in absolute coordinates.
    * @return the bounding box
    */
   Rectangle2D getAbsoluteBounds();
 
+  double getAbsCenterX(); 
+  double getAbsCenterY();
+  
   /**
    * Determines whether this allElements intersects with the specified Rectangle2D.
    * @param bounds the rectangle to check against
    * @return true if intersects, false otherwise
    */
   boolean intersects(Rectangle2D bounds);
+  boolean intersects(Line2D bounds);
+  void calculateIntersection(Line2D line, Point2D intersectionPoint);
 
   /**
    * Determines whether a point lies within this UmlShape. This method is used

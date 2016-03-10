@@ -174,11 +174,11 @@ public class OwlFactoryUtil {
 	/**
 	 * Return a OWL Classs for the ontCls
 	 * */
-	private OWLClass getOwlClass(String iri, String className){
-		return factory.getOWLClass(IRI.create(iri+className));
-	}	
 	private OWLNamedIndividual getOwlNamedIndividual(String iri, String className){
 		return factory.getOWLNamedIndividual(IRI.create(iri+className));
+	}	
+	private OWLClass getOwlClass(String iri, String className){
+		return factory.getOWLClass(IRI.create(iri+className));
 	}	
 	private OWLClass getOwlClass(RefOntoUML.NamedElement ontCls){
 		return getOwlClass(owlNameSpace, ontCls);
@@ -434,8 +434,12 @@ public class OwlFactoryUtil {
 				Iterator<OWLClassExpression> i = lstSubClassOfExpression.iterator();
 				while(i.hasNext()) {
 					OWLClassExpression ax = i.next();
-					if(!ax.isAnonymous()){					
+
+					try {
 						createSubClassOf(ax.asOWLClass(), currentClass);
+					}
+					catch(Exception e) {
+
 					}
 				}
 			}
@@ -571,6 +575,7 @@ public class OwlFactoryUtil {
 		
 		tipoAtributo = getDataTypeRange(prop, null);
 		atributo = factory.getOWLDataProperty(IRI.create(_attributeName));
+		
 		OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(atributo);
 		manager.addAxiom(ontology, declarationAxiom);
 		
@@ -604,7 +609,7 @@ public class OwlFactoryUtil {
 		}
 		lowerCard *= prop.getLower();
 
-		createCardinality(atributo, _RefOntoOwnerClass, lowerCard, upperCard);		
+		createCardinality(atributo, tipoAtributo, _RefOntoOwnerClass, lowerCard, upperCard);		
 	}
 	
 	public void createSubClassOf(Classifier general, Classifier specific) {
@@ -685,14 +690,15 @@ public class OwlFactoryUtil {
 		createDataPropertyRange(dataProperty, tipoAtributo);	
 	}
 	
-	public void createCardinality(Classifier datatype, Classifier qua, NamedElement cls, int lowerCard, int upperCard) {
+	public void createCardinality(Classifier datatype, Property mEnd, Classifier qua, NamedElement cls, int lowerCard, int upperCard) {
 		if(!owlAxioms.getValue(OWL2Axiom.CARDINALITIES)) return;
 		String dataPropName = mappingProperties.getName(new Object[]{cls, qua, datatype});
 		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(owlNameSpace+dataPropName));
-		createCardinality(dataProperty, cls, lowerCard, upperCard);
+		OWLDatatype tipoAtributo = getDataTypeRange(datatype, mEnd);
+		createCardinality(dataProperty, tipoAtributo, cls, lowerCard, upperCard);
 	}
 	
-	private void createCardinality(OWLDataProperty dataProperty, NamedElement cls, int lowerCard, int upperCard) {
+	private void createCardinality(OWLDataProperty dataProperty, OWLDatatype tipoAtributo, NamedElement cls, int lowerCard, int upperCard) {
 		if(!owlAxioms.getValue(OWL2Axiom.CARDINALITIES)) return;
 		OWLClass src = getOwlClass(cls);
 		//generate the OWL DataProperty
@@ -701,25 +707,25 @@ public class OwlFactoryUtil {
 		OWLSubClassOfAxiom sax = null; 
 		if(upperCard == lowerCard){
 			//x..x
-			OWLDataExactCardinality oecr = factory.getOWLDataExactCardinality(lowerCard, dataProperty);
+			OWLDataExactCardinality oecr = factory.getOWLDataExactCardinality(lowerCard, dataProperty, tipoAtributo);
 			ax = factory.getOWLEquivalentClassesAxiom(src, oecr);
 		}else if(upperCard == -1 && lowerCard == 1){
 			//1..*
-			OWLDatatype dataRange = factory.getOWLDatatype(OWL2Datatype.RDFS_LITERAL.getIRI());
-			OWLDataSomeValuesFrom oecr = factory.getOWLDataSomeValuesFrom(dataProperty, dataRange);
+			//OWLDatatype dataRange = factory.getOWLDatatype(OWL2Datatype.RDFS_LITERAL.getIRI());
+			OWLDataSomeValuesFrom oecr = factory.getOWLDataSomeValuesFrom(dataProperty, tipoAtributo);
 			ax = factory.getOWLEquivalentClassesAxiom(src, oecr);
 		}else if (upperCard != -1 && lowerCard == 0){
 			//0..*
-			OWLDataMaxCardinality maxcard = factory.getOWLDataMaxCardinality(upperCard, dataProperty);
+			OWLDataMaxCardinality maxcard = factory.getOWLDataMaxCardinality(upperCard, dataProperty, tipoAtributo);
 			sax = factory.getOWLSubClassOfAxiom(src, maxcard);
 		}else if(upperCard == -1 && lowerCard != 0){
 			//x..*
-			OWLDataMinCardinality mincard = factory.getOWLDataMinCardinality(lowerCard, dataProperty);
+			OWLDataMinCardinality mincard = factory.getOWLDataMinCardinality(lowerCard, dataProperty, tipoAtributo);
 			ax = factory.getOWLEquivalentClassesAxiom(src, mincard);	
 		}else if(upperCard != -1 && lowerCard > 0){
 			//x..n
-			OWLDataMaxCardinality maxcard = factory.getOWLDataMaxCardinality(upperCard, dataProperty);
-			OWLDataMinCardinality mincard = factory.getOWLDataMinCardinality(lowerCard, dataProperty);
+			OWLDataMaxCardinality maxcard = factory.getOWLDataMaxCardinality(upperCard, dataProperty, tipoAtributo);
+			OWLDataMinCardinality mincard = factory.getOWLDataMinCardinality(lowerCard, dataProperty, tipoAtributo);
 			OWLObjectIntersectionOf oio =  factory.getOWLObjectIntersectionOf(maxcard,mincard);
 			ax = factory.getOWLEquivalentClassesAxiom(src, oio);
 		}else{
@@ -1021,7 +1027,7 @@ public class OwlFactoryUtil {
 		OWLDataProperty dataProperty = null;
 		
 		String _attributeName = mappingProperties.getMappedElement(datatype).getGeneratedName();
-		dataProperty = factory.getOWLDataProperty(IRI.create(_attributeName));
+		dataProperty = factory.getOWLDataProperty(IRI.create(owlNameSpace+_attributeName));
 		
 		createLabel(datatype);
 		
@@ -1031,15 +1037,15 @@ public class OwlFactoryUtil {
 		
 		Type srcType = ass.getMemberEnd().get(0).getType();
 		
+		Property mEnd;
+		if(srcType.equals(datatype)){
+			mEnd = ass.getMemberEnd().get(0);
+		}else{
+			mEnd = ass.getMemberEnd().get(1);
+		}
+		OWLDatatype tipoAtributo = getDataTypeRange(datatype, mEnd);
 		if(owlAxioms.getValue(OWL2Axiom.RANGE)){
-			Property mEnd;
-			if(srcType.equals(datatype)){
-				mEnd = ass.getMemberEnd().get(0);
-			}else{
-				mEnd = ass.getMemberEnd().get(1);
-			}
 			//Set the Range of the DataProperty
-			OWLDatatype tipoAtributo = getDataTypeRange(datatype, mEnd);
 			createDataPropertyRange(dataProperty, tipoAtributo);			
 		}
 		
@@ -1047,7 +1053,7 @@ public class OwlFactoryUtil {
 		int upperCard = ass.getMemberEnd().get(1).getUpper();
 		int lowerCard = ass.getMemberEnd().get(1).getLower();
 		
-		createCardinality(dataProperty, srcType, lowerCard, upperCard);
+		createCardinality(dataProperty, tipoAtributo, srcType, lowerCard, upperCard);
 	}
 	
 	/**

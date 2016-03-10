@@ -85,13 +85,13 @@ public class RigidWeakSupplementation extends AbstractPattern {
 		if(type != null){
 			
 			if(complex != null){
-				_fix.addAll(outcomeFixer.createGeneralization(complex, type));
+				_fix.addAll(outcomeFixer.createGeneralizationWithFix(complex, type));
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);		
 				fix.addAll(_fix);
 			}
 			if(atomic != null){
-				_fix = outcomeFixer.createGeneralization(atomic, type);
+				_fix = outcomeFixer.createGeneralizationWithFix(atomic, type);
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);
 				fix.addAll(_fix);

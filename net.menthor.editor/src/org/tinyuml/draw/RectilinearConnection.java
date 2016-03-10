@@ -256,4 +256,15 @@ public class RectilinearConnection extends AbstractConnection {
 		if ((conn.getNode1()==null) && (conn.getNode2()!=null))
 			setPoints(RectilinearLineBuilder.getInstance().calculateLineSegments(getConnection1(), getNode2()));		
 	}
+
+	@Override
+	public void setPoints() {
+		getConnectMethod().setPoints(this);		
+	}
+
+	@Override
+	public Object getModelObject() {
+		return owner.getModelObject();
+	}
+
 }

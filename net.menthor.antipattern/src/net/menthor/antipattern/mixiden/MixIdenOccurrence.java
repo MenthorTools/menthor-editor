@@ -139,7 +139,7 @@ public class MixIdenOccurrence extends AntipatternOccurrence {
 	}
 	
 	public void changeMixinStereotype(){
-		fix.addAll(fixer.createGeneralization(mixin, identityProvider));
+		fix.addAll(fixer.createGeneralizationWithFix(mixin, identityProvider));
 		
 		if(hasAntiRigid && !hasRigid)
 				fix.addAll(fixer.changeClassStereotypeTo(mixin, ClassStereotype.ROLE));
@@ -217,7 +217,7 @@ public class MixIdenOccurrence extends AntipatternOccurrence {
 					identityProvider = sta.getIdentityProvider();
 			}
 			
-			fix.addAll(fixer.createGeneralization(subtype, identityProvider));
+			fix.addAll(fixer.createGeneralizationWithFix(subtype, identityProvider));
 			
 			
 			
@@ -232,7 +232,7 @@ public class MixIdenOccurrence extends AntipatternOccurrence {
 			Classifier newIdentityProvider = null;
 			//sortal already exists
 			if(sta.existingSortal()){
-				fix.addAll(fixer.createGeneralization(sta.getSortal(), mixin));
+				fix.addAll(fixer.createGeneralizationWithFix(sta.getSortal(), mixin));
 				newSortal = sta.getSortal();
 			} //new sortal
 			else{
@@ -274,7 +274,7 @@ public class MixIdenOccurrence extends AntipatternOccurrence {
 			}
 			
 			if(!(newSortal instanceof SubstanceSortal) && !newSortal.allParents().contains(newIdentityProvider)){
-				fix.addAll(fixer.createGeneralization(newSortal, newIdentityProvider));
+				fix.addAll(fixer.createGeneralizationWithFix(newSortal, newIdentityProvider));
 			}
 		}
 		

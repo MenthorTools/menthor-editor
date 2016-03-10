@@ -80,6 +80,9 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 
 import kodkod.engine.fol2sat.HigherOrderDeclException;
+import edu.mit.csail.sdg.alloy4.A4Preferences.BooleanPref;
+import edu.mit.csail.sdg.alloy4.A4Preferences.IntPref;
+import edu.mit.csail.sdg.alloy4.A4Preferences.StringPref;
 import edu.mit.csail.sdg.alloy4.A4Reporter;
 import edu.mit.csail.sdg.alloy4.Computer;
 import edu.mit.csail.sdg.alloy4.Err;
@@ -100,9 +103,6 @@ import edu.mit.csail.sdg.alloy4.Pos;
 import edu.mit.csail.sdg.alloy4.Runner;
 import edu.mit.csail.sdg.alloy4.Subprocess;
 import edu.mit.csail.sdg.alloy4.Util;
-import edu.mit.csail.sdg.alloy4.Util.BooleanPref;
-import edu.mit.csail.sdg.alloy4.Util.IntPref;
-import edu.mit.csail.sdg.alloy4.Util.StringPref;
 import edu.mit.csail.sdg.alloy4.Version;
 import edu.mit.csail.sdg.alloy4.WorkerEngineCustom;
 import edu.mit.csail.sdg.alloy4.WorkerEngineCustom.WorkerCallbackCustom;
@@ -678,7 +678,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
             menuItem(filemenu, "Clear Temporary Directory",                                   doClearTemp());
             menuItem(filemenu, "Quit",                      'Q', (Util.onMac() ? -1 : 'Q'), doQuit());
             boolean found = false;
-            for(Util.StringPref p: new Util.StringPref[]{ Model0, Model1, Model2, Model3 }) {
+            for(StringPref p: new StringPref[]{ Model0, Model1, Model2, Model3 }) {
                 String name = p.get();
                 if (name.length()>0) { found = true; menuItem(recentmenu, name, doOpenFile(name)); }
             }
@@ -1018,7 +1018,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
         opt.coreMinimization = CoreMinimization.get();
         opt.coreGranularity = CoreGranularity.get();
         opt.originalFilename = Util.canon(text.get().getFilename());
-        opt.solver = SatSolver.get();
+        opt.solver = SatSolver.SAT4J;//get();
         task.bundleIndex = i;
         task.bundleWarningNonFatal = WarningNonfatal.get();
         task.map = text.takeSnapshot();
@@ -1206,7 +1206,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
             optmenu.removeAll();
             menuItem(optmenu, "Welcome Message at Start Up: "+(Welcome.get() < welcomeLevel ? "Yes" : "No"), doOptWelcome());
             //
-            final SatSolver now = SatSolver.get();
+            final SatSolver now = SatSolver.SAT4J;//get();
             final JMenu sat = new JMenu("SAT Solver: "+now);
             for(SatSolver sc:satChoices) { menuItem(sat, ""+sc, doOptSolver(sc), sc==now?iconYes:iconNo); }
             optmenu.add(sat);
@@ -1304,7 +1304,7 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
 
     /** This method changes the SAT solver to the given solver. */
     private Runner doOptSolver(SatSolver solver) {
-        if (!wrap) solver.set();
+        if (!wrap) { /*solver.set();*/ }
         return wrapMe(solver);
     }
 
@@ -1982,12 +1982,12 @@ public final class SimpleGUICustom implements ComponentListener, Listener {
                 satChoices.remove(SatSolver.MiniSatJNI);
             }
             if (!loadLibrary("minisatprover")) satChoices.remove(SatSolver.MiniSatProverJNI);
-            if (!loadLibrary("zchaff"))        satChoices.remove(SatSolver.ZChaffJNI);
-            SatSolver now = SatSolver.get();
+            if (!loadLibrary("zchaff"))        satChoices.remove(SatSolver.MiniSatProverJNI);
+            SatSolver now = SatSolver.SAT4J;
             if (!satChoices.contains(now)) {
-                now=SatSolver.ZChaffJNI;
+                now=SatSolver.MiniSatJNI;
                 if (!satChoices.contains(now)) now=SatSolver.SAT4J;
-                now.set();
+                //now.set();
             }
             if (now==SatSolver.SAT4J && satChoices.size()>3 && satChoices.contains(SatSolver.CNF) && satChoices.contains(SatSolver.KK)) {
                 log.logBold("Warning: Alloy4 defaults to SAT4J since it is pure Java and very reliable.\n");

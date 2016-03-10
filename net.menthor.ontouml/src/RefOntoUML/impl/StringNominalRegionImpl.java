@@ -64,7 +64,7 @@ public class StringNominalRegionImpl extends NominalRegionImpl implements String
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected StringNominalRegionImpl() {
+	public StringNominalRegionImpl() {
 		super();
 	}
 

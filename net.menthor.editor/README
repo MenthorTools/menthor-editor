@@ -21,7 +21,7 @@ Step 1. Import Menthor's source code into your machine/Eclipse
 Step 2. Configure SWT according to your OS
 
 Each OS will require a different version of the SWT library. 
-You'll need to set an variable to poitn to the version of SWT that matches with your operating system.
+You'll need to set a variable to point to the version of SWT that matches with your operating system.
 
 2.1 Open Eclipse>Preferences..
 2.2 Select Java>Build Path>Classpath Variables
@@ -34,7 +34,7 @@ Step 3. Running Menthor
 
 If your're using Mac you need to disable the "XstartOnFirstThread" option.
 
-3.1 Go to Main.java file and Right Click -> Run As -> Run Configurations -> Arguments Tab
+3.1 Go to net.menthor.editor.ui.MenthorEditor.java file and Right Click -> Run As -> Run Configurations -> Arguments Tab
 3.2 Click and disable the checkbox "XstartOnFirstThread".
 3.3 For MacOS, add -Xdock:name="Menthor Editor" to the VM arguments
 3.4 To run the application go to Main.java -> Right Click -> Run As -> Java Application
@@ -43,15 +43,15 @@ If your're using Mac you need to disable the "XstartOnFirstThread" option.
 How to generate Executable JAR
 ==============================================================
 
-1. Change the attribute MENTHOR_VERSION in Main.java to point to the version you're building.
+1. Change the attribute MENTHOR_VERSION in MenthorEditor.java to point to the version you're building.
    Ex: String MENTHOR_VERSION = "0.9.32";
    See more instructions commented in that attribute
 
-2. Change the attribute USE_LOG_FILE in Main.java to tell whether or not you're going to use the log file.
+2. Change the attribute USE_LOG_FILE in MenthorEditor.java to tell whether or not you're going to use the log file.
    In this case, change the attribute to true.
    ex: boolean USE_LOG_FILE = true;
    
-3. Right click on Main.java, go to Export -> Runnable Jar.
+3. Right click on MenthorEditor.java, go to Export -> Runnable Jar.
    Rename the jar to "menthor-"+MENTHOR_VERSION".jar, where MENTHOR_VERSION is your build version.
 
 4. 	Select Library handling at the checkbox: "Package required libraries into generated JAR"

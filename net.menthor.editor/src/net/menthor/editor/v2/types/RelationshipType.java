@@ -1,5 +1,21 @@
 package net.menthor.editor.v2.types;
 
+import org.eclipse.emf.ecore.EObject;
+
+import RefOntoUML.Association;
+import RefOntoUML.Characterization;
+import RefOntoUML.Derivation;
+import RefOntoUML.FormalAssociation;
+import RefOntoUML.Generalization;
+import RefOntoUML.MaterialAssociation;
+import RefOntoUML.Mediation;
+import RefOntoUML.Structuration;
+import RefOntoUML.componentOf;
+import RefOntoUML.memberOf;
+import RefOntoUML.subCollectionOf;
+import RefOntoUML.subQuantityOf;
+
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -21,40 +37,104 @@ package net.menthor.editor.v2.types;
  * ============================================================================================
  */
 
-public enum RelationshipType {
-
-	ASSOCIATION("Association"), 
-	GENERALIZATION("Generalization"), 
-	GENERALIZATIONSET("GeneralizationSet"),
-	CHARACTERIZATION("Characterization"), 
-	MEDIATION("Mediation"), 
-	DERIVATION("Derivation"), 
-	STRUCTURATION("Structuration"), 
-	FORMAL("Formal"), 
-	MATERIAL("Material"), 
-	COMPONENTOF("ComponentOf"), 
-	MEMBEROF("MemberOf"), 
-	SUBCOLLECTIONOF("SubCollectionOf"), 
-	SUBQUANTITYOF("SubQuantityOf"),
-	SUBEVENTOF("SubEventOf"), 
-	PARTICIPATION("Participation"), 
-	TEMPORAL("Temporal"),
-	INSTANCEOF("InstanceOf");
+public enum RelationshipType implements OntoUMLMetatype{
 	
+	ASSOCIATION("Association", Association.class), 
+	CHARACTERIZATION("Characterization", Characterization.class), 
+	MEDIATION("Mediation", Mediation.class), 
+	DERIVATION("Derivation", Derivation.class), 
+	STRUCTURATION("Structuration", Structuration.class), 
+	FORMAL("Formal", FormalAssociation.class), 
+	MATERIAL("Material", MaterialAssociation.class), 
+	COMPONENTOF("ComponentOf", componentOf.class), 
+	MEMBEROF("MemberOf", memberOf.class), 
+	SUBCOLLECTIONOF("SubCollectionOf", subCollectionOf.class), 
+	SUBQUANTITYOF("SubQuantityOf", subQuantityOf.class),
+	GENERALIZATION("Generalization", Generalization.class); 
+	
+//  TODO: Associations to be added
+//	SUBEVENTOF("SubEventOf", null), 
+//	PARTICIPATION("Participation", null), 
+//	TEMPORAL("Temporal", null),
+//	INSTANCEOF("InstanceOf", null),
+		
 	private String name;
+	private Class<? extends EObject> metaClass;
 
-	RelationshipType(String name)
+	RelationshipType(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
+		this.metaClass = metaClass;
 	}
 
 	@Override
-	public String toString() {
-		return getName();
+	public String toString() { 
+		return getName(); 
+	}
+	
+	@Override
+	public Class<? extends EObject> getMetaclass(){ 
+		return metaClass; 
+	}
+	
+	@Override
+	public String getName() { 
+		return name; 
 	}
 
-	public String getName() { return name; }
+	public boolean isAssociation(){
+		if(this==GENERALIZATION)
+			return false;
+		return true;
+	}
+	
+	public boolean isMeronymic(){
+		if(!this.isAssociation())
+			return false;
+		
+		if(this==COMPONENTOF || this==MEMBEROF ||this==SUBCOLLECTIONOF ||this==SUBQUANTITYOF)
+			return true;
+		
+		return false;
+	}
+	
+	public boolean isGeneralization(){
+		return this==GENERALIZATION;
+	}
 
+	@Override
+	public boolean isClass() {
+		return false;
+	}
+
+	@Override
+	public boolean isGeneralizationSet() {
+		return false;
+	}
+
+	@Override
+	public boolean isPackage() {
+		return false;
+	}
+	
+	@Override
+	public boolean isDataType(){
+		return false;
+	}
+	
+	@Override
+	public OntoUMLMetatype getMetatype(EObject relationship){
+		return (OntoUMLMetatype)getRelationshipType(relationship);
+	}
+	
+	public static RelationshipType getRelationshipType(EObject relationship) {
+		for (RelationshipType value : RelationshipType.values()) {
+			if(value!=ASSOCIATION && value.metaClass.isInstance(relationship))
+				return value;
+		}
+		return ASSOCIATION;
+	}
+	
 	public static void main (String args[])
 	{
 		for(RelationshipType c: RelationshipType.values()){

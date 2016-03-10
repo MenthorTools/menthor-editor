@@ -94,7 +94,7 @@ public class FixDialog<T extends MeronymicItem> extends JDialog {
 		separator_1 = new JSeparator();
 		
 		helpButton = new JButton("Help");
-		helpButton.setIcon(new ImageIcon(FixDialog.class.getResource("/br/ufes/inf/nemo/meronymic_validation/resources/help.png")));
+		helpButton.setIcon(new ImageIcon(FixDialog.class.getResource("/net/menthor/validator/meronymic/resources/help.png")));
 		
 		nextButton = new JButton("Next >");
 		nextButton.addActionListener(nextListener);

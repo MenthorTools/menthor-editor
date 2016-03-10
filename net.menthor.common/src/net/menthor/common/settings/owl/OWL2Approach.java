@@ -45,9 +45,9 @@ public enum OWL2Approach {
 	WORM_VIEW_A2("Worm View 2","Dynamic scenario where the individual's necessary and immutable properties are "
 	+ "represented (those that exists while the individual exist). In this transformation, "
 	+ "relations that imply in unilateral existential depedency are interpreted as valid "
-	+ "only during the dependee existence."),
+	+ "only during the dependee existence.");//,
 	
-	UFO_RDF("UFO/RDF","Should be more of a description here...");		
+	//UFO_RDF("UFO/RDF","Should be more of a description here...");		
 	
 	private String description;
 	private String name;
@@ -68,7 +68,7 @@ public enum OWL2Approach {
 		if(WORM_VIEW_A0.getName().compareToIgnoreCase(name)==0) return WORM_VIEW_A0;
 		if(WORM_VIEW_A1.getName().compareToIgnoreCase(name)==0) return WORM_VIEW_A1;
 		if(WORM_VIEW_A2.getName().compareToIgnoreCase(name)==0) return WORM_VIEW_A2;
-		if(UFO_RDF.getName().compareToIgnoreCase(name)==0) return UFO_RDF;
+		//if(UFO_RDF.getName().compareToIgnoreCase(name)==0) return UFO_RDF;
 		return null;
 	}
 	

@@ -86,4 +86,9 @@ public final class NullElement extends AbstractNode implements DiagramElement {
 	public Diagram getDiagram() {
 		return null;
 	}
+
+	@Override
+	public Object getModelObject() {
+		return null;
+	}
 }

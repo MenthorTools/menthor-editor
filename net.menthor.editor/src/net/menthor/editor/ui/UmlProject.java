@@ -23,7 +23,6 @@ package net.menthor.editor.ui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -31,7 +30,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.tinyuml.draw.DiagramElement;
+import org.tinyuml.umldraw.StructureDiagram;
 
 import RefOntoUML.Association;
 import RefOntoUML.Class;
@@ -39,82 +38,133 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.impl.GeneralizationSetImpl;
+import RefOntoUML.parser.OntoUMLParser;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
+import net.menthor.antipattern.AntiPatternList;
+import net.menthor.editor.v2.MenthorDomain;
+import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.util.Directories;
-import net.menthor.editor.v2.util.RefOntoUMLEditingDomain;
+import net.menthor.editor.v2.ui.MenthorEditor;
+import net.menthor.editor.v2.util.DirectoryUtil;
 
-/**
- * Class responsable for holding the model instance and its diagrams
- * @author Antognoni Albuquerque
- */
+/** The UmlProject is serialized to a binary file in order to store the diagrams and its graphics allElements. */
 public class UmlProject implements Serializable {
-
-	//The UmlProject is serialized to a binary file in order to store the diagrams and its graphics allElements.
-	//The model (contained in a resource) is serialized separately, by its own means so here it is transient.
-	//All the model operations like adding, removing or changing allElements are done through a editing domain
-	//which provides some useful features, like redo/undo, clipboard etc.
+		
+	private static final long serialVersionUID = 1L;	
 	
-	private static final long serialVersionUID = -2356413039446009810L;	
-	private transient Resource resource;
-	private transient boolean saveNeeded = false;
-	public static transient String tempDir;
-	public static transient String binDir;
-	private List<OntoumlDiagram> diagrams = new ArrayList<OntoumlDiagram>();
-	private ArrayList<Integer> openedDiagrams = new ArrayList<Integer>();
-	private Properties properties;
-	private  Collection<DiagramElement> exclusionDerivationList= new HashSet<DiagramElement>();
-	
-	public Collection<DiagramElement> getExclusionDerivationList() {
-		return exclusionDerivationList;
-	}
-
-	public void setExclusionDerivationList(
-			Collection<DiagramElement> exclusionDerivationList) {
-		this.exclusionDerivationList.addAll(exclusionDerivationList);
-	}
-
+	/** name and version */
 	private String name = new String();	
 	private String version = new String();
+	
+	private transient OntoUMLParser refparser;
+	
+	private transient AntiPatternList antipatterns;	
+	public AntiPatternList getAntipatterns() { return antipatterns; }
+	public void setAntipatterns(AntiPatternList antipatterns) { this.antipatterns = antipatterns; }
+	
+	private transient List<OclDocument> oclDocList = new ArrayList<OclDocument>();
+	public List<OclDocument> getOclDocList() { return oclDocList; }
+	public void setOclDocList(List<OclDocument> oclDocList) { this.oclDocList = oclDocList; }
+	public void clearOclDocs(){ this.getOclDocList().clear(); }
+	public List<String> getOclDocumentNames(){
+		List<String> result = new ArrayList<String>();
+		for(OclDocument d: oclDocList){
+			result.add(d.getName());			
+		}
+		return result;
+	}
+	
+	/** is save needed */
+	private transient boolean saveNeeded = false;
+	
+	/** The model (contained in a resource) is serialized separately, 
+	 *  by its own means so here it is transient. */
+	private transient Resource resource;
+	
+	private List<OntoumlDiagram> diagrams = new ArrayList<OntoumlDiagram>();
+	private ArrayList<Integer> openedDiagrams = new ArrayList<Integer>();
+	
+	/** The settings */
+	private Properties properties;
+	
+	public static transient String tempDir;
+	public static transient String binDir;	
+	
+	public String getVersion() { return version; }	
+	public String getName () { return name; }	
+	public void setVersion(String version) { this.version = version; }	
+	public void setName (String name) { this.name = name; }	
+	public int getVersionAsInt() { return Integer.parseInt(version.replaceAll("[.]", "")); }
+	public void addDiagram(OntoumlDiagram diagram) { diagrams.add(diagram); }		
+	public List<OntoumlDiagram> getDiagrams() { return diagrams; }
+	public RefOntoUML.Package getModel() { return (RefOntoUML.Package) resource.getContents().get(0); }
+	public void setSaveModelNeeded(boolean saveNeeded) { this.saveNeeded = saveNeeded; }
+	public boolean isSaveModelNeeded() { return saveNeeded; }
+	public Properties getProperties() { return properties; }
+	public void setProperties(Properties properties) { this.properties = properties; }
+	public ArrayList<Integer> getOpenedDiagrams() { return openedDiagrams; }
+	public void setResource(Resource resource) { this.resource = resource; }	
+	public boolean contains(PackageableElement element) { return getModel().getPackagedElement().contains(element); }
+	public Resource getResource() { return resource; }
+	public EList<PackageableElement> getElements() { return getModel().getPackagedElement();}
+	
+	@Override
+	public String toString() { return "Menthor Project"; }
+	
+	public UmlProject(RefOntoUML.Package model) {
+		super();
+		properties = new Properties();		
+		resource = MenthorDomain.get().createResource();
+		resource.getContents().add(model);		
+		MenthorDomain.get().createDomain();
+		name = "New Project";
+		version = MenthorEditor.MENTHOR_VERSION;
+		refparser = new OntoUMLParser(model);
+		oclDocList = new ArrayList<OclDocument>();
+	}
 	
 	public UmlProject() {
 		super();
 		properties = new Properties();
-		resource = RefOntoUMLEditingDomain.getInstance().createResource();
-		version = MenthorEditor.MENTHOR_VERSION;
-		RefOntoUML.Package model = RefOntoUMLFactoryUtil.factory.createModel();
-		if(model.getName()==null || model.getName()=="") model.setName("Model");
-		resource.getContents().add(model);		
-		RefOntoUMLEditingDomain.getInstance().createDomain();
+		resource = MenthorDomain.get().createResource();		
+		RefOntoUML.Package model = createAndAddRootModel();		
+		MenthorDomain.get().createDomain();
 		name = "New Project";		
+		version = MenthorEditor.MENTHOR_VERSION;
+		refparser = new OntoUMLParser(model);
+		oclDocList = new ArrayList<OclDocument>();
+	}
+	
+	private RefOntoUML.Package createAndAddRootModel() {
+		RefOntoUML.Package model = RefOntoUMLFactoryUtil.factory.createModel();
+		model.setName("Model");
+		resource.getContents().add(model);
+		return model;
+	}
+	
+	public OntoUMLParser getRefParser(){ 
+		if(refparser==null && getModel()!=null) refparser = new OntoUMLParser(getModel());
+		return refparser; 
+	}
+	
+	public void saveAllDiagramNeeded(boolean value){
+		for(OntoumlDiagram d: getDiagrams()) {
+			((StructureDiagram)d).setSaveNeeded(value);
+		}
+		setSaveModelNeeded(value);
 	}
 
-	public String getVersion() {
-		return version;
+	public void saveDiagramNeeded(StructureDiagram diagram, boolean value){
+		diagram.setSaveNeeded(value);
+		setSaveModelNeeded(value);
 	}
 	
-	public void setVersion(String version)
-	{
-		this.version = version;
-	}
-	public int getVersionAsInt()
-	{		
-		return Integer.parseInt(version.replaceAll("[.]", ""));
-	}
-	
-	public void clearOpenedDiagrams()
-	{
+	public void clearOpenedDiagrams(){
 		if(openedDiagrams!=null) openedDiagrams.clear();
 		else openedDiagrams = new ArrayList<Integer>();
 	}
 	
-	public ArrayList<Integer> getOpenedDiagrams()
-	{
-		return openedDiagrams;
-	}
-	
-	public void saveAsOpened(OntoumlDiagram diagram)
-	{
+	public void saveAsOpened(OntoumlDiagram diagram){
 		int index = diagrams.indexOf(diagram);
 		if(index>=0) {
 			if(openedDiagrams!=null){
@@ -123,8 +173,7 @@ public class UmlProject implements Serializable {
 		}
 	}
 	
-	public boolean isAllClosed()
-	{
+	public boolean isAllClosed(){
 		boolean allClosed = true;
 		if (openedDiagrams!=null){
 			for(OntoumlDiagram diagram: diagrams)
@@ -133,118 +182,12 @@ public class UmlProject implements Serializable {
 		return allClosed;
 	}
 
-	public boolean isOpened(OntoumlDiagram diagram)
-	{
+	public boolean isOpened(OntoumlDiagram diagram){
 		if (openedDiagrams!=null){
 			return openedDiagrams.contains(diagrams.indexOf(diagram));
 		}
 		return false;
 	}
-	
-	public UmlProject(RefOntoUML.Package model) {
-		super();
-		properties = new Properties();
-		resource = RefOntoUMLEditingDomain.getInstance().createResource();
-		resource.getContents().add(model);		
-		RefOntoUMLEditingDomain.getInstance().createDomain();
-		name = "New Project";
-	}
-	
-	public void addDiagram(OntoumlDiagram diagram) {
-		diagrams.add(diagram);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "Menthor Project";
-	}
-	
-	public void setName (String name)
-	{
-		this.name = name;
-	}
-	
-	public String getName ()
-	{
-		return name;
-	}
-	
-	public List<OntoumlDiagram> getDiagrams() {
-		return diagrams;
-	}
-
-	public RefOntoUML.Package getModel() {
-		return (RefOntoUML.Package) resource.getContents().get(0);
-	}
-
-	//CLEANUP
-	/*public void addElement(Element element) {	
-		AddCommand cmd = new AddCommand(getEditingDomain(), getModel().getPackagedElement(), element);
-		getEditingDomain().getCommandStack().execute(cmd);
-	}
-
-	public void removeElement(Element element) {		
-		//RemoveCommand cmd = new RemoveCommand(getEditingDomain(), getModel().getPackagedElement(), element);
-		//getEditingDomain().getCommandStack().execute(cmd);
-		
-		//EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(resource);
-		
-		//EditingDomain editingDomain = getEditingDomain();
-		
-		//DeleteCommand cmd = (DeleteCommand) DeleteCommand.create(editingDomain, element);
-		//editingDomain.getCommandStack().execute(cmd);
-	}
-
-	public void changeElement(ChangeDescription changeDescription) {
-		//model.getPackagedElement().remove(element);
-		ChangeCommand cmd = new ChangeCommand(recorder) {
-			
-			@Override
-			protected void doExecute() {
-				// End the change recording.
-				ChangeDescription changeDescription = changeRecorder.endRecording();
-				
-				// Add the result to our resouce.
-				resource.getContents().add(changeDescription);
-				
-				//this.run();
-				
-			}
-		};
-		getEditingDomain().getCommandStack().execute(cmd);
-		
-		// Add the result to our resouce.
-		resource.getContents().add(changeDescription);
-	}
-	
-	
-	 //Executes the command.
-	 
-	public void run() {
-		EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(eObject);
-		if (domain != null) {
-			domain.getCommandStack().execute(this);
-		}
-	}
-	 */
-	
-	public void setResource(Resource resource) {
-		this.resource = resource;
-	}
-	
-	public boolean contains(PackageableElement element) {
-		return getModel().getPackagedElement().contains(element);
-	}
-
-	public Resource getResource() {
-		return resource;
-	}
-
-	public EList<PackageableElement> getElements() {
-		return getModel().getPackagedElement();
-	}
-
 	
 	public Set<RefOntoUML.Class> getClasses() {
 		Set<RefOntoUML.Class> classes = new HashSet<RefOntoUML.Class>();
@@ -286,40 +229,33 @@ public class UmlProject implements Serializable {
 		}
 		return associations;
 	}
-
-	public void setSaveModelNeeded(boolean saveNeeded) {
-		this.saveNeeded = saveNeeded;		
-	}
-
-	public boolean isSaveModelNeeded() {
-		return saveNeeded;
-	}
-
-	public Properties getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Properties properties) {
-		this.properties = properties;
-	}
 	
 	public String getTempDir(){
-		if(tempDir == null) tempDir = Directories.makeTempDir();		
+		if(tempDir == null) tempDir = DirectoryUtil.makeTempDir();		
 		return tempDir;
 	}
 
 	public String getBinDir(){
-		if(binDir == null) binDir = Directories.makeBinDir();		
+		if(binDir == null) binDir = DirectoryUtil.makeBinDir();		
 		return binDir;
 	}
 	
 	public static String createTempDir(){
-		if(tempDir == null) tempDir = Directories.makeTempDir();		
+		if(tempDir == null) tempDir = DirectoryUtil.makeTempDir();		
 		return tempDir;
 	}
 	
 	public static String createBinDir(){
-		if(binDir == null) binDir = Directories.makeBinDir();		
+		if(binDir == null) binDir = DirectoryUtil.makeBinDir();		
 		return binDir;
+	}
+	
+
+	public List<String> getDiagramNames(){
+		List<String> result = new ArrayList<String>();
+		for(OntoumlDiagram d: getDiagrams()){
+			result.add(d.getName());			
+		}
+		return result;
 	}
 }

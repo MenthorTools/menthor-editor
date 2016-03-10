@@ -3,12 +3,12 @@ package net.menthor.antipattern.overlapping;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.menthor.antipattern.Antipattern;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Package;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import net.menthor.antipattern.Antipattern;
 
 public abstract class OverlappingAntipattern<T extends OverlappingOccurrence> extends Antipattern<T> {
 

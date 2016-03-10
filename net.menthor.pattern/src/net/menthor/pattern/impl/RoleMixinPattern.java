@@ -78,18 +78,18 @@ public class RoleMixinPattern extends AbstractPattern{
 		for(int i = 0; i < roles.size(); i++){
 			Classifier rolen = getClassifier(roles.get(i),x-(97*i),y-70);
 			if(rolemixin != null){
-				_fix.addAll(outcomeFixer.createGeneralization(rolen, rolemixin));
+				_fix.addAll(outcomeFixer.createGeneralizationWithFix(rolen, rolemixin));
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);		
 				fix.addAll(_fix);
 			}
 			
 			if(i == 0 && sortal1 != null && rolen != null){
-				fix.addAll(outcomeFixer.createGeneralization(rolen,sortal1));
+				fix.addAll(outcomeFixer.createGeneralizationWithFix(rolen,sortal1));
 			}
 			
 			if(i == 1 && sortal2 != null && rolen != null){
-				fix.addAll(outcomeFixer.createGeneralization(rolen,sortal2));
+				fix.addAll(outcomeFixer.createGeneralizationWithFix(rolen,sortal2));
 			}
 		}
 		

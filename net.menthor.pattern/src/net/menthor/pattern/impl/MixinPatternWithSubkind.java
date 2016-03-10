@@ -63,14 +63,14 @@ public class MixinPatternWithSubkind extends AbstractPattern{
 
 		if(mixin != null){
 			if(subkind != null){
-				_fix.addAll(outcomeFixer.createGeneralization(subkind, mixin));
+				_fix.addAll(outcomeFixer.createGeneralizationWithFix(subkind, mixin));
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);
 				fix.addAll(_fix);
 			}
 
 			if(antirigid != null){
-				_fix.addAll(outcomeFixer.createGeneralization(antirigid, mixin));
+				_fix.addAll(outcomeFixer.createGeneralizationWithFix(antirigid, mixin));
 				Generalization generalization = (Generalization) _fix.getAdded().get(_fix.getAdded().size()-1);
 				generalizationList.add(generalization);
 				fix.addAll(_fix);
@@ -83,7 +83,7 @@ public class MixinPatternWithSubkind extends AbstractPattern{
 
 		if(sortal != null){
 			if(subkind != null){
-				fix.addAll(outcomeFixer.createGeneralization(subkind,sortal));
+				fix.addAll(outcomeFixer.createGeneralizationWithFix(subkind,sortal));
 			}
 		}
 

@@ -139,7 +139,7 @@ public class IdentityError extends MeronymicError<Classifier> {
 		}		
 		
 		if(!identityProviders.contains(identityProvider)){
-			fix.addAll(fixer.createGeneralization(element, identityProvider));
+			fix.addAll(fixer.createGeneralizationWithFix(element, identityProvider));
 		}
 		
 		

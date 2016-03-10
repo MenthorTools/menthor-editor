@@ -1,5 +1,7 @@
 package net.menthor.editor.v2.util;
 
+import java.awt.Component;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -22,34 +24,41 @@ package net.menthor.editor.v2.util;
  */
 
 import java.awt.Window;
+import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 /** A helper class which provides settings and file management facilities. */
 public class Util {
 	
-	public static boolean onMac() {
-		return System.getProperty("mrj.version") != null || System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac ");
-	}
-
 	public static String getFileName(String filePath) {
 		return new File(filePath).getName();
 	}
@@ -62,20 +71,98 @@ public class Util {
 		return canon(dir + File.separatorChar + fileName);
 	}
 	
-	public static boolean onWindows() {
-		return System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
-	};
-
-	public static String getOSx(){ 
-		if (onWindows()) return "win"; else if (onMac()) return "mac"; else return "linux"; 
+	public static String getExceptionMessage(Exception ex){
+		ex.printStackTrace();
+		String msg = ex.getLocalizedMessage();
+		if(msg==null || msg.isEmpty()) msg = ExceptionUtils.getStackTrace(ex);
+		return msg;
 	}
-			
-	public static String getArch() { 
-		String osArch = System.getProperty("os.arch").toLowerCase();
-		String arch = osArch.contains("64") ? "x64" : "x86";                
-        return arch;
+	
+	public static JFileChooser createChooser(String lastPath, final boolean checkOverrideFile){
+		return new JFileChooser(lastPath){
+			private static final long serialVersionUID = 1L;
+			@Override
+		    public void approveSelection(){
+		        File f = getSelectedFile();
+		        if(f.exists() && checkOverrideFile){
+		            int result = JOptionPane.showConfirmDialog(this, "\""+f.getName()+"\" already exists. Do you want to overwrite it?",
+		            	"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    super.approveSelection();
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    cancelSelection();
+		                    return;
+		            }
+		        }
+		        super.approveSelection();
+		    }    
+		};
+	}
+	
+	public static File chooseFile(Component parent, String lastPath, String dialogTitle, String fileDescription, String fileExtension, String fileExtension2, boolean checkOverrideFile) throws IOException{
+		JFileChooser fileChooser = createChooser(lastPath, checkOverrideFile);
+		fileChooser.setDialogTitle(dialogTitle);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension, fileExtension2);
+		fileChooser.addChoosableFileFilter(filter);
+		if(SystemUtil.onWindows()) fileChooser.setFileFilter(filter);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		if (fileChooser.showDialog(parent,"Ok") == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			if(!(file.getName().endsWith("."+fileExtension)) && !(file.getName().endsWith("."+fileExtension2)) ) {
+				file = new File(file.getCanonicalFile() + "."+fileExtension2);
+			}else{
+				file = new File(file.getCanonicalFile()+"");
+			}
+			return file;
+		}else{
+			return null;
+		}	
+	}
+	
+	public static File chooseFile(Component parent, String lastPath, String dialogTitle, String fileDescription, String fileExtension, boolean checkOverrideFile) throws IOException{
+		JFileChooser fileChooser = createChooser(lastPath, checkOverrideFile);
+		fileChooser.setDialogTitle(dialogTitle);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension);
+		fileChooser.addChoosableFileFilter(filter);
+		if(SystemUtil.onWindows()) fileChooser.setFileFilter(filter);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		if (fileChooser.showDialog(parent, "Ok") == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			if(!file.getName().endsWith("."+fileExtension)) {
+				file = new File(file.getCanonicalFile() + "."+fileExtension);
+			}else{
+				file = new File(file.getCanonicalFile()+"");
+			}
+			return file;
+		}else{
+			return null;
+		}	
+	}
+	
+	/** Read the object from Base64 string. */
+	public static Object fromBase64String( String s ) throws IOException ,  ClassNotFoundException {
+        byte [] data = Base64.getDecoder().decode( s );
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream( data));
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
 	}
 
+    /** Write the object to a Base64 string. */
+    public static String toBase64String( Serializable o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        oos.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray()); 
+    }
+	
 	public static int getScreenWorkingWidth() {
 	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	}
@@ -84,6 +171,14 @@ public class Util {
 	    return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 	}
 
+	public static String convertStreamToString(java.io.InputStream is) throws IOException {
+    	return IOUtils.toString(is); 
+    }
+    
+    public static InputStream convertStringToInputStream(String str) throws IOException{
+    	return IOUtils.toInputStream(str);
+    }
+    
     public static String getCompilationDateMessage(){
 		DateFormat dateFormat = new SimpleDateFormat("d, yyyy");
 		Date date = new Date();
@@ -116,9 +211,7 @@ public class Util {
 		d.dispose();
 		return p.getValue();
 	}
-	
-    
-    
+	    
 	/** 
 	 * This returns the constant prefix to denote whether Util.readAll() should read from a JAR or read from the file system.
 	 * (The reason we made this into a "method" rather than a constant String is that it is used
@@ -193,7 +286,7 @@ public class Util {
 		File alloyJarFile = new File(alloyPath);
 		if (alloyJarFile.exists()) return alloyJarFile;				
 		InputStream is = Util.class.getClassLoader().getResourceAsStream(fileNameWithExtension);		
-		if(is == null) is = new FileInputStream("lib/"+fileNameWithExtension);
+		if(is == null) is = new FileInputStream(fileNameWithExtension);
 		OutputStream out = new FileOutputStream(alloyJarFile);				
 		// copy data flow -> MB x MB
 		byte[] src = new byte[1024];

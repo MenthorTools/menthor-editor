@@ -3,6 +3,7 @@ package RefOntoUML.parser;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -454,6 +455,38 @@ public class OntoUMLParser {
 		return result;		
 	}
 	
+	public static String getRedefinedAsString(RefOntoUML.Property property){
+		String str = new String();
+    	int i=0;    	
+    	for(Property p: property.getRedefinedProperty()){    
+    		str += p;
+    		if (i<property.getRedefinedProperty().size()-1) 
+    			str+=", ";    		
+    		i++;
+    	}
+    	return str;
+	}
+	
+	public static String getSubsettedAsString(RefOntoUML.Property property){
+		String str = new String();
+    	int i=0;    	
+    	for(Property p: property.getSubsettedProperty()){    
+    		str += p;
+    		if (i<property.getSubsettedProperty().size()-1) 
+    			str+=", ";    		
+    		i++;
+    	}
+    	return str;
+	}
+	
+	public static String[] getStereotypes(){
+		return new String[] {
+				"Category", "Collective", "DataType", "Domain", "DecimalIntervalDimension", "DecimalOrdinalDimension", "DecimalRationalDimension", 
+				"Enumeration", "IntegerIntervalDimension", "IntegerOrdinalDimension", "IntegerRationalDimension", 						
+				"Kind", "MeasurementDomain", "Mode", "Mixin", "NominalQuality", "NonPerceivableQuality", "PerceivableQuality", 
+				"Phase", "PrimitiveType", "Quantity", "Relator", "Role", "RoleMixin", "SubKind", "StringNominalStructure" };
+	}
+	
 	public static String getStereotype(EObject element){
 		String type = element.getClass().toString().replaceAll("class RefOntoUML.impl.","");
 	    type = type.replaceAll("Impl","");
@@ -593,7 +626,15 @@ public class OntoUMLParser {
 		}
 		return list;
 	}
-			
+	
+	public static boolean haveGeneralizationSet(List<Generalization> gens){
+		boolean result = false;
+		for(Generalization g: gens){
+			if (g.getGeneralizationSet()!=null && !g.getGeneralizationSet().isEmpty()) result=true;
+		}
+		return result;
+	}
+	
 	/** Return all anti-rigid, selected classes of the model. */
 	public Set<Classifier> getAntiRigidClasses()
 	{
@@ -618,6 +659,14 @@ public class OntoUMLParser {
 		return list;
 	}
 		
+	public List<Constraintx> getConstraints(RefOntoUML.Element element){
+		List<Constraintx> result = new ArrayList<Constraintx>();
+		for(Constraintx obj: getAllInstances(RefOntoUML.Constraintx.class)){
+			if(obj.getConstrainedElement().equals(element)) result.add(obj);
+		}
+		return result;
+	}
+	
 	/** Return all selected descendants (direct or indirect) of an element. */
 	public Set<Classifier> getAllChildren(Classifier c)
 	{
@@ -775,6 +824,20 @@ public class OntoUMLParser {
 			if(isSelected(o) && type.isInstance(o)) result.add((T) o);
 		}
 		return result;
+	}
+	
+	public List<RefOntoUML.PackageableElement> getAllTypesSorted(){
+		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
+		types.addAll(getAllInstances(RefOntoUML.Type.class));
+		Collections.sort(types);
+		return types;
+	}
+	
+	public List<RefOntoUML.PackageableElement> getAllDomainsSorted(){
+		List<RefOntoUML.PackageableElement> types = new ArrayList<RefOntoUML.PackageableElement>();
+		types.addAll(getAllInstances(RefOntoUML.MeasurementDomain.class));
+		Collections.sort(types);
+		return types;
 	}
 	
 	/**
@@ -1062,6 +1125,52 @@ public class OntoUMLParser {
 		return objectsToAdd;
 	}
 	
+	public static void setTargetType(Element relationship, Classifier type){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			gen.setGeneral(type);
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			gen.getMemberEnd().get(1).setType(type);
+		}		
+	}
+	
+	public static Classifier getTargetType(Element relationship){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			return gen.getGeneral();
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			return (Classifier) gen.getMemberEnd().get(1).getType();
+		}
+		return null;
+	}
+	
+	public static void setSourceType(Element relationship, Classifier type){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			gen.setSpecific(type);
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			gen.getMemberEnd().get(0).setType(type);
+		}		
+	}
+	
+	public static Classifier getSourceType(Element relationship){
+		if(relationship instanceof RefOntoUML.Generalization){
+			RefOntoUML.Generalization gen = (RefOntoUML.Generalization)relationship;
+			return gen.getSpecific();
+		}
+		if(relationship instanceof RefOntoUML.Association){
+			RefOntoUML.Association gen = (RefOntoUML.Association)relationship;
+			return (Classifier) gen.getMemberEnd().get(0).getType();
+		}
+		return null;
+	}
+	
 	/** Auto select associations connected to the given elements. */
 	public ArrayList<EObject> autoSelectRelatedElements(ArrayList<Classifier> classifiers)
 	{
@@ -1248,6 +1357,37 @@ public class OntoUMLParser {
 		return genSets;
 	}
 	
+	/** Return all the generalization sets from a list of generalizations */
+	public Set<GeneralizationSet> getGeneralizationSets(ArrayList<Generalization> generalizations)
+	{
+		Set<GeneralizationSet> genSets = new HashSet<GeneralizationSet>();		
+		if(generalizations==null)
+			return genSets;
+		
+		for (Generalization g : generalizations) {
+			genSets.addAll(getGeneralizationSet(g));
+		}
+		
+		return genSets;
+	}
+	
+	/** Return a subset of the inputed generalization sets in which at least one of the inputed generalizations could be added 
+	 * */
+	public Set<GeneralizationSet> getAvailableGeneralizations(Set<GeneralizationSet> gsList, ArrayList<Generalization> gList){
+		Set<GeneralizationSet> availableGSs = new HashSet<GeneralizationSet>();		
+		
+		if(!sameGeneralOnGeneralizationList(gList))
+			return availableGSs;
+		
+		for (GeneralizationSet gs : gsList) {
+			if(!gs.getGeneralization().containsAll(gList))
+				availableGSs.add(gs);
+		}
+		
+		return availableGSs;
+	}
+	
+	
 	/** Return all the selected generalizations that this type is attached */
 	public ArrayList<Generalization> getGeneralizations(RefOntoUML.Classifier type)
 	{
@@ -1260,6 +1400,19 @@ public class OntoUMLParser {
 		return genList;
 	}
 	
+	/** Rerturn true if the property generalization.getGeneral() (the parent classifier) returns the same classifier for all generalizations in the inputed list*/
+	public boolean sameGeneralOnGeneralizationList(ArrayList<Generalization> gList){
+		Classifier general = null;
+		for (Generalization g : gList) {
+			if(general==null)
+				general = g.getGeneral();
+			else if(!general.equals(g.getGeneral()))
+				return false;
+		}
+		return true;
+	}
+	
+	
 	/** Return all the generalizations that this type is attached as the general type*/
 	public ArrayList<Generalization> getSpecializations(RefOntoUML.Classifier type)
 	{
@@ -1271,6 +1424,19 @@ public class OntoUMLParser {
 		return genList;
 	}
 	
+	public List<Element> getDirectRelationships(List<Element> requestedList){		
+		List<Element> result = new ArrayList<Element>();
+		for (Element elem : requestedList){			
+			List<Relationship> list1 = getDirectRelationships(elem);			
+			list1.removeAll(requestedList);
+			for(Element e: list1) { 
+				if(!result.contains(e)) result.add(e); 
+			}
+		}
+		return result;
+	}
+	
+		
 	/** Return all selected, direct relationships (i.e. generalizations and associations) of a given element */
 	public ArrayList<Relationship> getDirectRelationships(EObject eObject)
 	{
@@ -1817,10 +1983,17 @@ public class OntoUMLParser {
 	}
 	
 	public static String getUUIDFromElement(Element element){
-		return element.eResource().getURIFragment(element);
+		if(element.eResource()!=null) return element.eResource().getURIFragment(element);
+		else return null;
+	}
+	
+	public static String getUUIDFromModel(RefOntoUML.Package model, Element element){
+		if(model.eResource()!=null) return model.eResource().getURIFragment(element);
+		else return null;
 	}
 	
 	public static Element getElementByUUID(RefOntoUML.Package model, String uuid){
-		return (Element) model.eResource().getEObject(uuid);
+		if(model.eResource()!=null) return (Element) model.eResource().getEObject(uuid);
+		else return null;
 	}
 }

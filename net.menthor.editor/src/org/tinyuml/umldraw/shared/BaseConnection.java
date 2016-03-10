@@ -100,8 +100,8 @@ public class BaseConnection implements UmlConnection, Adapter {
 		try {
 			cloned = (BaseConnection) super.clone();
 			if (relationship != null) {
-				cloned.relationship = RefOntoUMLFactoryUtil.clone(relationship);
-				cloned.relationship.eAdapters().add(cloned);
+				cloned.relationship = RefOntoUMLFactoryUtil.cloneRelationship(relationship);
+				//cloned.relationship.eAdapters().add(cloned);
 			}
 			if (connection != null) {
 				cloned.connection = (Connection) connection.clone();				
@@ -112,6 +112,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 		return cloned;
 	}
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -165,7 +166,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public NamedElement getClassifier() {
+	public NamedElement getClassifier() {		
 		return null;
 	}
 
@@ -363,8 +364,7 @@ public class BaseConnection implements UmlConnection, Adapter {
 	 * {@inheritDoc}
 	 */
 	public Selection getSelection(DiagramOperations operations) {
-		return new UmlConnectionSelection(this,
-				connection.getSelection(operations));
+		return new UmlConnectionSelection(this,	connection.getSelection(operations));
 	}
 
 	/**
@@ -582,4 +582,33 @@ public class BaseConnection implements UmlConnection, Adapter {
 		connection.setConnections(connList);		
 	}
 
+	@Override
+	public DiagramElement getSourceDiagramElement() {
+		return connection.getSourceDiagramElement();
+	}
+
+	@Override
+	public void setPoints() {
+		connection.setPoints();		
+	}
+
+	@Override
+	public DiagramElement getTargetDiagramElement() {
+		return connection.getTargetDiagramElement();
+	}
+
+	@Override
+	public Object getSourceObject() {
+		return connection.getSourceObject();
+	}
+
+	@Override
+	public Object getTargetObject() {
+		return connection.getTargetObject();
+	}
+
+	@Override
+	public Object getModelObject() {
+		return getRelationship();
+	}
 }

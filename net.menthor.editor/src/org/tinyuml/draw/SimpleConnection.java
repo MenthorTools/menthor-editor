@@ -157,4 +157,13 @@ public class SimpleConnection extends AbstractConnection {
     resetPoints();
   }
 
+	@Override
+	public void setPoints() {
+		getConnectMethod().setPoints(this);	
+	}
+	
+	@Override
+	public Object getModelObject() {
+		return owner.getModelObject();
+	}
 }

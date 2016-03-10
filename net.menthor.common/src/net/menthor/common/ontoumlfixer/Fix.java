@@ -3,6 +3,7 @@ package net.menthor.common.ontoumlfixer;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import RefOntoUML.parser.ParsingElement;
 
@@ -171,6 +172,13 @@ public class Fix{
 		return added;
 	}
 	
+	public List<Object> getAll(){
+		List<Object> result = new ArrayList<>();
+		result.addAll(getAdded());
+		result.addAll(getModified());
+		result.addAll(getDeleted());
+		return result;
+	}
 	public void includeAdded(Object added, double x, double y)
 	{
 		if (!addedElements.keySet().contains(added)) addedElements.put(added,new Point2D.Double(x,y));
