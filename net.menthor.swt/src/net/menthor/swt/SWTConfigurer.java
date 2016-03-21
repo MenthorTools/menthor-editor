@@ -11,9 +11,9 @@ import java.net.URLClassLoader;
 
 public class SWTConfigurer {
 				
-	public static void execute(File tempdir){
+	public static void execute(File tempdir, String menthorVersion){
 		try{	
-			loadSwt();		
+			loadSwt(menthorVersion);		
 			extractTo(tempdir);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -21,9 +21,9 @@ public class SWTConfigurer {
 	}
 	
 	/** Add and load the appropriate SWT jar to the classpath according to the operating system. */
-	private static void loadSwt() throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+	private static void loadSwt(String menthorVersion) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		final URL[] urls = new URL[1];
-		URL swtJarURL = addSwtToClasspath();
+		URL swtJarURL = addSwtToClasspath(menthorVersion);
         urls[0] = swtJarURL;
         if(Util.onMac()){
 	        com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
@@ -44,7 +44,7 @@ public class SWTConfigurer {
 	}
 	
 	/** Add the correct SWT Jar to the classpath according to the Operating System*/
-	private static URL addSwtToClasspath() 
+	private static URL addSwtToClasspath(String menthorVersion) 
 	{
 		String swtFileName = "<empty>";
 	    try {	    	
@@ -60,8 +60,18 @@ public class SWTConfigurer {
 	        	if(workingDir.lastIndexOf("\\") < workingDir.lastIndexOf(".")){
         			int lastBar = workingDir.lastIndexOf("/");
         			workingDir = workingDir.substring(0, lastBar+1);
-        		}        		
+        		}	        	
 	        	File file = new File(workingDir.concat(swtFileName));
+	        	if(!file.exists()) { 
+	        		// check subfolder "/menthor-x.x.x_lib" first	        		
+	        		workingDir = workingDir.concat("\\menthor-"+menthorVersion+"_lib\\");
+	        		file = new File(workingDir.concat(swtFileName));
+	        		if(!file.exists()){
+		        		//extract swtFile jar to "/menthor-x.x.x_lib"	        		
+		        		Util.extract(swtFileName, new File(workingDir));
+		        		file = new File(workingDir.concat(swtFileName));
+		        	}
+	        	}	        	
 	        	swtFileUrl = file.toURI().toURL();
 	        	if (!file.exists ()) System.err.println("Can't locate SWT Jar File" + file.getAbsolutePath());
 	    	}	    	
@@ -81,7 +91,7 @@ public class SWTConfigurer {
 	{
 		String dir = System.getProperty("user.dir");
 		if (dir.contains("net.menthor.editor")) dir = dir.replace("net.menthor.editor","net.menthor.swt").concat(File.separator).concat("src"+File.separator);			
-		else dir = SWTConfigurer.class.getProtectionDomain().getCodeSource().getLocation().getPath();		
+		else dir = SWTConfigurer.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
 		return dir;
 	}
 	

@@ -29,7 +29,7 @@ public final class MenthorEditor {
 		try {			
 			SystemUtil.set();					
 			UIFontUtil.set();					
-			SWTConfigurer.execute(DirectoryUtil.getBinDir());		
+			SWTConfigurer.execute(DirectoryUtil.getBinDir(), MENTHOR_VERSION);		
 			OwlSettingsMap.getInstance();														
 			
 			//create application frame

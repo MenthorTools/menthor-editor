@@ -233,8 +233,8 @@ public class AntiPatternResultDialog extends Dialog {
 	}
 
 	public static void openDialog(final AntiPatternList apList, final JFrame frame)
-	{			
-		if (apList!=null &&  !apList.getAll().isEmpty())
+	{	
+    	if (apList!=null &&  !apList.getAll().isEmpty())
 		{
 			Display display = Display.getDefault();	    	
 			Shell shell = display.getActiveShell();			

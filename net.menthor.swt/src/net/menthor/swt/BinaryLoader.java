@@ -10,11 +10,7 @@
 package net.menthor.swt;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -66,61 +62,61 @@ public class BinaryLoader {
 	{
 		try {
 			if(osx=="win"&& arch=="x64"){		
-				execute("swt-awt-win32-4332-x64.dll",binDir);
-				execute("swt-gdip-win32-4332-x64.dll",binDir);								
-				execute("swt-wgl-win32-4332-x64.dll",binDir);
-				execute("swt-win32-4332-x64.dll",binDir);
-				execute("swt-xulrunner-win32-4332-x64.dll",binDir);
+				Util.extract("swt-awt-win32-4332-x64.dll",binDir);
+				Util.extract("swt-gdip-win32-4332-x64.dll",binDir);								
+				Util.extract("swt-wgl-win32-4332-x64.dll",binDir);
+				Util.extract("swt-win32-4332-x64.dll",binDir);
+				Util.extract("swt-xulrunner-win32-4332-x64.dll",binDir);
 			}
 			if(osx=="win" && arch=="x86"){
-				execute("swt-awt-win32-4332-x86.dll",binDir);
-				execute("swt-gdip-win32-4332-x86.dll",binDir);								
-				execute("swt-wgl-win32-4332-x86.dll",binDir);
-				execute("swt-win32-4332-x86.dll",binDir);
-				execute("swt-xulrunner-win32-4332-x86.dll",binDir);
-				execute("swt-webkit-win32-4332-x86.dll",binDir);
+				Util.extract("swt-awt-win32-4332-x86.dll",binDir);
+				Util.extract("swt-gdip-win32-4332-x86.dll",binDir);								
+				Util.extract("swt-wgl-win32-4332-x86.dll",binDir);
+				Util.extract("swt-win32-4332-x86.dll",binDir);
+				Util.extract("swt-xulrunner-win32-4332-x86.dll",binDir);
+				Util.extract("swt-webkit-win32-4332-x86.dll",binDir);
 			}
 			if(osx=="mac" && arch=="x86"){
-				execute("libswt-awt-cocoa-4332-x86.jnilib",binDir);
-				execute("libswt-cocoa-4332-x86.jnilib",binDir);				
-				execute("libswt-pi-cocoa-4332-x86.jnilib",binDir);
-				execute("libswt-xulrunner-cocoa-4332-x86.jnilib",binDir);				
+				Util.extract("libswt-awt-cocoa-4332-x86.jnilib",binDir);
+				Util.extract("libswt-cocoa-4332-x86.jnilib",binDir);				
+				Util.extract("libswt-pi-cocoa-4332-x86.jnilib",binDir);
+				Util.extract("libswt-xulrunner-cocoa-4332-x86.jnilib",binDir);				
 			}
 			if(osx=="mac" && arch=="x64"){
-				execute("libswt-awt-cocoa-4332-x64.jnilib",binDir);
-				execute("libswt-cocoa-4332-x64.jnilib",binDir);				
-				execute("libswt-pi-cocoa-4332-x64.jnilib",binDir);
-				execute("libswt-xulrunner-cocoa-4332-x64.jnilib",binDir);				
+				Util.extract("libswt-awt-cocoa-4332-x64.jnilib",binDir);
+				Util.extract("libswt-cocoa-4332-x64.jnilib",binDir);				
+				Util.extract("libswt-pi-cocoa-4332-x64.jnilib",binDir);
+				Util.extract("libswt-xulrunner-cocoa-4332-x64.jnilib",binDir);				
 			}
 			if(osx=="linux" && arch=="x64"){
-				execute("libswt-atk-gtk-4332-x64.so",binDir);
-				execute("libswt-awt-gtk-4332-x64.so",binDir);				
-				execute("libswt-cairo-gtk-4332-x64.so",binDir);
-				execute("libswt-glx-gtk-4332-x64.so",binDir);				
-				execute("libswt-gnome-gtk-4332-x64.so",binDir);
-				execute("libswt-gtk-4332-x64.so",binDir);
-				execute("libswt-mozilla-gtk-4332-x64.so",binDir);
-				execute("libswt-pi-gtk-4332-x64.so",binDir);
-				execute("libswt-pi3-gtk-4332-x64.so",binDir);
-				execute("libswt-webkit-gtk-4332-x64.so",binDir);
-				execute("libswt-xpcominit-gtk-4332-x64.so",binDir);
-				execute("libswt-xulrunner-fix-x64.so",binDir);
-				execute("libswt-xulrunner-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-atk-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-awt-gtk-4332-x64.so",binDir);				
+				Util.extract("libswt-cairo-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-glx-gtk-4332-x64.so",binDir);				
+				Util.extract("libswt-gnome-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-mozilla-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-pi-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-pi3-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-webkit-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-xpcominit-gtk-4332-x64.so",binDir);
+				Util.extract("libswt-xulrunner-fix-x64.so",binDir);
+				Util.extract("libswt-xulrunner-gtk-4332-x64.so",binDir);
 			}
 			if(osx=="linux" && arch=="x86"){
-				execute("libswt-atk-gtk-4332-x86.so",binDir);
-				execute("libswt-awt-gtk-4332-x86.so",binDir);				
-				execute("libswt-cairo-gtk-4332-x86.so",binDir);
-				execute("libswt-glx-gtk-4332-x86.so",binDir);				
-				execute("libswt-gnome-gtk-4332-x86.so",binDir);
-				execute("libswt-gtk-4332-x86.so",binDir);
-				execute("libswt-mozilla-gtk-4332-x86.so",binDir);
-				execute("libswt-pi-gtk-4332-x86.so",binDir);
-				execute("libswt-pi3-gtk-4332-x86.so",binDir);
-				execute("libswt-webkit-gtk-4332-x86.so",binDir);
-				execute("libswt-xpcominit-gtk-4332-x86.so",binDir);
-				execute("libswt-xulrunner-fix-x86.so",binDir);
-				execute("libswt-xulrunner-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-atk-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-awt-gtk-4332-x86.so",binDir);				
+				Util.extract("libswt-cairo-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-glx-gtk-4332-x86.so",binDir);				
+				Util.extract("libswt-gnome-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-mozilla-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-pi-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-pi3-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-webkit-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-xpcominit-gtk-4332-x86.so",binDir);
+				Util.extract("libswt-xulrunner-fix-x86.so",binDir);
+				Util.extract("libswt-xulrunner-gtk-4332-x86.so",binDir);
 			}
 			
 		} catch (LoadingException e) {
@@ -143,44 +139,5 @@ public class BinaryLoader {
         } catch (Throwable ex) {
         	/* Should never get here */
         }
-	}
-	
-	private String execute(String binName, File binDir) throws LoadingException, IOException
-	{
-		String binPackage = new String();		
-		String outFolder = binDir.getAbsolutePath()+File.separator+binName;		
-		String outPath = URLDecoder.decode(outFolder, "UTF-8");		
-		File outFile = new File(outPath);
-		if (outFile.exists()) return outFile.getAbsolutePath();				 
-		String binResource = URLDecoder.decode(binPackage+binName,"UTF-8");
-		String binWorkingDir = URLDecoder.decode(getBinWorkingDir()+binPackage+File.separator+binName,"UTF-8");
-		InputStream is = this.getClass().getClassLoader().getResourceAsStream(binResource);	
-		if(is==null) is = this.getClass().getClassLoader().getResourceAsStream(File.separator+binResource);	
-		if(is !=null) System.out.println("Reading from: "+binResource);
-		if(is ==null) System.out.println("Reading from: "+binWorkingDir);
-		if(is == null) is = new FileInputStream(binWorkingDir);		
-		OutputStream out = new FileOutputStream(outFile);				
-		// =========================
-		// copy data flow -> MB x MB
-		byte[] src = new byte[1024];
-		int read = 0;
-		while ((read = is.read(src)) != -1){
-			out.write(src, 0, read);
-		}
-		is.close();
-		out.flush();
-		out.close();
-		// =========================
-		System.out.println("Extracted: "+outFile.getAbsolutePath());
-		return outFile.getAbsolutePath();
-	}
-
-	private String getBinWorkingDir() {
-		String dir = System.getProperty("user.dir");
-		if (dir.contains("net.menthor.editor")) 
-			dir = dir.replace("net.menthor.editor","net.menthor.swt").concat(File.separator).concat("src"+File.separator);
-		else
-			dir = "";
-		return dir;
 	}
 }

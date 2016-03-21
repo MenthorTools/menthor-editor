@@ -274,20 +274,19 @@ public class Util {
 		}
 	}
 	
-	/** Extract a file from menthor's /lib class path */
-	public static File extractLib(String fileNameWithExtension) throws IOException{
-		String destFolderPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
+	/** Extract a file from menthor's library class path */
+	public static File extractLib(String fileNameWithExtension, String destFolderPath)throws IOException{
 		if(destFolderPath.lastIndexOf("/") < destFolderPath.lastIndexOf(".")){
 			int lastBar = destFolderPath.lastIndexOf("/");
 			destFolderPath = destFolderPath.substring(0, lastBar+1);
 		}
 		destFolderPath += fileNameWithExtension;
-		String alloyPath = URLDecoder.decode(destFolderPath, "UTF-8");		
-		File alloyJarFile = new File(alloyPath);
-		if (alloyJarFile.exists()) return alloyJarFile;				
+		String path = URLDecoder.decode(destFolderPath, "UTF-8");		
+		File File = new File(path);
+		if (File.exists()) return File;				
 		InputStream is = Util.class.getClassLoader().getResourceAsStream(fileNameWithExtension);		
 		if(is == null) is = new FileInputStream(fileNameWithExtension);
-		OutputStream out = new FileOutputStream(alloyJarFile);				
+		OutputStream out = new FileOutputStream(File);				
 		// copy data flow -> MB x MB
 		byte[] src = new byte[1024];
 		int read = 0;
@@ -297,6 +296,12 @@ public class Util {
 		is.close();
 		out.flush();
 		out.close();		
-		return alloyJarFile;
+		return File;
+	}
+	
+	/** Extract a file from menthor's library class path */
+	public static File extractLib(String fileNameWithExtension) throws IOException{
+		String destFolderPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();	
+		return extractLib(fileNameWithExtension,destFolderPath);
 	}
 }
