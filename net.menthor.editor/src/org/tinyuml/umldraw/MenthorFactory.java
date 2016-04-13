@@ -168,6 +168,7 @@ public class MenthorFactory {
     	createClassPrototype(ClassType.PERCEIVABLE_QUALITY);
     	createClassPrototype(ClassType.NONPERCEIVABLE_QUALITY);
     	createClassPrototype(ClassType.NOMINAL_QUALITY);
+    	createClassPrototype(ClassType.CLASS);
     	createDataTypePrototype(DataType.DATATYPE);
     	createDataTypePrototype(DataType.STRINGNOMINAL_STRUCTURE);
     	createDataTypePrototype(DataType.MEASUREMENT_DOMAIN);
@@ -199,19 +200,20 @@ public class MenthorFactory {
 	  RefOntoUML.Element type = null;
 	  String name = elementType.getName()+nextClassTypeCount(elementType);
 	  if (elementType.equals(ClassType.KIND)) type = RefOntoUMLFactoryUtil.createKind(name, null);
-	  if (elementType.equals(ClassType.COLLECTIVE)) type = RefOntoUMLFactoryUtil.createCollective(name, null);
-	  if (elementType.equals(ClassType.QUANTITY)) type = RefOntoUMLFactoryUtil.createQuantity(name, null);
-	  if (elementType.equals(ClassType.SUBKIND)) type = RefOntoUMLFactoryUtil.createSubKind(name, null);
-	  if (elementType.equals(ClassType.PHASE)) type = RefOntoUMLFactoryUtil.createPhase(name, null);
-	  if (elementType.equals(ClassType.ROLE)) type = RefOntoUMLFactoryUtil.createRole(name, null);
-	  if (elementType.equals(ClassType.CATEGORY)) type = RefOntoUMLFactoryUtil.createCategory(name, null); 	  
-	  if (elementType.equals(ClassType.ROLEMIXIN)) type = RefOntoUMLFactoryUtil.createRoleMixin(name, null); 
-	  if (elementType.equals(ClassType.MIXIN)) type = RefOntoUMLFactoryUtil.createMixin(name, null); 
-	  if (elementType.equals(ClassType.MODE)) type = RefOntoUMLFactoryUtil.createMode(name, null); 
-	  if (elementType.equals(ClassType.RELATOR)) type = RefOntoUMLFactoryUtil.createRelator(name, null); 
-	  if (elementType.equals(ClassType.PERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createPerceivableQuality(name, null); 
-	  if (elementType.equals(ClassType.NONPERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createNonPerceivableQuality(name, null); 
-	  if (elementType.equals(ClassType.NOMINAL_QUALITY)) type = RefOntoUMLFactoryUtil.createNominalQuality(name, null); 
+	  else if (elementType.equals(ClassType.COLLECTIVE)) type = RefOntoUMLFactoryUtil.createCollective(name, null);
+	  else if (elementType.equals(ClassType.QUANTITY)) type = RefOntoUMLFactoryUtil.createQuantity(name, null);
+	  else if (elementType.equals(ClassType.SUBKIND)) type = RefOntoUMLFactoryUtil.createSubKind(name, null);
+	  else if (elementType.equals(ClassType.PHASE)) type = RefOntoUMLFactoryUtil.createPhase(name, null);
+	  else if (elementType.equals(ClassType.ROLE)) type = RefOntoUMLFactoryUtil.createRole(name, null);
+	  else if (elementType.equals(ClassType.CATEGORY)) type = RefOntoUMLFactoryUtil.createCategory(name, null); 	  
+	  else if (elementType.equals(ClassType.ROLEMIXIN)) type = RefOntoUMLFactoryUtil.createRoleMixin(name, null); 
+	  else if (elementType.equals(ClassType.MIXIN)) type = RefOntoUMLFactoryUtil.createMixin(name, null); 
+	  else if (elementType.equals(ClassType.MODE)) type = RefOntoUMLFactoryUtil.createMode(name, null); 
+	  else if (elementType.equals(ClassType.RELATOR)) type = RefOntoUMLFactoryUtil.createRelator(name, null); 
+	  else if (elementType.equals(ClassType.PERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createPerceivableQuality(name, null); 
+	  else if (elementType.equals(ClassType.NONPERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createNonPerceivableQuality(name, null); 
+	  else if (elementType.equals(ClassType.NOMINAL_QUALITY)) type = RefOntoUMLFactoryUtil.createNominalQuality(name, null); 
+	  else if (elementType.equals(ClassType.CLASS)) type = RefOntoUMLFactoryUtil.createClass(name, null);
 	  return type;	  
   }
   

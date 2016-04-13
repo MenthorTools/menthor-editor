@@ -38,6 +38,7 @@ import RefOntoUML.Mediation;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Mixin;
 import RefOntoUML.Mode;
+import RefOntoUML.NamedElement;
 import RefOntoUML.NominalQuality;
 import RefOntoUML.NonPerceivableQuality;
 import RefOntoUML.PerceivableQuality;
@@ -466,12 +467,25 @@ public class RefOntoUMLFactoryUtil {
 		return structuration;
 	}
 	
+	/** Create a class without stereotype  */
+	public static Class createClass(String name, RefOntoUML.Package container)
+	{
+		Class _class = factory.createClass();
+		setName(name, _class);
+		if(container!=null)container.getPackagedElement().add(_class);
+		return _class;
+	}
+
+	private static void setName(String name, NamedElement named) {
+		if(name!=null) named.setName(name);
+		else named.setName("");
+	}
+	
 	/** Create a kind type  */
 	public static Kind createKind(String name, RefOntoUML.Package container)
 	{
 		Kind kind = factory.createKind();
-		if(name!=null) kind.setName(name);
-		else kind.setName("");
+		setName(name, kind);
 		if(container!=null)container.getPackagedElement().add(kind);
 		return kind;
 	}
@@ -480,8 +494,7 @@ public class RefOntoUMLFactoryUtil {
 	public static SubKind createSubKind(String name, RefOntoUML.Package container)
 	{
 		SubKind subkind = factory.createSubKind();
-		if(name!=null) subkind.setName(name);
-		else subkind.setName("");
+		setName(name, subkind);
 		if(container!=null)container.getPackagedElement().add(subkind);
 		return subkind;
 	}
@@ -490,8 +503,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Collective createCollective(String name, RefOntoUML.Package container)
 	{
 		Collective collective = factory.createCollective();
-		if(name!=null) collective.setName(name);
-		else collective.setName("");
+		setName(name, collective);
 		if(container!=null)container.getPackagedElement().add(collective);
 		return collective;
 	}
@@ -519,8 +531,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Quantity createQuantity(String name, RefOntoUML.Package container)
 	{
 		Quantity quantity = factory.createQuantity();
-		if(name!=null) quantity.setName(name);
-		else quantity.setName("");
+		setName(name,quantity);
 		if(container!=null)container.getPackagedElement().add(quantity);
 		return quantity;
 	}
@@ -529,8 +540,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Role createRole(String name, RefOntoUML.Package container)
 	{
 		Role role = factory.createRole();
-		if(name!=null) role.setName(name);
-		else role.setName("");
+		setName(name,role);
 		if(container!=null)container.getPackagedElement().add(role);
 		return role;
 	}
@@ -539,8 +549,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Relator createRelator(String name, RefOntoUML.Package container)
 	{
 		Relator relator = factory.createRelator();
-		if(name!=null) relator.setName(name);
-		else relator.setName("");
+		setName(name,relator);
 		if(container!=null)container.getPackagedElement().add(relator);
 		return relator;
 	}
@@ -560,8 +569,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Mode createMode(String name, RefOntoUML.Package container)
 	{
 		Mode mode = factory.createMode();
-		if(name!=null) mode.setName(name);
-		else mode.setName("");
+		setName(name,mode);
 		if(container!=null)container.getPackagedElement().add(mode);
 		return mode;
 	}
@@ -570,8 +578,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Phase createPhase(String name, RefOntoUML.Package container)
 	{
 		Phase phase = factory.createPhase();
-		if(name!=null) phase.setName(name);
-		else phase.setName("");
+		setName(name,phase);
 		if(container!=null)container.getPackagedElement().add(phase);
 		return phase;
 	}
@@ -580,8 +587,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Category createCategory(String name, RefOntoUML.Package container)
 	{
 		Category category = factory.createCategory();
-		if(name!=null) category.setName(name);
-		else category.setName("");
+		setName(name,category);
 		category.setIsAbstract(true);
 		if(container!=null)container.getPackagedElement().add(category);
 		return category;
@@ -591,8 +597,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Mixin createMixin(String name, RefOntoUML.Package container)
 	{
 		Mixin mixin = factory.createMixin();
-		if(name!=null) mixin.setName(name);
-		else mixin.setName("");
+		setName(name,mixin);
 		mixin.setIsAbstract(true);
 		if(container!=null)container.getPackagedElement().add(mixin);
 		return mixin;
@@ -602,8 +607,7 @@ public class RefOntoUMLFactoryUtil {
 	public static RoleMixin createRoleMixin(String name, RefOntoUML.Package container)
 	{
 		RoleMixin rolemixin = factory.createRoleMixin();
-		if(name!=null) rolemixin.setName(name);
-		else rolemixin.setName("");
+		setName(name,rolemixin);
 		rolemixin.setIsAbstract(true);
 		if(container!=null)container.getPackagedElement().add(rolemixin);
 		return rolemixin;
@@ -613,8 +617,7 @@ public class RefOntoUMLFactoryUtil {
 	public static PerceivableQuality createPerceivableQuality(String name, RefOntoUML.Package container)
 	{
 		PerceivableQuality quality = factory.createPerceivableQuality();
-		if(name!=null) quality.setName(name);
-		else quality.setName("");		
+		setName(name,quality);	
 		if(container!=null)container.getPackagedElement().add(quality);
 		return quality;
 	}
@@ -623,8 +626,7 @@ public class RefOntoUMLFactoryUtil {
 	public static NonPerceivableQuality createNonPerceivableQuality(String name, RefOntoUML.Package container)
 	{
 		NonPerceivableQuality quality = factory.createNonPerceivableQuality();
-		if(name!=null) quality.setName(name);
-		else quality.setName("");		
+		setName(name,quality);		
 		if(container!=null)container.getPackagedElement().add(quality);
 		return quality;
 	}
@@ -633,8 +635,7 @@ public class RefOntoUMLFactoryUtil {
 	public static NominalQuality createNominalQuality(String name, RefOntoUML.Package container)
 	{
 		NominalQuality quality = factory.createNominalQuality();
-		if(name!=null) quality.setName(name);
-		else quality.setName("");		
+		setName(name,quality);		
 		if(container!=null)container.getPackagedElement().add(quality);
 		return quality;
 	}
@@ -643,8 +644,7 @@ public class RefOntoUMLFactoryUtil {
 	public static PrimitiveType createPrimitiveType(String name, RefOntoUML.Package container)
 	{
 		PrimitiveType primitive = factory.createPrimitiveType();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);		
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -652,8 +652,7 @@ public class RefOntoUMLFactoryUtil {
 	public static StringNominalStructure createStringNominalStructure(String name, RefOntoUML.Package container)
 	{
 		StringNominalStructure primitive = factory.createStringNominalStructure();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);	
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -661,8 +660,7 @@ public class RefOntoUMLFactoryUtil {
 	public static DecimalIntervalDimension createDecimalIntervalDimension(String name, RefOntoUML.Package container)
 	{
 		DecimalIntervalDimension primitive = factory.createDecimalIntervalDimension();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);		
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -670,8 +668,7 @@ public class RefOntoUMLFactoryUtil {
 	public static DecimalOrdinalDimension createDecimalOrdinalDimension(String name, RefOntoUML.Package container)
 	{
 		DecimalOrdinalDimension primitive = factory.createDecimalOrdinalDimension();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);	
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -679,8 +676,7 @@ public class RefOntoUMLFactoryUtil {
 	public static DecimalRationalDimension createDecimalRationalDimension(String name, RefOntoUML.Package container)
 	{
 		DecimalRationalDimension primitive = factory.createDecimalRationalDimension();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -688,8 +684,7 @@ public class RefOntoUMLFactoryUtil {
 	public static MeasurementDomain createMeasurementDomain(String name, RefOntoUML.Package container)
 	{
 		MeasurementDomain primitive = factory.createMeasurementDomain();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);	
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -697,8 +692,7 @@ public class RefOntoUMLFactoryUtil {
 	public static IntegerIntervalDimension createIntegerIntervalDimension(String name, RefOntoUML.Package container)
 	{
 		IntegerIntervalDimension primitive = factory.createIntegerIntervalDimension();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -706,8 +700,7 @@ public class RefOntoUMLFactoryUtil {
 	public static IntegerOrdinalDimension createIntegerOrdinalDimension(String name, RefOntoUML.Package container)
 	{
 		IntegerOrdinalDimension primitive = factory.createIntegerOrdinalDimension();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -715,8 +708,7 @@ public class RefOntoUMLFactoryUtil {
 	public static IntegerRationalDimension createIntegerRationalDimension(String name, RefOntoUML.Package container)
 	{
 		IntegerRationalDimension primitive = factory.createIntegerRationalDimension();
-		if(name!=null) primitive.setName(name);
-		else primitive.setName("");		
+		setName(name,primitive);
 		if(container!=null)container.getPackagedElement().add(primitive);
 		return primitive;
 	}
@@ -725,8 +717,7 @@ public class RefOntoUMLFactoryUtil {
 	public static DataType createDataType(String name, RefOntoUML.Package container)
 	{
 		DataType datatype = factory.createDataType();
-		if(name!=null) datatype.setName(name);
-		else datatype.setName("");		
+		setName(name,datatype);	
 		if(container!=null)container.getPackagedElement().add(datatype);
 		return datatype;
 	}	
@@ -735,8 +726,7 @@ public class RefOntoUMLFactoryUtil {
 	public static Enumeration createEnumeration(String name, Collection<String> values, RefOntoUML.Package container)
 	{
 		Enumeration datatype = factory.createEnumeration();
-		if(name!=null) datatype.setName(name);
-		else datatype.setName("");
+		setName(name,datatype);
 		for(String literalName: values)
 		{
 			EnumerationLiteral literal = factory.createEnumerationLiteral();
