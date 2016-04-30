@@ -61,21 +61,22 @@ public class AboutDialog extends JDialog{
 	private JHyperLinkLabel nemoLink;
 	private JTextPane detailsTextPane;
 	
-	public static void open(ICommandListener listener, String buildDate, String version){
+	public static void open(Frame parent, ICommandListener listener, String buildDate, String version){
 		try {
-			AboutDialog dialog = new AboutDialog(listener, buildDate, version);
+			AboutDialog dialog = new AboutDialog(parent, listener, buildDate, version);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setLocationRelativeTo((Component)listener);
+			dialog.setLocationRelativeTo(parent);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public AboutDialog(final ICommandListener frame, String buildDate, String version){
-		super((Frame)frame);		
+	public AboutDialog(final Frame parent, ICommandListener listener, String buildDate, String version){
+		super((Frame)parent);		
 		setTitle("About");
-		setBounds(100, 100, 521, 372);		
+		setBounds(100, 100, 521, 372);
+		this.listener = listener;
 		createLogoPanel();
 		createLicensesDetailsPanel(buildDate, version);	
 		getContentPane().setLayout(new BorderLayout());

@@ -468,6 +468,7 @@ public abstract class AbstractConnection implements Connection,
 	 */
 	public List<Line2D> getSegments() {
 		List<Line2D> result = new ArrayList<Line2D>();
+		if(getPoints().size()==0) return result;
 		Point2D firstpoint = getPoints().get(0);
 		Point2D nextpoint;
 		for (int i = 1; i < getPoints().size(); i++) {

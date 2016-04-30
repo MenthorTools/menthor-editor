@@ -62,11 +62,11 @@ public class BinaryLoader {
 	{
 		try {
 			if(osx=="win"&& arch=="x64"){		
-				Util.extract("swt-awt-win32-4332-x64.dll",binDir);
-				Util.extract("swt-gdip-win32-4332-x64.dll",binDir);								
-				Util.extract("swt-wgl-win32-4332-x64.dll",binDir);
-				Util.extract("swt-win32-4332-x64.dll",binDir);
-				Util.extract("swt-xulrunner-win32-4332-x64.dll",binDir);
+				Util.extract("swt-awt-win32-4527-x64.dll",binDir);
+				Util.extract("swt-gdip-win32-4527-x64.dll",binDir);								
+				Util.extract("swt-wgl-win32-4527-x64.dll",binDir);
+				Util.extract("swt-win32-4527-x64.dll",binDir);
+				Util.extract("swt-xulrunner-win32-4527-x64.dll",binDir);
 			}
 			if(osx=="win" && arch=="x86"){
 				Util.extract("swt-awt-win32-4332-x86.dll",binDir);

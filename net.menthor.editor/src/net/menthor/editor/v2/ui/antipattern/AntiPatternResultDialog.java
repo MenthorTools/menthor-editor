@@ -236,11 +236,12 @@ public class AntiPatternResultDialog extends Dialog {
 	{	
     	if (apList!=null &&  !apList.getAll().isEmpty())
 		{
-			Display display = Display.getDefault();	    	
-			Shell shell = display.getActiveShell();			
+			System.out.println("Opening swt result dialog.");
+			Display display = Display.getDefault();	
+			Shell shell = display.getActiveShell();							
 			AntiPatternResultDialog resultDIalog = new AntiPatternResultDialog(shell,apList.getAll(), frame);					
 			resultDIalog.create();
-			resultDIalog.open();	
+			resultDIalog.open();
 		}
 	}
 	

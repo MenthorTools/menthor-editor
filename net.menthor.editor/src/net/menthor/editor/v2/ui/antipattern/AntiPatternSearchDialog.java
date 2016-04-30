@@ -864,8 +864,8 @@ public class AntiPatternSearchDialog extends JDialog {
 			    	openResult(apList);
 				}
 			});
-		}else{			
-	    	openResult(apList);
+		}else{
+			openResult(apList);
 		}
 	}
 	
