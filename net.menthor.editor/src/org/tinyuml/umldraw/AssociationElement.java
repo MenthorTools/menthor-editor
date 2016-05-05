@@ -1283,7 +1283,7 @@ public final class AssociationElement extends BaseConnection {
 
 	@Override
 	public String toString()
-	{
-		return getRelationship().toString();
+	{	if(getRelationship()!=null) return getRelationship().toString();
+		else return "NULL";
 	}
 }
