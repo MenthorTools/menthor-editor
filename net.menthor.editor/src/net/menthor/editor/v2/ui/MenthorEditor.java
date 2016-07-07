@@ -19,7 +19,7 @@ public final class MenthorEditor {
 	 * 	B: compilation with new features
 	 * 	C: compilation with bug fixes
 	 */	
-	public static String MENTHOR_VERSION = "1.1.5a";	
+	public static String MENTHOR_VERSION = "1.1.5b";	
 	public static String MENTHOR_COMPILATION_DATE = Util.getCompilationDateMessage();	
 	
 	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
