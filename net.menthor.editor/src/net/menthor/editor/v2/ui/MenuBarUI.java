@@ -211,10 +211,10 @@ public class MenuBarUI extends GenericMenuBar {
 		KeyStroke stroke;
 		evaluation = new JMenu("Evaluate");
 		add(evaluation);
-		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.META_MASK);
-		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
-		createMenuItem(evaluation, "Check Rules", CommandType.VERIFY_CONSTRAINTS, background,stroke);
-		createMenuItem(evaluation, "Check Model", CommandType.VERIFY_MODEL, background);
+		if(SystemUtil.onMac()) stroke = KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.META_MASK);
+		else stroke = KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK);
+		createMenuItem(evaluation, "Check OCL Rules", CommandType.VERIFY_CONSTRAINTS, background,stroke);
+		createMenuItem(evaluation, "Check OntoUML Model", CommandType.VERIFY_MODEL, background);
 		evaluation.addSeparator();
 		createMenuItem(evaluation, "Visual Simulation (Alloy)", CommandType.ALLOY_SETTINGS, background);		
 		evaluation.addSeparator();

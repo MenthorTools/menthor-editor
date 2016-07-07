@@ -132,7 +132,7 @@ public enum CommandType {
 	FIND_IN_DIAGRAMS(null),
 	
 	VERIFY_MODEL("Check syntax of the entire model"), 
-	VERIFY_CONSTRAINTS("Check syntax of all rules at the current project"),
+	VERIFY_CONSTRAINTS("Check syntax of all OCL rules at the current project"),
 	 
 	ALLOY_SETTINGS("Simulate and check current project using Alloy"), 
 	OWL_SETTINGS("Generate current project implementation in OWL/RDF"),
