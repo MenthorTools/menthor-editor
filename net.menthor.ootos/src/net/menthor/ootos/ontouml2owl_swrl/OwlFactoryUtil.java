@@ -80,6 +80,7 @@ import RefOntoUML.Association;
 import RefOntoUML.Characterization;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
+import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.FormalAssociation;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
@@ -249,7 +250,29 @@ public class OwlFactoryUtil {
 		return owlNameSpace + mappedProperty.getGeneratedName();
 	}
 	
-	public void createClass(RefOntoUML.Class ontCls){
+	public void createIndividual(NamedElement literal){
+		OWLNamedIndividual individual = getOwlNamedIndividual(owlNameSpace, literal.getName());
+		OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(individual);
+		manager.addAxiom(ontology, declarationAxiom);
+		
+		createLabel(literal);
+	}
+	
+	public void createOneOf(RefOntoUML.Classifier ontCls, EList<EnumerationLiteral> enumLiterals){
+		OWLIndividual[] individuals = new OWLIndividual[enumLiterals.size()];
+		int j=0;
+		for (EnumerationLiteral literal : enumLiterals) {
+			OWLNamedIndividual individual = getOwlNamedIndividual(owlNameSpace, literal.getName());
+			individuals[j] = individual;
+			j++;
+		}	
+		OWLObjectOneOf oneOf = factory.getOWLObjectOneOf(individuals);
+		OWLClass owlClass = getOwlClass(ontCls);
+		OWLEquivalentClassesAxiom ax = factory.getOWLEquivalentClassesAxiom(owlClass, oneOf);
+		manager.applyChange(new AddAxiom(ontology, ax));
+	}
+	
+	public void createClass(RefOntoUML.Classifier ontCls){
 		OWLClass owlCls = getOwlClass(ontCls);
 		OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(owlCls);
 		manager.addAxiom(ontology, declarationAxiom);
@@ -288,7 +311,7 @@ public class OwlFactoryUtil {
 		
 	}
 	
-	private void putIntoUfoStructure(RefOntoUML.Class dtcls){
+	private void putIntoUfoStructure(RefOntoUML.Classifier dtcls){
 		if(!owlAxioms.getValue(OWL2Axiom.UFO_STRUCTURE)) return;
 	
 		OWLClass owlSuperCls = null;
@@ -811,10 +834,10 @@ public class OwlFactoryUtil {
 		//Set domain and range from the property
 		if(owlAxioms.getValue(OWL2Axiom.DOMAIN) && isMappedAsOwlClass(srcT))
 			createObjectPropertyDomain(srcT, prop);
-		if(owlAxioms.getValue(OWL2Axiom.RANGE) && isMappedAsOwlClass(srcT))
+		if(owlAxioms.getValue(OWL2Axiom.RANGE) && (isMappedAsOwlClass(tgtT) || tgtT instanceof RefOntoUML.Enumeration))
 			createObjectPropertyRange(tgtT, prop);
 		
-		if(!isMappedAsOwlClass(srcT) || !isMappedAsOwlClass(tgtT)) return;
+		if(!isMappedAsOwlClass(srcT) || (!isMappedAsOwlClass(tgtT) && !(tgtT instanceof RefOntoUML.Enumeration))) return;
 		
 		//Processing cardinality to the destiny
 		int upperCard = ass.getMemberEnd().get(sideDst).getUpper();
@@ -825,6 +848,8 @@ public class OwlFactoryUtil {
 		putIntoUfoStructure(ass);
 		String stereotype = OntoUMLParser.getStereotype(ass);
 		putInHash(stereotype, prop);
+		
+		if(tgtT instanceof RefOntoUML.Enumeration) return;
 		
 		OWLObjectProperty invProp = getInverseObjectProperty(ass);
 		createObjectProperty(invProp);
@@ -859,7 +884,7 @@ public class OwlFactoryUtil {
 	
 	public void createObjectPropertyRange(RefOntoUML.Classifier tgtT, OWLObjectProperty prop){
 		OWLClass dst = getOwlClass(tgtT);
-		if(owlAxioms.getValue(OWL2Axiom.RANGE) && isMappedAsOwlClass(tgtT))
+		if(owlAxioms.getValue(OWL2Axiom.RANGE) && (isMappedAsOwlClass(tgtT)|| tgtT instanceof RefOntoUML.Enumeration))
 			createObjectPropertyRange(dst, prop);
 	}
 	

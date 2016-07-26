@@ -16,6 +16,8 @@ import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.DataType;
 import RefOntoUML.Derivation;
+import RefOntoUML.Enumeration;
+import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.MaterialAssociation;
@@ -50,6 +52,7 @@ public class Transformer {
 	private Set<Generalization> lstGen;
 	private Set<Relator> lstRelator;
 	private Set<DataType> lstDataType;
+	private Set<Enumeration> lstEnumerations;
 	private Set<Association> lstAssociation;
 	private Set<NominalQuality> lstNominalQualities;
 	private ArrayList<Property> dataTypesProcesseds = new ArrayList<Property>();
@@ -73,6 +76,8 @@ public class Transformer {
 	private OwlAxioms owlAxioms;
 	private OwlMappings owlMappings;
 	private OwlOptions owlOptions;
+
+	
 
 	public String getErrors(){
 		errors = mappingElements.getOutputMessages() + errors;
@@ -116,6 +121,9 @@ public class Transformer {
 		Set<PrimitiveType> lstPrimitiveTypes = ontoParser.getAllInstances(RefOntoUML.PrimitiveType.class);
 		this.lstDataType.removeAll(lstPrimitiveTypes);
 		
+		this.lstEnumerations = ontoParser.getAllInstances(RefOntoUML.Enumeration.class); 
+		lstDataType.removeAll(this.lstEnumerations);
+		
 		this.lstDataTypeAndNominalQualities.addAll(lstDataType);
 		this.lstDataTypeAndNominalQualities.addAll(lstNominalQualities);
 		
@@ -138,6 +146,8 @@ public class Transformer {
 
 		processClassAttributes();
 		processDataTypes();
+		processEnumerations();
+		
 		processSuppressedQualitiesAsAttributes();
 		
 		processGeneralizations();
@@ -176,6 +186,7 @@ public class Transformer {
 		owlFactoryUtil.removeUndesiredAxioms();		
 	}
 
+	//generalization sets are mapped to enumerations
 	private void createGsSetMappingStructure() {
 		Object[][] genSetEnumMappings = this.owlMappings.getGeneralizationSets();
 		if(genSetEnumMappings == null) return;
@@ -412,6 +423,46 @@ public class Transformer {
 					_lowerCard.add(1);
 					owlFactoryUtil.createDataProperty(prop, dtcls, _lowerCard, _upperCard);
 				}
+			}
+		}
+		for (String className : duplicatedClasses) {
+			errors += "Warning: Duplicated names were founded for the Datatype: " + className + "\n";
+		}
+	}
+	
+	private void processEnumerations(){
+		ArrayList<String> existentClasses = new ArrayList<String>();
+		ArrayList<String> duplicatedClasses = new ArrayList<String>();
+		RefOntoUML.Classifier _RefOntoOwnerClass = null;
+		for(RefOntoUML.Classifier enums : this.lstEnumerations){
+			if(existentClasses.contains(enums.getName())){
+				duplicatedClasses.add(enums.getName());
+			}else{
+				existentClasses.add(enums.getName());
+			}
+			
+			owlFactoryUtil.createClass(enums);
+			
+			//pegar todos os Structuration, setar todos como Owner
+			ArrayList<Association> assocs = ontoParser.getDirectAssociations(enums);
+			for (Association ass : assocs) {
+				EList<Property> mEnds = ass.getMemberEnd();
+				if(mEnds.get(0).getType().equals(enums)){
+					_RefOntoOwnerClass = (Classifier) mEnds.get(1).getType();
+				}else{
+					_RefOntoOwnerClass = (Classifier) mEnds.get(0).getType();
+				}
+				owlFactoryUtil.createObjectProperty(ass);
+				
+			}
+			
+			RefOntoUML.Enumeration asEnumeration = (Enumeration) enums;
+			
+			if(!asEnumeration.getOwnedLiteral().isEmpty()){
+				for(EnumerationLiteral literal : asEnumeration.getOwnedLiteral()){
+					owlFactoryUtil.createIndividual(literal);					
+				}
+				owlFactoryUtil.createOneOf(enums, asEnumeration.getOwnedLiteral());
 			}
 		}
 		for (String className : duplicatedClasses) {

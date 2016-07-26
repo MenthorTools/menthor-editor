@@ -74,8 +74,10 @@ public class OwlAxioms {
 	}
 	
 	public Boolean getValue(OWL2Axiom axiom) { 
-		if(axiom!=OWL2Axiom.REASONER && axiom!=OWL2Axiom.ONTOLOGY_IRI)	
-			return axiomsMap.get(axiom);
+		if(axiom!=OWL2Axiom.REASONER && axiom!=OWL2Axiom.ONTOLOGY_IRI)	{
+			Boolean ret = axiomsMap.get(axiom);
+			return ret;
+		}
 		return null;
 	}
 }
