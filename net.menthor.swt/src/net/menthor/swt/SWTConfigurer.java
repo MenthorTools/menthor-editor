@@ -11,10 +11,10 @@ import java.net.URLClassLoader;
 
 public class SWTConfigurer {
 				
-	public static void execute(File tempdir, String menthorVersion){
+	public static void execute(String menthorVersion){
 		try{	
 			loadSwt(menthorVersion);		
-			extractTo(tempdir);
+			//extractTo(tempdir); the new swt-4.5 does not require this anymore!
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -39,6 +39,7 @@ public class SWTConfigurer {
 	
 	/** Load the SWT binaries (*.dlls, *.jnilib, *.so) according to the appropriate Operating System.  
 	 * @throws IOException */
+	@SuppressWarnings("unused")
 	private static void extractTo(File dir) throws LoadingException, URISyntaxException, IOException{
 		BinaryLoader.load(dir);
 	}

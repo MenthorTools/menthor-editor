@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/net.menthor.common/lib/apple/rt.jar"/>
+	<classpathentry kind="var" path="OS_SPECIFIC_SWT"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

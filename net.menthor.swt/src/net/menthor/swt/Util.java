@@ -21,7 +21,7 @@ public class Util {
 	}
 	
 	public static String getSwtFileName(){
-		return "swt-"+Util.getOSx()+"-"+Util.getArch()+".jar";    	
+		return "swt-"+Util.getOSx()+".jar";    	
 	}
 	
 	public static String getOSx(){ 

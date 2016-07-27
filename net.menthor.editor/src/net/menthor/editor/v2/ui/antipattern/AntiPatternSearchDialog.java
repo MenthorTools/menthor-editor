@@ -51,8 +51,6 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import org.eclipse.swt.widgets.Display;
-
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.antipattern.AntiPatternList;
 import net.menthor.antipattern.Antipattern;
@@ -318,7 +316,12 @@ public class AntiPatternSearchDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				//dispose();						
+				//dispose();
+				/*Display.getDefault().asyncExec(new Runnable() {
+				    public void run() {
+				    	SWTTest.helloworld();
+				    }
+				});*/
 				showResult(antipatternList);
 			}
 		});

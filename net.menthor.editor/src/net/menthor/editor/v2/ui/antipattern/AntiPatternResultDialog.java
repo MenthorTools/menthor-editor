@@ -141,9 +141,7 @@ public class AntiPatternResultDialog extends Dialog {
 	protected Table table;
 	protected Button btnReset;
 	protected Label feedBackLabel;
-	
-	
-	
+		
 	public void showWizard(final AntipatternOccurrence apOccur){		
 		WizardDialog wizardDialog = getWizardDialog(apOccur);		
 		if(wizardDialog!=null && wizardDialog.open()==Window.OK){			
@@ -235,19 +233,11 @@ public class AntiPatternResultDialog extends Dialog {
 	public static void openDialog(final AntiPatternList apList, final JFrame frame)
 	{	
     	if (apList!=null &&  !apList.getAll().isEmpty())
-		{
-			System.out.println("Opening swt result dialog.");
-			final Display display = Display.getDefault();	
-			display.asyncExec(
-			  new Runnable() {
-			    public void run(){
-			    	System.out.println("here...");
-			    	Shell shell = display.getActiveShell();							
-					AntiPatternResultDialog resultDIalog = new AntiPatternResultDialog(shell,apList.getAll(), frame);					
-					resultDIalog.create();
-					resultDIalog.open();					    	
-			    }
-			  });			
+		{			
+	    	Shell shell = Display.getDefault().getActiveShell();							
+			AntiPatternResultDialog resultDIalog = new AntiPatternResultDialog(shell,apList.getAll(), frame);					
+			resultDIalog.create();
+			resultDIalog.open();				    										
 		}
 	}
 	
