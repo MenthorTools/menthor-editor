@@ -65,7 +65,7 @@ public class SWTConfigurer {
 	        	File file = new File(workingDir.concat(swtFileName));
 	        	if(!file.exists()) { 
 	        		// check subfolder "/menthor-x.x.x_lib" first	        		
-	        		workingDir = workingDir.concat("\\menthor-"+menthorVersion+"_lib\\");
+	        		workingDir = workingDir.concat(File.separator+"menthor-"+menthorVersion+"_lib"+File.separator);
 	        		file = new File(workingDir.concat(swtFileName));
 	        		if(!file.exists()){
 		        		//extract swtFile jar to "/menthor-x.x.x_lib"	        		

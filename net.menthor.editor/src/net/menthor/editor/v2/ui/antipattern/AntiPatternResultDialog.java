@@ -129,6 +129,8 @@ import net.menthor.editor.v2.managers.AntiPatternManager;
 public class AntiPatternResultDialog extends Dialog {
 
 	protected JFrame frame;
+	protected Display display;
+	
 	protected ArrayList<AntipatternOccurrence> allOccurrences;
 	protected ArrayList<AntipatternOccurrence> result;
 	protected static TableViewer viewer;
@@ -142,8 +144,8 @@ public class AntiPatternResultDialog extends Dialog {
 	protected Button btnReset;
 	protected Label feedBackLabel;
 		
-	public void showWizard(final AntipatternOccurrence apOccur){		
-		WizardDialog wizardDialog = getWizardDialog(apOccur);		
+	public void showWizard(final AntipatternOccurrence apOccur, Display display){		
+		WizardDialog wizardDialog = getWizardDialog(apOccur, display);		
 		if(wizardDialog!=null && wizardDialog.open()==Window.OK){			
 			if(!apOccur.getFix().isEmpty()){
 				if(AntiPatternModifDialog.openDialog(apOccur.getFix(), frame)==Window.OK){					
@@ -154,11 +156,12 @@ public class AntiPatternResultDialog extends Dialog {
 		}
 	}	
 	
-	public AntiPatternResultDialog(Shell parentShell, List<AntipatternOccurrence> result, JFrame frame){
+	public AntiPatternResultDialog(Shell parentShell, List<AntipatternOccurrence> result, JFrame frame, Display display){
 		super(parentShell);		
 		this.result = new ArrayList<AntipatternOccurrence>(result);
 		this.allOccurrences = new ArrayList<AntipatternOccurrence>(result);
 		this.frame = frame;				
+		this.display = display;
 	}
 	
 	@Override
@@ -230,12 +233,12 @@ public class AntiPatternResultDialog extends Dialog {
 		return container;
 	}
 
-	public static void openDialog(final AntiPatternList apList, final JFrame frame)
+	public static void openDialog(final AntiPatternList apList, final JFrame frame, Display display)
 	{	
     	if (apList!=null &&  !apList.getAll().isEmpty())
 		{			
-	    	Shell shell = Display.getDefault().getActiveShell();							
-			AntiPatternResultDialog resultDIalog = new AntiPatternResultDialog(shell,apList.getAll(), frame);					
+	    	Shell shell = new Shell(display);							
+			AntiPatternResultDialog resultDIalog = new AntiPatternResultDialog(shell,apList.getAll(), frame, display);					
 			resultDIalog.create();
 			resultDIalog.open();				    										
 		}
@@ -284,6 +287,7 @@ public class AntiPatternResultDialog extends Dialog {
     	btnAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				
 				if(table.getSelectionIndices().length==0){
 					feedBackLabel.setVisible(false);
 					feedBackLabel.setText("Can't open Anti-pattern Wizard! Please select a line in the table above.");
@@ -308,7 +312,7 @@ public class AntiPatternResultDialog extends Dialog {
 					feedBackLabel.setText("Anti-pattern Wizard Open!");
 					feedBackLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 					feedBackLabel.setVisible(true);
-					showWizard((AntipatternOccurrence) viewer.getElementAt(table.getSelectionIndex()));
+					showWizard((AntipatternOccurrence) viewer.getElementAt(table.getSelectionIndex()), display);
 				}
 			}
 		});   
@@ -475,8 +479,8 @@ public class AntiPatternResultDialog extends Dialog {
 	      @Override
 	    	public Color getForeground(Object element) {
 	    	  String value = new Boolean(((AntipatternOccurrence) element).isFixed()).toString();
-		      if (value.equals("true")) return Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
-		      else return Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
+		      if (value.equals("true")) return display.getSystemColor(SWT.COLOR_DARK_GREEN);
+		      else return display.getSystemColor(SWT.COLOR_DARK_RED);
 	    	}
 	    });
 	    
@@ -524,11 +528,10 @@ public class AntiPatternResultDialog extends Dialog {
     	viewer.refresh();
 	}
 	
-	public WizardDialog getWizardDialog(final AntipatternOccurrence apOccur)
+	public WizardDialog getWizardDialog(final AntipatternOccurrence apOccur, Display d)
 	{
     	WizardDialog wizardDialog = null;    	
 
-    	Display d = Display.getDefault();
     	if (apOccur instanceof RelRigOccurrence) 
     		wizardDialog = new WizardDialog(new Shell(d), new RelRigWizard((RelRigOccurrence)apOccur));
     	if (apOccur instanceof RelSpecOccurrence) 

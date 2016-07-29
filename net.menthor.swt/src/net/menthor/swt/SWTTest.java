@@ -9,22 +9,19 @@ public class SWTTest {
 
 	public static void main(String[] args){
 		SWTConfigurer.execute("1.1.6");		
-		helloworld();		
+		helloworld(new Display());		
 	}
 	
-	public static void helloworld(){
-		//Display display = new Display ();
-		Shell shell = new Shell(Display.getDefault());
-		
+	public static void helloworld(Display display){		
+		Shell shell = new Shell(display);		
 		Text helloWorldTest = new Text(shell, SWT.NONE);
 		helloWorldTest.setText("Hello World SWT");
-		helloWorldTest.pack();
-		
+		helloWorldTest.pack();		
 		shell.pack();
 		shell.open ();
 		while (!shell.isDisposed ()) {
-			if (!Display.getDefault().readAndDispatch ()) Display.getDefault().sleep ();
+			if (!display.readAndDispatch ()) display.sleep ();
 		}
-		Display.getDefault().dispose ();
+		display.dispose ();
 	}
 }
