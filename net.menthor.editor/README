@@ -44,7 +44,7 @@ How to generate Executable JAR
 ==============================================================
 
 1. Change the attribute MENTHOR_VERSION in MenthorEditor.java to point to the version you're building.
-   Ex: String MENTHOR_VERSION = "0.9.32";
+   Ex: String MENTHOR_VERSION = "1.1.6";
    See more instructions commented in that attribute
 
 2. Change the attribute USE_LOG_FILE in MenthorEditor.java to tell whether or not you're going to use the log file.
@@ -54,11 +54,10 @@ How to generate Executable JAR
 3. Right click on MenthorEditor.java, go to Export -> Runnable Jar.
    Rename the jar to "menthor-"+MENTHOR_VERSION".jar, where MENTHOR_VERSION is your build version.
 
-4. 	Select Library handling at the checkbox: "Package required libraries into generated JAR"
-    We need to choose to package the libraries instead of extract them. You do not need to generate an ANT build script also.
-   
-5. After generating the jar, open it with WinRAR/Unzip and delete the "swt.jar" files on the root of the jar, they are among the other libraries. 
-   This swt.jar" is specific of Winx64 platform and we used it only in the development process. We don't need it at runtime.
+4. Select Library handling at the checkbox: "Copy required libraries into a sub-folder next to the generated jar"
+    
+5. After generating the jar, open the folder /menthor-X.X.X-lib and delete the "swt.jar" file among the other libraries. 
+   This swt.jar" is specific of your development platform and we used it only in the development process. We don't need it at runtime.
    
 6. Double click on the jar file created or type in a console java -jar menthor-editor-+MENTHOR_VERSION+.jar to execute Menthor Editor.
 
