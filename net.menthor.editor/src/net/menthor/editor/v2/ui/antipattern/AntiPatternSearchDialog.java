@@ -79,6 +79,7 @@ import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.swt.Util;
 
 /**
  * @author Tiago Sales
@@ -321,8 +322,13 @@ public class AntiPatternSearchDialog extends JDialog {
 				//dispose();
 				Thread t = new Thread(new Runnable() {					
 					@Override
-					public void run() {						
-						final Display display = new Display();																		    							    	
+					public void run() {
+						final Display display ;
+						if(Util.onWindows()){
+							display = new Display();
+						}else{
+							display = Display.getDefault();
+						}
 						showResult(antipatternList, display);						
 					}
 				});
