@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipException;
 
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -39,6 +40,7 @@ import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OclDocument;
 import net.menthor.editor.v2.ui.FrameUI;
+import net.menthor.editor.v2.ui.IndeterminateProgressUI;
 import net.menthor.editor.v2.ui.MenthorEditor;
 import net.menthor.editor.v2.ui.editor.StartEditor;
 import net.menthor.editor.v2.util.DeserializationUtil;
@@ -177,8 +179,6 @@ public class ProjectUIController {
 		if(SplitPaneUIController.get().isShowPalette()) waste+=240;
 		diagram.setSize((Util.getScreenWorkingWidth()-waste+100)*3, (Util.getScreenWorkingHeight()-100)*3);
 	}
-	
-	
 	
 	public void createEmptyProject(){
 		createEmptyProject(true,true);
@@ -331,19 +331,46 @@ public class ProjectUIController {
 		CursorUIController.get().defaultCursor();
 	}
 	
+	private class ModelLoader extends SwingWorker<Void, Void> {
+        
+		File file;
+        IndeterminateProgressUI progress;
+        Resource resource; 
+        RefOntoUML.Package model;   
+        
+        public ModelLoader(IndeterminateProgressUI progress, File file) {
+            this.file = file;
+            this.progress = progress;
+        }
+        
+        @Override
+        protected Void doInBackground() throws Exception {
+        	Thread.sleep(1000);
+            resource = RefOntoUMLResourceUtil.loadModel(file.getAbsolutePath());
+            return null;
+        }
+        
+        @Override
+        protected void done() {
+        	progress.dispose(); 
+        	model = (RefOntoUML.Package)resource.getContents().get(0);
+        	closeProject();			
+			createProject(model, true, false);
+			serializeProject();
+			FrameUIController.get().initializeFrame(projectFile);
+        }
+    }
+	
 	public void importModelContent() {
-		try {
-			File file = chooseImportFile();		
+		try {			
+			final File file = chooseImportFile();		
 			if(file==null) return;				
 			projectFile = new File(file.getAbsolutePath().replace(".refontouml", ".menthor"));
 			lastImportPath = projectFile.getAbsolutePath();
-			CursorUIController.get().waitCursor();
-			closeProject();
-			Resource resource = RefOntoUMLResourceUtil.loadModel(file.getAbsolutePath());
-			RefOntoUML.Package model = (RefOntoUML.Package)resource.getContents().get(0);
-			createProject(model, true, false);
-			serializeProject();
-			FrameUIController.get().initializeFrame(projectFile);			
+			CursorUIController.get().waitCursor();	
+			IndeterminateProgressUI progressBar = IndeterminateProgressUI.open();
+			progressBar.setTitle("Importing...");
+			new ModelLoader(progressBar, file).execute();						
 		} catch (Exception ex) {
 			MessageUIController.get().showError(ex, "Import Model Content", "Project content could not be imported from a Reference Ontouml file.");
 		}		

@@ -36,7 +36,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
 import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
 import net.menthor.ontouml2uml.OntoUML2UML;
