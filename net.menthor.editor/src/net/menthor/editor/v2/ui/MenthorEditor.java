@@ -9,7 +9,6 @@ import net.menthor.editor.v2.util.SystemUtil;
 import net.menthor.editor.v2.util.UIFontUtil;
 import net.menthor.editor.v2.util.Util;
 import net.menthor.swt.SWTConfigurer;
-import net.menthor.swt.SWTTest;
 
 public final class MenthorEditor {
 	

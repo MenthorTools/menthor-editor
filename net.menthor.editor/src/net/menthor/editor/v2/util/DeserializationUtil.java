@@ -122,10 +122,11 @@ public class DeserializationUtil {
 				ObjectInputStream ois = new ObjectInputStream(is);
 				project = (UmlProject) ois.readObject();			        
 				project.setResource(resource);
-			}catch(Exception e){			
+			}catch(Exception e){
 				JOptionPane.showMessageDialog(null, 
-				"The DAT information in this project is incompatible with this version of the editor. "
-				+ "\nFor this reason we were not able to retrieve the diagrams...",
+				"This project was serialized using an older version of the editor. "
+				+ "\nTherefore we were not able to retrieve this project diagrams."
+				+ "\nClick Ok and drag again the elements in the project browser to the canvas area.",
 				LOADING_ERROR_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			}
 			is.close();
