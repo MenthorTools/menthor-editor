@@ -226,33 +226,36 @@ public class SelectCommanderMode extends GenericCommander implements IEditorMode
 	}
 	
 	public void mousePressed(EditorMouseEvent e) {		
-		double mx = e.getX(), my = e.getY();		
-		Selection newSelection = select(mx, my);	
-		if(e.getMouseEvent().isControlDown()){			
-			if (isAllowedSelection(newSelection)) {
-				List<DiagramElement> allElements = merge(selection, newSelection);
-				if(currentEditor()==null) return;
-				// in case of clicking in an already selected element: deselect it.					
-				if(selection.getElements().containsAll(newSelection.getElements())){
-					DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
-					allElements.remove(deselection);
-				}										
-				selection = new MultiSelection(currentEditor(), allElements);			
-			}else{
-				selection = newSelection;
-			}
-		}else{
-			selection = newSelection;
+		double mx = e.getX(), my = e.getY();			
+		if(!e.getMouseEvent().isControlDown()) selection = select(mx, my);
+		else{ //Ctrl pressed
+			if(isNothingSelected()) selection = select(mx,my);
+			else{
+				Selection newSelection = select(mx, my);
+				if (isAllowedSelection(newSelection)) {
+					List<DiagramElement> allElements = merge(selection, newSelection);
+					if(currentEditor()==null) return;
+					// in case of clicking in an already selected element: deselect it.					
+					if(selection.getElements().containsAll(newSelection.getElements())){
+						DiagramElement deselection = currentEditor().getDiagram().getChildAt(mx, my);						
+						allElements.remove(deselection);
+					}										
+					selection = new MultiSelection(currentEditor(), allElements);			
+				}else{
+					//selection = newSelection;
+				}
+			}	
 		}		
-		// Dragging only if left mouse button was pressed
+		// Dragging rubberband...
 		if (e.isMainButton()){			
 			if (isNothingSelected() && currentEditor().getDiagram().contains(mx, my)) {
 				selection = rubberSelector;
-				selection.updatePosition(mx, my);
-			}
-			startPoint.setLocation(mx,my);
-			selection.startDragging(mx, my);
+//				//selection.updatePosition(mx, my);
+			}			
 		}
+		selection.updatePosition(mx, my);
+		startPoint.setLocation(mx,my);
+		selection.startDragging(mx, my);
 	}
 		
 	public void mouseClicked(EditorMouseEvent e) {		
