@@ -1,8 +1,5 @@
 package net.menthor.antipattern.wizard.relspec;
 
-import net.menthor.antipattern.relspec.RelSpecOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -14,6 +11,9 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.antipattern.relspec.RelSpecOccurrence;
 
 /**
  * @author Tiago Sales
@@ -145,8 +145,8 @@ public class RelSpecFourthPage extends RelSpecPage {
 	@Override
 	public IWizardPage getNextPage() {
 
-		ClassStereotype source = ClassStereotype.ROLE;
-		ClassStereotype target = ClassStereotype.ROLE;
+		OntoUMLStereotype source = ClassStereotype.ROLE;
+		OntoUMLStereotype target = ClassStereotype.ROLE;
 		
 		RelSpecAction newAction = new RelSpecAction(occurrence);
 		if(btnGeneralSource.getSelection()) {

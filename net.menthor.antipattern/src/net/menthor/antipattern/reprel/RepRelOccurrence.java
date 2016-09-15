@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -155,8 +154,8 @@ public class RepRelOccurrence extends AntipatternOccurrence {
 	}
 
 	public void createInvariantWithQualities(ArrayList<ArrayList<Mediation>> mMatrix, ArrayList<Integer> nList) {
-		fix.addAll(fixer.createAttribute(relator, "startTime", ClassStereotype.DATATYPE, "DateTime"));
-		fix.addAll(fixer.createAttribute(relator, "endTime", ClassStereotype.DATATYPE,"DateTime"));
+		fix.addAll(fixer.createAttribute(relator, "startTime", RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE, "DateTime"));
+		fix.addAll(fixer.createAttribute(relator, "endTime",  RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE,"DateTime"));
 		fix.includeRule(generateOCLDerivationConcurrentWith((Relator)relator)+"\n\n");
 		for(ArrayList<Mediation> mList: mMatrix){
 			fix.includeRule(generateOCLInvariantWithQualities(mList,nList.get(mMatrix.indexOf(mList))));	

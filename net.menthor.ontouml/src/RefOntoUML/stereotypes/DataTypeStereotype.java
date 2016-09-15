@@ -1,5 +1,5 @@
 
-package net.menthor.editor.v2.types;
+package RefOntoUML.stereotypes;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * ============================================================================================
  */
 
-public enum DataType implements OntoUMLMetatype{
+public enum DataTypeStereotype implements OntoUMLStereotype{
 
 	DATATYPE("DataType", RefOntoUML.DataType.class), 
 	ENUMERATION("Enumeration", RefOntoUML.Enumeration.class), 
@@ -41,12 +41,12 @@ public enum DataType implements OntoUMLMetatype{
 	private String name;
 	private Class<? extends EObject> metaClass;
 	
-	DataType(String name)
+	DataTypeStereotype(String name)
 	{
 		this.name = name;
 	}
 
-	DataType(String name, Class<? extends EObject> metaClass)
+	DataTypeStereotype(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
 		this.metaClass = metaClass;
@@ -68,11 +68,11 @@ public enum DataType implements OntoUMLMetatype{
 	}
 	
 	@Override
-	public OntoUMLMetatype getMetatype(EObject datatype){
-		return (OntoUMLMetatype)getDataType(datatype);
+	public OntoUMLStereotype getMetatype(EObject datatype){
+		return (OntoUMLStereotype)getDataType(datatype);
 	}
 	
-	public static DataType getDataType(EObject dataType){
+	public static DataTypeStereotype getDataType(EObject dataType){
 		if(dataType instanceof RefOntoUML.DecimalIntervalDimension) return DECIMALINTERVAL_DIMENSION;
 		if(dataType instanceof RefOntoUML.DecimalOrdinalDimension) return DECIMALORDINAL_DIMENSION;
 		if(dataType instanceof RefOntoUML.DecimalRationalDimension) return DECIMALRATIONAL_DIMENSION;
@@ -89,7 +89,7 @@ public enum DataType implements OntoUMLMetatype{
 	
 	public static void main (String args[])
 	{
-		for(DataType c: DataType.values()){
+		for(DataTypeStereotype c: DataTypeStereotype.values()){
 			System.out.println(c.name);
 		}
 	}
@@ -127,5 +127,16 @@ public enum DataType implements OntoUMLMetatype{
 	@Override
 	public boolean isPackage() {
 		return false;
+	}
+	
+	public static DataTypeStereotype[] getDataTypes(){
+		DataTypeStereotype[] array = {
+			DATATYPE, ENUMERATION, PRIMITIVETYPE,
+			MEASUREMENT_DOMAIN, INTEGERRATIONAL_DIMENSION,
+			INTEGERORDINAL_DIMENSION, INTEGERINTERVAL_DIMENSION, 
+			DECIMALRATIONAL_DIMENSION, DECIMALORDINAL_DIMENSION, 
+			DECIMALINTERVAL_DIMENSION, STRINGNOMINAL_STRUCTURE				
+		};
+		return array;
 	}
 }

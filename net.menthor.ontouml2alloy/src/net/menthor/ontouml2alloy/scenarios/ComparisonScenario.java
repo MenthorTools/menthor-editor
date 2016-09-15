@@ -1,8 +1,9 @@
 package net.menthor.ontouml2alloy.scenarios;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
 
 public class ComparisonScenario extends QuantifiedScenario {
 
@@ -132,7 +133,7 @@ public class ComparisonScenario extends QuantifiedScenario {
 			return "instances of the relation "+OntoUMLNameHelper.getTypeAndName(segment.getClassifier(), true, true);
 		case STEREOTYPE:
 			String x = "";
-			if(segment.getStereotype() instanceof ClassStereotype)
+			if((segment.getStereotype() instanceof ClassStereotype)||(segment.getStereotype() instanceof DataTypeStereotype))
 				x = "classes";
 			else
 				x = "associations";

@@ -7,11 +7,6 @@ import java.util.Iterator;
 
 import javax.swing.JDialog;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-import net.menthor.validator.meronymic.checkers.ui.MeronymicEndsDialog;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.DataType;
@@ -32,6 +27,11 @@ import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.validator.meronymic.checkers.ui.MeronymicEndsDialog;
 
 public class MeronymicEndsError extends MeronymicError<Meronymic> {
 
@@ -42,7 +42,7 @@ public class MeronymicEndsError extends MeronymicError<Meronymic> {
 	private HashMap<Nature,Boolean> newWholeNatureHash;
 	private HashMap<Nature,Boolean> newPartNatureHash;
 	private boolean changeStereotype;
-	private RelationStereotype newStereotype;
+	private RelationshipStereotype newStereotype;
 	
 	public MeronymicEndsError(OntoUMLParser parser, Meronymic m) {
 		super(parser,m);
@@ -73,7 +73,7 @@ public class MeronymicEndsError extends MeronymicError<Meronymic> {
 		return new MeronymicEndsDialog(parent, this);
 	}
 	
-	public void setChangeRelationStereotype(RelationStereotype newStereotype){
+	public void setChangeRelationStereotype(RelationshipStereotype newStereotype){
 		if(fixer.getRelationshipStereotype(element)!=newStereotype){
 			changeStereotype = true;
 			this.newStereotype = newStereotype;
@@ -254,7 +254,7 @@ public class MeronymicEndsError extends MeronymicError<Meronymic> {
 		return getNatureDescription(partNatureHash);
 	}
 	
-	public RelationStereotype getStereotype(){
+	public RelationshipStereotype getStereotype(){
 		return fixer.getRelationshipStereotype(element);
 	}
 
@@ -322,7 +322,7 @@ public class MeronymicEndsError extends MeronymicError<Meronymic> {
 
 	private void changeToMomentNature(Classifier baseClass, Class<?> c){
 		
-		ClassStereotype stereo = OutcomeFixer.getClassStereotype(c);
+		OntoUMLStereotype stereo = OutcomeFixer.getClassStereotype(c);
 		if(c.isInstance(baseClass))
 			return;
 		
@@ -349,7 +349,7 @@ public class MeronymicEndsError extends MeronymicError<Meronymic> {
 	}
 	
 	private void changeToExclusiveSortalNature(Classifier baseClass, Class<?> c) {
-		ClassStereotype stereo = OutcomeFixer.getClassStereotype(c);
+		OntoUMLStereotype stereo = OutcomeFixer.getClassStereotype(c);
 		
 		if(baseClass instanceof SubstanceSortal || baseClass instanceof Relator || baseClass instanceof Mode || baseClass instanceof DataType){
 			fix.addAll(fixer.changeClassStereotypeTo(baseClass, stereo));
@@ -487,7 +487,7 @@ public class MeronymicEndsError extends MeronymicError<Meronymic> {
 		return newPartNatureHash.get(Nature.DATATYPE);
 	}
 
-	public RelationStereotype getNewStereotype() {
+	public RelationshipStereotype getNewStereotype() {
 		return newStereotype;
 	}
 

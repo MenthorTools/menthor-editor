@@ -4,8 +4,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -19,6 +17,8 @@ import RefOntoUML.PackageableElement;
 import RefOntoUML.RigidSortalClass;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 //Mixed Rigidity in Generalization Set
 public class GSRigOccurrence extends AntipatternOccurrence{
@@ -244,7 +244,7 @@ public class GSRigOccurrence extends AntipatternOccurrence{
 			
 			//create new generalization from new rigid to Rigid super type			
 			// create generalization
-			Generalization newg = (Generalization) fixer.createRelationship(RelationStereotype.GENERALIZATION);
+			Generalization newg = (Generalization) fixer.createRelationship(RelationshipStereotype.GENERALIZATION);
 			newg.setGeneral(supertype);
 			newg.setSpecific((Classifier)newrigid);
 			fix.includeAdded(newg);		
@@ -309,7 +309,7 @@ public class GSRigOccurrence extends AntipatternOccurrence{
 		
 		//create new generalization from new rigid to Rigid super type			
 		// create generalization
-		Generalization newg = (Generalization) fixer.createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization newg = (Generalization) fixer.createRelationship(RelationshipStereotype.GENERALIZATION);
 		newg.setGeneral(supertype);
 		newg.setSpecific((Classifier)newrigid);
 		fix.includeAdded(newg);		
@@ -360,7 +360,7 @@ public class GSRigOccurrence extends AntipatternOccurrence{
 			fix.includeModified(newsupertype.eContainer());
 			
 			//create generalization from old supertype to new supertype
-			Generalization newg = (Generalization) fixer.createRelationship(RelationStereotype.GENERALIZATION);
+			Generalization newg = (Generalization) fixer.createRelationship(RelationshipStereotype.GENERALIZATION);
 			newg.setGeneral((Classifier)newsupertype);
 			newg.setSpecific((Classifier)getGs().getGeneralization().get(0).getGeneral());
 			fix.includeAdded(newg);	

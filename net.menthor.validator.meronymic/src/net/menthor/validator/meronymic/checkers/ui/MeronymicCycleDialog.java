@@ -32,7 +32,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.checkers.MeronymicCycleError;
 import RefOntoUML.Meronymic;
 import RefOntoUML.componentOf;
@@ -41,6 +40,7 @@ import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class MeronymicCycleDialog extends JDialog {
 
@@ -64,7 +64,7 @@ public class MeronymicCycleDialog extends JDialog {
 	private JRadioButton deleteRadio;
 	private JRadioButton changeStereotypeRadio;
 	private JComboBox<String> relationCombo;
-	private JComboBox<RelationStereotype> newStereotypeCombo;
+	private JComboBox<RelationshipStereotype> newStereotypeCombo;
 	private JButton registerButton;
 	private JComboBox<String> combo;
 	
@@ -360,11 +360,11 @@ public class MeronymicCycleDialog extends JDialog {
 		titlePane.setLayout(gl_titlePane);
 	}
 
-	private JComboBox<RelationStereotype> createStereotypeCombo() {
-		DefaultComboBoxModel<RelationStereotype> model = new DefaultComboBoxModel<RelationStereotype>();
-		model.addElement(RelationStereotype.FORMAL);
-		model.addElement(RelationStereotype.MATERIAL);
-		JComboBox<RelationStereotype> combo = new JComboBox<RelationStereotype>(model);
+	private JComboBox<RelationshipStereotype> createStereotypeCombo() {
+		DefaultComboBoxModel<RelationshipStereotype> model = new DefaultComboBoxModel<RelationshipStereotype>();
+		model.addElement(RelationshipStereotype.FORMAL);
+		model.addElement(RelationshipStereotype.MATERIAL);
+		JComboBox<RelationshipStereotype> combo = new JComboBox<RelationshipStereotype>(model);
 		return combo;
 	}
 	
@@ -406,7 +406,7 @@ public class MeronymicCycleDialog extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		
-			error.saveValuesFor(error.getMeronymicCycle().get(relationCombo.getSelectedIndex()), deleteRadio.isSelected(), reverseRadio.isSelected(), changeStereotypeRadio.isSelected(), (RelationStereotype) newStereotypeCombo.getSelectedItem());
+			error.saveValuesFor(error.getMeronymicCycle().get(relationCombo.getSelectedIndex()), deleteRadio.isSelected(), reverseRadio.isSelected(), changeStereotypeRadio.isSelected(), (RelationshipStereotype) newStereotypeCombo.getSelectedItem());
 			enableSaveButton();
 		}
 	};

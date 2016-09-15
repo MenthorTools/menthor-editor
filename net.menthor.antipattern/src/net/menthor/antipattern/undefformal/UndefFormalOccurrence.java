@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
@@ -19,6 +16,8 @@ import RefOntoUML.Mediation;
 import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class UndefFormalOccurrence extends AntipatternOccurrence {
 
@@ -86,7 +85,7 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 	// OUTCOMING FIXES ======================================================================
 	
 	public void changeToMediation(Association assoc, Classifier source, Classifier target) {
-		Fix fixes = fixer.changeRelationStereotypeTo(assoc, RelationStereotype.MEDIATION, false);
+		Fix fixes = fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.MEDIATION, false);
 		
 		Mediation mediation = fixes.getAddedByType(Mediation.class).get(0);
 		
@@ -104,7 +103,7 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 	}
 
 	public void changeToCharacterization(Association assoc, Classifier source, Classifier target) {
-		Fix fixes = fixer.changeRelationStereotypeTo(assoc, RelationStereotype.CHARACTERIZATION, false);
+		Fix fixes = fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.CHARACTERIZATION, false);
 		Characterization characterization = fixes.getAddedByType(Characterization.class).get(0);
 		
 		Property characterizedEnd = characterization.getMemberEnd().get(1);
@@ -121,14 +120,14 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 	}
 
 	public void changeToMaterial(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.MATERIAL, false));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.MATERIAL, false));
 	}
 	
 	public void changeToMaterial(Association assoc, Relator relator, String relatorName, 
 			Mediation mediation1, String mediation1Name, String mediation1SourceMult, String mediation1TargetMult, 
 			Mediation mediation2, String mediation2Name, String mediation2SourceMult, String mediation2TargetMult) {
 		
-		Fix currentFix = fixer.changeRelationStereotypeTo(assoc, RelationStereotype.MATERIAL, false);
+		Fix currentFix = fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.MATERIAL, false);
 		MaterialAssociation material = currentFix.getAddedByType(MaterialAssociation.class).get(0);
 		fix.addAll(currentFix);
 		
@@ -140,7 +139,7 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 		}
 		
 		if(mediation1==null){
-			currentFix = fixer.createAssociationBetween(RelationStereotype.MEDIATION, mediation1Name, relator, source);
+			currentFix = fixer.createAssociationBetween(RelationshipStereotype.MEDIATION, mediation1Name, relator, source);
 			mediation1 = currentFix.getAddedByType(Mediation.class).get(0);
 			fix.addAll(currentFix);
 			fixer.changePropertyMultiplicity(mediation1.getMemberEnd().get(0), mediation1SourceMult);
@@ -152,7 +151,7 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 		}
 		
 		if(mediation2==null){
-			currentFix = fixer.createAssociationBetween(RelationStereotype.MEDIATION, mediation2Name, relator, target);
+			currentFix = fixer.createAssociationBetween(RelationshipStereotype.MEDIATION, mediation2Name, relator, target);
 			mediation2 = currentFix.getAddedByType(Mediation.class).get(0);
 			fix.addAll(currentFix);
 			fixer.changePropertyMultiplicity(mediation2.getMemberEnd().get(0), mediation2SourceMult);
@@ -163,32 +162,32 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 			fix.addAll(fixer.changePropertyMultiplicity(mediation2.getMemberEnd().get(1), mediation2TargetMult));
 		}
 		
-		fix.addAll(fixer.createAssociationBetween(RelationStereotype.DERIVATION, "", relator, material));
+		fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.DERIVATION, "", relator, material));
 		fixer.deriveMaterialMultiplicities(material,mediation1,mediation2);
 	}
 
 	public void changeToSubCollectionOfSrcWhole(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.SUBCOLLECTIONOF, false));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.SUBCOLLECTIONOF, false));
 	}
 
 	public void changeToSubCollectionOfTgtWhole(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.SUBCOLLECTIONOF, true));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.SUBCOLLECTIONOF, true));
 	}
 
 	public void changeToMemberOfSrcWhole(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.MEMBEROF, false));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.MEMBEROF, false));
 	}
 
 	public void changeToMemberOfTgtWhole(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.MEMBEROF, true));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.MEMBEROF, true));
 	}
 
 	public void changeToSubQuantityOfSrcWhole(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.SUBQUANTITYOF, false));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.SUBQUANTITYOF, false));
 	}
 
 	public void changeToSubQuantityOfTgtWhole(Association assoc, Classifier source, Classifier target) {
-		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationStereotype.SUBQUANTITYOF, true));
+		fix.addAll(fixer.changeRelationStereotypeTo(assoc, RelationshipStereotype.SUBQUANTITYOF, true));
 	}
 
 	public void createDatatypesAttributesAndConstraint(Association assoc, Classifier source, Classifier target, 
@@ -196,12 +195,12 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 	{
 		//create attributes and datatypes/primitivetypes
 		for(String name: sourceMapType.keySet()){
-			if (sourceMapStereo.get(name).equals("PrimitiveType")) fix.addAll(fixer.createAttribute(source, name, ClassStereotype.PRIMITIVETYPE, sourceMapType.get(name)));
-			if (sourceMapStereo.get(name).equals("DataType")) fix.addAll(fixer.createAttribute(source, name, ClassStereotype.DATATYPE, sourceMapType.get(name)));
+			if (sourceMapStereo.get(name).equals("PrimitiveType")) fix.addAll(fixer.createAttribute(source, name,  RefOntoUML.stereotypes.DataTypeStereotype.PRIMITIVETYPE, sourceMapType.get(name)));
+			if (sourceMapStereo.get(name).equals("DataType")) fix.addAll(fixer.createAttribute(source, name,  RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE, sourceMapType.get(name)));
 		}
 		for(String name: targetMapType.keySet()){
-			if (targetMapStereo.get(name).equals("PrimitiveType")) fix.addAll(fixer.createAttribute(target, name, ClassStereotype.PRIMITIVETYPE, targetMapType.get(name)));
-			if (targetMapStereo.get(name).equals("DataType")) fix.addAll(fixer.createAttribute(target, name, ClassStereotype.DATATYPE, targetMapType.get(name)));
+			if (targetMapStereo.get(name).equals("PrimitiveType")) fix.addAll(fixer.createAttribute(target, name,  RefOntoUML.stereotypes.DataTypeStereotype.PRIMITIVETYPE, targetMapType.get(name)));
+			if (targetMapStereo.get(name).equals("DataType")) fix.addAll(fixer.createAttribute(target, name,  RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE, targetMapType.get(name)));
 		}
 		//set formal is derived
 		assoc.setIsDerived(true);
@@ -244,9 +243,9 @@ public class UndefFormalOccurrence extends AntipatternOccurrence {
 	public void changeToComponentOf(Classifier newSource, Classifier newTarget) {
 		
 		if(this.source.equals(newSource) && this.target.equals(newTarget))
-			fix.addAll(fixer.changeRelationStereotypeTo(formal, RelationStereotype.COMPONENTOF, false));
+			fix.addAll(fixer.changeRelationStereotypeTo(formal, RelationshipStereotype.COMPONENTOF, false));
 		else if (this.source.equals(newTarget) && this.target.equals(newSource)){
-			fix.addAll(fixer.changeRelationStereotypeTo(formal, RelationStereotype.COMPONENTOF, true));
+			fix.addAll(fixer.changeRelationStereotypeTo(formal, RelationshipStereotype.COMPONENTOF, true));
 		}
 	}
 

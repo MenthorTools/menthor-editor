@@ -32,8 +32,8 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.shared.UmlNode;
 
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
 import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.IEditorMode;
 import net.menthor.editor.v2.ui.operation.diagram.AddNodeOperation;
@@ -101,7 +101,7 @@ public class ClipboardCommanderMode extends GenericCommander implements IEditorM
 		}		
 	}
 		
-	public void createAndPutToClipboard(ClassType elementType){
+	public void createAndPutToClipboard(ClassStereotype elementType){
 		isActive=true;
 		OntoumlEditor de = currentEditor();		
 		if(de==null) return;
@@ -113,7 +113,7 @@ public class ClipboardCommanderMode extends GenericCommander implements IEditorM
 	   	drawClipBounds();	 		
 	}
 	
-	public void createAndPutToClipboard(DataType elementType){
+	public void createAndPutToClipboard(DataTypeStereotype elementType){
 		isActive=true;		
 		OntoumlEditor de = currentEditor();		
 		if(de==null) return;

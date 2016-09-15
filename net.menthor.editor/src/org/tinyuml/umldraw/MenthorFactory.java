@@ -50,11 +50,11 @@ import RefOntoUML.ReferenceStructure;
 import RefOntoUML.Relator;
 import RefOntoUML.Structuration;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.v2.OntoumlDiagram;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 
 public class MenthorFactory {
 
@@ -73,36 +73,36 @@ public class MenthorFactory {
     
     // ----------------------------
         
-    private Map<ClassType, UmlDiagramElement> classPrototypes = new HashMap<ClassType, UmlDiagramElement>();  
-    private Map<DataType, UmlDiagramElement> datatypesPrototypes = new HashMap<DataType, UmlDiagramElement>();
-    private Map<RelationshipType, UmlConnection> relationPrototypes = new HashMap<RelationshipType, UmlConnection>();
+    private Map<ClassStereotype, UmlDiagramElement> classPrototypes = new HashMap<ClassStereotype, UmlDiagramElement>();  
+    private Map<DataTypeStereotype, UmlDiagramElement> datatypesPrototypes = new HashMap<DataTypeStereotype, UmlDiagramElement>();
+    private Map<RelationshipStereotype, UmlConnection> relationPrototypes = new HashMap<RelationshipStereotype, UmlConnection>();
     
-    private Map<ClassType, Integer> classCounters = new HashMap<ClassType, Integer>();
-    private Map<DataType, Integer> datatypeCounters = new HashMap<DataType, Integer>();
-    private Map<RelationshipType, Integer> relationCounters = new HashMap<RelationshipType, Integer>();
+    private Map<ClassStereotype, Integer> classCounters = new HashMap<ClassStereotype, Integer>();
+    private Map<DataTypeStereotype, Integer> datatypeCounters = new HashMap<DataTypeStereotype, Integer>();
+    private Map<RelationshipStereotype, Integer> relationCounters = new HashMap<RelationshipStereotype, Integer>();
     
-    private void createClassPrototype(ClassType classType){
+    private void createClassPrototype(ClassStereotype classType){
     	 RefOntoUML.Class class_ = (RefOntoUML.Class)createClass(classType);    
     	 ClassElement classElement = (ClassElement) ClassElement.getPrototype().clone();
     	 classElement.setClassifier(class_);
     	 classPrototypes.put(classType, classElement);
     }
     
-    private void createDataTypePrototype(DataType dataType){
+    private void createDataTypePrototype(DataTypeStereotype dataType){
     	RefOntoUML.DataType datatype_ = (RefOntoUML.DataType)createDataType(dataType);    
    	 	ClassElement datatypeElement = (ClassElement) ClassElement.getPrototype().clone();
    	 	datatypeElement.setClassifier(datatype_);   	 
    	 	datatypesPrototypes.put(dataType, datatypeElement);
     }
     
-    private void createGeneralizationPrototype(RelationshipType relType){
+    private void createGeneralizationPrototype(RelationshipStereotype relType){
     	RefOntoUML.Relationship generalization = (RefOntoUML.Relationship)createRelationship(relType);    
 	    BaseConnection generalizationElement = (BaseConnection) GeneralizationElement.getPrototype().clone();
 	    generalizationElement.setRelationship(generalization);
 	    relationPrototypes.put(relType, generalizationElement);
     }
     
-    private String nextClassTypeCount(ClassType elementType){	  
+    private String nextClassTypeCount(ClassStereotype elementType){	  
   	  if (classCounters.get(elementType)!=null) {
   		  int count = classCounters.get(elementType);
   		  classCounters.put(elementType, count+1);
@@ -113,7 +113,7 @@ public class MenthorFactory {
   	  }
     }
     
-    private String nextDataTypeCount(DataType elementType){	  
+    private String nextDataTypeCount(DataTypeStereotype elementType){	  
   	  if (datatypeCounters.get(elementType)!=null) {
   		  int count = datatypeCounters.get(elementType);
   		  datatypeCounters.put(elementType, count+1);
@@ -124,7 +124,7 @@ public class MenthorFactory {
   	  }
     }
     
-    private String nextRelationshipCount(RelationshipType RelationshipType) {	  
+    private String nextRelationshipCount(RelationshipStereotype RelationshipType) {	  
   	  if (relationCounters.get(RelationshipType)!=null) {
   		  int count = relationCounters.get(RelationshipType);
   		  relationCounters.put(RelationshipType, count+1);
@@ -135,120 +135,120 @@ public class MenthorFactory {
   	  }	  
     }
     
-    private void createAssociationPrototype(RelationshipType relType){
+    private void createAssociationPrototype(RelationshipStereotype relType){
     	RefOntoUML.Relationship assoc = (RefOntoUML.Relationship)createRelationship(relType);   
         AssociationElement assocElement = (AssociationElement) AssociationElement.getPrototype().clone();
         assocElement.setRelationship(assoc);
         assocElement.setAssociationType(relType);
         assocElement.setShowOntoUmlStereotype(true);
-        if(relType==RelationshipType.DERIVATION) assocElement.setIsDashed(true);
-        if(relType==RelationshipType.DERIVATION) assocElement.setShowOntoUmlStereotype(false);
-        if(relType==RelationshipType.MEMBEROF) assocElement.setShowOntoUmlStereotype(false);
-        if(relType==RelationshipType.SUBCOLLECTIONOF) assocElement.setShowOntoUmlStereotype(false);
-        if(relType==RelationshipType.SUBQUANTITYOF) assocElement.setShowOntoUmlStereotype(false);
-        if(relType==RelationshipType.COMPONENTOF) assocElement.setShowOntoUmlStereotype(false);
-        if(relType==RelationshipType.ASSOCIATION) assocElement.setShowOntoUmlStereotype(false);
+        if(relType==RelationshipStereotype.DERIVATION) assocElement.setIsDashed(true);
+        if(relType==RelationshipStereotype.DERIVATION) assocElement.setShowOntoUmlStereotype(false);
+        if(relType==RelationshipStereotype.MEMBEROF) assocElement.setShowOntoUmlStereotype(false);
+        if(relType==RelationshipStereotype.SUBCOLLECTIONOF) assocElement.setShowOntoUmlStereotype(false);
+        if(relType==RelationshipStereotype.SUBQUANTITYOF) assocElement.setShowOntoUmlStereotype(false);
+        if(relType==RelationshipStereotype.COMPONENTOF) assocElement.setShowOntoUmlStereotype(false);
+        if(relType==RelationshipStereotype.ASSOCIATION) assocElement.setShowOntoUmlStereotype(false);
         relationPrototypes.put(relType, assocElement);        
     }
     
     private void createPrototypes() {	
     	//factory = RefOntoUMLFactoryUtil.factory;    
     	//factory = RefOntoUMLFactory.eINSTANCE;
-    	createClassPrototype(ClassType.KIND);
-    	createClassPrototype(ClassType.QUANTITY);
-    	createClassPrototype(ClassType.COLLECTIVE);
-    	createClassPrototype(ClassType.SUBKIND);
-    	createClassPrototype(ClassType.PHASE);
-    	createClassPrototype(ClassType.ROLE);
-    	createClassPrototype(ClassType.CATEGORY);
-    	createClassPrototype(ClassType.ROLEMIXIN);
-    	createClassPrototype(ClassType.MIXIN);
-    	createClassPrototype(ClassType.MODE);
-    	createClassPrototype(ClassType.RELATOR);
-    	createClassPrototype(ClassType.PERCEIVABLE_QUALITY);
-    	createClassPrototype(ClassType.NONPERCEIVABLE_QUALITY);
-    	createClassPrototype(ClassType.NOMINAL_QUALITY);
-    	createClassPrototype(ClassType.CLASS);
-    	createDataTypePrototype(DataType.DATATYPE);
-    	createDataTypePrototype(DataType.STRINGNOMINAL_STRUCTURE);
-    	createDataTypePrototype(DataType.MEASUREMENT_DOMAIN);
-    	createDataTypePrototype(DataType.INTEGERINTERVAL_DIMENSION);    	
-    	createDataTypePrototype(DataType.INTEGERRATIONAL_DIMENSION);
-    	createDataTypePrototype(DataType.INTEGERORDINAL_DIMENSION);
-    	createDataTypePrototype(DataType.DECIMALINTERVAL_DIMENSION);
-    	createDataTypePrototype(DataType.DECIMALRATIONAL_DIMENSION);
-    	createDataTypePrototype(DataType.DECIMALORDINAL_DIMENSION);
-    	createDataTypePrototype(DataType.ENUMERATION);
-    	createDataTypePrototype(DataType.PRIMITIVETYPE);
-    	createGeneralizationPrototype(RelationshipType.GENERALIZATION);
-    	createAssociationPrototype(RelationshipType.CHARACTERIZATION);
-    	createAssociationPrototype(RelationshipType.FORMAL);
-    	createAssociationPrototype(RelationshipType.MATERIAL);
-    	createAssociationPrototype(RelationshipType.MEDIATION);
-    	createAssociationPrototype(RelationshipType.MEMBEROF);
-    	createAssociationPrototype(RelationshipType.SUBQUANTITYOF);
-    	createAssociationPrototype(RelationshipType.SUBCOLLECTIONOF);
-    	createAssociationPrototype(RelationshipType.COMPONENTOF);
-    	createAssociationPrototype(RelationshipType.DERIVATION);
-    	createAssociationPrototype(RelationshipType.STRUCTURATION);
-    	createAssociationPrototype(RelationshipType.ASSOCIATION);
+    	createClassPrototype(ClassStereotype.KIND);
+    	createClassPrototype(ClassStereotype.QUANTITY);
+    	createClassPrototype(ClassStereotype.COLLECTIVE);
+    	createClassPrototype(ClassStereotype.SUBKIND);
+    	createClassPrototype(ClassStereotype.PHASE);
+    	createClassPrototype(ClassStereotype.ROLE);
+    	createClassPrototype(ClassStereotype.CATEGORY);
+    	createClassPrototype(ClassStereotype.ROLEMIXIN);
+    	createClassPrototype(ClassStereotype.MIXIN);
+    	createClassPrototype(ClassStereotype.MODE);
+    	createClassPrototype(ClassStereotype.RELATOR);
+    	createClassPrototype(ClassStereotype.PERCEIVABLE_QUALITY);
+    	createClassPrototype(ClassStereotype.NONPERCEIVABLE_QUALITY);
+    	createClassPrototype(ClassStereotype.NOMINAL_QUALITY);
+    	createClassPrototype(ClassStereotype.CLASS);
+    	createDataTypePrototype(DataTypeStereotype.DATATYPE);
+    	createDataTypePrototype(DataTypeStereotype.STRINGNOMINAL_STRUCTURE);
+    	createDataTypePrototype(DataTypeStereotype.MEASUREMENT_DOMAIN);
+    	createDataTypePrototype(DataTypeStereotype.INTEGERINTERVAL_DIMENSION);    	
+    	createDataTypePrototype(DataTypeStereotype.INTEGERRATIONAL_DIMENSION);
+    	createDataTypePrototype(DataTypeStereotype.INTEGERORDINAL_DIMENSION);
+    	createDataTypePrototype(DataTypeStereotype.DECIMALINTERVAL_DIMENSION);
+    	createDataTypePrototype(DataTypeStereotype.DECIMALRATIONAL_DIMENSION);
+    	createDataTypePrototype(DataTypeStereotype.DECIMALORDINAL_DIMENSION);
+    	createDataTypePrototype(DataTypeStereotype.ENUMERATION);
+    	createDataTypePrototype(DataTypeStereotype.PRIMITIVETYPE);
+    	createGeneralizationPrototype(RelationshipStereotype.GENERALIZATION);
+    	createAssociationPrototype(RelationshipStereotype.CHARACTERIZATION);
+    	createAssociationPrototype(RelationshipStereotype.FORMAL);
+    	createAssociationPrototype(RelationshipStereotype.MATERIAL);
+    	createAssociationPrototype(RelationshipStereotype.MEDIATION);
+    	createAssociationPrototype(RelationshipStereotype.MEMBEROF);
+    	createAssociationPrototype(RelationshipStereotype.SUBQUANTITYOF);
+    	createAssociationPrototype(RelationshipStereotype.SUBCOLLECTIONOF);
+    	createAssociationPrototype(RelationshipStereotype.COMPONENTOF);
+    	createAssociationPrototype(RelationshipStereotype.DERIVATION);
+    	createAssociationPrototype(RelationshipStereotype.STRUCTURATION);
+    	createAssociationPrototype(RelationshipStereotype.ASSOCIATION);
     }
 
     // ------------- RefOnto --------------
     
-    public RefOntoUML.Element createClass(ClassType elementType){
+    public RefOntoUML.Element createClass(ClassStereotype elementType){
 	  RefOntoUML.Element type = null;
 	  String name = elementType.getName()+nextClassTypeCount(elementType);
-	  if (elementType.equals(ClassType.KIND)) type = RefOntoUMLFactoryUtil.createKind(name, null);
-	  else if (elementType.equals(ClassType.COLLECTIVE)) type = RefOntoUMLFactoryUtil.createCollective(name, null);
-	  else if (elementType.equals(ClassType.QUANTITY)) type = RefOntoUMLFactoryUtil.createQuantity(name, null);
-	  else if (elementType.equals(ClassType.SUBKIND)) type = RefOntoUMLFactoryUtil.createSubKind(name, null);
-	  else if (elementType.equals(ClassType.PHASE)) type = RefOntoUMLFactoryUtil.createPhase(name, null);
-	  else if (elementType.equals(ClassType.ROLE)) type = RefOntoUMLFactoryUtil.createRole(name, null);
-	  else if (elementType.equals(ClassType.CATEGORY)) type = RefOntoUMLFactoryUtil.createCategory(name, null); 	  
-	  else if (elementType.equals(ClassType.ROLEMIXIN)) type = RefOntoUMLFactoryUtil.createRoleMixin(name, null); 
-	  else if (elementType.equals(ClassType.MIXIN)) type = RefOntoUMLFactoryUtil.createMixin(name, null); 
-	  else if (elementType.equals(ClassType.MODE)) type = RefOntoUMLFactoryUtil.createMode(name, null); 
-	  else if (elementType.equals(ClassType.RELATOR)) type = RefOntoUMLFactoryUtil.createRelator(name, null); 
-	  else if (elementType.equals(ClassType.PERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createPerceivableQuality(name, null); 
-	  else if (elementType.equals(ClassType.NONPERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createNonPerceivableQuality(name, null); 
-	  else if (elementType.equals(ClassType.NOMINAL_QUALITY)) type = RefOntoUMLFactoryUtil.createNominalQuality(name, null); 
-	  else if (elementType.equals(ClassType.CLASS)) type = RefOntoUMLFactoryUtil.createClass(name, null);
+	  if (elementType.equals(ClassStereotype.KIND)) type = RefOntoUMLFactoryUtil.createKind(name, null);
+	  else if (elementType.equals(ClassStereotype.COLLECTIVE)) type = RefOntoUMLFactoryUtil.createCollective(name, null);
+	  else if (elementType.equals(ClassStereotype.QUANTITY)) type = RefOntoUMLFactoryUtil.createQuantity(name, null);
+	  else if (elementType.equals(ClassStereotype.SUBKIND)) type = RefOntoUMLFactoryUtil.createSubKind(name, null);
+	  else if (elementType.equals(ClassStereotype.PHASE)) type = RefOntoUMLFactoryUtil.createPhase(name, null);
+	  else if (elementType.equals(ClassStereotype.ROLE)) type = RefOntoUMLFactoryUtil.createRole(name, null);
+	  else if (elementType.equals(ClassStereotype.CATEGORY)) type = RefOntoUMLFactoryUtil.createCategory(name, null); 	  
+	  else if (elementType.equals(ClassStereotype.ROLEMIXIN)) type = RefOntoUMLFactoryUtil.createRoleMixin(name, null); 
+	  else if (elementType.equals(ClassStereotype.MIXIN)) type = RefOntoUMLFactoryUtil.createMixin(name, null); 
+	  else if (elementType.equals(ClassStereotype.MODE)) type = RefOntoUMLFactoryUtil.createMode(name, null); 
+	  else if (elementType.equals(ClassStereotype.RELATOR)) type = RefOntoUMLFactoryUtil.createRelator(name, null); 
+	  else if (elementType.equals(ClassStereotype.PERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createPerceivableQuality(name, null); 
+	  else if (elementType.equals(ClassStereotype.NONPERCEIVABLE_QUALITY)) type = RefOntoUMLFactoryUtil.createNonPerceivableQuality(name, null); 
+	  else if (elementType.equals(ClassStereotype.NOMINAL_QUALITY)) type = RefOntoUMLFactoryUtil.createNominalQuality(name, null); 
+	  else if (elementType.equals(ClassStereotype.CLASS)) type = RefOntoUMLFactoryUtil.createClass(name, null);
 	  return type;	  
   }
   
-  public RefOntoUML.Element createDataType(DataType elementType) {
+  public RefOntoUML.Element createDataType(DataTypeStereotype elementType) {
 	  RefOntoUML.Element type = null;
 	  String name = elementType.getName()+nextDataTypeCount(elementType);
-	  if (elementType.equals(DataType.DATATYPE)) { type = RefOntoUMLFactoryUtil.createDataType(name, null);  }	  
-	  if (elementType.equals(DataType.ENUMERATION)) { type = RefOntoUMLFactoryUtil.createEnumeration(name, new ArrayList<String>(), null); }
-	  if (elementType.equals(DataType.PRIMITIVETYPE)) { type = RefOntoUMLFactoryUtil.createPrimitiveType(name, null);  }	  
-	  if (elementType.equals(DataType.STRINGNOMINAL_STRUCTURE)) { type = RefOntoUMLFactoryUtil.createStringNominalStructure(name, null);  }
-	  if (elementType.equals(DataType.INTEGERINTERVAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createIntegerIntervalDimension(name, null); }
-	  if (elementType.equals(DataType.INTEGERORDINAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createIntegerOrdinalDimension(name, null); }
-	  if (elementType.equals(DataType.INTEGERRATIONAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createIntegerRationalDimension(name, null); }
-	  if (elementType.equals(DataType.DECIMALINTERVAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createDecimalIntervalDimension(name, null); }
-	  if (elementType.equals(DataType.DECIMALORDINAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createDecimalOrdinalDimension(name, null); }
-	  if (elementType.equals(DataType.DECIMALRATIONAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createDecimalRationalDimension(name, null); }
-	  if (elementType.equals(DataType.MEASUREMENT_DOMAIN)) { type = RefOntoUMLFactoryUtil.createMeasurementDomain(name, null); }
+	  if (elementType.equals(DataTypeStereotype.DATATYPE)) { type = RefOntoUMLFactoryUtil.createDataType(name, null);  }	  
+	  if (elementType.equals(DataTypeStereotype.ENUMERATION)) { type = RefOntoUMLFactoryUtil.createEnumeration(name, new ArrayList<String>(), null); }
+	  if (elementType.equals(DataTypeStereotype.PRIMITIVETYPE)) { type = RefOntoUMLFactoryUtil.createPrimitiveType(name, null);  }	  
+	  if (elementType.equals(DataTypeStereotype.STRINGNOMINAL_STRUCTURE)) { type = RefOntoUMLFactoryUtil.createStringNominalStructure(name, null);  }
+	  if (elementType.equals(DataTypeStereotype.INTEGERINTERVAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createIntegerIntervalDimension(name, null); }
+	  if (elementType.equals(DataTypeStereotype.INTEGERORDINAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createIntegerOrdinalDimension(name, null); }
+	  if (elementType.equals(DataTypeStereotype.INTEGERRATIONAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createIntegerRationalDimension(name, null); }
+	  if (elementType.equals(DataTypeStereotype.DECIMALINTERVAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createDecimalIntervalDimension(name, null); }
+	  if (elementType.equals(DataTypeStereotype.DECIMALORDINAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createDecimalOrdinalDimension(name, null); }
+	  if (elementType.equals(DataTypeStereotype.DECIMALRATIONAL_DIMENSION)) { type = RefOntoUMLFactoryUtil.createDecimalRationalDimension(name, null); }
+	  if (elementType.equals(DataTypeStereotype.MEASUREMENT_DOMAIN)) { type = RefOntoUMLFactoryUtil.createMeasurementDomain(name, null); }
 	  return type;	  
   }
   
-  public RefOntoUML.Relationship createRelationship(RelationshipType relType){
+  public RefOntoUML.Relationship createRelationship(RelationshipStereotype relType){
 	  RefOntoUML.Relationship rel = null;
 	  String name = relType.getName()+nextRelationshipCount(relType);
-	  if (relType.equals(RelationshipType.GENERALIZATION)) rel = RefOntoUMLFactoryUtil.createGeneralization(null, null);
-	  if (relType.equals(RelationshipType.CHARACTERIZATION)) rel = RefOntoUMLFactoryUtil.createCharacterization(name, null);
-	  if (relType.equals(RelationshipType.FORMAL)) rel = RefOntoUMLFactoryUtil.createFormalAssociation(name, null);
-	  if (relType.equals(RelationshipType.MATERIAL)) rel = RefOntoUMLFactoryUtil.createMaterialAssociation(name, null);
-	  if (relType.equals(RelationshipType.MEDIATION)) rel = RefOntoUMLFactoryUtil.createMediation(name, null);
-	  if (relType.equals(RelationshipType.MEMBEROF)) rel = RefOntoUMLFactoryUtil.createMemberOf(name, null); 
-	  if (relType.equals(RelationshipType.SUBQUANTITYOF)) rel = RefOntoUMLFactoryUtil.createSubQuantityOf(name, null);
-	  if (relType.equals(RelationshipType.SUBCOLLECTIONOF)) rel = RefOntoUMLFactoryUtil.createSubCollectionOf(name, null); 
-	  if (relType.equals(RelationshipType.COMPONENTOF)) rel = RefOntoUMLFactoryUtil.createComponentOf(name, null); 
-	  if (relType.equals(RelationshipType.DERIVATION)) rel = RefOntoUMLFactoryUtil.createDerivation(name, null);
-	  if (relType.equals(RelationshipType.ASSOCIATION)) rel = RefOntoUMLFactoryUtil.createAssociation(name, null);	  
-	  if (relType.equals(RelationshipType.STRUCTURATION)) rel = RefOntoUMLFactoryUtil.createStructuration(name, null);
+	  if (relType.equals(RelationshipStereotype.GENERALIZATION)) rel = RefOntoUMLFactoryUtil.createGeneralization(null, null);
+	  if (relType.equals(RelationshipStereotype.CHARACTERIZATION)) rel = RefOntoUMLFactoryUtil.createCharacterization(name, null);
+	  if (relType.equals(RelationshipStereotype.FORMAL)) rel = RefOntoUMLFactoryUtil.createFormalAssociation(name, null);
+	  if (relType.equals(RelationshipStereotype.MATERIAL)) rel = RefOntoUMLFactoryUtil.createMaterialAssociation(name, null);
+	  if (relType.equals(RelationshipStereotype.MEDIATION)) rel = RefOntoUMLFactoryUtil.createMediation(name, null);
+	  if (relType.equals(RelationshipStereotype.MEMBEROF)) rel = RefOntoUMLFactoryUtil.createMemberOf(name, null); 
+	  if (relType.equals(RelationshipStereotype.SUBQUANTITYOF)) rel = RefOntoUMLFactoryUtil.createSubQuantityOf(name, null);
+	  if (relType.equals(RelationshipStereotype.SUBCOLLECTIONOF)) rel = RefOntoUMLFactoryUtil.createSubCollectionOf(name, null); 
+	  if (relType.equals(RelationshipStereotype.COMPONENTOF)) rel = RefOntoUMLFactoryUtil.createComponentOf(name, null); 
+	  if (relType.equals(RelationshipStereotype.DERIVATION)) rel = RefOntoUMLFactoryUtil.createDerivation(name, null);
+	  if (relType.equals(RelationshipStereotype.ASSOCIATION)) rel = RefOntoUMLFactoryUtil.createAssociation(name, null);	  
+	  if (relType.equals(RelationshipStereotype.STRUCTURATION)) rel = RefOntoUMLFactoryUtil.createStructuration(name, null);
 	  return rel;			  
   }
    
@@ -280,7 +280,7 @@ public class MenthorFactory {
 	 return RefOntoUMLFactoryUtil.clone(type);
   }
   
-  public RefOntoUML.Classifier cloneClass(ClassType classType, RefOntoUML.Type type){
+  public RefOntoUML.Classifier cloneClass(ClassStereotype classType, RefOntoUML.Type type){
 	  RefOntoUML.PackageableElement newType = (PackageableElement)createClass(classType);
 	  return RefOntoUMLFactoryUtil.clone((RefOntoUML.Classifier)newType, (RefOntoUML.Classifier)type);
   }
@@ -289,7 +289,7 @@ public class MenthorFactory {
 	 return RefOntoUMLFactoryUtil.clone(type);
   }
   
-  public RefOntoUML.Classifier cloneDataType(DataType classType, RefOntoUML.Type type){
+  public RefOntoUML.Classifier cloneDataType(DataTypeStereotype classType, RefOntoUML.Type type){
 	  RefOntoUML.PackageableElement newType = (PackageableElement)createDataType(classType);
 	  return RefOntoUMLFactoryUtil.clone((RefOntoUML.Classifier)newType, (RefOntoUML.Classifier)type);
   }
@@ -298,14 +298,14 @@ public class MenthorFactory {
 	 return RefOntoUMLFactoryUtil.cloneRelationship(type);
   }
   
-  public RefOntoUML.Relationship cloneRelationship(RelationshipType relType, RefOntoUML.Relationship type){
+  public RefOntoUML.Relationship cloneRelationship(RelationshipStereotype relType, RefOntoUML.Relationship type){
 	  RefOntoUML.Relationship newType = (RefOntoUML.Relationship)createRelationship(relType);
 	  return RefOntoUMLFactoryUtil.cloneRelationship(newType, type);
   }
     
   //------------- Node --------------
   
-  public UmlNode createNode(ClassType classType, StructureDiagram container) {
+  public UmlNode createNode(ClassStereotype classType, StructureDiagram container) {
     UmlNode umlnode = (UmlNode) classPrototypes.get(classType).clone(); 
     String name = umlnode.getClassifier().getName() + nextClassTypeCount(classType);
     if(umlnode.getClassifier()!=null) umlnode.getClassifier().setName(name);
@@ -321,7 +321,7 @@ public class MenthorFactory {
     return umlnode;
   }
   
-  public UmlNode createNode(DataType dataType, StructureDiagram container){
+  public UmlNode createNode(DataTypeStereotype dataType, StructureDiagram container){
     UmlNode umlnode = (UmlNode) datatypesPrototypes.get(dataType).clone();
     String name = umlnode.getClassifier().getName() + nextDataTypeCount(dataType);
     if(umlnode.getClassifier() != null) umlnode.getClassifier().setName(name);
@@ -340,10 +340,10 @@ public class MenthorFactory {
   public UmlNode createNode(RefOntoUML.Type type, StructureDiagram container){
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  ClassType classType = ClassType.getClassType((RefOntoUML.Class)type);
+		  ClassStereotype classType = ClassStereotype.getClassType((RefOntoUML.Class)type);
 		  umlnode = (UmlNode) classPrototypes.get(classType).clone();
 	  }else{ 
-		  DataType dataType = DataType.getDataType((RefOntoUML.DataType)type);
+		  DataTypeStereotype dataType = DataTypeStereotype.getDataType((RefOntoUML.DataType)type);
 		  umlnode = (UmlNode) datatypesPrototypes.get(dataType).clone();
 	  }
 	  ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);	   
@@ -359,10 +359,10 @@ public class MenthorFactory {
   public UmlNode createNode(RefOntoUML.Type type, EObject eContainer){
 	  UmlNode umlnode=null;  
 	  if(type instanceof RefOntoUML.Class){
-		  ClassType classType = ClassType.getClassType((RefOntoUML.Class)type);
+		  ClassStereotype classType = ClassStereotype.getClassType((RefOntoUML.Class)type);
 		  umlnode = (UmlNode) classPrototypes.get(classType).clone();
 	  }else{ 
-		  DataType dataType = DataType.getDataType((RefOntoUML.DataType)type);
+		  DataTypeStereotype dataType = DataTypeStereotype.getDataType((RefOntoUML.DataType)type);
 		  umlnode = (UmlNode) datatypesPrototypes.get(dataType).clone();
 	  }
 	  ((ClassElement)umlnode).setClassifier((RefOntoUML.Classifier)type);	   
@@ -385,7 +385,7 @@ public class MenthorFactory {
  
  //Creates a visual representation for a relation (on the diagram) from an existing relation on the model. Called when draging and droping from the project browser.
   public UmlConnection createVisualConnectionFromModelRelationship(RefOntoUML.Relationship relationship, DiagramElement diagramElement1, DiagramElement diagramElement2){	
-	    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
+	    UmlConnection prototype = relationPrototypes.get(RelationshipStereotype.getRelationshipType(relationship));    
 	    UmlConnection conn = null;
 	    if (prototype != null){
 			conn = (UmlConnection) prototype.clone();
@@ -402,7 +402,7 @@ public class MenthorFactory {
 		  
   
   public UmlConnection createConnection(RefOntoUML.Relationship relationship, DiagramElement de1, DiagramElement de2){	
-    UmlConnection prototype = relationPrototypes.get(RelationshipType.getRelationshipType(relationship));    
+    UmlConnection prototype = relationPrototypes.get(RelationshipStereotype.getRelationshipType(relationship));    
     UmlConnection conn = null;
     if (prototype != null){
 		conn = (UmlConnection) prototype.clone();
@@ -422,7 +422,7 @@ public class MenthorFactory {
   }
     
   //Method called when creating a new relationship from the palette (either the fixed one and the popup one).
-  public UmlConnection createConnection(RelationshipType relationType, DiagramElement de1, DiagramElement de2){
+  public UmlConnection createConnection(RelationshipStereotype relationType, DiagramElement de1, DiagramElement de2){
 	  UmlConnection prototype = relationPrototypes.get(relationType);	  
       UmlConnection conn = null;
       if (prototype != null){
@@ -468,7 +468,7 @@ public class MenthorFactory {
 	  	p.setName(typeName);
 	  }
   
-  public UmlConnection createConnection(RelationshipType relationType, RefOntoUML.Relationship toBeCloned, StructureDiagram diagram){
+  public UmlConnection createConnection(RelationshipStereotype relationType, RefOntoUML.Relationship toBeCloned, StructureDiagram diagram){
 	  UmlConnection prototype = relationPrototypes.get(relationType);	
 	  UmlConnection conn = null;
       if (prototype != null){
@@ -485,7 +485,7 @@ public class MenthorFactory {
 	  return conn;
   }
   
-  public LineConnectMethod getDefaultConnectMethod(RelationshipType RelationshipType){
+  public LineConnectMethod getDefaultConnectMethod(RelationshipStereotype RelationshipType){
     UmlConnection connPrototype = relationPrototypes.get(RelationshipType);
     return (connPrototype == null) ? null : connPrototype.getConnectMethod();
   }

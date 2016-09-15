@@ -1,8 +1,8 @@
 package net.menthor.antipattern.wizard.relspec;
 
+import RefOntoUML.stereotypes.OntoUMLStereotype;
 import net.menthor.antipattern.relspec.RelSpecOccurrence;
 import net.menthor.antipattern.wizard.AntiPatternAction;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 
 public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 
@@ -17,8 +17,8 @@ public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 		SPEC_GENERAL_BOTH_REDEFINE, SPEC_SPECIFIC_BOTH_REDEFINE 
 	}
 	
-	public ClassStereotype source;
-	public ClassStereotype target;
+	public OntoUMLStereotype source;
+	public OntoUMLStereotype target;
 	
 	@Override
 	public void run()
@@ -62,33 +62,33 @@ public class RelSpecAction extends AntiPatternAction <RelSpecOccurrence> {
 	public void setDeleteSpecific(){
 		code=Action.DELETE_SPECIFIC;		
 	}	
-	public void setSpec_General_Source_Redefine(ClassStereotype source)
+	public void setSpec_General_Source_Redefine(OntoUMLStereotype source)
 	{
 		code=Action.SPEC_GENERAL_SOURCE_REDEFINE;
 		this.source = source;
 	}
-	public void setSpec_General_Target_Redefine(ClassStereotype target)
+	public void setSpec_General_Target_Redefine(OntoUMLStereotype target)
 	{
 		code=Action.SPEC_GENERAL_TARGET_REDEFINE;
 		this.target=target;
 	}
-	public void setSpec_General_Both_Redefine(ClassStereotype source, ClassStereotype target)
+	public void setSpec_General_Both_Redefine(OntoUMLStereotype source, OntoUMLStereotype target)
 	{
 		code=Action.SPEC_GENERAL_BOTH_REDEFINE;
 		this.source = source;
 		this.target=target;
 	}
-	public void setSpec_Specific_Source_Redefine(ClassStereotype source)
+	public void setSpec_Specific_Source_Redefine(OntoUMLStereotype source)
 	{
 		code=Action.SPEC_SPECIFIC_SOURCE_REDEFINE;
 		this.source = source;
 	}
-	public void setSpec_Specific_Target_Redefine(ClassStereotype target)
+	public void setSpec_Specific_Target_Redefine(OntoUMLStereotype target)
 	{
 		code=Action.SPEC_SPECIFIC_TARGET_REDEFINE;
 		this.target=target;
 	}
-	public void setSpec_Specific_Both_Redefine(ClassStereotype source, ClassStereotype target)
+	public void setSpec_Specific_Both_Redefine(OntoUMLStereotype source, OntoUMLStereotype target)
 	{
 		code=Action.SPEC_SPECIFIC_BOTH_REDEFINE;
 		this.source = source;

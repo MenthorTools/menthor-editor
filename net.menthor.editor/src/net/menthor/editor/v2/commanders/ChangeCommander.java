@@ -11,11 +11,11 @@ import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Relationship;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.common.ontoumlverificator.MultiplicityValidator;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
@@ -43,17 +43,17 @@ public class ChangeCommander {
     // ----------------------------
 	
 	/** Change relation stereotype */ 
-	public void changeRelationStereotype(RelationshipType newtype, Relationship relationship){	
+	public void changeRelationStereotype(RelationshipStereotype newtype, Relationship relationship){	
 		new ChangeStereotypeModelOperation(relationship, newtype).run();;
 	}	
 	
 	/** Change a class stereotype */ 
-	public void changeClassStereotype(ClassType newtype, RefOntoUML.Classifier _class){ 
+	public void changeClassStereotype(ClassStereotype newtype, RefOntoUML.Classifier _class){ 
 		new ChangeStereotypeModelOperation(_class, newtype).run();
 	}
 	
 	/** Change a datatype stereotype */ 
-	public void changeDataTypeStereotype(DataType newtype, RefOntoUML.Classifier datatype){ 
+	public void changeDataTypeStereotype(DataTypeStereotype newtype, RefOntoUML.Classifier datatype){ 
 		new ChangeStereotypeModelOperation(datatype, newtype).run();
 	}
 	

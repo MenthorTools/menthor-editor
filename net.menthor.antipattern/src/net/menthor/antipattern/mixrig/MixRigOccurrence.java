@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +18,7 @@ import RefOntoUML.RoleMixin;
 import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
 
 public class MixRigOccurrence extends AntipatternOccurrence {
 

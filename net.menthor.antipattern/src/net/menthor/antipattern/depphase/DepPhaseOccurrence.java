@@ -3,7 +3,6 @@ package net.menthor.antipattern.depphase;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
 
 import org.eclipse.emf.ecore.EObject;
@@ -17,6 +16,7 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
 
 //Relationally Dependent Phase
 public class DepPhaseOccurrence extends AntipatternOccurrence{

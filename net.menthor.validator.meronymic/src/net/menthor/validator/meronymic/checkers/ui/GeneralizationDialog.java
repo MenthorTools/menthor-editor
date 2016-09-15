@@ -29,7 +29,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import net.menthor.validator.meronymic.checkers.GeneralizationError;
 import net.menthor.validator.meronymic.ui.ClassStereotypeCombo;
@@ -280,9 +280,9 @@ public class GeneralizationDialog extends JDialog {
 				error.setRemove();
 			else if(stereotypeRadio.isSelected()){
 				if(childCombo.getSelectedIndex()!=-1 && !childCombo.getSelectedItem().equals(OutcomeFixer.getClassStereotype(error.getChild())))
-					error.setChangeChildStereotype((ClassStereotype) childCombo.getSelectedItem());
+					error.setChangeChildStereotype((OntoUMLStereotype) childCombo.getSelectedItem());
 				if(parentCombo.getSelectedIndex()!=-1 && !parentCombo.getSelectedItem().equals(OutcomeFixer.getClassStereotype(error.getParent())))
-					error.setChangeParentStereotype((ClassStereotype) childCombo.getSelectedItem());
+					error.setChangeParentStereotype((OntoUMLStereotype) childCombo.getSelectedItem());
 			}
 			GeneralizationDialog.this.dispose();
 			

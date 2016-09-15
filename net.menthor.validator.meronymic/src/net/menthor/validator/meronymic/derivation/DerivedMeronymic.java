@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import javax.swing.JDialog;
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.MeronymicItem;
 import net.menthor.validator.meronymic.derivation.ui.DirectPatternActionDialog;
 import net.menthor.validator.meronymic.derivation.ui.DirectPatternPropertyDialog;
@@ -19,6 +18,7 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class DerivedMeronymic extends MeronymicItem{
 
@@ -29,7 +29,7 @@ public class DerivedMeronymic extends MeronymicItem{
 								DIRECT_SUBCOLLECTION_PARTHOOD, DIRECT_MEMBERSHIP, 
 								DIRECT_SUBQUANTITY_PARTHOOD};
 	private PatternType pattern;		
-	private RelationStereotype stereotype;
+	private RelationshipStereotype stereotype;
 	private Meronymic existingMeronymic;
 	
 	private String name;
@@ -41,7 +41,7 @@ public class DerivedMeronymic extends MeronymicItem{
 	private int lowerPart, upperPart, lowerWhole, upperWhole;
 	private AggregationKind wholeAggregation, partAggregation;
 
-	public DerivedMeronymic(RelationStereotype stereotype, OntoUMLParser parser) {
+	public DerivedMeronymic(RelationshipStereotype stereotype, OntoUMLParser parser) {
 		super(parser);
 		this.stereotype = stereotype;
 		fix = new Fix();
@@ -52,13 +52,13 @@ public class DerivedMeronymic extends MeronymicItem{
 		this.existingMeronymic = existingMeronymic;
 		
 		if(existingMeronymic instanceof componentOf)
-			this.stereotype = RelationStereotype.COMPONENTOF;
+			this.stereotype = RelationshipStereotype.COMPONENTOF;
 		if(existingMeronymic instanceof subCollectionOf)
-			this.stereotype = RelationStereotype.SUBCOLLECTIONOF;
+			this.stereotype = RelationshipStereotype.SUBCOLLECTIONOF;
 		if(existingMeronymic instanceof memberOf)
-			this.stereotype = RelationStereotype.MEMBEROF;
+			this.stereotype = RelationshipStereotype.MEMBEROF;
 		if(existingMeronymic instanceof subQuantityOf)
-			this.stereotype = RelationStereotype.SUBQUANTITYOF;
+			this.stereotype = RelationshipStereotype.SUBQUANTITYOF;
 		
 		fix = new Fix();
 	}
@@ -79,24 +79,24 @@ public class DerivedMeronymic extends MeronymicItem{
 		return existingMeronymic!=null;
 	}
 	
-	public RelationStereotype getStereotype() {
+	public RelationshipStereotype getStereotype() {
 		return stereotype;
 	}
 	
 	public String getStereotypeName(){
-		if(stereotype==RelationStereotype.COMPONENTOF)
+		if(stereotype==RelationshipStereotype.COMPONENTOF)
 			return "ComponentOf";
-		else if(stereotype==RelationStereotype.SUBCOLLECTIONOF)
+		else if(stereotype==RelationshipStereotype.SUBCOLLECTIONOF)
 			return "SubCollectionOf";
-		else if(stereotype==RelationStereotype.MEMBEROF)
+		else if(stereotype==RelationshipStereotype.MEMBEROF)
 			return "MemberOf";
-		else if(stereotype==RelationStereotype.SUBQUANTITYOF)
+		else if(stereotype==RelationshipStereotype.SUBQUANTITYOF)
 			return "SubQuantityOf";
 		
 		return null;
 	}
 
-	public void setStereotype(RelationStereotype stereotype) {
+	public void setStereotype(RelationshipStereotype stereotype) {
 		this.stereotype = stereotype;
 	}
 
@@ -516,7 +516,7 @@ public class DerivedMeronymic extends MeronymicItem{
 		relationToReverse = relation;
 	}
 	
-	public void setChangeStereotype(Meronymic relation, RelationStereotype stereotype) {
+	public void setChangeStereotype(Meronymic relation, RelationshipStereotype stereotype) {
 		this.action = Action.CHANGE;
 		relationToChange = relation;
 		newStereotype = stereotype;

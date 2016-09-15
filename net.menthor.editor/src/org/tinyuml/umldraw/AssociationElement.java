@@ -48,8 +48,8 @@ import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Relationship;
 import RefOntoUML.Type;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.v2.types.RelationshipType;
 
 /**
  * This class implements an association connection. The association connection
@@ -63,7 +63,7 @@ public final class AssociationElement extends BaseConnection {
 
 	private static final long serialVersionUID = 1866495594812659939L;
 	private static AssociationElement prototype = new AssociationElement();
-	private RelationshipType associationType = RelationshipType.ASSOCIATION;
+	private RelationshipStereotype associationType = RelationshipStereotype.ASSOCIATION;
 	
 	/** A direction of an end point relative to its connected node. */
 	private enum Direction  { NORTH, SOUTH, EAST, WEST }
@@ -543,10 +543,10 @@ public final class AssociationElement extends BaseConnection {
 	public Label getSubsetting2Label() { return subset2Label; }
 	
 	/** Returns the AssociationType. */
-	public RelationshipType getAssociationType() { return associationType; }
+	public RelationshipStereotype getAssociationType() { return associationType; }
 
 	/** Sets the AssociationType. */
-	public void setAssociationType(RelationshipType anAssociationType) { associationType = anAssociationType; }
+	public void setAssociationType(RelationshipStereotype anAssociationType) { associationType = anAssociationType; }
 
 	/** Gets the association relationship*/
 	public Association getAssociation() { return (Association) getRelationship(); }
@@ -624,11 +624,11 @@ public final class AssociationElement extends BaseConnection {
 		super.draw(drawingContext);
 		
 		//First, draw the line
-		if (associationType == RelationshipType.DERIVATION) drawingContext.setStrokeType(StrokeType.DASHED_BOLD);
+		if (associationType == RelationshipStereotype.DERIVATION) drawingContext.setStrokeType(StrokeType.DASHED_BOLD);
 		
 		//Then, draw decorations
-		if (associationType == RelationshipType.DERIVATION) drawCircle(drawingContext, calculateRotationInEndPoint2(), true);		
-		else if (associationType == RelationshipType.COMPONENTOF) {
+		if (associationType == RelationshipStereotype.DERIVATION) drawCircle(drawingContext, calculateRotationInEndPoint2(), true);		
+		else if (associationType == RelationshipStereotype.COMPONENTOF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), null);
@@ -636,7 +636,7 @@ public final class AssociationElement extends BaseConnection {
 				System.err.println("Trying to draw a memberOf decoration... null relationship!");
 			}
 		}		
-		else if (associationType == RelationshipType.MEMBEROF) {
+		else if (associationType == RelationshipStereotype.MEMBEROF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "M");
@@ -644,7 +644,7 @@ public final class AssociationElement extends BaseConnection {
 				System.err.println("Trying to draw a memberOf decoration... null relationship!");
 			}
 		}
-		else if (associationType == RelationshipType.SUBQUANTITYOF) {
+		else if (associationType == RelationshipStereotype.SUBQUANTITYOF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "Q");
@@ -652,7 +652,7 @@ public final class AssociationElement extends BaseConnection {
 				System.err.println("Trying to draw a subQuantityOf decoration... null relationship!");
 			}
 		}
-		else if (associationType == RelationshipType.SUBCOLLECTIONOF) {
+		else if (associationType == RelationshipStereotype.SUBCOLLECTIONOF) {
 			
 			if((Meronymic)getRelationship()!=null){
 				drawParthood(drawingContext, calculateRotationInEndPoint1(), ((Meronymic)getRelationship()).isIsShareable(), "C");

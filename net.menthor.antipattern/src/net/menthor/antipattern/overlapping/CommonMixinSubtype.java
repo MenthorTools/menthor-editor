@@ -2,15 +2,6 @@ package net.menthor.antipattern.overlapping;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.Antipattern;
-import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.antipattern.partover.PartOverOccurrence;
-import net.menthor.antipattern.relover.RelOverOccurrence;
-import net.menthor.antipattern.wholeover.WholeOverOccurrence;
-import net.menthor.antipattern.wizard.overlapping.CommonMixinSubtypeComposite;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.Fix;
-
 import org.eclipse.swt.widgets.Composite;
 
 import RefOntoUML.Category;
@@ -22,6 +13,15 @@ import RefOntoUML.MixinClass;
 import RefOntoUML.Property;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.antipattern.Antipattern;
+import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.partover.PartOverOccurrence;
+import net.menthor.antipattern.relover.RelOverOccurrence;
+import net.menthor.antipattern.wholeover.WholeOverOccurrence;
+import net.menthor.antipattern.wizard.overlapping.CommonMixinSubtypeComposite;
+import net.menthor.common.ontoumlfixer.Fix;
 
 
 public class CommonMixinSubtype extends OverlappingGroup {
@@ -69,7 +69,7 @@ public class CommonMixinSubtype extends OverlappingGroup {
 
 	@Override
 	public boolean makeEndsDisjoint(AntipatternOccurrence occurrence, ArrayList<Property> mixinProperties) {
-		ClassStereotype supertypeStereotype;
+		OntoUMLStereotype supertypeStereotype;
 		ArrayList<Classifier> partTypes = new ArrayList<Classifier>();
 		ArrayList<Generalization> createdGeneralizations;
 		Fix fix1,fix2,fix3;

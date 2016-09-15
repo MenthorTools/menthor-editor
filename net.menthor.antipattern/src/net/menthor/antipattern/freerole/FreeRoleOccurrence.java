@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -20,6 +18,8 @@ import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 //Undefined Role Specialization
 public class FreeRoleOccurrence extends AntipatternOccurrence{
@@ -188,7 +188,7 @@ public class FreeRoleOccurrence extends AntipatternOccurrence{
 	}
 
 	public void createMediation(Classifier relator, Role role,String relatorEndMultip, String roleEndMultip) {
-		fix.addAll(fixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, role));
+		fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, role));
 		Mediation med = null;
 		
 		for(Object obj: fix.getAdded()) { 
@@ -212,7 +212,7 @@ public class FreeRoleOccurrence extends AntipatternOccurrence{
 		for(Object obj: fix.getAdded()) { if (obj instanceof Relator) subrelator = (Relator)obj; }
 		subrelator.setName(subRelatorName);
 		if(subrelator!=null){
-			fix.addAll(fixer.createAssociationBetween(RelationStereotype.MEDIATION, "", subrelator, role));
+			fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", subrelator, role));
 		}
 		Mediation med = null;
 		for(Object obj: fix.getAdded()) { if (obj instanceof Mediation) med = (Mediation)obj; }
@@ -261,7 +261,7 @@ public class FreeRoleOccurrence extends AntipatternOccurrence{
 		}
 		
 		//create new mediation
-		fix.addAll(fixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, type));
+		fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, type));
 		
 		//get the brand new material createad
 		RefOntoUML.Mediation mediation = null;
@@ -273,14 +273,14 @@ public class FreeRoleOccurrence extends AntipatternOccurrence{
 		
 		if(createMaterial){
 			//create new material
-			fix.addAll(fixer.createAssociationBetween(RelationStereotype.MATERIAL, "", role, type));
+			fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.MATERIAL, "", role, type));
 			
 			//get the brand new material createad
 			RefOntoUML.MaterialAssociation material = null;
 			for(Object obj: fix.getAdded()) { if(obj instanceof MaterialAssociation) material = (MaterialAssociation)obj; }
 			
 			//create new derivation		
-			fix.addAll(fixer.createAssociationBetween(RelationStereotype.DERIVATION, "", material, relator));
+			fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.DERIVATION, "", material, relator));
 		}
 	}
 
@@ -293,7 +293,7 @@ public class FreeRoleOccurrence extends AntipatternOccurrence{
 		fix.includeAdded(relator);
 		fix.includeModified(role.eContainer());
 		//create new mediation
-		fix.addAll(fixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, role));
+		fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, role));
 		
 		//get the brand new material createad
 		RefOntoUML.Mediation mediation = null;

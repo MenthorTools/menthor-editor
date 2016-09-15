@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.checkers.ui.MeronymicCycleDialog;
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class MeronymicCycleError extends MeronymicError<ArrayList<Property>> {
 
@@ -139,7 +139,7 @@ public class MeronymicCycleError extends MeronymicError<ArrayList<Property>> {
 		return getAction(m).isChange();
 	}
 	
-	public RelationStereotype getSelectedStereotype(Meronymic m){
+	public RelationshipStereotype getSelectedStereotype(Meronymic m){
 		return getAction(m).stereotype;
 	}
 	
@@ -152,7 +152,7 @@ public class MeronymicCycleError extends MeronymicError<ArrayList<Property>> {
 		return false;
 	}
 	
-	public void saveValuesFor(Meronymic m, boolean isDelete, boolean isReverse, boolean isChange, RelationStereotype stereotype){
+	public void saveValuesFor(Meronymic m, boolean isDelete, boolean isReverse, boolean isChange, RelationshipStereotype stereotype){
 		Action a = getAction(m);
 		
 		if(isDelete && !isReverse && !isChange){
@@ -186,7 +186,7 @@ class Action{
 	enum Code {REVERSE, DELETE, CHANGE};
 	Meronymic m;
 	Code code;
-	RelationStereotype stereotype;
+	RelationshipStereotype stereotype;
 	
 	public Action(Meronymic m){
 		this.m = m;
@@ -202,7 +202,7 @@ class Action{
 		code = Code.REVERSE;
 	}
 	
-	public void setChange(RelationStereotype stereotype){
+	public void setChange(RelationshipStereotype stereotype){
 		code = Code.CHANGE;
 		this.stereotype = stereotype;
 	}

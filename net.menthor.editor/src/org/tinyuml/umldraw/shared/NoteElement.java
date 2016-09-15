@@ -31,7 +31,7 @@ import org.tinyuml.draw.LabelSource;
 import org.tinyuml.draw.MultiLineLabel;
 
 import RefOntoUML.NamedElement;
-import net.menthor.editor.v2.types.RelationshipType;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 /**
  * This class represents a Note element in the UML diagram. This is in general
@@ -160,7 +160,7 @@ implements UmlNode, LabelSource {
   /**
    * {@inheritDoc}
    */
-  public boolean acceptsConnection(RelationshipType associationType,
+  public boolean acceptsConnection(RelationshipStereotype associationType,
     UmlNode with) {
     return false;// associationType == RelationshipType.NOTE_CONNECTOR;
   }

@@ -31,7 +31,7 @@ import org.tinyuml.ui.diagram.OntoumlEditor;
 import org.tinyuml.umldraw.MenthorFactory;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
-import net.menthor.editor.v2.types.RelationshipType;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import net.menthor.editor.v2.ui.editor.EditorMouseEvent;
 import net.menthor.editor.v2.ui.editor.IEditorMode;
 import net.menthor.editor.v2.ui.operation.diagram.AddConnectionOperation;
@@ -53,14 +53,14 @@ public class ConnectCommanderMode extends GenericCommander implements IEditorMod
     // ----------------------------
     
     protected LineConnectMethod drawer;
-    protected RelationshipType relType;
+    protected RelationshipStereotype relType;
 	protected DiagramElement sourceElem = null;
 	protected DiagramElement targetElem = null;
 	protected Point2D startPos = new Point2D.Double();
 	protected Point2D tmpPos = new Point2D.Double();
 	protected boolean isActive = false;
 
-	public void setRelationshipType(RelationshipType relType){
+	public void setRelationshipType(RelationshipStereotype relType){
 		this.relType = relType;
 		this.drawer = MenthorFactory.get().getDefaultConnectMethod(relType);
 	}

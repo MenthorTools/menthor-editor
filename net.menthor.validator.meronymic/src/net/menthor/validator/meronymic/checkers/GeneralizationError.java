@@ -2,20 +2,20 @@ package net.menthor.validator.meronymic.checkers;
 
 import javax.swing.JDialog;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.validator.meronymic.checkers.ui.GeneralizationDialog;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
 
 public class GeneralizationError extends MeronymicError<Generalization>{
 
 	enum Action {REVERSE, REMOVE, CHANGE_STEREOTYPE}
 	private Action action;
-	private ClassStereotype parentStereo;
-	private ClassStereotype childStereo;
+	private OntoUMLStereotype parentStereo;
+	private OntoUMLStereotype childStereo;
 
 	public GeneralizationError(OntoUMLParser parser, Generalization g) {
 		super(parser,g);
@@ -65,12 +65,12 @@ public class GeneralizationError extends MeronymicError<Generalization>{
 		action = Action.REMOVE;
 	}
 	
-	public void setChangeParentStereotype(ClassStereotype parentStereo){
+	public void setChangeParentStereotype(OntoUMLStereotype parentStereo){
 		action = Action.CHANGE_STEREOTYPE;
 		this.parentStereo = parentStereo;
 	}
 	
-	public void setChangeChildStereotype(ClassStereotype childStereo){
+	public void setChangeChildStereotype(OntoUMLStereotype childStereo){
 		action = Action.CHANGE_STEREOTYPE;
 		this.childStereo = childStereo;
 	}

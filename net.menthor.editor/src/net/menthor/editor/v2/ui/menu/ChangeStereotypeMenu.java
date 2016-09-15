@@ -5,12 +5,11 @@ import javax.swing.JPopupMenu;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Relationship;
-
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.generic.GenericMenu;
 import net.menthor.editor.v2.ui.icon.IconType;
 
@@ -25,47 +24,47 @@ public class ChangeStereotypeMenu extends GenericMenu<EObject> {
 	public ChangeStereotypeMenu(ICommandListener listener, String text, EObject element, JPopupMenu parent){
 		super(listener, text, element);			
 		if(element instanceof RefOntoUML.Class){
-			createMenuItem(ClassType.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_KIND);
-			createMenuItem(ClassType.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_SUBKIND);
-			createMenuItem(ClassType.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_COLLECTIVE);
-			createMenuItem(ClassType.QUANTITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_QUANTITY);
-			createMenuItem(ClassType.PHASE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PHASE);
-			createMenuItem(ClassType.ROLE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ROLE);
-			createMenuItem(ClassType.CATEGORY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_CATEGORY);
-			createMenuItem(ClassType.ROLEMIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ROLEMIXIN);
-			createMenuItem(ClassType.MIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MIXIN);
-			createMenuItem(ClassType.RELATOR.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_RELATOR);
-			createMenuItem(ClassType.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MODE);
-			createMenuItem(ClassType.PERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PERCEIVABLE_QUALITY);
-			createMenuItem(ClassType.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY);
-			createMenuItem(ClassType.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_NOMINAL_QUALITY);
+			createMenuItem(ClassStereotype.KIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_KIND);
+			createMenuItem(ClassStereotype.SUBKIND.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_SUBKIND);
+			createMenuItem(ClassStereotype.COLLECTIVE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_COLLECTIVE);
+			createMenuItem(ClassStereotype.QUANTITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_QUANTITY);
+			createMenuItem(ClassStereotype.PHASE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PHASE);
+			createMenuItem(ClassStereotype.ROLE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ROLE);
+			createMenuItem(ClassStereotype.CATEGORY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_CATEGORY);
+			createMenuItem(ClassStereotype.ROLEMIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ROLEMIXIN);
+			createMenuItem(ClassStereotype.MIXIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MIXIN);
+			createMenuItem(ClassStereotype.RELATOR.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_RELATOR);
+			createMenuItem(ClassStereotype.MODE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MODE);
+			createMenuItem(ClassStereotype.PERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PERCEIVABLE_QUALITY);
+			createMenuItem(ClassStereotype.NONPERCEIVABLE_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_NONPERCEIVABLE_QUALITY);
+			createMenuItem(ClassStereotype.NOMINAL_QUALITY.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_NOMINAL_QUALITY);
 		}
 		else if (element instanceof Relationship){
-			createMenuItem(RelationshipType.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.CHANGE_TO_GENERALIZATION);
-			createMenuItem(RelationshipType.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_CHARACTERIZATION);
-			createMenuItem(RelationshipType.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_MEDIATION);
-			createMenuItem(RelationshipType.FORMAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_FORMAL);
-			createMenuItem(RelationshipType.MATERIAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_MATERIAL);
-			createMenuItem(RelationshipType.DERIVATION.getName(), IconType.MENTHOR_DERIVATION, CommandType.CHANGE_TO_DERIVATION);
-			createMenuItem(RelationshipType.COMPONENTOF.getName(), IconType.MENTHOR_COMPONENTOF, CommandType.CHANGE_TO_COMPONENTOF);
-			createMenuItem(RelationshipType.MEMBEROF.getName(), IconType.MENTHOR_MEMBEROF, CommandType.CHANGE_TO_MEMBEROF);
-			createMenuItem(RelationshipType.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.CHANGE_TO_SUBCOLLECTIONOF);
-			createMenuItem(RelationshipType.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.CHANGE_TO_SUBQUANTITYOF);
-			createMenuItem(RelationshipType.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_STRUCTURATION);
-			createMenuItem(RelationshipType.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_ASSOCIATION);
+			createMenuItem(RelationshipStereotype.GENERALIZATION.getName(), IconType.MENTHOR_GENERALIZATION, CommandType.CHANGE_TO_GENERALIZATION);
+			createMenuItem(RelationshipStereotype.CHARACTERIZATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_CHARACTERIZATION);
+			createMenuItem(RelationshipStereotype.MEDIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_MEDIATION);
+			createMenuItem(RelationshipStereotype.FORMAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_FORMAL);
+			createMenuItem(RelationshipStereotype.MATERIAL.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_MATERIAL);
+			createMenuItem(RelationshipStereotype.DERIVATION.getName(), IconType.MENTHOR_DERIVATION, CommandType.CHANGE_TO_DERIVATION);
+			createMenuItem(RelationshipStereotype.COMPONENTOF.getName(), IconType.MENTHOR_COMPONENTOF, CommandType.CHANGE_TO_COMPONENTOF);
+			createMenuItem(RelationshipStereotype.MEMBEROF.getName(), IconType.MENTHOR_MEMBEROF, CommandType.CHANGE_TO_MEMBEROF);
+			createMenuItem(RelationshipStereotype.SUBCOLLECTIONOF.getName(), IconType.MENTHOR_SUBCOLLECTIONOF, CommandType.CHANGE_TO_SUBCOLLECTIONOF);
+			createMenuItem(RelationshipStereotype.SUBQUANTITYOF.getName(), IconType.MENTHOR_SUBQUANTITYOF, CommandType.CHANGE_TO_SUBQUANTITYOF);
+			createMenuItem(RelationshipStereotype.STRUCTURATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_STRUCTURATION);
+			createMenuItem(RelationshipStereotype.ASSOCIATION.getName(), IconType.MENTHOR_ASSOCIATION, CommandType.CHANGE_TO_ASSOCIATION);
 		}
 		else if (element instanceof RefOntoUML.DataType){
-			createMenuItem(DataType.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DATATYPE);
-			createMenuItem(DataType.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ENUMERATION);
-			createMenuItem(DataType.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PRIMITIVETYPE);
-			createMenuItem(DataType.DECIMALINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALINTERVAL_DIMENSION);
-			createMenuItem(DataType.DECIMALORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALORDINAL_DIMENSION);
-			createMenuItem(DataType.DECIMALRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALRATIONAL_DIMENSION);
-			createMenuItem(DataType.INTEGERINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERINTERVAL_DIMENSION);
-			createMenuItem(DataType.INTEGERORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERORDINAL_DIMENSION);
-			createMenuItem(DataType.INTEGERRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERRATIONAL_DIMENSION);
-			createMenuItem(DataType.STRINGNOMINAL_STRUCTURE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_STRINGNOMINAL_STRUCTURE);
-			createMenuItem(DataType.MEASUREMENT_DOMAIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MEASUREMENT_DOMAIN);
+			createMenuItem(DataTypeStereotype.DATATYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DATATYPE);
+			createMenuItem(DataTypeStereotype.ENUMERATION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_ENUMERATION);
+			createMenuItem(DataTypeStereotype.PRIMITIVETYPE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_PRIMITIVETYPE);
+			createMenuItem(DataTypeStereotype.DECIMALINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALINTERVAL_DIMENSION);
+			createMenuItem(DataTypeStereotype.DECIMALORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALORDINAL_DIMENSION);
+			createMenuItem(DataTypeStereotype.DECIMALRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_DECIMALRATIONAL_DIMENSION);
+			createMenuItem(DataTypeStereotype.INTEGERINTERVAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERINTERVAL_DIMENSION);
+			createMenuItem(DataTypeStereotype.INTEGERORDINAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERORDINAL_DIMENSION);
+			createMenuItem(DataTypeStereotype.INTEGERRATIONAL_DIMENSION.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_INTEGERRATIONAL_DIMENSION);
+			createMenuItem(DataTypeStereotype.STRINGNOMINAL_STRUCTURE.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_STRINGNOMINAL_STRUCTURE);
+			createMenuItem(DataTypeStereotype.MEASUREMENT_DOMAIN.getName(), IconType.MENTHOR_CLASS, CommandType.CHANGE_TO_MEASUREMENT_DOMAIN);
 		}
 		sort();		
 		parent.add(this);

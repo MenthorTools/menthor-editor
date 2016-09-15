@@ -45,8 +45,8 @@ import RefOntoUML.impl.ClassImpl;
 import RefOntoUML.impl.DataTypeImpl;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.util.DrawUtil;
 
 /**
@@ -487,7 +487,7 @@ public final class ClassElement extends AbstractCompositeNode implements
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean acceptsConnection(RelationshipType associationType, UmlNode with) {
+	public boolean acceptsConnection(RelationshipStereotype associationType, UmlNode with) {
 		return true;
 	}
 

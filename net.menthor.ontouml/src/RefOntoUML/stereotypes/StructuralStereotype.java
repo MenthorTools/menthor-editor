@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.types;
+package RefOntoUML.stereotypes;
 
 /**
  * ============================================================================================
@@ -27,7 +27,7 @@ import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Model;
 import RefOntoUML.Property;
 
-public enum StructuralType implements OntoUMLMetatype {
+public enum StructuralStereotype implements OntoUMLStereotype {
 
 	PACKAGE("Package",RefOntoUML.Package.class), 
 	MODEL("Model", Model.class), 
@@ -37,7 +37,7 @@ public enum StructuralType implements OntoUMLMetatype {
 	private String name;
 	private Class<? extends EObject> metaClass;
 
-	StructuralType(String name, Class<? extends EObject> metaClass)
+	StructuralStereotype(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
 		this.metaClass = metaClass;
@@ -95,13 +95,13 @@ public enum StructuralType implements OntoUMLMetatype {
 	
 	public static void main (String args[])
 	{
-		for(StructuralType c: StructuralType.values()){
+		for(StructuralStereotype c: StructuralStereotype.values()){
 			System.out.println(c.name);
 		}
 	}
 
 	@Override
-	public OntoUMLMetatype getMetatype(EObject element) {		
+	public OntoUMLStereotype getMetatype(EObject element) {		
 		if(element instanceof RefOntoUML.Package) return PACKAGE;
 		if(element instanceof RefOntoUML.Model) return MODEL;
 		if(element instanceof RefOntoUML.GeneralizationSet) return GENERALIZATION_SET;

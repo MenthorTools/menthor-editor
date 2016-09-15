@@ -1,8 +1,8 @@
 package net.menthor.editor.v2.commands;
 
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 /**
  * ============================================================================================
@@ -342,150 +342,150 @@ public enum CommandType {
 		}
 	}
 	
-	public static CommandType getPalleteCommandType(ClassType classType){
-		if(classType==ClassType.KIND) return PALLETE_KIND;
-		if(classType==ClassType.QUANTITY) return PALLETE_QUANTITY;
-		if(classType==ClassType.SUBKIND) return PALLETE_SUBKIND;
-		if(classType==ClassType.COLLECTIVE) return PALLETE_COLLECTIVE;
-		if(classType==ClassType.PHASE) return PALLETE_PHASE;
-		if(classType==ClassType.ROLE) return PALLETE_ROLE;
-		if(classType==ClassType.MIXIN) return PALLETE_MIXIN;
-		if(classType==ClassType.CATEGORY) return PALLETE_CATEGORY;
-		if(classType==ClassType.ROLEMIXIN) return PALLETE_ROLEMIXIN;
-		if(classType==ClassType.MODE) return PALLETE_MODE;
-		if(classType==ClassType.RELATOR) return PALLETE_RELATOR;
-		if(classType==ClassType.NONPERCEIVABLE_QUALITY) return PALLETE_NONPERCEIVABLE_QUALITY;
-		if(classType==ClassType.PERCEIVABLE_QUALITY) return PALLETE_PERCEIVABLE_QUALITY;
-		if(classType==ClassType.NOMINAL_QUALITY) return PALLETE_NOMINAL_QUALITY;
+	public static CommandType getPalleteCommandType(ClassStereotype classType){
+		if(classType==ClassStereotype.KIND) return PALLETE_KIND;
+		if(classType==ClassStereotype.QUANTITY) return PALLETE_QUANTITY;
+		if(classType==ClassStereotype.SUBKIND) return PALLETE_SUBKIND;
+		if(classType==ClassStereotype.COLLECTIVE) return PALLETE_COLLECTIVE;
+		if(classType==ClassStereotype.PHASE) return PALLETE_PHASE;
+		if(classType==ClassStereotype.ROLE) return PALLETE_ROLE;
+		if(classType==ClassStereotype.MIXIN) return PALLETE_MIXIN;
+		if(classType==ClassStereotype.CATEGORY) return PALLETE_CATEGORY;
+		if(classType==ClassStereotype.ROLEMIXIN) return PALLETE_ROLEMIXIN;
+		if(classType==ClassStereotype.MODE) return PALLETE_MODE;
+		if(classType==ClassStereotype.RELATOR) return PALLETE_RELATOR;
+		if(classType==ClassStereotype.NONPERCEIVABLE_QUALITY) return PALLETE_NONPERCEIVABLE_QUALITY;
+		if(classType==ClassStereotype.PERCEIVABLE_QUALITY) return PALLETE_PERCEIVABLE_QUALITY;
+		if(classType==ClassStereotype.NOMINAL_QUALITY) return PALLETE_NOMINAL_QUALITY;
 		return PALLETE_CLASS;
 	}
 	
-	public static CommandType getPalleteCommandType(DataType dataType){
-		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return PALLETE_DECIMALINTERVAL_DIMENSION;
-		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return PALLETE_DECIMALORDINAL_DIMENSION;
-		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return PALLETE_DECIMALRATIONAL_DIMENSION;
-		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return PALLETE_INTEGERINTERVAL_DIMENSION;
-		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return PALLETE_INTEGERORDINAL_DIMENSION;
-		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return PALLETE_INTEGERRATIONAL_DIMENSION;
-		if(dataType==DataType.MEASUREMENT_DOMAIN) return PALLETE_MEASUREMENT_DOMAIN;
-		if(dataType==DataType.ENUMERATION) return PALLETE_ENUMERATION;
-		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return PALLETE_STRINGNOMINAL_STRUCTURE;
-		if(dataType==DataType.PRIMITIVETYPE) return PALLETE_PRIMITIVETYPE;
-		if(dataType==DataType.DATATYPE) return PALLETE_DATATYPE;		
+	public static CommandType getPalleteCommandType(DataTypeStereotype dataType){
+		if(dataType==DataTypeStereotype.DECIMALINTERVAL_DIMENSION) return PALLETE_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataTypeStereotype.DECIMALORDINAL_DIMENSION) return PALLETE_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataTypeStereotype.DECIMALRATIONAL_DIMENSION) return PALLETE_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERINTERVAL_DIMENSION) return PALLETE_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERORDINAL_DIMENSION) return PALLETE_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERRATIONAL_DIMENSION) return PALLETE_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataTypeStereotype.MEASUREMENT_DOMAIN) return PALLETE_MEASUREMENT_DOMAIN;
+		if(dataType==DataTypeStereotype.ENUMERATION) return PALLETE_ENUMERATION;
+		if(dataType==DataTypeStereotype.STRINGNOMINAL_STRUCTURE) return PALLETE_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataTypeStereotype.PRIMITIVETYPE) return PALLETE_PRIMITIVETYPE;
+		if(dataType==DataTypeStereotype.DATATYPE) return PALLETE_DATATYPE;		
 		return PALLETE_DATATYPE;
 	}
 	
-	public static CommandType getPalleteCommandType(RelationshipType relType){		
-		if(relType==RelationshipType.CHARACTERIZATION) return PALLETE_CHARACTERIZATION;
-		if(relType==RelationshipType.COMPONENTOF) return PALLETE_COMPONENTOF;
-		if(relType==RelationshipType.DERIVATION) return PALLETE_DERIVATION;
-		if(relType==RelationshipType.FORMAL) return PALLETE_FORMAL;
-		if(relType==RelationshipType.GENERALIZATION) return PALLETE_GENERALIZATION;
-		if(relType==RelationshipType.MATERIAL) return PALLETE_MATERIAL;
-		if(relType==RelationshipType.MEDIATION) return PALLETE_MEDIATION;
-		if(relType==RelationshipType.MEMBEROF) return PALLETE_MEMBEROF;
-		if(relType==RelationshipType.STRUCTURATION) return PALLETE_STRUCTURATION;
-		if(relType==RelationshipType.SUBCOLLECTIONOF) return PALLETE_SUBCOLLECTIONOF;
-		if(relType==RelationshipType.SUBQUANTITYOF) return PALLETE_SUBQUANTITYOF;
-		if(relType==RelationshipType.ASSOCIATION) return PALLETE_ASSOCIATION;
+	public static CommandType getPalleteCommandType(RelationshipStereotype relType){		
+		if(relType==RelationshipStereotype.CHARACTERIZATION) return PALLETE_CHARACTERIZATION;
+		if(relType==RelationshipStereotype.COMPONENTOF) return PALLETE_COMPONENTOF;
+		if(relType==RelationshipStereotype.DERIVATION) return PALLETE_DERIVATION;
+		if(relType==RelationshipStereotype.FORMAL) return PALLETE_FORMAL;
+		if(relType==RelationshipStereotype.GENERALIZATION) return PALLETE_GENERALIZATION;
+		if(relType==RelationshipStereotype.MATERIAL) return PALLETE_MATERIAL;
+		if(relType==RelationshipStereotype.MEDIATION) return PALLETE_MEDIATION;
+		if(relType==RelationshipStereotype.MEMBEROF) return PALLETE_MEMBEROF;
+		if(relType==RelationshipStereotype.STRUCTURATION) return PALLETE_STRUCTURATION;
+		if(relType==RelationshipStereotype.SUBCOLLECTIONOF) return PALLETE_SUBCOLLECTIONOF;
+		if(relType==RelationshipStereotype.SUBQUANTITYOF) return PALLETE_SUBQUANTITYOF;
+		if(relType==RelationshipStereotype.ASSOCIATION) return PALLETE_ASSOCIATION;
 		return PALLETE_ASSOCIATION;
 	}
 	
-	public static CommandType getAddCommandType(ClassType classType){
-		if(classType==ClassType.KIND) return ADD_KIND;
-		if(classType==ClassType.QUANTITY) return ADD_QUANTITY;
-		if(classType==ClassType.SUBKIND) return ADD_SUBKIND;
-		if(classType==ClassType.COLLECTIVE) return ADD_COLLECTIVE;
-		if(classType==ClassType.PHASE) return ADD_PHASE;
-		if(classType==ClassType.ROLE) return ADD_ROLE;
-		if(classType==ClassType.MIXIN) return ADD_MIXIN;
-		if(classType==ClassType.CATEGORY) return ADD_CATEGORY;
-		if(classType==ClassType.ROLEMIXIN) return ADD_ROLEMIXIN;
-		if(classType==ClassType.MODE) return ADD_MODE;
-		if(classType==ClassType.RELATOR) return ADD_RELATOR;
-		if(classType==ClassType.NONPERCEIVABLE_QUALITY) return ADD_NONPERCEIVABLE_QUALITY;
-		if(classType==ClassType.PERCEIVABLE_QUALITY) return ADD_PERCEIVABLE_QUALITY;
-		if(classType==ClassType.NOMINAL_QUALITY) return ADD_NOMINAL_QUALITY;
+	public static CommandType getAddCommandType(ClassStereotype classType){
+		if(classType==ClassStereotype.KIND) return ADD_KIND;
+		if(classType==ClassStereotype.QUANTITY) return ADD_QUANTITY;
+		if(classType==ClassStereotype.SUBKIND) return ADD_SUBKIND;
+		if(classType==ClassStereotype.COLLECTIVE) return ADD_COLLECTIVE;
+		if(classType==ClassStereotype.PHASE) return ADD_PHASE;
+		if(classType==ClassStereotype.ROLE) return ADD_ROLE;
+		if(classType==ClassStereotype.MIXIN) return ADD_MIXIN;
+		if(classType==ClassStereotype.CATEGORY) return ADD_CATEGORY;
+		if(classType==ClassStereotype.ROLEMIXIN) return ADD_ROLEMIXIN;
+		if(classType==ClassStereotype.MODE) return ADD_MODE;
+		if(classType==ClassStereotype.RELATOR) return ADD_RELATOR;
+		if(classType==ClassStereotype.NONPERCEIVABLE_QUALITY) return ADD_NONPERCEIVABLE_QUALITY;
+		if(classType==ClassStereotype.PERCEIVABLE_QUALITY) return ADD_PERCEIVABLE_QUALITY;
+		if(classType==ClassStereotype.NOMINAL_QUALITY) return ADD_NOMINAL_QUALITY;
 		return ADD_CLASS;
 	}
 	
-	public static CommandType getAddCommandType(RelationshipType relType){		
-		if(relType==RelationshipType.CHARACTERIZATION) return ADD_CHARACTERIZATION;
-		if(relType==RelationshipType.COMPONENTOF) return ADD_COMPONENTOF;
-		if(relType==RelationshipType.DERIVATION) return ADD_DERIVATION;
-		if(relType==RelationshipType.FORMAL) return ADD_FORMAL;
-		if(relType==RelationshipType.GENERALIZATION) return ADD_GENERALIZATION;
-		if(relType==RelationshipType.MATERIAL) return ADD_MATERIAL;
-		if(relType==RelationshipType.MEDIATION) return ADD_MEDIATION;
-		if(relType==RelationshipType.MEMBEROF) return ADD_MEMBEROF;
-		if(relType==RelationshipType.STRUCTURATION) return ADD_STRUCTURATION;
-		if(relType==RelationshipType.SUBCOLLECTIONOF) return ADD_SUBCOLLECTIONOF;
-		if(relType==RelationshipType.SUBQUANTITYOF) return ADD_SUBQUANTITYOF;
-		if(relType==RelationshipType.ASSOCIATION) return ADD_ASSOCIATION;
+	public static CommandType getAddCommandType(RelationshipStereotype relType){		
+		if(relType==RelationshipStereotype.CHARACTERIZATION) return ADD_CHARACTERIZATION;
+		if(relType==RelationshipStereotype.COMPONENTOF) return ADD_COMPONENTOF;
+		if(relType==RelationshipStereotype.DERIVATION) return ADD_DERIVATION;
+		if(relType==RelationshipStereotype.FORMAL) return ADD_FORMAL;
+		if(relType==RelationshipStereotype.GENERALIZATION) return ADD_GENERALIZATION;
+		if(relType==RelationshipStereotype.MATERIAL) return ADD_MATERIAL;
+		if(relType==RelationshipStereotype.MEDIATION) return ADD_MEDIATION;
+		if(relType==RelationshipStereotype.MEMBEROF) return ADD_MEMBEROF;
+		if(relType==RelationshipStereotype.STRUCTURATION) return ADD_STRUCTURATION;
+		if(relType==RelationshipStereotype.SUBCOLLECTIONOF) return ADD_SUBCOLLECTIONOF;
+		if(relType==RelationshipStereotype.SUBQUANTITYOF) return ADD_SUBQUANTITYOF;
+		if(relType==RelationshipStereotype.ASSOCIATION) return ADD_ASSOCIATION;
 		return ADD_ASSOCIATION;
 	}
 	
-	public static CommandType getAddCommandType(DataType dataType){
-		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return ADD_DECIMALINTERVAL_DIMENSION;
-		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return ADD_DECIMALORDINAL_DIMENSION;
-		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return ADD_DECIMALRATIONAL_DIMENSION;
-		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return ADD_INTEGERINTERVAL_DIMENSION;
-		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return ADD_INTEGERORDINAL_DIMENSION;
-		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return ADD_INTEGERRATIONAL_DIMENSION;
-		if(dataType==DataType.MEASUREMENT_DOMAIN) return ADD_MEASUREMENT_DOMAIN;
-		if(dataType==DataType.ENUMERATION) return ADD_ENUMERATION;
-		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return ADD_STRINGNOMINAL_STRUCTURE;
-		if(dataType==DataType.PRIMITIVETYPE) return ADD_PRIMITIVETYPE;
-		if(dataType==DataType.DATATYPE) return ADD_DATATYPE;		
+	public static CommandType getAddCommandType(DataTypeStereotype dataType){
+		if(dataType==DataTypeStereotype.DECIMALINTERVAL_DIMENSION) return ADD_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataTypeStereotype.DECIMALORDINAL_DIMENSION) return ADD_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataTypeStereotype.DECIMALRATIONAL_DIMENSION) return ADD_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERINTERVAL_DIMENSION) return ADD_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERORDINAL_DIMENSION) return ADD_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERRATIONAL_DIMENSION) return ADD_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataTypeStereotype.MEASUREMENT_DOMAIN) return ADD_MEASUREMENT_DOMAIN;
+		if(dataType==DataTypeStereotype.ENUMERATION) return ADD_ENUMERATION;
+		if(dataType==DataTypeStereotype.STRINGNOMINAL_STRUCTURE) return ADD_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataTypeStereotype.PRIMITIVETYPE) return ADD_PRIMITIVETYPE;
+		if(dataType==DataTypeStereotype.DATATYPE) return ADD_DATATYPE;		
 		return ADD_DATATYPE;
 	}
 	
-	public static CommandType getChangeToCommandType(ClassType classType){
-		if(classType==ClassType.KIND) return CHANGE_TO_KIND;
-		if(classType==ClassType.QUANTITY) return CHANGE_TO_QUANTITY;
-		if(classType==ClassType.SUBKIND) return CHANGE_TO_SUBKIND;
-		if(classType==ClassType.COLLECTIVE) return CHANGE_TO_COLLECTIVE;
-		if(classType==ClassType.PHASE) return CHANGE_TO_PHASE;
-		if(classType==ClassType.ROLE) return CHANGE_TO_ROLE;
-		if(classType==ClassType.MIXIN) return CHANGE_TO_MIXIN;
-		if(classType==ClassType.CATEGORY) return CHANGE_TO_CATEGORY;
-		if(classType==ClassType.ROLEMIXIN) return CHANGE_TO_ROLEMIXIN;
-		if(classType==ClassType.MODE) return CHANGE_TO_MODE;
-		if(classType==ClassType.RELATOR) return CHANGE_TO_RELATOR;
-		if(classType==ClassType.NONPERCEIVABLE_QUALITY) return CHANGE_TO_NONPERCEIVABLE_QUALITY;
-		if(classType==ClassType.PERCEIVABLE_QUALITY) return CHANGE_TO_PERCEIVABLE_QUALITY;
-		if(classType==ClassType.NOMINAL_QUALITY) return CHANGE_TO_NOMINAL_QUALITY;
+	public static CommandType getChangeToCommandType(ClassStereotype classType){
+		if(classType==ClassStereotype.KIND) return CHANGE_TO_KIND;
+		if(classType==ClassStereotype.QUANTITY) return CHANGE_TO_QUANTITY;
+		if(classType==ClassStereotype.SUBKIND) return CHANGE_TO_SUBKIND;
+		if(classType==ClassStereotype.COLLECTIVE) return CHANGE_TO_COLLECTIVE;
+		if(classType==ClassStereotype.PHASE) return CHANGE_TO_PHASE;
+		if(classType==ClassStereotype.ROLE) return CHANGE_TO_ROLE;
+		if(classType==ClassStereotype.MIXIN) return CHANGE_TO_MIXIN;
+		if(classType==ClassStereotype.CATEGORY) return CHANGE_TO_CATEGORY;
+		if(classType==ClassStereotype.ROLEMIXIN) return CHANGE_TO_ROLEMIXIN;
+		if(classType==ClassStereotype.MODE) return CHANGE_TO_MODE;
+		if(classType==ClassStereotype.RELATOR) return CHANGE_TO_RELATOR;
+		if(classType==ClassStereotype.NONPERCEIVABLE_QUALITY) return CHANGE_TO_NONPERCEIVABLE_QUALITY;
+		if(classType==ClassStereotype.PERCEIVABLE_QUALITY) return CHANGE_TO_PERCEIVABLE_QUALITY;
+		if(classType==ClassStereotype.NOMINAL_QUALITY) return CHANGE_TO_NOMINAL_QUALITY;
 		return CHANGE_TO_CLASS;
 	}
 	
-	public static CommandType getChangeToCommandType(RelationshipType relType){		
-		if(relType==RelationshipType.CHARACTERIZATION) return CHANGE_TO_CHARACTERIZATION;
-		if(relType==RelationshipType.COMPONENTOF) return CHANGE_TO_COMPONENTOF;
-		if(relType==RelationshipType.DERIVATION) return CHANGE_TO_DERIVATION;
-		if(relType==RelationshipType.FORMAL) return CHANGE_TO_FORMAL;
-		if(relType==RelationshipType.GENERALIZATION) return CHANGE_TO_GENERALIZATION;
-		if(relType==RelationshipType.MATERIAL) return CHANGE_TO_MATERIAL;
-		if(relType==RelationshipType.MEDIATION) return CHANGE_TO_MEDIATION;
-		if(relType==RelationshipType.MEMBEROF) return CHANGE_TO_MEMBEROF;
-		if(relType==RelationshipType.STRUCTURATION) return CHANGE_TO_STRUCTURATION;
-		if(relType==RelationshipType.SUBCOLLECTIONOF) return CHANGE_TO_SUBCOLLECTIONOF;
-		if(relType==RelationshipType.SUBQUANTITYOF) return CHANGE_TO_SUBQUANTITYOF;
-		if(relType==RelationshipType.ASSOCIATION) return CHANGE_TO_ASSOCIATION;
+	public static CommandType getChangeToCommandType(RelationshipStereotype relType){		
+		if(relType==RelationshipStereotype.CHARACTERIZATION) return CHANGE_TO_CHARACTERIZATION;
+		if(relType==RelationshipStereotype.COMPONENTOF) return CHANGE_TO_COMPONENTOF;
+		if(relType==RelationshipStereotype.DERIVATION) return CHANGE_TO_DERIVATION;
+		if(relType==RelationshipStereotype.FORMAL) return CHANGE_TO_FORMAL;
+		if(relType==RelationshipStereotype.GENERALIZATION) return CHANGE_TO_GENERALIZATION;
+		if(relType==RelationshipStereotype.MATERIAL) return CHANGE_TO_MATERIAL;
+		if(relType==RelationshipStereotype.MEDIATION) return CHANGE_TO_MEDIATION;
+		if(relType==RelationshipStereotype.MEMBEROF) return CHANGE_TO_MEMBEROF;
+		if(relType==RelationshipStereotype.STRUCTURATION) return CHANGE_TO_STRUCTURATION;
+		if(relType==RelationshipStereotype.SUBCOLLECTIONOF) return CHANGE_TO_SUBCOLLECTIONOF;
+		if(relType==RelationshipStereotype.SUBQUANTITYOF) return CHANGE_TO_SUBQUANTITYOF;
+		if(relType==RelationshipStereotype.ASSOCIATION) return CHANGE_TO_ASSOCIATION;
 		return CHANGE_TO_ASSOCIATION;
 	}
 	
-	public static CommandType getChangeToCommandType(DataType dataType){
-		if(dataType==DataType.DECIMALINTERVAL_DIMENSION) return CHANGE_TO_DECIMALINTERVAL_DIMENSION;
-		if(dataType==DataType.DECIMALORDINAL_DIMENSION) return CHANGE_TO_DECIMALORDINAL_DIMENSION;
-		if(dataType==DataType.DECIMALRATIONAL_DIMENSION) return CHANGE_TO_DECIMALRATIONAL_DIMENSION;
-		if(dataType==DataType.INTEGERINTERVAL_DIMENSION) return CHANGE_TO_INTEGERINTERVAL_DIMENSION;
-		if(dataType==DataType.INTEGERORDINAL_DIMENSION) return CHANGE_TO_INTEGERORDINAL_DIMENSION;
-		if(dataType==DataType.INTEGERRATIONAL_DIMENSION) return CHANGE_TO_INTEGERRATIONAL_DIMENSION;
-		if(dataType==DataType.MEASUREMENT_DOMAIN) return CHANGE_TO_MEASUREMENT_DOMAIN;
-		if(dataType==DataType.ENUMERATION) return CHANGE_TO_ENUMERATION;
-		if(dataType==DataType.STRINGNOMINAL_STRUCTURE) return CHANGE_TO_STRINGNOMINAL_STRUCTURE;
-		if(dataType==DataType.PRIMITIVETYPE) return CHANGE_TO_PRIMITIVETYPE;
-		if(dataType==DataType.DATATYPE) return CHANGE_TO_DATATYPE;		
+	public static CommandType getChangeToCommandType(DataTypeStereotype dataType){
+		if(dataType==DataTypeStereotype.DECIMALINTERVAL_DIMENSION) return CHANGE_TO_DECIMALINTERVAL_DIMENSION;
+		if(dataType==DataTypeStereotype.DECIMALORDINAL_DIMENSION) return CHANGE_TO_DECIMALORDINAL_DIMENSION;
+		if(dataType==DataTypeStereotype.DECIMALRATIONAL_DIMENSION) return CHANGE_TO_DECIMALRATIONAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERINTERVAL_DIMENSION) return CHANGE_TO_INTEGERINTERVAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERORDINAL_DIMENSION) return CHANGE_TO_INTEGERORDINAL_DIMENSION;
+		if(dataType==DataTypeStereotype.INTEGERRATIONAL_DIMENSION) return CHANGE_TO_INTEGERRATIONAL_DIMENSION;
+		if(dataType==DataTypeStereotype.MEASUREMENT_DOMAIN) return CHANGE_TO_MEASUREMENT_DOMAIN;
+		if(dataType==DataTypeStereotype.ENUMERATION) return CHANGE_TO_ENUMERATION;
+		if(dataType==DataTypeStereotype.STRINGNOMINAL_STRUCTURE) return CHANGE_TO_STRINGNOMINAL_STRUCTURE;
+		if(dataType==DataTypeStereotype.PRIMITIVETYPE) return CHANGE_TO_PRIMITIVETYPE;
+		if(dataType==DataTypeStereotype.DATATYPE) return CHANGE_TO_DATATYPE;		
 		return CHANGE_TO_DATATYPE;
 	}
 	

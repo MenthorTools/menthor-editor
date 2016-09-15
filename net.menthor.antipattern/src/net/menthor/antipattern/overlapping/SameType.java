@@ -2,11 +2,6 @@ package net.menthor.antipattern.overlapping;
 
 import java.util.ArrayList;
 
-import net.menthor.antipattern.Antipattern;
-import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.antipattern.wizard.overlapping.SameTypeComposite;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-
 import org.eclipse.swt.widgets.Composite;
 
 import RefOntoUML.Classifier;
@@ -17,6 +12,11 @@ import RefOntoUML.Property;
 import RefOntoUML.Relator;
 import RefOntoUML.SortalClass;
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.antipattern.Antipattern;
+import net.menthor.antipattern.AntipatternOccurrence;
+import net.menthor.antipattern.wizard.overlapping.SameTypeComposite;
 
 //partEnds with the same type
 public class SameType extends OverlappingGroup {
@@ -65,7 +65,7 @@ public class SameType extends OverlappingGroup {
 		
 		for (Property p : partEnds) {
 			
-			ClassStereotype stereotype;
+			OntoUMLStereotype stereotype;
 			
 			if(p.getType() instanceof SortalClass)
 				stereotype = ClassStereotype.ROLE;
@@ -76,7 +76,7 @@ public class SameType extends OverlappingGroup {
 			else if(p.getType() instanceof Relator)
 				stereotype = ClassStereotype.RELATOR;
 			else if(p.getType() instanceof DataType)
-				stereotype = ClassStereotype.DATATYPE;
+				stereotype = RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE;
 			else
 				return false;
 				

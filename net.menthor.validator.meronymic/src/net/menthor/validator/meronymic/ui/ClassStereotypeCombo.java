@@ -3,9 +3,9 @@ package net.menthor.validator.meronymic.ui;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
 import RefOntoUML.Classifier;
+import RefOntoUML.stereotypes.ClassStereotype;
 
 public class ClassStereotypeCombo extends JComboBox<ClassStereotype> {
 	

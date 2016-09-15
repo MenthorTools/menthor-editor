@@ -3,10 +3,7 @@ package net.menthor.antipattern.homofunc;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.AntiRigidSortalClass;
@@ -27,6 +24,8 @@ import RefOntoUML.Type;
 import RefOntoUML.componentOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class HomoFuncOccurrence extends AntipatternOccurrence {
 	
@@ -139,11 +138,11 @@ public class HomoFuncOccurrence extends AntipatternOccurrence {
 	}
 
 	public void changeToMemberOf() {
-		fix.addAll(fixer.changeRelationStereotypeTo(partEnd.getAssociation(), RelationStereotype.MEMBEROF));		
+		fix.addAll(fixer.changeRelationStereotypeTo(partEnd.getAssociation(), RelationshipStereotype.MEMBEROF));		
 	}
 
 	public void changeToSubCollectionOf() {
-		fix.addAll(fixer.changeRelationStereotypeTo(partEnd.getAssociation(), RelationStereotype.SUBCOLLECTIONOF));		
+		fix.addAll(fixer.changeRelationStereotypeTo(partEnd.getAssociation(), RelationshipStereotype.SUBCOLLECTIONOF));		
 	}
 
 	public void createNewIdentityProvider() {
@@ -190,7 +189,7 @@ public class HomoFuncOccurrence extends AntipatternOccurrence {
 	}
 	
 	public void createComponentOfToExistingType(Type type, String componentOfName, boolean isEssential, boolean isInseparable, boolean isShareable, boolean isImmutablePart, boolean isImmutableWhole) {
-		Fix fixes = fixer.createAssociationBetween(RelationStereotype.COMPONENTOF, componentOfName, whole, type);
+		Fix fixes = fixer.createAssociationBetween(RelationshipStereotype.COMPONENTOF, componentOfName, whole, type);
 		Meronymic m = (Meronymic) fixes.getAdded().get(0);
 		
 		m.setIsEssential(isEssential);

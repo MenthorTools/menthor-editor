@@ -180,7 +180,7 @@ public class AttributesEditPane extends JPanel {
 	
 	public void createDatatypeAndOpenDialog(){
 		table.getSelectionModel().clearSelection();
-		Element newDatatype = AddCommander.get().addDataType(net.menthor.editor.v2.types.DataType.DATATYPE, element.eContainer());
+		Element newDatatype = AddCommander.get().addDataType(RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE, element.eContainer());
 		ClassEditDialog newDialog = DialogUIController.get().callClassDialog(parent, (Classifier) newDatatype, true);
 		newDialog.addWindowListener(new WindowAdapter() {
 		    @Override

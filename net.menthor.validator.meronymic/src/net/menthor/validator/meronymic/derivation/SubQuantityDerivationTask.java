@@ -1,12 +1,12 @@
 package net.menthor.validator.meronymic.derivation;
 
 import net.menthor.common.ontouml2directedgraph.EdgePath;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.derivation.DerivedMeronymic.PatternType;
 import net.menthor.validator.meronymic.derivation.ui.DerivedTableModel;
 import RefOntoUML.Classifier;
 import RefOntoUML.subQuantityOf;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class SubQuantityDerivationTask extends DerivationTask<subQuantityOf>{
 	
@@ -36,7 +36,7 @@ public class SubQuantityDerivationTask extends DerivationTask<subQuantityOf>{
 	}
 
 	private DerivedMeronymic createDerivedSubQauntityOf(EdgePath path, Classifier whole, Classifier part) {
-		return createDerivedMeronymic(path, whole, part, PatternType.DIRECT_SUBQUANTITY_PARTHOOD, getDirect(whole, part,subQuantityOf.class), RelationStereotype.SUBQUANTITYOF);
+		return createDerivedMeronymic(path, whole, part, PatternType.DIRECT_SUBQUANTITY_PARTHOOD, getDirect(whole, part,subQuantityOf.class), RelationshipStereotype.SUBQUANTITYOF);
 	}
 	
 
