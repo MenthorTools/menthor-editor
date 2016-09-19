@@ -40,7 +40,7 @@ Menthor's code requires at development time a SWT JAR library that matches with 
 
 ### 4.3 Run in MacOSx
 
-If your're using Mac you need to disable the "XstartOnFirstThread" option, follow this steps:
+If your're using Mac you need to disable the "XstartOnFirstThread" option, follow these steps:
 
 * Right click at "MenthorEditor.java" -> "Run As" -> "Run Configurations" -> "Arguments Tab"
 * Disable "XstartOnFirstThread".
