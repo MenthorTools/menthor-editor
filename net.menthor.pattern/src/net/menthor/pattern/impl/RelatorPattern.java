@@ -6,7 +6,6 @@ import java.util.Arrays;
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
@@ -18,6 +17,7 @@ import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class RelatorPattern extends AbstractPattern {
 
@@ -102,23 +102,23 @@ public class RelatorPattern extends AbstractPattern {
 		}
 
 		if(specific1 != null && specific2 != null){
-			material = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MATERIAL, "", specific1, specific2).getAdded().get(0);
+			material = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.MATERIAL, "", specific1, specific2).getAdded().get(0);
 			fix.includeAdded(material);
 		}
 
 		if(relator != null){
 			if(specific1 != null){
-				leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, specific1).getAdded().get(0);
+				leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, specific1).getAdded().get(0);
 				fix.includeAdded(leftMediation);
 			}
 
 			if(specific2 != null){
-				rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, specific2).getAdded().get(0);
+				rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, specific2).getAdded().get(0);
 				fix.includeAdded(rightMediation);
 			}
 
 			if(material != null){
-				derivation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.DERIVATION, "", relator, material).getAdded().get(0);
+				derivation = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.DERIVATION, "", relator, material).getAdded().get(0);
 				fix.includeAdded(derivation);
 			}
 		}

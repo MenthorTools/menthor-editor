@@ -7,22 +7,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
-import net.menthor.assistant.util.UtilAssistant;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.pattern.dynamic.ui.DynamicWindow;
-import net.menthor.pattern.ui.manager.DynamicManagerWindow;
-import net.menthor.pattern.util.UtilPattern;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.Package;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.assistant.util.UtilAssistant;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.pattern.dynamic.ui.DynamicWindow;
+import net.menthor.pattern.ui.manager.DynamicManagerWindow;
 
 public abstract class AbstractPattern {
 
@@ -48,8 +45,8 @@ public abstract class AbstractPattern {
 	}
 
 	protected Classifier createClassifier(String name, String stereotype, double x, double y){
-		ClassStereotype enumStereotype = ClassStereotype.valueOf(stereotype.toUpperCase());
-
+		OntoUMLStereotype enumStereotype = ClassStereotype.valueOf(stereotype.toUpperCase());
+		if(enumStereotype==null) enumStereotype = DataTypeStereotype.valueOf(stereotype.toUpperCase());
 		RefOntoUML.Classifier classifier = (Classifier) outcomeFixer.createClass(enumStereotype);
 		classifier.setName(name);
 		parser.getModel().getPackagedElement().add(classifier);

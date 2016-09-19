@@ -3,7 +3,6 @@ package net.menthor.validator.meronymic.forbidden;
 import javax.swing.JDialog;
 
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.forbidden.ui.ForbiddenMemberOfDialog;
 import net.menthor.validator.meronymic.ui.FixDialog;
 import RefOntoUML.Meronymic;
@@ -11,6 +10,7 @@ import RefOntoUML.Property;
 import RefOntoUML.memberOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class ForbiddenMemberOf extends ForbiddenMeronymic<memberOf> {
 	
@@ -46,15 +46,15 @@ public class ForbiddenMemberOf extends ForbiddenMeronymic<memberOf> {
 			reverse();
 		else if(action == Action.CHANGE_ALL_TO_COMPONENTOF){
 			makeFunctionalDerivationPath();
-			changeFobbidenTo(RelationStereotype.COMPONENTOF);
+			changeFobbidenTo(RelationshipStereotype.COMPONENTOF);
 		}
 		else if(action == Action.CHANGE_ALL_TO_SUBCOLLECTIONOF){
 			makeSubCollectionDerivationPath();
-			changeFobbidenTo(RelationStereotype.SUBCOLLECTIONOF);
+			changeFobbidenTo(RelationshipStereotype.SUBCOLLECTIONOF);
 		}
 		else if(action == Action.CHANGE_ALL_TO_SUBQUANTITYOF){
 			makeSubQuantityDerivationPath();
-			changeFobbidenTo(RelationStereotype.SUBQUANTITYOF);
+			changeFobbidenTo(RelationshipStereotype.SUBQUANTITYOF);
 		}
 		else if(action == Action.MAKE_MEMBEROF_VALID)
 			makeMembershipDerivationPath();
@@ -89,7 +89,7 @@ public class ForbiddenMemberOf extends ForbiddenMeronymic<memberOf> {
 		this.action = Action.MAKE_MEMBEROF_VALID;
 	}
 	
-	public void changeFobbidenTo(RelationStereotype stereotype){
+	public void changeFobbidenTo(RelationshipStereotype stereotype){
 		fix.addAll(fixer.changeRelationStereotypeTo(meronymic, stereotype));
 	}
 	

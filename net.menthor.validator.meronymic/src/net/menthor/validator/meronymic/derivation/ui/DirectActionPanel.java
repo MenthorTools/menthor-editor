@@ -16,11 +16,11 @@ import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.derivation.DerivedMeronymic;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class DirectActionPanel extends JPanel {
 	
@@ -41,7 +41,7 @@ public class DirectActionPanel extends JPanel {
 	private JRadioButton reverseRadio;
 	private JComboBox<String> removeCombo;
 	private JComboBox<String> reverseCombo;
-	private JComboBox<RelationStereotype> changeStereotypeCombo;
+	private JComboBox<RelationshipStereotype> changeStereotypeCombo;
 	private JRadioButton inferFunctionalRadio;
 	private JRadioButton inferSubQuantityRadio;
 	private JRadioButton inferSubCollectionRadio;
@@ -80,7 +80,7 @@ public class DirectActionPanel extends JPanel {
 		
 		changeStereotypeRadio = new JRadioButton("Change to non part-whole stereotype:");
 		
-		changeStereotypeCombo = new JComboBox<RelationStereotype>();
+		changeStereotypeCombo = new JComboBox<RelationshipStereotype>();
 		changeStereotypeCombo.setModel(createStereotypeComboModel());
 		
 		changeRelationCombo = new JComboBox<String>();
@@ -337,11 +337,11 @@ public class DirectActionPanel extends JPanel {
 		return model;
 	}
 	
-	private DefaultComboBoxModel<RelationStereotype> createStereotypeComboModel(){
-		DefaultComboBoxModel<RelationStereotype> model = new DefaultComboBoxModel<RelationStereotype>();
+	private DefaultComboBoxModel<RelationshipStereotype> createStereotypeComboModel(){
+		DefaultComboBoxModel<RelationshipStereotype> model = new DefaultComboBoxModel<RelationshipStereotype>();
 		
-		model.addElement(RelationStereotype.FORMAL);
-		model.addElement(RelationStereotype.MATERIAL);
+		model.addElement(RelationshipStereotype.FORMAL);
+		model.addElement(RelationshipStereotype.MATERIAL);
 		
 		return model;
 	}
@@ -423,7 +423,7 @@ public class DirectActionPanel extends JPanel {
 			else if(reverseRadio.isSelected())
 				derived.setReverse(getRelation(reverseCombo.getSelectedIndex()));
 			else if(changeStereotypeRadio.isSelected())
-				derived.setChangeStereotype(getRelation(changeRelationCombo.getSelectedIndex()),(RelationStereotype) changeStereotypeCombo.getSelectedItem());
+				derived.setChangeStereotype(getRelation(changeRelationCombo.getSelectedIndex()),(RelationshipStereotype) changeStereotypeCombo.getSelectedItem());
 			else if(memberOfPathRadio.isSelected())
 				derived.setMemberOfPath();
 			else if(inferFunctionalRadio.isSelected())

@@ -2,11 +2,6 @@ package net.menthor.antipattern.wizard.relspec;
 
 import java.text.Normalizer;
 
-import net.menthor.antipattern.relspec.RelSpecAntipattern;
-import net.menthor.antipattern.relspec.RelSpecOccurrence;
-import net.menthor.antipattern.wizard.RefactoringPage;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
@@ -18,6 +13,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
+
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.antipattern.relspec.RelSpecAntipattern;
+import net.menthor.antipattern.relspec.RelSpecOccurrence;
+import net.menthor.antipattern.wizard.RefactoringPage;
 
 /**
  * @author Tiago Sales
@@ -224,8 +225,8 @@ public class RelSpecRefactoringPage extends RefactoringPage {
 		}
 		
 		if (btnSpecializeRedefine!=null && btnSpecializeRedefine.getSelection()){
-			ClassStereotype source = ClassStereotype.ROLE;
-			ClassStereotype target = ClassStereotype.ROLE;
+			OntoUMLStereotype source = ClassStereotype.ROLE;
+			OntoUMLStereotype target = ClassStereotype.ROLE;
 			
 			if(comboSpecializeRedefine.getSelectionIndex()==0) {
 				// Action =====================

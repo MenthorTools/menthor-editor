@@ -74,6 +74,9 @@ import org.tinyuml.umldraw.StructureDiagram;
 import org.tinyuml.umldraw.shared.UmlConnection;
 
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.OntoumlDiagram;
 import net.menthor.editor.v2.commanders.ClipboardCommanderMode;
@@ -81,9 +84,6 @@ import net.menthor.editor.v2.commanders.ConnectCommanderMode;
 import net.menthor.editor.v2.commanders.DeleteCommander;
 import net.menthor.editor.v2.commanders.SelectCommanderMode;
 import net.menthor.editor.v2.commands.ICommandListener;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.MenuBarUI;
 import net.menthor.editor.v2.ui.PaletteUI;
 import net.menthor.editor.v2.ui.TopTabbedPaneUI;
@@ -679,7 +679,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * Switches the editor into creation mode.
 	 * @param elementType the ElementType that indicates what to create
 	 */
-	public void setCreationMode(ClassType elementType) 
+	public void setCreationMode(ClassStereotype elementType) 
 	{
 		ClipboardCommanderMode.get().createAndPutToClipboard(elementType);
 		editorMode = ClipboardCommanderMode.get();
@@ -693,7 +693,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * Switches the editor into creation mode.
 	 * @param elementType the ElementType that indicates what to create
 	 */
-	public void setCreationMode(DataType elementType) 
+	public void setCreationMode(DataTypeStereotype elementType) 
 	{		
 		ClipboardCommanderMode.get().createAndPutToClipboard(elementType);
 		editorMode = ClipboardCommanderMode.get();
@@ -709,7 +709,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 	 * Switches the editor into connection creation mode.
 	 * @param relationType the RelationType to create
 	 */
-	public void setCreateConnectionMode(RelationshipType relationType) 
+	public void setCreateConnectionMode(RelationshipStereotype relationType) 
 	{	
 		ConnectCommanderMode.get().setRelationshipType(relationType);
 		editorMode = ConnectCommanderMode.get();
@@ -717,7 +717,7 @@ public class OntoumlEditor extends GenericEditor implements ActionListener, Mous
 
 	public UmlConnection dragRelation(RefOntoUML.Relationship relationship, EObject eContainer)
 	{		
-		RelationshipType relationType = RelationshipType.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
+		RelationshipStereotype relationType = RelationshipStereotype.valueOf(OntoUMLParser.getStereotype(relationship).toUpperCase());
 		ConnectCommanderMode.get().setRelationshipType(relationType);
 		editorMode = ConnectCommanderMode.get();
 		RefOntoUML.Type source = null;

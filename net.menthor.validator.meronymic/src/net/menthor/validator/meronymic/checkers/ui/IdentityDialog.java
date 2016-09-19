@@ -34,15 +34,16 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.validator.meronymic.checkers.IdentityError;
 import RefOntoUML.Classifier;
 import RefOntoUML.Phase;
 import RefOntoUML.Role;
 import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLNameHelper;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.validator.meronymic.checkers.IdentityError;
 
 public class IdentityDialog extends JDialog {
 
@@ -67,8 +68,8 @@ public class IdentityDialog extends JDialog {
 	private JLabel lblIdentityProvider;
 	private JLabel label;
 	private JLabel lblbothActionsWill;
-	private JComboBox<ClassStereotype> providerStereoCombo;
-	private JComboBox<ClassStereotype> notProviderStereoCombo;
+	private JComboBox<OntoUMLStereotype> providerStereoCombo;
+	private JComboBox<OntoUMLStereotype> notProviderStereoCombo;
 	private JComboBox<String> notProviderInheritedCombo;
 	private JRadioButton providerRadio;
 	private JRadioButton notProviderRadio;
@@ -381,9 +382,9 @@ public class IdentityDialog extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 		
 			if(providerRadio.isSelected())
-				error.setAsIdentityProvider((ClassStereotype)providerStereoCombo.getSelectedItem());
+				error.setAsIdentityProvider((OntoUMLStereotype)providerStereoCombo.getSelectedItem());
 			else if(notProviderRadio.isSelected()){
-				error.setAsInheritsProvider((ClassStereotype)notProviderStereoCombo.getSelectedItem(), getSelectedIdentityProvider());
+				error.setAsInheritsProvider((OntoUMLStereotype)notProviderStereoCombo.getSelectedItem(), getSelectedIdentityProvider());
 			}
 			
 			IdentityDialog.this.dispose();
@@ -440,14 +441,14 @@ public class IdentityDialog extends JDialog {
 			text.setText("No");
 	}
 	
-	private JComboBox<ClassStereotype> createSubstanceSortalCombo(){
+	private JComboBox<OntoUMLStereotype> createSubstanceSortalCombo(){
 		
-		DefaultComboBoxModel<ClassStereotype> model = new DefaultComboBoxModel<ClassStereotype>();
+		DefaultComboBoxModel<OntoUMLStereotype> model = new DefaultComboBoxModel<OntoUMLStereotype>();
 		model.addElement(ClassStereotype.KIND);
 		model.addElement(ClassStereotype.COLLECTIVE);
 		model.addElement(ClassStereotype.QUANTITY);
 		
-		JComboBox<ClassStereotype> combo = new JComboBox<>(model);
+		JComboBox<OntoUMLStereotype> combo = new JComboBox<>(model);
 		
 		if(error.getElement() instanceof SubstanceSortal)
 			combo.setSelectedItem(OutcomeFixer.getClassStereotype(error.getElement()));
@@ -457,14 +458,14 @@ public class IdentityDialog extends JDialog {
 		return combo;
 	}
 	
-	private JComboBox<ClassStereotype> createSortalCombo(){
+	private JComboBox<OntoUMLStereotype> createSortalCombo(){
 		
-		DefaultComboBoxModel<ClassStereotype> model = new DefaultComboBoxModel<ClassStereotype>();
+		DefaultComboBoxModel<OntoUMLStereotype> model = new DefaultComboBoxModel<OntoUMLStereotype>();
 		model.addElement(ClassStereotype.SUBKIND);
 		model.addElement(ClassStereotype.ROLE);
 		model.addElement(ClassStereotype.PHASE);
 		
-		JComboBox<ClassStereotype> combo = new JComboBox<>(model);
+		JComboBox<OntoUMLStereotype> combo = new JComboBox<>(model);
 		
 		Classifier classifier = error.getElement();
 		

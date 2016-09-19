@@ -5,7 +5,6 @@ import net.menthor.editor.v2.ui.controller.ProjectUIController;
 import net.menthor.editor.v2.ui.controller.TabbedAreaUIController;
 import net.menthor.editor.v2.ui.settings.owl.OwlSettingsMap;
 import net.menthor.editor.v2.ui.utilities.SplashScreen;
-import net.menthor.editor.v2.util.DirectoryUtil;
 import net.menthor.editor.v2.util.SystemUtil;
 import net.menthor.editor.v2.util.UIFontUtil;
 import net.menthor.editor.v2.util.Util;
@@ -19,7 +18,7 @@ public final class MenthorEditor {
 	 * 	B: compilation with new features
 	 * 	C: compilation with bug fixes
 	 */	
-	public static String MENTHOR_VERSION = "1.1.4";	
+	public static String MENTHOR_VERSION = "1.1.7";	
 	public static String MENTHOR_COMPILATION_DATE = Util.getCompilationDateMessage();	
 	
 	public static SplashScreen splashScreen = new SplashScreen(MENTHOR_VERSION, MENTHOR_COMPILATION_DATE);
@@ -29,7 +28,7 @@ public final class MenthorEditor {
 		try {			
 			SystemUtil.set();					
 			UIFontUtil.set();					
-			SWTConfigurer.execute(DirectoryUtil.getBinDir());		
+			SWTConfigurer.execute(MENTHOR_VERSION);		
 			OwlSettingsMap.getInstance();														
 			
 			//create application frame

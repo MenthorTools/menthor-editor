@@ -5,16 +5,16 @@ import java.util.Iterator;
 
 import javax.swing.JDialog;
 
-import net.menthor.common.list.ArrayListOperations;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.validator.meronymic.checkers.ui.IdentityDialog;
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import net.menthor.common.list.ArrayListOperations;
+import net.menthor.common.ontoumlfixer.Fix;
+import net.menthor.common.ontoumlfixer.OutcomeFixer;
+import net.menthor.validator.meronymic.checkers.ui.IdentityDialog;
 
 public class IdentityError extends MeronymicError<Classifier> {
 	
@@ -23,7 +23,7 @@ public class IdentityError extends MeronymicError<Classifier> {
 	
 	ArrayList<Classifier> identityProviders;
 
-	private ClassStereotype stereotype;
+	private OntoUMLStereotype stereotype;
 	private Classifier identityProvider;
 	
 	public IdentityError(OntoUMLParser parser, Classifier type, ArrayList<Classifier> identityProviders) {
@@ -97,12 +97,12 @@ public class IdentityError extends MeronymicError<Classifier> {
 		return parser;
 	}
 
-	public void setAsIdentityProvider(ClassStereotype stereotype) {
+	public void setAsIdentityProvider(OntoUMLStereotype stereotype) {
 		action = Action.SET_AS_IDENTITY_PROVIDER;
 		this.stereotype = stereotype; 
 	}
 
-	public void setAsInheritsProvider(ClassStereotype stereotype, Classifier identityProvider) {
+	public void setAsInheritsProvider(OntoUMLStereotype stereotype, Classifier identityProvider) {
 		action = Action.SET_AS_INHERITS_IDENTITY;
 		this.stereotype = stereotype;
 		this.identityProvider = identityProvider;

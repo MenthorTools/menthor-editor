@@ -5,37 +5,38 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-import net.menthor.common.ontoumlfixer.Stereotype;
-
 import org.eclipse.emf.ecore.EObject;
 
-public class StereotypeCombo extends JComboBox<Stereotype>{
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+
+public class StereotypeCombo extends JComboBox<OntoUMLStereotype>{
 	
 	private static final long serialVersionUID = 2721908823135720575L;
 
 	public StereotypeCombo(){
-		ArrayList<Stereotype> list = new ArrayList<Stereotype>();
+		ArrayList<OntoUMLStereotype> list = new ArrayList<OntoUMLStereotype>();
 	
-		for (Stereotype s : ClassStereotype.getClassStereotypes()) {
+		for (OntoUMLStereotype s : RefOntoUML.stereotypes.ClassStereotype.getClassTypes()) {
 			list.add(s);
 		}
-		for (Stereotype s : RelationStereotype.getAssociationStereotypes()) {
+		for (OntoUMLStereotype s : RefOntoUML.stereotypes.DataTypeStereotype.getDataTypes()) {
+			list.add(s);
+		}
+		for (OntoUMLStereotype s : RefOntoUML.stereotypes.RelationshipStereotype.getRelationshipTypes()) {
 			list.add(s);
 		}
 		
-		Stereotype[] array = new Stereotype[list.size()];
+		OntoUMLStereotype[] array = new OntoUMLStereotype[list.size()];
 		array = list.toArray(array);
 		
-		setModel(new DefaultComboBoxModel<Stereotype>(array));
+		setModel(new DefaultComboBoxModel<OntoUMLStereotype>(array));
 	}
 	
 	public Class<? extends EObject> getSelectedMetaClass(){
 		if(getSelectedItem()==null)
 			return null;
 		
-		return ((Stereotype)getSelectedItem()).getMetaclass();
+		return ((OntoUMLStereotype)getSelectedItem()).getMetaclass();
 	}
 	
 	

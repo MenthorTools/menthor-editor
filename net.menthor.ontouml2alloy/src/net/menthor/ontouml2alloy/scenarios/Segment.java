@@ -2,15 +2,14 @@ package net.menthor.ontouml2alloy.scenarios;
 
 import java.util.Iterator;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-import net.menthor.common.ontoumlfixer.Stereotype;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Association;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class Segment {
 	
@@ -30,13 +29,16 @@ public class Segment {
 		return classifier;
 	}
 	
-	public Stereotype getStereotype(){
-		for (ClassStereotype cs : ClassStereotype.values()) {
+	public OntoUMLStereotype getStereotype(){
+		for (OntoUMLStereotype cs : ClassStereotype.values()) {
 			if(cs.getMetaclass().equals(metaType))
 				return cs;
 		}
-		
-		for (RelationStereotype rs : RelationStereotype.values()) {
+		for (OntoUMLStereotype cs : RefOntoUML.stereotypes.DataTypeStereotype.values()) {
+			if(cs.getMetaclass().equals(metaType))
+				return cs;
+		}
+		for (RelationshipStereotype rs : RelationshipStereotype.values()) {
 			if(rs.getMetaclass().equals(metaType))
 				return rs;
 		}

@@ -6,10 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Category;
@@ -24,6 +21,8 @@ import RefOntoUML.Relator;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 //Multiple Relational Dependency
 public class MultiDepOccurrence extends AntipatternOccurrence{
@@ -108,7 +107,7 @@ public class MultiDepOccurrence extends AntipatternOccurrence{
 	{
 		for(ArrayList<Property> list: matrix){
 			if (list.size()==2){
-				fix.addAll(fixer.createAssociationBetween(RelationStereotype.FORMAL, "", list.get(0).getType(), list.get(1).getType()) );
+				fix.addAll(fixer.createAssociationBetween(RelationshipStereotype.FORMAL, "", list.get(0).getType(), list.get(1).getType()) );
 			}
 		}		
 	}

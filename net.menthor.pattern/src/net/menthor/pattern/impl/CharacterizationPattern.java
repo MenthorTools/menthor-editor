@@ -6,7 +6,6 @@ import java.util.Arrays;
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Category;
 import RefOntoUML.Classifier;
@@ -22,6 +21,7 @@ import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class CharacterizationPattern extends AbstractPattern {
 
@@ -69,7 +69,7 @@ public class CharacterizationPattern extends AbstractPattern {
 		Association characterization = null;
 
 		if(mode != null && universal != null){
-			characterization = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.CHARACTERIZATION, "", mode, universal).getAdded().get(0);
+			characterization = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.CHARACTERIZATION, "", mode, universal).getAdded().get(0);
 			fix.includeAdded(characterization);
 		}
 

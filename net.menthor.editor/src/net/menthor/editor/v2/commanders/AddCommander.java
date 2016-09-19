@@ -18,10 +18,10 @@ import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
 import RefOntoUML.StringExpression;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import net.menthor.editor.ui.UmlProject;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.controller.DialogUIController;
 import net.menthor.editor.v2.ui.controller.MessageUIController;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
@@ -51,7 +51,7 @@ public class AddCommander extends GenericCommander {
 	}
 	
 	/** Add relationship to the model. */
-	public RefOntoUML.Relationship addRelationship(RelationshipType stereotype, Object input)	{
+	public RefOntoUML.Relationship addRelationship(RelationshipStereotype stereotype, Object input)	{
 		if(stereotype==null) return null;
 		Element container = getContainer(input);		
 		RefOntoUML.Relationship relationship = MenthorFactory.get().createRelationship(stereotype);		
@@ -125,7 +125,7 @@ public class AddCommander extends GenericCommander {
 	
 	
 	/** Add class to the model */
-	public RefOntoUML.Element addClass(ClassType stereotype, Object input){	
+	public RefOntoUML.Element addClass(ClassStereotype stereotype, Object input){	
 		Element container = getContainer(input);			
 		if(container!=null){
 			RefOntoUML.Element element = MenthorFactory.get().createClass(stereotype);		
@@ -137,7 +137,7 @@ public class AddCommander extends GenericCommander {
 	}
 	
 	/** Add datatype to the model */
-	public RefOntoUML.Element addDataType(DataType stereotype, Object input){
+	public RefOntoUML.Element addDataType(DataTypeStereotype stereotype, Object input){
 		Element eContainer = getContainer(input);			
 		if(eContainer!=null){
 			RefOntoUML.Element element = MenthorFactory.get().createDataType(stereotype);		

@@ -3,8 +3,6 @@ package net.menthor.antipattern.hetcoll;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -18,6 +16,8 @@ import RefOntoUML.SubKind;
 import RefOntoUML.memberOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class HetCollOccurrence extends AntipatternOccurrence {
 
@@ -114,7 +114,7 @@ public class HetCollOccurrence extends AntipatternOccurrence {
 		for (Property p : collectionProperties)
 			assocList.add(p.getAssociation());
 	
-		fix.addAll(fixer.changeAllRelationsTo(assocList, RelationStereotype.COMPONENTOF, ClassStereotype.KIND, ClassStereotype.KIND));
+		fix.addAll(fixer.changeAllRelationsTo(assocList, RelationshipStereotype.COMPONENTOF, ClassStereotype.KIND, ClassStereotype.KIND));
 		
 	}
 
@@ -128,8 +128,8 @@ public class HetCollOccurrence extends AntipatternOccurrence {
 		for (Property p : changeToMemberOfList)
 			memberOfList.add(p.getAssociation());
 		
-		fix.addAll(fixer.changeAllRelationsTo(subCollectionList, RelationStereotype.SUBCOLLECTIONOF, ClassStereotype.COLLECTIVE, ClassStereotype.COLLECTIVE));
-		fix.addAll(fixer.changeAllRelationsTo(memberOfList, RelationStereotype.MEMBEROF, ClassStereotype.COLLECTIVE, null));
+		fix.addAll(fixer.changeAllRelationsTo(subCollectionList, RelationshipStereotype.SUBCOLLECTIONOF, ClassStereotype.COLLECTIVE, ClassStereotype.COLLECTIVE));
+		fix.addAll(fixer.changeAllRelationsTo(memberOfList, RelationshipStereotype.MEMBEROF, ClassStereotype.COLLECTIVE, null));
 	}
 
 	public void mergeToMemberOf() {

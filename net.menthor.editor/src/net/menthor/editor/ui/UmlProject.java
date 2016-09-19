@@ -1,5 +1,7 @@
 package net.menthor.editor.ui;
 
+import java.io.IOException;
+
 /**
  * ============================================================================================
  * Menthor Editor -- Copyright (c) 2015 
@@ -97,7 +99,9 @@ public class UmlProject implements Serializable {
 	public int getVersionAsInt() { return Integer.parseInt(version.replaceAll("[.]", "")); }
 	public void addDiagram(OntoumlDiagram diagram) { diagrams.add(diagram); }		
 	public List<OntoumlDiagram> getDiagrams() { return diagrams; }
-	public RefOntoUML.Package getModel() { return (RefOntoUML.Package) resource.getContents().get(0); }
+	public RefOntoUML.Package getModel() {		
+		return (RefOntoUML.Package) resource.getContents().get(0); 
+	}
 	public void setSaveModelNeeded(boolean saveNeeded) { this.saveNeeded = saveNeeded; }
 	public boolean isSaveModelNeeded() { return saveNeeded; }
 	public Properties getProperties() { return properties; }

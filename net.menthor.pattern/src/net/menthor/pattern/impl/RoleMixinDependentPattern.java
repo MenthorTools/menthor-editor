@@ -6,7 +6,6 @@ import java.util.Arrays;
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
@@ -20,6 +19,7 @@ import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class RoleMixinDependentPattern extends AbstractPattern{
 
@@ -123,23 +123,23 @@ public class RoleMixinDependentPattern extends AbstractPattern{
 		}
 
 		if(rolemixin != null && role3 != null){
-			material = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MATERIAL, "", rolemixin, role3).getAdded().get(0);
+			material = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.MATERIAL, "", rolemixin, role3).getAdded().get(0);
 			fix.includeAdded(material);
 		}
 
 		if(relator != null){
 			if(rolemixin != null){
-				leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, rolemixin).getAdded().get(0);
+				leftMediation = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, rolemixin).getAdded().get(0);
 				fix.includeAdded(leftMediation);
 			}
 
 			if(role3 != null){
-				rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, role3).getAdded().get(0);
+				rightMediation = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, role3).getAdded().get(0);
 				fix.includeAdded(rightMediation);
 			}
 
 			if(material != null){
-				derivation = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.DERIVATION, "", relator, material).getAdded().get(0);
+				derivation = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.DERIVATION, "", relator, material).getAdded().get(0);
 				fix.includeAdded(derivation);
 			}
 		}

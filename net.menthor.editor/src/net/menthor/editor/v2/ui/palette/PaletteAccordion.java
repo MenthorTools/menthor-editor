@@ -33,11 +33,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.commands.CommandType;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.icon.IconType;
 
 /**
@@ -148,57 +148,57 @@ public class PaletteAccordion extends JPanel{
 		PaletteGrouping datatypeGrouping = new PaletteGrouping(this, paletteName);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DATATYPE.toString(),
+			DataTypeStereotype.DATATYPE.toString(),
 			CommandType.PALLETE_DATATYPE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.ENUMERATION.toString(),
+			DataTypeStereotype.ENUMERATION.toString(),
 			CommandType.PALLETE_ENUMERATION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.PRIMITIVETYPE.toString(),
+			DataTypeStereotype.PRIMITIVETYPE.toString(),
 			CommandType.PALLETE_PRIMITIVETYPE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.MEASUREMENT_DOMAIN.toString(),
+			DataTypeStereotype.MEASUREMENT_DOMAIN.toString(),
 			CommandType.PALLETE_MEASUREMENT_DOMAIN
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.STRINGNOMINAL_STRUCTURE.toString(),
+			DataTypeStereotype.STRINGNOMINAL_STRUCTURE.toString(),
 			CommandType.PALLETE_STRINGNOMINAL_STRUCTURE
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.INTEGERINTERVAL_DIMENSION.toString(),
+			DataTypeStereotype.INTEGERINTERVAL_DIMENSION.toString(),
 			CommandType.PALLETE_INTEGERINTERVAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.INTEGERRATIONAL_DIMENSION.toString(),
+			DataTypeStereotype.INTEGERRATIONAL_DIMENSION.toString(),
 			CommandType.PALLETE_INTEGERRATIONAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.INTEGERORDINAL_DIMENSION.toString(),
+			DataTypeStereotype.INTEGERORDINAL_DIMENSION.toString(),
 			CommandType.PALLETE_INTEGERORDINAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DECIMALORDINAL_DIMENSION.toString(),
+			DataTypeStereotype.DECIMALORDINAL_DIMENSION.toString(),
 			CommandType.PALLETE_DECIMALORDINAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DECIMALRATIONAL_DIMENSION.toString(),
+			DataTypeStereotype.DECIMALRATIONAL_DIMENSION.toString(),
 			CommandType.PALLETE_DECIMALRATIONAL_DIMENSION
 		);
 		datatypeGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			DataType.DECIMALINTERVAL_DIMENSION.toString(),
+			DataTypeStereotype.DECIMALINTERVAL_DIMENSION.toString(),
 			CommandType.PALLETE_DECIMALINTERVAL_DIMENSION
 		);
 		paletteMap.put(paletteName, datatypeGrouping);
@@ -212,62 +212,62 @@ public class PaletteAccordion extends JPanel{
 		PaletteGrouping relationshipGrouping = new PaletteGrouping(this, paletteName);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_GENERALIZATION, 
-			RelationshipType.GENERALIZATION.toString(),
+			RelationshipStereotype.GENERALIZATION.toString(),
 			CommandType.PALLETE_GENERALIZATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
-			RelationshipType.MATERIAL.toString(),
+			RelationshipStereotype.MATERIAL.toString(),
 			CommandType.PALLETE_MATERIAL
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
-			RelationshipType.FORMAL.toString(),
+			RelationshipStereotype.FORMAL.toString(),
 			CommandType.PALLETE_FORMAL
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
-			RelationshipType.CHARACTERIZATION.toString(),
+			RelationshipStereotype.CHARACTERIZATION.toString(),
 			CommandType.PALLETE_CHARACTERIZATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
-			RelationshipType.MEDIATION.toString(),
+			RelationshipStereotype.MEDIATION.toString(),
 			CommandType.PALLETE_MEDIATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_DERIVATION, 
-			RelationshipType.DERIVATION.toString(),
+			RelationshipStereotype.DERIVATION.toString(),
 			CommandType.PALLETE_DERIVATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
-			RelationshipType.STRUCTURATION.toString(),
+			RelationshipStereotype.STRUCTURATION.toString(),
 			CommandType.PALLETE_STRUCTURATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_ASSOCIATION, 
-			RelationshipType.ASSOCIATION.toString(),
+			RelationshipStereotype.ASSOCIATION.toString(),
 			CommandType.PALLETE_ASSOCIATION
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_COMPONENTOF, 
-			RelationshipType.COMPONENTOF.toString(),
+			RelationshipStereotype.COMPONENTOF.toString(),
 			CommandType.PALLETE_COMPONENTOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_SUBCOLLECTIONOF, 
-			RelationshipType.SUBCOLLECTIONOF.toString(),
+			RelationshipStereotype.SUBCOLLECTIONOF.toString(),
 			CommandType.PALLETE_SUBCOLLECTIONOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_SUBQUANTITYOF, 
-			RelationshipType.SUBQUANTITYOF.toString(),
+			RelationshipStereotype.SUBQUANTITYOF.toString(),
 			CommandType.PALLETE_SUBQUANTITYOF
 		);
 		relationshipGrouping.createPaletteItem(
 			IconType.MENTHOR_MEMBEROF, 
-			RelationshipType.MEMBEROF.toString(),
+			RelationshipStereotype.MEMBEROF.toString(),
 			CommandType.PALLETE_MEMBEROF
 		);
 		paletteMap.put(paletteName, relationshipGrouping);
@@ -282,72 +282,72 @@ public class PaletteAccordion extends JPanel{
 		PaletteGrouping classGrouping = new PaletteGrouping(this, paletteName);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.KIND.toString(),
+			ClassStereotype.KIND.toString(),
 			CommandType.PALLETE_KIND
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.COLLECTIVE.toString(),
+			ClassStereotype.COLLECTIVE.toString(),
 			CommandType.PALLETE_COLLECTIVE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.QUANTITY.toString(),
+			ClassStereotype.QUANTITY.toString(),
 			CommandType.PALLETE_QUANTITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.RELATOR.toString(),
+			ClassStereotype.RELATOR.toString(),
 			CommandType.PALLETE_RELATOR
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.MODE.toString(),
+			ClassStereotype.MODE.toString(),
 			CommandType.PALLETE_MODE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.ROLE.toString(),
+			ClassStereotype.ROLE.toString(),
 			CommandType.PALLETE_ROLE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.PHASE.toString(),
+			ClassStereotype.PHASE.toString(),
 			CommandType.PALLETE_PHASE
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.SUBKIND.toString(),
+			ClassStereotype.SUBKIND.toString(),
 			CommandType.PALLETE_SUBKIND
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.CATEGORY.toString(),
+			ClassStereotype.CATEGORY.toString(),
 			CommandType.PALLETE_CATEGORY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.MIXIN.toString(),
+			ClassStereotype.MIXIN.toString(),
 			CommandType.PALLETE_MIXIN
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.ROLEMIXIN.toString(),
+			ClassStereotype.ROLEMIXIN.toString(),
 			CommandType.PALLETE_ROLEMIXIN
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.PERCEIVABLE_QUALITY.toString(),
+			ClassStereotype.PERCEIVABLE_QUALITY.toString(),
 			CommandType.PALLETE_PERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.NONPERCEIVABLE_QUALITY.toString(),
+			ClassStereotype.NONPERCEIVABLE_QUALITY.toString(),
 			CommandType.PALLETE_NONPERCEIVABLE_QUALITY
 		);
 		classGrouping.createPaletteItem(
 			IconType.MENTHOR_CLASS, 
-			ClassType.NOMINAL_QUALITY.toString(),
+			ClassStereotype.NOMINAL_QUALITY.toString(),
 			CommandType.PALLETE_NOMINAL_QUALITY
 		);
 		paletteMap.put(paletteName, classGrouping);

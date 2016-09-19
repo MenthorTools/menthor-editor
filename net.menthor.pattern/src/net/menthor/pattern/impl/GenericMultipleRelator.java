@@ -6,7 +6,6 @@ import java.util.Arrays;
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
@@ -18,6 +17,7 @@ import RefOntoUML.Relator;
 import RefOntoUML.Role;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class GenericMultipleRelator extends AbstractPattern {
 
@@ -80,7 +80,7 @@ public class GenericMultipleRelator extends AbstractPattern {
 			sortal = getClassifier(row, x+(i*verticalDistance)/3, y+horizontalDistance);
 			if(sortal != null){
 				if(relator != null){
-					Association mediation = (Association) outcomeFixer.createAssociationBetween(RelationStereotype.MEDIATION, "", relator, sortal).getAdded().get(0);
+					Association mediation = (Association) outcomeFixer.createAssociationBetween(RelationshipStereotype.MEDIATION, "", relator, sortal).getAdded().get(0);
 					fix.includeAdded(mediation);
 				}
 				i++;

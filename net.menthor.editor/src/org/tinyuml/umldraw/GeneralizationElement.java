@@ -39,6 +39,7 @@ import org.tinyuml.umldraw.shared.UmlModelElementLabelSource;
 
 import RefOntoUML.Classifier;
 import RefOntoUML.Generalization;
+import RefOntoUML.GeneralizationSet;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -178,6 +179,17 @@ public final class GeneralizationElement extends BaseConnection {
 		}
 		
 		positionNameLabel(drawingContext);
+		
+		//only one label in the generalization set will be visible...
+		for(GeneralizationSet gs: ((Generalization)getRelationship()).getGeneralizationSet()){
+			int idx = gs.getGeneralization().size();
+			if(idx>1) {
+				idx = Math.abs(idx/2);
+				if(!gs.getGeneralization().get(idx).equals(getRelationship())){
+					setShowName(false);
+				}
+			}
+		}
 		nameLabel.draw(drawingContext);
 	}
 	

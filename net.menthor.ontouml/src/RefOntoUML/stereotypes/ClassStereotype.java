@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.types;
+package RefOntoUML.stereotypes;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -38,7 +38,7 @@ import RefOntoUML.SubKind;
  * ============================================================================================
  */
 
-public enum ClassType implements OntoUMLMetatype {
+public enum ClassStereotype implements OntoUMLStereotype {
 	
 	CLASS("Class",RefOntoUML.Class.class),
 	KIND("Kind", Kind.class), 
@@ -55,17 +55,11 @@ public enum ClassType implements OntoUMLMetatype {
 	CATEGORY("Category", Category.class), 
 	MIXIN("Mixin", Mixin.class), 
 	ROLEMIXIN("RoleMixin", RoleMixin.class);
-	
-
-//  TODO: Classes to be added	
-//	PHASEMIXIN("PhaseMixin",null),
-//	EVENT("Event",null), 
-//	POWERTYPE("PowerType",null);
-	
+		
 	private String name;
 	private Class<? extends EObject> metaClass;
 
-	ClassType(String name, Class<? extends EObject> metaClass)
+	ClassStereotype(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
 		this.metaClass = metaClass;
@@ -123,26 +117,34 @@ public enum ClassType implements OntoUMLMetatype {
 	
 	public static void main (String args[])
 	{
-		for(ClassType c: ClassType.values()){
+		for(ClassStereotype c: ClassStereotype.values()){
 			System.out.println(c.name);
 		}
 	}
 	
 	@Override
-	public OntoUMLMetatype getMetatype(EObject element){
-		return (OntoUMLMetatype)getClassType(element);
+	public OntoUMLStereotype getMetatype(EObject element){
+		return (OntoUMLStereotype)getClassType(element);
 	}
 
-	public static ClassType getClassType(EObject element) {
-		for (ClassType value : ClassType.values()) {
+	public static ClassStereotype getClassType(EObject element) {
+		for (ClassStereotype value : ClassStereotype.values()) {
 			if(value!=CLASS && value.metaClass.isInstance(element))
 				return value;
 		}
 		return CLASS;
 	}
 
-	public static ClassType getClassType(String value) {
-		for (ClassType item : ClassType.values()) {
+	public static ClassStereotype[] getClassTypes(){
+		ClassStereotype[] array = {CATEGORY, COLLECTIVE, KIND, MIXIN, MODE, 
+		NOMINAL_QUALITY, NONPERCEIVABLE_QUALITY, PERCEIVABLE_QUALITY, 
+		PHASE, QUANTITY, RELATOR, ROLE, ROLEMIXIN, SUBKIND
+		};
+		return array;
+	}
+	
+	public static ClassStereotype getClassType(String value) {
+		for (ClassStereotype item : ClassStereotype.values()) {
 			if(item.getName().compareToIgnoreCase(value)==0)
 				return item;
 		}

@@ -58,6 +58,8 @@ public final class MenthorDomain {
 		return resource;
 	}
 	
+	public ResourceSet getResourceSet(){ return resourceSet; }
+	
 	public AdapterFactoryEditingDomain createDomain() {
 		if (!initialized) {
 			initialize();

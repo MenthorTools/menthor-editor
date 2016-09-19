@@ -45,7 +45,7 @@ public class TOCL2AlloyVisitor extends OCL2AlloyVisitor {
 			}    		
 			
 			RefOntoUML.PackageableElement ontoClassifier = (RefOntoUML.PackageableElement)((TOCLParser)oclparser).getOntoUMLElement(classifier);
-	    	String nameClassifier = refparser.getAlias(ontoClassifier);    	
+	    	String nameClassifier = refparser.getAlias(ontoClassifier);   
 	    	return nameClassifier;	    
 		}else{
 			return super.visitTypeExp(t);

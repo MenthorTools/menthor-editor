@@ -26,18 +26,21 @@ import java.awt.image.BufferedImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.tinyuml.ui.diagram.OntoumlEditor;
 
-import RefOntoUML.util.RefOntoUMLResourceUtil;
 import net.menthor.ontouml2ecore.OntoUML2Ecore;
 import net.menthor.ontouml2ecore.OntoUML2EcoreOption;
 import net.menthor.ontouml2uml.OntoUML2UML;
 import net.menthor.ontouml2uml.OntoUML2UMLOption;
-
+import net.menthor.editor.v2.MenthorDomain;
 import net.menthor.editor.v2.ui.FrameUI;
 import net.menthor.editor.v2.util.Util;
 
@@ -84,8 +87,19 @@ public class ExportUIController {
 		try {
 			File file = chooseRefOntoumlFile();
 			if(file==null) return;
-			CursorUIController.get().waitCursor();			
-			RefOntoUMLResourceUtil.saveModel(file.getAbsolutePath(), ProjectUIController.get().getProject().getModel());		
+			CursorUIController.get().waitCursor();
+			RefOntoUML.Package model = ProjectUIController.get().getProject().getModel();
+			//save to an external resource
+			ResourceSet rset = MenthorDomain.get().getResourceSet();
+			Resource r = rset.createResource(URI.createFileURI(file.getAbsolutePath()));
+			r.getContents().add(ProjectUIController.get().getProject().getModel());
+			try{
+		    	r.save(Collections.emptyMap());
+		    }catch(IOException e){
+		    	e.printStackTrace();
+		    }
+			//bring back reference in memory to the menthor resource
+			ProjectUIController.get().getProject().getResource().getContents().add(model);					
 			lastRefOntoPath = file.getAbsolutePath();			
 			MessageUIController.get().showSuccess("Export - RefOntouml", "Project successfully exported to Reference OntoUML.\nLocation: "+lastRefOntoPath);
 		} catch (Exception ex) {

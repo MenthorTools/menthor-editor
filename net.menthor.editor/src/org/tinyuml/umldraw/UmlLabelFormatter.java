@@ -23,17 +23,17 @@ public class UmlLabelFormatter {
 			if(property.getType()!=null) type = property.getType().getName();
 			return property.getName() + " : " + type+"["+RefOntoUMLFactoryUtil.getMultiplicityAsString(property)+"]";			
 		}
-		if(namedElement instanceof Generalization)
-		{
-			String name = new String();
-			
+		if(namedElement instanceof Generalization){
+			String result = new String();			
 			for(GeneralizationSet genSet: ((Generalization)namedElement).getGeneralizationSet()){
-				if(!name.isEmpty())
-					name+=", ";
-				
-				name+=genSet.getName();
+				String name = new String();
+				if(genSet.isIsDisjoint() && genSet.isIsCovering()) name = "{disjoint,complete}"; 
+				if(genSet.isIsDisjoint() && !genSet.isIsCovering()) name = "{disjoint}";
+				if(!genSet.isIsDisjoint() && genSet.isIsCovering()) name = "{complete}";
+				if(!genSet.isIsDisjoint() && !genSet.isIsCovering()) name = "{}";
+				result += name;				
 			}
-			return name;
+			return result;
 		}
 		if(namedElement instanceof EnumerationLiteral){
 			EnumerationLiteral literal = (EnumerationLiteral) namedElement;			

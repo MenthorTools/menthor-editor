@@ -3,7 +3,6 @@ package net.menthor.validator.meronymic.derivation;
 import java.util.ArrayList;
 
 import net.menthor.common.ontouml2directedgraph.EdgePath;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.derivation.DerivedMeronymic.PatternType;
 import net.menthor.validator.meronymic.derivation.ui.DerivedTableModel;
 import RefOntoUML.Classifier;
@@ -12,6 +11,7 @@ import RefOntoUML.Property;
 import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class MembershipDerivationTask extends DerivationTask<Meronymic>{
 	
@@ -91,11 +91,11 @@ public class MembershipDerivationTask extends DerivationTask<Meronymic>{
 	}
 
 	private DerivedMeronymic createDerivedSubCollectionOf(EdgePath path, Classifier whole, Classifier part) {
-		return createDerivedMeronymic(path, whole, part, PatternType.DIRECT_SUBCOLLECTION_PARTHOOD, getDirect(whole, part,subCollectionOf.class), RelationStereotype.SUBCOLLECTIONOF);
+		return createDerivedMeronymic(path, whole, part, PatternType.DIRECT_SUBCOLLECTION_PARTHOOD, getDirect(whole, part,subCollectionOf.class), RelationshipStereotype.SUBCOLLECTIONOF);
 	}
 
 	private DerivedMeronymic createDerivedMemberOf(EdgePath path, Classifier whole, Classifier part) {
-		return createDerivedMeronymic(path, whole, part, PatternType.DIRECT_MEMBERSHIP, getDirect(whole, part,memberOf.class), RelationStereotype.MEMBEROF);
+		return createDerivedMeronymic(path, whole, part, PatternType.DIRECT_MEMBERSHIP, getDirect(whole, part,memberOf.class), RelationshipStereotype.MEMBEROF);
 	}
 	
 	@Override

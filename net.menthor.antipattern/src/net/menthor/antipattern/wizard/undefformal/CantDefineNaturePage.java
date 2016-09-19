@@ -3,9 +3,6 @@ package net.menthor.antipattern.wizard.undefformal;
 import java.util.Collection;
 import java.util.HashMap;
 
-import net.menthor.antipattern.undefformal.UndefFormalOccurrence;
-import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard.Nature;
-
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -16,6 +13,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
+
+import net.menthor.antipattern.undefformal.UndefFormalOccurrence;
+import net.menthor.antipattern.wizard.undefformal.UndefFormalWizard.Nature;
 
 public class CantDefineNaturePage extends UndefFormalPage{
 

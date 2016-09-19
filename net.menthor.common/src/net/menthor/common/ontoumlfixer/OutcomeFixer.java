@@ -87,6 +87,9 @@ import RefOntoUML.impl.componentOfImpl;
 import RefOntoUML.impl.memberOfImpl;
 import RefOntoUML.impl.subCollectionOfImpl;
 import RefOntoUML.impl.subQuantityOfImpl;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.OntoUMLStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class OutcomeFixer{
 
@@ -103,7 +106,7 @@ public class OutcomeFixer{
 	}
 
 	/** Create class from stereotype. */
-	public RefOntoUML.PackageableElement createClass(ClassStereotype stereo) 
+	public RefOntoUML.PackageableElement createClass(OntoUMLStereotype stereo) 
 	{
 		RefOntoUML.PackageableElement type = null;
 		if (stereo.equals(ClassStereotype.KIND)) type = factory.createKind();
@@ -117,32 +120,32 @@ public class OutcomeFixer{
 		if (stereo.equals(ClassStereotype.MIXIN)) { type = factory.createMixin(); ((Classifier) type).setIsAbstract(true); }
 		if (stereo.equals(ClassStereotype.MODE)) { type = factory.createMode(); }
 		if (stereo.equals(ClassStereotype.RELATOR)) { type = factory.createRelator(); }
-		if (stereo.equals(ClassStereotype.DATATYPE)) { type = factory.createDataType(); }
-		if (stereo.equals(ClassStereotype.PRIMITIVETYPE)) { type = factory.createPrimitiveType(); }
-		if (stereo.equals(ClassStereotype.NOMINALQUALITY)) { type = factory.createNominalQuality(); }
-		if (stereo.equals(ClassStereotype.NONPERCEIVABLEQUALITY)) { type = factory.createNonPerceivableQuality(); }
-		if (stereo.equals(ClassStereotype.PERCEIVABLEQUALITY)) { type = factory.createPerceivableQuality(); }
+		if (stereo.equals(RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE)) { type = factory.createDataType(); }
+		if (stereo.equals(RefOntoUML.stereotypes.DataTypeStereotype.PRIMITIVETYPE)) { type = factory.createPrimitiveType(); }
+		if (stereo.equals(ClassStereotype.NOMINAL_QUALITY)) { type = factory.createNominalQuality(); }
+		if (stereo.equals(ClassStereotype.NONPERCEIVABLE_QUALITY)) { type = factory.createNonPerceivableQuality(); }
+		if (stereo.equals(ClassStereotype.PERCEIVABLE_QUALITY)) { type = factory.createPerceivableQuality(); }
 		type.setName("");
 		type.setVisibility(VisibilityKind.PUBLIC);
 		return type;
 	}
 	
 	/** Create relationship from stereotype */
-	public RefOntoUML.Relationship createRelationship(RelationStereotype stereo) 
+	public RefOntoUML.Relationship createRelationship(RelationshipStereotype stereo) 
 	{
 		RefOntoUML.Relationship rel = null;
-		if (stereo.equals(RelationStereotype.GENERALIZATION)) rel = factory.createGeneralization();
-		if (stereo.equals(RelationStereotype.CHARACTERIZATION)) rel = factory.createCharacterization();
-		if (stereo.equals(RelationStereotype.FORMAL)) rel = factory.createFormalAssociation();
-		if (stereo.equals(RelationStereotype.MATERIAL)) { rel = factory.createMaterialAssociation(); ((MaterialAssociation) rel).setIsDerived(true); }
-		if (stereo.equals(RelationStereotype.MEDIATION)) rel = factory.createMediation();
-		if (stereo.equals(RelationStereotype.MEMBEROF)) { rel = factory.creatememberOf(); ((memberOf) rel).setIsShareable(true); }
-		if (stereo.equals(RelationStereotype.SUBQUANTITYOF)) { rel = factory.createsubQuantityOf(); ((subQuantityOf) rel).setIsShareable(false); }
-		if (stereo.equals(RelationStereotype.SUBCOLLECTIONOF)) { rel = factory.createsubCollectionOf(); ((subCollectionOf) rel).setIsShareable(true); }
-		if (stereo.equals(RelationStereotype.COMPONENTOF)) { rel = factory.createcomponentOf(); ((componentOf) rel).setIsShareable(true); }
-		if (stereo.equals(RelationStereotype.DERIVATION)) rel = factory.createDerivation();
-		if (stereo.equals(RelationStereotype.STRUCTURATION)) rel = factory.createStructuration();
-		if (stereo.equals(RelationStereotype.ASSOCIATION)) rel = factory.createAssociation();
+		if (stereo.equals(RelationshipStereotype.GENERALIZATION)) rel = factory.createGeneralization();
+		if (stereo.equals(RelationshipStereotype.CHARACTERIZATION)) rel = factory.createCharacterization();
+		if (stereo.equals(RelationshipStereotype.FORMAL)) rel = factory.createFormalAssociation();
+		if (stereo.equals(RelationshipStereotype.MATERIAL)) { rel = factory.createMaterialAssociation(); ((MaterialAssociation) rel).setIsDerived(true); }
+		if (stereo.equals(RelationshipStereotype.MEDIATION)) rel = factory.createMediation();
+		if (stereo.equals(RelationshipStereotype.MEMBEROF)) { rel = factory.creatememberOf(); ((memberOf) rel).setIsShareable(true); }
+		if (stereo.equals(RelationshipStereotype.SUBQUANTITYOF)) { rel = factory.createsubQuantityOf(); ((subQuantityOf) rel).setIsShareable(false); }
+		if (stereo.equals(RelationshipStereotype.SUBCOLLECTIONOF)) { rel = factory.createsubCollectionOf(); ((subCollectionOf) rel).setIsShareable(true); }
+		if (stereo.equals(RelationshipStereotype.COMPONENTOF)) { rel = factory.createcomponentOf(); ((componentOf) rel).setIsShareable(true); }
+		if (stereo.equals(RelationshipStereotype.DERIVATION)) rel = factory.createDerivation();
+		if (stereo.equals(RelationshipStereotype.STRUCTURATION)) rel = factory.createStructuration();
+		if (stereo.equals(RelationshipStereotype.ASSOCIATION)) rel = factory.createAssociation();
 		if (rel instanceof Classifier) {
 			((Classifier) rel).setName("");
 			((Classifier) rel).setVisibility(VisibilityKind.PUBLIC);
@@ -161,9 +164,9 @@ public class OutcomeFixer{
 	}
 
 	/** Creates an association with default properties */
-	public RefOntoUML.Relationship createAssociationWithProperties(RelationStereotype stereo) 
+	public RefOntoUML.Relationship createAssociationWithProperties(RelationshipStereotype stereo) 
 	{
-		if (stereo == RelationStereotype.GENERALIZATION) return null;
+		if (stereo == RelationshipStereotype.GENERALIZATION) return null;
 		Association association = (RefOntoUML.Association) createRelationship(stereo);
 		createPropertiesByDefault(association);
 		return association;
@@ -595,7 +598,7 @@ public class OutcomeFixer{
 	}
 
 	/** Change a class stereotype */
-	public Fix changeClassStereotypeTo(EObject element,	ClassStereotype newStereo) 
+	public Fix changeClassStereotypeTo(EObject element,	OntoUMLStereotype newStereo) 
 	{
 		Classifier oldClass = (Classifier)element;
 		Fix fixes = new Fix();
@@ -660,7 +663,7 @@ public class OutcomeFixer{
 	}
 
 	/** Get class stereotype */
-	public static ClassStereotype getClassStereotype(EObject element) 
+	public static  OntoUMLStereotype getClassStereotype(EObject element) 
 	{
 		if (element instanceof Kind) return ClassStereotype.KIND;
 		else if (element instanceof SubKind) return ClassStereotype.SUBKIND;
@@ -673,16 +676,16 @@ public class OutcomeFixer{
 		else if (element instanceof RoleMixin) return ClassStereotype.ROLEMIXIN;
 		else if (element instanceof Relator) return ClassStereotype.RELATOR;
 		else if (element instanceof Mode) return ClassStereotype.MODE;
-		else if (element instanceof DataType) return ClassStereotype.DATATYPE;
+		else if (element instanceof DataType) return RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE;
 		else return ClassStereotype.KIND;
 	}
 
 	/** Get a default stereotype for a subclass of a given class */
-	public static ClassStereotype getDefaultSubtypeStereotype(Class type)
+	public static OntoUMLStereotype getDefaultSubtypeStereotype(Class type)
 	{
 		if (type instanceof Relator) return ClassStereotype.RELATOR;
 		if (type instanceof Mode) return ClassStereotype.MODE;
-		if (type instanceof DataType) return ClassStereotype.DATATYPE;
+		if (type instanceof DataType) return RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE;
 		if (type instanceof Category) return ClassStereotype.CATEGORY;
 		if (type instanceof RoleMixin) return ClassStereotype.ROLEMIXIN;
 		if (type instanceof Mixin) return ClassStereotype.MIXIN;
@@ -692,11 +695,11 @@ public class OutcomeFixer{
 		else return null;
 	}
 
-	public static ClassStereotype getClassStereotype(java.lang.Class<?> type)
+	public static OntoUMLStereotype getClassStereotype(java.lang.Class<?> type)
 	{
 		if(type.equals(Relator.class) || type.equals(RelatorImpl.class)) return ClassStereotype.RELATOR;
 		if(type.equals(Mode.class) || type.equals(ModeImpl.class)) return ClassStereotype.MODE;
-		if(type.equals(DataType.class) || type.equals(DataTypeImpl.class)) return ClassStereotype.DATATYPE;
+		if(type.equals(DataType.class) || type.equals(DataTypeImpl.class)) return RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE;
 		if(type.equals(Kind.class) || type.equals(KindImpl.class)) return ClassStereotype.KIND;
 		if(type.equals(Collective.class) || type.equals(CollectiveImpl.class)) return ClassStereotype.COLLECTIVE;
 		if(type.equals(Quantity.class) || type.equals(QuantityImpl.class)) return ClassStereotype.QUANTITY;
@@ -706,12 +709,12 @@ public class OutcomeFixer{
 		if(type.equals(Category.class) || type.equals(CategoryImpl.class)) return ClassStereotype.CATEGORY;
 		if(type.equals(RoleMixin.class) || type.equals(RoleMixinImpl.class)) return ClassStereotype.ROLEMIXIN;
 		if(type.equals(Mixin.class) || type.equals(MixinImpl.class)) return ClassStereotype.MIXIN;
-		if(type.equals(PrimitiveType.class) || type.equals(PrimitiveTypeImpl.class)) return ClassStereotype.PRIMITIVETYPE;
+		if(type.equals(PrimitiveType.class) || type.equals(PrimitiveTypeImpl.class)) return RefOntoUML.stereotypes.DataTypeStereotype.PRIMITIVETYPE;
 		return null;
 	}
 
 	/** Get class stereotype */
-	public ClassStereotype getClassStereotype(String stereo) 
+	public OntoUMLStereotype getClassStereotype(String stereo) 
 	{
 		if (stereo.compareToIgnoreCase("Kind")==0) return ClassStereotype.KIND;
 		else if (stereo.compareToIgnoreCase("SubKind")==0) return ClassStereotype.SUBKIND;
@@ -724,12 +727,12 @@ public class OutcomeFixer{
 		else if (stereo.compareToIgnoreCase("RoleMixin")==0) return ClassStereotype.ROLEMIXIN;
 		else if (stereo.compareToIgnoreCase("Relator")==0) return ClassStereotype.RELATOR;
 		else if (stereo.compareToIgnoreCase("Mode")==0) return ClassStereotype.MODE;
-		else if (stereo.compareToIgnoreCase("DataType")==0) return ClassStereotype.DATATYPE;
-		else if (stereo.compareToIgnoreCase("PrimitiveType")==0) return ClassStereotype.PRIMITIVETYPE;
+		else if (stereo.compareToIgnoreCase("DataType")==0) return RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE;
+		else if (stereo.compareToIgnoreCase("PrimitiveType")==0) return RefOntoUML.stereotypes.DataTypeStereotype.PRIMITIVETYPE;
 		//TODO:fix this by mergind the Enums ClassStereotype here and in the editor. No more string comparison.
-		else if (stereo.compareToIgnoreCase("PerceivableQuality")==0 || stereo.compareToIgnoreCase("Perceivable Quality")==0) return ClassStereotype.PERCEIVABLEQUALITY;
-		else if (stereo.compareToIgnoreCase("NonPerceivableQuality")==0 || stereo.compareToIgnoreCase("NonPerceivable Quality")==0) return ClassStereotype.NONPERCEIVABLEQUALITY;
-		else if (stereo.compareToIgnoreCase("NominalQuality")==0 || stereo.compareToIgnoreCase("Nominal Quality")==0) return ClassStereotype.NOMINALQUALITY;
+		else if (stereo.compareToIgnoreCase("PerceivableQuality")==0 || stereo.compareToIgnoreCase("Perceivable Quality")==0) return ClassStereotype.PERCEIVABLE_QUALITY;
+		else if (stereo.compareToIgnoreCase("NonPerceivableQuality")==0 || stereo.compareToIgnoreCase("NonPerceivable Quality")==0) return ClassStereotype.NONPERCEIVABLE_QUALITY;
+		else if (stereo.compareToIgnoreCase("NominalQuality")==0 || stereo.compareToIgnoreCase("Nominal Quality")==0) return ClassStereotype.NOMINAL_QUALITY;
 		else return ClassStereotype.KIND;
 	}
 	
@@ -737,7 +740,7 @@ public class OutcomeFixer{
 	public Fix changeClassStereotypeSubtyping(EObject element, ClassStereotype stereo) 
 	{
 		Fix fixes = new Fix();
-		ClassStereotype stereoSupertype = getClassStereotype(element);
+		OntoUMLStereotype stereoSupertype = getClassStereotype(element);
 		// change to role
 		Fix aux = changeClassStereotypeTo(element, stereo);
 		EObject newElem = (EObject) aux.getAdded().get(0);
@@ -749,7 +752,7 @@ public class OutcomeFixer{
 	}
 
 	/** Add a super-type with the given stereotype to the element */
-	public Fix createSuperType(EObject element, ClassStereotype stereoSuperType) 
+	public Fix createSuperType(EObject element, OntoUMLStereotype stereoSuperType) 
 	{
 		Fix fixes = new Fix();
 		// create supertye
@@ -760,7 +763,7 @@ public class OutcomeFixer{
 		copyContainer(element, supertype);
 		fixes.includeModified(element.eContainer());
 		// create generalization
-		Generalization gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		gen.setSpecific((RefOntoUML.Classifier) element);
 		gen.setGeneral((RefOntoUML.Classifier) supertype);
 		fixes.includeAdded(gen);
@@ -774,7 +777,7 @@ public class OutcomeFixer{
 	 * Add a common supertype to a list of subtypes. It creates a supertype and
 	 * all the generalizations linking a subtype to the common supertype.
 	 */
-	public Fix createCommonSuperType(ArrayList<Classifier> subtypes, ClassStereotype stereoSuperType) 
+	public Fix createCommonSuperType(ArrayList<Classifier> subtypes, OntoUMLStereotype stereoSuperType) 
 	{
 		Fix fixes = new Fix();
 		// create supertye
@@ -787,7 +790,7 @@ public class OutcomeFixer{
 		for (Classifier subtype : subtypes) 
 		{
 			// create generalization
-			Generalization gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+			Generalization gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 			gen.setSpecific(subtype);
 			gen.setGeneral((RefOntoUML.Classifier) supertype);
 			fixes.includeAdded(gen);
@@ -797,7 +800,7 @@ public class OutcomeFixer{
 	}
 
 	/** Change a relationship stereotype */
-	public Fix changeRelationStereotypeTo(EObject relationship, RelationStereotype newStereo) 
+	public Fix changeRelationStereotypeTo(EObject relationship, RelationshipStereotype newStereo) 
 	{
 		Fix fixes = new Fix();		
 		
@@ -810,7 +813,7 @@ public class OutcomeFixer{
 			target = ((Association) relationship).getMemberEnd().get(1).getType();
 			
 			//to association
-			if (newStereo!=RelationStereotype.GENERALIZATION){
+			if (newStereo!=RelationshipStereotype.GENERALIZATION){
 				newRelationship = createAssociationWithProperties(newStereo);
 				// copies name
 				((Association) newRelationship).setName(((Association) relationship).getName());
@@ -831,7 +834,7 @@ public class OutcomeFixer{
 			target = ((Generalization) relationship).getGeneral();
 			
 			//to association
-			if (newStereo!=RelationStereotype.GENERALIZATION){
+			if (newStereo!=RelationshipStereotype.GENERALIZATION){
 				newRelationship = createAssociationWithProperties(newStereo);
 				((Association)newRelationship).getMemberEnd().get(0).setType((Type)source);
 				((Association)newRelationship).getMemberEnd().get(1).setType((Type)target);
@@ -858,8 +861,8 @@ public class OutcomeFixer{
 	}
 
 	//sets meronymic properties when required
-	private void normalizeAggregationKind(RelationStereotype newStereo, RefOntoUML.Relationship newRelationship) {
-		if(newStereo==RelationStereotype.COMPONENTOF || newStereo==RelationStereotype.MEMBEROF || newStereo==RelationStereotype.SUBCOLLECTIONOF || newStereo==RelationStereotype.SUBQUANTITYOF){
+	private void normalizeAggregationKind(RelationshipStereotype newStereo, RefOntoUML.Relationship newRelationship) {
+		if(newStereo==RelationshipStereotype.COMPONENTOF || newStereo==RelationshipStereotype.MEMBEROF || newStereo==RelationshipStereotype.SUBCOLLECTIONOF || newStereo==RelationshipStereotype.SUBQUANTITYOF){
 			Property sourceEnd = ((Association) newRelationship).getMemberEnd().get(0), targetEnd = ((Association) newRelationship).getMemberEnd().get(1);
 			
 			if(sourceEnd.getAggregation()==AggregationKind.NONE){
@@ -876,7 +879,7 @@ public class OutcomeFixer{
 	}
 
 	/** Change a relationship stereotype */
-	public Fix changeRelationStereotypeTo(EObject relationship, RelationStereotype newStereo, boolean invertSides) 
+	public Fix changeRelationStereotypeTo(EObject relationship, RelationshipStereotype newStereo, boolean invertSides) 
 	{
 		Fix fixes = changeRelationStereotypeTo(relationship, newStereo);
 		
@@ -888,7 +891,7 @@ public class OutcomeFixer{
 		return fixes;
 	}
 	
-	public Fix createSubTypeAs(EObject type, ClassStereotype subtypeStereo, String name){
+	public Fix createSubTypeAs(EObject type, OntoUMLStereotype subtypeStereo, String name){
 		Fix fix = createSubTypeAs(type, subtypeStereo);
 		fix.getAddedByType(Class.class).get(0).setName(name);
 		return fix;
@@ -896,7 +899,7 @@ public class OutcomeFixer{
 	}
 	
 	/** Create a subtype and connect it through a generalization to its type. */
-	public Fix createSubTypeAs(EObject type, ClassStereotype subtypeStereo) 
+	public Fix createSubTypeAs(EObject type, OntoUMLStereotype subtypeStereo) 
 	{
 		Fix fixes = new Fix();
 		// create subtype
@@ -905,14 +908,14 @@ public class OutcomeFixer{
 		copyContainer(type, subtype);
 		fixes.includeAdded(subtype);
 		// create generalization
-		Generalization gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		gen.setSpecific((RefOntoUML.Classifier) subtype);
 		gen.setGeneral((RefOntoUML.Classifier) type);
 		fixes.includeAdded(gen);
 		return fixes;
 	}
 
-	public Fix createSuperTypeAs(EObject type, ClassStereotype supertypeStereo, String name){
+	public Fix createSuperTypeAs(EObject type, OntoUMLStereotype supertypeStereo, String name){
 		Fix fix = createSuperTypeAs(type, supertypeStereo);
 		fix.getAddedByType(Class.class).get(0).setName(name);
 		return fix;
@@ -920,7 +923,7 @@ public class OutcomeFixer{
 	}
 	
 	/** Create a supertype and connect it through a generalization to its type. */
-	public Fix createSuperTypeAs(EObject type, ClassStereotype supertypeStereo) 
+	public Fix createSuperTypeAs(EObject type, OntoUMLStereotype supertypeStereo) 
 	{
 		Fix fixes = new Fix();
 		// create subtype
@@ -929,7 +932,7 @@ public class OutcomeFixer{
 		copyContainer(type, supertype);
 		fixes.includeAdded(supertype);
 		// create generalization
-		Generalization gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		gen.setGeneral((RefOntoUML.Classifier) supertype);
 		gen.setSpecific((RefOntoUML.Classifier) type);
 		fixes.includeAdded(gen);
@@ -937,7 +940,7 @@ public class OutcomeFixer{
 	}
 
 	/** Create a new part to the whole via componentOf */
-	public Fix createPartWithComponentOfTo(EObject whole, ClassStereotype partStereo, String partName, String componentOfName, boolean isEssential, boolean isInseparable, boolean isShareable, boolean isImmutablePart, boolean isImmutableWhole)
+	public Fix createPartWithComponentOfTo(EObject whole, OntoUMLStereotype partStereo, String partName, String componentOfName, boolean isEssential, boolean isInseparable, boolean isShareable, boolean isImmutablePart, boolean isImmutableWhole)
 	{
 		Fix fixes = new Fix();
 		// create part
@@ -946,7 +949,7 @@ public class OutcomeFixer{
 		copyContainer(whole, part);
 		fixes.includeAdded(part);
 		// create new relationship
-		RefOntoUML.Relationship componentOf = createAssociationWithProperties(RelationStereotype.COMPONENTOF);
+		RefOntoUML.Relationship componentOf = createAssociationWithProperties(RelationshipStereotype.COMPONENTOF);
 		((Association)componentOf).getMemberEnd().get(0).setType((Type)whole);
 		((Association)componentOf).getMemberEnd().get(1).setType((Type)part);
 		((Association)componentOf).setName(componentOfName);
@@ -962,7 +965,7 @@ public class OutcomeFixer{
 	}
 	
 	/** Create a sub-part (by specializing the part) and connect the whole to this sub-part with a componentOf */
-	public Fix createSubPartWithSubComponentOfTo(EObject whole, Property partEnd,ClassStereotype subpartStereo, String subpartName, String subcomponentOfName, boolean isEssential, boolean isInseparable, boolean isShareable, boolean isImmutablePart, boolean isImmutableWhole)
+	public Fix createSubPartWithSubComponentOfTo(EObject whole, Property partEnd,OntoUMLStereotype subpartStereo, String subpartName, String subcomponentOfName, boolean isEssential, boolean isInseparable, boolean isShareable, boolean isImmutablePart, boolean isImmutableWhole)
 	{
 		Fix fixes = new Fix();
 		// create sub-part
@@ -971,7 +974,7 @@ public class OutcomeFixer{
 		for(Object obj: fix.getAdded()) { if(obj instanceof RefOntoUML.Class) subpart = (Classifier)obj; }		
 		fixes.addAll(fix);				
 		// create new relationship
-		RefOntoUML.Relationship subcomponentOf = createAssociationWithProperties(RelationStereotype.COMPONENTOF);
+		RefOntoUML.Relationship subcomponentOf = createAssociationWithProperties(RelationshipStereotype.COMPONENTOF);
 		((Association)subcomponentOf).getMemberEnd().get(0).setType((Type)whole);
 		((Association)subcomponentOf).getMemberEnd().get(1).setType((Type)subpart);
 		((Association)subcomponentOf).setName(subcomponentOfName);
@@ -994,7 +997,7 @@ public class OutcomeFixer{
 	{
 		Fix fixes = new Fix();
 		// create new relationship
-		RefOntoUML.Relationship subcomponentOf = createAssociationWithProperties(RelationStereotype.COMPONENTOF);
+		RefOntoUML.Relationship subcomponentOf = createAssociationWithProperties(RelationshipStereotype.COMPONENTOF);
 		((Association)subcomponentOf).getMemberEnd().get(0).setType((Type)whole);
 		((Association)subcomponentOf).getMemberEnd().get(1).setType((Type)subpart);
 		((Association)subcomponentOf).setName(subcomponentOfName);
@@ -1018,7 +1021,7 @@ public class OutcomeFixer{
 	 * also change the references in relation to point to the subtype instead of
 	 * the type.
 	 */
-	public Fix createSubTypeAsInvolvingLink(EObject type, ClassStereotype subtypeStereo, EObject relation) 
+	public Fix createSubTypeAsInvolvingLink(EObject type, OntoUMLStereotype subtypeStereo, EObject relation) 
 	{
 		Fix fixes = new Fix();
 		// create subtype
@@ -1027,7 +1030,7 @@ public class OutcomeFixer{
 		copyContainer(type, subtype);
 		fixes.includeAdded(subtype);
 		// create generalization
-		Generalization gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		gen.setSpecific((RefOntoUML.Classifier) subtype);
 		gen.setGeneral((RefOntoUML.Classifier) type);
 		fixes.includeAdded(gen);
@@ -1037,7 +1040,7 @@ public class OutcomeFixer{
 		return fixes;
 	}
 	
-	public Fix createSuperTypeEnvolvingLink(EObject element, ClassStereotype stereoSuperType, EObject relation){
+	public Fix createSuperTypeEnvolvingLink(EObject element, OntoUMLStereotype stereoSuperType, EObject relation){
 		Fix fixes = new Fix();
 		
 		//create supertype
@@ -1055,7 +1058,7 @@ public class OutcomeFixer{
 	 * Creates ad subtype and a sub-subtype. It also change the references in
 	 * the relation 'link' to point to the sub-subtype instead of the type.
 	 */
-	public Fix createSubSubTypeAsInvolvingLink(EObject type, ClassStereotype subtypeStereo, ClassStereotype subsubtypeStereo, Association link) 
+	public Fix createSubSubTypeAsInvolvingLink(EObject type, OntoUMLStereotype subtypeStereo, OntoUMLStereotype subsubtypeStereo, Association link) 
 	{
 		Fix fixes = new Fix();
 		// create intermediate
@@ -1064,7 +1067,7 @@ public class OutcomeFixer{
 		copyContainer(type, intermediate);
 		fixes.includeAdded(intermediate);
 		// create Generalization
-		Generalization gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		gen.setSpecific((RefOntoUML.Classifier) intermediate);
 		gen.setGeneral((RefOntoUML.Classifier) type);
 		fixes.includeAdded(gen);
@@ -1074,7 +1077,7 @@ public class OutcomeFixer{
 		copyContainer(type, subtype);
 		fixes.includeAdded(subtype);
 		// create generalization
-		gen = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		gen = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		gen.setSpecific((RefOntoUML.Classifier) subtype);
 		gen.setGeneral((RefOntoUML.Classifier) intermediate);
 		fixes.includeAdded(gen);
@@ -1165,61 +1168,61 @@ public class OutcomeFixer{
 	}
 	
 	private Generalization createGeneralization(Classifier specific, Classifier general) {
-		Generalization g = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+		Generalization g = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 		g.setGeneral(general);
 		g.setSpecific(specific);
 		return g;
 	}
 
 	/** Get relationship stereotype from element */
-	public RelationStereotype getRelationshipStereotype(EObject object) 
+	public RelationshipStereotype getRelationshipStereotype(EObject object) 
 	{
-		if (object instanceof Mediation) return RelationStereotype.MEDIATION;
-		if (object instanceof Characterization) return RelationStereotype.CHARACTERIZATION;
-		if (object instanceof memberOf) return RelationStereotype.MEMBEROF;
-		if (object instanceof componentOf) return RelationStereotype.COMPONENTOF;
-		if (object instanceof subCollectionOf) return RelationStereotype.SUBCOLLECTIONOF;
-		if (object instanceof subQuantityOf) return RelationStereotype.SUBQUANTITYOF;
-		if (object instanceof FormalAssociation) return RelationStereotype.FORMAL;
-		if (object instanceof MaterialAssociation) return RelationStereotype.MATERIAL;
-		if (object instanceof Derivation) return RelationStereotype.DERIVATION;		
-		if (object instanceof Generalization) return RelationStereotype.GENERALIZATION;
-		if (object instanceof Structuration) return RelationStereotype.STRUCTURATION;
-		if (object instanceof Association) return RelationStereotype.ASSOCIATION;
-		return RelationStereotype.ASSOCIATION;
+		if (object instanceof Mediation) return RelationshipStereotype.MEDIATION;
+		if (object instanceof Characterization) return RelationshipStereotype.CHARACTERIZATION;
+		if (object instanceof memberOf) return RelationshipStereotype.MEMBEROF;
+		if (object instanceof componentOf) return RelationshipStereotype.COMPONENTOF;
+		if (object instanceof subCollectionOf) return RelationshipStereotype.SUBCOLLECTIONOF;
+		if (object instanceof subQuantityOf) return RelationshipStereotype.SUBQUANTITYOF;
+		if (object instanceof FormalAssociation) return RelationshipStereotype.FORMAL;
+		if (object instanceof MaterialAssociation) return RelationshipStereotype.MATERIAL;
+		if (object instanceof Derivation) return RelationshipStereotype.DERIVATION;		
+		if (object instanceof Generalization) return RelationshipStereotype.GENERALIZATION;
+		if (object instanceof Structuration) return RelationshipStereotype.STRUCTURATION;
+		if (object instanceof Association) return RelationshipStereotype.ASSOCIATION;
+		return RelationshipStereotype.ASSOCIATION;
 	}
 
 	/** Get relationship stereotype from element */
-	public RelationStereotype getRelationshipStereotype(String stereo) 
+	public RelationshipStereotype getRelationshipStereotype(String stereo) 
 	{
-		if (stereo.compareToIgnoreCase("Mediation")==0)  return RelationStereotype.MEDIATION;
-		else if (stereo.compareToIgnoreCase("Characterization")==0) return RelationStereotype.CHARACTERIZATION;
-		else if (stereo.compareToIgnoreCase("MemberOf")==0) return RelationStereotype.MEMBEROF;
-		else if (stereo.compareToIgnoreCase("ComponentOf")==0) return RelationStereotype.COMPONENTOF;
-		else if (stereo.compareToIgnoreCase("SubCollectionOf")==0) return RelationStereotype.SUBCOLLECTIONOF;
-		else if (stereo.compareToIgnoreCase("SubQuantityOf")==0) return RelationStereotype.SUBQUANTITYOF;
-		else if (stereo.compareToIgnoreCase("Formal")==0) return RelationStereotype.FORMAL;
-		else if (stereo.compareToIgnoreCase("Material")==0) return RelationStereotype.MATERIAL;
-		else if (stereo.compareToIgnoreCase("Derivation")==0) return RelationStereotype.DERIVATION;		
-		else if (stereo.compareToIgnoreCase("Generalization")==0) return RelationStereotype.GENERALIZATION;
-		else if (stereo.compareToIgnoreCase("Structuration")==0) return RelationStereotype.STRUCTURATION;
-		else if (stereo.compareToIgnoreCase("Association")==0) return RelationStereotype.ASSOCIATION;
-		return RelationStereotype.ASSOCIATION;
+		if (stereo.compareToIgnoreCase("Mediation")==0)  return RelationshipStereotype.MEDIATION;
+		else if (stereo.compareToIgnoreCase("Characterization")==0) return RelationshipStereotype.CHARACTERIZATION;
+		else if (stereo.compareToIgnoreCase("MemberOf")==0) return RelationshipStereotype.MEMBEROF;
+		else if (stereo.compareToIgnoreCase("ComponentOf")==0) return RelationshipStereotype.COMPONENTOF;
+		else if (stereo.compareToIgnoreCase("SubCollectionOf")==0) return RelationshipStereotype.SUBCOLLECTIONOF;
+		else if (stereo.compareToIgnoreCase("SubQuantityOf")==0) return RelationshipStereotype.SUBQUANTITYOF;
+		else if (stereo.compareToIgnoreCase("Formal")==0) return RelationshipStereotype.FORMAL;
+		else if (stereo.compareToIgnoreCase("Material")==0) return RelationshipStereotype.MATERIAL;
+		else if (stereo.compareToIgnoreCase("Derivation")==0) return RelationshipStereotype.DERIVATION;		
+		else if (stereo.compareToIgnoreCase("Generalization")==0) return RelationshipStereotype.GENERALIZATION;
+		else if (stereo.compareToIgnoreCase("Structuration")==0) return RelationshipStereotype.STRUCTURATION;
+		else if (stereo.compareToIgnoreCase("Association")==0) return RelationshipStereotype.ASSOCIATION;
+		return RelationshipStereotype.ASSOCIATION;
 	}
 	
-	public static RelationStereotype getRelationStereotype(java.lang.Class<?> type)
+	public static RelationshipStereotype getRelationStereotype(java.lang.Class<?> type)
 	{		
-		if(type.equals(Mediation.class) || type.equals(MediationImpl.class)) return RelationStereotype.MEDIATION;
-		if(type.equals(Characterization.class) || type.equals(CharacterizationImpl.class)) return RelationStereotype.CHARACTERIZATION;
-		if(type.equals(MaterialAssociation.class) || type.equals(MaterialAssociationImpl.class)) return RelationStereotype.MATERIAL;
-		if(type.equals(FormalAssociation.class) || type.equals(FormalAssociationImpl.class)) return RelationStereotype.FORMAL;
-		if(type.equals(componentOf.class) || type.equals(componentOfImpl.class)) return RelationStereotype.COMPONENTOF;
-		if(type.equals(memberOf.class) || type.equals(memberOfImpl.class)) return RelationStereotype.MEMBEROF;
-		if(type.equals(subCollectionOf.class) || type.equals(subCollectionOfImpl.class)) return RelationStereotype.SUBCOLLECTIONOF;
-		if(type.equals(subQuantityOf.class) || type.equals(subQuantityOfImpl.class)) return RelationStereotype.SUBQUANTITYOF;
-		if(type.equals(Derivation.class) || type.equals(DerivationImpl.class)) return RelationStereotype.DERIVATION;
-		if(type.equals(Generalization.class) || type.equals(GeneralizationImpl.class)) return RelationStereotype.GENERALIZATION;
-		if(type.equals(Association.class) || type.equals(AssociationImpl.class)) return RelationStereotype.ASSOCIATION;		
+		if(type.equals(Mediation.class) || type.equals(MediationImpl.class)) return RelationshipStereotype.MEDIATION;
+		if(type.equals(Characterization.class) || type.equals(CharacterizationImpl.class)) return RelationshipStereotype.CHARACTERIZATION;
+		if(type.equals(MaterialAssociation.class) || type.equals(MaterialAssociationImpl.class)) return RelationshipStereotype.MATERIAL;
+		if(type.equals(FormalAssociation.class) || type.equals(FormalAssociationImpl.class)) return RelationshipStereotype.FORMAL;
+		if(type.equals(componentOf.class) || type.equals(componentOfImpl.class)) return RelationshipStereotype.COMPONENTOF;
+		if(type.equals(memberOf.class) || type.equals(memberOfImpl.class)) return RelationshipStereotype.MEMBEROF;
+		if(type.equals(subCollectionOf.class) || type.equals(subCollectionOfImpl.class)) return RelationshipStereotype.SUBCOLLECTIONOF;
+		if(type.equals(subQuantityOf.class) || type.equals(subQuantityOfImpl.class)) return RelationshipStereotype.SUBQUANTITYOF;
+		if(type.equals(Derivation.class) || type.equals(DerivationImpl.class)) return RelationshipStereotype.DERIVATION;
+		if(type.equals(Generalization.class) || type.equals(GeneralizationImpl.class)) return RelationshipStereotype.GENERALIZATION;
+		if(type.equals(Association.class) || type.equals(AssociationImpl.class)) return RelationshipStereotype.ASSOCIATION;		
 		return null;
 	}
 	
@@ -1297,7 +1300,7 @@ public class OutcomeFixer{
 	}
 
 	/** Create an attribute in the class 'owner' */
-	public Fix createAttribute(EObject owner, String attrName, ClassStereotype attrType, String attrTypeName) 
+	public Fix createAttribute(EObject owner, String attrName, OntoUMLStereotype attrType, String attrTypeName) 
 	{
 		Fix fix = new Fix();
 		// create type
@@ -1325,7 +1328,7 @@ public class OutcomeFixer{
 	}
 
 	/** Create an association between the types. */
-	public Fix createAssociationBetween(RelationStereotype stereo, String relName, Type source, Type target) 
+	public Fix createAssociationBetween(RelationshipStereotype stereo, String relName, Type source, Type target) 
 	{
 		Fix fix = new Fix();
 		// create assoc
@@ -1339,9 +1342,9 @@ public class OutcomeFixer{
 		Property srcProperty = createProperty((Classifier) source, 1, 1, source.getName().trim().toLowerCase());
 		Property tgtProperty = createProperty((Classifier) target, 1, 1, target.getName().trim().toLowerCase());
 		setEnds((Association) rel, srcProperty, tgtProperty);
-		if(stereo == RelationStereotype.MEDIATION) tgtProperty.setIsReadOnly(true);
-		if(stereo == RelationStereotype.CHARACTERIZATION) tgtProperty.setIsReadOnly(true);
-		if(stereo == RelationStereotype.DERIVATION) tgtProperty.setIsReadOnly(true);
+		if(stereo == RelationshipStereotype.MEDIATION) tgtProperty.setIsReadOnly(true);
+		if(stereo == RelationshipStereotype.CHARACTERIZATION) tgtProperty.setIsReadOnly(true);
+		if(stereo == RelationshipStereotype.DERIVATION) tgtProperty.setIsReadOnly(true);
 		return fix;
 	}
 
@@ -1351,7 +1354,7 @@ public class OutcomeFixer{
 		Fix fix = new Fix();
 		for(String name: nameAndStereotypeMap.keySet()){
 			String stereo = nameAndStereotypeMap.get(name);
-			ClassStereotype classStereo = getClassStereotype(stereo);
+			OntoUMLStereotype classStereo = getClassStereotype(stereo);
 			//create new class with given stereotype
 			EObject obj = createClass(classStereo);
 			((NamedElement) obj).setName(name);
@@ -1360,7 +1363,7 @@ public class OutcomeFixer{
 			copyContainer(relator, obj);
 			fix.includeModified(relator.eContainer());
 			//create mediation
-			EObject rel = createAssociationWithProperties(RelationStereotype.MEDIATION);
+			EObject rel = createAssociationWithProperties(RelationshipStereotype.MEDIATION);
 			fix.includeAdded(rel);
 			//the same container as...
 			copyContainer(relator, rel);
@@ -1384,7 +1387,7 @@ public class OutcomeFixer{
 	}	
 	
 	/** Change stereotype of all relations, the nature of the source and the nature of the target types*/
-	public Fix changeAllRelationsTo(ArrayList<? extends Association> list, RelationStereotype relStereo, ClassStereotype sourceNature, ClassStereotype targetNature)
+	public Fix changeAllRelationsTo(ArrayList<? extends Association> list, RelationshipStereotype relStereo, OntoUMLStereotype sourceNature, OntoUMLStereotype targetNature)
 	{
 		Fix fix = new Fix();		
 		
@@ -1533,7 +1536,7 @@ public class OutcomeFixer{
 		for(Object obj: partialFix.getAdded()) if (obj instanceof RefOntoUML.Class) memberPart = obj;
 		
 		// create new <<memberOf>>
-		EObject rel = createAssociationWithProperties(RelationStereotype.MEMBEROF);
+		EObject rel = createAssociationWithProperties(RelationshipStereotype.MEMBEROF);
 		((NamedElement) rel).setName("NewMemberOf");
 		fix.includeAdded(rel);
 		// same container
@@ -1607,7 +1610,7 @@ public class OutcomeFixer{
 		else if (option==SpecializationType.REDEFINE) specific.getRedefinedProperty().add(general);		
 		else if (option==SpecializationType.SPECIALIZE && specific.getAssociation() instanceof Association && general.getAssociation() instanceof Association)
 		{	
-			Generalization g = (Generalization) createRelationship(RelationStereotype.GENERALIZATION);
+			Generalization g = (Generalization) createRelationship(RelationshipStereotype.GENERALIZATION);
 			g.setGeneral(general.getAssociation());
 			g.setSpecific(specific.getAssociation());
 			fix.includeAdded(g);
@@ -1660,7 +1663,7 @@ public class OutcomeFixer{
 	 * @param newNature
 	 * @return
 	 */
-	public Fix changeNature(Classifier c, ArrayList<Classifier> visited, ClassStereotype newNature){
+	public Fix changeNature(Classifier c, ArrayList<Classifier> visited, OntoUMLStereotype newNature){
 		Fix fix = new Fix();
 		
 		if(newNature!=ClassStereotype.KIND && newNature!=ClassStereotype.COLLECTIVE && newNature!=ClassStereotype.QUANTITY)

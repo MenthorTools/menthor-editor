@@ -1,5 +1,6 @@
 package net.menthor.editor.v2.managers;
 
+import net.menthor.editor.v2.commands.ICommandListener;
 import net.menthor.editor.v2.ui.MenthorEditor;
 import net.menthor.editor.v2.ui.dialog.AboutDialog;
 import net.menthor.editor.v2.ui.dialog.LicensesDialog;
@@ -22,7 +23,7 @@ public class HelpManager extends AbstractManager {
 	
 	public void about(){
 		AboutDialog.open(
-			listener(),
+			frame(),listener(),
 			MenthorEditor.MENTHOR_COMPILATION_DATE,
 			MenthorEditor.MENTHOR_VERSION
 		);

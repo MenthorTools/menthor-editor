@@ -3,12 +3,12 @@ package net.menthor.validator.meronymic.derivation;
 import java.util.ArrayList;
 
 import net.menthor.common.ontouml2directedgraph.EdgePath;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.derivation.DerivedMeronymic.PatternType;
 import net.menthor.validator.meronymic.derivation.ui.DerivedTableModel;
 import RefOntoUML.Classifier;
 import RefOntoUML.componentOf;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class FunctionalParthoodDerivationTask extends DerivationTask<componentOf>{
 
@@ -93,7 +93,7 @@ public class FunctionalParthoodDerivationTask extends DerivationTask<componentOf
 	}
 
 	private DerivedMeronymic createDerivedComponentOf(EdgePath path, Classifier whole,	Classifier part, PatternType pattern) {
-		return createDerivedMeronymic(path, whole, part, pattern, getDirect(whole, part, componentOf.class), RelationStereotype.COMPONENTOF);
+		return createDerivedMeronymic(path, whole, part, pattern, getDirect(whole, part, componentOf.class), RelationshipStereotype.COMPONENTOF);
 	}
 
 	@Override

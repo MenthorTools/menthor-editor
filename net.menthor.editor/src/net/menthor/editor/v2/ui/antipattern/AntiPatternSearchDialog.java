@@ -51,6 +51,8 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import org.eclipse.swt.widgets.Display;
+
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.antipattern.AntiPatternList;
 import net.menthor.antipattern.Antipattern;
@@ -77,6 +79,7 @@ import net.menthor.antipattern.undefformal.UndefFormalAntipattern;
 import net.menthor.antipattern.undefphase.UndefPhaseAntipattern;
 import net.menthor.antipattern.wholeover.WholeOverAntipattern;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
+import net.menthor.swt.Util;
 
 /**
  * @author Tiago Sales
@@ -201,8 +204,8 @@ public class AntiPatternSearchDialog extends JDialog {
 	}
 	
 	/** open the result which in turn can call the wizards */
-	public void openResult(AntiPatternList list){ 
-		AntiPatternResultDialog.openDialog(list,frame); 
+	public void openResult(AntiPatternList list, Display display){ 
+		AntiPatternResultDialog.openDialog(list,frame, display); 
 	}
 	
 	/** 
@@ -317,7 +320,19 @@ public class AntiPatternSearchDialog extends JDialog {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				//dispose();
-				showResult(antipatternList);
+				Thread t = new Thread(new Runnable() {					
+					@Override
+					public void run() {
+						final Display display ;
+						if(Util.onWindows()){
+							display = new Display();
+						}else{
+							display = Display.getDefault();
+						}
+						showResult(antipatternList, display);						
+					}
+				});
+				t.start();
 			}
 		});
 		
@@ -855,17 +870,17 @@ public class AntiPatternSearchDialog extends JDialog {
 	/**
 	 * Show Result
 	 */
-	public void showResult(final AntiPatternList apList)
+	public void showResult(final AntiPatternList apList, final Display display)
 	{
 		if(onMac()){
 			com.apple.concurrent.Dispatch.getInstance().getNonBlockingMainQueueExecutor().execute( new Runnable(){        	
 				@Override
 				public void run() {			    	
-			    	openResult(apList);
+			    	openResult(apList,display);
 				}
 			});
-		}else{			
-	    	openResult(apList);
+		}else{
+			openResult(apList, display);
 		}
 	}
 	

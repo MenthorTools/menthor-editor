@@ -32,10 +32,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.checkers.MeronymicEndsError;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class MeronymicEndsDialog extends JDialog {
 
@@ -66,7 +66,7 @@ public class MeronymicEndsDialog extends JDialog {
 	private JCheckBox partIsFunctionalCheckbox;
 	private JCheckBox partIsCollectionCheckbox;
 	private JCheckBox partIsQuantityCheckbox;
-	private JComboBox<RelationStereotype> stereotypeCombo;
+	private JComboBox<RelationshipStereotype> stereotypeCombo;
 	private JCheckBox wholeIsModeCheckbox;
 	private JCheckBox partIsModeCheckbox;
 	private JCheckBox wholeIsDatatypeCheckbox;
@@ -74,7 +74,7 @@ public class MeronymicEndsDialog extends JDialog {
 	private JCheckBox partIsDatatypeCheckbox;
 	private JCheckBox partIsRelatorCheckbox;
 	private JCheckBox wholeIsRelatorCheckbox;
-	private JComboBox<RelationStereotype> combo;
+	private JComboBox<RelationshipStereotype> combo;
 	private JLabel errorLabel;
 	private JSeparator separator;
 	/**
@@ -481,15 +481,15 @@ public class MeronymicEndsDialog extends JDialog {
 		setValues();
 	}
 
-	private JComboBox<RelationStereotype> createStereotypeCombo() {
-		DefaultComboBoxModel<RelationStereotype> model = new DefaultComboBoxModel<RelationStereotype>();
-		model.addElement(RelationStereotype.COMPONENTOF);
-		model.addElement(RelationStereotype.SUBCOLLECTIONOF);
-		model.addElement(RelationStereotype.MEMBEROF);
-		model.addElement(RelationStereotype.SUBQUANTITYOF);
-		model.addElement(RelationStereotype.FORMAL);
-		model.addElement(RelationStereotype.MATERIAL);
-		combo = new JComboBox<RelationStereotype>(model);
+	private JComboBox<RelationshipStereotype> createStereotypeCombo() {
+		DefaultComboBoxModel<RelationshipStereotype> model = new DefaultComboBoxModel<RelationshipStereotype>();
+		model.addElement(RelationshipStereotype.COMPONENTOF);
+		model.addElement(RelationshipStereotype.SUBCOLLECTIONOF);
+		model.addElement(RelationshipStereotype.MEMBEROF);
+		model.addElement(RelationshipStereotype.SUBQUANTITYOF);
+		model.addElement(RelationshipStereotype.FORMAL);
+		model.addElement(RelationshipStereotype.MATERIAL);
+		combo = new JComboBox<RelationshipStereotype>(model);
 		combo.setSelectedIndex(0);
 		return combo;
 	}
@@ -498,7 +498,7 @@ public class MeronymicEndsDialog extends JDialog {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			error.setChangeRelationStereotype((RelationStereotype) combo.getSelectedItem());
+			error.setChangeRelationStereotype((RelationshipStereotype) combo.getSelectedItem());
 			error.setChangeWholeNature(wholeIsFunctionalCheckbox.isSelected(), wholeIsCollectionCheckbox.isSelected(), wholeIsQuantityCheckbox.isSelected(), wholeIsRelatorCheckbox.isSelected(), wholeIsModeCheckbox.isSelected(), wholeIsDatatypeCheckbox.isSelected());
 			error.setChangePartNature(partIsFunctionalCheckbox.isSelected(), partIsCollectionCheckbox.isSelected(), partIsQuantityCheckbox.isSelected(), partIsRelatorCheckbox.isSelected(), partIsModeCheckbox.isSelected(), partIsDatatypeCheckbox.isSelected());
 			
@@ -606,9 +606,9 @@ public class MeronymicEndsDialog extends JDialog {
 
 	private boolean compatibleNatureStereotype() {
 		
-		RelationStereotype currentStereotype;
+		RelationshipStereotype currentStereotype;
 		if(changeStereotypeCheckbox.isSelected())
-			currentStereotype = (RelationStereotype) stereotypeCombo.getSelectedItem();
+			currentStereotype = (RelationshipStereotype) stereotypeCombo.getSelectedItem();
 		else
 			currentStereotype = error.getStereotype();
 		
@@ -649,38 +649,38 @@ public class MeronymicEndsDialog extends JDialog {
 			isPartDatatype = partIsRelatorCheckbox.isSelected();
 		}
 		
-		if(currentStereotype.equals(RelationStereotype.COMPONENTOF) &&
+		if(currentStereotype.equals(RelationshipStereotype.COMPONENTOF) &&
 				isWholeFunctional && isPartFunctional && 
 				!(isWholeCollection || isWholeQuantity || isWholeMode || isWholeRelator || isWholeDatatype) &&
 				!(isPartCollection || isPartQuantity || isPartMode || isPartRelator || isPartDatatype))
 			return true;
 		
-		if(currentStereotype.equals(RelationStereotype.MEMBEROF) &&
+		if(currentStereotype.equals(RelationshipStereotype.MEMBEROF) &&
 				isWholeCollection && (isPartFunctional || isPartCollection) && 
 				!(isWholeFunctional || isWholeQuantity || isWholeMode || isWholeRelator || isWholeDatatype) &&
 				!(isPartQuantity || isPartMode || isPartRelator || isPartDatatype))
 			return true;
-		if(currentStereotype.equals(RelationStereotype.SUBCOLLECTIONOF) &&
+		if(currentStereotype.equals(RelationshipStereotype.SUBCOLLECTIONOF) &&
 				isWholeCollection && isPartCollection && 
 				!(isWholeFunctional || isWholeQuantity || isWholeMode || isWholeRelator || isWholeDatatype) &&
 				!(isPartFunctional || isPartQuantity || isPartMode || isPartRelator || isPartDatatype))
 			return true;
-		if(currentStereotype.equals(RelationStereotype.SUBQUANTITYOF) &&
+		if(currentStereotype.equals(RelationshipStereotype.SUBQUANTITYOF) &&
 				isWholeQuantity && isPartQuantity && 
 				!(isWholeFunctional || isWholeCollection || isWholeMode || isWholeRelator || isWholeDatatype) &&
 				!(isPartFunctional || isPartCollection || isPartMode || isPartRelator || isPartDatatype))
 			return true;
-		if(currentStereotype.equals(RelationStereotype.CHARACTERIZATION) &&
+		if(currentStereotype.equals(RelationshipStereotype.CHARACTERIZATION) &&
 				isWholeMode && !isPartDatatype && 
 				!(isWholeFunctional || isWholeCollection || isWholeQuantity || isWholeRelator || isWholeDatatype) &&
 				(isPartFunctional || isPartCollection || isPartQuantity || isPartMode || isPartRelator))
 			return true;
-		if(currentStereotype.equals(RelationStereotype.MEDIATION) &&
+		if(currentStereotype.equals(RelationshipStereotype.MEDIATION) &&
 				isWholeRelator && (isPartFunctional || isPartCollection || isPartQuantity) && 
 				!(isWholeFunctional || isWholeCollection || isWholeQuantity || isWholeMode || isWholeDatatype) &&
 				!(isPartMode || isPartRelator || isPartDatatype))
 			return true;
-		if(currentStereotype.equals(RelationStereotype.FORMAL) || currentStereotype.equals(RelationStereotype.MATERIAL))
+		if(currentStereotype.equals(RelationshipStereotype.FORMAL) || currentStereotype.equals(RelationshipStereotype.MATERIAL))
 			return true;
 		
 		return false;

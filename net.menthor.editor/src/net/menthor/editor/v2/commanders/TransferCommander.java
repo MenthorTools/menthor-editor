@@ -50,10 +50,10 @@ import RefOntoUML.impl.IntegerMeasurementRegionImpl;
 import RefOntoUML.impl.IntegerOrdinalDimensionImpl;
 import RefOntoUML.impl.IntegerRationalDimensionImpl;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
 import RefOntoUML.util.RefOntoUMLFactoryUtil;
 import net.menthor.editor.ui.UmlProject;
 import net.menthor.editor.v2.MenthorDomain;
-import net.menthor.editor.v2.types.ClassType;
 import net.menthor.editor.v2.ui.controller.ProjectUIController;
 
 public class TransferCommander extends GenericCommander {
@@ -275,8 +275,8 @@ public class TransferCommander extends GenericCommander {
 		element.setIsAbstract(isAbstract);		
 		UpdateCommander.get().updateFromChange(element,false);
 		
-		ClassType newClassType = ClassType.getClassType(newStereotype);
-		ClassType currentClassType = ClassType.getClassType(element);
+		ClassStereotype newClassType = ClassStereotype.getClassType(newStereotype);
+		ClassStereotype currentClassType = ClassStereotype.getClassType(element);
 		
 		if(newClassType!=currentClassType)	{
 			ChangeCommander.get().changeClassStereotype(newClassType, element);

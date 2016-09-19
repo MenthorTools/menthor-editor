@@ -35,6 +35,9 @@ import org.tinyuml.ui.diagram.ScalingComponent;
 import org.tinyuml.umldraw.shared.BaseConnection;
 
 import RefOntoUML.Classifier;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.DataTypeStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 import net.menthor.editor.v2.commanders.AddCommander;
 import net.menthor.editor.v2.commanders.AddToDiagramCommander;
 import net.menthor.editor.v2.commanders.AlignCommander;
@@ -56,9 +59,6 @@ import net.menthor.editor.v2.managers.HelpManager;
 import net.menthor.editor.v2.managers.OwlFeature;
 import net.menthor.editor.v2.managers.ParthoodFeature;
 import net.menthor.editor.v2.managers.SbvrFeature;
-import net.menthor.editor.v2.types.ClassType;
-import net.menthor.editor.v2.types.DataType;
-import net.menthor.editor.v2.types.RelationshipType;
 import net.menthor.editor.v2.ui.controller.DialogUIController;
 import net.menthor.editor.v2.ui.controller.ExportUIController;
 import net.menthor.editor.v2.ui.controller.FrameUIController;
@@ -215,22 +215,22 @@ public class CommandMap {
 	}
 	
 	private void addition() throws NoSuchMethodException, SecurityException{
-		for(ClassType ct: ClassType.values()){		
+		for(ClassStereotype ct: ClassStereotype.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addClass", ClassType.class, Object.class), ct));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addClass", ClassStereotype.class, Object.class), ct));
 			}
 		}
-		for(DataType dt: DataType.values()){		
+		for(DataTypeStereotype dt: DataTypeStereotype.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addDataType", DataType.class, Object.class), dt));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addDataType", DataTypeStereotype.class, Object.class), dt));
 			}
 		}		
-		for(RelationshipType rt: RelationshipType.values()){		
+		for(RelationshipStereotype rt: RelationshipStereotype.values()){		
 			CommandType cmdType = CommandType.getAddCommandType(rt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addRelationship", RelationshipType.class, Object.class), rt));
+				cmdMap.put(cmdType, new MethodCall(AddCommander.class.getMethod("addRelationship", RelationshipStereotype.class, Object.class), rt));
 			}
 		}	
 		cmdMap.put(CommandType.ADD_PACKAGE, 
@@ -244,16 +244,16 @@ public class CommandMap {
 	}
 	
 	private void change() throws NoSuchMethodException, SecurityException{
-		for(ClassType ct: ClassType.values()){		
+		for(ClassStereotype ct: ClassStereotype.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeClassStereotype", ClassType.class, Classifier.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeClassStereotype", ClassStereotype.class, Classifier.class), ct));
 			}
 		}
-		for(RelationshipType rt: RelationshipType.values()){		
+		for(RelationshipStereotype rt: RelationshipStereotype.values()){		
 			CommandType cmdType = CommandType.getChangeToCommandType(rt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeRelationStereotype", RelationshipType.class, RefOntoUML.Relationship.class), rt));
+				cmdMap.put(cmdType, new MethodCall(ChangeCommander.class.getMethod("changeRelationStereotype", RelationshipStereotype.class, RefOntoUML.Relationship.class), rt));
 			}
 		}		
 		cmdMap.put(CommandType.INVERT_END_NAMES, 
@@ -483,22 +483,22 @@ public class CommandMap {
 		cmdMap.put(CommandType.PALLETE_POINTER_MODE, 
 				new MethodCall(OntoumlEditor.class.getMethod("setSelectionMode")));	
 		
-		for(ClassType ct: ClassType.values()){		
+		for(ClassStereotype ct: ClassStereotype.values()){		
 			CommandType cmdType = CommandType.getPalleteCommandType(ct);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardCommanderMode.class.getMethod("createAndPutToClipboard", ClassType.class), ct));
+				cmdMap.put(cmdType, new MethodCall(ClipboardCommanderMode.class.getMethod("createAndPutToClipboard", ClassStereotype.class), ct));
 			}
 		}
-		for(DataType dt: DataType.values()){
+		for(DataTypeStereotype dt: DataTypeStereotype.values()){
 			CommandType cmdType = CommandType.getPalleteCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(ClipboardCommanderMode.class.getMethod("createAndPutToClipboard", DataType.class), dt));
+				cmdMap.put(cmdType, new MethodCall(ClipboardCommanderMode.class.getMethod("createAndPutToClipboard", DataTypeStereotype.class), dt));
 			}
 		}	
-		for(RelationshipType dt: RelationshipType.values()){
+		for(RelationshipStereotype dt: RelationshipStereotype.values()){
 			CommandType cmdType = CommandType.getPalleteCommandType(dt);
 			if(cmdType!=null){
-				cmdMap.put(cmdType, new MethodCall(OntoumlEditor.class.getMethod("setCreateConnectionMode", RelationshipType.class), dt));
+				cmdMap.put(cmdType, new MethodCall(OntoumlEditor.class.getMethod("setCreateConnectionMode", RelationshipStereotype.class), dt));
 			}
 		}		
 	}

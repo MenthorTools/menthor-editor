@@ -1,4 +1,4 @@
-package net.menthor.editor.v2.types;
+package RefOntoUML.stereotypes;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -37,7 +37,7 @@ import RefOntoUML.subQuantityOf;
  * ============================================================================================
  */
 
-public enum RelationshipType implements OntoUMLMetatype{
+public enum RelationshipStereotype implements OntoUMLStereotype{
 	
 	ASSOCIATION("Association", Association.class), 
 	CHARACTERIZATION("Characterization", Characterization.class), 
@@ -51,17 +51,11 @@ public enum RelationshipType implements OntoUMLMetatype{
 	SUBCOLLECTIONOF("SubCollectionOf", subCollectionOf.class), 
 	SUBQUANTITYOF("SubQuantityOf", subQuantityOf.class),
 	GENERALIZATION("Generalization", Generalization.class); 
-	
-//  TODO: Associations to be added
-//	SUBEVENTOF("SubEventOf", null), 
-//	PARTICIPATION("Participation", null), 
-//	TEMPORAL("Temporal", null),
-//	INSTANCEOF("InstanceOf", null),
-		
+			
 	private String name;
 	private Class<? extends EObject> metaClass;
 
-	RelationshipType(String name, Class<? extends EObject> metaClass)
+	RelationshipStereotype(String name, Class<? extends EObject> metaClass)
 	{
 		this.name = name;
 		this.metaClass = metaClass;
@@ -123,21 +117,31 @@ public enum RelationshipType implements OntoUMLMetatype{
 	}
 	
 	@Override
-	public OntoUMLMetatype getMetatype(EObject relationship){
-		return (OntoUMLMetatype)getRelationshipType(relationship);
+	public OntoUMLStereotype getMetatype(EObject relationship){
+		return (OntoUMLStereotype)getRelationshipType(relationship);
 	}
 	
-	public static RelationshipType getRelationshipType(EObject relationship) {
-		for (RelationshipType value : RelationshipType.values()) {
+	public static RelationshipStereotype getRelationshipType(EObject relationship) {
+		for (RelationshipStereotype value : RelationshipStereotype.values()) {
 			if(value!=ASSOCIATION && value.metaClass.isInstance(relationship))
 				return value;
 		}
 		return ASSOCIATION;
 	}
 	
+	public static RelationshipStereotype[] getRelationshipTypes(){
+		RelationshipStereotype[] array = {
+			ASSOCIATION, CHARACTERIZATION, MEDIATION,  
+			DERIVATION, STRUCTURATION, FORMAL, 
+			MATERIAL, COMPONENTOF, MEMBEROF,
+			SUBCOLLECTIONOF, SUBQUANTITYOF, GENERALIZATION
+		};
+		return array;
+	}
+	
 	public static void main (String args[])
 	{
-		for(RelationshipType c: RelationshipType.values()){
+		for(RelationshipStereotype c: RelationshipStereotype.values()){
 			System.out.println(c.name);
 		}
 	}

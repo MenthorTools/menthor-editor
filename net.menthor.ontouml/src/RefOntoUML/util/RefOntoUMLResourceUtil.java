@@ -27,8 +27,6 @@ public class RefOntoUMLResourceUtil {
 		return resource;		
 	}
 	
-	
-	
 	public static Resource createResource(){
 		ResourceSet rset = new ResourceSetImpl();			
 		rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("refontouml",new RefOntoUMLResourceFactoryImpl());

@@ -8,7 +8,6 @@ import java.util.Set;
 import net.menthor.assistant.util.UtilAssistant;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
 import RefOntoUML.Collective;
@@ -19,6 +18,7 @@ import RefOntoUML.Package;
 import RefOntoUML.Quantity;
 import RefOntoUML.SubKind;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class RigidWeakSupplementation extends AbstractPattern {
 	public RigidWeakSupplementation(OntoUMLParser parser, double x, double y) {
@@ -102,7 +102,7 @@ public class RigidWeakSupplementation extends AbstractPattern {
 		}
 
 		if(complex != null && type != null){
-			componentOf = (Association)outcomeFixer.createAssociationBetween(RelationStereotype.COMPONENTOF, "", complex, type).getAdded().get(0);
+			componentOf = (Association)outcomeFixer.createAssociationBetween(RelationshipStereotype.COMPONENTOF, "", complex, type).getAdded().get(0);
 			
 			((Meronymic)(componentOf)).setIsShareable(true);
 			

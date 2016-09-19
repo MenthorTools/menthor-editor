@@ -1,12 +1,12 @@
-package net.menthor.editor.v2.types;
+package RefOntoUML.stereotypes;
 
 import org.eclipse.emf.ecore.EObject;
 
-public interface OntoUMLMetatype{
+public interface OntoUMLStereotype{
 
 	public Class<? extends EObject> getMetaclass();	
 	public String getName();	
-	public OntoUMLMetatype getMetatype(EObject element);
+	public OntoUMLStereotype getMetatype(EObject element);
 	
 	public boolean isAssociation();
 	public boolean isMeronymic();

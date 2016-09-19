@@ -256,8 +256,7 @@ public class OCL2AlloyVisitor extends org.eclipse.ocl.utilities.AbstractVisitor 
 		StringBuffer result = new StringBuffer();
     	RefOntoUML.Property ontoProperty = (RefOntoUML.Property)oclparser.getOntoUMLElement(property);
     	if(ontoProperty==null) {
-    		System.err.println("Null OntoUML element -->>> Property "+property.getName()+" : "+property.getType().getName()+"");
-    		return "<null-element>";
+    		return sourceResult+"."+property.getName();
     	}
     	String nameProperty = refparser.getAlias(ontoProperty);    	
     	if (property.getAssociation()!=null) result.append(sourceResult + "." + nameProperty+ "[w]");    	

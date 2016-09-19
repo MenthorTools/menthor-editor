@@ -3,10 +3,8 @@ package net.menthor.antipattern.undefphase;
 import java.util.ArrayList;
 
 import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -19,6 +17,8 @@ import RefOntoUML.Phase;
 import RefOntoUML.Property;
 import RefOntoUML.Type;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public class UndefPhaseOccurrence extends AntipatternOccurrence {
 
@@ -111,8 +111,8 @@ public class UndefPhaseOccurrence extends AntipatternOccurrence {
 		for(String attrName: names)
 		{
 			Fix partial = new Fix();
-			if (stereotype.get(i).equals("PrimitiveType")) partial.addAll(fixer.createAttribute(getGeneral(), attrName, ClassStereotype.PRIMITIVETYPE, type.get(i)));
-			if (stereotype.get(i).equals("DataType")) partial.addAll(fixer.createAttribute(getGeneral(), attrName, ClassStereotype.DATATYPE, type.get(i)));
+			if (stereotype.get(i).equals("PrimitiveType")) partial.addAll(fixer.createAttribute(getGeneral(), attrName,  RefOntoUML.stereotypes.DataTypeStereotype.PRIMITIVETYPE, type.get(i)));
+			if (stereotype.get(i).equals("DataType")) partial.addAll(fixer.createAttribute(getGeneral(), attrName,  RefOntoUML.stereotypes.DataTypeStereotype.DATATYPE, type.get(i)));
 			
 			Property attr = null;
 			for(Object obj: partial.getAdded()){ if (obj instanceof Property) attr = (Property)obj; } 
@@ -144,7 +144,7 @@ public class UndefPhaseOccurrence extends AntipatternOccurrence {
 			fix.includeAdded(newmode);
 			
 			//create characterization from mode to phase
-			Fix partial = fixer.createAssociationBetween(RelationStereotype.CHARACTERIZATION, "", (Type)newmode, (Type)phases.get(i));
+			Fix partial = fixer.createAssociationBetween(RelationshipStereotype.CHARACTERIZATION, "", (Type)newmode, (Type)phases.get(i));
 			Characterization chr=null;
 			for(Object obj: partial.getAdded()) { if(obj instanceof Characterization) chr = (Characterization)obj; }
 			fix.addAll(partial);

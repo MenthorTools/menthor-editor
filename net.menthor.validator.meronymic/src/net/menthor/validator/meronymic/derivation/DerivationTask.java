@@ -9,13 +9,13 @@ import javax.swing.SwingWorker;
 
 import net.menthor.common.ontouml2directedgraph.EdgePath;
 import net.menthor.common.ontouml2directedgraph.Graph;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.derivation.DerivedMeronymic.PatternType;
 import net.menthor.validator.meronymic.derivation.ui.DerivedTableModel;
 import RefOntoUML.Classifier;
 import RefOntoUML.Meronymic;
 import RefOntoUML.Property;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public abstract class DerivationTask <T extends Meronymic> extends SwingWorker<Boolean, DerivedMeronymic>{
 
@@ -74,7 +74,7 @@ public abstract class DerivationTask <T extends Meronymic> extends SwingWorker<B
 		arePathsSet = true;
 	}
 	
-	protected DerivedMeronymic createDerivedMeronymic(EdgePath path, Classifier whole,Classifier part, PatternType pattern, Meronymic currentRelation, RelationStereotype stereotype) {
+	protected DerivedMeronymic createDerivedMeronymic(EdgePath path, Classifier whole,Classifier part, PatternType pattern, Meronymic currentRelation, RelationshipStereotype stereotype) {
 		String prefix = "",wholeName,partName;
 		DerivedMeronymic derived;
 		

@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
-import net.menthor.common.ontoumlfixer.ClassStereotype;
 import net.menthor.common.ontoumlfixer.Fix;
 import net.menthor.common.ontoumlfixer.OutcomeFixer;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
 import net.menthor.validator.meronymic.ui.FixDialog;
 import RefOntoUML.Association;
 import RefOntoUML.Classifier;
@@ -17,6 +15,8 @@ import RefOntoUML.memberOf;
 import RefOntoUML.subCollectionOf;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
 
 public abstract class MeronymicItem {
 
@@ -32,7 +32,7 @@ public abstract class MeronymicItem {
 	
 	/**Properties for actions*/
 	protected Enum<?> action;
-	protected RelationStereotype newStereotype;
+	protected RelationshipStereotype newStereotype;
 	protected Meronymic relationToRemove;
 	protected Meronymic relationToReverse;
 	protected Meronymic relationToChange;
@@ -160,7 +160,7 @@ public abstract class MeronymicItem {
 		fix.addAll(fixer.deleteElement(relationToRemove));
 	}
 	
-	private void changeAllRelationsInPathTo(RelationStereotype stereotype){
+	private void changeAllRelationsInPathTo(RelationshipStereotype stereotype){
 		
 		for (Property p : path) {
 			Association a = p.getAssociation();
@@ -189,19 +189,19 @@ public abstract class MeronymicItem {
 	//A SC WILL BE DERIVED. SC->SC->SC
 	public void makeSubCollectionDerivationPath(){
 		changeAllClassesInPathTo(ClassStereotype.COLLECTIVE);
-		changeAllRelationsInPathTo(RelationStereotype.SUBCOLLECTIONOF);
+		changeAllRelationsInPathTo(RelationshipStereotype.SUBCOLLECTIONOF);
 	}
 	
 	//A CP WILL BE DERIVED. CP->CP->CP
 	public void makeFunctionalDerivationPath(){
 		changeAllClassesInPathTo(ClassStereotype.KIND);
-		changeAllRelationsInPathTo(RelationStereotype.COMPONENTOF);
+		changeAllRelationsInPathTo(RelationshipStereotype.COMPONENTOF);
 	}
 	
 	//A SQ WILL BE DERIVED. SQ->SQ->SQ
 	public void makeSubQuantityDerivationPath(){
 		changeAllClassesInPathTo(ClassStereotype.QUANTITY);
-		changeAllRelationsInPathTo(RelationStereotype.SUBQUANTITYOF);
+		changeAllRelationsInPathTo(RelationshipStereotype.SUBQUANTITYOF);
 	}
 	
 	//NO RELATION WILL BE DERIVED. MB->MB->MB
@@ -222,7 +222,7 @@ public abstract class MeronymicItem {
 		if(!parser.isFunctionalComplex(lastPart) & !parser.isCollective(lastPart))
 			fix.addAll(fixer.changeNature(lastPart, visited, ClassStereotype.KIND));
 		
-		changeAllRelationsInPathTo(RelationStereotype.MEMBEROF);
+		changeAllRelationsInPathTo(RelationshipStereotype.MEMBEROF);
 		
 	}
 	
@@ -241,7 +241,7 @@ public abstract class MeronymicItem {
 		for (int i = 0; i < path.size()-1; i++) {
 			Association a = path.get(i).getAssociation();
 			if(!(a instanceof subCollectionOf))
-				fix.addAll(fixer.changeRelationStereotypeTo(a, RelationStereotype.SUBCOLLECTIONOF));
+				fix.addAll(fixer.changeRelationStereotypeTo(a, RelationshipStereotype.SUBCOLLECTIONOF));
 		}
 		
 		Property lastProperty = path.get(path.size()-1);
@@ -252,7 +252,7 @@ public abstract class MeronymicItem {
 			fix.addAll(fixer.changeNature(lastPart, visited, ClassStereotype.KIND));
 		
 		if(!(lastProperty.getAssociation() instanceof memberOf))
-			fix.addAll(fixer.changeRelationStereotypeTo(lastProperty.getAssociation(), RelationStereotype.MEMBEROF));
+			fix.addAll(fixer.changeRelationStereotypeTo(lastProperty.getAssociation(), RelationshipStereotype.MEMBEROF));
 		
 		return fix;
 	}

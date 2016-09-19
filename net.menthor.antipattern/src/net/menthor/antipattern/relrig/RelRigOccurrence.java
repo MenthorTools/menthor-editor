@@ -4,10 +4,6 @@ package net.menthor.antipattern.relrig;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import net.menthor.antipattern.AntipatternOccurrence;
-import net.menthor.common.ontoumlfixer.ClassStereotype;
-import net.menthor.common.ontoumlfixer.RelationStereotype;
-
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Category;
@@ -20,6 +16,9 @@ import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLNameHelper;
 import RefOntoUML.parser.OntoUMLParser;
+import RefOntoUML.stereotypes.ClassStereotype;
+import RefOntoUML.stereotypes.RelationshipStereotype;
+import net.menthor.antipattern.AntipatternOccurrence;
 
 public class RelRigOccurrence extends AntipatternOccurrence {
 	
@@ -201,7 +200,7 @@ public class RelRigOccurrence extends AntipatternOccurrence {
 		
 	public void changeToMode(EObject rigid, EObject rigidMediation)
 	{				
-		this.fix.addAll(fixer.changeRelationStereotypeTo(rigidMediation, RelationStereotype.CHARACTERIZATION));
+		this.fix.addAll(fixer.changeRelationStereotypeTo(rigidMediation, RelationshipStereotype.CHARACTERIZATION));
 		this.fix.addAll(fixer.changeClassStereotypeTo(rigid, ClassStereotype.MODE));
 	}
 	

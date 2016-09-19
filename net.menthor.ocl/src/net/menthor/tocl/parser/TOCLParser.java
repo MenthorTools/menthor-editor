@@ -502,7 +502,9 @@ public class TOCLParser extends OCLParser{
     	for(RefOntoUML.Element elem: umap.keySet()){
     		if(elem instanceof RefOntoUML.NamedElement){
     			RefOntoUML.NamedElement namedElem = (RefOntoUML.NamedElement)elem;
-    			if(namedElem.getName().equals(typeName)) return;
+    			if(namedElem.getName()!=null){    				
+    				if(namedElem.getName().equals(typeName)) return;
+    			}
     		}
     	}
     	throw new ParserException ("Unrecognized Variable: ("+typeName+")");    	
@@ -580,6 +582,12 @@ public class TOCLParser extends OCLParser{
 		}    	
     }
     
+    String removeUnderlineAndSingleQuotePattern(String name){
+    	if(name.length()>2 && name.charAt(0)=='_' && name.charAt(1)=='\'') name = name.replaceFirst("_","").replaceFirst("\'","");
+    	if(name.length()>3 && name.charAt(name.length()-1)=='\'') name = name.substring(0, name.length()-1);
+    	return name;
+    }
+    
     public void processHistoricalRelationship(String context, String declaration) throws ParserException, ParseException
     {
     	context = context.replace("context", "");
@@ -593,9 +601,11 @@ public class TOCLParser extends OCLParser{
     	String[] array2 = array[1].trim().split(":");
     	    	
     	String sorceName = array[0].trim();
+    	sorceName = removeUnderlineAndSingleQuotePattern(sorceName);
     	checkInvalidType(sorceName);
     	String relName = array2[0].trim();
     	String targetName = array2[1].trim();
+    	targetName = removeUnderlineAndSingleQuotePattern(targetName);
     	checkInvalidType(targetName);
     	
 //		System.out.println("<"+sorceName+">");
@@ -613,9 +623,11 @@ public class TOCLParser extends OCLParser{
     	String[] array4 = rightDecl[1].trim().split("\\[");
     	
     	String srcType = array3[0].trim();
+    	srcType = removeUnderlineAndSingleQuotePattern(srcType);
     	String srcMult = array3[1].trim().split("]")[0].trim();
     	
     	String tgtType = array4[0].trim();
+    	tgtType = removeUnderlineAndSingleQuotePattern(tgtType);
     	String tgtMult = array4[1].trim().split("]")[0].trim();
 	
 //    	System.out.println("<"+srcEndName+">");
