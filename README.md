@@ -1,7 +1,7 @@
 ## 1. What is Menthor Editor?
 
 Menthor Editor is a platform for people who wants to build reliable ontologies in less time. 
-Its goal is to enable you to develop meaningful, richer and expressive ontologies faster than you could if you were building your OWL/RDF from scracth. By focusing on conceptual modeling with OntoUML and an automatic validation and codification tookit which emcompasses OWL generation, visual simulation, semantic anti-patterns detection and SBVR documentation, Menthor Editor lets you not only build diagrammatically your ontology but garantees you not only built the right ontology but also build the ontology right.
+Its goal is to enable you to develop meaningful, richer and expressive ontologies faster than you could if you were building your OWL/RDF from scracth. By focusing on conceptual modeling with OntoUML and an automatic validation and codification tookit which emcompasses a set of features such as OWL generation, visual simulation, semantic anti-patterns detection and SBVR documentation, Menthor Editor lets you not only build diagrammatically your ontology but garantees you not only built the right ontology but also build the ontology right.
 
 ## 2. License & Scientific Contribution
 
@@ -9,7 +9,7 @@ Distributed under MIT license, Menthor Editor is subject of many scientific cont
 
 ## 3. Acknowledgments
 
-We  would like  to thank all (NEMO Research Group)[http://nemo.inf.ufes.br/] members who have contributed in the former versions of the tool and in some very important features such as the OntoUML metamodel and OWL codification. In particular, we thank Roberto Carraretto, Antognoni Albuquerque, Veruska Zamborlini, Vinicius Sobral, Cásssio  Reginato, Victor Amorim, Pedro Paulo Barcelos and Diorbert  Correa.
+We  would like  to thank all [NEMO Research Group](http://nemo.inf.ufes.br/) members who have contributed in the former versions of the tool and in some very important features such as the OntoUML metamodel and OWL codification. In particular, we thank Roberto Carraretto, Antognoni Albuquerque, Veruska Zamborlini, Vinicius Sobral, Cásssio  Reginato, Victor Amorim, Pedro Paulo Barcelos and Diorbert  Correa.
 
 ## 4. Download & Installation
 
