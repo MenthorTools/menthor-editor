@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ASCII"?>
+<RefOntoUML:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:RefOntoUML="http://nemo.inf.ufes.br/ontouml/refontouml" xmi:id="_YB9J0MRMEeWZvfUwvZBxrA" name="Model">
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_M_UQ4MROEeWZvfUwvZBxrA" name="Person" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_OUOOUMROEeWZvfUwvZBxrA" name="Customer (Person)" visibility="public">
+    <generalization xmi:id="_s-DeYMROEeWZvfUwvZBxrA" general="_SE0LEMROEeWZvfUwvZBxrA" generalizationSet="_DUkX8MRQEeWZvfUwvZBxrA"/>
+    <generalization xmi:id="_uVJNIMROEeWZvfUwvZBxrA" general="_M_UQ4MROEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_O3hvsMROEeWZvfUwvZBxrA" name="Customer (Company)" visibility="public">
+    <generalization xmi:id="_tlAwsMROEeWZvfUwvZBxrA" general="_SE0LEMROEeWZvfUwvZBxrA" generalizationSet="_DUkX8MRQEeWZvfUwvZBxrA"/>
+    <generalization xmi:id="_u6Cp8MROEeWZvfUwvZBxrA" general="_TAw18MROEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:RoleMixin" xmi:id="_SE0LEMROEeWZvfUwvZBxrA" name="Customer" visibility="public" isAbstract="true"/>
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_TAw18MROEeWZvfUwvZBxrA" name="Company" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:SubKind" xmi:id="_UTSNwMROEeWZvfUwvZBxrA" name="Store" visibility="public">
+    <generalization xmi:id="_vj7UcMROEeWZvfUwvZBxrA" general="_TAw18MROEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Relator" xmi:id="_VHM-AMROEeWZvfUwvZBxrA" name="Labor Contract" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Role" xmi:id="_WOL0MMROEeWZvfUwvZBxrA" name="Seller" visibility="public">
+    <generalization xmi:id="_wRRioMROEeWZvfUwvZBxrA" general="_M_UQ4MROEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Relator" xmi:id="_Xa6GAMROEeWZvfUwvZBxrA" name="Receipt" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_Yp6PwMROEeWZvfUwvZBxrA" name="Active Customer" visibility="public">
+    <generalization xmi:id="_xSBN8MROEeWZvfUwvZBxrA" general="_SE0LEMROEeWZvfUwvZBxrA" generalizationSet="_2AONAMRPEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_aROy4MROEeWZvfUwvZBxrA" name="Inactive Customer" visibility="public">
+    <generalization xmi:id="_x8-PcMROEeWZvfUwvZBxrA" general="_SE0LEMROEeWZvfUwvZBxrA" generalizationSet="_2AONAMRPEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_bqPNMMROEeWZvfUwvZBxrA" name="Cancelled Receipt" visibility="public">
+    <generalization xmi:id="_rjvcgMROEeWZvfUwvZBxrA" general="_Xa6GAMROEeWZvfUwvZBxrA" generalizationSet="_8N2M4MRPEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_dknPMMROEeWZvfUwvZBxrA" name="Normal Receipt" visibility="public">
+    <generalization xmi:id="_sKkzAMROEeWZvfUwvZBxrA" general="_Xa6GAMROEeWZvfUwvZBxrA" generalizationSet="_8N2M4MRPEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_fgHSkMROEeWZvfUwvZBxrA" name="Receipt Item" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_hE6tMMROEeWZvfUwvZBxrA" name="Normal Receipt Item" visibility="public">
+    <generalization xmi:id="_qBHzMMROEeWZvfUwvZBxrA" general="_fgHSkMROEeWZvfUwvZBxrA" generalizationSet="_izkYoMRUEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_hj7kcMROEeWZvfUwvZBxrA" name="Cancelled Receipt Item" visibility="public">
+    <generalization xmi:id="_qhQEwMROEeWZvfUwvZBxrA" general="_fgHSkMROEeWZvfUwvZBxrA" generalizationSet="_izkYoMRUEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Kind" xmi:id="_kGj5QMROEeWZvfUwvZBxrA" name="Stock" visibility="public"/>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_lL2tYMROEeWZvfUwvZBxrA" name="Active Stock" visibility="public">
+    <generalization xmi:id="_pEE8IMROEeWZvfUwvZBxrA" general="_kGj5QMROEeWZvfUwvZBxrA" generalizationSet="_fwGAkMRUEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Phase" xmi:id="_lp8-oMROEeWZvfUwvZBxrA" name="Inactive Stock" visibility="public">
+    <generalization xmi:id="_piG78MROEeWZvfUwvZBxrA" general="_kGj5QMROEeWZvfUwvZBxrA" generalizationSet="_fwGAkMRUEeWZvfUwvZBxrA"/>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_zyp-sMROEeWZvfUwvZBxrA" name="defines contracted party" visibility="public" memberEnd="_zyp-scROEeWZvfUwvZBxrA _zyp-tMROEeWZvfUwvZBxrA" navigableOwnedEnd="_zyp-scROEeWZvfUwvZBxrA _zyp-tMROEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_zyp-scROEeWZvfUwvZBxrA" name="labor contract" type="_VHM-AMROEeWZvfUwvZBxrA" association="_zyp-sMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_omo_8cRTEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_omo_8MRTEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_zyp-tMROEeWZvfUwvZBxrA" name="seller" type="_WOL0MMROEeWZvfUwvZBxrA" isReadOnly="true" association="_zyp-sMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_ompnAcRTEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_ompnAMRTEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_0ntXYMROEeWZvfUwvZBxrA" name="defines contracting party" visibility="public" memberEnd="_0ntXYcROEeWZvfUwvZBxrA _0ntXZMROEeWZvfUwvZBxrA" navigableOwnedEnd="_0ntXYcROEeWZvfUwvZBxrA _0ntXZMROEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_0ntXYcROEeWZvfUwvZBxrA" name="labor contract" type="_VHM-AMROEeWZvfUwvZBxrA" association="_0ntXYMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_soouYcRWEeWZvfUwvZBxrA" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_soouYMRWEeWZvfUwvZBxrA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_0ntXZMROEeWZvfUwvZBxrA" name="store" type="_UTSNwMROEeWZvfUwvZBxrA" isReadOnly="true" association="_0ntXYMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_pJfOU8RTEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_pJfOUsRTEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_2dsBkMROEeWZvfUwvZBxrA" name="Mediation3" visibility="public" memberEnd="_2dsBkcROEeWZvfUwvZBxrA _2dsBlMROEeWZvfUwvZBxrA" navigableOwnedEnd="_2dsBkcROEeWZvfUwvZBxrA _2dsBlMROEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_2dsBkcROEeWZvfUwvZBxrA" name="receipt" type="_Xa6GAMROEeWZvfUwvZBxrA" association="_2dsBkMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_yBzPocRPEeWZvfUwvZBxrA" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_yBzPoMRPEeWZvfUwvZBxrA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_2dsBlMROEeWZvfUwvZBxrA" name="store" type="_UTSNwMROEeWZvfUwvZBxrA" isReadOnly="true" association="_2dsBkMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_2dsBlcROEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_2dsBlsROEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_3ZwoQMROEeWZvfUwvZBxrA" name="Mediation4" visibility="public" memberEnd="_3ZwoQcROEeWZvfUwvZBxrA _3ZwoRMROEeWZvfUwvZBxrA" navigableOwnedEnd="_3ZwoQcROEeWZvfUwvZBxrA _3ZwoRMROEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_3ZwoQcROEeWZvfUwvZBxrA" name="receipt" type="_Xa6GAMROEeWZvfUwvZBxrA" association="_3ZwoQMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_zPUyscRPEeWZvfUwvZBxrA" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_zPUysMRPEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_3ZwoRMROEeWZvfUwvZBxrA" name="customer" type="_SE0LEMROEeWZvfUwvZBxrA" isReadOnly="true" association="_3ZwoQMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_3ZwoRcROEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_3ZwoRsROEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:Mediation" xmi:id="_80aTEMROEeWZvfUwvZBxrA" name="Mediation5" visibility="public" memberEnd="_80aTEcROEeWZvfUwvZBxrA _80aTFMROEeWZvfUwvZBxrA" navigableOwnedEnd="_80aTEcROEeWZvfUwvZBxrA _80aTFMROEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_80aTEcROEeWZvfUwvZBxrA" name="receipt" type="_Xa6GAMROEeWZvfUwvZBxrA" association="_80aTEMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_xFaf4cRPEeWZvfUwvZBxrA" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_xFaf4MRPEeWZvfUwvZBxrA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_80aTFMROEeWZvfUwvZBxrA" name="seller" type="_WOL0MMROEeWZvfUwvZBxrA" isReadOnly="true" association="_80aTEMROEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_80aTFcROEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_80aTFsROEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_2AONAMRPEeWZvfUwvZBxrA" name="gs-customer" visibility="public" isCovering="true" isDisjoint="true" generalization="_xSBN8MROEeWZvfUwvZBxrA _x8-PcMROEeWZvfUwvZBxrA"/>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_8N2M4MRPEeWZvfUwvZBxrA" name="gs-receipt" visibility="public" isCovering="true" isDisjoint="true" generalization="_rjvcgMROEeWZvfUwvZBxrA _sKkzAMROEeWZvfUwvZBxrA"/>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_DUkX8MRQEeWZvfUwvZBxrA" name="gs-customer-type" visibility="public" isCovering="true" isDisjoint="true" generalization="_s-DeYMROEeWZvfUwvZBxrA _tlAwsMROEeWZvfUwvZBxrA"/>
+  <packagedElement xsi:type="RefOntoUML:memberOf" xmi:id="_T9tNEMRTEeWZvfUwvZBxrA" name="memberOf1" visibility="public" memberEnd="_T9t0IMRTEeWZvfUwvZBxrA _T9t0I8RTEeWZvfUwvZBxrA" navigableOwnedEnd="_T9t0IMRTEeWZvfUwvZBxrA _T9t0I8RTEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_T9t0IMRTEeWZvfUwvZBxrA" name="receipt" type="_Xa6GAMROEeWZvfUwvZBxrA" aggregation="shared" association="_T9tNEMRTEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_T9t0IcRTEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_T9t0IsRTEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_T9t0I8RTEeWZvfUwvZBxrA" name="receipt item" type="_fgHSkMROEeWZvfUwvZBxrA" association="_T9tNEMRTEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_eV6-EcRTEeWZvfUwvZBxrA" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_eV6-EMRTEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:FormalAssociation" xmi:id="_ghtgMMRTEeWZvfUwvZBxrA" name="makes reference to" visibility="public" memberEnd="_ghtgMcRTEeWZvfUwvZBxrA _ghtgNMRTEeWZvfUwvZBxrA" navigableOwnedEnd="_ghtgMcRTEeWZvfUwvZBxrA _ghtgNMRTEeWZvfUwvZBxrA">
+    <ownedEnd xmi:id="_ghtgMcRTEeWZvfUwvZBxrA" name="receipt item" type="_fgHSkMROEeWZvfUwvZBxrA" association="_ghtgMMRTEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_qNqoIcRTEeWZvfUwvZBxrA" value="-1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_qNqoIMRTEeWZvfUwvZBxrA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_ghtgNMRTEeWZvfUwvZBxrA" name="stock" type="_kGj5QMROEeWZvfUwvZBxrA" association="_ghtgMMRTEeWZvfUwvZBxrA">
+      <upperValue xsi:type="RefOntoUML:LiteralUnlimitedNatural" xmi:id="_qNrPMcRTEeWZvfUwvZBxrA" value="1"/>
+      <lowerValue xsi:type="RefOntoUML:LiteralInteger" xmi:id="_qNrPMMRTEeWZvfUwvZBxrA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_fwGAkMRUEeWZvfUwvZBxrA" name="gs-stock" visibility="public" isCovering="true" isDisjoint="true" generalization="_pEE8IMROEeWZvfUwvZBxrA _piG78MROEeWZvfUwvZBxrA"/>
+  <packagedElement xsi:type="RefOntoUML:GeneralizationSet" xmi:id="_izkYoMRUEeWZvfUwvZBxrA" name="gs-receipt-item" visibility="public" isCovering="true" isDisjoint="true" generalization="_qBHzMMROEeWZvfUwvZBxrA _qhQEwMROEeWZvfUwvZBxrA"/>
+</RefOntoUML:Model>

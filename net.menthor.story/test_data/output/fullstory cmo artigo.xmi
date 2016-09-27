@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ASCII"?>
+<stories:Story xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stories="http://stories.bernardofbbraga.com.br">
+  <elements xsi:type="stories:World" label="World1" next="World2"/>
+  <elements xsi:type="stories:World" label="World2" next="World3" prev="World1"/>
+  <elements xsi:type="stories:World" label="World3" next="World4" prev="World2"/>
+  <elements xsi:type="stories:World" label="World4" next="World5" prev="World3"/>
+  <elements xsi:type="stories:World" label="World5" next="World6" prev="World4"/>
+  <elements xsi:type="stories:World" label="World6" prev="World5"/>
+  <elements xsi:type="stories:Node" label="Thomas" present_in="World1 World2 World3 World4 World5 World6">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jqAozEeWTG_6taTTR8g"/>
+    <is_referred_to_in holds_in="World1 World2 World3 World4 World5 World6" label="Developer">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jlQozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+    <is_referred_to_in holds_in="World1 World2 World3 World4 World5 World6" label="Configuration Manager">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jkAozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="Fred" present_in="World1 World2 World3 World4 World5 World6">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jqAozEeWTG_6taTTR8g"/>
+    <is_referred_to_in holds_in="World1 World2 World3 World4 World5 World6" label="Developer">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jlQozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+    <is_referred_to_in not_holds_in="World1 World2 World3 World4 World5 World6" label="Configuration Manager">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jkAozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="Mary" present_in="World1 World2 World3 World4 World5 World6">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jqAozEeWTG_6taTTR8g"/>
+    <is_referred_to_in holds_in="World1 World2 World3 World4 World5 World6" label="Developer">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jlQozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+    <is_referred_to_in not_holds_in="World1 World2 World3 World4 World5 World6" label="Configuration Manager">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jkAozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="John" present_in="World1 World2 World3 World4 World5 World6">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jqAozEeWTG_6taTTR8g"/>
+    <is_referred_to_in holds_in="World1 World2 World3 World4 World5 World6" label="Developer">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jlQozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+    <is_referred_to_in not_holds_in="World1 World2 World3 World4 World5 World6" label="Configuration Manager">
+      <antiRigidClasses href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jkAozEeWTG_6taTTR8g"/>
+    </is_referred_to_in>
+  </elements>
+  <elements xsi:type="stories:Node" label="ProcessDiagram" present_in="World1 World2 World3 World4 World5 World6">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jlwozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="ChangeRequest001" present_in="World2 World3 World4 World5 World6" absent_from="World1">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jiQozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Change001" present_in="World2 World3 World4 World5 World6" absent_from="World1">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jiAozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Evaluation001" present_in="World3 World4 World5 World6" absent_from="World1 World2">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jrQozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckOut001" present_in="World3 World4 World5 World6" absent_from="World1 World2">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jiwozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Modification001" present_in="World4 World5 World6" absent_from="World1 World2 World3">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jowozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="CheckIn001" present_in="World5 World6" absent_from="World1 World2 World3 World4">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jigozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Node" label="Verification001" present_in="World6" absent_from="World1 World2 World3 World4 World5">
+    <instance_of href="../../../../../../../Documents/menthor-editor/net.menthor.story/test_data/input/cmo%20artigo.refontouml#_QJ5jtAozEeWTG_6taTTR8g"/>
+  </elements>
+  <elements xsi:type="stories:Link" label="Link001" present_in="World2 World3 World4 World5 World6" absent_from="World1" source="Fred" target="ChangeRequest001"/>
+  <elements xsi:type="stories:Link" label="Link008" present_in="World6" absent_from="World1 World2 World3 World4 World5" source="Mary" target="Verification001"/>
+  <elements xsi:type="stories:Link" label="Link006" present_in="World4 World5 World6" absent_from="World1 World2 World3" source="John" target="Modification001"/>
+  <elements xsi:type="stories:Link" label="Link005" present_in="World3 World4 World5 World6" absent_from="World1 World2" source="John" target="CheckOut001"/>
+  <elements xsi:type="stories:Link" label="Link003" present_in="World3 World4 World5 World6" absent_from="World1 World2" source="ChangeRequest001" target="Evaluation001"/>
+  <elements xsi:type="stories:Link" label="Link002" present_in="World2 World3 World4 World5 World6" absent_from="World1" source="ChangeRequest001" target="Change001"/>
+  <elements xsi:type="stories:Link" label="Link004" present_in="World3 World4 World5 World6" absent_from="World1 World2" source="Change001" target="CheckOut001"/>
+  <elements xsi:type="stories:Link" label="Link009" present_in="World6" absent_from="World1 World2 World3 World4 World5" source="Change001" target="Verification001"/>
+  <elements xsi:type="stories:Link" label="Link007" present_in="World5 World6" absent_from="World1 World2 World3 World4" source="Modification001" target="CheckIn001"/>
+</stories:Story>
