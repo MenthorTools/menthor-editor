@@ -9,7 +9,7 @@ Distributed under MIT license, Menthor Editor is the subject of many scientific 
 
 ## 3. Acknowledgments
 
-We  would like  to thank all [NEMO Research Group](http://nemo.inf.ufes.br/) members who have contributed to some very important features on the tool such as respectively the OntoUML metamodel, OWL codifications and the portuguese text generator. In particular, we thank Roberto Carraretto, Antognoni Albuquerque, Veruska Zamborlini, Vinicius Sobral, Cásssio  Reginato, Victor Amorim, Pedro Paulo Barcelos and Diorbert Correa. 
+We  would like  to thank all [NEMO Research Group](http://nemo.inf.ufes.br/) members who have contributed to the precursor of Menthor called [OLED](http://www.inf.ufes.br/~gguizzardi/edoc2015_camera_ready.pdf) in some very important features such as the OntoUML metamodel, OWL codifications and the portuguese text generator. In particular, we thank Roberto Carraretto, Antognoni Albuquerque, Veruska Zamborlini, Vinicius Sobral, Cásssio  Reginato, Victor Amorim, Pedro Paulo Barcelos and Diorbert Correa. 
 
 ## 4. Download & Installation
 
@@ -50,7 +50,7 @@ If your're using Mac you need to disable the "XstartOnFirstThread" option in ord
 
 ### 5.4 Executable JAR
 
-If you want to deploy the editor into an executable JAR file, do the following steps:
+If you want to deploy the editor into an executable JAR file, do the following:
 
 * Open "MenthorEditor.java" -> Change value of "MENTHOR_VERSION" to tell which version you're building.
 * Open "MenthorEditor.java" -> Change value of "USE_LOG_FILE" to tell whether or not you're going to use the log file.
