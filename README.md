@@ -1,7 +1,9 @@
-## 1. What is Menthor Editor?
+## 1. What is Menthor Editor 1.0?
 
-Menthor Editor is a platform for people who wants to build high quality ontologies in less time. 
-Its goal is to enable you to develop good ontologies faster than you could if you were building your OWL/RDF from scracth. By focusing on conceptual modeling with OntoUML and an automatic validation and codification tookit which emcompasses a set of features such as OWL generation, visual simulation, semantic anti-patterns detection and SBVR documentation, Menthor Editor lets you not only build diagrammatically your ontology but garantees you not only built the right ontology but built the ontology right.
+Menthor Editor 1.0 is a state-of-the-art free platform for people who wants to build high quality ontologies in less time. 
+Its goal is to enable you to develop accurate, good ontologies faster than you could if you were building your OWL/RDF from scracth. By focusing on conceptual modeling with OntoUML and an automatic validation and codification tookit which emcompasses a set of features such as OWL generation, visual simulation, semantic anti-patterns detection and SBVR documentation, Menthor Editor lets you not only build diagrammatically your ontology but garantees you not only built the right ontology but also built the ontology right.
+
+The editor is completely free, download it now and start developing your own ontology right away. 
 
 ## 2. License & Scientific Contribution
 
