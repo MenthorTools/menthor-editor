@@ -25,7 +25,11 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import org.coode.owlapi.turtle.TurtleOntologyFormat;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
+import org.semanticweb.owlapi.model.OWLOntologyFormat;
 
 import RefOntoUML.parser.OntoUMLParser;
 import net.menthor.common.settings.owl.OWL2Approach;
@@ -117,7 +121,15 @@ public class OwlFeature {
     	try {    		
     		if(trOpt.getApproach()==OWL2Approach.SIMPLE) 
     		{    			
-    			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getIRI());
+    			OWLOntologyFormat format = new RDFXMLOntologyFormat();
+    			if ( trOpt.getPath().endsWith(".owl")) {
+    				format = new OWLXMLOntologyFormat();
+    			} else     			
+    			if ( trOpt.getPath().endsWith(".ttl")) {
+    				format = new TurtleOntologyFormat();
+    			}
+    			
+    			owlOutput = OntoUML2SimpleOWL.Transformation(model, owlOptions.getIRI(), format);
     		}
     		if(trOpt.getApproach()==OWL2Approach.OOTOS)
     		{    			
