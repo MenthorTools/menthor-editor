@@ -763,6 +763,11 @@ public final class AssociationElement extends BaseConnection {
 	/** Private method reusable in the setting of the reading direction */
 	private void setReadingDirection(Type srcType, Type class1, Type class2, Type rel1, Type rel2, ReadingDirection direction, ReadingDirection inverseDirection)
 	{
+		if (srcType == null) {
+			System.err.println("Null srcType for " + class1 +", " + class2 + ", " + rel1 + ", " + rel2 + ", " + direction + ", " + inverseDirection);
+			return;
+		}
+		
 		if(class1!=null && srcType.equals(class1)) {
 			if(getReadingDesign() == ReadingDesign.DESTINATION) readingDirection = direction;
 			else readingDirection = inverseDirection;			
