@@ -106,6 +106,7 @@ import RefOntoUML.parser.OntoUMLParser;
  *
  */
 public class OwlFactoryUtil {
+	private static final String UFO_NS = "http://www.menthor.net/ontouml#";
 	//OWL API
 	private OWLOntologyManager manager;
 	private OWLOntology ontology;
@@ -130,7 +131,7 @@ public class OwlFactoryUtil {
 		
 		this.manager = OWLManager.createOWLOntologyManager();
 		this.factory = this.manager.getOWLDataFactory();
-		this.owlNameSpace = ((OwlAxioms) owlOptions.getOwlAxioms()).getIRI()+"#";
+		this.owlNameSpace = ((OwlAxioms) owlOptions.getOwlAxioms()).getIRI()+"/";
 		
 		this.ontology = this.manager.createOntology(IRI.create(owlNameSpace));
 		
@@ -138,7 +139,6 @@ public class OwlFactoryUtil {
 		
 		this.owlAxioms = (OwlAxioms) owlOptions.getOwlAxioms();
 		this.owlMappings = (OwlMappings) owlOptions.getOwlMappings();
-		this.owlNameSpace = ((OwlAxioms) owlOptions.getOwlAxioms()).getIRI()+"#";
 		
 		this.lstMappedQualities = lstMappedQualities;
 		this.lstNominalQualities = lstNominalQualities;
@@ -316,19 +316,19 @@ public class OwlFactoryUtil {
 	
 		OWLClass owlSuperCls = null;
 		if(ontoParser.isCollective(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Collection");
+			owlSuperCls = getOwlClass(UFO_NS, "Collection");
 		}else if(ontoParser.isKind(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "FunctionalComplex");
+			owlSuperCls = getOwlClass(UFO_NS, "FunctionalComplex");
 		}else if(ontoParser.isQuantity(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quantity");
+			owlSuperCls = getOwlClass(UFO_NS, "Quantity");
 		}else if(ontoParser.isMode(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Mode");
+			owlSuperCls = getOwlClass(UFO_NS, "Mode");
 		}else if(ontoParser.isQuality(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Quality");
+			owlSuperCls = getOwlClass(UFO_NS, "Quality");
 		}else if(ontoParser.isRelator(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Relator");
+			owlSuperCls = getOwlClass(UFO_NS, "Relator");
 		}else if(!ontoParser.isMoment(dtcls) && !ontoParser.isObject(dtcls)){
-			owlSuperCls = getOwlClass("http://www.menthor.net/ontouml#", "Event");
+			owlSuperCls = getOwlClass(UFO_NS, "Event");
 		}
 		
 		if(owlSuperCls != null){
@@ -351,57 +351,57 @@ public class OwlFactoryUtil {
 		
 		if(ass instanceof subCollectionOf){
 			if(srcIsComposite){
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionWhole");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionPart");
+				topProp = getObjectProperty(UFO_NS, "collectionWhole");
+				topInvProp = getObjectProperty(UFO_NS, "collectionPart");
 			}else{
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionPart");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "collectionWhole");
+				topProp = getObjectProperty(UFO_NS, "collectionPart");
+				topInvProp = getObjectProperty(UFO_NS, "collectionWhole");
 			}
 		}else if(ass instanceof memberOf){
 			if(srcIsComposite){
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "isMemberOf");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "member");
+				topProp = getObjectProperty(UFO_NS, "isMemberOf");
+				topInvProp = getObjectProperty(UFO_NS, "member");
 			}else{
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "member");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "isMemberOf");
+				topProp = getObjectProperty(UFO_NS, "member");
+				topInvProp = getObjectProperty(UFO_NS, "isMemberOf");
 			}
 		}else if(ass instanceof componentOf){
 			if(srcIsComposite){
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalWhole");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalPart");
+				topProp = getObjectProperty(UFO_NS, "functionalWhole");
+				topInvProp = getObjectProperty(UFO_NS, "functionalPart");
 			}else{
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalPart");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "functionalWhole");
+				topProp = getObjectProperty(UFO_NS, "functionalPart");
+				topInvProp = getObjectProperty(UFO_NS, "functionalWhole");
 			}
 		}else if(ass instanceof subQuantityOf){
 			if(srcIsComposite){
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityWhole");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityPart");
+				topProp = getObjectProperty(UFO_NS, "quantityWhole");
+				topInvProp = getObjectProperty(UFO_NS, "quantityPart");
 			}else{
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityPart");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "quantityWhole");
+				topProp = getObjectProperty(UFO_NS, "quantityPart");
+				topInvProp = getObjectProperty(UFO_NS, "quantityWhole");
 			}
 		}else if(ass instanceof MaterialAssociation){
-			topProp = getObjectProperty("http://www.menthor.net/ontouml#", "materialProperty");
-			topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "materialProperty");
+			topProp = getObjectProperty(UFO_NS, "materialProperty");
+			topInvProp = getObjectProperty(UFO_NS, "materialProperty");
 		}else if(ass instanceof FormalAssociation){
-			topProp = getObjectProperty("http://www.menthor.net/ontouml#", "formalProperty");
-			topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "formalProperty");
+			topProp = getObjectProperty(UFO_NS, "formalProperty");
+			topInvProp = getObjectProperty(UFO_NS, "formalProperty");
 		}else if(ass instanceof Mediation){
 			if(ontoParser.isRelator(srcT)){
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediates");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediatedBy");
+				topProp = getObjectProperty(UFO_NS, "mediates");
+				topInvProp = getObjectProperty(UFO_NS, "mediatedBy");
 			}else{
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediatedBy");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "mediates");
+				topProp = getObjectProperty(UFO_NS, "mediatedBy");
+				topInvProp = getObjectProperty(UFO_NS, "mediates");
 			}
 		}else if(ass instanceof Characterization){
 			if(ontoParser.isQuality(srcT)){
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "bearer");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "intrinsicProperty");
+				topProp = getObjectProperty(UFO_NS, "bearer");
+				topInvProp = getObjectProperty(UFO_NS, "intrinsicProperty");
 			}else{
-				topProp = getObjectProperty("http://www.menthor.net/ontouml#", "intrinsicProperty");
-				topInvProp = getObjectProperty("http://www.menthor.net/ontouml#", "bearer");				
+				topProp = getObjectProperty(UFO_NS, "intrinsicProperty");
+				topInvProp = getObjectProperty(UFO_NS, "bearer");				
 			}
 		}
 		

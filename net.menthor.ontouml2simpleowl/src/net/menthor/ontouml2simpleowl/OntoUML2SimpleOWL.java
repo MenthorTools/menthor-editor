@@ -5,7 +5,9 @@ import java.io.ByteArrayOutputStream;
 import net.menthor.ontouml2simpleowl.transform.Transformer;
 
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyFormat;
 
 
 /***
@@ -41,13 +43,12 @@ public class OntoUML2SimpleOWL {
 	 * @return OWL ontology
 	 * @throws OWLOntologyCreationException
 	 */
-	public static String Transformation(RefOntoUML.Package model, String ontologyIRI) {
+	public static String Transformation(RefOntoUML.Package model, String ontologyIRI, final OWLOntologyFormat format) {
 		try {
-			if(!ontologyIRI.endsWith("#")) ontologyIRI += "#";
+//			if(!ontologyIRI.endsWith("#")) ontologyIRI += "#";
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			OWLXMLOntologyFormat owlxmlFormat = new OWLXMLOntologyFormat();
 			Transformer transformer = new Transformer(ontologyIRI, model);
-			transformer.transform(owlxmlFormat, out);
+			transformer.transform(format, out);
 			return out.toString();
 		} catch (Exception ex) {
 			return "ERROR: " + ex.getMessage();

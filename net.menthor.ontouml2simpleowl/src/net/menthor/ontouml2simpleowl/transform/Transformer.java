@@ -1,82 +1,63 @@
 package net.menthor.ontouml2simpleowl.transform;
 
 import java.io.OutputStream;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectCardinalityRestriction;
-import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
-import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyFormat;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLProperty;
-import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
-import uk.ac.manchester.cs.owl.owlapi.OWLDataPropertyImpl;
-import uk.ac.manchester.cs.owl.owlapi.OWLObjectPropertyImpl;
 import RefOntoUML.Association;
 import RefOntoUML.Class;
 import RefOntoUML.Classifier;
 import RefOntoUML.Comment;
 import RefOntoUML.DataType;
+import RefOntoUML.Derivation;
 import RefOntoUML.Element;
 import RefOntoUML.Generalization;
 import RefOntoUML.GeneralizationSet;
+import RefOntoUML.MomentClass;
 import RefOntoUML.NamedElement;
 import RefOntoUML.Package;
 import RefOntoUML.PackageableElement;
 import RefOntoUML.Property;
-import RefOntoUML.Type;
-import RefOntoUML.impl.AssociationImpl;
-import RefOntoUML.impl.ClassImpl;
-import RefOntoUML.impl.DataTypeImpl;
-import RefOntoUML.impl.DerivationImpl;
-import RefOntoUML.impl.GeneralizationImpl;
-import RefOntoUML.impl.GeneralizationSetImpl;
-import RefOntoUML.impl.MomentClassImpl;
-import RefOntoUML.impl.NamedElementImpl;
-import RefOntoUML.impl.PackageImpl;
-import RefOntoUML.impl.PropertyImpl;
-import RefOntoUML.impl.SubstanceSortalImpl;
+import RefOntoUML.SubstanceSortal;
 import RefOntoUML.parser.OntoUMLParser;
 
 /**
@@ -136,7 +117,7 @@ public class Transformer {
 			for (Element key : owlMappings.keySet()) {
 				
 				//If it's an Identity Provider Class (IDPC) we need to make it disjoint with the other IDPCs  
-				if(key instanceof SubstanceSortalImpl || key instanceof MomentClassImpl)
+				if(key instanceof SubstanceSortal || key instanceof MomentClass)
 					owlIdPcs.add((OWLClassExpression)owlMappings.get(key));
 				
 				if(isClosed(key))
@@ -149,8 +130,8 @@ public class Transformer {
 			//Make the identity provider classes disjoint
 			if(owlIdPcs.size() > 1)
 			{
-				OWLAxiom disjAxm = manager.getOWLDataFactory().getOWLDisjointClassesAxiom(owlIdPcs);
-				addToOntology(disjAxm);
+				OWLAxiom disjAxm = f().getOWLDisjointClassesAxiom(owlIdPcs);
+				addAxiomToOntology(disjAxm);
 			}
 		
 			return ontology;
@@ -178,27 +159,41 @@ public class Transformer {
 	}
 	
 	/**
-	 * Adds the informed object to the ontology. The object must be either OWLEntity or OWLAxiom
+	 * Adds an OWLEntity to the ontology.
 	 * @param obj - the object to be added
 	 */
-	private void addToOntology(OWLObject obj)
+	private void addEntityToOntology(OWLEntity obj, final String label)
 	{
-		OWLAxiom axm = null;
+		final List<OWLAxiom> axioms = new ArrayList<>();
 			
-		if(obj instanceof OWLEntity)
-		{
-			axm = manager.getOWLDataFactory().getOWLDeclarationAxiom((OWLEntity) obj);
-		}
-		else if(obj instanceof OWLAxiom)
-		{
-			axm = (OWLAxiom) obj;
-		}
-		
-		if(axm != null)
-		{
-			AddAxiom addAxiom = new AddAxiom(ontology, axm);
-			manager.applyChange(addAxiom);
-		}
+			final OWLEntity eObj = (OWLEntity) obj;
+			final OWLDataFactory f = f();
+			
+			axioms.add( f.getOWLDeclarationAxiom(eObj) );
+			axioms.add( f.getOWLAnnotationAssertionAxiom(
+					f.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
+					eObj.getIRI(), 
+					f.getOWLLiteral(label)) );
+	
+		manager.applyChanges(axioms.stream().map( new Function<OWLAxiom, OWLAxiomChange>() {
+			@Override
+			public OWLAxiomChange apply(OWLAxiom axm) {
+				return new AddAxiom(ontology,axm);
+			}
+		} ).collect(Collectors.<OWLAxiomChange>toList()));
+	}
+
+	/**
+	 * Adds an OWLAxiom to the ontology.
+	 * @param axm - the object to be added
+	 */
+	private void addAxiomToOntology(OWLAxiom axm)
+	{
+		manager.applyChange(new AddAxiom(ontology, axm));
+	}
+
+	private OWLDataFactory f() {
+		return OWLManager.getOWLDataFactory();
 	}
 	
 	/**
@@ -231,8 +226,8 @@ public class Transformer {
             manager.applyChange(remAxiom);
         }
 
-        OWLClassExpression intr = manager.getOWLDataFactory().getOWLObjectIntersectionOf(superClasses);
-    	OWLAxiom equiAxm = manager.getOWLDataFactory().getOWLEquivalentClassesAxiom(cls, intr);
+        OWLClassExpression intr = f().getOWLObjectIntersectionOf(superClasses);
+    	OWLAxiom equiAxm = f().getOWLEquivalentClassesAxiom(cls, intr);
     	AddAxiom addAxiom = new AddAxiom(ontology, equiAxm);	
     	manager.applyChange(addAxiom);
   
@@ -268,17 +263,17 @@ public class Transformer {
 
         /* For any existentials.... */
         for (OWLObjectPropertyExpression prop : restrictions.keySet()) {
-       
+        	
             Set<OWLClassExpression> fillers = restrictions.get(prop);
             
             /* Create a union of the fillers */
-            OWLClassExpression union = manager.getOWLDataFactory().getOWLObjectUnionOf(fillers);
+            OWLClassExpression union = f().getOWLObjectUnionOf(fillers);
 
             /* Create a universal restriction */
-            OWLClassExpression universal = manager.getOWLDataFactory().getOWLObjectAllValuesFrom(prop, union);
+            OWLClassExpression universal = f().getOWLObjectAllValuesFrom(prop, union);
 
             /* Create a new axiom */
-            OWLAxiom newAxiom = manager.getOWLDataFactory().getOWLSubClassOfAxiom(cls, universal);
+            OWLAxiom newAxiom = f().getOWLSubClassOfAxiom(cls, universal);
 
             /* Now add the axiom to the ontology */
             AddAxiom addAxiom = new AddAxiom(ontology, newAxiom);
@@ -296,31 +291,30 @@ public class Transformer {
 	 */
 	private Object process(EObject src)
 	{			
-		System.out.println(src);
 		Object trg = owlMappings.get(src);
 		
 		if(trg == null)
 		{
-			if(src instanceof ClassImpl)
+			if(src instanceof Class)
 				trg = processClass((Class) src);
-			else if(src instanceof AssociationImpl && !(src instanceof DerivationImpl))
+			else if(src instanceof Association && !(src instanceof Derivation))
 				trg = processAssociation((Association) src);
-			else if(src instanceof GeneralizationImpl)
+			else if(src instanceof Generalization)
 				trg = processGeneralization((Generalization) src);
-			else if(src instanceof GeneralizationSetImpl)
+			else if(src instanceof GeneralizationSet)
 				trg = processGeneralizationSet((GeneralizationSet) src);
-			else if(src instanceof DataTypeImpl)
+			else if(src instanceof DataType)
 				trg = processDatatype((DataType) src);
-			else if(src instanceof PropertyImpl)
+			else if(src instanceof Property)
 				trg = processProperty((Property) src);
-			else if(src instanceof PackageImpl)
+			else if(src instanceof Package)
 				trg = processPackage((RefOntoUML.Package) src);
 		}
 		
 		return trg;
 	}
 	
-	private Object processPackage(RefOntoUML.Package pkg)
+	private Set<Object> processPackage(RefOntoUML.Package pkg)
 	{
 		Set<Object> ret = new HashSet<Object>();
 		
@@ -332,18 +326,13 @@ public class Transformer {
 		
 		return ret;
 	}
-		
-	private Object processClass(RefOntoUML.Class cls)
+	
+	private OWLClass processClass(RefOntoUML.Class cls)
 	{
-		String clsName = cls.getName();
-		if(clsName != null){
-			clsName = clsName.replace(" ", "");
-		}
-		IRI clsIRI = IRI.create(ontologyIRI + "#" + clsName);
-		OWLClass ocls = manager.getOWLDataFactory().getOWLClass(clsIRI);
+		OWLClass ocls = f().getOWLClass(createIRIForEntityName(cls.getName()));
 		
 		owlMappings.put(cls, ocls);
-		addToOntology(ocls);
+		addEntityToOntology(ocls, cls.getName());
 				
 		if(cls.getGeneralization().size() > 0)
 		{
@@ -354,8 +343,8 @@ public class Transformer {
 		//If the class doesn't have any supertypes, we assume that its super type is OWL Thing
 		else
 		{
-			OWLSubClassOfAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(ocls, manager.getOWLDataFactory().getOWLThing());
-			addToOntology(subAxm);
+			OWLSubClassOfAxiom subAxm = f().getOWLSubClassOfAxiom(ocls, f().getOWLThing());
+			addAxiomToOntology(subAxm);
 		}
 					
 		for (Property prp : cls.getOwnedAttribute()) {				
@@ -365,7 +354,7 @@ public class Transformer {
 		return ocls;
 	}
 	
- 	private Object processDatatype(DataType dty)
+ 	private OWLEntity processDatatype(DataType dty)
 	{
  		//If the DataType has the same name as a a built-in DataType, such as string or int we assume it is a built-in DataType
  		//Otherwise, we treat it as a regular class or a multi-dimensional DataType
@@ -373,14 +362,15 @@ public class Transformer {
  		if(dtyName != null){
  			dtyName = dtyName.replace(" ", "");
  		}
- 		OWLDatatype odty = getBuiltinType(dtyName);
- 		if(odty == null)
- 		{
-			IRI dtyIRI = IRI.create(ontologyIRI + "#" + dtyName);
-			OWLClass ocls = manager.getOWLDataFactory().getOWLClass(dtyIRI);
+ 		OWLDatatype odty = DatatypeMap.getBuiltinType(dtyName);
+ 		if(odty != null) {
+ 			return odty;
+ 		} else {
+			IRI dtyIRI = createIRIForEntityName(dtyName);
+			OWLClass ocls = f().getOWLClass(dtyIRI);
 			
 			owlMappings.put(dty, ocls);
-			addToOntology(ocls);
+			addEntityToOntology(ocls,dty.getName());
 			
 			if(dty.getGeneralization().size() > 0)
 			{
@@ -391,8 +381,8 @@ public class Transformer {
 			//If the datatype doesn't have any supertypes, we assume that its super type is OWL Thing
 			else
 			{
-				OWLSubClassOfAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(ocls, manager.getOWLDataFactory().getOWLThing());
-				addToOntology(subAxm);
+				OWLSubClassOfAxiom subAxm = f().getOWLSubClassOfAxiom(ocls, f().getOWLThing());
+				addAxiomToOntology(subAxm);
 			}
 			
 			for (Property prp : dty.getOwnedAttribute()) {				
@@ -401,35 +391,33 @@ public class Transformer {
 			
 			return ocls;
  		}
- 		
- 		return odty;
 	}
  		
-	private Object processGeneralization(Generalization gen)
+	private OWLAxiom processGeneralization(Generalization gen)
 	{	
 		OWLObject sub = (OWLObject) process(gen.getSpecific());
 		OWLObject sup = (OWLObject) process(gen.getGeneral());
 		
-		OWLObject ogen = null;
+		OWLAxiom ogen = null;
 		
-		if(sub instanceof OWLClassImpl && sup instanceof OWLClassImpl)
-			ogen = manager.getOWLDataFactory().getOWLSubClassOfAxiom((OWLClass)sub, (OWLClass)sup);
+		if(sub instanceof OWLClass && sup instanceof OWLClass)
+			ogen = f().getOWLSubClassOfAxiom((OWLClass)sub, (OWLClass)sup);
 		
-		else if(sub instanceof OWLObjectPropertyImpl && sup instanceof OWLObjectPropertyImpl)
-			ogen = manager.getOWLDataFactory().getOWLSubObjectPropertyOfAxiom((OWLObjectProperty)sub, (OWLObjectProperty)sup);
+		else if(sub instanceof OWLObjectProperty && sup instanceof OWLObjectProperty)
+			ogen = f().getOWLSubObjectPropertyOfAxiom((OWLObjectProperty)sub, (OWLObjectProperty)sup);
 			
-		else if(sub instanceof OWLDataPropertyImpl && sup instanceof OWLDataPropertyImpl)
-			ogen = manager.getOWLDataFactory().getOWLSubDataPropertyOfAxiom((OWLDataProperty)sub, (OWLDataProperty)sup);
+		else if(sub instanceof OWLDataProperty && sup instanceof OWLDataProperty)
+			ogen = f().getOWLSubDataPropertyOfAxiom((OWLDataProperty)sub, (OWLDataProperty)sup);
 				
 		owlMappings.put(gen, ogen);
-		addToOntology(ogen);
+		addAxiomToOntology(ogen);
 		
 		return ogen;
 	}
 			
-	private Object processGeneralizationSet(GeneralizationSet genSet)
+	private Set<OWLAxiom> processGeneralizationSet(GeneralizationSet genSet)
 	{	
-		Set<Object> ret = new HashSet<Object>();
+		Set<OWLAxiom> ret = new HashSet<OWLAxiom>();
 		Classifier general = null;
 		OWLClass superType = null;
 		Set<OWLClass> subTypes = new HashSet<OWLClass>();
@@ -453,8 +441,8 @@ public class Transformer {
 		//If the generalization set is disjoint, we create a disjoint axiom for the ontology
 		if(genSet.isIsDisjoint())
 		{
-			OWLAxiom disjAxm = manager.getOWLDataFactory().getOWLDisjointClassesAxiom(subTypes);
-			addToOntology(disjAxm);
+			OWLAxiom disjAxm = f().getOWLDisjointClassesAxiom(subTypes);
+			addAxiomToOntology(disjAxm);
 			ret.add(disjAxm);
 		}
 		
@@ -462,12 +450,12 @@ public class Transformer {
 		//the general type is equivalent to an union of the specific type
 		if(genSet.isIsCovering())
 		{
-			OWLClassExpression unionOf = manager.getOWLDataFactory().getOWLObjectUnionOf(subTypes);
-			OWLAxiom equiAxm = manager.getOWLDataFactory().getOWLEquivalentClassesAxiom(superType, unionOf);
+			OWLClassExpression unionOf = f().getOWLObjectUnionOf(subTypes);
+			OWLAxiom equiAxm = f().getOWLEquivalentClassesAxiom(superType, unionOf);
 			//axms.add(equiAxm);
 			//addEquivalentClassAxiom(superType, unionOf);
 			
-			addToOntology(equiAxm);
+			addAxiomToOntology(equiAxm);
 			ret.add(equiAxm);
 		}
 		
@@ -476,7 +464,12 @@ public class Transformer {
 		return ret;
 	}
 	 	
-	private Object processProperty(Property prp)
+	private IRI createIRIForEntityName(String name) {
+//		return IRI.create(ontologyIRI + "#" + (name == null ? null:name.replace(" ", "")));
+		return IRI.create(ontologyIRI + "/" + (name == null ? null:name.replace(" ", "-").toLowerCase()));
+	}
+	
+	private OWLProperty<?,?> processProperty(final Property prp)
 	{
 		IRI propIRI = null;
 		OWLClass dcls = null;
@@ -488,83 +481,76 @@ public class Transformer {
 		//If it has supertypes defined in annotations
 		Set<Element> supElm = getSuperFromAnnotation(prp);
 		
+		String propName = prp.getName();
+
 		//If the property is contained in a class, then it is a class attribute
-		if(clf instanceof ClassImpl)
+		if(clf instanceof Class)
 		{
-			String propName = prp.getName();
-			if(propName != null){
-				propName = propName.replace(" ", "");
-			}
-			propIRI = IRI.create(ontologyIRI + "#" + getOWLName(propName));
+			propIRI = createIRIForEntityName(propName);
 			
 			//The domain class is the class containing the property
 			dcls = (OWLClass) process(clf);
 			
 			//Check if the range is a DataType
-			rdty = getBuiltinType(prp.getType().getName());		
+			rdty = DatatypeMap.getBuiltinType(prp.getType().getName());		
 		}
 		
 		//If the property is contained in an Association its an endpoint of the association
-		else if(clf instanceof AssociationImpl)
+		else if(clf instanceof Association)
 		{
-			String name = prp.getName();
-			if(name == null)
-			{
+//			if(propName == null)
+//			{
 				String clfName = clf.getName();
-				if(clfName == null || clfName.trim().equals("")){
+				if(clfName == null || clfName.trim().isEmpty()){
 					clfName = this.ontoParser.getAlias(clf);
 				}
 				//Check if it is a source or target inverse prop, naming accordingly
 				if(prp == ((Association) clf).getMemberEnd().get(0))
-					name = clfName;
+					propName = clfName;
 				else
-					name = "inv" + capitalize(clfName);
-			}
-			if(name != null){
-				name = name.replace(" ", "");
-			}
-			propIRI = IRI.create(ontologyIRI + "#" + getOWLName(name));
+					propName = "INV." + clfName;//capitalize(clfName);
+//			}
+			propIRI = createIRIForEntityName(propName);
 			
-			Object dclsObj = process(prp.getOpposite().getType());
+			final Property oprp = prp;//.getOpposite();
+			
+			Object dclsObj = process(oprp.getType());
 			if(dclsObj instanceof OWLClass){
 				//Find the domain and range OWLClasses
 				dcls = (OWLClass) dclsObj;
 			}else if(dclsObj instanceof HashSet){
-				Property x = prp.getOpposite();
-				Type y = prp.getOpposite().getType();
-				process(y);
+				process(oprp.getType());
 				Object[] memberEnds = ((HashSet<OWLProperty>) dclsObj).toArray();
 				OWLProperty owlProp = (OWLProperty) memberEnds[0];
-				IRI dclsIri = owlProp.getIRI();
-				dcls = manager.getOWLDataFactory().getOWLClass(dclsIri);
+				dcls = f().getOWLClass(owlProp.getIRI());
 			}			
 			
 			//Check if the range is a DataType
-			rdty = getBuiltinType(prp.getOpposite().getType().getName());				
+			rdty = DatatypeMap.getBuiltinType(oprp.getType().getName());				
 		}
 		
 		//Check if the range is a built in DataType we add a OWLDataProperty.
 		//Otherwise, we add an OWLObjectProperty
 		if(rdty != null)
 		{
-			OWLDataProperty oprp  = manager.getOWLDataFactory().getOWLDataProperty(propIRI);
-			addToOntology(oprp);
+			OWLDataProperty oprp  = f().getOWLDataProperty(propIRI);
+			addEntityToOntology(oprp,propName);
 			
-			OWLDataPropertyDomainAxiom daxPrp = manager.getOWLDataFactory().getOWLDataPropertyDomainAxiom(oprp, dcls);
-			addToOntology(daxPrp);
+			OWLDataPropertyDomainAxiom daxPrp = f().getOWLDataPropertyDomainAxiom(oprp, dcls);
+			addAxiomToOntology(daxPrp);
 			
-			OWLDataPropertyRangeAxiom raxPrp = manager.getOWLDataFactory().getOWLDataPropertyRangeAxiom(oprp, rdty);
-			addToOntology(raxPrp);
+			OWLDataPropertyRangeAxiom raxPrp = f().getOWLDataPropertyRangeAxiom(oprp, rdty);
+			addAxiomToOntology(raxPrp);
 					
 			owlMappings.put(prp, oprp);
 	
 			//If the property is annotated with supertype annotations, we include subproperty axioms			
 			for (Element elm : supElm) {
 				Object supObj = process(elm);
-				if(supObj instanceof OWLDataPropertyImpl)
+				if(supObj instanceof OWLDataProperty)
 				{
-					OWLAxiom subPrpAxm = manager.getOWLDataFactory().getOWLSubDataPropertyOfAxiom(oprp, (OWLDataPropertyExpression) supObj);
-					addToOntology(subPrpAxm);
+					OWLAxiom subPrpAxm = f().getOWLSubDataPropertyOfAxiom(oprp, (OWLDataPropertyExpression) supObj);
+					addAxiomToOntology(subPrpAxm);
 				}
 			}
 						
@@ -575,30 +561,33 @@ public class Transformer {
 		}
 		else
 		{
-			OWLObjectProperty oprp = manager.getOWLDataFactory().getOWLObjectProperty(propIRI);
+			OWLObjectProperty oprp = f().getOWLObjectProperty(propIRI);
+			addEntityToOntology(oprp,propName);
 			
-			OWLObjectPropertyDomainAxiom daxPrp = manager.getOWLDataFactory().getOWLObjectPropertyDomainAxiom(oprp, dcls);
-			addToOntology(daxPrp);
+			OWLObjectPropertyDomainAxiom daxPrp = f().getOWLObjectPropertyDomainAxiom(oprp, dcls);
+			addAxiomToOntology(daxPrp);
 			
 			if(prp.getOpposite() != null){
-				Object rclsObj = process(prp.getType());
+				final Property opositePRP = prp.getOpposite();
+				
+				Object rclsObj = process(opositePRP.getType());
 				if(rclsObj instanceof OWLClass){
 					rcls = (OWLClass) rclsObj;
 				}else if(rclsObj instanceof HashSet){
 					Object[] memberEnds = ((HashSet<OWLProperty>) rclsObj).toArray();
 					OWLProperty owlProp = (OWLProperty) memberEnds[memberEnds.length-1];
 					IRI dclsIri = owlProp.getIRI();
-					rcls = manager.getOWLDataFactory().getOWLClass(dclsIri);
+					rcls = f().getOWLClass(dclsIri);
 				}	
 				
-				OWLObjectPropertyRangeAxiom raxPrp = manager.getOWLDataFactory().getOWLObjectPropertyRangeAxiom(oprp, rcls);
-				addToOntology(raxPrp);
+				OWLObjectPropertyRangeAxiom raxPrp = f().getOWLObjectPropertyRangeAxiom(oprp, rcls);
+				addAxiomToOntology(raxPrp);
 						
 				//Deal with cardinality
-				OWLClassExpression expr = getCardinalityRestriction(prp.getOpposite().getLower(), prp.getOpposite().getUpper(), oprp, dcls, rcls);
+				OWLClassExpression expr = OWLAPIHelper.getCardinalityRestriction(opositePRP.getLower(), opositePRP.getUpper(), oprp, dcls, rcls);
 				//Create an anonymous superclass for the Object Property
-				OWLAxiom subAxm = manager.getOWLDataFactory().getOWLSubClassOfAxiom(dcls, expr); 			
-				addToOntology(subAxm);
+				OWLAxiom subAxm = f().getOWLSubClassOfAxiom(dcls, expr); 			
+				addAxiomToOntology(subAxm);
 			}
 			
 			owlMappings.put(prp, oprp);
@@ -606,72 +595,67 @@ public class Transformer {
 			//If the property is annotated with supertype annotations, we include subproperty axioms			
 			for (Element elm : supElm) {
 				Object supObj = process(elm);
-				if(supObj instanceof OWLObjectPropertyImpl)
+				if(supObj instanceof OWLObjectProperty)
 				{
-					OWLAxiom subPrpAxm = manager.getOWLDataFactory().getOWLSubObjectPropertyOfAxiom(oprp, (OWLObjectPropertyExpression) supObj);
-					addToOntology(subPrpAxm);
+					OWLAxiom subPrpAxm = f().getOWLSubObjectPropertyOfAxiom(oprp, (OWLObjectPropertyExpression) supObj);
+					addAxiomToOntology(subPrpAxm);
 				}
 			}
 			
 			//Deal with object Property characteristics from annotations
 			
-			//Funcional
-			if(isFunctional(prp))
-			{
-				OWLFunctionalObjectPropertyAxiom fncPrpAxm = manager.getOWLDataFactory().getOWLFunctionalObjectPropertyAxiom(oprp);
-				addToOntology(fncPrpAxm);
-			}
-			
-			//Inverse Functional
-			if(isInverseFunctional(prp))
-			{
-				OWLInverseFunctionalObjectPropertyAxiom infncPrpAxm = manager.getOWLDataFactory().getOWLInverseFunctionalObjectPropertyAxiom(oprp);
-				addToOntology(infncPrpAxm);
-			}
-			
-			//Transitive
-			if(isTransitive(prp))
-			{
-				OWLTransitiveObjectPropertyAxiom trsPrpAxm = manager.getOWLDataFactory().getOWLTransitiveObjectPropertyAxiom(oprp);
-				addToOntology(trsPrpAxm);
-			}
-			
-			//Symmetric
-			if(isSymmetric(prp))
-			{
-				OWLSymmetricObjectPropertyAxiom symPrpAxm = manager.getOWLDataFactory().getOWLSymmetricObjectPropertyAxiom(oprp);
-				addToOntology(symPrpAxm);
-			}
-				
-			//AntiSymmetric
-			if(isAntiSymmetric(prp))
-			{
-				OWLAsymmetricObjectPropertyAxiom asymPrpAxm = manager.getOWLDataFactory().getOWLAsymmetricObjectPropertyAxiom(oprp);
-				addToOntology(asymPrpAxm);
-			}
-			
-			//Reflexive
-			if(isReflexive(prp))
-			{
-				OWLReflexiveObjectPropertyAxiom rfxPrpAxm = manager.getOWLDataFactory().getOWLReflexiveObjectPropertyAxiom(oprp);
-				addToOntology(rfxPrpAxm);
-			}
-			
-			//Irreflexive
-			if(isIrreflexive(prp))
-			{
-				OWLIrreflexiveObjectPropertyAxiom ifxPrpAxm = manager.getOWLDataFactory().getOWLIrreflexiveObjectPropertyAxiom(oprp);
-				addToOntology(ifxPrpAxm);
-			}
+			addPropertyCharacteristics(prp,oprp);
 			
 			return oprp;
 		}
 	}
 	
+	private void addPropertyCharacteristics(final Property prp,final OWLObjectProperty oprp) {
+		//Funcional
+		if(getOWLAnnotations(prp).contains("functional"))
+		{
+			addAxiomToOntology(f().getOWLFunctionalObjectPropertyAxiom(oprp));
+		}
+		
+		if(getOWLAnnotations(prp).contains("inversefunctional"))
+		{
+			addAxiomToOntology(f().getOWLInverseFunctionalObjectPropertyAxiom(oprp));
+		}
+		
+		if(getOWLAnnotations(prp).contains("transitive"))
+		{
+			addAxiomToOntology(f().getOWLTransitiveObjectPropertyAxiom(oprp));
+		}
+		
+		//Symmetric
+		if(getOWLAnnotations(prp).contains("symmetric"))
+		{
+			addAxiomToOntology(f().getOWLSymmetricObjectPropertyAxiom(oprp));
+		}
+			
+		//AntiSymmetric
+		if(getOWLAnnotations(prp).contains("antisymmetric"))
+		{
+			addAxiomToOntology(f().getOWLAsymmetricObjectPropertyAxiom(oprp));
+		}
+		
+		//Reflexive
+		if(getOWLAnnotations(prp).contains("reflexive"))
+		{
+			addAxiomToOntology(f().getOWLReflexiveObjectPropertyAxiom(oprp));
+		}
+		
+		//Irreflexive
+		if(getOWLAnnotations(prp).contains("irreflexive"))
+		{
+			addAxiomToOntology(f().getOWLIrreflexiveObjectPropertyAxiom(oprp));
+		}
+	}
+	
 	@SuppressWarnings("rawtypes")
-	private Object processAssociation(Association asc)
+	private Set<OWLObject> processAssociation(Association asc)
 	{
-		Set<Object> ret = new HashSet<Object>();
+		Set<OWLObject> ret = new HashSet<OWLObject>();
 		
 		Property src = asc.getMemberEnd().get(0);
 		Property trg = asc.getMemberEnd().get(1);
@@ -695,102 +679,16 @@ public class Transformer {
 		
 		//Inverse axiom: no need for inverse axiom in DataType relations
 		if((srcOP != null && trgOP != null) 
-				&&  (src.getType() instanceof DataTypeImpl == false 
-						&& trg.getType() instanceof DataTypeImpl == false ))
+				&&  (src.getType() instanceof DataType == false 
+				&& trg.getType() instanceof DataType == false ))
 		{
-			OWLInverseObjectPropertiesAxiom invAxm = manager.getOWLDataFactory().getOWLInverseObjectPropertiesAxiom((OWLObjectProperty) srcOP, (OWLObjectProperty) trgOP);
-			addToOntology(invAxm);
+			OWLInverseObjectPropertiesAxiom invAxm = f().getOWLInverseObjectPropertiesAxiom((OWLObjectProperty) srcOP, (OWLObjectProperty) trgOP);
+			addAxiomToOntology(invAxm);
 		}
 			
 		return ret;
 	}
 	
-	private OWLClassExpression getCardinalityRestriction(int lower, int upper, OWLObjectProperty objProp, OWLClass owlSrc, OWLClass owlTrg)
-	{
-		// Multiplicities: 1, 3, 7
-		if(lower == upper && lower > 0)
-		{
-			OWLObjectExactCardinality trgExact = manager.getOWLDataFactory().getOWLObjectExactCardinality(lower, objProp, owlTrg);
-			return trgExact;
-		}
-		// Multiplicities: 1..*, 0..*, *
-		else if((lower == -1 || lower == 0 || lower == 1 ) && upper == -1)
-		{
-			OWLObjectSomeValuesFrom trgSome = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(objProp, owlTrg);
-			return trgSome;
-		}
-		else
-		{
-			//Deal with cardinality
-			OWLObjectCardinalityRestriction trgLower = null;
-			OWLObjectCardinalityRestriction trgUpper = null;
-			
-			// Multiplicities: 1..3, 0..3, 2..*
-			if(lower > 0)
-			{
-				trgLower = manager.getOWLDataFactory().getOWLObjectMinCardinality(lower, objProp, owlTrg);
-			}
-			if(upper > 0)
-			{
-				trgUpper = manager.getOWLDataFactory().getOWLObjectMaxCardinality(upper, objProp, owlTrg);
-			}
-			
-			if(trgLower != null && trgUpper != null)
-			{
-				OWLObjectIntersectionOf objInt = manager.getOWLDataFactory().getOWLObjectIntersectionOf(trgLower, trgUpper);
-				return objInt;
-			}
-			else if(trgLower != null)
-			{
-				return trgLower;
-			}
-			else
-			{
-				return trgUpper;
-			}
-		}
-	}
-			
-	private OWLDatatype getBuiltinType(String name)
-	{
-		String type = name.toLowerCase();
-		
-		if(type.equals("string"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_STRING.getIRI());
-		}
-		else if(type.equals("int"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
-		}
-		else if(type.equals("integer"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
-		}
-		else if(type.equals("boolean"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_BOOLEAN.getIRI());
-		}
-		else if(type.equals("datetime") || type.equals("date"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_DATE_TIME.getIRI());
-		}
-		else if(type.equals("long"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_LONG.getIRI());
-		}
-		else if(type.equals("float"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_FLOAT.getIRI());
-		}
-		else if(type.equals("byte"))
-		{
-			return manager.getOWLDataFactory().getOWLDatatype(OWL2Datatype.XSD_BYTE.getIRI());
-		}
-				
-		return null;
-	}
-		
 	private Set<String> getOWLAnnotations(Element elm)
 	{
 		if(!owlAnnotations.containsKey(elm))
@@ -823,67 +721,18 @@ public class Transformer {
 	
 	private boolean isDefined(Element elm)
 	{
-		if(elm instanceof ClassImpl)
+		if(elm instanceof Class)
 			return getOWLAnnotations(elm).contains("defined");
 		return false;
 	}
 		
 	private boolean isClosed(Element elm)
 	{
-		if(elm instanceof ClassImpl)
+		if(elm instanceof Class)
 			return getOWLAnnotations(elm).contains("closed");
 		return false;
 	}
-	
-	private boolean isFunctional(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("functional");
-		return false;
-	}
-	
-	private boolean isInverseFunctional(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("inversefunctional");
-		return false;
-	}
-	
-	private boolean isTransitive(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("transitive");
-		return false;
-	}
-	
-	private boolean isSymmetric(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("symmetric");
-		return false;
-	}
-	
-	private boolean isAntiSymmetric(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("antisymmetric");
-		return false;
-	}
-	
-	private boolean isReflexive(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("reflexive");
-		return false;
-	}
-	
-	private boolean isIrreflexive(Element elm)
-	{
-		if(elm instanceof PropertyImpl)
-			return getOWLAnnotations(elm).contains("irreflexive");
-		return false;
-	}
-	
+		
 	/**
 	 * Gets the set containing all the super classifiers for the informed element described by the super annotations. 
 	 * @param elm - the annotated element
@@ -904,32 +753,7 @@ public class Transformer {
 		
 		return ret;
 	}
-	
-	@SuppressWarnings("unused")
-	/**
-	 * Returns a model element given its name, or null if theres no such element in the model.
-	 * @param name - the name of the element
-	 * @return the model element
-	 */
-	private Element getElementByName(String name) {
-	
-		TreeIterator<EObject> it = model.eAllContents();
-		while(it.hasNext())
-		{
-			EObject obj = it.next();
-			if(obj instanceof NamedElementImpl)
-			{
-				NamedElement namedObj = (NamedElement) obj;
-				String objName = namedObj.getName().toLowerCase();
-				
-				if(objName.equals(name.toLowerCase()))
-					return (Element) obj;
-			}
-		}
-		
-		return null;
-	}
-		
+			
 	private Element getElementByName(EList<? extends EObject> list, String name) {
 		
 		if(name == null || name.equals(""))
@@ -938,7 +762,7 @@ public class Transformer {
 		Element ret = null;
 		
 		for (EObject elm : list) {
-			if(elm instanceof NamedElementImpl)
+			if(elm instanceof NamedElement)
 			{
 				String elmName = ((NamedElement) elm).getName();
 				if(elmName.toLowerCase().equals(name.toLowerCase()))
@@ -951,42 +775,15 @@ public class Transformer {
 			//If we didn't find the element we are looking for, keep trying:
 			if(ret == null)
 			{
-				if(elm instanceof ClassImpl)
+				if(elm instanceof Class)
 					ret = getElementByName(((Class) elm).getOwnedAttribute(), name);
-				if(elm instanceof AssociationImpl)
+				if(elm instanceof Association)
 					ret = getElementByName(((Association) elm).getMemberEnd(), name);
-				else if(elm instanceof PackageImpl)
+				else if(elm instanceof Package)
 					ret = getElementByName(((Package) elm).getPackagedElement(), name);
 			}		
 		}
 		
 		return ret;
 	}
-
-	private String getDefaultIRI(String name)
-	{
-		String ontologyName = name.replace(" ", "");
-		
-		if(!ontologyName.endsWith(".owl"))
-			ontologyName += ".owl";
-		
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH) + 1;
-		
-		return "http://www.semanticweb.org/ontologies/" + year + "/" + month + "/" + ontologyName;
-	}
-	
-	private String getOWLName(String name)
-	{
-		if(name != null)
-			return name.replace(" ", "");
-		return name;
-	}
-		
-	private String capitalize(String s) {
-        if (s.length() == 0) return s;
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
-    }
-
 }
