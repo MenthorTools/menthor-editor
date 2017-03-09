@@ -41,6 +41,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.eclipse.emf.ecore.EObject;
 import org.tinyuml.umldraw.MenthorFactory;
 
 import RefOntoUML.Classifier;
@@ -88,10 +89,13 @@ public class ConstraintEditPane extends JPanel {
 	public void setData(){		
 		OntoUMLParser refparser = ProjectUIController.get().getProject().getRefParser();
 		for(Constraintx c: refparser.getAllInstances(RefOntoUML.Constraintx.class)){		
-			for(RefOntoUML.Element elem: c.getConstrainedElement()) {
-				if (elem.equals(element)) comboConstraint.addItem(new ConstraintElement(c));
-			}
-			constraintList.add(c);
+			EObject elem = c.eContainer();
+			System.out.println(elem);
+			System.out.println(element);
+			if (elem.equals(element)) {
+				comboConstraint.addItem(new ConstraintElement(c));
+				constraintList.add(c);
+			}			
 		}		
 		if (comboConstraint.getItemCount()>0) {
 			comboConstraint.setSelectedIndex(0);
@@ -105,7 +109,7 @@ public class ConstraintEditPane extends JPanel {
 	@SuppressWarnings("unchecked")
 	public void createConstraint(){
 		Constraintx c = MenthorFactory.get().createConstraintx();		
-		c.getConstrainedElement().add(element);
+		c.getConstrainedElement().add(element);				
 		String selectedItem = ((String)comboConstraintType.getSelectedItem());
 		if(selectedItem.compareToIgnoreCase("invariant")==0) c.setName("Invariant");
 		else c.setName("Derivation");

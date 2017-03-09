@@ -132,7 +132,7 @@ public class OntoUMLParser {
 		elementsHash = new HashMap<EObject,ParsingElement>();		
 		OntoUMLNameHandler h1 = new OntoUMLNameHandler();
 		this.refmodelname = h1.treatName(model);				
-		initMap(model, nameHandler);
+		initMap(model, nameHandler);	
 	}	
 
 	/** This private method initializes the Map */
@@ -159,13 +159,7 @@ public class OntoUMLParser {
 		{
 			e = new ParsingElement(c, true, "");
 			this.elementsHash.put(c,e);
-		}		
-		//Constraintx
-		if(pe instanceof Constraintx)
-		{
-			e = new ParsingElement(pe, true, h2.treatName(pe));
-			this.elementsHash.put(pe,e);
-		}		
+		}				
 		//Class and DataType
 		if(pe instanceof Class || ((pe instanceof DataType)&&!(pe instanceof PrimitiveType)&&!(pe instanceof Enumeration)) )
 		{
@@ -193,6 +187,14 @@ public class OntoUMLParser {
 					this.elementsHash.put(p,e);				
 				}
 			}
+			if(pe instanceof RefOntoUML.Classifier){
+				//Constraints
+				for (Constraintx c: ((RefOntoUML.Classifier)pe).getOwnedRule()) 
+				{
+					e = new ParsingElement(c, true, "");
+					this.elementsHash.put(c,e);
+				}
+			}
 		}		
 		//Association
 		else if(pe instanceof Association)
@@ -210,7 +212,15 @@ public class OntoUMLParser {
 			{
 				e = new ParsingElement(g, true, "");
 				this.elementsHash.put(g,e);
-			}							
+			}	
+			if(pe instanceof RefOntoUML.Classifier){
+				//Constraints
+				for (Constraintx c: ((RefOntoUML.Classifier)pe).getOwnedRule()) 
+				{
+					e = new ParsingElement(c, true, "");
+					this.elementsHash.put(c,e);
+				}
+			}
 		}
 		
 		//Enumeration
@@ -230,10 +240,12 @@ public class OntoUMLParser {
 				e = new ParsingElement(p, true, h2.treatName(p));
 				this.elementsHash.put(p,e);
 			}			
-		}else {
+		}	
+		
+		else {
 			e = new ParsingElement(pe, true, h2.treatName(pe));
 			this.elementsHash.put(pe,e);			
-		}		
+		}
 	}
 	
 	/**
@@ -249,7 +261,10 @@ public class OntoUMLParser {
 		{			
 			if (obj instanceof RefOntoUML.Comment){
 				ParsingElement e = new ParsingElement(obj,true,"");
-				this.elementsHash.put(obj,e);			
+				this.elementsHash.put(obj,e);
+			}else if (obj instanceof RefOntoUML.Constraintx){
+				ParsingElement e = new ParsingElement(obj,true,"");
+				this.elementsHash.put(obj,e);
 			}else if (obj instanceof RefOntoUML.Generalization)
 			{				
 				ParsingElement e = new ParsingElement(obj,true,"");

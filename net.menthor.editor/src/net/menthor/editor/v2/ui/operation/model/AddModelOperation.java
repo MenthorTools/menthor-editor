@@ -77,7 +77,7 @@ public class AddModelOperation extends ModelOperation {
 			emfCommand = new AddCommand(domain, asElement(eContainer).getOwnedComment(), element);
 		}
 		else if(isClassifier(eContainer) && isConstraintx(element) && !constraintxContains(element, asClassifier(eContainer))){
-			emfCommand = new AddCommand(domain, asConstraintx(element).getConstrainedElement(), asClassifier(eContainer));					
+			emfCommand = new AddCommand(domain, asClassifier(eContainer).getOwnedRule(), asConstraintx(element));					
 		}
 		else if(isClass(eContainer) && isProperty(element) && !classContains(eContainer, asProperty(element))){
 			emfCommand = new AddCommand(domain, ((RefOntoUML.Class)eContainer).getOwnedAttribute(), element);
@@ -120,7 +120,7 @@ public class AddModelOperation extends ModelOperation {
 	}
 	
 	public boolean constraintxContains(Object constraint, Classifier e){
-		return asConstraintx(constraint).getConstrainedElement().contains(e);
+		return asClassifier(e).getOwnedRule().contains(constraint);
 	}
 	
 	public boolean classContains(Object class_, Property p){

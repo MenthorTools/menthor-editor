@@ -44,6 +44,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import RefOntoUML.Comment;
+import RefOntoUML.Constraintx;
 import RefOntoUML.EnumerationLiteral;
 import RefOntoUML.Generalization;
 import RefOntoUML.NamedElement;
@@ -288,6 +289,9 @@ public class ProjectTree extends GenericCheckBoxTree {
 				for (Comment o: ((RefOntoUML.Class)object).getOwnedComment()){
 					if(!opt.isHiddenComments()) addModelElements(newNode,o);
 				}
+				for (Constraintx o: ((RefOntoUML.Class)object).getOwnedRule()){
+					if(!opt.isHiddenConstraints()) addModelElements(newNode,o);
+				}
 			}					
 			/* DataType */
 			if (object instanceof RefOntoUML.DataType && !opt.isHiddenDataTypes()){	
@@ -300,6 +304,9 @@ public class ProjectTree extends GenericCheckBoxTree {
 				}			
 				for (Comment o: ((RefOntoUML.DataType)object).getOwnedComment()){
 					if(!opt.isHiddenComments()) addModelElements(newNode,o);
+				}
+				for (Constraintx o: ((RefOntoUML.DataType)object).getOwnedRule()){
+					if(!opt.isHiddenConstraints()) addModelElements(newNode,o);
 				}
 				if(object instanceof RefOntoUML.Enumeration){					
 					for(EnumerationLiteral lit: ((RefOntoUML.Enumeration)object).getOwnedLiteral()){
