@@ -75,16 +75,19 @@ public class SyntaxEvaluator {
 			String name = ((RefOntoUML.Package)ProjectUIController.get().getProject().getResource().getContents().get(0)).getName();
 			if (name==null || name.isEmpty()) name = "model";
 			TOCLParser toclparser = new TOCLParser(refparser,ProjectUIController.get().getProject().getTempDir()+File.separator,name.toLowerCase());
-			toclparser.parseTemporalOCL(TabbedAreaUIController.get().getWorkingOclText());			
+			String oclDocText = TabbedAreaUIController.get().getWorkingOclText();
+			String oclEmbeddedText = refparser.getAllConstraintsAsText();
+			String finalOclDoc = oclDocText+"\n"+oclEmbeddedText;
+			toclparser.parseTemporalOCL(finalOclDoc);			
 			AlloyFeature.get().oclOptions = new TOCL2AlloyOption(toclparser);
 			String msg =  "Constraints are syntactically correct.\n";
 			if(showSuccesfullyMessage) MessageUIController.get().showSuccess("Constraints Parse",msg);			
 		}catch(SemanticException e2){
-			MessageUIController.get().showError(e2, "OCL Semantics",  "Could not parse OCl constraints.");    		
+			MessageUIController.get().showError(e2, "OCL Semantics",  "Could not parse OCL constraints.");    		
 		}catch(ParserException e1){
-			MessageUIController.get().showError(e1, "OCL Parser", "Could not parse OCl constraints.");    			
+			MessageUIController.get().showError(e1, "OCL Parser", "Could not parse OCL constraints.");    			
 		}catch(Exception e4){
-			MessageUIController.get().showError(e4, "OCL", "Could not parse OCl constraints");			
+			MessageUIController.get().showError(e4, "OCL", "Could not parse OCL constraints");			
 		}				
 	}
 	

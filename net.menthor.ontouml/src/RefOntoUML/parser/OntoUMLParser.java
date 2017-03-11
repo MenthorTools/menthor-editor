@@ -61,6 +61,7 @@ import RefOntoUML.Relator;
 import RefOntoUML.RigidSortalClass;
 import RefOntoUML.Role;
 import RefOntoUML.RoleMixin;
+import RefOntoUML.StringExpression;
 import RefOntoUML.Structuration;
 import RefOntoUML.SubKind;
 import RefOntoUML.SubstanceSortal;
@@ -677,11 +678,18 @@ public class OntoUMLParser {
 	public List<Constraintx> getConstraints(RefOntoUML.Element element){
 		List<Constraintx> result = new ArrayList<Constraintx>();
 		for(Constraintx obj: getAllInstances(RefOntoUML.Constraintx.class)){
-			if(obj.getConstrainedElement().equals(element)) result.add(obj);
+			if(((RefOntoUML.Classifier)element).getOwnedRule().contains(obj)) result.add(obj);
 		}
 		return result;
 	}
 	
+	public String getAllConstraintsAsText(){
+		String result = new String();
+		for(Constraintx obj: getAllInstances(RefOntoUML.Constraintx.class)){
+			result += ((StringExpression)obj.getSpecification()).getSymbol()+"\n\n";
+		}
+		return result;
+	}
 	/** Return all selected descendants (direct or indirect) of an element. */
 	public Set<Classifier> getAllChildren(Classifier c)
 	{
