@@ -69,10 +69,16 @@ public class DatatypeMap {
 
 
 	public static OWLDatatype getBuiltinType(String name) {
-		return f().getOWLDatatype(builtInDataTypeMap.get(name));
+		name=name.toLowerCase();
+		if ( builtInDataTypeMap.containsKey(name) ) {
+			return f().getOWLDatatype(builtInDataTypeMap.get(name));
+		} else {
+			return null;
+		}
 	}
 	
 	public static OWLDatatype getType(String name) {
+		name=name.toLowerCase();
 		if (builtInDataTypeMap.containsKey(name)) {
 			return f().getOWLDatatype(builtInDataTypeMap.get(name));
 		}

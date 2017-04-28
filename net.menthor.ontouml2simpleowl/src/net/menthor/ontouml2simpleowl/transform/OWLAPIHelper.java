@@ -11,14 +11,18 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 
 public class OWLAPIHelper {
-	
-	
-	private static OWLDataFactory f() {
+		
+	static OWLDataFactory f() {
 		return OWLManager.getOWLDataFactory();		
 	}
 	
 	public static OWLClassExpression getCardinalityRestriction(int lower, int upper, OWLObjectProperty objProp, OWLClass owlSrc, OWLClass owlTrg)
 	{
+		// empty
+		if ( lower < 1 && upper < 1) {
+			return f().getOWLNothing();
+		}
+		
 		// Multiplicities: 1, 3, 7
 		if(lower == upper && lower > 0)
 		{
