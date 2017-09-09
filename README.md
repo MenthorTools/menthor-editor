@@ -17,23 +17,23 @@ We  would like  to thank all [NEMO Research Group](http://nemo.inf.ufes.br/) mem
 
 Instalation and download details can be found [here](http://www.menthor.net/menthor-editor.html)
 
-## 5. Source Code
+## 5. Running it
 
 In order to run ME with the source code, you'll need the following tools:
 * Java 7 or superior
 * Eclipse Modeling Tools (Juno or superior recommended) with MAVEN installed.
 * Git Client application (GitHub, Tortoise, Source Tree, etc)
 
-We use in particular Java 8, Eclipse Mars and Tortoise Git (just to mention). After installing these...
+We are used to use Java 8, Eclipse Mars and Tortoise Git. After installing these...
 
-### 5.1 Import Code on Eclipse
+***5.1 Import Code on Eclipse***
 
-* Checkout "menthor-editor" github repository on your computer using one of the Git Client Applications (let's say Tortoise Git). This means you'll have on your computer a folder with all Menthor Editor's java source code.
+* Checkout "menthor-editor" github repository on your computer using one of the Git Client Applications. This means you'll have on your computer a folder with all Menthor Editor's java source code.
 * On Eclipse click at: "File" -> "Import" -> "General" -> "Existing Project into Workspace" -> "Browse..."
 * Choose your local folder with all Menthor Editor's source code in it.
 * Select all projects and click "Finish"
 
-### 5.2 SWT JAR dependency
+***5.2 Setup the correct SWT JAR dependency***
 
 Menthor's code requires at development a SWT JAR library that matches with you operating system (Mac, Linux or Windows). Follow these steps to configure a ClassPath Variable on Eclipse that will point to the right SWT JAR dependency:
 
@@ -41,16 +41,17 @@ Menthor's code requires at development a SWT JAR library that matches with you o
 * Set the variable name to "OS_SPECIFIC_SWT"
 * Click on "File..." and at "net.menthor.common/lib" find the correct "swt.jar" of your OS.
 
-### 5.3 Run in Mac OSx
+***5.3 Run it***
 
 If your're using Mac you need to disable the "XstartOnFirstThread" option in order to run the editor, follow these steps:
 
 * Right click at "MenthorEditor.java" -> "Run As" -> "Run Configurations" -> "Arguments Tab"
 * Disable "XstartOnFirstThread".
 * Add -Xdock:name="Menthor Editor" to the VM arguments
-* Then click at "Main.java" -> "Right Click" -> "Run As" -> "Java Application"
 
-### 5.4 Executable JAR
+Then, click at "Main.java" -> "Right Click" -> "Run As" -> "Java Application"
+
+## 6 Generating Executable JAR
 
 If you want to deploy the editor into an executable JAR file, do the following:
 
