@@ -171,12 +171,23 @@ public class OntoUMLError extends Throwable {
 			elementType = "Association";
 			elem = doc.getElementById(stelem.getAttribute("base_Association"));
 			List<Element> memberEnds = XMLDOMUtil.getElementChildsByTagName(elem, "memberEnd");
-    		Element memberPrp = doc.getElementById(memberEnds.get(0).getAttribute("xmi:idref"));
+			Element memberPrp = doc.getElementById(memberEnds.get(0).getAttribute("xmi:idref"));
     		Element memberTyp = XMLDOMUtil.getFirstAppearanceOf(memberPrp, "type");
-    		source = doc.getElementById(memberTyp.getAttribute("xmi:idref")).getAttribute("name");
-    		memberPrp = doc.getElementById(memberEnds.get(1).getAttribute("xmi:idref"));
-    		memberTyp = XMLDOMUtil.getFirstAppearanceOf(memberPrp, "type");
-    		target = doc.getElementById(memberTyp.getAttribute("xmi:idref")).getAttribute("name");
+    		if(memberTyp!=null){
+    			source = doc.getElementById(memberTyp.getAttribute("xmi:idref")).getAttribute("name");
+    			if(memberPrp!=null){
+    				memberPrp = doc.getElementById(memberEnds.get(1).getAttribute("xmi:idref"));
+    			}    				
+    		}
+    		if(memberPrp!=null){
+    			memberTyp = XMLDOMUtil.getFirstAppearanceOf(memberPrp, "type");
+    			if(memberTyp!=null){
+    				Element a = doc.getElementById(memberTyp.getAttribute("xmi:idref"));
+    				if(a!=null){
+    					target = a.getAttribute("name");
+    				}
+    			}
+    		}
 		}
 		else if (stelem.hasAttribute("base_Property"))
 		{
