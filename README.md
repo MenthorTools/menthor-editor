@@ -31,7 +31,7 @@ We  would like  to thank all [NEMO Research Group](http://nemo.inf.ufes.br/) mem
 
 ## 4. Download & Installation
 
-Instalation and download details can be found [here](http://www.menthor.net/menthor-editor.html)
+**Menthor Editor is no longer maintained.** See message at the beginning.
 
 ## 5. Running it
 
