@@ -1,3 +1,17 @@
+# IMPORTANT!
+
+Menthor Editor is no longer maintained.
+It has been replaced by the [OntoUML Plugin for Visual Paradigm](https://github.com/OntoUML/ontouml-vp-plugin).
+
+Menthor Editor features will gradually be migrated to this new solution.
+
+If you have any questions, please post an issue at https://github.com/OntoUML/ontouml-vp-plugin/issues
+
+Best regards,
+
+[Tiago Sales](https://github.com/tgoprince)
+On behalf of the OntoUML Tooling Team
+
 ## 1. What is Menthor Editor 1.0?
 
 Menthor Editor 1.0 is a state-of-the-art free platform for people who wants to build high quality ontologies in less time. 
