@@ -1,11 +1,12 @@
 # IMPORTANT!
 
 Menthor Editor is no longer maintained.
+
 It has been replaced by the [OntoUML Plugin for Visual Paradigm](https://github.com/OntoUML/ontouml-vp-plugin).
 
-Menthor Editor features will gradually be migrated to this new solution.
+Features of the Menthor Editor will gradually be migrated to this new solution.
 
-If you have any questions, please post an issue at https://github.com/OntoUML/ontouml-vp-plugin/issues
+If you have any questions, please post an issue [here](https://github.com/OntoUML/ontouml-vp-plugin/issues).
 
 Best regards,
 
