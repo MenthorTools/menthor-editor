@@ -10,7 +10,8 @@ If you have any questions, please post an issue at https://github.com/OntoUML/on
 Best regards,
 
 [Tiago Sales](https://github.com/tgoprince)
-On behalf of the OntoUML Tooling Team
+
+(On behalf of the OntoUML Tooling Team)
 
 ## 1. What is Menthor Editor 1.0?
 
