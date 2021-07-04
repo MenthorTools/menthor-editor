@@ -42,7 +42,7 @@ public class OwlDestinationPane extends GenericDestinePane {
 	//====================================================
 
 	public OwlDestinationPane() {
-		super("OWL (*.owl)","owl");
+		super("OWL", "owx", "rdf", "ttl");
 		buildUI();
 	}
 	

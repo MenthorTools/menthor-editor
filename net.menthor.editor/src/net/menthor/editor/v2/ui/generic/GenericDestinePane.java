@@ -48,17 +48,17 @@ public abstract class GenericDestinePane extends JPanel {
 	protected JButton browseButton;
 	protected JTextField pathText;	
 	protected ButtonGroup group;	
-	protected String fileDescription;
-	protected String fileExtension;
+	protected String[] extensions;
+	protected String description;
 	
 	//====================================================
 	//Constructor and Initializer Methods 
 	//====================================================
 	
-	public GenericDestinePane(String fileDescription, String fileExtension) 
+	public GenericDestinePane( final String description, final String... extensions ) 
 	{
-		this.fileDescription = fileDescription;
-		this.fileExtension = fileExtension;
+		this.description = description;
+		this.extensions = extensions;
 		buildUI();
 	}
 	
@@ -107,14 +107,14 @@ public abstract class GenericDestinePane extends JPanel {
 	protected void getFilePath(){
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Destination");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(fileDescription, fileExtension);		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(description, extensions);		
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
 			File selectedFile = fileChooser.getSelectedFile();
 			String filePath = selectedFile.getAbsolutePath();
-			if(!filePath.endsWith("."+fileExtension)) filePath += "."+fileExtension;				
+//			if(!filePath.endsWith("."+extension)) filePath += "."+fileExtension;				
 			pathText.setText(filePath);
 		}
 	}
